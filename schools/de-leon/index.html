@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>De Leon Bearcats — VarsityVue School Hub</title>
+  <meta name="description" content="De Leon Bearcats hub on VarsityVue: schedules, scores, and clean sponsor visibility." />
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; background: #fff; color: #111; }
+    a { color: inherit; }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 28px 18px 64px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 10px 0 18px; }
+    .brand { font-weight: 900; letter-spacing: .4px; text-decoration: none; }
+    .pill { display: inline-block; padding: 6px 10px; border-radius: 999px; background: #f2f2f2; font-size: 12px; font-weight: 800; color: #333; }
+    .header { margin-top: 10px; padding: 18px; border: 1px solid #e7e7e7; border-radius: 16px; background: #fff; }
+    .titleRow { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; }
+    h1 { margin: 0; font-size: 34px; line-height: 1.1; }
+    .subtitle { margin: 6px 0 0; color: #333; line-height: 1.6; }
+    .quickbar { margin-top: 14px; display: grid; grid-template-columns: 1fr; gap: 10px; }
+    @media (min-width: 860px) { .quickbar { grid-template-columns: repeat(4, 1fr); } }
+    .stat { border: 1px solid #eee; border-radius: 14px; padding: 12px; background: #fafafa; }
+    .stat .k { font-size: 12px; color: #555; font-weight: 800; letter-spacing: .3px; text-transform: uppercase; }
+    .stat .v { margin-top: 6px; font-size: 16px; font-weight: 900; }
+    .grid { margin-top: 18px; display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 860px) { .grid { grid-template-columns: 2fr 1fr; } }
+    .card { border: 1px solid #e7e7e7; border-radius: 16px; background: #fff; overflow: hidden; }
+    .cardHead { padding: 14px 16px; border-bottom: 1px solid #eee; background: #fff; display: flex; align-items: center; justify-content: space-between; gap: 10px;}
+    .cardHead h2 { margin: 0; font-size: 16px; }
+    .cardBody { padding: 14px 16px; }
+    .table { width: 100%; border-collapse: collapse; }
+    .table th, .table td { padding: 10px 8px; border-bottom: 1px solid #f0f0f0; text-align: left; font-size: 14px; }
+    .table th { font-size: 12px; color: #555; text-transform: uppercase; letter-spacing: .3px; }
+    .badge { display: inline-block; padding: 4px 8px; border-radius: 999px; background: #111; color: #fff; font-size: 12px; font-weight: 900; }
+    .badge.gray { background: #eaeaea; color: #111; }
+    .mediaBox { border: 1px dashed #d9d9d9; border-radius: 14px; padding: 14px; background: #fafafa; }
+    .mediaTitle { margin: 0 0 6px; font-weight: 900; }
+    .mediaSub { margin: 0; color: #444; line-height: 1.6; }
+    .sponsors { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .sponsor { border: 1px solid #eee; border-radius: 14px; padding: 12px; background: #fafafa; font-weight: 900; font-size: 14px; text-align: center; }
+    .btnRow { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+    .btn { display: inline-block; padding: 10px 12px; border-radius: 12px; text-decoration: none; font-weight: 900; font-size: 14px; }
+    .btnPrimary { background: #111; color: #fff; }
+    .btnSecondary { background: #f2f2f2; color: #111; }
+    .footer { margin-top: 26px; color: #555; font-size: 13px; line-height: 1.6; }
+    .tiny { font-size: 12px; color: #666; }
+    .hr { height: 1px; background: #eee; margin: 14px 0; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <a class="brand" href="/">VarsityVue</a>
+      <span class="pill">School Hub Demo</span>
+    </div>
+
+    <div class="header">
+      <div class="titleRow">
+        <h1>De Leon Bearcats</h1>
+        <span class="pill">Football</span>
+        <span class="pill">Fall 2025</span>
+      </div>
+      <p class="subtitle">
+        Clean schedules, scores, game-night content, and sponsor visibility — built to support programs without adding work.
+      </p>
+
+      <div class="quickbar">
+        <div class="stat">
+          <div class="k">Record</div>
+          <div class="v">0–0</div>
+          <div class="tiny">Update once season starts</div>
+        </div>
+        <div class="stat">
+          <div class="k">Next Game</div>
+          <div class="v">TBD</div>
+          <div class="tiny">Date • Opponent • Home/Away</div>
+        </div>
+        <div class="stat">
+          <div class="k">Last Result</div>
+          <div class="v">—</div>
+          <div class="tiny">Final score posted here</div>
+        </div>
+        <div class="stat">
+          <div class="k">Sponsor Slots</div>
+          <div class="v">6 available</div>
+          <div class="tiny">Season placements</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- LEFT: Schedule + Game Night -->
+      <div>
+        <div class="card">
+          <div class="cardHead">
+            <h2>Schedule & Scores</h2>
+            <span class="pill">Simple • Shareable • Mobile-first</span>
+          </div>
+          <div class="cardBody">
+            <table class="table" aria-label="Schedule and scores">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Opponent</th>
+                  <th>Site</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Aug 29</td>
+                  <td>@ Opponent</td>
+                  <td>Away</td>
+                  <td><span class="badge gray">Upcoming</span></td>
+                </tr>
+                <tr>
+                  <td>Sep 5</td>
+                  <td>Opponent</td>
+                  <td>Home</td>
+                  <td><span class="badge gray">Upcoming</span></td>
+                </tr>
+                <tr>
+                  <td>Sep 12</td>
+                  <td>@ Opponent</td>
+                  <td>Away</td>
+                  <td><span class="badge gray">Upcoming</span></td>
+                </tr>
+                <tr>
+                  <td>Sep 19</td>
+                  <td>Opponent</td>
+                  <td>Home</td>
+                  <td><span class="badge gray">Upcoming</span></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="tiny" style="margin-top:10px;">
+              Demo data for layout. In the pilot, this becomes real schedule + verified scores.
+            </div>
+          </div>
+        </div>
+
+        <div style="height:16px;"></div>
+
+        <div class="card">
+          <div class="cardHead">
+            <h2>Game Night</h2>
+            <span class="pill">Content that sponsors want</span>
+          </div>
+          <div class="cardBody">
+            <div class="mediaBox">
+              <p class="mediaTitle">Featured Graphic Placeholder</p>
+              <p class="mediaSub">
+                This area is for your scoreboard-style graphic, weekly recap headline, and share links.
+                Keep it clean. Make it easy to repost on Facebook.
+              </p>
+              <div class="hr"></div>
+              <div class="btnRow">
+                <a class="btn btnSecondary" href="#" onclick="alert('Demo: share link goes here.'); return false;">Share</a>
+                <a class="btn btnSecondary" href="#" onclick="alert('Demo: recap post goes here.'); return false;">Weekly Recap</a>
+              </div>
+            </div>
+
+            <div class="tiny" style="margin-top:10px;">
+              In the pilot, you can drop in a PNG graphic here and update it weekly.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Sponsors + About + CTA -->
+      <div>
+        <div class="card">
+          <div class="cardHead">
+            <h2>Proud Supporters</h2>
+            <span class="pill">Clean placements</span>
+          </div>
+          <div class="cardBody">
+            <div class="sponsors">
+              <div class="sponsor">Sponsor 1</div>
+              <div class="sponsor">Sponsor 2</div>
+              <div class="sponsor">Sponsor 3</div>
+              <div class="sponsor">Sponsor 4</div>
+              <div class="sponsor">Sponsor 5</div>
+              <div class="sponsor">Sponsor 6</div>
+            </div>
+
+            <div class="btnRow" style="margin-top:14px;">
+              <a class="btn btnPrimary" href="#sponsor">Become a Sponsor</a>
+              <a class="btn btnSecondary" href="/" >Back to Home</a>
+            </div>
+
+            <div class="tiny" style="margin-top:10px;">
+              No popups. No clutter. Just real visibility.
+            </div>
+          </div>
+        </div>
+
+        <div style="height:16px;"></div>
+
+        <div class="card">
+          <div class="cardHead">
+            <h2>About This Hub</h2>
+          </div>
+          <div class="cardBody">
+            <p class="subtitle" style="margin:0;">
+              VarsityVue supports De Leon athletics with professional presentation and community-first sponsor visibility.
+              If it adds work for coaches or the AD, it doesn’t belong.
+            </p>
+
+            <div id="sponsor" class="hr"></div>
+
+            <p class="tiny" style="margin:0 0 10px;">
+              Sponsor CTA (demo): Replace this with your real contact link or a form later.
+            </p>
+
+            <div class="btnRow">
+              <a class="btn btnPrimary" href="mailto:info@varsityvue.com?subject=Sponsor%20De%20Leon%20Athletics%20on%20VarsityVue">
+                Email Sponsorship Request
+              </a>
+              <a class="btn btnSecondary" href="mailto:info@varsityvue.com?subject=Pilot%20School%20Interest%20-%20De%20Leon">
+                Pilot School Interest
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer">
+          Demo hub for pilot conversations. Next step: replace placeholders with real schedule and 2–3 sponsor logos.
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
