@@ -98,13 +98,30 @@
       <div id="waitlist"></div>
     <form action="https://formspree.io/f/xkgdkeqe" method="POST">
   <input type="hidden" name="_subject" value="VarsityVue Waitlist Signup" />
-  <input type="hidden" name="_redirect" value="https://varsityvue.com/" />
+  <input type="hidden" name="_redirect" value="https://varsityvue.com/?thanks=1" />
   <input type="email" name="email" placeholder="Email address" required />
   <button type="submit">Join Waitlist</button>
 </form>
+      <div id="thanksMsg" style="display:none; margin-top:10px; font-size:13px; color:#1a1a1a;">
+  <strong>Thanks—check your inbox.</strong>
+</div>
     <div class="footer">
       Launching soon. Built in Texas. Focused on the future of high school sports.
     </div>
   </div>
+    <script>
+  (function () {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('thanks') === '1') {
+      const msg = document.getElementById('thanksMsg');
+      if (msg) msg.style.display = 'block';
+
+      // Optional: remove the query param so the message doesn't persist forever
+      const url = new URL(window.location.href);
+      url.searchParams.delete('thanks');
+      window.history.replaceState({}, document.title, url.pathname + url.hash);
+    }
+  })();
+</script>
 </body>
 </html>
