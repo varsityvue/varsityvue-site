@@ -152,7 +152,7 @@
       font-weight:900;
     }
 
-    /* Socials badge: cap width so it doesn't shove the right column down */
+    /* Socials badge */
     .badgeWide{
       align-items:flex-start;
       flex: 0 1 auto;
@@ -170,7 +170,7 @@
       line-height:1.2;
     }
 
-    /* Program Overview (Football) */
+    /* Program Overview */
     .programOverview{
       margin-top:14px;
       padding-top:14px;
@@ -192,7 +192,7 @@
       color:rgba(243,243,245,.78);
     }
 
-    /* ===== Booster Support (PILOT/PREMIUM feature) ===== */
+    /* ===== Booster Support ===== */
     .boosterBlock{
       margin-top:14px;
       border-radius:18px;
@@ -484,7 +484,23 @@
       letter-spacing:.2px;
     }
 
-    /* Sponsor CTA block (keeps long button from wrecking layout) */
+    /* Clickable sponsor tiles (optional) */
+    .sponsorLink{
+      display:block;
+      text-decoration:none;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .sponsorLink:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 14px 38px rgba(0,0,0,.45);
+    }
+    .sponsorLink:focus-visible{
+      outline: 2px solid rgba(255,255,255,.45);
+      outline-offset: 3px;
+      border-radius: 16px;
+    }
+
+    /* Sponsor CTA block */
     .sponsorCTA{
       margin-top:14px;
       padding-top:14px;
@@ -494,7 +510,7 @@
       display:flex;
       flex-wrap:wrap;
       gap:10px;
-      justify-content:center; /* centers long CTA cleanly */
+      justify-content:center;
     }
 
     /* Admin Access (Pilot) */
@@ -641,9 +657,12 @@
               <div class="mini">
                 <div class="miniK">Venue</div>
                 <div class="miniV">
-                  Bearcat Stadium<br/>
-                  <a href="https://maps.apple.com/?q=Bearcat+Stadium+De+Leon+TX" target="_blank" rel="noopener">Apple Maps</a> ·
-                  <a href="https://www.google.com/maps/search/?api=1&query=Bearcat+Stadium+De+Leon+TX" target="_blank" rel="noopener">Google Maps</a>
+                  Bearcat Stadium
+                  <div class="tiny" style="margin-top:6px;">
+                    <a href="https://maps.apple.com/?q=Bearcat+Stadium+De+Leon+TX" target="_blank" rel="noopener">Apple Maps</a>
+                    <span aria-hidden="true"> · </span>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Bearcat+Stadium+De+Leon+TX" target="_blank" rel="noopener">Google Maps</a>
+                  </div>
                 </div>
               </div>
               <div class="mini">
@@ -653,20 +672,32 @@
             </div>
 
             <div class="tiny" style="margin-top:10px;">
-              <strong>Game Coverage</strong><br/>
-              <a href="https://www.nfhsnetwork.com/watch-events" target="_blank" rel="noopener"
-                 style="text-decoration: underline; text-underline-offset: 3px;">NFHS Network (when available)</a>
-              <span aria-hidden="true"> · </span>
-              <a href="https://kwbyradio.com/de-leon-bearcats/" target="_blank" rel="noopener"
-                 style="text-decoration: underline; text-underline-offset: 3px;">Local Broadcast</a>
+              <strong>Game Coverage</strong>
+              <div class="tiny" style="margin-top:6px;">
+                <a href="https://www.nfhsnetwork.com/watch-events" target="_blank" rel="noopener"
+                   style="text-decoration: underline; text-underline-offset: 3px;">NFHS Network (when available)</a>
+                <span aria-hidden="true"> · </span>
+                <a href="https://kwbyradio.com/de-leon-bearcats/" target="_blank" rel="noopener"
+                   style="text-decoration: underline; text-underline-offset: 3px;">Local Broadcast</a>
+              </div>
 
-              <div style="margin-top:6px; opacity:.78;">
+              <div class="tiny" style="margin-top:8px;">
                 Coverage links are provided by third-party platforms and may vary by opponent, venue, and broadcast rights.
               </div>
 
-              <div style="margin-top:10px;">
-                <strong>Pilot Note</strong><br/>
+              <div class="tiny" style="margin-top:10px;">
+                <strong>Pilot Note</strong>
+              </div>
+
+              <div class="tiny" style="margin-top:6px;">
                 Designed to minimize staff workload. Pilot workflows handle score updates, with optional school input.
+              </div>
+
+              <div class="tiny" style="margin-top:10px;">
+                <strong>During a game</strong>
+                <div class="tiny" style="margin-top:6px;">
+                  Fans follow along here for kickoff details, broadcast links, and score updates as they post.
+                </div>
               </div>
             </div>
           </div>
@@ -783,26 +814,41 @@
 
           <div class="cardBody">
             <div class="sponsorGrid">
-              <div class="sponsorTile">1 Way Landscape<span>Community Supporter</span></div>
-              <div class="sponsorTile">Premier Event Rentals<span>Community Supporter</span></div>
+              <!-- Clickable sponsor tile (conditional: use <a> only when link exists) -->
+              <a class="sponsorTile sponsorLink" href="https://1waylandscape.com" target="_blank" rel="noopener">
+                1 Way Landscape
+                <span>Community Supporter</span>
+              </a>
+
+              <!-- Clickable sponsor tile (conditional) -->
+              <a class="sponsorTile sponsorLink" href="https://premiereventrent.com" target="_blank" rel="noopener">
+                Premier Event Rentals
+                <span>Community Supporter</span>
+              </a>
+
+              <!-- Non-clickable tiles (no link provided) -->
               <div class="sponsorTile">Griffin Woodworks<span>Community Supporter</span></div>
               <div class="sponsorTile">Gilder Mini Storage<span>Community Supporter</span></div>
               <div class="sponsorTile">Available<span>Community Supporter</span></div>
               <div class="sponsorTile">Available<span>Community Supporter</span></div>
             </div>
 
-            <!-- ROI + Sponsor CTA moved into BODY (not header) -->
+            <!-- Sponsor CTA + ROI -->
             <div class="sponsorCTA" aria-label="Sponsorship call to action">
-              <div class="tiny" style="margin-top:0;">
-                Supporters appear on the hub and in Game Night graphics shared weekly.
-              </div>
-
-              <div class="sponsorCtaRow" style="margin-top:12px;">
+              <div class="sponsorCtaRow" style="margin-top:0;">
                 <a class="btn btnPrimary"
                    href="mailto:info@varsityvue.com?subject=Community%20Sponsor%20Interest%20-%20De%20Leon&body=Business%20Name%3A%0AContact%20Name%3A%0APhone%3A%0AInterested%20in%20supporting%3A%20De%20Leon%20Athletics%0A">
                   Become a Community Sponsor
                 </a>
                 <a class="btn btnSecondary" href="/">Back to Home</a>
+              </div>
+
+              <div class="tiny" style="margin-top:10px;">
+                Supporters appear on the hub and in Game Night graphics shared weekly.
+              </div>
+
+              <div class="tiny" style="margin-top:8px;">
+                Sponsor links are provided by participating businesses.
               </div>
 
               <div class="tiny" style="margin-top:10px;">
@@ -836,8 +882,8 @@
         </div>
 
         <div class="footer">
-          Pilot preview. Layout and example content shown for demonstration purposes.<br/>
-          VarsityVue operates independently and in coordination with approved school administrators.
+          <div>Pilot preview. Layout and example content shown for demonstration purposes.</div>
+          <div>VarsityVue operates independently and in coordination with approved school administrators.</div>
         </div>
       </aside>
     </section>
