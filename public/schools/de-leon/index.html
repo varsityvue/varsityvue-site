@@ -484,6 +484,19 @@
       letter-spacing:.2px;
     }
 
+    /* Sponsor CTA block (keeps long button from wrecking layout) */
+    .sponsorCTA{
+      margin-top:14px;
+      padding-top:14px;
+      border-top:1px solid rgba(255,255,255,.10);
+    }
+    .sponsorCtaRow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      justify-content:center; /* centers long CTA cleanly */
+    }
+
     /* Admin Access (Pilot) */
     .adminCard{
       margin-top:16px;
@@ -721,47 +734,53 @@
         </div>
 
         <div style="height:16px;"></div>
-       <div class="card">
-  <div class="cardHead">
-    <h2>Game Night Graphics (Preview)</h2>
-    <span class="pill">Supporter-friendly content</span>
-  </div>
 
-  <div class="cardBody">
-    <div class="gameNight">
-      <p class="gameNightTitle">Weekly Game Night Graphics</p>
-      <p class="gameNightSub">
-        Weekly scoreboard graphics and brief recaps, presented in a clean format for families, students, and community supporters.
-      </p>
-           <img
-  src="/images/de-leon-scoreboard-sample.png"
-  alt="Sample De Leon Bearcats scoreboard graphic"
-  style="width:100%; border-radius:16px; border:1px solid rgba(255,255,255,.10); display:block;"
-/>
+        <!-- Game Night Graphics (Preview) -->
+        <div class="card">
+          <div class="cardHead">
+            <h2>Game Night Graphics (Preview)</h2>
+            <span class="pill">Supporter-friendly content</span>
+          </div>
 
-<div class="tiny" style="margin-top:10px;">
-  <strong>Pilot Feature Preview:</strong> Live scoreboard widget available for pilot/premium schools. Operated by approved staff/admin.
-</div>
-       <div class="btnRow" style="margin-top:12px;">
-        <a class="btn btnSecondary" href="#" onclick="alert('Demo: share link goes here.'); return false;">Share</a>
-        <a class="btn btnSecondary" href="#" onclick="alert('Demo: recap post goes here.'); return false;">Weekly Recap</a>
-      </div>
-    </div>
+          <div class="cardBody">
+            <div class="gameNight">
+              <p class="gameNightTitle">Weekly Game Night Graphics</p>
+              <p class="gameNightSub">
+                Weekly scoreboard graphics and brief recaps, presented in a clean format for families, students, and community supporters.
+              </p>
 
-    <div class="tiny">
-      AD benefit: consistent, professional presentation without additional reporting requirements.
-    </div>
-  </div>
-</div>
+              <img
+                src="/images/de-leon-scoreboard-sample.png"
+                alt="Sample De Leon Bearcats scoreboard graphic"
+                style="width:100%; border-radius:16px; border:1px solid rgba(255,255,255,.10); display:block;"
+              />
+
+              <div class="tiny" style="margin-top:10px;">
+                <strong>Pilot Feature Preview:</strong> Live scoreboard widget available for pilot/premium schools. Operated by approved staff/admin.
+              </div>
+
+              <div class="btnRow" style="margin-top:12px;">
+                <a class="btn btnSecondary" href="#" onclick="alert('Demo: share link goes here.'); return false;">Share</a>
+                <a class="btn btnSecondary" href="#" onclick="alert('Demo: recap post goes here.'); return false;">Weekly Recap</a>
+              </div>
+            </div>
+
+            <div class="tiny">
+              AD benefit: consistent, professional presentation without additional reporting requirements.
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- RIGHT -->
       <aside>
+        <!-- Community Supporters -->
         <div class="card">
           <div class="cardHead">
             <h2>Community Supporters</h2>
             <span class="pill">6 placements</span>
           </div>
+
           <div class="cardBody">
             <div class="sponsorGrid">
               <div class="sponsorTile">1 Way Landscape<span>Community Supporter</span></div>
@@ -772,21 +791,28 @@
               <div class="sponsorTile">Available<span>Community Supporter</span></div>
             </div>
 
-            <div class="btnRow" style="margin-top:14px;">
-              <a class="btn btnPrimary" href="mailto:info@varsityvue.com?subject=VarsityVue%20Supporter%20-%20De%20Leon&body=Business%20Name%3A%0AContact%20Name%3A%0APhone%3A%0AInterested%20in%20supporting%3A%20De%20Leon%20Athletics%0A">
-                Become a Community Sponsor
-              </a>
-              <a class="btn btnSecondary" href="/">Back to Home</a>
-            </div>
+            <!-- ROI + Sponsor CTA moved into BODY (not header) -->
+            <div class="sponsorCTA" aria-label="Sponsorship call to action">
+              <div class="tiny" style="margin-top:0;">
+                Supporters appear on the hub and in Game Night graphics shared weekly.
+              </div>
 
-           <div class="tiny">
- Sponsorship placements provide visibility on the VarsityVue hub and weekly Game Night graphics.<br/>
-  Clean placements only. No popups. No clutter — just community visibility.
-</div>
+              <div class="sponsorCtaRow" style="margin-top:12px;">
+                <a class="btn btnPrimary"
+                   href="mailto:info@varsityvue.com?subject=Community%20Sponsor%20Interest%20-%20De%20Leon&body=Business%20Name%3A%0AContact%20Name%3A%0APhone%3A%0AInterested%20in%20supporting%3A%20De%20Leon%20Athletics%0A">
+                  Become a Community Sponsor
+                </a>
+                <a class="btn btnSecondary" href="/">Back to Home</a>
+              </div>
+
+              <div class="tiny" style="margin-top:10px;">
+                Clean placements only. No popups. No clutter — just community visibility.
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Admin Access (Pilot) — correctly placed BELOW supporters card -->
+        <!-- Admin Access (Pilot) — BELOW supporters card -->
         <div class="adminCard" aria-label="Admin Access (Pilot)">
           <div class="adminTitle">Admin Access (Pilot)</div>
 
@@ -810,9 +836,9 @@
         </div>
 
         <div class="footer">
-  Pilot preview. Layout and example content shown for demonstration purposes.<br/>
-  VarsityVue operates independently and in coordination with approved school administrators.
-</div>
+          Pilot preview. Layout and example content shown for demonstration purposes.<br/>
+          VarsityVue operates independently and in coordination with approved school administrators.
+        </div>
       </aside>
     </section>
   </div>
