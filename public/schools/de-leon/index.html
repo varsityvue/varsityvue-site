@@ -156,7 +156,7 @@
     .badgeWide{
       align-items:flex-start;
       flex: 0 1 auto;
-      max-width: 420px;   /* <-- key: prevents it from becoming a mega-badge */
+      max-width: 420px;   /* prevents it from becoming a mega-badge */
       white-space: normal;
     }
     .badgeWide .label{
@@ -165,7 +165,7 @@
     }
     .badgeWide .links{
       display:flex;
-      flex-wrap:wrap;     /* links wrap inside badge */
+      flex-wrap:wrap;
       gap:6px;
       line-height:1.2;
     }
@@ -212,6 +212,84 @@
     }
     .programSnapshot span{
       color:rgba(243,243,245,.75);
+    }
+
+    /* ===== Booster Support (PILOT/PREMIUM feature) ===== */
+    .boosterBlock{
+      margin-top:14px;
+      border-radius:18px;
+      padding:12px;
+      background: rgba(0,0,0,.26);
+      border:1px solid rgba(255,255,255,.10);
+      max-width:720px;
+    }
+    .boosterTop{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .boosterTitle{
+      margin:0;
+      font-size:13px;
+      font-weight:950;
+      letter-spacing:.25px;
+      text-transform:uppercase;
+      color:rgba(243,243,245,.92);
+    }
+    .boosterTag{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      background: rgba(157,26,42,.12);
+      border:1px solid rgba(157,26,42,.35);
+      color:rgba(243,243,245,.92);
+      font-size:11px;
+      font-weight:950;
+      letter-spacing:.2px;
+      white-space:nowrap;
+    }
+    .boosterText{
+      margin:8px 0 0;
+      font-size:13px;
+      line-height:1.6;
+      color:rgba(243,243,245,.78);
+    }
+    .boosterActions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:10px;
+    }
+    .btnLink{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 12px;
+      border-radius:14px;
+      font-weight:950;
+      font-size:13px;
+      letter-spacing:.2px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .btnLink:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 10px 28px rgba(0,0,0,.35);
+    }
+    .boosterDisclaimer{
+      margin-top:8px;
+      font-size:12px;
+      line-height:1.5;
+      color:rgba(243,243,245,.62);
+    }
+    .boosterDisclaimer strong{
+      color:rgba(243,243,245,.85);
+      font-weight:950;
     }
 
     /* Featured card */
@@ -534,6 +612,29 @@
               <span>Bearcat Stadium</span>
             </div>
           </div>
+
+          <!-- ===== Booster Support (Pilot/Premium feature) ===== -->
+          <!-- Replace the href with the *actual* booster donation page URL -->
+          <div class="boosterBlock" aria-label="Support the Program">
+            <div class="boosterTop">
+              <h3 class="boosterTitle">Support the Program</h3>
+              <span class="boosterTag">Pilot / Premium Feature</span>
+            </div>
+
+            <p class="boosterText">
+              Direct link to the De Leon Athletic Booster Club donation page for families and community supporters.
+            </p>
+
+            <div class="boosterActions">
+              <a class="btnLink" href="https://example.com/de-leon-booster-donations" target="_blank" rel="noopener">
+                Donate to Booster Club
+              </a>
+            </div>
+
+            <div class="boosterDisclaimer">
+              <strong>Note:</strong> VarsityVue does not collect or manage donations. All contributions are processed directly through the De Leon Athletic Booster Club.
+            </div>
+          </div>
         </div>
 
         <!-- FEATURED -->
@@ -570,19 +671,23 @@
               </div>
             </div>
 
-        <div class="tiny" style="margin-top:10px;">
-  <strong>Game Coverage</strong><br/>
-  <a href="https://www.nfhsnetwork.com/watch-events" target="_blank" rel="noopener"style="text-decoration: underline; text-under-line-offset: 3px;">NFHS Network (when available)</a> ·
-  <a href="https://kwbyradio.com/de-leon-bearcats/" target="_blank" rel="noopener"style="text-decoration: underline; text-underline-offset: 3px;">Local Broadcast</a>
+            <div class="tiny" style="margin-top:10px;">
+              <strong>Game Coverage</strong><br/>
+              <a href="https://www.nfhsnetwork.com/watch-events" target="_blank" rel="noopener"
+                 style="text-decoration: underline; text-underline-offset: 3px;">NFHS Network (when available)</a>
+              <span aria-hidden="true"> · </span>
+              <a href="https://kwbyradio.com/de-leon-bearcats/" target="_blank" rel="noopener"
+                 style="text-decoration: underline; text-underline-offset: 3px;">Local Broadcast</a>
 
-  <div style="margin-top:6px; opacity:.78;">
-    Coverage links are provided by third-party platforms and may vary by opponent, venue, and broadcast rights.
-  </div>
+              <div style="margin-top:6px; opacity:.78;">
+                Coverage links are provided by third-party platforms and may vary by opponent, venue, and broadcast rights.
+              </div>
 
-  <div style="margin-top:10px;">
-    <strong>Pilot Note</strong><br/>
-    VarsityVue manages final score updates centrally. Coach and staff input is optional.
-  </div>
+              <div style="margin-top:10px;">
+                <strong>Pilot Note</strong><br/>
+                VarsityVue manages final score updates centrally. Coach and staff input is optional.
+              </div>
+            </div>
           </div>
         </aside>
       </div>
@@ -642,7 +747,7 @@
             </table>
 
             <div class="tiny">
-              Pilot note: VarsityVue can manage schedule and score updates centrally; coach and staff input is optional.
+              VarsityVue manages final score updates centrally. Coach and staff input is optional.
             </div>
           </div>
         </div>
@@ -660,11 +765,13 @@
               <p class="gameNightSub">
                 Weekly scoreboard graphics and brief recaps, presented in a clean format for families, students, and community supporters.
               </p>
-           <img
-  src="/images/de-leon-scoreboard-sample.png"
-  alt="Sample De Leon Bearcats scoreboard graphic"
-  style="width:100%; border-radius:16px; border:1px solid rgba(255,255,255,.10); display:block;"
-/>
+
+              <img
+                src="/images/de-leon-scoreboard-sample.png"
+                alt="Sample De Leon Bearcats scoreboard graphic"
+                style="width:100%; border-radius:16px; border:1px solid rgba(255,255,255,.10); display:block;"
+              />
+
               <div class="btnRow" style="margin-top:12px;">
                 <a class="btn btnSecondary" href="#" onclick="alert('Demo: share link goes here.'); return false;">Share</a>
                 <a class="btn btnSecondary" href="#" onclick="alert('Demo: recap post goes here.'); return false;">Weekly Recap</a>
