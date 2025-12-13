@@ -192,6 +192,68 @@
       color:rgba(243,243,245,.78);
     }
 
+    /* ===== Trust Blocks (Pilot + Data boundaries) ===== */
+    .trustBlock{
+      margin-top:12px;
+      border-radius:18px;
+      padding:12px;
+      background: rgba(0,0,0,.26);
+      border:1px solid rgba(255,255,255,.10);
+      max-width:720px;
+    }
+    .trustTop{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .trustTitle{
+      margin:0;
+      font-size:13px;
+      font-weight:950;
+      letter-spacing:.25px;
+      text-transform:uppercase;
+      color:rgba(243,243,245,.92);
+    }
+    .trustTag{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      background: rgba(157,26,42,.12);
+      border:1px solid rgba(157,26,42,.35);
+      color:rgba(243,243,245,.92);
+      font-size:11px;
+      font-weight:950;
+      letter-spacing:.2px;
+      white-space:nowrap;
+    }
+    .trustText{
+      margin:8px 0 0;
+      font-size:13px;
+      line-height:1.6;
+      color:rgba(243,243,245,.78);
+    }
+    .trustList{
+      margin:10px 0 0;
+      padding-left:18px;
+      font-size:13px;
+      line-height:1.6;
+      color:rgba(243,243,245,.78);
+    }
+    .trustNote{
+      margin-top:8px;
+      font-size:12px;
+      line-height:1.5;
+      color:rgba(243,243,245,.62);
+    }
+    .trustNote strong{
+      color:rgba(243,243,245,.85);
+      font-weight:950;
+    }
+
     /* ===== Booster Support ===== */
     .boosterBlock{
       margin-top:14px;
@@ -543,6 +605,8 @@
 
     .footer{
       margin-top:20px;
+      padding-top:14px;
+      border-top:1px solid rgba(255,255,255,.10);
       color:rgba(243,243,245,.65);
       font-size:12px;
       line-height:1.6;
@@ -578,8 +642,9 @@
           </p>
 
           <div class="heroBadges">
+            <div class="badge">Pilot: <strong>Pilot School — VarsityVue 2025</strong></div>
             <div class="badge">Sport: <strong>Football</strong></div>
-            <div class="badge">Season: <strong>2026</strong></div>
+            <div class="badge">Season: <strong>2025</strong></div>
 
             <div class="badge badgeWide">
               <span class="label">Program Socials</span>
@@ -611,6 +676,37 @@
             </p>
           </div>
 
+          <!-- NEW: Why De Leon? -->
+          <div class="trustBlock" aria-label="Why De Leon was selected">
+            <div class="trustTop">
+              <h3 class="trustTitle">Why De Leon?</h3>
+              <span class="trustTag">Pilot School</span>
+            </div>
+
+            <ul class="trustList">
+              <li>Strong community support and consistent program visibility.</li>
+              <li>Local relevance in the Big Country footprint and scheduled matchups that drive interest.</li>
+              <li>High standards for presentation—without creating extra work for staff.</li>
+            </ul>
+          </div>
+
+          <!-- NEW: Data boundaries / records disclaimer -->
+          <div class="trustBlock" aria-label="Data and records boundaries">
+            <div class="trustTop">
+              <h3 class="trustTitle">Data & Records</h3>
+              <span class="trustTag">Admin-Safe</span>
+            </div>
+
+            <p class="trustText">
+              VarsityVue displays information that is publicly available, school-approved, or submitted directly by the athletic program.
+              VarsityVue does not alter official records. For official results, please reference the school or governing body.
+            </p>
+
+            <div class="trustNote">
+              <strong>Note:</strong> Links to broadcasts and third-party platforms may vary by opponent, venue, and media rights.
+            </div>
+          </div>
+
           <!-- Booster Support (Pilot/Premium feature) -->
           <div class="boosterBlock" aria-label="Support the Program">
             <div class="boosterTop">
@@ -625,6 +721,9 @@
             <div class="boosterActions">
               <a class="btnLink" href="https://www.facebook.com/p/De-Leon-Athletic-Booster-Club-100065249900006/" target="_blank" rel="noopener">
                 Donate to Booster Club
+              </a>
+              <a class="btnLink" href="mailto:info@varsityvue.com?subject=Pilot%20Interest%20-%20Another%20School&body=School%20Name%3A%0ASport(s)%3A%0AContact%20Name%3A%0APhone%3A%0ABest%20time%20to%20talk%3A%0A">
+                Another school: Request pilot info
               </a>
             </div>
 
@@ -814,19 +913,16 @@
 
           <div class="cardBody">
             <div class="sponsorGrid">
-              <!-- Clickable sponsor tile (conditional: use <a> only when link exists) -->
               <a class="sponsorTile sponsorLink" href="https://1waylandscape.com" target="_blank" rel="noopener">
                 1 Way Landscape
                 <span>Community Supporter</span>
               </a>
 
-              <!-- Clickable sponsor tile (conditional) -->
               <a class="sponsorTile sponsorLink" href="https://premiereventrent.com" target="_blank" rel="noopener">
                 Premier Event Rentals
                 <span>Community Supporter</span>
               </a>
 
-              <!-- Non-clickable tiles (no link provided) -->
               <div class="sponsorTile">Griffin Woodworks<span>Community Supporter</span></div>
               <div class="sponsorTile">Gilder Mini Storage<span>Community Supporter</span></div>
               <div class="sponsorTile">Available<span>Community Supporter</span></div>
@@ -884,6 +980,7 @@
         <div class="footer">
           <div>Pilot preview. Layout and example content shown for demonstration purposes.</div>
           <div>VarsityVue operates independently and in coordination with approved school administrators.</div>
+          <div style="margin-top:10px;">© 2025 VarsityVue • Built for High School Athletics</div>
         </div>
       </aside>
     </section>
