@@ -825,7 +825,7 @@
               <div class="tiny" style="margin-top:6px;" id="duringGameNote"></div>
             </div>
 
-            <!-- Season Snapshot (fills the space AND sells legitimacy) -->
+            <!-- Season Snapshot -->
             <div class="trustBlock" style="max-width:none; margin-top:14px;" aria-label="Season snapshot">
               <div class="trustTop">
                 <h3 class="trustTitle">Season Snapshot</h3>
@@ -1045,18 +1045,23 @@
           "Designed to minimize staff workload. Pilot workflows handle score updates, with optional school input.",
         duringGameNote:
           "Fans follow along here for kickoff details, coverage links, and score updates as they post.",
+
+        // Optional: shows in the Next Game strip (NOT required)
         lastResult: {
           label: "Last Result",
           value: "De Leon 18 vs. Axtell 27",
+          sub: "" // optional (leave blank)
         }
       },
 
+      // ✅ This is now the correct place to update “Last Game”
       seasonSnapshot: {
         classification: "UIL 2A Division I",
-        district: "District 5-2A",
+        district: "District 5-2A Division I",
         headCoach: "Brennan Whitaker",
         homeField: "Bearcat Stadium",
-        priorSeasonRecord: "9-4"
+        priorSeasonRecord: "9-4",
+        lastGame: "De Leon 18 vs. Axtell 27" // <-- update this safely
       },
 
       schedule: {
@@ -1116,6 +1121,7 @@
     const el = (tag, attrs = {}, children = []) => {
       const node = document.createElement(tag);
       Object.entries(attrs).forEach(([k, v]) => {
+        if (v === null || v === undefined) return;
         if (k === "class") node.className = v;
         else if (k === "html") node.innerHTML = v;
         else if (k.startsWith("on") && typeof v === "function") node.addEventListener(k.slice(2), v);
@@ -1133,6 +1139,7 @@
       window.__toastTimer = setTimeout(() => (t.style.display = "none"), 1600);
     };
 
+    // body should already be URL-encoded in templates
     const mailto = (email, subject, body) =>
       `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${body}`;
 
@@ -1172,20 +1179,22 @@
       const adminHref = mailto(CONFIG.adminContact.email, CONFIG.adminContact.subject, CONFIG.adminContact.bodyTemplate);
       heroButtons.appendChild(el("a", { class: "btn btnPrimary", href: adminHref }, ["School Admin Contact"]));
 
-      const sponsorHref = mailto(CONFIG.adminContact.email, "VarsityVue Supporter Inquiry - De Leon",
-        "Business Name:%0AContact Name:%0APhone:%0AInterested in supporting: De Leon Athletics%0A");
-      heroButtons.appendChild(el("a", { class: "btn btnSecondary", href: sponsorHref }, ["Become a Supporter"]));
+      const supporterHref = mailto(
+        CONFIG.adminContact.email,
+        "VarsityVue Supporter Inquiry - De Leon",
+        "Business Name:%0AContact Name:%0APhone:%0AInterested in supporting: De Leon Athletics%0A"
+      );
+      heroButtons.appendChild(el("a", { class: "btn btnSecondary", href: supporterHref }, ["Become a Supporter"]));
 
       // Mini nav
       const miniNav = document.getElementById("miniNav");
-      const navItems = [
+      [
         { label: "Overview", href: "#overview" },
         { label: "Schedule", href: "#schedule" },
         { label: "Game Night", href: "#gamenight" },
         { label: "Sponsors", href: "#sponsors" },
         { label: "Admin", href: "#admin" }
-      ];
-      navItems.forEach(n => miniNav.appendChild(el("a", { href: n.href }, [n.label])));
+      ].forEach(n => miniNav.appendChild(el("a", { href: n.href }, [n.label])));
 
       // Why selected
       const whyList = document.getElementById("whySelectedList");
@@ -1236,15 +1245,13 @@
         el("div", { class: "miniV" }, [CONFIG.nextGame.recordDisplay])
       ]));
 
-      // Next game actions (no alerts; real behaviors)
+      // Next game actions
       const nextActions = document.getElementById("nextGameActions");
-      // Add to Calendar (works if file exists; otherwise still looks intentional)
       nextActions.appendChild(el("a", {
         class: "btn btnSecondary btnSmall",
         href: CONFIG.nextGame.addToCalendarHref
       }, ["Add to Calendar"]));
 
-      // Share
       nextActions.appendChild(el("button", {
         class: "btn btnSecondary btnSmall",
         type: "button",
@@ -1259,13 +1266,10 @@
               await navigator.clipboard.writeText(url);
               toast("Link copied");
             }
-          } catch(e){
-            // user cancelled share — do nothing
-          }
+          } catch(e){}
         }
       }, ["Share"]));
 
-      // Directions
       nextActions.appendChild(el("a", {
         class: "btn btnSecondary btnSmall",
         href: CONFIG.nextGame.maps.google,
@@ -1287,11 +1291,17 @@
           el("a", { href: CONFIG.nextGame.coverage[1].href, target: "_blank", rel: "noopener" }, [CONFIG.nextGame.coverage[1].label])
         ])
       ]));
-      strip.appendChild(el("div", { class: "mini" }, [
-        el("div", { class: "miniK" }, [CONFIG.nextGame.lastResult.label]),
-        el("div", { class: "miniV" }, [safeBlank(CONFIG.nextGame.lastResult.value)]),
-        el("div", { class: "tiny" }, [CONFIG.nextGame.lastResult.sub])
-      ]));
+
+      // ✅ FIX: do NOT reference .sub unless it exists and is non-empty
+      const last = CONFIG.nextGame.lastResult || {};
+      const lastMiniChildren = [
+        el("div", { class: "miniK" }, [safeBlank(last.label || "Last Result")]),
+        el("div", { class: "miniV" }, [safeBlank(last.value)])
+      ];
+      if (last.sub && String(last.sub).trim() !== "") {
+        lastMiniChildren.push(el("div", { class: "tiny" }, [last.sub]));
+      }
+      strip.appendChild(el("div", { class: "mini" }, lastMiniChildren));
 
       document.getElementById("coverageDisclaimer").textContent =
         "Coverage links are provided by third-party platforms and may vary by opponent, venue, and broadcast rights.";
@@ -1301,15 +1311,16 @@
       // Season snapshot
       document.getElementById("snapshotTag").textContent = String(CONFIG.year);
       const snapshot = document.getElementById("seasonSnapshotGrid");
+
       const snapItems = [
         { k: "Classification", v: CONFIG.seasonSnapshot.classification },
         { k: "District", v: CONFIG.seasonSnapshot.district },
         { k: "Head Coach", v: CONFIG.seasonSnapshot.headCoach },
         { k: "Home Field", v: CONFIG.seasonSnapshot.homeField },
-        { k: "Prior Season Record", v: CONFIG.seasonSnapshot.priorSeasonRecord }
+        { k: "Prior Season Record", v: CONFIG.seasonSnapshot.priorSeasonRecord },
+        { k: "Last Game", v: CONFIG.seasonSnapshot.lastGame } // ✅ this is what you were trying to update
       ];
 
-      // Render as 2-column grid using mini cards; last one spans nicely by repeating layout
       snapItems.forEach(item => {
         snapshot.appendChild(el("div", { class: "mini" }, [
           el("div", { class: "miniK" }, [item.k]),
@@ -1321,7 +1332,7 @@
       const scheduleBody = document.getElementById("scheduleBody");
       const statusLabel = (s) => s === "final" ? "Final" : "Upcoming";
       CONFIG.schedule.rows.forEach(r => {
-        const tr = el("tr", { class: "row" }, [
+        scheduleBody.appendChild(el("tr", { class: "row" }, [
           el("td", {}, [r.date]),
           el("td", {}, [r.opponent]),
           el("td", {}, [r.site]),
@@ -1331,8 +1342,7 @@
               statusLabel(r.status)
             ])
           ])
-        ]);
-        scheduleBody.appendChild(tr);
+        ]));
       });
       document.getElementById("scheduleNote").textContent = CONFIG.schedule.note;
 
@@ -1346,10 +1356,9 @@
 
       // Sponsors
       const sponsorGrid = document.getElementById("sponsorGrid");
-      const tiles = CONFIG.sponsors.tiles;
       document.getElementById("sponsorCountPill").textContent = CONFIG.sponsors.placementsLabel;
 
-      tiles.forEach(s => {
+      CONFIG.sponsors.tiles.forEach(s => {
         const tileContent = el("div", { class: "sponsorTile" }, [
           document.createTextNode(s.name),
           el("span", {}, [s.tier || "Community Supporter"]),
@@ -1371,12 +1380,11 @@
       const sponsorValueList = document.getElementById("sponsorValueList");
       CONFIG.sponsors.valueBullets.forEach(b => sponsorValueList.appendChild(el("li", {}, [b])));
 
-      const sponsorMailto = mailto(
+      document.getElementById("sponsorMailtoBtn").href = mailto(
         CONFIG.adminContact.email,
         CONFIG.sponsors.mailto.subject,
         CONFIG.sponsors.mailto.bodyTemplate
       );
-      document.getElementById("sponsorMailtoBtn").href = sponsorMailto;
 
       document.getElementById("sponsorCtaNote1").textContent = CONFIG.sponsors.ctaNotes[0];
       document.getElementById("sponsorCtaNote2").textContent = CONFIG.sponsors.ctaNotes[1];
@@ -1385,7 +1393,11 @@
       // Admin block
       const adminUl = document.getElementById("adminList");
       CONFIG.adminContact.adminList.forEach(i => adminUl.appendChild(el("li", {}, [i])));
-      document.getElementById("adminMailtoBtn").href = adminHref;
+      document.getElementById("adminMailtoBtn").href = mailto(
+        CONFIG.adminContact.email,
+        CONFIG.adminContact.subject,
+        CONFIG.adminContact.bodyTemplate
+      );
       document.getElementById("adminNote").textContent = CONFIG.adminContact.note;
 
       // Footer
@@ -1395,7 +1407,6 @@
         "VarsityVue operates independently and in coordination with approved school administrators.";
       document.getElementById("footerLine3").textContent =
         `© ${CONFIG.year} ${CONFIG.brandName} • Powered by VarsityVue`;
-
     })();
   </script>
 </body>
