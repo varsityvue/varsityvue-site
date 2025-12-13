@@ -9,12 +9,33 @@
     body { margin: 0; font-family: Arial, sans-serif; background: #fff; color: #111; }
     .wrap { max-width: 880px; margin: 0 auto; padding: 64px 20px; }
     .brand { font-weight: 800; letter-spacing: .5px; font-size: 22px; }
-    h1 { margin: 14px 0 10px; font-size: 44px; line-height: 1.1; }
+    h1 { margin: 14px 0 8px; font-size: 44px; line-height: 1.1; }
+
+    .kicker {
+      margin: 0 0 12px;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #222;
+      max-width: 740px;
+    }
+    .audience {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      color: #111;
+      background: #f2f2f2;
+      border: 1px solid #e7e7e7;
+      padding: 8px 10px;
+      border-radius: 999px;
+      margin: 4px 0 18px;
+    }
+
     .sub { font-size: 18px; line-height: 1.6; color: #333; max-width: 740px; }
-    .ctaRow { margin-top: 26px; display: flex; gap: 12px; flex-wrap: wrap; }
+    .ctaRow { margin-top: 22px; display: flex; gap: 12px; flex-wrap: wrap; }
     .btn { display: inline-block; padding: 12px 16px; border-radius: 10px; text-decoration: none; font-weight: 700; }
     .btnPrimary { background: #111; color: #fff; }
     .btnSecondary { background: #f2f2f2; color: #111; }
+
     .grid { margin-top: 44px; display: grid; grid-template-columns: 1fr; gap: 16px; }
     @media (min-width: 860px) { .grid { grid-template-columns: 1fr 1fr; } }
     .card { border: 1px solid #e7e7e7; border-radius: 14px; padding: 18px; }
@@ -28,18 +49,35 @@
       background: #fafafa;
       border: 1px solid #eee;
     }
-    .pilot h2 { margin: 0 0 8px; }
+    .pilot h2 { margin: 0 0 6px; font-size: 20px; }
 
-    .footer { margin-top: 48px; color: #555; font-size: 14px; line-height: 1.6; }
+    .sectionTitle {
+      margin: 0 0 6px;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: .2px;
+    }
+
+    .footer {
+      margin-top: 48px;
+      padding-top: 14px;
+      border-top: 1px solid #eee;
+      color: #555;
+      font-size: 14px;
+      line-height: 1.6;
+    }
     .note { font-size: 13px; color: #666; margin-top: 10px; }
 
-    input {
+    input, select {
       padding: 12px 12px;
       border-radius: 10px;
       border: 1px solid #ddd;
       min-width: 260px;
       font-size: 15px;
+      background: #fff;
+      color: #111;
     }
+    select { min-width: 240px; }
     button {
       padding: 12px 16px;
       border-radius: 10px;
@@ -55,7 +93,15 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.12);
     }
 
-    form { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+    form { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; align-items: center; }
+
+    .micro {
+      font-size: 13px;
+      color: #555;
+      line-height: 1.5;
+      margin: 8px 0 0;
+      max-width: 740px;
+    }
   </style>
 </head>
 <body>
@@ -64,13 +110,19 @@
 
     <h1>The Game, Seen Smarter.</h1>
 
+    <p class="kicker">
+      Built in Texas. Piloting with Big Country high schools for the 2025 season.
+    </p>
+
+    <div class="audience">For Athletic Directors • Coaches • Boosters • Local Sponsors</div>
+
     <p class="sub">
       A modern sports media platform built for Texas high school athletics—designed to support schools,
       spotlight athletes, and connect communities without adding work for coaches.
     </p>
 
     <div class="ctaRow">
-      <a class="btn btnPrimary" href="#waitlist">Join the Early Access List</a>
+      <a class="btn btnPrimary" href="#interest">Join the School / Sponsor Interest List</a>
       <a class="btn btnSecondary" href="#pilot">Request Pilot Info</a>
     </div>
 
@@ -117,31 +169,50 @@
     </div>
 
     <div id="pilot" class="pilot">
-      <h2>Pilot Schools</h2>
+      <h2>Pilot Program Interest</h2>
       <p class="sub" style="margin: 6px 0 8px;">
-        VarsityVue is currently onboarding a limited number of pilot schools for initial launch.
-        If you’re an Athletic Director, Coach, Booster, or Local Sponsor—join the list below.
+        VarsityVue is onboarding a limited number of pilot schools.
+        If you’re an Athletic Director, Coach, Booster, or Local Sponsor—add your info below and we’ll follow up.
       </p>
 
-      <div id="waitlist"></div>
+      <p class="micro">
+        No spam. Pilot updates only. If you’re a sponsor, we’ll share the sponsor kit once the pilot schools are confirmed.
+      </p>
+
+      <div id="interest"></div>
 
       <!-- Formspree: replace URL with your own form endpoint -->
       <form action="https://formspree.io/f/xkgdkeqe" method="POST">
-        <input type="hidden" name="_subject" value="VarsityVue Waitlist Signup" />
-        <input type="hidden" name="_next" value="https://varsityvue.com/?thanks=1" />
+        <input type="hidden" name="_subject" value="VarsityVue Interest Signup" />
+        <input type="hidden" name="_next" value="https://varsityvue.com/?thanks=1#pilot" />
 
         <input type="text" name="name" placeholder="Name (optional)" />
         <input type="email" name="email" placeholder="Email address" required />
-        <button type="submit">Join Waitlist</button>
+
+        <select name="role" aria-label="I am a..." required>
+          <option value="" selected disabled>I am a...</option>
+          <option value="Athletic Director">Athletic Director</option>
+          <option value="Coach">Coach</option>
+          <option value="Booster / Parent">Booster / Parent</option>
+          <option value="Local Sponsor">Local Sponsor</option>
+          <option value="Fan">Fan</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <button type="submit">Join Interest List</button>
       </form>
 
-      <div id="thanksMsg" style="display:none; margin-top:6px; font-size:14px; color:#1a1a1a;">
+      <div id="thanksMsg" style="display:none; margin-top:8px; font-size:14px; color:#1a1a1a;">
         <strong>Thanks—check your inbox.</strong>
       </div>
 
       <p class="sub" style="margin-top:14px;">
         Launching soon. Built in Texas. Focused on the future of high school sports.
       </p>
+    </div>
+
+    <div class="footer">
+      © 2025 VarsityVue • Built for High School Athletics
     </div>
   </div>
 
