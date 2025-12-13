@@ -138,17 +138,15 @@
       color:var(--soft);
       font-weight:900;
     }
-    .badgeWide{
-  flex: 0 1 auto;
-      min-width:320px;
-  justify-content: space-between;
-  gap:12px;
+ .badgeWide{
+  flex: 0 1 auto;        /* do NOT take the whole row */
+  justify-content: flex-start;
+  gap:10px;
 }
-
 .badgeWide span{
-  white-space: nowrap;
+  white-space: normal;   /* allow wrapping */
+  line-height: 1.2;
 }
-
 .badgeWide a{
   font-weight:900;
 }
