@@ -5,6 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>De Leon Bearcats — VarsityVue</title>
   <meta name="description" content="De Leon Bearcats athletics hub on VarsityVue: schedules, results, and community supporters." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="De Leon Bearcats — VarsityVue" />
+  <meta property="og:description" content="Schedules, results, game night graphics, and community supporters — clean and shareable." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://varsityvue.com/schools/de-leon" />
+  <meta property="og:image" content="https://varsityvue.com/images/varsityvue-share.png" />
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="De Leon Bearcats — VarsityVue" />
+  <meta name="twitter:description" content="Schedules, results, game night graphics, and community supporters — clean and shareable." />
+  <meta name="twitter:image" content="https://varsityvue.com/images/varsityvue-share.png" />
+
   <style>
     :root{
       --bg:#0b0b0d;
@@ -18,6 +32,7 @@
       --accent2:#9d1a2a;
       --good:#1f9d55;
       --warn:#d8a104;
+      --focus: rgba(255,255,255,.45);
     }
 
     *{ box-sizing:border-box; }
@@ -38,19 +53,6 @@
       padding:22px 18px 70px;
     }
 
-    /* Logo + title row */
-    .teamHeader{
-      display:flex;
-      align-items:center;
-      gap:14px;
-      flex-wrap:wrap;
-    }
-    .teamLogo{
-      width:72px;
-      height:auto;
-      max-height:72px;
-    }
-
     /* Top bar */
     .topbar{
       display:flex;
@@ -69,6 +71,7 @@
       border:1px solid rgba(255,255,255,.12);
       box-shadow: 0 10px 30px rgba(0,0,0,.35);
     }
+
     .pill{
       display:inline-flex; align-items:center; gap:8px;
       padding:7px 12px;
@@ -107,9 +110,18 @@
       .heroInner{ grid-template-columns: 1.6fr 1fr; align-items:stretch; }
     }
 
-    .heroTitleRow{
-      display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+    .teamHeader{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      flex-wrap:wrap;
     }
+    .teamLogo{
+      width:72px;
+      height:auto;
+      max-height:72px;
+    }
+
     .school{
       font-size:34px;
       font-weight:950;
@@ -152,7 +164,6 @@
       font-weight:900;
     }
 
-    /* Socials badge */
     .badgeWide{
       align-items:flex-start;
       flex: 0 1 auto;
@@ -170,7 +181,80 @@
       line-height:1.2;
     }
 
-    /* Program Overview */
+    /* Hero actions */
+    .btnRow{
+      display:flex; flex-wrap:wrap; gap:10px;
+      margin-top:10px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:11px 14px;
+      border-radius:14px;
+      font-weight:950;
+      font-size:13px;
+      letter-spacing:.25px;
+      border:1px solid rgba(255,255,255,.12);
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease, opacity .15s ease;
+      user-select:none;
+    }
+    .btnPrimary{
+      background: linear-gradient(135deg, var(--accent2), rgba(255,255,255,.10));
+      border:1px solid rgba(255,255,255,.14);
+    }
+    .btnSecondary{
+      background: rgba(255,255,255,.06);
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 10px 28px rgba(0,0,0,.35);
+    }
+    .btn:focus-visible{
+      outline:2px solid var(--focus);
+      outline-offset:3px;
+    }
+    .btnSmall{
+      padding:9px 12px;
+      font-size:12px;
+      border-radius:12px;
+    }
+    .btnDisabled{
+      opacity:.55;
+      cursor:not-allowed;
+      pointer-events:none;
+    }
+
+    /* Mini nav */
+    .miniNav{
+      margin-top:14px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      padding-top:14px;
+      border-top:1px solid rgba(255,255,255,.10);
+    }
+    .miniNav a{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      color:rgba(243,243,245,.9);
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.2px;
+    }
+    .miniNav a:hover{ box-shadow: 0 10px 28px rgba(0,0,0,.25); transform: translateY(-1px); }
+    .miniNav a:focus-visible{
+      outline:2px solid var(--focus);
+      outline-offset:3px;
+    }
+
+    /* Trust blocks */
     .programOverview{
       margin-top:14px;
       padding-top:14px;
@@ -192,7 +276,6 @@
       color:rgba(243,243,245,.78);
     }
 
-    /* ===== Trust Blocks (Pilot + Data boundaries) ===== */
     .trustBlock{
       margin-top:12px;
       border-radius:18px;
@@ -254,7 +337,7 @@
       font-weight:950;
     }
 
-    /* ===== Booster Support ===== */
+    /* Booster */
     .boosterBlock{
       margin-top:14px;
       border-radius:18px;
@@ -321,6 +404,10 @@
       transform: translateY(-1px);
       box-shadow: 0 10px 28px rgba(0,0,0,.35);
     }
+    .btnLink:focus-visible{
+      outline:2px solid var(--focus);
+      outline-offset:3px;
+    }
     .boosterDisclaimer{
       margin-top:8px;
       font-size:12px;
@@ -332,7 +419,7 @@
       font-weight:950;
     }
 
-    /* Featured card */
+    /* Featured */
     .feature{
       border-radius:18px;
       background: rgba(0,0,0,.30);
@@ -346,10 +433,7 @@
     .featureHead{
       display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
     }
-    .featureLabel{
-      font-weight:900; letter-spacing:.35px;
-      color:#fff;
-    }
+    .featureLabel{ font-weight:900; letter-spacing:.35px; color:#fff; }
     .featureMeta{
       color:rgba(243,243,245,.78);
       font-size:13px;
@@ -360,6 +444,16 @@
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap:10px;
+    }
+    .featureRow3{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+    @media(max-width:520px){
+      .featureRow3{ grid-template-columns: 1fr; }
+      .featureRow{ grid-template-columns: 1fr; }
     }
     .mini{
       border-radius:14px;
@@ -385,34 +479,11 @@
       text-underline-offset: 2px;
       font-weight:850;
     }
-
-    .btnRow{
-      display:flex; flex-wrap:wrap; gap:10px;
-      margin-top:10px;
-    }
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      padding:11px 14px;
-      border-radius:14px;
-      font-weight:950;
-      font-size:13px;
-      letter-spacing:.25px;
-      border:1px solid rgba(255,255,255,.12);
-      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
-    }
-    .btnPrimary{
-      background: linear-gradient(135deg, var(--accent2), rgba(255,255,255,.10));
-      border:1px solid rgba(255,255,255,.14);
-    }
-    .btnSecondary{
-      background: rgba(255,255,255,.06);
-    }
-    .btn:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 10px 28px rgba(0,0,0,.35);
+    .tiny{
+      margin-top:8px;
+      font-size:12px;
+      color:rgba(243,243,245,.70);
+      line-height:1.6;
     }
 
     /* Layout below hero */
@@ -493,13 +564,6 @@
     .status.upcoming .statusDot{ background: var(--warn); }
     .status.final .statusDot{ background: var(--good); }
 
-    .tiny{
-      margin-top:8px;
-      font-size:12px;
-      color:rgba(243,243,245,.70);
-      line-height:1.6;
-    }
-
     /* Game night */
     .gameNight{
       border-radius:18px;
@@ -545,8 +609,21 @@
       color:rgba(243,243,245,.78);
       letter-spacing:.2px;
     }
+    .tierTag{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      margin-top:8px;
+      padding:5px 9px;
+      border-radius:999px;
+      font-size:10px;
+      font-weight:950;
+      letter-spacing:.25px;
+      color:rgba(243,243,245,.92);
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.24);
+    }
 
-    /* Clickable sponsor tiles (optional) */
     .sponsorLink{
       display:block;
       text-decoration:none;
@@ -557,9 +634,32 @@
       box-shadow: 0 14px 38px rgba(0,0,0,.45);
     }
     .sponsorLink:focus-visible{
-      outline: 2px solid rgba(255,255,255,.45);
+      outline: 2px solid var(--focus);
       outline-offset: 3px;
       border-radius: 16px;
+    }
+
+    .sponsorValue{
+      margin-top:12px;
+      padding:12px;
+      border-radius:16px;
+      background: rgba(0,0,0,.25);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .sponsorValue h3{
+      margin:0 0 8px;
+      font-size:12px;
+      font-weight:950;
+      letter-spacing:.25px;
+      text-transform:uppercase;
+      color:rgba(243,243,245,.90);
+    }
+    .sponsorValue ul{
+      margin:0;
+      padding-left:18px;
+      color:rgba(243,243,245,.78);
+      font-size:13px;
+      line-height:1.55;
     }
 
     /* Sponsor CTA block */
@@ -575,7 +675,7 @@
       justify-content:center;
     }
 
-    /* Admin Access (Pilot) */
+    /* Admin / contact */
     .adminCard{
       margin-top:16px;
       border-radius:18px;
@@ -611,6 +711,26 @@
       font-size:12px;
       line-height:1.6;
     }
+
+    /* Toast */
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,.75);
+      color: rgba(243,243,245,.92);
+      border: 1px solid rgba(255,255,255,.14);
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .2px;
+      box-shadow: 0 18px 50px rgba(0,0,0,.55);
+      display:none;
+      z-index: 9999;
+      max-width: calc(100% - 24px);
+    }
   </style>
 </head>
 
@@ -624,179 +744,96 @@
       <span class="pill"><span class="pillDot"></span> Pilot Preview</span>
     </div>
 
-    <!-- HERO -->
-    <section class="hero">
+    <section class="hero" id="overview">
       <div class="heroInner">
+        <!-- LEFT -->
         <div>
-          <div class="heroTitleRow teamHeader">
-            <img
-              src="/logos/de-leon-bearcats-logo.png"
-              alt="De Leon Bearcats logo"
-              class="teamLogo"
-            />
-            <h1 class="school">De Leon Bearcats</h1>
+          <div class="teamHeader">
+            <img id="teamLogo" src="/logos/de-leon-bearcats-logo.png" alt="Team logo" class="teamLogo" />
+            <h1 class="school" id="teamName">De Leon Bearcats</h1>
           </div>
 
-          <p class="subline">
+          <p class="subline" id="tagline">
             A centralized hub for schedules, results, and season updates — with sponsor recognition and no added work for coaches.
           </p>
 
-          <div class="heroBadges">
-            <div class="badge">Pilot: <strong>Pilot School — VarsityVue 2025</strong></div>
-            <div class="badge">Sport: <strong>Football</strong></div>
-            <div class="badge">Season: <strong>2025</strong></div>
+          <div class="heroBadges" id="heroBadges"></div>
 
-            <div class="badge badgeWide">
-              <span class="label">Program Socials</span>
-              <span class="links">
-                <a href="https://x.com/DeLeonAthletics" target="_blank" rel="noopener">X</a>
-                <span aria-hidden="true">·</span>
-                <a href="https://www.instagram.com/de_leon_football/" target="_blank" rel="noopener">Instagram</a>
-                <span aria-hidden="true">·</span>
-                <a href="https://www.facebook.com/DeLeonAthletics" target="_blank" rel="noopener">Facebook</a>
-              </span>
-            </div>
-          </div>
+          <div class="btnRow" id="heroButtons"></div>
 
-          <div class="btnRow">
-            <a class="btn btnPrimary" href="mailto:info@varsityvue.com?subject=VarsityVue%20Pilot%20School%20Interest%20-%20De%20Leon&body=School%20Name%3A%20De%20Leon%0AContact%20Name%3A%0APhone%3A%0ABest%20time%20to%20talk%3A%0A">
-              Request Pilot Info
-            </a>
-            <a class="btn btnSecondary" href="mailto:info@varsityvue.com?subject=VarsityVue%20Supporter%20Inquiry%20-%20De%20Leon&body=Business%20Name%3A%0AContact%20Name%3A%0APhone%3A%0AInterested%20in%20supporting%3A%20De%20Leon%20Athletics%0A">
-              Become a Supporter
-            </a>
-          </div>
+          <div class="miniNav" id="miniNav"></div>
 
           <div class="programOverview">
             <h3>Football Program Overview</h3>
-            <p>
-              De Leon High School football is an integral part of the school’s athletic program,
-              providing student-athletes with structured competition while emphasizing discipline,
-              accountability, and team development within an educational setting.
-            </p>
+            <p id="programOverviewText"></p>
           </div>
 
-          <!-- NEW: Why De Leon? -->
-          <div class="trustBlock" aria-label="Why De Leon was selected">
+          <div class="trustBlock" aria-label="Why selected">
             <div class="trustTop">
-              <h3 class="trustTitle">Why De Leon?</h3>
+              <h3 class="trustTitle">Why This Program?</h3>
               <span class="trustTag">Pilot School</span>
             </div>
-
-            <ul class="trustList">
-              <li>Strong community support and consistent program visibility.</li>
-              <li>Local relevance in the Big Country footprint and scheduled matchups that drive interest.</li>
-              <li>High standards for presentation—without creating extra work for staff.</li>
-            </ul>
+            <ul class="trustList" id="whySelectedList"></ul>
           </div>
 
-          <!-- NEW: Data boundaries / records disclaimer -->
-          <div class="trustBlock" aria-label="Data and records boundaries">
+          <div class="trustBlock" aria-label="Data boundaries">
             <div class="trustTop">
               <h3 class="trustTitle">Data & Records</h3>
               <span class="trustTag">Admin-Safe</span>
             </div>
-
-            <p class="trustText">
-              VarsityVue displays information that is publicly available, school-approved, or submitted directly by the athletic program.
-              VarsityVue does not alter official records. For official results, please reference the school or governing body.
-            </p>
-
-            <div class="trustNote">
-              <strong>Note:</strong> Links to broadcasts and third-party platforms may vary by opponent, venue, and media rights.
-            </div>
+            <p class="trustText" id="dataBoundaryText"></p>
+            <div class="trustNote" id="dataBoundaryNote"></div>
           </div>
 
-          <!-- Booster Support (Pilot/Premium feature) -->
-          <div class="boosterBlock" aria-label="Support the Program">
+          <div class="boosterBlock" aria-label="Support the program">
             <div class="boosterTop">
               <h3 class="boosterTitle">Support the Program</h3>
               <span class="boosterTag">Pilot / Premium Feature</span>
             </div>
-
-            <p class="boosterText">
-              Direct link to the De Leon Athletic Booster Club donation page for families and community supporters.
-            </p>
-
-            <div class="boosterActions">
-              <a class="btnLink" href="https://www.facebook.com/p/De-Leon-Athletic-Booster-Club-100065249900006/" target="_blank" rel="noopener">
-                Donate to Booster Club
-              </a>
-              <a class="btnLink" href="mailto:info@varsityvue.com?subject=Pilot%20Interest%20-%20Another%20School&body=School%20Name%3A%0ASport(s)%3A%0AContact%20Name%3A%0APhone%3A%0ABest%20time%20to%20talk%3A%0A">
-                Another school: Request pilot info
-              </a>
-            </div>
-
-            <div class="boosterDisclaimer">
-              <strong>Note:</strong> VarsityVue does not collect or manage donations. All contributions are processed directly through the De Leon Athletic Booster Club.
-            </div>
+            <p class="boosterText" id="boosterText"></p>
+            <div class="boosterActions" id="boosterActions"></div>
+            <div class="boosterDisclaimer" id="boosterDisclaimer"></div>
           </div>
         </div>
 
-        <!-- FEATURED -->
+        <!-- RIGHT: FEATURED -->
         <aside class="feature" aria-label="Next game feature">
           <div>
             <div class="featureHead">
               <div>
                 <div class="featureLabel">Next Game</div>
-                <div class="featureMeta">Featured matchup (example layout).</div>
+                <div class="featureMeta" id="nextGameMeta">Featured matchup</div>
               </div>
               <span class="pill">Featured</span>
             </div>
 
-            <div class="featureRow" style="margin-top:12px;">
-              <div class="mini">
-                <div class="miniK">Opponent</div>
-                <div class="miniV">Stamford Bulldogs</div>
-              </div>
-              <div class="mini">
-                <div class="miniK">Kickoff</div>
-                <div class="miniV">Aug 28</div>
-              </div>
-              <div class="mini">
-                <div class="miniK">Venue</div>
-                <div class="miniV">
-                  Bearcat Stadium
-                  <div class="tiny" style="margin-top:6px;">
-                    <a href="https://maps.apple.com/?q=Bearcat+Stadium+De+Leon+TX" target="_blank" rel="noopener">Apple Maps</a>
-                    <span aria-hidden="true"> · </span>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Bearcat+Stadium+De+Leon+TX" target="_blank" rel="noopener">Google Maps</a>
-                  </div>
-                </div>
-              </div>
-              <div class="mini">
-                <div class="miniK">Record</div>
-                <div class="miniV">0–0</div>
-              </div>
+            <div class="featureRow" style="margin-top:12px;" id="nextGameGrid"></div>
+
+            <div class="btnRow" style="margin-top:12px;" id="nextGameActions"></div>
+
+            <div class="featureRow3" aria-label="Game details strip" id="nextGameStrip"></div>
+
+            <div class="tiny" style="margin-top:12px;" id="coverageDisclaimer"></div>
+
+            <div class="tiny" style="margin-top:10px;">
+              <strong>Pilot Note</strong>
+              <div class="tiny" style="margin-top:6px;" id="pilotNote"></div>
             </div>
 
             <div class="tiny" style="margin-top:10px;">
-              <strong>Game Coverage</strong>
-              <div class="tiny" style="margin-top:6px;">
-                <a href="https://www.nfhsnetwork.com/watch-events" target="_blank" rel="noopener"
-                   style="text-decoration: underline; text-underline-offset: 3px;">NFHS Network (when available)</a>
-                <span aria-hidden="true"> · </span>
-                <a href="https://kwbyradio.com/de-leon-bearcats/" target="_blank" rel="noopener"
-                   style="text-decoration: underline; text-underline-offset: 3px;">Local Broadcast</a>
-              </div>
+              <strong>During a game</strong>
+              <div class="tiny" style="margin-top:6px;" id="duringGameNote"></div>
+            </div>
 
-              <div class="tiny" style="margin-top:8px;">
-                Coverage links are provided by third-party platforms and may vary by opponent, venue, and broadcast rights.
+            <!-- Season Snapshot (fills the space AND sells legitimacy) -->
+            <div class="trustBlock" style="max-width:none; margin-top:14px;" aria-label="Season snapshot">
+              <div class="trustTop">
+                <h3 class="trustTitle">Season Snapshot</h3>
+                <span class="trustTag" id="snapshotTag">2026</span>
               </div>
-
-              <div class="tiny" style="margin-top:10px;">
-                <strong>Pilot Note</strong>
-              </div>
-
-              <div class="tiny" style="margin-top:6px;">
-                Designed to minimize staff workload. Pilot workflows handle score updates, with optional school input.
-              </div>
-
-              <div class="tiny" style="margin-top:10px;">
-                <strong>During a game</strong>
-                <div class="tiny" style="margin-top:6px;">
-                  Fans follow along here for kickoff details, broadcast links, and score updates as they post.
-                </div>
+              <div class="featureRow" style="margin-top:10px;" id="seasonSnapshotGrid"></div>
+              <div class="trustNote" style="margin-top:10px;">
+                <strong>Note:</strong> Snapshot fields can be school-provided or public-facing info. No “official record” claims are made here.
               </div>
             </div>
           </div>
@@ -804,11 +841,10 @@
       </div>
     </section>
 
-    <!-- MAIN -->
     <section class="main">
       <!-- LEFT -->
       <div>
-        <div class="card">
+        <div class="card" id="schedule">
           <div class="cardHead">
             <h2>Schedule & Results</h2>
             <span class="pill">Simple • Shareable • Clean</span>
@@ -823,50 +859,16 @@
                   <th>Status</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr class="row">
-                  <td>Aug 28</td>
-                  <td>Stamford Bulldogs</td>
-                  <td>Home</td>
-                  <td><span class="status upcoming"><span class="statusDot"></span>Upcoming</span></td>
-                </tr>
-                <tr class="row">
-                  <td>Sep 4</td>
-                  <td>@ Hawley Bearcats</td>
-                  <td>Away</td>
-                  <td><span class="status upcoming"><span class="statusDot"></span>Upcoming</span></td>
-                </tr>
-                <tr class="row">
-                  <td>Sep 11</td>
-                  <td>Anson Tigers</td>
-                  <td>Home</td>
-                  <td><span class="status upcoming"><span class="statusDot"></span>Upcoming</span></td>
-                </tr>
-                <tr class="row">
-                  <td>Sep 18</td>
-                  <td>@ Goldthwaite Eagles</td>
-                  <td>Away</td>
-                  <td><span class="status upcoming"><span class="statusDot"></span>Upcoming</span></td>
-                </tr>
-                <tr class="row">
-                  <td>Sep 25</td>
-                  <td>Hico Tigers</td>
-                  <td>Home</td>
-                  <td><span class="status upcoming"><span class="statusDot"></span>Upcoming</span></td>
-                </tr>
-              </tbody>
+              <tbody id="scheduleBody"></tbody>
             </table>
 
-            <div class="tiny">
-              VarsityVue manages final score updates centrally. Coach and staff input is optional.
-            </div>
+            <div class="tiny" id="scheduleNote"></div>
           </div>
         </div>
 
         <div style="height:16px;"></div>
 
-        <!-- Game Night Graphics (Preview) -->
-        <div class="card">
+        <div class="card" id="gamenight">
           <div class="cardHead">
             <h2>Game Night Graphics (Preview)</h2>
             <span class="pill">Supporter-friendly content</span>
@@ -875,115 +877,527 @@
           <div class="cardBody">
             <div class="gameNight">
               <p class="gameNightTitle">Weekly Game Night Graphics</p>
-              <p class="gameNightSub">
-                Weekly scoreboard graphics and brief recaps, presented in a clean format for families, students, and community supporters.
-              </p>
+              <p class="gameNightSub" id="gameNightSub"></p>
 
               <img
+                id="scoreboardSampleImg"
                 src="/images/de-leon-scoreboard-sample.png"
                 alt="Sample De Leon Bearcats scoreboard graphic"
                 style="width:100%; border-radius:16px; border:1px solid rgba(255,255,255,.10); display:block;"
               />
 
-              <div class="tiny" style="margin-top:10px;">
-                <strong>Pilot Feature Preview:</strong> Live scoreboard widget available for pilot/premium schools. Operated by approved staff/admin.
-              </div>
+              <div class="tiny" style="margin-top:10px;" id="gameNightPilotNote"></div>
 
               <div class="btnRow" style="margin-top:12px;">
-                <a class="btn btnSecondary" href="#" onclick="alert('Demo: share link goes here.'); return false;">Share</a>
-                <a class="btn btnSecondary" href="#" onclick="alert('Demo: recap post goes here.'); return false;">Weekly Recap</a>
+                <span class="btn btnSecondary btnDisabled">Share (Pilot)</span>
+                <span class="btn btnSecondary btnDisabled">Weekly Recap (Pilot)</span>
               </div>
             </div>
 
-            <div class="tiny">
-              AD benefit: consistent, professional presentation without additional reporting requirements.
-            </div>
+            <div class="tiny" id="gameNightAdBenefit"></div>
           </div>
         </div>
       </div>
 
       <!-- RIGHT -->
       <aside>
-        <!-- Community Supporters -->
-        <div class="card">
+        <div class="card" id="sponsors">
           <div class="cardHead">
             <h2>Community Supporters</h2>
-            <span class="pill">6 placements</span>
+            <span class="pill" id="sponsorCountPill">— placements</span>
           </div>
 
           <div class="cardBody">
-            <div class="sponsorGrid">
-              <a class="sponsorTile sponsorLink" href="https://1waylandscape.com" target="_blank" rel="noopener">
-                1 Way Landscape
-                <span>Community Supporter</span>
-              </a>
+            <div class="sponsorGrid" id="sponsorGrid"></div>
 
-              <a class="sponsorTile sponsorLink" href="https://premiereventrent.com" target="_blank" rel="noopener">
-                Premier Event Rentals
-                <span>Community Supporter</span>
-              </a>
-
-              <div class="sponsorTile">Griffin Woodworks<span>Community Supporter</span></div>
-              <div class="sponsorTile">Gilder Mini Storage<span>Community Supporter</span></div>
-              <div class="sponsorTile">Available<span>Community Supporter</span></div>
-              <div class="sponsorTile">Available<span>Community Supporter</span></div>
+            <div class="sponsorValue" aria-label="Sponsor value">
+              <h3>What Sponsors Get</h3>
+              <ul id="sponsorValueList"></ul>
             </div>
 
-            <!-- Sponsor CTA + ROI -->
             <div class="sponsorCTA" aria-label="Sponsorship call to action">
               <div class="sponsorCtaRow" style="margin-top:0;">
-                <a class="btn btnPrimary"
-                   href="mailto:info@varsityvue.com?subject=Community%20Sponsor%20Interest%20-%20De%20Leon&body=Business%20Name%3A%0AContact%20Name%3A%0APhone%3A%0AInterested%20in%20supporting%3A%20De%20Leon%20Athletics%0A">
+                <a class="btn btnPrimary" id="sponsorMailtoBtn" href="#">
                   Become a Community Sponsor
+                </a>
+                <a class="btn btnSecondary" id="sponsorKitBtn" href="/sponsor-kit.pdf" target="_blank" rel="noopener">
+                  Get Sponsor Kit (PDF)
                 </a>
                 <a class="btn btnSecondary" href="/">Back to Home</a>
               </div>
 
-              <div class="tiny" style="margin-top:10px;">
-                Supporters appear on the hub and in Game Night graphics shared weekly.
-              </div>
-
-              <div class="tiny" style="margin-top:8px;">
-                Sponsor links are provided by participating businesses.
-              </div>
-
-              <div class="tiny" style="margin-top:10px;">
-                Clean placements only. No popups. No clutter — just community visibility.
-              </div>
+              <div class="tiny" style="margin-top:10px;" id="sponsorCtaNote1"></div>
+              <div class="tiny" style="margin-top:8px;" id="sponsorCtaNote2"></div>
+              <div class="tiny" style="margin-top:10px;" id="sponsorCtaNote3"></div>
             </div>
           </div>
         </div>
 
-        <!-- Admin Access (Pilot) — BELOW supporters card -->
-        <div class="adminCard" aria-label="Admin Access (Pilot)">
-          <div class="adminTitle">Admin Access (Pilot)</div>
+        <div class="adminCard" id="admin" aria-label="Admin access">
+          <div class="adminTitle">School Admin Contact</div>
 
-          <ul class="adminList">
-            <li>Update: Next Game</li>
-            <li>Update: Schedule</li>
-            <li>Update: Score</li>
-            <li>Update: Sponsors</li>
-          </ul>
+          <ul class="adminList" id="adminList"></ul>
 
           <div class="btnRow">
-            <a class="btn btnSecondary"
-               href="mailto:info@varsityvue.com?subject=Admin%20Access%20Request%20-%20De%20Leon%20(Pilot)">
-              Request Admin Access
+            <a class="btn btnSecondary" id="adminMailtoBtn" href="#">
+              Contact VarsityVue
             </a>
           </div>
 
-          <div class="adminNote">
-            Admin access is limited to approved pilot schools and VarsityVue staff.
-          </div>
+          <div class="adminNote" id="adminNote"></div>
         </div>
 
         <div class="footer">
-          <div>Pilot preview. Layout and example content shown for demonstration purposes.</div>
-          <div>VarsityVue operates independently and in coordination with approved school administrators.</div>
-          <div style="margin-top:10px;">© 2025 VarsityVue • Built for High School Athletics</div>
+          <div id="footerLine1"></div>
+          <div id="footerLine2"></div>
+          <div style="margin-top:10px;" id="footerLine3"></div>
         </div>
       </aside>
     </section>
   </div>
+
+  <div class="toast" id="toast">Copied</div>
+
+  <script>
+    /* =========================
+       CONFIG — edit here only
+       ========================= */
+    const CONFIG = {
+      brandName: "VarsityVue",
+      pilotLabel: "Pilot Preview",
+      year: 2026,
+
+      pageUrl: "https://varsityvue.com/schools/de-leon",
+      logoSrc: "/logos/de-leon-bearcats-logo.png",
+
+      team: {
+        name: "De Leon Bearcats",
+        sport: "Football",
+        season: 2026,
+        pilotTag: "Pilot School — VarsityVue 2026",
+        socials: [
+          { label: "X", href: "https://x.com/DeLeonAthletics" },
+          { label: "Instagram", href: "https://www.instagram.com/de_leon_football/" },
+          { label: "Facebook", href: "https://www.facebook.com/DeLeonAthletics" }
+        ]
+      },
+
+      tagline:
+        "A centralized hub for schedules, results, and season updates — with sponsor recognition and no added work for coaches.",
+
+      programOverview:
+        "De Leon High School football is an integral part of the school’s athletic program, providing student-athletes with structured competition while emphasizing discipline, accountability, and team development within an educational setting.",
+
+      whySelected: [
+        "Strong community support and consistent program visibility.",
+        "Local relevance in the Big Country footprint and scheduled matchups that drive interest.",
+        "High standards for presentation—without creating extra work for staff."
+      ],
+
+      dataBoundaries: {
+        text:
+          "VarsityVue displays information that is publicly available, school-approved, or submitted directly by the athletic program. VarsityVue does not alter official records. For official results, please reference the school or governing body.",
+        note:
+          "<strong>Note:</strong> Broadcast and third-party links may vary by opponent, venue, and media rights."
+      },
+
+      booster: {
+        text: "Direct link to the De Leon Athletic Booster Club donation page for families and community supporters.",
+        actions: [
+          { label: "Donate to Booster Club", href: "https://www.facebook.com/p/De-Leon-Athletic-Booster-Club-100065249900006/", targetBlank: true },
+          { label: "Another school: Request pilot info", href: "mailto:info@varsityvue.com?subject=Pilot%20Interest%20-%20Another%20School&body=School%20Name%3A%0ASport(s)%3A%0AContact%20Name%3A%0APhone%3A%0ABest%20time%20to%20talk%3A%0A", targetBlank: false }
+        ],
+        disclaimer:
+          "<strong>Note:</strong> VarsityVue does not collect or manage donations. All contributions are processed directly through the De Leon Athletic Booster Club."
+      },
+
+      adminContact: {
+        email: "info@varsityvue.com",
+        subject: "School Admin Contact - De Leon (Bearcats)",
+        bodyTemplate:
+          "School: De Leon%0AContact Name:%0ARole (AD/Coach/Admin):%0APhone:%0ABest time to talk:%0ARequest:%20",
+        adminList: [
+          "Pilot onboarding / access",
+          "Schedule verification",
+          "Score updates (optional school input)",
+          "Sponsor placements (school-safe)"
+        ],
+        note:
+          "Pilot access is limited to approved school administrators and VarsityVue staff."
+      },
+
+      nextGame: {
+        opponent: "Stamford Bulldogs",
+        dateDisplay: "Aug 28",
+        timeDisplay: "7:30 PM",
+        venue: "Bearcat Stadium",
+        recordDisplay: "0–0",
+        maps: {
+          apple: "https://maps.apple.com/?q=Bearcat+Stadium+De+Leon+TX",
+          google: "https://www.google.com/maps/search/?api=1&query=Bearcat+Stadium+De+Leon+TX"
+        },
+        coverage: [
+          { label: "NFHS (if available)", href: "https://www.nfhsnetwork.com/watch-events" },
+          { label: "Local Broadcast", href: "https://kwbyradio.com/de-leon-bearcats/" }
+        ],
+        addToCalendarHref: "/ics/deleon-nextgame.ics", // placeholder route (optional)
+        pilotNote:
+          "Designed to minimize staff workload. Pilot workflows handle score updates, with optional school input.",
+        duringGameNote:
+          "Fans follow along here for kickoff details, coverage links, and score updates as they post.",
+        lastResult: {
+          label: "Last Result",
+          value: "—",
+          sub: "Add last game score when available."
+        }
+      },
+
+      seasonSnapshot: {
+        classification: "UIL — TBD",
+        district: "District — TBD",
+        headCoach: "TBD (per school roster)",
+        homeField: "Bearcat Stadium",
+        priorSeasonRecord: "TBD"
+      },
+
+      schedule: {
+        note:
+          "VarsityVue manages final score updates centrally. Coach and staff input is optional.",
+        rows: [
+          { date: "Aug 28", opponent: "Stamford Bulldogs", site: "Home", status: "upcoming" },
+          { date: "Sep 4", opponent: "@ Hawley Bearcats", site: "Away", status: "upcoming" },
+          { date: "Sep 11", opponent: "Anson Tigers", site: "Home", status: "upcoming" },
+          { date: "Sep 18", opponent: "@ Goldthwaite Eagles", site: "Away", status: "upcoming" },
+          { date: "Sep 25", opponent: "Hico Tigers", site: "Home", status: "upcoming" }
+        ]
+      },
+
+      gameNight: {
+        sub:
+          "Weekly scoreboard graphics and brief recaps, presented in a clean format for families, students, and community supporters.",
+        pilotNote:
+          "<strong>Pilot Feature Preview:</strong> Live scoreboard widget available for pilot/premium schools. Operated by approved staff/admin.",
+        adBenefit:
+          "AD benefit: consistent, professional presentation without additional reporting requirements.",
+        sampleImageSrc: "/images/de-leon-scoreboard-sample.png",
+        sampleImageAlt: "Sample De Leon Bearcats scoreboard graphic"
+      },
+
+      sponsors: {
+        placementsLabel: "6 placements",
+        valueBullets: [
+          "Placement on the team hub all season (clean, no clutter).",
+          "Included in weekly Game Night graphics shared with the community.",
+          "Clickable business link (where provided) for local discovery."
+        ],
+        ctaNotes: [
+          "Supporters appear on the hub and in Game Night graphics shared weekly.",
+          "Sponsor links are provided by participating businesses.",
+          "Clean placements only. No popups. No clutter — just community visibility."
+        ],
+        mailto: {
+          subject: "Community Sponsor Interest - De Leon",
+          bodyTemplate:
+            "Business Name:%0AContact Name:%0APhone:%0AInterested in supporting:%20De Leon Athletics%0A"
+        },
+        tiles: [
+          { name: "1 Way Landscape", tier: "Community Supporter", href: "https://1waylandscape.com" },
+          { name: "Premier Event Rentals", tier: "Community Supporter", href: "https://premiereventrent.com" },
+          { name: "Griffin Woodworks", tier: "Community Supporter" },
+          { name: "Gilder Mini Storage", tier: "Community Supporter" },
+          { name: "Available", tier: "Community Supporter" },
+          { name: "Available", tier: "Community Supporter" }
+        ]
+      }
+    };
+
+    /* =========================
+       Helpers
+       ========================= */
+    const el = (tag, attrs = {}, children = []) => {
+      const node = document.createElement(tag);
+      Object.entries(attrs).forEach(([k, v]) => {
+        if (k === "class") node.className = v;
+        else if (k === "html") node.innerHTML = v;
+        else if (k.startsWith("on") && typeof v === "function") node.addEventListener(k.slice(2), v);
+        else node.setAttribute(k, v);
+      });
+      children.forEach(c => node.appendChild(typeof c === "string" ? document.createTextNode(c) : c));
+      return node;
+    };
+
+    const toast = (msg) => {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.style.display = "block";
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => (t.style.display = "none"), 1600);
+    };
+
+    const mailto = (email, subject, body) =>
+      `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${body}`;
+
+    const safeBlank = (s) => (s == null || s === "" ? "—" : s);
+
+    /* =========================
+       Render
+       ========================= */
+    (function render() {
+      // Top basics
+      document.title = `${CONFIG.team.name} — ${CONFIG.brandName}`;
+      document.getElementById("teamLogo").src = CONFIG.logoSrc;
+      document.getElementById("teamLogo").alt = `${CONFIG.team.name} logo`;
+      document.getElementById("teamName").textContent = CONFIG.team.name;
+      document.getElementById("tagline").textContent = CONFIG.tagline;
+      document.getElementById("programOverviewText").textContent = CONFIG.programOverview;
+
+      // Badges
+      const heroBadges = document.getElementById("heroBadges");
+      heroBadges.appendChild(el("div", { class: "badge" }, ["Pilot: ", el("strong", {}, [CONFIG.team.pilotTag])]));
+      heroBadges.appendChild(el("div", { class: "badge" }, ["Sport: ", el("strong", {}, [CONFIG.team.sport])]));
+      heroBadges.appendChild(el("div", { class: "badge" }, ["Season: ", el("strong", {}, [String(CONFIG.team.season)])]));
+
+      const socials = el("div", { class: "badge badgeWide" }, [
+        el("span", { class: "label" }, ["Program Socials"]),
+        el("span", { class: "links" }, [])
+      ]);
+      const linksWrap = socials.querySelector(".links");
+      CONFIG.team.socials.forEach((s, idx) => {
+        linksWrap.appendChild(el("a", { href: s.href, target: "_blank", rel: "noopener" }, [s.label]));
+        if (idx < CONFIG.team.socials.length - 1) linksWrap.appendChild(el("span", { "aria-hidden": "true" }, ["·"]));
+      });
+      heroBadges.appendChild(socials);
+
+      // Hero buttons
+      const heroButtons = document.getElementById("heroButtons");
+      const adminHref = mailto(CONFIG.adminContact.email, CONFIG.adminContact.subject, CONFIG.adminContact.bodyTemplate);
+      heroButtons.appendChild(el("a", { class: "btn btnPrimary", href: adminHref }, ["School Admin Contact"]));
+
+      const sponsorHref = mailto(CONFIG.adminContact.email, "VarsityVue Supporter Inquiry - De Leon",
+        "Business Name:%0AContact Name:%0APhone:%0AInterested in supporting: De Leon Athletics%0A");
+      heroButtons.appendChild(el("a", { class: "btn btnSecondary", href: sponsorHref }, ["Become a Supporter"]));
+
+      // Mini nav
+      const miniNav = document.getElementById("miniNav");
+      const navItems = [
+        { label: "Overview", href: "#overview" },
+        { label: "Schedule", href: "#schedule" },
+        { label: "Game Night", href: "#gamenight" },
+        { label: "Sponsors", href: "#sponsors" },
+        { label: "Admin", href: "#admin" }
+      ];
+      navItems.forEach(n => miniNav.appendChild(el("a", { href: n.href }, [n.label])));
+
+      // Why selected
+      const whyList = document.getElementById("whySelectedList");
+      CONFIG.whySelected.forEach(item => whyList.appendChild(el("li", {}, [item])));
+
+      // Data boundaries
+      document.getElementById("dataBoundaryText").textContent = CONFIG.dataBoundaries.text;
+      document.getElementById("dataBoundaryNote").innerHTML = CONFIG.dataBoundaries.note;
+
+      // Booster
+      document.getElementById("boosterText").textContent = CONFIG.booster.text;
+      const boosterActions = document.getElementById("boosterActions");
+      CONFIG.booster.actions.forEach(a => {
+        boosterActions.appendChild(el("a", {
+          class: "btnLink",
+          href: a.href,
+          target: a.targetBlank ? "_blank" : null,
+          rel: a.targetBlank ? "noopener" : null
+        }, [a.label]));
+      });
+      document.getElementById("boosterDisclaimer").innerHTML = CONFIG.booster.disclaimer;
+
+      // Next game
+      document.getElementById("nextGameMeta").textContent = "Featured matchup (example layout).";
+
+      const nextGameGrid = document.getElementById("nextGameGrid");
+      nextGameGrid.appendChild(el("div", { class: "mini" }, [
+        el("div", { class: "miniK" }, ["Opponent"]),
+        el("div", { class: "miniV" }, [CONFIG.nextGame.opponent])
+      ]));
+      nextGameGrid.appendChild(el("div", { class: "mini" }, [
+        el("div", { class: "miniK" }, ["Kickoff"]),
+        el("div", { class: "miniV" }, [`${CONFIG.nextGame.dateDisplay} • ${CONFIG.nextGame.timeDisplay}`])
+      ]));
+      nextGameGrid.appendChild(el("div", { class: "mini" }, [
+        el("div", { class: "miniK" }, ["Venue"]),
+        el("div", { class: "miniV" }, [
+          CONFIG.nextGame.venue,
+          el("div", { class: "tiny", style: "margin-top:6px;" }, [
+            el("a", { href: CONFIG.nextGame.maps.apple, target: "_blank", rel: "noopener" }, ["Apple Maps"]),
+            el("span", { "aria-hidden": "true" }, [" · "]),
+            el("a", { href: CONFIG.nextGame.maps.google, target: "_blank", rel: "noopener" }, ["Google Maps"])
+          ])
+        ])
+      ]));
+      nextGameGrid.appendChild(el("div", { class: "mini" }, [
+        el("div", { class: "miniK" }, ["Record"]),
+        el("div", { class: "miniV" }, [CONFIG.nextGame.recordDisplay])
+      ]));
+
+      // Next game actions (no alerts; real behaviors)
+      const nextActions = document.getElementById("nextGameActions");
+      // Add to Calendar (works if file exists; otherwise still looks intentional)
+      nextActions.appendChild(el("a", {
+        class: "btn btnSecondary btnSmall",
+        href: CONFIG.nextGame.addToCalendarHref
+      }, ["Add to Calendar"]));
+
+      // Share
+      nextActions.appendChild(el("button", {
+        class: "btn btnSecondary btnSmall",
+        type: "button",
+        onclick: async () => {
+          const url = CONFIG.pageUrl || window.location.href;
+          const title = `${CONFIG.team.name} — ${CONFIG.brandName}`;
+          try{
+            if (navigator.share) {
+              await navigator.share({ title, url });
+              toast("Shared");
+            } else {
+              await navigator.clipboard.writeText(url);
+              toast("Link copied");
+            }
+          } catch(e){
+            // user cancelled share — do nothing
+          }
+        }
+      }, ["Share"]));
+
+      // Directions
+      nextActions.appendChild(el("a", {
+        class: "btn btnSecondary btnSmall",
+        href: CONFIG.nextGame.maps.google,
+        target: "_blank",
+        rel: "noopener"
+      }, ["Directions"]));
+
+      // Next game strip
+      const strip = document.getElementById("nextGameStrip");
+      strip.appendChild(el("div", { class: "mini" }, [
+        el("div", { class: "miniK" }, ["Coverage"]),
+        el("div", { class: "miniV" }, [
+          el("a", { href: CONFIG.nextGame.coverage[0].href, target: "_blank", rel: "noopener" }, [CONFIG.nextGame.coverage[0].label])
+        ])
+      ]));
+      strip.appendChild(el("div", { class: "mini" }, [
+        el("div", { class: "miniK" }, ["Local Radio"]),
+        el("div", { class: "miniV" }, [
+          el("a", { href: CONFIG.nextGame.coverage[1].href, target: "_blank", rel: "noopener" }, [CONFIG.nextGame.coverage[1].label])
+        ])
+      ]));
+      strip.appendChild(el("div", { class: "mini" }, [
+        el("div", { class: "miniK" }, [CONFIG.nextGame.lastResult.label]),
+        el("div", { class: "miniV" }, [safeBlank(CONFIG.nextGame.lastResult.value)]),
+        el("div", { class: "tiny" }, [CONFIG.nextGame.lastResult.sub])
+      ]));
+
+      document.getElementById("coverageDisclaimer").textContent =
+        "Coverage links are provided by third-party platforms and may vary by opponent, venue, and broadcast rights.";
+      document.getElementById("pilotNote").textContent = CONFIG.nextGame.pilotNote;
+      document.getElementById("duringGameNote").textContent = CONFIG.nextGame.duringGameNote;
+
+      // Season snapshot
+      document.getElementById("snapshotTag").textContent = String(CONFIG.year);
+      const snapshot = document.getElementById("seasonSnapshotGrid");
+      const snapItems = [
+        { k: "Classification", v: CONFIG.seasonSnapshot.classification },
+        { k: "District", v: CONFIG.seasonSnapshot.district },
+        { k: "Head Coach", v: CONFIG.seasonSnapshot.headCoach },
+        { k: "Home Field", v: CONFIG.seasonSnapshot.homeField },
+        { k: "Prior Season Record", v: CONFIG.seasonSnapshot.priorSeasonRecord }
+      ];
+
+      // Render as 2-column grid using mini cards; last one spans nicely by repeating layout
+      snapItems.forEach(item => {
+        snapshot.appendChild(el("div", { class: "mini" }, [
+          el("div", { class: "miniK" }, [item.k]),
+          el("div", { class: "miniV" }, [safeBlank(item.v)])
+        ]));
+      });
+
+      // Schedule table
+      const scheduleBody = document.getElementById("scheduleBody");
+      const statusLabel = (s) => s === "final" ? "Final" : "Upcoming";
+      CONFIG.schedule.rows.forEach(r => {
+        const tr = el("tr", { class: "row" }, [
+          el("td", {}, [r.date]),
+          el("td", {}, [r.opponent]),
+          el("td", {}, [r.site]),
+          el("td", {}, [
+            el("span", { class: `status ${r.status}` }, [
+              el("span", { class: "statusDot" }, []),
+              statusLabel(r.status)
+            ])
+          ])
+        ]);
+        scheduleBody.appendChild(tr);
+      });
+      document.getElementById("scheduleNote").textContent = CONFIG.schedule.note;
+
+      // Game night
+      document.getElementById("gameNightSub").textContent = CONFIG.gameNight.sub;
+      const img = document.getElementById("scoreboardSampleImg");
+      img.src = CONFIG.gameNight.sampleImageSrc;
+      img.alt = CONFIG.gameNight.sampleImageAlt;
+      document.getElementById("gameNightPilotNote").innerHTML = CONFIG.gameNight.pilotNote;
+      document.getElementById("gameNightAdBenefit").textContent = CONFIG.gameNight.adBenefit;
+
+      // Sponsors
+      const sponsorGrid = document.getElementById("sponsorGrid");
+      const tiles = CONFIG.sponsors.tiles;
+      document.getElementById("sponsorCountPill").textContent = CONFIG.sponsors.placementsLabel;
+
+      tiles.forEach(s => {
+        const tileContent = el("div", { class: "sponsorTile" }, [
+          document.createTextNode(s.name),
+          el("span", {}, [s.tier || "Community Supporter"]),
+          el("div", { class: "tierTag" }, [s.tier || "Community Supporter"])
+        ]);
+
+        if (s.href) {
+          sponsorGrid.appendChild(el("a", {
+            class: "sponsorLink",
+            href: s.href,
+            target: "_blank",
+            rel: "noopener"
+          }, [tileContent]));
+        } else {
+          sponsorGrid.appendChild(tileContent);
+        }
+      });
+
+      const sponsorValueList = document.getElementById("sponsorValueList");
+      CONFIG.sponsors.valueBullets.forEach(b => sponsorValueList.appendChild(el("li", {}, [b])));
+
+      const sponsorMailto = mailto(
+        CONFIG.adminContact.email,
+        CONFIG.sponsors.mailto.subject,
+        CONFIG.sponsors.mailto.bodyTemplate
+      );
+      document.getElementById("sponsorMailtoBtn").href = sponsorMailto;
+
+      document.getElementById("sponsorCtaNote1").textContent = CONFIG.sponsors.ctaNotes[0];
+      document.getElementById("sponsorCtaNote2").textContent = CONFIG.sponsors.ctaNotes[1];
+      document.getElementById("sponsorCtaNote3").textContent = CONFIG.sponsors.ctaNotes[2];
+
+      // Admin block
+      const adminUl = document.getElementById("adminList");
+      CONFIG.adminContact.adminList.forEach(i => adminUl.appendChild(el("li", {}, [i])));
+      document.getElementById("adminMailtoBtn").href = adminHref;
+      document.getElementById("adminNote").textContent = CONFIG.adminContact.note;
+
+      // Footer
+      document.getElementById("footerLine1").textContent =
+        "Pilot preview. Layout and example content shown for demonstration purposes.";
+      document.getElementById("footerLine2").textContent =
+        "VarsityVue operates independently and in coordination with approved school administrators.";
+      document.getElementById("footerLine3").textContent =
+        `© ${CONFIG.year} ${CONFIG.brandName} • Powered by VarsityVue`;
+
+    })();
+  </script>
 </body>
 </html>
