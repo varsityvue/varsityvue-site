@@ -138,6 +138,19 @@
       color:var(--soft);
       font-weight:800; /* more official */
     }
+    .badgeWide{
+  flex: 1 1 100%;
+  justify-content: space-between;
+  gap:12px;
+}
+
+.badgeWide span{
+  white-space: nowrap;
+}
+
+.badgeWide a{
+  font-weight:900;
+}
     .badge strong{ color:#fff; }
     .badge a{
       text-decoration: underline;
@@ -459,12 +472,15 @@
           <div class="heroBadges">
             <div class="badge">Sport: <strong>Football</strong></div>
             <div class="badge">Season: <strong>2026</strong></div>
-            <div class="badge">Level: <strong>Varsity</strong></div>
             <div class="badge">
-              Program Socials:
-              <a href="https://x.com/DeLeonAthletics" target="_blank" rel="noopener">X</a> ·
-              <a href="https://www.instagram.com/de_leon_football/" target="_blank" rel="noopener">Instagram</a>
-            </div>
+              <div class="badge badgeWide">
+  <strong>Program Socials</strong>
+  <span>
+    <a href="https://x.com/DeLeonAthletics" target="_blank" rel="noopener">X</a> ·
+    <a href="https://www.instagram.com/de_leon_football/" target="_blank" rel="noopener">Instagram</a> ·
+    <a href="https://www.facebook.com/DeLeonAthletics" target="_blank" rel="noopener">Facebook</a>
+  </span>
+</div>
           </div>
 
           <div class="btnRow">
