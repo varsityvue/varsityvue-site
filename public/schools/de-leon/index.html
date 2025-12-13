@@ -483,36 +483,35 @@
       color:rgba(243,243,245,.78);
       letter-spacing:.2px;
     }
-/* Admin Access (Pilot) */
-.adminCard{
-  margin-top:16px;
-  border-radius:18px;
-  background: rgba(0,0,0,.30);
-  border:1px solid rgba(255,255,255,.10);
-  padding:14px;
-}
 
-.adminTitle{
-  font-size:13px;
-  font-weight:950;
-  letter-spacing:.25px;
-  text-transform:uppercase;
-  color:rgba(243,243,245,.9);
-}
+    /* Admin Access (Pilot) */
+    .adminCard{
+      margin-top:16px;
+      border-radius:18px;
+      background: rgba(0,0,0,.30);
+      border:1px solid rgba(255,255,255,.10);
+      padding:14px;
+    }
+    .adminTitle{
+      font-size:13px;
+      font-weight:950;
+      letter-spacing:.25px;
+      text-transform:uppercase;
+      color:rgba(243,243,245,.9);
+    }
+    .adminList{
+      margin:10px 0 0;
+      padding-left:18px;
+      font-size:13px;
+      line-height:1.55;
+      color:rgba(243,243,245,.78);
+    }
+    .adminNote{
+      margin-top:10px;
+      font-size:11px;
+      color:rgba(243,243,245,.60);
+    }
 
-.adminList{
-  margin:10px 0 0;
-  padding-left:18px;
-  font-size:13px;
-  line-height:1.55;
-  color:rgba(243,243,245,.78);
-}
-
-.adminNote{
-  margin-top:10px;
-  font-size:11px;
-  color:rgba(243,243,245,.60);
-}
     .footer{
       margin-top:20px;
       color:rgba(243,243,245,.65);
@@ -759,27 +758,6 @@
         <div class="card">
           <div class="cardHead">
             <h2>Community Supporters</h2>
-            <div class="adminCard">
-  <div class="adminTitle">Admin Access (Pilot)</div>
-
-  <ul class="adminList">
-    <li>Update: Next Game</li>
-    <li>Update: Schedule</li>
-    <li>Update: Score</li>
-    <li>Update: Sponsors</li>
-  </ul>
-
-  <div class="btnRow">
-    <a class="btn btnSecondary"
-       href="mailto:info@varsityvue.com?subject=Admin%20Access%20Request%20-%20De%20Leon%20(Pilot)">
-      Request Admin Access
-    </a>
-  </div>
-
-  <div class="adminNote">
-    Admin access is limited to approved pilot schools and VarsityVue staff.
-  </div>
-</div>
             <span class="pill">6 placements</span>
           </div>
           <div class="cardBody">
@@ -802,6 +780,29 @@
             <div class="tiny">
               Clean placements only. No popups. No clutter — just community visibility.
             </div>
+          </div>
+        </div>
+
+        <!-- Admin Access (Pilot) — correctly placed BELOW supporters card -->
+        <div class="adminCard" aria-label="Admin Access (Pilot)">
+          <div class="adminTitle">Admin Access (Pilot)</div>
+
+          <ul class="adminList">
+            <li>Update: Next Game</li>
+            <li>Update: Schedule</li>
+            <li>Update: Score</li>
+            <li>Update: Sponsors</li>
+          </ul>
+
+          <div class="btnRow">
+            <a class="btn btnSecondary"
+               href="mailto:info@varsityvue.com?subject=Admin%20Access%20Request%20-%20De%20Leon%20(Pilot)">
+              Request Admin Access
+            </a>
+          </div>
+
+          <div class="adminNote">
+            Admin access is limited to approved pilot schools and VarsityVue staff.
           </div>
         </div>
 
