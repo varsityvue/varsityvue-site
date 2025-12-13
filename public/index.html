@@ -20,14 +20,41 @@
     .card { border: 1px solid #e7e7e7; border-radius: 14px; padding: 18px; }
     .card h2 { margin: 0 0 8px; font-size: 18px; }
     .card ul { margin: 0; padding-left: 18px; color: #333; line-height: 1.6; }
-    .pilot {margin-top: 20px;padding: 16px;border-radius: 14px;background: #fafafa;border: 1px solid #eee;
-}
+
+    .pilot {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 14px;
+      background: #fafafa;
+      border: 1px solid #eee;
+    }
     .pilot h2 { margin: 0 0 8px; }
+
     .footer { margin-top: 48px; color: #555; font-size: 14px; line-height: 1.6; }
     .note { font-size: 13px; color: #666; margin-top: 10px; }
-    input { padding: 12px 12px; border-radius: 10px; border: 1px solid #ddd; min-width: 260px; font-size: 15px; }
-    button { padding: 12px 16px; border-radius: 10px; border: 0; background: #111; color: #fff; font-weight: 800; cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease;
-           button:hover {transform: translateY(-1px);box-shadow: 0 4px 10px rgba(0,0,0,0.12);}
+
+    input {
+      padding: 12px 12px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      min-width: 260px;
+      font-size: 15px;
+    }
+    button {
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 0;
+      background: #111;
+      color: #fff;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    }
+
     form { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
   </style>
 </head>
@@ -91,39 +118,45 @@
 
     <div id="pilot" class="pilot">
       <h2>Pilot Schools</h2>
-      <p class="sub" style="margin: 0 0 8px; margin-top:6px;">
+      <p class="sub" style="margin: 6px 0 8px;">
         VarsityVue is currently onboarding a limited number of pilot schools for initial launch.
         If you’re an Athletic Director, Coach, Booster, or Local Sponsor—join the list below.
       </p>
 
-      <!-- Simple placeholder form. Replace action="" later with ConvertKit/Formspree/MailerLite -->
       <div id="waitlist"></div>
-    <form action="https://formspree.io/f/xkgdkeqe" method="POST">
-  <input type="hidden" name="_subject" value="VarsityVue Waitlist Signup" />
-  <input type="hidden" name="_redirect" value="https://varsityvue.com/?thanks=1" />
-  <input type="email" name="email" placeholder="Email address" required />
-  <button type="submit">Join Waitlist</button>
-</form>
-      <div id="thanksMsg" style="display:none; margin-top:6px; font-size:14px; color:#1a1a1a;">
-  <strong>Thanks—check your inbox.</strong>
-</div>
-    <p class="sub" style="margin-top:14px;">
-  Launching soon. Built in Texas. Focused on the future of high school sports.
-</p>
-  </div>
-    <script>
-  (function () {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('thanks') === '1') {
-      const msg = document.getElementById('thanksMsg');
-      if (msg) msg.style.display = 'block';
 
-      // Optional: remove the query param so the message doesn't persist forever
-      const url = new URL(window.location.href);
-      url.searchParams.delete('thanks');
-      window.history.replaceState({}, document.title, url.pathname + url.hash);
-    }
-  })();
-</script>
+      <!-- Formspree: replace URL with your own form endpoint -->
+      <form action="https://formspree.io/f/xkgdkeqe" method="POST">
+        <input type="hidden" name="_subject" value="VarsityVue Waitlist Signup" />
+        <input type="hidden" name="_next" value="https://varsityvue.com/?thanks=1" />
+
+        <input type="text" name="name" placeholder="Name (optional)" />
+        <input type="email" name="email" placeholder="Email address" required />
+        <button type="submit">Join Waitlist</button>
+      </form>
+
+      <div id="thanksMsg" style="display:none; margin-top:6px; font-size:14px; color:#1a1a1a;">
+        <strong>Thanks—check your inbox.</strong>
+      </div>
+
+      <p class="sub" style="margin-top:14px;">
+        Launching soon. Built in Texas. Focused on the future of high school sports.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('thanks') === '1') {
+        const msg = document.getElementById('thanksMsg');
+        if (msg) msg.style.display = 'block';
+
+        const url = new URL(window.location.href);
+        url.searchParams.delete('thanks');
+        window.history.replaceState({}, document.title, url.pathname + url.hash);
+      }
+    })();
+  </script>
 </body>
 </html>
