@@ -1,1 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>De Leon Bearcats — VarsityVue</title>
+  <meta name="description" content="De Leon Bearcats hub on VarsityVue: schedule, scores, and clean sponsor visibility." />
+  <style>
+    :root{
+      --bg:#0b0b0d;
+      --panel:#111114;
+      --card:#15151a;
+      --line:#24242b;
+      --text:#f3f3f5;
+      --muted:#b7b7c2;
+      --soft:#d9d9df;
+      --accent:#6b0f1a; /* maroon */
+      --accent2:#9d1a2a;
+      --good:#1f9d55;
+      --warn:#d8a104;
+    }
 
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Arial, sans-serif;
+      background:
+        radial-gradient(1200px 700px at 15% 5%, rgba(157,26,42,.35), rgba(0,0,0,0) 60%),
+        radial-gradient(900px 600px at 85% 0%, rgba(255,255,255,.08), rgba(0,0,0,0) 55%),
+        var(--bg);
+      color:var(--text);
+    }
+    a{ color:inherit; text-decoration:none; }
+
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:22px 18px 70px;
+    }
+
+    /* Logo + title row */
+    .teamHeader{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+    .teamLogo{
+      width:72px;
+      height:auto;
+      max-height:72px;
+    }
+
+    /* Top bar */
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:10px 0 18px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:900; letter-spacing:.4px;
+    }
+    .brandMark{
+      width:34px; height:34px; border-radius:12px;
+      background: linear-gradient(135deg, var(--accent2), rgba(255,255,255,.10));
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:7px 12px;
+      border-radius:999px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      color:var(--soft);
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.25px;
+    }
+    .pillDot{
+      width:7px; height:7px; border-radius:999px;
+      background: var(--accent2);
+    }
+
+    /* Hero */
+    .hero{
+      position:relative;
+      border-radius:22px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)),
+        linear-gradient(135deg, rgba(157,26,42,.28), rgba(0,0,0,0) 60%);
+      box-shadow: 0 18px 60px rgba(0,0,0,.45);
+      padding:18px;
+    }
+    .heroInner{
+      display:grid;
+      gap:14px;
+      grid-template-columns: 1fr;
+    }
+    @media(min-width:900px){
+      .heroInner{ grid-template-columns: 1.6fr 1fr; align-items:stretch; }
+    }
+
+    .heroTitleRow{
+      display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+    }
+    .school{
+      font-size:34px;
+      font-weight:950;
+      letter-spacing:-.6px;
+      margin:0;
+      line-height:1.05;
+    }
+    .subline{
+      margin:8px 0 0;
+      color:rgba(243,243,245,.85);
+      line-height:1.6;
+      max-width:720px;
+      font-size:15px;
+    }
+
+    .heroBadges{
+      margin-top:12px;
+      display:flex; flex-wrap:wrap; gap:10px;
+    }
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px;
+      border-radius:14px;
+      background: rgba(0,0,0,.28);
+      border:1px solid rgba(255,255,255,.10);
+      font-size:12px;
+      color:var(--soft);
+      font-weight:850;
+    }
+    .badge strong{ color:#fff; }
+
+    /* Featured card */
+    .feature{
+      border-radius:18px;
+      background: rgba(0,0,0,.30);
+      border:1px solid rgba(255,255,255,.10);
+      padding:14px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .featureHead{
+      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+    }
+    .featureLabel{
+      font-weight:900; letter-spacing:.35px;
+      color:#fff;
+    }
+    .featureMeta{
+      color:rgba(243,243,245,.78);
+      font-size:13px;
+      line-height:1.5;
+      margin-top:6px;
+    }
+    .featureRow{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    .mini{
+      border-radius:14px;
+      padding:10px;
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .miniK{
+      font-size:11px;
+      color:rgba(243,243,245,.72);
+      font-weight:900;
+      letter-spacing:.35px;
+      text-transform:uppercase;
+    }
+    .miniV{
+      margin-top:6px;
+      font-size:16px;
+      font-weight:950;
+    }
+
+    .btnRow{
+      display:flex; flex-wrap:wrap; gap:10px;
+      margin-top:10px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:11px 14px;
+      border-radius:14px;
+      font-weight:950;
+      font-size:13px;
+      letter-spacing:.25px;
+      border:1px solid rgba(255,255,255,.12);
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+    .btnPrimary{
+      background: linear-gradient(135deg, var(--accent2), rgba(255,255,255,.10));
+      border:1px solid rgba(255,255,255,.14);
+    }
+    .btnSecondary{
+      background: rgba(255,255,255,.06);
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 10px 28px rgba(0,0,0,.35);
+    }
+
+    /* Layout below hero */
+    .main{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:16px;
+    }
+    @media(min-width:980px){
+      .main{ grid-template-columns: 2fr 1fr; }
+    }
+
+    .card{
+      border-radius:20px;
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+      overflow:hidden;
+      box-shadow: 0 14px 45px rgba(0,0,0,.30);
+    }
+    .cardHead{
+      padding:14px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.20);
+    }
+    .cardHead h2{
+      margin:0;
+      font-size:14px;
+      letter-spacing:.25px;
+      font-weight:950;
+    }
+    .cardBody{ padding:14px 16px; }
+
+    /* Table */
+    .table{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0 10px;
+    }
+    .table th{
+      text-align:left;
+      font-size:11px;
+      letter-spacing:.35px;
+      text-transform:uppercase;
+      color:rgba(243,243,245,.70);
+      padding:0 10px 6px;
+    }
+    .row{
+      background: rgba(0,0,0,.28);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:14px;
+    }
+    .row td{
+      padding:12px 10px;
+      font-size:14px;
+      color:#f4f4f7;
+    }
+    .row td:first-child{ border-top-left-radius:14px; border-bottom-left-radius:14px; }
+    .row td:last-child{ border-top-right-radius:14px; border-bottom-right-radius:14px; }
+
+    .status{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:950;
+      letter-spacing:.2px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color:var(--soft);
+    }
+    .statusDot{ width:8px; height:8px; border-radius:999px; background: rgba(255,255,255,.45); }
+    .status.upcoming .statusDot{ background: var(--warn); }
+    .status.final .statusDot{ background: var(--good); }
+    .tiny{
+      margin-top:8px;
+      font-size:12px;
+      color:rgba(243,243,245,.70);
+      line-height:1.6;
+    }
+
+    /* Game night */
+    .gameNight{
+      border-radius:18px;
+      border:1px dashed rgba(255,255,255,.18);
+      background: rgba(0,0,0,.25);
+      padding:14px;
+    }
+    .gameNightTitle{
+      margin:0;
+      font-weight:950;
+      letter-spacing:.2px;
+      font-size:14px;
+    }
+    .gameNightSub{
+      margin:8px 0 0;
+      color:rgba(243,243,245,.80);
+      line-height:1.6;
+      font-size:13px;
+    }
+    .placeholderImg{
+      margin-top:12px;
+      height:170px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.10);
+      background:
+        linear-gradient(135deg, rgba(157,26,42,.30), rgba(255,255,255,.06)),
+        rgba(0,0,0,.25);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:14px;
+      color:rgba(243,243,245,.90);
+      font-weight:950;
+      letter-spacing:.25px;
+    }
+
+    /* Sponsors */
+    .sponsorGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    .sponsorTile{
+      border-radius:16px;
+      padding:12px;
+      background: rgba(0,0,0,.28);
+      border:1px solid rgba(255,255,255,.10);
+      text-align:center;
+      font-weight:950;
+      font-size:13px;
+      color:#fff;
+    }
+    .sponsorTile span{
+      display:block;
+      margin-top:6px;
+      font-weight:800;
+      font-size:11px;
+      color:rgba(243,243,245,.75);
+    }
+
+    .footer{
+      margin-top:20px;
+      color:rgba(243,243,245,.65);
+      font-size:12px;
+      line-height:1.6;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <a class="brand" href="/">
+        <span class="brandMark" aria-hidden="true"></span>
+        <span>VarsityVue</span>
+      </a>
+      <span class="pill"><span class="pillDot"></span> Pilot Hub Demo</span>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="heroInner">
+        <div>
+          <div class="heroTitleRow teamHeader">
+            <img
+              src="/logos/de-leon-bearcats-logo.png"
+              alt="De Leon Bearcats logo"
+              class="teamLogo"
+            />
+            <h1 class="school">De Leon Bearcats</h1>
+          </div>
+
+          <p class="subline">
+            An organized school hub for schedules, scores, season coverage, and sponsor recognition — without adding work for coaches.
+          </p>
+
+          <div class="heroBadges">
+            <div class="badge">Sport: <strong>Football</strong></div>
+            <div class="badge">Season: <strong>Fall 2026</strong></div>
+            <div class="badge">Hub Type: <strong>Public</strong></div>
+          </div>
+
+          <div class="btnRow">
+            <a class="btn btnPrimary" href="mailto:info@varsityvue.com?subject=VarsityVue%20Pilot%20School%20Interest%20-%20De%20Leon&body=School%20Name%3A%20De%20Leon%0AContact%20Name%3A%0APhone%3A%0ABest%20time%20to%20talk%3A%0A">
+              Request Pilot Info
+            </a>
+            <a class="btn btnSecondary" href="mailto:info@varsityvue.com?subject=VarsityVue%20Sponsorship%20Inquiry%20-%20De%20Leon&body=Business%20Name%3A%0AContact%20Name%3A%0APhone%3A%0AInterested%20in%20sponsoring%3A%20De%20Leon%20Athletics%0A">
+              Become a Sponsor
+            </a>
+          </div>
+        </div>
+
+        <!-- FEATURED -->
+        <aside class="feature" aria-label="Next game feature">
+          <div>
+            <div class="featureHead">
+              <div>
+                <div class="featureLabel">Next Game</div>
+                <div class="featureMeta">Set this once and it sells the hub immediately.</div>
+              </div>
+              <span class="pill">Featured</span>
+            </div>
+
+            <div class="featureRow" style="margin-top:12px;">
+              <div class="mini">
+                <div class="miniK">Opponent</div>
+                <div class="miniV">Stamford Bulldogs</div>
+              </div>
+              <div class="mini">
+                <div class="miniK">Kickoff</div>
+                <div class="miniV">August 28</div>
+              </div>
+              <div class="mini">
+                <div class="miniK">Location</div>
+                <div class="miniV">Home</div>
+              </div>
+              <div class="mini">
+                <div class="miniK">Record</div>
+                <div class="miniV">0–0</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tiny">
+            Pilot note: keep stats optional. Scores and schedule are enough to start.
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- MAIN -->
+    <section class="main">
+      <!-- LEFT -->
+      <div>
+        <div class="card">
+          <div class="cardHead">
+            <h2>Schedule & Scores</h2>
+            <span class="pill">Simple • Shareable • Clean</span>
+          </div>
+          <div class="cardBody">
+            <table class="table" aria-label="Schedule and scores table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Opponent</th>
+                  <th>Site</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="row">
+                  <td>Aug 28</td>
+                  <td>Stamford Bulldogs</td>
+                  <td>Home</td>
+                  <td><span class="status upcoming"><span class="statusDot"></span>Upcoming</span></td>
+                </tr>
+                <tr class="row">
+                  <td>Sep 4</td>
+                  <td>@ Hawley Bearcats</td>
+                  <td>Away</td>
+                  <td><span class="status upcoming"><span class="statusDot"></span>Upcoming</span></td>
+                </tr>
+                <tr class="row">
+                  <td>Sep 11</td>
+                  <td>Anson Tigers</td>
+                  <td>Home</td>
+                  <td><span class="status upcoming"><span class="statusDot"></span>Upcoming</span></td>
+                </tr>
+                <tr class="row">
+                  <td>Sep 18</td>
+                  <td>@ Goldthwaite Eagles</td>
+                  <td>Away</td>
+                  <td><span class="status upcoming"><span class="statusDot"></span>Upcoming</span></td>
+                </tr>
+                <tr class="row">
+                  <td>Sep 25</td>
+                  <td>Hico Tigers</td>
+                  <td>Home</td>
+                  <td><span class="status upcoming"><span class="statusDot"></span>Upcoming</span></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="tiny">
+              Demo layout. In the pilot, you can keep this to schedule + verified scores only. Anything more is optional.
+            </div>
+          </div>
+        </div>
+
+        <div style="height:16px;"></div>
+
+        <div class="card">
+          <div class="cardHead">
+            <h2>Game Night</h2>
+            <span class="pill">Sponsor-friendly content</span>
+          </div>
+          <div class="cardBody">
+            <div class="gameNight">
+              <p class="gameNightTitle">Game Night Coverage</p>
+              <p class="gameNightSub">
+                This is where scoreboard graphics and weekly recaps live — designed to be reposted by fans, families, and local sponsors.
+              </p>
+
+              <div class="placeholderImg">
+                Scoreboard Graphic Placeholder<br/>
+                <span style="display:block; font-weight:800; font-size:12px; margin-top:6px; opacity:.85;">
+                  (Drop a PNG here later — this section is intentionally staged)
+                </span>
+              </div>
+
+              <div class="btnRow" style="margin-top:12px;">
+                <a class="btn btnSecondary" href="#" onclick="alert('Demo: share link goes here.'); return false;">Share</a>
+                <a class="btn btnSecondary" href="#" onclick="alert('Demo: recap post goes here.'); return false;">Weekly Recap</a>
+              </div>
+            </div>
+
+            <div class="tiny">
+              AD benefit: consistent, professional presentation without extra reporting requirements.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <aside>
+        <div class="card">
+          <div class="cardHead">
+            <h2>Proud Supporters</h2>
+            <span class="pill">6 slots</span>
+          </div>
+          <div class="cardBody">
+            <div class="sponsorGrid">
+              <div class="sponsorTile">Sponsor Slot<span>1 Way Landscape</span></div>
+              <div class="sponsorTile">Sponsor Slot<span>Premier Event Rentals</span></div>
+              <div class="sponsorTile">Sponsor Slot<span>Griffin Woodworks</span></div>
+              <div class="sponsorTile">Sponsor Slot<span>Gilder Mini Storage</span></div>
+              <div class="sponsorTile">Sponsor Slot<span>Available</span></div>
+              <div class="sponsorTile">Sponsor Slot<span>Available</span></div>
+            </div>
+
+            <div class="btnRow" style="margin-top:14px;">
+              <a class="btn btnPrimary" href="mailto:info@varsityvue.com?subject=VarsityVue%20Sponsorship%20-%20De%20Leon&body=Business%20Name%3A%0AContact%20Name%3A%0APhone%3A%0A">
+                Sponsor De Leon
+              </a>
+              <a class="btn btnSecondary" href="/">Back to Home</a>
+            </div>
+
+            <div class="tiny">
+              Clean placements only. No popups. No clutter. Just community visibility.
+            </div>
+          </div>
+        </div>
+
+        <div class="footer">
+          This is a pilot hub demo. Next: replace “Opponent” rows with real games and swap sponsor slots with local businesses.
+        </div>
+      </aside>
+    </section>
+  </div>
+</body>
+</html>
