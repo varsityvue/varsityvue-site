@@ -302,4 +302,267 @@
     }
     .gameNightSub{
       margin:8px 0 0;
-      color:rgba(243,243,245,.80)
+      color:rgba(243,243,245,.80);
+      line-height:1.6;
+      font-size:13px;
+    }
+    .placeholderImg{
+      margin-top:12px;
+      height:170px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.10);
+      background:
+        linear-gradient(135deg, rgba(157,26,42,.30), rgba(255,255,255,.06)),
+        rgba(0,0,0,.25);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:14px;
+      color:rgba(243,243,245,.90);
+      font-weight:950;
+      letter-spacing:.25px;
+    }
+
+    /* Sponsors */
+    .sponsorGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    .sponsorTile{
+      border-radius:16px;
+      padding:12px;
+      background: rgba(0,0,0,.28);
+      border:1px solid rgba(255,255,255,.10);
+      text-align:center;
+      font-weight:950;
+      font-size:13px;
+      color:#fff;
+    }
+    .sponsorTile span{
+      display:block;
+      margin-top:6px;
+      font-weight:800;
+      font-size:11px;
+      color:rgba(243,243,245,.75);
+    }
+
+    .footer{
+      margin-top:20px;
+      color:rgba(243,243,245,.65);
+      font-size:12px;
+      line-height:1.6;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <a class="brand" href="/">
+        <span class="brandMark" aria-hidden="true"></span>
+        <span>VarsityVue</span>
+      </a>
+      <span class="pill"><span class="pillDot"></span> Pilot Hub Demo</span>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="heroInner">
+        <div>
+          <div class="heroTitleRow">
+            <h1 class="school">De Leon Bearcats</h1>
+          </div>
+
+          <p class="subline">
+            A clean, AD-friendly school hub: schedule & scores, game-night visuals, and sponsor visibility — without adding work for coaches.
+          </p>
+
+          <div class="heroBadges">
+            <div class="badge">Sport: <strong>Football</strong></div>
+            <div class="badge">Season: <strong>Fall 2025</strong></div>
+            <div class="badge">Hub Type: <strong>Public</strong></div>
+          </div>
+
+          <div class="btnRow">
+            <a class="btn btnPrimary" href="mailto:info@varsityvue.com?subject=VarsityVue%20Pilot%20School%20Interest%20-%20De%20Leon&body=School%20Name%3A%20De%20Leon%0AContact%20Name%3A%0APhone%3A%0ABest%20time%20to%20talk%3A%0A">
+              Request Pilot Info
+            </a>
+            <a class="btn btnSecondary" href="mailto:info@varsityvue.com?subject=VarsityVue%20Sponsorship%20Inquiry%20-%20De%20Leon&body=Business%20Name%3A%0AContact%20Name%3A%0APhone%3A%0AInterested%20in%20sponsoring%3A%20De%20Leon%20Athletics%0A">
+              Become a Sponsor
+            </a>
+          </div>
+        </div>
+
+        <!-- FEATURED -->
+        <aside class="feature" aria-label="Next game feature">
+          <div>
+            <div class="featureHead">
+              <div>
+                <div class="featureLabel">Next Game</div>
+                <div class="featureMeta">Set this once and it sells the hub immediately.</div>
+              </div>
+              <span class="pill">Featured</span>
+            </div>
+
+            <div class="featureRow" style="margin-top:12px;">
+              <div class="mini">
+                <div class="miniK">Opponent</div>
+                <div class="miniV">TBD</div>
+              </div>
+              <div class="mini">
+                <div class="miniK">Kickoff</div>
+                <div class="miniV">TBD</div>
+              </div>
+              <div class="mini">
+                <div class="miniK">Location</div>
+                <div class="miniV">Home/Away</div>
+              </div>
+              <div class="mini">
+                <div class="miniK">Record</div>
+                <div class="miniV">0–0</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tiny">
+            Pilot note: keep stats optional. Scores and schedule are enough to start.
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- MAIN -->
+    <section class="main">
+      <!-- LEFT -->
+      <div>
+        <div class="card">
+          <div class="cardHead">
+            <h2>Schedule & Scores</h2>
+            <span class="pill">Simple • Shareable • Clean</span>
+          </div>
+          <div class="cardBody">
+            <table class="table" aria-label="Schedule and scores table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Opponent</th>
+                  <th>Site</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Replace these rows with real games -->
+                <tr class="row">
+                  <td>Aug 29</td>
+                  <td>Opponent</td>
+                  <td>Home</td>
+                  <td><span class="status upcoming"><span class="statusDot"></span>Upcoming</span></td>
+                </tr>
+                <tr class="row">
+                  <td>Sep 5</td>
+                  <td>@ Opponent</td>
+                  <td>Away</td>
+                  <td><span class="status upcoming"><span class="statusDot"></span>Upcoming</span></td>
+                </tr>
+                <tr class="row">
+                  <td>Sep 12</td>
+                  <td>Opponent</td>
+                  <td>Home</td>
+                  <td><span class="status upcoming"><span class="statusDot"></span>Upcoming</span></td>
+                </tr>
+                <tr class="row">
+                  <td>Sep 19</td>
+                  <td>@ Opponent</td>
+                  <td>Away</td>
+                  <td><span class="status upcoming"><span class="statusDot"></span>Upcoming</span></td>
+                </tr>
+                <tr class="row">
+                  <td>Sep 26</td>
+                  <td>Opponent</td>
+                  <td>Home</td>
+                  <td><span class="status upcoming"><span class="statusDot"></span>Upcoming</span></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="tiny">
+              Demo layout. In the pilot, you can keep this to schedule + verified scores only. Anything more is optional.
+            </div>
+          </div>
+        </div>
+
+        <div style="height:16px;"></div>
+
+        <div class="card">
+          <div class="cardHead">
+            <h2>Game Night</h2>
+            <span class="pill">Sponsor-friendly content</span>
+          </div>
+          <div class="cardBody">
+            <div class="gameNight">
+              <p class="gameNightTitle">Game Night Coverage</p>
+              <p class="gameNightSub">
+                This is where scoreboard graphics and weekly recaps live — designed to be reposted by fans, families, and local sponsors.
+              </p>
+
+              <div class="placeholderImg">
+                Scoreboard Graphic Placeholder<br/>
+                <span style="display:block; font-weight:800; font-size:12px; margin-top:6px; opacity:.85;">
+                  (Drop a PNG here later — this section is intentionally staged)
+                </span>
+              </div>
+
+              <div class="btnRow" style="margin-top:12px;">
+                <a class="btn btnSecondary" href="#" onclick="alert('Demo: share link goes here.'); return false;">Share</a>
+                <a class="btn btnSecondary" href="#" onclick="alert('Demo: recap post goes here.'); return false;">Weekly Recap</a>
+              </div>
+            </div>
+
+            <div class="tiny">
+              AD benefit: consistent, professional presentation without extra reporting requirements.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <aside>
+        <div class="card">
+          <div class="cardHead">
+            <h2>Proud Supporters</h2>
+            <span class="pill">6 slots</span>
+          </div>
+          <div class="cardBody">
+            <div class="sponsorGrid">
+              <!-- Replace these with real business names now; logos later -->
+              <div class="sponsorTile">Sponsor Slot<span>Available</span></div>
+              <div class="sponsorTile">Sponsor Slot<span>Available</span></div>
+              <div class="sponsorTile">Sponsor Slot<span>Available</span></div>
+              <div class="sponsorTile">Sponsor Slot<span>Available</span></div>
+              <div class="sponsorTile">Sponsor Slot<span>Available</span></div>
+              <div class="sponsorTile">Sponsor Slot<span>Available</span></div>
+            </div>
+
+            <div class="btnRow" style="margin-top:14px;">
+              <a class="btn btnPrimary" href="mailto:info@varsityvue.com?subject=VarsityVue%20Sponsorship%20-%20De%20Leon&body=Business%20Name%3A%0AContact%20Name%3A%0APhone%3A%0A">
+                Sponsor De Leon
+              </a>
+              <a class="btn btnSecondary" href="/">Back to Home</a>
+            </div>
+
+            <div class="tiny">
+              Clean placements only. No popups. No clutter. Just community visibility.
+            </div>
+          </div>
+        </div>
+
+        <div class="footer">
+          This is a pilot hub demo. Next: replace “Opponent” rows with real games and swap “Sponsor Slot” with actual local businesses.
+        </div>
+      </aside>
+    </section>
+  </div>
+</body>
+</html>
