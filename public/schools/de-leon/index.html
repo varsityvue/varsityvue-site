@@ -156,7 +156,7 @@
     .badgeWide{
       align-items:flex-start;
       flex: 0 1 auto;
-      max-width: 420px;   /* prevents it from becoming a mega-badge */
+      max-width: 420px;
       white-space: normal;
     }
     .badgeWide .label{
@@ -190,28 +190,6 @@
       font-size:14px;
       line-height:1.6;
       color:rgba(243,243,245,.78);
-    }
-
-    .programSnapshot{
-      margin-top:14px;
-      display:grid;
-      grid-template-columns: repeat(2, minmax(0,1fr));
-      gap:12px 18px;
-      max-width:720px;
-    }
-    .programSnapshot div{
-      font-size:13px;
-      line-height:1.4;
-    }
-    .programSnapshot strong{
-      display:block;
-      font-weight:900;
-      letter-spacing:.2px;
-      color:rgba(243,243,245,.9);
-      margin-bottom:2px;
-    }
-    .programSnapshot span{
-      color:rgba(243,243,245,.75);
     }
 
     /* ===== Booster Support (PILOT/PREMIUM feature) ===== */
@@ -479,23 +457,6 @@
       line-height:1.6;
       font-size:13px;
     }
-    .placeholderImg{
-      margin-top:12px;
-      height:170px;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.10);
-      background:
-        linear-gradient(135deg, rgba(157,26,42,.30), rgba(255,255,255,.06)),
-        rgba(0,0,0,.25);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      padding:14px;
-      color:rgba(243,243,245,.90);
-      font-weight:950;
-      letter-spacing:.25px;
-    }
 
     /* Sponsors */
     .sponsorGrid{
@@ -563,7 +524,6 @@
             <div class="badge">Sport: <strong>Football</strong></div>
             <div class="badge">Season: <strong>2026</strong></div>
 
-            <!-- ONE badge (not nested) -->
             <div class="badge badgeWide">
               <span class="label">Program Socials</span>
               <span class="links">
@@ -594,27 +554,7 @@
             </p>
           </div>
 
-          <div class="programSnapshot">
-            <div>
-              <strong>School</strong>
-              <span>De Leon High School</span>
-            </div>
-            <div>
-              <strong>Program</strong>
-              <span>Varsity Football</span>
-            </div>
-            <div>
-              <strong>Grades</strong>
-              <span>9–12</span>
-            </div>
-            <div>
-              <strong>Home Venue</strong>
-              <span>Bearcat Stadium</span>
-            </div>
-          </div>
-
-          <!-- ===== Booster Support (Pilot/Premium feature) ===== -->
-          <!-- Replace the href with the *actual* booster donation page URL -->
+          <!-- Booster Support (Pilot/Premium feature) -->
           <div class="boosterBlock" aria-label="Support the Program">
             <div class="boosterTop">
               <h3 class="boosterTitle">Support the Program</h3>
