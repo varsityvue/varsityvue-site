@@ -6,18 +6,6 @@
   <title>De Leon Bearcats — VarsityVue</title>
   <meta name="description" content="De Leon Bearcats hub on VarsityVue: schedule, scores, and clean sponsor visibility." />
   <style>
-    .teamHeader {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-
-.teamLogo {
-  width: 72px;
-  height: auto;
-  max-height: 72px;
-}
     :root{
       --bg:#0b0b0d;
       --panel:#111114;
@@ -48,6 +36,19 @@
       max-width:1100px;
       margin:0 auto;
       padding:22px 18px 70px;
+    }
+
+    /* Logo + title row */
+    .teamHeader{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+    .teamLogo{
+      width:72px;
+      height:auto;
+      max-height:72px;
     }
 
     /* Top bar */
@@ -370,20 +371,11 @@
 </head>
 
 <body>
-  <div class="wrap"> <div class="teamHeader" style="margin-bottom:16px;">
-  <img
-    src="/logos/de-leon-bearcats-logo.png"
-    alt="De Leon Bearcats logo"
-    class="teamLogo"
-  />
-  <h1 style="margin:0; font-size:34px; font-weight:900;">
-    De Leon Bearcats
-  </h1>
-</div>
+  <div class="wrap">
     <div class="topbar">
       <a class="brand" href="/">
         <span class="brandMark" aria-hidden="true"></span>
-        <span>VARSITY VUE</span>
+        <span>VarsityVue</span>
       </a>
       <span class="pill"><span class="pillDot"></span> Pilot Hub Demo</span>
     </div>
@@ -392,12 +384,17 @@
     <section class="hero">
       <div class="heroInner">
         <div>
-          <div class="heroTitleRow">
+          <div class="heroTitleRow teamHeader">
+            <img
+              src="/logos/de-leon-bearcats-logo.png"
+              alt="De Leon Bearcats logo"
+              class="teamLogo"
+            />
             <h1 class="school">De Leon Bearcats</h1>
           </div>
 
           <p class="subline">
-           An organized school hub for schedules, scores, season coverage, and sponsor recognition — without adding work for coaches.
+            An organized school hub for schedules, scores, season coverage, and sponsor recognition — without adding work for coaches.
           </p>
 
           <div class="heroBadges">
@@ -474,7 +471,6 @@
                 </tr>
               </thead>
               <tbody>
-                <!-- Replace these rows with real games -->
                 <tr class="row">
                   <td>Aug 28</td>
                   <td>Stamford Bulldogs</td>
@@ -557,7 +553,6 @@
           </div>
           <div class="cardBody">
             <div class="sponsorGrid">
-              <!-- Replace these with real business names now; logos later -->
               <div class="sponsorTile">Sponsor Slot<span>1 Way Landscape</span></div>
               <div class="sponsorTile">Sponsor Slot<span>Premier Event Rentals</span></div>
               <div class="sponsorTile">Sponsor Slot<span>Griffin Woodworks</span></div>
@@ -580,7 +575,7 @@
         </div>
 
         <div class="footer">
-          This is a pilot hub demo. Next: replace “Opponent” rows with real games and swap “Sponsor Slot” with actual local businesses.
+          This is a pilot hub demo. Next: replace “Opponent” rows with real games and swap sponsor slots with local businesses.
         </div>
       </aside>
     </section>
