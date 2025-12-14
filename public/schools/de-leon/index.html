@@ -541,13 +541,13 @@
       border:1px solid rgba(255,255,255,.12);
       box-shadow: 0 12px 34px rgba(0,0,0,.35);
       overflow:hidden;
-      min-height: 118px;
+      min-height: 130px; /* slightly taller */
       display:flex;
       flex-direction:column;
       justify-content:space-between;
     }
     .sponsorCardInner{
-      padding:12px;
+      padding:12px 12px 10px;
       display:flex;
       flex-direction:column;
       align-items:center;
@@ -558,7 +558,7 @@
     }
     .sponsorLogoBox{
       width:100%;
-      height:48px;
+      height:50px;
       border-radius:12px;
       border:1px solid rgba(255,255,255,.10);
       background: rgba(0,0,0,.24);
@@ -580,11 +580,13 @@
       line-height:1.2;
       color:#fff;
     }
+
+    /* FIX: uniform pill sizing across all sponsors */
     .tierTag{
-      display:inline-flex;
+      display:flex;
       align-items:center;
       justify-content:center;
-      margin:10px auto 12px;
+      margin:8px auto 12px;
       padding:6px 10px;
       border-radius:999px;
       font-size:10px;
@@ -593,8 +595,13 @@
       color:rgba(243,243,245,.92);
       border:1px solid rgba(255,255,255,.14);
       background: rgba(0,0,0,.24);
-      width: fit-content;
+      height: 26px;              /* forced consistent height */
+      min-width: 168px;          /* forced consistent width */
+      max-width: calc(100% - 24px);
+      white-space: nowrap;       /* keep identical look */
+      text-align:center;
     }
+
     .sponsorLink{
       display:block;
       transition: transform .15s ease, box-shadow .15s ease;
@@ -682,6 +689,24 @@
     .gwScrollBtn:hover{ transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,0,0,.35); }
     .gwScrollBtn:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
 
+    /* FIX: make Game Week Hub taller (more like Schedule card) */
+    .gwhTall{
+      min-height: 520px; /* target "Schedule & Results" vibe */
+      display:flex;
+      flex-direction:column;
+    }
+    .gwhTall .cardBody{
+      display:flex;
+      flex-direction:column;
+      flex: 1 1 auto;
+      gap:12px;
+    }
+    .gwhTall .gwRail{
+      flex: 1 1 auto;
+      min-height: 360px; /* forces extra vertical space */
+      align-content:start;
+    }
+
     .gwRail{
       display:grid;
       grid-auto-flow:column;
@@ -699,6 +724,7 @@
     .gwRail::-webkit-scrollbar-thumb{ background:#2a2a33; border-radius:999px; }
     .gwRail::-webkit-scrollbar-track{ background: transparent; }
 
+    /* Taller items so the section doesn't look short */
     .gwItem{
       scroll-snap-align:start;
       border-radius:16px;
@@ -708,7 +734,7 @@
       box-shadow: 0 12px 34px rgba(0,0,0,.30);
       display:flex;
       flex-direction:column;
-      min-height: 220px;
+      min-height: 300px; /* was 220 */
     }
     .gwMedia{
       aspect-ratio: 16/9;
@@ -754,7 +780,7 @@
       color:#fff;
     }
     .gwFooter{
-      margin-top:10px;
+      margin-top:auto; /* pushes footer to bottom to keep card tall */
       display:flex;
       justify-content:space-between;
       gap:10px;
@@ -766,6 +792,8 @@
     @media (max-width:720px){
       .gwRail{ grid-auto-columns: minmax(240px, 84vw); }
       .gwActions{ justify-content:flex-start; }
+      .gwhTall{ min-height: 0; } /* avoid awkward huge block on small screens */
+      .gwhTall .gwRail{ min-height: 0; }
     }
 
     /* Stadium image box */
@@ -975,7 +1003,7 @@
       .desktopOnly{ display:none; }
     }
 
-    /* Footer at very bottom, full width inside wrap */
+    /* Footer */
     .footer{
       margin-top:18px;
       padding-top:14px;
@@ -1167,7 +1195,8 @@
 
         <div style="height:16px;"></div>
 
-        <div class="card" id="gameweekhub">
+        <!-- FIX: gwhTall class added -->
+        <div class="card gwhTall" id="gameweekhub">
           <div class="cardHead">
             <div>
               <h2>Game Week Hub</h2>
@@ -1349,18 +1378,6 @@
           "Fans follow along here for kickoff details, coverage links, and score updates as they post."
       },
 
-      programInfo: {
-        classification: "UIL 2A Division I",
-        district: "District 5-2A",
-        headCoach: "Brennan Whitaker",
-        homeField: "Bearcat Stadium",
-        priorSeasonRecord: "9-4",
-        lastGame: "De Leon 18 vs. Axtell 27",
-        stadiumImageSrc: "/images/Bearcat-Field-Entrance.png",
-        stadiumImageAlt: "Bearcat Stadium entrance",
-        stadiumCaption: "Home stadium photo (pilot preview placement)."
-      },
-
       schedule: {
         note:
           "VarsityVue manages final score updates centrally. Coach and staff input is optional.",
@@ -1371,6 +1388,18 @@
           { date: "Sep 18", opponent: "@ Goldthwaite Eagles", site: "Away", status: "upcoming" },
           { date: "Sep 25", opponent: "Hico Tigers", site: "Home", status: "upcoming" }
         ]
+      },
+
+      programInfo: {
+        classification: "UIL 2A Division I",
+        district: "District 5-2A",
+        headCoach: "Brennan Whitaker",
+        homeField: "Bearcat Stadium",
+        priorSeasonRecord: "9-4",
+        lastGame: "De Leon 18 vs. Axtell 27",
+        stadiumImageSrc: "/images/Bearcat-Field-Entrance.png",
+        stadiumImageAlt: "Bearcat Stadium entrance",
+        stadiumCaption: "Home stadium photo (pilot preview placement)."
       },
 
       gameNight: {
@@ -1384,31 +1413,10 @@
         sampleImageAlt: "Sample De Leon Bearcats scoreboard graphic"
       },
 
-      /* === NEW: Scoreboard-area sponsor banners (left/right/bottom) ===
-         Add logoSrc to show a logo. Leave null to show a classy placeholder.
-      */
       gameNightBanners: {
-        left: {
-          kicker: "Presented By",
-          title: "Sponsor Slot (Left)",
-          logoSrc: null,                // e.g. "/sponsors/koonce-farms.png"
-          logoAlt: "Sponsor logo",
-          href: null                    // e.g. "https://kooncefarms.com"
-        },
-        right: {
-          kicker: "Community Partner",
-          title: "Sponsor Slot (Right)",
-          logoSrc: null,
-          logoAlt: "Sponsor logo",
-          href: null
-        },
-        bottom: {
-          kicker: "Proud Supporters of De Leon Athletics",
-          title: "Sponsor Strip (Bottom)",
-          logoSrc: null,                // can be a combined strip image if you want
-          logoAlt: "Sponsor strip",
-          href: null
-        }
+        left:   { kicker:"Presented By", title:"Sponsor Slot (Left)",  logoSrc:null, logoAlt:"Sponsor logo", href:null },
+        right:  { kicker:"Community Partner", title:"Sponsor Slot (Right)", logoSrc:null, logoAlt:"Sponsor logo", href:null },
+        bottom: { kicker:"Proud Supporters of De Leon Athletics", title:"Sponsor Strip (Bottom)", logoSrc:null, logoAlt:"Sponsor strip", href:null }
       },
 
       gameWeekHub: {
@@ -1438,10 +1446,6 @@
           subject: "Community Sponsor Interest - De Leon",
           bodyTemplate: "Business Name:%0AContact Name:%0APhone:%0AInterested in supporting:%20De Leon Athletics%0A"
         },
-
-        /* === Easy sponsor logos here ===
-           Add logoSrc for a real logo. If null, it shows a neutral placeholder box.
-        */
         tiles: [
           { name: "1 Way Landscape", tier: "Community Supporter", href: "https://1waylandscape.com", logoSrc: "/sponsors/1way-landscape.png", logoAlt: "1 Way Landscape logo" },
           { name: "Premier Event Rentals", tier: "Community Supporter", href: "https://premiereventrent.com", logoSrc: "/sponsors/premier-event-rentals.png", logoAlt: "Premier Event Rentals logo" },
@@ -1487,7 +1491,6 @@
        ========================= */
 
     function buildBannerCore(cfg, variant) {
-      // variant: "tile" | "slot" | "strip"
       const hasLogo = !!cfg.logoSrc;
 
       const logoBox = el("div", { class: "bannerLogo" }, [
@@ -1512,8 +1515,7 @@
           : `bannerTile ${hasLogo ? "hasLogo" : ""}`;
 
       const inner = el("div", { class: wrapClass }, [
-        // If no logo, we already rendered kicker/title in logo box. If logo exists, show logo + small meta.
-        hasLogo ? logoBox : logoBox,
+        logoBox,
         hasLogo && meta ? meta : el("span", { style: "display:none" }, [""])
       ]);
 
@@ -1530,44 +1532,40 @@
       const hasLogo = !!cfg.logoSrc;
       target.classList.toggle("hasLogo", hasLogo);
 
-      // Build a compact banner look for side slots
-      const core = el("div", { class: "bannerMeta" }, [
-        el("div", { class: "bannerKicker" }, [cfg.kicker || "Sponsor"]),
-        el("div", { class: "bannerTitle" }, [cfg.title || "Sponsor Slot"]),
-        el("div", { class: "bannerLogo", style: "margin-top:10px;" }, [
-          hasLogo ? el("img", { src: cfg.logoSrc, alt: cfg.logoAlt || "Sponsor logo", loading:"lazy" }, []) : el("span", {}, [""])
-        ])
-      ]);
-
       target.innerHTML = "";
-      if (cfg.href) {
-        target.appendChild(el("a", { class: "bannerLink", href: cfg.href, target: "_blank", rel: "noopener", style: "display:block; width:100%;" }, [core]));
-      } else {
-        target.appendChild(core);
-      }
 
       if (!hasLogo) {
-        // If no logo, show placeholder text centered
-        target.innerHTML = "";
         target.appendChild(el("div", {}, [
           el("div", { class: "bannerKicker" }, [cfg.kicker || "Sponsor"]),
           el("div", { class: "bannerTitle" }, [cfg.title || "Sponsor Slot"]),
           el("div", { style: "margin-top:10px; color:rgba(243,243,245,.55); font-size:12px; font-weight:900;" }, ["(Logo goes here)"])
         ]));
+        return;
+      }
+
+      const core = el("div", { class: "bannerMeta" }, [
+        el("div", { class: "bannerKicker" }, [cfg.kicker || "Sponsor"]),
+        el("div", { class: "bannerTitle" }, [cfg.title || ""]),
+        el("div", { class: "bannerLogo", style: "margin-top:10px;" }, [
+          el("img", { src: cfg.logoSrc, alt: cfg.logoAlt || "Sponsor logo", loading:"lazy" }, [])
+        ])
+      ]);
+
+      if (cfg.href) {
+        target.appendChild(el("a", { class: "bannerLink", href: cfg.href, target: "_blank", rel: "noopener", style: "display:block; width:100%;" }, [core]));
+      } else {
+        target.appendChild(core);
       }
     }
 
     function renderGameNightBanners() {
-      // Desktop left/right slots
       renderDesktopSideSlot("gnLeftSlot", CONFIG.gameNightBanners.left);
       renderDesktopSideSlot("gnRightSlot", CONFIG.gameNightBanners.right);
 
-      // Bottom strip (always shown)
       const bottomWrap = document.getElementById("gnBottomStripWrap");
       bottomWrap.innerHTML = "";
       bottomWrap.appendChild(buildBannerCore(CONFIG.gameNightBanners.bottom, "strip"));
 
-      // Mobile tiles (always rendered; hidden by CSS on desktop)
       const tilesWrap = document.getElementById("gnMobileTilesWrap");
       tilesWrap.innerHTML = "";
       tilesWrap.appendChild(el("div", { class: "bannerTiles" }, [
@@ -1580,20 +1578,18 @@
        Render
        ========================= */
     (function render() {
-      // Basics
       document.title = `${CONFIG.team.name} — ${CONFIG.brandName}`;
+
       document.getElementById("teamLogo").src = CONFIG.logoSrc;
       document.getElementById("teamLogo").alt = `${CONFIG.team.name} logo`;
       document.getElementById("teamName").textContent = CONFIG.team.name;
       document.getElementById("tagline").textContent = CONFIG.tagline;
 
-      // Hero banner
       document.getElementById("heroBannerImg").src = CONFIG.heroBanner.imgSrc;
       document.getElementById("heroBannerImg").alt = CONFIG.heroBanner.imgAlt;
       document.getElementById("heroBannerTitle").textContent = CONFIG.heroBanner.title;
       document.getElementById("heroBannerSub").textContent = CONFIG.heroBanner.sub;
 
-      // Badges (pilot + socials)
       const heroBadges = document.getElementById("heroBadges");
       heroBadges.innerHTML = "";
       heroBadges.appendChild(el("div", { class: "badge" }, ["Pilot: ", el("strong", {}, [CONFIG.team.pilotTag])]));
@@ -1609,7 +1605,6 @@
       });
       heroBadges.appendChild(socials);
 
-      // HERO BUTTONS
       const heroButtons = document.getElementById("heroButtons");
       heroButtons.innerHTML = "";
       heroButtons.appendChild(el("a", { class: "btn btnPrimary", href: "#schedule" }, ["Schedule"]));
@@ -1632,16 +1627,13 @@
         }
       }, ["Share"]));
 
-      // Program: Why selected
       const whyList = document.getElementById("whySelectedList");
       whyList.innerHTML = "";
       CONFIG.whySelected.forEach(item => whyList.appendChild(el("li", {}, [item])));
 
-      // Data boundaries
       document.getElementById("dataBoundaryText").textContent = CONFIG.dataBoundaries.text;
       document.getElementById("dataBoundaryNote").innerHTML = CONFIG.dataBoundaries.note;
 
-      // Booster (only donate button)
       document.getElementById("boosterText").textContent = CONFIG.booster.text;
       const boosterActions = document.getElementById("boosterActions");
       boosterActions.innerHTML = "";
@@ -1653,10 +1645,8 @@
       }, [CONFIG.booster.donate.label]));
       document.getElementById("boosterDisclaimer").innerHTML = CONFIG.booster.disclaimer;
 
-      // Next game meta
       document.getElementById("nextGameMeta").textContent = `${CONFIG.nextGame.dateDisplay} • ${CONFIG.nextGame.timeDisplay}`;
 
-      // Next game grid
       const nextGameGrid = document.getElementById("nextGameGrid");
       nextGameGrid.innerHTML = "";
       nextGameGrid.appendChild(el("div", { class: "mini" }, [
@@ -1683,7 +1673,6 @@
         ])
       ]));
 
-      // Next game strip
       const strip = document.getElementById("nextGameStrip");
       strip.innerHTML = "";
       const cov0 = (CONFIG.nextGame.coverage || [])[0];
@@ -1707,32 +1696,28 @@
       document.getElementById("pilotNote").textContent = CONFIG.nextGame.pilotNote;
       document.getElementById("duringGameNote").textContent = CONFIG.nextGame.duringGameNote;
 
-      // Program Information
       document.getElementById("snapshotTag").textContent = String(CONFIG.year);
       const infoGrid = document.getElementById("seasonSnapshotGrid");
       infoGrid.innerHTML = "";
-      const infoItems = [
+      [
         { k: "Classification", v: CONFIG.programInfo.classification },
         { k: "District", v: CONFIG.programInfo.district },
         { k: "Head Coach", v: CONFIG.programInfo.headCoach },
         { k: "Home Field", v: CONFIG.programInfo.homeField },
         { k: "Prior Season Record", v: CONFIG.programInfo.priorSeasonRecord },
         { k: "Last Game", v: CONFIG.programInfo.lastGame }
-      ];
-      infoItems.forEach(item => {
+      ].forEach(item => {
         infoGrid.appendChild(el("div", { class: "mini" }, [
           el("div", { class: "miniK" }, [item.k]),
           el("div", { class: "miniV" }, [safeBlank(item.v)])
         ]));
       });
 
-      // Stadium image
       const stadiumImg = document.getElementById("stadiumImg");
       stadiumImg.src = CONFIG.programInfo.stadiumImageSrc;
       stadiumImg.alt = CONFIG.programInfo.stadiumImageAlt;
       document.getElementById("stadiumCaption").textContent = CONFIG.programInfo.stadiumCaption;
 
-      // Schedule table
       const scheduleBody = document.getElementById("scheduleBody");
       scheduleBody.innerHTML = "";
       const statusLabel = (s) => s === "final" ? "Final" : "Upcoming";
@@ -1751,7 +1736,6 @@
       });
       document.getElementById("scheduleNote").textContent = CONFIG.schedule.note;
 
-      // Game night content
       document.getElementById("gameNightSub").textContent = CONFIG.gameNight.sub;
       const scoreImg = document.getElementById("scoreboardSampleImg");
       scoreImg.src = CONFIG.gameNight.sampleImageSrc;
@@ -1759,10 +1743,8 @@
       document.getElementById("gameNightPilotNote").innerHTML = CONFIG.gameNight.pilotNote;
       document.getElementById("gameNightAdBenefit").textContent = CONFIG.gameNight.adBenefit;
 
-      // NEW: render the sponsor banners around the scoreboard (mobile + desktop)
       renderGameNightBanners();
 
-      // Sponsors (sidebar)
       const sponsorGrid = document.getElementById("sponsorGrid");
       sponsorGrid.innerHTML = "";
 
@@ -1807,7 +1789,6 @@
       document.getElementById("sponsorCtaNote2").textContent = CONFIG.sponsors.ctaNotes[1];
       document.getElementById("sponsorCtaNote3").textContent = CONFIG.sponsors.ctaNotes[2];
 
-      // Footer
       document.getElementById("footerLine1").textContent =
         "Pilot preview. Layout and example content shown for demonstration purposes.";
       document.getElementById("footerLine2").textContent =
@@ -1815,7 +1796,6 @@
       document.getElementById("footerLine3").textContent =
         `© ${CONFIG.year} ${CONFIG.brandName} • Powered by VarsityVue`;
 
-      // Game Week Hub
       document.getElementById("gwhRangePill").textContent = CONFIG.gameWeekHub.rangeLabel || "Fri → Fri";
       document.getElementById("gwhPresentedBy").textContent = CONFIG.gameWeekHub.presentedBy || "KOONCE FARMS";
 
@@ -1836,7 +1816,6 @@
         gwhRail.appendChild(card);
       });
 
-      // Game Week Hub scroll buttons
       const scrollAmount = () => Math.min(gwhRail.clientWidth * 0.9, 520);
       document.querySelectorAll('[data-gwh-scroll]').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -1845,7 +1824,6 @@
         });
       });
 
-      // Program collapse toggle
       const programCard = document.getElementById("program");
       const toggleBtn = document.getElementById("programToggle");
       toggleBtn.addEventListener("click", () => {
