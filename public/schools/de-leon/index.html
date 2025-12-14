@@ -1604,12 +1604,6 @@
           el("a", { href: CONFIG.nextGame.coverage[1].href, target: "_blank", rel: "noopener" }, [CONFIG.nextGame.coverage[1].label])
         ])
       ]));
-
-      const last = CONFIG.nextGame.lastResult || {};
-      const lastMiniChildren = [
-        el("div", { class: "miniK" }, [safeBlank(last.label || "Last Result")]),
-        el("div", { class: "miniV" }, [safeBlank(last.value)])
-      ];
       if (last.sub && String(last.sub).trim() !== "") lastMiniChildren.push(el("div", { class: "tiny" }, [last.sub]));
       strip.appendChild(el("div", { class: "mini" }, lastMiniChildren));
 
