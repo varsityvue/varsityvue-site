@@ -1160,7 +1160,13 @@
           } catch(e){}
         }
       }, ["Share"]));
-
+      heroButtons.appendChild(
+  el("a", {
+    class: "btn btnSecondary",
+    href: "/",
+    "aria-label": "Back to home"
+  }, ["Back to Home"])
+);
       const whyList = document.getElementById("whySelectedList");
       whyList.innerHTML = "";
       CONFIG.whySelected.forEach(item => whyList.appendChild(el("li", {}, [item])));
