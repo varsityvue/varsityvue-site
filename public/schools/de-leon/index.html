@@ -203,7 +203,7 @@
       letter-spacing:.25px;
       border:1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.06);
-      color: var(--text); /* fixes “Share” button text showing black */
+      color: var(--text);
       transition: transform .15s ease, box-shadow .15s ease, background .15s ease, opacity .15s ease;
       user-select:none;
     }
@@ -544,12 +544,20 @@
       font-size:13px;
       color:#fff;
       box-shadow: 0 12px 34px rgba(0,0,0,.35);
+
+      /* force equal sizing */
+      min-height: 118px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
+      gap:10px;
     }
     .tierTag{
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      margin-top:10px;
+      margin-top:auto; /* pushes tag to bottom for uniform tiles */
       padding:6px 10px;
       border-radius:999px;
       font-size:10px;
@@ -558,6 +566,7 @@
       color:rgba(243,243,245,.92);
       border:1px solid rgba(255,255,255,.14);
       background: rgba(0,0,0,.24);
+      width: fit-content;
     }
     .sponsorLink{
       display:block;
@@ -608,7 +617,7 @@
       justify-content:center;
     }
 
-    /* GAME WEEK */
+    /* GAME WEEK HUB */
     .gwActions{
       display:flex;
       gap:10px;
@@ -854,15 +863,13 @@
           </div>
 
           <div class="heroBadges" id="heroBadges"></div>
-
-          <!-- One unified button row ONLY (no divider line, no extra nav chips) -->
           <div class="btnRow" id="heroButtons"></div>
         </div>
 
         <aside style="display:flex; flex-direction:column; gap:12px; min-width:0;">
           <div class="heroVisual" aria-label="Team visual banner">
             <div class="heroVisualMedia">
-              <img id="heroBannerImg" src="/images/schools/deleon-hero.jpg" alt="De Leon Bearcats team photo or stadium banner" />
+              <img id="heroBannerImg" src="/images/De-Leon-Bearcats-Team-Photo.png" alt="De Leon Bearcats team photo" />
               <div class="heroVisualOverlay" aria-hidden="true"></div>
             </div>
             <div class="heroVisualCaption">
@@ -888,8 +895,6 @@
         </button>
       </div>
       <div class="cardBody">
-        <!-- Football Program Overview block removed per request -->
-
         <div class="trustBlock" style="margin-top:0;" aria-label="Why selected">
           <div class="trustTop">
             <h3 class="trustTitle">Why This Program?</h3>
@@ -927,7 +932,6 @@
             <div class="featureLabel">Next Game</div>
             <div class="featureMeta" id="nextGameMeta">—</div>
           </div>
-          <!-- Kickoff pill removed per request -->
         </div>
         <div class="featureBody">
           <div class="featureGrid" id="nextGameGrid"></div>
@@ -960,7 +964,6 @@
             <strong>Note:</strong> Program Information fields can be school-provided or public-facing info. No “official record” claims are made here.
           </div>
 
-          <!-- Stadium image box inserted below the note -->
           <div class="stadiumBox" aria-label="Home stadium photo">
             <img id="stadiumImg" src="/images/Bearcat-Field-Entrance.png" alt="Bearcat Stadium entrance" />
             <div class="stadiumCap" id="stadiumCaption">Home stadium photo (pilot preview placement).</div>
@@ -977,7 +980,6 @@
         <div class="card" id="schedule">
           <div class="cardHead">
             <h2>Schedule & Results</h2>
-            <!-- “Simple • Shareable • Clean” pill removed -->
           </div>
           <div class="cardBody">
             <table class="table" aria-label="Schedule and results table">
@@ -997,26 +999,25 @@
 
         <div style="height:16px;"></div>
 
-        <div class="card" id="gameweek">
+        <div class="card" id="gameweekhub">
           <div class="cardHead">
             <div>
               <h2>Game Week Hub</h2>
               <div class="tiny" style="margin-top:6px;">Weekly highlights, moments, and what's next.</div>
             </div>
             <div class="gwActions">
-              <span class="gwTag" id="gwRangePill">Fri → Fri</span>
-              <button class="gwScrollBtn" type="button" aria-label="Scroll Game Week left" data-gw-scroll="left">←</button>
-              <button class="gwScrollBtn" type="button" aria-label="Scroll Game Week right" data-gw-scroll="right">→</button>
-              <!-- Full Schedule button removed per request -->
+              <span class="gwTag" id="gwhRangePill">Fri → Fri</span>
+              <button class="gwScrollBtn" type="button" aria-label="Scroll Game Week Hub left" data-gwh-scroll="left">←</button>
+              <button class="gwScrollBtn" type="button" aria-label="Scroll Game Week Hub right" data-gwh-scroll="right">→</button>
             </div>
           </div>
 
           <div class="cardBody">
-            <div class="gwRail" id="gwRail" aria-label="Game Week carousel"></div>
+            <div class="gwRail" id="gwhRail" aria-label="Game Week Hub carousel"></div>
 
-            <div class="gwFooter" aria-label="Game Week footer">
+            <div class="gwFooter" aria-label="Game Week Hub footer">
               <div>Curated by VarsityVue • Not a social feed</div>
-              <div><strong style="color:rgba(243,243,245,.92);">Presented by</strong> <span id="gwPresentedBy">YOUR SPONSOR</span></div>
+              <div><strong style="color:rgba(243,243,245,.92);">Presented by</strong> <span id="gwhPresentedBy">YOUR SPONSOR</span></div>
             </div>
           </div>
         </div>
@@ -1026,7 +1027,6 @@
         <div class="card" id="sponsors">
           <div class="cardHead">
             <h2>Community Supporters</h2>
-            <!-- placements pill removed -->
           </div>
 
           <div class="cardBody">
@@ -1062,7 +1062,6 @@
       <section class="card">
         <div class="cardHead">
           <h2>Game Night Graphics (Preview)</h2>
-          <!-- Supporter-friendly content pill removed -->
         </div>
 
         <div class="cardBody">
@@ -1082,11 +1081,6 @@
                 />
 
                 <div class="tiny" style="margin-top:10px;" id="gameNightPilotNote"></div>
-
-                <div class="btnRow" style="margin-top:12px;">
-                  <span class="btn btnSecondary btnDisabled">Share (Pilot)</span>
-                  <span class="btn btnSecondary btnDisabled">Weekly Recap (Pilot)</span>
-                </div>
               </div>
 
               <div class="tiny" id="gameNightAdBenefit"></div>
@@ -1220,7 +1214,7 @@
         sampleImageAlt: "Sample De Leon Bearcats scoreboard graphic"
       },
 
-      gameWeek: {
+      gameWeekHub: {
         rangeLabel: "Fri → Fri",
         presentedBy: "YOUR SPONSOR",
         items: [
@@ -1320,12 +1314,12 @@
       });
       heroBadges.appendChild(socials);
 
-      // HERO BUTTONS — only the approved list (same size, no divider group)
+      // HERO BUTTONS — approved list
       const heroButtons = document.getElementById("heroButtons");
       heroButtons.innerHTML = "";
 
       heroButtons.appendChild(el("a", { class: "btn btnPrimary", href: "#schedule" }, ["Schedule"]));
-      heroButtons.appendChild(el("a", { class: "btn btnPrimary", href: "#gameweek" }, ["Game Week"]));
+      heroButtons.appendChild(el("a", { class: "btn btnPrimary", href: "#gameweekhub" }, ["Game Week Hub"]));
       heroButtons.appendChild(el("a", { class: "btn btnSecondary", href: "#gamenight" }, ["Game Night"]));
       heroButtons.appendChild(el("a", { class: "btn btnSecondary", href: "#sponsors" }, ["Sponsors"]));
       heroButtons.appendChild(el("a", { class: "btn btnSecondary", href: CONFIG.admin.href }, [CONFIG.admin.label]));
@@ -1365,20 +1359,28 @@
       }, [CONFIG.booster.donate.label]));
       document.getElementById("boosterDisclaimer").innerHTML = CONFIG.booster.disclaimer;
 
-      // Next game meta (date/time moved here since Kickoff box is deleted)
+      // Next game meta
       document.getElementById("nextGameMeta").textContent = `${CONFIG.nextGame.dateDisplay} • ${CONFIG.nextGame.timeDisplay}`;
 
-      // Next game grid (Kickoff tile removed)
+      // Next game grid: Opponent + Kickoff, Opponent Record + Venue (venue moved under opponent record)
       const nextGameGrid = document.getElementById("nextGameGrid");
       nextGameGrid.innerHTML = "";
+
       nextGameGrid.appendChild(el("div", { class: "mini" }, [
         el("div", { class: "miniK" }, ["Opponent"]),
         el("div", { class: "miniV" }, [CONFIG.nextGame.opponent])
       ]));
+
+      nextGameGrid.appendChild(el("div", { class: "mini" }, [
+        el("div", { class: "miniK" }, ["Kickoff"]),
+        el("div", { class: "miniV" }, [`${CONFIG.nextGame.dateDisplay} • ${CONFIG.nextGame.timeDisplay}`])
+      ]));
+
       nextGameGrid.appendChild(el("div", { class: "mini" }, [
         el("div", { class: "miniK" }, ["Opponent Record"]),
         el("div", { class: "miniV" }, [CONFIG.nextGame.recordDisplay])
       ]));
+
       nextGameGrid.appendChild(el("div", { class: "mini" }, [
         el("div", { class: "miniK" }, ["Venue"]),
         el("div", { class: "miniV" }, [
@@ -1391,7 +1393,7 @@
         ])
       ]));
 
-      // Next game strip (remove “This Week” box)
+      // Next game strip
       const strip = document.getElementById("nextGameStrip");
       strip.innerHTML = "";
       const cov0 = (CONFIG.nextGame.coverage || [])[0];
@@ -1435,7 +1437,7 @@
         ]));
       });
 
-      // Stadium image (your confirmed path)
+      // Stadium image
       const stadiumImg = document.getElementById("stadiumImg");
       stadiumImg.src = CONFIG.programInfo.stadiumImageSrc;
       stadiumImg.alt = CONFIG.programInfo.stadiumImageAlt;
@@ -1468,7 +1470,7 @@
       document.getElementById("gameNightPilotNote").innerHTML = CONFIG.gameNight.pilotNote;
       document.getElementById("gameNightAdBenefit").textContent = CONFIG.gameNight.adBenefit;
 
-      // Sponsors (remove duplicate tier line: keep only the tierTag)
+      // Sponsors (keep single tier display only)
       const sponsorGrid = document.getElementById("sponsorGrid");
       sponsorGrid.innerHTML = "";
 
@@ -1504,7 +1506,7 @@
       document.getElementById("sponsorCtaNote2").textContent = CONFIG.sponsors.ctaNotes[1];
       document.getElementById("sponsorCtaNote3").textContent = CONFIG.sponsors.ctaNotes[2];
 
-      // Footer (now at bottom, full width)
+      // Footer
       document.getElementById("footerLine1").textContent =
         "Pilot preview. Layout and example content shown for demonstration purposes.";
       document.getElementById("footerLine2").textContent =
@@ -1512,16 +1514,16 @@
       document.getElementById("footerLine3").textContent =
         `© ${CONFIG.year} ${CONFIG.brandName} • Powered by VarsityVue`;
 
-      // Game Week
-      document.getElementById("gwRangePill").textContent = CONFIG.gameWeek.rangeLabel || "Fri → Fri";
-      document.getElementById("gwPresentedBy").textContent = CONFIG.gameWeek.presentedBy || "YOUR SPONSOR";
+      // Game Week Hub
+      document.getElementById("gwhRangePill").textContent = CONFIG.gameWeekHub.rangeLabel || "Fri → Fri";
+      document.getElementById("gwhPresentedBy").textContent = CONFIG.gameWeekHub.presentedBy || "YOUR SPONSOR";
 
-      const gwRail = document.getElementById("gwRail");
-      gwRail.innerHTML = "";
-      (CONFIG.gameWeek.items || []).forEach(item => {
+      const gwhRail = document.getElementById("gwhRail");
+      gwhRail.innerHTML = "";
+      (CONFIG.gameWeekHub.items || []).forEach(item => {
         const card = el("article", { class: "gwItem" }, [
           el("div", { class: "gwMedia" }, [
-            el("img", { src: item.img, alt: item.alt || item.headline || "Game Week media" }, [])
+            el("img", { src: item.img, alt: item.alt || item.headline || "Game Week Hub media" }, [])
           ]),
           el("div", { class: "gwBody" }, [
             el("div", { class: "gwKicker" }, [safeBlank(item.type)]),
@@ -1530,15 +1532,15 @@
             el("a", { class: "gwLink", href: item.href || "#gamenight" }, ["View →"])
           ])
         ]);
-        gwRail.appendChild(card);
+        gwhRail.appendChild(card);
       });
 
-      // Game Week scroll buttons
-      const scrollAmount = () => Math.min(gwRail.clientWidth * 0.9, 520);
-      document.querySelectorAll('[data-gw-scroll]').forEach(btn => {
+      // Game Week Hub scroll buttons
+      const scrollAmount = () => Math.min(gwhRail.clientWidth * 0.9, 520);
+      document.querySelectorAll('[data-gwh-scroll]').forEach(btn => {
         btn.addEventListener('click', () => {
-          const dir = btn.getAttribute('data-gw-scroll');
-          gwRail.scrollBy({ left: dir === 'left' ? -scrollAmount() : scrollAmount(), behavior: 'smooth' });
+          const dir = btn.getAttribute('data-gwh-scroll');
+          gwhRail.scrollBy({ left: dir === 'left' ? -scrollAmount() : scrollAmount(), behavior: 'smooth' });
         });
       });
 
