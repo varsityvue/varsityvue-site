@@ -257,70 +257,77 @@
     .status.upcoming .statusDot{ background: var(--warn); }
     .status.final .statusDot{ background: var(--good); }
 
-    /* Sponsors (sidebar list) */
-    .sponsorGrid{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; overflow:hidden; }
-    @media (max-width: 520px){ .sponsorGrid{ grid-template-columns: 1fr; } }
+   /* Sponsors (sidebar list) */
+.sponsorGrid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:10px;
+  overflow:hidden;
+}
+@media (max-width: 520px){
+  .sponsorGrid{ grid-template-columns: 1fr; }
+}
 
-    .sponsorCard{
-      border-radius:16px;
-      background: linear-gradient(135deg, rgba(157,26,42,.18), rgba(255,255,255,.04));
-      border:1px solid rgba(255,255,255,.12);
-      box-shadow: 0 12px 34px rgba(0,0,0,.35);
-      overflow:hidden;
+.sponsorCard{
+  border-radius:16px;
+  background: linear-gradient(135deg, rgba(157,26,42,.18), rgba(255,255,255,.04));
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow: 0 12px 34px rgba(0,0,0,.35);
+  overflow:hidden;
+  min-height: 130px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  min-width:0;
+}
 
-      /* CHANGED: give logos room to breathe */
-      min-height: 152px;
+.sponsorCardInner{
+  padding:12px 12px 10px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  gap:10px;
+  text-align:center;
+  min-height: 102px;
+  min-width:0;
+}
 
-      display:flex; flex-direction:column; justify-content:space-between;
-      min-width:0;
-    }
-    .sponsorCardInner{
-      padding:12px 12px 10px;
-      display:flex; flex-direction:column;
-      align-items:center; justify-content:flex-start;
-      gap:10px; text-align:center;
+/* ✅ Bigger logo stage */
+.sponsorLogoBox{
+  width:100%;
+  height:72px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.24);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  padding:6px;
+}
 
-      /* CHANGED: allow taller logo box without squishing */
-      min-height: 116px;
+/* ✅ Make the image fill the stage (remove shrink padding) */
+.sponsorLogoBox img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  padding:0;
+  margin:0;
+  opacity:.98;
+  transform: scale(1.12);
+  transform-origin:center;
+}
 
-      min-width:0;
-    }
-
-    /* CHANGED: larger logo box that auto-scales nicely */
-    .sponsorLogoBox{
-      width:100%;
-
-      /* responsive height (bigger than before) */
-      height: clamp(64px, 8vw, 86px);
-
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.24);
-
-      display:flex; align-items:center; justify-content:center;
-      overflow:hidden;
-    }
-
-    /* CHANGED: fit inside box, but don’t look postage-stamp small */
-    .sponsorLogoBox img{
-      width:100%;
-      height:100%;
-      object-fit:contain;
-
-      /* responsive padding so tiny logos can still appear larger */
-      padding: clamp(6px, 1.4vw, 14px);
-
-      opacity:.98;
-
-      /* extra insurance */
-      max-width:100%;
-      max-height:100%;
-    }
-
-    .sponsorName{
-      font-weight:950; font-size:13px; line-height:1.2; color:#fff;
-      padding:0 8px;
-      overflow-wrap:anywhere;
+/* Keep sponsor name */
+.sponsorName{
+  font-weight:950;
+  font-size:13px;
+  line-height:1.2;
+  color:#fff;
+  padding:0 8px;
+  overflow-wrap:anywhere;
+}
     }
 
     .tierTag{
