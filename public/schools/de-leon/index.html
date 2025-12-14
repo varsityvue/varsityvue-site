@@ -48,7 +48,7 @@
     .wrap{
       max-width:1100px;
       margin:0 auto;
-      padding:22px 18px 70px;
+      padding:22px 18px 48px;
     }
 
     /* Top bar */
@@ -100,7 +100,6 @@
       padding:18px;
     }
 
-    /* Make hero always clean and not “push” layout */
     .heroInner{
       display:grid;
       gap:14px;
@@ -110,7 +109,6 @@
     @media(min-width:900px){
       .heroInner{ grid-template-columns: 1.35fr 1fr; }
     }
-    /* Critical: prevent grid children from causing overflow / “kicked right” */
     .heroInner > *{ min-width:0; }
 
     .teamHeader{
@@ -204,43 +202,15 @@
       font-size:13px;
       letter-spacing:.25px;
       border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: var(--text); /* fixes black button text (Share) */
       transition: transform .15s ease, box-shadow .15s ease, background .15s ease, opacity .15s ease;
       user-select:none;
+      cursor:pointer;
     }
-    .btnPrimary{
-      background: linear-gradient(135deg, var(--accent2), rgba(255,255,255,.10));
-      border:1px solid rgba(255,255,255,.14);
-    }
-    .btnSecondary{ background: rgba(255,255,255,.06); }
     .btn:hover{ transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,0,0,.35); }
     .btn:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
-    .btnSmall{ padding:9px 12px; font-size:12px; border-radius:12px; }
     .btnDisabled{ opacity:.55; cursor:not-allowed; pointer-events:none; }
-
-    /* Mini nav */
-    .miniNav{
-      margin-top:14px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      padding-top:14px;
-      border-top:1px solid rgba(255,255,255,.10);
-    }
-    .miniNav a{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 10px;
-      border-radius:999px;
-      background: rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.10);
-      color:rgba(243,243,245,.9);
-      font-size:12px;
-      font-weight:900;
-      letter-spacing:.2px;
-    }
-    .miniNav a:hover{ box-shadow: 0 10px 28px rgba(0,0,0,.25); transform: translateY(-1px); }
-    .miniNav a:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
 
     /* Hero visual banner */
     .heroVisual{
@@ -314,7 +284,35 @@
     }
     .cardBody{ padding:14px 16px; }
 
-    /* Program notes + notes strip */
+    /* Collapsible Program Notes */
+    details.card{ overflow:hidden; }
+    details.card > summary.cardHead{
+      list-style:none;
+      cursor:pointer;
+      user-select:none;
+    }
+    details.card > summary.cardHead::-webkit-details-marker{ display:none; }
+    .collapseHint{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      color:rgba(243,243,245,.75);
+      font-size:12px;
+      font-weight:950;
+      letter-spacing:.2px;
+      white-space:nowrap;
+    }
+    .chev{
+      width:10px; height:10px;
+      border-right:2px solid rgba(243,243,245,.75);
+      border-bottom:2px solid rgba(243,243,245,.75);
+      transform: rotate(45deg);
+      transition: transform .15s ease;
+      margin-top:-2px;
+    }
+    details[open] .chev{ transform: rotate(225deg); margin-top:2px; }
+
+    /* Program notes blocks */
     .trustBlock{
       margin-top:12px;
       border-radius:18px;
@@ -389,6 +387,7 @@
       letter-spacing:.2px;
       border:1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.06);
+      color: var(--text);
       transition: transform .15s ease, box-shadow .15s ease;
     }
     .btnLink:hover{ transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,0,0,.35); }
@@ -425,7 +424,7 @@
       line-height:1.6;
     }
 
-    /* Two-up row below Program Notes: Next Game + Season Snapshot */
+    /* Two-up row below Program Notes: Next Game + Program Information */
     .belowProgram{
       margin-top:16px;
       display:grid;
@@ -448,9 +447,6 @@
     .feature .cardHead{ border-bottom:1px solid rgba(255,255,255,.10); }
     .featureBody{ padding:14px 16px; }
 
-    .featureHeadRow{
-      display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
-    }
     .featureLabel{ font-weight:950; letter-spacing:.35px; color:#fff; font-size:14px; }
     .featureMeta{
       color:rgba(243,243,245,.78);
@@ -470,15 +466,12 @@
     }
     .featureStrip{
       display:grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap:10px;
       margin-top:10px;
     }
-    @media(max-width:680px){
-      .featureStrip{ grid-template-columns: 1fr; }
-    }
 
-    /* Main section: full-width content + right sponsors */
+    /* Main section: left stack, right sponsors */
     .main{
       margin-top:18px;
       display:grid;
@@ -489,7 +482,7 @@
     @media(min-width:980px){
       .main{ grid-template-columns: 2fr 1fr; }
     }
-    .main > *{ min-width:0; } /* prevents sidebar “kicked right” */
+    .main > *{ min-width:0; }
 
     /* Table */
     .table{
@@ -534,142 +527,7 @@
     .status.upcoming .statusDot{ background: var(--warn); }
     .status.final .statusDot{ background: var(--good); }
 
-    /* Game night */
-    .gameNight{
-      border-radius:18px;
-      border:1px dashed rgba(255,255,255,.18);
-      background: rgba(0,0,0,.25);
-      padding:14px;
-    }
-    .gameNightTitle{ margin:0; font-weight:950; letter-spacing:.2px; font-size:14px; }
-    .gameNightSub{
-      margin:8px 0 0;
-      color:rgba(243,243,245,.80);
-      line-height:1.6;
-      font-size:13px;
-    }
-
-    /* Sponsors */
-    .sponsorGrid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:10px;
-    }
-    .sponsorTile{
-      border-radius:16px;
-      padding:14px 12px;
-      background: linear-gradient(135deg, rgba(157,26,42,.18), rgba(255,255,255,.04));
-      border:1px solid rgba(255,255,255,.12);
-      text-align:center;
-      font-weight:950;
-      font-size:13px;
-      color:#fff;
-      box-shadow: 0 12px 34px rgba(0,0,0,.35);
-    }
-    .sponsorTile span{
-      display:block;
-      margin-top:6px;
-      font-weight:850;
-      font-size:11px;
-      color:rgba(243,243,245,.78);
-      letter-spacing:.2px;
-    }
-    .tierTag{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      margin-top:8px;
-      padding:5px 9px;
-      border-radius:999px;
-      font-size:10px;
-      font-weight:950;
-      letter-spacing:.25px;
-      color:rgba(243,243,245,.92);
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.24);
-    }
-
-    .sponsorLink{
-      display:block;
-      transition: transform .15s ease, box-shadow .15s ease;
-    }
-    .sponsorLink:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 14px 38px rgba(0,0,0,.45);
-    }
-    .sponsorLink:focus-visible{
-      outline: 2px solid var(--focus);
-      outline-offset: 3px;
-      border-radius: 16px;
-    }
-
-    .sponsorValue{
-      margin-top:12px;
-      padding:12px;
-      border-radius:16px;
-      background: rgba(0,0,0,.25);
-      border:1px solid rgba(255,255,255,.10);
-    }
-    .sponsorValue h3{
-      margin:0 0 8px;
-      font-size:12px;
-      font-weight:950;
-      letter-spacing:.25px;
-      text-transform:uppercase;
-      color:rgba(243,243,245,.90);
-    }
-    .sponsorValue ul{
-      margin:0;
-      padding-left:18px;
-      color:rgba(243,243,245,.78);
-      font-size:13px;
-      line-height:1.55;
-    }
-
-    .sponsorCTA{
-      margin-top:14px;
-      padding-top:14px;
-      border-top:1px solid rgba(255,255,255,.10);
-    }
-    .sponsorCtaRow{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      justify-content:center;
-    }
-
-    .footer{
-      margin-top:20px;
-      padding-top:14px;
-      border-top:1px solid rgba(255,255,255,.10);
-      color:rgba(243,243,245,.65);
-      font-size:12px;
-      line-height:1.6;
-    }
-
-    /* Toast */
-    .toast{
-      position: fixed;
-      left: 50%;
-      bottom: 18px;
-      transform: translateX(-50%);
-      background: rgba(0,0,0,.75);
-      color: rgba(243,243,245,.92);
-      border: 1px solid rgba(255,255,255,.14);
-      padding: 10px 12px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: .2px;
-      box-shadow: 0 18px 50px rgba(0,0,0,.55);
-      display:none;
-      z-index: 9999;
-      max-width: calc(100% - 24px);
-    }
-
-    /* =========================
-       GAME WEEK
-       ========================= */
+    /* Game Week */
     .gwActions{
       display:flex;
       gap:10px;
@@ -698,6 +556,7 @@
       border-radius:12px;
       border:1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.06);
+      color: var(--text);
       cursor:pointer;
       font-weight:950;
       user-select:none;
@@ -791,6 +650,162 @@
       .gwRail{ grid-auto-columns: minmax(240px, 84vw); }
       .gwActions{ justify-content:flex-start; }
     }
+
+    /* Sponsors */
+    .sponsorGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    .sponsorTile{
+      border-radius:16px;
+      padding:14px 12px;
+      background: linear-gradient(135deg, rgba(157,26,42,.18), rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.12);
+      text-align:center;
+      font-weight:950;
+      font-size:13px;
+      color:#fff;
+      box-shadow: 0 12px 34px rgba(0,0,0,.35);
+    }
+    .tierTag{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      margin-top:10px;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:950;
+      letter-spacing:.25px;
+      color:rgba(243,243,245,.92);
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.24);
+    }
+
+    .sponsorLink{
+      display:block;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .sponsorLink:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 14px 38px rgba(0,0,0,.45);
+    }
+    .sponsorLink:focus-visible{
+      outline: 2px solid var(--focus);
+      outline-offset: 3px;
+      border-radius: 16px;
+    }
+
+    .sponsorValue{
+      margin-top:12px;
+      padding:12px;
+      border-radius:16px;
+      background: rgba(0,0,0,.25);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .sponsorValue h3{
+      margin:0 0 8px;
+      font-size:12px;
+      font-weight:950;
+      letter-spacing:.25px;
+      text-transform:uppercase;
+      color:rgba(243,243,245,.90);
+    }
+    .sponsorValue ul{
+      margin:0;
+      padding-left:18px;
+      color:rgba(243,243,245,.78);
+      font-size:13px;
+      line-height:1.55;
+    }
+
+    .sponsorCTA{
+      margin-top:14px;
+      padding-top:14px;
+      border-top:1px solid rgba(255,255,255,.10);
+    }
+    .sponsorCtaRow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      justify-content:center;
+    }
+
+    /* Full-width Game Night layout (with sponsor banner space around) */
+    .gameNightLayout{
+      margin-top:16px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:16px;
+      align-items:stretch;
+    }
+    @media(min-width:980px){
+      .gameNightLayout{
+        grid-template-columns: 220px minmax(0, 1fr) 220px;
+        gap:16px;
+      }
+    }
+    .sponsorSlot{
+      border-radius:20px;
+      background: rgba(255,255,255,.03);
+      border:1px dashed rgba(255,255,255,.18);
+      box-shadow: 0 14px 45px rgba(0,0,0,.20);
+      min-height: 120px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:12px;
+      color:rgba(243,243,245,.55);
+      font-weight:950;
+      letter-spacing:.2px;
+      text-align:center;
+    }
+    .sponsorSlot small{ display:block; margin-top:6px; font-weight:800; color:rgba(243,243,245,.45); }
+
+    .gameNight{
+      border-radius:18px;
+      border:1px dashed rgba(255,255,255,.18);
+      background: rgba(0,0,0,.25);
+      padding:14px;
+    }
+    .gameNightTitle{ margin:0; font-weight:950; letter-spacing:.2px; font-size:14px; }
+    .gameNightSub{
+      margin:8px 0 0;
+      color:rgba(243,243,245,.80);
+      line-height:1.6;
+      font-size:13px;
+    }
+
+    /* Footer at very bottom, full width of wrap */
+    .pageFooter{
+      margin-top:18px;
+      padding-top:14px;
+      border-top:1px solid rgba(255,255,255,.10);
+      color:rgba(243,243,245,.65);
+      font-size:12px;
+      line-height:1.6;
+    }
+
+    /* Toast */
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,.75);
+      color: rgba(243,243,245,.92);
+      border: 1px solid rgba(255,255,255,.14);
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .2px;
+      box-shadow: 0 18px 50px rgba(0,0,0,.55);
+      display:none;
+      z-index: 9999;
+      max-width: calc(100% - 24px);
+    }
   </style>
 </head>
 
@@ -804,7 +819,7 @@
       <span class="pill"><span class="pillDot"></span> Pilot Preview</span>
     </div>
 
-    <!-- HERO: left = identity/buttons, right = visual -->
+    <!-- HERO -->
     <section class="hero" id="overview">
       <div class="heroInner">
         <div>
@@ -812,15 +827,14 @@
             <img id="teamLogo" src="/logos/de-leon-bearcats-logo.png" alt="Team logo" class="teamLogo" />
             <div>
               <h1 class="school" id="teamName">De Leon Bearcats</h1>
-              <p class="subline" id="tagline">
-                Schedules, results, and weekly visuals — clean sponsor recognition, no added work for coaches.
-              </p>
+              <p class="subline" id="tagline"></p>
             </div>
           </div>
 
           <div class="heroBadges" id="heroBadges"></div>
+
+          <!-- One unified row, only the requested actions -->
           <div class="btnRow" id="heroButtons"></div>
-          <div class="miniNav" id="miniNav"></div>
         </div>
 
         <aside style="display:flex; flex-direction:column; gap:12px; min-width:0;">
@@ -841,24 +855,19 @@
       </div>
     </section>
 
-    <!-- FULL-WIDTH: Program Notes directly under hero -->
     <div style="height:16px;"></div>
 
-    <section class="card" id="program">
-      <div class="cardHead">
+    <!-- Program Notes (collapsible) -->
+    <details class="card" id="program" open>
+      <summary class="cardHead">
         <h2>Program Notes</h2>
-        <span class="pill">Admin-safe</span>
-      </div>
-      <div class="cardBody">
-        <div class="trustBlock" style="margin-top:0;">
-          <div class="trustTop">
-            <h3 class="trustTitle">Football Program Overview</h3>
-            <span class="trustTag">Pilot</span>
-          </div>
-          <p class="trustText" id="programOverviewText"></p>
-        </div>
+        <span class="collapseHint"><span class="chev" aria-hidden="true"></span><span>Collapse</span></span>
+      </summary>
 
-        <div class="trustBlock" aria-label="Why selected">
+      <div class="cardBody">
+        <!-- Football Program Overview block REMOVED per request -->
+
+        <div class="trustBlock" style="margin-top:0;" aria-label="Why selected">
           <div class="trustTop">
             <h3 class="trustTitle">Why This Program?</h3>
             <span class="trustTag">Pilot School</span>
@@ -885,21 +894,22 @@
           <div class="trustNote" id="boosterDisclaimer"></div>
         </div>
       </div>
-    </section>
+    </details>
 
-    <!-- TWO-UP: Next Game and Season Snapshot under Program Notes -->
-    <section class="belowProgram" aria-label="Next game and season snapshot row">
+    <!-- Two-up: Next Game + Program Information -->
+    <section class="belowProgram" aria-label="Next game and program information row">
       <article class="feature" id="nextgame">
         <div class="cardHead">
           <div>
             <div class="featureLabel">Next Game</div>
             <div class="featureMeta" id="nextGameMeta">Featured matchup</div>
           </div>
-          <span class="pill">Kickoff</span>
+          <!-- Kickoff pill REMOVED -->
         </div>
         <div class="featureBody">
           <div class="featureGrid" id="nextGameGrid"></div>
           <div class="featureStrip" id="nextGameStrip" aria-label="Game details strip"></div>
+
           <div class="tiny" id="coverageDisclaimer"></div>
 
           <div class="tiny" style="margin-top:12px;">
@@ -916,13 +926,31 @@
 
       <article class="card" id="snapshot">
         <div class="cardHead">
-          <h2>Season Snapshot</h2>
+          <h2>Program Information</h2>
           <span class="pill" id="snapshotTag">2026</span>
         </div>
         <div class="cardBody">
           <div class="featureGrid" id="seasonSnapshotGrid" style="margin-top:0;"></div>
-          <div class="trustNote" style="margin-top:10px;">
-            <strong>Note:</strong> Snapshot fields can be school-provided or public-facing info. No “official record” claims are made here.
+
+          <div class="trustNote" style="margin-top:10px;" id="programInfoNote">
+            <strong>Note:</strong> Program Information fields can be school-provided or public-facing info. No “official record” claims are made here.
+          </div>
+
+          <!-- Stadium image box added below note -->
+          <div class="trustBlock" aria-label="Home stadium photo" style="margin-top:12px;">
+            <div class="trustTop">
+              <h3 class="trustTitle">Home Stadium</h3>
+              <span class="trustTag">Photo</span>
+            </div>
+            <div style="margin-top:10px;">
+              <img
+                id="stadiumImg"
+                src="/images/schools/bearcat-field-entrance.png"
+                alt="Bearcat Field entrance"
+                style="width:100%; border-radius:16px; border:1px solid rgba(255,255,255,.10);"
+              />
+              <div class="tiny" id="stadiumCaption" style="margin-top:10px;"></div>
+            </div>
           </div>
         </div>
       </article>
@@ -930,13 +958,13 @@
 
     <div style="height:16px;"></div>
 
-    <!-- MAIN: left full-width stack, right sponsors -->
+    <!-- MAIN: schedule + game week on left, sponsors on right -->
     <section class="main">
       <div>
         <div class="card" id="schedule">
           <div class="cardHead">
             <h2>Schedule & Results</h2>
-            <span class="pill">Simple • Shareable • Clean</span>
+            <!-- “Simple • Shareable • Clean” pill REMOVED -->
           </div>
           <div class="cardBody">
             <table class="table" aria-label="Schedule and results table">
@@ -966,7 +994,7 @@
               <span class="gwTag" id="gwRangePill">Fri → Fri</span>
               <button class="gwScrollBtn" type="button" aria-label="Scroll Game Week left" data-gw-scroll="left">←</button>
               <button class="gwScrollBtn" type="button" aria-label="Scroll Game Week right" data-gw-scroll="right">→</button>
-              <a class="btn btnSecondary btnSmall" href="#schedule">Full Schedule</a>
+              <!-- “Full Schedule” button REMOVED -->
             </div>
           </div>
 
@@ -979,45 +1007,13 @@
             </div>
           </div>
         </div>
-
-        <div style="height:16px;"></div>
-
-        <div class="card" id="gamenight">
-          <div class="cardHead">
-            <h2>Game Night Graphics (Preview)</h2>
-            <span class="pill">Supporter-friendly content</span>
-          </div>
-
-          <div class="cardBody">
-            <div class="gameNight">
-              <p class="gameNightTitle">Weekly Game Night Graphics</p>
-              <p class="gameNightSub" id="gameNightSub"></p>
-
-              <img
-                id="scoreboardSampleImg"
-                src="/images/de-leon-scoreboard-sample.png"
-                alt="Sample De Leon Bearcats scoreboard graphic"
-                style="width:100%; border-radius:16px; border:1px solid rgba(255,255,255,.10);"
-              />
-
-              <div class="tiny" style="margin-top:10px;" id="gameNightPilotNote"></div>
-
-              <div class="btnRow" style="margin-top:12px;">
-                <span class="btn btnSecondary btnDisabled">Share (Pilot)</span>
-                <span class="btn btnSecondary btnDisabled">Weekly Recap (Pilot)</span>
-              </div>
-            </div>
-
-            <div class="tiny" id="gameNightAdBenefit"></div>
-          </div>
-        </div>
       </div>
 
       <aside style="min-width:0;">
         <div class="card" id="sponsors">
           <div class="cardHead">
             <h2>Community Supporters</h2>
-            <span class="pill" id="sponsorCountPill">— placements</span>
+            <!-- “6 placements” pill REMOVED -->
           </div>
 
           <div class="cardBody">
@@ -1030,13 +1026,13 @@
 
             <div class="sponsorCTA" aria-label="Sponsorship call to action">
               <div class="sponsorCtaRow" style="margin-top:0;">
-                <a class="btn btnPrimary" id="sponsorMailtoBtn" href="#">
+                <a class="btn" id="sponsorMailtoBtn" href="#">
                   Become a Community Sponsor
                 </a>
-                <a class="btn btnSecondary" id="sponsorKitBtn" href="/sponsor-kit.pdf" target="_blank" rel="noopener">
+                <a class="btn" id="sponsorKitBtn" href="/sponsor-kit.pdf" target="_blank" rel="noopener">
                   Get Sponsor Kit (PDF)
                 </a>
-                <a class="btn btnSecondary" href="/">Back to Home</a>
+                <a class="btn" href="/">Back to Home</a>
               </div>
 
               <div class="tiny" style="margin-top:10px;" id="sponsorCtaNote1"></div>
@@ -1045,14 +1041,63 @@
             </div>
           </div>
         </div>
-
-        <div class="footer">
-          <div id="footerLine1"></div>
-          <div id="footerLine2"></div>
-          <div style="margin-top:10px;" id="footerLine3"></div>
-        </div>
       </aside>
     </section>
+
+    <!-- GAME NIGHT: full width with sponsor banner space around -->
+    <section class="gameNightLayout" aria-label="Game Night full width">
+      <div class="sponsorSlot" aria-label="Left sponsor banner slot">
+        Sponsor Banner Slot
+        <small>Left</small>
+      </div>
+
+      <div class="card" id="gamenight">
+        <div class="cardHead">
+          <h2>Game Night Graphics (Preview)</h2>
+          <!-- Supporter-friendly content pill REMOVED -->
+        </div>
+
+        <div class="cardBody">
+          <div class="gameNight">
+            <p class="gameNightTitle">Weekly Game Night Graphics</p>
+            <p class="gameNightSub" id="gameNightSub"></p>
+
+            <img
+              id="scoreboardSampleImg"
+              src="/images/de-leon-scoreboard-sample.png"
+              alt="Sample De Leon Bearcats scoreboard graphic"
+              style="width:100%; border-radius:16px; border:1px solid rgba(255,255,255,.10);"
+            />
+
+            <div class="tiny" style="margin-top:10px;" id="gameNightPilotNote"></div>
+
+            <div class="btnRow" style="margin-top:12px;">
+              <span class="btn btnDisabled">Share (Pilot)</span>
+              <span class="btn btnDisabled">Weekly Recap (Pilot)</span>
+            </div>
+          </div>
+
+          <div class="tiny" id="gameNightAdBenefit"></div>
+        </div>
+      </div>
+
+      <div class="sponsorSlot" aria-label="Right sponsor banner slot">
+        Sponsor Banner Slot
+        <small>Right</small>
+      </div>
+
+      <div class="sponsorSlot" aria-label="Bottom sponsor banner slot" style="grid-column: 1 / -1; min-height: 110px;">
+        Sponsor Banner Slot
+        <small>Bottom</small>
+      </div>
+    </section>
+
+    <!-- Footer moved to VERY bottom (below Game Night) and full width of page -->
+    <footer class="pageFooter" aria-label="Footer">
+      <div id="footerLine1"></div>
+      <div id="footerLine2"></div>
+      <div style="margin-top:10px;" id="footerLine3"></div>
+    </footer>
   </div>
 
   <div class="toast" id="toast">Copied</div>
@@ -1088,10 +1133,8 @@
         ]
       },
 
+      // Subtitle under De Leon Bearcats (requested text)
       tagline:
-        "Schedules, results, and weekly visuals — clean sponsor recognition, no added work for coaches.",
-
-      programOverview:
         "De Leon High School football is an integral part of the school’s athletic program, providing student-athletes with structured competition while emphasizing discipline, accountability, and team development within an educational setting.",
 
       whySelected: [
@@ -1110,11 +1153,14 @@
       booster: {
         text: "Direct link to the De Leon Athletic Booster Club donation page for families and community supporters.",
         actions: [
-          { label: "Donate to Booster Club", href: "https://www.facebook.com/p/De-Leon-Athletic-Booster-Club-100065249900006/", targetBlank: true },
-          { label: "Another school: Request pilot info", href: "mailto:info@varsityvue.com?subject=Pilot%20Interest%20-%20Another%20School&body=School%20Name%3A%0ASport(s)%3A%0AContact%20Name%3A%0APhone%3A%0ABest%20time%20to%20talk%3A%0A", targetBlank: false }
+          { label: "Donate to Booster Club", href: "https://www.facebook.com/p/De-Leon-Athletic-Booster-Club-100065249900006/", targetBlank: true }
         ],
         disclaimer:
           "<strong>Note:</strong> VarsityVue does not collect or manage donations. All contributions are processed directly through the De Leon Athletic Booster Club."
+      },
+
+      admin: {
+        href: "/admin" // adjust to your real admin route
       },
 
       nextGame: {
@@ -1128,7 +1174,7 @@
           google: "https://www.google.com/maps/search/?api=1&query=Bearcat+Stadium+De+Leon+TX"
         },
         coverage: [
-          { label: "NFHS (if available)", href: "https://www.nfhsnetwork.com/watch-events" },
+          { label: "Livestream (if applicable)", href: "https://www.nfhsnetwork.com/watch-events" },
           { label: "Local Broadcast", href: "https://kwbyradio.com/de-leon-bearcats/" }
         ],
         pilotNote:
@@ -1137,9 +1183,16 @@
           "Fans follow along here for kickoff details, coverage links, and score updates as they post."
       },
 
+      programInfo: {
+        // Stadium photo (uses your provided image)
+        stadiumImgSrc: "/images/schools/bearcat-field-entrance.png",
+        stadiumImgAlt: "Bearcat Field entrance",
+        stadiumCaption: ""
+      },
+
       seasonSnapshot: {
         classification: "UIL 2A Division I",
-        district: "District 5-2A Division I",
+        district: "District 5-2A", // Division I removed per request
         headCoach: "Brennan Whitaker",
         homeField: "Bearcat Stadium",
         priorSeasonRecord: "9-4",
@@ -1181,7 +1234,6 @@
       },
 
       sponsors: {
-        placementsLabel: "6 placements",
         valueBullets: [
           "Placement on the team hub all season (clean, no clutter).",
           "Included in weekly Game Night graphics shared with the community.",
@@ -1248,9 +1300,6 @@
       document.getElementById("teamName").textContent = CONFIG.team.name;
       document.getElementById("tagline").textContent = CONFIG.tagline;
 
-      // Program notes
-      document.getElementById("programOverviewText").textContent = CONFIG.programOverview;
-
       // Hero banner
       document.getElementById("heroBannerImg").src = CONFIG.heroBanner.imgSrc;
       document.getElementById("heroBannerImg").alt = CONFIG.heroBanner.imgAlt;
@@ -1273,16 +1322,37 @@
       });
       heroBadges.appendChild(socials);
 
-      // Hero buttons (no admin card; keep simple)
+      // Program Notes collapse hint label toggling
+      const prog = document.getElementById("program");
+      const hint = prog.querySelector(".collapseHint span:last-child");
+      const syncHint = () => (hint.textContent = prog.open ? "Collapse" : "Expand");
+      syncHint();
+      prog.addEventListener("toggle", syncHint);
+
+      // Hero buttons (ONLY requested actions, same size)
       const heroButtons = document.getElementById("heroButtons");
       heroButtons.innerHTML = "";
 
-      heroButtons.appendChild(el("a", { class: "btn btnPrimary", href: "#gameweek" }, ["Game Week"]));
-      heroButtons.appendChild(el("a", { class: "btn btnPrimary", href: "#schedule" }, ["Schedule"]));
-      heroButtons.appendChild(el("a", { class: "btn btnSecondary btnSmall", href: "#sponsors" }, ["Sponsors"]));
+      heroButtons.appendChild(el("a", { class: "btn", href: "#schedule" }, ["Schedule"]));
+      heroButtons.appendChild(el("a", { class: "btn", href: "#sponsors" }, ["Sponsors"]));
+      heroButtons.appendChild(el("a", { class: "btn", href: "#gameweek" }, ["Game Week"]));
+      heroButtons.appendChild(el("a", { class: "btn", href: "#gamenight" }, ["Game Night"]));
+      heroButtons.appendChild(el("a", { class: "btn", href: CONFIG.admin.href }, ["Admin"]));
 
+      // Donate button (requested active)
+      const donate = (CONFIG.booster.actions || [])[0];
+      if (donate) {
+        heroButtons.appendChild(el("a", {
+          class: "btn",
+          href: donate.href,
+          target: donate.targetBlank ? "_blank" : null,
+          rel: donate.targetBlank ? "noopener" : null
+        }, ["Donate to Booster Club"]));
+      }
+
+      // Share (fixes black text via CSS)
       heroButtons.appendChild(el("button", {
-        class: "btn btnSecondary btnSmall",
+        class: "btn",
         type: "button",
         onclick: async () => {
           const url = CONFIG.pageUrl || window.location.href;
@@ -1293,19 +1363,6 @@
           } catch(e){}
         }
       }, ["Share"]));
-
-      // Mini nav (chips) - remove redundancy; no Admin tab
-      const miniNav = document.getElementById("miniNav");
-      miniNav.innerHTML = "";
-      [
-        { label: "Program", href: "#program" },
-        { label: "Next Game", href: "#nextgame" },
-        { label: "Snapshot", href: "#snapshot" },
-        { label: "Game Week", href: "#gameweek" },
-        { label: "Schedule", href: "#schedule" },
-        { label: "Game Night", href: "#gamenight" },
-        { label: "Sponsors", href: "#sponsors" }
-      ].forEach(n => miniNav.appendChild(el("a", { href: n.href }, [n.label])));
 
       // Why selected
       const whyList = document.getElementById("whySelectedList");
@@ -1320,7 +1377,7 @@
       document.getElementById("boosterText").textContent = CONFIG.booster.text;
       const boosterActions = document.getElementById("boosterActions");
       boosterActions.innerHTML = "";
-      CONFIG.booster.actions.forEach(a => {
+      (CONFIG.booster.actions || []).forEach(a => {
         boosterActions.appendChild(el("a", {
           class: "btnLink",
           href: a.href,
@@ -1335,14 +1392,16 @@
 
       const nextGameGrid = document.getElementById("nextGameGrid");
       nextGameGrid.innerHTML = "";
+
+      // Opponent
       nextGameGrid.appendChild(el("div", { class: "mini" }, [
         el("div", { class: "miniK" }, ["Opponent"]),
         el("div", { class: "miniV" }, [CONFIG.nextGame.opponent])
       ]));
-      nextGameGrid.appendChild(el("div", { class: "mini" }, [
-        el("div", { class: "miniK" }, ["Kickoff"]),
-        el("div", { class: "miniV" }, [`${CONFIG.nextGame.dateDisplay} • ${CONFIG.nextGame.timeDisplay}`])
-      ]));
+
+      // Kickoff box REMOVED
+
+      // Venue
       nextGameGrid.appendChild(el("div", { class: "mini" }, [
         el("div", { class: "miniK" }, ["Venue"]),
         el("div", { class: "miniV" }, [
@@ -1354,12 +1413,14 @@
           ])
         ])
       ]));
+
+      // Opponent record (label updated)
       nextGameGrid.appendChild(el("div", { class: "mini" }, [
-        el("div", { class: "miniK" }, ["Record"]),
+        el("div", { class: "miniK" }, ["Opponent Record"]),
         el("div", { class: "miniV" }, [CONFIG.nextGame.recordDisplay])
       ]));
 
-      // Next game strip
+      // Next game strip (remove “This Week” box)
       const strip = document.getElementById("nextGameStrip");
       strip.innerHTML = "";
 
@@ -1367,20 +1428,17 @@
       const cov1 = (CONFIG.nextGame.coverage || [])[1];
 
       strip.appendChild(el("div", { class: "mini" }, [
-        el("div", { class: "miniK" }, ["Coverage"]),
+        el("div", { class: "miniK" }, ["Livestream"]),
         el("div", { class: "miniV" }, [
           cov0 ? el("a", { href: cov0.href, target: "_blank", rel: "noopener" }, [cov0.label]) : document.createTextNode("—")
         ])
       ]));
+
       strip.appendChild(el("div", { class: "mini" }, [
         el("div", { class: "miniK" }, ["Local Radio"]),
         el("div", { class: "miniV" }, [
           cov1 ? el("a", { href: cov1.href, target: "_blank", rel: "noopener" }, [cov1.label]) : document.createTextNode("—")
         ])
-      ]));
-      strip.appendChild(el("div", { class: "mini" }, [
-        el("div", { class: "miniK" }, ["This Week"]),
-        el("div", { class: "miniV" }, [`${CONFIG.nextGame.dateDisplay} • ${CONFIG.nextGame.timeDisplay}`])
       ]));
 
       document.getElementById("coverageDisclaimer").textContent =
@@ -1388,8 +1446,9 @@
       document.getElementById("pilotNote").textContent = CONFIG.nextGame.pilotNote;
       document.getElementById("duringGameNote").textContent = CONFIG.nextGame.duringGameNote;
 
-      // Season snapshot
+      // Program Information (was Season Snapshot)
       document.getElementById("snapshotTag").textContent = String(CONFIG.year);
+
       const snapshot = document.getElementById("seasonSnapshotGrid");
       snapshot.innerHTML = "";
 
@@ -1407,6 +1466,12 @@
           el("div", { class: "miniV" }, [safeBlank(item.v)])
         ]));
       });
+
+      // Stadium image
+      const stadiumImg = document.getElementById("stadiumImg");
+      stadiumImg.src = CONFIG.programInfo.stadiumImgSrc;
+      stadiumImg.alt = CONFIG.programInfo.stadiumImgAlt || "Home stadium photo";
+      document.getElementById("stadiumCaption").textContent = CONFIG.programInfo.stadiumCaption || "";
 
       // Schedule table
       const scheduleBody = document.getElementById("scheduleBody");
@@ -1435,15 +1500,13 @@
       document.getElementById("gameNightPilotNote").innerHTML = CONFIG.gameNight.pilotNote;
       document.getElementById("gameNightAdBenefit").textContent = CONFIG.gameNight.adBenefit;
 
-      // Sponsors
+      // Sponsors (remove duplicate “Community Supporter” line: keep only tierTag)
       const sponsorGrid = document.getElementById("sponsorGrid");
       sponsorGrid.innerHTML = "";
-      document.getElementById("sponsorCountPill").textContent = CONFIG.sponsors.placementsLabel;
 
-      CONFIG.sponsors.tiles.forEach(s => {
+      (CONFIG.sponsors.tiles || []).forEach(s => {
         const tileContent = el("div", { class: "sponsorTile" }, [
           document.createTextNode(s.name),
-          el("span", {}, [s.tier || "Community Supporter"]),
           el("div", { class: "tierTag" }, [s.tier || "Community Supporter"])
         ]);
 
@@ -1473,7 +1536,7 @@
       document.getElementById("sponsorCtaNote2").textContent = CONFIG.sponsors.ctaNotes[1];
       document.getElementById("sponsorCtaNote3").textContent = CONFIG.sponsors.ctaNotes[2];
 
-      // Footer
+      // Footer (moved to bottom)
       document.getElementById("footerLine1").textContent =
         "Pilot preview. Layout and example content shown for demonstration purposes.";
       document.getElementById("footerLine2").textContent =
