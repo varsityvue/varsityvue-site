@@ -107,7 +107,7 @@
       grid-template-columns: 1fr;
     }
     @media(min-width:900px){
-      .heroInner{ grid-template-columns: 1.6fr 1fr; align-items:stretch; }
+      .heroInner{ grid-template-columns: 1.35fr 1fr; align-items:stretch; }
     }
 
     .teamHeader{
@@ -163,11 +163,10 @@
       text-underline-offset: 2px;
       font-weight:900;
     }
-
     .badgeWide{
       align-items:flex-start;
       flex: 0 1 auto;
-      max-width: 420px;
+      max-width: 520px;
       white-space: normal;
     }
     .badgeWide .label{
@@ -254,11 +253,88 @@
       outline-offset:3px;
     }
 
+    /* NEW: Hero visual banner to add “more visuals, less text” */
+    .heroVisual{
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      overflow:hidden;
+      background: rgba(0,0,0,.28);
+      box-shadow: 0 14px 45px rgba(0,0,0,.30);
+      min-height: 210px;
+      display:flex;
+      flex-direction:column;
+    }
+    .heroVisualMedia{
+      position:relative;
+      flex: 1 1 auto;
+      min-height: 150px;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.70)),
+        linear-gradient(135deg, rgba(157,26,42,.25), rgba(0,0,0,0) 60%);
+    }
+    .heroVisualMedia img{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      opacity:.88;
+      display:block;
+    }
+    .heroVisualOverlay{
+      position:absolute;
+      inset:0;
+      background: linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.78));
+    }
+    .heroVisualCaption{
+      padding:12px 12px 14px;
+      border-top:1px solid rgba(255,255,255,.10);
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:flex-start;
+    }
+    .heroVisualCaption strong{ font-weight:950; }
+    .heroVisualCaption .tinyCap{
+      font-size:12px; line-height:1.55; color:rgba(243,243,245,.70);
+    }
+
+    /* NEW: collapsed details to de-clutter above fold */
+    details.details{
+      margin-top:14px;
+      border-radius:18px;
+      background: rgba(0,0,0,.26);
+      border:1px solid rgba(255,255,255,.10);
+      overflow:hidden;
+      max-width:720px;
+    }
+    details.details > summary{
+      list-style:none;
+      cursor:pointer;
+      padding:12px 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      font-weight:950;
+      letter-spacing:.2px;
+      color:rgba(243,243,245,.92);
+      background: rgba(0,0,0,.18);
+      border-bottom:1px solid rgba(255,255,255,.10);
+    }
+    details.details > summary::-webkit-details-marker{ display:none; }
+    .detailsBody{ padding:12px; }
+    .detailsHint{
+      font-size:11px;
+      color:rgba(243,243,245,.65);
+      font-weight:900;
+      letter-spacing:.2px;
+      white-space:nowrap;
+    }
+
     /* Trust blocks */
     .programOverview{
-      margin-top:14px;
-      padding-top:14px;
-      border-top:1px solid rgba(255,255,255,.10);
+      margin-top:0;
       max-width:720px;
     }
     .programOverview h3{
@@ -731,6 +807,155 @@
       z-index: 9999;
       max-width: calc(100% - 24px);
     }
+
+    /* =========================
+       NEW: GAME WEEK (VarsityVue)
+       ========================= */
+    .gwHead{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom:10px;
+    }
+    .gwTitle{
+      margin:0;
+      font-size:16px;
+      font-weight:950;
+      letter-spacing:.25px;
+    }
+    .gwSub{
+      margin:6px 0 0;
+      font-size:13px;
+      color:rgba(243,243,245,.78);
+      line-height:1.55;
+    }
+    .gwActions{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .gwTag{
+      display:inline-flex; align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:950;
+      letter-spacing:.2px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.24);
+      color:rgba(243,243,245,.92);
+      white-space:nowrap;
+    }
+    .gwScrollBtn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:38px;
+      height:38px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      cursor:pointer;
+      font-weight:950;
+      user-select:none;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .gwScrollBtn:hover{ transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,0,0,.35); }
+    .gwScrollBtn:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
+
+    .gwRail{
+      display:grid;
+      grid-auto-flow:column;
+      grid-auto-columns: minmax(240px, 290px);
+      gap:12px;
+      overflow-x:auto;
+      padding:12px;
+      scroll-snap-type:x mandatory;
+      -webkit-overflow-scrolling: touch;
+      border-radius:16px;
+      background: rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .gwRail::-webkit-scrollbar{ height:10px; }
+    .gwRail::-webkit-scrollbar-thumb{ background:#2a2a33; border-radius:999px; }
+    .gwRail::-webkit-scrollbar-track{ background: transparent; }
+
+    .gwItem{
+      scroll-snap-align:start;
+      border-radius:16px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.26);
+      box-shadow: 0 12px 34px rgba(0,0,0,.30);
+      display:flex;
+      flex-direction:column;
+      min-height: 220px;
+    }
+    .gwMedia{
+      aspect-ratio: 16/9;
+      background: rgba(255,255,255,.06);
+      border-bottom:1px solid rgba(255,255,255,.10);
+      position:relative;
+      overflow:hidden;
+    }
+    .gwMedia img{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      opacity:.95;
+    }
+    .gwBody{ padding:12px 12px 14px; }
+    .gwKicker{
+      font-size:11px;
+      font-weight:950;
+      letter-spacing:.8px;
+      text-transform:uppercase;
+      color:rgba(243,243,245,.72);
+    }
+    .gwHeadline{
+      margin:6px 0 6px;
+      font-size:14px;
+      font-weight:950;
+      line-height:1.25;
+    }
+    .gwMeta{
+      font-size:12px;
+      color:rgba(243,243,245,.72);
+      line-height:1.5;
+    }
+    .gwLink{
+      margin-top:10px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-weight:950;
+      font-size:13px;
+      text-decoration:none;
+      color:#fff;
+    }
+
+    .gwFooter{
+      margin-top:10px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      color:rgba(243,243,245,.62);
+      font-size:11px;
+      line-height:1.5;
+    }
+
+    @media (max-width:720px){
+      .gwRail{ grid-auto-columns: minmax(240px, 84vw); }
+      .gwActions{ justify-content:flex-start; }
+    }
   </style>
 </head>
 
@@ -750,90 +975,117 @@
         <div>
           <div class="teamHeader">
             <img id="teamLogo" src="/logos/de-leon-bearcats-logo.png" alt="Team logo" class="teamLogo" />
-            <h1 class="school" id="teamName">De Leon Bearcats</h1>
+            <div>
+              <h1 class="school" id="teamName">De Leon Bearcats</h1>
+              <p class="subline" id="tagline">
+                Schedules, results, and weekly visuals — clean sponsor recognition, no added work for coaches.
+              </p>
+            </div>
           </div>
-
-          <p class="subline" id="tagline">
-            A centralized hub for schedules, results, and season updates — with sponsor recognition and no added work for coaches.
-          </p>
 
           <div class="heroBadges" id="heroBadges"></div>
 
+          <!-- CLEANED HERO BUTTONS: 2 primary + small secondary -->
           <div class="btnRow" id="heroButtons"></div>
 
           <div class="miniNav" id="miniNav"></div>
 
-          <div class="programOverview">
-            <h3>Football Program Overview</h3>
-            <p id="programOverviewText"></p>
-          </div>
+          <!-- COLLAPSED DETAILS to reduce above-fold clutter -->
+          <details class="details" id="heroDetails">
+            <summary>
+              Program details, data boundaries, and support links
+              <span class="detailsHint">Tap to expand</span>
+            </summary>
+            <div class="detailsBody">
+              <div class="programOverview">
+                <h3>Football Program Overview</h3>
+                <p id="programOverviewText"></p>
+              </div>
 
-          <div class="trustBlock" aria-label="Why selected">
-            <div class="trustTop">
-              <h3 class="trustTitle">Why This Program?</h3>
-              <span class="trustTag">Pilot School</span>
-            </div>
-            <ul class="trustList" id="whySelectedList"></ul>
-          </div>
+              <div class="trustBlock" aria-label="Why selected">
+                <div class="trustTop">
+                  <h3 class="trustTitle">Why This Program?</h3>
+                  <span class="trustTag">Pilot School</span>
+                </div>
+                <ul class="trustList" id="whySelectedList"></ul>
+              </div>
 
-          <div class="trustBlock" aria-label="Data boundaries">
-            <div class="trustTop">
-              <h3 class="trustTitle">Data & Records</h3>
-              <span class="trustTag">Admin-Safe</span>
-            </div>
-            <p class="trustText" id="dataBoundaryText"></p>
-            <div class="trustNote" id="dataBoundaryNote"></div>
-          </div>
+              <div class="trustBlock" aria-label="Data boundaries">
+                <div class="trustTop">
+                  <h3 class="trustTitle">Data & Records</h3>
+                  <span class="trustTag">Admin-Safe</span>
+                </div>
+                <p class="trustText" id="dataBoundaryText"></p>
+                <div class="trustNote" id="dataBoundaryNote"></div>
+              </div>
 
-          <div class="boosterBlock" aria-label="Support the program">
-            <div class="boosterTop">
-              <h3 class="boosterTitle">Support the Program</h3>
-              <span class="boosterTag">Pilot / Premium Feature</span>
+              <div class="boosterBlock" aria-label="Support the program">
+                <div class="boosterTop">
+                  <h3 class="boosterTitle">Support the Program</h3>
+                  <span class="boosterTag">Pilot / Premium Feature</span>
+                </div>
+                <p class="boosterText" id="boosterText"></p>
+                <div class="boosterActions" id="boosterActions"></div>
+                <div class="boosterDisclaimer" id="boosterDisclaimer"></div>
+              </div>
             </div>
-            <p class="boosterText" id="boosterText"></p>
-            <div class="boosterActions" id="boosterActions"></div>
-            <div class="boosterDisclaimer" id="boosterDisclaimer"></div>
-          </div>
+          </details>
         </div>
 
-        <!-- RIGHT: FEATURED -->
-        <aside class="feature" aria-label="Next game feature">
-          <div>
-            <div class="featureHead">
+        <!-- RIGHT: VISUAL + NEXT GAME (more visuals, less text) -->
+        <aside style="display:flex; flex-direction:column; gap:12px;">
+          <div class="heroVisual" aria-label="Team visual banner">
+            <div class="heroVisualMedia">
+              <img id="heroBannerImg" src="/images/schools/deleon-hero.jpg" alt="De Leon Bearcats team photo or stadium banner" />
+              <div class="heroVisualOverlay" aria-hidden="true"></div>
+            </div>
+            <div class="heroVisualCaption">
               <div>
-                <div class="featureLabel">Next Game</div>
-                <div class="featureMeta" id="nextGameMeta">Featured matchup</div>
+                <strong id="heroBannerTitle">Friday-to-Friday coverage</strong>
+                <div class="tinyCap" id="heroBannerSub">Highlights, moments, and what’s next — built for families and supporters.</div>
               </div>
-              <span class="pill">Featured</span>
+              <span class="pill" style="margin:0;">Featured</span>
             </div>
+          </div>
 
-            <div class="featureRow" style="margin-top:12px;" id="nextGameGrid"></div>
-
-            <div class="btnRow" style="margin-top:12px;" id="nextGameActions"></div>
-
-            <div class="featureRow3" aria-label="Game details strip" id="nextGameStrip"></div>
-
-            <div class="tiny" style="margin-top:12px;" id="coverageDisclaimer"></div>
-
-            <div class="tiny" style="margin-top:10px;">
-              <strong>Pilot Note</strong>
-              <div class="tiny" style="margin-top:6px;" id="pilotNote"></div>
-            </div>
-
-            <div class="tiny" style="margin-top:10px;">
-              <strong>During a game</strong>
-              <div class="tiny" style="margin-top:6px;" id="duringGameNote"></div>
-            </div>
-
-            <!-- Season Snapshot -->
-            <div class="trustBlock" style="max-width:none; margin-top:14px;" aria-label="Season snapshot">
-              <div class="trustTop">
-                <h3 class="trustTitle">Season Snapshot</h3>
-                <span class="trustTag" id="snapshotTag">2026</span>
+          <div class="feature" aria-label="Next game feature">
+            <div>
+              <div class="featureHead">
+                <div>
+                  <div class="featureLabel">Next Game</div>
+                  <div class="featureMeta" id="nextGameMeta">Featured matchup</div>
+                </div>
+                <span class="pill">Kickoff</span>
               </div>
-              <div class="featureRow" style="margin-top:10px;" id="seasonSnapshotGrid"></div>
-              <div class="trustNote" style="margin-top:10px;">
-                <strong>Note:</strong> Snapshot fields can be school-provided or public-facing info. No “official record” claims are made here.
+
+              <div class="featureRow" style="margin-top:12px;" id="nextGameGrid"></div>
+
+              <div class="btnRow" style="margin-top:12px;" id="nextGameActions"></div>
+
+              <div class="featureRow3" aria-label="Game details strip" id="nextGameStrip"></div>
+
+              <div class="tiny" style="margin-top:12px;" id="coverageDisclaimer"></div>
+
+              <!-- Season Snapshot -->
+              <div class="trustBlock" style="max-width:none; margin-top:14px;" aria-label="Season snapshot">
+                <div class="trustTop">
+                  <h3 class="trustTitle">Season Snapshot</h3>
+                  <span class="trustTag" id="snapshotTag">2026</span>
+                </div>
+                <div class="featureRow" style="margin-top:10px;" id="seasonSnapshotGrid"></div>
+                <div class="trustNote" style="margin-top:10px;">
+                  <strong>Note:</strong> Snapshot fields can be school-provided or public-facing info. No “official record” claims are made here.
+                </div>
+              </div>
+
+              <div class="tiny" style="margin-top:10px;">
+                <strong>Pilot Note</strong>
+                <div class="tiny" style="margin-top:6px;" id="pilotNote"></div>
+              </div>
+
+              <div class="tiny" style="margin-top:10px;">
+                <strong>During a game</strong>
+                <div class="tiny" style="margin-top:6px;" id="duringGameNote"></div>
               </div>
             </div>
           </div>
@@ -863,6 +1115,35 @@
             </table>
 
             <div class="tiny" id="scheduleNote"></div>
+          </div>
+        </div>
+
+        <div style="height:16px;"></div>
+
+        <!-- =========================
+             NEW: GAME WEEK (LOCKED)
+             ========================= -->
+        <div class="card" id="gameweek">
+          <div class="cardHead">
+            <div>
+              <h2>Game Week</h2>
+              <div class="tiny" style="margin-top:6px;">Last week’s moments. This week’s matchup.</div>
+            </div>
+            <div class="gwActions">
+              <span class="gwTag" id="gwRangePill">Fri → Fri</span>
+              <button class="gwScrollBtn" type="button" aria-label="Scroll Game Week left" data-gw-scroll="left">←</button>
+              <button class="gwScrollBtn" type="button" aria-label="Scroll Game Week right" data-gw-scroll="right">→</button>
+              <a class="btn btnSecondary btnSmall" href="#schedule">Full Schedule</a>
+            </div>
+          </div>
+
+          <div class="cardBody">
+            <div class="gwRail" id="gwRail" aria-label="Game Week carousel"></div>
+
+            <div class="gwFooter" aria-label="Game Week footer">
+              <div>Curated by VarsityVue • Not a social feed</div>
+              <div><strong style="color:rgba(243,243,245,.92);">Presented by</strong> <span id="gwPresentedBy">YOUR SPONSOR</span></div>
+            </div>
           </div>
         </div>
 
@@ -970,6 +1251,13 @@
       pageUrl: "https://varsityvue.com/schools/de-leon",
       logoSrc: "/logos/de-leon-bearcats-logo.png",
 
+      heroBanner: {
+        imgSrc: "/images/schools/deleon-hero.jpg",   // swap this per school
+        imgAlt: "De Leon Bearcats team photo or stadium banner",
+        title: "Friday-to-Friday coverage",
+        sub: "Highlights, moments, and what’s next — built for families and supporters."
+      },
+
       team: {
         name: "De Leon Bearcats",
         sport: "Football",
@@ -983,7 +1271,7 @@
       },
 
       tagline:
-        "A centralized hub for schedules, results, and season updates — with sponsor recognition and no added work for coaches.",
+        "Schedules, results, and weekly visuals — clean sponsor recognition, no added work for coaches.",
 
       programOverview:
         "De Leon High School football is an integral part of the school’s athletic program, providing student-athletes with structured competition while emphasizing discipline, accountability, and team development within an educational setting.",
@@ -1046,22 +1334,21 @@
         duringGameNote:
           "Fans follow along here for kickoff details, coverage links, and score updates as they post.",
 
-        // Optional: shows in the Next Game strip (NOT required)
         lastResult: {
           label: "Last Result",
           value: "De Leon 18 vs. Axtell 27",
-          sub: "" // optional (leave blank)
+          sub: ""
         }
       },
 
-      // ✅ This is now the correct place to update “Last Game”
+      // ✅ Season Snapshot
       seasonSnapshot: {
         classification: "UIL 2A Division I",
         district: "District 5-2A Division I",
         headCoach: "Brennan Whitaker",
         homeField: "Bearcat Stadium",
         priorSeasonRecord: "9-4",
-        lastGame: "De Leon 18 vs. Axtell 27" // <-- update this safely
+        lastGame: "De Leon 18 vs. Axtell 27"
       },
 
       schedule: {
@@ -1085,6 +1372,50 @@
           "AD benefit: consistent, professional presentation without additional reporting requirements.",
         sampleImageSrc: "/images/de-leon-scoreboard-sample.png",
         sampleImageAlt: "Sample De Leon Bearcats scoreboard graphic"
+      },
+
+      // ✅ NEW: GAME WEEK (Curated, not social)
+      gameWeek: {
+        rangeLabel: "Fri → Fri",
+        presentedBy: "YOUR SPONSOR",
+        items: [
+          // Recap
+          {
+            type: "Recap",
+            headline: "Bearcats 18 — Axtell 27",
+            meta: "Final • Fri",
+            img: "/images/gameweek/recap-score.jpg",
+            alt: "Final score graphic",
+            href: "#gamenight"
+          },
+          // Moment
+          {
+            type: "Moment",
+            headline: "Fourth-quarter stop",
+            meta: "Goal-line stand sealed it.",
+            img: "/images/gameweek/moment-1.jpg",
+            alt: "Highlight photo",
+            href: "#gamenight"
+          },
+          // Highlight
+          {
+            type: "Highlight",
+            headline: "75-yard kickoff return",
+            meta: "Clip • 12 sec",
+            img: "/images/gameweek/moment-2.jpg",
+            alt: "Highlight clip thumbnail",
+            href: "#gamenight"
+          },
+          // Preview
+          {
+            type: "This week",
+            headline: "Bearcats vs Bulldogs",
+            meta: "Fri • 7:30 PM • Bearcat Stadium",
+            img: "/images/gameweek/preview.jpg",
+            alt: "Upcoming matchup graphic",
+            href: "#schedule"
+          }
+        ]
       },
 
       sponsors: {
@@ -1157,11 +1488,15 @@
       document.getElementById("tagline").textContent = CONFIG.tagline;
       document.getElementById("programOverviewText").textContent = CONFIG.programOverview;
 
-      // Badges
+      // Hero banner
+      document.getElementById("heroBannerImg").src = CONFIG.heroBanner.imgSrc;
+      document.getElementById("heroBannerImg").alt = CONFIG.heroBanner.imgAlt;
+      document.getElementById("heroBannerTitle").textContent = CONFIG.heroBanner.title;
+      document.getElementById("heroBannerSub").textContent = CONFIG.heroBanner.sub;
+
+      // Badges (reduced: pilot + socials only)
       const heroBadges = document.getElementById("heroBadges");
       heroBadges.appendChild(el("div", { class: "badge" }, ["Pilot: ", el("strong", {}, [CONFIG.team.pilotTag])]));
-      heroBadges.appendChild(el("div", { class: "badge" }, ["Sport: ", el("strong", {}, [CONFIG.team.sport])]));
-      heroBadges.appendChild(el("div", { class: "badge" }, ["Season: ", el("strong", {}, [String(CONFIG.team.season)])]));
 
       const socials = el("div", { class: "badge badgeWide" }, [
         el("span", { class: "label" }, ["Program Socials"]),
@@ -1174,23 +1509,33 @@
       });
       heroBadges.appendChild(socials);
 
-      // Hero buttons
+      // Hero buttons (clean: 2 primary; admin is secondary)
       const heroButtons = document.getElementById("heroButtons");
       const adminHref = mailto(CONFIG.adminContact.email, CONFIG.adminContact.subject, CONFIG.adminContact.bodyTemplate);
-      heroButtons.appendChild(el("a", { class: "btn btnPrimary", href: adminHref }, ["School Admin Contact"]));
 
-      const supporterHref = mailto(
-        CONFIG.adminContact.email,
-        "VarsityVue Supporter Inquiry - De Leon",
-        "Business Name:%0AContact Name:%0APhone:%0AInterested in supporting: De Leon Athletics%0A"
-      );
-      heroButtons.appendChild(el("a", { class: "btn btnSecondary", href: supporterHref }, ["Become a Supporter"]));
+      heroButtons.appendChild(el("a", { class: "btn btnPrimary", href: "#schedule" }, ["View Schedule"]));
+      heroButtons.appendChild(el("a", { class: "btn btnPrimary", href: "#sponsors" }, ["Support the Program"]));
+      heroButtons.appendChild(el("a", { class: "btn btnSecondary btnSmall", href: adminHref }, ["School Admin Contact"]));
 
-      // Mini nav
+      const shareBtn = el("button", {
+        class: "btn btnSecondary btnSmall",
+        type: "button",
+        onclick: async () => {
+          const url = CONFIG.pageUrl || window.location.href;
+          const title = `${CONFIG.team.name} — ${CONFIG.brandName}`;
+          try{
+            if (navigator.share) { await navigator.share({ title, url }); toast("Shared"); }
+            else { await navigator.clipboard.writeText(url); toast("Link copied"); }
+          } catch(e){}
+        }
+      }, ["Share"]);
+      heroButtons.appendChild(shareBtn);
+
+      // Mini nav (chips)
       const miniNav = document.getElementById("miniNav");
       [
         { label: "Overview", href: "#overview" },
-        { label: "Schedule", href: "#schedule" },
+        { label: "Game Week", href: "#gameweek" },
         { label: "Game Night", href: "#gamenight" },
         { label: "Sponsors", href: "#sponsors" },
         { label: "Admin", href: "#admin" }
@@ -1247,35 +1592,9 @@
 
       // Next game actions
       const nextActions = document.getElementById("nextGameActions");
-      nextActions.appendChild(el("a", {
-        class: "btn btnSecondary btnSmall",
-        href: CONFIG.nextGame.addToCalendarHref
-      }, ["Add to Calendar"]));
-
-      nextActions.appendChild(el("button", {
-        class: "btn btnSecondary btnSmall",
-        type: "button",
-        onclick: async () => {
-          const url = CONFIG.pageUrl || window.location.href;
-          const title = `${CONFIG.team.name} — ${CONFIG.brandName}`;
-          try{
-            if (navigator.share) {
-              await navigator.share({ title, url });
-              toast("Shared");
-            } else {
-              await navigator.clipboard.writeText(url);
-              toast("Link copied");
-            }
-          } catch(e){}
-        }
-      }, ["Share"]));
-
-      nextActions.appendChild(el("a", {
-        class: "btn btnSecondary btnSmall",
-        href: CONFIG.nextGame.maps.google,
-        target: "_blank",
-        rel: "noopener"
-      }, ["Directions"]));
+      nextActions.appendChild(el("a", { class: "btn btnSecondary btnSmall", href: CONFIG.nextGame.addToCalendarHref }, ["Add to Calendar"]));
+      nextActions.appendChild(el("a", { class: "btn btnSecondary btnSmall", href: CONFIG.nextGame.maps.google, target: "_blank", rel: "noopener" }, ["Directions"]));
+      nextActions.appendChild(el("a", { class: "btn btnSecondary btnSmall", href: "#gameweek" }, ["Game Week"]));
 
       // Next game strip
       const strip = document.getElementById("nextGameStrip");
@@ -1292,15 +1611,12 @@
         ])
       ]));
 
-      // ✅ FIX: do NOT reference .sub unless it exists and is non-empty
       const last = CONFIG.nextGame.lastResult || {};
       const lastMiniChildren = [
         el("div", { class: "miniK" }, [safeBlank(last.label || "Last Result")]),
         el("div", { class: "miniV" }, [safeBlank(last.value)])
       ];
-      if (last.sub && String(last.sub).trim() !== "") {
-        lastMiniChildren.push(el("div", { class: "tiny" }, [last.sub]));
-      }
+      if (last.sub && String(last.sub).trim() !== "") lastMiniChildren.push(el("div", { class: "tiny" }, [last.sub]));
       strip.appendChild(el("div", { class: "mini" }, lastMiniChildren));
 
       document.getElementById("coverageDisclaimer").textContent =
@@ -1318,7 +1634,7 @@
         { k: "Head Coach", v: CONFIG.seasonSnapshot.headCoach },
         { k: "Home Field", v: CONFIG.seasonSnapshot.homeField },
         { k: "Prior Season Record", v: CONFIG.seasonSnapshot.priorSeasonRecord },
-        { k: "Last Game", v: CONFIG.seasonSnapshot.lastGame } // ✅ this is what you were trying to update
+        { k: "Last Game", v: CONFIG.seasonSnapshot.lastGame }
       ];
 
       snapItems.forEach(item => {
@@ -1407,6 +1723,39 @@
         "VarsityVue operates independently and in coordination with approved school administrators.";
       document.getElementById("footerLine3").textContent =
         `© ${CONFIG.year} ${CONFIG.brandName} • Powered by VarsityVue`;
+
+      /* =========================
+         Render Game Week items
+         ========================= */
+      document.getElementById("gwRangePill").textContent = CONFIG.gameWeek.rangeLabel || "Fri → Fri";
+      document.getElementById("gwPresentedBy").textContent = CONFIG.gameWeek.presentedBy || "YOUR SPONSOR";
+
+      const gwRail = document.getElementById("gwRail");
+      (CONFIG.gameWeek.items || []).forEach(item => {
+        const card = el("article", { class: "gwItem" }, [
+          el("div", { class: "gwMedia" }, [
+            el("img", { src: item.img, alt: item.alt || item.headline || "Game Week media" }, [])
+          ]),
+          el("div", { class: "gwBody" }, [
+            el("div", { class: "gwKicker" }, [safeBlank(item.type)]),
+            el("div", { class: "gwHeadline" }, [safeBlank(item.headline)]),
+            el("div", { class: "gwMeta" }, [safeBlank(item.meta)]),
+            el("a", { class: "gwLink", href: item.href || "#gamenight" }, ["View →"])
+          ])
+        ]);
+        gwRail.appendChild(card);
+      });
+
+      /* =========================
+         Game Week scroll buttons
+         ========================= */
+      const scrollAmount = () => Math.min(gwRail.clientWidth * 0.9, 520);
+      document.querySelectorAll('[data-gw-scroll]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const dir = btn.getAttribute('data-gw-scroll');
+          gwRail.scrollBy({ left: dir === 'left' ? -scrollAmount() : scrollAmount(), behavior: 'smooth' });
+        });
+      });
     })();
   </script>
 </body>
