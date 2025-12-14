@@ -107,19 +107,23 @@
       grid-template-columns: 1fr;
     }
     @media(min-width:900px){
-      .heroInner{ grid-template-columns: 1.35fr 1fr; align-items:stretch; }
+      .heroInner{ grid-template-columns: 1.35fr 1fr; align-items:start; }
     }
 
     .teamHeader{
       display:flex;
       align-items:center;
       gap:14px;
-      flex-wrap:wrap;
+      flex-wrap:nowrap;
+    }
+    @media(max-width:640px){
+      .teamHeader{ flex-wrap:wrap; }
     }
     .teamLogo{
       width:72px;
       height:auto;
       max-height:72px;
+      flex: 0 0 auto;
     }
 
     .school{
@@ -169,10 +173,7 @@
       max-width: 520px;
       white-space: normal;
     }
-    .badgeWide .label{
-      flex: 0 0 auto;
-      color:#fff;
-    }
+    .badgeWide .label{ flex: 0 0 auto; color:#fff; }
     .badgeWide .links{
       display:flex;
       flex-wrap:wrap;
@@ -180,7 +181,7 @@
       line-height:1.2;
     }
 
-    /* Hero actions */
+    /* Buttons */
     .btnRow{
       display:flex; flex-wrap:wrap; gap:10px;
       margin-top:10px;
@@ -203,27 +204,11 @@
       background: linear-gradient(135deg, var(--accent2), rgba(255,255,255,.10));
       border:1px solid rgba(255,255,255,.14);
     }
-    .btnSecondary{
-      background: rgba(255,255,255,.06);
-    }
-    .btn:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 10px 28px rgba(0,0,0,.35);
-    }
-    .btn:focus-visible{
-      outline:2px solid var(--focus);
-      outline-offset:3px;
-    }
-    .btnSmall{
-      padding:9px 12px;
-      font-size:12px;
-      border-radius:12px;
-    }
-    .btnDisabled{
-      opacity:.55;
-      cursor:not-allowed;
-      pointer-events:none;
-    }
+    .btnSecondary{ background: rgba(255,255,255,.06); }
+    .btn:hover{ transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,0,0,.35); }
+    .btn:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
+    .btnSmall{ padding:9px 12px; font-size:12px; border-radius:12px; }
+    .btnDisabled{ opacity:.55; cursor:not-allowed; pointer-events:none; }
 
     /* Mini nav */
     .miniNav{
@@ -248,12 +233,9 @@
       letter-spacing:.2px;
     }
     .miniNav a:hover{ box-shadow: 0 10px 28px rgba(0,0,0,.25); transform: translateY(-1px); }
-    .miniNav a:focus-visible{
-      outline:2px solid var(--focus);
-      outline-offset:3px;
-    }
+    .miniNav a:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
 
-    /* NEW: Hero visual banner to add “more visuals, less text” */
+    /* Hero visual banner */
     .heroVisual{
       border-radius:18px;
       border:1px solid rgba(255,255,255,.10);
@@ -299,66 +281,108 @@
       font-size:12px; line-height:1.55; color:rgba(243,243,245,.70);
     }
 
-    /* NEW: collapsed details to de-clutter above fold */
-    details.details{
-      margin-top:14px;
+    /* Featured */
+    .feature{
       border-radius:18px;
-      background: rgba(0,0,0,.26);
+      background: rgba(0,0,0,.30);
+      border:1px solid rgba(255,255,255,.10);
+      padding:14px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .featureHead{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+    .featureLabel{ font-weight:900; letter-spacing:.35px; color:#fff; }
+    .featureMeta{
+      color:rgba(243,243,245,.78);
+      font-size:13px;
+      line-height:1.5;
+      margin-top:6px;
+    }
+    .featureRow{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    .featureRow3{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+    @media(max-width:520px){
+      .featureRow3{ grid-template-columns: 1fr; }
+      .featureRow{ grid-template-columns: 1fr; }
+    }
+    .mini{
+      border-radius:14px;
+      padding:10px;
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .miniK{
+      font-size:11px;
+      color:rgba(243,243,245,.72);
+      font-weight:900;
+      letter-spacing:.35px;
+      text-transform:uppercase;
+    }
+    .miniV{
+      margin-top:6px;
+      font-size:16px;
+      font-weight:950;
+      line-height:1.25;
+    }
+    .miniV a{ text-decoration: underline; text-underline-offset: 2px; font-weight:850; }
+    .tiny{
+      margin-top:8px;
+      font-size:12px;
+      color:rgba(243,243,245,.70);
+      line-height:1.6;
+    }
+
+    /* Layout below hero */
+    .main{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:16px;
+    }
+    @media(min-width:980px){
+      .main{ grid-template-columns: 2fr 1fr; }
+    }
+
+    .card{
+      border-radius:20px;
+      background: rgba(255,255,255,.05);
       border:1px solid rgba(255,255,255,.10);
       overflow:hidden;
-      max-width:720px;
+      box-shadow: 0 14px 45px rgba(0,0,0,.30);
     }
-    details.details > summary{
-      list-style:none;
-      cursor:pointer;
-      padding:12px 12px;
+    .cardHead{
+      padding:14px 16px;
       display:flex;
-      align-items:center;
+      align-items:flex-start;
       justify-content:space-between;
       gap:12px;
-      font-weight:950;
-      letter-spacing:.2px;
-      color:rgba(243,243,245,.92);
-      background: rgba(0,0,0,.18);
       border-bottom:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.20);
     }
-    details.details > summary::-webkit-details-marker{ display:none; }
-    .detailsBody{ padding:12px; }
-    .detailsHint{
-      font-size:11px;
-      color:rgba(243,243,245,.65);
-      font-weight:900;
-      letter-spacing:.2px;
-      white-space:nowrap;
-    }
-
-    /* Trust blocks */
-    .programOverview{
-      margin-top:0;
-      max-width:720px;
-    }
-    .programOverview h3{
-      margin:0 0 6px;
-      font-size:13px;
-      font-weight:950;
-      letter-spacing:.25px;
-      text-transform:uppercase;
-      color:rgba(243,243,245,.9);
-    }
-    .programOverview p{
+    .cardHead h2{
       margin:0;
       font-size:14px;
-      line-height:1.6;
-      color:rgba(243,243,245,.78);
+      letter-spacing:.25px;
+      font-weight:950;
     }
+    .cardBody{ padding:14px 16px; }
 
+    /* Trust blocks */
     .trustBlock{
       margin-top:12px;
       border-radius:18px;
       padding:12px;
       background: rgba(0,0,0,.26);
       border:1px solid rgba(255,255,255,.10);
-      max-width:720px;
     }
     .trustTop{
       display:flex;
@@ -408,55 +432,9 @@
       line-height:1.5;
       color:rgba(243,243,245,.62);
     }
-    .trustNote strong{
-      color:rgba(243,243,245,.85);
-      font-weight:950;
-    }
+    .trustNote strong{ color:rgba(243,243,245,.85); font-weight:950; }
 
-    /* Booster */
-    .boosterBlock{
-      margin-top:14px;
-      border-radius:18px;
-      padding:12px;
-      background: rgba(0,0,0,.26);
-      border:1px solid rgba(255,255,255,.10);
-      max-width:720px;
-    }
-    .boosterTop{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-    .boosterTitle{
-      margin:0;
-      font-size:13px;
-      font-weight:950;
-      letter-spacing:.25px;
-      text-transform:uppercase;
-      color:rgba(243,243,245,.92);
-    }
-    .boosterTag{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:6px 10px;
-      border-radius:999px;
-      background: rgba(157,26,42,.12);
-      border:1px solid rgba(157,26,42,.35);
-      color:rgba(243,243,245,.92);
-      font-size:11px;
-      font-weight:950;
-      letter-spacing:.2px;
-      white-space:nowrap;
-    }
-    .boosterText{
-      margin:8px 0 0;
-      font-size:13px;
-      line-height:1.6;
-      color:rgba(243,243,245,.78);
-    }
+    /* Booster actions */
     .boosterActions{
       display:flex;
       flex-wrap:wrap;
@@ -476,126 +454,8 @@
       background: rgba(255,255,255,.06);
       transition: transform .15s ease, box-shadow .15s ease;
     }
-    .btnLink:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 10px 28px rgba(0,0,0,.35);
-    }
-    .btnLink:focus-visible{
-      outline:2px solid var(--focus);
-      outline-offset:3px;
-    }
-    .boosterDisclaimer{
-      margin-top:8px;
-      font-size:12px;
-      line-height:1.5;
-      color:rgba(243,243,245,.62);
-    }
-    .boosterDisclaimer strong{
-      color:rgba(243,243,245,.85);
-      font-weight:950;
-    }
-
-    /* Featured */
-    .feature{
-      border-radius:18px;
-      background: rgba(0,0,0,.30);
-      border:1px solid rgba(255,255,255,.10);
-      padding:14px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-      gap:12px;
-    }
-    .featureHead{
-      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
-    }
-    .featureLabel{ font-weight:900; letter-spacing:.35px; color:#fff; }
-    .featureMeta{
-      color:rgba(243,243,245,.78);
-      font-size:13px;
-      line-height:1.5;
-      margin-top:6px;
-    }
-    .featureRow{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:10px;
-    }
-    .featureRow3{
-      display:grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap:10px;
-      margin-top:10px;
-    }
-    @media(max-width:520px){
-      .featureRow3{ grid-template-columns: 1fr; }
-      .featureRow{ grid-template-columns: 1fr; }
-    }
-    .mini{
-      border-radius:14px;
-      padding:10px;
-      background: rgba(255,255,255,.05);
-      border:1px solid rgba(255,255,255,.10);
-    }
-    .miniK{
-      font-size:11px;
-      color:rgba(243,243,245,.72);
-      font-weight:900;
-      letter-spacing:.35px;
-      text-transform:uppercase;
-    }
-    .miniV{
-      margin-top:6px;
-      font-size:16px;
-      font-weight:950;
-      line-height:1.25;
-    }
-    .miniV a{
-      text-decoration: underline;
-      text-underline-offset: 2px;
-      font-weight:850;
-    }
-    .tiny{
-      margin-top:8px;
-      font-size:12px;
-      color:rgba(243,243,245,.70);
-      line-height:1.6;
-    }
-
-    /* Layout below hero */
-    .main{
-      margin-top:18px;
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:16px;
-    }
-    @media(min-width:980px){
-      .main{ grid-template-columns: 2fr 1fr; }
-    }
-
-    .card{
-      border-radius:20px;
-      background: rgba(255,255,255,.05);
-      border:1px solid rgba(255,255,255,.10);
-      overflow:hidden;
-      box-shadow: 0 14px 45px rgba(0,0,0,.30);
-    }
-    .cardHead{
-      padding:14px 16px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      border-bottom:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.20);
-    }
-    .cardHead h2{
-      margin:0;
-      font-size:14px;
-      letter-spacing:.25px;
-      font-weight:950;
-    }
-    .cardBody{ padding:14px 16px; }
+    .btnLink:hover{ transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,0,0,.35); }
+    .btnLink:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
 
     /* Table */
     .table{
@@ -647,12 +507,7 @@
       background: rgba(0,0,0,.25);
       padding:14px;
     }
-    .gameNightTitle{
-      margin:0;
-      font-weight:950;
-      letter-spacing:.2px;
-      font-size:14px;
-    }
+    .gameNightTitle{ margin:0; font-weight:950; letter-spacing:.2px; font-size:14px; }
     .gameNightSub{
       margin:8px 0 0;
       color:rgba(243,243,245,.80);
@@ -738,7 +593,6 @@
       line-height:1.55;
     }
 
-    /* Sponsor CTA block */
     .sponsorCTA{
       margin-top:14px;
       padding-top:14px;
@@ -751,7 +605,7 @@
       justify-content:center;
     }
 
-    /* Admin / contact */
+    /* Admin */
     .adminCard{
       margin-top:16px;
       border-radius:18px;
@@ -809,28 +663,8 @@
     }
 
     /* =========================
-       NEW: GAME WEEK (VarsityVue)
+       GAME WEEK
        ========================= */
-    .gwHead{
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-bottom:10px;
-    }
-    .gwTitle{
-      margin:0;
-      font-size:16px;
-      font-weight:950;
-      letter-spacing:.25px;
-    }
-    .gwSub{
-      margin:6px 0 0;
-      font-size:13px;
-      color:rgba(243,243,245,.78);
-      line-height:1.55;
-    }
     .gwActions{
       display:flex;
       gap:10px;
@@ -940,7 +774,6 @@
       text-decoration:none;
       color:#fff;
     }
-
     .gwFooter{
       margin-top:10px;
       display:flex;
@@ -951,7 +784,6 @@
       font-size:11px;
       line-height:1.5;
     }
-
     @media (max-width:720px){
       .gwRail{ grid-auto-columns: minmax(240px, 84vw); }
       .gwActions{ justify-content:flex-start; }
@@ -985,54 +817,12 @@
 
           <div class="heroBadges" id="heroBadges"></div>
 
-          <!-- CLEANED HERO BUTTONS: 2 primary + small secondary -->
           <div class="btnRow" id="heroButtons"></div>
 
           <div class="miniNav" id="miniNav"></div>
-
-          <!-- COLLAPSED DETAILS to reduce above-fold clutter -->
-          <details class="details" id="heroDetails">
-            <summary>
-              Program details, data boundaries, and support links
-              <span class="detailsHint">Tap to expand</span>
-            </summary>
-            <div class="detailsBody">
-              <div class="programOverview">
-                <h3>Football Program Overview</h3>
-                <p id="programOverviewText"></p>
-              </div>
-
-              <div class="trustBlock" aria-label="Why selected">
-                <div class="trustTop">
-                  <h3 class="trustTitle">Why This Program?</h3>
-                  <span class="trustTag">Pilot School</span>
-                </div>
-                <ul class="trustList" id="whySelectedList"></ul>
-              </div>
-
-              <div class="trustBlock" aria-label="Data boundaries">
-                <div class="trustTop">
-                  <h3 class="trustTitle">Data & Records</h3>
-                  <span class="trustTag">Admin-Safe</span>
-                </div>
-                <p class="trustText" id="dataBoundaryText"></p>
-                <div class="trustNote" id="dataBoundaryNote"></div>
-              </div>
-
-              <div class="boosterBlock" aria-label="Support the program">
-                <div class="boosterTop">
-                  <h3 class="boosterTitle">Support the Program</h3>
-                  <span class="boosterTag">Pilot / Premium Feature</span>
-                </div>
-                <p class="boosterText" id="boosterText"></p>
-                <div class="boosterActions" id="boosterActions"></div>
-                <div class="boosterDisclaimer" id="boosterDisclaimer"></div>
-              </div>
-            </div>
-          </details>
         </div>
 
-        <!-- RIGHT: VISUAL + NEXT GAME (more visuals, less text) -->
+        <!-- RIGHT -->
         <aside style="display:flex; flex-direction:column; gap:12px;">
           <div class="heroVisual" aria-label="Team visual banner">
             <div class="heroVisualMedia">
@@ -1060,13 +850,10 @@
 
               <div class="featureRow" style="margin-top:12px;" id="nextGameGrid"></div>
 
-              <div class="btnRow" style="margin-top:12px;" id="nextGameActions"></div>
-
               <div class="featureRow3" aria-label="Game details strip" id="nextGameStrip"></div>
 
               <div class="tiny" style="margin-top:12px;" id="coverageDisclaimer"></div>
 
-              <!-- Season Snapshot -->
               <div class="trustBlock" style="max-width:none; margin-top:14px;" aria-label="Season snapshot">
                 <div class="trustTop">
                   <h3 class="trustTitle">Season Snapshot</h3>
@@ -1096,6 +883,52 @@
     <section class="main">
       <!-- LEFT -->
       <div>
+        <!-- Program card (replaces the removed collapsible) -->
+        <div class="card" id="program" style="margin-top:0;">
+          <div class="cardHead">
+            <h2>Program Notes</h2>
+            <span class="pill">Admin-safe</span>
+          </div>
+          <div class="cardBody">
+            <div class="trustBlock" style="margin-top:0;">
+              <div class="trustTop">
+                <h3 class="trustTitle">Football Program Overview</h3>
+                <span class="trustTag">Pilot</span>
+              </div>
+              <p class="trustText" id="programOverviewText"></p>
+            </div>
+
+            <div class="trustBlock" aria-label="Why selected">
+              <div class="trustTop">
+                <h3 class="trustTitle">Why This Program?</h3>
+                <span class="trustTag">Pilot School</span>
+              </div>
+              <ul class="trustList" id="whySelectedList"></ul>
+            </div>
+
+            <div class="trustBlock" aria-label="Data boundaries">
+              <div class="trustTop">
+                <h3 class="trustTitle">Data & Records</h3>
+                <span class="trustTag">Admin-Safe</span>
+              </div>
+              <p class="trustText" id="dataBoundaryText"></p>
+              <div class="trustNote" id="dataBoundaryNote"></div>
+            </div>
+
+            <div class="trustBlock" aria-label="Support the program">
+              <div class="trustTop">
+                <h3 class="trustTitle">Support the Program</h3>
+                <span class="trustTag">Pilot / Premium</span>
+              </div>
+              <p class="trustText" id="boosterText"></p>
+              <div class="boosterActions" id="boosterActions"></div>
+              <div class="trustNote" id="boosterDisclaimer"></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:16px;"></div>
+
         <div class="card" id="schedule">
           <div class="cardHead">
             <h2>Schedule & Results</h2>
@@ -1120,9 +953,7 @@
 
         <div style="height:16px;"></div>
 
-        <!-- =========================
-             NEW: GAME WEEK (LOCKED)
-             ========================= -->
+        <!-- GAME WEEK -->
         <div class="card" id="gameweek">
           <div class="cardHead">
             <div>
@@ -1252,7 +1083,7 @@
       logoSrc: "/logos/de-leon-bearcats-logo.png",
 
       heroBanner: {
-        imgSrc: "/images/schools/deleon-hero.jpg",   // swap this per school
+        imgSrc: "/images/schools/deleon-hero.jpg",
         imgAlt: "De Leon Bearcats team photo or stadium banner",
         title: "Friday-to-Friday coverage",
         sub: "Highlights, moments, and what’s next — built for families and supporters."
@@ -1328,14 +1159,12 @@
           { label: "NFHS (if available)", href: "https://www.nfhsnetwork.com/watch-events" },
           { label: "Local Broadcast", href: "https://kwbyradio.com/de-leon-bearcats/" }
         ],
-        addToCalendarHref: "/ics/deleon-nextgame.ics", // placeholder route (optional)
         pilotNote:
           "Designed to minimize staff workload. Pilot workflows handle score updates, with optional school input.",
         duringGameNote:
           "Fans follow along here for kickoff details, coverage links, and score updates as they post.",
       },
 
-      // ✅ Season Snapshot
       seasonSnapshot: {
         classification: "UIL 2A Division I",
         district: "District 5-2A Division I",
@@ -1368,47 +1197,14 @@
         sampleImageAlt: "Sample De Leon Bearcats scoreboard graphic"
       },
 
-      // ✅ NEW: GAME WEEK (Curated, not social)
       gameWeek: {
         rangeLabel: "Fri → Fri",
         presentedBy: "YOUR SPONSOR",
         items: [
-          // Recap
-          {
-            type: "Recap",
-            headline: "Bearcats 18 — Axtell 27",
-            meta: "Final • Fri",
-            img: "/images/gameweek/recap-score.jpg",
-            alt: "Final score graphic",
-            href: "#gamenight"
-          },
-          // Moment
-          {
-            type: "Moment",
-            headline: "Fourth-quarter stop",
-            meta: "Goal-line stand sealed it.",
-            img: "/images/gameweek/moment-1.jpg",
-            alt: "Highlight photo",
-            href: "#gamenight"
-          },
-          // Highlight
-          {
-            type: "Highlight",
-            headline: "75-yard kickoff return",
-            meta: "Clip • 12 sec",
-            img: "/images/gameweek/moment-2.jpg",
-            alt: "Highlight clip thumbnail",
-            href: "#gamenight"
-          },
-          // Preview
-          {
-            type: "This week",
-            headline: "Bearcats vs Bulldogs",
-            meta: "Fri • 7:30 PM • Bearcat Stadium",
-            img: "/images/gameweek/preview.jpg",
-            alt: "Upcoming matchup graphic",
-            href: "#schedule"
-          }
+          { type: "Recap", headline: "Bearcats 18 — Axtell 27", meta: "Final • Fri", img: "/images/gameweek/recap-score.jpg", alt: "Final score graphic", href: "#gamenight" },
+          { type: "Moment", headline: "Fourth-quarter stop", meta: "Goal-line stand sealed it.", img: "/images/gameweek/moment-1.jpg", alt: "Highlight photo", href: "#gamenight" },
+          { type: "Highlight", headline: "75-yard kickoff return", meta: "Clip • 12 sec", img: "/images/gameweek/moment-2.jpg", alt: "Highlight clip thumbnail", href: "#gamenight" },
+          { type: "This week", headline: "Bearcats vs Bulldogs", meta: "Fri • 7:30 PM • Bearcat Stadium", img: "/images/gameweek/preview.jpg", alt: "Upcoming matchup graphic", href: "#schedule" }
         ]
       },
 
@@ -1464,7 +1260,6 @@
       window.__toastTimer = setTimeout(() => (t.style.display = "none"), 1600);
     };
 
-    // body should already be URL-encoded in templates
     const mailto = (email, subject, body) =>
       `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${body}`;
 
@@ -1480,6 +1275,8 @@
       document.getElementById("teamLogo").alt = `${CONFIG.team.name} logo`;
       document.getElementById("teamName").textContent = CONFIG.team.name;
       document.getElementById("tagline").textContent = CONFIG.tagline;
+
+      // Program notes
       document.getElementById("programOverviewText").textContent = CONFIG.programOverview;
 
       // Hero banner
@@ -1488,8 +1285,9 @@
       document.getElementById("heroBannerTitle").textContent = CONFIG.heroBanner.title;
       document.getElementById("heroBannerSub").textContent = CONFIG.heroBanner.sub;
 
-      // Badges (reduced: pilot + socials only)
+      // Badges (pilot + socials)
       const heroBadges = document.getElementById("heroBadges");
+      heroBadges.innerHTML = "";
       heroBadges.appendChild(el("div", { class: "badge" }, ["Pilot: ", el("strong", {}, [CONFIG.team.pilotTag])]));
 
       const socials = el("div", { class: "badge badgeWide" }, [
@@ -1503,15 +1301,17 @@
       });
       heroBadges.appendChild(socials);
 
-      // Hero buttons (clean: 2 primary; admin is secondary)
+      // Hero buttons (no redundancy spam)
       const heroButtons = document.getElementById("heroButtons");
+      heroButtons.innerHTML = "";
       const adminHref = mailto(CONFIG.adminContact.email, CONFIG.adminContact.subject, CONFIG.adminContact.bodyTemplate);
 
-      heroButtons.appendChild(el("a", { class: "btn btnPrimary", href: "#schedule" }, ["View Schedule"]));
-      heroButtons.appendChild(el("a", { class: "btn btnPrimary", href: "#sponsors" }, ["Support the Program"]));
-      heroButtons.appendChild(el("a", { class: "btn btnSecondary btnSmall", href: adminHref }, ["School Admin Contact"]));
+      heroButtons.appendChild(el("a", { class: "btn btnPrimary", href: "#gameweek" }, ["Game Week"]));
+      heroButtons.appendChild(el("a", { class: "btn btnPrimary", href: "#schedule" }, ["Schedule"]));
+      heroButtons.appendChild(el("a", { class: "btn btnSecondary btnSmall", href: "#sponsors" }, ["Sponsors"]));
+      heroButtons.appendChild(el("a", { class: "btn btnSecondary btnSmall", href: adminHref }, ["Admin Contact"]));
 
-      const shareBtn = el("button", {
+      heroButtons.appendChild(el("button", {
         class: "btn btnSecondary btnSmall",
         type: "button",
         onclick: async () => {
@@ -1522,14 +1322,15 @@
             else { await navigator.clipboard.writeText(url); toast("Link copied"); }
           } catch(e){}
         }
-      }, ["Share"]);
-      heroButtons.appendChild(shareBtn);
+      }, ["Share"]));
 
       // Mini nav (chips)
       const miniNav = document.getElementById("miniNav");
+      miniNav.innerHTML = "";
       [
-        { label: "Overview", href: "#overview" },
+        { label: "Program", href: "#program" },
         { label: "Game Week", href: "#gameweek" },
+        { label: "Schedule", href: "#schedule" },
         { label: "Game Night", href: "#gamenight" },
         { label: "Sponsors", href: "#sponsors" },
         { label: "Admin", href: "#admin" }
@@ -1537,6 +1338,7 @@
 
       // Why selected
       const whyList = document.getElementById("whySelectedList");
+      whyList.innerHTML = "";
       CONFIG.whySelected.forEach(item => whyList.appendChild(el("li", {}, [item])));
 
       // Data boundaries
@@ -1546,6 +1348,7 @@
       // Booster
       document.getElementById("boosterText").textContent = CONFIG.booster.text;
       const boosterActions = document.getElementById("boosterActions");
+      boosterActions.innerHTML = "";
       CONFIG.booster.actions.forEach(a => {
         boosterActions.appendChild(el("a", {
           class: "btnLink",
@@ -1560,6 +1363,7 @@
       document.getElementById("nextGameMeta").textContent = "Featured matchup (example layout).";
 
       const nextGameGrid = document.getElementById("nextGameGrid");
+      nextGameGrid.innerHTML = "";
       nextGameGrid.appendChild(el("div", { class: "mini" }, [
         el("div", { class: "miniK" }, ["Opponent"]),
         el("div", { class: "miniV" }, [CONFIG.nextGame.opponent])
@@ -1583,22 +1387,30 @@
         el("div", { class: "miniK" }, ["Record"]),
         el("div", { class: "miniV" }, [CONFIG.nextGame.recordDisplay])
       ]));
-      // Next game strip
+
+      // Next game strip (only what exists)
       const strip = document.getElementById("nextGameStrip");
+      strip.innerHTML = "";
+
+      const cov0 = (CONFIG.nextGame.coverage || [])[0];
+      const cov1 = (CONFIG.nextGame.coverage || [])[1];
+
       strip.appendChild(el("div", { class: "mini" }, [
         el("div", { class: "miniK" }, ["Coverage"]),
         el("div", { class: "miniV" }, [
-          el("a", { href: CONFIG.nextGame.coverage[0].href, target: "_blank", rel: "noopener" }, [CONFIG.nextGame.coverage[0].label])
+          cov0 ? el("a", { href: cov0.href, target: "_blank", rel: "noopener" }, [cov0.label]) : document.createTextNode("—")
         ])
       ]));
       strip.appendChild(el("div", { class: "mini" }, [
         el("div", { class: "miniK" }, ["Local Radio"]),
         el("div", { class: "miniV" }, [
-          el("a", { href: CONFIG.nextGame.coverage[1].href, target: "_blank", rel: "noopener" }, [CONFIG.nextGame.coverage[1].label])
+          cov1 ? el("a", { href: cov1.href, target: "_blank", rel: "noopener" }, [cov1.label]) : document.createTextNode("—")
         ])
       ]));
-      if (last.sub && String(last.sub).trim() !== "") lastMiniChildren.push(el("div", { class: "tiny" }, [last.sub]));
-      strip.appendChild(el("div", { class: "mini" }, lastMiniChildren));
+      strip.appendChild(el("div", { class: "mini" }, [
+        el("div", { class: "miniK" }, ["This Week"]),
+        el("div", { class: "miniV" }, [`${CONFIG.nextGame.dateDisplay} • ${CONFIG.nextGame.timeDisplay}`])
+      ]));
 
       document.getElementById("coverageDisclaimer").textContent =
         "Coverage links are provided by third-party platforms and may vary by opponent, venue, and broadcast rights.";
@@ -1608,6 +1420,7 @@
       // Season snapshot
       document.getElementById("snapshotTag").textContent = String(CONFIG.year);
       const snapshot = document.getElementById("seasonSnapshotGrid");
+      snapshot.innerHTML = "";
 
       const snapItems = [
         { k: "Classification", v: CONFIG.seasonSnapshot.classification },
@@ -1627,6 +1440,7 @@
 
       // Schedule table
       const scheduleBody = document.getElementById("scheduleBody");
+      scheduleBody.innerHTML = "";
       const statusLabel = (s) => s === "final" ? "Final" : "Upcoming";
       CONFIG.schedule.rows.forEach(r => {
         scheduleBody.appendChild(el("tr", { class: "row" }, [
@@ -1653,6 +1467,7 @@
 
       // Sponsors
       const sponsorGrid = document.getElementById("sponsorGrid");
+      sponsorGrid.innerHTML = "";
       document.getElementById("sponsorCountPill").textContent = CONFIG.sponsors.placementsLabel;
 
       CONFIG.sponsors.tiles.forEach(s => {
@@ -1675,6 +1490,7 @@
       });
 
       const sponsorValueList = document.getElementById("sponsorValueList");
+      sponsorValueList.innerHTML = "";
       CONFIG.sponsors.valueBullets.forEach(b => sponsorValueList.appendChild(el("li", {}, [b])));
 
       document.getElementById("sponsorMailtoBtn").href = mailto(
@@ -1689,6 +1505,7 @@
 
       // Admin block
       const adminUl = document.getElementById("adminList");
+      adminUl.innerHTML = "";
       CONFIG.adminContact.adminList.forEach(i => adminUl.appendChild(el("li", {}, [i])));
       document.getElementById("adminMailtoBtn").href = mailto(
         CONFIG.adminContact.email,
@@ -1705,13 +1522,12 @@
       document.getElementById("footerLine3").textContent =
         `© ${CONFIG.year} ${CONFIG.brandName} • Powered by VarsityVue`;
 
-      /* =========================
-         Render Game Week items
-         ========================= */
+      // Game Week
       document.getElementById("gwRangePill").textContent = CONFIG.gameWeek.rangeLabel || "Fri → Fri";
       document.getElementById("gwPresentedBy").textContent = CONFIG.gameWeek.presentedBy || "YOUR SPONSOR";
 
       const gwRail = document.getElementById("gwRail");
+      gwRail.innerHTML = "";
       (CONFIG.gameWeek.items || []).forEach(item => {
         const card = el("article", { class: "gwItem" }, [
           el("div", { class: "gwMedia" }, [
@@ -1727,9 +1543,7 @@
         gwRail.appendChild(card);
       });
 
-      /* =========================
-         Game Week scroll buttons
-         ========================= */
+      // Game Week scroll buttons
       const scrollAmount = () => Math.min(gwRail.clientWidth * 0.9, 520);
       document.querySelectorAll('[data-gw-scroll]').forEach(btn => {
         btn.addEventListener('click', () => {
