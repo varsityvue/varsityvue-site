@@ -22,13 +22,9 @@
   <style>
     :root{
       --bg:#0b0b0d;
-      --panel:#111114;
-      --card:#15151a;
-      --line:#24242b;
       --text:#f3f3f5;
-      --muted:#b7b7c2;
       --soft:#d9d9df;
-      --accent:#6b0f1a; /* maroon */
+      --accent:#6b0f1a;
       --accent2:#9d1a2a;
       --good:#1f9d55;
       --warn:#d8a104;
@@ -36,6 +32,7 @@
     }
 
     *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
     body{
       margin:0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Arial, sans-serif;
@@ -46,6 +43,7 @@
       color:var(--text);
     }
     a{ color:inherit; text-decoration:none; }
+    img{ max-width:100%; display:block; }
 
     .wrap{
       max-width:1100px;
@@ -70,6 +68,7 @@
       background: linear-gradient(135deg, var(--accent2), rgba(255,255,255,.10));
       border:1px solid rgba(255,255,255,.12);
       box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      flex: 0 0 auto;
     }
 
     .pill{
@@ -91,7 +90,6 @@
 
     /* Hero */
     .hero{
-      position:relative;
       border-radius:22px;
       overflow:hidden;
       border:1px solid rgba(255,255,255,.10);
@@ -101,20 +99,26 @@
       box-shadow: 0 18px 60px rgba(0,0,0,.45);
       padding:18px;
     }
+
+    /* Make hero always clean and not “push” layout */
     .heroInner{
       display:grid;
       gap:14px;
       grid-template-columns: 1fr;
+      align-items:start;
     }
     @media(min-width:900px){
-      .heroInner{ grid-template-columns: 1.35fr 1fr; align-items:start; }
+      .heroInner{ grid-template-columns: 1.35fr 1fr; }
     }
+    /* Critical: prevent grid children from causing overflow / “kicked right” */
+    .heroInner > *{ min-width:0; }
 
     .teamHeader{
       display:flex;
       align-items:center;
       gap:14px;
       flex-wrap:nowrap;
+      min-width:0;
     }
     @media(max-width:640px){
       .teamHeader{ flex-wrap:wrap; }
@@ -147,6 +151,7 @@
       flex-wrap:wrap;
       gap:10px;
       align-items:flex-start;
+      min-width:0;
     }
     .badge{
       display:inline-flex;
@@ -169,9 +174,9 @@
     }
     .badgeWide{
       align-items:flex-start;
-      flex: 0 1 auto;
       max-width: 520px;
       white-space: normal;
+      min-width:0;
     }
     .badgeWide .label{ flex: 0 0 auto; color:#fff; }
     .badgeWide .links{
@@ -179,6 +184,8 @@
       flex-wrap:wrap;
       gap:6px;
       line-height:1.2;
+      min-width:0;
+      overflow-wrap:anywhere;
     }
 
     /* Buttons */
@@ -245,6 +252,7 @@
       min-height: 210px;
       display:flex;
       flex-direction:column;
+      min-width:0;
     }
     .heroVisualMedia{
       position:relative;
@@ -261,7 +269,6 @@
       height:100%;
       object-fit:cover;
       opacity:.88;
-      display:block;
     }
     .heroVisualOverlay{
       position:absolute;
@@ -275,83 +282,14 @@
       justify-content:space-between;
       gap:10px;
       align-items:flex-start;
+      min-width:0;
     }
     .heroVisualCaption strong{ font-weight:950; }
     .heroVisualCaption .tinyCap{
       font-size:12px; line-height:1.55; color:rgba(243,243,245,.70);
     }
 
-    /* Featured */
-    .feature{
-      border-radius:18px;
-      background: rgba(0,0,0,.30);
-      border:1px solid rgba(255,255,255,.10);
-      padding:14px;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-    }
-    .featureHead{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
-    .featureLabel{ font-weight:900; letter-spacing:.35px; color:#fff; }
-    .featureMeta{
-      color:rgba(243,243,245,.78);
-      font-size:13px;
-      line-height:1.5;
-      margin-top:6px;
-    }
-    .featureRow{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:10px;
-    }
-    .featureRow3{
-      display:grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap:10px;
-      margin-top:10px;
-    }
-    @media(max-width:520px){
-      .featureRow3{ grid-template-columns: 1fr; }
-      .featureRow{ grid-template-columns: 1fr; }
-    }
-    .mini{
-      border-radius:14px;
-      padding:10px;
-      background: rgba(255,255,255,.05);
-      border:1px solid rgba(255,255,255,.10);
-    }
-    .miniK{
-      font-size:11px;
-      color:rgba(243,243,245,.72);
-      font-weight:900;
-      letter-spacing:.35px;
-      text-transform:uppercase;
-    }
-    .miniV{
-      margin-top:6px;
-      font-size:16px;
-      font-weight:950;
-      line-height:1.25;
-    }
-    .miniV a{ text-decoration: underline; text-underline-offset: 2px; font-weight:850; }
-    .tiny{
-      margin-top:8px;
-      font-size:12px;
-      color:rgba(243,243,245,.70);
-      line-height:1.6;
-    }
-
-    /* Layout below hero */
-    .main{
-      margin-top:18px;
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:16px;
-    }
-    @media(min-width:980px){
-      .main{ grid-template-columns: 2fr 1fr; }
-    }
-
+    /* Cards */
     .card{
       border-radius:20px;
       background: rgba(255,255,255,.05);
@@ -376,7 +314,7 @@
     }
     .cardBody{ padding:14px 16px; }
 
-    /* Trust blocks */
+    /* Program notes + notes strip */
     .trustBlock{
       margin-top:12px;
       border-radius:18px;
@@ -434,7 +372,6 @@
     }
     .trustNote strong{ color:rgba(243,243,245,.85); font-weight:950; }
 
-    /* Booster actions */
     .boosterActions{
       display:flex;
       flex-wrap:wrap;
@@ -456,6 +393,103 @@
     }
     .btnLink:hover{ transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,0,0,.35); }
     .btnLink:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
+
+    /* Mini tiles */
+    .mini{
+      border-radius:14px;
+      padding:10px;
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+      min-width:0;
+    }
+    .miniK{
+      font-size:11px;
+      color:rgba(243,243,245,.72);
+      font-weight:900;
+      letter-spacing:.35px;
+      text-transform:uppercase;
+    }
+    .miniV{
+      margin-top:6px;
+      font-size:16px;
+      font-weight:950;
+      line-height:1.25;
+      overflow-wrap:anywhere;
+    }
+    .miniV a{ text-decoration: underline; text-underline-offset: 2px; font-weight:850; }
+
+    .tiny{
+      margin-top:8px;
+      font-size:12px;
+      color:rgba(243,243,245,.70);
+      line-height:1.6;
+    }
+
+    /* Two-up row below Program Notes: Next Game + Season Snapshot */
+    .belowProgram{
+      margin-top:16px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:16px;
+    }
+    @media(min-width:980px){
+      .belowProgram{ grid-template-columns: 1fr 1fr; }
+    }
+    .belowProgram > *{ min-width:0; }
+
+    /* Next game card internals */
+    .feature{
+      border-radius:20px;
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+      overflow:hidden;
+      box-shadow: 0 14px 45px rgba(0,0,0,.30);
+    }
+    .feature .cardHead{ border-bottom:1px solid rgba(255,255,255,.10); }
+    .featureBody{ padding:14px 16px; }
+
+    .featureHeadRow{
+      display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+    }
+    .featureLabel{ font-weight:950; letter-spacing:.35px; color:#fff; font-size:14px; }
+    .featureMeta{
+      color:rgba(243,243,245,.78);
+      font-size:13px;
+      line-height:1.5;
+      margin-top:6px;
+    }
+
+    .featureGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin-top:12px;
+    }
+    @media(max-width:520px){
+      .featureGrid{ grid-template-columns: 1fr; }
+    }
+    .featureStrip{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+    @media(max-width:680px){
+      .featureStrip{ grid-template-columns: 1fr; }
+    }
+
+    /* Main section: full-width content + right sponsors */
+    .main{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:16px;
+      align-items:start;
+    }
+    @media(min-width:980px){
+      .main{ grid-template-columns: 2fr 1fr; }
+    }
+    .main > *{ min-width:0; } /* prevents sidebar “kicked right” */
 
     /* Table */
     .table{
@@ -557,7 +591,6 @@
 
     .sponsorLink{
       display:block;
-      text-decoration:none;
       transition: transform .15s ease, box-shadow .15s ease;
     }
     .sponsorLink:hover{
@@ -603,34 +636,6 @@
       flex-wrap:wrap;
       gap:10px;
       justify-content:center;
-    }
-
-    /* Admin */
-    .adminCard{
-      margin-top:16px;
-      border-radius:18px;
-      background: rgba(0,0,0,.30);
-      border:1px solid rgba(255,255,255,.10);
-      padding:14px;
-    }
-    .adminTitle{
-      font-size:13px;
-      font-weight:950;
-      letter-spacing:.25px;
-      text-transform:uppercase;
-      color:rgba(243,243,245,.9);
-    }
-    .adminList{
-      margin:10px 0 0;
-      padding-left:18px;
-      font-size:13px;
-      line-height:1.55;
-      color:rgba(243,243,245,.78);
-    }
-    .adminNote{
-      margin-top:10px;
-      font-size:11px;
-      color:rgba(243,243,245,.60);
     }
 
     .footer{
@@ -742,7 +747,6 @@
       width:100%;
       height:100%;
       object-fit:cover;
-      display:block;
       opacity:.95;
     }
     .gwBody{ padding:12px 12px 14px; }
@@ -771,7 +775,6 @@
       gap:6px;
       font-weight:950;
       font-size:13px;
-      text-decoration:none;
       color:#fff;
     }
     .gwFooter{
@@ -801,9 +804,9 @@
       <span class="pill"><span class="pillDot"></span> Pilot Preview</span>
     </div>
 
+    <!-- HERO: left = identity/buttons, right = visual -->
     <section class="hero" id="overview">
       <div class="heroInner">
-        <!-- LEFT -->
         <div>
           <div class="teamHeader">
             <img id="teamLogo" src="/logos/de-leon-bearcats-logo.png" alt="Team logo" class="teamLogo" />
@@ -816,14 +819,11 @@
           </div>
 
           <div class="heroBadges" id="heroBadges"></div>
-
           <div class="btnRow" id="heroButtons"></div>
-
           <div class="miniNav" id="miniNav"></div>
         </div>
 
-        <!-- RIGHT -->
-        <aside style="display:flex; flex-direction:column; gap:12px;">
+        <aside style="display:flex; flex-direction:column; gap:12px; min-width:0;">
           <div class="heroVisual" aria-label="Team visual banner">
             <div class="heroVisualMedia">
               <img id="heroBannerImg" src="/images/schools/deleon-hero.jpg" alt="De Leon Bearcats team photo or stadium banner" />
@@ -837,98 +837,102 @@
               <span class="pill" style="margin:0;">Featured</span>
             </div>
           </div>
-
-          <div class="feature" aria-label="Next game feature">
-            <div>
-              <div class="featureHead">
-                <div>
-                  <div class="featureLabel">Next Game</div>
-                  <div class="featureMeta" id="nextGameMeta">Featured matchup</div>
-                </div>
-                <span class="pill">Kickoff</span>
-              </div>
-
-              <div class="featureRow" style="margin-top:12px;" id="nextGameGrid"></div>
-
-              <div class="featureRow3" aria-label="Game details strip" id="nextGameStrip"></div>
-
-              <div class="tiny" style="margin-top:12px;" id="coverageDisclaimer"></div>
-
-              <div class="trustBlock" style="max-width:none; margin-top:14px;" aria-label="Season snapshot">
-                <div class="trustTop">
-                  <h3 class="trustTitle">Season Snapshot</h3>
-                  <span class="trustTag" id="snapshotTag">2026</span>
-                </div>
-                <div class="featureRow" style="margin-top:10px;" id="seasonSnapshotGrid"></div>
-                <div class="trustNote" style="margin-top:10px;">
-                  <strong>Note:</strong> Snapshot fields can be school-provided or public-facing info. No “official record” claims are made here.
-                </div>
-              </div>
-
-              <div class="tiny" style="margin-top:10px;">
-                <strong>Pilot Note</strong>
-                <div class="tiny" style="margin-top:6px;" id="pilotNote"></div>
-              </div>
-
-              <div class="tiny" style="margin-top:10px;">
-                <strong>During a game</strong>
-                <div class="tiny" style="margin-top:6px;" id="duringGameNote"></div>
-              </div>
-            </div>
-          </div>
         </aside>
       </div>
     </section>
 
-    <section class="main">
-      <!-- LEFT -->
-      <div>
-        <!-- Program card (replaces the removed collapsible) -->
-        <div class="card" id="program" style="margin-top:0;">
-          <div class="cardHead">
-            <h2>Program Notes</h2>
-            <span class="pill">Admin-safe</span>
+    <!-- FULL-WIDTH: Program Notes directly under hero -->
+    <div style="height:16px;"></div>
+
+    <section class="card" id="program">
+      <div class="cardHead">
+        <h2>Program Notes</h2>
+        <span class="pill">Admin-safe</span>
+      </div>
+      <div class="cardBody">
+        <div class="trustBlock" style="margin-top:0;">
+          <div class="trustTop">
+            <h3 class="trustTitle">Football Program Overview</h3>
+            <span class="trustTag">Pilot</span>
           </div>
-          <div class="cardBody">
-            <div class="trustBlock" style="margin-top:0;">
-              <div class="trustTop">
-                <h3 class="trustTitle">Football Program Overview</h3>
-                <span class="trustTag">Pilot</span>
-              </div>
-              <p class="trustText" id="programOverviewText"></p>
-            </div>
-
-            <div class="trustBlock" aria-label="Why selected">
-              <div class="trustTop">
-                <h3 class="trustTitle">Why This Program?</h3>
-                <span class="trustTag">Pilot School</span>
-              </div>
-              <ul class="trustList" id="whySelectedList"></ul>
-            </div>
-
-            <div class="trustBlock" aria-label="Data boundaries">
-              <div class="trustTop">
-                <h3 class="trustTitle">Data & Records</h3>
-                <span class="trustTag">Admin-Safe</span>
-              </div>
-              <p class="trustText" id="dataBoundaryText"></p>
-              <div class="trustNote" id="dataBoundaryNote"></div>
-            </div>
-
-            <div class="trustBlock" aria-label="Support the program">
-              <div class="trustTop">
-                <h3 class="trustTitle">Support the Program</h3>
-                <span class="trustTag">Pilot / Premium</span>
-              </div>
-              <p class="trustText" id="boosterText"></p>
-              <div class="boosterActions" id="boosterActions"></div>
-              <div class="trustNote" id="boosterDisclaimer"></div>
-            </div>
-          </div>
+          <p class="trustText" id="programOverviewText"></p>
         </div>
 
-        <div style="height:16px;"></div>
+        <div class="trustBlock" aria-label="Why selected">
+          <div class="trustTop">
+            <h3 class="trustTitle">Why This Program?</h3>
+            <span class="trustTag">Pilot School</span>
+          </div>
+          <ul class="trustList" id="whySelectedList"></ul>
+        </div>
 
+        <div class="trustBlock" aria-label="Data boundaries">
+          <div class="trustTop">
+            <h3 class="trustTitle">Data & Records</h3>
+            <span class="trustTag">Admin-Safe</span>
+          </div>
+          <p class="trustText" id="dataBoundaryText"></p>
+          <div class="trustNote" id="dataBoundaryNote"></div>
+        </div>
+
+        <div class="trustBlock" aria-label="Support the program">
+          <div class="trustTop">
+            <h3 class="trustTitle">Support the Program</h3>
+            <span class="trustTag">Pilot / Premium</span>
+          </div>
+          <p class="trustText" id="boosterText"></p>
+          <div class="boosterActions" id="boosterActions"></div>
+          <div class="trustNote" id="boosterDisclaimer"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TWO-UP: Next Game and Season Snapshot under Program Notes -->
+    <section class="belowProgram" aria-label="Next game and season snapshot row">
+      <article class="feature" id="nextgame">
+        <div class="cardHead">
+          <div>
+            <div class="featureLabel">Next Game</div>
+            <div class="featureMeta" id="nextGameMeta">Featured matchup</div>
+          </div>
+          <span class="pill">Kickoff</span>
+        </div>
+        <div class="featureBody">
+          <div class="featureGrid" id="nextGameGrid"></div>
+          <div class="featureStrip" id="nextGameStrip" aria-label="Game details strip"></div>
+          <div class="tiny" id="coverageDisclaimer"></div>
+
+          <div class="tiny" style="margin-top:12px;">
+            <strong>Pilot Note</strong>
+            <div class="tiny" style="margin-top:6px;" id="pilotNote"></div>
+          </div>
+
+          <div class="tiny" style="margin-top:10px;">
+            <strong>During a game</strong>
+            <div class="tiny" style="margin-top:6px;" id="duringGameNote"></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" id="snapshot">
+        <div class="cardHead">
+          <h2>Season Snapshot</h2>
+          <span class="pill" id="snapshotTag">2026</span>
+        </div>
+        <div class="cardBody">
+          <div class="featureGrid" id="seasonSnapshotGrid" style="margin-top:0;"></div>
+          <div class="trustNote" style="margin-top:10px;">
+            <strong>Note:</strong> Snapshot fields can be school-provided or public-facing info. No “official record” claims are made here.
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <div style="height:16px;"></div>
+
+    <!-- MAIN: left full-width stack, right sponsors -->
+    <section class="main">
+      <div>
         <div class="card" id="schedule">
           <div class="cardHead">
             <h2>Schedule & Results</h2>
@@ -946,14 +950,12 @@
               </thead>
               <tbody id="scheduleBody"></tbody>
             </table>
-
             <div class="tiny" id="scheduleNote"></div>
           </div>
         </div>
 
         <div style="height:16px;"></div>
 
-        <!-- GAME WEEK -->
         <div class="card" id="gameweek">
           <div class="cardHead">
             <div>
@@ -995,7 +997,7 @@
                 id="scoreboardSampleImg"
                 src="/images/de-leon-scoreboard-sample.png"
                 alt="Sample De Leon Bearcats scoreboard graphic"
-                style="width:100%; border-radius:16px; border:1px solid rgba(255,255,255,.10); display:block;"
+                style="width:100%; border-radius:16px; border:1px solid rgba(255,255,255,.10);"
               />
 
               <div class="tiny" style="margin-top:10px;" id="gameNightPilotNote"></div>
@@ -1011,8 +1013,7 @@
         </div>
       </div>
 
-      <!-- RIGHT -->
-      <aside>
+      <aside style="min-width:0;">
         <div class="card" id="sponsors">
           <div class="cardHead">
             <h2>Community Supporters</h2>
@@ -1043,20 +1044,6 @@
               <div class="tiny" style="margin-top:10px;" id="sponsorCtaNote3"></div>
             </div>
           </div>
-        </div>
-
-        <div class="adminCard" id="admin" aria-label="Admin access">
-          <div class="adminTitle">School Admin Contact</div>
-
-          <ul class="adminList" id="adminList"></ul>
-
-          <div class="btnRow">
-            <a class="btn btnSecondary" id="adminMailtoBtn" href="#">
-              Contact VarsityVue
-            </a>
-          </div>
-
-          <div class="adminNote" id="adminNote"></div>
         </div>
 
         <div class="footer">
@@ -1130,21 +1117,6 @@
           "<strong>Note:</strong> VarsityVue does not collect or manage donations. All contributions are processed directly through the De Leon Athletic Booster Club."
       },
 
-      adminContact: {
-        email: "info@varsityvue.com",
-        subject: "School Admin Contact - De Leon (Bearcats)",
-        bodyTemplate:
-          "School: De Leon%0AContact Name:%0ARole (AD/Coach/Admin):%0APhone:%0ABest time to talk:%0ARequest:%20",
-        adminList: [
-          "Pilot onboarding / access",
-          "Schedule verification",
-          "Score updates (optional school input)",
-          "Sponsor placements (school-safe)"
-        ],
-        note:
-          "Pilot access is limited to approved school administrators and VarsityVue staff."
-      },
-
       nextGame: {
         opponent: "Stamford Bulldogs",
         dateDisplay: "Aug 28",
@@ -1162,7 +1134,7 @@
         pilotNote:
           "Designed to minimize staff workload. Pilot workflows handle score updates, with optional school input.",
         duringGameNote:
-          "Fans follow along here for kickoff details, coverage links, and score updates as they post.",
+          "Fans follow along here for kickoff details, coverage links, and score updates as they post."
       },
 
       seasonSnapshot: {
@@ -1301,15 +1273,13 @@
       });
       heroBadges.appendChild(socials);
 
-      // Hero buttons (no redundancy spam)
+      // Hero buttons (no admin card; keep simple)
       const heroButtons = document.getElementById("heroButtons");
       heroButtons.innerHTML = "";
-      const adminHref = mailto(CONFIG.adminContact.email, CONFIG.adminContact.subject, CONFIG.adminContact.bodyTemplate);
 
       heroButtons.appendChild(el("a", { class: "btn btnPrimary", href: "#gameweek" }, ["Game Week"]));
       heroButtons.appendChild(el("a", { class: "btn btnPrimary", href: "#schedule" }, ["Schedule"]));
       heroButtons.appendChild(el("a", { class: "btn btnSecondary btnSmall", href: "#sponsors" }, ["Sponsors"]));
-      heroButtons.appendChild(el("a", { class: "btn btnSecondary btnSmall", href: adminHref }, ["Admin Contact"]));
 
       heroButtons.appendChild(el("button", {
         class: "btn btnSecondary btnSmall",
@@ -1324,16 +1294,17 @@
         }
       }, ["Share"]));
 
-      // Mini nav (chips)
+      // Mini nav (chips) - remove redundancy; no Admin tab
       const miniNav = document.getElementById("miniNav");
       miniNav.innerHTML = "";
       [
         { label: "Program", href: "#program" },
+        { label: "Next Game", href: "#nextgame" },
+        { label: "Snapshot", href: "#snapshot" },
         { label: "Game Week", href: "#gameweek" },
         { label: "Schedule", href: "#schedule" },
         { label: "Game Night", href: "#gamenight" },
-        { label: "Sponsors", href: "#sponsors" },
-        { label: "Admin", href: "#admin" }
+        { label: "Sponsors", href: "#sponsors" }
       ].forEach(n => miniNav.appendChild(el("a", { href: n.href }, [n.label])));
 
       // Why selected
@@ -1388,7 +1359,7 @@
         el("div", { class: "miniV" }, [CONFIG.nextGame.recordDisplay])
       ]));
 
-      // Next game strip (only what exists)
+      // Next game strip
       const strip = document.getElementById("nextGameStrip");
       strip.innerHTML = "";
 
@@ -1430,7 +1401,6 @@
         { k: "Prior Season Record", v: CONFIG.seasonSnapshot.priorSeasonRecord },
         { k: "Last Game", v: CONFIG.seasonSnapshot.lastGame }
       ];
-
       snapItems.forEach(item => {
         snapshot.appendChild(el("div", { class: "mini" }, [
           el("div", { class: "miniK" }, [item.k]),
@@ -1494,7 +1464,7 @@
       CONFIG.sponsors.valueBullets.forEach(b => sponsorValueList.appendChild(el("li", {}, [b])));
 
       document.getElementById("sponsorMailtoBtn").href = mailto(
-        CONFIG.adminContact.email,
+        "info@varsityvue.com",
         CONFIG.sponsors.mailto.subject,
         CONFIG.sponsors.mailto.bodyTemplate
       );
@@ -1502,17 +1472,6 @@
       document.getElementById("sponsorCtaNote1").textContent = CONFIG.sponsors.ctaNotes[0];
       document.getElementById("sponsorCtaNote2").textContent = CONFIG.sponsors.ctaNotes[1];
       document.getElementById("sponsorCtaNote3").textContent = CONFIG.sponsors.ctaNotes[2];
-
-      // Admin block
-      const adminUl = document.getElementById("adminList");
-      adminUl.innerHTML = "";
-      CONFIG.adminContact.adminList.forEach(i => adminUl.appendChild(el("li", {}, [i])));
-      document.getElementById("adminMailtoBtn").href = mailto(
-        CONFIG.adminContact.email,
-        CONFIG.adminContact.subject,
-        CONFIG.adminContact.bodyTemplate
-      );
-      document.getElementById("adminNote").textContent = CONFIG.adminContact.note;
 
       // Footer
       document.getElementById("footerLine1").textContent =
