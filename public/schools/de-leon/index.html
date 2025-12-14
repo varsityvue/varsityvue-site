@@ -49,6 +49,7 @@
       max-width:1100px;
       margin:0 auto;
       padding:22px 18px 70px;
+      overflow-x:hidden; /* extra insurance against tiny overflow issues */
     }
 
     /* Top bar */
@@ -414,6 +415,7 @@
       font-weight:950;
       line-height:1.25;
       overflow-wrap:anywhere;
+      min-width:0;
     }
     .miniV a{ text-decoration: underline; text-underline-offset: 2px; font-weight:850; }
 
@@ -424,7 +426,7 @@
       line-height:1.6;
     }
 
-    /* Two-up row below Program Notes: Next Game + Program Information */
+    /* Two-up row below Program Notes: Program Information + Next Game (SWAPPED) */
     .belowProgram{
       margin-top:16px;
       display:grid;
@@ -533,6 +535,11 @@
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap:10px;
+      overflow:hidden; /* keep everything inside the card padding */
+    }
+    /* FIX: on tight widths, stop forcing 2 columns (this is where pills get clipped) */
+    @media (max-width: 520px){
+      .sponsorGrid{ grid-template-columns: 1fr; }
     }
 
     .sponsorCard{
@@ -541,10 +548,11 @@
       border:1px solid rgba(255,255,255,.12);
       box-shadow: 0 12px 34px rgba(0,0,0,.35);
       overflow:hidden;
-      min-height: 130px; /* slightly taller */
+      min-height: 130px;
       display:flex;
       flex-direction:column;
       justify-content:space-between;
+      min-width:0;
     }
     .sponsorCardInner{
       padding:12px 12px 10px;
@@ -555,6 +563,7 @@
       gap:10px;
       text-align:center;
       min-height: 102px;
+      min-width:0;
     }
     .sponsorLogoBox{
       width:100%;
@@ -579,14 +588,16 @@
       font-size:13px;
       line-height:1.2;
       color:#fff;
+      padding:0 8px;
+      overflow-wrap:anywhere;
     }
 
-    /* FIX: uniform pill sizing across all sponsors */
+    /* FIX: no clipped tier pills */
     .tierTag{
       display:flex;
       align-items:center;
       justify-content:center;
-      margin:8px auto 12px;
+      margin:8px 12px 12px; /* use real padding instead of auto-centering width tricks */
       padding:6px 10px;
       border-radius:999px;
       font-size:10px;
@@ -595,10 +606,13 @@
       color:rgba(243,243,245,.92);
       border:1px solid rgba(255,255,255,.14);
       background: rgba(0,0,0,.24);
-      height: 26px;              /* forced consistent height */
-      min-width: 168px;          /* forced consistent width */
-      max-width: calc(100% - 24px);
-      white-space: nowrap;       /* keep identical look */
+      height: 28px;
+      width: calc(100% - 24px); /* always fits inside the card */
+      max-width: 100%;
+      min-width: 0;             /* remove the "forced overflow" culprit */
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;  /* graceful instead of chopped-off */
       text-align:center;
     }
 
@@ -606,6 +620,7 @@
       display:block;
       transition: transform .15s ease, box-shadow .15s ease;
       border-radius:16px;
+      min-width:0;
     }
     .sponsorLink:hover{
       transform: translateY(-1px);
@@ -689,9 +704,9 @@
     .gwScrollBtn:hover{ transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,0,0,.35); }
     .gwScrollBtn:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
 
-    /* FIX: make Game Week Hub taller (more like Schedule card) */
+    /* Hub height stays tall */
     .gwhTall{
-      min-height: 520px; /* target "Schedule & Results" vibe */
+      min-height: 520px;
       display:flex;
       flex-direction:column;
     }
@@ -703,14 +718,14 @@
     }
     .gwhTall .gwRail{
       flex: 1 1 auto;
-      min-height: 360px; /* forces extra vertical space */
+      min-height: 360px;
       align-content:start;
     }
 
     .gwRail{
       display:grid;
       grid-auto-flow:column;
-      grid-auto-columns: minmax(240px, 290px);
+      grid-auto-columns: minmax(260px, 320px); /* slightly wider to help “taller pill” feel */
       gap:12px;
       overflow-x:auto;
       padding:12px;
@@ -724,7 +739,7 @@
     .gwRail::-webkit-scrollbar-thumb{ background:#2a2a33; border-radius:999px; }
     .gwRail::-webkit-scrollbar-track{ background: transparent; }
 
-    /* Taller items so the section doesn't look short */
+    /* FIX: make the individual hub “pills” taller so graphics are more visible */
     .gwItem{
       scroll-snap-align:start;
       border-radius:16px;
@@ -734,14 +749,18 @@
       box-shadow: 0 12px 34px rgba(0,0,0,.30);
       display:flex;
       flex-direction:column;
-      min-height: 300px; /* was 220 */
+      min-height: 360px; /* was 300 */
+      cursor: default;
+      min-width:0;
     }
     .gwMedia{
-      aspect-ratio: 16/9;
+      aspect-ratio: 4 / 3;         /* more vertical real estate vs 16:9 */
+      min-height: 210px;           /* ensures it feels “taller” */
       background: rgba(255,255,255,.06);
       border-bottom:1px solid rgba(255,255,255,.10);
       position:relative;
       overflow:hidden;
+      cursor: zoom-in;             /* communicates click-to-enlarge */
     }
     .gwMedia img{
       position:absolute;
@@ -750,7 +769,10 @@
       height:100%;
       object-fit:cover;
       opacity:.95;
+      transition: transform .2s ease, opacity .2s ease;
     }
+    .gwMedia:hover img{ transform: scale(1.02); opacity: .98; }
+
     .gwBody{ padding:12px 12px 14px; }
     .gwKicker{
       font-size:11px;
@@ -780,7 +802,7 @@
       color:#fff;
     }
     .gwFooter{
-      margin-top:auto; /* pushes footer to bottom to keep card tall */
+      margin-top:auto;
       display:flex;
       justify-content:space-between;
       gap:10px;
@@ -789,11 +811,14 @@
       font-size:11px;
       line-height:1.5;
     }
+
     @media (max-width:720px){
       .gwRail{ grid-auto-columns: minmax(240px, 84vw); }
       .gwActions{ justify-content:flex-start; }
-      .gwhTall{ min-height: 0; } /* avoid awkward huge block on small screens */
+      .gwhTall{ min-height: 0; }
       .gwhTall .gwRail{ min-height: 0; }
+      .gwItem{ min-height: 340px; }
+      .gwMedia{ min-height: 190px; }
     }
 
     /* Stadium image box */
@@ -823,7 +848,6 @@
 
     .fullWidthBlock{ margin-top:16px; }
 
-    /* Mobile-first stack: scoreboard -> bottom strip -> sponsor tiles */
     .gamenightLayout{
       display:grid;
       grid-template-columns: 1fr;
@@ -858,7 +882,6 @@
       display:block;
     }
 
-    /* Bottom sponsor strip (mobile + desktop) */
     .bannerStrip{
       border-radius:16px;
       border:1px dashed rgba(255,255,255,.18);
@@ -924,7 +947,6 @@
       outline-offset:3px;
     }
 
-    /* Sponsor tiles under scoreboard (mobile) */
     .bannerTiles{
       display:grid;
       grid-template-columns: 1fr 1fr;
@@ -958,17 +980,14 @@
       height: 44px;
     }
 
-    /* Desktop enhancement: bring back left/right columns */
     @media (min-width: 980px){
       .gamenightLayout{
         grid-template-columns: 180px 1fr 180px;
         gap:14px;
       }
-      /* On desktop, hide the mobile tile row and show left/right slots */
       .bannerTiles{ display:none; }
     }
 
-    /* Desktop-only side slots */
     .adSlot{
       border-radius:18px;
       border:1px dashed rgba(255,255,255,.18);
@@ -998,7 +1017,6 @@
     }
     .adSlot .bannerMeta{ align-items:center; }
 
-    /* Hide desktop side slots on mobile */
     @media (max-width: 979px){
       .desktopOnly{ display:none; }
     }
@@ -1032,6 +1050,76 @@
       display:none;
       z-index: 9999;
       max-width: calc(100% - 24px);
+    }
+
+    /* =========================
+       Image Lightbox (Game Week Hub click-to-enlarge)
+       ========================= */
+    .modalOverlay{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.78);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      z-index: 10000;
+    }
+    .modalOverlay.isOpen{ display:flex; }
+    .modalPanel{
+      width: min(980px, 100%);
+      border-radius: 18px;
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(10,10,12,.92);
+      box-shadow: 0 28px 80px rgba(0,0,0,.65);
+      transform: translateY(6px);
+      animation: popIn .16s ease forwards;
+    }
+    @keyframes popIn{
+      from { transform: translateY(10px); opacity: .65; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
+    .modalTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding: 12px 12px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.20);
+    }
+    .modalTitle{
+      font-weight: 950;
+      font-size: 13px;
+      letter-spacing: .2px;
+      color: rgba(243,243,245,.92);
+      overflow:hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width:0;
+    }
+    .modalClose{
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      cursor:pointer;
+      font-weight: 950;
+      transition: transform .15s ease, box-shadow .15s ease;
+      flex: 0 0 auto;
+    }
+    .modalClose:hover{ transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,0,0,.35); }
+    .modalClose:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
+    .modalMedia{
+      background: rgba(0,0,0,.22);
+    }
+    .modalMedia img{
+      width: 100%;
+      height: auto;
+      display:block;
     }
   </style>
 </head>
@@ -1122,8 +1210,28 @@
       </div>
     </section>
 
-    <!-- TWO-UP: Next Game and Program Information -->
-    <section class="belowProgram" aria-label="Next game and program information row">
+    <!-- TWO-UP (SWAPPED): Program Information FIRST, then Next Game -->
+    <section class="belowProgram" aria-label="Program information and next game row">
+
+      <article class="card" id="programinfo">
+        <div class="cardHead">
+          <h2>Program Information</h2>
+          <span class="pill" id="snapshotTag">2026</span>
+        </div>
+        <div class="cardBody">
+          <div class="featureGrid" id="seasonSnapshotGrid" style="margin-top:0;"></div>
+
+          <div class="trustNote" style="margin-top:10px;" id="programInfoNote">
+            <strong>Note:</strong> Program Information fields can be school-provided or public-facing info. No “official record” claims are made here.
+          </div>
+
+          <div class="stadiumBox" aria-label="Home stadium photo">
+            <img id="stadiumImg" src="/images/Bearcat-Field-Entrance.png" alt="Bearcat Stadium entrance" />
+            <div class="stadiumCap" id="stadiumCaption">Home stadium photo (pilot preview placement).</div>
+          </div>
+        </div>
+      </article>
+
       <article class="feature" id="nextgame">
         <div class="cardHead">
           <div>
@@ -1148,24 +1256,6 @@
         </div>
       </article>
 
-      <article class="card" id="programinfo">
-        <div class="cardHead">
-          <h2>Program Information</h2>
-          <span class="pill" id="snapshotTag">2026</span>
-        </div>
-        <div class="cardBody">
-          <div class="featureGrid" id="seasonSnapshotGrid" style="margin-top:0;"></div>
-
-          <div class="trustNote" style="margin-top:10px;" id="programInfoNote">
-            <strong>Note:</strong> Program Information fields can be school-provided or public-facing info. No “official record” claims are made here.
-          </div>
-
-          <div class="stadiumBox" aria-label="Home stadium photo">
-            <img id="stadiumImg" src="/images/Bearcat-Field-Entrance.png" alt="Bearcat Stadium entrance" />
-            <div class="stadiumCap" id="stadiumCaption">Home stadium photo (pilot preview placement).</div>
-          </div>
-        </div>
-      </article>
     </section>
 
     <div style="height:16px;"></div>
@@ -1195,7 +1285,6 @@
 
         <div style="height:16px;"></div>
 
-        <!-- FIX: gwhTall class added -->
         <div class="card gwhTall" id="gameweekhub">
           <div class="cardHead">
             <div>
@@ -1302,6 +1391,19 @@
   </div>
 
   <div class="toast" id="toast">Copied</div>
+
+  <!-- Lightbox modal for Game Week Hub images -->
+  <div class="modalOverlay" id="imgModal" aria-hidden="true">
+    <div class="modalPanel" role="dialog" aria-modal="true" aria-label="Image viewer">
+      <div class="modalTop">
+        <div class="modalTitle" id="imgModalTitle">Preview</div>
+        <button class="modalClose" type="button" id="imgModalClose" aria-label="Close image viewer">✕</button>
+      </div>
+      <div class="modalMedia">
+        <img id="imgModalImg" src="" alt="" />
+      </div>
+    </div>
+  </div>
 
   <script>
     /* =========================
@@ -1487,9 +1589,52 @@
     const safeBlank = (s) => (s == null || s === "" ? "—" : s);
 
     /* =========================
+       Lightbox (Game Week Hub)
+       ========================= */
+    const modal = {
+      overlay: document.getElementById("imgModal"),
+      img: document.getElementById("imgModalImg"),
+      title: document.getElementById("imgModalTitle"),
+      closeBtn: document.getElementById("imgModalClose"),
+      lastFocus: null
+    };
+
+    function openImageModal({ src, alt, title }) {
+      if (!src) return;
+      modal.lastFocus = document.activeElement;
+
+      modal.img.src = src;
+      modal.img.alt = alt || "Preview image";
+      modal.title.textContent = title || alt || "Preview";
+
+      modal.overlay.classList.add("isOpen");
+      modal.overlay.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+      modal.closeBtn.focus({ preventScroll: true });
+    }
+
+    function closeImageModal() {
+      modal.overlay.classList.remove("isOpen");
+      modal.overlay.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+      modal.img.src = "";
+      modal.img.alt = "";
+      if (modal.lastFocus && typeof modal.lastFocus.focus === "function") {
+        modal.lastFocus.focus({ preventScroll: true });
+      }
+    }
+
+    modal.closeBtn.addEventListener("click", closeImageModal);
+    modal.overlay.addEventListener("click", (e) => {
+      if (e.target === modal.overlay) closeImageModal();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modal.overlay.classList.contains("isOpen")) closeImageModal();
+    });
+
+    /* =========================
        Sponsor Banner Renderers
        ========================= */
-
     function buildBannerCore(cfg, variant) {
       const hasLogo = !!cfg.logoSrc;
 
@@ -1760,7 +1905,7 @@
             ]),
             el("div", { class: "sponsorName" }, [s.name])
           ]),
-          el("div", { class: "tierTag" }, [s.tier || "Community Supporter"])
+          el("div", { class: "tierTag", title: (s.tier || "Community Supporter") }, [s.tier || "Community Supporter"])
         ]);
 
         if (s.href) {
@@ -1802,10 +1947,31 @@
       const gwhRail = document.getElementById("gwhRail");
       gwhRail.innerHTML = "";
       (CONFIG.gameWeekHub.items || []).forEach(item => {
+        const media = el("div", {
+          class: "gwMedia",
+          role: "button",
+          tabindex: "0",
+          "aria-label": `Enlarge ${item.type || "item"} graphic`
+        }, [
+          el("img", { src: item.img, alt: item.alt || item.headline || "Game Week Hub media", loading:"lazy" }, [])
+        ]);
+
+        const openThis = () => openImageModal({
+          src: item.img,
+          alt: item.alt || item.headline || "Preview image",
+          title: `${safeBlank(item.type)} • ${safeBlank(item.headline)}`
+        });
+
+        media.addEventListener("click", openThis);
+        media.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            openThis();
+          }
+        });
+
         const card = el("article", { class: "gwItem" }, [
-          el("div", { class: "gwMedia" }, [
-            el("img", { src: item.img, alt: item.alt || item.headline || "Game Week Hub media", loading:"lazy" }, [])
-          ]),
+          media,
           el("div", { class: "gwBody" }, [
             el("div", { class: "gwKicker" }, [safeBlank(item.type)]),
             el("div", { class: "gwHeadline" }, [safeBlank(item.headline)]),
@@ -1813,6 +1979,7 @@
             el("a", { class: "gwLink", href: item.href || "#gamenight" }, ["View →"])
           ])
         ]);
+
         gwhRail.appendChild(card);
       });
 
