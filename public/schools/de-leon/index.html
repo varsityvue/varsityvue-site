@@ -30,7 +30,6 @@
       --warn:#d8a104;
       --focus: rgba(255,255,255,.45);
     }
-
     *{ box-sizing:border-box; }
     html{ scroll-behavior:smooth; }
     body{
@@ -45,25 +44,11 @@
     a{ color:inherit; text-decoration:none; }
     img{ max-width:100%; display:block; }
 
-    .wrap{
-      max-width:1100px;
-      margin:0 auto;
-      padding:22px 18px 70px;
-      overflow-x:hidden; /* extra insurance against tiny overflow issues */
-    }
+    .wrap{ max-width:1100px; margin:0 auto; padding:22px 18px 70px; overflow-x:hidden; }
 
     /* Top bar */
-    .topbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding:10px 0 18px;
-    }
-    .brand{
-      display:flex; align-items:center; gap:10px;
-      font-weight:900; letter-spacing:.4px;
-    }
+    .topbar{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 0 18px; }
+    .brand{ display:flex; align-items:center; gap:10px; font-weight:900; letter-spacing:.4px; }
     .brandMark{
       width:34px; height:34px; border-radius:12px;
       background: linear-gradient(135deg, var(--accent2), rgba(255,255,255,.10));
@@ -71,28 +56,20 @@
       box-shadow: 0 10px 30px rgba(0,0,0,.35);
       flex: 0 0 auto;
     }
-
     .pill{
       display:inline-flex; align-items:center; gap:8px;
-      padding:7px 12px;
-      border-radius:999px;
+      padding:7px 12px; border-radius:999px;
       background: rgba(255,255,255,.06);
       border:1px solid rgba(255,255,255,.10);
       color:var(--soft);
-      font-size:12px;
-      font-weight:800;
-      letter-spacing:.25px;
+      font-size:12px; font-weight:800; letter-spacing:.25px;
       white-space: nowrap;
     }
-    .pillDot{
-      width:7px; height:7px; border-radius:999px;
-      background: var(--accent2);
-    }
+    .pillDot{ width:7px; height:7px; border-radius:999px; background: var(--accent2); }
 
     /* Hero */
     .hero{
-      border-radius:22px;
-      overflow:hidden;
+      border-radius:22px; overflow:hidden;
       border:1px solid rgba(255,255,255,.10);
       background:
         linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)),
@@ -100,118 +77,44 @@
       box-shadow: 0 18px 60px rgba(0,0,0,.45);
       padding:18px;
     }
-
-    .heroInner{
-      display:grid;
-      gap:14px;
-      grid-template-columns: 1fr;
-      align-items:start;
-    }
-    @media(min-width:900px){
-      .heroInner{ grid-template-columns: 1.35fr 1fr; }
-    }
+    .heroInner{ display:grid; gap:14px; grid-template-columns: 1fr; align-items:start; }
+    @media(min-width:900px){ .heroInner{ grid-template-columns: 1.35fr 1fr; } }
     .heroInner > *{ min-width:0; }
 
-    .teamHeader{
-      display:flex;
-      align-items:center;
-      gap:14px;
-      flex-wrap:nowrap;
-      min-width:0;
-    }
-    @media(max-width:640px){
-      .teamHeader{ flex-wrap:wrap; }
-    }
-    .teamLogo{
-      width:72px;
-      height:auto;
-      max-height:72px;
-      flex: 0 0 auto;
-    }
+    .teamHeader{ display:flex; align-items:center; gap:14px; flex-wrap:nowrap; min-width:0; }
+    @media(max-width:640px){ .teamHeader{ flex-wrap:wrap; } }
+    .teamLogo{ width:72px; height:auto; max-height:72px; flex: 0 0 auto; }
+    .school{ font-size:34px; font-weight:950; letter-spacing:-.6px; margin:0; line-height:1.05; }
+    .subline{ margin:8px 0 0; color:rgba(243,243,245,.85); line-height:1.6; max-width:820px; font-size:15px; }
 
-    .school{
-      font-size:34px;
-      font-weight:950;
-      letter-spacing:-.6px;
-      margin:0;
-      line-height:1.05;
-    }
-    .subline{
-      margin:8px 0 0;
-      color:rgba(243,243,245,.85);
-      line-height:1.6;
-      max-width:820px;
-      font-size:15px;
-    }
-
-    .heroBadges{
-      margin-top:12px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      align-items:flex-start;
-      min-width:0;
-    }
+    .heroBadges{ margin-top:12px; display:flex; flex-wrap:wrap; gap:10px; align-items:flex-start; min-width:0; }
     .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 10px;
-      border-radius:14px;
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px; border-radius:14px;
       background: rgba(0,0,0,.28);
       border:1px solid rgba(255,255,255,.10);
-      font-size:12px;
-      color:var(--soft);
-      font-weight:900;
+      font-size:12px; color:var(--soft); font-weight:900;
       max-width: 100%;
     }
     .badge strong{ color:#fff; }
-    .badge a{
-      text-decoration: underline;
-      text-underline-offset: 2px;
-      font-weight:900;
-    }
-    .badgeWide{
-      align-items:flex-start;
-      max-width: 520px;
-      white-space: normal;
-      min-width:0;
-    }
+    .badge a{ text-decoration: underline; text-underline-offset: 2px; font-weight:900; }
+    .badgeWide{ align-items:flex-start; max-width: 520px; white-space: normal; min-width:0; }
     .badgeWide .label{ flex: 0 0 auto; color:#fff; }
-    .badgeWide .links{
-      display:flex;
-      flex-wrap:wrap;
-      gap:6px;
-      line-height:1.2;
-      min-width:0;
-      overflow-wrap:anywhere;
-    }
+    .badgeWide .links{ display:flex; flex-wrap:wrap; gap:6px; line-height:1.2; min-width:0; overflow-wrap:anywhere; }
 
     /* Buttons */
-    .btnRow{
-      display:flex; flex-wrap:wrap; gap:10px;
-      margin-top:12px;
-    }
+    .btnRow{ display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
     .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      padding:11px 14px;
-      border-radius:14px;
-      font-weight:950;
-      font-size:13px;
-      letter-spacing:.25px;
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding:11px 14px; border-radius:14px;
+      font-weight:950; font-size:13px; letter-spacing:.25px;
       border:1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.06);
       color: var(--text);
       transition: transform .15s ease, box-shadow .15s ease, background .15s ease, opacity .15s ease;
       user-select:none;
     }
-    .btnPrimary{
-      background: linear-gradient(135deg, var(--accent2), rgba(255,255,255,.10));
-      border:1px solid rgba(255,255,255,.14);
-    }
+    .btnPrimary{ background: linear-gradient(135deg, var(--accent2), rgba(255,255,255,.10)); border:1px solid rgba(255,255,255,.14); }
     .btnSecondary{ background: rgba(255,255,255,.06); }
     .btn:hover{ transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,0,0,.35); }
     .btn:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
@@ -219,91 +122,52 @@
 
     /* Hero visual banner */
     .heroVisual{
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.10);
-      overflow:hidden;
-      background: rgba(0,0,0,.28);
+      border-radius:18px; border:1px solid rgba(255,255,255,.10);
+      overflow:hidden; background: rgba(0,0,0,.28);
       box-shadow: 0 14px 45px rgba(0,0,0,.30);
       min-height: 210px;
-      display:flex;
-      flex-direction:column;
-      min-width:0;
+      display:flex; flex-direction:column; min-width:0;
     }
     .heroVisualMedia{
-      position:relative;
-      flex: 1 1 auto;
-      min-height: 150px;
+      position:relative; flex: 1 1 auto; min-height: 150px;
       background:
         linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.70)),
         linear-gradient(135deg, rgba(157,26,42,.25), rgba(0,0,0,0) 60%);
     }
-    .heroVisualMedia img{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      opacity:.88;
-    }
-    .heroVisualOverlay{
-      position:absolute;
-      inset:0;
-      background: linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.78));
-    }
+    .heroVisualMedia img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.88; }
+    .heroVisualOverlay{ position:absolute; inset:0; background: linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.78)); }
     .heroVisualCaption{
       padding:12px 12px 14px;
       border-top:1px solid rgba(255,255,255,.10);
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      align-items:flex-start;
+      display:flex; justify-content:space-between; gap:10px; align-items:flex-start;
       min-width:0;
     }
     .heroVisualCaption strong{ font-weight:950; }
-    .heroVisualCaption .tinyCap{
-      font-size:12px; line-height:1.55; color:rgba(243,243,245,.70);
-    }
+    .heroVisualCaption .tinyCap{ font-size:12px; line-height:1.55; color:rgba(243,243,245,.70); }
 
     /* Cards */
     .card{
-      border-radius:20px;
-      background: rgba(255,255,255,.05);
+      border-radius:20px; background: rgba(255,255,255,.05);
       border:1px solid rgba(255,255,255,.10);
-      overflow:hidden;
-      box-shadow: 0 14px 45px rgba(0,0,0,.30);
+      overflow:hidden; box-shadow: 0 14px 45px rgba(0,0,0,.30);
     }
     .cardHead{
-      padding:14px 16px;
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:12px;
+      padding:14px 16px; display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
       border-bottom:1px solid rgba(255,255,255,.10);
       background: rgba(0,0,0,.20);
     }
-    .cardHead h2{
-      margin:0;
-      font-size:14px;
-      letter-spacing:.25px;
-      font-weight:950;
-    }
+    .cardHead h2{ margin:0; font-size:14px; letter-spacing:.25px; font-weight:950; }
     .cardBody{ padding:14px 16px; }
 
     /* Program collapsible */
     .collapseBtn{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 10px;
-      border-radius:12px;
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px; border-radius:12px;
       border:1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.06);
       color: var(--text);
-      font-weight:950;
-      font-size:12px;
-      letter-spacing:.2px;
-      cursor:pointer;
-      user-select:none;
+      font-weight:950; font-size:12px; letter-spacing:.2px;
+      cursor:pointer; user-select:none;
       transition: transform .15s ease, box-shadow .15s ease;
       white-space:nowrap;
     }
@@ -314,78 +178,26 @@
     .card.isCollapsed .cardBody{ display:none; }
 
     /* Program notes blocks */
-    .trustBlock{
-      margin-top:12px;
-      border-radius:18px;
-      padding:12px;
-      background: rgba(0,0,0,.26);
-      border:1px solid rgba(255,255,255,.10);
-    }
-    .trustTop{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-    .trustTitle{
-      margin:0;
-      font-size:13px;
-      font-weight:950;
-      letter-spacing:.25px;
-      text-transform:uppercase;
-      color:rgba(243,243,245,.92);
-    }
+    .trustBlock{ margin-top:12px; border-radius:18px; padding:12px; background: rgba(0,0,0,.26); border:1px solid rgba(255,255,255,.10); }
+    .trustTop{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+    .trustTitle{ margin:0; font-size:13px; font-weight:950; letter-spacing:.25px; text-transform:uppercase; color:rgba(243,243,245,.92); }
     .trustTag{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:6px 10px;
-      border-radius:999px;
+      display:inline-flex; align-items:center; gap:8px;
+      padding:6px 10px; border-radius:999px;
       background: rgba(157,26,42,.12);
       border:1px solid rgba(157,26,42,.35);
       color:rgba(243,243,245,.92);
-      font-size:11px;
-      font-weight:950;
-      letter-spacing:.2px;
-      white-space:nowrap;
+      font-size:11px; font-weight:950; letter-spacing:.2px; white-space:nowrap;
     }
-    .trustText{
-      margin:8px 0 0;
-      font-size:13px;
-      line-height:1.6;
-      color:rgba(243,243,245,.78);
-    }
-    .trustList{
-      margin:10px 0 0;
-      padding-left:18px;
-      font-size:13px;
-      line-height:1.6;
-      color:rgba(243,243,245,.78);
-    }
-    .trustNote{
-      margin-top:8px;
-      font-size:12px;
-      line-height:1.5;
-      color:rgba(243,243,245,.62);
-    }
+    .trustText{ margin:8px 0 0; font-size:13px; line-height:1.6; color:rgba(243,243,245,.78); }
+    .trustList{ margin:10px 0 0; padding-left:18px; font-size:13px; line-height:1.6; color:rgba(243,243,245,.78); }
+    .trustNote{ margin-top:8px; font-size:12px; line-height:1.5; color:rgba(243,243,245,.62); }
     .trustNote strong{ color:rgba(243,243,245,.85); font-weight:950; }
-
-    .boosterActions{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:10px;
-    }
+    .boosterActions{ display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
     .btnLink{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:10px 12px;
-      border-radius:14px;
-      font-weight:950;
-      font-size:13px;
-      letter-spacing:.2px;
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 12px; border-radius:14px;
+      font-weight:950; font-size:13px; letter-spacing:.2px;
       border:1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.06);
       color: var(--text);
@@ -395,132 +207,47 @@
     .btnLink:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
 
     /* Mini tiles */
-    .mini{
-      border-radius:14px;
-      padding:10px;
-      background: rgba(255,255,255,.05);
-      border:1px solid rgba(255,255,255,.10);
-      min-width:0;
-    }
-    .miniK{
-      font-size:11px;
-      color:rgba(243,243,245,.72);
-      font-weight:900;
-      letter-spacing:.35px;
-      text-transform:uppercase;
-    }
-    .miniV{
-      margin-top:6px;
-      font-size:16px;
-      font-weight:950;
-      line-height:1.25;
-      overflow-wrap:anywhere;
-      min-width:0;
-    }
+    .mini{ border-radius:14px; padding:10px; background: rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.10); min-width:0; }
+    .miniK{ font-size:11px; color:rgba(243,243,245,.72); font-weight:900; letter-spacing:.35px; text-transform:uppercase; }
+    .miniV{ margin-top:6px; font-size:16px; font-weight:950; line-height:1.25; overflow-wrap:anywhere; min-width:0; }
     .miniV a{ text-decoration: underline; text-underline-offset: 2px; font-weight:850; }
+    .tiny{ margin-top:8px; font-size:12px; color:rgba(243,243,245,.70); line-height:1.6; }
 
-    .tiny{
-      margin-top:8px;
-      font-size:12px;
-      color:rgba(243,243,245,.70);
-      line-height:1.6;
-    }
-
-    /* Two-up row below Program Notes: Program Information + Next Game (SWAPPED) */
-    .belowProgram{
-      margin-top:16px;
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:16px;
-    }
-    @media(min-width:980px){
-      .belowProgram{ grid-template-columns: 1fr 1fr; }
-    }
+    /* Two-up row below Program Notes */
+    .belowProgram{ margin-top:16px; display:grid; grid-template-columns: 1fr; gap:16px; }
+    @media(min-width:980px){ .belowProgram{ grid-template-columns: 1fr 1fr; } }
     .belowProgram > *{ min-width:0; }
 
     /* Next game card */
     .feature{
-      border-radius:20px;
-      background: rgba(255,255,255,.05);
+      border-radius:20px; background: rgba(255,255,255,.05);
       border:1px solid rgba(255,255,255,.10);
-      overflow:hidden;
-      box-shadow: 0 14px 45px rgba(0,0,0,.30);
+      overflow:hidden; box-shadow: 0 14px 45px rgba(0,0,0,.30);
     }
     .feature .cardHead{ border-bottom:1px solid rgba(255,255,255,.10); }
     .featureBody{ padding:14px 16px; }
     .featureLabel{ font-weight:950; letter-spacing:.35px; color:#fff; font-size:14px; }
-    .featureMeta{
-      color:rgba(243,243,245,.78);
-      font-size:13px;
-      line-height:1.5;
-      margin-top:6px;
-    }
-    .featureGrid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:10px;
-      margin-top:12px;
-    }
-    @media(max-width:520px){
-      .featureGrid{ grid-template-columns: 1fr; }
-    }
-    .featureStrip{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:10px;
-      margin-top:10px;
-    }
-    @media(max-width:680px){
-      .featureStrip{ grid-template-columns: 1fr; }
-    }
+    .featureGrid{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:12px; }
+    @media(max-width:520px){ .featureGrid{ grid-template-columns: 1fr; } }
+    .featureStrip{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px; }
+    @media(max-width:680px){ .featureStrip{ grid-template-columns: 1fr; } }
 
     /* Main: left stack + right sponsors */
-    .main{
-      margin-top:18px;
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:16px;
-      align-items:start;
-    }
-    @media(min-width:980px){
-      .main{ grid-template-columns: 2fr 1fr; }
-    }
+    .main{ margin-top:18px; display:grid; grid-template-columns: 1fr; gap:16px; align-items:start; }
+    @media(min-width:980px){ .main{ grid-template-columns: 2fr 1fr; } }
     .main > *{ min-width:0; }
 
     /* Table */
-    .table{
-      width:100%;
-      border-collapse:separate;
-      border-spacing:0 10px;
-    }
-    .table th{
-      text-align:left;
-      font-size:11px;
-      letter-spacing:.35px;
-      text-transform:uppercase;
-      color:rgba(243,243,245,.70);
-      padding:0 10px 6px;
-    }
-    .row{
-      background: rgba(0,0,0,.28);
-      border:1px solid rgba(255,255,255,.10);
-      border-radius:14px;
-    }
-    .row td{
-      padding:12px 10px;
-      font-size:14px;
-      color:#f4f4f7;
-    }
+    .table{ width:100%; border-collapse:separate; border-spacing:0 10px; }
+    .table th{ text-align:left; font-size:11px; letter-spacing:.35px; text-transform:uppercase; color:rgba(243,243,245,.70); padding:0 10px 6px; }
+    .row{ background: rgba(0,0,0,.28); border:1px solid rgba(255,255,255,.10); border-radius:14px; }
+    .row td{ padding:12px 10px; font-size:14px; color:#f4f4f7; }
     .row td:first-child{ border-top-left-radius:14px; border-bottom-left-radius:14px; }
     .row td:last-child{ border-top-right-radius:14px; border-bottom-right-radius:14px; }
-
     .status{
       display:inline-flex; align-items:center; gap:8px;
-      padding:6px 10px;
-      border-radius:999px;
-      font-size:12px;
-      font-weight:950;
-      letter-spacing:.2px;
+      padding:6px 10px; border-radius:999px;
+      font-size:12px; font-weight:950; letter-spacing:.2px;
       border:1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.06);
       color:var(--soft);
@@ -531,16 +258,8 @@
     .status.final .statusDot{ background: var(--good); }
 
     /* Sponsors (sidebar list) */
-    .sponsorGrid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:10px;
-      overflow:hidden; /* keep everything inside the card padding */
-    }
-    /* FIX: on tight widths, stop forcing 2 columns (this is where pills get clipped) */
-    @media (max-width: 520px){
-      .sponsorGrid{ grid-template-columns: 1fr; }
-    }
+    .sponsorGrid{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; overflow:hidden; }
+    @media (max-width: 520px){ .sponsorGrid{ grid-template-columns: 1fr; } }
 
     .sponsorCard{
       border-radius:16px;
@@ -548,88 +267,84 @@
       border:1px solid rgba(255,255,255,.12);
       box-shadow: 0 12px 34px rgba(0,0,0,.35);
       overflow:hidden;
-      min-height: 130px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
+
+      /* CHANGED: give logos room to breathe */
+      min-height: 152px;
+
+      display:flex; flex-direction:column; justify-content:space-between;
       min-width:0;
     }
     .sponsorCardInner{
       padding:12px 12px 10px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:flex-start;
-      gap:10px;
-      text-align:center;
-      min-height: 102px;
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:flex-start;
+      gap:10px; text-align:center;
+
+      /* CHANGED: allow taller logo box without squishing */
+      min-height: 116px;
+
       min-width:0;
     }
+
+    /* CHANGED: larger logo box that auto-scales nicely */
     .sponsorLogoBox{
       width:100%;
-      height:50px;
+
+      /* responsive height (bigger than before) */
+      height: clamp(64px, 8vw, 86px);
+
       border-radius:12px;
       border:1px solid rgba(255,255,255,.10);
       background: rgba(0,0,0,.24);
-      display:flex;
-      align-items:center;
-      justify-content:center;
+
+      display:flex; align-items:center; justify-content:center;
       overflow:hidden;
     }
+
+    /* CHANGED: fit inside box, but don’t look postage-stamp small */
     .sponsorLogoBox img{
       width:100%;
       height:100%;
       object-fit:contain;
-      padding:8px 10px;
-      opacity:.95;
+
+      /* responsive padding so tiny logos can still appear larger */
+      padding: clamp(6px, 1.4vw, 14px);
+
+      opacity:.98;
+
+      /* extra insurance */
+      max-width:100%;
+      max-height:100%;
     }
+
     .sponsorName{
-      font-weight:950;
-      font-size:13px;
-      line-height:1.2;
-      color:#fff;
+      font-weight:950; font-size:13px; line-height:1.2; color:#fff;
       padding:0 8px;
       overflow-wrap:anywhere;
     }
 
-    /* FIX: no clipped tier pills */
     .tierTag{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      margin:8px 12px 12px; /* use real padding instead of auto-centering width tricks */
+      display:flex; align-items:center; justify-content:center;
+      margin:8px 12px 12px;
       padding:6px 10px;
       border-radius:999px;
-      font-size:10px;
-      font-weight:950;
-      letter-spacing:.25px;
+      font-size:10px; font-weight:950; letter-spacing:.25px;
       color:rgba(243,243,245,.92);
       border:1px solid rgba(255,255,255,.14);
       background: rgba(0,0,0,.24);
       height: 28px;
-      width: calc(100% - 24px); /* always fits inside the card */
+      width: calc(100% - 24px);
       max-width: 100%;
-      min-width: 0;             /* remove the "forced overflow" culprit */
+      min-width: 0;
       white-space: nowrap;
       overflow:hidden;
-      text-overflow: ellipsis;  /* graceful instead of chopped-off */
+      text-overflow: ellipsis;
       text-align:center;
     }
 
-    .sponsorLink{
-      display:block;
-      transition: transform .15s ease, box-shadow .15s ease;
-      border-radius:16px;
-      min-width:0;
-    }
-    .sponsorLink:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 14px 38px rgba(0,0,0,.45);
-    }
-    .sponsorLink:focus-visible{
-      outline: 2px solid var(--focus);
-      outline-offset: 3px;
-    }
+    .sponsorLink{ display:block; transition: transform .15s ease, box-shadow .15s ease; border-radius:16px; min-width:0; }
+    .sponsorLink:hover{ transform: translateY(-1px); box-shadow: 0 14px 38px rgba(0,0,0,.45); }
+    .sponsorLink:focus-visible{ outline: 2px solid var(--focus); outline-offset: 3px; }
 
     .sponsorValue{
       margin-top:12px;
@@ -646,86 +361,41 @@
       text-transform:uppercase;
       color:rgba(243,243,245,.90);
     }
-    .sponsorValue ul{
-      margin:0;
-      padding-left:18px;
-      color:rgba(243,243,245,.78);
-      font-size:13px;
-      line-height:1.55;
-    }
-
-    .sponsorCTA{
-      margin-top:14px;
-      padding-top:14px;
-      border-top:1px solid rgba(255,255,255,.10);
-    }
-    .sponsorCtaRow{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      justify-content:center;
-    }
+    .sponsorValue ul{ margin:0; padding-left:18px; color:rgba(243,243,245,.78); font-size:13px; line-height:1.55; }
+    .sponsorCTA{ margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,.10); }
+    .sponsorCtaRow{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
 
     /* GAME WEEK HUB */
-    .gwActions{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
+    .gwActions{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
     .gwTag{
       display:inline-flex; align-items:center;
-      padding:6px 10px;
-      border-radius:999px;
-      font-size:11px;
-      font-weight:950;
-      letter-spacing:.2px;
+      padding:6px 10px; border-radius:999px;
+      font-size:11px; font-weight:950; letter-spacing:.2px;
       border:1px solid rgba(255,255,255,.14);
       background: rgba(0,0,0,.24);
       color:rgba(243,243,245,.92);
       white-space:nowrap;
     }
     .gwScrollBtn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      width:38px;
-      height:38px;
-      border-radius:12px;
+      display:inline-flex; align-items:center; justify-content:center;
+      width:38px; height:38px; border-radius:12px;
       border:1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.06);
       color: var(--text);
-      cursor:pointer;
-      font-weight:950;
-      user-select:none;
+      cursor:pointer; font-weight:950; user-select:none;
       transition: transform .15s ease, box-shadow .15s ease;
     }
     .gwScrollBtn:hover{ transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,0,0,.35); }
     .gwScrollBtn:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
 
-    /* Hub height stays tall */
-    .gwhTall{
-      min-height: 520px;
-      display:flex;
-      flex-direction:column;
-    }
-    .gwhTall .cardBody{
-      display:flex;
-      flex-direction:column;
-      flex: 1 1 auto;
-      gap:12px;
-    }
-    .gwhTall .gwRail{
-      flex: 1 1 auto;
-      min-height: 360px;
-      align-content:start;
-    }
+    .gwhTall{ min-height: 520px; display:flex; flex-direction:column; }
+    .gwhTall .cardBody{ display:flex; flex-direction:column; flex: 1 1 auto; gap:12px; }
+    .gwhTall .gwRail{ flex: 1 1 auto; min-height: 360px; align-content:start; }
 
     .gwRail{
       display:grid;
       grid-auto-flow:column;
-      grid-auto-columns: minmax(260px, 320px); /* slightly wider to help “taller pill” feel */
+      grid-auto-columns: minmax(260px, 320px);
       gap:12px;
       overflow-x:auto;
       padding:12px;
@@ -739,7 +409,6 @@
     .gwRail::-webkit-scrollbar-thumb{ background:#2a2a33; border-radius:999px; }
     .gwRail::-webkit-scrollbar-track{ background: transparent; }
 
-    /* FIX: make the individual hub “pills” taller so graphics are more visible */
     .gwItem{
       scroll-snap-align:start;
       border-radius:16px;
@@ -747,70 +416,34 @@
       border:1px solid rgba(255,255,255,.10);
       background: rgba(0,0,0,.26);
       box-shadow: 0 12px 34px rgba(0,0,0,.30);
-      display:flex;
-      flex-direction:column;
-      min-height: 360px; /* was 300 */
+      display:flex; flex-direction:column;
+      min-height: 360px;
       cursor: default;
       min-width:0;
     }
     .gwMedia{
-      aspect-ratio: 4 / 3;         /* more vertical real estate vs 16:9 */
-      min-height: 210px;           /* ensures it feels “taller” */
+      aspect-ratio: 4 / 3;
+      min-height: 210px;
       background: rgba(255,255,255,.06);
       border-bottom:1px solid rgba(255,255,255,.10);
       position:relative;
       overflow:hidden;
-      cursor: zoom-in;             /* communicates click-to-enlarge */
+      cursor: zoom-in;
     }
     .gwMedia img{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
+      position:absolute; inset:0;
+      width:100%; height:100%;
       object-fit:cover;
       opacity:.95;
       transition: transform .2s ease, opacity .2s ease;
     }
     .gwMedia:hover img{ transform: scale(1.02); opacity: .98; }
-
     .gwBody{ padding:12px 12px 14px; }
-    .gwKicker{
-      font-size:11px;
-      font-weight:950;
-      letter-spacing:.8px;
-      text-transform:uppercase;
-      color:rgba(243,243,245,.72);
-    }
-    .gwHeadline{
-      margin:6px 0 6px;
-      font-size:14px;
-      font-weight:950;
-      line-height:1.25;
-    }
-    .gwMeta{
-      font-size:12px;
-      color:rgba(243,243,245,.72);
-      line-height:1.5;
-    }
-    .gwLink{
-      margin-top:10px;
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      font-weight:950;
-      font-size:13px;
-      color:#fff;
-    }
-    .gwFooter{
-      margin-top:auto;
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
-      color:rgba(243,243,245,.62);
-      font-size:11px;
-      line-height:1.5;
-    }
+    .gwKicker{ font-size:11px; font-weight:950; letter-spacing:.8px; text-transform:uppercase; color:rgba(243,243,245,.72); }
+    .gwHeadline{ margin:6px 0 6px; font-size:14px; font-weight:950; line-height:1.25; }
+    .gwMeta{ font-size:12px; color:rgba(243,243,245,.72); line-height:1.5; }
+    .gwLink{ margin-top:10px; display:inline-flex; align-items:center; gap:6px; font-weight:950; font-size:13px; color:#fff; }
+    .gwFooter{ margin-top:auto; display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; color:rgba(243,243,245,.62); font-size:11px; line-height:1.5; }
 
     @media (max-width:720px){
       .gwRail{ grid-auto-columns: minmax(240px, 84vw); }
@@ -822,246 +455,72 @@
     }
 
     /* Stadium image box */
-    .stadiumBox{
-      margin-top:12px;
-      border-radius:18px;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.22);
-    }
-    .stadiumBox img{
-      width:100%;
-      height:auto;
-      display:block;
-    }
-    .stadiumCap{
-      padding:10px 12px;
-      border-top:1px solid rgba(255,255,255,.10);
-      color:rgba(243,243,245,.70);
-      font-size:12px;
-      line-height:1.5;
-    }
+    .stadiumBox{ margin-top:12px; border-radius:18px; overflow:hidden; border:1px solid rgba(255,255,255,.10); background: rgba(0,0,0,.22); }
+    .stadiumBox img{ width:100%; height:auto; display:block; }
+    .stadiumCap{ padding:10px 12px; border-top:1px solid rgba(255,255,255,.10); color:rgba(243,243,245,.70); font-size:12px; line-height:1.5; }
 
-    /* =========================
-       GAME NIGHT (Mobile-first sponsor layout)
-       ========================= */
-
+    /* ========================= GAME NIGHT (Mobile-first sponsor layout) ========================= */
     .fullWidthBlock{ margin-top:16px; }
-
-    .gamenightLayout{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:14px;
-      align-items:stretch;
-    }
-
-    .gameNight{
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.25);
-      padding:14px;
-    }
+    .gamenightLayout{ display:grid; grid-template-columns: 1fr; gap:14px; align-items:stretch; }
+    .gameNight{ border-radius:18px; border:1px solid rgba(255,255,255,.10); background: rgba(0,0,0,.25); padding:14px; }
     .gameNightTitle{ margin:0; font-weight:950; letter-spacing:.2px; font-size:14px; }
-    .gameNightSub{
-      margin:8px 0 0;
-      color:rgba(243,243,245,.80);
-      line-height:1.6;
-      font-size:13px;
-    }
-
-    .scoreboardFrame{
-      margin-top:12px;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.18);
-      overflow:hidden;
-    }
-    .scoreboardFrame img{
-      width:100%;
-      height:auto;
-      display:block;
-    }
-
-    .bannerStrip{
-      border-radius:16px;
-      border:1px dashed rgba(255,255,255,.18);
-      background: rgba(0,0,0,.18);
-      padding:12px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:12px;
-      min-height: 88px;
-      text-align:center;
-      overflow:hidden;
-    }
-    .bannerStrip.hasLogo{
-      border-style:solid;
-      border-color: rgba(255,255,255,.12);
-      background: rgba(0,0,0,.22);
-    }
-    .bannerStrip .bannerMeta{
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-      align-items:center;
-      justify-content:center;
-    }
-    .bannerKicker{
-      font-size:11px;
-      font-weight:950;
-      letter-spacing:.6px;
-      text-transform:uppercase;
-      color:rgba(243,243,245,.72);
-    }
-    .bannerTitle{
-      font-size:13px;
-      font-weight:950;
-      color:#fff;
-      line-height:1.2;
-    }
-    .bannerLogo{
-      width:100%;
-      max-width: 420px;
-      height: 46px;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.24);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      overflow:hidden;
-    }
-    .bannerLogo img{
-      width:100%;
-      height:100%;
-      object-fit:contain;
-      padding:8px 14px;
-    }
-    .bannerLink{
-      display:block;
-      border-radius:16px;
-    }
-    .bannerLink:focus-visible{
-      outline:2px solid var(--focus);
-      outline-offset:3px;
-    }
-
-    .bannerTiles{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:12px;
-    }
-    @media (max-width:360px){
-      .bannerTiles{ grid-template-columns: 1fr; }
-    }
-
-    .bannerTile{
-      border-radius:16px;
-      border:1px dashed rgba(255,255,255,.18);
-      background: rgba(0,0,0,.18);
-      padding:12px;
-      min-height: 112px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      overflow:hidden;
-    }
-    .bannerTile.hasLogo{
-      border-style:solid;
-      border-color: rgba(255,255,255,.12);
-      background: rgba(0,0,0,.22);
-    }
-    .bannerTile .bannerLogo{
-      max-width: 240px;
-      height: 44px;
-    }
-
-    @media (min-width: 980px){
-      .gamenightLayout{
-        grid-template-columns: 180px 1fr 180px;
-        gap:14px;
-      }
-      .bannerTiles{ display:none; }
-    }
+    .gameNightSub{ margin:8px 0 0; color:rgba(243,243,245,.80); line-height:1.6; font-size:13px; }
+    .scoreboardFrame{ margin-top:12px; border-radius:16px; border:1px solid rgba(255,255,255,.10); background: rgba(0,0,0,.18); overflow:hidden; }
+    .scoreboardFrame img{ width:100%; height:auto; display:block; }
+    .bannerStrip{ border-radius:16px; border:1px dashed rgba(255,255,255,.18); background: rgba(0,0,0,.18); padding:12px; display:flex; align-items:center; justify-content:center; gap:12px; min-height: 88px; text-align:center; overflow:hidden; }
+    .bannerStrip.hasLogo{ border-style:solid; border-color: rgba(255,255,255,.12); background: rgba(0,0,0,.22); }
+    .bannerStrip .bannerMeta{ display:flex; flex-direction:column; gap:6px; align-items:center; justify-content:center; }
+    .bannerKicker{ font-size:11px; font-weight:950; letter-spacing:.6px; text-transform:uppercase; color:rgba(243,243,245,.72); }
+    .bannerTitle{ font-size:13px; font-weight:950; color:#fff; line-height:1.2; }
+    .bannerLogo{ width:100%; max-width: 420px; height: 46px; border-radius:12px; border:1px solid rgba(255,255,255,.10); background: rgba(0,0,0,.24); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+    .bannerLogo img{ width:100%; height:100%; object-fit:contain; padding:8px 14px; }
+    .bannerLink{ display:block; border-radius:16px; }
+    .bannerLink:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
+    .bannerTiles{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+    @media (max-width:360px){ .bannerTiles{ grid-template-columns: 1fr; } }
+    .bannerTile{ border-radius:16px; border:1px dashed rgba(255,255,255,.18); background: rgba(0,0,0,.18); padding:12px; min-height: 112px; display:flex; flex-direction:column; gap:10px; align-items:center; justify-content:center; text-align:center; overflow:hidden; }
+    .bannerTile.hasLogo{ border-style:solid; border-color: rgba(255,255,255,.12); background: rgba(0,0,0,.22); }
+    .bannerTile .bannerLogo{ max-width: 240px; height: 44px; }
+    @media (min-width: 980px){ .gamenightLayout{ grid-template-columns: 180px 1fr 180px; gap:14px; } .bannerTiles{ display:none; } }
 
     .adSlot{
       border-radius:18px;
       border:1px dashed rgba(255,255,255,.18);
       background: rgba(0,0,0,.18);
       min-height: 140px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      display:flex; align-items:center; justify-content:center;
       text-align:center;
       color:rgba(243,243,245,.55);
-      font-size:12px;
-      font-weight:900;
-      letter-spacing:.2px;
-      padding:12px;
-      overflow:hidden;
+      font-size:12px; font-weight:900; letter-spacing:.2px;
+      padding:12px; overflow:hidden;
     }
-    .adSlot.hasLogo{
-      border-style:solid;
-      border-color: rgba(255,255,255,.12);
-      background: rgba(0,0,0,.22);
-      color:rgba(243,243,245,.80);
-    }
+    .adSlot.hasLogo{ border-style:solid; border-color: rgba(255,255,255,.12); background: rgba(0,0,0,.22); color:rgba(243,243,245,.80); }
     .adSlotSmall{ min-height: 110px; }
-    .adSlot .bannerLogo{
-      max-width: 160px;
-      height: 54px;
-    }
+    .adSlot .bannerLogo{ max-width: 160px; height: 54px; }
     .adSlot .bannerMeta{ align-items:center; }
-
-    @media (max-width: 979px){
-      .desktopOnly{ display:none; }
-    }
+    @media (max-width: 979px){ .desktopOnly{ display:none; } }
 
     /* Footer */
-    .footer{
-      margin-top:18px;
-      padding-top:14px;
-      border-top:1px solid rgba(255,255,255,.10);
-      color:rgba(243,243,245,.65);
-      font-size:12px;
-      line-height:1.6;
-      width:100%;
-    }
+    .footer{ margin-top:18px; padding-top:14px; border-top:1px solid rgba(255,255,255,.10); color:rgba(243,243,245,.65); font-size:12px; line-height:1.6; width:100%; }
 
     /* Toast */
     .toast{
-      position: fixed;
-      left: 50%;
-      bottom: 18px;
-      transform: translateX(-50%);
+      position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%);
       background: rgba(0,0,0,.75);
       color: rgba(243,243,245,.92);
       border: 1px solid rgba(255,255,255,.14);
-      padding: 10px 12px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: .2px;
+      padding: 10px 12px; border-radius: 12px;
+      font-size: 12px; font-weight: 900; letter-spacing: .2px;
       box-shadow: 0 18px 50px rgba(0,0,0,.55);
-      display:none;
-      z-index: 9999;
+      display:none; z-index: 9999;
       max-width: calc(100% - 24px);
     }
 
-    /* =========================
-       Image Lightbox (Game Week Hub click-to-enlarge)
-       ========================= */
+    /* ========================= Image Lightbox (Game Week Hub click-to-enlarge) ========================= */
     .modalOverlay{
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background: rgba(0,0,0,.78);
-      display:none;
-      align-items:center;
-      justify-content:center;
+      display:none; align-items:center; justify-content:center;
       padding: 18px;
       z-index: 10000;
     }
@@ -1078,49 +537,33 @@
     }
     @keyframes popIn{
       from { transform: translateY(10px); opacity: .65; }
-      to   { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(0); opacity: 1; }
     }
     .modalTop{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
       padding: 12px 12px;
       border-bottom: 1px solid rgba(255,255,255,.10);
       background: rgba(0,0,0,.20);
     }
     .modalTitle{
-      font-weight: 950;
-      font-size: 13px;
-      letter-spacing: .2px;
+      font-weight: 950; font-size: 13px; letter-spacing: .2px;
       color: rgba(243,243,245,.92);
-      overflow:hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      min-width:0;
+      overflow:hidden; text-overflow: ellipsis; white-space: nowrap; min-width:0;
     }
     .modalClose{
-      width: 40px;
-      height: 40px;
+      width: 40px; height: 40px;
       border-radius: 12px;
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.06);
       color: var(--text);
-      cursor:pointer;
-      font-weight: 950;
+      cursor:pointer; font-weight: 950;
       transition: transform .15s ease, box-shadow .15s ease;
       flex: 0 0 auto;
     }
     .modalClose:hover{ transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,0,0,.35); }
     .modalClose:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
-    .modalMedia{
-      background: rgba(0,0,0,.22);
-    }
-    .modalMedia img{
-      width: 100%;
-      height: auto;
-      display:block;
-    }
+    .modalMedia{ background: rgba(0,0,0,.22); }
+    .modalMedia img{ width: 100%; height: auto; display:block; }
   </style>
 </head>
 
@@ -1210,9 +653,8 @@
       </div>
     </section>
 
-    <!-- TWO-UP (SWAPPED): Program Information FIRST, then Next Game -->
+    <!-- TWO-UP: Program Information then Next Game -->
     <section class="belowProgram" aria-label="Program information and next game row">
-
       <article class="card" id="programinfo">
         <div class="cardHead">
           <h2>Program Information</h2>
@@ -1220,11 +662,9 @@
         </div>
         <div class="cardBody">
           <div class="featureGrid" id="seasonSnapshotGrid" style="margin-top:0;"></div>
-
           <div class="trustNote" style="margin-top:10px;" id="programInfoNote">
             <strong>Note:</strong> Program Information fields can be school-provided or public-facing info. No “official record” claims are made here.
           </div>
-
           <div class="stadiumBox" aria-label="Home stadium photo">
             <img id="stadiumImg" src="/images/Bearcat-Field-Entrance.png" alt="Bearcat Stadium entrance" />
             <div class="stadiumCap" id="stadiumCaption">Home stadium photo (pilot preview placement).</div>
@@ -1236,9 +676,10 @@
         <div class="cardHead">
           <div>
             <div class="featureLabel">Next Game</div>
-            <div class="featureMeta" id="nextGameMeta">—</div>
+            <!-- CHANGED: removed redundant subheader (Aug 28 • 7:30 PM) -->
           </div>
         </div>
+
         <div class="featureBody">
           <div class="featureGrid" id="nextGameGrid"></div>
           <div class="featureStrip" id="nextGameStrip" aria-label="Game details strip"></div>
@@ -1255,7 +696,6 @@
           </div>
         </div>
       </article>
-
     </section>
 
     <div style="height:16px;"></div>
@@ -1264,18 +704,11 @@
     <section class="main">
       <div>
         <div class="card" id="schedule">
-          <div class="cardHead">
-            <h2>Schedule & Results</h2>
-          </div>
+          <div class="cardHead"><h2>Schedule & Results</h2></div>
           <div class="cardBody">
             <table class="table" aria-label="Schedule and results table">
               <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Opponent</th>
-                  <th>Site</th>
-                  <th>Status</th>
-                </tr>
+                <tr><th>Date</th><th>Opponent</th><th>Site</th><th>Status</th></tr>
               </thead>
               <tbody id="scheduleBody"></tbody>
             </table>
@@ -1297,10 +730,8 @@
               <button class="gwScrollBtn" type="button" aria-label="Scroll Game Week Hub right" data-gwh-scroll="right">→</button>
             </div>
           </div>
-
           <div class="cardBody">
             <div class="gwRail" id="gwhRail" aria-label="Game Week Hub carousel"></div>
-
             <div class="gwFooter" aria-label="Game Week Hub footer">
               <div>Curated by VarsityVue • Not a social feed</div>
               <div><strong style="color:rgba(243,243,245,.92);">Presented by</strong> <span id="gwhPresentedBy">KOONCE FARMS</span></div>
@@ -1311,10 +742,7 @@
 
       <aside style="min-width:0;">
         <div class="card" id="sponsors">
-          <div class="cardHead">
-            <h2>Community Supporters</h2>
-          </div>
-
+          <div class="cardHead"><h2>Community Supporters</h2></div>
           <div class="cardBody">
             <div class="sponsorGrid" id="sponsorGrid"></div>
 
@@ -1329,7 +757,6 @@
                 <a class="btn btnSecondary" id="sponsorKitBtn" href="/sponsor-kit.pdf" target="_blank" rel="noopener">Get Sponsor Kit (PDF)</a>
                 <a class="btn btnSecondary" href="/">Back to Home</a>
               </div>
-
               <div class="tiny" style="margin-top:10px;" id="sponsorCtaNote1"></div>
               <div class="tiny" style="margin-top:8px;" id="sponsorCtaNote2"></div>
               <div class="tiny" style="margin-top:10px;" id="sponsorCtaNote3"></div>
@@ -1339,44 +766,30 @@
       </aside>
     </section>
 
-    <!-- FULL WIDTH: Game Night Graphics (Mobile-first sponsor layout) -->
+    <!-- FULL WIDTH: Game Night Graphics -->
     <div class="fullWidthBlock" id="gamenight">
       <section class="card">
-        <div class="cardHead">
-          <h2>Game Night Graphics (Preview)</h2>
-        </div>
-
+        <div class="cardHead"><h2>Game Night Graphics (Preview)</h2></div>
         <div class="cardBody">
           <div class="gamenightLayout" aria-label="Game night layout with sponsor banners">
-
-            <!-- Desktop LEFT banner slot -->
             <div class="adSlot adSlotSmall desktopOnly" id="gnLeftSlot" aria-label="Left sponsor banner slot"></div>
 
-            <!-- Center column (scoreboard + bottom strip + mobile tiles) -->
             <div>
               <div class="gameNight">
                 <p class="gameNightTitle">Weekly Game Night Graphics</p>
                 <p class="gameNightSub" id="gameNightSub"></p>
-
                 <div class="scoreboardFrame">
                   <img id="scoreboardSampleImg" src="/images/de-leon-scoreboard-sample.png" alt="Sample De Leon Bearcats scoreboard graphic" />
                 </div>
-
                 <div class="tiny" style="margin-top:10px;" id="gameNightPilotNote"></div>
               </div>
 
               <div class="tiny" id="gameNightAdBenefit"></div>
-
-              <!-- Bottom strip sponsor -->
               <div id="gnBottomStripWrap" style="margin-top:14px;"></div>
-
-              <!-- Mobile sponsor tiles (Left/Right become tiles here) -->
               <div id="gnMobileTilesWrap" style="margin-top:14px;"></div>
             </div>
 
-            <!-- Desktop RIGHT banner slot -->
             <div class="adSlot adSlotSmall desktopOnly" id="gnRightSlot" aria-label="Right sponsor banner slot"></div>
-
           </div>
         </div>
       </section>
@@ -1406,22 +819,18 @@
   </div>
 
   <script>
-    /* =========================
-       CONFIG — edit here only
-       ========================= */
+    /* ========================= CONFIG — edit here only ========================= */
     const CONFIG = {
       brandName: "VarsityVue",
       year: 2026,
       pageUrl: "https://varsityvue.com/schools/de-leon",
       logoSrc: "/logos/de-leon-bearcats-logo.png",
-
       heroBanner: {
         imgSrc: "/images/De-Leon-Bearcats-Team-Photo.png",
         imgAlt: "De Leon Bearcats team photo",
         title: "Friday-to-Friday coverage",
         sub: "Highlights, moments, and what’s next — built for families and supporters."
       },
-
       team: {
         name: "De Leon Bearcats",
         pilotTag: "Pilot School — VarsityVue 2026",
@@ -1431,35 +840,22 @@
           { label: "Facebook", href: "https://www.facebook.com/DeLeonAthletics" }
         ]
       },
-
-      tagline:
-        "De Leon High School football is an integral part of the school’s athletic program, providing student-athletes with structured competition while emphasizing discipline, accountability, and team development within an educational setting.",
-
+      tagline: "De Leon High School football is an integral part of the school’s athletic program, providing student-athletes with structured competition while emphasizing discipline, accountability, and team development within an educational setting.",
       whySelected: [
         "Strong community support and consistent program visibility.",
         "Local relevance in the Big Country footprint and scheduled matchups that drive interest.",
         "High standards for presentation—without creating extra work for staff."
       ],
-
       dataBoundaries: {
-        text:
-          "VarsityVue displays information that is publicly available, school-approved, or submitted directly by the athletic program. VarsityVue does not alter official records. For official results, please reference the school or governing body.",
-        note:
-          "<strong>Note:</strong> Broadcast and third-party links may vary by opponent, venue, and media rights."
+        text: "VarsityVue displays information that is publicly available, school-approved, or submitted directly by the athletic program. VarsityVue does not alter official records. For official results, please reference the school or governing body.",
+        note: "<strong>Note:</strong> Broadcast and third-party links may vary by opponent, venue, and media rights."
       },
-
       booster: {
         text: "Direct link to the De Leon Athletic Booster Club donation page for families and community supporters.",
         donate: { label: "Donate to Booster Club", href: "https://www.facebook.com/p/De-Leon-Athletic-Booster-Club-100065249900006/" },
-        disclaimer:
-          "<strong>Note:</strong> VarsityVue does not collect or manage donations. All contributions are processed directly through the De Leon Athletic Booster Club."
+        disclaimer: "<strong>Note:</strong> VarsityVue does not collect or manage donations. All contributions are processed directly through the De Leon Athletic Booster Club."
       },
-
-      admin: {
-        label: "Admin",
-        href: "/admin"
-      },
-
+      admin: { label: "Admin", href: "/admin" },
       nextGame: {
         opponent: "Stamford Bulldogs",
         dateDisplay: "Aug 28",
@@ -1474,15 +870,11 @@
           { label: "Livestream (if applicable)", href: "https://www.nfhsnetwork.com/watch-events" },
           { label: "Local Broadcast", href: "https://kwbyradio.com/de-leon-bearcats/" }
         ],
-        pilotNote:
-          "Designed to minimize staff workload. Pilot workflows handle score updates, with optional school input.",
-        duringGameNote:
-          "Fans follow along here for kickoff details, coverage links, and score updates as they post."
+        pilotNote: "Designed to minimize staff workload. Pilot workflows handle score updates, with optional school input.",
+        duringGameNote: "Fans follow along here for kickoff details, coverage links, and score updates as they post."
       },
-
       schedule: {
-        note:
-          "VarsityVue manages final score updates centrally. Coach and staff input is optional.",
+        note: "VarsityVue manages final score updates centrally. Coach and staff input is optional.",
         rows: [
           { date: "Aug 28", opponent: "Stamford Bulldogs", site: "Home", status: "upcoming" },
           { date: "Sep 4", opponent: "@ Hawley Bearcats", site: "Away", status: "upcoming" },
@@ -1491,7 +883,6 @@
           { date: "Sep 25", opponent: "Hico Tigers", site: "Home", status: "upcoming" }
         ]
       },
-
       programInfo: {
         classification: "UIL 2A Division I",
         district: "District 5-2A",
@@ -1503,24 +894,18 @@
         stadiumImageAlt: "Bearcat Stadium entrance",
         stadiumCaption: "Home stadium photo (pilot preview placement)."
       },
-
       gameNight: {
-        sub:
-          "Weekly scoreboard graphics and brief recaps, presented in a clean format for families, students, and community supporters.",
-        pilotNote:
-          "<strong>Pilot Feature Preview:</strong> Live scoreboard widget available for pilot/premium schools. Operated by approved staff/admin.",
-        adBenefit:
-          "AD benefit: consistent, professional presentation without additional reporting requirements.",
+        sub: "Weekly scoreboard graphics and brief recaps, presented in a clean format for families, students, and community supporters.",
+        pilotNote: "<strong>Pilot Feature Preview:</strong> Live scoreboard widget available for pilot/premium schools. Operated by approved staff/admin.",
+        adBenefit: "AD benefit: consistent, professional presentation without additional reporting requirements.",
         sampleImageSrc: "/images/de-leon-scoreboard-sample.png",
         sampleImageAlt: "Sample De Leon Bearcats scoreboard graphic"
       },
-
       gameNightBanners: {
-        left:   { kicker:"Presented By", title:"Sponsor Slot (Left)",  logoSrc:null, logoAlt:"Sponsor logo", href:null },
-        right:  { kicker:"Community Partner", title:"Sponsor Slot (Right)", logoSrc:null, logoAlt:"Sponsor logo", href:null },
-        bottom: { kicker:"Proud Supporters of De Leon Athletics", title:"Sponsor Strip (Bottom)", logoSrc:null, logoAlt:"Sponsor strip", href:null }
+        left:  { kicker:"Presented By", title:"Sponsor Slot (Left)",  logoSrc:null, logoAlt:"Sponsor logo", href:null },
+        right: { kicker:"Community Partner", title:"Sponsor Slot (Right)", logoSrc:null, logoAlt:"Sponsor logo", href:null },
+        bottom:{ kicker:"Proud Supporters of De Leon Athletics", title:"Sponsor Strip (Bottom)", logoSrc:null, logoAlt:"Sponsor strip", href:null }
       },
-
       gameWeekHub: {
         rangeLabel: "Fri → Fri",
         presentedBy: "KOONCE FARMS",
@@ -1531,7 +916,6 @@
           { type: "This Week", headline: "Bearcats vs Bulldogs", meta: "Fri • 7:30 PM • Bearcat Stadium", img: "/images/Upcoming-Matchup.png", alt: "Upcoming matchup graphic", href: "#schedule" }
         ]
       },
-
       sponsors: {
         valueBullets: [
           "Placement on the team hub all season (clean, no clutter).",
@@ -1559,9 +943,7 @@
       }
     };
 
-    /* =========================
-       Helpers
-       ========================= */
+    /* ========================= Helpers ========================= */
     const el = (tag, attrs = {}, children = []) => {
       const node = document.createElement(tag);
       Object.entries(attrs).forEach(([k, v]) => {
@@ -1588,9 +970,7 @@
 
     const safeBlank = (s) => (s == null || s === "" ? "—" : s);
 
-    /* =========================
-       Lightbox (Game Week Hub)
-       ========================= */
+    /* ========================= Lightbox (Game Week Hub) ========================= */
     const modal = {
       overlay: document.getElementById("imgModal"),
       img: document.getElementById("imgModalImg"),
@@ -1602,11 +982,9 @@
     function openImageModal({ src, alt, title }) {
       if (!src) return;
       modal.lastFocus = document.activeElement;
-
       modal.img.src = src;
       modal.img.alt = alt || "Preview image";
       modal.title.textContent = title || alt || "Preview";
-
       modal.overlay.classList.add("isOpen");
       modal.overlay.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
@@ -1625,16 +1003,10 @@
     }
 
     modal.closeBtn.addEventListener("click", closeImageModal);
-    modal.overlay.addEventListener("click", (e) => {
-      if (e.target === modal.overlay) closeImageModal();
-    });
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && modal.overlay.classList.contains("isOpen")) closeImageModal();
-    });
+    modal.overlay.addEventListener("click", (e) => { if (e.target === modal.overlay) closeImageModal(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && modal.overlay.classList.contains("isOpen")) closeImageModal(); });
 
-    /* =========================
-       Sponsor Banner Renderers
-       ========================= */
+    /* ========================= Sponsor Banner Renderers ========================= */
     function buildBannerCore(cfg, variant) {
       const hasLogo = !!cfg.logoSrc;
 
@@ -1654,10 +1026,9 @@
           ])
         : null;
 
-      const wrapClass =
-        variant === "strip"
-          ? `bannerStrip ${hasLogo ? "hasLogo" : ""}`
-          : `bannerTile ${hasLogo ? "hasLogo" : ""}`;
+      const wrapClass = variant === "strip"
+        ? `bannerStrip ${hasLogo ? "hasLogo" : ""}`
+        : `bannerTile ${hasLogo ? "hasLogo" : ""}`;
 
       const inner = el("div", { class: wrapClass }, [
         logoBox,
@@ -1676,7 +1047,6 @@
 
       const hasLogo = !!cfg.logoSrc;
       target.classList.toggle("hasLogo", hasLogo);
-
       target.innerHTML = "";
 
       if (!hasLogo) {
@@ -1719,9 +1089,7 @@
       ]));
     }
 
-    /* =========================
-       Render
-       ========================= */
+    /* ========================= Render ========================= */
     (function render() {
       document.title = `${CONFIG.team.name} — ${CONFIG.brandName}`;
 
@@ -1758,7 +1126,6 @@
       heroButtons.appendChild(el("a", { class: "btn btnSecondary", href: "#sponsors" }, ["Sponsors"]));
       heroButtons.appendChild(el("a", { class: "btn btnSecondary", href: CONFIG.admin.href }, [CONFIG.admin.label]));
       heroButtons.appendChild(el("a", { class: "btn btnSecondary", href: CONFIG.booster.donate.href, target: "_blank", rel: "noopener" }, [CONFIG.booster.donate.label]));
-
       heroButtons.appendChild(el("button", {
         class: "btn btnSecondary",
         type: "button",
@@ -1782,15 +1149,10 @@
       document.getElementById("boosterText").textContent = CONFIG.booster.text;
       const boosterActions = document.getElementById("boosterActions");
       boosterActions.innerHTML = "";
-      boosterActions.appendChild(el("a", {
-        class: "btnLink",
-        href: CONFIG.booster.donate.href,
-        target: "_blank",
-        rel: "noopener"
-      }, [CONFIG.booster.donate.label]));
+      boosterActions.appendChild(el("a", { class: "btnLink", href: CONFIG.booster.donate.href, target: "_blank", rel: "noopener" }, [CONFIG.booster.donate.label]));
       document.getElementById("boosterDisclaimer").innerHTML = CONFIG.booster.disclaimer;
 
-      document.getElementById("nextGameMeta").textContent = `${CONFIG.nextGame.dateDisplay} • ${CONFIG.nextGame.timeDisplay}`;
+      /* CHANGED: removed nextGameMeta assignment entirely (element removed in HTML) */
 
       const nextGameGrid = document.getElementById("nextGameGrid");
       nextGameGrid.innerHTML = "";
@@ -1842,6 +1204,7 @@
       document.getElementById("duringGameNote").textContent = CONFIG.nextGame.duringGameNote;
 
       document.getElementById("snapshotTag").textContent = String(CONFIG.year);
+
       const infoGrid = document.getElementById("seasonSnapshotGrid");
       infoGrid.innerHTML = "";
       [
@@ -1865,7 +1228,8 @@
 
       const scheduleBody = document.getElementById("scheduleBody");
       scheduleBody.innerHTML = "";
-      const statusLabel = (s) => s === "final" ? "Final" : "Upcoming";
+      const statusLabel = (s) => (s === "final" ? "Final" : "Upcoming");
+
       CONFIG.schedule.rows.forEach(r => {
         scheduleBody.appendChild(el("tr", { class: "row" }, [
           el("td", {}, [r.date]),
@@ -1879,6 +1243,7 @@
           ])
         ]));
       });
+
       document.getElementById("scheduleNote").textContent = CONFIG.schedule.note;
 
       document.getElementById("gameNightSub").textContent = CONFIG.gameNight.sub;
@@ -1909,12 +1274,7 @@
         ]);
 
         if (s.href) {
-          sponsorGrid.appendChild(el("a", {
-            class: "sponsorLink",
-            href: s.href,
-            target: "_blank",
-            rel: "noopener"
-          }, [card]));
+          sponsorGrid.appendChild(el("a", { class: "sponsorLink", href: s.href, target: "_blank", rel: "noopener" }, [card]));
         } else {
           sponsorGrid.appendChild(card);
         }
@@ -1934,18 +1294,16 @@
       document.getElementById("sponsorCtaNote2").textContent = CONFIG.sponsors.ctaNotes[1];
       document.getElementById("sponsorCtaNote3").textContent = CONFIG.sponsors.ctaNotes[2];
 
-      document.getElementById("footerLine1").textContent =
-        "Pilot preview. Layout and example content shown for demonstration purposes.";
-      document.getElementById("footerLine2").textContent =
-        "VarsityVue operates independently and in coordination with approved school administrators.";
-      document.getElementById("footerLine3").textContent =
-        `© ${CONFIG.year} ${CONFIG.brandName} • Powered by VarsityVue`;
+      document.getElementById("footerLine1").textContent = "Pilot preview. Layout and example content shown for demonstration purposes.";
+      document.getElementById("footerLine2").textContent = "VarsityVue operates independently and in coordination with approved school administrators.";
+      document.getElementById("footerLine3").textContent = `© ${CONFIG.year} ${CONFIG.brandName} • Powered by VarsityVue`;
 
       document.getElementById("gwhRangePill").textContent = CONFIG.gameWeekHub.rangeLabel || "Fri → Fri";
       document.getElementById("gwhPresentedBy").textContent = CONFIG.gameWeekHub.presentedBy || "KOONCE FARMS";
 
       const gwhRail = document.getElementById("gwhRail");
       gwhRail.innerHTML = "";
+
       (CONFIG.gameWeekHub.items || []).forEach(item => {
         const media = el("div", {
           class: "gwMedia",
