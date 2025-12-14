@@ -122,23 +122,33 @@
     .btnDisabled{ opacity:.55; cursor:not-allowed; pointer-events:none; }
 
     /* Icon-only pills (desktop) */
-    .btnIcon{
-      width:42px;
-      padding:11px 0;
-      gap:0;
-    }
+    .btnIcon{ width:42px; padding:11px 0; gap:0; }
     .btnIcon .btnText{ display:none; }
     .btnIcon .btnGlyph{ font-size:16px; line-height:1; }
 
     /* On mobile: show full text */
     @media (max-width: 720px){
-      .btnIcon{
-        width:auto;
-        padding:11px 14px;
-        gap:10px;
-      }
+      .btnIcon{ width:auto; padding:11px 14px; gap:10px; }
       .btnIcon .btnText{ display:inline; }
     }
+
+    /* ---- FIX: FORCE 4 + 4 PILLS ---- */
+    .heroPills{
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap:10px;
+      margin-top:12px;
+    }
+    @media (max-width: 720px){
+      .heroPills{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 420px){
+      .heroPills{ grid-template-columns: 1fr; }
+    }
+    .heroPills .btn{ width:100%; }
+    .heroPills .btnIcon{ width:100%; padding:11px 14px; gap:10px; } /* keep labels visible in grid */
+    .heroPills .btnIcon .btnText{ display:inline; }              /* force label visible */
+    .heroPills .btnIcon .btnGlyph{ font-size:14px; }             /* smaller glyph in grid */
 
     /* Hero visual banner */
     .heroVisual{
@@ -591,55 +601,22 @@
     #ad-contact{ display:none; }
     #ad-contact.isOpen{ display:block; }
 
-    .adRows{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
+    .adRows{ display:flex; flex-direction:column; gap:10px; }
     .adRow{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding:12px;
-      border-radius:16px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding:12px; border-radius:16px;
       background: rgba(0,0,0,.26);
       border:1px solid rgba(255,255,255,.10);
       min-width:0;
     }
-    .adLeft{
-      display:flex;
-      flex-direction:column;
-      gap:4px;
-      min-width:0;
-    }
-    .adK{
-      font-size:11px;
-      font-weight:950;
-      letter-spacing:.35px;
-      text-transform:uppercase;
-      color:rgba(243,243,245,.72);
-    }
-    .adV{
-      font-size:14px;
-      font-weight:950;
-      color:#fff;
-      overflow-wrap:anywhere;
-    }
-    .adActions{
-      display:flex;
-      gap:10px;
-      flex:0 0 auto;
-    }
+    .adLeft{ display:flex; flex-direction:column; gap:4px; min-width:0; }
+    .adK{ font-size:11px; font-weight:950; letter-spacing:.35px; text-transform:uppercase; color:rgba(243,243,245,.72); }
+    .adV{ font-size:14px; font-weight:950; color:#fff; overflow-wrap:anywhere; }
+    .adActions{ display:flex; gap:10px; flex:0 0 auto; }
     .adBtn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:10px 12px;
-      border-radius:14px;
-      font-weight:950;
-      font-size:13px;
-      letter-spacing:.2px;
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 12px; border-radius:14px;
+      font-weight:950; font-size:13px; letter-spacing:.2px;
       border:1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.06);
       color: var(--text);
@@ -680,7 +657,9 @@
           </div>
 
           <div class="heroBadges" id="heroBadges"></div>
-          <div class="btnRow" id="heroButtons"></div>
+
+          <!-- FIX: 2-row grid (4 top, 4 bottom). JS fills exactly 8 buttons. -->
+          <div class="heroPills" id="heroButtons" aria-label="Quick navigation"></div>
         </div>
 
         <aside style="display:flex; flex-direction:column; gap:12px; min-width:0;">
@@ -1251,31 +1230,18 @@
       const heroButtons = document.getElementById("heroButtons");
       heroButtons.innerHTML = "";
 
-      /* Primary nav */
+      /* ===== FIX: EXACTLY 8 PILLS, 4 TOP / 4 BOTTOM (grid handles rows) =====
+         Order matters. AD Contact is LAST -> bottom row. Label stays "AD Contact". */
+
+      // 1–4 (top row)
       heroButtons.appendChild(el("a", { class: "btn btnPrimary", href: "#schedule" }, ["Schedule"]));
       heroButtons.appendChild(el("a", { class: "btn btnPrimary", href: "#gameweekhub" }, ["Game Week Hub"]));
-
-      /* Secondary nav */
       heroButtons.appendChild(el("a", { class: "btn btnSecondary", href: "#gamenight" }, ["Game Night"]));
       heroButtons.appendChild(el("a", { class: "btn btnSecondary", href: "#sponsors" }, ["Sponsors"]));
 
-      /* AD Contact (icon-only on desktop, text on mobile; no confusing gear icon) */
-      heroButtons.appendChild(
-        el("button", {
-          class: "btn btnSecondary btnIcon",
-          type: "button",
-          id: "adContactBtn",
-          "aria-label": "AD Contact"
-        }, [
-          el("span", { class: "btnGlyph", "aria-hidden":"true" }, ["AD"]),
-          el("span", { class: "btnText" }, [CONFIG.adContact.label])
-        ])
-      );
-
-      /* Booster donation */
+      // 5–8 (bottom row)
       heroButtons.appendChild(el("a", { class: "btn btnSecondary", href: CONFIG.booster.donate.href, target: "_blank", rel: "noopener" }, [CONFIG.booster.donate.label]));
 
-      /* Share */
       heroButtons.appendChild(el("button", {
         class: "btn btnSecondary",
         type: "button",
@@ -1289,16 +1255,16 @@
         }
       }, ["Share"]));
 
-      /* Back to Home (icon-only on desktop, text on mobile) */
+      heroButtons.appendChild(el("a", { class: "btn btnSecondary", href: "/", "aria-label": "Back to Home" }, ["Back to Home"]));
+
+      // AD Contact LAST (bottom row, far right)
       heroButtons.appendChild(
-        el("a", {
-          class: "btn btnSecondary btnIcon",
-          href: "/",
-          "aria-label": "Back to Home"
-        }, [
-          el("span", { class: "btnGlyph", "aria-hidden":"true" }, ["←"]),
-          el("span", { class: "btnText" }, ["Back to Home"])
-        ])
+        el("button", {
+          class: "btn btnSecondary",
+          type: "button",
+          id: "adContactBtn",
+          "aria-label": "AD Contact"
+        }, ["AD Contact"])
       );
 
       /* Why selected */
