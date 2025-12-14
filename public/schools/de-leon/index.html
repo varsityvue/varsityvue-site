@@ -1583,13 +1583,6 @@
         el("div", { class: "miniK" }, ["Record"]),
         el("div", { class: "miniV" }, [CONFIG.nextGame.recordDisplay])
       ]));
-
-      // Next game actions
-      const nextActions = document.getElementById("nextGameActions");
-      nextActions.appendChild(el("a", { class: "btn btnSecondary btnSmall", href: CONFIG.nextGame.addToCalendarHref }, ["Add to Calendar"]));
-      nextActions.appendChild(el("a", { class: "btn btnSecondary btnSmall", href: CONFIG.nextGame.maps.google, target: "_blank", rel: "noopener" }, ["Directions"]));
-      nextActions.appendChild(el("a", { class: "btn btnSecondary btnSmall", href: "#gameweek" }, ["Game Week"]));
-
       // Next game strip
       const strip = document.getElementById("nextGameStrip");
       strip.appendChild(el("div", { class: "mini" }, [
