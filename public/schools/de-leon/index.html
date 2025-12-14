@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>De Leon Bearcats — VarsityVue</title>
-  <meta name="description" content="De Leon Bearcats athletics hub on VarsityVue: schedules, results, game night graphics, and community supporters." />
+  <meta name="description" content="De Leon Bearcats athletics hub on VarsityVue: schedules, results, and community supporters." />
 
   <!-- Open Graph -->
   <meta property="og:title" content="De Leon Bearcats — VarsityVue" />
@@ -113,12 +113,32 @@
       color: var(--text);
       transition: transform .15s ease, box-shadow .15s ease, background .15s ease, opacity .15s ease;
       user-select:none;
+      cursor:pointer;
     }
     .btnPrimary{ background: linear-gradient(135deg, var(--accent2), rgba(255,255,255,.10)); border:1px solid rgba(255,255,255,.14); }
     .btnSecondary{ background: rgba(255,255,255,.06); }
     .btn:hover{ transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,0,0,.35); }
     .btn:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
     .btnDisabled{ opacity:.55; cursor:not-allowed; pointer-events:none; }
+
+    /* Icon-only pills (desktop) */
+    .btnIcon{
+      width:42px;
+      padding:11px 0;
+      gap:0;
+    }
+    .btnIcon .btnText{ display:none; }
+    .btnIcon .btnGlyph{ font-size:16px; line-height:1; }
+
+    /* On mobile: show full text */
+    @media (max-width: 720px){
+      .btnIcon{
+        width:auto;
+        padding:11px 14px;
+        gap:10px;
+      }
+      .btnIcon .btnText{ display:inline; }
+    }
 
     /* Hero visual banner */
     .heroVisual{
@@ -213,35 +233,6 @@
     .miniV a{ text-decoration: underline; text-underline-offset: 2px; font-weight:850; }
     .tiny{ margin-top:8px; font-size:12px; color:rgba(243,243,245,.70); line-height:1.6; }
 
-    /* AD Contact card */
-    .adCardGrid{ display:grid; grid-template-columns: 1fr; gap:10px; margin-top:10px; }
-    @media(min-width:720px){ .adCardGrid{ grid-template-columns: 1fr 1fr; } }
-    .adRow{
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-      border-radius:14px;
-      padding:12px 12px;
-      background: rgba(0,0,0,.26);
-      border:1px solid rgba(255,255,255,.10);
-      min-width:0;
-    }
-    .adLeft{ min-width:0; }
-    .adLabel{ font-size:11px; font-weight:950; letter-spacing:.35px; text-transform:uppercase; color:rgba(243,243,245,.72); }
-    .adValue{ margin-top:6px; font-size:15px; font-weight:950; color:#fff; overflow-wrap:anywhere; }
-    .adActions{ display:flex; gap:10px; flex:0 0 auto; }
-    .adBtn{
-      display:inline-flex; align-items:center; justify-content:center;
-      padding:10px 12px; border-radius:14px;
-      font-weight:950; font-size:13px; letter-spacing:.2px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
-      color: var(--text);
-      cursor:pointer;
-      transition: transform .15s ease, box-shadow .15s ease;
-      white-space:nowrap;
-    }
-    .adBtn:hover{ transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,0,0,.35); }
-    .adBtn:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
-
     /* Two-up row below Program Notes */
     .belowProgram{ margin-top:16px; display:grid; grid-template-columns: 1fr; gap:16px; }
     @media(min-width:980px){ .belowProgram{ grid-template-columns: 1fr 1fr; } }
@@ -286,7 +277,7 @@
     .status.upcoming .statusDot{ background: var(--warn); }
     .status.final .statusDot{ background: var(--good); }
 
-    /* Sponsors (sidebar list) — FIXED logo sizing (no clipping) + pill text fits */
+    /* Sponsors */
     .sponsorGrid{
       display:grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -297,12 +288,9 @@
     @media (max-width: 520px){
       .sponsorGrid{ grid-template-columns: 1fr; }
     }
-
-    .sponsorLink{
-      display:block;
-      height:100%;
-      min-width:0;
-    }
+    .sponsorLink{ display:block; height:100%; min-width:0; border-radius:16px; transition: transform .15s ease, box-shadow .15s ease; }
+    .sponsorLink:hover{ transform: translateY(-1px); box-shadow: 0 14px 38px rgba(0,0,0,.45); }
+    .sponsorLink:focus-visible{ outline: 2px solid var(--focus); outline-offset: 3px; }
 
     .sponsorCard{
       border-radius:16px;
@@ -310,14 +298,12 @@
       border:1px solid rgba(255,255,255,.12);
       box-shadow: 0 12px 34px rgba(0,0,0,.35);
       overflow:hidden;
-
       height:100%;
       min-height: 190px;
       display:flex;
       flex-direction:column;
       min-width:0;
     }
-
     .sponsorCardInner{
       padding:12px 12px 10px;
       display:flex;
@@ -329,7 +315,6 @@
       min-width:0;
       flex: 1 1 auto;
     }
-
     .sponsorLogoBox{
       width:100%;
       height:92px;
@@ -340,10 +325,8 @@
       align-items:center;
       justify-content:center;
       overflow:hidden;
-      padding:6px; /* small frame; prevents edge-clipping */
+      padding:6px;
     }
-
-    /* ✅ NO global scale. This avoids “Gilder gets cut off.” */
     .sponsorLogoBox img{
       width:100%;
       height:100%;
@@ -352,8 +335,6 @@
       margin:0;
       opacity:.98;
     }
-
-    /* Optional “bump” that still can’t clip: slightly reduce padding instead */
     .sponsorLogoBox.isTight{ padding:3px; }
 
     .sponsorName{
@@ -363,15 +344,12 @@
       color:#fff;
       padding:0 10px;
       overflow-wrap:anywhere;
-
       min-height: 34px;
       display:flex;
       align-items:center;
       justify-content:center;
       text-align:center;
     }
-
-    /* ✅ Pill text is now shorter (“Supporters”), so no ellipsis problems */
     .tierTag{
       margin:10px 12px 12px;
       padding:7px 10px;
@@ -382,19 +360,13 @@
       color:rgba(243,243,245,.92);
       border:1px solid rgba(255,255,255,.14);
       background: rgba(0,0,0,.24);
-
       height: 30px;
       width: calc(100% - 24px);
-      max-width: 100%;
       white-space: nowrap;
       overflow:hidden;
       text-overflow: ellipsis;
       text-align:center;
     }
-
-    .sponsorLink{ display:block; transition: transform .15s ease, box-shadow .15s ease; border-radius:16px; min-width:0; }
-    .sponsorLink:hover{ transform: translateY(-1px); box-shadow: 0 14px 38px rgba(0,0,0,.45); }
-    .sponsorLink:focus-visible{ outline: 2px solid var(--focus); outline-offset: 3px; }
 
     .sponsorValue{
       margin-top:12px;
@@ -509,7 +481,7 @@
     .stadiumBox img{ width:100%; height:auto; display:block; }
     .stadiumCap{ padding:10px 12px; border-top:1px solid rgba(255,255,255,.10); color:rgba(243,243,245,.70); font-size:12px; line-height:1.5; }
 
-    /* ========================= GAME NIGHT (Mobile-first sponsor layout) ========================= */
+    /* ========================= GAME NIGHT ========================= */
     .fullWidthBlock{ margin-top:16px; }
     .gamenightLayout{ display:grid; grid-template-columns: 1fr; gap:14px; align-items:stretch; }
     .gameNight{ border-radius:18px; border:1px solid rgba(255,255,255,.10); background: rgba(0,0,0,.25); padding:14px; }
@@ -614,6 +586,72 @@
     .modalClose:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
     .modalMedia{ background: rgba(0,0,0,.22); }
     .modalMedia img{ width: 100%; height: auto; display:block; }
+
+    /* ========================= AD CONTACT (hidden until pill click) ========================= */
+    #ad-contact{ display:none; }
+    #ad-contact.isOpen{ display:block; }
+
+    .adRows{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .adRow{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:12px;
+      border-radius:16px;
+      background: rgba(0,0,0,.26);
+      border:1px solid rgba(255,255,255,.10);
+      min-width:0;
+    }
+    .adLeft{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      min-width:0;
+    }
+    .adK{
+      font-size:11px;
+      font-weight:950;
+      letter-spacing:.35px;
+      text-transform:uppercase;
+      color:rgba(243,243,245,.72);
+    }
+    .adV{
+      font-size:14px;
+      font-weight:950;
+      color:#fff;
+      overflow-wrap:anywhere;
+    }
+    .adActions{
+      display:flex;
+      gap:10px;
+      flex:0 0 auto;
+    }
+    .adBtn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 12px;
+      border-radius:14px;
+      font-weight:950;
+      font-size:13px;
+      letter-spacing:.2px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      transition: transform .15s ease, box-shadow .15s ease;
+      white-space:nowrap;
+    }
+    .adBtn:hover{ transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,0,0,.35); }
+    .adBtn:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
+    .adBtnPrimary{
+      background: linear-gradient(135deg, var(--accent2), rgba(255,255,255,.10));
+      border:1px solid rgba(255,255,255,.14);
+    }
   </style>
 </head>
 
@@ -665,6 +703,42 @@
 
     <div style="height:16px;"></div>
 
+    <!-- AD CONTACT (Hidden until pill click) -->
+    <section class="card" id="ad-contact" aria-label="Athletic Director Contact">
+      <div class="cardHead">
+        <h2>Athletic Director Contact</h2>
+        <span class="pill">De Leon ISD</span>
+      </div>
+      <div class="cardBody">
+        <div class="adRows">
+          <div class="adRow">
+            <div class="adLeft">
+              <div class="adK">Phone</div>
+              <div class="adV" id="adPhoneText">(254) 893-8240</div>
+            </div>
+            <div class="adActions">
+              <a class="adBtn adBtnPrimary" id="adCallBtn" href="tel:+12548938240">Call</a>
+            </div>
+          </div>
+
+          <div class="adRow">
+            <div class="adLeft">
+              <div class="adK">Email</div>
+              <div class="adV" id="adEmailText">bwhitaker@deleonisd.net</div>
+            </div>
+            <div class="adActions">
+              <a class="adBtn" id="adEmailBtn" href="mailto:bwhitaker@deleonisd.net">Email</a>
+              <button class="adBtn" type="button" id="adCopyEmailBtn">Copy email</button>
+            </div>
+          </div>
+
+          <div class="trustNote" style="margin-top:10px;">
+            <strong>Note:</strong> This is a pilot preview contact card. Replace phone/email if the school requests a different public-facing contact.
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Program Notes (Collapsible) -->
     <section class="card" id="program">
       <div class="cardHead">
@@ -699,46 +773,6 @@
           <p class="trustText" id="boosterText"></p>
           <div class="boosterActions" id="boosterActions"></div>
           <div class="trustNote" id="boosterDisclaimer"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- AD CONTACT (on-page card target) -->
-    <section class="card" id="ad-contact" style="margin-top:16px;">
-      <div class="cardHead">
-        <h2>AD Contact</h2>
-        <span class="pill">De Leon ISD</span>
-      </div>
-      <div class="cardBody">
-        <div class="adCardGrid" aria-label="Athletic Department contact options">
-          <div class="adRow">
-            <div class="adLeft">
-              <div class="adLabel">Phone</div>
-              <div class="adValue">
-                <a href="tel:+12548938240" aria-label="Call Athletic Department">+1 (254) 893-8240</a>
-              </div>
-            </div>
-            <div class="adActions">
-              <a class="adBtn" href="tel:+12548938240">Call</a>
-            </div>
-          </div>
-
-          <div class="adRow">
-            <div class="adLeft">
-              <div class="adLabel">Email</div>
-              <div class="adValue">
-                <a id="adEmailLink" href="mailto:bwhitaker@deleonisd.net" aria-label="Email Athletic Department">bwhitaker@deleonisd.net</a>
-              </div>
-            </div>
-            <div class="adActions">
-              <a class="adBtn" href="mailto:bwhitaker@deleonisd.net">Email</a>
-              <button class="adBtn" type="button" id="copyAdEmailBtn">Copy email</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="tiny" style="margin-top:10px;">
-          For fastest response, email is best. Calls may route through the school office depending on hours.
         </div>
       </div>
     </section>
@@ -845,7 +879,6 @@
                 <a class="btn btnPrimary" id="sponsorMailtoBtn" href="#">Become a Community Sponsor</a>
                 <a class="btn btnSecondary" id="sponsorKitBtn" href="/sponsor-kit.pdf" target="_blank" rel="noopener">Get Sponsor Kit (PDF)</a>
               </div>
-
               <div class="tiny" style="margin-top:10px;" id="sponsorCtaNote1"></div>
               <div class="tiny" style="margin-top:8px;" id="sponsorCtaNote2"></div>
               <div class="tiny" style="margin-top:10px;" id="sponsorCtaNote3"></div>
@@ -945,12 +978,11 @@
         disclaimer: "<strong>Note:</strong> VarsityVue does not collect or manage donations. All contributions are processed directly through the De Leon Athletic Booster Club."
       },
 
-      /* ✅ AD Contact pill config */
+      /* AD Contact (on-page hidden card) */
       adContact: {
         label: "AD Contact",
-        anchor: "#ad-contact",
-        phoneRaw: "+12548938240",
-        phoneDisplay: "+1 (254) 893-8240",
+        phoneTel: "tel:+12548938240",
+        phoneDisplay: "(254) 893-8240",
         email: "bwhitaker@deleonisd.net"
       },
 
@@ -985,7 +1017,6 @@
         classification: "UIL 2A Division I",
         district: "District 5-2A",
         headCoach: "Brennan Whitaker",
-        homeCoach: "Brennan Whitaker",
         homeField: "Bearcat Stadium",
         priorSeasonRecord: "9-4",
         lastGame: "De Leon 18 vs. Axtell 27",
@@ -1220,21 +1251,31 @@
       const heroButtons = document.getElementById("heroButtons");
       heroButtons.innerHTML = "";
 
-      // Primary nav
+      /* Primary nav */
       heroButtons.appendChild(el("a", { class: "btn btnPrimary", href: "#schedule" }, ["Schedule"]));
       heroButtons.appendChild(el("a", { class: "btn btnPrimary", href: "#gameweekhub" }, ["Game Week Hub"]));
 
-      // Secondary nav
+      /* Secondary nav */
       heroButtons.appendChild(el("a", { class: "btn btnSecondary", href: "#gamenight" }, ["Game Night"]));
       heroButtons.appendChild(el("a", { class: "btn btnSecondary", href: "#sponsors" }, ["Sponsors"]));
 
-      // ✅ AD Contact pill (text on desktop & mobile) → jumps to on-page card
-      heroButtons.appendChild(el("a", { class: "btn btnSecondary", href: CONFIG.adContact.anchor }, [CONFIG.adContact.label]));
+      /* AD Contact (icon-only on desktop, text on mobile; no confusing gear icon) */
+      heroButtons.appendChild(
+        el("button", {
+          class: "btn btnSecondary btnIcon",
+          type: "button",
+          id: "adContactBtn",
+          "aria-label": "AD Contact"
+        }, [
+          el("span", { class: "btnGlyph", "aria-hidden":"true" }, ["AD"]),
+          el("span", { class: "btnText" }, [CONFIG.adContact.label])
+        ])
+      );
 
-      // Booster donate
+      /* Booster donation */
       heroButtons.appendChild(el("a", { class: "btn btnSecondary", href: CONFIG.booster.donate.href, target: "_blank", rel: "noopener" }, [CONFIG.booster.donate.label]));
 
-      // Share
+      /* Share */
       heroButtons.appendChild(el("button", {
         class: "btn btnSecondary",
         type: "button",
@@ -1248,9 +1289,19 @@
         }
       }, ["Share"]));
 
-      // Back to Home (kept as text per your latest direction)
-      heroButtons.appendChild(el("a", { class: "btn btnSecondary", href: "/" }, ["Back to Home"]));
+      /* Back to Home (icon-only on desktop, text on mobile) */
+      heroButtons.appendChild(
+        el("a", {
+          class: "btn btnSecondary btnIcon",
+          href: "/",
+          "aria-label": "Back to Home"
+        }, [
+          el("span", { class: "btnGlyph", "aria-hidden":"true" }, ["←"]),
+          el("span", { class: "btnText" }, ["Back to Home"])
+        ])
+      );
 
+      /* Why selected */
       const whyList = document.getElementById("whySelectedList");
       whyList.innerHTML = "";
       CONFIG.whySelected.forEach(item => whyList.appendChild(el("li", {}, [item])));
@@ -1264,17 +1315,13 @@
       boosterActions.appendChild(el("a", { class: "btnLink", href: CONFIG.booster.donate.href, target: "_blank", rel: "noopener" }, [CONFIG.booster.donate.label]));
       document.getElementById("boosterDisclaimer").innerHTML = CONFIG.booster.disclaimer;
 
-      // Wire AD contact card from CONFIG (keeps one source of truth)
-      document.querySelector('#ad-contact a[href^="tel:"]').setAttribute("href", `tel:${CONFIG.adContact.phoneRaw}`);
-      document.querySelector('#ad-contact a[href^="mailto:"]').setAttribute("href", `mailto:${CONFIG.adContact.email}`);
-      document.querySelector('#ad-contact a[aria-label="Call Athletic Department"]').textContent = CONFIG.adContact.phoneDisplay;
-      document.getElementById("adEmailLink").textContent = CONFIG.adContact.email;
-      document.getElementById("adEmailLink").setAttribute("href", `mailto:${CONFIG.adContact.email}`);
-      document.querySelector('#ad-contact a.adBtn[href^="tel:"]').setAttribute("href", `tel:${CONFIG.adContact.phoneRaw}`);
-      document.querySelector('#ad-contact a.adBtn[href^="mailto:"]').setAttribute("href", `mailto:${CONFIG.adContact.email}`);
+      /* AD Contact card wiring */
+      document.getElementById("adCallBtn").href = CONFIG.adContact.phoneTel;
+      document.getElementById("adPhoneText").textContent = CONFIG.adContact.phoneDisplay;
+      document.getElementById("adEmailBtn").href = `mailto:${CONFIG.adContact.email}`;
+      document.getElementById("adEmailText").textContent = CONFIG.adContact.email;
 
-      // Copy email button
-      document.getElementById("copyAdEmailBtn").addEventListener("click", async () => {
+      document.getElementById("adCopyEmailBtn").addEventListener("click", async () => {
         try{
           await navigator.clipboard.writeText(CONFIG.adContact.email);
           toast("Email copied");
@@ -1283,6 +1330,25 @@
         }
       });
 
+      /* Toggle AD contact card */
+      const adSection = document.getElementById("ad-contact");
+      const adBtn = document.getElementById("adContactBtn");
+      if (adSection && adBtn) {
+        adBtn.addEventListener("click", () => {
+          const isOpen = adSection.classList.toggle("isOpen");
+          if (isOpen) adSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      }
+
+      /* Optional: close AD card when user clicks a section link */
+      document.querySelectorAll('a.btn[href^="#"]').forEach(link => {
+        link.addEventListener("click", () => {
+          const sec = document.getElementById("ad-contact");
+          if (sec) sec.classList.remove("isOpen");
+        });
+      });
+
+      /* Next game */
       const nextGameGrid = document.getElementById("nextGameGrid");
       nextGameGrid.innerHTML = "";
       nextGameGrid.appendChild(el("div", { class: "mini" }, [
@@ -1334,6 +1400,7 @@
 
       document.getElementById("snapshotTag").textContent = String(CONFIG.year);
 
+      /* Program info */
       const infoGrid = document.getElementById("seasonSnapshotGrid");
       infoGrid.innerHTML = "";
       [
@@ -1355,6 +1422,7 @@
       stadiumImg.alt = CONFIG.programInfo.stadiumImageAlt;
       document.getElementById("stadiumCaption").textContent = CONFIG.programInfo.stadiumCaption;
 
+      /* Schedule */
       const scheduleBody = document.getElementById("scheduleBody");
       scheduleBody.innerHTML = "";
       const statusLabel = (s) => (s === "final" ? "Final" : "Upcoming");
@@ -1375,6 +1443,7 @@
 
       document.getElementById("scheduleNote").textContent = CONFIG.schedule.note;
 
+      /* Game Night */
       document.getElementById("gameNightSub").textContent = CONFIG.gameNight.sub;
       const scoreImg = document.getElementById("scoreboardSampleImg");
       scoreImg.src = CONFIG.gameNight.sampleImageSrc;
@@ -1384,6 +1453,7 @@
 
       renderGameNightBanners();
 
+      /* Sponsors */
       const sponsorGrid = document.getElementById("sponsorGrid");
       sponsorGrid.innerHTML = "";
 
@@ -1424,10 +1494,12 @@
       document.getElementById("sponsorCtaNote2").textContent = CONFIG.sponsors.ctaNotes[1];
       document.getElementById("sponsorCtaNote3").textContent = CONFIG.sponsors.ctaNotes[2];
 
+      /* Footer */
       document.getElementById("footerLine1").textContent = "Pilot preview. Layout and example content shown for demonstration purposes.";
       document.getElementById("footerLine2").textContent = "VarsityVue operates independently and in coordination with approved school administrators.";
       document.getElementById("footerLine3").textContent = `© ${CONFIG.year} ${CONFIG.brandName} • Powered by VarsityVue`;
 
+      /* Game Week Hub */
       document.getElementById("gwhRangePill").textContent = CONFIG.gameWeekHub.rangeLabel || "Fri → Fri";
       document.getElementById("gwhPresentedBy").textContent = CONFIG.gameWeekHub.presentedBy || "KOONCE FARMS";
 
@@ -1479,6 +1551,7 @@
         });
       });
 
+      /* Program collapse */
       const programCard = document.getElementById("program");
       const toggleBtn = document.getElementById("programToggle");
       toggleBtn.addEventListener("click", () => {
