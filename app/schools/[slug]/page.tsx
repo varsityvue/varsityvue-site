@@ -45,7 +45,6 @@ export default async function SchoolPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-
   const school = getSchoolBySlug(slug);
 
   if (!school) {
@@ -63,9 +62,34 @@ export default async function SchoolPage({
   const standings = getStandingsForSchool(slug);
   const articles = getArticlesForSchool(slug);
 
+  const schoolSchema = {
+    "@context": "https://schema.org",
+    "@type": "SportsTeam",
+    name: school.fullName,
+    alternateName: school.name,
+    sport: "Football",
+    url: `https://varsityvue.com/schools/${school.slug}`,
+    memberOf: {
+      "@type": "SportsOrganization",
+      name: school.districtId,
+      url: `https://varsityvue.com/districts/${school.districtId}`,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "VarsityVue",
+      url: "https://varsityvue.com",
+    },
+  };
+
   return (
     <main className="min-h-screen bg-black text-white">
-    
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(schoolSchema),
+        }}
+      />
+
       <SchoolHero school={school} />
 
       <SchoolSubnav
@@ -77,11 +101,11 @@ export default async function SchoolPage({
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-6 sm:px-6 lg:px-8">
         <SponsorBanner theme={theme} schoolId={school.id} />
 
-      <UpcomingGames
-  games={upcomingGames}
-  theme={theme}
-  schoolSlug={slug}
-/>
+        <UpcomingGames
+          games={upcomingGames}
+          theme={theme}
+          schoolSlug={slug}
+        />
 
         {recentScores.length > 0 && (
           <RecentScores
