@@ -4,10 +4,7 @@ export type SponsorPlacement =
   | "district-hub"
   | "directory";
 
-export type SponsorTier =
-  | "founding"
-  | "premium"
-  | "standard";
+export type SponsorTier = "founding" | "premium" | "standard";
 
 export type Sponsor = {
   id: string;
@@ -49,6 +46,15 @@ export function getSchoolSponsors(schoolId: string) {
     (sponsor) =>
       sponsor.active &&
       sponsor.placementTypes.includes("school-hub") &&
+      sponsor.schoolIds?.includes(schoolId)
+  );
+}
+
+export function getGameSponsors(schoolId: string) {
+  return sponsors.filter(
+    (sponsor) =>
+      sponsor.active &&
+      sponsor.placementTypes.includes("game-page") &&
       sponsor.schoolIds?.includes(schoolId)
   );
 }

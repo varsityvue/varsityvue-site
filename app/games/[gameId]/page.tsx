@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { getGameById } from "../../../data/games";
 import { getSchoolBySlug } from "../../../data/schools";
+import { getGameSponsors } from "../../../data/sponsors";
 
 function formatGameDate(kickoff: string) {
   return new Intl.DateTimeFormat("en-US", {
@@ -67,6 +68,10 @@ export default async function GamePage({
 
   const primaryColor = homeSchool?.colors.primary ?? "#7A1022";
   const secondaryColor = homeSchool?.colors.secondary ?? "#d65a6d";
+
+  const sponsorSchoolId = homeSchool?.id ?? awaySchool?.id;
+  const gameSponsors = sponsorSchoolId ? getGameSponsors(sponsorSchoolId) : [];
+  const gameSponsor = gameSponsors[0];
 
   const hasFinalScore =
     game.status === "final" &&
@@ -139,19 +144,41 @@ export default async function GamePage({
       </section>
 
       <section className="px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-6xl rounded-3xl border border-[#7A1022]/30 bg-[#7A1022]/10 p-8 text-center">
-          <p className="text-sm font-bold uppercase tracking-[0.3em] text-[#d65a6d]">
-            Game Sponsor
-          </p>
+        {gameSponsor ? (
+          <Link
+            href={gameSponsor.website || "#"}
+            target="_blank"
+            className="mx-auto block max-w-6xl"
+          >
+            <div className="rounded-3xl border border-[#7A1022]/30 bg-[#7A1022]/10 p-8 text-center transition hover:bg-[#7A1022]/15">
+              <p className="text-sm font-bold uppercase tracking-[0.3em] text-[#d65a6d]">
+                Game Sponsor
+              </p>
 
-          <h2 className="mt-4 text-3xl font-black">
-            Presented By Your Business
-          </h2>
+              <h2 className="mt-4 text-3xl font-black">
+                Presented by {gameSponsor.name}
+              </h2>
 
-          <p className="mt-3 text-white/60">
-            Premium matchup sponsorship placement available.
-          </p>
-        </div>
+              <p className="mt-3 text-white/60">
+                Proud supporter of VarsityVue matchup coverage.
+              </p>
+            </div>
+          </Link>
+        ) : (
+          <div className="mx-auto max-w-6xl rounded-3xl border border-[#7A1022]/30 bg-[#7A1022]/10 p-8 text-center">
+            <p className="text-sm font-bold uppercase tracking-[0.3em] text-[#d65a6d]">
+              Game Sponsor
+            </p>
+
+            <h2 className="mt-4 text-3xl font-black">
+              This placement is available
+            </h2>
+
+            <p className="mt-3 text-white/60">
+              Premium matchup sponsorship inventory.
+            </p>
+          </div>
+        )}
       </section>
 
       <section className="px-4 py-10 pb-20 sm:px-6 lg:px-8">
