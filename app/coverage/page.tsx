@@ -1,7 +1,14 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { articles } from "../../data/articles";
 import { sponsors } from "../../data/sponsors";
 import type { Article } from "@/types/platform";
+
+export const metadata: Metadata = {
+  title: "Texas High School Sports Coverage & Articles | VarsityVue",
+  description:
+    "Read VarsityVue coverage including Texas high school football previews, recaps, features, rankings, athlete spotlights, and legacy content.",
+};
 
 function formatArticleDate(publishedAt: string) {
   return new Intl.DateTimeFormat("en-US", {
@@ -27,6 +34,7 @@ function formatArticleType(type: Article["type"]) {
 export default function CoveragePage() {
   const featuredArticle = articles[0];
   const latestArticles = articles.slice(1);
+
   const coverageSponsor = sponsors.find(
     (sponsor) =>
       sponsor.active &&
@@ -177,8 +185,8 @@ export default function CoveragePage() {
 function FilterPill({ label }: { label: string }) {
   return (
     <button
-      className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-bold text-white/70 transition hover:bg-white/10 hover:text-white"
       type="button"
+      className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-bold text-white/70 transition hover:bg-white/10 hover:text-white"
     >
       {label}
     </button>

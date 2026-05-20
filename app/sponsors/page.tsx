@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { sponsors } from "../../data/sponsors";
+
+export const metadata: Metadata = {
+  title: "VarsityVue Sponsorship Opportunities | Texas High School Sports",
+  description:
+    "Explore VarsityVue sponsorship opportunities across school hubs, district hubs, game pages, and Texas high school sports coverage.",
+};
 
 const sponsorPackages = [
   {

@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import { schools } from "../../data/schools";
 import SchoolDirectory from "../../components/SchoolDirectory";
+
+export const metadata: Metadata = {
+  title: "Texas High School Sports School Hubs | VarsityVue",
+  description:
+    "Search VarsityVue school hubs for Texas high school sports schedules, scores, standings, coverage, sponsors, and district information.",
+};
 
 export default function SchoolsPage() {
   const pilotSchools = schools.filter((school) => school.status === "pilot");

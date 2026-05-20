@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { getDistricts, getSchoolsByDistrictId } from "../../lib/pilotData";
 import type { UILClassification } from "@/types/platform";
+
+export const metadata: Metadata = {
+  title: "Texas High School Sports District Coverage | VarsityVue",
+  description:
+    "Browse VarsityVue district hubs for Texas high school sports coverage, district ecosystems, school directories, schedules, and future standings.",
+};
 
 function formatClassification(classification: UILClassification) {
   if (!classification.division) return classification.conference;

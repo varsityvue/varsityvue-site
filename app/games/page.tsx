@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { games } from "../../data/games";
+
+export const metadata: Metadata = {
+  title: "Texas High School Football Games & Matchups | VarsityVue",
+  description:
+    "Browse VarsityVue game pages for Texas high school football matchups, schedules, kickoff times, district games, previews, and sponsor opportunities.",
+};
 
 function formatGameDate(kickoff: string) {
   return new Intl.DateTimeFormat("en-US", {
@@ -28,8 +35,9 @@ export default function GamesPage() {
   );
 
   const featuredGame =
-    sortedGames.find((game) => game.status === "upcoming" && game.gameType !== "bye") ??
-    sortedGames[0];
+    sortedGames.find(
+      (game) => game.status === "upcoming" && game.gameType !== "bye"
+    ) ?? sortedGames[0];
 
   const regularGames = sortedGames.filter((game) => game.gameType !== "bye");
   const districtGames = regularGames.filter((game) => game.districtGame);
