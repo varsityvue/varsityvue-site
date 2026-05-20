@@ -1,9 +1,16 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { schools } from "@/data/schools";
 import { districts } from "@/data/districts";
 import { games } from "@/data/games";
 import { articles } from "@/data/articles";
 import { sponsors } from "@/data/sponsors";
+
+export const metadata: Metadata = {
+  title: "VarsityVue | Texas High School Sports Platform",
+  description:
+    "VarsityVue is a Texas high school sports platform for school hubs, schedules, scores, district coverage, game pages, stories, and sponsor visibility.",
+};
 
 function formatGameDate(kickoff: string) {
   return new Intl.DateTimeFormat("en-US", {
@@ -14,23 +21,26 @@ function formatGameDate(kickoff: string) {
 }
 
 export default function Home() {
-  const featuredGame = games.find((game) => game.gameType !== "bye") ?? games[0];
+  const featuredGame =
+    games.find((game) => game.status === "upcoming" && game.gameType !== "bye") ??
+    games.find((game) => game.gameType !== "bye") ??
+    games[0];
 
   const upcomingGames = games
     .filter((game) => game.status === "upcoming" && game.gameType !== "bye")
-    .slice(0, 4);
+    .slice(0, 5);
 
   const featuredSchools = schools
     .filter((school) => school.status === "pilot")
     .slice(0, 6);
 
-  const latestArticles = articles.slice(0, 3);
+  const latestArticles = articles.slice(0, 4);
   const activeSponsors = sponsors.filter((sponsor) => sponsor.active).slice(0, 4);
 
   return (
     <main className="min-h-screen bg-black text-white">
-      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.45),transparent_38%)] px-4 py-14 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.48),transparent_38%)] px-4 py-14 sm:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.35em] text-[#d65a6d]">
               Texas High School Sports Platform
@@ -56,10 +66,17 @@ export default function Home() {
               </Link>
 
               <Link
+                href="/games"
+                className="rounded-full border border-white/15 bg-white/5 px-6 py-4 text-center font-bold transition hover:bg-white/10"
+              >
+                Browse Games
+              </Link>
+
+              <Link
                 href="/sponsors"
                 className="rounded-full border border-white/15 bg-white/5 px-6 py-4 text-center font-bold transition hover:bg-white/10"
               >
-                Become a Sponsor
+                Sponsor
               </Link>
             </div>
 
@@ -229,15 +246,17 @@ export default function Home() {
           <div className="mt-6 grid gap-4 md:grid-cols-4">
             {activeSponsors.length > 0 ? (
               activeSponsors.map((sponsor) => (
-                <div
+                <Link
                   key={sponsor.id}
-                  className="rounded-2xl border border-white/10 bg-black/35 p-5"
+                  href={sponsor.website || "/sponsors"}
+                  target={sponsor.website ? "_blank" : undefined}
+                  className="rounded-2xl border border-white/10 bg-black/35 p-5 transition hover:bg-white/10"
                 >
                   <p className="text-lg font-black">{sponsor.name}</p>
                   <p className="mt-1 text-sm capitalize text-white/50">
                     {sponsor.tier} sponsor
                   </p>
-                </div>
+                </Link>
               ))
             ) : (
               <p className="text-white/60">Sponsor placements available.</p>
