@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>De Leon Bearcats — VarsityVue</title>
+  <meta name="description" content="De Leon Bearcats athletics hub on VarsityVue: schedules, results, and community supporters." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="De Leon Bearcats — VarsityVue" />
+  <meta property="og:description" content="Schedules, results, game night graphics, and community supporters — clean and shareable." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://varsityvue.com/schools/de-leon" />
+  <meta property="og:image" content="https://varsityvue.com/images/varsityvue-share.png" />
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="De Leon Bearcats — VarsityVue" />
+  <meta name="twitter:description" content="Schedules, results, game night graphics, and community supporters — clean and shareable." />
+  <meta name="twitter:image" content="https://varsityvue.com/images/varsityvue-share.png" />
+
+  <style>
+    :root{
+      --bg:#0b0b0d;
+      --text:#f3f3f5;
+      --soft:#d9d9df;
+      --accent:#6b0f1a;
+      --accent2:#9d1a2a;
+      --good:#1f9d55;
+      --warn:#d8a104;
+      --focus: rgba(255,255,255,.45);
+    }
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Arial, sans-serif;
+      background:
+        radial-gradient(1200px 700px at 15% 5%, rgba(157,26,42,.35), rgba(0,0,0,0) 60%),
+        radial-gradient(900px 600px at 85% 0%, rgba(255,255,255,.08), rgba(0,0,0,0) 55%),
+        var(--bg);
+      color:var(--text);
+    }
+    a{ color:inherit; text-decoration:none; }
+    img{ max-width:100%; display:block; }
+
+    .wrap{ max-width:1100px; margin:0 auto; padding:22px 18px 70px; overflow-x:hidden; }
+
+    /* Top bar */
+    .topbar{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 0 18px; }
+    .brand{ display:flex; align-items:center; gap:10px; font-weight:900; letter-spacing:.4px; }
+    .brandMark{
+      width:34px; height:34px; border-radius:12px;
+      background: linear-gradient(135deg, var(--accent2), rgba(255,255,255,.10));
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      flex: 0 0 auto;
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:7px 12px; border-radius:999px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      color:var(--soft);
+      font-size:12px; font-weight:800; letter-spacing:.25px;
+      white-space: nowrap;
+    }
+    .pillDot{ width:7px; height:7px; border-radius:999px; background: var(--accent2); }
+
+    /* Hero */
+    .hero{
+      border-radius:22px; overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)),
+        linear-gradient(135deg, rgba(157,26,42,.28), rgba(0,0,0,0) 60%);
+      box-shadow: 0 18px 60px rgba(0,0,0,.45);
+      padding:18px;
+    }
+    .heroInner{ display:grid; gap:14px; grid-template-columns: 1fr; align-items:start; }
+    @media(min-width:900px){ .heroInner{ grid-template-columns: 1.35fr 1fr; } }
+    .heroInner > *{ min-width:0; }
+
+    .teamHeader{ display:flex; align-items:center; gap:14px; flex-wrap:nowrap; min-width:0; }
+    @media(max-width:640px){ .teamHeader{ flex-wrap:wrap; } }
+    .teamLogo{ width:72px; height:auto; max-height:72px; flex: 0 0 auto; }
+    .school{ font-size:34px; font-weight:950; letter-spacing:-.6px; margin:0; line-height:1.05; }
+    .subline{ margin:8px 0 0; color:rgba(243,243,245,.85); line-height:1.6; max-width:820px; font-size:15px; }
+
+    .heroBadges{ margin-top:12px; display:flex; flex-wrap:wrap; gap:10px; align-items:flex-start; min-width:0; }
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px; border-radius:14px;
+      background: rgba(0,0,0,.28);
+      border:1px solid rgba(255,255,255,.10);
+      font-size:12px; color:var(--soft); font-weight:900;
+      max-width: 100%;
+    }
+    .badge strong{ color:#fff; }
+    .badge a{ text-decoration: underline; text-underline-offset: 2px; font-weight:900; }
+    .badgeWide{ align-items:flex-start; max-width: 520px; white-space: normal; min-width:0; }
+    .badgeWide .label{ flex: 0 0 auto; color:#fff; }
+    .badgeWide .links{ display:flex; flex-wrap:wrap; gap:6px; line-height:1.2; min-width:0; overflow-wrap:anywhere; }
+
+    /* Buttons */
+    .btnRow{ display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding:11px 14px; border-radius:14px;
+      font-weight:950; font-size:13px; letter-spacing:.25px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease, opacity .15s ease;
+      user-select:none;
+      cursor:pointer;
+    }
+    .btnPrimary{ background: linear-gradient(135deg, var(--accent2), rgba(255,255,255,.10)); border:1px solid rgba(255,255,255,.14); }
+    .btnSecondary{ background: rgba(255,255,255,.06); }
+    .btn:hover{ transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,0,0,.35); }
+    .btn:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
+    .btnDisabled{ opacity:.55; cursor:not-allowed; pointer-events:none; }
+
+    /* Icon-only pills (desktop) */
+    .btnIcon{ width:42px; padding:11px 0; gap:0; }
+    .btnIcon .btnText{ display:none; }
+    .btnIcon .btnGlyph{ font-size:16px; line-height:1; }
+
+    /* On mobile: show full text */
+    @media (max-width: 720px){
+      .btnIcon{ width:auto; padding:11px 14px; gap:10px; }
+      .btnIcon .btnText{ display:inline; }
+    }
+
+    /* ---- FIX: FORCE 4 + 4 PILLS ---- */
+    .heroPills{
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap:10px;
+      margin-top:12px;
+    }
+    @media (max-width: 720px){
+      .heroPills{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 420px){
+      .heroPills{ grid-template-columns: 1fr; }
+    }
+    .heroPills .btn{ width:100%; }
+    .heroPills .btnIcon{ width:100%; padding:11px 14px; gap:10px; } /* keep labels visible in grid */
+    .heroPills .btnIcon .btnText{ display:inline; }              /* force label visible */
+    .heroPills .btnIcon .btnGlyph{ font-size:14px; }             /* smaller glyph in grid */
+
+    /* Hero visual banner */
+    .heroVisual{
+      border-radius:18px; border:1px solid rgba(255,255,255,.10);
+      overflow:hidden; background: rgba(0,0,0,.28);
+      box-shadow: 0 14px 45px rgba(0,0,0,.30);
+      min-height: 210px;
+      display:flex; flex-direction:column; min-width:0;
+    }
+    .heroVisualMedia{
+      position:relative; flex: 1 1 auto; min-height: 150px;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.70)),
+        linear-gradient(135deg, rgba(157,26,42,.25), rgba(0,0,0,0) 60%);
+    }
+    .heroVisualMedia img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.88; }
+    .heroVisualOverlay{ position:absolute; inset:0; background: linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.78)); }
+    .heroVisualCaption{
+      padding:12px 12px 14px;
+      border-top:1px solid rgba(255,255,255,.10);
+      display:flex; justify-content:space-between; gap:10px; align-items:flex-start;
+      min-width:0;
+    }
+    .heroVisualCaption strong{ font-weight:950; }
+    .heroVisualCaption .tinyCap{ font-size:12px; line-height:1.55; color:rgba(243,243,245,.70); }
+
+    /* Cards */
+    .card{
+      border-radius:20px; background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+      overflow:hidden; box-shadow: 0 14px 45px rgba(0,0,0,.30);
+    }
+    .cardHead{
+      padding:14px 16px; display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.20);
+    }
+    .cardHead h2{ margin:0; font-size:14px; letter-spacing:.25px; font-weight:950; }
+    .cardBody{ padding:14px 16px; }
+
+    /* Program collapsible */
+    .collapseBtn{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px; border-radius:12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      font-weight:950; font-size:12px; letter-spacing:.2px;
+      cursor:pointer; user-select:none;
+      transition: transform .15s ease, box-shadow .15s ease;
+      white-space:nowrap;
+    }
+    .collapseBtn:hover{ transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,0,0,.30); }
+    .collapseBtn:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
+    .chev{ display:inline-block; transition: transform .2s ease; }
+    .card.isCollapsed .chev{ transform: rotate(-90deg); }
+    .card.isCollapsed .cardBody{ display:none; }
+
+    /* Program notes blocks */
+    .trustBlock{ margin-top:12px; border-radius:18px; padding:12px; background: rgba(0,0,0,.26); border:1px solid rgba(255,255,255,.10); }
+    .trustTop{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+    .trustTitle{ margin:0; font-size:13px; font-weight:950; letter-spacing:.25px; text-transform:uppercase; color:rgba(243,243,245,.92); }
+    .trustTag{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:6px 10px; border-radius:999px;
+      background: rgba(157,26,42,.12);
+      border:1px solid rgba(157,26,42,.35);
+      color:rgba(243,243,245,.92);
+      font-size:11px; font-weight:950; letter-spacing:.2px; white-space:nowrap;
+    }
+    .trustText{ margin:8px 0 0; font-size:13px; line-height:1.6; color:rgba(243,243,245,.78); }
+    .trustList{ margin:10px 0 0; padding-left:18px; font-size:13px; line-height:1.6; color:rgba(243,243,245,.78); }
+    .trustNote{ margin-top:8px; font-size:12px; line-height:1.5; color:rgba(243,243,245,.62); }
+    .trustNote strong{ color:rgba(243,243,245,.85); font-weight:950; }
+    .boosterActions{ display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
+    .btnLink{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 12px; border-radius:14px;
+      font-weight:950; font-size:13px; letter-spacing:.2px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .btnLink:hover{ transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,0,0,.35); }
+    .btnLink:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
+
+    /* Mini tiles */
+    .mini{ border-radius:14px; padding:10px; background: rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.10); min-width:0; }
+    .miniK{ font-size:11px; color:rgba(243,243,245,.72); font-weight:900; letter-spacing:.35px; text-transform:uppercase; }
+    .miniV{ margin-top:6px; font-size:16px; font-weight:950; line-height:1.25; overflow-wrap:anywhere; min-width:0; }
+    .miniV a{ text-decoration: underline; text-underline-offset: 2px; font-weight:850; }
+    .tiny{ margin-top:8px; font-size:12px; color:rgba(243,243,245,.70); line-height:1.6; }
+
+    /* Two-up row below Program Notes */
+    .belowProgram{ margin-top:16px; display:grid; grid-template-columns: 1fr; gap:16px; }
+    @media(min-width:980px){ .belowProgram{ grid-template-columns: 1fr 1fr; } }
+    .belowProgram > *{ min-width:0; }
+
+    /* Next game card */
+    .feature{
+      border-radius:20px; background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+      overflow:hidden; box-shadow: 0 14px 45px rgba(0,0,0,.30);
+    }
+    .feature .cardHead{ border-bottom:1px solid rgba(255,255,255,.10); }
+    .featureBody{ padding:14px 16px; }
+    .featureLabel{ font-weight:950; letter-spacing:.35px; color:#fff; font-size:14px; }
+    .featureGrid{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:12px; }
+    @media(max-width:520px){ .featureGrid{ grid-template-columns: 1fr; } }
+    .featureStrip{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px; }
+    @media(max-width:680px){ .featureStrip{ grid-template-columns: 1fr; } }
+
+    /* Main: left stack + right sponsors */
+    .main{ margin-top:18px; display:grid; grid-template-columns: 1fr; gap:16px; align-items:start; }
+    @media(min-width:980px){ .main{ grid-template-columns: 2fr 1fr; } }
+    .main > *{ min-width:0; }
+
+    /* Table */
+    .table{ width:100%; border-collapse:separate; border-spacing:0 10px; }
+    .table th{ text-align:left; font-size:11px; letter-spacing:.35px; text-transform:uppercase; color:rgba(243,243,245,.70); padding:0 10px 6px; }
+    .row{ background: rgba(0,0,0,.28); border:1px solid rgba(255,255,255,.10); border-radius:14px; }
+    .row td{ padding:12px 10px; font-size:14px; color:#f4f4f7; }
+    .row td:first-child{ border-top-left-radius:14px; border-bottom-left-radius:14px; }
+    .row td:last-child{ border-top-right-radius:14px; border-bottom-right-radius:14px; }
+    .status{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:6px 10px; border-radius:999px;
+      font-size:12px; font-weight:950; letter-spacing:.2px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color:var(--soft);
+      white-space: nowrap;
+    }
+    .statusDot{ width:8px; height:8px; border-radius:999px; background: rgba(255,255,255,.45); }
+    .status.upcoming .statusDot{ background: var(--warn); }
+    .status.final .statusDot{ background: var(--good); }
+
+    /* Sponsors */
+    .sponsorGrid{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap:12px;
+      align-items:stretch;
+      overflow:hidden;
+    }
+    @media (max-width: 520px){
+      .sponsorGrid{ grid-template-columns: 1fr; }
+    }
+    .sponsorLink{ display:block; height:100%; min-width:0; border-radius:16px; transition: transform .15s ease, box-shadow .15s ease; }
+    .sponsorLink:hover{ transform: translateY(-1px); box-shadow: 0 14px 38px rgba(0,0,0,.45); }
+    .sponsorLink:focus-visible{ outline: 2px solid var(--focus); outline-offset: 3px; }
+
+    .sponsorCard{
+      border-radius:16px;
+      background: linear-gradient(135deg, rgba(157,26,42,.18), rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow: 0 12px 34px rgba(0,0,0,.35);
+      overflow:hidden;
+      height:100%;
+      min-height: 190px;
+      display:flex;
+      flex-direction:column;
+      min-width:0;
+    }
+    .sponsorCardInner{
+      padding:12px 12px 10px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
+      gap:10px;
+      text-align:center;
+      min-width:0;
+      flex: 1 1 auto;
+    }
+    .sponsorLogoBox{
+      width:100%;
+      height:92px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.24);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      padding:6px;
+    }
+    .sponsorLogoBox img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      padding:0;
+      margin:0;
+      opacity:.98;
+    }
+    .sponsorLogoBox.isTight{ padding:3px; }
+
+    .sponsorName{
+      font-weight:950;
+      font-size:13px;
+      line-height:1.15;
+      color:#fff;
+      padding:0 10px;
+      overflow-wrap:anywhere;
+      min-height: 34px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+    }
+    .tierTag{
+      margin:10px 12px 12px;
+      padding:7px 10px;
+      border-radius:999px;
+      font-size:10px;
+      font-weight:950;
+      letter-spacing:.25px;
+      color:rgba(243,243,245,.92);
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.24);
+      height: 30px;
+      width: calc(100% - 24px);
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+      text-align:center;
+    }
+
+    .sponsorValue{
+      margin-top:12px;
+      padding:12px;
+      border-radius:16px;
+      background: rgba(0,0,0,.25);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .sponsorValue h3{
+      margin:0 0 8px;
+      font-size:12px;
+      font-weight:950;
+      letter-spacing:.25px;
+      text-transform:uppercase;
+      color:rgba(243,243,245,.90);
+    }
+    .sponsorValue ul{ margin:0; padding-left:18px; color:rgba(243,243,245,.78); font-size:13px; line-height:1.55; }
+    .sponsorCTA{ margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,.10); }
+    .sponsorCtaRow{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
+
+    /* GAME WEEK HUB */
+    .gwActions{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
+    .gwTag{
+      display:inline-flex; align-items:center;
+      padding:6px 10px; border-radius:999px;
+      font-size:11px; font-weight:950; letter-spacing:.2px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.24);
+      color:rgba(243,243,245,.92);
+      white-space:nowrap;
+    }
+    .gwScrollBtn{
+      display:inline-flex; align-items:center; justify-content:center;
+      width:38px; height:38px; border-radius:12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      cursor:pointer; font-weight:950; user-select:none;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .gwScrollBtn:hover{ transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,0,0,.35); }
+    .gwScrollBtn:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
+
+    .gwhTall{ min-height: 520px; display:flex; flex-direction:column; }
+    .gwhTall .cardBody{ display:flex; flex-direction:column; flex: 1 1 auto; gap:12px; }
+    .gwhTall .gwRail{ flex: 1 1 auto; min-height: 360px; align-content:start; }
+
+    .gwRail{
+      display:grid;
+      grid-auto-flow:column;
+      grid-auto-columns: minmax(260px, 320px);
+      gap:12px;
+      overflow-x:auto;
+      padding:12px;
+      scroll-snap-type:x mandatory;
+      -webkit-overflow-scrolling: touch;
+      border-radius:16px;
+      background: rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .gwRail::-webkit-scrollbar{ height:10px; }
+    .gwRail::-webkit-scrollbar-thumb{ background:#2a2a33; border-radius:999px; }
+    .gwRail::-webkit-scrollbar-track{ background: transparent; }
+
+    .gwItem{
+      scroll-snap-align:start;
+      border-radius:16px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.26);
+      box-shadow: 0 12px 34px rgba(0,0,0,.30);
+      display:flex; flex-direction:column;
+      min-height: 360px;
+      cursor: default;
+      min-width:0;
+    }
+    .gwMedia{
+      aspect-ratio: 4 / 3;
+      min-height: 210px;
+      background: rgba(255,255,255,.06);
+      border-bottom:1px solid rgba(255,255,255,.10);
+      position:relative;
+      overflow:hidden;
+      cursor: zoom-in;
+    }
+    .gwMedia img{
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      object-fit:cover;
+      opacity:.95;
+      transition: transform .2s ease, opacity .2s ease;
+    }
+    .gwMedia:hover img{ transform: scale(1.02); opacity: .98; }
+    .gwBody{ padding:12px 12px 14px; }
+    .gwKicker{ font-size:11px; font-weight:950; letter-spacing:.8px; text-transform:uppercase; color:rgba(243,243,245,.72); }
+    .gwHeadline{ margin:6px 0 6px; font-size:14px; font-weight:950; line-height:1.25; }
+    .gwMeta{ font-size:12px; color:rgba(243,243,245,.72); line-height:1.5; }
+    .gwLink{ margin-top:10px; display:inline-flex; align-items:center; gap:6px; font-weight:950; font-size:13px; color:#fff; }
+    .gwFooter{ margin-top:auto; display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; color:rgba(243,243,245,.62); font-size:11px; line-height:1.5; }
+
+    @media (max-width:720px){
+      .gwRail{ grid-auto-columns: minmax(240px, 84vw); }
+      .gwActions{ justify-content:flex-start; }
+      .gwhTall{ min-height: 0; }
+      .gwhTall .gwRail{ min-height: 0; }
+      .gwItem{ min-height: 340px; }
+      .gwMedia{ min-height: 190px; }
+    }
+
+    /* Stadium image box */
+    .stadiumBox{ margin-top:12px; border-radius:18px; overflow:hidden; border:1px solid rgba(255,255,255,.10); background: rgba(0,0,0,.22); }
+    .stadiumBox img{ width:100%; height:auto; display:block; }
+    .stadiumCap{ padding:10px 12px; border-top:1px solid rgba(255,255,255,.10); color:rgba(243,243,245,.70); font-size:12px; line-height:1.5; }
+
+    /* ========================= GAME NIGHT ========================= */
+    .fullWidthBlock{ margin-top:16px; }
+    .gamenightLayout{ display:grid; grid-template-columns: 1fr; gap:14px; align-items:stretch; }
+    .gameNight{ border-radius:18px; border:1px solid rgba(255,255,255,.10); background: rgba(0,0,0,.25); padding:14px; }
+    .gameNightTitle{ margin:0; font-weight:950; letter-spacing:.2px; font-size:14px; }
+    .gameNightSub{ margin:8px 0 0; color:rgba(243,243,245,.80); line-height:1.6; font-size:13px; }
+    .scoreboardFrame{ margin-top:12px; border-radius:16px; border:1px solid rgba(255,255,255,.10); background: rgba(0,0,0,.18); overflow:hidden; }
+    .scoreboardFrame img{ width:100%; height:auto; display:block; }
+    .bannerStrip{ border-radius:16px; border:1px dashed rgba(255,255,255,.18); background: rgba(0,0,0,.18); padding:12px; display:flex; align-items:center; justify-content:center; gap:12px; min-height: 88px; text-align:center; overflow:hidden; }
+    .bannerStrip.hasLogo{ border-style:solid; border-color: rgba(255,255,255,.12); background: rgba(0,0,0,.22); }
+    .bannerStrip .bannerMeta{ display:flex; flex-direction:column; gap:6px; align-items:center; justify-content:center; }
+    .bannerKicker{ font-size:11px; font-weight:950; letter-spacing:.6px; text-transform:uppercase; color:rgba(243,243,245,.72); }
+    .bannerTitle{ font-size:13px; font-weight:950; color:#fff; line-height:1.2; }
+    .bannerLogo{ width:100%; max-width: 420px; height: 46px; border-radius:12px; border:1px solid rgba(255,255,255,.10); background: rgba(0,0,0,.24); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+    .bannerLogo img{ width:100%; height:100%; object-fit:contain; padding:8px 14px; }
+    .bannerLink{ display:block; border-radius:16px; }
+    .bannerLink:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
+    .bannerTiles{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+    @media (max-width:360px){ .bannerTiles{ grid-template-columns: 1fr; } }
+    .bannerTile{ border-radius:16px; border:1px dashed rgba(255,255,255,.18); background: rgba(0,0,0,.18); padding:12px; min-height: 112px; display:flex; flex-direction:column; gap:10px; align-items:center; justify-content:center; text-align:center; overflow:hidden; }
+    .bannerTile.hasLogo{ border-style:solid; border-color: rgba(255,255,255,.12); background: rgba(0,0,0,.22); }
+    .bannerTile .bannerLogo{ max-width: 240px; height: 44px; }
+    @media (min-width: 980px){ .gamenightLayout{ grid-template-columns: 180px 1fr 180px; gap:14px; } .bannerTiles{ display:none; } }
+
+    .adSlot{
+      border-radius:18px;
+      border:1px dashed rgba(255,255,255,.18);
+      background: rgba(0,0,0,.18);
+      min-height: 140px;
+      display:flex; align-items:center; justify-content:center;
+      text-align:center;
+      color:rgba(243,243,245,.55);
+      font-size:12px; font-weight:900; letter-spacing:.2px;
+      padding:12px; overflow:hidden;
+    }
+    .adSlot.hasLogo{ border-style:solid; border-color: rgba(255,255,255,.12); background: rgba(0,0,0,.22); color:rgba(243,243,245,.80); }
+    .adSlotSmall{ min-height: 110px; }
+    .adSlot .bannerLogo{ max-width: 160px; height: 54px; }
+    .adSlot .bannerMeta{ align-items:center; }
+    @media (max-width: 979px){ .desktopOnly{ display:none; } }
+
+    /* Footer */
+    .footer{ margin-top:18px; padding-top:14px; border-top:1px solid rgba(255,255,255,.10); color:rgba(243,243,245,.65); font-size:12px; line-height:1.6; width:100%; }
+
+    /* Toast */
+    .toast{
+      position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%);
+      background: rgba(0,0,0,.75);
+      color: rgba(243,243,245,.92);
+      border: 1px solid rgba(255,255,255,.14);
+      padding: 10px 12px; border-radius: 12px;
+      font-size: 12px; font-weight: 900; letter-spacing: .2px;
+      box-shadow: 0 18px 50px rgba(0,0,0,.55);
+      display:none; z-index: 9999;
+      max-width: calc(100% - 24px);
+    }
+
+    /* ========================= Image Lightbox (Game Week Hub click-to-enlarge) ========================= */
+    .modalOverlay{
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.78);
+      display:none; align-items:center; justify-content:center;
+      padding: 18px;
+      z-index: 10000;
+    }
+    .modalOverlay.isOpen{ display:flex; }
+    .modalPanel{
+      width: min(980px, 100%);
+      border-radius: 18px;
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(10,10,12,.92);
+      box-shadow: 0 28px 80px rgba(0,0,0,.65);
+      transform: translateY(6px);
+      animation: popIn .16s ease forwards;
+    }
+    @keyframes popIn{
+      from { transform: translateY(10px); opacity: .65; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .modalTop{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding: 12px 12px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.20);
+    }
+    .modalTitle{
+      font-weight: 950; font-size: 13px; letter-spacing: .2px;
+      color: rgba(243,243,245,.92);
+      overflow:hidden; text-overflow: ellipsis; white-space: nowrap; min-width:0;
+    }
+    .modalClose{
+      width: 40px; height: 40px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      cursor:pointer; font-weight: 950;
+      transition: transform .15s ease, box-shadow .15s ease;
+      flex: 0 0 auto;
+    }
+    .modalClose:hover{ transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,0,0,.35); }
+    .modalClose:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
+    .modalMedia{ background: rgba(0,0,0,.22); }
+    .modalMedia img{ width: 100%; height: auto; display:block; }
+
+    /* ========================= AD CONTACT (hidden until pill click) ========================= */
+    #ad-contact{ display:none; }
+    #ad-contact.isOpen{ display:block; }
+
+    .adRows{ display:flex; flex-direction:column; gap:10px; }
+    .adRow{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding:12px; border-radius:16px;
+      background: rgba(0,0,0,.26);
+      border:1px solid rgba(255,255,255,.10);
+      min-width:0;
+    }
+    .adLeft{ display:flex; flex-direction:column; gap:4px; min-width:0; }
+    .adK{ font-size:11px; font-weight:950; letter-spacing:.35px; text-transform:uppercase; color:rgba(243,243,245,.72); }
+    .adV{ font-size:14px; font-weight:950; color:#fff; overflow-wrap:anywhere; }
+    .adActions{ display:flex; gap:10px; flex:0 0 auto; }
+    .adBtn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 12px; border-radius:14px;
+      font-weight:950; font-size:13px; letter-spacing:.2px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      transition: transform .15s ease, box-shadow .15s ease;
+      white-space:nowrap;
+    }
+    .adBtn:hover{ transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,0,0,.35); }
+    .adBtn:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
+    .adBtnPrimary{
+      background: linear-gradient(135deg, var(--accent2), rgba(255,255,255,.10));
+      border:1px solid rgba(255,255,255,.14);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <a class="brand" href="/">
+        <span class="brandMark" aria-hidden="true"></span>
+        <span>VarsityVue</span>
+      </a>
+      <span class="pill"><span class="pillDot"></span> Pilot Preview</span>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero" id="overview">
+      <div class="heroInner">
+        <div>
+          <div class="teamHeader">
+            <img id="teamLogo" src="/logos/de-leon-bearcats-logo.png" alt="Team logo" class="teamLogo" />
+            <div>
+              <h1 class="school" id="teamName">De Leon Bearcats</h1>
+              <p class="subline" id="tagline">
+                De Leon High School football is an integral part of the school’s athletic program, providing student-athletes with structured competition while emphasizing discipline, accountability, and team development within an educational setting.
+              </p>
+            </div>
+          </div>
+
+          <div class="heroBadges" id="heroBadges"></div>
+
+          <!-- FIX: 2-row grid (4 top, 4 bottom). JS fills exactly 8 buttons. -->
+          <div class="heroPills" id="heroButtons" aria-label="Quick navigation"></div>
+        </div>
+
+        <aside style="display:flex; flex-direction:column; gap:12px; min-width:0;">
+          <div class="heroVisual" aria-label="Team visual banner">
+            <div class="heroVisualMedia">
+              <img id="heroBannerImg" src="/images/De-Leon-Bearcats-Team-Photo.png" alt="De Leon Bearcats team photo" />
+              <div class="heroVisualOverlay" aria-hidden="true"></div>
+            </div>
+            <div class="heroVisualCaption">
+              <div>
+                <strong id="heroBannerTitle">Friday-to-Friday coverage</strong>
+                <div class="tinyCap" id="heroBannerSub">Highlights, moments, and what’s next — built for families and supporters.</div>
+              </div>
+              <span class="pill" style="margin:0;">Featured</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <div style="height:16px;"></div>
+
+    <!-- AD CONTACT (Hidden until pill click) -->
+    <section class="card" id="ad-contact" aria-label="Athletic Director Contact">
+      <div class="cardHead">
+        <h2>Athletic Director Contact</h2>
+        <span class="pill">De Leon ISD</span>
+      </div>
+      <div class="cardBody">
+        <div class="adRows">
+          <div class="adRow">
+            <div class="adLeft">
+              <div class="adK">Phone</div>
+              <div class="adV" id="adPhoneText">(254) 893-8240</div>
+            </div>
+            <div class="adActions">
+              <a class="adBtn adBtnPrimary" id="adCallBtn" href="tel:+12548938240">Call</a>
+            </div>
+          </div>
+
+          <div class="adRow">
+            <div class="adLeft">
+              <div class="adK">Email</div>
+              <div class="adV" id="adEmailText">bwhitaker@deleonisd.net</div>
+            </div>
+            <div class="adActions">
+              <a class="adBtn" id="adEmailBtn" href="mailto:bwhitaker@deleonisd.net">Email</a>
+              <button class="adBtn" type="button" id="adCopyEmailBtn">Copy email</button>
+            </div>
+          </div>
+
+          <div class="trustNote" style="margin-top:10px;">
+            <strong>Note:</strong> This is a pilot preview contact card. Replace phone/email if the school requests a different public-facing contact.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Program Notes (Collapsible) -->
+    <section class="card" id="program">
+      <div class="cardHead">
+        <h2>Program Notes</h2>
+        <button class="collapseBtn" type="button" id="programToggle" aria-expanded="true">
+          <span class="chev">▾</span> Collapse
+        </button>
+      </div>
+      <div class="cardBody">
+        <div class="trustBlock" style="margin-top:0;" aria-label="Why selected">
+          <div class="trustTop">
+            <h3 class="trustTitle">Why This Program?</h3>
+            <span class="trustTag">Pilot School</span>
+          </div>
+          <ul class="trustList" id="whySelectedList"></ul>
+        </div>
+
+        <div class="trustBlock" aria-label="Data boundaries">
+          <div class="trustTop">
+            <h3 class="trustTitle">Data & Records</h3>
+            <span class="trustTag">Admin-Safe</span>
+          </div>
+          <p class="trustText" id="dataBoundaryText"></p>
+          <div class="trustNote" id="dataBoundaryNote"></div>
+        </div>
+
+        <div class="trustBlock" aria-label="Support the program">
+          <div class="trustTop">
+            <h3 class="trustTitle">Support the Program</h3>
+            <span class="trustTag">Pilot / Premium</span>
+          </div>
+          <p class="trustText" id="boosterText"></p>
+          <div class="boosterActions" id="boosterActions"></div>
+          <div class="trustNote" id="boosterDisclaimer"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TWO-UP: Program Information then Next Game -->
+    <section class="belowProgram" aria-label="Program information and next game row">
+      <article class="card" id="programinfo">
+        <div class="cardHead">
+          <h2>Program Information</h2>
+          <span class="pill" id="snapshotTag">2026</span>
+        </div>
+        <div class="cardBody">
+          <div class="featureGrid" id="seasonSnapshotGrid" style="margin-top:0;"></div>
+          <div class="trustNote" style="margin-top:10px;" id="programInfoNote">
+            <strong>Note:</strong> Program Information fields can be school-provided or public-facing info. No “official record” claims are made here.
+          </div>
+          <div class="stadiumBox" aria-label="Home stadium photo">
+            <img id="stadiumImg" src="/images/Bearcat-Field-Entrance.png" alt="Bearcat Stadium entrance" />
+            <div class="stadiumCap" id="stadiumCaption">Home stadium photo (pilot preview placement).</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="feature" id="nextgame">
+        <div class="cardHead">
+          <div>
+            <div class="featureLabel">Next Game</div>
+          </div>
+        </div>
+
+        <div class="featureBody">
+          <div class="featureGrid" id="nextGameGrid"></div>
+          <div class="featureStrip" id="nextGameStrip" aria-label="Game details strip"></div>
+          <div class="tiny" id="coverageDisclaimer"></div>
+
+          <div class="tiny" style="margin-top:12px;">
+            <strong>Pilot Note</strong>
+            <div class="tiny" style="margin-top:6px;" id="pilotNote"></div>
+          </div>
+
+          <div class="tiny" style="margin-top:10px;">
+            <strong>During a game</strong>
+            <div class="tiny" style="margin-top:6px;" id="duringGameNote"></div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <div style="height:16px;"></div>
+
+    <!-- MAIN: left content + right sponsors -->
+    <section class="main">
+      <div>
+        <div class="card" id="schedule">
+          <div class="cardHead"><h2>Schedule & Results</h2></div>
+          <div class="cardBody">
+            <table class="table" aria-label="Schedule and results table">
+              <thead>
+                <tr><th>Date</th><th>Opponent</th><th>Site</th><th>Status</th></tr>
+              </thead>
+              <tbody id="scheduleBody"></tbody>
+            </table>
+            <div class="tiny" id="scheduleNote"></div>
+          </div>
+        </div>
+
+        <div style="height:16px;"></div>
+
+        <div class="card gwhTall" id="gameweekhub">
+          <div class="cardHead">
+            <div>
+              <h2>Game Week Hub</h2>
+              <div class="tiny" style="margin-top:6px;">Weekly highlights, moments, and what's next.</div>
+            </div>
+            <div class="gwActions">
+              <span class="gwTag" id="gwhRangePill">Fri → Fri</span>
+              <button class="gwScrollBtn" type="button" aria-label="Scroll Game Week Hub left" data-gwh-scroll="left">←</button>
+              <button class="gwScrollBtn" type="button" aria-label="Scroll Game Week Hub right" data-gwh-scroll="right">→</button>
+            </div>
+          </div>
+          <div class="cardBody">
+            <div class="gwRail" id="gwhRail" aria-label="Game Week Hub carousel"></div>
+            <div class="gwFooter" aria-label="Game Week Hub footer">
+              <div>Curated by VarsityVue • Not a social feed</div>
+              <div><strong style="color:rgba(243,243,245,.92);">Presented by</strong> <span id="gwhPresentedBy">KOONCE FARMS</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside style="min-width:0;">
+        <div class="card" id="sponsors">
+          <div class="cardHead"><h2>Community Supporters</h2></div>
+          <div class="cardBody">
+            <div class="sponsorGrid" id="sponsorGrid"></div>
+
+            <div class="sponsorValue" aria-label="Sponsor value">
+              <h3>What Sponsors Get</h3>
+              <ul id="sponsorValueList"></ul>
+            </div>
+
+            <div class="sponsorCTA" aria-label="Sponsorship call to action">
+              <div class="sponsorCtaRow" style="margin-top:0;">
+                <a class="btn btnPrimary" id="sponsorMailtoBtn" href="#">Become a Community Sponsor</a>
+                <a class="btn btnSecondary" id="sponsorKitBtn" href="/sponsor-kit.pdf" target="_blank" rel="noopener">Get Sponsor Kit (PDF)</a>
+              </div>
+              <div class="tiny" style="margin-top:10px;" id="sponsorCtaNote1"></div>
+              <div class="tiny" style="margin-top:8px;" id="sponsorCtaNote2"></div>
+              <div class="tiny" style="margin-top:10px;" id="sponsorCtaNote3"></div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- FULL WIDTH: Game Night Graphics -->
+    <div class="fullWidthBlock" id="gamenight">
+      <section class="card">
+        <div class="cardHead"><h2>Game Night Graphics (Preview)</h2></div>
+        <div class="cardBody">
+          <div class="gamenightLayout" aria-label="Game night layout with sponsor banners">
+            <div class="adSlot adSlotSmall desktopOnly" id="gnLeftSlot" aria-label="Left sponsor banner slot"></div>
+
+            <div>
+              <div class="gameNight">
+                <p class="gameNightTitle">Weekly Game Night Graphics</p>
+                <p class="gameNightSub" id="gameNightSub"></p>
+                <div class="scoreboardFrame">
+                  <img id="scoreboardSampleImg" src="/images/de-leon-scoreboard-sample.png" alt="Sample De Leon Bearcats scoreboard graphic" />
+                </div>
+                <div class="tiny" style="margin-top:10px;" id="gameNightPilotNote"></div>
+              </div>
+
+              <div class="tiny" id="gameNightAdBenefit"></div>
+              <div id="gnBottomStripWrap" style="margin-top:14px;"></div>
+              <div id="gnMobileTilesWrap" style="margin-top:14px;"></div>
+            </div>
+
+            <div class="adSlot adSlotSmall desktopOnly" id="gnRightSlot" aria-label="Right sponsor banner slot"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div id="footerLine1"></div>
+      <div id="footerLine2"></div>
+      <div style="margin-top:10px;" id="footerLine3"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Copied</div>
+
+  <!-- Lightbox modal for Game Week Hub images -->
+  <div class="modalOverlay" id="imgModal" aria-hidden="true">
+    <div class="modalPanel" role="dialog" aria-modal="true" aria-label="Image viewer">
+      <div class="modalTop">
+        <div class="modalTitle" id="imgModalTitle">Preview</div>
+        <button class="modalClose" type="button" id="imgModalClose" aria-label="Close image viewer">✕</button>
+      </div>
+      <div class="modalMedia">
+        <img id="imgModalImg" src="" alt="" />
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ========================= CONFIG — edit here only ========================= */
+    const CONFIG = {
+      brandName: "VarsityVue",
+      year: 2026,
+      pageUrl: "https://varsityvue.com/schools/de-leon",
+      logoSrc: "/logos/de-leon-bearcats-logo.png",
+      heroBanner: {
+        imgSrc: "/images/De-Leon-Bearcats-Team-Photo.png",
+        imgAlt: "De Leon Bearcats team photo",
+        title: "Friday-to-Friday coverage",
+        sub: "Highlights, moments, and what’s next — built for families and supporters."
+      },
+      team: {
+        name: "De Leon Bearcats",
+        pilotTag: "Pilot School — VarsityVue 2026",
+        socials: [
+          { label: "X", href: "https://x.com/DeLeonAthletics" },
+          { label: "Instagram", href: "https://www.instagram.com/de_leon_football/" },
+          { label: "Facebook", href: "https://www.facebook.com/DeLeonAthletics" }
+        ]
+      },
+      tagline: "De Leon High School football is an integral part of the school’s athletic program, providing student-athletes with structured competition while emphasizing discipline, accountability, and team development within an educational setting.",
+      whySelected: [
+        "Strong community support and consistent program visibility.",
+        "Local relevance in the Big Country footprint and scheduled matchups that drive interest.",
+        "High standards for presentation—without creating extra work for staff."
+      ],
+      dataBoundaries: {
+        text: "VarsityVue displays information that is publicly available, school-approved, or submitted directly by the athletic program. VarsityVue does not alter official records. For official results, please reference the school or governing body.",
+        note: "<strong>Note:</strong> Broadcast and third-party links may vary by opponent, venue, and media rights."
+      },
+      booster: {
+        text: "Direct link to the De Leon Athletic Booster Club donation page for families and community supporters.",
+        donate: { label: "Donate to Booster Club", href: "https://www.facebook.com/p/De-Leon-Athletic-Booster-Club-100065249900006/" },
+        disclaimer: "<strong>Note:</strong> VarsityVue does not collect or manage donations. All contributions are processed directly through the De Leon Athletic Booster Club."
+      },
+
+      /* AD Contact (on-page hidden card) */
+      adContact: {
+        label: "AD Contact",
+        phoneTel: "tel:+12548938240",
+        phoneDisplay: "(254) 893-8240",
+        email: "bwhitaker@deleonisd.net"
+      },
+
+      nextGame: {
+        opponent: "Stamford Bulldogs",
+        dateDisplay: "Aug 28",
+        timeDisplay: "7:30 PM",
+        venue: "Bearcat Stadium",
+        recordDisplay: "0–0",
+        maps: {
+          apple: "https://maps.apple.com/?q=Bearcat+Stadium+De+Leon+TX",
+          google: "https://www.google.com/maps/search/?api=1&query=Bearcat+Stadium+De+Leon+TX"
+        },
+        coverage: [
+          { label: "Livestream (if applicable)", href: "https://www.nfhsnetwork.com/watch-events" },
+          { label: "Local Broadcast", href: "https://kwbyradio.com/de-leon-bearcats/" }
+        ],
+        pilotNote: "Designed to minimize staff workload. Pilot workflows handle score updates, with optional school input.",
+        duringGameNote: "Fans follow along here for kickoff details, coverage links, and score updates as they post."
+      },
+      schedule: {
+        note: "VarsityVue manages final score updates centrally. Coach and staff input is optional.",
+        rows: [
+          { date: "Aug 28", opponent: "Stamford Bulldogs", site: "Home", status: "upcoming" },
+          { date: "Sep 4", opponent: "@ Hawley Bearcats", site: "Away", status: "upcoming" },
+          { date: "Sep 11", opponent: "Anson Tigers", site: "Home", status: "upcoming" },
+          { date: "Sep 18", opponent: "@ Goldthwaite Eagles", site: "Away", status: "upcoming" },
+          { date: "Sep 25", opponent: "Hico Tigers", site: "Home", status: "upcoming" }
+        ]
+      },
+      programInfo: {
+        classification: "UIL 2A Division I",
+        district: "District 5-2A",
+        headCoach: "Brennan Whitaker",
+        homeField: "Bearcat Stadium",
+        priorSeasonRecord: "9-4",
+        lastGame: "De Leon 18 vs. Axtell 27",
+        stadiumImageSrc: "/images/Bearcat-Field-Entrance.png",
+        stadiumImageAlt: "Bearcat Stadium entrance",
+        stadiumCaption: "Home stadium photo (pilot preview placement)."
+      },
+      gameNight: {
+        sub: "Weekly scoreboard graphics and brief recaps, presented in a clean format for families, students, and community supporters.",
+        pilotNote: "<strong>Pilot Feature Preview:</strong> Live scoreboard widget available for pilot/premium schools. Operated by approved staff/admin.",
+        adBenefit: "AD benefit: consistent, professional presentation without additional reporting requirements.",
+        sampleImageSrc: "/images/de-leon-scoreboard-sample.png",
+        sampleImageAlt: "Sample De Leon Bearcats scoreboard graphic"
+      },
+      gameNightBanners: {
+        left:  { kicker:"Presented By", title:"Sponsor Slot (Left)",  logoSrc:null, logoAlt:"Sponsor logo", href:null },
+        right: { kicker:"Community Partner", title:"Sponsor Slot (Right)", logoSrc:null, logoAlt:"Sponsor logo", href:null },
+        bottom:{ kicker:"Proud Supporters of De Leon Athletics", title:"Sponsor Strip (Bottom)", logoSrc:null, logoAlt:"Sponsor strip", href:null }
+      },
+      gameWeekHub: {
+        rangeLabel: "Fri → Fri",
+        presentedBy: "KOONCE FARMS",
+        items: [
+          { type: "Recap", headline: "Bearcats 18 — Axtell 27", meta: "Final • Fri", img: "/images/De-Leon-Final-Score.png", alt: "Final score graphic", href: "#gamenight" },
+          { type: "Moment", headline: "Coaches vs. Community", meta: "Coaches narrowly escape with victory", img: "/images/Coaches-Vs-Community.png", alt: "Coaches vs. Community", href: "#gamenight" },
+          { type: "POTW", headline: "Player of the Week", meta: "Week 1", img: "/images/Player-of-the-Week.png", alt: "Player of the week", href: "#gamenight" },
+          { type: "This Week", headline: "Bearcats vs Bulldogs", meta: "Fri • 7:30 PM • Bearcat Stadium", img: "/images/Upcoming-Matchup.png", alt: "Upcoming matchup graphic", href: "#schedule" }
+        ]
+      },
+      sponsors: {
+        valueBullets: [
+          "Placement on the team hub all season (clean, no clutter).",
+          "Included in weekly Game Night graphics shared with the community.",
+          "Clickable business link (where provided) for local discovery."
+        ],
+        ctaNotes: [
+          "Supporters appear on the hub and in Game Night graphics shared weekly.",
+          "Sponsor links are provided by participating businesses.",
+          "Clean placements only. No popups. No clutter — just community visibility."
+        ],
+        mailto: {
+          email: "info@varsityvue.com",
+          subject: "Community Sponsor Interest - De Leon",
+          bodyTemplate: "Business Name:%0AContact Name:%0APhone:%0AInterested in supporting:%20De Leon Athletics%0A"
+        },
+        tiles: [
+          { name: "1 Way Landscape", tier: "Supporters", href: "https://1waylandscape.com", logoSrc: "/sponsors/1way-landscape.png", logoAlt: "1 Way Landscape logo" },
+          { name: "Premier Event Rentals", tier: "Supporters", href: "https://premiereventrent.com", logoSrc: "/sponsors/premier-event-rentals.png", logoAlt: "Premier Event Rentals logo" },
+          { name: "Griffin Woodworks", tier: "Supporters", logoSrc: "/sponsors/griffin-woodworks.png", logoAlt: "Griffin Woodworks logo" },
+          { name: "Gilder Mini Storage", tier: "Supporters", logoSrc: "/sponsors/gilder-mini-storage.png", logoAlt: "Gilder Mini Storage logo" },
+          { name: "Available", tier: "Supporters", logoSrc: null },
+          { name: "Available", tier: "Supporters", logoSrc: null }
+        ]
+      }
+    };
+
+    /* ========================= Helpers ========================= */
+    const el = (tag, attrs = {}, children = []) => {
+      const node = document.createElement(tag);
+      Object.entries(attrs).forEach(([k, v]) => {
+        if (v === null || v === undefined) return;
+        if (k === "class") node.className = v;
+        else if (k === "html") node.innerHTML = v;
+        else if (k.startsWith("on") && typeof v === "function") node.addEventListener(k.slice(2), v);
+        else node.setAttribute(k, v);
+      });
+      children.forEach(c => node.appendChild(typeof c === "string" ? document.createTextNode(c) : c));
+      return node;
+    };
+
+    const toast = (msg) => {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.style.display = "block";
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => (t.style.display = "none"), 1600);
+    };
+
+    const mailto = (email, subject, body) =>
+      `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${body}`;
+
+    const safeBlank = (s) => (s == null || s === "" ? "—" : s);
+
+    /* ========================= Lightbox (Game Week Hub) ========================= */
+    const modal = {
+      overlay: document.getElementById("imgModal"),
+      img: document.getElementById("imgModalImg"),
+      title: document.getElementById("imgModalTitle"),
+      closeBtn: document.getElementById("imgModalClose"),
+      lastFocus: null
+    };
+
+    function openImageModal({ src, alt, title }) {
+      if (!src) return;
+      modal.lastFocus = document.activeElement;
+      modal.img.src = src;
+      modal.img.alt = alt || "Preview image";
+      modal.title.textContent = title || alt || "Preview";
+      modal.overlay.classList.add("isOpen");
+      modal.overlay.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+      modal.closeBtn.focus({ preventScroll: true });
+    }
+
+    function closeImageModal() {
+      modal.overlay.classList.remove("isOpen");
+      modal.overlay.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+      modal.img.src = "";
+      modal.img.alt = "";
+      if (modal.lastFocus && typeof modal.lastFocus.focus === "function") {
+        modal.lastFocus.focus({ preventScroll: true });
+      }
+    }
+
+    modal.closeBtn.addEventListener("click", closeImageModal);
+    modal.overlay.addEventListener("click", (e) => { if (e.target === modal.overlay) closeImageModal(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && modal.overlay.classList.contains("isOpen")) closeImageModal(); });
+
+    /* ========================= Sponsor Banner Renderers ========================= */
+    function buildBannerCore(cfg, variant) {
+      const hasLogo = !!cfg.logoSrc;
+
+      const logoBox = el("div", { class: "bannerLogo" }, [
+        hasLogo
+          ? el("img", { src: cfg.logoSrc, alt: cfg.logoAlt || "Sponsor logo", loading: "lazy" }, [])
+          : el("div", { class: "bannerMeta" }, [
+              el("div", { class: "bannerKicker" }, [cfg.kicker || "Sponsor"]),
+              el("div", { class: "bannerTitle" }, [cfg.title || "Sponsor Slot"])
+            ])
+      ]);
+
+      const meta = hasLogo
+        ? el("div", { class: "bannerMeta" }, [
+            el("div", { class: "bannerKicker" }, [cfg.kicker || "Sponsor"]),
+            el("div", { class: "bannerTitle" }, [cfg.title || ""])
+          ])
+        : null;
+
+      const wrapClass = variant === "strip"
+        ? `bannerStrip ${hasLogo ? "hasLogo" : ""}`
+        : `bannerTile ${hasLogo ? "hasLogo" : ""}`;
+
+      const inner = el("div", { class: wrapClass }, [
+        logoBox,
+        hasLogo && meta ? meta : el("span", { style: "display:none" }, [""])
+      ]);
+
+      if (cfg.href) {
+        return el("a", { class: "bannerLink", href: cfg.href, target: "_blank", rel: "noopener" }, [inner]);
+      }
+      return inner;
+    }
+
+    function renderDesktopSideSlot(targetId, cfg) {
+      const target = document.getElementById(targetId);
+      if (!target) return;
+
+      const hasLogo = !!cfg.logoSrc;
+      target.classList.toggle("hasLogo", hasLogo);
+      target.innerHTML = "";
+
+      if (!hasLogo) {
+        target.appendChild(el("div", {}, [
+          el("div", { class: "bannerKicker" }, [cfg.kicker || "Sponsor"]),
+          el("div", { class: "bannerTitle" }, [cfg.title || "Sponsor Slot"]),
+          el("div", { style: "margin-top:10px; color:rgba(243,243,245,.55); font-size:12px; font-weight:900;" }, ["(Logo goes here)"])
+        ]));
+        return;
+      }
+
+      const core = el("div", { class: "bannerMeta" }, [
+        el("div", { class: "bannerKicker" }, [cfg.kicker || "Sponsor"]),
+        el("div", { class: "bannerTitle" }, [cfg.title || ""]),
+        el("div", { class: "bannerLogo", style: "margin-top:10px;" }, [
+          el("img", { src: cfg.logoSrc, alt: cfg.logoAlt || "Sponsor logo", loading:"lazy" }, [])
+        ])
+      ]);
+
+      if (cfg.href) {
+        target.appendChild(el("a", { class: "bannerLink", href: cfg.href, target: "_blank", rel: "noopener", style: "display:block; width:100%;" }, [core]));
+      } else {
+        target.appendChild(core);
+      }
+    }
+
+    function renderGameNightBanners() {
+      renderDesktopSideSlot("gnLeftSlot", CONFIG.gameNightBanners.left);
+      renderDesktopSideSlot("gnRightSlot", CONFIG.gameNightBanners.right);
+
+      const bottomWrap = document.getElementById("gnBottomStripWrap");
+      bottomWrap.innerHTML = "";
+      bottomWrap.appendChild(buildBannerCore(CONFIG.gameNightBanners.bottom, "strip"));
+
+      const tilesWrap = document.getElementById("gnMobileTilesWrap");
+      tilesWrap.innerHTML = "";
+      tilesWrap.appendChild(el("div", { class: "bannerTiles" }, [
+        buildBannerCore(CONFIG.gameNightBanners.left, "tile"),
+        buildBannerCore(CONFIG.gameNightBanners.right, "tile")
+      ]));
+    }
+
+    /* ========================= Render ========================= */
+    (function render() {
+      document.title = `${CONFIG.team.name} — ${CONFIG.brandName}`;
+
+      document.getElementById("teamLogo").src = CONFIG.logoSrc;
+      document.getElementById("teamLogo").alt = `${CONFIG.team.name} logo`;
+      document.getElementById("teamName").textContent = CONFIG.team.name;
+      document.getElementById("tagline").textContent = CONFIG.tagline;
+
+      document.getElementById("heroBannerImg").src = CONFIG.heroBanner.imgSrc;
+      document.getElementById("heroBannerImg").alt = CONFIG.heroBanner.imgAlt;
+      document.getElementById("heroBannerTitle").textContent = CONFIG.heroBanner.title;
+      document.getElementById("heroBannerSub").textContent = CONFIG.heroBanner.sub;
+
+      const heroBadges = document.getElementById("heroBadges");
+      heroBadges.innerHTML = "";
+      heroBadges.appendChild(el("div", { class: "badge" }, ["Pilot: ", el("strong", {}, [CONFIG.team.pilotTag])]));
+
+      const socials = el("div", { class: "badge badgeWide" }, [
+        el("span", { class: "label" }, ["Program Socials"]),
+        el("span", { class: "links" }, [])
+      ]);
+      const linksWrap = socials.querySelector(".links");
+      CONFIG.team.socials.forEach((s, idx) => {
+        linksWrap.appendChild(el("a", { href: s.href, target: "_blank", rel: "noopener" }, [s.label]));
+        if (idx < CONFIG.team.socials.length - 1) linksWrap.appendChild(el("span", { "aria-hidden": "true" }, ["·"]));
+      });
+      heroBadges.appendChild(socials);
+
+      const heroButtons = document.getElementById("heroButtons");
+      heroButtons.innerHTML = "";
+
+      /* ===== FIX: EXACTLY 8 PILLS, 4 TOP / 4 BOTTOM (grid handles rows) =====
+         Order matters. AD Contact is LAST -> bottom row. Label stays "AD Contact". */
+
+      // 1–4 (top row)
+      heroButtons.appendChild(el("a", { class: "btn btnPrimary", href: "#schedule" }, ["Schedule"]));
+      heroButtons.appendChild(el("a", { class: "btn btnPrimary", href: "#gameweekhub" }, ["Game Week Hub"]));
+      heroButtons.appendChild(el("a", { class: "btn btnSecondary", href: "#gamenight" }, ["Game Night"]));
+      heroButtons.appendChild(el("a", { class: "btn btnSecondary", href: "#sponsors" }, ["Sponsors"]));
+
+      // 5–8 (bottom row)
+      heroButtons.appendChild(el("a", { class: "btn btnSecondary", href: CONFIG.booster.donate.href, target: "_blank", rel: "noopener" }, [CONFIG.booster.donate.label]));
+
+      heroButtons.appendChild(el("button", {
+        class: "btn btnSecondary",
+        type: "button",
+        onclick: async () => {
+          const url = CONFIG.pageUrl || window.location.href;
+          const title = `${CONFIG.team.name} — ${CONFIG.brandName}`;
+          try{
+            if (navigator.share) { await navigator.share({ title, url }); toast("Shared"); }
+            else { await navigator.clipboard.writeText(url); toast("Link copied"); }
+          } catch(e){}
+        }
+      }, ["Share"]));
+
+      heroButtons.appendChild(el("a", { class: "btn btnSecondary", href: "/", "aria-label": "Back to Home" }, ["Back to Home"]));
+
+      // AD Contact LAST (bottom row, far right)
+      heroButtons.appendChild(
+        el("button", {
+          class: "btn btnSecondary",
+          type: "button",
+          id: "adContactBtn",
+          "aria-label": "AD Contact"
+        }, ["AD Contact"])
+      );
+
+      /* Why selected */
+      const whyList = document.getElementById("whySelectedList");
+      whyList.innerHTML = "";
+      CONFIG.whySelected.forEach(item => whyList.appendChild(el("li", {}, [item])));
+
+      document.getElementById("dataBoundaryText").textContent = CONFIG.dataBoundaries.text;
+      document.getElementById("dataBoundaryNote").innerHTML = CONFIG.dataBoundaries.note;
+
+      document.getElementById("boosterText").textContent = CONFIG.booster.text;
+      const boosterActions = document.getElementById("boosterActions");
+      boosterActions.innerHTML = "";
+      boosterActions.appendChild(el("a", { class: "btnLink", href: CONFIG.booster.donate.href, target: "_blank", rel: "noopener" }, [CONFIG.booster.donate.label]));
+      document.getElementById("boosterDisclaimer").innerHTML = CONFIG.booster.disclaimer;
+
+      /* AD Contact card wiring */
+      document.getElementById("adCallBtn").href = CONFIG.adContact.phoneTel;
+      document.getElementById("adPhoneText").textContent = CONFIG.adContact.phoneDisplay;
+      document.getElementById("adEmailBtn").href = `mailto:${CONFIG.adContact.email}`;
+      document.getElementById("adEmailText").textContent = CONFIG.adContact.email;
+
+      document.getElementById("adCopyEmailBtn").addEventListener("click", async () => {
+        try{
+          await navigator.clipboard.writeText(CONFIG.adContact.email);
+          toast("Email copied");
+        } catch(e){
+          toast("Copy failed");
+        }
+      });
+
+      /* Toggle AD contact card */
+      const adSection = document.getElementById("ad-contact");
+      const adBtn = document.getElementById("adContactBtn");
+      if (adSection && adBtn) {
+        adBtn.addEventListener("click", () => {
+          const isOpen = adSection.classList.toggle("isOpen");
+          if (isOpen) adSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      }
+
+      /* Optional: close AD card when user clicks a section link */
+      document.querySelectorAll('a.btn[href^="#"]').forEach(link => {
+        link.addEventListener("click", () => {
+          const sec = document.getElementById("ad-contact");
+          if (sec) sec.classList.remove("isOpen");
+        });
+      });
+
+      /* Next game */
+      const nextGameGrid = document.getElementById("nextGameGrid");
+      nextGameGrid.innerHTML = "";
+      nextGameGrid.appendChild(el("div", { class: "mini" }, [
+        el("div", { class: "miniK" }, ["Opponent"]),
+        el("div", { class: "miniV" }, [CONFIG.nextGame.opponent])
+      ]));
+      nextGameGrid.appendChild(el("div", { class: "mini" }, [
+        el("div", { class: "miniK" }, ["Kickoff"]),
+        el("div", { class: "miniV" }, [`${CONFIG.nextGame.dateDisplay} • ${CONFIG.nextGame.timeDisplay}`])
+      ]));
+      nextGameGrid.appendChild(el("div", { class: "mini" }, [
+        el("div", { class: "miniK" }, ["Opponent Record"]),
+        el("div", { class: "miniV" }, [CONFIG.nextGame.recordDisplay])
+      ]));
+      nextGameGrid.appendChild(el("div", { class: "mini" }, [
+        el("div", { class: "miniK" }, ["Venue"]),
+        el("div", { class: "miniV" }, [
+          CONFIG.nextGame.venue,
+          el("div", { class: "tiny", style: "margin-top:6px;" }, [
+            el("a", { href: CONFIG.nextGame.maps.apple, target: "_blank", rel: "noopener" }, ["Apple Maps"]),
+            el("span", { "aria-hidden": "true" }, [" · "]),
+            el("a", { href: CONFIG.nextGame.maps.google, target: "_blank", rel: "noopener" }, ["Google Maps"])
+          ])
+        ])
+      ]));
+
+      const strip = document.getElementById("nextGameStrip");
+      strip.innerHTML = "";
+      const cov0 = (CONFIG.nextGame.coverage || [])[0];
+      const cov1 = (CONFIG.nextGame.coverage || [])[1];
+
+      strip.appendChild(el("div", { class: "mini" }, [
+        el("div", { class: "miniK" }, ["Livestream"]),
+        el("div", { class: "miniV" }, [
+          cov0 ? el("a", { href: cov0.href, target: "_blank", rel: "noopener" }, [cov0.label]) : document.createTextNode("—")
+        ])
+      ]));
+      strip.appendChild(el("div", { class: "mini" }, [
+        el("div", { class: "miniK" }, ["Local Radio"]),
+        el("div", { class: "miniV" }, [
+          cov1 ? el("a", { href: cov1.href, target: "_blank", rel: "noopener" }, [cov1.label]) : document.createTextNode("—")
+        ])
+      ]));
+
+      document.getElementById("coverageDisclaimer").textContent =
+        "Coverage links are provided by third-party platforms and may vary by opponent, venue, and broadcast rights.";
+      document.getElementById("pilotNote").textContent = CONFIG.nextGame.pilotNote;
+      document.getElementById("duringGameNote").textContent = CONFIG.nextGame.duringGameNote;
+
+      document.getElementById("snapshotTag").textContent = String(CONFIG.year);
+
+      /* Program info */
+      const infoGrid = document.getElementById("seasonSnapshotGrid");
+      infoGrid.innerHTML = "";
+      [
+        { k: "Classification", v: CONFIG.programInfo.classification },
+        { k: "District", v: CONFIG.programInfo.district },
+        { k: "Head Coach", v: CONFIG.programInfo.headCoach },
+        { k: "Home Field", v: CONFIG.programInfo.homeField },
+        { k: "Prior Season Record", v: CONFIG.programInfo.priorSeasonRecord },
+        { k: "Last Game", v: CONFIG.programInfo.lastGame }
+      ].forEach(item => {
+        infoGrid.appendChild(el("div", { class: "mini" }, [
+          el("div", { class: "miniK" }, [item.k]),
+          el("div", { class: "miniV" }, [safeBlank(item.v)])
+        ]));
+      });
+
+      const stadiumImg = document.getElementById("stadiumImg");
+      stadiumImg.src = CONFIG.programInfo.stadiumImageSrc;
+      stadiumImg.alt = CONFIG.programInfo.stadiumImageAlt;
+      document.getElementById("stadiumCaption").textContent = CONFIG.programInfo.stadiumCaption;
+
+      /* Schedule */
+      const scheduleBody = document.getElementById("scheduleBody");
+      scheduleBody.innerHTML = "";
+      const statusLabel = (s) => (s === "final" ? "Final" : "Upcoming");
+
+      CONFIG.schedule.rows.forEach(r => {
+        scheduleBody.appendChild(el("tr", { class: "row" }, [
+          el("td", {}, [r.date]),
+          el("td", {}, [r.opponent]),
+          el("td", {}, [r.site]),
+          el("td", {}, [
+            el("span", { class: `status ${r.status}` }, [
+              el("span", { class: "statusDot" }, []),
+              statusLabel(r.status)
+            ])
+          ])
+        ]));
+      });
+
+      document.getElementById("scheduleNote").textContent = CONFIG.schedule.note;
+
+      /* Game Night */
+      document.getElementById("gameNightSub").textContent = CONFIG.gameNight.sub;
+      const scoreImg = document.getElementById("scoreboardSampleImg");
+      scoreImg.src = CONFIG.gameNight.sampleImageSrc;
+      scoreImg.alt = CONFIG.gameNight.sampleImageAlt;
+      document.getElementById("gameNightPilotNote").innerHTML = CONFIG.gameNight.pilotNote;
+      document.getElementById("gameNightAdBenefit").textContent = CONFIG.gameNight.adBenefit;
+
+      renderGameNightBanners();
+
+      /* Sponsors */
+      const sponsorGrid = document.getElementById("sponsorGrid");
+      sponsorGrid.innerHTML = "";
+
+      CONFIG.sponsors.tiles.forEach(s => {
+        const hasLogo = !!s.logoSrc;
+        const logoBoxClass = `sponsorLogoBox ${s.name === "Premier Event Rentals" ? "isTight" : ""}`;
+
+        const card = el("div", { class: "sponsorCard" }, [
+          el("div", { class: "sponsorCardInner" }, [
+            el("div", { class: logoBoxClass, title: s.name }, [
+              hasLogo
+                ? el("img", { src: s.logoSrc, alt: s.logoAlt || `${s.name} logo`, loading:"lazy" }, [])
+                : el("div", { class:"bannerKicker" }, ["Logo"])
+            ]),
+            el("div", { class: "sponsorName" }, [s.name])
+          ]),
+          el("div", { class: "tierTag", title: (s.tier || "Supporters") }, [s.tier || "Supporters"])
+        ]);
+
+        if (s.href) {
+          sponsorGrid.appendChild(el("a", { class: "sponsorLink", href: s.href, target: "_blank", rel: "noopener" }, [card]));
+        } else {
+          sponsorGrid.appendChild(card);
+        }
+      });
+
+      const sponsorValueList = document.getElementById("sponsorValueList");
+      sponsorValueList.innerHTML = "";
+      CONFIG.sponsors.valueBullets.forEach(b => sponsorValueList.appendChild(el("li", {}, [b])));
+
+      document.getElementById("sponsorMailtoBtn").href = mailto(
+        CONFIG.sponsors.mailto.email,
+        CONFIG.sponsors.mailto.subject,
+        CONFIG.sponsors.mailto.bodyTemplate
+      );
+
+      document.getElementById("sponsorCtaNote1").textContent = CONFIG.sponsors.ctaNotes[0];
+      document.getElementById("sponsorCtaNote2").textContent = CONFIG.sponsors.ctaNotes[1];
+      document.getElementById("sponsorCtaNote3").textContent = CONFIG.sponsors.ctaNotes[2];
+
+      /* Footer */
+      document.getElementById("footerLine1").textContent = "Pilot preview. Layout and example content shown for demonstration purposes.";
+      document.getElementById("footerLine2").textContent = "VarsityVue operates independently and in coordination with approved school administrators.";
+      document.getElementById("footerLine3").textContent = `© ${CONFIG.year} ${CONFIG.brandName} • Powered by VarsityVue`;
+
+      /* Game Week Hub */
+      document.getElementById("gwhRangePill").textContent = CONFIG.gameWeekHub.rangeLabel || "Fri → Fri";
+      document.getElementById("gwhPresentedBy").textContent = CONFIG.gameWeekHub.presentedBy || "KOONCE FARMS";
+
+      const gwhRail = document.getElementById("gwhRail");
+      gwhRail.innerHTML = "";
+
+      (CONFIG.gameWeekHub.items || []).forEach(item => {
+        const media = el("div", {
+          class: "gwMedia",
+          role: "button",
+          tabindex: "0",
+          "aria-label": `Enlarge ${item.type || "item"} graphic`
+        }, [
+          el("img", { src: item.img, alt: item.alt || item.headline || "Game Week Hub media", loading:"lazy" }, [])
+        ]);
+
+        const openThis = () => openImageModal({
+          src: item.img,
+          alt: item.alt || item.headline || "Preview image",
+          title: `${safeBlank(item.type)} • ${safeBlank(item.headline)}`
+        });
+
+        media.addEventListener("click", openThis);
+        media.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            openThis();
+          }
+        });
+
+        const card = el("article", { class: "gwItem" }, [
+          media,
+          el("div", { class: "gwBody" }, [
+            el("div", { class: "gwKicker" }, [safeBlank(item.type)]),
+            el("div", { class: "gwHeadline" }, [safeBlank(item.headline)]),
+            el("div", { class: "gwMeta" }, [safeBlank(item.meta)]),
+            el("a", { class: "gwLink", href: item.href || "#gamenight" }, ["View →"])
+          ])
+        ]);
+
+        gwhRail.appendChild(card);
+      });
+
+      const scrollAmount = () => Math.min(gwhRail.clientWidth * 0.9, 520);
+      document.querySelectorAll('[data-gwh-scroll]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const dir = btn.getAttribute('data-gwh-scroll');
+          gwhRail.scrollBy({ left: dir === 'left' ? -scrollAmount() : scrollAmount(), behavior: 'smooth' });
+        });
+      });
+
+      /* Program collapse */
+      const programCard = document.getElementById("program");
+      const toggleBtn = document.getElementById("programToggle");
+      toggleBtn.addEventListener("click", () => {
+        const collapsed = programCard.classList.toggle("isCollapsed");
+        toggleBtn.setAttribute("aria-expanded", String(!collapsed));
+        toggleBtn.innerHTML = `<span class="chev">▾</span> ${collapsed ? "Expand" : "Collapse"}`;
+      });
+    })();
+  </script>
+</body>
+</html>
