@@ -65,6 +65,10 @@ export default async function SchoolPage({
 
   return (
     <main className="min-h-screen bg-black text-white">
+      <div className="fixed bottom-4 right-4 z-50 rounded bg-lime-400 px-3 py-2 text-xs font-black text-black">
+        NEW DYNAMIC SCHOOL PAGE
+      </div>
+
       <SchoolHero school={school} />
 
       <SchoolSubnav
@@ -79,7 +83,11 @@ export default async function SchoolPage({
         <UpcomingGames games={upcomingGames} theme={theme} />
 
         {recentScores.length > 0 && (
-          <RecentScores scores={recentScores} theme={theme} schoolSlug={slug} />
+          <RecentScores
+            scores={recentScores}
+            theme={theme}
+            schoolSlug={slug}
+          />
         )}
 
         <StandingsTable standings={standings} theme={theme} />
