@@ -20,8 +20,15 @@ function formatDistrictName(districtId: string) {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
+function formatStatus(status: School["status"]) {
+  return status.charAt(0).toUpperCase() + status.slice(1);
+}
+
 export default function SchoolDirectory({ schools }: { schools: School[] }) {
   const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState<"all" | School["status"]>(
+    "all"
+  );
 
   const filteredSchools = schools.filter((school) => {
     const classification = formatClassification(school.classification);
@@ -30,22 +37,53 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
     const searchText =
       `${school.name} ${school.mascot} ${classification} ${district} ${
         school.stadium ?? ""
-      }`.toLowerCase();
+      } ${school.status}`.toLowerCase();
 
-    return searchText.includes(search.toLowerCase());
+    const matchesSearch = searchText.includes(search.toLowerCase());
+    const matchesStatus =
+      statusFilter === "all" || school.status === statusFilter;
+
+    return matchesSearch && matchesStatus;
   });
 
   return (
     <>
-      <div className="mb-8 rounded-3xl border border-white/10 bg-white/5 p-5">
+      <section className="mb-8 rounded-3xl border border-white/10 bg-white/5 p-5">
         <input
           type="text"
-          placeholder="Search schools..."
+          placeholder="Search by school, mascot, district, classification, or stadium..."
           value={search}
           onChange={(event) => setSearch(event.target.value)}
           className="w-full rounded-2xl border border-white/10 bg-black px-5 py-4 text-white outline-none placeholder:text-white/40 focus:border-[#d65a6d]"
         />
-      </div>
+
+        <div className="mt-4 flex flex-wrap gap-3">
+          <FilterButton
+            active={statusFilter === "all"}
+            label="All"
+            onClick={() => setStatusFilter("all")}
+          />
+          <FilterButton
+            active={statusFilter === "pilot"}
+            label="Pilot"
+            onClick={() => setStatusFilter("pilot")}
+          />
+          <FilterButton
+            active={statusFilter === "watchlist"}
+            label="Watchlist"
+            onClick={() => setStatusFilter("watchlist")}
+          />
+          <FilterButton
+            active={statusFilter === "planned"}
+            label="Planned"
+            onClick={() => setStatusFilter("planned")}
+          />
+        </div>
+      </section>
+
+      <p className="mb-6 text-sm font-bold text-white/45">
+        Showing {filteredSchools.length} of {schools.length} schools
+      </p>
 
       {filteredSchools.length === 0 ? (
         <div className="rounded-3xl border border-white/10 bg-white/5 p-8 text-white/60">
@@ -64,6 +102,7 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
                 className="group rounded-3xl border bg-white/5 p-6 transition hover:-translate-y-1 hover:bg-white/10"
                 style={{
                   borderColor: `${school.colors.secondary}22`,
+                  boxShadow: `0 18px 50px ${school.colors.primary}14`,
                 }}
               >
                 <div className="mb-6 flex items-start justify-between">
@@ -79,7 +118,7 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
                   </div>
 
                   <span className="rounded-full border border-[#d65a6d]/30 bg-[#7A1022]/20 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-[#d65a6d]">
-                    Hub
+                    {formatStatus(school.status)}
                   </span>
                 </div>
 
@@ -104,6 +143,30 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
         </div>
       )}
     </>
+  );
+}
+
+function FilterButton({
+  active,
+  label,
+  onClick,
+}: {
+  active: boolean;
+  label: string;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`rounded-full border px-4 py-2 text-sm font-bold transition ${
+        active
+          ? "border-[#d65a6d]/50 bg-[#7A1022]/40 text-white"
+          : "border-white/10 bg-black/30 text-white/60 hover:bg-white/10 hover:text-white"
+      }`}
+    >
+      {label}
+    </button>
   );
 }
 
