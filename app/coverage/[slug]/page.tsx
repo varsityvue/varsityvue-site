@@ -56,8 +56,39 @@ export default async function ArticlePage({
     notFound();
   }
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": article.type === "news" ? "NewsArticle" : "Article",
+    headline: article.title,
+    description: article.excerpt,
+    articleBody: article.body,
+    datePublished: article.publishedAt,
+    dateModified: article.publishedAt,
+    author: {
+      "@type": "Organization",
+      name: article.author,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "VarsityVue",
+      url: "https://varsityvue.com",
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://varsityvue.com/coverage/${article.slug}`,
+    },
+    keywords: article.tags?.join(", "),
+  };
+
   return (
     <main className="min-h-screen bg-black px-4 py-10 text-white sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(articleSchema),
+        }}
+      />
+
       <article className="mx-auto max-w-4xl">
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#d65a6d] sm:text-sm">
           {formatArticleType(article.type)}
