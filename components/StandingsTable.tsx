@@ -1,4 +1,4 @@
-import type { SchoolTheme } from "../types/schoolTheme";
+import type { SchoolTheme } from "../types/school-theme";
 
 type Standing = {
   team: string;

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import type { SchoolTheme } from "../../../types/schoolTheme";
+import type { SchoolTheme } from "../../../types/school-theme";
 
 import { getSchoolBySlug } from "../../../data/schools";
 import {
@@ -76,11 +76,7 @@ export default async function SchoolPage({
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-6 sm:px-6 lg:px-8">
         <SponsorBanner theme={theme} />
 
-        <UpcomingGames
-          games={upcomingGames}
-          theme={theme}
-          schoolSlug={slug}
-        />
+        <UpcomingGames games={upcomingGames} theme={theme} />
 
         {recentScores.length > 0 && (
           <RecentScores scores={recentScores} theme={theme} schoolSlug={slug} />

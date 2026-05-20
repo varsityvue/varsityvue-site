@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Article } from "@/types/platform";
-import type { SchoolTheme } from "../types/schoolTheme";
+import type { SchoolTheme } from "../types/school-theme";
 
 type NewsFeedProps = {
   articles: Article[];

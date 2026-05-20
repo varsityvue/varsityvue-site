@@ -6,7 +6,7 @@ import type { Game } from "../../../../data/games";
 import { getSchoolBySlug } from "../../../../data/schools";
 import { getGamesForSchool } from "../../../../data/games";
 
-import type { SchoolTheme } from "../../../../types/schoolTheme";
+import type { SchoolTheme } from "../../../../types/school-theme";
 import SchoolSubnav from "../../../../components/SchoolSubnav";
 
 function formatGameDate(kickoff: string) {

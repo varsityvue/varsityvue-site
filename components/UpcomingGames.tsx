@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Game } from "../data/games";
-import type { SchoolTheme } from "../types/schoolTheme";
+import type { SchoolTheme } from "../types/school-theme";
 
 type UpcomingGamesProps = {
   games: Game[];

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { SchoolTheme } from "../types/schoolTheme";
+import type { SchoolTheme } from "../types/school-theme";
 
 type SchoolSubnavProps = {
   schoolSlug: string;
