@@ -31,6 +31,12 @@ function getGameStatusLabel(status: string) {
   return status;
 }
 
+function getSchemaEventStatus(status: string) {
+  if (status === "final") return "https://schema.org/EventCompleted";
+  if (status === "live") return "https://schema.org/EventScheduled";
+  return "https://schema.org/EventScheduled";
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -78,8 +84,51 @@ export default async function GamePage({
     game.homeScore !== undefined &&
     game.awayScore !== undefined;
 
+  const sportsEventSchema = {
+    "@context": "https://schema.org",
+    "@type": "SportsEvent",
+    name: `${game.awayTeam} at ${game.homeTeam}`,
+    description: `${game.awayTeam} at ${game.homeTeam} matchup details, kickoff information, venue, and VarsityVue coverage.`,
+    startDate: game.kickoff,
+    eventStatus: getSchemaEventStatus(game.status),
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    url: `https://varsityvue.com/games/${game.id}`,
+    location: {
+      "@type": "Place",
+      name: game.venue,
+    },
+    competitor: [
+      {
+        "@type": "SportsTeam",
+        name: game.awayTeam,
+        url: awaySchool
+          ? `https://varsityvue.com/schools/${awaySchool.slug}`
+          : undefined,
+      },
+      {
+        "@type": "SportsTeam",
+        name: game.homeTeam,
+        url: homeSchool
+          ? `https://varsityvue.com/schools/${homeSchool.slug}`
+          : undefined,
+      },
+    ],
+    organizer: {
+      "@type": "Organization",
+      name: "VarsityVue",
+      url: "https://varsityvue.com",
+    },
+  };
+
   return (
     <main className="min-h-screen bg-black text-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(sportsEventSchema),
+        }}
+      />
+
       <section
         className="border-b border-white/10 px-4 py-14 sm:px-6 lg:px-8"
         style={{
@@ -206,11 +255,17 @@ export default async function GamePage({
 
             <div className="mt-5 flex flex-col gap-3">
               {awaySchool && (
-                <LinkButton href={`/schools/${awaySchool.slug}`} label={`${awaySchool.name} Hub`} />
+                <LinkButton
+                  href={`/schools/${awaySchool.slug}`}
+                  label={`${awaySchool.name} Hub`}
+                />
               )}
 
               {homeSchool && (
-                <LinkButton href={`/schools/${homeSchool.slug}`} label={`${homeSchool.name} Hub`} />
+                <LinkButton
+                  href={`/schools/${homeSchool.slug}`}
+                  label={`${homeSchool.name} Hub`}
+                />
               )}
 
               {homeSchool && (
