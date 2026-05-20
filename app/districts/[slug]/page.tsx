@@ -5,11 +5,12 @@ import {
   getDistrictBySlug,
   getSchoolsByDistrictSlug,
 } from "../../../lib/pilotData";
+import { getGamesForSchool } from "../../../data/games";
+import { getArticlesForSchool } from "../../../data/articles";
+import { sponsors } from "../../../data/sponsors";
 
 type DistrictPageProps = {
-  params: Promise<{
-    slug: string;
-  }>;
+  params: Promise<{ slug: string }>;
 };
 
 function formatClassification(classification: UILClassification) {
@@ -21,23 +22,24 @@ function formatClassification(classification: UILClassification) {
 }
 
 function formatRegion(region: 1 | 2 | 3 | 4) {
-  const regions = {
+  return {
     1: "Region I",
     2: "Region II",
     3: "Region III",
     4: "Region IV",
-  };
-
-  return regions[region];
+  }[region];
 }
 
-function formatStatus(status: string) {
-  return status.charAt(0).toUpperCase() + status.slice(1);
+function formatGameDate(kickoff: string) {
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    timeZone: "America/Chicago",
+  }).format(new Date(kickoff));
 }
 
 export default async function DistrictPage({ params }: DistrictPageProps) {
   const { slug } = await params;
-
   const district = getDistrictBySlug(slug);
 
   if (!district) {
@@ -45,6 +47,36 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
   }
 
   const districtSchools = getSchoolsByDistrictSlug(slug);
+
+  const schoolIds = districtSchools.map((school) => school.id);
+
+  const districtGames = districtSchools
+    .flatMap((school) => getGamesForSchool(school.slug))
+    .filter(
+      (game, index, self) =>
+        self.findIndex((item) => item.id === game.id) === index
+    )
+    .filter((game) => game.districtGame)
+    .sort(
+      (a, b) =>
+        new Date(a.kickoff).getTime() - new Date(b.kickoff).getTime()
+    )
+    .slice(0, 5);
+
+  const districtArticles = districtSchools
+    .flatMap((school) => getArticlesForSchool(school.slug))
+    .filter(
+      (article, index, self) =>
+        self.findIndex((item) => item.id === article.id) === index
+    )
+    .slice(0, 4);
+
+  const districtSponsor = sponsors.find(
+    (sponsor) =>
+      sponsor.active &&
+      sponsor.placementTypes.includes("district-hub") &&
+      sponsor.districtIds?.includes(district.id)
+  );
 
   return (
     <main className="min-h-screen bg-black px-4 py-10 text-white sm:px-6 lg:px-8">
@@ -68,8 +100,8 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
           </h1>
 
           <p className="mt-6 max-w-2xl text-lg leading-8 text-white/60 sm:text-xl">
-            District hub for schools, standings, schedules, scores, sponsors,
-            and coverage across the VarsityVue pilot network.
+            Schools, standings, schedules, scores, coverage, and sponsor
+            visibility across this VarsityVue district.
           </p>
 
           <div className="mt-10 grid gap-4 md:grid-cols-3">
@@ -77,12 +109,76 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
               label="Class"
               value={formatClassification(district.classification)}
             />
-            <DistrictStat label="Region" value={formatRegion(district.uilRegion)} />
+            <DistrictStat
+              label="Region"
+              value={formatRegion(district.uilRegion)}
+            />
             <DistrictStat
               label="Schools"
               value={districtSchools.length.toString()}
             />
           </div>
+        </section>
+
+        <section className="mt-8 rounded-3xl border border-[#7A1022]/30 bg-[#7A1022]/10 p-6 text-center">
+          <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+            District Sponsor
+          </p>
+
+          <h2 className="mt-3 text-2xl font-black">
+            {districtSponsor
+              ? `Presented by ${districtSponsor.name}`
+              : "This district placement is available"}
+          </h2>
+
+          <p className="mt-2 text-sm text-white/50">
+            Premium district-level sponsor inventory for local businesses.
+          </p>
+        </section>
+
+        <section className="mt-10 grid gap-6 lg:grid-cols-[2fr_1fr]">
+          <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
+            <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#d65a6d]">
+              District Games
+            </p>
+
+            <h2 className="mt-3 text-3xl font-black">Upcoming District Matchups</h2>
+
+            <div className="mt-6 space-y-4">
+              {districtGames.length === 0 ? (
+                <p className="text-white/60">No district games listed yet.</p>
+              ) : (
+                districtGames.map((game) => (
+                  <Link
+                    key={game.id}
+                    href={`/games/${game.id}`}
+                    className="block rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
+                  >
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/45">
+                      {formatGameDate(game.kickoff)} · Week {game.week}
+                    </p>
+                    <h3 className="mt-2 text-xl font-black">
+                      {game.awayTeam} at {game.homeTeam}
+                    </h3>
+                    <p className="mt-1 text-sm text-white/55">{game.venue}</p>
+                  </Link>
+                ))
+              )}
+            </div>
+          </div>
+
+          <aside className="rounded-3xl border border-white/10 bg-white/5 p-6">
+            <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#d65a6d]">
+              Legacy
+            </p>
+
+            <h2 className="mt-3 text-3xl font-black">Coming Soon</h2>
+
+            <p className="mt-4 leading-7 text-white/60">
+              Rivalry records, playoff history, notable teams, and community
+              submitted historical notes will live here.
+            </p>
+          </aside>
         </section>
 
         <section className="mt-10">
@@ -117,43 +213,45 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
                     {school.name.slice(0, 2).toUpperCase()}
                   </div>
 
-                  <h3 className="text-2xl font-black transition">
-                    {school.name}
-                  </h3>
-
+                  <h3 className="text-2xl font-black">{school.name}</h3>
                   <p className="mt-2 text-white/60">{school.mascot}</p>
 
-                  <div className="mt-6 space-y-3 rounded-2xl bg-black/40 p-4">
-                    <DistrictMeta
-                      label="Class"
-                      value={formatClassification(school.classification)}
-                    />
-                    <DistrictMeta
-                      label="Stadium"
-                      value={school.stadium ?? "TBD"}
-                    />
-                    <DistrictMeta
-                      label="Status"
-                      value={formatStatus(school.status)}
-                    />
-                  </div>
-
-                  <div
-                    className="mt-6 h-1 w-20 rounded-full"
-                    style={{
-                      background: `linear-gradient(90deg, ${school.colors.primary}, ${school.colors.secondary})`,
-                    }}
-                  />
-
-                  <p
-                    className="mt-6 text-sm font-bold"
-                    style={{ color: accentColor }}
-                  >
+                  <p className="mt-6 text-sm font-bold" style={{ color: accentColor }}>
                     View school hub →
                   </p>
                 </Link>
               );
             })}
+          </div>
+        </section>
+
+        <section className="mt-10">
+          <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#d65a6d]">
+            Coverage
+          </p>
+
+          <h2 className="mt-3 text-3xl font-black">Latest District Coverage</h2>
+
+          <div className="mt-6 grid gap-6 md:grid-cols-2">
+            {districtArticles.length === 0 ? (
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-6 text-white/60">
+                No district coverage yet.
+              </div>
+            ) : (
+              districtArticles.map((article) => (
+                <Link
+                  key={article.id}
+                  href={`/coverage/${article.slug}`}
+                  className="rounded-3xl border border-white/10 bg-white/5 p-6 transition hover:bg-white/10"
+                >
+                  <h3 className="text-2xl font-black">{article.title}</h3>
+                  <p className="mt-3 text-white/60">{article.excerpt}</p>
+                  <p className="mt-5 text-sm font-bold text-[#d65a6d]">
+                    Read story →
+                  </p>
+                </Link>
+              ))
+            )}
           </div>
         </section>
       </div>
@@ -168,15 +266,6 @@ function DistrictStat({ label, value }: { label: string; value: string }) {
         {label}
       </p>
       <p className="mt-3 text-2xl font-black">{value}</p>
-    </div>
-  );
-}
-
-function DistrictMeta({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex justify-between gap-4 text-sm">
-      <span className="text-white/40">{label}</span>
-      <span className="text-right font-semibold text-white/80">{value}</span>
     </div>
   );
 }
