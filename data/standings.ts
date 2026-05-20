@@ -1,4 +1,5 @@
 import { getSchoolBySlug, getSchoolsByDistrictId } from "@/lib/pilotData";
+import { games } from "@/data/games";
 
 export type Standing = {
   schoolSlug: string;
@@ -11,17 +12,7 @@ export type Standing = {
   pointsAgainst: number;
 };
 
-const mockRecords: Record<
-  string,
-  {
-    districtWins: number;
-    districtLosses: number;
-    overallWins: number;
-    overallLosses: number;
-    pointsFor: number;
-    pointsAgainst: number;
-  }
-> = {
+const demoRecords: Record<string, Omit<Standing, "schoolSlug" | "team">> = {
   "de-leon": {
     districtWins: 3,
     districtLosses: 1,
@@ -30,7 +21,7 @@ const mockRecords: Record<
     pointsFor: 284,
     pointsAgainst: 147,
   },
-  comanche: {
+  cisco: {
     districtWins: 4,
     districtLosses: 0,
     overallWins: 8,
@@ -38,15 +29,15 @@ const mockRecords: Record<
     pointsFor: 326,
     pointsAgainst: 121,
   },
-  hamilton: {
+  hawley: {
     districtWins: 2,
     districtLosses: 2,
-    overallWins: 5,
-    overallLosses: 4,
-    pointsFor: 221,
-    pointsAgainst: 209,
+    overallWins: 6,
+    overallLosses: 3,
+    pointsFor: 244,
+    pointsAgainst: 190,
   },
-  goldthwaite: {
+  hico: {
     districtWins: 1,
     districtLosses: 3,
     overallWins: 4,
@@ -54,7 +45,7 @@ const mockRecords: Record<
     pointsFor: 198,
     pointsAgainst: 252,
   },
-  "san-saba": {
+  anson: {
     districtWins: 0,
     districtLosses: 4,
     overallWins: 2,
@@ -64,6 +55,38 @@ const mockRecords: Record<
   },
 };
 
+function emptyRecord(): Omit<Standing, "schoolSlug" | "team"> {
+  return {
+    districtWins: 0,
+    districtLosses: 0,
+    overallWins: 0,
+    overallLosses: 0,
+    pointsFor: 0,
+    pointsAgainst: 0,
+  };
+}
+
+function sortStandings(standings: Standing[]) {
+  return standings.sort((a, b) => {
+    if (b.districtWins !== a.districtWins) {
+      return b.districtWins - a.districtWins;
+    }
+
+    if (a.districtLosses !== b.districtLosses) {
+      return a.districtLosses - b.districtLosses;
+    }
+
+    if (b.overallWins !== a.overallWins) {
+      return b.overallWins - a.overallWins;
+    }
+
+    const aDiff = a.pointsFor - a.pointsAgainst;
+    const bDiff = b.pointsFor - b.pointsAgainst;
+
+    return bDiff - aDiff;
+  });
+}
+
 export function getStandingsForSchool(slug: string): Standing[] {
   const school = getSchoolBySlug(slug);
 
@@ -72,32 +95,75 @@ export function getStandingsForSchool(slug: string): Standing[] {
   }
 
   const districtSchools = getSchoolsByDistrictId(school.districtId);
+  const districtSchoolSlugs = districtSchools.map((districtSchool) => districtSchool.slug);
 
-  const standings = districtSchools.map((districtSchool) => {
-    const record = mockRecords[districtSchool.slug] ?? {
-      districtWins: 0,
-      districtLosses: 0,
-      overallWins: 0,
-      overallLosses: 0,
-      pointsFor: 0,
-      pointsAgainst: 0,
-    };
+  const baseStandings: Standing[] = districtSchools.map((districtSchool) => ({
+    schoolSlug: districtSchool.slug,
+    team: districtSchool.name,
+    ...emptyRecord(),
+  }));
 
-    return {
-      schoolSlug: districtSchool.slug,
-      team: districtSchool.name,
-      ...record,
-    };
-  });
+  const finalGames = games.filter(
+    (game) =>
+      game.status === "final" &&
+      game.gameType === "regular" &&
+      game.homeScore !== undefined &&
+      game.awayScore !== undefined &&
+      (districtSchoolSlugs.includes(game.homeSchoolSlug) ||
+        districtSchoolSlugs.includes(game.awaySchoolSlug))
+  );
 
-  return standings.sort((a, b) => {
-    if (b.districtWins !== a.districtWins) {
-      return b.districtWins - a.districtWins;
+  if (finalGames.length === 0) {
+    return sortStandings(
+      districtSchools.map((districtSchool) => ({
+        schoolSlug: districtSchool.slug,
+        team: districtSchool.name,
+        ...(demoRecords[districtSchool.slug] ?? emptyRecord()),
+      }))
+    );
+  }
+
+  finalGames.forEach((game) => {
+    const homeStanding = baseStandings.find(
+      (standing) => standing.schoolSlug === game.homeSchoolSlug
+    );
+
+    const awayStanding = baseStandings.find(
+      (standing) => standing.schoolSlug === game.awaySchoolSlug
+    );
+
+    if (!homeStanding || !awayStanding) return;
+
+    const homeWon = game.homeScore! > game.awayScore!;
+    const awayWon = game.awayScore! > game.homeScore!;
+
+    homeStanding.pointsFor += game.homeScore!;
+    homeStanding.pointsAgainst += game.awayScore!;
+    awayStanding.pointsFor += game.awayScore!;
+    awayStanding.pointsAgainst += game.homeScore!;
+
+    if (homeWon) {
+      homeStanding.overallWins += 1;
+      awayStanding.overallLosses += 1;
     }
 
-    const aDiff = a.pointsFor - a.pointsAgainst;
-    const bDiff = b.pointsFor - b.pointsAgainst;
+    if (awayWon) {
+      awayStanding.overallWins += 1;
+      homeStanding.overallLosses += 1;
+    }
 
-    return bDiff - aDiff;
+    if (game.districtGame) {
+      if (homeWon) {
+        homeStanding.districtWins += 1;
+        awayStanding.districtLosses += 1;
+      }
+
+      if (awayWon) {
+        awayStanding.districtWins += 1;
+        homeStanding.districtLosses += 1;
+      }
+    }
   });
+
+  return sortStandings(baseStandings);
 }
