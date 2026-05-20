@@ -3,24 +3,32 @@ import { Mail } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-black px-6 py-10 text-white">
+    <footer className="border-t border-white/10 bg-black px-4 py-10 text-white sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <div className="flex items-start justify-between gap-12">
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr]">
           <div className="max-w-md">
-            <div className="flex items-center gap-3">
-              <div className="text-4xl font-black text-[#d65a6d]">V</div>
-              <h2 className="text-2xl font-black">VARSITYVUE</h2>
-            </div>
+            <Link href="/" className="inline-flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[#d65a6d]/30 bg-[#7A1022]/25 text-3xl font-black text-[#d65a6d]">
+                V
+              </div>
+
+              <div>
+                <h2 className="text-2xl font-black">VARSITYVUE</h2>
+                <p className="text-xs uppercase tracking-[0.3em] text-white/40">
+                  Texas HS Sports
+                </p>
+              </div>
+            </Link>
 
             <p className="mt-4 text-sm leading-6 text-white/55">
-              Texas high school football coverage, district ecosystems, school
+              Texas high school sports coverage, district ecosystems, school
               hubs, matchup pages, and sponsor-driven local sports media.
             </p>
 
             <div className="mt-5 flex gap-3">
               <Social href="https://x.com/varsityvue" label="X" />
               <Social href="https://instagram.com/varsityvueapp" label="IG" />
-              <Social href="https://facebook.com" label="f" />
+              <Social href="https://facebook.com/VarsityVue" label="f" />
             </div>
           </div>
 
@@ -42,7 +50,7 @@ export default function Footer() {
             ]}
           />
 
-          <div className="min-w-[220px]">
+          <div>
             <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-[#d65a6d]">
               Contact
             </h3>
@@ -57,8 +65,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 border-t border-white/10 pt-6 text-xs text-white/40">
-          © 2026 VarsityVue. All rights reserved.
+        <div className="mt-10 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between">
+          <p>© 2026 VarsityVue. All rights reserved.</p>
+          <p>Built for local sports communities.</p>
         </div>
       </div>
     </footer>
@@ -70,7 +79,7 @@ function Social({ href, label }: { href: string; label: string }) {
     <Link
       href={href}
       target="_blank"
-      className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-xs font-bold text-white/60 hover:text-white"
+      className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-xs font-bold text-white/60 transition hover:bg-white/10 hover:text-white"
     >
       {label}
     </Link>
@@ -85,7 +94,7 @@ function FooterColumn({
   links: { href: string; label: string }[];
 }) {
   return (
-    <div className="min-w-[130px]">
+    <div>
       <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-[#d65a6d]">
         {title}
       </h3>
