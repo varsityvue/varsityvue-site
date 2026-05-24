@@ -1,4 +1,4 @@
-import { getSchoolBySlug, getSchoolsByDistrictId } from "@/lib/pilotData";
+import { getSchoolBySlug, getSchoolsByDistrictId } from "@/lib/schools";
 import { games } from "@/data/games";
 
 export type Standing = {

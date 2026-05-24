@@ -3,10 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { UILClassification } from "@/types/platform";
 
-import {
-  getDistrictBySlug,
-  getSchoolsByDistrictSlug,
-} from "../../../lib/pilotData";
+import { getDistrictBySlug } from "@/lib/districts";
+import { getSchoolsByDistrictId } from "@/lib/schools";
 
 import { getGamesForSchool } from "../../../data/games";
 import { sponsors } from "../../../data/sponsors";
@@ -76,7 +74,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
     notFound();
   }
 
-  const districtSchools = getSchoolsByDistrictSlug(slug);
+  const districtSchools = getSchoolsByDistrictId(district.id);
   const districtStandings = getStandingsForDistrictId(district.id);
 
   const districtGames = districtSchools
