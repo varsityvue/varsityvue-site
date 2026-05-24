@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { schools } from "@/data/schools";
 
 export const metadata: Metadata = {
   title: "VarsityVue Legacy | Texas High School Sports History",
@@ -8,15 +9,16 @@ export const metadata: Metadata = {
 };
 
 const legacyFeatures = [
-  "10-20 year records for select pilot schools",
-  "Playoff history and notable postseason runs",
-  "District championships and rivalry records",
-  "State appearances, state titles, and milestone seasons",
-  "Community-submitted history with review and verification",
-  "Historical pages built directly into school hubs",
+  "Playoff history and postseason runs",
+  "Rivalry records and series history",
+  "District championships and title runs",
+  "State appearances and milestone seasons",
+  "Community-submitted history with review",
+  "Historical archives inside school hubs",
 ];
-
-const pilotSchools = ["Stephenville", "De Leon", "Comanche", "Albany", "Cisco"];
+const pilotSchools = schools
+  .filter((school) => school.status === "pilot")
+  .slice(0, 8);
 
 export default function LegacyPage() {
   return (
@@ -42,14 +44,14 @@ export default function LegacyPage() {
               href="/schools"
               className="rounded-full bg-[#7A1022] px-7 py-4 text-center font-bold transition hover:bg-[#93142a]"
             >
-              View School Hubs
+              Explore Pilot Programs
             </Link>
 
             <Link
               href="/sponsor-inquiry"
               className="rounded-full border border-white/20 bg-white/5 px-7 py-4 text-center font-bold transition hover:bg-white/10"
             >
-              Sponsor Legacy
+              Become Founding Legacy Sponsor
             </Link>
           </div>
         </section>
@@ -75,14 +77,15 @@ export default function LegacyPage() {
           </h2>
 
           <div className="mt-8 flex flex-wrap gap-3">
-            {pilotSchools.map((school) => (
-              <span
-                key={school}
-                className="rounded-full border border-white/10 bg-black/40 px-5 py-3 text-sm font-black"
-              >
-                {school}
-              </span>
-            ))}
+{pilotSchools.map((school) => (
+  <Link
+    key={school.id}
+    href={`/schools/${school.slug}`}
+    className="rounded-full border border-white/10 bg-black/40 px-5 py-3 text-sm font-black transition hover:bg-white/10"
+  >
+    {school.name}
+  </Link>
+))}
           </div>
         </section>
       </div>

@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { getGameById } from "../../../data/games";
 import { getSchoolBySlug } from "../../../data/schools";
 import { getGameSponsors } from "../../../data/sponsors";
+import { getDistrictById } from "@/lib/districts";
 
 type GamePageProps = {
   params: Promise<{ gameId: string }>;
@@ -78,11 +79,15 @@ export default async function GamePage({ params }: GamePageProps) {
     notFound();
   }
 
-  const homeSchool = getSchoolBySlug(game.homeSchoolSlug);
-  const awaySchool = getSchoolBySlug(game.awaySchoolSlug);
+const homeSchool = getSchoolBySlug(game.homeSchoolSlug);
+const awaySchool = getSchoolBySlug(game.awaySchoolSlug);
 
-  const primaryColor = homeSchool?.colors.primary ?? "#7A1022";
-  const secondaryColor = homeSchool?.colors.secondary ?? "#d65a6d";
+const district = homeSchool
+  ? getDistrictById(homeSchool.districtId)
+  : null;
+
+const primaryColor = homeSchool?.colors.primary ?? "#7A1022";
+const secondaryColor = homeSchool?.colors.secondary ?? "#8B1020";
 
   const sponsorSchoolId = homeSchool?.id ?? awaySchool?.id;
   const gameSponsors = sponsorSchoolId ? getGameSponsors(sponsorSchoolId) : [];
@@ -150,7 +155,7 @@ export default async function GamePage({ params }: GamePageProps) {
       >
         <div className="mx-auto max-w-7xl">
           <Link
-            href="/games"
+            href="/scoreboard"
             className="text-sm font-black uppercase tracking-[0.14em] text-white/55 transition hover:text-white"
           >
             ← Back to Games
@@ -314,14 +319,14 @@ export default async function GamePage({ params }: GamePageProps) {
                   />
                 )}
 
-                {homeSchool && (
-                  <LinkButton
-                    href={`/districts/${homeSchool.districtId}`}
-                    label="District Hub"
-                  />
-                )}
+                {district && (
+  <LinkButton
+    href={`/districts/${district.slug}`}
+    label="District Hub"
+  />
+)}
 
-                <LinkButton href="/games" label="All Games" />
+               <LinkButton href="/scoreboard" label="Scoreboard" />
               </div>
             </section>
           </aside>

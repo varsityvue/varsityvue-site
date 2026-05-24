@@ -17,30 +17,45 @@ export default function SchoolSubnav({
 }: SchoolSubnavProps) {
   const pathname = usePathname();
 
-  const hubHref = `/schools/${schoolSlug}`;
-  const scheduleHref = `/schools/${schoolSlug}/schedule`;
-  const districtHref = `/districts/${districtSlug}`;
+const hubHref = `/schools/${schoolSlug}`;
+const scheduleHref = `/schools/${schoolSlug}/schedule`;
+const districtHref = `/districts/${districtSlug}`;
+const legacyHref = `/legacy`;
 
   return (
     <nav className="sticky top-0 z-40 border-b border-white/10 bg-[#050505]/92 backdrop-blur-xl">
       <div className="mx-auto flex max-w-[1440px] items-center gap-2 overflow-x-auto px-4 py-3 sm:px-6 lg:px-8">
-        <NavLink href={hubHref} label="Hub" active={pathname === hubHref} />
-        <NavLink
-          href={scheduleHref}
-          label="Schedule"
-          active={pathname === scheduleHref}
-        />
-        <NavLink
-          href={districtHref}
-          label="District"
-          active={pathname === districtHref}
-        />
-        <NavLink href="/games" label="Games" active={pathname === "/games"} />
-        <NavLink
-          href="/coverage"
-          label="Coverage"
-          active={pathname.startsWith("/coverage")}
-        />
+      <NavLink href={hubHref} label="Hub" active={pathname === hubHref} />
+
+<NavLink
+  href={scheduleHref}
+  label="Schedule"
+  active={pathname === scheduleHref}
+/>
+
+<NavLink
+  href={districtHref}
+  label="District"
+  active={pathname === districtHref}
+/>
+
+<NavLink
+  href="/scoreboard"
+  label="Scores"
+  active={pathname === "/scoreboard"}
+/>
+
+<NavLink
+  href="/coverage"
+  label="Coverage"
+  active={pathname.startsWith("/coverage")}
+/>
+
+<NavLink
+  href={legacyHref}
+  label="Legacy"
+  active={pathname.startsWith("/legacy")}
+/>
 
         <div className="ml-auto hidden items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-[10px] font-black uppercase tracking-[0.18em] text-white/45 md:flex">
           <span

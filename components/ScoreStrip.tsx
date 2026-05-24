@@ -22,16 +22,14 @@ export default function ScoreStrip() {
           <Link
             key={game.id}
             href={`/games/${game.id}`}
-            className="min-w-[280px] rounded-2xl border border-white/10 bg-black/50 p-4 transition hover:bg-white/10"
+            className="min-w-[280px] rounded-2xl border border-white/10 bg-black/50 p-4 transition hover:border-[color:var(--vv-accent)] hover:bg-white/10"
           >
             <div className="flex items-center justify-between">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d65a6d]">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--vv-accent)]">
                 {game.displayStatus}
               </p>
 
-              <p className="text-xs text-white/40">
-                Week {game.week}
-              </p>
+              <p className="text-xs text-white/40">Week {game.week}</p>
             </div>
 
             <p className="mt-3 font-black">
