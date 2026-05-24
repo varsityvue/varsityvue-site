@@ -5,7 +5,6 @@ import { notFound } from "next/navigation";
 import { getGameById } from "../../../data/games";
 import { getSchoolBySlug } from "../../../data/schools";
 import { getGameSponsors } from "../../../data/sponsors";
-import SchoolBadge from "../../../components/SchoolBadge";
 
 type GamePageProps = {
   params: Promise<{ gameId: string }>;
@@ -360,13 +359,17 @@ function TeamBlock({
           align === "right" ? "lg:flex-row-reverse" : ""
         }`}
       >
-        {school ? (
-          <SchoolBadge school={school} size="sm" />
-        ) : (
-          <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/10 text-xl font-black text-white shadow-xl">
-            {team.slice(0, 2).toUpperCase()}
-          </div>
-        )}
+    <div
+  className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl border border-white/10 text-xl font-black text-white shadow-xl"
+  style={{
+    backgroundColor: school
+      ? `${school.colors.primary}cc`
+      : "rgba(255,255,255,0.1)",
+    color: school?.colors.secondary ?? "#ffffff",
+  }}
+>
+  {school?.abbreviation ?? team.slice(0, 2).toUpperCase()}
+</div>
 
         <div>
           <h2 className="text-3xl font-black leading-tight text-white">
