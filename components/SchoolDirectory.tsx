@@ -30,11 +30,23 @@ function formatStatus(status: School["status"]) {
   return status.charAt(0).toUpperCase() + status.slice(1);
 }
 
+function getStatusCount(schools: School[], status: School["status"]) {
+  return schools.filter((school) => school.status === status).length;
+}
+
 export default function SchoolDirectory({ schools }: { schools: School[] }) {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | School["status"]>(
     "all"
   );
+
+  const statusCounts = {
+    pilot: getStatusCount(schools, "pilot"),
+    watchlist: getStatusCount(schools, "watchlist"),
+    planned: getStatusCount(schools, "planned"),
+    active: getStatusCount(schools, "active"),
+    archived: getStatusCount(schools, "archived"),
+  };
 
   const filteredSchools = useMemo(() => {
     const searchValue = search.trim().toLowerCase();
@@ -47,11 +59,13 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
         school.name,
         school.fullName,
         school.mascot,
+        school.abbreviation,
         classification,
         district,
         school.districtId,
         school.stadium,
         school.status,
+        school.coverageMarket,
       ]
         .filter(Boolean)
         .join(" ")
@@ -66,14 +80,6 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
       return matchesSearch && matchesStatus;
     });
   }, [schools, search, statusFilter]);
-
-  const pilotCount = schools.filter((school) => school.status === "pilot").length;
-const watchlistCount = schools.filter(
-  (school) => school.status === "watchlist"
-).length;
-const plannedCount = schools.filter(
-  (school) => school.status === "planned"
-).length;
 
   return (
     <>
@@ -97,57 +103,69 @@ const plannedCount = schools.filter(
         <div className="mt-5">
           <input
             type="text"
-            placeholder="Find your school, mascot, district, classification, or stadium..."
+            placeholder="Find your school, mascot, abbreviation, district, classification, or stadium..."
             value={search}
             onChange={(event) => setSearch(event.target.value)}
             className="w-full rounded-2xl border border-white/10 bg-black/55 px-5 py-4 text-sm font-bold text-white outline-none transition placeholder:text-white/35 focus:border-[#d65a6d]/50 focus:bg-black/75"
           />
         </div>
 
-       <div className="mt-4 flex flex-wrap gap-3">
-  <FilterButton
-    active={statusFilter === "all"}
-    label="All"
-    count={schools.length}
-    onClick={() => setStatusFilter("all")}
-  />
-  <FilterButton
-    active={statusFilter === "pilot"}
-    label="Pilot"
-    count={pilotCount}
-    onClick={() => setStatusFilter("pilot")}
-  />
+        <div className="mt-4 flex flex-wrap gap-3">
+          <FilterButton
+            active={statusFilter === "all"}
+            label="All"
+            count={schools.length}
+            onClick={() => setStatusFilter("all")}
+          />
 
-  {watchlistCount > 0 && (
-    <FilterButton
-      active={statusFilter === "watchlist"}
-      label="Watchlist"
-      count={watchlistCount}
-      onClick={() => setStatusFilter("watchlist")}
-    />
-  )}
+          {statusCounts.pilot > 0 && (
+            <FilterButton
+              active={statusFilter === "pilot"}
+              label="Pilot"
+              count={statusCounts.pilot}
+              onClick={() => setStatusFilter("pilot")}
+            />
+          )}
 
-  {plannedCount > 0 && (
-    <FilterButton
-      active={statusFilter === "planned"}
-      label="Planned"
-      count={plannedCount}
-      onClick={() => setStatusFilter("planned")}
-    />
-  )}
-</div>
+          {statusCounts.watchlist > 0 && (
+            <FilterButton
+              active={statusFilter === "watchlist"}
+              label="Watchlist"
+              count={statusCounts.watchlist}
+              onClick={() => setStatusFilter("watchlist")}
+            />
+          )}
+
+          {statusCounts.planned > 0 && (
+            <FilterButton
+              active={statusFilter === "planned"}
+              label="Planned"
+              count={statusCounts.planned}
+              onClick={() => setStatusFilter("planned")}
+            />
+          )}
+
+          {statusCounts.active > 0 && (
+            <FilterButton
+              active={statusFilter === "active"}
+              label="Active"
+              count={statusCounts.active}
+              onClick={() => setStatusFilter("active")}
+            />
+          )}
+        </div>
       </section>
 
       {filteredSchools.length === 0 ? (
         <div className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-10 text-center shadow-2xl">
           <h2 className="text-3xl font-black text-white">No schools found.</h2>
           <p className="mt-3 text-white/50">
-            Try searching by school name, mascot, district, classification, or
-            stadium.
+            Try searching by school name, mascot, abbreviation, district,
+            classification, or stadium.
           </p>
         </div>
       ) : (
-      <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {filteredSchools.map((school) => {
             const classification = formatClassification(school.classification);
             const district = formatDistrictName(school.districtId);
@@ -171,12 +189,14 @@ const plannedCount = schools.filter(
                 <div className="relative">
                   <div className="mb-6 flex items-start justify-between gap-4">
                     <div
-                      className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 text-xl font-black text-white shadow-lg"
+                      className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 text-xl font-black shadow-lg"
                       style={{
                         backgroundColor: `${school.colors.primary}88`,
+                        color: school.colors.secondary,
                       }}
                     >
-                      {school.name.slice(0, 2).toUpperCase()}
+                      {school.abbreviation ??
+                        school.name.slice(0, 2).toUpperCase()}
                     </div>
 
                     <span className="rounded-full border border-[#d65a6d]/30 bg-[#7A1022]/20 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-[#f3a3af]">
@@ -192,10 +212,18 @@ const plannedCount = schools.filter(
                     {school.mascot}
                   </p>
 
-                  <div className="mt-6 space-y-3 rounded-2xl border border-white/10 bg-black/40 p-4">
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    <MiniPill label={classification} />
+                    <MiniPill label={district} />
+                  </div>
+
+                  <div className="mt-5 space-y-3 rounded-2xl border border-white/10 bg-black/40 p-4">
                     <SchoolMeta label="Class" value={classification} />
                     <SchoolMeta label="District" value={district} />
-                    <SchoolMeta label="Stadium" value={school.stadium ?? "TBD"} />
+                    <SchoolMeta
+                      label="Stadium"
+                      value={school.stadium ?? "TBD"}
+                    />
                   </div>
 
                   <div className="mt-6 flex items-center justify-between gap-4">
@@ -241,6 +269,14 @@ function FilterButton({
       {label}
       <span className="ml-2 text-white/40">{count}</span>
     </button>
+  );
+}
+
+function MiniPill({ label }: { label: string }) {
+  return (
+    <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-white/65">
+      {label}
+    </span>
   );
 }
 
