@@ -29,17 +29,18 @@ export default function SiteHeader() {
           </div>
         </Link>
 
-        <nav className="hidden items-center gap-1 lg:flex">
-          <NavLink href="/games" label="Scores" />
-          <NavLink href="/schools" label="Schools" />
-          <NavLink href="/districts" label="Districts" />
-          <NavLink href="/coverage" label="Coverage" />
-          <NavLink href="/sponsors" label="Sponsors" />
-        </nav>
+<nav className="hidden items-center gap-1 lg:flex">
+  <NavLink href="/games" label="Scores" />
+  <NavLink href="/schools" label="Schools" />
+  <NavLink href="/districts" label="Districts" />
+  <NavLink href="/coverage" label="Coverage" />
+  <NavLink href="/legacy" label="Legacy" />
+  <NavLink href="/sponsors" label="Sponsors" />
+</nav>
 
         <div className="flex items-center gap-3">
           <Link
-            href="/games"
+            href="/scoreboard"
             className="hidden rounded-full border border-[#d65a6d]/30 bg-[#7A1022]/15 px-5 py-3 text-xs font-black uppercase tracking-[0.16em] text-[#f3a3af] transition hover:bg-[#7A1022]/25 hover:text-white md:inline-flex"
           >
             Live Scores
