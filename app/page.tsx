@@ -301,6 +301,59 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="px-4 pb-5 sm:px-6 lg:px-8">
+  <div className="mx-auto max-w-[1440px] rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.45),transparent_32%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.025))] p-6 shadow-2xl md:p-10">
+    <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+      <div>
+        <p className="text-xs font-black uppercase tracking-[0.3em] text-[#d65a6d]">
+          Legacy Archive
+        </p>
+
+        <h2 className="mt-4 max-w-3xl text-4xl font-black leading-tight text-white sm:text-5xl">
+          Every program has a story. VarsityVue is building the archive.
+        </h2>
+
+        <p className="mt-5 max-w-2xl text-base leading-7 text-white/60">
+          Coming soon: 10-20 year records, playoff history, rivalry records,
+          district titles, notable teams, and community-submitted history for
+          select pilot schools.
+        </p>
+
+        <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+          <Link
+            href="/legacy"
+            className="rounded-xl bg-[#7A1022] px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-[#93142a]"
+          >
+            Explore Legacy
+          </Link>
+
+          <Link
+            href="/sponsor-inquiry"
+            className="rounded-xl border border-white/20 bg-white/[0.06] px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/10"
+          >
+            Sponsor Legacy
+          </Link>
+        </div>
+      </div>
+
+      <div className="grid gap-3 sm:grid-cols-2">
+        {["Stephenville", "De Leon", "Comanche", "Albany"].map((school) => (
+          <div
+            key={school}
+            className="rounded-2xl border border-white/10 bg-black/35 p-5"
+          >
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-white/35">
+              Coming Soon
+            </p>
+            <p className="mt-2 text-2xl font-black text-white">{school}</p>
+            <p className="mt-2 text-sm text-white/50">Legacy archive teaser</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+      
       <section className="border-t border-white/10 px-4 py-6 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-[1440px] gap-4 md:grid-cols-4">
           <Feature
