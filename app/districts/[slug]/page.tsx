@@ -35,12 +35,7 @@ function formatRegion(region: 1 | 2 | 3 | 4) {
 
 function formatDistrictDisplayName(name: string) {
   const match = name.match(/District\s+(\d+)/i);
-
-  if (match?.[1]) {
-    return `District ${match[1]}`;
-  }
-
-  return name;
+  return match?.[1] ? `District ${match[1]}` : name;
 }
 
 function formatGameDate(kickoff: string) {
@@ -49,6 +44,10 @@ function formatGameDate(kickoff: string) {
     day: "numeric",
     timeZone: "America/Chicago",
   }).format(new Date(kickoff));
+}
+
+function getSchoolInitials(name: string, abbreviation?: string) {
+  return abbreviation ?? name.slice(0, 2).toUpperCase();
 }
 
 export async function generateMetadata({
@@ -90,7 +89,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
     .sort(
       (a, b) => new Date(a.kickoff).getTime() - new Date(b.kickoff).getTime()
     )
-    .slice(0, 5);
+    .slice(0, 6);
 
   const districtSponsor = sponsors.find(
     (sponsor) =>
@@ -139,25 +138,43 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
             ← Back to Districts
           </Link>
 
-          <div className="mt-6 overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl md:p-8">
+          <div className="mt-6 rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl md:p-8">
             <p className="text-xs font-black uppercase tracking-[0.32em] text-[#d65a6d]">
               VarsityVue District Hub
             </p>
 
-            <h1 className="mt-4 text-5xl font-black leading-tight tracking-tight sm:text-7xl">
-              {displayName}
-            </h1>
+            <div className="mt-5 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
+              <div>
+                <h1 className="text-5xl font-black leading-tight tracking-tight sm:text-7xl">
+                  {displayName}
+                </h1>
 
-            <p className="mt-4 text-sm font-black uppercase tracking-[0.18em] text-white/45">
-              {classification} • {region}
-            </p>
+                <p className="mt-4 text-sm font-black uppercase tracking-[0.18em] text-white/45">
+                  {classification} • {region}
+                </p>
 
-            <p className="mt-5 max-w-3xl text-base leading-7 text-white/60 sm:text-lg">
-              Standings, schedules, school hubs, district games, sponsor
-              visibility, and future legacy coverage for this VarsityVue
-              district ecosystem.
-            </p>
+                <p className="mt-5 max-w-3xl text-base leading-7 text-white/60 sm:text-lg">
+                  Standings, schedules, school hubs, district games, sponsor
+                  visibility, and future legacy coverage for this VarsityVue
+                  district ecosystem.
+                </p>
+              </div>
+
+              <Link
+                href="/sponsor-inquiry"
+                className="rounded-xl border border-[#d65a6d]/30 bg-[#7A1022]/25 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-[#f3a3af] transition hover:bg-[#7A1022]/40 hover:text-white"
+              >
+                Sponsor District
+              </Link>
+            </div>
           </div>
+
+          <section className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <DistrictStat label="Schools" value={districtSchools.length.toString()} />
+            <DistrictStat label="Standings" value={districtStandings.length.toString()} />
+            <DistrictStat label="Games" value={districtGames.length.toString()} />
+            <DistrictStat label="Region" value={region.replace("Region ", "")} />
+          </section>
         </div>
       </section>
 
@@ -176,7 +193,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
                 </div>
 
                 <p className="text-sm font-bold text-white/45">
-                  Top 4 highlighted as projected playoff positions
+                  Top 4 projected playoff positions
                 </p>
               </div>
 
@@ -277,16 +294,24 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
                   <Link
                     key={school.slug}
                     href={`/schools/${school.slug}`}
-                    className="rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:-translate-y-1 hover:bg-white/10"
+                    className="group relative overflow-hidden rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:-translate-y-1 hover:bg-white/10"
                   >
-                    <div className="flex items-center gap-4">
+                    <div
+                      className="pointer-events-none absolute inset-0 opacity-35 transition group-hover:opacity-55"
+                      style={{
+                        background: `radial-gradient(circle at top right, ${school.colors.primary}, transparent 55%)`,
+                      }}
+                    />
+
+                    <div className="relative flex items-center gap-4">
                       <div
-                        className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 text-sm font-black text-white"
+                        className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-white/10 text-sm font-black shadow-lg"
                         style={{
                           backgroundColor: `${school.colors.primary}88`,
+                          color: school.colors.secondary,
                         }}
                       >
-                        {school.name.slice(0, 2).toUpperCase()}
+                        {getSchoolInitials(school.name, school.abbreviation)}
                       </div>
 
                       <div>
@@ -315,7 +340,8 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
               </h2>
 
               <p className="mt-3 text-sm leading-6 text-white/55">
-                Own premium sponsor visibility across this district ecosystem.
+                Own premium sponsor visibility across standings, school hubs,
+                district games, matchup pages, and local football discovery.
               </p>
 
               <Link
@@ -382,5 +408,16 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
         </div>
       </section>
     </main>
+  );
+}
+
+function DistrictStat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-5 shadow-xl">
+      <p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">
+        {label}
+      </p>
+      <p className="mt-3 text-4xl font-black text-white">{value}</p>
+    </div>
   );
 }
