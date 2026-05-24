@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import type { Game } from "../../../../data/games";
 import { getSchoolBySlug } from "../../../../data/schools";
 import { getGamesForSchool } from "../../../../data/games";
-import { getStandingsForSchool } from "../../../../data/standings";
+import { getStandingsForSchool } from "@/lib/standings";
 
 import type { SchoolTheme } from "../../../../types/school-theme";
 import SchoolSubnav from "../../../../components/SchoolSubnav";

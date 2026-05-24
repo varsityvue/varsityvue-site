@@ -3,10 +3,10 @@ import Link from "next/link";
 
 import { schools } from "@/data/schools";
 import { districts } from "@/data/districts";
-import { getFeaturedScoreboardGame } from "@/data/scoreboard";
+import { getFeaturedScoreboardGame } from "@/lib/scoreboard";
 import { articles } from "@/data/articles";
 import { sponsors } from "@/data/sponsors";
-import { getStandingsForDistrictId } from "@/data/standings";
+import { getStandingsForDistrictId } from "@/lib/standings";
 import ScoreStrip from "@/components/ScoreStrip";
 import SchoolSearch from "../components/SchoolSearch";
 

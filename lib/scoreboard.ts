@@ -28,25 +28,27 @@ export function getScoreboardGames(): ScoreboardGame[] {
     );
 }
 
-export function getFeaturedScoreboardGame() {
+export function getFeaturedScoreboardGame(): ScoreboardGame | undefined {
+  const scoreboardGames = getScoreboardGames();
+
   return (
-    getScoreboardGames().find((game) => game.status === "live") ??
-    getScoreboardGames().find((game) => game.status === "upcoming") ??
-    getScoreboardGames()[0]
+    scoreboardGames.find((game) => game.status === "live") ??
+    scoreboardGames.find((game) => game.status === "upcoming") ??
+    scoreboardGames[0]
   );
 }
 
-export function getLiveGames() {
+export function getLiveGames(): ScoreboardGame[] {
   return getScoreboardGames().filter((game) => game.status === "live");
 }
 
-export function getUpcomingScoreboardGames(limit = 5) {
+export function getUpcomingScoreboardGames(limit = 5): ScoreboardGame[] {
   return getScoreboardGames()
     .filter((game) => game.status === "upcoming")
     .slice(0, limit);
 }
 
-export function getFinalScoreboardGames(limit = 5) {
+export function getFinalScoreboardGames(limit = 5): ScoreboardGame[] {
   return getScoreboardGames()
     .filter((game) => game.status === "final")
     .slice(0, limit);

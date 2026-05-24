@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getScoreboardGames } from "@/data/scoreboard";
+import { getScoreboardGames } from "@/lib/scoreboard";
 
 function formatKickoff(kickoff: string) {
   return new Intl.DateTimeFormat("en-US", {

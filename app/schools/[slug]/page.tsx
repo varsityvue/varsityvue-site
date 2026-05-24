@@ -8,7 +8,7 @@ import {
   getUpcomingGamesForSchool,
   getRecentScoresForSchool,
 } from "../../../data/games";
-import { getStandingsForSchool } from "../../../data/standings";
+import { getStandingsForSchool } from "@/lib/standings";
 import { getArticlesForSchool } from "../../../data/articles";
 
 import SchoolHero from "../../../components/SchoolHero";

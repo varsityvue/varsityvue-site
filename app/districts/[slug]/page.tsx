@@ -10,7 +10,7 @@ import {
 
 import { getGamesForSchool } from "../../../data/games";
 import { sponsors } from "../../../data/sponsors";
-import { getStandingsForDistrictId } from "../../../data/standings";
+import { getStandingsForDistrictId } from "@/lib/standings";
 
 type DistrictPageProps = {
   params: Promise<{ slug: string }>;

@@ -38,6 +38,7 @@ export type School = {
   name: string;
   fullName: string;
   mascot: string;
+  abbreviation: string;
 
   classification: UILClassification;
   districtId: string;
@@ -208,4 +209,27 @@ export type LegacyRecord = {
 
   createdAt: string;
   updatedAt?: string;
+};
+
+export type RankingScope = "state" | "regional" | "classification" | "district";
+
+export type RankingEntry = {
+  id: string;
+  rank: number;
+
+  sport: SportKey;
+  season: number;
+  week?: number;
+
+  scope: RankingScope;
+  classification?: UILClassification;
+
+  schoolId: string;
+  previousRank?: number | null;
+
+  record: string;
+  note: string;
+
+  humanReviewed: boolean;
+  updatedAt: string;
 };
