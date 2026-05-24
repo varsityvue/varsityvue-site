@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import type { School, UILClassification } from "@/types/platform";
 
@@ -13,6 +13,12 @@ function formatClassification(classification: UILClassification) {
 }
 
 function formatDistrictName(districtId: string) {
+  const match = districtId.match(/district-(\d+)/i);
+
+  if (match?.[1]) {
+    return `District ${match[1]}`;
+  }
+
   return districtId
     .replaceAll("-", " ")
     .replace("d1", "Division I")
@@ -30,67 +36,118 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
     "all"
   );
 
-  const filteredSchools = schools.filter((school) => {
-    const classification = formatClassification(school.classification);
-    const district = formatDistrictName(school.districtId);
+  const filteredSchools = useMemo(() => {
+    const searchValue = search.trim().toLowerCase();
 
-    const searchText =
-      `${school.name} ${school.mascot} ${classification} ${district} ${
-        school.stadium ?? ""
-      } ${school.status}`.toLowerCase();
+    return schools.filter((school) => {
+      const classification = formatClassification(school.classification);
+      const district = formatDistrictName(school.districtId);
 
-    const matchesSearch = searchText.includes(search.toLowerCase());
-    const matchesStatus =
-      statusFilter === "all" || school.status === statusFilter;
+      const searchText = [
+        school.name,
+        school.fullName,
+        school.mascot,
+        classification,
+        district,
+        school.districtId,
+        school.stadium,
+        school.status,
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
 
-    return matchesSearch && matchesStatus;
-  });
+      const matchesSearch =
+        searchValue.length === 0 || searchText.includes(searchValue);
+
+      const matchesStatus =
+        statusFilter === "all" || school.status === statusFilter;
+
+      return matchesSearch && matchesStatus;
+    });
+  }, [schools, search, statusFilter]);
+
+  const pilotCount = schools.filter((school) => school.status === "pilot").length;
+const watchlistCount = schools.filter(
+  (school) => school.status === "watchlist"
+).length;
+const plannedCount = schools.filter(
+  (school) => school.status === "planned"
+).length;
 
   return (
     <>
-      <section className="mb-8 rounded-3xl border border-white/10 bg-white/5 p-5">
-        <input
-          type="text"
-          placeholder="Search by school, mascot, district, classification, or stadium..."
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
-          className="w-full rounded-2xl border border-white/10 bg-black px-5 py-4 text-white outline-none placeholder:text-white/40 focus:border-[#d65a6d]"
-        />
+      <section className="mb-8 rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:p-6">
+        <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+              Search Database
+            </p>
 
-        <div className="mt-4 flex flex-wrap gap-3">
-          <FilterButton
-            active={statusFilter === "all"}
-            label="All"
-            onClick={() => setStatusFilter("all")}
-          />
-          <FilterButton
-            active={statusFilter === "pilot"}
-            label="Pilot"
-            onClick={() => setStatusFilter("pilot")}
-          />
-          <FilterButton
-            active={statusFilter === "watchlist"}
-            label="Watchlist"
-            onClick={() => setStatusFilter("watchlist")}
-          />
-          <FilterButton
-            active={statusFilter === "planned"}
-            label="Planned"
-            onClick={() => setStatusFilter("planned")}
+            <h2 className="mt-2 text-3xl font-black text-white">
+              Find a School Hub
+            </h2>
+          </div>
+
+          <p className="text-sm font-bold text-white/45">
+            {filteredSchools.length} of {schools.length} schools shown
+          </p>
+        </div>
+
+        <div className="mt-5">
+          <input
+            type="text"
+            placeholder="Find your school, mascot, district, classification, or stadium..."
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            className="w-full rounded-2xl border border-white/10 bg-black/55 px-5 py-4 text-sm font-bold text-white outline-none transition placeholder:text-white/35 focus:border-[#d65a6d]/50 focus:bg-black/75"
           />
         </div>
+
+       <div className="mt-4 flex flex-wrap gap-3">
+  <FilterButton
+    active={statusFilter === "all"}
+    label="All"
+    count={schools.length}
+    onClick={() => setStatusFilter("all")}
+  />
+  <FilterButton
+    active={statusFilter === "pilot"}
+    label="Pilot"
+    count={pilotCount}
+    onClick={() => setStatusFilter("pilot")}
+  />
+
+  {watchlistCount > 0 && (
+    <FilterButton
+      active={statusFilter === "watchlist"}
+      label="Watchlist"
+      count={watchlistCount}
+      onClick={() => setStatusFilter("watchlist")}
+    />
+  )}
+
+  {plannedCount > 0 && (
+    <FilterButton
+      active={statusFilter === "planned"}
+      label="Planned"
+      count={plannedCount}
+      onClick={() => setStatusFilter("planned")}
+    />
+  )}
+</div>
       </section>
 
-      <p className="mb-6 text-sm font-bold text-white/45">
-        Showing {filteredSchools.length} of {schools.length} schools
-      </p>
-
       {filteredSchools.length === 0 ? (
-        <div className="rounded-3xl border border-white/10 bg-white/5 p-8 text-white/60">
-          No schools found.
+        <div className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-10 text-center shadow-2xl">
+          <h2 className="text-3xl font-black text-white">No schools found.</h2>
+          <p className="mt-3 text-white/50">
+            Try searching by school name, mascot, district, classification, or
+            stadium.
+          </p>
         </div>
       ) : (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {filteredSchools.map((school) => {
             const classification = formatClassification(school.classification);
             const district = formatDistrictName(school.districtId);
@@ -99,44 +156,58 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
               <Link
                 key={school.slug}
                 href={`/schools/${school.slug}`}
-                className="group rounded-3xl border bg-white/5 p-6 transition hover:-translate-y-1 hover:bg-white/10"
+                className="group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-xl transition-all duration-200 hover:-translate-y-1 hover:border-[#d65a6d]/40 hover:bg-white/[0.075]"
                 style={{
-                  borderColor: `${school.colors.secondary}22`,
-                  boxShadow: `0 18px 50px ${school.colors.primary}14`,
+                  boxShadow: `0 18px 50px ${school.colors.primary}12`,
                 }}
               >
-                <div className="mb-6 flex items-start justify-between">
-                  <div
-                    className="flex h-16 w-16 items-center justify-center rounded-3xl text-xl font-black ring-1"
-                    style={{
-                      backgroundColor: `${school.colors.primary}4d`,
-                      color: school.colors.accent,
-                      borderColor: `${school.colors.secondary}33`,
-                    }}
-                  >
-                    {school.name.slice(0, 2).toUpperCase()}
+                <div
+                  className="pointer-events-none absolute inset-0 opacity-35 transition group-hover:opacity-55"
+                  style={{
+                    background: `radial-gradient(circle at top right, ${school.colors.primary}, transparent 55%)`,
+                  }}
+                />
+
+                <div className="relative">
+                  <div className="mb-6 flex items-start justify-between gap-4">
+                    <div
+                      className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 text-xl font-black text-white shadow-lg"
+                      style={{
+                        backgroundColor: `${school.colors.primary}88`,
+                      }}
+                    >
+                      {school.name.slice(0, 2).toUpperCase()}
+                    </div>
+
+                    <span className="rounded-full border border-[#d65a6d]/30 bg-[#7A1022]/20 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-[#f3a3af]">
+                      {formatStatus(school.status)}
+                    </span>
                   </div>
 
-                  <span className="rounded-full border border-[#d65a6d]/30 bg-[#7A1022]/20 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-[#d65a6d]">
-                    {formatStatus(school.status)}
-                  </span>
+                  <h2 className="text-2xl font-black leading-tight text-white transition group-hover:text-[#f07182]">
+                    {school.name}
+                  </h2>
+
+                  <p className="mt-2 text-sm font-bold uppercase tracking-[0.14em] text-white/45">
+                    {school.mascot}
+                  </p>
+
+                  <div className="mt-6 space-y-3 rounded-2xl border border-white/10 bg-black/40 p-4">
+                    <SchoolMeta label="Class" value={classification} />
+                    <SchoolMeta label="District" value={district} />
+                    <SchoolMeta label="Stadium" value={school.stadium ?? "TBD"} />
+                  </div>
+
+                  <div className="mt-6 flex items-center justify-between gap-4">
+                    <p className="text-sm font-black uppercase tracking-[0.14em] text-[#d65a6d]">
+                      View school hub
+                    </p>
+
+                    <span className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm font-black text-white/50 transition group-hover:bg-[#7A1022]/30 group-hover:text-white">
+                      →
+                    </span>
+                  </div>
                 </div>
-
-                <h2 className="text-2xl font-black group-hover:text-[#f07182]">
-                  {school.name}
-                </h2>
-
-                <p className="mt-2 text-white/60">{school.mascot}</p>
-
-                <div className="mt-6 space-y-3 rounded-2xl bg-black/40 p-4">
-                  <SchoolMeta label="Class" value={classification} />
-                  <SchoolMeta label="District" value={district} />
-                  <SchoolMeta label="Stadium" value={school.stadium ?? "TBD"} />
-                </div>
-
-                <p className="mt-6 text-sm font-bold text-[#d65a6d]">
-                  View school hub →
-                </p>
               </Link>
             );
           })}
@@ -149,23 +220,26 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
 function FilterButton({
   active,
   label,
+  count,
   onClick,
 }: {
   active: boolean;
   label: string;
+  count: number;
   onClick: () => void;
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-full border px-4 py-2 text-sm font-bold transition ${
+      className={`rounded-full border px-4 py-2 text-sm font-black transition ${
         active
-          ? "border-[#d65a6d]/50 bg-[#7A1022]/40 text-white"
+          ? "border-[#d65a6d]/50 bg-[#7A1022]/40 text-white shadow-[0_0_24px_rgba(122,16,34,0.22)]"
           : "border-white/10 bg-black/30 text-white/60 hover:bg-white/10 hover:text-white"
       }`}
     >
       {label}
+      <span className="ml-2 text-white/40">{count}</span>
     </button>
   );
 }

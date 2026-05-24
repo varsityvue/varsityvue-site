@@ -12,62 +12,160 @@ export default function SponsorBanner({
   schoolId,
 }: SponsorBannerProps) {
   const schoolSponsors = getSchoolSponsors(schoolId);
+  const primarySponsor = schoolSponsors[0];
+  const supportingSponsors = schoolSponsors.slice(1, 4);
 
-  if (schoolSponsors.length === 0) {
+  if (!primarySponsor) {
     return (
-      <section>
+      <section
+        className="relative overflow-hidden rounded-[1.75rem] border bg-white/[0.045] shadow-2xl"
+        style={{
+          borderColor: `${theme.secondary}22`,
+          boxShadow: `0 18px 55px ${theme.primary}18`,
+        }}
+      >
         <div
-          className="rounded-2xl border bg-white/[0.035] px-6 py-5 text-center shadow-lg"
+          className="absolute inset-0 opacity-50"
           style={{
-            borderColor: `${theme.secondary}33`,
-            boxShadow: `0 14px 40px ${theme.primary}18`,
+            background: `radial-gradient(circle at top right, ${theme.primary}55, transparent 55%)`,
           }}
-        >
-          <p className="text-xs font-black uppercase tracking-[0.28em] text-white/60">
-            Founding Sponsor Opportunity
-          </p>
+        />
 
-          <h2 className="mt-2 text-2xl font-black text-white">
-            This placement is available
-          </h2>
+        <div className="relative grid gap-0 lg:grid-cols-[1.2fr_0.8fr]">
+          <div className="p-6 sm:p-8">
+            <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+              Premium Sponsor Placement
+            </p>
 
-          <p className="mt-2 text-sm text-white/45">
-            Premium VarsityVue school sponsorship inventory.
-          </p>
+            <h2 className="mt-3 text-3xl font-black text-white sm:text-4xl">
+              Own this school hub.
+            </h2>
+
+            <p className="mt-4 max-w-2xl text-sm leading-6 text-white/55">
+              Reach parents, athletes, alumni, fans, and local supporters with
+              premium placement directly inside this VarsityVue school ecosystem.
+            </p>
+
+            <div className="mt-6 grid gap-3 sm:grid-cols-3">
+              <MiniStat label="Visibility" value="High" />
+              <MiniStat label="Audience" value="Local" />
+              <MiniStat label="Placement" value="Exclusive" />
+            </div>
+          </div>
+
+          <div className="flex items-center justify-center border-t border-white/10 p-6 lg:border-l lg:border-t-0">
+            <Link
+              href="/sponsor-inquiry"
+              className="rounded-xl border border-white/15 bg-white/10 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
+            >
+              Claim This Placement →
+            </Link>
+          </div>
         </div>
       </section>
     );
   }
 
-  const sponsor = schoolSponsors[0];
-
   return (
-    <section>
-      <Link
-        href={sponsor.website || "#"}
-        target="_blank"
-        className="block"
-      >
-        <div
-          className="rounded-2xl border bg-white/[0.035] px-6 py-5 text-center shadow-lg transition hover:bg-white/[0.06]"
-          style={{
-            borderColor: `${theme.secondary}33`,
-            boxShadow: `0 14px 40px ${theme.primary}18`,
-          }}
+    <section
+      className="relative overflow-hidden rounded-[1.75rem] border bg-white/[0.045] shadow-2xl"
+      style={{
+        borderColor: `${theme.secondary}22`,
+        boxShadow: `0 18px 55px ${theme.primary}18`,
+      }}
+    >
+      <div
+        className="absolute inset-0 opacity-40"
+        style={{
+          background: `radial-gradient(circle at top right, ${theme.primary}55, transparent 55%)`,
+        }}
+      />
+
+      <div className="relative grid gap-0 lg:grid-cols-[1.15fr_0.85fr]">
+        <Link
+          href={primarySponsor.website || "/sponsors"}
+          target={primarySponsor.website ? "_blank" : undefined}
+          className="block p-6 transition hover:bg-white/[0.05] sm:p-8"
         >
-          <p className="text-xs font-black uppercase tracking-[0.28em] text-white/60">
-            Founding Sponsor
+          <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+            Presented By
           </p>
 
-          <h2 className="mt-2 text-2xl font-black text-white">
-            {sponsor.name}
+          <h2 className="mt-3 text-3xl font-black text-white sm:text-4xl">
+            {primarySponsor.name}
           </h2>
 
-          <p className="mt-2 text-sm text-white/45">
-            Proud supporter of VarsityVue coverage
+          <p className="mt-4 max-w-2xl text-sm leading-6 text-white/55">
+            Proud supporter of VarsityVue school coverage, game-week visibility,
+            athlete exposure, and community engagement.
           </p>
+
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Badge label="School Hub Sponsor" />
+            <Badge label="Game Week Visibility" />
+            <Badge label="Community Reach" />
+          </div>
+
+          <p
+            className="mt-6 text-sm font-black uppercase tracking-[0.16em]"
+            style={{ color: theme.secondary }}
+          >
+            Visit Sponsor →
+          </p>
+        </Link>
+
+        <div className="border-t border-white/10 p-6 lg:border-l lg:border-t-0">
+          <p className="text-xs font-black uppercase tracking-[0.24em] text-white/45">
+            Supporting Sponsors
+          </p>
+
+          <div className="mt-4 space-y-3">
+            {supportingSponsors.length > 0 ? (
+              supportingSponsors.map((sponsor) => (
+                <Link
+                  key={sponsor.id}
+                  href={sponsor.website || "/sponsors"}
+                  target={sponsor.website ? "_blank" : undefined}
+                  className="block rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
+                >
+                  <p className="font-black text-white">{sponsor.name}</p>
+                  <p className="mt-1 text-xs uppercase tracking-[0.16em] text-white/40">
+                    {sponsor.tier} sponsor
+                  </p>
+                </Link>
+              ))
+            ) : (
+              <div className="rounded-2xl border border-white/10 bg-black/35 p-4">
+                <p className="font-black text-white">
+                  Supporting placements available
+                </p>
+                <p className="mt-1 text-sm text-white/45">
+                  Add local business visibility under this school hub.
+                </p>
+              </div>
+            )}
+          </div>
         </div>
-      </Link>
+      </div>
     </section>
+  );
+}
+
+function Badge({ label }: { label: string }) {
+  return (
+    <div className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/65">
+      {label}
+    </div>
+  );
+}
+
+function MiniStat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-2xl border border-white/10 bg-black/35 p-4">
+      <p className="text-xs uppercase tracking-[0.16em] text-white/35">
+        {label}
+      </p>
+      <p className="mt-2 text-lg font-black text-white">{value}</p>
+    </div>
   );
 }

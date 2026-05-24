@@ -5,13 +5,17 @@ import { notFound } from "next/navigation";
 import { getGameById } from "../../../data/games";
 import { getSchoolBySlug } from "../../../data/schools";
 import { getGameSponsors } from "../../../data/sponsors";
+import SchoolBadge from "../../../components/SchoolBadge";
+
+type GamePageProps = {
+  params: Promise<{ gameId: string }>;
+};
 
 function formatGameDate(kickoff: string) {
   return new Intl.DateTimeFormat("en-US", {
     weekday: "long",
     month: "long",
     day: "numeric",
-    year: "numeric",
     timeZone: "America/Chicago",
   }).format(new Date(kickoff));
 }
@@ -31,17 +35,27 @@ function getGameStatusLabel(status: string) {
   return status;
 }
 
+function getGameTypeLabel(gameType: string, week: number) {
+  if (gameType === "scrimmage") return "Scrimmage";
+  if (gameType === "playoff") return "Playoff";
+  if (gameType === "bye") return "BYE";
+  return `Week ${week}`;
+}
+
 function getSchemaEventStatus(status: string) {
   if (status === "final") return "https://schema.org/EventCompleted";
-  if (status === "live") return "https://schema.org/EventScheduled";
   return "https://schema.org/EventScheduled";
+}
+
+function getMapUrl(venue: string) {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    venue
+  )}`;
 }
 
 export async function generateMetadata({
   params,
-}: {
-  params: Promise<{ gameId: string }>;
-}): Promise<Metadata> {
+}: GamePageProps): Promise<Metadata> {
   const { gameId } = await params;
   const game = getGameById(gameId);
 
@@ -57,11 +71,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function GamePage({
-  params,
-}: {
-  params: Promise<{ gameId: string }>;
-}) {
+export default async function GamePage({ params }: GamePageProps) {
   const { gameId } = await params;
   const game = getGameById(gameId);
 
@@ -121,7 +131,7 @@ export default async function GamePage({
   };
 
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen bg-[#050505] text-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -130,151 +140,191 @@ export default async function GamePage({
       />
 
       <section
-        className="border-b border-white/10 px-4 py-14 sm:px-6 lg:px-8"
+        className="border-b border-white/10 px-4 py-8 sm:px-6 lg:px-8"
         style={{
-          background: `linear-gradient(120deg, ${primaryColor}66 0%, #050505 55%, #000 100%)`,
+          background: `
+            radial-gradient(circle at top left, ${primaryColor}88 0%, transparent 34%),
+            radial-gradient(circle at top right, ${secondaryColor}33 0%, transparent 32%),
+            linear-gradient(120deg, ${primaryColor}55 0%, #080808 45%, #000 100%)
+          `,
         }}
       >
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-7xl">
           <Link
             href="/games"
-            className="text-sm font-bold text-white/60 transition hover:text-white"
+            className="text-sm font-black uppercase tracking-[0.14em] text-white/55 transition hover:text-white"
           >
             ← Back to Games
           </Link>
 
-          <p className="mt-8 text-xs font-bold uppercase tracking-[0.3em] text-[#d65a6d] sm:text-sm">
-            VarsityVue Matchup
-          </p>
+          <div className="mt-6 rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl md:p-8">
+            <div className="flex flex-wrap gap-2">
+              <Badge label="VarsityVue Matchup" />
+              <Badge label={getGameStatusLabel(game.status)} />
+              <Badge label={getGameTypeLabel(game.gameType, game.week)} />
+              {game.districtGame && <Badge label="District Game" />}
+              {game.specialEvent && <Badge label={game.specialEvent} />}
+            </div>
 
-          <h1 className="mt-4 text-4xl font-black leading-tight sm:text-6xl lg:text-7xl">
-            {game.awayTeam} at {game.homeTeam}
-          </h1>
+            <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
+              <TeamBlock
+                align="left"
+                label="Away"
+                team={game.awayTeam}
+                school={awaySchool}
+                score={hasFinalScore ? game.awayScore : undefined}
+              />
 
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Badge label={getGameStatusLabel(game.status)} />
-            <Badge label={game.gameType === "bye" ? "BYE" : `Week ${game.week}`} />
-            {game.districtGame && <Badge label="District Game" />}
-            {game.specialEvent && <Badge label={game.specialEvent} />}
+              <div className="flex items-center justify-center">
+                <div className="rounded-full border border-white/10 bg-black/40 px-7 py-5 text-2xl font-black text-white/45 shadow-xl">
+                  {hasFinalScore ? "FINAL" : "VS"}
+                </div>
+              </div>
+
+              <TeamBlock
+                align="right"
+                label="Home"
+                team={game.homeTeam}
+                school={homeSchool}
+                score={hasFinalScore ? game.homeScore : undefined}
+              />
+            </div>
+
+            <div className="mt-8 grid gap-3 md:grid-cols-4">
+              <InfoCard label="Date" value={formatGameDate(game.kickoff)} />
+              <InfoCard label="Kickoff" value={formatGameTime(game.kickoff)} />
+              <InfoCard label="Venue" value={game.venue} />
+              <InfoCard label="Season" value={game.season.toString()} />
+            </div>
+
+            <div className="mt-5 flex flex-wrap gap-3">
+              <a
+                href={getMapUrl(game.venue)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/70 transition hover:bg-white/15 hover:text-white"
+              >
+                Map Venue →
+              </a>
+
+              {awaySchool && (
+                <Link
+                  href={`/schools/${awaySchool.slug}`}
+                  className="rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/70 transition hover:bg-white/15 hover:text-white"
+                >
+                  {awaySchool.name} Hub →
+                </Link>
+              )}
+
+              {homeSchool && (
+                <Link
+                  href={`/schools/${homeSchool.slug}`}
+                  className="rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/70 transition hover:bg-white/15 hover:text-white"
+                >
+                  {homeSchool.name} Hub →
+                </Link>
+              )}
+            </div>
           </div>
-
-          <div className="mt-8 grid gap-4 md:grid-cols-4">
-            <InfoCard label="Date" value={formatGameDate(game.kickoff)} />
-            <InfoCard label="Kickoff" value={formatGameTime(game.kickoff)} />
-            <InfoCard label="Venue" value={game.venue} />
-            <InfoCard label="Season" value={game.season.toString()} />
-          </div>
-        </div>
-      </section>
-
-      <section className="px-4 py-10 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-3">
-          <TeamCard
-            label="Away"
-            team={game.awayTeam}
-            schoolSlug={awaySchool?.slug}
-            score={hasFinalScore ? game.awayScore : undefined}
-          />
-
-          <div
-            className="flex items-center justify-center rounded-3xl border bg-white/5 p-8 text-4xl font-black text-white/50"
-            style={{ borderColor: `${secondaryColor}33` }}
-          >
-            {hasFinalScore ? "FINAL" : "VS"}
-          </div>
-
-          <TeamCard
-            label="Home"
-            team={game.homeTeam}
-            schoolSlug={homeSchool?.slug}
-            score={hasFinalScore ? game.homeScore : undefined}
-          />
         </div>
       </section>
 
       <section className="px-4 py-8 sm:px-6 lg:px-8">
-        {gameSponsor ? (
-          <Link
-            href={gameSponsor.website || "#"}
-            target="_blank"
-            className="mx-auto block max-w-6xl"
-          >
-            <div className="rounded-3xl border border-[#7A1022]/30 bg-[#7A1022]/10 p-8 text-center transition hover:bg-[#7A1022]/15">
-              <p className="text-sm font-bold uppercase tracking-[0.3em] text-[#d65a6d]">
+        <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[1.35fr_0.75fr]">
+          <div className="space-y-6">
+            <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+                Game Preview
+              </p>
+
+              <h2 className="mt-3 text-3xl font-black text-white">
+                Matchup preview coming soon
+              </h2>
+
+              <p className="mt-4 max-w-3xl leading-7 text-white/60">
+                Team records, key players, district implications, recent
+                results, broadcast links, and game-week coverage notes will live
+                here.
+              </p>
+            </section>
+
+            <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+                Matchup Notes
+              </p>
+
+              <div className="mt-5 grid gap-3 md:grid-cols-3">
+                <MiniCard
+                  label="Game Type"
+                  value={getGameTypeLabel(game.gameType, game.week)}
+                />
+                <MiniCard
+                  label="District"
+                  value={game.districtGame ? "Yes" : "No"}
+                />
+                <MiniCard
+                  label="Status"
+                  value={getGameStatusLabel(game.status)}
+                />
+              </div>
+            </section>
+          </div>
+
+          <aside className="space-y-6">
+            <section className="rounded-[1.75rem] border border-[#7A1022]/40 bg-gradient-to-br from-[#7A1022]/45 via-black to-black p-6 shadow-2xl">
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-[#f3a3af]">
                 Game Sponsor
               </p>
 
-              <h2 className="mt-4 text-3xl font-black">
-                Presented by {gameSponsor.name}
+              <h2 className="mt-3 text-3xl font-black text-white">
+                {gameSponsor
+                  ? `Presented by ${gameSponsor.name}`
+                  : "This game placement is available"}
               </h2>
 
-              <p className="mt-3 text-white/60">
-                Proud supporter of VarsityVue matchup coverage.
+              <p className="mt-3 text-sm leading-6 text-white/55">
+                Premium matchup sponsorship inventory tied directly to game-week
+                traffic, school hubs, schedule pages, and coverage modules.
               </p>
-            </div>
-          </Link>
-        ) : (
-          <div className="mx-auto max-w-6xl rounded-3xl border border-[#7A1022]/30 bg-[#7A1022]/10 p-8 text-center">
-            <p className="text-sm font-bold uppercase tracking-[0.3em] text-[#d65a6d]">
-              Game Sponsor
-            </p>
 
-            <h2 className="mt-4 text-3xl font-black">
-              This placement is available
-            </h2>
+              <Link
+                href="/sponsor-inquiry"
+                className="mt-6 block rounded-xl border border-white/15 bg-white/10 px-5 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
+              >
+                Sponsor This Game
+              </Link>
+            </section>
 
-            <p className="mt-3 text-white/60">
-              Premium matchup sponsorship inventory.
-            </p>
-          </div>
-        )}
-      </section>
+            <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+                Quick Links
+              </p>
 
-      <section className="px-4 py-10 pb-20 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[2fr_1fr]">
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
-            <p className="text-sm font-bold uppercase tracking-[0.25em] text-[#d65a6d]">
-              Game Preview
-            </p>
+              <div className="mt-5 flex flex-col gap-3">
+                {awaySchool && (
+                  <LinkButton
+                    href={`/schools/${awaySchool.slug}`}
+                    label={`${awaySchool.name} Hub`}
+                  />
+                )}
 
-            <h2 className="mt-4 text-3xl font-black">
-              Matchup preview coming soon
-            </h2>
+                {homeSchool && (
+                  <LinkButton
+                    href={`/schools/${homeSchool.slug}`}
+                    label={`${homeSchool.name} Hub`}
+                  />
+                )}
 
-            <p className="mt-4 max-w-3xl leading-7 text-white/70">
-              Team records, key players, district implications, recent results,
-              sponsor placements, broadcast links, and game-week coverage notes
-              will live here.
-            </p>
-          </div>
+                {homeSchool && (
+                  <LinkButton
+                    href={`/districts/${homeSchool.districtId}`}
+                    label="District Hub"
+                  />
+                )}
 
-          <aside className="rounded-3xl border border-white/10 bg-white/5 p-8">
-            <p className="text-sm font-bold uppercase tracking-[0.25em] text-[#d65a6d]">
-              Quick Links
-            </p>
-
-            <div className="mt-5 flex flex-col gap-3">
-              {awaySchool && (
-                <LinkButton
-                  href={`/schools/${awaySchool.slug}`}
-                  label={`${awaySchool.name} Hub`}
-                />
-              )}
-
-              {homeSchool && (
-                <LinkButton
-                  href={`/schools/${homeSchool.slug}`}
-                  label={`${homeSchool.name} Hub`}
-                />
-              )}
-
-              {homeSchool && (
-                <LinkButton
-                  href={`/districts/${homeSchool.districtId}`}
-                  label="District Hub"
-                />
-              )}
-            </div>
+                <LinkButton href="/games" label="All Games" />
+              </div>
+            </section>
           </aside>
         </div>
       </section>
@@ -282,56 +332,90 @@ export default async function GamePage({
   );
 }
 
-function InfoCard({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-      <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d65a6d]">
+function TeamBlock({
+  align,
+  label,
+  team,
+  school,
+  score,
+}: {
+  align: "left" | "right";
+  label: string;
+  team: string;
+  school?: NonNullable<ReturnType<typeof getSchoolBySlug>>;
+  score?: number;
+}) {
+  const content = (
+    <div
+      className={`rounded-[1.75rem] border border-white/10 bg-black/35 p-6 ${
+        align === "right" ? "text-left lg:text-right" : "text-left"
+      }`}
+    >
+      <p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">
         {label}
       </p>
-      <p className="mt-4 text-xl font-bold">{value}</p>
+
+      <div
+        className={`mt-4 flex items-center gap-5 ${
+          align === "right" ? "lg:flex-row-reverse" : ""
+        }`}
+      >
+        {school ? (
+          <SchoolBadge school={school} size="sm" />
+        ) : (
+          <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/10 text-xl font-black text-white shadow-xl">
+            {team.slice(0, 2).toUpperCase()}
+          </div>
+        )}
+
+        <div>
+          <h2 className="text-3xl font-black leading-tight text-white">
+            {team}
+          </h2>
+
+          {school && (
+            <div className="mt-4 inline-flex rounded-full border border-white/10 bg-white/10 px-4 py-2 text-[10px] font-black uppercase tracking-[0.16em] text-white/75">
+              School Hub →
+            </div>
+          )}
+        </div>
+      </div>
+
+      {score !== undefined && (
+        <p className="mt-6 text-6xl font-black text-white">{score}</p>
+      )}
+    </div>
+  );
+
+  if (!school) return content;
+
+  return <Link href={`/schools/${school.slug}`}>{content}</Link>;
+}
+function InfoCard({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-2xl border border-white/10 bg-black/35 p-4">
+      <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">
+        {label}
+      </p>
+      <p className="mt-2 font-black text-white">{value}</p>
     </div>
   );
 }
 
-function TeamCard({
-  label,
-  team,
-  schoolSlug,
-  score,
-}: {
-  label: string;
-  team: string;
-  schoolSlug?: string;
-  score?: number;
-}) {
-  const content = (
-    <div className="rounded-3xl border border-white/10 bg-white/5 p-8 text-center transition hover:bg-white/[0.08]">
-      <p className="text-sm font-bold uppercase tracking-[0.25em] text-[#d65a6d]">
+function MiniCard({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-2xl border border-white/10 bg-black/35 p-4">
+      <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">
         {label}
       </p>
-
-      <h2 className="mt-4 text-3xl font-black">{team}</h2>
-
-      {score !== undefined && (
-        <p className="mt-6 text-5xl font-black text-white">{score}</p>
-      )}
-
-      {schoolSlug && (
-        <p className="mt-5 text-sm font-bold text-[#d65a6d]">
-          View school hub →
-        </p>
-      )}
+      <p className="mt-2 font-black text-white">{value}</p>
     </div>
   );
-
-  if (!schoolSlug) return content;
-
-  return <Link href={`/schools/${schoolSlug}`}>{content}</Link>;
 }
 
 function Badge({ label }: { label: string }) {
   return (
-    <span className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-bold text-white/80">
+    <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-white/70">
       {label}
     </span>
   );
@@ -341,7 +425,7 @@ function LinkButton({ href, label }: { href: string; label: string }) {
   return (
     <Link
       href={href}
-      className="rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm font-bold text-white/80 transition hover:bg-white/10 hover:text-white"
+      className="rounded-2xl border border-white/10 bg-black/35 px-4 py-3 text-sm font-black text-white/75 transition hover:bg-white/10 hover:text-white"
     >
       {label}
     </Link>

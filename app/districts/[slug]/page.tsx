@@ -1,13 +1,16 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { UILClassification } from "@/types/platform";
+
 import {
   getDistrictBySlug,
   getSchoolsByDistrictSlug,
 } from "../../../lib/pilotData";
+
 import { getGamesForSchool } from "../../../data/games";
-import { getArticlesForSchool } from "../../../data/articles";
 import { sponsors } from "../../../data/sponsors";
+import { getStandingsForDistrictId } from "../../../data/standings";
 
 type DistrictPageProps = {
   params: Promise<{ slug: string }>;
@@ -30,12 +33,40 @@ function formatRegion(region: 1 | 2 | 3 | 4) {
   }[region];
 }
 
+function formatDistrictDisplayName(name: string) {
+  const match = name.match(/District\s+(\d+)/i);
+
+  if (match?.[1]) {
+    return `District ${match[1]}`;
+  }
+
+  return name;
+}
+
 function formatGameDate(kickoff: string) {
   return new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
     timeZone: "America/Chicago",
   }).format(new Date(kickoff));
+}
+
+export async function generateMetadata({
+  params,
+}: DistrictPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const district = getDistrictBySlug(slug);
+
+  if (!district) {
+    return {
+      title: "District Not Found | VarsityVue",
+    };
+  }
+
+  return {
+    title: `${district.name} District Hub | VarsityVue`,
+    description: `${district.name} schedules, standings, school hubs, scores, and Texas high school football coverage on VarsityVue.`,
+  };
 }
 
 export default async function DistrictPage({ params }: DistrictPageProps) {
@@ -47,8 +78,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
   }
 
   const districtSchools = getSchoolsByDistrictSlug(slug);
-
-  const schoolIds = districtSchools.map((school) => school.id);
+  const districtStandings = getStandingsForDistrictId(district.id);
 
   const districtGames = districtSchools
     .flatMap((school) => getGamesForSchool(school.slug))
@@ -58,18 +88,9 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
     )
     .filter((game) => game.districtGame)
     .sort(
-      (a, b) =>
-        new Date(a.kickoff).getTime() - new Date(b.kickoff).getTime()
+      (a, b) => new Date(a.kickoff).getTime() - new Date(b.kickoff).getTime()
     )
     .slice(0, 5);
-
-  const districtArticles = districtSchools
-    .flatMap((school) => getArticlesForSchool(school.slug))
-    .filter(
-      (article, index, self) =>
-        self.findIndex((item) => item.id === article.id) === index
-    )
-    .slice(0, 4);
 
   const districtSponsor = sponsors.find(
     (sponsor) =>
@@ -78,194 +99,288 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
       sponsor.districtIds?.includes(district.id)
   );
 
+  const classification = formatClassification(district.classification);
+  const region = formatRegion(district.uilRegion);
+  const displayName = formatDistrictDisplayName(district.name);
+
+  const districtSchema = {
+    "@context": "https://schema.org",
+    "@type": "SportsOrganization",
+    name: district.name,
+    sport: "Football",
+    url: `https://varsityvue.com/districts/${district.slug}`,
+    member: districtSchools.map((school) => ({
+      "@type": "SportsTeam",
+      name: school.fullName,
+      url: `https://varsityvue.com/schools/${school.slug}`,
+    })),
+    organizer: {
+      "@type": "Organization",
+      name: "VarsityVue",
+      url: "https://varsityvue.com",
+    },
+  };
+
   return (
-    <main className="min-h-screen bg-black px-4 py-10 text-white sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-6xl">
-        <Link
-          href="/districts"
-          className="text-sm font-bold text-[#d65a6d] transition hover:text-white"
-        >
-          ← Back to Districts
-        </Link>
+    <main className="min-h-screen bg-[#050505] text-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(districtSchema),
+        }}
+      />
 
-        <section className="mt-8 overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 p-6 shadow-2xl md:p-10">
-          <div className="h-1 w-24 rounded-full bg-gradient-to-r from-[#7A1022] to-[#d65a6d]" />
+      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.62),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1440px]">
+          <Link
+            href="/districts"
+            className="text-sm font-black uppercase tracking-[0.14em] text-[#d65a6d] transition hover:text-white"
+          >
+            ← Back to Districts
+          </Link>
 
-          <p className="mt-8 text-xs font-bold uppercase tracking-[0.3em] text-[#d65a6d] sm:text-sm">
-            VarsityVue District Hub
-          </p>
+          <div className="mt-6 overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl md:p-8">
+            <p className="text-xs font-black uppercase tracking-[0.32em] text-[#d65a6d]">
+              VarsityVue District Hub
+            </p>
 
-          <h1 className="mt-4 text-4xl font-black leading-tight sm:text-6xl lg:text-7xl">
-            {district.name}
-          </h1>
+            <h1 className="mt-4 text-5xl font-black leading-tight tracking-tight sm:text-7xl">
+              {displayName}
+            </h1>
 
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-white/60 sm:text-xl">
-            Schools, standings, schedules, scores, coverage, and sponsor
-            visibility across this VarsityVue district.
-          </p>
+            <p className="mt-4 text-sm font-black uppercase tracking-[0.18em] text-white/45">
+              {classification} • {region}
+            </p>
 
-          <div className="mt-10 grid gap-4 md:grid-cols-3">
-            <DistrictStat
-              label="Class"
-              value={formatClassification(district.classification)}
-            />
-            <DistrictStat
-              label="Region"
-              value={formatRegion(district.uilRegion)}
-            />
-            <DistrictStat
-              label="Schools"
-              value={districtSchools.length.toString()}
-            />
+            <p className="mt-5 max-w-3xl text-base leading-7 text-white/60 sm:text-lg">
+              Standings, schedules, school hubs, district games, sponsor
+              visibility, and future legacy coverage for this VarsityVue
+              district ecosystem.
+            </p>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section className="mt-8 rounded-3xl border border-[#7A1022]/30 bg-[#7A1022]/10 p-6 text-center">
-          <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
-            District Sponsor
-          </p>
-
-          <h2 className="mt-3 text-2xl font-black">
-            {districtSponsor
-              ? `Presented by ${districtSponsor.name}`
-              : "This district placement is available"}
-          </h2>
-
-          <p className="mt-2 text-sm text-white/50">
-            Premium district-level sponsor inventory for local businesses.
-          </p>
-        </section>
-
-        <section className="mt-10 grid gap-6 lg:grid-cols-[2fr_1fr]">
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-            <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#d65a6d]">
-              District Games
-            </p>
-
-            <h2 className="mt-3 text-3xl font-black">Upcoming District Matchups</h2>
-
-            <div className="mt-6 space-y-4">
-              {districtGames.length === 0 ? (
-                <p className="text-white/60">No district games listed yet.</p>
-              ) : (
-                districtGames.map((game) => (
-                  <Link
-                    key={game.id}
-                    href={`/games/${game.id}`}
-                    className="block rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
-                  >
-                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/45">
-                      {formatGameDate(game.kickoff)} · Week {game.week}
-                    </p>
-                    <h3 className="mt-2 text-xl font-black">
-                      {game.awayTeam} at {game.homeTeam}
-                    </h3>
-                    <p className="mt-1 text-sm text-white/55">{game.venue}</p>
-                  </Link>
-                ))
-              )}
-            </div>
-          </div>
-
-          <aside className="rounded-3xl border border-white/10 bg-white/5 p-6">
-            <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#d65a6d]">
-              Legacy
-            </p>
-
-            <h2 className="mt-3 text-3xl font-black">Coming Soon</h2>
-
-            <p className="mt-4 leading-7 text-white/60">
-              Rivalry records, playoff history, notable teams, and community
-              submitted historical notes will live here.
-            </p>
-          </aside>
-        </section>
-
-        <section className="mt-10">
-          <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#d65a6d] sm:text-sm">
-            Member Schools
-          </p>
-
-          <h2 className="mt-3 text-3xl font-black">District Schools</h2>
-
-          <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {districtSchools.map((school) => {
-              const accentColor = school.colors.accent || school.colors.secondary;
-
-              return (
-                <Link
-                  key={school.slug}
-                  href={`/schools/${school.slug}`}
-                  className="group rounded-3xl border bg-white/5 p-6 shadow-lg transition hover:-translate-y-1 hover:bg-white/[0.08]"
-                  style={{
-                    borderColor: `${school.colors.secondary}33`,
-                    boxShadow: `0 18px 50px ${school.colors.primary}22`,
-                  }}
-                >
-                  <div
-                    className="mb-6 flex h-16 w-16 items-center justify-center rounded-3xl text-xl font-black ring-1"
-                    style={{
-                      backgroundColor: `${school.colors.primary}66`,
-                      color: accentColor,
-                      borderColor: `${accentColor}55`,
-                    }}
-                  >
-                    {school.name.slice(0, 2).toUpperCase()}
-                  </div>
-
-                  <h3 className="text-2xl font-black">{school.name}</h3>
-                  <p className="mt-2 text-white/60">{school.mascot}</p>
-
-                  <p className="mt-6 text-sm font-bold" style={{ color: accentColor }}>
-                    View school hub →
+      <section className="px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-[1440px] gap-6 lg:grid-cols-[1.4fr_0.8fr]">
+          <div className="space-y-6">
+            <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:p-6">
+              <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+                    District Race
                   </p>
-                </Link>
-              );
-            })}
-          </div>
-        </section>
+                  <h2 className="mt-2 text-3xl font-black text-white">
+                    Standings
+                  </h2>
+                </div>
 
-        <section className="mt-10">
-          <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#d65a6d]">
-            Coverage
-          </p>
-
-          <h2 className="mt-3 text-3xl font-black">Latest District Coverage</h2>
-
-          <div className="mt-6 grid gap-6 md:grid-cols-2">
-            {districtArticles.length === 0 ? (
-              <div className="rounded-3xl border border-white/10 bg-white/5 p-6 text-white/60">
-                No district coverage yet.
+                <p className="text-sm font-bold text-white/45">
+                  Top 4 highlighted as projected playoff positions
+                </p>
               </div>
-            ) : (
-              districtArticles.map((article) => (
-                <Link
-                  key={article.id}
-                  href={`/coverage/${article.slug}`}
-                  className="rounded-3xl border border-white/10 bg-white/5 p-6 transition hover:bg-white/10"
-                >
-                  <h3 className="text-2xl font-black">{article.title}</h3>
-                  <p className="mt-3 text-white/60">{article.excerpt}</p>
-                  <p className="mt-5 text-sm font-bold text-[#d65a6d]">
-                    Read story →
-                  </p>
-                </Link>
-              ))
-            )}
-          </div>
-        </section>
-      </div>
-    </main>
-  );
-}
 
-function DistrictStat({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-3xl border border-white/10 bg-black/40 p-6">
-      <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/40">
-        {label}
-      </p>
-      <p className="mt-3 text-2xl font-black">{value}</p>
-    </div>
+              <div className="overflow-x-auto rounded-2xl border border-white/10 bg-black/35">
+                <table className="w-full min-w-[760px] text-left">
+                  <thead className="bg-white/10 text-xs uppercase tracking-[0.2em] text-white/55">
+                    <tr>
+                      <th className="px-4 py-4">Rank</th>
+                      <th className="px-4 py-4">Team</th>
+                      <th className="px-4 py-4">District</th>
+                      <th className="px-4 py-4">Overall</th>
+                      <th className="px-4 py-4">PF</th>
+                      <th className="px-4 py-4">PA</th>
+                      <th className="px-4 py-4">Diff</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {districtStandings.map((team, index) => {
+                      const differential = team.pointsFor - team.pointsAgainst;
+
+                      return (
+                        <tr
+                          key={team.schoolSlug}
+                          className={`border-t border-white/10 transition hover:bg-white/[0.06] ${
+                            index < 4 ? "bg-[#7A1022]/10" : ""
+                          }`}
+                        >
+                          <td className="px-4 py-4 font-black text-white">
+                            <div className="flex items-center gap-2">
+                              <span>#{index + 1}</span>
+                              {index < 4 && (
+                                <span className="rounded-full border border-[#d65a6d]/30 bg-[#7A1022]/30 px-2 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-[#f3a3af]">
+                                  Playoff
+                                </span>
+                              )}
+                            </div>
+                          </td>
+
+                          <td className="px-4 py-4 font-black text-white">
+                            <Link
+                              href={`/schools/${team.schoolSlug}`}
+                              className="hover:text-[#f07182]"
+                            >
+                              {team.team}
+                            </Link>
+                          </td>
+
+                          <td className="px-4 py-4 font-bold text-white">
+                            {team.districtWins}-{team.districtLosses}
+                          </td>
+
+                          <td className="px-4 py-4 font-bold text-white/65">
+                            {team.overallWins}-{team.overallLosses}
+                          </td>
+
+                          <td className="px-4 py-4 font-bold text-white/65">
+                            {team.pointsFor}
+                          </td>
+
+                          <td className="px-4 py-4 font-bold text-white/65">
+                            {team.pointsAgainst}
+                          </td>
+
+                          <td className="px-4 py-4 font-black text-white">
+                            {differential > 0 ? "+" : ""}
+                            {differential}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:p-6">
+              <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+                    District Schools
+                  </p>
+                  <h2 className="mt-2 text-3xl font-black text-white">
+                    School Hubs
+                  </h2>
+                </div>
+
+                <Link
+                  href="/schools"
+                  className="text-sm font-black uppercase tracking-[0.14em] text-[#d65a6d] transition hover:text-white"
+                >
+                  View all schools →
+                </Link>
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                {districtSchools.map((school) => (
+                  <Link
+                    key={school.slug}
+                    href={`/schools/${school.slug}`}
+                    className="rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:-translate-y-1 hover:bg-white/10"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div
+                        className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 text-sm font-black text-white"
+                        style={{
+                          backgroundColor: `${school.colors.primary}88`,
+                        }}
+                      >
+                        {school.name.slice(0, 2).toUpperCase()}
+                      </div>
+
+                      <div>
+                        <p className="font-black text-white">{school.name}</p>
+                        <p className="text-sm font-bold uppercase tracking-[0.12em] text-white/40">
+                          {school.mascot}
+                        </p>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          </div>
+
+          <aside className="space-y-6">
+            <section className="rounded-[1.75rem] border border-[#7A1022]/40 bg-gradient-to-br from-[#7A1022]/45 via-black to-black p-6 shadow-2xl">
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-[#f3a3af]">
+                District Sponsor
+              </p>
+
+              <h2 className="mt-3 text-3xl font-black text-white">
+                {districtSponsor
+                  ? `Presented by ${districtSponsor.name}`
+                  : "Founding district sponsor opportunity"}
+              </h2>
+
+              <p className="mt-3 text-sm leading-6 text-white/55">
+                Own premium sponsor visibility across this district ecosystem.
+              </p>
+
+              <Link
+                href="/sponsor-inquiry"
+                className="mt-6 block rounded-xl border border-white/15 bg-white/10 px-5 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
+              >
+                Sponsor This District
+              </Link>
+            </section>
+
+            <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+                District Games
+              </p>
+
+              <h2 className="mt-3 text-3xl font-black text-white">
+                Upcoming Matchups
+              </h2>
+
+              <div className="mt-6 space-y-3">
+                {districtGames.length === 0 ? (
+                  <p className="rounded-2xl border border-white/10 bg-black/35 p-4 text-sm text-white/55">
+                    2026 district schedule coming soon.
+                  </p>
+                ) : (
+                  districtGames.map((game) => (
+                    <Link
+                      key={game.id}
+                      href={`/games/${game.id}`}
+                      className="block rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
+                    >
+                      <p className="text-xs font-black uppercase tracking-[0.18em] text-white/40">
+                        {formatGameDate(game.kickoff)} · Week {game.week}
+                      </p>
+
+                      <h3 className="mt-2 text-lg font-black text-white">
+                        {game.awayTeam} at {game.homeTeam}
+                      </h3>
+
+                      <p className="mt-1 text-sm text-white/55">
+                        {game.venue}
+                      </p>
+                    </Link>
+                  ))
+                )}
+              </div>
+            </section>
+
+            <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+                Legacy
+              </p>
+
+              <h2 className="mt-3 text-3xl font-black text-white">
+                Coming Soon
+              </h2>
+
+              <p className="mt-4 leading-7 text-white/60">
+                Rivalry records, playoff history, notable teams, and community
+                submitted historical notes will live here.
+              </p>
+            </section>
+          </aside>
+        </div>
+      </section>
+    </main>
   );
 }

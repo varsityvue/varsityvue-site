@@ -29,67 +29,138 @@ function formatArticleType(type: Article["type"]) {
 }
 
 export default function NewsFeed({ articles, theme }: NewsFeedProps) {
-  return (
-    <section className="pb-20">
-      <div>
-        <h2 className="mb-6 text-3xl font-black">Latest Coverage</h2>
+  const featuredArticle = articles[0];
+  const secondaryArticles = articles.slice(1, 4);
 
-        {articles.length === 0 ? (
-          <div
-            className="rounded-3xl border bg-white/5 p-6 text-white/60"
-            style={{ borderColor: `${theme.secondary}33` }}
-          >
-            No articles available yet.
-          </div>
-        ) : (
-          <div className="grid gap-6 md:grid-cols-2">
-            {articles.map((article) => (
-              <Link
-                key={article.id}
-                href={`/coverage/${article.slug}`}
-                className="rounded-3xl border bg-white/5 p-6 shadow-lg transition hover:-translate-y-1 hover:bg-white/[0.08]"
+  return (
+    <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:p-6">
+      <div className="mb-6 flex items-end justify-between gap-4">
+        <div>
+          <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+            School Coverage
+          </p>
+          <h2 className="mt-2 text-3xl font-black text-white">
+            Latest Stories
+          </h2>
+        </div>
+
+        <Link
+          href="/coverage"
+          className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/60 transition hover:bg-white/10 hover:text-white"
+        >
+          All Coverage →
+        </Link>
+      </div>
+
+      {articles.length === 0 ? (
+        <div
+          className="rounded-3xl border bg-black/35 p-6"
+          style={{ borderColor: `${theme.secondary}33` }}
+        >
+          <p className="text-lg font-black text-white">
+            No school stories published yet.
+          </p>
+          <p className="mt-2 text-sm leading-6 text-white/50">
+            Game previews, recaps, features, and school updates will appear here
+            as coverage is added.
+          </p>
+        </div>
+      ) : (
+        <div className="grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
+          {featuredArticle && (
+            <Link
+              href={`/coverage/${featuredArticle.slug}`}
+              className="group relative overflow-hidden rounded-[1.75rem] border bg-black/35 p-6 shadow-2xl transition hover:-translate-y-1 hover:bg-white/[0.075]"
+              style={{
+                borderColor: `${theme.secondary}33`,
+                boxShadow: `0 18px 55px ${theme.primary}18`,
+              }}
+            >
+              <div
+                className="absolute inset-0 opacity-30 transition group-hover:opacity-45"
                 style={{
-                  borderColor: `${theme.secondary}33`,
-                  boxShadow: `0 18px 50px ${theme.primary}22`,
+                  background: `radial-gradient(circle at top left, ${theme.primary}, transparent 55%)`,
                 }}
-              >
-                <p
-                  className="text-sm font-bold uppercase tracking-[0.25em]"
-                  style={{ color: theme.accent }}
-                >
-                  {formatArticleType(article.type)}
+              />
+
+              <div className="relative">
+                <p className="inline-flex rounded-full border border-white/10 bg-black/35 px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-[#d65a6d]">
+                  {formatArticleType(featuredArticle.type)}
                 </p>
 
-                <h3 className="mt-4 text-2xl font-black leading-tight">
-                  {article.title}
+                <h3 className="mt-5 text-3xl font-black leading-tight text-white sm:text-4xl">
+                  {featuredArticle.title}
                 </h3>
 
-                <p className="mt-4 leading-7 text-white/70">
-                  {article.excerpt}
+                {featuredArticle.subtitle && (
+                  <p className="mt-3 text-lg font-semibold text-white/55">
+                    {featuredArticle.subtitle}
+                  </p>
+                )}
+
+                <p className="mt-5 max-w-2xl leading-7 text-white/65">
+                  {featuredArticle.excerpt}
                 </p>
 
                 <div
-                  className="mt-6 h-1 w-20 rounded-full"
+                  className="mt-7 h-1 w-24 rounded-full"
                   style={{
                     background: `linear-gradient(90deg, ${theme.primary}, ${theme.secondary})`,
                   }}
                 />
 
-                <p
-                  className="mt-6 text-sm font-bold transition"
-                  style={{ color: theme.accent }}
-                >
-                  Read story →
-                </p>
+                <div className="mt-7 flex flex-wrap items-center gap-4">
+                  <p className="text-sm font-black uppercase tracking-[0.16em] text-[#d65a6d]">
+                    Read story →
+                  </p>
 
-                <p className="mt-3 text-sm text-white/40">
-                  {formatArticleDate(article.publishedAt)}
+                  <p className="text-sm text-white/40">
+                    {formatArticleDate(featuredArticle.publishedAt)}
+                  </p>
+                </div>
+              </div>
+            </Link>
+          )}
+
+          <div className="grid gap-3">
+            {secondaryArticles.length > 0 ? (
+              secondaryArticles.map((article) => (
+                <Link
+                  key={article.id}
+                  href={`/coverage/${article.slug}`}
+                  className="rounded-2xl border border-white/10 bg-black/35 p-5 transition hover:bg-white/[0.07]"
+                >
+                  <p className="text-xs font-black uppercase tracking-[0.18em] text-[#d65a6d]">
+                    {formatArticleType(article.type)}
+                  </p>
+
+                  <h3 className="mt-3 text-xl font-black leading-tight text-white">
+                    {article.title}
+                  </h3>
+
+                  <p className="mt-3 line-clamp-2 text-sm leading-6 text-white/55">
+                    {article.excerpt}
+                  </p>
+
+                  <p className="mt-4 text-xs text-white/35">
+                    {formatArticleDate(article.publishedAt)}
+                  </p>
+                </Link>
+              ))
+            ) : (
+              <div className="rounded-2xl border border-white/10 bg-black/35 p-5">
+                <p className="font-black text-white">
+                  More school coverage coming soon.
                 </p>
-              </Link>
-            ))}
+                <p className="mt-2 text-sm text-white/45">
+                  Additional previews, recaps, and feature stories will appear
+                  here.
+                </p>
+              </div>
+            )}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </section>
   );
 }

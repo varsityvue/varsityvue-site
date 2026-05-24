@@ -1,33 +1,35 @@
+import Link from "next/link";
+
 export default function NotFound() {
   return (
-    <main className="min-h-screen bg-black px-6 py-20 text-white">
-      <div className="mx-auto max-w-4xl">
-        <p className="text-sm uppercase tracking-[0.3em] text-[#d65a6d]">
-          VarsityVue
+    <main className="min-h-screen bg-black px-4 py-16 text-white sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-3xl text-center">
+        <p className="text-sm font-bold uppercase tracking-[0.3em] text-[#d65a6d]">
+          404
         </p>
 
-        <h1 className="mt-4 text-5xl font-black md:text-7xl">
+        <h1 className="mt-4 text-4xl font-black sm:text-6xl">
           Page Not Found
         </h1>
 
-        <p className="mt-6 max-w-2xl text-xl leading-8 text-white/60">
-          This page does not exist yet, or the link may have changed.
+        <p className="mt-6 text-lg leading-8 text-white/60">
+          This VarsityVue page does not exist yet, or the route has moved.
         </p>
 
-        <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-          <a
+        <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
+          <Link
             href="/schools"
-            className="rounded-full bg-[#7A1022] px-6 py-4 text-center font-semibold hover:bg-[#93142a]"
+            className="rounded-full bg-[#7A1022] px-6 py-3 text-sm font-black uppercase tracking-[0.18em] text-white transition hover:bg-[#d65a6d]"
           >
-            Browse Schools
-          </a>
+            View Schools
+          </Link>
 
-          <a
+          <Link
             href="/games"
-            className="rounded-full border border-white/20 px-6 py-4 text-center font-semibold hover:bg-white/10"
+            className="rounded-full border border-white/15 px-6 py-3 text-sm font-black uppercase tracking-[0.18em] text-white transition hover:bg-white/10"
           >
             View Games
-          </a>
+          </Link>
         </div>
       </div>
     </main>

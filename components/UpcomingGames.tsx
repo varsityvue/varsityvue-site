@@ -27,6 +27,7 @@ function formatGameTime(kickoff: string) {
 
 function getGameLabel(game: Game) {
   if (game.gameType === "playoff") return "Playoff";
+  if (game.gameType === "scrimmage") return "Scrimmage";
   return `Week ${game.week}`;
 }
 
@@ -35,80 +36,152 @@ export default function UpcomingGames({
   theme,
   schoolSlug,
 }: UpcomingGamesProps) {
-  const visibleGames = games
-    .filter((game) => game.gameType === "regular" || game.gameType === "playoff")
-    .slice(0, 3);
+const visibleGames = games
+  .filter((game) => game.gameType !== "bye")
+  .slice(1, 5);
+
+  const featuredGame = visibleGames[0];
+  const remainingGames = visibleGames.slice(1, 4);
 
   return (
-    <section>
+    <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:p-6">
       <div className="mb-6 flex items-end justify-between gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/60">
+          <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
             Schedule Snapshot
           </p>
-          <h2 className="mt-2 text-3xl font-black">Upcoming Games</h2>
+          <h2 className="mt-2 text-3xl font-black text-white">
+            Upcoming Games
+          </h2>
         </div>
+
+        <Link
+          href={`/schools/${schoolSlug}/schedule`}
+          className="hidden rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/60 transition hover:bg-white/10 hover:text-white sm:inline-flex"
+        >
+          Full Schedule →
+        </Link>
       </div>
 
       {visibleGames.length === 0 ? (
         <div
-          className="rounded-3xl border bg-white/5 p-6 text-white/60"
+          className="rounded-3xl border bg-black/35 p-6"
           style={{ borderColor: `${theme.secondary}33` }}
         >
-          No upcoming games listed yet.
+          <p className="text-lg font-black text-white">
+            2026 schedule coming soon.
+          </p>
+          <p className="mt-2 text-sm leading-6 text-white/50">
+            Upcoming matchups will appear here once this school’s schedule is
+            added to VarsityVue.
+          </p>
         </div>
       ) : (
-        <>
-          <div className="grid gap-5 md:grid-cols-3">
-            {visibleGames.map((game) => (
+        <div className="grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
+          {featuredGame && (
+            <Link
+              href={`/games/${featuredGame.id}`}
+              className="group relative overflow-hidden rounded-[1.5rem] border bg-black/45 p-6 transition hover:-translate-y-1 hover:bg-white/[0.06]"
+              style={{
+                borderColor: `${theme.secondary}33`,
+                boxShadow: `0 18px 50px ${theme.primary}22`,
+              }}
+            >
+              <div
+                className="absolute inset-0 opacity-35 transition group-hover:opacity-50"
+                style={{
+                  background: `radial-gradient(circle at top left, ${theme.primary}, transparent 52%)`,
+                }}
+              />
+
+              <div className="relative">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge label={getGameLabel(featuredGame)} />
+                  {featuredGame.districtGame && <Badge label="District" />}
+                  {featuredGame.specialEvent && (
+                    <Badge label={featuredGame.specialEvent} />
+                  )}
+                </div>
+
+                <h3 className="mt-5 text-3xl font-black leading-tight text-white sm:text-4xl">
+                  {featuredGame.awayTeam}
+                  <span className="block text-white/35">at</span>
+                  {featuredGame.homeTeam}
+                </h3>
+
+                <div className="mt-8 grid gap-3 sm:grid-cols-3">
+                  <InfoCard
+                    label="Date"
+                    value={formatGameDate(featuredGame.kickoff)}
+                  />
+                  <InfoCard
+                    label="Kickoff"
+                    value={formatGameTime(featuredGame.kickoff)}
+                  />
+                  <InfoCard label="Venue" value={featuredGame.venue} />
+                </div>
+
+                <p className="mt-6 text-sm font-black uppercase tracking-[0.16em] text-[#d65a6d]">
+                  View matchup →
+                </p>
+              </div>
+            </Link>
+          )}
+
+          <div className="grid gap-3">
+            {remainingGames.map((game) => (
               <Link
                 key={game.id}
                 href={`/games/${game.id}`}
-                className="rounded-3xl border bg-white/[0.04] p-5 shadow-lg transition hover:-translate-y-1 hover:bg-white/[0.08]"
-                style={{
-                  borderColor: `${theme.secondary}33`,
-                  boxShadow: `0 18px 50px ${theme.primary}22`,
-                }}
+                className="rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
               >
-                <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/60">
-                  {getGameLabel(game)}
-                  {game.districtGame ? " · District" : ""}
-                </p>
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-xs font-black uppercase tracking-[0.18em] text-white/40">
+                    {getGameLabel(game)}
+                    {game.districtGame ? " · District" : ""}
+                  </p>
 
-                <h3 className="mt-4 text-xl font-black leading-tight">
+                  <p className="text-xs font-bold text-white/40">
+                    {formatGameDate(game.kickoff)}
+                  </p>
+                </div>
+
+                <h3 className="mt-3 text-lg font-black leading-tight text-white">
                   {game.awayTeam} at {game.homeTeam}
                 </h3>
 
-                <div className="mt-5 space-y-1.5 text-sm text-white/70">
-                  <p>{formatGameDate(game.kickoff)}</p>
-                  <p>{formatGameTime(game.kickoff)}</p>
-                  <p>{game.venue}</p>
-                </div>
-
-                {game.specialEvent && (
-                  <p className="mt-4 inline-flex rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-bold text-white/70">
-                    {game.specialEvent}
-                  </p>
-                )}
-
-                <div
-                  className="mt-5 h-1 w-16 rounded-full"
-                  style={{
-                    background: `linear-gradient(90deg, ${theme.primary}, ${theme.secondary})`,
-                  }}
-                />
+                <p className="mt-2 text-sm text-white/50">{game.venue}</p>
               </Link>
             ))}
-          </div>
 
-          <Link
-            href={`/schools/${schoolSlug}/schedule`}
-            className="mt-6 inline-flex rounded-full border border-white/15 bg-white/10 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/15"
-          >
-            View full schedule →
-          </Link>
-        </>
+            <Link
+              href={`/schools/${schoolSlug}/schedule`}
+              className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white/65 transition hover:bg-white/10 hover:text-white sm:hidden"
+            >
+              View full schedule →
+            </Link>
+          </div>
+        </div>
       )}
     </section>
+  );
+}
+
+function Badge({ label }: { label: string }) {
+  return (
+    <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-black uppercase tracking-[0.12em] text-white/70">
+      {label}
+    </span>
+  );
+}
+
+function InfoCard({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-xl border border-white/10 bg-black/35 p-4">
+      <p className="text-xs uppercase tracking-[0.18em] text-white/35">
+        {label}
+      </p>
+      <p className="mt-2 font-bold text-white">{value}</p>
+    </div>
   );
 }

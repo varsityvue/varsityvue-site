@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { SchoolTheme } from "../types/school-theme";
 
 type Standing = {
@@ -21,101 +22,122 @@ export default function StandingsTable({
   theme,
 }: StandingsTableProps) {
   return (
-    <section>
-      <div>
-        <h2 className="mb-6 text-3xl font-black">District Standings</h2>
+    <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:p-6">
+      <div className="mb-6 flex items-end justify-between gap-4">
+        <div>
+          <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+            District Race
+          </p>
+          <h2 className="mt-2 text-3xl font-black text-white">Standings</h2>
+        </div>
 
-        {standings.length === 0 ? (
-          <div
-            className="rounded-3xl border bg-white/5 p-6 text-white/60"
-            style={{ borderColor: `${theme.secondary}33` }}
-          >
-            No standings available.
-          </div>
-        ) : (
-          <div
-            className="overflow-hidden rounded-3xl border bg-white/5 shadow-lg"
-            style={{
-              borderColor: `${theme.secondary}33`,
-              boxShadow: `0 18px 50px ${theme.primary}33`,
-            }}
-          >
-            <table className="w-full text-left text-sm sm:text-base">
-              <thead
-                className="border-b"
-                style={{
-                  borderColor: `${theme.secondary}33`,
-                  background: `linear-gradient(90deg, ${theme.primary}66, ${theme.secondary}22)`,
-                }}
-              >
-                <tr>
-                  <th className="px-4 py-4 sm:px-6">Rank</th>
-                  <th className="px-4 py-4 sm:px-6">Team</th>
-                  <th className="px-4 py-4 sm:px-6">District</th>
-                  <th className="px-4 py-4 sm:px-6">Overall</th>
-                  <th className="px-4 py-4 sm:px-6">PF</th>
-                  <th className="px-4 py-4 sm:px-6">PA</th>
-                  <th className="px-4 py-4 sm:px-6">Diff</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {standings.map((team, index) => {
-                  const differential = team.pointsFor - team.pointsAgainst;
-
-                  return (
-                    <tr
-                      key={team.team}
-                      className="border-b transition hover:bg-white/[0.06] last:border-none"
-                      style={{ borderColor: `${theme.secondary}22` }}
-                    >
-                      <td className="px-4 py-4 font-bold text-white/60 sm:px-6">
-                        #{index + 1}
-                      </td>
-
-                      <td className="px-4 py-4 font-semibold sm:px-6">
-                        {team.team}
-                      </td>
-
-                      <td
-                        className="px-4 py-4 font-semibold sm:px-6"
-                        style={{ color: theme.accent }}
-                      >
-                        {team.districtWins}-{team.districtLosses}
-                      </td>
-
-                      <td className="px-4 py-4 text-white/75 sm:px-6">
-                        {team.overallWins}-{team.overallLosses}
-                      </td>
-
-                      <td className="px-4 py-4 text-white/70 sm:px-6">
-                        {team.pointsFor}
-                      </td>
-
-                      <td className="px-4 py-4 text-white/70 sm:px-6">
-                        {team.pointsAgainst}
-                      </td>
-
-                      <td
-                        className="px-4 py-4 font-semibold sm:px-6"
-                        style={{
-                          color:
-                            differential >= 0
-                              ? theme.accent
-                              : "rgba(255,255,255,0.5)",
-                        }}
-                      >
-                        {differential > 0 ? "+" : ""}
-                        {differential}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        )}
+        <Link
+          href="/districts"
+          className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/65 transition hover:bg-white/10 hover:text-white"
+        >
+          Districts →
+        </Link>
       </div>
+
+      {standings.length === 0 ? (
+        <div
+          className="rounded-3xl border bg-black/35 p-6"
+          style={{ borderColor: `${theme.secondary}33` }}
+        >
+          <p className="text-lg font-black text-white">
+            No standings available yet.
+          </p>
+          <p className="mt-2 text-sm leading-6 text-white/50">
+            District standings will appear here once results are added.
+          </p>
+        </div>
+      ) : (
+        <div
+          className="overflow-x-auto rounded-3xl border bg-black/35"
+          style={{
+            borderColor: `${theme.secondary}33`,
+            boxShadow: `0 18px 50px ${theme.primary}18`,
+          }}
+        >
+          <table className="w-full min-w-[820px] border-collapse text-left">
+            <thead
+              style={{
+                background: `linear-gradient(90deg, ${theme.primary}88, #2a2a2a)`,
+              }}
+            >
+              <tr>
+                {["Rank", "Team", "District", "Overall", "PF", "PA", "Diff"].map(
+                  (header) => (
+                    <th
+                      key={header}
+                      className="px-5 py-4 text-xs font-black uppercase tracking-[0.18em] text-white"
+                    >
+                      {header}
+                    </th>
+                  )
+                )}
+              </tr>
+            </thead>
+
+            <tbody>
+              {standings.map((team, index) => {
+                const differential = team.pointsFor - team.pointsAgainst;
+
+                return (
+                  <tr
+                    key={team.schoolSlug}
+                    className={`border-t border-white/10 transition hover:bg-white/[0.06] ${
+                      index < 4 ? "bg-[#7A1022]/10" : ""
+                    }`}
+                  >
+                    <td className="px-5 py-4 font-black text-white">
+                      <div className="flex items-center gap-2">
+                        <span>#{index + 1}</span>
+
+                        {index < 4 && (
+                          <span className="rounded-full border border-[#d65a6d]/30 bg-[#7A1022]/30 px-2 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-[#f3a3af]">
+                            Playoff
+                          </span>
+                        )}
+                      </div>
+                    </td>
+
+                    <td className="px-5 py-4 font-black text-white">
+                      <Link
+                        href={`/schools/${team.schoolSlug}`}
+                        className="text-white transition hover:text-[#f07182]"
+                      >
+                        {team.team}
+                      </Link>
+                    </td>
+
+                    <td className="px-5 py-4 font-black text-white">
+                      {team.districtWins}-{team.districtLosses}
+                    </td>
+
+                    <td className="px-5 py-4 font-black text-white/70">
+                      {team.overallWins}-{team.overallLosses}
+                    </td>
+
+                    <td className="px-5 py-4 font-black text-white/70">
+                      {team.pointsFor}
+                    </td>
+
+                    <td className="px-5 py-4 font-black text-white/70">
+                      {team.pointsAgainst}
+                    </td>
+
+                    <td className="px-5 py-4 font-black text-white">
+                      {differential > 0 ? "+" : ""}
+                      {differential}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
     </section>
   );
 }

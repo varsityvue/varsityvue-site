@@ -1,59 +1,53 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+
 import { schools } from "../../data/schools";
 import SchoolDirectory from "../../components/SchoolDirectory";
 
 export const metadata: Metadata = {
-  title: "Texas High School Sports School Hubs | VarsityVue",
+  title: "Texas High School Sports School Directory | VarsityVue",
   description:
-    "Search VarsityVue school hubs for Texas high school sports schedules, scores, standings, coverage, sponsors, and district information.",
+    "Search VarsityVue school hubs for Texas high school sports schedules, scores, standings, coverage, sponsors, districts, and game-day information.",
 };
 
 export default function SchoolsPage() {
-  const pilotSchools = schools.filter((school) => school.status === "pilot");
-  const watchlistSchools = schools.filter(
-    (school) => school.status === "watchlist"
-  );
-
   return (
-    <main className="min-h-screen bg-black px-4 py-14 text-white sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <section className="mb-12 rounded-[2rem] border border-white/10 bg-white/5 p-6 md:p-10">
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-[#d65a6d]">
-            VarsityVue Directory
-          </p>
+    <main className="min-h-screen bg-[#050505] text-white">
+      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.62),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1440px]">
+          <div className="rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl md:p-8">
+            <p className="text-xs font-black uppercase tracking-[0.32em] text-[#d65a6d]">
+              VarsityVue Directory
+            </p>
 
-          <h1 className="mt-4 text-4xl font-black leading-tight sm:text-6xl lg:text-7xl">
-            School Hubs
-          </h1>
+            <div className="mt-5 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
+              <div>
+                <h1 className="text-4xl font-black leading-tight tracking-tight sm:text-6xl">
+                  School Directory
+                </h1>
 
-          <p className="mt-6 max-w-3xl text-lg leading-8 text-white/60">
-            Search team hubs, schedules, scores, standings, sponsors, and
-            coverage across the growing VarsityVue network.
-          </p>
-        </section>
+                <p className="mt-4 max-w-3xl text-base leading-7 text-white/60 sm:text-lg">
+                  Search Texas high school sports hubs by school, mascot,
+                  district, classification, status, or game-day venue.
+                </p>
+              </div>
 
-        <section className="mb-10 grid gap-4 md:grid-cols-3">
-          <StatCard label="Schools" value={schools.length.toString()} />
-          <StatCard label="Pilot Hubs" value={pilotSchools.length.toString()} />
-          <StatCard
-            label="Watchlist"
-            value={watchlistSchools.length.toString()}
-          />
-        </section>
+              <Link
+                href="/sponsor-inquiry"
+                className="rounded-xl border border-[#d65a6d]/30 bg-[#7A1022]/25 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-[#f3a3af] transition hover:bg-[#7A1022]/40 hover:text-white"
+              >
+                Request Coverage
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        <SchoolDirectory schools={schools} />
-      </div>
+      <section className="px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1440px]">
+          <SchoolDirectory schools={schools} />
+        </div>
+      </section>
     </main>
-  );
-}
-
-function StatCard({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-      <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#d65a6d]">
-        {label}
-      </p>
-      <p className="mt-3 text-4xl font-black">{value}</p>
-    </div>
   );
 }

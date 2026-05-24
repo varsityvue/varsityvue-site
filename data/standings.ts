@@ -87,15 +87,11 @@ function sortStandings(standings: Standing[]) {
   });
 }
 
-export function getStandingsForSchool(slug: string): Standing[] {
-  const school = getSchoolBySlug(slug);
-
-  if (!school) {
-    return [];
-  }
-
-  const districtSchools = getSchoolsByDistrictId(school.districtId);
-  const districtSchoolSlugs = districtSchools.map((districtSchool) => districtSchool.slug);
+function buildStandingsForDistrict(districtId: string): Standing[] {
+  const districtSchools = getSchoolsByDistrictId(districtId);
+  const districtSchoolSlugs = districtSchools.map(
+    (districtSchool) => districtSchool.slug
+  );
 
   const baseStandings: Standing[] = districtSchools.map((districtSchool) => ({
     schoolSlug: districtSchool.slug,
@@ -166,4 +162,18 @@ export function getStandingsForSchool(slug: string): Standing[] {
   });
 
   return sortStandings(baseStandings);
+}
+
+export function getStandingsForSchool(slug: string): Standing[] {
+  const school = getSchoolBySlug(slug);
+
+  if (!school) {
+    return [];
+  }
+
+  return buildStandingsForDistrict(school.districtId);
+}
+
+export function getStandingsForDistrictId(districtId: string): Standing[] {
+  return buildStandingsForDistrict(districtId);
 }
