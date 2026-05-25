@@ -1,13 +1,13 @@
 import Link from "next/link";
 import type { School, UILClassification } from "@/types/platform";
 import { getUpcomingGamesForSchool } from "@/lib/games";
+import { getSchoolBySlug } from "@/lib/schools";
 
 function formatClassification(classification: UILClassification) {
   if (!classification.division) return classification.conference;
 
-  return `${classification.conference} Division ${
-    classification.division === "D1" ? "I" : "II"
-  }`;
+  return `${classification.conference} Division ${classification.division === "D1" ? "I" : "II"
+    }`;
 }
 
 function formatRegion(region: 1 | 2 | 3 | 4) {
@@ -22,9 +22,7 @@ function formatRegion(region: 1 | 2 | 3 | 4) {
 function formatDistrictName(districtId: string) {
   const match = districtId.match(/district-(\d+)/i);
 
-  if (match?.[1]) {
-    return `District ${match[1]}`;
-  }
+  if (match?.[1]) return `District ${match[1]}`;
 
   return districtId
     .replaceAll("-", " ")
@@ -54,22 +52,33 @@ export default function SchoolHero({ school }: { school: School }) {
   const upcomingGames = getUpcomingGamesForSchool(school.slug);
   const nextGame = upcomingGames[0];
 
+  const nextAwaySchool = nextGame
+    ? getSchoolBySlug(nextGame.awaySchoolSlug)
+    : null;
+
+  const nextHomeSchool = nextGame
+    ? getSchoolBySlug(nextGame.homeSchoolSlug)
+    : null;
+
   const classification = formatClassification(school.classification);
   const region = formatRegion(school.uilRegion);
   const districtName = formatDistrictName(school.districtId);
+
+  const primary = school.colors.primary;
+  const secondary = school.colors.secondary;
 
   return (
     <section
       className="relative overflow-hidden border-b border-white/10 text-white"
       style={{
         background: `
-          radial-gradient(circle at top left, ${school.colors.primary}aa 0%, transparent 34%),
-          radial-gradient(circle at top right, ${school.colors.secondary}33 0%, transparent 32%),
-          linear-gradient(120deg, ${school.colors.primary}88 0%, #080808 48%, #000 100%)
-        `,
+  radial-gradient(circle at top left, ${primary}66 0%, transparent 36%),
+  radial-gradient(circle at top right, ${secondary}22 0%, transparent 34%),
+  linear-gradient(120deg, ${primary}44 0%, #080808 46%, #000 100%)
+`,
       }}
     >
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.7),rgba(0,0,0,0.1))]" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.72),rgba(0,0,0,0.16))]" />
 
       <div className="relative mx-auto grid min-h-[460px] max-w-[1440px] gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[1.18fr_0.82fr] lg:px-8">
         <div className="flex flex-col justify-between">
@@ -82,7 +91,14 @@ export default function SchoolHero({ school }: { school: School }) {
             </Link>
 
             <div className="mt-6 flex flex-wrap items-center gap-3">
-              <p className="inline-flex rounded bg-white/10 px-3 py-2 text-xs font-black uppercase tracking-[0.24em] text-white/75">
+              <p
+                className="inline-flex rounded px-3 py-2 text-xs font-black uppercase tracking-[0.24em] shadow-lg"
+                style={{
+                  backgroundColor: primary,
+                  color: secondary,
+                  border: `1px solid ${secondary}55`,
+                }}
+              >
                 VarsityVue School Hub
               </p>
 
@@ -92,15 +108,19 @@ export default function SchoolHero({ school }: { school: School }) {
             </div>
 
             <div className="mt-8 flex items-center gap-5">
-           <div className="flex h-24 w-24 items-center justify-center rounded-3xl border border-white/10 bg-white/10 text-2xl font-black text-white">
-  {school.abbreviation ?? school.name.slice(0, 2).toUpperCase()}
-</div>
+              <div
+                className="flex h-24 w-24 items-center justify-center rounded-3xl border text-2xl font-black shadow-2xl"
+                style={{
+                  backgroundColor: `${primary}dd`,
+                  color: secondary,
+                  borderColor: `${secondary}55`,
+                  boxShadow: `0 0 34px ${primary}55`,
+                }}
+              >
+                {school.abbreviation ?? school.name.slice(0, 2).toUpperCase()}
+              </div>
 
               <div>
-                <p className="text-sm font-black uppercase tracking-[0.2em] text-white/45">
-                  {school.mascot}
-                </p>
-
                 <h1 className="mt-2 text-5xl font-black leading-[0.95] tracking-tight sm:text-7xl">
                   {school.name}
                 </h1>
@@ -119,14 +139,22 @@ export default function SchoolHero({ school }: { school: School }) {
 
               <Link
                 href={`/districts/${school.districtId}`}
-                className="rounded-full border border-white/15 bg-white/10 px-5 py-3 text-sm font-black uppercase tracking-[0.12em] text-white transition hover:bg-white/15"
+                className="rounded-full border px-5 py-3 text-sm font-black uppercase tracking-[0.12em] text-white transition hover:bg-white/15"
+                style={{
+                  borderColor: `${secondary}44`,
+                  backgroundColor: "rgba(255,255,255,0.08)",
+                }}
               >
                 District Hub →
               </Link>
 
               <Link
                 href={`/schools/${school.slug}/schedule`}
-                className="rounded-full border border-white/15 bg-white/[0.08] px-5 py-3 text-sm font-black uppercase tracking-[0.12em] text-white transition hover:bg-white/15"
+                className="rounded-full border px-5 py-3 text-sm font-black uppercase tracking-[0.12em] text-white transition hover:bg-white/15"
+                style={{
+                  borderColor: `${secondary}44`,
+                  backgroundColor: "rgba(255,255,255,0.08)",
+                }}
               >
                 Full Schedule
               </Link>
@@ -142,20 +170,19 @@ export default function SchoolHero({ school }: { school: School }) {
 
         <div className="flex items-end">
           <div className="w-full rounded-[1.75rem] border border-white/10 bg-black/45 p-6 shadow-2xl backdrop-blur-sm">
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+            <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
               Next Matchup
             </p>
-
             {nextGame ? (
               <>
-                <h2 className="mt-4 text-3xl font-black leading-tight sm:text-4xl">
+                <h2 className="mt-4 max-w-[90%] text-3xl font-black leading-tight tracking-tight sm:text-4xl">
                   {nextGame.awayTeam} at {nextGame.homeTeam}
                 </h2>
 
                 <div className="mt-7 grid grid-cols-3 items-center gap-3 text-center">
-                  <TeamBadge team={nextGame.awayTeam} />
+                  <TeamBadge team={nextAwaySchool?.mascot ?? nextGame.awayTeam} />
                   <div className="text-2xl font-black text-white/30">VS</div>
-                  <TeamBadge team={nextGame.homeTeam} />
+                  <TeamBadge team={nextHomeSchool?.mascot ?? nextGame.homeTeam} />
                 </div>
 
                 <div className="mt-7 grid gap-3 sm:grid-cols-2">
@@ -174,7 +201,12 @@ export default function SchoolHero({ school }: { school: School }) {
 
                 <Link
                   href={`/games/${nextGame.id}`}
-                  className="mt-6 block rounded-xl border border-white/10 bg-white/10 px-5 py-4 text-center text-sm font-black uppercase tracking-[0.14em] transition hover:bg-white/15"
+                  className="mt-6 block rounded-xl border px-5 py-4 text-center text-sm font-black uppercase tracking-[0.14em] transition hover:bg-white/15"
+                  style={{
+                    borderColor: `${secondary}44`,
+                    backgroundColor: "rgba(255,255,255,0.08)",
+                    color: "white",
+                  }}
                 >
                   View Matchup →
                 </Link>

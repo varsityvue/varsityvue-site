@@ -22,10 +22,16 @@ export default function StandingsTable({
   theme,
 }: StandingsTableProps) {
   return (
-    <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:p-6">
+    <section
+      className="rounded-[1.75rem] border bg-white/[0.045] p-5 shadow-2xl sm:p-6"
+      style={{
+        borderColor: `${theme.secondary}22`,
+        boxShadow: `0 18px 55px ${theme.primary}14`,
+      }}
+    >
       <div className="mb-6 flex items-end justify-between gap-4">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+          <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
             District Race
           </p>
           <h2 className="mt-2 text-3xl font-black text-white">Standings</h2>
@@ -33,7 +39,11 @@ export default function StandingsTable({
 
         <Link
           href="/districts"
-          className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/65 transition hover:bg-white/10 hover:text-white"
+          className="rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/70 transition hover:bg-white/10 hover:text-white"
+          style={{
+            borderColor: `${theme.secondary}33`,
+            backgroundColor: "rgba(255,255,255,0.08)",
+          }}
         >
           Districts →
         </Link>
@@ -62,7 +72,7 @@ export default function StandingsTable({
           <table className="w-full min-w-[820px] border-collapse text-left">
             <thead
               style={{
-                background: `linear-gradient(90deg, ${theme.primary}88, #2a2a2a)`,
+                background: `linear-gradient(90deg, ${theme.primary}66, #2a2a2a)`,
               }}
             >
               <tr>
@@ -86,16 +96,23 @@ export default function StandingsTable({
                 return (
                   <tr
                     key={team.schoolSlug}
-                    className={`border-t border-white/10 transition hover:bg-white/[0.06] ${
-                      index < 4 ? "bg-[#7A1022]/10" : ""
-                    }`}
+                    className="border-t border-white/10 transition hover:bg-white/[0.06]"
+                    style={{
+                      backgroundColor:
+                        index < 4 ? `${theme.primary}18` : undefined,
+                    }}
                   >
                     <td className="px-5 py-4 font-black text-white">
                       <div className="flex items-center gap-2">
                         <span>#{index + 1}</span>
 
                         {index < 4 && (
-                          <span className="rounded-full border border-[#d65a6d]/30 bg-[#7A1022]/30 px-2 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-[#f3a3af]">
+                          <span
+                            className="rounded-full border bg-white/10 px-2 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-white/75"
+                            style={{
+                              borderColor: `${theme.secondary}33`,
+                            }}
+                          >
                             Playoff
                           </span>
                         )}
@@ -105,7 +122,7 @@ export default function StandingsTable({
                     <td className="px-5 py-4 font-black text-white">
                       <Link
                         href={`/schools/${team.schoolSlug}`}
-                        className="text-white transition hover:text-[#f07182]"
+                        className="text-white transition hover:text-white/70"
                       >
                         {team.team}
                       </Link>

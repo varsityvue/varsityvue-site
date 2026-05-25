@@ -33,10 +33,16 @@ export default function NewsFeed({ articles, theme }: NewsFeedProps) {
   const secondaryArticles = articles.slice(1, 4);
 
   return (
-    <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:p-6">
+    <section
+      className="rounded-[1.75rem] border bg-white/[0.045] p-5 shadow-2xl sm:p-6"
+      style={{
+        borderColor: `${theme.secondary}22`,
+        boxShadow: `0 18px 55px ${theme.primary}14`,
+      }}
+    >
       <div className="mb-6 flex items-end justify-between gap-4">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+          <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
             School Coverage
           </p>
           <h2 className="mt-2 text-3xl font-black text-white">
@@ -46,7 +52,11 @@ export default function NewsFeed({ articles, theme }: NewsFeedProps) {
 
         <Link
           href="/coverage"
-          className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/60 transition hover:bg-white/10 hover:text-white"
+          className="rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/70 transition hover:bg-white/10 hover:text-white"
+          style={{
+            borderColor: `${theme.secondary}33`,
+            backgroundColor: "rgba(255,255,255,0.08)",
+          }}
         >
           All Coverage →
         </Link>
@@ -84,7 +94,10 @@ export default function NewsFeed({ articles, theme }: NewsFeedProps) {
               />
 
               <div className="relative">
-                <p className="inline-flex rounded-full border border-white/10 bg-black/35 px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-[#d65a6d]">
+                <p
+                  className="inline-flex rounded-full border bg-black/35 px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-white/75"
+                  style={{ borderColor: `${theme.secondary}33` }}
+                >
                   {formatArticleType(featuredArticle.type)}
                 </p>
 
@@ -110,7 +123,7 @@ export default function NewsFeed({ articles, theme }: NewsFeedProps) {
                 />
 
                 <div className="mt-7 flex flex-wrap items-center gap-4">
-                  <p className="text-sm font-black uppercase tracking-[0.16em] text-[#d65a6d]">
+                  <p className="text-sm font-black uppercase tracking-[0.16em] text-white/70">
                     Read story →
                   </p>
 
@@ -128,9 +141,10 @@ export default function NewsFeed({ articles, theme }: NewsFeedProps) {
                 <Link
                   key={article.id}
                   href={`/coverage/${article.slug}`}
-                  className="rounded-2xl border border-white/10 bg-black/35 p-5 transition hover:bg-white/[0.07]"
+                  className="rounded-2xl border bg-black/35 p-5 transition hover:bg-white/[0.07]"
+                  style={{ borderColor: `${theme.secondary}22` }}
                 >
-                  <p className="text-xs font-black uppercase tracking-[0.18em] text-[#d65a6d]">
+                  <p className="text-xs font-black uppercase tracking-[0.18em] text-white/60">
                     {formatArticleType(article.type)}
                   </p>
 
@@ -148,7 +162,10 @@ export default function NewsFeed({ articles, theme }: NewsFeedProps) {
                 </Link>
               ))
             ) : (
-              <div className="rounded-2xl border border-white/10 bg-black/35 p-5">
+              <div
+                className="rounded-2xl border bg-black/35 p-5"
+                style={{ borderColor: `${theme.secondary}22` }}
+              >
                 <p className="font-black text-white">
                   More school coverage coming soon.
                 </p>

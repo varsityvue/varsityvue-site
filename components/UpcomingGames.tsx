@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { Game } from "../data/games";
+import type { Game } from "@/data/games";
 import type { SchoolTheme } from "../types/school-theme";
 
 type UpcomingGamesProps = {
@@ -36,20 +36,27 @@ export default function UpcomingGames({
   theme,
   schoolSlug,
 }: UpcomingGamesProps) {
-const visibleGames = games
-  .filter((game) => game.gameType !== "bye")
-  .slice(1, 5);
+  const visibleGames = games
+    .filter((game) => game.gameType !== "bye")
+    .slice(1, 5);
 
   const featuredGame = visibleGames[0];
   const remainingGames = visibleGames.slice(1, 4);
 
   return (
-    <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:p-6">
+    <section
+      className="rounded-[1.75rem] border bg-white/[0.045] p-5 shadow-2xl sm:p-6"
+      style={{
+        borderColor: `${theme.secondary}22`,
+        boxShadow: `0 18px 55px ${theme.primary}14`,
+      }}
+    >
       <div className="mb-6 flex items-end justify-between gap-4">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+          <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
             Schedule Snapshot
           </p>
+
           <h2 className="mt-2 text-3xl font-black text-white">
             Upcoming Games
           </h2>
@@ -57,7 +64,12 @@ const visibleGames = games
 
         <Link
           href={`/schools/${schoolSlug}/schedule`}
-          className="hidden rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/60 transition hover:bg-white/10 hover:text-white sm:inline-flex"
+          className="hidden rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.14em] transition hover:brightness-110 sm:inline-flex"
+          style={{
+            borderColor: `${theme.secondary}33`,
+            backgroundColor: "rgba(255,255,255,0.08)",
+            color: "white",
+          }}
         >
           Full Schedule →
         </Link>
@@ -96,10 +108,12 @@ const visibleGames = games
 
               <div className="relative">
                 <div className="flex flex-wrap items-center gap-2">
-                  <Badge label={getGameLabel(featuredGame)} />
-                  {featuredGame.districtGame && <Badge label="District" />}
+                  <Badge label={getGameLabel(featuredGame)} theme={theme} />
+                  {featuredGame.districtGame && (
+                    <Badge label="District" theme={theme} />
+                  )}
                   {featuredGame.specialEvent && (
-                    <Badge label={featuredGame.specialEvent} />
+                    <Badge label={featuredGame.specialEvent} theme={theme} />
                   )}
                 </div>
 
@@ -121,7 +135,10 @@ const visibleGames = games
                   <InfoCard label="Venue" value={featuredGame.venue} />
                 </div>
 
-                <p className="mt-6 text-sm font-black uppercase tracking-[0.16em] text-[#d65a6d]">
+                <p
+                  className="mt-6 text-sm font-black uppercase tracking-[0.16em]"
+                  style={{ color: theme.secondary }}
+                >
                   View matchup →
                 </p>
               </div>
@@ -133,15 +150,16 @@ const visibleGames = games
               <Link
                 key={game.id}
                 href={`/games/${game.id}`}
-                className="rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
+                className="rounded-2xl border bg-black/35 p-4 transition hover:bg-white/10"
+                style={{ borderColor: `${theme.secondary}22` }}
               >
                 <div className="flex items-center justify-between gap-3">
-                  <p className="text-xs font-black uppercase tracking-[0.18em] text-white/40">
+                  <p className="text-xs font-black uppercase tracking-[0.18em] text-white/45">
                     {getGameLabel(game)}
                     {game.districtGame ? " · District" : ""}
                   </p>
 
-                  <p className="text-xs font-bold text-white/40">
+                  <p className="text-xs font-bold text-white/45">
                     {formatGameDate(game.kickoff)}
                   </p>
                 </div>
@@ -156,7 +174,12 @@ const visibleGames = games
 
             <Link
               href={`/schools/${schoolSlug}/schedule`}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white/65 transition hover:bg-white/10 hover:text-white sm:hidden"
+              className="rounded-2xl border p-4 text-center text-sm font-black uppercase tracking-[0.16em] transition hover:brightness-110 sm:hidden"
+              style={{
+                borderColor: `${theme.secondary}33`,
+                backgroundColor: "rgba(255,255,255,0.08)",
+                color: "white",
+              }}
             >
               View full schedule →
             </Link>
@@ -167,9 +190,18 @@ const visibleGames = games
   );
 }
 
-function Badge({ label }: { label: string }) {
+function Badge({
+  label,
+  theme,
+}: {
+  label: string;
+  theme: SchoolTheme;
+}) {
   return (
-    <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-black uppercase tracking-[0.12em] text-white/70">
+    <span
+      className="rounded-full border bg-white/10 px-3 py-1 text-xs font-black uppercase tracking-[0.12em] text-white/75"
+      style={{ borderColor: `${theme.secondary}22` }}
+    >
       {label}
     </span>
   );

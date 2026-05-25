@@ -226,10 +226,7 @@ export default function Home() {
       <section className="px-4 pb-5 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-[1440px] gap-4 lg:grid-cols-[0.95fr_1.05fr]">
           {featuredSchool && (
-            <Link
-              href={`/schools/${featuredSchool.slug}`}
-              className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 shadow-2xl transition hover:-translate-y-1 hover:bg-white/[0.07]"
-            >
+            <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 shadow-2xl">
               <div
                 className="absolute inset-0 opacity-45"
                 style={{
@@ -278,7 +275,7 @@ export default function Home() {
                   <FeatureLink href="/coverage" label="Coverage" />
                 </div>
               </div>
-            </Link>
+            </div>
           )}
 
           <div className="rounded-[2rem] border border-[color:var(--vv-primary)] bg-gradient-to-r from-[var(--vv-primary)]/45 via-black to-black p-6 shadow-2xl">

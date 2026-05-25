@@ -15,7 +15,7 @@ export default function DistrictsPage() {
       <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.62),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-[1440px]">
           <div className="rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl md:p-8">
-            <p className="text-xs font-black uppercase tracking-[0.32em] text-[var(--vv-accent)]">
+            <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-white/70">
               VarsityVue District Directory
             </p>
 
@@ -60,7 +60,7 @@ export default function DistrictsPage() {
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(139,16,32,0.4),transparent_55%)] opacity-40 transition group-hover:opacity-70" />
 
               <div className="relative">
-                <p className="text-xs font-black uppercase tracking-[0.22em] text-[var(--vv-accent)]">
+                <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-white/65">
                   District Hub
                 </p>
 
@@ -76,7 +76,7 @@ export default function DistrictsPage() {
                   • Region {district.uilRegion}
                 </p>
 
-                <p className="mt-6 text-sm font-black uppercase tracking-[0.14em] text-[var(--vv-accent)]">
+                <p className="mt-6 text-sm font-black uppercase tracking-[0.14em] text-white/70 transition group-hover:text-white">
                   View district hub →
                 </p>
               </div>

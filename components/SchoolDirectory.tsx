@@ -7,9 +7,8 @@ import type { School, UILClassification } from "@/types/platform";
 function formatClassification(classification: UILClassification) {
   if (!classification.division) return classification.conference;
 
-  return `${classification.conference} Division ${
-    classification.division === "D1" ? "I" : "II"
-  }`;
+  return `${classification.conference} Division ${classification.division === "D1" ? "I" : "II"
+    }`;
 }
 
 function formatDistrictName(districtId: string) {
@@ -86,7 +85,7 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
       <section className="mb-8 rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:p-6">
         <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
+            <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
               Search Database
             </p>
 
@@ -174,7 +173,7 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
               <Link
                 key={school.slug}
                 href={`/schools/${school.slug}`}
-                className="group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-xl transition-all duration-200 hover:-translate-y-1 hover:border-[color:var(--vv-accent)] hover:bg-white/[0.075]"
+                className="group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-xl transition-all duration-200 hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.075]"
                 style={{
                   boxShadow: `0 18px 50px ${school.colors.primary}12`,
                 }}
@@ -199,12 +198,12 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
                         school.name.slice(0, 2).toUpperCase()}
                     </div>
 
-                    <span className="rounded-full border border-[color:var(--vv-accent)]/30 bg-[var(--vv-primary)]/20 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-[var(--vv-accent-soft)]">
+                    <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-white/70">
                       {formatStatus(school.status)}
                     </span>
                   </div>
 
-                  <h2 className="text-2xl font-black leading-tight text-white transition group-hover:text-[var(--vv-accent)]">
+                  <h2 className="text-2xl font-black leading-tight text-white transition group-hover:text-white/80">
                     {school.name}
                   </h2>
 
@@ -227,11 +226,11 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
                   </div>
 
                   <div className="mt-6 flex items-center justify-between gap-4">
-                    <p className="text-sm font-black uppercase tracking-[0.14em] text-[var(--vv-accent)]">
+                    <p className="text-sm font-black uppercase tracking-[0.14em] text-white/70 transition group-hover:text-white">
                       View school hub
                     </p>
 
-                    <span className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm font-black text-white/50 transition group-hover:bg-[var(--vv-primary)]/30 group-hover:text-white">
+                    <span className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm font-black text-white/50 transition group-hover:bg-white/10 group-hover:text-white">
                       →
                     </span>
                   </div>
@@ -260,14 +259,15 @@ function FilterButton({
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-full border px-4 py-2 text-sm font-black transition ${
-        active
-          ? "border-[color:var(--vv-accent)] bg-[var(--vv-primary)]/40 text-white shadow-[0_0_24px_rgba(139,16,32,0.22)]"
-          : "border-white/10 bg-black/30 text-white/60 hover:bg-white/10 hover:text-white"
-      }`}
+      className={`rounded-full border px-4 py-2 text-sm font-black transition ${active
+        ? "border-white/20 bg-white text-black shadow-[0_0_24px_rgba(255,255,255,0.12)]"
+        : "border-white/10 bg-black/30 text-white/60 hover:bg-white/10 hover:text-white"
+        }`}
     >
       {label}
-      <span className="ml-2 text-white/40">{count}</span>
+      <span className={`ml-2 ${active ? "text-black/45" : "text-white/40"}`}>
+        {count}
+      </span>
     </button>
   );
 }

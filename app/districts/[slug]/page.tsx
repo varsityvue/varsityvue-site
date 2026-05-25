@@ -129,13 +129,13 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
         <div className="mx-auto max-w-[1440px]">
           <Link
             href="/districts"
-            className="text-sm font-black uppercase tracking-[0.14em] text-[var(--vv-accent)] transition hover:text-white"
+            className="text-sm font-black uppercase tracking-[0.14em] text-white/60 transition hover:text-white"
           >
             ← Back to Districts
           </Link>
 
           <div className="mt-6 rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl md:p-8">
-            <p className="text-xs font-black uppercase tracking-[0.32em] text-[var(--vv-accent)]">
+            <p className="text-xs font-black uppercase tracking-[0.32em] text-white/70">
               VarsityVue District Hub
             </p>
 
@@ -155,7 +155,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
                   district ecosystem.
                 </p>
                 <div className="mt-6 rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
-                  <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--vv-accent)]">
+                  <p className="text-xs font-black uppercase tracking-[0.24em] text-white/70">
                     District Race
                   </p>
 
@@ -172,7 +172,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
 
               <Link
                 href="/sponsor-inquiry"
-                className="rounded-xl border border-[color:var(--vv-accent)]/30 bg-[var(--vv-primary)]/25 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-[var(--vv-accent-soft)] transition hover:bg-[var(--vv-primary)]/40 hover:text-white"
+                className="rounded-xl border border-white/15 bg-white/[0.08] px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
               >
                 Sponsor District
               </Link>
@@ -194,7 +194,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
             <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:p-6">
               <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                  <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
+                  <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
                     District Race
                   </p>
                   <h2 className="mt-2 text-3xl font-black text-white">
@@ -228,14 +228,14 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
                       return (
                         <tr
                           key={team.schoolSlug}
-                          className={`border-t border-white/10 transition hover:bg-white/[0.06] ${index < 4 ? "bg-[var(--vv-primary)]/10" : ""
+                          className={`border-t border-white/10 transition hover:bg-white/[0.06] ${index < 4 ? "bg-white/[0.045]" : ""
                             }`}
                         >
                           <td className="px-4 py-4 font-black text-white">
                             <div className="flex items-center gap-2">
                               <span>#{index + 1}</span>
                               {index < 4 && (
-                                <span className="rounded-full border border-[color:var(--vv-accent)]/30 bg-[#7A1022]/30 px-2 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-[var(--vv-accent-soft)]">
+                                <span className="rounded-full border border-white/15 bg-white/10 px-2 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-white/70">
                                   Playoff
                                 </span>
                               )}
@@ -245,7 +245,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
                           <td className="px-4 py-4 font-black text-white">
                             <Link
                               href={`/schools/${team.schoolSlug}`}
-                              className="hover:text-[var(--vv-accent)]"
+                              className="hover:text-white/70"
                             >
                               {team.team}
                             </Link>
@@ -282,7 +282,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
             <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:p-6">
               <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                  <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
+                  <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
                     District Schools
                   </p>
                   <h2 className="mt-2 text-3xl font-black text-white">
@@ -292,7 +292,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
 
                 <Link
                   href="/schools"
-                  className="text-sm font-black uppercase tracking-[0.14em] text-[var(--vv-accent)] transition hover:text-white"
+                  className="text-sm font-black uppercase tracking-[0.14em] text-white/60 transition hover:text-white"
                 >
                   View all schools →
                 </Link>
@@ -338,7 +338,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
 
           <aside className="space-y-6">
             <section className="rounded-[1.75rem] border border-[color:var(--vv-primary)]/40 bg-gradient-to-br from-[var(--vv-primary)]/45 via-black to-black p-6 shadow-2xl">
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent-soft)]">
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
                 District Sponsor
               </p>
 
@@ -362,7 +362,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
             </section>
 
             <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
                 District Games
               </p>
 
@@ -400,7 +400,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
             </section>
 
             <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
                 Legacy
               </p>
 

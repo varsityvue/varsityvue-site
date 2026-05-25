@@ -62,19 +62,26 @@ export default function GamesPage() {
     <main className="min-h-screen bg-[var(--vv-bg)] text-white">
       <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.62),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-[1440px]">
-          <section className="rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl md:p-10">
+          <section
+            className="rounded-[2rem] border border-white/10 p-6 shadow-2xl md:p-8"
+            style={{
+              background: `
+      radial-gradient(circle at top left, rgba(139,16,32,0.42), transparent 42%),
+      radial-gradient(circle at bottom right, rgba(139,16,32,0.16), transparent 46%),
+      rgba(255,255,255,0.045)
+    `,
+            }}
+          >
             <p className="text-xs font-black uppercase tracking-[0.32em] text-[var(--vv-accent)]">
               VarsityVue Games
             </p>
 
-            <h1 className="mt-4 max-w-5xl text-5xl font-black leading-tight tracking-tight sm:text-7xl">
-              Texas High School Football Schedule + Scores
+            <h1 className="mt-4 max-w-5xl text-4xl font-black leading-tight tracking-tight sm:text-6xl">
+              VarsityVue Football Scores + Schedule
             </h1>
 
             <p className="mt-6 max-w-3xl text-base leading-7 text-white/60 sm:text-lg">
-              Upcoming matchups, live score tracking, final results, district
-              games, featured previews, and Friday night coverage across the
-              VarsityVue ecosystem.
+              Schedules, live scores, featured matchups, district games, and game-week coverage across the VarsityVue ecosystem.
             </p>
 
             <div className="mt-7 flex flex-wrap gap-3">
@@ -87,10 +94,10 @@ export default function GamesPage() {
           </section>
 
           <section className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <StatCard label="Games" value={regularGames.length.toString()} />
-            <StatCard label="Live" value={liveGames.length.toString()} />
-            <StatCard label="Finals" value={finalGames.length.toString()} />
-            <StatCard label="District" value={districtGames.length.toString()} />
+            <StatCard label="Total Games" value={regularGames.length.toString()} />
+            <StatCard label="Live Now" value={liveGames.length.toString()} />
+            <StatCard label="Final Scores" value={finalGames.length.toString()} />
+            <StatCard label="District Games" value={districtGames.length.toString()} />
           </section>
         </div>
       </section>
@@ -147,12 +154,11 @@ export default function GamesPage() {
                     </p>
 
                     <h3 className="mt-3 text-3xl font-black">
-                      Sponsor visibility lives here.
+                      Own this featured matchup.
                     </h3>
 
                     <p className="mt-3 text-sm leading-6 text-white/55">
-                      Featured game placement, school hub traffic, schedule page
-                      clicks, and matchup page visibility.
+                      Put your business in front of fans before kickoff, during game week, and on the matchup page.
                     </p>
                   </div>
 
@@ -181,7 +187,7 @@ export default function GamesPage() {
               <p className="text-sm font-bold text-white/45">
                 {liveGames.length > 0
                   ? `${liveGames.length} live`
-                  : "Live updates coming soon"}
+                  : "Live scoring coming soon"}
               </p>
             </div>
 
@@ -333,11 +339,10 @@ function FilterPill({
 }) {
   return (
     <span
-      className={`rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.14em] ${
-        active
-          ? "border-white/20 bg-white text-black"
-          : "border-white/10 bg-white/5 text-white/60"
-      }`}
+      className={`rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.14em] ${active
+        ? "border-white/20 bg-white text-black"
+        : "border-white/10 bg-white/5 text-white/60"
+        }`}
     >
       {label}
     </span>

@@ -33,26 +33,38 @@ export default function LegacyPage() {
           </h1>
 
           <p className="mt-6 max-w-3xl text-lg leading-8 text-white/65">
-            Legacy will bring historical records, rivalry data, playoff runs,
-            notable teams, district championships, and community-submitted
-            history to select pilot schools.
+            Legacy will preserve playoff runs, rivalry history, district titles,
+            unforgettable teams, and community-submitted football history for
+            select pilot schools.
           </p>
 
-          <p className="mt-4 max-w-3xl text-base font-semibold leading-7 text-white/55">
-            Because Friday night memories deserve more than a Facebook post.
-          </p>
+          <div className="mt-8 rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
+            <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--vv-accent)]">
+              Friday Night Memories
+            </p>
+
+            <h2 className="mt-3 text-3xl font-black text-white md:text-4xl">
+              Because Friday night memories deserve more than a forgotten post.
+            </h2>
+
+            <p className="mt-3 max-w-3xl text-sm leading-6 text-white/60">
+              Legacy is built for former players, proud parents, alumni, and
+              communities who still remember district title runs, bitter rivalry
+              losses, miracle finishes, and seasons people still talk about.
+            </p>
+          </div>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
               href="/schools"
-              className="rounded-full bg-[var(--vv-primary)] px-7 py-4 text-center font-bold transition hover:bg-[var(--vv-primary-hover)]"
+              className="rounded-full bg-[var(--vv-primary)] px-7 py-4 text-center font-black transition hover:bg-[var(--vv-primary-hover)]"
             >
               Explore Pilot Programs
             </Link>
 
             <Link
               href="/sponsor-inquiry"
-              className="rounded-full border border-white/20 bg-white/5 px-7 py-4 text-center font-bold transition hover:bg-white/10"
+              className="rounded-full border border-white/20 bg-white/5 px-7 py-4 text-center font-black transition hover:bg-white/10"
             >
               Become Founding Legacy Sponsor
             </Link>
@@ -63,7 +75,7 @@ export default function LegacyPage() {
           {legacyFeatures.map((feature) => (
             <div
               key={feature}
-              className="rounded-3xl border border-white/10 bg-white/5 p-6"
+              className="rounded-3xl border border-white/10 bg-white/5 p-6 transition hover:border-[color:var(--vv-accent)]/30 hover:bg-white/10"
             >
               <p className="text-lg font-black">{feature}</p>
             </div>
@@ -71,6 +83,32 @@ export default function LegacyPage() {
         </section>
 
         <section className="mt-10 rounded-3xl border border-[color:var(--vv-primary)] bg-[var(--vv-primary)]/10 p-6 md:p-10">
+          <div className="flex flex-col justify-between gap-5 md:flex-row md:items-center">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
+                Founding Opportunity
+              </p>
+
+              <h2 className="mt-3 text-4xl font-black">
+                Own the historical conversation.
+              </h2>
+
+              <p className="mt-3 max-w-2xl leading-7 text-white/65">
+                Legacy creates emotionally sticky sponsor inventory tied to
+                school pride, nostalgia, and repeat community engagement.
+              </p>
+            </div>
+
+            <Link
+              href="/sponsor-inquiry"
+              className="rounded-full bg-white px-7 py-4 text-center font-black text-black transition hover:bg-white/85"
+            >
+              Sponsor Legacy
+            </Link>
+          </div>
+        </section>
+
+        <section className="mt-10 rounded-3xl border border-white/10 bg-white/5 p-6 md:p-10">
           <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
             Pilot Archive Targets
           </p>
@@ -78,6 +116,12 @@ export default function LegacyPage() {
           <h2 className="mt-3 text-4xl font-black">
             Select schools will receive deeper historical pages first.
           </h2>
+
+          <p className="mt-4 max-w-3xl leading-7 text-white/60">
+            Pilot archive pages will eventually include rivalry records, playoff
+            timelines, milestone seasons, notable alumni moments, and
+            community-submitted historical preservation.
+          </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
             {pilotSchools.map((school) => (

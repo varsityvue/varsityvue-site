@@ -20,10 +20,9 @@ export default function SchoolsPage() {
   const classifications = new Set(
     schools.map(
       (school) =>
-        `${school.classification.conference}${
-          school.classification.division
-            ? ` ${school.classification.division}`
-            : ""
+        `${school.classification.conference}${school.classification.division
+          ? ` ${school.classification.division}`
+          : ""
         }`
     )
   );
@@ -33,7 +32,7 @@ export default function SchoolsPage() {
       <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.62),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-[1440px]">
           <div className="rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl md:p-8">
-            <p className="text-xs font-black uppercase tracking-[0.32em] text-[var(--vv-accent)]">
+            <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
               VarsityVue Directory
             </p>
 
@@ -80,7 +79,7 @@ export default function SchoolsPage() {
         <div className="mx-auto max-w-[1440px]">
           <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
                 School Hubs
               </p>
 

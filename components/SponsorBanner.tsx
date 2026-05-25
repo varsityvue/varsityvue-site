@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { SchoolTheme } from "../types/school-theme";
-import { getSchoolSponsors } from "../data/sponsors";
+import { getSponsors } from "@/lib/sponsors";
 
 type SponsorBannerProps = {
   theme: SchoolTheme;
@@ -11,7 +11,9 @@ export default function SponsorBanner({
   theme,
   schoolId,
 }: SponsorBannerProps) {
-  const schoolSponsors = getSchoolSponsors(schoolId);
+  const schoolSponsors = getSponsors().filter((sponsor) =>
+    sponsor.schoolIds?.includes(schoolId)
+  );
   const primarySponsor = schoolSponsors[0];
   const supportingSponsors = schoolSponsors.slice(1, 4);
 
@@ -33,7 +35,7 @@ export default function SponsorBanner({
 
         <div className="relative grid gap-0 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="p-6 sm:p-8">
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+            <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
               Premium Sponsor Placement
             </p>
 
@@ -56,7 +58,12 @@ export default function SponsorBanner({
           <div className="flex items-center justify-center border-t border-white/10 p-6 lg:border-l lg:border-t-0">
             <Link
               href="/sponsor-inquiry"
-              className="rounded-xl border border-white/15 bg-white/10 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
+              className="rounded-xl border px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] transition hover:brightness-110"
+              style={{
+                borderColor: `${theme.secondary}44`,
+                backgroundColor: `${theme.primary}cc`,
+                color: theme.secondary,
+              }}
             >
               Claim This Placement →
             </Link>
@@ -87,7 +94,7 @@ export default function SponsorBanner({
           target={primarySponsor.website ? "_blank" : undefined}
           className="block p-6 transition hover:bg-white/[0.05] sm:p-8"
         >
-          <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+          <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
             Presented By
           </p>
 
@@ -101,9 +108,9 @@ export default function SponsorBanner({
           </p>
 
           <div className="mt-6 flex flex-wrap gap-3">
-            <Badge label="School Hub Sponsor" />
-            <Badge label="Game Week Visibility" />
-            <Badge label="Community Reach" />
+            <Badge label="School Hub Sponsor" theme={theme} />
+            <Badge label="Game Week Visibility" theme={theme} />
+            <Badge label="Community Reach" theme={theme} />
           </div>
 
           <p
@@ -115,7 +122,10 @@ export default function SponsorBanner({
         </Link>
 
         <div className="border-t border-white/10 p-6 lg:border-l lg:border-t-0">
-          <p className="text-xs font-black uppercase tracking-[0.24em] text-white/45">
+          <p
+            className="text-xs font-black uppercase tracking-[0.24em]"
+            style={{ color: `${theme.secondary}bb` }}
+          >
             Supporting Sponsors
           </p>
 
@@ -126,7 +136,8 @@ export default function SponsorBanner({
                   key={sponsor.id}
                   href={sponsor.website || "/sponsors"}
                   target={sponsor.website ? "_blank" : undefined}
-                  className="block rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
+                  className="block rounded-2xl border bg-black/35 p-4 transition hover:bg-white/10"
+                  style={{ borderColor: `${theme.secondary}22` }}
                 >
                   <p className="font-black text-white">{sponsor.name}</p>
                   <p className="mt-1 text-xs uppercase tracking-[0.16em] text-white/40">
@@ -135,7 +146,10 @@ export default function SponsorBanner({
                 </Link>
               ))
             ) : (
-              <div className="rounded-2xl border border-white/10 bg-black/35 p-4">
+              <div
+                className="rounded-2xl border bg-black/35 p-4"
+                style={{ borderColor: `${theme.secondary}22` }}
+              >
                 <p className="font-black text-white">
                   Supporting placements available
                 </p>
@@ -151,9 +165,18 @@ export default function SponsorBanner({
   );
 }
 
-function Badge({ label }: { label: string }) {
+function Badge({
+  label,
+  theme,
+}: {
+  label: string;
+  theme: SchoolTheme;
+}) {
   return (
-    <div className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/65">
+    <div
+      className="rounded-full border bg-white/5 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/70"
+      style={{ borderColor: `${theme.secondary}22` }}
+    >
       {label}
     </div>
   );
