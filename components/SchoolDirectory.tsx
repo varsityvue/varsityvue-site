@@ -86,7 +86,7 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
       <section className="mb-8 rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:p-6">
         <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+            <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
               Search Database
             </p>
 
@@ -106,7 +106,7 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
             placeholder="Find your school, mascot, abbreviation, district, classification, or stadium..."
             value={search}
             onChange={(event) => setSearch(event.target.value)}
-            className="w-full rounded-2xl border border-white/10 bg-black/55 px-5 py-4 text-sm font-bold text-white outline-none transition placeholder:text-white/35 focus:border-[#d65a6d]/50 focus:bg-black/75"
+            className="w-full rounded-2xl border border-white/10 bg-black/55 px-5 py-4 text-sm font-bold text-white outline-none transition placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:bg-black/75"
           />
         </div>
 
@@ -174,7 +174,7 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
               <Link
                 key={school.slug}
                 href={`/schools/${school.slug}`}
-                className="group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-xl transition-all duration-200 hover:-translate-y-1 hover:border-[#d65a6d]/40 hover:bg-white/[0.075]"
+                className="group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-xl transition-all duration-200 hover:-translate-y-1 hover:border-[color:var(--vv-accent)] hover:bg-white/[0.075]"
                 style={{
                   boxShadow: `0 18px 50px ${school.colors.primary}12`,
                 }}
@@ -199,12 +199,12 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
                         school.name.slice(0, 2).toUpperCase()}
                     </div>
 
-                    <span className="rounded-full border border-[#d65a6d]/30 bg-[#7A1022]/20 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-[#f3a3af]">
+                    <span className="rounded-full border border-[color:var(--vv-accent)]/30 bg-[var(--vv-primary)]/20 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-[var(--vv-accent-soft)]">
                       {formatStatus(school.status)}
                     </span>
                   </div>
 
-                  <h2 className="text-2xl font-black leading-tight text-white transition group-hover:text-[#f07182]">
+                  <h2 className="text-2xl font-black leading-tight text-white transition group-hover:text-[var(--vv-accent)]">
                     {school.name}
                   </h2>
 
@@ -227,11 +227,11 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
                   </div>
 
                   <div className="mt-6 flex items-center justify-between gap-4">
-                    <p className="text-sm font-black uppercase tracking-[0.14em] text-[#d65a6d]">
+                    <p className="text-sm font-black uppercase tracking-[0.14em] text-[var(--vv-accent)]">
                       View school hub
                     </p>
 
-                    <span className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm font-black text-white/50 transition group-hover:bg-[#7A1022]/30 group-hover:text-white">
+                    <span className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm font-black text-white/50 transition group-hover:bg-[var(--vv-primary)]/30 group-hover:text-white">
                       →
                     </span>
                   </div>
@@ -262,7 +262,7 @@ function FilterButton({
       onClick={onClick}
       className={`rounded-full border px-4 py-2 text-sm font-black transition ${
         active
-          ? "border-[#d65a6d]/50 bg-[#7A1022]/40 text-white shadow-[0_0_24px_rgba(122,16,34,0.22)]"
+          ? "border-[color:var(--vv-accent)] bg-[var(--vv-primary)]/40 text-white shadow-[0_0_24px_rgba(139,16,32,0.22)]"
           : "border-white/10 bg-black/30 text-white/60 hover:bg-white/10 hover:text-white"
       }`}
     >

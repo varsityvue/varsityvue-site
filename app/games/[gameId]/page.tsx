@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { getGameById } from "../../../data/games";
-import { getSchoolBySlug } from "../../../data/schools";
-import { getGameSponsors } from "../../../data/sponsors";
+import { getGameById } from "@/lib/games";
+import { getSchoolBySlug } from "@/lib/schools";
+import { getGameSponsors } from "@/lib/sponsors";
 import { getDistrictById } from "@/lib/districts";
 
 type GamePageProps = {
@@ -79,15 +79,13 @@ export default async function GamePage({ params }: GamePageProps) {
     notFound();
   }
 
-const homeSchool = getSchoolBySlug(game.homeSchoolSlug);
-const awaySchool = getSchoolBySlug(game.awaySchoolSlug);
+  const homeSchool = getSchoolBySlug(game.homeSchoolSlug);
+  const awaySchool = getSchoolBySlug(game.awaySchoolSlug);
 
-const district = homeSchool
-  ? getDistrictById(homeSchool.districtId)
-  : null;
+  const district = homeSchool ? getDistrictById(homeSchool.districtId) : null;
 
-const primaryColor = homeSchool?.colors.primary ?? "#7A1022";
-const secondaryColor = homeSchool?.colors.secondary ?? "#8B1020";
+  const primaryColor = homeSchool?.colors.primary ?? "#8B1020";
+  const secondaryColor = homeSchool?.colors.secondary ?? "#F4EBDD";
 
   const sponsorSchoolId = homeSchool?.id ?? awaySchool?.id;
   const gameSponsors = sponsorSchoolId ? getGameSponsors(sponsorSchoolId) : [];
@@ -135,7 +133,7 @@ const secondaryColor = homeSchool?.colors.secondary ?? "#8B1020";
   };
 
   return (
-    <main className="min-h-screen bg-[#050505] text-white">
+    <main className="min-h-screen bg-[var(--vv-bg)] text-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -158,7 +156,7 @@ const secondaryColor = homeSchool?.colors.secondary ?? "#8B1020";
             href="/scoreboard"
             className="text-sm font-black uppercase tracking-[0.14em] text-white/55 transition hover:text-white"
           >
-            ← Back to Games
+            ← Back to Scoreboard
           </Link>
 
           <div className="mt-6 rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl md:p-8">
@@ -237,7 +235,7 @@ const secondaryColor = homeSchool?.colors.secondary ?? "#8B1020";
         <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[1.35fr_0.75fr]">
           <div className="space-y-6">
             <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
                 Game Preview
               </p>
 
@@ -253,7 +251,7 @@ const secondaryColor = homeSchool?.colors.secondary ?? "#8B1020";
             </section>
 
             <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
                 Matchup Notes
               </p>
 
@@ -275,8 +273,8 @@ const secondaryColor = homeSchool?.colors.secondary ?? "#8B1020";
           </div>
 
           <aside className="space-y-6">
-            <section className="rounded-[1.75rem] border border-[#7A1022]/40 bg-gradient-to-br from-[#7A1022]/45 via-black to-black p-6 shadow-2xl">
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-[#f3a3af]">
+            <section className="rounded-[1.75rem] border border-[color:var(--vv-primary)]/40 bg-gradient-to-br from-[var(--vv-primary)]/45 via-black to-black p-6 shadow-2xl">
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent-soft)]">
                 Game Sponsor
               </p>
 
@@ -300,7 +298,7 @@ const secondaryColor = homeSchool?.colors.secondary ?? "#8B1020";
             </section>
 
             <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
                 Quick Links
               </p>
 
@@ -320,13 +318,13 @@ const secondaryColor = homeSchool?.colors.secondary ?? "#8B1020";
                 )}
 
                 {district && (
-  <LinkButton
-    href={`/districts/${district.slug}`}
-    label="District Hub"
-  />
-)}
+                  <LinkButton
+                    href={`/districts/${district.slug}`}
+                    label="District Hub"
+                  />
+                )}
 
-               <LinkButton href="/scoreboard" label="Scoreboard" />
+                <LinkButton href="/scoreboard" label="Scoreboard" />
               </div>
             </section>
           </aside>
@@ -364,17 +362,17 @@ function TeamBlock({
           align === "right" ? "lg:flex-row-reverse" : ""
         }`}
       >
-    <div
-  className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl border border-white/10 text-xl font-black text-white shadow-xl"
-  style={{
-    backgroundColor: school
-      ? `${school.colors.primary}cc`
-      : "rgba(255,255,255,0.1)",
-    color: school?.colors.secondary ?? "#ffffff",
-  }}
->
-  {school?.abbreviation ?? team.slice(0, 2).toUpperCase()}
-</div>
+        <div
+          className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl border border-white/10 text-xl font-black text-white shadow-xl"
+          style={{
+            backgroundColor: school
+              ? `${school.colors.primary}cc`
+              : "rgba(255,255,255,0.1)",
+            color: school?.colors.secondary ?? "#ffffff",
+          }}
+        >
+          {school?.abbreviation ?? team.slice(0, 2).toUpperCase()}
+        </div>
 
         <div>
           <h2 className="text-3xl font-black leading-tight text-white">
@@ -399,6 +397,7 @@ function TeamBlock({
 
   return <Link href={`/schools/${school.slug}`}>{content}</Link>;
 }
+
 function InfoCard({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-black/35 p-4">

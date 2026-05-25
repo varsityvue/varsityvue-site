@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getFootballRankings } from "@/data/rankings";
-import { schools } from "@/data/schools";
+import { getFootballRankings } from "@/lib/rankings";
+import { getSchoolById } from "@/lib/schools";
 
 export const metadata: Metadata = {
   title: "Texas High School Football Rankings | VarsityVue",
@@ -17,18 +17,14 @@ const methodology = [
   "Editorial review",
 ];
 
-function getSchoolById(id: string) {
-  return schools.find((school) => school.id === id);
-}
-
 export default function RankingsPage() {
   const rankings = getFootballRankings();
 
   return (
-    <main className="min-h-screen bg-black px-4 py-14 text-white sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-[var(--vv-bg)] px-4 py-14 text-white sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <section className="rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.45),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-6 md:p-10">
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-[#d65a6d]">
+        <section className="rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.45),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-6 md:p-10">
+          <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
             VarsityVue Rankings
           </p>
 
@@ -42,10 +38,10 @@ export default function RankingsPage() {
           </p>
         </section>
 
-        <section className="mt-10 rounded-3xl border border-[#7A1022]/30 bg-[#7A1022]/10 p-6 md:p-8">
+        <section className="mt-10 rounded-3xl border border-[color:var(--vv-primary)]/30 bg-[var(--vv-primary)]/10 p-6 md:p-8">
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-center">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.3em] text-[#d65a6d]">
+              <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
                 Sponsor Slot
               </p>
 
@@ -71,7 +67,7 @@ export default function RankingsPage() {
         <section className="mt-10">
           <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.3em] text-[#d65a6d]">
+              <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
                 Football
               </p>
 
@@ -97,9 +93,9 @@ export default function RankingsPage() {
                 <Link
                   key={entry.id}
                   href={`/schools/${school.slug}`}
-                  className="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-5 transition hover:-translate-y-1 hover:border-[#7A1022]/60 hover:bg-white/10 md:grid-cols-[80px_1fr_auto]"
+                  className="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-5 transition hover:-translate-y-1 hover:border-[color:var(--vv-primary)]/60 hover:bg-white/10 md:grid-cols-[80px_1fr_auto]"
                 >
-                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#7A1022] text-2xl font-black">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[var(--vv-primary)] text-2xl font-black">
                     {entry.rank}
                   </div>
 
@@ -141,7 +137,7 @@ export default function RankingsPage() {
 
         <section className="mt-14 grid gap-8 lg:grid-cols-[0.75fr_1.25fr]">
           <div className="rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8">
-            <p className="text-xs font-black uppercase tracking-[0.3em] text-[#d65a6d]">
+            <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
               Methodology
             </p>
 
@@ -168,7 +164,7 @@ export default function RankingsPage() {
         </section>
 
         <section className="mt-14 rounded-3xl border border-white/10 bg-white/5 p-6 text-center md:p-10">
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-[#d65a6d]">
+          <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
             Weekly Visibility
           </p>
 
@@ -184,7 +180,7 @@ export default function RankingsPage() {
           <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
             <Link
               href="/sponsor-inquiry"
-              className="rounded-full bg-[#7A1022] px-8 py-4 font-semibold transition hover:bg-[#93142a]"
+              className="rounded-full bg-[var(--vv-primary)] px-8 py-4 font-semibold transition hover:bg-[var(--vv-primary-hover)]"
             >
               Request Sponsor Info
             </Link>

@@ -3,13 +3,14 @@ import { notFound } from "next/navigation";
 
 import type { SchoolTheme } from "../../../types/school-theme";
 
-import { getSchoolBySlug } from "../../../data/schools";
+import { getSchoolBySlug } from "@/lib/schools";
 import {
   getUpcomingGamesForSchool,
   getRecentScoresForSchool,
-} from "../../../data/games";
+} from "@/lib/games";
+import { getDistrictById } from "@/lib/districts";
 import { getStandingsForSchool } from "@/lib/standings";
-import { getArticlesForSchool } from "../../../data/articles";
+import { getArticlesForSchool } from "@/lib/articles";
 
 import SchoolHero from "../../../components/SchoolHero";
 import SponsorBanner from "../../../components/SponsorBanner";
@@ -51,6 +52,9 @@ export default async function SchoolPage({
     notFound();
   }
 
+  const district = getDistrictById(school.districtId);
+  const districtSlug = district?.slug ?? school.districtId;
+
   const theme: SchoolTheme = {
     primary: school.colors.primary,
     secondary: school.colors.secondary,
@@ -69,11 +73,13 @@ export default async function SchoolPage({
     alternateName: school.name,
     sport: "Football",
     url: `https://varsityvue.com/schools/${school.slug}`,
-    memberOf: {
-      "@type": "SportsOrganization",
-      name: school.districtId,
-      url: `https://varsityvue.com/districts/${school.districtId}`,
-    },
+    memberOf: district
+      ? {
+          "@type": "SportsOrganization",
+          name: district.name,
+          url: `https://varsityvue.com/districts/${district.slug}`,
+        }
+      : undefined,
     publisher: {
       "@type": "Organization",
       name: "VarsityVue",
@@ -82,7 +88,7 @@ export default async function SchoolPage({
   };
 
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen bg-[var(--vv-bg)] text-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -94,7 +100,7 @@ export default async function SchoolPage({
 
       <SchoolSubnav
         schoolSlug={school.slug}
-        districtSlug={school.districtId}
+        districtSlug={districtSlug}
         theme={theme}
       />
 

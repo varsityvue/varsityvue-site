@@ -29,11 +29,11 @@ export default function SchoolsPage() {
   );
 
   return (
-    <main className="min-h-screen bg-[#050505] text-white">
-      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.62),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 py-8 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-[var(--vv-bg)] text-white">
+      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.62),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-[1440px]">
           <div className="rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl md:p-8">
-            <p className="text-xs font-black uppercase tracking-[0.32em] text-[#d65a6d]">
+            <p className="text-xs font-black uppercase tracking-[0.32em] text-[var(--vv-accent)]">
               VarsityVue Directory
             </p>
 
@@ -51,7 +51,7 @@ export default function SchoolsPage() {
 
               <Link
                 href="/sponsor-inquiry"
-                className="rounded-xl border border-[#d65a6d]/30 bg-[#7A1022]/25 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-[#f3a3af] transition hover:bg-[#7A1022]/40 hover:text-white"
+                className="rounded-xl border border-[color:var(--vv-accent)]/30 bg-[var(--vv-primary)]/25 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-[var(--vv-accent-soft)] transition hover:bg-[var(--vv-primary)]/40 hover:text-white"
               >
                 Request Coverage
               </Link>
@@ -80,7 +80,7 @@ export default function SchoolsPage() {
         <div className="mx-auto max-w-[1440px]">
           <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
                 School Hubs
               </p>
 

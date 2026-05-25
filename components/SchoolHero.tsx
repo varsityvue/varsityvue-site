@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { School, UILClassification } from "@/types/platform";
-import { getUpcomingGamesForSchool } from "@/data/games";
+import { getUpcomingGamesForSchool } from "@/lib/games";
 
 function formatClassification(classification: UILClassification) {
   if (!classification.division) return classification.conference;

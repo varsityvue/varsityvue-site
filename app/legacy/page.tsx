@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { schools } from "@/data/schools";
+import { getPilotSchools } from "@/lib/schools";
 
 export const metadata: Metadata = {
   title: "VarsityVue Legacy | Texas High School Sports History",
@@ -16,16 +16,15 @@ const legacyFeatures = [
   "Community-submitted history with review",
   "Historical archives inside school hubs",
 ];
-const pilotSchools = schools
-  .filter((school) => school.status === "pilot")
-  .slice(0, 8);
+
+const pilotSchools = getPilotSchools().slice(0, 8);
 
 export default function LegacyPage() {
   return (
-    <main className="min-h-screen bg-black px-4 py-14 text-white sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-[var(--vv-bg)] px-4 py-14 text-white sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <section className="rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.55),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-6 md:p-10">
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-[#d65a6d]">
+        <section className="rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.55),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-6 md:p-10">
+          <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
             VarsityVue Legacy
           </p>
 
@@ -39,10 +38,14 @@ export default function LegacyPage() {
             history to select pilot schools.
           </p>
 
+          <p className="mt-4 max-w-3xl text-base font-semibold leading-7 text-white/55">
+            Because Friday night memories deserve more than a Facebook post.
+          </p>
+
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
               href="/schools"
-              className="rounded-full bg-[#7A1022] px-7 py-4 text-center font-bold transition hover:bg-[#93142a]"
+              className="rounded-full bg-[var(--vv-primary)] px-7 py-4 text-center font-bold transition hover:bg-[var(--vv-primary-hover)]"
             >
               Explore Pilot Programs
             </Link>
@@ -67,8 +70,8 @@ export default function LegacyPage() {
           ))}
         </section>
 
-        <section className="mt-10 rounded-3xl border border-[#7A1022]/30 bg-[#7A1022]/10 p-6 md:p-10">
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-[#d65a6d]">
+        <section className="mt-10 rounded-3xl border border-[color:var(--vv-primary)] bg-[var(--vv-primary)]/10 p-6 md:p-10">
+          <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
             Pilot Archive Targets
           </p>
 
@@ -77,15 +80,15 @@ export default function LegacyPage() {
           </h2>
 
           <div className="mt-8 flex flex-wrap gap-3">
-{pilotSchools.map((school) => (
-  <Link
-    key={school.id}
-    href={`/schools/${school.slug}`}
-    className="rounded-full border border-white/10 bg-black/40 px-5 py-3 text-sm font-black transition hover:bg-white/10"
-  >
-    {school.name}
-  </Link>
-))}
+            {pilotSchools.map((school) => (
+              <Link
+                key={school.id}
+                href={`/schools/${school.slug}`}
+                className="rounded-full border border-white/10 bg-black/40 px-5 py-3 text-sm font-black transition hover:border-[color:var(--vv-accent)] hover:bg-white/10"
+              >
+                {school.name}
+              </Link>
+            ))}
           </div>
         </section>
       </div>

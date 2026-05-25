@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { games } from "../../data/games";
+import { getGames } from "@/lib/games";
 
 export const metadata: Metadata = {
   title: "Texas High School Football Scores, Schedules & Matchups | VarsityVue",
@@ -40,7 +40,7 @@ function getGameTypeLabel(gameType: string, week: number) {
 }
 
 export default function GamesPage() {
-  const regularGames = [...games]
+  const regularGames = [...getGames()]
     .filter((game) => game.gameType !== "bye")
     .sort(
       (a, b) => new Date(a.kickoff).getTime() - new Date(b.kickoff).getTime()
@@ -53,15 +53,17 @@ export default function GamesPage() {
 
   const liveGames = regularGames.filter((game) => game.status === "live");
   const finalGames = regularGames.filter((game) => game.status === "final");
-  const upcomingGames = regularGames.filter((game) => game.status === "upcoming");
+  const upcomingGames = regularGames.filter(
+    (game) => game.status === "upcoming"
+  );
   const districtGames = regularGames.filter((game) => game.districtGame);
 
   return (
-    <main className="min-h-screen bg-[#050505] text-white">
-      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.62),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 py-8 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-[var(--vv-bg)] text-white">
+      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.62),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-[1440px]">
           <section className="rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl md:p-10">
-            <p className="text-xs font-black uppercase tracking-[0.32em] text-[#d65a6d]">
+            <p className="text-xs font-black uppercase tracking-[0.32em] text-[var(--vv-accent)]">
               VarsityVue Games
             </p>
 
@@ -96,10 +98,10 @@ export default function GamesPage() {
       <section className="px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-[1440px]">
           {featuredGame && (
-            <section className="overflow-hidden rounded-[2rem] border border-[#7A1022]/40 bg-gradient-to-br from-[#7A1022]/45 via-black to-black shadow-2xl">
+            <section className="overflow-hidden rounded-[2rem] border border-[color:var(--vv-primary)]/40 bg-gradient-to-br from-[var(--vv-primary)]/45 via-black to-black shadow-2xl">
               <div className="grid gap-0 lg:grid-cols-[1.25fr_0.75fr]">
                 <div className="p-6 md:p-8">
-                  <p className="text-xs font-black uppercase tracking-[0.32em] text-[#f3a3af]">
+                  <p className="text-xs font-black uppercase tracking-[0.32em] text-[var(--vv-accent-soft)]">
                     Featured Matchup
                   </p>
 
@@ -110,22 +112,35 @@ export default function GamesPage() {
                   </h2>
 
                   <div className="mt-6 flex flex-wrap gap-2">
-                    <Badge label={getGameTypeLabel(featuredGame.gameType, featuredGame.week)} />
+                    <Badge
+                      label={getGameTypeLabel(
+                        featuredGame.gameType,
+                        featuredGame.week
+                      )}
+                    />
                     <Badge label={formatStatus(featuredGame.status)} />
-                    {featuredGame.districtGame && <Badge label="District Game" />}
+                    {featuredGame.districtGame && (
+                      <Badge label="District Game" />
+                    )}
                     {featuredGame.specialEvent && (
                       <Badge label={featuredGame.specialEvent} />
                     )}
                   </div>
 
                   <div className="mt-7 grid gap-3 sm:grid-cols-3">
-                    <InfoCard label="Date" value={formatGameDate(featuredGame.kickoff)} />
-                    <InfoCard label="Kickoff" value={formatGameTime(featuredGame.kickoff)} />
+                    <InfoCard
+                      label="Date"
+                      value={formatGameDate(featuredGame.kickoff)}
+                    />
+                    <InfoCard
+                      label="Kickoff"
+                      value={formatGameTime(featuredGame.kickoff)}
+                    />
                     <InfoCard label="Venue" value={featuredGame.venue} />
                   </div>
                 </div>
 
-                <div className="flex flex-col justify-between border-t border-white/10 bg-black/35 p-6 lg:border-l lg:border-t-0 md:p-8">
+                <div className="flex flex-col justify-between border-t border-white/10 bg-black/35 p-6 md:p-8 lg:border-l lg:border-t-0">
                   <div>
                     <p className="text-xs font-black uppercase tracking-[0.28em] text-white/40">
                       Game Week Inventory
@@ -155,7 +170,7 @@ export default function GamesPage() {
           <section className="mt-8 rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:p-6">
             <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+                <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
                   Live Score Strip
                 </p>
                 <h2 className="mt-2 text-3xl font-black text-white">
@@ -164,39 +179,44 @@ export default function GamesPage() {
               </div>
 
               <p className="text-sm font-bold text-white/45">
-                {liveGames.length > 0 ? `${liveGames.length} live` : "Live updates coming soon"}
+                {liveGames.length > 0
+                  ? `${liveGames.length} live`
+                  : "Live updates coming soon"}
               </p>
             </div>
 
             <div className="flex gap-3 overflow-x-auto pb-1">
-              {(liveGames.length > 0 ? liveGames : upcomingGames.slice(0, 5)).map(
-                (game) => (
-                  <Link
-                    key={game.id}
-                    href={`/games/${game.id}`}
-                    className="min-w-[280px] rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
-                  >
-                    <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#d65a6d]">
-                      {formatStatus(game.status)} · {getGameTypeLabel(game.gameType, game.week)}
-                    </p>
+              {(liveGames.length > 0
+                ? liveGames
+                : upcomingGames.slice(0, 5)
+              ).map((game) => (
+                <Link
+                  key={game.id}
+                  href={`/games/${game.id}`}
+                  className="min-w-[280px] rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
+                >
+                  <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[var(--vv-accent)]">
+                    {formatStatus(game.status)} ·{" "}
+                    {getGameTypeLabel(game.gameType, game.week)}
+                  </p>
 
-                    <h3 className="mt-2 text-lg font-black text-white">
-                      {game.awayTeam} at {game.homeTeam}
-                    </h3>
+                  <h3 className="mt-2 text-lg font-black text-white">
+                    {game.awayTeam} at {game.homeTeam}
+                  </h3>
 
-                    <p className="mt-2 text-sm text-white/45">
-                      {formatGameDate(game.kickoff)} · {formatGameTime(game.kickoff)}
-                    </p>
-                  </Link>
-                )
-              )}
+                  <p className="mt-2 text-sm text-white/45">
+                    {formatGameDate(game.kickoff)} ·{" "}
+                    {formatGameTime(game.kickoff)}
+                  </p>
+                </Link>
+              ))}
             </div>
           </section>
 
           <section className="mt-10">
             <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+                <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
                   Schedule Board
                 </p>
 
@@ -218,9 +238,9 @@ export default function GamesPage() {
                 <Link
                   key={game.id}
                   href={`/games/${game.id}`}
-                  className="group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-xl transition hover:-translate-y-1 hover:border-[#d65a6d]/40 hover:bg-white/[0.075]"
+                  className="group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-xl transition hover:-translate-y-1 hover:border-[color:var(--vv-accent)]/40 hover:bg-white/[0.075]"
                 >
-                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(122,16,34,0.38),transparent_55%)] opacity-45 transition group-hover:opacity-70" />
+                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(139,16,32,0.38),transparent_55%)] opacity-45 transition group-hover:opacity-70" />
 
                   <div className="relative">
                     <div className="flex flex-wrap gap-2">
@@ -237,8 +257,14 @@ export default function GamesPage() {
                     </h3>
 
                     <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                      <InfoCard label="Date" value={formatGameDate(game.kickoff)} />
-                      <InfoCard label="Kickoff" value={formatGameTime(game.kickoff)} />
+                      <InfoCard
+                        label="Date"
+                        value={formatGameDate(game.kickoff)}
+                      />
+                      <InfoCard
+                        label="Kickoff"
+                        value={formatGameTime(game.kickoff)}
+                      />
                     </div>
 
                     <div className="mt-3 rounded-2xl border border-white/10 bg-black/35 p-4">
@@ -256,7 +282,7 @@ export default function GamesPage() {
                         </p>
                       )}
 
-                    <p className="mt-6 text-sm font-black uppercase tracking-[0.14em] text-[#d65a6d]">
+                    <p className="mt-6 text-sm font-black uppercase tracking-[0.14em] text-[var(--vv-accent)]">
                       View matchup →
                     </p>
                   </div>
@@ -266,7 +292,7 @@ export default function GamesPage() {
           </section>
 
           <section className="mt-10 rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+            <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
               VarsityVue Coverage
             </p>
 
@@ -298,7 +324,13 @@ function StatCard({ label, value }: { label: string; value: string }) {
   );
 }
 
-function FilterPill({ label, active = false }: { label: string; active?: boolean }) {
+function FilterPill({
+  label,
+  active = false,
+}: {
+  label: string;
+  active?: boolean;
+}) {
   return (
     <span
       className={`rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.14em] ${

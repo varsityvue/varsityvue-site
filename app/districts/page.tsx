@@ -11,11 +11,11 @@ export const metadata: Metadata = {
 
 export default function DistrictsPage() {
   return (
-    <main className="min-h-screen bg-[#050505] text-white">
-      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.62),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 py-8 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-[var(--vv-bg)] text-white">
+      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.62),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-[1440px]">
           <div className="rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl md:p-8">
-            <p className="text-xs font-black uppercase tracking-[0.32em] text-[#d65a6d]">
+            <p className="text-xs font-black uppercase tracking-[0.32em] text-[var(--vv-accent)]">
               VarsityVue District Directory
             </p>
 
@@ -33,7 +33,7 @@ export default function DistrictsPage() {
 
               <Link
                 href="/sponsor-inquiry"
-                className="rounded-xl border border-[#d65a6d]/30 bg-[#7A1022]/25 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-[#f3a3af] transition hover:bg-[#7A1022]/40 hover:text-white"
+                className="rounded-xl border border-[color:var(--vv-accent)] bg-[var(--vv-primary)]/25 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-[var(--vv-accent-soft)] transition hover:bg-[var(--vv-primary)]/40 hover:text-white"
               >
                 Sponsor a District
               </Link>
@@ -55,12 +55,12 @@ export default function DistrictsPage() {
             <Link
               key={district.slug}
               href={`/districts/${district.slug}`}
-              className="group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-xl transition-all duration-200 hover:-translate-y-1 hover:border-[#d65a6d]/40 hover:bg-white/[0.075]"
+              className="group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-xl transition-all duration-200 hover:-translate-y-1 hover:border-[color:var(--vv-accent)] hover:bg-white/[0.075]"
             >
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(122,16,34,0.4),transparent_55%)] opacity-40 transition group-hover:opacity-70" />
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(139,16,32,0.4),transparent_55%)] opacity-40 transition group-hover:opacity-70" />
 
               <div className="relative">
-                <p className="text-xs font-black uppercase tracking-[0.22em] text-[#d65a6d]">
+                <p className="text-xs font-black uppercase tracking-[0.22em] text-[var(--vv-accent)]">
                   District Hub
                 </p>
 
@@ -76,7 +76,7 @@ export default function DistrictsPage() {
                   • Region {district.uilRegion}
                 </p>
 
-                <p className="mt-6 text-sm font-black uppercase tracking-[0.14em] text-[#d65a6d]">
+                <p className="mt-6 text-sm font-black uppercase tracking-[0.14em] text-[var(--vv-accent)]">
                   View district hub →
                 </p>
               </div>

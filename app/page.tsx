@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { schools } from "@/data/schools";
-import { districts } from "@/data/districts";
+import { getSchools, getPilotSchools } from "@/lib/schools";
+import { getDistricts } from "@/lib/districts";
 import { getFeaturedScoreboardGame } from "@/lib/scoreboard";
-import { articles } from "@/data/articles";
-import { sponsors } from "@/data/sponsors";
+import { getLatestArticles } from "@/lib/articles";
+import { getActiveSponsors } from "@/lib/sponsors";
 import { getStandingsForDistrictId } from "@/lib/standings";
 import ScoreStrip from "@/components/ScoreStrip";
 import SchoolSearch from "../components/SchoolSearch";
@@ -34,14 +34,15 @@ function formatGameTime(kickoff: string) {
 }
 
 export default function Home() {
+const schools = getSchools();
+const districts = getDistricts();
+
   const featuredGame = getFeaturedScoreboardGame();
 
-  const pilotSchools = schools
-    .filter((school) => school.status === "pilot")
-    .slice(0, 6);
+const pilotSchools = getPilotSchools().slice(0, 6);
 
-  const latestArticles = articles.slice(0, 3);
-  const activeSponsors = sponsors.filter((sponsor) => sponsor.active).slice(0, 5);
+const latestArticles = getLatestArticles(3);
+const activeSponsors = getActiveSponsors(5);
 
   const featuredDistrict = districts[0];
   const featuredStandings = featuredDistrict
@@ -51,18 +52,18 @@ export default function Home() {
   const featuredSchool = pilotSchools[0];
 
   return (
-    <main className="min-h-screen bg-[#050505] text-white">
-      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.72),transparent_32%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 pb-6 pt-6 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-[var(--vv-bg)] text-white">
+      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.72),transparent_32%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 pb-6 pt-6 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-[1440px] gap-5 lg:grid-cols-[1.22fr_0.88fr]">
           <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#080808] shadow-2xl">
-            <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(0,0,0,0.98),rgba(0,0,0,0.75)_45%,rgba(122,16,34,0.45))]" />
-            <div className="absolute -right-28 top-10 h-96 w-96 rounded-full bg-[#d65a6d]/20 blur-3xl" />
-            <div className="absolute bottom-0 right-0 h-48 w-2/3 bg-gradient-to-t from-[#7A1022]/35 to-transparent" />
+            <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(0,0,0,0.98),rgba(0,0,0,0.75)_45%,rgba(139,16,32,0.45))]" />
+            <div className="absolute -right-28 top-10 h-96 w-96 rounded-full bg-[var(--vv-accent)]/20 blur-3xl" />
+            <div className="absolute bottom-0 right-0 h-48 w-2/3 bg-gradient-to-t from-[var(--vv-primary)]/35 to-transparent" />
 
             <div className="relative z-10 flex min-h-[590px] flex-col justify-between p-6 sm:p-8 lg:p-10">
               <div>
                 <div className="flex flex-wrap items-center gap-3">
-                  <p className="inline-flex rounded bg-[#7A1022] px-3 py-2 text-xs font-black uppercase tracking-[0.24em] text-white shadow-lg">
+                  <p className="inline-flex rounded bg-[var(--vv-primary)] px-3 py-2 text-xs font-black uppercase tracking-[0.24em] text-white shadow-lg">
                     Game of the Week
                   </p>
 
@@ -100,7 +101,7 @@ export default function Home() {
                   {featuredGame && (
                     <Link
                       href={`/games/${featuredGame.id}`}
-                      className="rounded-xl bg-[#d7193f] px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white shadow-[0_0_30px_rgba(215,25,63,0.35)] transition hover:bg-[#f02a4f]"
+                      className="rounded-xl bg-[var(--vv-cta)] px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white shadow-[0_0_30px_rgba(139,16,32,0.35)] transition hover:bg-[var(--vv-cta-hover)]"
                     >
                       View Matchup
                     </Link>
@@ -122,6 +123,7 @@ export default function Home() {
               </div>
             </div>
           </div>
+
           <SchoolSearch schools={schools} />
         </div>
       </section>
@@ -138,7 +140,7 @@ export default function Home() {
                   href={`/coverage/${article.slug}`}
                   className="block border-b border-white/10 pb-4 last:border-0 last:pb-0"
                 >
-                  <p className="text-xs font-black uppercase tracking-[0.16em] text-[#d65a6d]">
+                  <p className="text-xs font-black uppercase tracking-[0.16em] text-[var(--vv-accent)]">
                     {article.type}
                   </p>
                   <h3 className="mt-2 font-black leading-snug text-white">
@@ -221,7 +223,7 @@ export default function Home() {
               />
 
               <div className="relative">
-                <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+                <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
                   Featured School
                 </p>
 
@@ -255,10 +257,10 @@ export default function Home() {
             </Link>
           )}
 
-          <div className="rounded-[2rem] border border-[#7A1022]/40 bg-gradient-to-r from-[#7A1022]/45 via-black to-black p-6 shadow-2xl">
+          <div className="rounded-[2rem] border border-[color:var(--vv-primary)] bg-gradient-to-r from-[var(--vv-primary)]/45 via-black to-black p-6 shadow-2xl">
             <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
               <div>
-                <p className="text-xs font-black uppercase tracking-[0.3em] text-[#d65a6d]">
+                <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
                   Local Partners
                 </p>
                 <h2 className="mt-2 text-3xl font-black">
@@ -302,58 +304,64 @@ export default function Home() {
       </section>
 
       <section className="px-4 pb-5 sm:px-6 lg:px-8">
-  <div className="mx-auto max-w-[1440px] rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.45),transparent_32%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.025))] p-6 shadow-2xl md:p-10">
-    <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-      <div>
-        <p className="text-xs font-black uppercase tracking-[0.3em] text-[#d65a6d]">
-          Legacy Archive
-        </p>
+        <div className="mx-auto max-w-[1440px] rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.45),transparent_32%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.025))] p-6 shadow-2xl md:p-10">
+          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
+                Legacy Archive
+              </p>
 
-        <h2 className="mt-4 max-w-3xl text-4xl font-black leading-tight text-white sm:text-5xl">
-          Every program has a story. VarsityVue is building the archive.
-        </h2>
+              <h2 className="mt-4 max-w-3xl text-4xl font-black leading-tight text-white sm:text-5xl">
+                Every program has a story. VarsityVue is building the archive.
+              </h2>
 
-        <p className="mt-5 max-w-2xl text-base leading-7 text-white/60">
-          Coming soon: 10-20 year records, playoff history, rivalry records,
-          district titles, notable teams, and community-submitted history for
-          select pilot schools.
-        </p>
+              <p className="mt-5 max-w-2xl text-base leading-7 text-white/60">
+                Coming soon: 10-20 year records, playoff history, rivalry
+                records, district titles, notable teams, and
+                community-submitted history for select pilot schools.
+              </p>
 
-        <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-          <Link
-            href="/legacy"
-            className="rounded-xl bg-[#7A1022] px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-[#93142a]"
-          >
-            Explore Legacy
-          </Link>
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href="/legacy"
+                  className="rounded-xl bg-[var(--vv-primary)] px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-[var(--vv-primary-hover)]"
+                >
+                  Explore Legacy
+                </Link>
 
-          <Link
-            href="/sponsor-inquiry"
-            className="rounded-xl border border-white/20 bg-white/[0.06] px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/10"
-          >
-            Sponsor Legacy
-          </Link>
-        </div>
-      </div>
+                <Link
+                  href="/sponsor-inquiry"
+                  className="rounded-xl border border-white/20 bg-white/[0.06] px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/10"
+                >
+                  Sponsor Legacy
+                </Link>
+              </div>
+            </div>
 
-      <div className="grid gap-3 sm:grid-cols-2">
-        {["Stephenville", "De Leon", "Comanche", "Albany"].map((school) => (
-          <div
-            key={school}
-            className="rounded-2xl border border-white/10 bg-black/35 p-5"
-          >
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-white/35">
-              Coming Soon
-            </p>
-            <p className="mt-2 text-2xl font-black text-white">{school}</p>
-            <p className="mt-2 text-sm text-white/50">Legacy archive teaser</p>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {["Stephenville", "De Leon", "Comanche", "Albany"].map(
+                (school) => (
+                  <div
+                    key={school}
+                    className="rounded-2xl border border-white/10 bg-black/35 p-5"
+                  >
+                    <p className="text-xs font-black uppercase tracking-[0.18em] text-white/35">
+                      Coming Soon
+                    </p>
+                    <p className="mt-2 text-2xl font-black text-white">
+                      {school}
+                    </p>
+                    <p className="mt-2 text-sm text-white/50">
+                      Legacy archive teaser
+                    </p>
+                  </div>
+                )
+              )}
+            </div>
           </div>
-        ))}
-      </div>
-    </div>
-  </div>
-</section>
-      
+        </div>
+      </section>
+
       <section className="border-t border-white/10 px-4 py-6 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-[1440px] gap-4 md:grid-cols-4">
           <Feature
@@ -404,7 +412,7 @@ function Panel({
     <section className="rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-5">
       <div className="mb-5 flex items-start justify-between gap-4">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#d65a6d]">
+          <p className="text-xs font-black uppercase tracking-[0.22em] text-[var(--vv-accent)]">
             {kicker}
           </p>
           <h2 className="mt-2 text-2xl font-black text-white">{title}</h2>
@@ -412,7 +420,7 @@ function Panel({
 
         <Link
           href={href}
-          className="text-xs font-black uppercase tracking-[0.16em] text-[#d65a6d]"
+          className="text-xs font-black uppercase tracking-[0.16em] text-[var(--vv-accent)]"
         >
           View →
         </Link>

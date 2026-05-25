@@ -20,6 +20,7 @@ function formatKickoff(kickoff: string) {
     day: "numeric",
     hour: "numeric",
     minute: "2-digit",
+    timeZone: "America/Chicago",
   }).format(new Date(kickoff));
 }
 
@@ -30,10 +31,10 @@ export default function ScoreboardPage() {
   const finalGames = getFinalScoreboardGames(8);
 
   return (
-    <main className="min-h-screen bg-black px-4 py-14 text-white sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-[var(--vv-bg)] px-4 py-14 text-white sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <section className="rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.45),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-6 md:p-10">
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-[#d65a6d]">
+        <section className="rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.45),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-6 md:p-10">
+          <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
             VarsityVue Scoreboard
           </p>
 
@@ -48,8 +49,8 @@ export default function ScoreboardPage() {
         </section>
 
         {featuredGame && (
-          <section className="mt-10 rounded-3xl border border-[#7A1022]/40 bg-[#7A1022]/15 p-6 md:p-8">
-            <p className="text-xs font-black uppercase tracking-[0.3em] text-[#d65a6d]">
+          <section className="mt-10 rounded-3xl border border-[color:var(--vv-primary)] bg-[var(--vv-primary)]/15 p-6 md:p-8">
+            <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
               Featured Matchup
             </p>
 
@@ -60,8 +61,7 @@ export default function ScoreboardPage() {
                 </h2>
 
                 <p className="mt-4 text-white/65">
-                  Week {featuredGame.week} · {formatKickoff(featuredGame.kickoff)}
-                  {" · "}
+                  Week {featuredGame.week} · {formatKickoff(featuredGame.kickoff)} ·{" "}
                   {featuredGame.venue}
                 </p>
 
@@ -87,7 +87,7 @@ export default function ScoreboardPage() {
         <section className="mt-10 rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8">
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-center">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.3em] text-[#d65a6d]">
+              <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
                 Sponsor Slot
               </p>
 
@@ -103,7 +103,7 @@ export default function ScoreboardPage() {
 
             <Link
               href="/sponsor-inquiry"
-              className="rounded-full bg-[#7A1022] px-7 py-4 text-center font-bold transition hover:bg-[#93142a]"
+              className="rounded-full bg-[var(--vv-primary)] px-7 py-4 text-center font-bold transition hover:bg-[var(--vv-primary-hover)]"
             >
               Sponsor Scoreboard
             </Link>
@@ -163,7 +163,7 @@ function ScoreboardColumn({
             <Link
               key={game.id}
               href={`/games/${game.id}`}
-              className="block rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:border-[#7A1022]/60 hover:bg-white/10"
+              className="block rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:border-[color:var(--vv-accent)] hover:bg-white/10"
             >
               <div className="flex items-start justify-between gap-4">
                 <div>
@@ -188,7 +188,7 @@ function ScoreboardColumn({
               </p>
 
               {game.districtGame && (
-                <p className="mt-3 text-xs font-bold uppercase tracking-wide text-[#d65a6d]">
+                <p className="mt-3 text-xs font-bold uppercase tracking-wide text-[var(--vv-accent)]">
                   District Game
                 </p>
               )}
