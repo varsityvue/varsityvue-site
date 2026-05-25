@@ -17,9 +17,8 @@ type DistrictPageProps = {
 function formatClassification(classification: UILClassification) {
   if (!classification.division) return classification.conference;
 
-  return `${classification.conference} Division ${
-    classification.division === "D1" ? "I" : "II"
-  }`;
+  return `${classification.conference} Division ${classification.division === "D1" ? "I" : "II"
+    }`;
 }
 
 function formatRegion(region: 1 | 2 | 3 | 4) {
@@ -89,11 +88,11 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
     )
     .slice(0, 6);
 
-const districtSponsor = getActiveSponsors().find(
-  (sponsor) =>
-    sponsor.placementTypes.includes("district-hub") &&
-    sponsor.districtIds?.includes(district.id)
-);
+  const districtSponsor = getActiveSponsors().find(
+    (sponsor) =>
+      sponsor.placementTypes.includes("district-hub") &&
+      sponsor.districtIds?.includes(district.id)
+  );
 
   const classification = formatClassification(district.classification);
   const region = formatRegion(district.uilRegion);
@@ -155,6 +154,20 @@ const districtSponsor = getActiveSponsors().find(
                   visibility, and future legacy coverage for this VarsityVue
                   district ecosystem.
                 </p>
+                <div className="mt-6 rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
+                  <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--vv-accent)]">
+                    District Race
+                  </p>
+
+                  <h2 className="mt-3 text-3xl font-black text-white md:text-4xl">
+                    Every Friday rewrites the playoff race.
+                  </h2>
+
+                  <p className="mt-3 max-w-3xl text-sm leading-6 text-white/60">
+                    District championships, playoff positioning, rivalry games, and weekly
+                    momentum all collide inside the VarsityVue district ecosystem.
+                  </p>
+                </div>
               </div>
 
               <Link
@@ -215,9 +228,8 @@ const districtSponsor = getActiveSponsors().find(
                       return (
                         <tr
                           key={team.schoolSlug}
-                          className={`border-t border-white/10 transition hover:bg-white/[0.06] ${
-                            index < 4 ? "bg-[var(--vv-primary)]/10" : ""
-                          }`}
+                          className={`border-t border-white/10 transition hover:bg-white/[0.06] ${index < 4 ? "bg-[var(--vv-primary)]/10" : ""
+                            }`}
                         >
                           <td className="px-4 py-4 font-black text-white">
                             <div className="flex items-center gap-2">
@@ -333,11 +345,11 @@ const districtSponsor = getActiveSponsors().find(
               <h2 className="mt-3 text-3xl font-black text-white">
                 {districtSponsor
                   ? `Presented by ${districtSponsor.name}`
-                  : "Founding district sponsor opportunity"}
+                  : "Own this district."}
               </h2>
 
               <p className="mt-3 text-sm leading-6 text-white/55">
-                Own premium sponsor visibility across standings, school hubs,
+                Premium sponsor visibility across standings, school hubs,
                 district games, matchup pages, and local football discovery.
               </p>
 
@@ -355,7 +367,7 @@ const districtSponsor = getActiveSponsors().find(
               </p>
 
               <h2 className="mt-3 text-3xl font-black text-white">
-                Upcoming Matchups
+                District Matchups
               </h2>
 
               <div className="mt-6 space-y-3">
@@ -397,8 +409,7 @@ const districtSponsor = getActiveSponsors().find(
               </h2>
 
               <p className="mt-4 leading-7 text-white/60">
-                Rivalry records, playoff history, notable teams, and community
-                submitted historical notes will live here.
+                Rivalry records, playoff history, notable teams, and community-submitted historical notes will live here.
               </p>
             </section>
           </aside>

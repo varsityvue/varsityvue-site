@@ -34,15 +34,14 @@ function formatGameTime(kickoff: string) {
 }
 
 export default function Home() {
-const schools = getSchools();
-const districts = getDistricts();
+  const schools = getSchools();
+  const districts = getDistricts();
 
   const featuredGame = getFeaturedScoreboardGame();
+  const pilotSchools = getPilotSchools().slice(0, 6);
 
-const pilotSchools = getPilotSchools().slice(0, 6);
-
-const latestArticles = getLatestArticles(3);
-const activeSponsors = getActiveSponsors(5);
+  const latestArticles = getLatestArticles(3);
+  const activeSponsors = getActiveSponsors(5);
 
   const featuredDistrict = districts[0];
   const featuredStandings = featuredDistrict
@@ -64,11 +63,11 @@ const activeSponsors = getActiveSponsors(5);
               <div>
                 <div className="flex flex-wrap items-center gap-3">
                   <p className="inline-flex rounded bg-[var(--vv-primary)] px-3 py-2 text-xs font-black uppercase tracking-[0.24em] text-white shadow-lg">
-                    Game of the Week
+                    Texas High School Sports Platform
                   </p>
 
                   <p className="text-xs font-black uppercase tracking-[0.24em] text-white/35">
-                    Presented by VarsityVue
+                    Featured Matchup
                   </p>
                 </div>
 
@@ -95,6 +94,22 @@ const activeSponsors = getActiveSponsors(5);
                       coverage, and sponsor visibility.
                     </p>
                   )}
+                </div>
+
+                <div className="mt-8 rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
+                  <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--vv-accent)]">
+                    Friday Night
+                  </p>
+
+                  <h2 className="mt-3 text-3xl font-black text-white md:text-4xl">
+                    Rivalries. District races. Communities locked in.
+                  </h2>
+
+                  <p className="mt-3 max-w-3xl text-sm leading-6 text-white/60">
+                    VarsityVue brings scores, schedules, coverage, school hubs,
+                    and football storylines into one connected platform built
+                    for Texas communities.
+                  </p>
                 </div>
 
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -248,10 +263,19 @@ const activeSponsors = getActiveSponsors(5);
                 </div>
 
                 <div className="mt-6 grid grid-cols-2 gap-3">
-                  <FeatureLink label="Team Home" />
-                  <FeatureLink label="Schedule" />
-                  <FeatureLink label="District" />
-                  <FeatureLink label="Coverage" />
+                  <FeatureLink
+                    href={`/schools/${featuredSchool.slug}`}
+                    label="Team Home"
+                  />
+                  <FeatureLink
+                    href={`/schools/${featuredSchool.slug}/schedule`}
+                    label="Schedule"
+                  />
+                  <FeatureLink
+                    href={`/districts/${featuredSchool.districtId}`}
+                    label="District"
+                  />
+                  <FeatureLink href="/coverage" label="Coverage" />
                 </div>
               </div>
             </Link>
@@ -264,7 +288,7 @@ const activeSponsors = getActiveSponsors(5);
                   Local Partners
                 </p>
                 <h2 className="mt-2 text-3xl font-black">
-                  Sponsor inventory built into the platform.
+                  High-visibility sponsorship built into the fan experience.
                 </h2>
                 <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55">
                   VarsityVue gives local businesses visible placement across
@@ -352,7 +376,7 @@ const activeSponsors = getActiveSponsors(5);
                       {school}
                     </p>
                     <p className="mt-2 text-sm text-white/50">
-                      Legacy archive teaser
+                      Historical program archive coming
                     </p>
                   </div>
                 )
@@ -366,7 +390,7 @@ const activeSponsors = getActiveSponsors(5);
         <div className="mx-auto grid max-w-[1440px] gap-4 md:grid-cols-4">
           <Feature
             title="Live Scores & Alerts"
-            body="Real-time score behavior built for game nights."
+            body="Real-time scoreboard experiences built for Friday nights."
           />
           <Feature
             title="In-Depth Coverage"
@@ -431,11 +455,20 @@ function Panel({
   );
 }
 
-function FeatureLink({ label }: { label: string }) {
+function FeatureLink({
+  href,
+  label,
+}: {
+  href: string;
+  label: string;
+}) {
   return (
-    <div className="rounded-xl border border-white/10 bg-black/35 px-4 py-3 text-sm font-black uppercase tracking-[0.12em] text-white/75">
+    <Link
+      href={href}
+      className="rounded-xl border border-white/10 bg-black/35 px-4 py-3 text-sm font-black uppercase tracking-[0.12em] text-white/75 transition hover:bg-white/10 hover:text-white"
+    >
       {label}
-    </div>
+    </Link>
   );
 }
 

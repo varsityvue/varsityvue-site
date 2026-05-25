@@ -46,6 +46,20 @@ export default function ScoreboardPage() {
             Follow featured games, live updates, upcoming matchups, and final
             scores across the VarsityVue football ecosystem.
           </p>
+          <div className="mt-8 rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
+            <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--vv-accent)]">
+              Friday Night
+            </p>
+
+            <h2 className="mt-3 text-3xl font-black text-white md:text-4xl">
+              Lights on. Rivalries live. Scores moving.
+            </h2>
+
+            <p className="mt-3 max-w-3xl text-sm leading-6 text-white/60">
+              Follow the VarsityVue scoreboard for featured matchups, district races,
+              finals, and live football movement across the platform.
+            </p>
+          </div>
         </section>
 
         {featuredGame && (
@@ -78,8 +92,9 @@ export default function ScoreboardPage() {
                 href={`/games/${featuredGame.id}`}
                 className="rounded-full bg-white px-7 py-4 text-center font-black text-black transition hover:bg-white/85"
               >
-                View Game
+                View Matchup →
               </Link>
+
             </div>
           </section>
         )}
@@ -92,18 +107,18 @@ export default function ScoreboardPage() {
               </p>
 
               <h2 className="mt-3 text-3xl font-black">
-                Scoreboard sponsorship available
+                Own Friday night traffic.
               </h2>
 
               <p className="mt-3 max-w-2xl leading-7 text-white/65">
-                Scoreboards create repeat game-night traffic. That makes this
-                one of the most valuable sponsor surfaces in the platform.
+                Scoreboards create repeat game-night traffic and habitual fan engagement,
+                making this one of VarsityVue’s highest-visibility sponsor placements.
               </p>
             </div>
 
             <Link
               href="/sponsor-inquiry"
-              className="rounded-full bg-[var(--vv-primary)] px-7 py-4 text-center font-bold transition hover:bg-[var(--vv-primary-hover)]"
+              className="rounded-full bg-[var(--vv-primary)] px-7 py-4 text-center font-black transition hover:bg-[var(--vv-primary-hover)]"
             >
               Sponsor Scoreboard
             </Link>
@@ -112,22 +127,22 @@ export default function ScoreboardPage() {
 
         <section className="mt-10 grid gap-8 lg:grid-cols-3">
           <ScoreboardColumn
-            title="Live"
-            description="Games currently in progress."
+            title="Live Now"
+            description="Live scores moving across the VarsityVue network."
             games={liveGames}
             emptyText="No live games right now."
           />
 
           <ScoreboardColumn
             title="Upcoming"
-            description="Next games on the schedule."
+            description="The next kickoffs across VarsityVue."
             games={upcomingGames}
             emptyText="No upcoming games listed."
           />
 
           <ScoreboardColumn
             title="Final"
-            description="Recently completed games."
+            description="Latest final scores from across the region."
             games={finalGames}
             emptyText="No final scores posted yet."
           />
@@ -163,7 +178,10 @@ function ScoreboardColumn({
             <Link
               key={game.id}
               href={`/games/${game.id}`}
-              className="block rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:border-[color:var(--vv-accent)] hover:bg-white/10"
+              className={`block rounded-2xl bg-black/35 p-4 transition hover:border-[color:var(--vv-accent)] hover:bg-white/10 ${game.status === "live"
+                ? "border border-[color:var(--vv-accent)]/30 shadow-[0_0_28px_rgba(139,16,32,0.18)]"
+                : "border border-white/10"
+                }`}
             >
               <div className="flex items-start justify-between gap-4">
                 <div>

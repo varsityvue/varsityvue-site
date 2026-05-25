@@ -42,6 +42,23 @@ function getGameTypeLabel(gameType: string, week: number) {
   return `Week ${week}`;
 }
 
+function getGameNarrative(game: {
+  districtGame?: boolean;
+  specialEvent?: string;
+  gameType: string;
+}) {
+  if (game.specialEvent) return game.specialEvent;
+  if (game.districtGame) return "District stakes on the line";
+  if (game.gameType === "scrimmage") {
+    return "First look before the lights get real";
+  }
+  if (game.gameType === "playoff") {
+    return "Win or go home";
+  }
+
+  return "Friday night matchup";
+}
+
 function getSchemaEventStatus(status: string) {
   if (status === "final") return "https://schema.org/EventCompleted";
   return "https://schema.org/EventScheduled";
@@ -168,6 +185,22 @@ export default async function GamePage({ params }: GamePageProps) {
               {game.specialEvent && <Badge label={game.specialEvent} />}
             </div>
 
+            <div className="mt-8 rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
+              <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--vv-accent)]">
+                Game Storyline
+              </p>
+
+              <h2 className="mt-3 text-3xl font-black leading-tight text-white md:text-4xl">
+                {getGameNarrative(game)}
+              </h2>
+
+              <p className="mt-3 max-w-3xl text-sm leading-6 text-white/60">
+                {game.awayTeam} and {game.homeTeam} meet under the Friday night lights
+                with community attention, school pride, and season momentum attached to
+                every snap.
+              </p>
+            </div>
+
             <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
               <TeamBlock
                 align="left"
@@ -209,23 +242,6 @@ export default async function GamePage({ params }: GamePageProps) {
                 Map Venue →
               </a>
 
-              {awaySchool && (
-                <Link
-                  href={`/schools/${awaySchool.slug}`}
-                  className="rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/70 transition hover:bg-white/15 hover:text-white"
-                >
-                  {awaySchool.name} Hub →
-                </Link>
-              )}
-
-              {homeSchool && (
-                <Link
-                  href={`/schools/${homeSchool.slug}`}
-                  className="rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/70 transition hover:bg-white/15 hover:text-white"
-                >
-                  {homeSchool.name} Hub →
-                </Link>
-              )}
             </div>
           </div>
         </div>
@@ -236,18 +252,85 @@ export default async function GamePage({ params }: GamePageProps) {
           <div className="space-y-6">
             <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
               <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
-                Game Preview
+                Preview
               </p>
 
               <h2 className="mt-3 text-3xl font-black text-white">
-                Matchup preview coming soon
+                Game Preview
               </h2>
 
               <p className="mt-4 max-w-3xl leading-7 text-white/60">
-                Team records, key players, district implications, recent
-                results, broadcast links, and game-week coverage notes will live
-                here.
+                VarsityVue matchup analysis, key storylines, district implications, recent
+                results, broadcast details, and game-week coverage will appear here.
               </p>
+            </section>
+
+            <section className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 shadow-2xl md:p-8">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
+                    Coverage
+                  </p>
+
+                  <h2 className="mt-3 text-3xl font-black text-white">
+                    Related Coverage
+                  </h2>
+                </div>
+
+                <Link
+                  href="/coverage"
+                  className="text-xs font-black uppercase tracking-[0.16em] text-[var(--vv-accent)]"
+                >
+                  View All →
+                </Link>
+              </div>
+
+              <div className="mt-6 grid gap-4 md:grid-cols-3">
+                <Link
+                  href="/coverage"
+                  className="rounded-2xl border border-white/10 bg-black/35 p-5 transition hover:bg-white/10"
+                >
+                  <p className="text-xs font-black uppercase tracking-[0.16em] text-[var(--vv-accent)]">
+                    Preview
+                  </p>
+                  <h3 className="mt-3 font-black text-white">
+                    Matchup preview coverage
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-white/55">
+                    Game-week analysis, key storylines, and district implications.
+                  </p>
+                </Link>
+
+                <Link
+                  href="/coverage"
+                  className="rounded-2xl border border-white/10 bg-black/35 p-5 transition hover:bg-white/10"
+                >
+                  <p className="text-xs font-black uppercase tracking-[0.16em] text-[var(--vv-accent)]">
+                    Feature
+                  </p>
+                  <h3 className="mt-3 font-black text-white">
+                    Player and team spotlight coverage
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-white/55">
+                    Deeper stories tied to the programs in this matchup.
+                  </p>
+                </Link>
+
+                <Link
+                  href="/coverage"
+                  className="rounded-2xl border border-white/10 bg-black/35 p-5 transition hover:bg-white/10"
+                >
+                  <p className="text-xs font-black uppercase tracking-[0.16em] text-[var(--vv-accent)]">
+                    Recap
+                  </p>
+                  <h3 className="mt-3 font-black text-white">
+                    Postgame recap coverage
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-white/55">
+                    Scores, reaction, and what the result means moving forward.
+                  </p>
+                </Link>
+              </div>
             </section>
 
             <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
@@ -281,12 +364,12 @@ export default async function GamePage({ params }: GamePageProps) {
               <h2 className="mt-3 text-3xl font-black text-white">
                 {gameSponsor
                   ? `Presented by ${gameSponsor.name}`
-                  : "This game placement is available"}
+                  : "Own this matchup."}
               </h2>
 
               <p className="mt-3 text-sm leading-6 text-white/55">
-                Premium matchup sponsorship inventory tied directly to game-week
-                traffic, school hubs, schedule pages, and coverage modules.
+                Sponsor premium VarsityVue game coverage seen by fans, families, schools,
+                and local communities throughout the football season.
               </p>
 
               <Link
@@ -299,32 +382,33 @@ export default async function GamePage({ params }: GamePageProps) {
 
             <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
               <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
-                Quick Links
+                Game Night Utility
               </p>
 
-              <div className="mt-5 flex flex-col gap-3">
-                {awaySchool && (
-                  <LinkButton
-                    href={`/schools/${awaySchool.slug}`}
-                    label={`${awaySchool.name} Hub`}
-                  />
-                )}
+              <h2 className="mt-3 text-3xl font-black text-white">
+                Everything fans need before kickoff.
+              </h2>
 
-                {homeSchool && (
-                  <LinkButton
-                    href={`/schools/${homeSchool.slug}`}
-                    label={`${homeSchool.name} Hub`}
-                  />
-                )}
+              <div className="mt-5 flex flex-col gap-3">
+                <LinkButton href="/scoreboard" label="Live Scoreboard" />
 
                 {district && (
                   <LinkButton
                     href={`/districts/${district.slug}`}
-                    label="District Hub"
+                    label="District Standings"
                   />
                 )}
 
-                <LinkButton href="/scoreboard" label="Scoreboard" />
+                <a
+                  href={getMapUrl(game.venue)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-2xl border border-white/10 bg-black/35 px-4 py-3 text-sm font-black text-white/75 transition hover:bg-white/10 hover:text-white"
+                >
+                  Open Venue Map
+                </a>
+
+                <LinkButton href="/coverage" label="Game Week Coverage" />
               </div>
             </section>
           </aside>
@@ -349,18 +433,16 @@ function TeamBlock({
 }) {
   const content = (
     <div
-      className={`rounded-[1.75rem] border border-white/10 bg-black/35 p-6 ${
-        align === "right" ? "text-left lg:text-right" : "text-left"
-      }`}
+      className={`rounded-[1.75rem] border border-white/10 bg-black/35 p-6 ${align === "right" ? "text-left lg:text-right" : "text-left"
+        }`}
     >
       <p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">
         {label}
       </p>
 
       <div
-        className={`mt-4 flex items-center gap-5 ${
-          align === "right" ? "lg:flex-row-reverse" : ""
-        }`}
+        className={`mt-4 flex items-center gap-5 ${align === "right" ? "lg:flex-row-reverse" : ""
+          }`}
       >
         <div
           className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl border border-white/10 text-xl font-black text-white shadow-xl"
@@ -381,7 +463,7 @@ function TeamBlock({
 
           {school && (
             <div className="mt-4 inline-flex rounded-full border border-white/10 bg-white/10 px-4 py-2 text-[10px] font-black uppercase tracking-[0.16em] text-white/75">
-              School Hub →
+              View School Hub →
             </div>
           )}
         </div>
