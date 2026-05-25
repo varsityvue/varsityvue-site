@@ -14,8 +14,19 @@ const methodology = [
   "Strength of schedule",
   "Head-to-head results",
   "Recent momentum",
+  "District context",
   "Editorial review",
 ];
+
+function getMovementLabel(
+  previousRank: number | null | undefined,
+  rank: number
+) {
+  if (previousRank === null || previousRank === undefined) return "New";
+  if (previousRank > rank) return `Up ${previousRank - rank}`;
+  if (previousRank < rank) return `Down ${rank - previousRank}`;
+  return "Hold";
+}
 
 export default function RankingsPage() {
   const rankings = getFootballRankings();
@@ -29,13 +40,29 @@ export default function RankingsPage() {
           </p>
 
           <h1 className="mt-4 max-w-5xl text-4xl font-black leading-tight sm:text-6xl lg:text-7xl">
-            Texas high school football rankings built for weekly debate.
+            Debate fuel for Texas high school football.
           </h1>
 
           <p className="mt-6 max-w-3xl text-lg leading-8 text-white/65">
-            A regional rankings hub for fans, schools, sponsors, and communities
-            following Texas high school football.
+            Regional rankings built for weekly movement, district arguments,
+            community pride, and Friday night conversation.
           </p>
+
+          <div className="mt-8 rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
+            <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--vv-accent)]">
+              Weekly Race
+            </p>
+
+            <h2 className="mt-3 text-3xl font-black text-white md:text-4xl">
+              Every win changes the conversation.
+            </h2>
+
+            <p className="mt-3 max-w-3xl text-sm leading-6 text-white/60">
+              Rankings turn results into weekly debate, giving fans a reason to
+              come back, compare programs, and follow momentum across the
+              VarsityVue football network.
+            </p>
+          </div>
         </section>
 
         <section className="mt-10 rounded-3xl border border-[color:var(--vv-primary)]/30 bg-[var(--vv-primary)]/10 p-6 md:p-8">
@@ -46,12 +73,12 @@ export default function RankingsPage() {
               </p>
 
               <h2 className="mt-3 text-3xl font-black">
-                Rankings sponsorship available
+                Own the weekly debate.
               </h2>
 
               <p className="mt-3 max-w-2xl leading-7 text-white/65">
-                Put your brand beside one of the most repeatable weekly traffic
-                assets in the VarsityVue ecosystem.
+                Rankings are repeat-visit inventory built around fan attention,
+                school pride, and weekly football conversation.
               </p>
             </div>
 
@@ -78,8 +105,8 @@ export default function RankingsPage() {
 
             <p className="max-w-xl text-sm leading-6 text-white/50">
               MVP rankings are human-reviewed editorial rankings seeded for the
-              pilot platform. Real weekly movement can be layered in once score,
-              standings, and coverage data mature.
+              pilot platform. Weekly movement can expand as score, standings,
+              and coverage data mature.
             </p>
           </div>
 
@@ -88,6 +115,8 @@ export default function RankingsPage() {
               const school = getSchoolById(entry.schoolId);
 
               if (!school) return null;
+
+              const movement = getMovementLabel(entry.previousRank, entry.rank);
 
               return (
                 <Link
@@ -105,11 +134,9 @@ export default function RankingsPage() {
                         {school.fullName}
                       </h3>
 
-                      {entry.previousRank === null && (
-                        <span className="rounded-full border border-white/10 bg-black/40 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white/50">
-                          New
-                        </span>
-                      )}
+                      <span className="rounded-full border border-white/10 bg-black/40 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white/55">
+                        {movement}
+                      </span>
                     </div>
 
                     <p className="mt-2 text-sm leading-6 text-white/60">
@@ -169,7 +196,7 @@ export default function RankingsPage() {
           </p>
 
           <h2 className="mt-4 text-4xl font-black">
-            Want your business beside the rankings?
+            Put your business where fans come back every week.
           </h2>
 
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/65">
@@ -180,14 +207,14 @@ export default function RankingsPage() {
           <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
             <Link
               href="/sponsor-inquiry"
-              className="rounded-full bg-[var(--vv-primary)] px-8 py-4 font-semibold transition hover:bg-[var(--vv-primary-hover)]"
+              className="rounded-full bg-[var(--vv-primary)] px-8 py-4 font-black transition hover:bg-[var(--vv-primary-hover)]"
             >
               Request Sponsor Info
             </Link>
 
             <Link
               href="/sponsors"
-              className="rounded-full border border-white/20 px-8 py-4 font-semibold transition hover:bg-white/10"
+              className="rounded-full border border-white/20 px-8 py-4 font-black transition hover:bg-white/10"
             >
               View Sponsor Options
             </Link>
