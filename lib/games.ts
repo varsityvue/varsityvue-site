@@ -25,6 +25,7 @@ export function getRecentScoresForSchool(slug: string) {
     .filter((game) => game.status === "final" && game.gameType !== "bye")
     .sort(
       (a, b) =>
-        new Date(b.kickoff).getTime() - new Date(a.kickoff).getTime()
+        new Date(b.kickoff ?? "").getTime() -
+        new Date(a.kickoff ?? "").getTime()
     );
 }

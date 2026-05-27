@@ -69,34 +69,78 @@ export type District = {
 
 export type GameStatus =
   | "scheduled"
+  | "upcoming"
   | "live"
   | "final"
   | "postponed"
   | "cancelled";
 
+export type GameType =
+  | "scrimmage"
+  | "regular"
+  | "district"
+  | "playoff"
+  | "bye";
+
+export type MediaLinkType =
+  | "radio"
+  | "stream"
+  | "tv"
+  | "coverage"
+  | "tickets"
+  | "other";
+
+export type MediaLink = {
+  label: string;
+  url: string;
+  type: MediaLinkType;
+};
+
 export type Game = {
   id: string;
-  slug: string;
+  slug?: string;
 
-  sport: SportKey;
+  sport?: SportKey;
   season: number;
   week?: number;
 
-  homeSchoolId: string;
-  awaySchoolId: string;
+  gameType: GameType;
+  status: GameStatus;
 
-  date: string;
+  homeSchoolId?: string;
+  awaySchoolId?: string;
+
+  homeSchoolSlug?: string;
+  awaySchoolSlug?: string;
+
+  homeTeam?: string;
+  awayTeam?: string;
+
+  date?: string;
   time?: string;
+  kickoff?: string;
+
+  venue?: string;
+  venueAddress?: string;
   location?: string;
 
   districtGame: boolean;
-  status: GameStatus;
+  specialEvent?: string;
+  recapArticleSlug?: string;
+  livestreamUrl?: string;
+
+  featured?: boolean;
 
   score?: {
     home: number;
     away: number;
     period?: string;
   };
+
+  homeScore?: number;
+  awayScore?: number;
+
+  mediaLinks?: MediaLink[];
 
   sponsorIds?: string[];
   articleIds?: string[];

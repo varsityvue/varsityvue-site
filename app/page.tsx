@@ -16,7 +16,9 @@ export const metadata: Metadata = {
     "VarsityVue is a Texas high school sports platform for school hubs, schedules, scores, district standings, matchup pages, coverage, and sponsor visibility.",
 };
 
-function formatGameDate(kickoff: string) {
+function formatGameDate(kickoff?: string) {
+  if (!kickoff) return "TBD";
+
   return new Intl.DateTimeFormat("en-US", {
     weekday: "short",
     month: "short",
@@ -25,14 +27,15 @@ function formatGameDate(kickoff: string) {
   }).format(new Date(kickoff));
 }
 
-function formatGameTime(kickoff: string) {
+function formatGameTime(kickoff?: string) {
+  if (!kickoff) return "TBD";
+
   return new Intl.DateTimeFormat("en-US", {
     hour: "numeric",
     minute: "2-digit",
     timeZone: "America/Chicago",
   }).format(new Date(kickoff));
 }
-
 export default function Home() {
   const schools = getSchools();
   const districts = getDistricts();
@@ -81,8 +84,8 @@ export default function Home() {
                   {featuredGame ? (
                     <>
                       <p className="text-xl font-black text-white">
-                        {formatGameDate(featuredGame.kickoff)} ·{" "}
-                        {formatGameTime(featuredGame.kickoff)}
+                        {formatGameDate(featuredGame.kickoff ?? "")}
+                        {formatGameTime(featuredGame.kickoff ?? "")}
                       </p>
                       <p className="text-base font-semibold text-white/55">
                         {featuredGame.venue}

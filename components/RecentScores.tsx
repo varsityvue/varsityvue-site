@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import type { Game } from "../data/games";
+import type { Game } from "@/types/platform";
 import type { SchoolTheme } from "../types/school-theme";
 
 type RecentScoresProps = {
@@ -9,7 +9,9 @@ type RecentScoresProps = {
   schoolSlug: string;
 };
 
-function formatScoreDate(kickoff: string) {
+function formatScoreDate(kickoff?: string) {
+  if (!kickoff) return "TBD";
+
   return new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
@@ -45,7 +47,9 @@ function getScoreDisplay(game: Game, schoolSlug: string) {
 
 function getOpponentLabel(game: Game, schoolSlug: string) {
   const isHomeTeam = game.homeSchoolSlug === schoolSlug;
-  const opponent = isHomeTeam ? game.awayTeam : game.homeTeam;
+  const opponent = isHomeTeam
+    ? game.awayTeam ?? "Away Team"
+    : game.homeTeam ?? "Home Team";
 
   return `${isHomeTeam ? "vs" : "at"} ${opponent}`;
 }

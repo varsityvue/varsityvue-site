@@ -43,9 +43,9 @@ function getGameStatusLabel(game: ScheduleGame) {
   return "Upcoming";
 }
 
-function getMapUrl(venue: string) {
+function getMapUrl(venue?: string) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    venue
+    venue ?? "Texas high school stadium"
   )}`;
 }
 
@@ -85,7 +85,9 @@ export default async function SchoolSchedulePage({
   const districtSlug = district?.slug ?? school.districtId;
 
   const games = getGamesForSchool(slug).sort(
-    (a, b) => new Date(a.kickoff).getTime() - new Date(b.kickoff).getTime()
+    (a, b) =>
+      new Date(a.kickoff ?? "").getTime() -
+      new Date(b.kickoff ?? "").getTime()
   );
 
   const standings = getStandingsForSchool(slug);
@@ -281,11 +283,11 @@ export default async function SchoolSchedulePage({
                             <div className="flex flex-wrap gap-3">
                               <InfoCard
                                 label="Date"
-                                value={formatGameDate(game.kickoff)}
+                                value={formatGameDate(game.kickoff ?? "")}
                               />
                               <InfoCard
                                 label="Kickoff"
-                                value={formatGameTime(game.kickoff)}
+                                value={formatGameTime(game.kickoff ?? "")}
                               />
                               <InfoCard
                                 label={hasScore ? "Final" : "Opp. Record"}

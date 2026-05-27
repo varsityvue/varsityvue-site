@@ -32,18 +32,36 @@ function formatStatus(status: string) {
   return status.charAt(0).toUpperCase() + status.slice(1);
 }
 
-function getGameTypeLabel(gameType: string, week: number) {
+function getGameTypeLabel(gameType: string, week?: number) {
   if (gameType === "scrimmage") return "Scrimmage";
   if (gameType === "playoff") return "Playoff";
   if (gameType === "bye") return "BYE";
-  return `Week ${week}`;
+  return `Week ${week ?? "-"}`;
+}
+
+function getKickoffValue(game: { kickoff?: string }) {
+  return game.kickoff ?? "";
+}
+
+function getAwayTeam(game: { awayTeam?: string }) {
+  return game.awayTeam ?? "Away Team";
+}
+
+function getHomeTeam(game: { homeTeam?: string }) {
+  return game.homeTeam ?? "Home Team";
+}
+
+function getVenue(game: { venue?: string }) {
+  return game.venue ?? "Venue TBD";
 }
 
 export default function GamesPage() {
   const regularGames = [...getGames()]
     .filter((game) => game.gameType !== "bye")
     .sort(
-      (a, b) => new Date(a.kickoff).getTime() - new Date(b.kickoff).getTime()
+      (a, b) =>
+        new Date(getKickoffValue(a)).getTime() -
+        new Date(getKickoffValue(b)).getTime()
     );
 
   const featuredGame =
@@ -66,10 +84,10 @@ export default function GamesPage() {
             className="rounded-[2rem] border border-white/10 p-6 shadow-2xl md:p-8"
             style={{
               background: `
-      radial-gradient(circle at top left, rgba(139,16,32,0.42), transparent 42%),
-      radial-gradient(circle at bottom right, rgba(139,16,32,0.16), transparent 46%),
-      rgba(255,255,255,0.045)
-    `,
+                radial-gradient(circle at top left, rgba(139,16,32,0.42), transparent 42%),
+                radial-gradient(circle at bottom right, rgba(139,16,32,0.16), transparent 46%),
+                rgba(255,255,255,0.045)
+              `,
             }}
           >
             <p className="text-xs font-black uppercase tracking-[0.32em] text-[var(--vv-accent)]">
@@ -81,7 +99,8 @@ export default function GamesPage() {
             </h1>
 
             <p className="mt-6 max-w-3xl text-base leading-7 text-white/60 sm:text-lg">
-              Schedules, live scores, featured matchups, district games, and game-week coverage across the VarsityVue ecosystem.
+              Schedules, live scores, featured matchups, district games, and
+              game-week coverage across the VarsityVue ecosystem.
             </p>
 
             <div className="mt-7 flex flex-wrap gap-3">
@@ -113,9 +132,9 @@ export default function GamesPage() {
                   </p>
 
                   <h2 className="mt-4 text-4xl font-black leading-tight sm:text-5xl">
-                    {featuredGame.awayTeam}
+                    {getAwayTeam(featuredGame)}
                     <span className="block text-white/35">at</span>
-                    {featuredGame.homeTeam}
+                    {getHomeTeam(featuredGame)}
                   </h2>
 
                   <div className="mt-6 flex flex-wrap gap-2">
@@ -137,13 +156,13 @@ export default function GamesPage() {
                   <div className="mt-7 grid gap-3 sm:grid-cols-3">
                     <InfoCard
                       label="Date"
-                      value={formatGameDate(featuredGame.kickoff)}
+                      value={formatGameDate(getKickoffValue(featuredGame))}
                     />
                     <InfoCard
                       label="Kickoff"
-                      value={formatGameTime(featuredGame.kickoff)}
+                      value={formatGameTime(getKickoffValue(featuredGame))}
                     />
-                    <InfoCard label="Venue" value={featuredGame.venue} />
+                    <InfoCard label="Venue" value={getVenue(featuredGame)} />
                   </div>
                 </div>
 
@@ -158,7 +177,8 @@ export default function GamesPage() {
                     </h3>
 
                     <p className="mt-3 text-sm leading-6 text-white/55">
-                      Put your business in front of fans before kickoff, during game week, and on the matchup page.
+                      Put your business in front of fans before kickoff, during
+                      game week, and on the matchup page.
                     </p>
                   </div>
 
@@ -166,7 +186,7 @@ export default function GamesPage() {
                     href={`/games/${featuredGame.id}`}
                     className="mt-6 rounded-xl border border-white/15 bg-white/10 px-5 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
                   >
-                    View Matchup →
+                    Matchup Center →
                   </Link>
                 </div>
               </div>
@@ -191,7 +211,7 @@ export default function GamesPage() {
               </p>
             </div>
 
-            <div className="flex gap-3 overflow-x-auto pb-1">
+            <div className="flex gap-3 overflow-x-auto pb-2 pr-4">
               {(liveGames.length > 0
                 ? liveGames
                 : upcomingGames.slice(0, 5)
@@ -207,12 +227,12 @@ export default function GamesPage() {
                   </p>
 
                   <h3 className="mt-2 text-lg font-black text-white">
-                    {game.awayTeam} at {game.homeTeam}
+                    {getAwayTeam(game)} at {getHomeTeam(game)}
                   </h3>
 
                   <p className="mt-2 text-sm text-white/45">
-                    {formatGameDate(game.kickoff)} ·{" "}
-                    {formatGameTime(game.kickoff)}
+                    {formatGameDate(getKickoffValue(game))} ·{" "}
+                    {formatGameTime(getKickoffValue(game))}
                   </p>
                 </Link>
               ))}
@@ -250,26 +270,28 @@ export default function GamesPage() {
 
                   <div className="relative">
                     <div className="flex flex-wrap gap-2">
-                      <Badge label={getGameTypeLabel(game.gameType, game.week)} />
+                      <Badge
+                        label={getGameTypeLabel(game.gameType, game.week)}
+                      />
                       <Badge label={formatStatus(game.status)} />
                       {game.districtGame && <Badge label="District" />}
                       {game.specialEvent && <Badge label={game.specialEvent} />}
                     </div>
 
                     <h3 className="mt-5 text-2xl font-black leading-tight text-white">
-                      {game.awayTeam}
+                      {getAwayTeam(game)}
                       <span className="block text-white/35">at</span>
-                      {game.homeTeam}
+                      {getHomeTeam(game)}
                     </h3>
 
                     <div className="mt-6 grid gap-3 sm:grid-cols-2">
                       <InfoCard
                         label="Date"
-                        value={formatGameDate(game.kickoff)}
+                        value={formatGameDate(getKickoffValue(game))}
                       />
                       <InfoCard
                         label="Kickoff"
-                        value={formatGameTime(game.kickoff)}
+                        value={formatGameTime(getKickoffValue(game))}
                       />
                     </div>
 
@@ -277,7 +299,9 @@ export default function GamesPage() {
                       <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">
                         Venue
                       </p>
-                      <p className="mt-2 font-black text-white">{game.venue}</p>
+                      <p className="mt-2 font-black text-white">
+                        {getVenue(game)}
+                      </p>
                     </div>
 
                     {game.status === "final" &&
@@ -289,7 +313,7 @@ export default function GamesPage() {
                       )}
 
                     <p className="mt-6 text-sm font-black uppercase tracking-[0.14em] text-[var(--vv-accent)]">
-                      View matchup →
+                      Matchup Center →
                     </p>
                   </div>
                 </Link>
@@ -339,10 +363,11 @@ function FilterPill({
 }) {
   return (
     <span
-      className={`rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.14em] ${active
-        ? "border-white/20 bg-white text-black"
-        : "border-white/10 bg-white/5 text-white/60"
-        }`}
+      className={`rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.14em] ${
+        active
+          ? "border-white/20 bg-white text-black"
+          : "border-white/10 bg-white/5 text-white/60"
+      }`}
     >
       {label}
     </span>

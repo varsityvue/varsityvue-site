@@ -6,8 +6,9 @@ import { getSchoolBySlug } from "@/lib/schools";
 function formatClassification(classification: UILClassification) {
   if (!classification.division) return classification.conference;
 
-  return `${classification.conference} Division ${classification.division === "D1" ? "I" : "II"
-    }`;
+  return `${classification.conference} Division ${
+    classification.division === "D1" ? "I" : "II"
+  }`;
 }
 
 function formatRegion(region: 1 | 2 | 3 | 4) {
@@ -31,7 +32,9 @@ function formatDistrictName(districtId: string) {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
-function formatGameDate(kickoff: string) {
+function formatGameDate(kickoff?: string) {
+  if (!kickoff) return "TBD";
+
   return new Intl.DateTimeFormat("en-US", {
     weekday: "short",
     month: "short",
@@ -40,7 +43,9 @@ function formatGameDate(kickoff: string) {
   }).format(new Date(kickoff));
 }
 
-function formatGameTime(kickoff: string) {
+function formatGameTime(kickoff?: string) {
+  if (!kickoff) return "TBD";
+
   return new Intl.DateTimeFormat("en-US", {
     hour: "numeric",
     minute: "2-digit",
@@ -48,15 +53,30 @@ function formatGameTime(kickoff: string) {
   }).format(new Date(kickoff));
 }
 
+function getTeamName(team?: string, fallback = "Team TBD") {
+  return team ?? fallback;
+}
+
+function getVenueName(venue?: string) {
+  return venue ?? "Venue TBD";
+}
+
+function getWeekLabel(gameType: string, week?: number) {
+  if (gameType === "playoff") return "Playoff";
+  if (gameType === "scrimmage") return "Scrimmage";
+  if (gameType === "bye") return "BYE";
+  return week === undefined ? "Week TBD" : `Week ${week}`;
+}
+
 export default function SchoolHero({ school }: { school: School }) {
   const upcomingGames = getUpcomingGamesForSchool(school.slug);
   const nextGame = upcomingGames[0];
 
-  const nextAwaySchool = nextGame
+  const nextAwaySchool = nextGame?.awaySchoolSlug
     ? getSchoolBySlug(nextGame.awaySchoolSlug)
     : null;
 
-  const nextHomeSchool = nextGame
+  const nextHomeSchool = nextGame?.homeSchoolSlug
     ? getSchoolBySlug(nextGame.homeSchoolSlug)
     : null;
 
@@ -72,10 +92,10 @@ export default function SchoolHero({ school }: { school: School }) {
       className="relative overflow-hidden border-b border-white/10 text-white"
       style={{
         background: `
-  radial-gradient(circle at top left, ${primary}66 0%, transparent 36%),
-  radial-gradient(circle at top right, ${secondary}22 0%, transparent 34%),
-  linear-gradient(120deg, ${primary}44 0%, #080808 46%, #000 100%)
-`,
+          radial-gradient(circle at top left, ${primary}66 0%, transparent 36%),
+          radial-gradient(circle at top right, ${secondary}22 0%, transparent 34%),
+          linear-gradient(120deg, ${primary}44 0%, #080808 46%, #000 100%)
+        `,
       }}
     >
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.72),rgba(0,0,0,0.16))]" />
@@ -170,42 +190,52 @@ export default function SchoolHero({ school }: { school: School }) {
 
         <div className="flex items-end">
           <div className="w-full rounded-[1.75rem] border border-white/10 bg-black/45 p-6 shadow-2xl backdrop-blur-sm">
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
+            <p className="inline-flex rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-white/80">
               Next Matchup
             </p>
+
             {nextGame ? (
               <>
                 <h2 className="mt-4 max-w-[90%] text-3xl font-black leading-tight tracking-tight sm:text-4xl">
-                  {nextGame.awayTeam} at {nextGame.homeTeam}
+                  {getTeamName(nextGame.awayTeam, "Away Team")} at{" "}
+                  {getTeamName(nextGame.homeTeam, "Home Team")}
                 </h2>
 
                 <div className="mt-7 grid grid-cols-3 items-center gap-3 text-center">
-                  <TeamBadge team={nextAwaySchool?.mascot ?? nextGame.awayTeam} />
+                  <TeamBadge
+                    team={
+                      nextAwaySchool?.mascot ??
+                      getTeamName(nextGame.awayTeam, "Away Team")
+                    }
+                  />
                   <div className="text-2xl font-black text-white/30">VS</div>
-                  <TeamBadge team={nextHomeSchool?.mascot ?? nextGame.homeTeam} />
+                  <TeamBadge
+                    team={
+                      nextHomeSchool?.mascot ??
+                      getTeamName(nextGame.homeTeam, "Home Team")
+                    }
+                  />
                 </div>
 
                 <div className="mt-7 grid gap-3 sm:grid-cols-2">
                   <InfoCard label="Date" value={formatGameDate(nextGame.kickoff)} />
-                  <InfoCard label="Kickoff" value={formatGameTime(nextGame.kickoff)} />
-                  <InfoCard label="Venue" value={nextGame.venue} />
+                  <InfoCard
+                    label="Kickoff"
+                    value={formatGameTime(nextGame.kickoff)}
+                  />
+                  <InfoCard label="Venue" value={getVenueName(nextGame.venue)} />
                   <InfoCard
                     label="Week"
-                    value={
-                      nextGame.gameType === "playoff"
-                        ? "Playoff"
-                        : `Week ${nextGame.week}`
-                    }
+                    value={getWeekLabel(nextGame.gameType, nextGame.week)}
                   />
                 </div>
 
                 <Link
                   href={`/games/${nextGame.id}`}
-                  className="mt-6 block rounded-xl border px-5 py-4 text-center text-sm font-black uppercase tracking-[0.14em] transition hover:bg-white/15"
+                  className="mt-6 block rounded-xl border px-5 py-4 text-center text-sm font-black uppercase tracking-[0.14em] text-white transition hover:bg-white/15"
                   style={{
                     borderColor: `${secondary}44`,
                     backgroundColor: "rgba(255,255,255,0.08)",
-                    color: "white",
                   }}
                 >
                   View Matchup →

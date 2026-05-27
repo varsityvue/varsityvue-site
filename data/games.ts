@@ -1,32 +1,4 @@
-export type GameStatus = "upcoming" | "live" | "final";
-export type GameType = "scrimmage" | "regular" | "playoff" | "bye";
-
-export type Game = {
-  id: string;
-  season: number;
-  week: number;
-
-  gameType: GameType;
-
-  homeSchoolSlug: string;
-  awaySchoolSlug: string;
-
-  homeTeam: string;
-  awayTeam: string;
-
-  venue: string;
-  kickoff: string;
-
-  status: GameStatus;
-
-  districtGame?: boolean;
-  specialEvent?: string;
-  livestreamUrl?: string;
-  recapArticleSlug?: string;
-
-  homeScore?: number;
-  awayScore?: number;
-};
+import type { Game } from "@/types/platform";
 
 export const games: Game[] = [
   {
@@ -235,7 +207,8 @@ export function getRecentScoresForSchool(slug: string) {
     .filter((game) => game.status === "final" && game.gameType !== "bye")
     .sort(
       (a, b) =>
-        new Date(b.kickoff).getTime() - new Date(a.kickoff).getTime()
+        new Date(b.kickoff ?? "").getTime() -
+        new Date(a.kickoff ?? "").getTime()
     );
 }
 

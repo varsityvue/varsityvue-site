@@ -20,7 +20,9 @@ function formatClassification(classification: UILClassification) {
     }`;
 }
 
-function formatGameDate(kickoff: string) {
+function formatGameDate(kickoff?: string) {
+  if (!kickoff) return "TBD";
+
   return new Intl.DateTimeFormat("en-US", {
     weekday: "long",
     month: "long",
@@ -29,7 +31,9 @@ function formatGameDate(kickoff: string) {
   }).format(new Date(kickoff));
 }
 
-function formatGameTime(kickoff: string) {
+function formatGameTime(kickoff?: string) {
+  if (!kickoff) return "TBD";
+
   return new Intl.DateTimeFormat("en-US", {
     hour: "numeric",
     minute: "2-digit",
@@ -118,9 +122,12 @@ export async function generateMetadata({
     };
   }
 
+  const homeTeamName = game.homeTeam ?? "Home Team";
+  const awayTeamName = game.awayTeam ?? "Away Team";
+
   return {
-    title: `${game.awayTeam} at ${game.homeTeam} | VarsityVue`,
-    description: `${game.awayTeam} at ${game.homeTeam} matchup preview, kickoff details, venue, district implications, and VarsityVue coverage.`,
+    title: `${awayTeamName} at ${homeTeamName} | VarsityVue`,
+    description: `${awayTeamName} at ${homeTeamName} matchup preview, kickoff details, venue, district implications, and VarsityVue coverage.`,
   };
 }
 
@@ -132,8 +139,19 @@ export default async function GamePage({ params }: GamePageProps) {
     notFound();
   }
 
-  const homeSchool = getSchoolBySlug(game.homeSchoolSlug);
-  const awaySchool = getSchoolBySlug(game.awaySchoolSlug);
+  const homeTeamName = game.homeTeam ?? "Home Team";
+  const awayTeamName = game.awayTeam ?? "Away Team";
+  const kickoffValue = game.kickoff ?? "";
+  const venueName = game.venue ?? "Venue TBD";
+  const weekNumber = game.week ?? 0;
+
+  const gameForMap = {
+    venue: venueName,
+    homeTeam: homeTeamName,
+  };
+
+  const homeSchool = getSchoolBySlug(game.homeSchoolSlug ?? "");
+  const awaySchool = getSchoolBySlug(game.awaySchoolSlug ?? "");
 
   const district = homeSchool ? getDistrictById(homeSchool.districtId) : null;
 
@@ -152,27 +170,27 @@ export default async function GamePage({ params }: GamePageProps) {
   const sportsEventSchema = {
     "@context": "https://schema.org",
     "@type": "SportsEvent",
-    name: `${game.awayTeam} at ${game.homeTeam}`,
-    description: `${game.awayTeam} at ${game.homeTeam} matchup details, kickoff information, venue, and VarsityVue coverage.`,
-    startDate: game.kickoff,
+    name: `${awayTeamName} at ${homeTeamName}`,
+    description: `${awayTeamName} at ${homeTeamName} matchup details, kickoff information, venue, and VarsityVue coverage.`,
+    startDate: kickoffValue,
     eventStatus: getSchemaEventStatus(game.status),
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     url: `https://varsityvue.com/games/${game.id}`,
     location: {
       "@type": "Place",
-      name: game.venue,
+      name: venueName,
     },
     competitor: [
       {
         "@type": "SportsTeam",
-        name: game.awayTeam,
+        name: awayTeamName,
         url: awaySchool
           ? `https://varsityvue.com/schools/${awaySchool.slug}`
           : undefined,
       },
       {
         "@type": "SportsTeam",
-        name: game.homeTeam,
+        name: homeTeamName,
         url: homeSchool
           ? `https://varsityvue.com/schools/${homeSchool.slug}`
           : undefined,
@@ -226,7 +244,7 @@ export default async function GamePage({ params }: GamePageProps) {
             <div className="flex flex-wrap gap-2">
               <Badge label="VarsityVue Matchup" />
               <Badge label={getGameStatusLabel(game.status)} />
-              <Badge label={getGameTypeLabel(game.gameType, game.week)} />
+              <Badge label={getGameTypeLabel(game.gameType, weekNumber)} />
               {game.districtGame && <Badge label="District Game" />}
               {game.specialEvent && <Badge label={game.specialEvent} />}
             </div>
@@ -237,11 +255,19 @@ export default async function GamePage({ params }: GamePageProps) {
               </p>
 
               <h1 className="mt-3 text-3xl font-black leading-tight text-white md:text-4xl">
-                {getGameHeadline(game)}
+                {getGameHeadline({
+                  awayTeam: awayTeamName,
+                  homeTeam: homeTeamName,
+                })}
               </h1>
 
               <p className="mt-3 max-w-3xl text-sm leading-6 text-white/72">
-                {getGameStorylineDescription(game)}
+                {getGameStorylineDescription({
+                  awayTeam: awayTeamName,
+                  homeTeam: homeTeamName,
+                  districtGame: game.districtGame,
+                  gameType: game.gameType,
+                })}
               </p>
             </div>
 
@@ -249,7 +275,7 @@ export default async function GamePage({ params }: GamePageProps) {
               <TeamBlock
                 align="left"
                 label="Away"
-                team={game.awayTeam}
+                team={awayTeamName}
                 school={awaySchool}
                 score={hasFinalScore ? game.awayScore : undefined}
               />
@@ -263,21 +289,21 @@ export default async function GamePage({ params }: GamePageProps) {
               <TeamBlock
                 align="right"
                 label="Home"
-                team={game.homeTeam}
+                team={homeTeamName}
                 school={homeSchool}
                 score={hasFinalScore ? game.homeScore : undefined}
               />
             </div>
 
             <div className="mt-8 grid gap-3 md:grid-cols-4">
-              <InfoCard label="Date" value={formatGameDate(game.kickoff)} />
-              <InfoCard label="Kickoff" value={formatGameTime(game.kickoff)} />
+              <InfoCard label="Date" value={formatGameDate(kickoffValue)} />
+              <InfoCard label="Kickoff" value={formatGameTime(kickoffValue)} />
               <a
-                href={getMapUrl(game)}
+                href={getMapUrl(gameForMap)}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <InfoCard label="Venue" value={`${game.venue} →`} />
+                <InfoCard label="Venue" value={`${venueName} →`} />
               </a>
               <Link href="/coverage">
                 <InfoCard label="Coverage" value="VarsityVue Coverage →" />
@@ -335,7 +361,7 @@ export default async function GamePage({ params }: GamePageProps) {
               <div className="mt-5 grid gap-3 md:grid-cols-3">
                 <MiniCard
                   label="Game Type"
-                  value={getGameTypeLabel(game.gameType, game.week)}
+                  value={getGameTypeLabel(game.gameType, weekNumber)}
                 />
                 <MiniCard
                   label="District"
@@ -425,7 +451,7 @@ export default async function GamePage({ params }: GamePageProps) {
                 )}
 
                 <a
-                  href={getMapUrl(game)}
+                  href={getMapUrl(gameForMap)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="rounded-2xl border border-white/10 bg-black/35 px-4 py-3 text-sm font-black text-white/75 transition hover:bg-white/10 hover:text-white"

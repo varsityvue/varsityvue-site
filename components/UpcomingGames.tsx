@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { Game } from "@/data/games";
+import type { Game } from "@/types/platform";
 import type { SchoolTheme } from "../types/school-theme";
 
 type UpcomingGamesProps = {
@@ -8,7 +8,9 @@ type UpcomingGamesProps = {
   schoolSlug: string;
 };
 
-function formatGameDate(kickoff: string) {
+function formatGameDate(kickoff?: string) {
+  if (!kickoff) return "TBD";
+
   return new Intl.DateTimeFormat("en-US", {
     weekday: "short",
     month: "short",
@@ -17,7 +19,9 @@ function formatGameDate(kickoff: string) {
   }).format(new Date(kickoff));
 }
 
-function formatGameTime(kickoff: string) {
+function formatGameTime(kickoff?: string) {
+  if (!kickoff) return "TBD";
+
   return new Intl.DateTimeFormat("en-US", {
     hour: "numeric",
     minute: "2-digit",
@@ -28,7 +32,16 @@ function formatGameTime(kickoff: string) {
 function getGameLabel(game: Game) {
   if (game.gameType === "playoff") return "Playoff";
   if (game.gameType === "scrimmage") return "Scrimmage";
-  return `Week ${game.week}`;
+  if (game.gameType === "bye") return "BYE";
+  return game.week === undefined ? "Week TBD" : `Week ${game.week}`;
+}
+
+function getTeamName(team?: string, fallback = "Team TBD") {
+  return team ?? fallback;
+}
+
+function getVenueName(venue?: string) {
+  return venue ?? "Venue TBD";
 }
 
 export default function UpcomingGames({
@@ -64,11 +77,10 @@ export default function UpcomingGames({
 
         <Link
           href={`/schools/${schoolSlug}/schedule`}
-          className="hidden rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.14em] transition hover:brightness-110 sm:inline-flex"
+          className="hidden rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white transition hover:brightness-110 sm:inline-flex"
           style={{
             borderColor: `${theme.secondary}33`,
             backgroundColor: "rgba(255,255,255,0.08)",
-            color: "white",
           }}
         >
           Full Schedule →
@@ -118,9 +130,9 @@ export default function UpcomingGames({
                 </div>
 
                 <h3 className="mt-5 text-3xl font-black leading-tight text-white sm:text-4xl">
-                  {featuredGame.awayTeam}
+                  {getTeamName(featuredGame.awayTeam, "Away Team")}
                   <span className="block text-white/35">at</span>
-                  {featuredGame.homeTeam}
+                  {getTeamName(featuredGame.homeTeam, "Home Team")}
                 </h3>
 
                 <div className="mt-8 grid gap-3 sm:grid-cols-3">
@@ -132,7 +144,10 @@ export default function UpcomingGames({
                     label="Kickoff"
                     value={formatGameTime(featuredGame.kickoff)}
                   />
-                  <InfoCard label="Venue" value={featuredGame.venue} />
+                  <InfoCard
+                    label="Venue"
+                    value={getVenueName(featuredGame.venue)}
+                  />
                 </div>
 
                 <p
@@ -165,20 +180,22 @@ export default function UpcomingGames({
                 </div>
 
                 <h3 className="mt-3 text-lg font-black leading-tight text-white">
-                  {game.awayTeam} at {game.homeTeam}
+                  {getTeamName(game.awayTeam, "Away Team")} at{" "}
+                  {getTeamName(game.homeTeam, "Home Team")}
                 </h3>
 
-                <p className="mt-2 text-sm text-white/50">{game.venue}</p>
+                <p className="mt-2 text-sm text-white/50">
+                  {getVenueName(game.venue)}
+                </p>
               </Link>
             ))}
 
             <Link
               href={`/schools/${schoolSlug}/schedule`}
-              className="rounded-2xl border p-4 text-center text-sm font-black uppercase tracking-[0.16em] transition hover:brightness-110 sm:hidden"
+              className="rounded-2xl border p-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:brightness-110 sm:hidden"
               style={{
                 borderColor: `${theme.secondary}33`,
                 backgroundColor: "rgba(255,255,255,0.08)",
-                color: "white",
               }}
             >
               View full schedule →

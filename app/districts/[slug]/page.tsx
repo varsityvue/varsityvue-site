@@ -84,7 +84,9 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
     )
     .filter((game) => game.districtGame)
     .sort(
-      (a, b) => new Date(a.kickoff).getTime() - new Date(b.kickoff).getTime()
+      (a, b) =>
+        new Date(a.kickoff ?? "").getTime() -
+        new Date(b.kickoff ?? "").getTime()
     )
     .slice(0, 6);
 
@@ -383,7 +385,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
                       className="block rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
                     >
                       <p className="text-xs font-black uppercase tracking-[0.18em] text-white/40">
-                        {formatGameDate(game.kickoff)} · Week {game.week}
+                        {formatGameDate(game.kickoff ?? "")} · Week {game.week}
                       </p>
 
                       <h3 className="mt-2 text-lg font-black text-white">

@@ -1,4 +1,5 @@
-import { games, type Game } from "@/data/games";
+import { games } from "@/data/games";
+import type { Game } from "@/types/platform";
 
 export type ScoreboardGame = Game & {
   displayStatus: "Upcoming" | "Live" | "Final";
@@ -24,7 +25,8 @@ export function getScoreboardGames(): ScoreboardGame[] {
     }))
     .sort(
       (a, b) =>
-        new Date(a.kickoff).getTime() - new Date(b.kickoff).getTime()
+        new Date(a.kickoff ?? "").getTime() -
+        new Date(b.kickoff ?? "").getTime()
     );
 }
 

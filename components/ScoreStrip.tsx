@@ -1,9 +1,12 @@
 import Link from "next/link";
 import { getScoreboardGames } from "@/lib/scoreboard";
 
-function formatKickoff(kickoff: string) {
+function formatKickoff(kickoff?: string) {
+  if (!kickoff) return "TBD";
+
   return new Intl.DateTimeFormat("en-US", {
-    weekday: "short",
+    month: "short",
+    day: "numeric",
     hour: "numeric",
     minute: "2-digit",
     timeZone: "America/Chicago",

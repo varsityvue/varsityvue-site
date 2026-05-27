@@ -13,7 +13,9 @@ export const metadata: Metadata = {
     "Follow Texas high school football scores, upcoming games, final results, featured matchups, and sponsor-ready scoreboard coverage on VarsityVue.",
 };
 
-function formatKickoff(kickoff: string) {
+function formatKickoff(kickoff?: string) {
+  if (!kickoff) return "TBD";
+
   return new Intl.DateTimeFormat("en-US", {
     weekday: "short",
     month: "short",
@@ -24,9 +26,24 @@ function formatKickoff(kickoff: string) {
   }).format(new Date(kickoff));
 }
 
-function getMapUrl(game: { venue: string; homeTeam: string }) {
+function getTeamName(team?: string, fallback = "Team TBD") {
+  return team ?? fallback;
+}
+
+function getVenueName(venue?: string) {
+  return venue ?? "Venue TBD";
+}
+
+function getWeekLabel(week?: number) {
+  return week === undefined ? "Week TBD" : `Week ${week}`;
+}
+
+function getMapUrl(game: { venue?: string; homeTeam?: string }) {
+  const venue = getVenueName(game.venue);
+  const homeTeam = getTeamName(game.homeTeam, "");
+
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    `${game.venue} ${game.homeTeam} Texas`
+    `${venue} ${homeTeam} Texas`
   )}`;
 }
 
@@ -45,13 +62,11 @@ export default function ScoreboardPage() {
           </p>
 
           <h1 className="mt-4 max-w-5xl text-4xl font-black leading-tight sm:text-6xl lg:text-7xl">
-            VarsityVue football scores built for Friday night.
+            Texas High School Football Scores
           </h1>
 
           <p className="mt-6 max-w-3xl text-lg leading-8 text-white/65">
-            Follow featured games, live updates, upcoming matchups, final
-            scores, and game-week coverage across the VarsityVue football
-            ecosystem.
+            Live scores, featured matchups, finals, and game-night coverage across VarsityVue.
           </p>
 
           <div className="mt-8 rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
@@ -79,12 +94,14 @@ export default function ScoreboardPage() {
             <div className="mt-5 grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
                 <h2 className="text-3xl font-black md:text-5xl">
-                  {featuredGame.awayTeam} at {featuredGame.homeTeam}
+                  {getTeamName(featuredGame.awayTeam, "Away Team")} at{" "}
+                  {getTeamName(featuredGame.homeTeam, "Home Team")}
                 </h2>
 
                 <p className="mt-4 text-white/65">
-                  Week {featuredGame.week} ·{" "}
-                  {formatKickoff(featuredGame.kickoff)} · {featuredGame.venue}
+                  {getWeekLabel(featuredGame.week)} ·{" "}
+                  {formatKickoff(featuredGame.kickoff)} ·{" "}
+                  {getVenueName(featuredGame.venue)}
                 </p>
 
                 <div className="mt-5 flex flex-wrap gap-3">
@@ -205,8 +222,12 @@ function ScoreboardColumn({
               <Link href={`/games/${game.id}`} className="block">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <p className="font-black">{game.awayTeam}</p>
-                    <p className="mt-1 font-black">{game.homeTeam}</p>
+                    <p className="font-black">
+                      {getTeamName(game.awayTeam, "Away Team")}
+                    </p>
+                    <p className="mt-1 font-black">
+                      {getTeamName(game.homeTeam, "Home Team")}
+                    </p>
                   </div>
 
                   {game.status === "final" ? (
@@ -222,7 +243,7 @@ function ScoreboardColumn({
                 </div>
 
                 <p className="mt-4 text-xs text-white/45">
-                  Week {game.week} · {formatKickoff(game.kickoff)}
+                  {getWeekLabel(game.week)} · {formatKickoff(game.kickoff)}
                 </p>
 
                 {game.districtGame && (

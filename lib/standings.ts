@@ -105,8 +105,8 @@ function buildStandingsForDistrict(districtId: string): Standing[] {
       game.gameType === "regular" &&
       game.homeScore !== undefined &&
       game.awayScore !== undefined &&
-      (districtSchoolSlugs.includes(game.homeSchoolSlug) ||
-        districtSchoolSlugs.includes(game.awaySchoolSlug))
+      (districtSchoolSlugs.includes(game.homeSchoolSlug ?? "") ||
+        districtSchoolSlugs.includes(game.awaySchoolSlug ?? ""))
   );
 
   if (finalGames.length === 0) {
