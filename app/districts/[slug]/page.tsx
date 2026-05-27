@@ -5,7 +5,6 @@ import type { UILClassification } from "@/types/platform";
 
 import { getDistrictBySlug } from "@/lib/districts";
 import { getSchoolsByDistrictId } from "@/lib/schools";
-
 import { getGamesForSchool } from "@/lib/games";
 import { getActiveSponsors } from "@/lib/sponsors";
 import { getStandingsForDistrictId } from "@/lib/standings";
@@ -17,8 +16,9 @@ type DistrictPageProps = {
 function formatClassification(classification: UILClassification) {
   if (!classification.division) return classification.conference;
 
-  return `${classification.conference} Division ${classification.division === "D1" ? "I" : "II"
-    }`;
+  return `${classification.conference} Division ${
+    classification.division === "D1" ? "I" : "II"
+  }`;
 }
 
 function formatRegion(region: 1 | 2 | 3 | 4) {
@@ -35,7 +35,9 @@ function formatDistrictDisplayName(name: string) {
   return match?.[1] ? `District ${match[1]}` : name;
 }
 
-function formatGameDate(kickoff: string) {
+function formatGameDate(kickoff?: string) {
+  if (!kickoff) return "TBD";
+
   return new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
@@ -45,6 +47,18 @@ function formatGameDate(kickoff: string) {
 
 function getSchoolInitials(name: string, abbreviation?: string) {
   return abbreviation ?? name.slice(0, 2).toUpperCase();
+}
+
+function getTeamName(team?: string) {
+  return team ?? "Team TBD";
+}
+
+function getVenueName(venue?: string) {
+  return venue ?? "Venue TBD";
+}
+
+function getWeekLabel(week?: number) {
+  return week === undefined ? "Week TBD" : `Week ${week}`;
 }
 
 export async function generateMetadata({
@@ -156,6 +170,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
                   visibility, and future legacy coverage for this VarsityVue
                   district ecosystem.
                 </p>
+
                 <div className="mt-6 rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
                   <p className="text-xs font-black uppercase tracking-[0.24em] text-white/70">
                     District Race
@@ -166,8 +181,9 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
                   </h2>
 
                   <p className="mt-3 max-w-3xl text-sm leading-6 text-white/60">
-                    District championships, playoff positioning, rivalry games, and weekly
-                    momentum all collide inside the VarsityVue district ecosystem.
+                    District championships, playoff positioning, rivalry games,
+                    and weekly momentum all collide inside the VarsityVue
+                    district ecosystem.
                   </p>
                 </div>
               </div>
@@ -183,8 +199,8 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
 
           <section className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <DistrictStat label="Schools" value={districtSchools.length.toString()} />
-            <DistrictStat label="Standings" value={districtStandings.length.toString()} />
-            <DistrictStat label="Games" value={districtGames.length.toString()} />
+            <DistrictStat label="Teams Ranked" value={districtStandings.length.toString()} />
+            <DistrictStat label="District Games" value={districtGames.length.toString()} />
             <DistrictStat label="Region" value={region.replace("Region ", "")} />
           </section>
         </div>
@@ -230,8 +246,9 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
                       return (
                         <tr
                           key={team.schoolSlug}
-                          className={`border-t border-white/10 transition hover:bg-white/[0.06] ${index < 4 ? "bg-white/[0.045]" : ""
-                            }`}
+                          className={`border-t border-white/10 transition hover:bg-white/[0.06] ${
+                            index < 4 ? "bg-white/[0.045]" : ""
+                          }`}
                         >
                           <td className="px-4 py-4 font-black text-white">
                             <div className="flex items-center gap-2">
@@ -385,15 +402,15 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
                       className="block rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
                     >
                       <p className="text-xs font-black uppercase tracking-[0.18em] text-white/40">
-                        {formatGameDate(game.kickoff ?? "")} · Week {game.week}
+                        {formatGameDate(game.kickoff)} · {getWeekLabel(game.week)}
                       </p>
 
                       <h3 className="mt-2 text-lg font-black text-white">
-                        {game.awayTeam} at {game.homeTeam}
+                        {getTeamName(game.awayTeam)} at {getTeamName(game.homeTeam)}
                       </h3>
 
                       <p className="mt-1 text-sm text-white/55">
-                        {game.venue}
+                        {getVenueName(game.venue)}
                       </p>
                     </Link>
                   ))
@@ -411,7 +428,8 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
               </h2>
 
               <p className="mt-4 leading-7 text-white/60">
-                Rivalry records, playoff history, notable teams, and community-submitted historical notes will live here.
+                Rivalry records, playoff history, notable teams, and
+                community-submitted historical notes will live here.
               </p>
             </section>
           </aside>
