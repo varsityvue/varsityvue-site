@@ -6,9 +6,8 @@ import { getSchoolBySlug } from "@/lib/schools";
 function formatClassification(classification: UILClassification) {
   if (!classification.division) return classification.conference;
 
-  return `${classification.conference} Division ${
-    classification.division === "D1" ? "I" : "II"
-  }`;
+  return `${classification.conference} Division ${classification.division === "D1" ? "I" : "II"
+    }`;
 }
 
 function formatRegion(region: 1 | 2 | 3 | 4) {
@@ -123,7 +122,7 @@ export default function SchoolHero({ school }: { school: School }) {
               </p>
 
               <p className="text-xs font-black uppercase tracking-[0.22em] text-white/35">
-                2026 Football Coverage
+                {school.status === "pilot" ? "Pilot Coverage" : "VarsityVue Coverage"}
               </p>
             </div>
 
@@ -184,7 +183,7 @@ export default function SchoolHero({ school }: { school: School }) {
           <div className="mt-10 grid gap-3 sm:grid-cols-3">
             <Stat value={classification} label="Class" />
             <Stat value={districtName} label="District" />
-            <Stat value="2026" label="Season" />
+            <Stat value={upcomingGames.length.toString()} label="Upcoming" />
           </div>
         </div>
 

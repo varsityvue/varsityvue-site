@@ -40,16 +40,16 @@ export default function SchoolSubnav({
         />
 
         <NavLink
-          href={districtHref}
-          label="District"
-          active={pathname === districtHref}
+          href="/scoreboard"
+          label="Scores"
+          active={pathname === "/scoreboard"}
           theme={theme}
         />
 
         <NavLink
-          href="/scoreboard"
-          label="Scores"
-          active={pathname === "/scoreboard"}
+          href={districtHref}
+          label="Standings"
+          active={pathname === districtHref}
           theme={theme}
         />
 
@@ -111,16 +111,16 @@ function NavLink({
       style={
         active
           ? {
-              borderColor: `${theme.secondary}55`,
-              backgroundColor: theme.primary,
-              color: theme.secondary,
-              boxShadow: `0 0 20px ${theme.primary}55`,
-            }
+            borderColor: `${theme.secondary}55`,
+            backgroundColor: theme.primary,
+            color: theme.secondary,
+            boxShadow: `0 0 20px ${theme.primary}55`,
+          }
           : {
-              borderColor: "rgba(255,255,255,0.08)",
-              backgroundColor: "rgba(255,255,255,0.05)",
-              color: "rgba(255,255,255,0.65)",
-            }
+            borderColor: "rgba(255,255,255,0.08)",
+            backgroundColor: "rgba(255,255,255,0.05)",
+            color: "rgba(255,255,255,0.65)",
+          }
       }
     >
       {label}

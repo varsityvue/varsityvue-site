@@ -6,6 +6,7 @@ import { getGamesForSchool } from "@/lib/games";
 import { getSchoolBySlug } from "@/lib/schools";
 import { getDistrictById } from "@/lib/districts";
 import { getStandingsForSchool } from "@/lib/standings";
+import { getSchoolRecord } from "@/lib/records";
 
 import type { SchoolTheme } from "../../../../types/school-theme";
 import SchoolSubnav from "../../../../components/SchoolSubnav";
@@ -219,12 +220,8 @@ export default async function SchoolSchedulePage({
                   : game.homeSchoolSlug;
                 const locationLabel = isHome ? "Home" : "Away";
 
-                const opponentStanding = standings.find(
-                  (team) => team.schoolSlug === opponentSlug
-                );
-
-                const opponentRecord = opponentStanding
-                  ? `${opponentStanding.overallWins}-${opponentStanding.overallLosses}`
+                const opponentRecord = opponentSlug
+                  ? getSchoolRecord(opponentSlug).record
                   : "TBD";
 
                 const hasScore =
