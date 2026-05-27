@@ -7,8 +7,9 @@ import SchoolBadge from "./SchoolBadge";
 function formatClassification(classification: UILClassification) {
   if (!classification.division) return classification.conference;
 
-  return `${classification.conference} Division ${classification.division === "D1" ? "I" : "II"
-    }`;
+  return `${classification.conference} Division ${
+    classification.division === "D1" ? "I" : "II"
+  }`;
 }
 
 function formatRegion(region: 1 | 2 | 3 | 4) {
@@ -123,7 +124,9 @@ export default function SchoolHero({ school }: { school: School }) {
               </p>
 
               <p className="text-xs font-black uppercase tracking-[0.22em] text-white/35">
-                {school.status === "pilot" ? "Pilot Coverage" : "VarsityVue Coverage"}
+                {school.status === "pilot"
+                  ? "Pilot Coverage"
+                  : "VarsityVue Coverage"}
               </p>
             </div>
 
@@ -191,20 +194,28 @@ export default function SchoolHero({ school }: { school: School }) {
                   {getTeamName(nextGame.homeTeam, "Home Team")}
                 </h2>
 
-                <div className="mt-7 grid grid-cols-3 items-center gap-3 text-center">
-                  <TeamBadge
-                    team={
-                      nextAwaySchool?.mascot ??
-                      getTeamName(nextGame.awayTeam, "Away Team")
-                    }
-                  />
+                <div className="mt-7 grid grid-cols-3 items-center gap-4 text-center">
+                  <div className="flex justify-center">
+                    {nextAwaySchool ? (
+                      <SchoolBadge school={nextAwaySchool} size="sm" />
+                    ) : (
+                      <FallbackTeamBadge
+                        team={getTeamName(nextGame.awayTeam, "Away Team")}
+                      />
+                    )}
+                  </div>
+
                   <div className="text-2xl font-black text-white/30">VS</div>
-                  <TeamBadge
-                    team={
-                      nextHomeSchool?.mascot ??
-                      getTeamName(nextGame.homeTeam, "Home Team")
-                    }
-                  />
+
+                  <div className="flex justify-center">
+                    {nextHomeSchool ? (
+                      <SchoolBadge school={nextHomeSchool} size="sm" />
+                    ) : (
+                      <FallbackTeamBadge
+                        team={getTeamName(nextGame.homeTeam, "Home Team")}
+                      />
+                    )}
+                  </div>
                 </div>
 
                 <div className="mt-7 grid gap-3 sm:grid-cols-2">
@@ -262,9 +273,9 @@ function Stat({ value, label }: { value: string; label: string }) {
   );
 }
 
-function TeamBadge({ team }: { team: string }) {
+function FallbackTeamBadge({ team }: { team: string }) {
   return (
-    <div className="flex min-h-24 items-center justify-center rounded-2xl border border-white/10 bg-white/10 p-4 text-center text-sm font-black text-white">
+    <div className="flex min-h-24 w-24 items-center justify-center rounded-2xl border border-white/10 bg-white/10 p-4 text-center text-xs font-black text-white">
       {team}
     </div>
   );
