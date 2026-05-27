@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { School, UILClassification } from "@/types/platform";
 import { getUpcomingGamesForSchool } from "@/lib/games";
 import { getSchoolBySlug } from "@/lib/schools";
+import SchoolBadge from "./SchoolBadge";
 
 function formatClassification(classification: UILClassification) {
   if (!classification.division) return classification.conference;
@@ -127,17 +128,7 @@ export default function SchoolHero({ school }: { school: School }) {
             </div>
 
             <div className="mt-8 flex items-center gap-5">
-              <div
-                className="flex h-24 w-24 items-center justify-center rounded-3xl border text-2xl font-black shadow-2xl"
-                style={{
-                  backgroundColor: `${primary}dd`,
-                  color: secondary,
-                  borderColor: `${secondary}55`,
-                  boxShadow: `0 0 34px ${primary}55`,
-                }}
-              >
-                {school.abbreviation ?? school.name.slice(0, 2).toUpperCase()}
-              </div>
+              <SchoolBadge school={school} size="md" />
 
               <div>
                 <h1 className="mt-2 text-5xl font-black leading-[0.95] tracking-tight sm:text-7xl">

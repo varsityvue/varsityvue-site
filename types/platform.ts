@@ -40,6 +40,10 @@ export type School = {
   mascot: string;
   abbreviation: string;
 
+  badgeLabel?: string;
+  badgeSubtext?: string;
+  badgeImageUrl?: string;
+
   classification: UILClassification;
   districtId: string;
   uilRegion: 1 | 2 | 3 | 4;
