@@ -24,6 +24,12 @@ function formatKickoff(kickoff: string) {
   }).format(new Date(kickoff));
 }
 
+function getMapUrl(game: { venue: string; homeTeam: string }) {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    `${game.venue} ${game.homeTeam} Texas`
+  )}`;
+}
+
 export default function ScoreboardPage() {
   const featuredGame = getFeaturedScoreboardGame();
   const liveGames = getLiveGames();
@@ -39,13 +45,15 @@ export default function ScoreboardPage() {
           </p>
 
           <h1 className="mt-4 max-w-5xl text-4xl font-black leading-tight sm:text-6xl lg:text-7xl">
-            Texas high school football scores built for Friday night.
+            VarsityVue football scores built for Friday night.
           </h1>
 
           <p className="mt-6 max-w-3xl text-lg leading-8 text-white/65">
-            Follow featured games, live updates, upcoming matchups, and final
-            scores across the VarsityVue football ecosystem.
+            Follow featured games, live updates, upcoming matchups, final
+            scores, and game-week coverage across the VarsityVue football
+            ecosystem.
           </p>
+
           <div className="mt-8 rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
             <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--vv-accent)]">
               Friday Night
@@ -56,8 +64,8 @@ export default function ScoreboardPage() {
             </h2>
 
             <p className="mt-3 max-w-3xl text-sm leading-6 text-white/60">
-              Follow the VarsityVue scoreboard for featured matchups, district races,
-              finals, and live football movement across the platform.
+              Follow the VarsityVue scoreboard for featured matchups, district
+              races, finals, and live football movement across the platform.
             </p>
           </div>
         </section>
@@ -75,8 +83,8 @@ export default function ScoreboardPage() {
                 </h2>
 
                 <p className="mt-4 text-white/65">
-                  Week {featuredGame.week} · {formatKickoff(featuredGame.kickoff)} ·{" "}
-                  {featuredGame.venue}
+                  Week {featuredGame.week} ·{" "}
+                  {formatKickoff(featuredGame.kickoff)} · {featuredGame.venue}
                 </p>
 
                 <div className="mt-5 flex flex-wrap gap-3">
@@ -88,13 +96,23 @@ export default function ScoreboardPage() {
                 </div>
               </div>
 
-              <Link
-                href={`/games/${featuredGame.id}`}
-                className="rounded-full bg-white px-7 py-4 text-center font-black text-black transition hover:bg-white/85"
-              >
-                View Matchup →
-              </Link>
+              <div className="flex flex-col gap-3">
+                <Link
+                  href={`/games/${featuredGame.id}`}
+                  className="rounded-full bg-white px-7 py-4 text-center font-black text-black transition hover:bg-white/85"
+                >
+                  Matchup Center →
+                </Link>
 
+                <a
+                  href={getMapUrl(featuredGame)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full border border-white/15 bg-white/10 px-7 py-4 text-center font-black text-white transition hover:bg-white/15"
+                >
+                  Open Venue Map →
+                </a>
+              </div>
             </div>
           </section>
         )}
@@ -111,8 +129,9 @@ export default function ScoreboardPage() {
               </h2>
 
               <p className="mt-3 max-w-2xl leading-7 text-white/65">
-                Scoreboards create repeat game-night traffic and habitual fan engagement,
-                making this one of VarsityVue’s highest-visibility sponsor placements.
+                Scoreboards create repeat game-night traffic and habitual fan
+                engagement, making this one of VarsityVue’s highest-visibility
+                sponsor placements.
               </p>
             </div>
 
@@ -128,7 +147,7 @@ export default function ScoreboardPage() {
         <section className="mt-10 grid gap-8 lg:grid-cols-3">
           <ScoreboardColumn
             title="Live Now"
-            description="Live scores moving across the VarsityVue network."
+            description="Game night updates as they move."
             games={liveGames}
             emptyText="No live games right now."
           />
@@ -175,42 +194,57 @@ function ScoreboardColumn({
           </p>
         ) : (
           games.map((game) => (
-            <Link
+            <div
               key={game.id}
-              href={`/games/${game.id}`}
-              className={`block rounded-2xl bg-black/35 p-4 transition hover:border-[color:var(--vv-accent)] hover:bg-white/10 ${game.status === "live"
-                ? "border border-[color:var(--vv-accent)]/30 shadow-[0_0_28px_rgba(139,16,32,0.18)]"
-                : "border border-white/10"
-                }`}
+              className={`rounded-2xl bg-black/35 p-4 transition hover:border-[color:var(--vv-accent)] hover:bg-white/10 ${
+                game.status === "live"
+                  ? "border border-[color:var(--vv-accent)]/30 shadow-[0_0_28px_rgba(139,16,32,0.18)]"
+                  : "border border-white/10"
+              }`}
             >
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="font-black">{game.awayTeam}</p>
-                  <p className="mt-1 font-black">{game.homeTeam}</p>
+              <Link href={`/games/${game.id}`} className="block">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="font-black">{game.awayTeam}</p>
+                    <p className="mt-1 font-black">{game.homeTeam}</p>
+                  </div>
+
+                  {game.status === "final" ? (
+                    <div className="text-right font-black">
+                      <p>{game.awayScore ?? "-"}</p>
+                      <p className="mt-1">{game.homeScore ?? "-"}</p>
+                    </div>
+                  ) : (
+                    <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-bold text-white/60">
+                      {game.displayStatus}
+                    </span>
+                  )}
                 </div>
 
-                {game.status === "final" ? (
-                  <div className="text-right font-black">
-                    <p>{game.awayScore ?? "-"}</p>
-                    <p className="mt-1">{game.homeScore ?? "-"}</p>
-                  </div>
-                ) : (
-                  <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-bold text-white/60">
-                    {game.displayStatus}
-                  </span>
-                )}
-              </div>
-
-              <p className="mt-4 text-xs text-white/45">
-                Week {game.week} · {formatKickoff(game.kickoff)}
-              </p>
-
-              {game.districtGame && (
-                <p className="mt-3 text-xs font-bold uppercase tracking-wide text-[var(--vv-accent)]">
-                  District Game
+                <p className="mt-4 text-xs text-white/45">
+                  Week {game.week} · {formatKickoff(game.kickoff)}
                 </p>
-              )}
-            </Link>
+
+                {game.districtGame && (
+                  <p className="mt-3 text-xs font-bold uppercase tracking-wide text-[var(--vv-accent)]">
+                    District Game
+                  </p>
+                )}
+
+                <p className="mt-4 text-xs font-black uppercase tracking-[0.14em] text-white/65 transition hover:text-white">
+                  Matchup Center →
+                </p>
+              </Link>
+
+              <a
+                href={getMapUrl(game)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 block rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-center text-xs font-black uppercase tracking-[0.14em] text-white/60 transition hover:bg-white/10 hover:text-white"
+              >
+                Venue Map →
+              </a>
+            </div>
           ))
         )}
       </div>
