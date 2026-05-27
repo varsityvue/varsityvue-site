@@ -144,9 +144,9 @@ export default function RecentScores({
                   <div className="mt-4 flex flex-wrap gap-2">
                     {game.districtGame && <ResultBadge label="District" />}
 
-                    {game.recapArticleSlug && (
+                    {game.articleIds?.length ? (
                       <ResultBadge label="Recap Available" />
-                    )}
+                    ) : null}
                   </div>
 
                   <div
