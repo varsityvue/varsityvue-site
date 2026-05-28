@@ -47,6 +47,7 @@ export type School = {
   classification: UILClassification;
   districtId: string;
   uilRegion: 1 | 2 | 3 | 4;
+  regionLabel?: "Region I" | "Region II" | "Region III" | "Region IV";
 
   coverageMarket?: string;
   stadium?: string;
@@ -65,6 +66,7 @@ export type District = {
   name: string;
   classification: UILClassification;
   uilRegion: 1 | 2 | 3 | 4;
+  regionLabel?: "Region I" | "Region II" | "Region III" | "Region IV";
 
   coverageMarket?: string;
 
@@ -85,6 +87,19 @@ export type GameType =
   | "district"
   | "playoff"
   | "bye";
+
+export type GameCoverageStatus =
+  | "none"
+  | "planned"
+  | "preview-published"
+  | "live"
+  | "recap-published";
+
+export type GameSourceStatus =
+  | "mock"
+  | "uploaded-schedule"
+  | "school-official"
+  | "verified";
 
 export type MediaLinkType =
   | "radio"
@@ -111,6 +126,10 @@ export type Game = {
   gameType: GameType;
   status: GameStatus;
 
+  coverageStatus?: GameCoverageStatus;
+  sourceStatus?: GameSourceStatus;
+  sourceLabel?: string;
+
   homeSchoolId?: string;
   awaySchoolId?: string;
 
@@ -127,6 +146,7 @@ export type Game = {
   venue?: string;
   venueAddress?: string;
   location?: string;
+  isNeutralSite?: boolean;
 
   districtGame: boolean;
   specialEvent?: string;

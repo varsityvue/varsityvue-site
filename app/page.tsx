@@ -16,25 +16,39 @@ export const metadata: Metadata = {
     "VarsityVue is a Texas high school sports platform for school hubs, schedules, scores, district standings, matchup pages, coverage, and sponsor visibility.",
 };
 
+function parseGameDate(kickoff?: string) {
+  if (!kickoff) return null;
+
+  const parsedDate = new Date(kickoff);
+
+  return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
+}
+
 function formatGameDate(kickoff?: string) {
-  if (!kickoff) return "TBD";
+  const parsedDate = parseGameDate(kickoff);
+
+  if (!parsedDate) return "TBD";
 
   return new Intl.DateTimeFormat("en-US", {
     weekday: "short",
     month: "short",
     day: "numeric",
     timeZone: "America/Chicago",
-  }).format(new Date(kickoff));
+  }).format(parsedDate);
 }
 
 function formatGameTime(kickoff?: string) {
-  if (!kickoff) return "TBD";
+  if (!kickoff || !kickoff.includes("T")) return "Time TBD";
+
+  const parsedDate = parseGameDate(kickoff);
+
+  if (!parsedDate) return "Time TBD";
 
   return new Intl.DateTimeFormat("en-US", {
     hour: "numeric",
     minute: "2-digit",
     timeZone: "America/Chicago",
-  }).format(new Date(kickoff));
+  }).format(parsedDate);
 }
 export default function Home() {
   const schools = getSchools();
@@ -84,8 +98,8 @@ export default function Home() {
                   {featuredGame ? (
                     <>
                       <p className="text-xl font-black text-white">
-                        {formatGameDate(featuredGame.kickoff ?? "")}
-                        {formatGameTime(featuredGame.kickoff ?? "")}
+                        {formatGameDate(featuredGame.kickoff)} ·{" "}
+                        {formatGameTime(featuredGame.kickoff)}
                       </p>
                       <p className="text-base font-semibold text-white/55">
                         {featuredGame.venue}
@@ -126,10 +140,10 @@ export default function Home() {
                   )}
 
                   <Link
-                    href="/schools"
-                    className="rounded-xl border border-white/20 bg-white/[0.06] px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/10"
+                    href="/recommend-school"
+                    className="rounded-xl border border-white/15 bg-black/40 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white/75 transition hover:bg-white/10 hover:text-white"
                   >
-                    Find Your School
+                    Recommend Your School
                   </Link>
                 </div>
               </div>
@@ -271,10 +285,12 @@ export default function Home() {
                     href={`/schools/${featuredSchool.slug}/schedule`}
                     label="Schedule"
                   />
-                  <FeatureLink
-                    href={`/districts/${featuredSchool.districtId}`}
-                    label="District"
-                  />
+                  {featuredDistrict && (
+                    <FeatureLink
+                      href={`/districts/${featuredDistrict.slug}`}
+                      label="District"
+                    />
+                  )}
                   <FeatureLink href="/coverage" label="Coverage" />
                 </div>
               </div>

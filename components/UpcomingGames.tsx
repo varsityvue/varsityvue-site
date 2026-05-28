@@ -8,25 +8,39 @@ type UpcomingGamesProps = {
   schoolSlug: string;
 };
 
+function parseGameDate(kickoff?: string) {
+  if (!kickoff) return null;
+
+  const parsedDate = new Date(kickoff);
+
+  return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
+}
+
 function formatGameDate(kickoff?: string) {
-  if (!kickoff) return "TBD";
+  const parsedDate = parseGameDate(kickoff);
+
+  if (!parsedDate) return "TBD";
 
   return new Intl.DateTimeFormat("en-US", {
     weekday: "short",
     month: "short",
     day: "numeric",
     timeZone: "America/Chicago",
-  }).format(new Date(kickoff));
+  }).format(parsedDate);
 }
 
 function formatGameTime(kickoff?: string) {
-  if (!kickoff) return "TBD";
+  if (!kickoff || !kickoff.includes("T")) return "Time TBD";
+
+  const parsedDate = parseGameDate(kickoff);
+
+  if (!parsedDate) return "Time TBD";
 
   return new Intl.DateTimeFormat("en-US", {
     hour: "numeric",
     minute: "2-digit",
     timeZone: "America/Chicago",
-  }).format(new Date(kickoff));
+  }).format(parsedDate);
 }
 
 function getGameLabel(game: Game) {

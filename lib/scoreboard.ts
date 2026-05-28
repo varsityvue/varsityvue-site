@@ -12,22 +12,32 @@ function getDisplayStatus(game: Game): ScoreboardGame["displayStatus"] {
   return "Upcoming";
 }
 
+function getGameTimestamp(game: Game) {
+  if (!game.kickoff) return Number.MAX_SAFE_INTEGER;
+
+  const timestamp = new Date(game.kickoff).getTime();
+
+  return Number.isNaN(timestamp) ? Number.MAX_SAFE_INTEGER : timestamp;
+}
+
+function isGameFeatured(game: Game) {
+  return (
+    game.featured === true ||
+    game.districtGame === true ||
+    game.specialEvent !== undefined ||
+    game.week === 1
+  );
+}
+
 export function getScoreboardGames(): ScoreboardGame[] {
   return games
     .filter((game) => game.gameType !== "bye")
     .map((game) => ({
       ...game,
       displayStatus: getDisplayStatus(game),
-      isFeatured:
-        game.districtGame === true ||
-        game.specialEvent !== undefined ||
-        game.week === 1,
+      isFeatured: isGameFeatured(game),
     }))
-    .sort(
-      (a, b) =>
-        new Date(a.kickoff ?? "").getTime() -
-        new Date(b.kickoff ?? "").getTime()
-    );
+    .sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b));
 }
 
 export function getFeaturedScoreboardGame(): ScoreboardGame | undefined {
@@ -35,6 +45,9 @@ export function getFeaturedScoreboardGame(): ScoreboardGame | undefined {
 
   return (
     scoreboardGames.find((game) => game.status === "live") ??
+    scoreboardGames.find(
+      (game) => game.status === "upcoming" && game.isFeatured
+    ) ??
     scoreboardGames.find((game) => game.status === "upcoming") ??
     scoreboardGames[0]
   );

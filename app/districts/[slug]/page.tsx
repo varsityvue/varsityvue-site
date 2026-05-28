@@ -16,9 +16,8 @@ type DistrictPageProps = {
 function formatClassification(classification: UILClassification) {
   if (!classification.division) return classification.conference;
 
-  return `${classification.conference} Division ${
-    classification.division === "D1" ? "I" : "II"
-  }`;
+  return `${classification.conference} Division ${classification.division === "D1" ? "I" : "II"
+    }`;
 }
 
 function formatRegion(region: 1 | 2 | 3 | 4) {
@@ -38,11 +37,17 @@ function formatDistrictDisplayName(name: string) {
 function formatGameDate(kickoff?: string) {
   if (!kickoff) return "TBD";
 
+  const parsedDate = new Date(kickoff);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return "TBD";
+  }
+
   return new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
     timeZone: "America/Chicago",
-  }).format(new Date(kickoff));
+  }).format(parsedDate);
 }
 
 function getSchoolInitials(name: string, abbreviation?: string) {
@@ -90,7 +95,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
   const districtSchools = getSchoolsByDistrictId(district.id);
   const districtStandings = getStandingsForDistrictId(district.id);
 
-  const districtGames = districtSchools
+  const allDistrictGames = districtSchools
     .flatMap((school) => getGamesForSchool(school.slug))
     .filter(
       (game, index, self) =>
@@ -101,8 +106,9 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
       (a, b) =>
         new Date(a.kickoff ?? "").getTime() -
         new Date(b.kickoff ?? "").getTime()
-    )
-    .slice(0, 6);
+    );
+
+  const districtGames = allDistrictGames.slice(0, 6);
 
   const districtSponsor = getActiveSponsors().find(
     (sponsor) =>
@@ -200,7 +206,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
           <section className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <DistrictStat label="Schools" value={districtSchools.length.toString()} />
             <DistrictStat label="Teams Ranked" value={districtStandings.length.toString()} />
-            <DistrictStat label="District Games" value={districtGames.length.toString()} />
+            <DistrictStat label="District Games" value={allDistrictGames.length.toString()} />
             <DistrictStat label="Region" value={region.replace("Region ", "")} />
           </section>
         </div>
@@ -246,9 +252,8 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
                       return (
                         <tr
                           key={team.schoolSlug}
-                          className={`border-t border-white/10 transition hover:bg-white/[0.06] ${
-                            index < 4 ? "bg-white/[0.045]" : ""
-                          }`}
+                          className={`border-t border-white/10 transition hover:bg-white/[0.06] ${index < 4 ? "bg-white/[0.045]" : ""
+                            }`}
                         >
                           <td className="px-4 py-4 font-black text-white">
                             <div className="flex items-center gap-2">
@@ -372,12 +377,21 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
                 district games, matchup pages, and local football discovery.
               </p>
 
-              <Link
-                href="/sponsor-inquiry"
-                className="mt-6 block rounded-xl border border-white/15 bg-white/10 px-5 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
-              >
-                Sponsor This District
-              </Link>
+              <div className="mt-6 grid gap-3">
+                <Link
+                  href="/sponsor-inquiry"
+                  className="block rounded-xl border border-white/15 bg-white/10 px-5 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
+                >
+                  Sponsor This District
+                </Link>
+
+                <Link
+                  href="/recommend-school"
+                  className="block rounded-xl border border-white/10 bg-black/35 px-5 py-4 text-center text-xs font-black uppercase tracking-[0.16em] text-white/70 transition hover:bg-white/10 hover:text-white"
+                >
+                  Want your school included? Recommend it →
+                </Link>
+              </div>
             </section>
 
             <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">

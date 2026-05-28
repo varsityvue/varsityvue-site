@@ -152,12 +152,21 @@ export default async function SchoolPage({
               local community across this school’s VarsityVue coverage.
             </p>
 
-            <Link
-              href="/sponsor-inquiry"
-              className="mt-6 block rounded-xl border border-white/15 bg-white/10 px-5 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
-            >
-              Sponsor This School →
-            </Link>
+            <div className="mt-6 grid gap-3">
+              <Link
+                href="/sponsor-inquiry"
+                className="block rounded-xl border border-white/15 bg-white/10 px-5 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
+              >
+                Sponsor This School →
+              </Link>
+
+              <Link
+                href="/recommend-school"
+                className="block rounded-xl border border-white/10 bg-black/35 px-5 py-4 text-center text-xs font-black uppercase tracking-[0.16em] text-white/70 transition hover:bg-white/10 hover:text-white"
+              >
+                Like what you see? Recommend your school →
+              </Link>
+            </div>
           </section>
 
           <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">

@@ -4,13 +4,25 @@ import { getScoreboardGames } from "@/lib/scoreboard";
 function formatKickoff(kickoff?: string) {
   if (!kickoff) return "TBD";
 
+  const parsedDate = new Date(kickoff);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return "TBD";
+  }
+
+  const hasTime = kickoff.includes("T");
+
   return new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
+    ...(hasTime
+      ? {
+        hour: "numeric" as const,
+        minute: "2-digit" as const,
+      }
+      : {}),
     timeZone: "America/Chicago",
-  }).format(new Date(kickoff));
+  }).format(parsedDate);
 }
 
 export default function ScoreStrip() {

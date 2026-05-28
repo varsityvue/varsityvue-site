@@ -12,12 +12,18 @@ type RecentScoresProps = {
 function formatScoreDate(kickoff?: string) {
   if (!kickoff) return "TBD";
 
+  const parsedDate = new Date(kickoff);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return "TBD";
+  }
+
   return new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
     timeZone: "America/Chicago",
-  }).format(new Date(kickoff));
+  }).format(parsedDate);
 }
 
 function getResult(game: Game, schoolSlug: string) {
