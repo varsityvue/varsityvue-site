@@ -15,3 +15,6 @@ export function getDistrictById(id: string) {
 export function getDistrictUrl(slug: string) {
   return `/districts/${slug}`;
 }
+export function getPilotDistricts() {
+  return districts.filter((district) => district.status === "pilot");
+}

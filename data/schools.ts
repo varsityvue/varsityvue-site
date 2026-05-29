@@ -429,7 +429,7 @@ export const schools: School[] = [
     stadium: "Bill Anderson Stadium",
     colors: { primary: "#042889", secondary: "#FFFFFF", accent: "#000000" },
     sports: ["football"],
-    status: "watchlist",
+    status: "pilot",
   },
   {
     id: "winters",
@@ -549,4 +549,15 @@ export const schools: School[] = [
 
 export function getSchoolBySlug(slug: string) {
   return schools.find((school) => school.slug === slug);
+}
+export function getSchools() {
+  return schools;
+}
+
+export function getPilotSchools() {
+  return schools.filter((school) => school.status === "pilot");
+}
+
+export function getSchoolsByDistrictId(districtId: string) {
+  return schools.filter((school) => school.districtId === districtId);
 }
