@@ -69,3 +69,6 @@ export function getDistrictGames() {
     .filter((game) => game.districtGame)
     .sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b));
 }
+export function getNextGameForSchool(slug: string) {
+  return getUpcomingGamesForSchool(slug)[0];
+}
