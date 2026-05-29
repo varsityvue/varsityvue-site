@@ -44,6 +44,6 @@ export const districts: District[] = [
     classification: { conference: "2A", division: "D2" },
     uilRegion: 2,
     coverageMarket: "Big Country Pilot",
-    status: "watchlist",
+    status: "pilot",
   },
 ];
