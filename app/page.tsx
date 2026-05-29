@@ -241,24 +241,36 @@ export default function Home() {
             href="/districts"
           >
             <div className="space-y-3">
-              {featuredStandings.map((team, index) => (
-                <Link
-                  key={team.schoolSlug}
-                  href={`/schools/${team.schoolSlug}`}
-                  className="grid grid-cols-[32px_1fr_70px_70px] items-center gap-3 rounded-xl bg-black/35 px-3 py-3 text-sm transition hover:bg-white/10"
-                >
-                  <span className="font-black text-white/45">{index + 1}</span>
-                  <span className="truncate font-black text-white">
-                    {team.team}
-                  </span>
-                  <span className="font-bold text-white">
-                    {team.districtWins}-{team.districtLosses}
-                  </span>
-                  <span className="font-bold text-white/55">
-                    {team.overallWins}-{team.overallLosses}
-                  </span>
-                </Link>
-              ))}
+              {featuredStandings.map((team, index) => {
+                const differential = team.pointsFor - team.pointsAgainst;
+
+                return (
+                  <Link
+                    key={team.schoolSlug}
+                    href={`/schools/${team.schoolSlug}`}
+                    className="grid grid-cols-[32px_1fr_72px_72px_64px] items-center gap-3 rounded-xl bg-black/35 px-3 py-3 text-sm transition hover:bg-white/10"
+                  >
+                    <span className="font-black text-white/45">#{index + 1}</span>
+
+                    <span className="truncate font-black text-white">
+                      {team.team}
+                    </span>
+
+                    <span className="font-bold text-white">
+                      {team.districtWins}-{team.districtLosses}
+                    </span>
+
+                    <span className="font-bold text-white/55">
+                      {team.overallWins}-{team.overallLosses}
+                    </span>
+
+                    <span className="font-bold text-white/45">
+                      {differential > 0 ? "+" : ""}
+                      {differential}
+                    </span>
+                  </Link>
+                );
+              })}
             </div>
           </Panel>
 
