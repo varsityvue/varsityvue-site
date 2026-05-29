@@ -102,11 +102,12 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
         self.findIndex((item) => item.id === game.id) === index
     )
     .filter((game) => game.districtGame)
-    .sort(
-      (a, b) =>
-        new Date(a.kickoff ?? "").getTime() -
-        new Date(b.kickoff ?? "").getTime()
-    );
+    .sort((a, b) => {
+      const aTime = a.kickoff ? new Date(a.kickoff).getTime() : Number.MAX_SAFE_INTEGER;
+      const bTime = b.kickoff ? new Date(b.kickoff).getTime() : Number.MAX_SAFE_INTEGER;
+
+      return aTime - bTime;
+    });
 
   const districtGames = allDistrictGames.slice(0, 6);
 
