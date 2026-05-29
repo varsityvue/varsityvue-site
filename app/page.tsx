@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { getSchools, getPilotSchools } from "@/lib/schools";
+import { getSchools, getPilotSchools, getSchoolBySlug } from "@/lib/schools";
 import { getDistricts } from "@/lib/districts";
 import { getFeaturedScoreboardGame } from "@/lib/scoreboard";
 import { getLatestArticles } from "@/lib/articles";
 import { getActiveSponsors } from "@/lib/sponsors";
-import { getStandingsForDistrictId } from "@/lib/standings";
+import {
+  getStandingForSchool,
+  getStandingsForDistrictId,
+} from "@/lib/standings";
 import ScoreStrip from "@/components/ScoreStrip";
 import SchoolSearch from "../components/SchoolSearch";
 
@@ -66,6 +69,21 @@ export default function Home() {
     : [];
 
   const featuredSchool = pilotSchools[0];
+  const featuredHomeSchool = featuredGame?.homeSchoolSlug
+    ? getSchoolBySlug(featuredGame.homeSchoolSlug)
+    : undefined;
+
+  const featuredAwaySchool = featuredGame?.awaySchoolSlug
+    ? getSchoolBySlug(featuredGame.awaySchoolSlug)
+    : undefined;
+
+  const featuredHomeStanding = featuredGame?.homeSchoolSlug
+    ? getStandingForSchool(featuredGame.homeSchoolSlug)
+    : undefined;
+
+  const featuredAwayStanding = featuredGame?.awaySchoolSlug
+    ? getStandingForSchool(featuredGame.awaySchoolSlug)
+    : undefined;
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] text-white">
@@ -88,12 +106,43 @@ export default function Home() {
                   </p>
                 </div>
 
-                <h1 className="mt-7 max-w-4xl text-5xl font-black uppercase leading-[0.9] tracking-tight text-[#fff7df] sm:text-7xl lg:text-8xl">
-                  {featuredGame
-                    ? `${featuredGame.awayTeam} vs ${featuredGame.homeTeam}`
-                    : "The Game, Seen Smarter"}
-                </h1>
+                <div className="mt-7 grid gap-4 sm:grid-cols-[1fr_auto_1fr] sm:items-center">
+                  {featuredGame ? (
+                    <>
+                      <HeroTeamCard
+                        name={featuredGame.awayTeam ?? "Away Team"}
+                        mascot={featuredAwaySchool?.mascot}
+                        badge={featuredAwaySchool?.badgeLabel ?? featuredGame.awayTeam?.slice(0, 2)}
+                        color={featuredAwaySchool?.colors.primary}
+                        record={
+                          featuredAwayStanding
+                            ? `${featuredAwayStanding.overallWins}-${featuredAwayStanding.overallLosses} Overall · ${featuredAwayStanding.districtWins}-${featuredAwayStanding.districtLosses} District`
+                            : undefined
+                        }
+                      />
 
+                      <div className="text-center text-2xl font-black uppercase tracking-[0.2em] text-white/35">
+                        vs
+                      </div>
+
+                      <HeroTeamCard
+                        name={featuredGame.homeTeam ?? "Home Team"}
+                        mascot={featuredHomeSchool?.mascot}
+                        badge={featuredHomeSchool?.badgeLabel ?? featuredGame.homeTeam?.slice(0, 2)}
+                        color={featuredHomeSchool?.colors.primary}
+                        record={
+                          featuredHomeStanding
+                            ? `${featuredHomeStanding.overallWins}-${featuredHomeStanding.overallLosses} Overall · ${featuredHomeStanding.districtWins}-${featuredHomeStanding.districtLosses} District`
+                            : undefined
+                        }
+                      />
+                    </>
+                  ) : (
+                    <h1 className="max-w-4xl text-5xl font-black uppercase leading-[0.9] tracking-tight text-[#fff7df] sm:text-7xl lg:text-8xl">
+                      The Game, Seen Smarter
+                    </h1>
+                  )}
+                </div>
                 <div className="mt-7 space-y-2">
                   {featuredGame ? (
                     <>
@@ -487,7 +536,47 @@ function FeatureLink({
     </Link>
   );
 }
+function HeroTeamCard({
+  name,
+  mascot,
+  badge,
+  color,
+  record,
+}: {
+  name: string;
+  mascot?: string;
+  badge?: string;
+  color?: string;
+  record?: string;
+}) {
+  return (
+    <div className="rounded-[1.5rem] border border-white/10 bg-black/35 p-5">
+      <div
+        className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 text-xl font-black text-white shadow-lg"
+        style={{
+          backgroundColor: color ? `${color}cc` : "rgba(255,255,255,0.1)",
+        }}
+      >
+        {badge ?? name.slice(0, 2).toUpperCase()}
+      </div>
 
+      <h1 className="mt-4 text-4xl font-black uppercase leading-none tracking-tight text-[#fff7df] sm:text-5xl">
+        {name}
+      </h1>
+
+      {mascot && (
+        <p className="mt-2 text-xs font-black uppercase tracking-[0.18em] text-white/45">
+          {mascot}
+        </p>
+      )}
+      {record && (
+        <p className="mt-2 text-xs font-black uppercase tracking-[0.12em] text-white/60">
+          {record}
+        </p>
+      )}
+    </div>
+  );
+}
 function Feature({ title, body }: { title: string; body: string }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-5">

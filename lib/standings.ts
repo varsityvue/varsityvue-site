@@ -131,3 +131,14 @@ export function getStandingsForSchool(slug: string): Standing[] {
 export function getStandingsForDistrictId(districtId: string): Standing[] {
   return buildStandingsForDistrict(districtId);
 }
+export function getStandingForSchool(slug: string): Standing | undefined {
+  const school = getSchoolBySlug(slug);
+
+  if (!school) {
+    return undefined;
+  }
+
+  return getStandingsForDistrictId(school.districtId).find(
+    (standing) => standing.schoolSlug === slug
+  );
+}
