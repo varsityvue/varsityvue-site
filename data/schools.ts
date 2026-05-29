@@ -545,11 +545,77 @@ export const schools: School[] = [
     sports: ["football"],
     status: "watchlist",
   },
+
+  {
+    id: "brownwood",
+    slug: "brownwood",
+    name: "Brownwood",
+    fullName: "Brownwood Lions",
+    mascot: "Lions",
+    abbreviation: "BHS",
+    classification: { conference: "4A", division: "D1" },
+    districtId: "opponent-pool",
+    uilRegion: 2,
+    coverageMarket: "Opponent",
+    stadium: "Gordon Wood Stadium",
+    colors: { primary: "#5A2A00", secondary: "#FFFFFF", accent: "#000000" },
+    sports: ["football"],
+    status: "watchlist",
+  },
+  {
+    id: "brock",
+    slug: "brock",
+    name: "Brock",
+    fullName: "Brock Eagles",
+    mascot: "Eagles",
+    abbreviation: "BHS",
+    classification: { conference: "4A", division: "D2" },
+    districtId: "4a-d2-district-4",
+    uilRegion: 1,
+    coverageMarket: "Opponent",
+    stadium: "Eagle Stadium",
+    colors: { primary: "#003366", secondary: "#FFFFFF", accent: "#C0C0C0" },
+    sports: ["football"],
+    status: "watchlist",
+  },
+  {
+    id: "clyde",
+    slug: "clyde",
+    name: "Clyde",
+    fullName: "Clyde Bulldogs",
+    mascot: "Bulldogs",
+    abbreviation: "CHS",
+    classification: { conference: "3A", division: "D1" },
+    districtId: "3a-d1-district-2",
+    uilRegion: 1,
+    coverageMarket: "Opponent",
+    stadium: "Clyde Bulldog Stadium",
+    colors: { primary: "#000000", secondary: "#D4AF37", accent: "#FFFFFF" },
+    sports: ["football"],
+    status: "watchlist",
+  },
+  {
+    id: "early",
+    slug: "early",
+    name: "Early",
+    fullName: "Early Longhorns",
+    mascot: "Longhorns",
+    abbreviation: "EHS",
+    classification: { conference: "3A", division: "D1" },
+    districtId: "3a-d1-district-3",
+    uilRegion: 1,
+    coverageMarket: "Opponent",
+    stadium: "Longhorn Stadium",
+    colors: { primary: "#5C2D91", secondary: "#FFFFFF", accent: "#000000" },
+    sports: ["football"],
+    status: "watchlist",
+  },
 ];
 
 export function getSchoolBySlug(slug: string) {
   return schools.find((school) => school.slug === slug);
 }
+
 export function getSchools() {
   return schools;
 }
@@ -558,6 +624,24 @@ export function getPilotSchools() {
   return schools.filter((school) => school.status === "pilot");
 }
 
+export function getWatchlistSchools() {
+  return schools.filter((school) => school.status === "watchlist");
+}
+
 export function getSchoolsByDistrictId(districtId: string) {
   return schools.filter((school) => school.districtId === districtId);
+}
+
+export function getSchoolTheme(slug: string) {
+  const school = getSchoolBySlug(slug);
+
+  if (!school) {
+    return {
+      primary: "#7A1022",
+      secondary: "#FFFFFF",
+      accent: "#000000",
+    };
+  }
+
+  return school.colors;
 }
