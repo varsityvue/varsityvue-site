@@ -1626,29 +1626,3 @@ export const games: Game[] = [
     sourceLabel: "Goldthwaite Football 2026 Schedule",
   },
 ];
-
-export function getGamesForSchool(slug: string) {
-  return games.filter(
-    (game) => game.homeSchoolSlug === slug || game.awaySchoolSlug === slug
-  );
-}
-
-export function getUpcomingGamesForSchool(slug: string) {
-  return getGamesForSchool(slug).filter(
-    (game) => game.status === "upcoming" && game.gameType !== "bye"
-  );
-}
-
-export function getRecentScoresForSchool(slug: string) {
-  return getGamesForSchool(slug)
-    .filter((game) => game.status === "final" && game.gameType !== "bye")
-    .sort(
-      (a, b) =>
-        new Date(b.kickoff ?? "").getTime() -
-        new Date(a.kickoff ?? "").getTime()
-    );
-}
-
-export function getGameById(id: string) {
-  return games.find((game) => game.id === id);
-}
