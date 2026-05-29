@@ -261,6 +261,12 @@ export default async function GamePage({ params }: GamePageProps) {
                 })}
               </h1>
 
+              {district && (
+                <p className="mt-3 text-sm font-black uppercase tracking-[0.18em] text-white/45">
+                  {district.name} • {formatClassification(district.classification)}
+                </p>
+              )}
+
               <p className="mt-3 max-w-3xl text-sm leading-6 text-white/72">
                 {getGameStorylineDescription({
                   awayTeam: awayTeamName,
@@ -271,7 +277,7 @@ export default async function GamePage({ params }: GamePageProps) {
               </p>
             </div>
 
-            <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
+            <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
               <TeamBlock
                 align="left"
                 label="Away"
@@ -309,10 +315,29 @@ export default async function GamePage({ params }: GamePageProps) {
                 <InfoCard label="Coverage" value="VarsityVue Coverage →" />
               </Link>
             </div>
-          </div>
-        </div>
-      </section>
+            <div className="mt-6 flex flex-wrap gap-3">
+              {awaySchool && (
+                <Link
+                  href={`/schools/${awaySchool.slug}`}
+                  className="rounded-xl border border-white/10 bg-black/35 px-4 py-3 text-xs font-black uppercase tracking-[0.14em] text-white/70 transition hover:bg-white/10 hover:text-white"
+                >
+                  View {awaySchool.name} Hub →
+                </Link>
+              )}
 
+              {homeSchool && (
+                <Link
+                  href={`/schools/${homeSchool.slug}`}
+                  className="rounded-xl border border-white/10 bg-black/35 px-4 py-3 text-xs font-black uppercase tracking-[0.14em] text-white/70 transition hover:bg-white/10 hover:text-white"
+                >
+                  View {homeSchool.name} Hub →
+                </Link>
+              )}
+            </div>
+        </div>
+      </div>
+      </section>
+      
       <section className="px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[1.35fr_0.75fr]">
           <div className="space-y-6">
@@ -376,11 +401,27 @@ export default async function GamePage({ params }: GamePageProps) {
 
             <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7 shadow-2xl">
               <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
-                Box Score
+                Legacy
               </p>
 
               <h2 className="mt-3 text-3xl font-black text-white">
-                Live stats and scoring summary coming soon.
+                Matchup History
+              </h2>
+
+              <p className="mt-4 leading-7 text-white/60">
+                Historical meetings, rivalry records, playoff clashes, and
+                community-submitted memories will eventually live here.
+              </p>
+            </section>
+
+            <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7 shadow-2xl">
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
+                Game Center
+              </p>
+
+              <h2 className="mt-3 text-3xl font-black text-white">
+                Live scoring, quarter breakdowns, team statistics, player leaders,
+                and postgame recaps will appear here as VarsityVue coverage expands.
               </h2>
 
               <p className="mt-4 max-w-3xl leading-7 text-white/72">
@@ -508,7 +549,7 @@ function TeamBlock({
         </div>
 
         <div>
-          <h2 className="text-3xl font-black leading-tight text-white">
+          <h2 className="text-4xl font-black leading-tight text-white md:text-5xl">
             {team}
           </h2>
 
