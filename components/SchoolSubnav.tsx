@@ -18,12 +18,36 @@ export default function SchoolSubnav({
   const pathname = usePathname();
 
   const links = [
-    { href: `/schools/${schoolSlug}`, label: "Hub", active: pathname === `/schools/${schoolSlug}` },
-    { href: `/schools/${schoolSlug}/schedule`, label: "Schedule", active: pathname === `/schools/${schoolSlug}/schedule` },
-    { href: "/scoreboard", label: "Scores", active: pathname === "/scoreboard" },
-    { href: `/districts/${districtSlug}`, label: "Standings", active: pathname === `/districts/${districtSlug}` },
-    { href: "/coverage", label: "Coverage", active: pathname.startsWith("/coverage") },
-    { href: "/legacy", label: "Legacy", active: pathname.startsWith("/legacy") },
+    {
+      href: `/schools/${schoolSlug}`,
+      label: "Hub",
+      active: pathname === `/schools/${schoolSlug}`,
+    },
+    {
+      href: `/schools/${schoolSlug}/schedule`,
+      label: "Schedule",
+      active: pathname === `/schools/${schoolSlug}/schedule`,
+    },
+    {
+      href: "/scoreboard",
+      label: "Scores",
+      active: pathname === "/scoreboard",
+    },
+    {
+      href: `/districts/${districtSlug}`,
+      label: "Standings",
+      active: pathname === `/districts/${districtSlug}`,
+    },
+    {
+      href: "/coverage",
+      label: "Coverage",
+      active: pathname.startsWith("/coverage"),
+    },
+    {
+      href: "/legacy",
+      label: "Legacy",
+      active: pathname.startsWith("/legacy"),
+    },
   ];
 
   return (
@@ -36,9 +60,10 @@ export default function SchoolSubnav({
         <div
           className="ml-auto hidden items-center gap-2 rounded-full border px-4 py-2 text-[10px] font-black uppercase tracking-[0.18em] md:flex"
           style={{
-            borderColor: `${theme.secondary}33`,
-            backgroundColor: `${theme.primary}33`,
+            borderColor: `${theme.primary}55`,
+            backgroundColor: "rgba(0,0,0,0.35)",
             color: "rgba(255,255,255,0.78)",
+            boxShadow: `inset 3px 0 0 ${theme.primary}`,
           }}
         >
           <span
@@ -77,16 +102,16 @@ function NavLink({
       style={
         active
           ? {
-              borderColor: `${theme.secondary}55`,
-              backgroundColor: `${theme.primary}cc`,
-              color: theme.secondary,
-              boxShadow: `0 0 20px ${theme.primary}44`,
-            }
+            borderColor: `${theme.primary}55`,
+            backgroundColor: "rgba(255,255,255,0.08)",
+            color: "#FFFFFF",
+            boxShadow: `inset 3px 0 0 ${theme.primary}`,
+          }
           : {
-              borderColor: "rgba(255,255,255,0.08)",
-              backgroundColor: "rgba(255,255,255,0.05)",
-              color: "rgba(255,255,255,0.65)",
-            }
+            borderColor: "rgba(255,255,255,0.08)",
+            backgroundColor: "rgba(255,255,255,0.05)",
+            color: "rgba(255,255,255,0.65)",
+          }
       }
     >
       {label}

@@ -24,7 +24,7 @@ export default function SponsorBanner({
         className="relative overflow-hidden rounded-[1.75rem] border bg-white/[0.045] shadow-2xl"
         style={{
           borderColor: `${theme.secondary}22`,
-          boxShadow: `0 18px 55px ${theme.primary}18`,
+          boxShadow: "0 18px 50px rgba(0,0,0,0.45)",
         }}
       >
         <SponsorGlow theme={theme} />
@@ -74,7 +74,7 @@ export default function SponsorBanner({
       className="relative overflow-hidden rounded-[1.75rem] border bg-white/[0.045] shadow-2xl"
       style={{
         borderColor: `${theme.secondary}22`,
-        boxShadow: `0 18px 55px ${theme.primary}18`,
+        boxShadow: "0 18px 50px rgba(0,0,0,0.45)",
       }}
     >
       <SponsorGlow theme={theme} />
@@ -152,12 +152,22 @@ export default function SponsorBanner({
 
 function SponsorGlow({ theme }: { theme: SchoolTheme }) {
   return (
-    <div
-      className="absolute inset-0 opacity-45"
-      style={{
-        background: `radial-gradient(circle at top right, ${theme.primary}55, transparent 55%)`,
-      }}
-    />
+    <>
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(135deg, rgba(255,255,255,0.055), transparent 58%)",
+        }}
+      />
+
+      <div
+        className="absolute inset-y-0 left-0 w-1.5"
+        style={{
+          backgroundColor: theme.primary,
+        }}
+      />
+    </>
   );
 }
 

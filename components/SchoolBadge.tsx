@@ -9,6 +9,7 @@ const sizeClasses = {
   xs: {
     wrap: "w-16",
     initials: "text-xl",
+    initialsLong: "text-base",
     mascot: "text-[7px]",
     pad: "px-2 py-2",
     stroke: "1px",
@@ -16,6 +17,7 @@ const sizeClasses = {
   sm: {
     wrap: "w-24",
     initials: "text-3xl",
+    initialsLong: "text-2xl",
     mascot: "text-[9px]",
     pad: "px-3 py-3",
     stroke: "1px",
@@ -23,6 +25,7 @@ const sizeClasses = {
   md: {
     wrap: "w-36",
     initials: "text-5xl",
+    initialsLong: "text-4xl",
     mascot: "text-xs",
     pad: "px-4 py-4",
     stroke: "2px",
@@ -30,6 +33,7 @@ const sizeClasses = {
   lg: {
     wrap: "w-52",
     initials: "text-7xl",
+    initialsLong: "text-6xl",
     mascot: "text-sm",
     pad: "px-5 py-5",
     stroke: "2px",
@@ -44,12 +48,36 @@ function getInitials(school: School) {
   );
 }
 
+function isDarkColor(hex: string) {
+  const cleanHex = hex.replace("#", "");
+
+  if (cleanHex.length !== 6) return true;
+
+  const r = parseInt(cleanHex.slice(0, 2), 16);
+  const g = parseInt(cleanHex.slice(2, 4), 16);
+  const b = parseInt(cleanHex.slice(4, 6), 16);
+
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+  return luminance < 0.45;
+}
+
 export default function SchoolBadge({
   school,
   size = "md",
 }: SchoolBadgeProps) {
   const classes = sizeClasses[size];
   const initials = getInitials(school);
+  const initialsClass =
+    initials.length >= 4 ? classes.initialsLong : classes.initials;
+
+  const subtextColor = isDarkColor(school.colors.secondary)
+    ? "#FFFFFF"
+    : school.colors.secondary;
+
+  const strokeColor = isDarkColor(school.colors.secondary)
+    ? "#FFFFFF"
+    : school.colors.secondary;
 
   return (
     <div className={`${classes.wrap} shrink-0 drop-shadow-2xl`}>
@@ -72,10 +100,10 @@ export default function SchoolBadge({
         />
 
         <div
-          className={`relative text-center font-black uppercase leading-none tracking-tight ${classes.initials}`}
+          className={`relative text-center font-black uppercase leading-none tracking-[-0.04em] ${initialsClass}`}
           style={{
             color: school.colors.primary,
-            WebkitTextStroke: `${classes.stroke} ${school.colors.secondary}`,
+            WebkitTextStroke: `${classes.stroke} ${strokeColor}`,
             textShadow:
               "2px 2px 0 #000, -1px -1px 0 #000, 0 8px 14px rgba(0,0,0,0.75)",
           }}
@@ -94,9 +122,9 @@ export default function SchoolBadge({
         }}
       >
         <div
-          className={`font-black uppercase tracking-[0.12em] ${classes.mascot}`}
+          className={`truncate font-black uppercase tracking-[0.08em] ${classes.mascot}`}
           style={{
-            color: school.colors.secondary,
+            color: subtextColor,
             textShadow: "0 2px 4px rgba(0,0,0,0.75)",
           }}
         >

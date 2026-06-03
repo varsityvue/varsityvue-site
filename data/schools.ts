@@ -67,7 +67,7 @@ export const schools: School[] = [
     uilRegion: 2,
     coverageMarket: "VarsityVue Coverage Area",
     stadium: "Chesley Field",
-    colors: { primary: "#000000", secondary: "#d3d919", accent: "#FFFFFF" },
+    colors: { primary: "#000000", secondary: "#ffd60d", accent: "#FFFFFF" },
     sports: ["football"],
     status: "pilot",
   },

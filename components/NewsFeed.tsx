@@ -90,13 +90,21 @@ export default function NewsFeed({ articles, theme }: NewsFeedProps) {
               className="group relative overflow-hidden rounded-[1.75rem] border bg-black/35 p-6 shadow-2xl transition hover:-translate-y-1 hover:bg-white/[0.075]"
               style={{
                 borderColor: `${theme.secondary}33`,
-                boxShadow: `0 18px 55px ${theme.primary}18`,
+                boxShadow: "0 18px 50px rgba(0,0,0,0.45)",
               }}
             >
               <div
-                className="absolute inset-0 opacity-30 transition group-hover:opacity-45"
+                className="absolute inset-0 transition group-hover:opacity-100"
                 style={{
-                  background: `radial-gradient(circle at top left, ${theme.primary}, transparent 55%)`,
+                  background:
+                    "linear-gradient(135deg, rgba(255,255,255,0.055), transparent 58%)",
+                }}
+              />
+
+              <div
+                className="absolute inset-y-0 left-0 w-1.5"
+                style={{
+                  backgroundColor: theme.primary,
                 }}
               />
 

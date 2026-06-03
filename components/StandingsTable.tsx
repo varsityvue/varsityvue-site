@@ -74,7 +74,8 @@ export default function StandingsTable({
           <table className="w-full min-w-[900px] border-collapse text-left">
             <thead
               style={{
-                background: `linear-gradient(90deg, ${theme.primary}66, #2a2a2a)`,
+                background: "linear-gradient(90deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04))",
+                borderBottom: `2px solid ${theme.primary}`,
               }}
             >
               <tr>
@@ -101,8 +102,8 @@ export default function StandingsTable({
                     key={team.schoolSlug}
                     className="border-t border-white/10 transition hover:bg-white/[0.06]"
                     style={{
-                      backgroundColor:
-                        index < 4 ? `${theme.primary}18` : undefined,
+                      backgroundColor: index < 4 ? "rgba(255,255,255,0.045)" : undefined,
+                      boxShadow: index < 4 ? `inset 4px 0 0 ${theme.primary}` : undefined,
                     }}
                   >
                     <td className="px-5 py-4 font-black text-white">

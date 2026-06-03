@@ -77,7 +77,7 @@ export default function UpcomingGames({
       className="rounded-[1.75rem] border bg-white/[0.045] p-5 shadow-2xl sm:p-6"
       style={{
         borderColor: `${theme.secondary}22`,
-        boxShadow: `0 18px 55px ${theme.primary}14`,
+        boxShadow: "0 18px 50px rgba(0,0,0,0.45)",
       }}
     >
       <div className="mb-6 flex items-end justify-between gap-4">
@@ -157,9 +157,17 @@ function FeaturedGameCard({ game, theme }: { game: Game; theme: SchoolTheme }) {
       }}
     >
       <div
-        className="absolute inset-0 opacity-35 transition group-hover:opacity-50"
+        className="absolute inset-0 transition group-hover:opacity-100"
         style={{
-          background: `radial-gradient(circle at top left, ${theme.primary}, transparent 52%)`,
+          background:
+            "linear-gradient(135deg, rgba(255,255,255,0.055), transparent 58%)",
+        }}
+      />
+
+      <div
+        className="absolute inset-y-0 left-0 w-1.5"
+        style={{
+          backgroundColor: theme.primary,
         }}
       />
 

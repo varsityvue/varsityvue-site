@@ -107,10 +107,10 @@ export default function SchoolHero({ school }: { school: School }) {
       className="relative overflow-hidden border-b border-white/10 text-white"
       style={{
         background: `
-          radial-gradient(circle at top left, ${primary}66 0%, transparent 36%),
-          radial-gradient(circle at top right, ${secondary}22 0%, transparent 34%),
-          linear-gradient(120deg, ${primary}44 0%, #080808 46%, #000 100%)
-        `,
+    radial-gradient(circle at top left, ${primary}40 0%, transparent 28%),
+    radial-gradient(circle at top right, ${secondary}18 0%, transparent 30%),
+    linear-gradient(120deg, #050505 0%, #080808 52%, #000000 100%)
+  `,
       }}
     >
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.72),rgba(0,0,0,0.16))]" />
@@ -127,19 +127,27 @@ export default function SchoolHero({ school }: { school: School }) {
 
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <p
-                className="inline-flex rounded px-3 py-2 text-xs font-black uppercase tracking-[0.24em] shadow-lg"
+                className="inline-flex items-center rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.22em]"
                 style={{
-                  backgroundColor: primary,
-                  color: secondary,
-                  border: `1px solid ${secondary}55`,
+                  borderColor: `${primary}55`,
+                  backgroundColor: "rgba(0,0,0,0.35)",
+                  color: "#ffffff",
+                  boxShadow: `inset 3px 0 0 ${primary}`,
                 }}
               >
                 VarsityVue School Hub
               </p>
 
-              <p className="text-xs font-black uppercase tracking-[0.22em] text-white/35">
+              <p
+                className="inline-flex rounded-full border px-3 py-2 text-xs font-black uppercase tracking-[0.18em]"
+                style={{
+                  borderColor: `${secondary}33`,
+                  color: secondary,
+                  backgroundColor: "rgba(255,255,255,0.04)",
+                }}
+              >
                 {school.status === "pilot"
-                  ? "Pilot Coverage"
+                  ? "Founding Pilot"
                   : "VarsityVue Coverage"}
               </p>
             </div>
@@ -148,7 +156,7 @@ export default function SchoolHero({ school }: { school: School }) {
               <SchoolBadge school={school} size="md" />
 
               <div>
-                <h1 className="mt-2 text-5xl font-black leading-[0.95] tracking-tight text-white sm:text-7xl">
+                <h1 className="mt-2 text-6xl font-black leading-[0.95] tracking-tight text-white sm:text-8xl">
                   {school.name}
                 </h1>
               </div>
@@ -172,7 +180,7 @@ export default function SchoolHero({ school }: { school: School }) {
                   backgroundColor: "rgba(255,255,255,0.08)",
                 }}
               >
-                District Hub →
+                District Standings →
               </Link>
 
               <Link
@@ -196,7 +204,15 @@ export default function SchoolHero({ school }: { school: School }) {
         </div>
 
         <div className="flex items-end">
-          <div className="w-full rounded-[1.75rem] border border-white/10 bg-black/45 p-6 shadow-2xl backdrop-blur-sm">
+          <div
+            className="w-full rounded-[1.75rem] border p-6 shadow-2xl backdrop-blur-sm"
+            style={{
+              borderColor: `${primary}55`,
+              background:
+                "linear-gradient(135deg, rgba(255,255,255,0.05), rgba(0,0,0,0.92))",
+              boxShadow: `inset 4px 0 0 ${primary}`,
+            }}
+          >
             <p className="inline-flex rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-white/80">
               Next Matchup
             </p>

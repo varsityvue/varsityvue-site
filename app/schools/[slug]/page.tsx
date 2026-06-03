@@ -84,10 +84,10 @@ export default async function SchoolPage({
     },
     memberOf: district
       ? {
-          "@type": "SportsOrganization",
-          name: district.name,
-          url: `https://varsityvue.com/districts/${district.slug}`,
-        }
+        "@type": "SportsOrganization",
+        name: district.name,
+        url: `https://varsityvue.com/districts/${district.slug}`,
+      }
       : undefined,
     publisher: {
       "@type": "Organization",
@@ -118,11 +118,10 @@ export default async function SchoolPage({
           <HubStat label="Mascot" value={school.mascot} />
           <HubStat
             label="Classification"
-            value={`${school.classification.conference}${
-              school.classification.division
-                ? ` ${school.classification.division}`
-                : ""
-            }`}
+            value={`${school.classification.conference}${school.classification.division
+              ? ` ${school.classification.division}`
+              : ""
+              }`}
           />
           <HubStat label="District" value={district?.name ?? "TBD"} />
           <HubStat label="Stadium" value={school.stadium ?? "TBD"} />
@@ -156,8 +155,10 @@ export default async function SchoolPage({
           <section
             className="rounded-[1.75rem] border p-6 shadow-2xl"
             style={{
-              borderColor: `${theme.primary}66`,
-              background: `linear-gradient(135deg, ${theme.primary}66, rgba(0,0,0,0.94) 48%, rgba(0,0,0,1))`,
+              borderColor: `${theme.primary}55`,
+              background:
+                "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 48%, rgba(0,0,0,1))",
+              boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)`,
             }}
           >
             <p
@@ -197,8 +198,10 @@ export default async function SchoolPage({
           <section
             className="rounded-[1.75rem] border p-6 shadow-2xl"
             style={{
-              borderColor: `${theme.primary}66`,
-              background: `linear-gradient(135deg, ${theme.primary}55, rgba(0,0,0,0.94) 50%, rgba(0,0,0,1))`,
+              borderColor: `${theme.primary}55`,
+              background:
+                "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 50%, rgba(0,0,0,1))",
+              boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)`,
             }}
           >
             <p
@@ -234,8 +237,19 @@ export default async function SchoolPage({
             </div>
           </section>
 
-          <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
+          <section
+            className="rounded-[1.75rem] border p-6 shadow-2xl"
+            style={{
+              borderColor: `${theme.primary}55`,
+              background:
+                "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 50%, rgba(0,0,0,1))",
+              boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)`,
+            }}
+          >
+            <p
+              className="text-xs font-black uppercase tracking-[0.28em]"
+              style={{ color: theme.secondary }}
+            >
               School Utility
             </p>
 
