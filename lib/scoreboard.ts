@@ -40,6 +40,29 @@ export function getScoreboardGames(): ScoreboardGame[] {
     .sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b));
 }
 
+export function getGameOfTheWeek(): ScoreboardGame | undefined {
+  const scoreboardGames = getScoreboardGames();
+
+  return (
+    scoreboardGames.find(
+      (game) =>
+        game.status === "live" &&
+        game.featured === true &&
+        game.coverageStatus === "planned"
+    ) ??
+    scoreboardGames.find(
+      (game) =>
+        game.status === "upcoming" &&
+        game.featured === true &&
+        game.coverageStatus === "planned"
+    ) ??
+    scoreboardGames.find(
+      (game) =>
+        game.status === "upcoming" && game.coverageStatus === "planned"
+    )
+  );
+}
+
 export function getFeaturedScoreboardGame(): ScoreboardGame | undefined {
   const scoreboardGames = getScoreboardGames();
 

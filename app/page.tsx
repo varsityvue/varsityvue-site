@@ -5,13 +5,15 @@ import Link from "next/link";
 import { getSchools, getPilotSchools, getSchoolBySlug } from "@/lib/schools";
 import { getNextGameForSchool } from "@/lib/games";
 import { getDistricts } from "@/lib/districts";
-import { getFeaturedScoreboardGame } from "@/lib/scoreboard";
+import { getGameOfTheWeek } from "@/lib/scoreboard";
 import { getLatestArticles } from "@/lib/articles";
 import { getActiveSponsors } from "@/lib/sponsors";
 import {
   getStandingForSchool,
   getStandingsForDistrictId,
 } from "@/lib/standings";
+import GameBadges from "@/components/GameBadges";
+import PlayersToWatch from "@/components/PlayersToWatch";
 import SchoolBadge from "@/components/SchoolBadge";
 import ScoreStrip from "@/components/ScoreStrip";
 import SchoolSearch from "../components/SchoolSearch";
@@ -36,7 +38,6 @@ function parseGameDate(kickoff?: string) {
 
 function formatGameDate(kickoff?: string) {
   const parsedDate = parseGameDate(kickoff);
-
   if (!parsedDate) return "TBD";
 
   return new Intl.DateTimeFormat("en-US", {
@@ -51,7 +52,6 @@ function formatGameTime(kickoff?: string) {
   if (!kickoff || !kickoff.includes("T")) return "Time TBD";
 
   const parsedDate = parseGameDate(kickoff);
-
   if (!parsedDate) return "Time TBD";
 
   return new Intl.DateTimeFormat("en-US", {
@@ -65,7 +65,7 @@ export default function Home() {
   const schools = getSchools();
   const districts = getDistricts();
 
-  const featuredGame = getFeaturedScoreboardGame();
+  const featuredGame = getGameOfTheWeek();
   const pilotSchools = getPilotSchools().slice(0, 6);
 
   const latestArticles = getLatestArticles(3);
@@ -77,6 +77,7 @@ export default function Home() {
     : [];
 
   const featuredSchool = pilotSchools[0];
+
   const featuredHomeSchool = featuredGame?.homeSchoolSlug
     ? getSchoolBySlug(featuredGame.homeSchoolSlug)
     : undefined;
@@ -97,107 +98,168 @@ export default function Home() {
     ? getStandingForSchool(featuredGame.awaySchoolSlug)
     : undefined;
 
+  const heroLeftColor = featuredAwaySchool?.colors.primary ?? "#8B1020";
+  const heroRightColor = featuredHomeSchool?.colors.primary ?? "#001F4D";
+
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] text-white">
-      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.45),transparent_32%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 pb-6 pt-6 sm:px-6 lg:px-8">
+      <section
+        className="border-b border-white/10 px-4 pb-6 pt-6 sm:px-6 lg:px-8"
+        style={{
+          background: `
+            radial-gradient(circle at top left, ${heroLeftColor}55, transparent 34%),
+            radial-gradient(circle at top right, ${heroRightColor}44, transparent 34%),
+            linear-gradient(120deg, #050505 0%, #090909 52%, #000000 100%)
+          `,
+        }}
+      >
         <div className="mx-auto grid max-w-[1440px] gap-5 lg:grid-cols-[1.22fr_0.88fr]">
           <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#080808] shadow-2xl">
-            <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(0,0,0,0.98),rgba(0,0,0,0.76)_45%,rgba(139,16,32,0.32))]" />
+            <div
+              className="absolute inset-0"
+              style={{
+                background: `
+                  radial-gradient(circle at 12% 28%, ${heroLeftColor}33, transparent 30%),
+                  radial-gradient(circle at 88% 42%, ${heroRightColor}33, transparent 32%),
+                  linear-gradient(115deg, rgba(0,0,0,0.98), rgba(0,0,0,0.75) 48%, rgba(255,255,255,0.05))
+                `,
+              }}
+            />
             <div className="absolute -right-28 top-10 h-96 w-96 rounded-full bg-white/10 blur-3xl" />
             <div className="absolute bottom-0 right-0 h-48 w-2/3 bg-gradient-to-t from-black/80 to-transparent" />
 
-            <div className="relative z-10 flex min-h-[590px] flex-col justify-between p-6 sm:p-8 lg:p-10">
+            <div className="relative z-10 flex min-h-[560px] flex-col justify-between p-6 sm:p-8 lg:p-9">
               <div>
                 <div className="flex flex-wrap items-center gap-3">
-                  <p className="inline-flex rounded bg-white px-3 py-2 text-xs font-black uppercase tracking-[0.24em] text-black shadow-lg">
-                    Texas High School Sports Platform
+                  <p className="inline-flex rounded-full border border-white/15 bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.22em] text-black shadow-lg">
+                    VarsityVue Spotlight
                   </p>
 
-                  <p className="text-xs font-black uppercase tracking-[0.24em] text-white/35">
-                    Featured Matchup
+                  <p className="inline-flex rounded-full border border-white/15 bg-black/50 px-4 py-2 text-xs font-black uppercase tracking-[0.22em] text-white/75">
+                    Game of the Week
                   </p>
                 </div>
 
-                <div className="mt-7 grid gap-4 sm:grid-cols-[1fr_auto_1fr] sm:items-center">
-                  {featuredGame ? (
-                    <>
-                      <HeroTeamCard
-                        name={featuredGame.awayTeam ?? "Away Team"}
-                        mascot={featuredAwaySchool?.mascot}
-                        badge={
-                          featuredAwaySchool?.badgeLabel ??
-                          featuredAwaySchool?.abbreviation ??
-                          featuredGame.awayTeam?.slice(0, 2)
-                        }
-                        primary={featuredAwaySchool?.colors.primary}
-                        secondary={featuredAwaySchool?.colors.secondary}
-                        record={
-                          featuredAwayStanding
-                            ? `${featuredAwayStanding.overallWins}-${featuredAwayStanding.overallLosses} Overall · ${featuredAwayStanding.districtWins}-${featuredAwayStanding.districtLosses} District`
-                            : undefined
-                        }
-                      />
+                {featuredGame ? (
+                  <>
+                    <div className="mt-7 text-center">
+                      <p className="text-sm font-black uppercase tracking-[0.35em] text-white/40">
+                        Week {featuredGame.week ?? "TBD"} Showcase
+                      </p>
 
-                      <div className="text-center text-2xl font-black uppercase tracking-[0.2em] text-white/35">
-                        vs
+                      <div className="mt-6 flex items-center justify-center gap-4">
+                        <TeamChip
+                          label={featuredAwaySchool?.abbreviation ?? "AWY"}
+                          primary={featuredAwaySchool?.colors.primary}
+                          secondary={featuredAwaySchool?.colors.secondary}
+                        />
+
+                        <div>
+                          <h1 className="text-5xl font-black uppercase leading-none tracking-tight text-white md:text-7xl">
+                            {featuredGame.awayTeam}
+                          </h1>
+
+                          {featuredAwaySchool?.mascot && (
+                            <p className="mt-2 text-sm font-black uppercase tracking-[0.22em] text-white/45">
+                              {featuredAwaySchool.mascot}
+                            </p>
+                          )}
+
+                          <RecordLine
+                            overallWins={featuredAwayStanding?.overallWins}
+                            overallLosses={featuredAwayStanding?.overallLosses}
+                            districtWins={featuredAwayStanding?.districtWins}
+                            districtLosses={featuredAwayStanding?.districtLosses}
+                          />
+                        </div>
                       </div>
 
-                      <HeroTeamCard
-                        name={featuredGame.homeTeam ?? "Home Team"}
-                        mascot={featuredHomeSchool?.mascot}
-                        badge={
-                          featuredHomeSchool?.badgeLabel ??
-                          featuredHomeSchool?.abbreviation ??
-                          featuredGame.homeTeam?.slice(0, 2)
-                        }
-                        primary={featuredHomeSchool?.colors.primary}
-                        secondary={featuredHomeSchool?.colors.secondary}
-                        record={
-                          featuredHomeStanding
-                            ? `${featuredHomeStanding.overallWins}-${featuredHomeStanding.overallLosses} Overall · ${featuredHomeStanding.districtWins}-${featuredHomeStanding.districtLosses} District`
-                            : undefined
+                      <div className="my-5 text-4xl font-black uppercase tracking-[0.3em] text-[var(--vv-primary)]">
+                        VS
+                      </div>
+
+                      <div className="flex items-center justify-center gap-4">
+                        <TeamChip
+                          label={featuredHomeSchool?.abbreviation ?? "HME"}
+                          primary={featuredHomeSchool?.colors.primary}
+                          secondary={featuredHomeSchool?.colors.secondary}
+                        />
+
+                        <div>
+                          <h1 className="text-5xl font-black uppercase leading-none tracking-tight text-white md:text-7xl">
+                            {featuredGame.homeTeam}
+                          </h1>
+
+                          {featuredHomeSchool?.mascot && (
+                            <p className="mt-2 text-sm font-black uppercase tracking-[0.22em] text-white/45">
+                              {featuredHomeSchool.mascot}
+                            </p>
+                          )}
+
+                          <RecordLine
+                            overallWins={featuredHomeStanding?.overallWins}
+                            overallLosses={featuredHomeStanding?.overallLosses}
+                            districtWins={featuredHomeStanding?.districtWins}
+                            districtLosses={featuredHomeStanding?.districtLosses}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-6 flex flex-wrap justify-center gap-2">
+                      <HeroPill label={`Week ${featuredGame.week ?? "TBD"}`} />
+                      <HeroPill
+                        label={
+                          featuredGame.districtGame
+                            ? "District Game"
+                            : "Non-District"
                         }
                       />
-                    </>
-                  ) : (
-                    <h1 className="max-w-4xl text-5xl font-black uppercase leading-[0.9] tracking-tight text-white sm:text-7xl lg:text-8xl">
-                      The Game, Seen Smarter
-                    </h1>
-                  )}
-                </div>
+                      <HeroPill label="VarsityVue Spotlight" />
+                    </div>
 
-                <div className="mt-7 space-y-2">
-                  {featuredGame ? (
-                    <>
+                    <div className="mt-6 space-y-3">
+                      <GameBadges game={featuredGame} variant="hero" />
+
                       <p className="text-xl font-black text-white">
                         {formatGameDate(featuredGame.kickoff)} ·{" "}
                         {formatGameTime(featuredGame.kickoff)}
                       </p>
+
                       <p className="text-base font-semibold text-white/55">
                         {featuredGame.venue}
                       </p>
-                    </>
-                  ) : (
-                    <p className="max-w-2xl text-lg leading-8 text-white/65">
+                    </div>
+                  </>
+                ) : (
+                  <div className="mt-8">
+                    <h1 className="max-w-4xl text-5xl font-black uppercase leading-[0.9] tracking-tight text-white sm:text-7xl lg:text-8xl">
+                      The Game, Seen Smarter
+                    </h1>
+
+                    <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">
                       Texas high school sports hubs, scores, standings,
                       coverage, and sponsor visibility.
                     </p>
-                  )}
-                </div>
+                  </div>
+                )}
 
                 <div className="mt-8 rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
                   <p className="text-xs font-black uppercase tracking-[0.24em] text-white/55">
-                    Friday Night
+                    Why This Game Matters
                   </p>
 
                   <h2 className="mt-3 text-3xl font-black text-white md:text-4xl">
-                    Rivalries. District races. Communities locked in.
+                    Two playoff-caliber programs open the season in a marquee
+                    showdown.
                   </h2>
 
                   <p className="mt-3 max-w-3xl text-sm leading-6 text-white/60">
-                    VarsityVue brings scores, schedules, coverage, school hubs,
-                    and football storylines into one connected platform built
-                    for Texas communities.
+                    Stephenville and Midlothian Heritage enter 2026 with
+                    district-title expectations and playoff ambition. VarsityVue
+                    selected this matchup as the Week 1 Game of the Week because
+                    of its regional weight, program strength, and early-season
+                    intrigue.
                   </p>
                 </div>
 
@@ -207,7 +269,7 @@ export default function Home() {
                       href={`/games/${featuredGame.id}`}
                       className="rounded-xl bg-white px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-black transition hover:bg-white/85"
                     >
-                      View Matchup
+                      View Game of the Week
                     </Link>
                   )}
 
@@ -220,8 +282,8 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="grid gap-3 sm:grid-cols-3">
-                <Stat value={schools.length.toString()} label="Schools Covered" />
+              <div className="mt-8 grid gap-3 sm:grid-cols-3">
+                <Stat value={schools.length.toString()} label="Programs Indexed" />
                 <Stat value={districts.length.toString()} label="District Hubs" />
                 <Stat value="2026" label="Pilot Season" />
               </div>
@@ -234,6 +296,8 @@ export default function Home() {
 
       <ScoreStrip />
 
+      <PlayersToWatch />
+
       <section className="px-4 py-5 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-[1440px] gap-4 lg:grid-cols-[1fr_0.85fr_0.85fr]">
           <Panel title="Latest Coverage" kicker="News" href="/coverage">
@@ -242,7 +306,7 @@ export default function Home() {
                 <Link
                   key={article.id}
                   href={`/coverage/${article.slug}`}
-                  className="block border-b border-white/10 pb-4 last:border-0 last:pb-0"
+                  className="block border-b border-white/10 pb-4 transition hover:text-white last:border-0 last:pb-0"
                 >
                   <p className="text-xs font-black uppercase tracking-[0.16em] text-white/45">
                     {article.type}
@@ -263,6 +327,14 @@ export default function Home() {
             kicker={featuredDistrict?.name ?? "Standings"}
             href="/districts"
           >
+            <div className="grid grid-cols-[32px_1fr_58px_58px_44px] gap-3 px-3 pb-2 text-[10px] font-black uppercase tracking-[0.16em] text-white/35">
+              <span>#</span>
+              <span>Team</span>
+              <span>Dist</span>
+              <span>Ovr</span>
+              <span>Diff</span>
+            </div>
+
             <div className="space-y-3">
               {featuredStandings.map((team, index) => {
                 const differential = team.pointsFor - team.pointsAgainst;
@@ -271,7 +343,7 @@ export default function Home() {
                   <Link
                     key={team.schoolSlug}
                     href={`/schools/${team.schoolSlug}`}
-                    className="grid grid-cols-[32px_1fr_72px_72px_64px] items-center gap-3 rounded-xl bg-black/35 px-3 py-3 text-sm transition hover:bg-white/10"
+                    className="grid grid-cols-[32px_1fr_58px_58px_44px] items-center gap-3 rounded-xl bg-black/35 px-3 py-3 text-sm transition hover:bg-white/10"
                   >
                     <span className="font-black text-white/45">#{index + 1}</span>
                     <span className="truncate font-black text-white">
@@ -293,7 +365,7 @@ export default function Home() {
             </div>
           </Panel>
 
-          <Panel title="Featured Schools" kicker="Pilot Hubs" href="/schools">
+          <Panel title="Trending Programs" kicker="Pilot Hubs" href="/schools">
             <div className="space-y-3">
               {pilotSchools.slice(0, 4).map((school) => (
                 <Link
@@ -327,7 +399,7 @@ export default function Home() {
 
               <div className="relative">
                 <p className="text-xs font-black uppercase tracking-[0.28em] text-white/55">
-                  Featured School
+                  Featured Program
                 </p>
 
                 <div className="mt-6 flex items-center gap-5">
@@ -343,6 +415,21 @@ export default function Home() {
                         : ""}
                     </p>
                   </div>
+                </div>
+
+                <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                  <MiniProgramStat
+                    label="Status"
+                    value={featuredSchool.status}
+                  />
+                  <MiniProgramStat
+                    label="Market"
+                    value={featuredSchool.coverageMarket ?? "Pilot"}
+                  />
+                  <MiniProgramStat
+                    label="District"
+                    value={featuredDistrict?.name ?? "TBD"}
+                  />
                 </div>
 
                 {featuredSchoolNextGame && (
@@ -386,14 +473,15 @@ export default function Home() {
               <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
                 <div>
                   <p className="text-xs font-black uppercase tracking-[0.3em] text-white/45">
-                    Local Partners
+                    Founding Sponsor Opportunities
                   </p>
                   <h2 className="mt-2 text-3xl font-black">
                     High-visibility sponsorship built into the fan experience.
                   </h2>
                   <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55">
                     VarsityVue gives local businesses visible placement across
-                    school hubs, district pages, game pages, and coverage modules.
+                    school hubs, district pages, game pages, and coverage
+                    modules while pilot pricing is still available.
                   </p>
                 </div>
 
@@ -401,7 +489,7 @@ export default function Home() {
                   href="/sponsors"
                   className="rounded-xl border border-white/20 bg-white/10 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
                 >
-                  Become a Sponsor
+                  Become a Founding Sponsor
                 </Link>
               </div>
 
@@ -441,7 +529,7 @@ export default function Home() {
           />
           <Feature
             title="Stats & Data"
-            body="Standings, schedules, matchup pages, and future rankings."
+            body="Standings, schedules, matchup pages, player watchlists, and future rankings."
           />
           <Feature
             title="Built for Fans"
@@ -450,6 +538,68 @@ export default function Home() {
         </div>
       </section>
     </main>
+  );
+}
+
+function TeamChip({
+  label,
+  primary,
+  secondary,
+}: {
+  label: string;
+  primary?: string;
+  secondary?: string;
+}) {
+  return (
+    <div
+      className="flex h-24 w-24 shrink-0 items-center justify-center rounded-3xl text-xl font-black shadow-lg"
+      style={{
+        backgroundColor: primary ?? "#8B1020",
+        color: secondary ?? "#ffffff",
+      }}
+    >
+      {label}
+    </div>
+  );
+}
+
+function HeroPill({ label }: { label: string }) {
+  return (
+    <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-black uppercase tracking-[0.14em] text-white/60">
+      {label}
+    </span>
+  );
+}
+
+function RecordLine({
+  overallWins,
+  overallLosses,
+  districtWins,
+  districtLosses,
+}: {
+  overallWins?: number;
+  overallLosses?: number;
+  districtWins?: number;
+  districtLosses?: number;
+}) {
+  return (
+    <p className="mt-2 text-xs font-black uppercase tracking-[0.14em] text-white/50">
+      {overallWins ?? 0}-{overallLosses ?? 0} Overall · {districtWins ?? 0}-
+      {districtLosses ?? 0} District
+    </p>
+  );
+}
+
+function MiniProgramStat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-xl border border-white/10 bg-black/30 p-3">
+      <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">
+        {label}
+      </p>
+      <p className="mt-1 text-sm font-black capitalize text-white/80">
+        {value}
+      </p>
+    </div>
   );
 }
 
@@ -506,52 +656,6 @@ function FeatureLink({ href, label }: { href: string; label: string }) {
     >
       {label}
     </Link>
-  );
-}
-
-function HeroTeamCard({
-  name,
-  mascot,
-  badge,
-  primary,
-  secondary,
-  record,
-}: {
-  name: string;
-  mascot?: string;
-  badge?: string;
-  primary?: string;
-  secondary?: string;
-  record?: string;
-}) {
-  return (
-    <div className="rounded-[1.5rem] border border-white/10 bg-black/35 p-5">
-      <div
-        className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 text-xl font-black shadow-lg"
-        style={{
-          backgroundColor: primary ?? "rgba(255,255,255,0.1)",
-          color: secondary ?? "#ffffff",
-        }}
-      >
-        {badge ?? name.slice(0, 2).toUpperCase()}
-      </div>
-
-      <h1 className="mt-4 text-4xl font-black uppercase leading-none tracking-tight text-white sm:text-5xl">
-        {name}
-      </h1>
-
-      {mascot && (
-        <p className="mt-2 text-xs font-black uppercase tracking-[0.18em] text-white/45">
-          {mascot}
-        </p>
-      )}
-
-      {record && (
-        <p className="mt-2 text-xs font-black uppercase tracking-[0.12em] text-white/60">
-          {record}
-        </p>
-      )}
-    </div>
   );
 }
 
