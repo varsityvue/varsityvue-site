@@ -13,9 +13,7 @@ export default function SchoolSearch({ schools }: { schools: School[] }) {
   const filteredSchools = useMemo(() => {
     const search = query.trim().toLowerCase();
 
-    if (!search) {
-      return schools.slice(0, 9);
-    }
+    if (!search) return schools.slice(0, 9);
 
     return schools
       .filter((school) => {
@@ -39,6 +37,11 @@ export default function SchoolSearch({ schools }: { schools: School[] }) {
       .slice(0, 12);
   }, [query, schools]);
 
+  const pilotSchools = useMemo(
+    () => schools.filter((school) => school.status === "pilot").slice(0, 4),
+    [schools]
+  );
+
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key !== "Enter") return;
 
@@ -56,7 +59,7 @@ export default function SchoolSearch({ schools }: { schools: School[] }) {
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.3em] text-white/55">
-            Find Your School
+            Find Your Team
           </p>
 
           <h2 className="mt-3 text-4xl font-black tracking-tight text-white">
@@ -81,10 +84,9 @@ export default function SchoolSearch({ schools }: { schools: School[] }) {
         <div className="mt-3 flex items-center justify-between gap-4 text-xs font-bold text-white/40">
           <span>
             {hasQuery
-              ? `${filteredSchools.length} result${
-                  filteredSchools.length === 1 ? "" : "s"
-                } found`
-              : `Showing ${filteredSchools.length} of ${schools.length} schools`}
+              ? `${filteredSchools.length} result${filteredSchools.length === 1 ? "" : "s"
+              } found`
+              : `Explore ${schools.length} Texas high school programs`}
           </span>
 
           {filteredSchools.length > 0 && (
@@ -93,14 +95,14 @@ export default function SchoolSearch({ schools }: { schools: School[] }) {
         </div>
       </div>
 
-      <div className="mt-5 max-h-[520px] overflow-y-auto pr-1">
+      <div className="mt-5 max-h-[420px] overflow-y-auto pr-1">
         <div className="grid grid-cols-3 gap-3">
           {filteredSchools.length > 0 ? (
             filteredSchools.map((school) => (
               <Link
                 key={school.id}
                 href={`/schools/${school.slug}`}
-                className="group rounded-2xl border border-white/10 bg-black/35 p-4 text-center transition-all duration-200 hover:-translate-y-1 hover:scale-[1.02] hover:border-white/25 hover:bg-white/10"
+                className="group rounded-2xl border border-white/10 bg-black/35 p-4 text-center transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:border-white/25 hover:bg-white/[0.08]"
               >
                 <div className="flex justify-center">
                   <SchoolBadge school={school} size="xs" />
@@ -123,6 +125,31 @@ export default function SchoolSearch({ schools }: { schools: School[] }) {
               </p>
             </div>
           )}
+        </div>
+      </div>
+
+      <div className="mt-5 rounded-2xl border border-white/10 bg-black/35 p-4">
+        <p className="text-xs font-black uppercase tracking-[0.22em] text-white/45">
+          Trending Programs
+        </p>
+
+        <div className="mt-4 grid gap-3">
+          {pilotSchools.map((school) => (
+            <Link
+              key={school.id}
+              href={`/schools/${school.slug}`}
+              className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 transition hover:border-white/20 hover:bg-white/[0.08]"
+            >
+              <div>
+                <p className="text-sm font-black text-white">{school.name}</p>
+                <p className="text-xs text-white/45">{school.mascot}</p>
+              </div>
+
+              <span className="text-xs font-black uppercase tracking-[0.16em] text-white/35">
+                View →
+              </span>
+            </Link>
+          ))}
         </div>
       </div>
 
