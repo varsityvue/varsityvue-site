@@ -2,11 +2,16 @@ import { games } from "@/data/games";
 import type { Game } from "@/types/platform";
 
 function getGameTimestamp(game: Game) {
-  if (!game.kickoff) return 0;
+  if (!game.kickoff) return Number.MAX_SAFE_INTEGER;
+
+  if (!game.kickoff.includes("T")) {
+    const [year, month, day] = game.kickoff.split("-").map(Number);
+    return new Date(year, month - 1, day).getTime();
+  }
 
   const timestamp = new Date(game.kickoff).getTime();
 
-  return Number.isNaN(timestamp) ? 0 : timestamp;
+  return Number.isNaN(timestamp) ? Number.MAX_SAFE_INTEGER : timestamp;
 }
 
 function assertNoDuplicateGameIds() {
@@ -69,6 +74,7 @@ export function getDistrictGames() {
     .filter((game) => game.districtGame)
     .sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b));
 }
+
 export function getNextGameForSchool(slug: string) {
   return getUpcomingGamesForSchool(slug)[0];
 }
