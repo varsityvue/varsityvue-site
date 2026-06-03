@@ -4,7 +4,7 @@ export default function NotFound() {
   return (
     <main className="min-h-screen bg-black px-4 py-16 text-white sm:px-6 lg:px-8">
       <div className="mx-auto max-w-3xl text-center">
-        <p className="text-sm font-bold uppercase tracking-[0.3em] text-[#d65a6d]">
+        <p className="text-sm font-bold uppercase tracking-[0.3em] text-[var(--vv-accent)]">
           404
         </p>
 
@@ -19,7 +19,7 @@ export default function NotFound() {
         <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
           <Link
             href="/schools"
-            className="rounded-full bg-[#7A1022] px-6 py-3 text-sm font-black uppercase tracking-[0.18em] text-white transition hover:bg-[#d65a6d]"
+            className="rounded-full bg-[var(--vv-primary)] px-6 py-3 text-sm font-black uppercase tracking-[0.18em] text-white transition hover:bg-[var(--vv-accent)]"
           >
             View Schools
           </Link>

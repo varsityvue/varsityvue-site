@@ -20,7 +20,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#7A1022]/50 bg-[#7A1022]/20 px-4 py-2 text-sm">
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#7A1022]/50 bg-[var(--vv-primary)]/20 px-4 py-2 text-sm">
             <Radio size={16} />
             Built for Friday nights in Texas
           </div>
@@ -37,7 +37,7 @@ export default function Hero() {
           </p>
 
           <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-            <button className="flex items-center justify-center rounded-full bg-[#7A1022] px-6 py-4 font-semibold hover:bg-[#93142a]">
+            <button className="flex items-center justify-center rounded-full bg-[var(--vv-primary)] px-6 py-4 font-semibold hover:bg-[#93142a]">
               Explore Platform <ChevronRight className="ml-2" size={18} />
             </button>
 
@@ -60,7 +60,7 @@ export default function Hero() {
           className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur"
         >
           <div className="rounded-3xl bg-black/60 p-6">
-            <p className="text-sm uppercase tracking-[0.3em] text-[#d65a6d]">
+            <p className="text-sm uppercase tracking-[0.3em] text-[var(--vv-accent)]">
               Game Week
             </p>
 

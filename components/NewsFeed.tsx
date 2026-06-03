@@ -7,13 +7,22 @@ type NewsFeedProps = {
   theme: SchoolTheme;
 };
 
+function parseArticleDate(publishedAt: string) {
+  const parsedDate = new Date(publishedAt);
+  return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
+}
+
 function formatArticleDate(publishedAt: string) {
+  const parsedDate = parseArticleDate(publishedAt);
+
+  if (!parsedDate) return "Date TBD";
+
   return new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
     timeZone: "America/Chicago",
-  }).format(new Date(publishedAt));
+  }).format(parsedDate);
 }
 
 function formatArticleType(type: Article["type"]) {
@@ -45,9 +54,7 @@ export default function NewsFeed({ articles, theme }: NewsFeedProps) {
           <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
             School Coverage
           </p>
-          <h2 className="mt-2 text-3xl font-black text-white">
-            Latest Stories
-          </h2>
+          <h2 className="mt-2 text-3xl font-black text-white">Latest Stories</h2>
         </div>
 
         <Link
@@ -123,7 +130,7 @@ export default function NewsFeed({ articles, theme }: NewsFeedProps) {
                 />
 
                 <div className="mt-7 flex flex-wrap items-center gap-4">
-                  <p className="text-sm font-black uppercase tracking-[0.16em] text-white/70">
+                  <p className="text-sm font-black uppercase tracking-[0.16em] text-white/70 transition group-hover:text-white">
                     Read story →
                   </p>
 
@@ -141,7 +148,7 @@ export default function NewsFeed({ articles, theme }: NewsFeedProps) {
                 <Link
                   key={article.id}
                   href={`/coverage/${article.slug}`}
-                  className="rounded-2xl border bg-black/35 p-5 transition hover:bg-white/[0.07]"
+                  className="group rounded-2xl border bg-black/35 p-5 transition hover:bg-white/[0.07]"
                   style={{ borderColor: `${theme.secondary}22` }}
                 >
                   <p className="text-xs font-black uppercase tracking-[0.18em] text-white/60">
@@ -156,9 +163,15 @@ export default function NewsFeed({ articles, theme }: NewsFeedProps) {
                     {article.excerpt}
                   </p>
 
-                  <p className="mt-4 text-xs text-white/35">
-                    {formatArticleDate(article.publishedAt)}
-                  </p>
+                  <div className="mt-4 flex items-center justify-between gap-4">
+                    <p className="text-xs text-white/35">
+                      {formatArticleDate(article.publishedAt)}
+                    </p>
+
+                    <p className="text-xs font-black uppercase tracking-[0.14em] text-white/55 transition group-hover:text-white">
+                      Read →
+                    </p>
+                  </div>
                 </Link>
               ))
             ) : (

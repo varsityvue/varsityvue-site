@@ -3,8 +3,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { UILClassification } from "@/types/platform";
 
+import SchoolBadge from "@/components/SchoolBadge";
+import StandingsTable from "@/components/StandingsTable";
+
 import { getDistrictBySlug } from "@/lib/districts";
-import { getSchoolsByDistrictId } from "@/lib/schools";
+import { getSchoolBySlug, getSchoolsByDistrictId } from "@/lib/schools";
 import { getGamesForSchool } from "@/lib/games";
 import { getActiveSponsors } from "@/lib/sponsors";
 import { getStandingsForDistrictId } from "@/lib/standings";
@@ -16,8 +19,9 @@ type DistrictPageProps = {
 function formatClassification(classification: UILClassification) {
   if (!classification.division) return classification.conference;
 
-  return `${classification.conference} Division ${classification.division === "D1" ? "I" : "II"
-    }`;
+  return `${classification.conference} Division ${
+    classification.division === "D1" ? "I" : "II"
+  }`;
 }
 
 function formatRegion(region: 1 | 2 | 3 | 4) {
@@ -37,21 +41,25 @@ function formatDistrictDisplayName(name: string) {
 function formatGameDate(kickoff?: string) {
   if (!kickoff) return "TBD";
 
+  if (!kickoff.includes("T")) {
+    const [year, month, day] = kickoff.split("-").map(Number);
+
+    return new Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "numeric",
+      timeZone: "America/Chicago",
+    }).format(new Date(year, month - 1, day));
+  }
+
   const parsedDate = new Date(kickoff);
 
-  if (Number.isNaN(parsedDate.getTime())) {
-    return "TBD";
-  }
+  if (Number.isNaN(parsedDate.getTime())) return "TBD";
 
   return new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
     timeZone: "America/Chicago",
   }).format(parsedDate);
-}
-
-function getSchoolInitials(name: string, abbreviation?: string) {
-  return abbreviation ?? name.slice(0, 2).toUpperCase();
 }
 
 function getTeamName(team?: string) {
@@ -103,8 +111,12 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
     )
     .filter((game) => game.districtGame)
     .sort((a, b) => {
-      const aTime = a.kickoff ? new Date(a.kickoff).getTime() : Number.MAX_SAFE_INTEGER;
-      const bTime = b.kickoff ? new Date(b.kickoff).getTime() : Number.MAX_SAFE_INTEGER;
+      const aTime = a.kickoff
+        ? new Date(a.kickoff).getTime()
+        : Number.MAX_SAFE_INTEGER;
+      const bTime = b.kickoff
+        ? new Date(b.kickoff).getTime()
+        : Number.MAX_SAFE_INTEGER;
 
       return aTime - bTime;
     });
@@ -120,6 +132,12 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
   const classification = formatClassification(district.classification);
   const region = formatRegion(district.uilRegion);
   const displayName = formatDistrictDisplayName(district.name);
+
+  const districtTheme = {
+    primary: "#7A1022",
+    secondary: "#FFFFFF",
+    accent: "#000000",
+  };
 
   const districtSchema = {
     "@context": "https://schema.org",
@@ -177,22 +195,6 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
                   visibility, and future legacy coverage for this VarsityVue
                   district ecosystem.
                 </p>
-
-                <div className="mt-6 rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
-                  <p className="text-xs font-black uppercase tracking-[0.24em] text-white/70">
-                    District Race
-                  </p>
-
-                  <h2 className="mt-3 text-3xl font-black text-white md:text-4xl">
-                    Every Friday rewrites the playoff race.
-                  </h2>
-
-                  <p className="mt-3 max-w-3xl text-sm leading-6 text-white/60">
-                    District championships, playoff positioning, rivalry games,
-                    and weekly momentum all collide inside the VarsityVue
-                    district ecosystem.
-                  </p>
-                </div>
               </div>
 
               <Link
@@ -205,9 +207,18 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
           </div>
 
           <section className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <DistrictStat label="Schools" value={districtSchools.length.toString()} />
-            <DistrictStat label="Teams Ranked" value={districtStandings.length.toString()} />
-            <DistrictStat label="District Games" value={allDistrictGames.length.toString()} />
+            <DistrictStat
+              label="Schools"
+              value={districtSchools.length.toString()}
+            />
+            <DistrictStat
+              label="Teams Ranked"
+              value={districtStandings.length.toString()}
+            />
+            <DistrictStat
+              label="District Games"
+              value={allDistrictGames.length.toString()}
+            />
             <DistrictStat label="Region" value={region.replace("Region ", "")} />
           </section>
         </div>
@@ -216,93 +227,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
       <section className="px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-[1440px] gap-6 lg:grid-cols-[1.4fr_0.8fr]">
           <div className="space-y-6">
-            <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:p-6">
-              <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-                <div>
-                  <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
-                    District Race
-                  </p>
-                  <h2 className="mt-2 text-3xl font-black text-white">
-                    Standings
-                  </h2>
-                </div>
-
-                <p className="text-sm font-bold text-white/45">
-                  Top 4 projected playoff positions
-                </p>
-              </div>
-
-              <div className="overflow-x-auto rounded-2xl border border-white/10 bg-black/35">
-                <table className="w-full min-w-[760px] text-left">
-                  <thead className="bg-white/10 text-xs uppercase tracking-[0.2em] text-white/55">
-                    <tr>
-                      <th className="px-4 py-4">Rank</th>
-                      <th className="px-4 py-4">Team</th>
-                      <th className="px-4 py-4">District</th>
-                      <th className="px-4 py-4">Overall</th>
-                      <th className="px-4 py-4">PF</th>
-                      <th className="px-4 py-4">PA</th>
-                      <th className="px-4 py-4">Diff</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {districtStandings.map((team, index) => {
-                      const differential = team.pointsFor - team.pointsAgainst;
-
-                      return (
-                        <tr
-                          key={team.schoolSlug}
-                          className={`border-t border-white/10 transition hover:bg-white/[0.06] ${index < 4 ? "bg-white/[0.045]" : ""
-                            }`}
-                        >
-                          <td className="px-4 py-4 font-black text-white">
-                            <div className="flex items-center gap-2">
-                              <span>#{index + 1}</span>
-                              {index < 4 && (
-                                <span className="rounded-full border border-white/15 bg-white/10 px-2 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-white/70">
-                                  Playoff
-                                </span>
-                              )}
-                            </div>
-                          </td>
-
-                          <td className="px-4 py-4 font-black text-white">
-                            <Link
-                              href={`/schools/${team.schoolSlug}`}
-                              className="hover:text-white/70"
-                            >
-                              {team.team}
-                            </Link>
-                          </td>
-
-                          <td className="px-4 py-4 font-bold text-white">
-                            {team.districtWins}-{team.districtLosses}
-                          </td>
-
-                          <td className="px-4 py-4 font-bold text-white/65">
-                            {team.overallWins}-{team.overallLosses}
-                          </td>
-
-                          <td className="px-4 py-4 font-bold text-white/65">
-                            {team.pointsFor}
-                          </td>
-
-                          <td className="px-4 py-4 font-bold text-white/65">
-                            {team.pointsAgainst}
-                          </td>
-
-                          <td className="px-4 py-4 font-black text-white">
-                            {differential > 0 ? "+" : ""}
-                            {differential}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            </section>
+            <StandingsTable standings={districtStandings} theme={districtTheme} />
 
             <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:p-6">
               <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
@@ -323,38 +248,25 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
                 </Link>
               </div>
 
-              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+              <div className="overflow-hidden rounded-2xl border border-white/10 bg-black/35">
                 {districtSchools.map((school) => (
                   <Link
                     key={school.slug}
                     href={`/schools/${school.slug}`}
-                    className="group relative overflow-hidden rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:-translate-y-1 hover:bg-white/10"
+                    className="grid gap-4 border-b border-white/10 p-4 transition last:border-b-0 hover:bg-white/[0.06] sm:grid-cols-[auto_1fr_auto]"
                   >
-                    <div
-                      className="pointer-events-none absolute inset-0 opacity-35 transition group-hover:opacity-55"
-                      style={{
-                        background: `radial-gradient(circle at top right, ${school.colors.primary}, transparent 55%)`,
-                      }}
-                    />
+                    <SchoolBadge school={school} size="xs" />
 
-                    <div className="relative flex items-center gap-4">
-                      <div
-                        className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-white/10 text-sm font-black shadow-lg"
-                        style={{
-                          backgroundColor: `${school.colors.primary}88`,
-                          color: school.colors.secondary,
-                        }}
-                      >
-                        {getSchoolInitials(school.name, school.abbreviation)}
-                      </div>
-
-                      <div>
-                        <p className="font-black text-white">{school.name}</p>
-                        <p className="text-sm font-bold uppercase tracking-[0.12em] text-white/40">
-                          {school.mascot}
-                        </p>
-                      </div>
+                    <div>
+                      <p className="font-black text-white">{school.name}</p>
+                      <p className="text-sm font-bold uppercase tracking-[0.12em] text-white/40">
+                        {school.mascot} • {school.stadium ?? "Stadium TBD"}
+                      </p>
                     </div>
+
+                    <p className="self-center text-sm font-black uppercase tracking-[0.14em] text-white/55">
+                      View Hub →
+                    </p>
                   </Link>
                 ))}
               </div>
@@ -378,21 +290,12 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
                 district games, matchup pages, and local football discovery.
               </p>
 
-              <div className="mt-6 grid gap-3">
-                <Link
-                  href="/sponsor-inquiry"
-                  className="block rounded-xl border border-white/15 bg-white/10 px-5 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
-                >
-                  Sponsor This District
-                </Link>
-
-                <Link
-                  href="/recommend-school"
-                  className="block rounded-xl border border-white/10 bg-black/35 px-5 py-4 text-center text-xs font-black uppercase tracking-[0.16em] text-white/70 transition hover:bg-white/10 hover:text-white"
-                >
-                  Want your school included? Recommend it →
-                </Link>
-              </div>
+              <Link
+                href="/sponsor-inquiry"
+                className="mt-6 block rounded-xl border border-white/15 bg-white/10 px-5 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
+              >
+                Sponsor This District
+              </Link>
             </section>
 
             <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
@@ -410,25 +313,64 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
                     2026 district schedule coming soon.
                   </p>
                 ) : (
-                  districtGames.map((game) => (
-                    <Link
-                      key={game.id}
-                      href={`/games/${game.id}`}
-                      className="block rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
-                    >
-                      <p className="text-xs font-black uppercase tracking-[0.18em] text-white/40">
-                        {formatGameDate(game.kickoff)} · {getWeekLabel(game.week)}
-                      </p>
+                  districtGames.map((game) => {
+                    const awaySchool = game.awaySchoolSlug
+                      ? getSchoolBySlug(game.awaySchoolSlug)
+                      : undefined;
 
-                      <h3 className="mt-2 text-lg font-black text-white">
-                        {getTeamName(game.awayTeam)} at {getTeamName(game.homeTeam)}
-                      </h3>
+                    const homeSchool = game.homeSchoolSlug
+                      ? getSchoolBySlug(game.homeSchoolSlug)
+                      : undefined;
 
-                      <p className="mt-1 text-sm text-white/55">
-                        {getVenueName(game.venue)}
-                      </p>
-                    </Link>
-                  ))
+                    return (
+                      <Link
+                        key={game.id}
+                        href={`/games/${game.id}`}
+                        className="block rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
+                      >
+                        <p className="text-xs font-black uppercase tracking-[0.18em] text-white/40">
+                          {formatGameDate(game.kickoff)} ·{" "}
+                          {getWeekLabel(game.week)}
+                        </p>
+
+                        <div className="mt-4 grid grid-cols-[auto_1fr] gap-3">
+                          {awaySchool ? (
+                            <SchoolBadge school={awaySchool} size="xs" />
+                          ) : (
+                            <MiniTeamBadge label={getTeamName(game.awayTeam)} />
+                          )}
+
+                          <div>
+                            <p className="text-xs font-black uppercase tracking-[0.14em] text-white/35">
+                              Away
+                            </p>
+                            <p className="font-black text-white">
+                              {getTeamName(game.awayTeam)}
+                            </p>
+                          </div>
+
+                          {homeSchool ? (
+                            <SchoolBadge school={homeSchool} size="xs" />
+                          ) : (
+                            <MiniTeamBadge label={getTeamName(game.homeTeam)} />
+                          )}
+
+                          <div>
+                            <p className="text-xs font-black uppercase tracking-[0.14em] text-white/35">
+                              Home
+                            </p>
+                            <p className="font-black text-white">
+                              {getTeamName(game.homeTeam)}
+                            </p>
+                          </div>
+                        </div>
+
+                        <p className="mt-4 text-sm text-white/55">
+                          {getVenueName(game.venue)}
+                        </p>
+                      </Link>
+                    );
+                  })
                 )}
               </div>
             </section>
@@ -461,6 +403,14 @@ function DistrictStat({ label, value }: { label: string; value: string }) {
         {label}
       </p>
       <p className="mt-3 text-4xl font-black text-white">{value}</p>
+    </div>
+  );
+}
+
+function MiniTeamBadge({ label }: { label: string }) {
+  return (
+    <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/10 p-2 text-center text-[10px] font-black uppercase leading-tight text-white">
+      {label.slice(0, 3)}
     </div>
   );
 }

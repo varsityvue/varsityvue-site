@@ -1,5 +1,7 @@
 import Link from "next/link";
 import type { SchoolTheme } from "../types/school-theme";
+import { getSchoolBySlug } from "@/lib/schools";
+import SchoolBadge from "./SchoolBadge";
 
 type Standing = {
   schoolSlug: string;
@@ -69,7 +71,7 @@ export default function StandingsTable({
             boxShadow: `0 18px 50px ${theme.primary}18`,
           }}
         >
-          <table className="w-full min-w-[820px] border-collapse text-left">
+          <table className="w-full min-w-[900px] border-collapse text-left">
             <thead
               style={{
                 background: `linear-gradient(90deg, ${theme.primary}66, #2a2a2a)`,
@@ -92,6 +94,7 @@ export default function StandingsTable({
             <tbody>
               {standings.map((team, index) => {
                 const differential = team.pointsFor - team.pointsAgainst;
+                const school = getSchoolBySlug(team.schoolSlug);
 
                 return (
                   <tr
@@ -119,12 +122,25 @@ export default function StandingsTable({
                       </div>
                     </td>
 
-                    <td className="px-5 py-4 font-black text-white">
+                    <td className="px-5 py-4">
                       <Link
                         href={`/schools/${team.schoolSlug}`}
-                        className="text-white transition hover:text-white/70"
+                        className="flex items-center gap-4 text-white transition hover:text-white/70"
                       >
-                        {team.team}
+                        {school ? (
+                          <SchoolBadge school={school} size="xs" />
+                        ) : (
+                          <FallbackBadge label={team.team} />
+                        )}
+
+                        <div>
+                          <p className="font-black text-white">{team.team}</p>
+                          {school && (
+                            <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-white/40">
+                              {school.mascot}
+                            </p>
+                          )}
+                        </div>
                       </Link>
                     </td>
 
@@ -156,5 +172,13 @@ export default function StandingsTable({
         </div>
       )}
     </section>
+  );
+}
+
+function FallbackBadge({ label }: { label: string }) {
+  return (
+    <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/10 p-2 text-center text-[10px] font-black uppercase text-white">
+      {label.slice(0, 3)}
+    </div>
   );
 }

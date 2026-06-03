@@ -4,7 +4,7 @@ export default function Features() {
   return (
     <section className="mx-auto max-w-7xl px-6 py-20">
       <div className="mb-12 max-w-3xl">
-        <p className="text-sm uppercase tracking-[0.3em] text-[#d65a6d]">
+        <p className="text-sm uppercase tracking-[0.3em] text-[var(--vv-accent)]">
           Platform Foundation
         </p>
 
@@ -61,7 +61,7 @@ function Feature({
 }) {
   return (
     <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-      <div className="mb-5 text-[#d65a6d]">{icon}</div>
+      <div className="mb-5 text-[var(--vv-accent)]">{icon}</div>
       <h3 className="text-xl font-black">{title}</h3>
       <p className="mt-3 text-white/60">{text}</p>
     </div>

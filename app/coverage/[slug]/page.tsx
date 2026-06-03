@@ -114,13 +114,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         <div className="mx-auto max-w-5xl">
           <Link
             href="/coverage"
-            className="text-sm font-black uppercase tracking-[0.14em] text-[#d65a6d] transition hover:text-white"
+            className="text-sm font-black uppercase tracking-[0.14em] text-[var(--vv-accent)] transition hover:text-white"
           >
             ← Back to Coverage
           </Link>
 
           <div className="mt-6 rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl md:p-8">
-            <p className="text-xs font-black uppercase tracking-[0.32em] text-[#d65a6d]">
+            <p className="text-xs font-black uppercase tracking-[0.32em] text-[var(--vv-accent)]">
               {formatArticleType(article.type)}
             </p>
 
@@ -178,7 +178,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
           <aside className="space-y-6">
             <section className="rounded-[1.75rem] border border-[#7A1022]/40 bg-gradient-to-br from-[#7A1022]/45 via-black to-black p-6 shadow-2xl">
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-[#f3a3af]">
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent-soft)]">
                 Coverage Sponsor
               </p>
 
@@ -201,7 +201,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
             {relatedSchools.length > 0 && (
               <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
-                <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+                <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
                   Related Schools
                 </p>
 
@@ -223,7 +223,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             )}
 
             <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
                 More Coverage
               </p>
 

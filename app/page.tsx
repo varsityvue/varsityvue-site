@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import Link from "next/link";
 
 import { getSchools, getPilotSchools, getSchoolBySlug } from "@/lib/schools";
@@ -11,6 +12,7 @@ import {
   getStandingForSchool,
   getStandingsForDistrictId,
 } from "@/lib/standings";
+import SchoolBadge from "@/components/SchoolBadge";
 import ScoreStrip from "@/components/ScoreStrip";
 import SchoolSearch from "../components/SchoolSearch";
 
@@ -23,8 +25,12 @@ export const metadata: Metadata = {
 function parseGameDate(kickoff?: string) {
   if (!kickoff) return null;
 
-  const parsedDate = new Date(kickoff);
+  if (!kickoff.includes("T")) {
+    const [year, month, day] = kickoff.split("-").map(Number);
+    return new Date(year, month - 1, day);
+  }
 
+  const parsedDate = new Date(kickoff);
   return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
 }
 
@@ -54,6 +60,7 @@ function formatGameTime(kickoff?: string) {
     timeZone: "America/Chicago",
   }).format(parsedDate);
 }
+
 export default function Home() {
   const schools = getSchools();
   const districts = getDistricts();
@@ -74,12 +81,12 @@ export default function Home() {
     ? getSchoolBySlug(featuredGame.homeSchoolSlug)
     : undefined;
 
-  const featuredSchoolNextGame = featuredSchool
-    ? getNextGameForSchool(featuredSchool.slug)
-    : undefined;
-
   const featuredAwaySchool = featuredGame?.awaySchoolSlug
     ? getSchoolBySlug(featuredGame.awaySchoolSlug)
+    : undefined;
+
+  const featuredSchoolNextGame = featuredSchool
+    ? getNextGameForSchool(featuredSchool.slug)
     : undefined;
 
   const featuredHomeStanding = featuredGame?.homeSchoolSlug
@@ -92,17 +99,17 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] text-white">
-      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.72),transparent_32%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 pb-6 pt-6 sm:px-6 lg:px-8">
+      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.45),transparent_32%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 pb-6 pt-6 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-[1440px] gap-5 lg:grid-cols-[1.22fr_0.88fr]">
           <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#080808] shadow-2xl">
-            <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(0,0,0,0.98),rgba(0,0,0,0.75)_45%,rgba(139,16,32,0.45))]" />
-            <div className="absolute -right-28 top-10 h-96 w-96 rounded-full bg-[var(--vv-accent)]/20 blur-3xl" />
-            <div className="absolute bottom-0 right-0 h-48 w-2/3 bg-gradient-to-t from-[var(--vv-primary)]/35 to-transparent" />
+            <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(0,0,0,0.98),rgba(0,0,0,0.76)_45%,rgba(139,16,32,0.32))]" />
+            <div className="absolute -right-28 top-10 h-96 w-96 rounded-full bg-white/10 blur-3xl" />
+            <div className="absolute bottom-0 right-0 h-48 w-2/3 bg-gradient-to-t from-black/80 to-transparent" />
 
             <div className="relative z-10 flex min-h-[590px] flex-col justify-between p-6 sm:p-8 lg:p-10">
               <div>
                 <div className="flex flex-wrap items-center gap-3">
-                  <p className="inline-flex rounded bg-[var(--vv-primary)] px-3 py-2 text-xs font-black uppercase tracking-[0.24em] text-white shadow-lg">
+                  <p className="inline-flex rounded bg-white px-3 py-2 text-xs font-black uppercase tracking-[0.24em] text-black shadow-lg">
                     Texas High School Sports Platform
                   </p>
 
@@ -117,8 +124,13 @@ export default function Home() {
                       <HeroTeamCard
                         name={featuredGame.awayTeam ?? "Away Team"}
                         mascot={featuredAwaySchool?.mascot}
-                        badge={featuredAwaySchool?.badgeLabel ?? featuredGame.awayTeam?.slice(0, 2)}
-                        color={featuredAwaySchool?.colors.primary}
+                        badge={
+                          featuredAwaySchool?.badgeLabel ??
+                          featuredAwaySchool?.abbreviation ??
+                          featuredGame.awayTeam?.slice(0, 2)
+                        }
+                        primary={featuredAwaySchool?.colors.primary}
+                        secondary={featuredAwaySchool?.colors.secondary}
                         record={
                           featuredAwayStanding
                             ? `${featuredAwayStanding.overallWins}-${featuredAwayStanding.overallLosses} Overall · ${featuredAwayStanding.districtWins}-${featuredAwayStanding.districtLosses} District`
@@ -133,8 +145,13 @@ export default function Home() {
                       <HeroTeamCard
                         name={featuredGame.homeTeam ?? "Home Team"}
                         mascot={featuredHomeSchool?.mascot}
-                        badge={featuredHomeSchool?.badgeLabel ?? featuredGame.homeTeam?.slice(0, 2)}
-                        color={featuredHomeSchool?.colors.primary}
+                        badge={
+                          featuredHomeSchool?.badgeLabel ??
+                          featuredHomeSchool?.abbreviation ??
+                          featuredGame.homeTeam?.slice(0, 2)
+                        }
+                        primary={featuredHomeSchool?.colors.primary}
+                        secondary={featuredHomeSchool?.colors.secondary}
                         record={
                           featuredHomeStanding
                             ? `${featuredHomeStanding.overallWins}-${featuredHomeStanding.overallLosses} Overall · ${featuredHomeStanding.districtWins}-${featuredHomeStanding.districtLosses} District`
@@ -143,11 +160,12 @@ export default function Home() {
                       />
                     </>
                   ) : (
-                    <h1 className="max-w-4xl text-5xl font-black uppercase leading-[0.9] tracking-tight text-[#fff7df] sm:text-7xl lg:text-8xl">
+                    <h1 className="max-w-4xl text-5xl font-black uppercase leading-[0.9] tracking-tight text-white sm:text-7xl lg:text-8xl">
                       The Game, Seen Smarter
                     </h1>
                   )}
                 </div>
+
                 <div className="mt-7 space-y-2">
                   {featuredGame ? (
                     <>
@@ -168,7 +186,7 @@ export default function Home() {
                 </div>
 
                 <div className="mt-8 rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
-                  <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--vv-accent)]">
+                  <p className="text-xs font-black uppercase tracking-[0.24em] text-white/55">
                     Friday Night
                   </p>
 
@@ -187,7 +205,7 @@ export default function Home() {
                   {featuredGame && (
                     <Link
                       href={`/games/${featuredGame.id}`}
-                      className="rounded-xl bg-[var(--vv-cta)] px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white shadow-[0_0_30px_rgba(139,16,32,0.35)] transition hover:bg-[var(--vv-cta-hover)]"
+                      className="rounded-xl bg-white px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-black transition hover:bg-white/85"
                     >
                       View Matchup
                     </Link>
@@ -226,7 +244,7 @@ export default function Home() {
                   href={`/coverage/${article.slug}`}
                   className="block border-b border-white/10 pb-4 last:border-0 last:pb-0"
                 >
-                  <p className="text-xs font-black uppercase tracking-[0.16em] text-[var(--vv-accent)]">
+                  <p className="text-xs font-black uppercase tracking-[0.16em] text-white/45">
                     {article.type}
                   </p>
                   <h3 className="mt-2 font-black leading-snug text-white">
@@ -256,19 +274,15 @@ export default function Home() {
                     className="grid grid-cols-[32px_1fr_72px_72px_64px] items-center gap-3 rounded-xl bg-black/35 px-3 py-3 text-sm transition hover:bg-white/10"
                   >
                     <span className="font-black text-white/45">#{index + 1}</span>
-
                     <span className="truncate font-black text-white">
                       {team.team}
                     </span>
-
                     <span className="font-bold text-white">
                       {team.districtWins}-{team.districtLosses}
                     </span>
-
                     <span className="font-bold text-white/55">
                       {team.overallWins}-{team.overallLosses}
                     </span>
-
                     <span className="font-bold text-white/45">
                       {differential > 0 ? "+" : ""}
                       {differential}
@@ -287,14 +301,8 @@ export default function Home() {
                   href={`/schools/${school.slug}`}
                   className="flex items-center gap-4 rounded-xl border border-white/10 bg-black/35 p-3 transition hover:bg-white/10"
                 >
-                  <div
-                    className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 text-sm font-black text-white"
-                    style={{
-                      backgroundColor: `${school.colors.primary}88`,
-                    }}
-                  >
-                    {school.name.slice(0, 2).toUpperCase()}
-                  </div>
+                  <SchoolBadge school={school} size="xs" />
+
                   <div>
                     <p className="font-black text-white">{school.name}</p>
                     <p className="text-sm text-white/45">{school.mascot}</p>
@@ -305,9 +313,10 @@ export default function Home() {
           </Panel>
         </div>
       </section>
-      <section className="px-4 pb-5 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-[1440px] gap-4 lg:grid-cols-[0.95fr_1.05fr]">
-          {featuredSchool && (
+
+      {featuredSchool && (
+        <section className="px-4 pb-5 sm:px-6 lg:px-8">
+          <div className="mx-auto grid max-w-[1440px] gap-4 lg:grid-cols-[0.95fr_1.05fr]">
             <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 shadow-2xl">
               <div
                 className="absolute inset-0 opacity-45"
@@ -317,26 +326,17 @@ export default function Home() {
               />
 
               <div className="relative">
-                <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
+                <p className="text-xs font-black uppercase tracking-[0.28em] text-white/55">
                   Featured School
                 </p>
 
                 <div className="mt-6 flex items-center gap-5">
-                  <div
-                    className="flex h-20 w-20 items-center justify-center rounded-2xl border border-white/10 text-2xl font-black text-white"
-                    style={{
-                      backgroundColor: `${featuredSchool.colors.primary}aa`,
-                    }}
-                  >
-                    {featuredSchool.name.slice(0, 2).toUpperCase()}
-                  </div>
+                  <SchoolBadge school={featuredSchool} size="sm" />
 
                   <div>
                     <h2 className="text-4xl font-black">{featuredSchool.name}</h2>
-
                     <p className="mt-1 text-white/55">{featuredSchool.mascot}</p>
-
-                    <p className="mt-2 text-xs font-black uppercase tracking-[0.16em] text-[var(--vv-accent)]">
+                    <p className="mt-2 text-xs font-black uppercase tracking-[0.16em] text-white/45">
                       {featuredSchool.classification.conference}
                       {featuredSchool.classification.division
                         ? ` ${featuredSchool.classification.division}`
@@ -347,7 +347,7 @@ export default function Home() {
 
                 {featuredSchoolNextGame && (
                   <div className="mt-5 rounded-2xl border border-white/10 bg-black/35 p-4">
-                    <p className="text-xs font-black uppercase tracking-[0.16em] text-[var(--vv-accent)]">
+                    <p className="text-xs font-black uppercase tracking-[0.16em] text-white/45">
                       Next Game
                     </p>
 
@@ -381,53 +381,53 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          )}
 
-          <div className="rounded-[2rem] border border-[color:var(--vv-primary)] bg-gradient-to-r from-[var(--vv-primary)]/45 via-black to-black p-6 shadow-2xl">
-            <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-              <div>
-                <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
-                  Local Partners
-                </p>
-                <h2 className="mt-2 text-3xl font-black">
-                  High-visibility sponsorship built into the fan experience.
-                </h2>
-                <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55">
-                  VarsityVue gives local businesses visible placement across school
-                  hubs, district pages, game pages, and coverage modules.
-                </p>
+            <div className="rounded-[2rem] border border-white/10 bg-gradient-to-r from-white/[0.08] via-black to-black p-6 shadow-2xl">
+              <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.3em] text-white/45">
+                    Local Partners
+                  </p>
+                  <h2 className="mt-2 text-3xl font-black">
+                    High-visibility sponsorship built into the fan experience.
+                  </h2>
+                  <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55">
+                    VarsityVue gives local businesses visible placement across
+                    school hubs, district pages, game pages, and coverage modules.
+                  </p>
+                </div>
+
+                <Link
+                  href="/sponsors"
+                  className="rounded-xl border border-white/20 bg-white/10 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
+                >
+                  Become a Sponsor
+                </Link>
               </div>
 
-              <Link
-                href="/sponsors"
-                className="rounded-xl border border-white/20 bg-white/10 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
-              >
-                Become a Sponsor
-              </Link>
-            </div>
-
-            <div className="mt-6 grid gap-3 md:grid-cols-2">
-              {activeSponsors.length > 0 ? (
-                activeSponsors.map((sponsor) => (
-                  <Link
-                    key={sponsor.id}
-                    href={sponsor.website || "/sponsors"}
-                    target={sponsor.website ? "_blank" : undefined}
-                    className="rounded-2xl border border-white/10 bg-black/35 p-5 transition hover:bg-white/10"
-                  >
-                    <p className="font-black text-white">{sponsor.name}</p>
-                    <p className="mt-1 text-xs uppercase tracking-[0.14em] text-white/45">
-                      {sponsor.tier} sponsor
-                    </p>
-                  </Link>
-                ))
-              ) : (
-                <p className="text-white/60">Sponsor placements available.</p>
-              )}
+              <div className="mt-6 grid gap-3 md:grid-cols-2">
+                {activeSponsors.length > 0 ? (
+                  activeSponsors.map((sponsor) => (
+                    <Link
+                      key={sponsor.id}
+                      href={sponsor.website || "/sponsors"}
+                      target={sponsor.website ? "_blank" : undefined}
+                      className="rounded-2xl border border-white/10 bg-black/35 p-5 transition hover:bg-white/10"
+                    >
+                      <p className="font-black text-white">{sponsor.name}</p>
+                      <p className="mt-1 text-xs uppercase tracking-[0.14em] text-white/45">
+                        {sponsor.tier} sponsor
+                      </p>
+                    </Link>
+                  ))
+                ) : (
+                  <p className="text-white/60">Sponsor placements available.</p>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <section className="border-t border-white/10 px-4 py-6 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-[1440px] gap-4 md:grid-cols-4">
@@ -473,13 +473,13 @@ function Panel({
   kicker: string;
   title: string;
   href: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <section className="rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-5">
       <div className="mb-5 flex items-start justify-between gap-4">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.22em] text-[var(--vv-accent)]">
+          <p className="text-xs font-black uppercase tracking-[0.22em] text-white/45">
             {kicker}
           </p>
           <h2 className="mt-2 text-2xl font-black text-white">{title}</h2>
@@ -487,7 +487,7 @@ function Panel({
 
         <Link
           href={href}
-          className="text-xs font-black uppercase tracking-[0.16em] text-[var(--vv-accent)]"
+          className="text-xs font-black uppercase tracking-[0.16em] text-white/55 transition hover:text-white"
         >
           View →
         </Link>
@@ -498,13 +498,7 @@ function Panel({
   );
 }
 
-function FeatureLink({
-  href,
-  label,
-}: {
-  href: string;
-  label: string;
-}) {
+function FeatureLink({ href, label }: { href: string; label: string }) {
   return (
     <Link
       href={href}
@@ -514,31 +508,35 @@ function FeatureLink({
     </Link>
   );
 }
+
 function HeroTeamCard({
   name,
   mascot,
   badge,
-  color,
+  primary,
+  secondary,
   record,
 }: {
   name: string;
   mascot?: string;
   badge?: string;
-  color?: string;
+  primary?: string;
+  secondary?: string;
   record?: string;
 }) {
   return (
     <div className="rounded-[1.5rem] border border-white/10 bg-black/35 p-5">
       <div
-        className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 text-xl font-black text-white shadow-lg"
+        className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 text-xl font-black shadow-lg"
         style={{
-          backgroundColor: color ? `${color}cc` : "rgba(255,255,255,0.1)",
+          backgroundColor: primary ?? "rgba(255,255,255,0.1)",
+          color: secondary ?? "#ffffff",
         }}
       >
         {badge ?? name.slice(0, 2).toUpperCase()}
       </div>
 
-      <h1 className="mt-4 text-4xl font-black uppercase leading-none tracking-tight text-[#fff7df] sm:text-5xl">
+      <h1 className="mt-4 text-4xl font-black uppercase leading-none tracking-tight text-white sm:text-5xl">
         {name}
       </h1>
 
@@ -547,6 +545,7 @@ function HeroTeamCard({
           {mascot}
         </p>
       )}
+
       {record && (
         <p className="mt-2 text-xs font-black uppercase tracking-[0.12em] text-white/60">
           {record}
@@ -555,6 +554,7 @@ function HeroTeamCard({
     </div>
   );
 }
+
 function Feature({ title, body }: { title: string; body: string }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-5">

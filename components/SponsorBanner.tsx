@@ -14,6 +14,7 @@ export default function SponsorBanner({
   const schoolSponsors = getSponsors().filter((sponsor) =>
     sponsor.schoolIds?.includes(schoolId)
   );
+
   const primarySponsor = schoolSponsors[0];
   const supportingSponsors = schoolSponsors.slice(1, 4);
 
@@ -26,12 +27,7 @@ export default function SponsorBanner({
           boxShadow: `0 18px 55px ${theme.primary}18`,
         }}
       >
-        <div
-          className="absolute inset-0 opacity-50"
-          style={{
-            background: `radial-gradient(circle at top right, ${theme.primary}55, transparent 55%)`,
-          }}
-        />
+        <SponsorGlow theme={theme} />
 
         <div className="relative grid gap-0 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="p-6 sm:p-8">
@@ -45,13 +41,13 @@ export default function SponsorBanner({
 
             <p className="mt-4 max-w-2xl text-sm leading-6 text-white/55">
               Reach parents, athletes, alumni, fans, and local supporters with
-              premium placement directly inside this VarsityVue school ecosystem.
+              premium placement inside this school’s VarsityVue ecosystem.
             </p>
 
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
-              <MiniStat label="Visibility" value="High" />
-              <MiniStat label="Audience" value="Local" />
-              <MiniStat label="Placement" value="Exclusive" />
+              <MiniStat label="Visibility" value="School Hub" />
+              <MiniStat label="Audience" value="Local Fans" />
+              <MiniStat label="Placement" value="Founding Slot" />
             </div>
           </div>
 
@@ -81,12 +77,7 @@ export default function SponsorBanner({
         boxShadow: `0 18px 55px ${theme.primary}18`,
       }}
     >
-      <div
-        className="absolute inset-0 opacity-40"
-        style={{
-          background: `radial-gradient(circle at top right, ${theme.primary}55, transparent 55%)`,
-        }}
-      />
+      <SponsorGlow theme={theme} />
 
       <div className="relative grid gap-0 lg:grid-cols-[1.15fr_0.85fr]">
         <Link
@@ -113,19 +104,13 @@ export default function SponsorBanner({
             <Badge label="Community Reach" theme={theme} />
           </div>
 
-          <p
-            className="mt-6 text-sm font-black uppercase tracking-[0.16em]"
-            style={{ color: theme.secondary }}
-          >
+          <p className="mt-6 text-sm font-black uppercase tracking-[0.16em] text-white/70 transition hover:text-white">
             Visit Sponsor →
           </p>
         </Link>
 
         <div className="border-t border-white/10 p-6 lg:border-l lg:border-t-0">
-          <p
-            className="text-xs font-black uppercase tracking-[0.24em]"
-            style={{ color: `${theme.secondary}bb` }}
-          >
+          <p className="text-xs font-black uppercase tracking-[0.24em] text-white/70">
             Supporting Sponsors
           </p>
 
@@ -165,13 +150,18 @@ export default function SponsorBanner({
   );
 }
 
-function Badge({
-  label,
-  theme,
-}: {
-  label: string;
-  theme: SchoolTheme;
-}) {
+function SponsorGlow({ theme }: { theme: SchoolTheme }) {
+  return (
+    <div
+      className="absolute inset-0 opacity-45"
+      style={{
+        background: `radial-gradient(circle at top right, ${theme.primary}55, transparent 55%)`,
+      }}
+    />
+  );
+}
+
+function Badge({ label, theme }: { label: string; theme: SchoolTheme }) {
   return (
     <div
       className="rounded-full border bg-white/5 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/70"

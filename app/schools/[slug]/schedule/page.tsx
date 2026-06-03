@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -5,7 +6,6 @@ import { notFound } from "next/navigation";
 import { getGamesForSchool } from "@/lib/games";
 import { getSchoolBySlug } from "@/lib/schools";
 import { getDistrictById } from "@/lib/districts";
-import { getStandingsForSchool } from "@/lib/standings";
 import { getSchoolRecord } from "@/lib/records";
 
 import type { SchoolTheme } from "../../../../types/school-theme";
@@ -13,21 +13,60 @@ import SchoolSubnav from "../../../../components/SchoolSubnav";
 
 type ScheduleGame = ReturnType<typeof getGamesForSchool>[number];
 
-function formatGameDate(kickoff: string) {
+function getGameTimestamp(game: ScheduleGame) {
+  if (!game.kickoff) return 0;
+
+  if (!game.kickoff.includes("T")) {
+    const [year, month, day] = game.kickoff.split("-").map(Number);
+    return new Date(year, month - 1, day).getTime();
+  }
+
+  const timestamp = new Date(game.kickoff).getTime();
+  return Number.isNaN(timestamp) ? 0 : timestamp;
+}
+
+function formatGameDate(kickoff?: string) {
+  if (!kickoff) return "TBD";
+
+  if (!kickoff.includes("T")) {
+    const [year, month, day] = kickoff.split("-").map(Number);
+
+    return new Intl.DateTimeFormat("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      timeZone: "America/Chicago",
+    }).format(new Date(year, month - 1, day));
+  }
+
+  const parsedDate = new Date(kickoff);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return "TBD";
+  }
+
   return new Intl.DateTimeFormat("en-US", {
     weekday: "short",
     month: "short",
     day: "numeric",
     timeZone: "America/Chicago",
-  }).format(new Date(kickoff));
+  }).format(parsedDate);
 }
 
-function formatGameTime(kickoff: string) {
+function formatGameTime(kickoff?: string) {
+  if (!kickoff || !kickoff.includes("T")) return "TBD";
+
+  const parsedDate = new Date(kickoff);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return "TBD";
+  }
+
   return new Intl.DateTimeFormat("en-US", {
     hour: "numeric",
     minute: "2-digit",
     timeZone: "America/Chicago",
-  }).format(new Date(kickoff));
+  }).format(parsedDate);
 }
 
 function getGameTypeLabel(game: ScheduleGame) {
@@ -86,12 +125,8 @@ export default async function SchoolSchedulePage({
   const districtSlug = district?.slug ?? school.districtId;
 
   const games = getGamesForSchool(slug).sort(
-    (a, b) =>
-      new Date(a.kickoff ?? "").getTime() -
-      new Date(b.kickoff ?? "").getTime()
+    (a, b) => getGameTimestamp(a) - getGameTimestamp(b)
   );
-
-  const standings = getStandingsForSchool(slug);
 
   const theme: SchoolTheme = {
     primary: school.colors.primary,
@@ -120,7 +155,17 @@ export default async function SchoolSchedulePage({
   };
 
   return (
-    <main className="min-h-screen bg-[var(--vv-bg)] text-white">
+    <main
+      className="min-h-screen bg-[var(--vv-bg)] text-white"
+      style={
+        {
+          "--vv-primary": school.colors.primary,
+          "--vv-accent": school.colors.secondary,
+          "--vv-accent-soft": school.colors.secondary,
+          "--vv-bg": "#050505",
+        } as CSSProperties
+      }
+    >
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -174,7 +219,7 @@ export default async function SchoolSchedulePage({
 
               <Link
                 href={`/districts/${districtSlug}`}
-                className="shrink-0 rounded-xl border border-white/15 bg-white/[0.08] px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
+                className="shrink-0 rounded-xl border border-[color:var(--vv-accent)]/30 bg-[var(--vv-primary)]/30 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-[var(--vv-accent-soft)] transition hover:bg-[var(--vv-primary)]/45 hover:text-white"
               >
                 District Hub →
               </Link>
@@ -218,7 +263,11 @@ export default async function SchoolSchedulePage({
                 const opponentSlug = isHome
                   ? game.awaySchoolSlug
                   : game.homeSchoolSlug;
-                const locationLabel = isHome ? "Home" : "Away";
+                const locationLabel = game.isNeutralSite
+                  ? "Neutral Site"
+                  : isHome
+                    ? "Home"
+                    : "Away";
 
                 const opponentRecord = opponentSlug
                   ? getSchoolRecord(opponentSlug).record
@@ -236,86 +285,84 @@ export default async function SchoolSchedulePage({
                   : null;
 
                 return (
-                  <div key={game.id}>
+                  <div
+                    key={game.id}
+                    className="group relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-6 shadow-xl transition hover:-translate-y-1 hover:bg-white/[0.07]"
+                    style={{
+                      boxShadow: `0 14px 38px ${school.colors.primary}10`,
+                    }}
+                  >
                     <div
-                      className="group relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-6 shadow-xl transition hover:-translate-y-1 hover:bg-white/[0.07]"
+                      className="pointer-events-none absolute inset-0 opacity-15 transition group-hover:opacity-25"
                       style={{
-                        boxShadow: `0 14px 38px ${school.colors.primary}10`,
+                        background: `radial-gradient(circle at top right, ${school.colors.primary}, transparent 48%)`,
                       }}
-                    >
-                      <div
-                        className="pointer-events-none absolute inset-0 opacity-15 transition group-hover:opacity-25"
-                        style={{
-                          background: `radial-gradient(circle at top right, ${school.colors.primary}, transparent 48%)`,
-                        }}
-                      />
+                    />
 
-                      <div className="relative">
-                        <div className="flex flex-wrap gap-2">
-                          <Badge label={getGameTypeLabel(game)} />
-                          <Badge label={getGameStatusLabel(game)} />
-                          {!isBye && <Badge label={locationLabel} />}
-                          {game.districtGame && <Badge label="District" />}
-                          {game.specialEvent && (
-                            <Badge label={game.specialEvent} />
-                          )}
-                        </div>
+                    <div className="relative">
+                      <div className="flex flex-wrap gap-2">
+                        <Badge label={getGameTypeLabel(game)} />
+                        <Badge label={getGameStatusLabel(game)} />
+                        {!isBye && <Badge label={locationLabel} />}
+                        {game.districtGame && <Badge label="District" />}
+                        {game.specialEvent && <Badge label={game.specialEvent} />}
+                      </div>
 
-                        <div className="mt-4 grid gap-5 xl:grid-cols-[1fr_auto] xl:items-end">
-                          <div>
-                            <h3 className="text-4xl font-black leading-tight text-white">
-                              {isBye
-                                ? "BYE Week"
-                                : `${isHome ? "vs" : "at"} ${opponent}`}
-                            </h3>
-
-                            {!isBye && (
-                              <p className="mt-1 text-sm font-bold text-white/45">
-                                {game.awayTeam} at {game.homeTeam}
-                              </p>
-                            )}
-                          </div>
+                      <div className="mt-4 grid gap-5 xl:grid-cols-[1fr_auto] xl:items-end">
+                        <div>
+                          <h3 className="text-4xl font-black leading-tight text-white">
+                            {isBye
+                              ? "BYE Week"
+                              : `${game.isNeutralSite ? "vs" : isHome ? "vs" : "at"} ${opponent}`}
+                          </h3>
 
                           {!isBye && (
-                            <div className="flex flex-wrap gap-3">
-                              <InfoCard
-                                label="Date"
-                                value={formatGameDate(game.kickoff ?? "")}
-                              />
-                              <InfoCard
-                                label="Kickoff"
-                                value={formatGameTime(game.kickoff ?? "")}
-                              />
-                              <InfoCard
-                                label={hasScore ? "Final" : "Opp. Record"}
-                                value={
-                                  hasScore ? scoreDisplay ?? "—" : opponentRecord
-                                }
-                              />
-                            </div>
+                            <p className="mt-1 text-sm font-bold text-white/45">
+                              {game.awayTeam} at {game.homeTeam}
+                              {game.isNeutralSite ? " · Neutral Site" : ""}
+                            </p>
                           )}
                         </div>
 
                         {!isBye && (
-                          <div className="mt-5 flex flex-wrap gap-3">
-                            <a
-                              href={getMapUrl(game.venue)}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/70 transition hover:bg-white/15 hover:text-white"
-                            >
-                              Map Venue →
-                            </a>
-
-                            <Link
-                              href={`/games/${game.id}`}
-                              className="inline-flex rounded-full border border-[color:var(--vv-accent)]/30 bg-[var(--vv-primary)]/30 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-[var(--vv-accent-soft)] transition hover:bg-[var(--vv-primary)]/45 hover:text-white"
-                            >
-                              View Matchup →
-                            </Link>
+                          <div className="flex flex-wrap gap-3">
+                            <InfoCard
+                              label="Date"
+                              value={formatGameDate(game.kickoff)}
+                            />
+                            <InfoCard
+                              label="Kickoff"
+                              value={formatGameTime(game.kickoff)}
+                            />
+                            <InfoCard
+                              label={hasScore ? "Final" : "Opp. Record"}
+                              value={
+                                hasScore ? scoreDisplay ?? "—" : opponentRecord
+                              }
+                            />
                           </div>
                         )}
                       </div>
+
+                      {!isBye && (
+                        <div className="mt-5 flex flex-wrap gap-3">
+                          <a
+                            href={getMapUrl(game.venue)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/70 transition hover:bg-white/15 hover:text-white"
+                          >
+                            Map Venue →
+                          </a>
+
+                          <Link
+                            href={`/games/${game.id}`}
+                            className="inline-flex rounded-full border border-[color:var(--vv-accent)]/30 bg-[var(--vv-primary)]/30 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-[var(--vv-accent-soft)] transition hover:bg-[var(--vv-primary)]/45 hover:text-white"
+                          >
+                            View Matchup →
+                          </Link>
+                        </div>
+                      )}
                     </div>
                   </div>
                 );

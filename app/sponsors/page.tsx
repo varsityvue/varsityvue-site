@@ -123,7 +123,7 @@ export default function SponsorsPage() {
     <main className="min-h-screen bg-black px-4 py-14 text-white sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <section className="mb-14 overflow-hidden rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.45),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-6 md:p-10">
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-[#d65a6d]">
+          <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
             VarsityVue Sponsorships
           </p>
 
@@ -140,7 +140,7 @@ export default function SponsorsPage() {
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
               href="/sponsor-inquiry"
-              className="rounded-full bg-[#7A1022] px-7 py-4 text-center font-bold transition hover:bg-[#93142a]"
+              className="rounded-full bg-[var(--vv-primary)] px-7 py-4 text-center font-bold transition hover:bg-[#93142a]"
             >
               Become a Founding Partner
             </Link>
@@ -156,7 +156,7 @@ export default function SponsorsPage() {
 
         {activeSponsors.length > 0 && (
           <section className="mb-14">
-            <p className="text-xs font-black uppercase tracking-[0.3em] text-[#d65a6d]">
+            <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
               Active Sponsor Network
             </p>
 
@@ -188,7 +188,7 @@ export default function SponsorsPage() {
         <section className="mb-14">
           <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.3em] text-[#d65a6d]">
+              <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
                 Sponsor Inventory
               </p>
               <h2 className="mt-3 text-4xl font-black">
@@ -208,7 +208,7 @@ export default function SponsorsPage() {
                 key={pkg.title}
                 className="rounded-3xl border border-white/10 bg-white/5 p-6 transition hover:-translate-y-1 hover:border-[#7A1022]/60 hover:bg-white/10 md:p-8"
               >
-                <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#d65a6d]">
+                <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--vv-accent)]">
                   {pkg.tag}
                 </p>
 
@@ -234,8 +234,8 @@ export default function SponsorsPage() {
           </div>
         </section>
 
-        <section className="mb-14 rounded-3xl border border-[#7A1022]/30 bg-[#7A1022]/10 p-6 md:p-10">
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-[#d65a6d]">
+        <section className="mb-14 rounded-3xl border border-[#7A1022]/30 bg-[var(--vv-primary)]/10 p-6 md:p-10">
+          <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
             Why VarsityVue
           </p>
 
@@ -251,7 +251,7 @@ export default function SponsorsPage() {
         </section>
 
         <section className="mb-14 rounded-3xl border border-[#f07182]/30 bg-gradient-to-br from-[#7A1022]/40 via-white/5 to-black p-6 md:p-10">
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-[#d65a6d]">
+          <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
             Founding Partner Access
           </p>
 
@@ -277,7 +277,7 @@ export default function SponsorsPage() {
         </section>
 
         <section className="rounded-3xl border border-white/10 bg-white/5 p-6 text-center md:p-10">
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-[#d65a6d]">
+          <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
             Become a Founding Partner
           </p>
 
@@ -294,7 +294,7 @@ export default function SponsorsPage() {
           <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
             <Link
               href="/sponsor-inquiry"
-              className="rounded-full bg-[#7A1022] px-8 py-4 font-semibold transition hover:bg-[#93142a]"
+              className="rounded-full bg-[var(--vv-primary)] px-8 py-4 font-semibold transition hover:bg-[#93142a]"
             >
               Start Sponsor Inquiry
             </Link>

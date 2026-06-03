@@ -7,9 +7,8 @@ import SchoolBadge from "./SchoolBadge";
 function formatClassification(classification: UILClassification) {
   if (!classification.division) return classification.conference;
 
-  return `${classification.conference} Division ${
-    classification.division === "D1" ? "I" : "II"
-  }`;
+  return `${classification.conference} Division ${classification.division === "D1" ? "I" : "II"
+    }`;
 }
 
 function formatRegion(region: 1 | 2 | 3 | 4) {
@@ -23,7 +22,6 @@ function formatRegion(region: 1 | 2 | 3 | 4) {
 
 function formatDistrictName(districtId: string) {
   const match = districtId.match(/district-(\d+)/i);
-
   if (match?.[1]) return `District ${match[1]}`;
 
   return districtId
@@ -33,25 +31,41 @@ function formatDistrictName(districtId: string) {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
+function parseGameDate(kickoff?: string) {
+  if (!kickoff) return null;
+
+  if (!kickoff.includes("T")) {
+    const [year, month, day] = kickoff.split("-").map(Number);
+    return new Date(year, month - 1, day);
+  }
+
+  const parsedDate = new Date(kickoff);
+  return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
+}
+
 function formatGameDate(kickoff?: string) {
-  if (!kickoff) return "TBD";
+  const parsedDate = parseGameDate(kickoff);
+  if (!parsedDate) return "TBD";
 
   return new Intl.DateTimeFormat("en-US", {
     weekday: "short",
     month: "short",
     day: "numeric",
     timeZone: "America/Chicago",
-  }).format(new Date(kickoff));
+  }).format(parsedDate);
 }
 
 function formatGameTime(kickoff?: string) {
-  if (!kickoff) return "TBD";
+  if (!kickoff || !kickoff.includes("T")) return "TBD";
+
+  const parsedDate = parseGameDate(kickoff);
+  if (!parsedDate) return "TBD";
 
   return new Intl.DateTimeFormat("en-US", {
     hour: "numeric",
     minute: "2-digit",
     timeZone: "America/Chicago",
-  }).format(new Date(kickoff));
+  }).format(parsedDate);
 }
 
 function getTeamName(team?: string, fallback = "Team TBD") {
@@ -134,7 +148,7 @@ export default function SchoolHero({ school }: { school: School }) {
               <SchoolBadge school={school} size="md" />
 
               <div>
-                <h1 className="mt-2 text-5xl font-black leading-[0.95] tracking-tight sm:text-7xl">
+                <h1 className="mt-2 text-5xl font-black leading-[0.95] tracking-tight text-white sm:text-7xl">
                   {school.name}
                 </h1>
               </div>
@@ -220,15 +234,9 @@ export default function SchoolHero({ school }: { school: School }) {
 
                 <div className="mt-7 grid gap-3 sm:grid-cols-2">
                   <InfoCard label="Date" value={formatGameDate(nextGame.kickoff)} />
-                  <InfoCard
-                    label="Kickoff"
-                    value={formatGameTime(nextGame.kickoff)}
-                  />
+                  <InfoCard label="Kickoff" value={formatGameTime(nextGame.kickoff)} />
                   <InfoCard label="Venue" value={getVenueName(nextGame.venue)} />
-                  <InfoCard
-                    label="Week"
-                    value={getWeekLabel(nextGame.gameType, nextGame.week)}
-                  />
+                  <InfoCard label="Week" value={getWeekLabel(nextGame.gameType, nextGame.week)} />
                 </div>
 
                 <Link

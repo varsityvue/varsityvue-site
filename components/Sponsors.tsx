@@ -24,7 +24,7 @@ export default function Sponsors() {
     <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
       <div className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
         <div>
-          <p className="text-sm uppercase tracking-[0.3em] text-[#d65a6d]">
+          <p className="text-sm uppercase tracking-[0.3em] text-[var(--vv-accent)]">
             Monetization
           </p>
 
@@ -55,7 +55,7 @@ export default function Sponsors() {
               target={sponsor.website ? "_blank" : undefined}
               className="rounded-3xl border border-white/10 bg-white/5 p-6 transition hover:-translate-y-1 hover:bg-white/10"
             >
-              <Star className="mb-4 text-[#d65a6d]" />
+              <Star className="mb-4 text-[var(--vv-accent)]" />
 
               <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/40">
                 {sponsor.tier} sponsor
@@ -67,7 +67,7 @@ export default function Sponsors() {
                 Active VarsityVue sponsor placement.
               </p>
 
-              <p className="mt-5 text-sm font-bold text-[#d65a6d]">
+              <p className="mt-5 text-sm font-bold text-[var(--vv-accent)]">
                 View sponsor →
               </p>
             </Link>
@@ -81,13 +81,13 @@ export default function Sponsors() {
               href="/sponsors"
               className="rounded-3xl border border-white/10 bg-white/5 p-6 transition hover:-translate-y-1 hover:bg-white/10"
             >
-              <Star className="mb-4 text-[#d65a6d]" />
+              <Star className="mb-4 text-[var(--vv-accent)]" />
 
               <h3 className="text-xl font-black">{slot.title}</h3>
 
               <p className="mt-3 text-white/60">{slot.description}</p>
 
-              <p className="mt-5 text-sm font-bold text-[#d65a6d]">
+              <p className="mt-5 text-sm font-bold text-[var(--vv-accent)]">
                 Learn more →
               </p>
             </Link>

@@ -55,7 +55,7 @@ export default function CoveragePage() {
       <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.62),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-[1440px]">
           <div className="rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl md:p-8">
-            <p className="text-xs font-black uppercase tracking-[0.32em] text-[#d65a6d]">
+            <p className="text-xs font-black uppercase tracking-[0.32em] text-[var(--vv-accent)]">
               VarsityVue Coverage
             </p>
 
@@ -74,7 +74,7 @@ export default function CoveragePage() {
 
               <Link
                 href="/sponsor-inquiry"
-                className="rounded-xl border border-[#d65a6d]/30 bg-[#7A1022]/25 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-[#f3a3af] transition hover:bg-[#7A1022]/40 hover:text-white"
+                className="rounded-xl border border-[color:var(--vv-accent)]/30 bg-[var(--vv-primary)]/25 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-[var(--vv-accent-soft)] transition hover:bg-[var(--vv-primary)]/40 hover:text-white"
               >
                 Sponsor Coverage
               </Link>
@@ -96,12 +96,12 @@ export default function CoveragePage() {
             {featuredArticle && (
               <Link
                 href={`/coverage/${featuredArticle.slug}`}
-                className="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl transition hover:-translate-y-1 hover:border-[#d65a6d]/40 hover:bg-white/[0.075] md:p-8"
+                className="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl transition hover:-translate-y-1 hover:border-[color:var(--vv-accent)]/40 hover:bg-white/[0.075] md:p-8"
               >
                 <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(122,16,34,0.48),transparent_55%)] opacity-55 transition group-hover:opacity-75" />
 
                 <div className="relative">
-                  <p className="text-xs font-black uppercase tracking-[0.32em] text-[#d65a6d]">
+                  <p className="text-xs font-black uppercase tracking-[0.32em] text-[var(--vv-accent)]">
                     Featured Story
                   </p>
 
@@ -124,7 +124,7 @@ export default function CoveragePage() {
                     {featuredArticle.excerpt}
                   </p>
 
-                  <p className="mt-8 text-sm font-black uppercase tracking-[0.14em] text-[#d65a6d]">
+                  <p className="mt-8 text-sm font-black uppercase tracking-[0.14em] text-[var(--vv-accent)]">
                     Read full story →
                   </p>
                 </div>
@@ -132,7 +132,7 @@ export default function CoveragePage() {
             )}
 
             <aside className="rounded-[2rem] border border-[#7A1022]/40 bg-gradient-to-br from-[#7A1022]/45 via-black to-black p-6 shadow-2xl md:p-8">
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-[#f3a3af]">
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent-soft)]">
                 Coverage Sponsor
               </p>
 
@@ -169,7 +169,7 @@ export default function CoveragePage() {
           <section className="mt-10">
             <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+                <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
                   Latest Coverage
                 </p>
 
@@ -203,7 +203,7 @@ export default function CoveragePage() {
           </section>
 
           <section className="mt-10 rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+            <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
               Search Visibility
             </p>
 
@@ -227,12 +227,12 @@ function ArticleCard({ article }: { article: Article }) {
   return (
     <Link
       href={`/coverage/${article.slug}`}
-      className="group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-xl transition hover:-translate-y-1 hover:border-[#d65a6d]/40 hover:bg-white/[0.075]"
+      className="group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-xl transition hover:-translate-y-1 hover:border-[color:var(--vv-accent)]/40 hover:bg-white/[0.075]"
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(122,16,34,0.38),transparent_55%)] opacity-45 transition group-hover:opacity-70" />
 
       <div className="relative">
-        <p className="text-xs font-black uppercase tracking-[0.2em] text-[#d65a6d]">
+        <p className="text-xs font-black uppercase tracking-[0.2em] text-[var(--vv-accent)]">
           {formatArticleType(article.type)}
         </p>
 
@@ -251,7 +251,7 @@ function ArticleCard({ article }: { article: Article }) {
         </p>
 
         <div className="mt-6 flex items-center justify-between gap-4">
-          <p className="text-xs font-black uppercase tracking-[0.14em] text-[#d65a6d]">
+          <p className="text-xs font-black uppercase tracking-[0.14em] text-[var(--vv-accent)]">
             Read story
           </p>
 

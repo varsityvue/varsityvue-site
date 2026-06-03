@@ -7,7 +7,7 @@ export const districts: District[] = [
     name: "2A Division I District 5",
     classification: { conference: "2A", division: "D1" },
     uilRegion: 2,
-    coverageMarket: "Big Country Pilot",
+    coverageMarket: "VarsityVue Coverage Area",
     status: "pilot",
   },
   {
@@ -16,7 +16,7 @@ export const districts: District[] = [
     name: "4A Division I District 12",
     classification: { conference: "4A", division: "D1" },
     uilRegion: 3,
-    coverageMarket: "Big Country Pilot",
+    coverageMarket: "VarsityVue Coverage Area",
     status: "pilot",
   },
   {
@@ -25,7 +25,7 @@ export const districts: District[] = [
     name: "3A Division II District 5",
     classification: { conference: "3A", division: "D2" },
     uilRegion: 2,
-    coverageMarket: "Big Country Pilot",
+    coverageMarket: "VarsityVue Coverage Area",
     status: "pilot",
   },
   {
@@ -34,7 +34,7 @@ export const districts: District[] = [
     name: "2A Division I District 7",
     classification: { conference: "2A", division: "D1" },
     uilRegion: 2,
-    coverageMarket: "Big Country Pilot",
+    coverageMarket: "VarsityVue Coverage Area",
     status: "watchlist",
   },
   {
@@ -43,7 +43,7 @@ export const districts: District[] = [
     name: "2A Division II District 7",
     classification: { conference: "2A", division: "D2" },
     uilRegion: 2,
-    coverageMarket: "Big Country Pilot",
+    coverageMarket: "VarsityVue Coverage Area",
     status: "pilot",
   },
   {
@@ -52,7 +52,7 @@ export const districts: District[] = [
     name: "4A Division II District 13",
     classification: { conference: "4A", division: "D2" },
     uilRegion: 4,
-    coverageMarket: "Opponent",
+    coverageMarket: "VarsityVue Coverage Area",
     status: "watchlist",
   },
   {
@@ -61,7 +61,7 @@ export const districts: District[] = [
     name: "4A Division II District 4",
     classification: { conference: "4A", division: "D2" },
     uilRegion: 1,
-    coverageMarket: "Opponent",
+    coverageMarket: "VarsityVue Coverage Area",
     status: "watchlist",
   },
   {
@@ -70,7 +70,7 @@ export const districts: District[] = [
     name: "3A Division I District 2",
     classification: { conference: "3A", division: "D1" },
     uilRegion: 1,
-    coverageMarket: "Opponent",
+    coverageMarket: "VarsityVue Coverage Area",
     status: "watchlist",
   },
   {
@@ -79,7 +79,7 @@ export const districts: District[] = [
     name: "3A Division I District 3",
     classification: { conference: "3A", division: "D1" },
     uilRegion: 1,
-    coverageMarket: "Opponent",
+    coverageMarket: "VarsityVue Coverage Area",
     status: "watchlist",
   },
 ];

@@ -12,7 +12,7 @@ export default function SponsorInquirySuccessPage() {
     <main className="min-h-screen bg-black px-4 py-14 text-white sm:px-6 lg:px-8">
       <div className="mx-auto max-w-3xl">
         <section className="rounded-[2rem] border border-white/10 bg-white/5 p-6 text-center md:p-10">
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-[#d65a6d]">
+          <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
             Inquiry Received
           </p>
 
@@ -28,7 +28,7 @@ export default function SponsorInquirySuccessPage() {
           <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
             <Link
               href="/sponsors"
-              className="rounded-full bg-[#7A1022] px-8 py-4 font-semibold transition hover:bg-[#93142a]"
+              className="rounded-full bg-[var(--vv-primary)] px-8 py-4 font-semibold transition hover:bg-[#93142a]"
             >
               Back to Sponsors
             </Link>

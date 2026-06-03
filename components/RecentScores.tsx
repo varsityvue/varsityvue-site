@@ -2,6 +2,8 @@ import Link from "next/link";
 
 import type { Game } from "@/types/platform";
 import type { SchoolTheme } from "../types/school-theme";
+import { getSchoolBySlug } from "@/lib/schools";
+import SchoolBadge from "./SchoolBadge";
 
 type RecentScoresProps = {
   scores: Game[];
@@ -9,14 +11,21 @@ type RecentScoresProps = {
   schoolSlug: string;
 };
 
-function formatScoreDate(kickoff?: string) {
-  if (!kickoff) return "TBD";
+function parseGameDate(kickoff?: string) {
+  if (!kickoff) return null;
+
+  if (!kickoff.includes("T")) {
+    const [year, month, day] = kickoff.split("-").map(Number);
+    return new Date(year, month - 1, day);
+  }
 
   const parsedDate = new Date(kickoff);
+  return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
+}
 
-  if (Number.isNaN(parsedDate.getTime())) {
-    return "TBD";
-  }
+function formatScoreDate(kickoff?: string) {
+  const parsedDate = parseGameDate(kickoff);
+  if (!parsedDate) return "TBD";
 
   return new Intl.DateTimeFormat("en-US", {
     month: "short",
@@ -51,6 +60,11 @@ function getScoreDisplay(game: Game, schoolSlug: string) {
   return `${schoolScore}-${opponentScore}`;
 }
 
+function getOpponentSlug(game: Game, schoolSlug: string) {
+  const isHomeTeam = game.homeSchoolSlug === schoolSlug;
+  return isHomeTeam ? game.awaySchoolSlug : game.homeSchoolSlug;
+}
+
 function getOpponentLabel(game: Game, schoolSlug: string) {
   const isHomeTeam = game.homeSchoolSlug === schoolSlug;
   const opponent = isHomeTeam
@@ -74,15 +88,19 @@ export default function RecentScores({
   schoolSlug,
 }: RecentScoresProps) {
   return (
-    <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:p-6">
+    <section
+      className="rounded-[1.75rem] border bg-white/[0.045] p-5 shadow-2xl sm:p-6"
+      style={{
+        borderColor: `${theme.secondary}22`,
+        boxShadow: `0 18px 55px ${theme.primary}14`,
+      }}
+    >
       <div className="mb-6 flex items-end justify-between gap-4">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+          <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
             Results Snapshot
           </p>
-          <h2 className="mt-2 text-3xl font-black text-white">
-            Recent Scores
-          </h2>
+          <h2 className="mt-2 text-3xl font-black text-white">Recent Scores</h2>
         </div>
 
         <p className="hidden text-sm font-bold text-white/40 sm:block">
@@ -106,6 +124,10 @@ export default function RecentScores({
         <div className="grid gap-4 md:grid-cols-2">
           {scores.map((game) => {
             const result = getResult(game, schoolSlug);
+            const opponentSlug = getOpponentSlug(game, schoolSlug);
+            const opponentSchool = opponentSlug
+              ? getSchoolBySlug(opponentSlug)
+              : undefined;
 
             return (
               <Link
@@ -139,13 +161,23 @@ export default function RecentScores({
                     </span>
                   </div>
 
-                  <h3 className="mt-5 text-2xl font-black leading-tight text-white">
-                    {getOpponentLabel(game, schoolSlug)}
-                  </h3>
+                  <div className="mt-5 grid grid-cols-[auto_1fr] items-center gap-4">
+                    {opponentSchool ? (
+                      <SchoolBadge school={opponentSchool} size="xs" />
+                    ) : (
+                      <FallbackBadge label={getOpponentLabel(game, schoolSlug)} />
+                    )}
 
-                  <p className="mt-3 text-4xl font-black text-white">
-                    {getScoreDisplay(game, schoolSlug)}
-                  </p>
+                    <div>
+                      <h3 className="text-2xl font-black leading-tight text-white">
+                        {getOpponentLabel(game, schoolSlug)}
+                      </h3>
+
+                      <p className="mt-2 text-4xl font-black text-white">
+                        {getScoreDisplay(game, schoolSlug)}
+                      </p>
+                    </div>
+                  </div>
 
                   <div className="mt-4 flex flex-wrap gap-2">
                     {game.districtGame && <ResultBadge label="District" />}
@@ -162,7 +194,7 @@ export default function RecentScores({
                     }}
                   />
 
-                  <p className="mt-5 text-sm font-black uppercase tracking-[0.14em] text-[#d65a6d]">
+                  <p className="mt-5 text-sm font-black uppercase tracking-[0.14em] text-white/70 transition group-hover:text-white">
                     View matchup →
                   </p>
                 </div>
@@ -180,5 +212,13 @@ function ResultBadge({ label }: { label: string }) {
     <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-black uppercase tracking-[0.12em] text-white/70">
       {label}
     </span>
+  );
+}
+
+function FallbackBadge({ label }: { label: string }) {
+  return (
+    <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/10 p-2 text-center text-[10px] font-black uppercase text-white">
+      {label.replace("vs", "").replace("at", "").trim().slice(0, 3)}
+    </div>
   );
 }

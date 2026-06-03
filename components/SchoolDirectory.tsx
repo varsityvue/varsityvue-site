@@ -4,6 +4,18 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import type { School, UILClassification } from "@/types/platform";
 
+type ClassificationFilter = "all" | "1A" | "2A" | "3A" | "4A" | "5A" | "6A";
+
+const classificationFilters: ClassificationFilter[] = [
+  "all",
+  "1A",
+  "2A",
+  "3A",
+  "4A",
+  "5A",
+  "6A",
+];
+
 function formatClassification(classification: UILClassification) {
   if (!classification.division) return classification.conference;
 
@@ -14,9 +26,7 @@ function formatClassification(classification: UILClassification) {
 function formatDistrictName(districtId: string) {
   const match = districtId.match(/district-(\d+)/i);
 
-  if (match?.[1]) {
-    return `District ${match[1]}`;
-  }
+  if (match?.[1]) return `District ${match[1]}`;
 
   return districtId
     .replaceAll("-", " ")
@@ -33,11 +43,24 @@ function getStatusCount(schools: School[], status: School["status"]) {
   return schools.filter((school) => school.status === status).length;
 }
 
+function getClassificationCount(
+  schools: School[],
+  classification: ClassificationFilter
+) {
+  if (classification === "all") return schools.length;
+
+  return schools.filter(
+    (school) => school.classification.conference === classification
+  ).length;
+}
+
 export default function SchoolDirectory({ schools }: { schools: School[] }) {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | School["status"]>(
     "all"
   );
+  const [classificationFilter, setClassificationFilter] =
+    useState<ClassificationFilter>("all");
 
   const statusCounts = {
     pilot: getStatusCount(schools, "pilot"),
@@ -76,9 +99,13 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
       const matchesStatus =
         statusFilter === "all" || school.status === statusFilter;
 
-      return matchesSearch && matchesStatus;
+      const matchesClassification =
+        classificationFilter === "all" ||
+        school.classification.conference === classificationFilter;
+
+      return matchesSearch && matchesStatus && matchesClassification;
     });
-  }, [schools, search, statusFilter]);
+  }, [schools, search, statusFilter, classificationFilter]);
 
   return (
     <>
@@ -105,53 +132,59 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
             placeholder="Find your school, mascot, abbreviation, district, classification, or stadium..."
             value={search}
             onChange={(event) => setSearch(event.target.value)}
-            className="w-full rounded-2xl border border-white/10 bg-black/55 px-5 py-4 text-sm font-bold text-white outline-none transition placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:bg-black/75"
+            className="w-full rounded-2xl border border-white/10 bg-black/55 px-5 py-4 text-sm font-bold text-white outline-none transition placeholder:text-white/35 focus:border-white/30 focus:bg-black/75"
           />
         </div>
 
-        <div className="mt-4 flex flex-wrap gap-3">
-          <FilterButton
-            active={statusFilter === "all"}
-            label="All"
-            count={schools.length}
-            onClick={() => setStatusFilter("all")}
-          />
+        <div className="mt-5">
+          <p className="mb-3 text-[10px] font-black uppercase tracking-[0.22em] text-white/35">
+            Classification
+          </p>
 
-          {statusCounts.pilot > 0 && (
-            <FilterButton
-              active={statusFilter === "pilot"}
-              label="Pilot"
-              count={statusCounts.pilot}
-              onClick={() => setStatusFilter("pilot")}
-            />
-          )}
+          <div className="flex flex-wrap gap-3">
+            {classificationFilters.map((classification) => (
+              <FilterButton
+                key={classification}
+                active={classificationFilter === classification}
+                label={classification === "all" ? "All" : classification}
+                count={getClassificationCount(schools, classification)}
+                onClick={() => setClassificationFilter(classification)}
+              />
+            ))}
+          </div>
+        </div>
 
-          {statusCounts.watchlist > 0 && (
-            <FilterButton
-              active={statusFilter === "watchlist"}
-              label="Watchlist"
-              count={statusCounts.watchlist}
-              onClick={() => setStatusFilter("watchlist")}
-            />
-          )}
+        <div className="mt-5">
+          <p className="mb-3 text-[10px] font-black uppercase tracking-[0.22em] text-white/35">
+            Coverage Status
+          </p>
 
-          {statusCounts.planned > 0 && (
+          <div className="flex flex-wrap gap-3">
             <FilterButton
-              active={statusFilter === "planned"}
-              label="Planned"
-              count={statusCounts.planned}
-              onClick={() => setStatusFilter("planned")}
+              active={statusFilter === "all"}
+              label="All"
+              count={schools.length}
+              onClick={() => setStatusFilter("all")}
             />
-          )}
 
-          {statusCounts.active > 0 && (
-            <FilterButton
-              active={statusFilter === "active"}
-              label="Active"
-              count={statusCounts.active}
-              onClick={() => setStatusFilter("active")}
-            />
-          )}
+            {statusCounts.pilot > 0 && (
+              <FilterButton
+                active={statusFilter === "pilot"}
+                label="Pilot"
+                count={statusCounts.pilot}
+                onClick={() => setStatusFilter("pilot")}
+              />
+            )}
+
+            {statusCounts.watchlist > 0 && (
+              <FilterButton
+                active={statusFilter === "watchlist"}
+                label="Watchlist"
+                count={statusCounts.watchlist}
+                onClick={() => setStatusFilter("watchlist")}
+              />
+            )}
+          </div>
         </div>
       </section>
 
@@ -175,13 +208,13 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
                 href={`/schools/${school.slug}`}
                 className="group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-xl transition-all duration-200 hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.075]"
                 style={{
-                  boxShadow: `0 18px 50px ${school.colors.primary}12`,
+                  boxShadow: `0 18px 50px ${school.colors.primary}24`,
                 }}
               >
                 <div
-                  className="pointer-events-none absolute inset-0 opacity-35 transition group-hover:opacity-55"
+                  className="pointer-events-none absolute inset-0 opacity-30 transition group-hover:opacity-45"
                   style={{
-                    background: `radial-gradient(circle at top right, ${school.colors.primary}, transparent 55%)`,
+                    background: `radial-gradient(circle at top right, ${school.colors.primary}, transparent 58%)`,
                   }}
                 />
 
@@ -190,11 +223,12 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
                     <div
                       className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 text-xl font-black shadow-lg"
                       style={{
-                        backgroundColor: `${school.colors.primary}88`,
+                        backgroundColor: school.colors.primary,
                         color: school.colors.secondary,
                       }}
                     >
-                      {school.abbreviation ??
+                      {school.badgeLabel ??
+                        school.abbreviation ??
                         school.name.slice(0, 2).toUpperCase()}
                     </div>
 
@@ -219,10 +253,7 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
                   <div className="mt-5 space-y-3 rounded-2xl border border-white/10 bg-black/40 p-4">
                     <SchoolMeta label="Class" value={classification} />
                     <SchoolMeta label="District" value={district} />
-                    <SchoolMeta
-                      label="Stadium"
-                      value={school.stadium ?? "TBD"}
-                    />
+                    <SchoolMeta label="Stadium" value={school.stadium ?? "TBD"} />
                   </div>
 
                   <div className="mt-6 flex items-center justify-between gap-4">
@@ -230,7 +261,13 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
                       View school hub
                     </p>
 
-                    <span className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm font-black text-white/50 transition group-hover:bg-white/10 group-hover:text-white">
+                    <span
+                      className="rounded-full border border-white/10 px-3 py-2 text-sm font-black transition group-hover:text-white"
+                      style={{
+                        backgroundColor: `${school.colors.primary}33`,
+                        color: school.colors.secondary,
+                      }}
+                    >
                       →
                     </span>
                   </div>
@@ -260,8 +297,8 @@ function FilterButton({
       type="button"
       onClick={onClick}
       className={`rounded-full border px-4 py-2 text-sm font-black transition ${active
-        ? "border-white/20 bg-white text-black shadow-[0_0_24px_rgba(255,255,255,0.12)]"
-        : "border-white/10 bg-black/30 text-white/60 hover:bg-white/10 hover:text-white"
+          ? "border-white/20 bg-white text-black shadow-[0_0_24px_rgba(255,255,255,0.12)]"
+          : "border-white/10 bg-black/30 text-white/60 hover:bg-white/10 hover:text-white"
         }`}
     >
       {label}

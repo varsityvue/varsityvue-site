@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { schools } from "../data/schools";
 import type { UILClassification } from "@/types/platform";
+import SchoolBadge from "./SchoolBadge";
 
 function formatClassification(classification: UILClassification) {
   if (!classification.division) return classification.conference;
@@ -16,16 +17,18 @@ export default function FeaturedSchools() {
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
-            <p className="text-sm uppercase tracking-[0.3em] text-[#d65a6d]">
+            <p className="text-sm uppercase tracking-[0.3em] text-[var(--vv-accent)]">
               School Hubs
             </p>
 
-            <h2 className="mt-4 text-4xl font-black">Featured School Hubs</h2>
+            <h2 className="mt-4 text-4xl font-black">
+              Featured School Hubs
+            </h2>
           </div>
 
           <Link
             href="/schools"
-            className="w-fit rounded-full border border-white/20 px-5 py-3 text-sm font-semibold hover:bg-white/10"
+            className="w-fit rounded-full border border-white/20 px-5 py-3 text-sm font-semibold transition hover:bg-white/10"
           >
             View All Schools
           </Link>
@@ -41,28 +44,23 @@ export default function FeaturedSchools() {
                 boxShadow: `0 18px 50px ${school.colors.primary}22`,
               }}
             >
-              <div
-                className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl font-black ring-1"
-                style={{
-                  backgroundColor: `${school.colors.primary}4d`,
-                  color: school.colors.accent,
-                  borderColor: `${school.colors.secondary}33`,
-                }}
-              >
-                {school.name.slice(0, 2).toUpperCase()}
+              <div className="mb-5 flex justify-center">
+                <SchoolBadge school={school} size="sm" />
               </div>
 
-              <p className="text-sm text-[#d65a6d]">
+              <p className="text-sm text-[var(--vv-accent)]">
                 {formatClassification(school.classification)}
               </p>
 
-              <h3 className="mt-2 text-2xl font-black group-hover:text-[#f07182]">
+              <h3 className="mt-3 text-2xl font-black text-white transition group-hover:text-white/80">
                 {school.name}
               </h3>
 
-              <p className="text-white/60">{school.mascot}</p>
+              <p className="mt-1 text-white/60">
+                {school.badgeSubtext ?? school.mascot}
+              </p>
 
-              <p className="mt-5 text-sm font-bold text-[#d65a6d]">
+              <p className="mt-5 text-sm font-bold text-[var(--vv-accent)]">
                 View school hub →
               </p>
             </Link>

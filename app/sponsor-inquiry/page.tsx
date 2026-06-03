@@ -29,7 +29,7 @@ export default function SponsorInquiryPage() {
     <main className="min-h-screen bg-black px-4 py-14 text-white sm:px-6 lg:px-8">
       <div className="mx-auto max-w-5xl">
         <section className="rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.45),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-6 md:p-10">
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-[#d65a6d]">
+          <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
             Sponsor Inquiry
           </p>
 
@@ -64,7 +64,7 @@ export default function SponsorInquiryPage() {
                 name="business_name"
                 placeholder="Business Name *"
                 required
-                className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[#d65a6d] focus:outline-none"
+                className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:outline-none"
               />
 
               <input
@@ -72,7 +72,7 @@ export default function SponsorInquiryPage() {
                 name="contact_name"
                 placeholder="Contact Name *"
                 required
-                className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[#d65a6d] focus:outline-none"
+                className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:outline-none"
               />
 
               <div className="grid gap-5 md:grid-cols-2">
@@ -81,14 +81,14 @@ export default function SponsorInquiryPage() {
                   name="email"
                   placeholder="Email Address *"
                   required
-                  className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[#d65a6d] focus:outline-none"
+                  className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:outline-none"
                 />
 
                 <input
                   type="tel"
                   name="phone"
                   placeholder="Phone Number"
-                  className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[#d65a6d] focus:outline-none"
+                  className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:outline-none"
                 />
               </div>
 
@@ -96,18 +96,18 @@ export default function SponsorInquiryPage() {
                 type="text"
                 name="website_or_social"
                 placeholder="Website / Facebook Page / Social Profile"
-                className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[#d65a6d] focus:outline-none"
+                className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:outline-none"
               />
 
               <input
                 type="text"
                 name="target_school_or_market"
                 placeholder="Target School / Town / Market"
-                className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[#d65a6d] focus:outline-none"
+                className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:outline-none"
               />
 
               <fieldset className="rounded-3xl border border-white/10 bg-black/30 p-5">
-                <legend className="px-2 text-xs font-black uppercase tracking-[0.25em] text-[#d65a6d]">
+                <legend className="px-2 text-xs font-black uppercase tracking-[0.25em] text-[var(--vv-accent)]">
                   Sponsorship Interest
                 </legend>
 
@@ -132,7 +132,7 @@ export default function SponsorInquiryPage() {
               <select
                 name="budget_range"
                 defaultValue=""
-                className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white focus:border-[#d65a6d] focus:outline-none"
+                className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white focus:border-[color:var(--vv-accent)] focus:outline-none"
               >
                 <option value="" disabled>
                   Budget Range
@@ -148,12 +148,12 @@ export default function SponsorInquiryPage() {
                 name="notes"
                 rows={6}
                 placeholder="Tell us about your business, target schools, sponsorship goals, or any questions..."
-                className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[#d65a6d] focus:outline-none"
+                className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:outline-none"
               />
 
               <button
                 type="submit"
-                className="w-full rounded-full bg-[#7A1022] px-8 py-4 font-bold transition hover:bg-[#93142a]"
+                className="w-full rounded-full bg-[var(--vv-primary)] px-8 py-4 font-bold transition hover:bg-[#93142a]"
               >
                 Request Sponsorship Info
               </button>
@@ -161,7 +161,7 @@ export default function SponsorInquiryPage() {
           </div>
 
           <aside className="rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8">
-            <p className="text-xs font-black uppercase tracking-[0.3em] text-[#d65a6d]">
+            <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
               Why VarsityVue
             </p>
 

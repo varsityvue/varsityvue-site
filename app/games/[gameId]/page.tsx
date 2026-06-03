@@ -13,6 +13,10 @@ type GamePageProps = {
   params: Promise<{ gameId: string }>;
 };
 
+const VARSITYVUE_PRIMARY = "#8B1020";
+const VARSITYVUE_ACCENT = "#F4EBDD";
+const VARSITYVUE_BG = "#050505";
+
 function formatClassification(classification: UILClassification) {
   if (!classification.division) return classification.conference;
 
@@ -23,22 +27,42 @@ function formatClassification(classification: UILClassification) {
 function formatGameDate(kickoff?: string) {
   if (!kickoff) return "TBD";
 
+  if (!kickoff.includes("T")) {
+    const [year, month, day] = kickoff.split("-").map(Number);
+
+    return new Intl.DateTimeFormat("en-US", {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+      timeZone: "America/Chicago",
+    }).format(new Date(year, month - 1, day));
+  }
+
+  const parsedDate = new Date(kickoff);
+
+  if (Number.isNaN(parsedDate.getTime())) return "TBD";
+
   return new Intl.DateTimeFormat("en-US", {
     weekday: "long",
     month: "long",
     day: "numeric",
     timeZone: "America/Chicago",
-  }).format(new Date(kickoff));
+  }).format(parsedDate);
 }
 
 function formatGameTime(kickoff?: string) {
   if (!kickoff) return "TBD";
+  if (!kickoff.includes("T")) return "TBD";
+
+  const parsedDate = new Date(kickoff);
+
+  if (Number.isNaN(parsedDate.getTime())) return "TBD";
 
   return new Intl.DateTimeFormat("en-US", {
     hour: "numeric",
     minute: "2-digit",
     timeZone: "America/Chicago",
-  }).format(new Date(kickoff));
+  }).format(parsedDate);
 }
 
 function getGameStatusLabel(status: string) {
@@ -68,10 +92,7 @@ function getGameNarrative(game: {
   return "Friday night matchup";
 }
 
-function getGameHeadline(game: {
-  awayTeam: string;
-  homeTeam: string;
-}) {
+function getGameHeadline(game: { awayTeam: string; homeTeam: string }) {
   return `${game.awayTeam} at ${game.homeTeam}`;
 }
 
@@ -101,10 +122,7 @@ function getSchemaEventStatus(status: string) {
   return "https://schema.org/EventScheduled";
 }
 
-function getMapUrl(game: {
-  venue: string;
-  homeTeam: string;
-}) {
+function getMapUrl(game: { venue: string; homeTeam: string }) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
     `${game.venue} ${game.homeTeam} Texas`
   )}`;
@@ -154,9 +172,6 @@ export default async function GamePage({ params }: GamePageProps) {
   const awaySchool = getSchoolBySlug(game.awaySchoolSlug ?? "");
 
   const district = homeSchool ? getDistrictById(homeSchool.districtId) : null;
-
-  const primaryColor = homeSchool?.colors.primary ?? "#8B1020";
-  const secondaryColor = homeSchool?.colors.secondary ?? "#F4EBDD";
 
   const sponsorSchoolId = homeSchool?.id ?? awaySchool?.id;
   const gameSponsors = sponsorSchoolId ? getGameSponsors(sponsorSchoolId) : [];
@@ -208,10 +223,10 @@ export default async function GamePage({ params }: GamePageProps) {
       className="min-h-screen bg-[var(--vv-bg)] text-white"
       style={
         {
-          "--vv-primary": primaryColor,
-          "--vv-accent": secondaryColor,
-          "--vv-accent-soft": secondaryColor,
-          "--vv-bg": "#050505",
+          "--vv-primary": VARSITYVUE_PRIMARY,
+          "--vv-accent": VARSITYVUE_ACCENT,
+          "--vv-accent-soft": VARSITYVUE_ACCENT,
+          "--vv-bg": VARSITYVUE_BG,
         } as CSSProperties
       }
     >
@@ -226,9 +241,9 @@ export default async function GamePage({ params }: GamePageProps) {
         className="border-b border-white/10 px-4 py-8 sm:px-6 lg:px-8"
         style={{
           background: `
-            radial-gradient(circle at top left, ${primaryColor}66 0%, transparent 36%),
-            radial-gradient(circle at top right, ${secondaryColor}22 0%, transparent 34%),
-            linear-gradient(120deg, ${primaryColor}44 0%, #080808 46%, #000 100%)
+            radial-gradient(circle at top left, ${VARSITYVUE_PRIMARY}70 0%, transparent 36%),
+            radial-gradient(circle at top right, ${VARSITYVUE_ACCENT}18 0%, transparent 34%),
+            linear-gradient(120deg, ${VARSITYVUE_PRIMARY}38 0%, #080808 46%, #000 100%)
           `,
         }}
       >
@@ -247,11 +262,12 @@ export default async function GamePage({ params }: GamePageProps) {
               <Badge label={getGameTypeLabel(game.gameType, weekNumber)} />
               {game.districtGame && <Badge label="District Game" />}
               {game.specialEvent && <Badge label={game.specialEvent} />}
+              {game.isNeutralSite && <Badge label="Neutral Site" />}
             </div>
 
             <div className="mt-8 rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
               <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--vv-accent)]">
-                Game Storyline
+                Neutral Game Center
               </p>
 
               <h1 className="mt-3 text-3xl font-black leading-tight text-white md:text-4xl">
@@ -315,6 +331,7 @@ export default async function GamePage({ params }: GamePageProps) {
                 <InfoCard label="Coverage" value="VarsityVue Coverage →" />
               </Link>
             </div>
+
             <div className="mt-6 flex flex-wrap gap-3">
               {awaySchool && (
                 <Link
@@ -334,10 +351,10 @@ export default async function GamePage({ params }: GamePageProps) {
                 </Link>
               )}
             </div>
+          </div>
         </div>
-      </div>
       </section>
-      
+
       <section className="px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[1.35fr_0.75fr]">
           <div className="space-y-6">
@@ -357,10 +374,7 @@ export default async function GamePage({ params }: GamePageProps) {
               </p>
 
               <div className="mt-6 grid gap-3 md:grid-cols-3">
-                <MiniCard
-                  label="Storyline"
-                  value={getGameNarrative(game)}
-                />
+                <MiniCard label="Storyline" value={getGameNarrative(game)} />
                 <MiniCard
                   label="District"
                   value={game.districtGame ? "District game" : "Non-district"}
@@ -388,14 +402,8 @@ export default async function GamePage({ params }: GamePageProps) {
                   label="Game Type"
                   value={getGameTypeLabel(game.gameType, weekNumber)}
                 />
-                <MiniCard
-                  label="District"
-                  value={game.districtGame ? "Yes" : "No"}
-                />
-                <MiniCard
-                  label="Status"
-                  value={getGameStatusLabel(game.status)}
-                />
+                <MiniCard label="District" value={game.districtGame ? "Yes" : "No"} />
+                <MiniCard label="Status" value={getGameStatusLabel(game.status)} />
               </div>
             </section>
 
@@ -426,8 +434,8 @@ export default async function GamePage({ params }: GamePageProps) {
 
               <p className="mt-4 max-w-3xl leading-7 text-white/72">
                 Quarter-by-quarter scoring, team stats, scoring plays, and
-                postgame details can be layered into VarsityVue as the live
-                score workflow matures.
+                postgame details can be layered into VarsityVue as the live score
+                workflow matures.
               </p>
             </section>
 
@@ -454,9 +462,7 @@ export default async function GamePage({ params }: GamePageProps) {
               </p>
 
               <h2 className="mt-3 text-3xl font-black text-white">
-                {gameSponsor
-                  ? `Presented by ${gameSponsor.name}`
-                  : "Own this matchup."}
+                {gameSponsor ? `Presented by ${gameSponsor.name}` : "Own this matchup."}
               </h2>
 
               <p className="mt-3 text-sm leading-6 text-white/55">
@@ -537,15 +543,15 @@ function TeamBlock({
           }`}
       >
         <div
-          className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl border border-white/10 text-xl font-black text-white shadow-xl"
+          className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl border border-white/10 text-xl font-black shadow-xl"
           style={{
             backgroundColor: school
-              ? `${school.colors.primary}cc`
+              ? `${school.colors.primary}dd`
               : "rgba(255,255,255,0.1)",
             color: school?.colors.secondary ?? "#ffffff",
           }}
         >
-          {school?.abbreviation ?? team.slice(0, 2).toUpperCase()}
+          {school?.badgeLabel ?? school?.abbreviation ?? team.slice(0, 2).toUpperCase()}
         </div>
 
         <div>

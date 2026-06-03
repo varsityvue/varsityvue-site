@@ -101,7 +101,7 @@ export default function DistrictDirectory({
         <div className="mb-6 rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:p-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
                 District Database
               </p>
               <h2 className="mt-2 text-3xl font-black text-white">
@@ -118,7 +118,7 @@ export default function DistrictDirectory({
             value={search}
             onChange={(event) => setSearch(event.target.value)}
             placeholder="Search district, classification, or region..."
-            className="mt-5 w-full rounded-2xl border border-white/10 bg-black/55 px-5 py-4 text-sm font-bold text-white outline-none transition placeholder:text-white/35 focus:border-[#d65a6d]/50 focus:bg-black/75"
+            className="mt-5 w-full rounded-2xl border border-white/10 bg-black/55 px-5 py-4 text-sm font-bold text-white outline-none transition placeholder:text-white/35 focus:border-[color:var(--vv-accent)]/50 focus:bg-black/75"
           />
 
           <div className="mt-4 flex flex-wrap gap-2">
@@ -153,7 +153,7 @@ export default function DistrictDirectory({
               >
                 <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                   <div>
-                    <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d65a6d]">
+                    <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
                       Classification
                     </p>
                     <h3 className="mt-2 text-3xl font-black text-white">
@@ -172,13 +172,13 @@ export default function DistrictDirectory({
                     <Link
                       key={district.slug}
                       href={`/districts/${district.slug}`}
-                      className="group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-xl transition-all duration-200 hover:-translate-y-1 hover:border-[#d65a6d]/40 hover:bg-white/[0.075]"
+                      className="group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-xl transition-all duration-200 hover:-translate-y-1 hover:border-[color:var(--vv-accent)]/40 hover:bg-white/[0.075]"
                     >
                       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(122,16,34,0.45),transparent_55%)] opacity-45 transition group-hover:opacity-70" />
 
                       <div className="relative">
                         <div className="mb-6 flex items-start justify-between gap-4">
-                          <span className="rounded-full border border-[#d65a6d]/30 bg-[#7A1022]/20 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-[#f3a3af]">
+                          <span className="rounded-full border border-[color:var(--vv-accent)]/30 bg-[var(--vv-primary)]/20 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-[var(--vv-accent-soft)]">
                             District Hub
                           </span>
 
@@ -210,11 +210,11 @@ export default function DistrictDirectory({
                         </div>
 
                         <div className="mt-6 flex items-center justify-between gap-4">
-                          <p className="text-sm font-black uppercase tracking-[0.14em] text-[#d65a6d]">
+                          <p className="text-sm font-black uppercase tracking-[0.14em] text-[var(--vv-accent)]">
                             View district hub
                           </p>
 
-                          <span className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm font-black text-white/50 transition group-hover:bg-[#7A1022]/30 group-hover:text-white">
+                          <span className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm font-black text-white/50 transition group-hover:bg-[var(--vv-primary)]/30 group-hover:text-white">
                             →
                           </span>
                         </div>

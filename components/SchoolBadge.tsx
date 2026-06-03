@@ -2,19 +2,17 @@ import type { School } from "@/types/platform";
 
 type SchoolBadgeProps = {
   school: School;
-  size?: "sm" | "md" | "lg";
+  size?: "xs" | "sm" | "md" | "lg";
 };
 
-const sizeClasses: Record<
-  NonNullable<SchoolBadgeProps["size"]>,
-  {
-    wrap: string;
-    initials: string;
-    mascot: string;
-    pad: string;
-    stroke: string;
-  }
-> = {
+const sizeClasses = {
+  xs: {
+    wrap: "w-16",
+    initials: "text-xl",
+    mascot: "text-[7px]",
+    pad: "px-2 py-2",
+    stroke: "1px",
+  },
   sm: {
     wrap: "w-24",
     initials: "text-3xl",
@@ -36,20 +34,20 @@ const sizeClasses: Record<
     pad: "px-5 py-5",
     stroke: "2px",
   },
-};
+} as const;
 
 function getInitials(school: School) {
-  if (school.badgeLabel) return school.badgeLabel;
-  if (school.abbreviation) return school.abbreviation;
-
-  return school.name
-    .split(" ")
-    .map((word) => word[0])
-    .join("")
-    .toUpperCase();
+  return (
+    school.badgeLabel ??
+    school.abbreviation ??
+    school.name.slice(0, 2).toUpperCase()
+  );
 }
 
-function SchoolBadge({ school, size = "md" }: SchoolBadgeProps) {
+export default function SchoolBadge({
+  school,
+  size = "md",
+}: SchoolBadgeProps) {
   const classes = sizeClasses[size];
   const initials = getInitials(school);
 
@@ -87,7 +85,7 @@ function SchoolBadge({ school, size = "md" }: SchoolBadgeProps) {
       </div>
 
       <div
-        className="relative -mt-1 rounded-b-3xl border-[3px] px-3 py-2 text-center shadow-xl"
+        className="relative -mt-1 rounded-b-3xl border-[3px] px-2 py-1.5 text-center shadow-xl"
         style={{
           background: "linear-gradient(180deg, #111111 0%, #050505 100%)",
           borderColor: "#000000",
@@ -96,7 +94,7 @@ function SchoolBadge({ school, size = "md" }: SchoolBadgeProps) {
         }}
       >
         <div
-          className={`font-black uppercase tracking-[0.16em] ${classes.mascot}`}
+          className={`font-black uppercase tracking-[0.12em] ${classes.mascot}`}
           style={{
             color: school.colors.secondary,
             textShadow: "0 2px 4px rgba(0,0,0,0.75)",
@@ -108,5 +106,3 @@ function SchoolBadge({ school, size = "md" }: SchoolBadgeProps) {
     </div>
   );
 }
-
-export default SchoolBadge;

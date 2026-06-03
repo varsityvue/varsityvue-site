@@ -37,7 +37,7 @@ export async function generateMetadata({
 
   return {
     title: `${school.fullName} Football Hub | VarsityVue`,
-    description: `${school.fullName} schedules, scores, standings, game coverage, sponsors, and football updates on VarsityVue.`,
+    description: `${school.fullName} schedules, scores, standings, district information, game coverage, sponsors, and football updates on VarsityVue.`,
   };
 }
 
@@ -67,6 +67,10 @@ export default async function SchoolPage({
   const standings = getStandingsForSchool(slug);
   const articles = getArticlesForSchool(slug);
 
+  const schoolStanding = standings.find(
+    (standing) => standing.schoolSlug === school.slug
+  );
+
   const schoolSchema = {
     "@context": "https://schema.org",
     "@type": "SportsTeam",
@@ -74,12 +78,16 @@ export default async function SchoolPage({
     alternateName: school.name,
     sport: "Football",
     url: `https://varsityvue.com/schools/${school.slug}`,
+    location: {
+      "@type": "Place",
+      name: school.stadium ?? `${school.name} football stadium`,
+    },
     memberOf: district
       ? {
-        "@type": "SportsOrganization",
-        name: district.name,
-        url: `https://varsityvue.com/districts/${district.slug}`,
-      }
+          "@type": "SportsOrganization",
+          name: district.name,
+          url: `https://varsityvue.com/districts/${district.slug}`,
+        }
       : undefined,
     publisher: {
       "@type": "Organization",
@@ -104,6 +112,22 @@ export default async function SchoolPage({
         districtSlug={districtSlug}
         theme={theme}
       />
+
+      <section className="border-b border-white/10 px-4 py-6 sm:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <HubStat label="Mascot" value={school.mascot} />
+          <HubStat
+            label="Classification"
+            value={`${school.classification.conference}${
+              school.classification.division
+                ? ` ${school.classification.division}`
+                : ""
+            }`}
+          />
+          <HubStat label="District" value={district?.name ?? "TBD"} />
+          <HubStat label="Stadium" value={school.stadium ?? "TBD"} />
+        </div>
+      </section>
 
       <div className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[1.45fr_0.75fr] lg:px-8">
         <div className="space-y-6">
@@ -140,6 +164,47 @@ export default async function SchoolPage({
               className="text-xs font-black uppercase tracking-[0.28em]"
               style={{ color: theme.secondary }}
             >
+              Program Profile
+            </p>
+
+            <h2 className="mt-3 text-3xl font-black text-white">
+              {school.fullName}
+            </h2>
+
+            <div className="mt-5 space-y-3 rounded-2xl border border-white/10 bg-black/35 p-4">
+              <ProfileRow label="Status" value={school.status} />
+              <ProfileRow label="Market" value={school.coverageMarket ?? "TBD"} />
+              <ProfileRow label="Region" value={`Region ${school.uilRegion}`} />
+              <ProfileRow
+                label="District Record"
+                value={
+                  schoolStanding
+                    ? `${schoolStanding.districtWins}-${schoolStanding.districtLosses}`
+                    : "0-0"
+                }
+              />
+              <ProfileRow
+                label="Overall Record"
+                value={
+                  schoolStanding
+                    ? `${schoolStanding.overallWins}-${schoolStanding.overallLosses}`
+                    : "0-0"
+                }
+              />
+            </div>
+          </section>
+
+          <section
+            className="rounded-[1.75rem] border p-6 shadow-2xl"
+            style={{
+              borderColor: `${theme.primary}66`,
+              background: `linear-gradient(135deg, ${theme.primary}55, rgba(0,0,0,0.94) 50%, rgba(0,0,0,1))`,
+            }}
+          >
+            <p
+              className="text-xs font-black uppercase tracking-[0.28em]"
+              style={{ color: theme.secondary }}
+            >
               School Sponsor
             </p>
 
@@ -148,8 +213,8 @@ export default async function SchoolPage({
             </h2>
 
             <p className="mt-3 text-sm leading-6 text-white/55">
-              Put your business in front of fans, families, athletes, alumni, and the
-              local community across this school’s VarsityVue coverage.
+              Put your business in front of fans, families, athletes, alumni,
+              and the local community across this school’s VarsityVue coverage.
             </p>
 
             <div className="mt-6 grid gap-3">
@@ -179,37 +244,47 @@ export default async function SchoolPage({
             </h2>
 
             <div className="mt-5 flex flex-col gap-3">
-              <Link
-                href={`/schools/${school.slug}/schedule`}
-                className="rounded-2xl border border-white/10 bg-black/35 px-4 py-3 text-sm font-black text-white/75 transition hover:bg-white/10 hover:text-white"
-              >
-                Full Schedule
-              </Link>
-
-              <Link
-                href={`/districts/${districtSlug}`}
-                className="rounded-2xl border border-white/10 bg-black/35 px-4 py-3 text-sm font-black text-white/75 transition hover:bg-white/10 hover:text-white"
-              >
-                Standings
-              </Link>
-
-              <Link
-                href="/scoreboard"
-                className="rounded-2xl border border-white/10 bg-black/35 px-4 py-3 text-sm font-black text-white/75 transition hover:bg-white/10 hover:text-white"
-              >
-                Live Scoreboard
-              </Link>
-
-              <Link
-                href="/coverage"
-                className="rounded-2xl border border-white/10 bg-black/35 px-4 py-3 text-sm font-black text-white/75 transition hover:bg-white/10 hover:text-white"
-              >
-                Team Coverage
-              </Link>
+              <LinkButton href={`/schools/${school.slug}/schedule`} label="Full Schedule" />
+              <LinkButton href={`/districts/${districtSlug}`} label="Standings" />
+              <LinkButton href="/scoreboard" label="Live Scoreboard" />
+              <LinkButton href="/coverage" label="Team Coverage" />
             </div>
           </section>
         </aside>
       </div>
     </main>
+  );
+}
+
+function HubStat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-5 shadow-xl">
+      <p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">
+        {label}
+      </p>
+      <p className="mt-3 text-xl font-black text-white">{value}</p>
+    </div>
+  );
+}
+
+function ProfileRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex justify-between gap-4 text-sm">
+      <span className="text-white/40">{label}</span>
+      <span className="text-right font-black capitalize text-white/80">
+        {value}
+      </span>
+    </div>
+  );
+}
+
+function LinkButton({ href, label }: { href: string; label: string }) {
+  return (
+    <Link
+      href={href}
+      className="rounded-2xl border border-white/10 bg-black/35 px-4 py-3 text-sm font-black text-white/75 transition hover:bg-white/10 hover:text-white"
+    >
+      {label}
+    </Link>
   );
 }
