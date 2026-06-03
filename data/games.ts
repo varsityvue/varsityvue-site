@@ -787,6 +787,7 @@ export const games: Game[] = [
     status: "upcoming",
     districtGame: true,
     specialEvent: "Pink Out",
+    featured: true,
     coverageStatus: "planned",
     sourceStatus: "uploaded-schedule",
     sourceLabel: "De Leon Football 2026 Schedule",
@@ -827,7 +828,7 @@ export const games: Game[] = [
     sourceLabel: "De Leon Football 2026 Schedule",
   },
 
-    // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
   // HICO TIGERS — 2026
   // Source: uploaded Hico 2026 schedule
   // ---------------------------------------------------------------------------
