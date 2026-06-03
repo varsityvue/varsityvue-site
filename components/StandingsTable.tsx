@@ -19,10 +19,24 @@ type StandingsTableProps = {
   theme: SchoolTheme;
 };
 
+function hasPlayedGames(standings: Standing[]) {
+  return standings.some(
+    (team) =>
+      team.districtWins > 0 ||
+      team.districtLosses > 0 ||
+      team.overallWins > 0 ||
+      team.overallLosses > 0 ||
+      team.pointsFor > 0 ||
+      team.pointsAgainst > 0
+  );
+}
+
 export default function StandingsTable({
   standings,
   theme,
 }: StandingsTableProps) {
+  const standingsStarted = hasPlayedGames(standings);
+
   return (
     <section
       className="rounded-[1.75rem] border bg-white/[0.045] p-5 shadow-2xl sm:p-6"
@@ -64,113 +78,142 @@ export default function StandingsTable({
           </p>
         </div>
       ) : (
-        <div
-          className="overflow-x-auto rounded-3xl border bg-black/35"
-          style={{
-            borderColor: `${theme.secondary}33`,
-            boxShadow: `0 18px 50px ${theme.primary}18`,
-          }}
-        >
-          <table className="w-full min-w-[900px] border-collapse text-left">
-            <thead
-              style={{
-                background: "linear-gradient(90deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04))",
-                borderBottom: `2px solid ${theme.primary}`,
-              }}
+        <>
+          {!standingsStarted && (
+            <div
+              className="mb-4 rounded-2xl border bg-black/35 p-4"
+              style={{ borderColor: `${theme.secondary}33` }}
             >
-              <tr>
-                {["Rank", "Team", "District", "Overall", "PF", "PA", "Diff"].map(
-                  (header) => (
+              <p className="text-sm font-black text-white">
+                2026 standings begin after final scores are added.
+              </p>
+              <p className="mt-1 text-sm leading-6 text-white/45">
+                Teams are currently listed by district membership until games
+                are played.
+              </p>
+            </div>
+          )}
+
+          <div
+            className="overflow-x-auto rounded-3xl border bg-black/35"
+            style={{
+              borderColor: `${theme.secondary}33`,
+              boxShadow: `0 18px 50px ${theme.primary}18`,
+            }}
+          >
+            <table className="w-full min-w-[900px] border-collapse text-left">
+              <thead
+                style={{
+                  background:
+                    "linear-gradient(90deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04))",
+                  borderBottom: `2px solid ${theme.primary}`,
+                }}
+              >
+                <tr>
+                  {[
+                    "Rank",
+                    "Team",
+                    "District",
+                    "Overall",
+                    "PF",
+                    "PA",
+                    "Diff",
+                  ].map((header) => (
                     <th
                       key={header}
                       className="px-5 py-4 text-xs font-black uppercase tracking-[0.18em] text-white"
                     >
                       {header}
                     </th>
-                  )
-                )}
-              </tr>
-            </thead>
+                  ))}
+                </tr>
+              </thead>
 
-            <tbody>
-              {standings.map((team, index) => {
-                const differential = team.pointsFor - team.pointsAgainst;
-                const school = getSchoolBySlug(team.schoolSlug);
+              <tbody>
+                {standings.map((team, index) => {
+                  const differential = team.pointsFor - team.pointsAgainst;
+                  const school = getSchoolBySlug(team.schoolSlug);
+                  const playoffPosition = standingsStarted && index < 4;
 
-                return (
-                  <tr
-                    key={team.schoolSlug}
-                    className="border-t border-white/10 transition hover:bg-white/[0.06]"
-                    style={{
-                      backgroundColor: index < 4 ? "rgba(255,255,255,0.045)" : undefined,
-                      boxShadow: index < 4 ? `inset 4px 0 0 ${theme.primary}` : undefined,
-                    }}
-                  >
-                    <td className="px-5 py-4 font-black text-white">
-                      <div className="flex items-center gap-2">
-                        <span>#{index + 1}</span>
+                  return (
+                    <tr
+                      key={team.schoolSlug}
+                      className="border-t border-white/10 transition hover:bg-white/[0.06]"
+                      style={{
+                        backgroundColor: playoffPosition
+                          ? "rgba(255,255,255,0.045)"
+                          : undefined,
+                        boxShadow: playoffPosition
+                          ? `inset 4px 0 0 ${theme.primary}`
+                          : undefined,
+                      }}
+                    >
+                      <td className="px-5 py-4 font-black text-white">
+                        <div className="flex items-center gap-2">
+                          <span>#{index + 1}</span>
 
-                        {index < 4 && (
-                          <span
-                            className="rounded-full border bg-white/10 px-2 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-white/75"
-                            style={{
-                              borderColor: `${theme.secondary}33`,
-                            }}
-                          >
-                            Playoff
-                          </span>
-                        )}
-                      </div>
-                    </td>
-
-                    <td className="px-5 py-4">
-                      <Link
-                        href={`/schools/${team.schoolSlug}`}
-                        className="flex items-center gap-4 text-white transition hover:text-white/70"
-                      >
-                        {school ? (
-                          <SchoolBadge school={school} size="xs" />
-                        ) : (
-                          <FallbackBadge label={team.team} />
-                        )}
-
-                        <div>
-                          <p className="font-black text-white">{team.team}</p>
-                          {school && (
-                            <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-white/40">
-                              {school.mascot}
-                            </p>
+                          {playoffPosition && (
+                            <span
+                              className="rounded-full border bg-white/10 px-2 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-white/75"
+                              style={{
+                                borderColor: `${theme.secondary}33`,
+                              }}
+                            >
+                              Playoff
+                            </span>
                           )}
                         </div>
-                      </Link>
-                    </td>
+                      </td>
 
-                    <td className="px-5 py-4 font-black text-white">
-                      {team.districtWins}-{team.districtLosses}
-                    </td>
+                      <td className="px-5 py-4">
+                        <Link
+                          href={`/schools/${team.schoolSlug}`}
+                          className="flex items-center gap-4 text-white transition hover:text-white/70"
+                        >
+                          {school ? (
+                            <SchoolBadge school={school} size="xs" />
+                          ) : (
+                            <FallbackBadge label={team.team} />
+                          )}
 
-                    <td className="px-5 py-4 font-black text-white/70">
-                      {team.overallWins}-{team.overallLosses}
-                    </td>
+                          <div>
+                            <p className="font-black text-white">{team.team}</p>
+                            {school && (
+                              <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-white/40">
+                                {school.mascot}
+                              </p>
+                            )}
+                          </div>
+                        </Link>
+                      </td>
 
-                    <td className="px-5 py-4 font-black text-white/70">
-                      {team.pointsFor}
-                    </td>
+                      <td className="px-5 py-4 font-black text-white">
+                        {team.districtWins}-{team.districtLosses}
+                      </td>
 
-                    <td className="px-5 py-4 font-black text-white/70">
-                      {team.pointsAgainst}
-                    </td>
+                      <td className="px-5 py-4 font-black text-white/70">
+                        {team.overallWins}-{team.overallLosses}
+                      </td>
 
-                    <td className="px-5 py-4 font-black text-white">
-                      {differential > 0 ? "+" : ""}
-                      {differential}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+                      <td className="px-5 py-4 font-black text-white/70">
+                        {team.pointsFor}
+                      </td>
+
+                      <td className="px-5 py-4 font-black text-white/70">
+                        {team.pointsAgainst}
+                      </td>
+
+                      <td className="px-5 py-4 font-black text-white">
+                        {differential > 0 ? "+" : ""}
+                        {differential}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
     </section>
   );

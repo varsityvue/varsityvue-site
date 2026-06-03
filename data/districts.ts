@@ -34,7 +34,7 @@ export const districts: District[] = [
     name: "2A Division I District 7",
     classification: { conference: "2A", division: "D1" },
     uilRegion: 2,
-    coverageMarket: "VarsityVue Coverage Area",
+    coverageMarket: "Extended Watchlist",
     status: "watchlist",
   },
   {
