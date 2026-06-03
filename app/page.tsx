@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { getSchools, getPilotSchools, getSchoolBySlug } from "@/lib/schools";
 import { getNextGameForSchool } from "@/lib/games";
-import { getDistricts } from "@/lib/districts";
+import { getDistricts, getDistrictById } from "@/lib/districts";
 import { getGameOfTheWeek } from "@/lib/scoreboard";
 import { getLatestArticles } from "@/lib/articles";
 import { getActiveSponsors } from "@/lib/sponsors";
@@ -61,6 +61,13 @@ function formatGameTime(kickoff?: string) {
   }).format(parsedDate);
 }
 
+function formatClassification(
+  conference: string,
+  division?: string | null
+) {
+  return `${conference}${division ? ` ${division}` : ""}`;
+}
+
 export default function Home() {
   const schools = getSchools();
   const districts = getDistricts();
@@ -88,6 +95,14 @@ export default function Home() {
 
   const featuredSchoolNextGame = featuredSchool
     ? getNextGameForSchool(featuredSchool.slug)
+    : undefined;
+
+  const featuredSchoolDistrict = featuredSchool
+    ? getDistrictById(featuredSchool.districtId)
+    : undefined;
+
+  const featuredSchoolStanding = featuredSchool
+    ? getStandingForSchool(featuredSchool.slug)
     : undefined;
 
   const featuredHomeStanding = featuredGame?.homeSchoolSlug
@@ -128,7 +143,7 @@ export default function Home() {
             <div className="absolute -right-28 top-10 h-96 w-96 rounded-full bg-white/10 blur-3xl" />
             <div className="absolute bottom-0 right-0 h-48 w-2/3 bg-gradient-to-t from-black/80 to-transparent" />
 
-            <div className="relative z-10 flex min-h-[560px] flex-col justify-between p-6 sm:p-8 lg:p-9">
+            <div className="relative z-10 flex min-h-[500px] flex-col justify-between p-6 sm:p-8 lg:p-9">
               <div>
                 <div className="flex flex-wrap items-center gap-3">
                   <p className="inline-flex rounded-full border border-white/15 bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.22em] text-black shadow-lg">
@@ -142,20 +157,20 @@ export default function Home() {
 
                 {featuredGame ? (
                   <>
-                    <div className="mt-7 text-center">
+                    <div className="mt-5 text-center">
                       <p className="text-sm font-black uppercase tracking-[0.35em] text-white/40">
                         Week {featuredGame.week ?? "TBD"} Showcase
                       </p>
 
-                      <div className="mt-6 flex items-center justify-center gap-4">
-                        <TeamChip
-                          label={featuredAwaySchool?.abbreviation ?? "AWY"}
-                          primary={featuredAwaySchool?.colors.primary}
-                          secondary={featuredAwaySchool?.colors.secondary}
-                        />
+                      <div className="mt-4 flex items-center justify-center gap-4">
+                        {featuredAwaySchool ? (
+                          <SchoolBadge school={featuredAwaySchool} size="sm" />
+                        ) : (
+                          <TeamChip label="AWY" />
+                        )}
 
                         <div>
-                          <h1 className="text-5xl font-black uppercase leading-none tracking-tight text-white md:text-7xl">
+                          <h1 className="text-4xl font-black uppercase leading-none tracking-tight text-white md:text-6xl">
                             {featuredGame.awayTeam}
                           </h1>
 
@@ -174,19 +189,19 @@ export default function Home() {
                         </div>
                       </div>
 
-                      <div className="my-5 text-4xl font-black uppercase tracking-[0.3em] text-[var(--vv-primary)]">
+                      <div className="my-3 text-4xl font-black uppercase tracking-[0.3em] text-[var(--vv-primary)]">
                         VS
                       </div>
 
                       <div className="flex items-center justify-center gap-4">
-                        <TeamChip
-                          label={featuredHomeSchool?.abbreviation ?? "HME"}
-                          primary={featuredHomeSchool?.colors.primary}
-                          secondary={featuredHomeSchool?.colors.secondary}
-                        />
+                        {featuredHomeSchool ? (
+                          <SchoolBadge school={featuredHomeSchool} size="sm" />
+                        ) : (
+                          <TeamChip label="HME" />
+                        )}
 
                         <div>
-                          <h1 className="text-5xl font-black uppercase leading-none tracking-tight text-white md:text-7xl">
+                          <h1 className="text-4xl font-black uppercase leading-none tracking-tight text-white md:text-6xl">
                             {featuredGame.homeTeam}
                           </h1>
 
@@ -206,7 +221,7 @@ export default function Home() {
                       </div>
                     </div>
 
-                    <div className="mt-6 flex flex-wrap justify-center gap-2">
+                    <div className="mt-5 flex flex-wrap justify-center gap-2">
                       <HeroPill label={`Week ${featuredGame.week ?? "TBD"}`} />
                       <HeroPill
                         label={
@@ -218,7 +233,7 @@ export default function Home() {
                       <HeroPill label="VarsityVue Spotlight" />
                     </div>
 
-                    <div className="mt-6 space-y-3">
+                    <div className="mt-5 space-y-3">
                       <GameBadges game={featuredGame} variant="hero" />
 
                       <p className="text-xl font-black text-white">
@@ -244,7 +259,7 @@ export default function Home() {
                   </div>
                 )}
 
-                <div className="mt-8 rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
+                <div className="mt-6 rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
                   <p className="text-xs font-black uppercase tracking-[0.24em] text-white/55">
                     Why This Game Matters
                   </p>
@@ -388,124 +403,160 @@ export default function Home() {
 
       {featuredSchool && (
         <section className="px-4 pb-5 sm:px-6 lg:px-8">
-          <div className="mx-auto grid max-w-[1440px] gap-4 lg:grid-cols-[0.95fr_1.05fr]">
-            <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 shadow-2xl">
-              <div
-                className="absolute inset-0 opacity-45"
-                style={{
-                  background: `radial-gradient(circle at top right, ${featuredSchool.colors.primary}, transparent 58%)`,
-                }}
-              />
-
+          <div className="mx-auto grid max-w-[1440px] gap-4 lg:grid-cols-[1.05fr_0.95fr]">
+            <div
+              className="relative overflow-hidden rounded-[2rem] border border-white/10 p-6 shadow-2xl md:p-8"
+              style={{
+                background: `
+                  radial-gradient(circle at top right, ${featuredSchool.colors.primary}66, transparent 44%),
+                  linear-gradient(135deg, rgba(255,255,255,0.07), rgba(0,0,0,0.94) 48%, #000)
+                `,
+              }}
+            >
               <div className="relative">
-                <p className="text-xs font-black uppercase tracking-[0.28em] text-white/55">
-                  Featured Program
-                </p>
-
-                <div className="mt-6 flex items-center gap-5">
-                  <SchoolBadge school={featuredSchool} size="sm" />
-
+                <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                   <div>
-                    <h2 className="text-4xl font-black">{featuredSchool.name}</h2>
-                    <p className="mt-1 text-white/55">{featuredSchool.mascot}</p>
-                    <p className="mt-2 text-xs font-black uppercase tracking-[0.16em] text-white/45">
-                      {featuredSchool.classification.conference}
-                      {featuredSchool.classification.division
-                        ? ` ${featuredSchool.classification.division}`
-                        : ""}
+                    <p className="text-xs font-black uppercase tracking-[0.3em] text-white/50">
+                      Program Spotlight
+                    </p>
+
+                    <h2 className="mt-3 text-4xl font-black uppercase leading-none text-white md:text-5xl">
+                      {featuredSchool.name} {featuredSchool.mascot}
+                    </h2>
+
+                    <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55">
+                      A featured VarsityVue school hub built for schedules,
+                      standings, matchup coverage, program identity, and fan
+                      discovery.
                     </p>
                   </div>
+
+                  <SchoolBadge school={featuredSchool} size="md" />
                 </div>
 
-                <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                <div className="mt-6 grid gap-3 sm:grid-cols-4">
                   <MiniProgramStat
-                    label="Status"
-                    value={featuredSchool.status}
-                  />
-                  <MiniProgramStat
-                    label="Market"
-                    value={featuredSchool.coverageMarket ?? "Pilot"}
+                    label="Class"
+                    value={formatClassification(
+                      featuredSchool.classification.conference,
+                      featuredSchool.classification.division
+                    )}
                   />
                   <MiniProgramStat
                     label="District"
-                    value={featuredDistrict?.name ?? "TBD"}
+                    value={featuredSchoolDistrict?.name ?? "TBD"}
+                  />
+                  <MiniProgramStat
+                    label="Overall"
+                    value={
+                      featuredSchoolStanding
+                        ? `${featuredSchoolStanding.overallWins}-${featuredSchoolStanding.overallLosses}`
+                        : "0-0"
+                    }
+                  />
+                  <MiniProgramStat
+                    label="District"
+                    value={
+                      featuredSchoolStanding
+                        ? `${featuredSchoolStanding.districtWins}-${featuredSchoolStanding.districtLosses}`
+                        : "0-0"
+                    }
                   />
                 </div>
 
                 {featuredSchoolNextGame && (
-                  <div className="mt-5 rounded-2xl border border-white/10 bg-black/35 p-4">
-                    <p className="text-xs font-black uppercase tracking-[0.16em] text-white/45">
-                      Next Game
-                    </p>
+                  <div className="mt-6 rounded-2xl border border-white/10 bg-black/35 p-5">
+                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                      <div>
+                        <p className="text-xs font-black uppercase tracking-[0.18em] text-white/45">
+                          Next Up
+                        </p>
 
-                    <p className="mt-2 text-lg font-black text-white">
-                      {featuredSchoolNextGame.awayTeam} at{" "}
-                      {featuredSchoolNextGame.homeTeam}
-                    </p>
+                        <h3 className="mt-2 text-2xl font-black text-white">
+                          {featuredSchoolNextGame.awayTeam} at{" "}
+                          {featuredSchoolNextGame.homeTeam}
+                        </h3>
 
-                    <p className="mt-2 text-sm text-white/55">
-                      {formatGameDate(featuredSchoolNextGame.kickoff)}
-                    </p>
+                        <p className="mt-2 text-sm font-semibold text-white/55">
+                          {formatGameDate(featuredSchoolNextGame.kickoff)} ·{" "}
+                          {formatGameTime(featuredSchoolNextGame.kickoff)}
+                        </p>
+                      </div>
+
+                      <Link
+                        href={`/games/${featuredSchoolNextGame.id}`}
+                        className="rounded-xl border border-white/10 bg-white/10 px-5 py-3 text-center text-xs font-black uppercase tracking-[0.16em] text-white/75 transition hover:bg-white/15 hover:text-white"
+                      >
+                        View Matchup →
+                      </Link>
+                    </div>
                   </div>
                 )}
 
-                <div className="mt-6 grid grid-cols-2 gap-3">
+                <div className="mt-6 grid gap-3 sm:grid-cols-4">
                   <FeatureLink
                     href={`/schools/${featuredSchool.slug}`}
-                    label="Team Home"
+                    label="School Hub"
                   />
                   <FeatureLink
                     href={`/schools/${featuredSchool.slug}/schedule`}
                     label="Schedule"
                   />
-                  {featuredDistrict && (
-                    <FeatureLink
-                      href={`/districts/${featuredDistrict.slug}`}
-                      label="District"
-                    />
-                  )}
+                  <FeatureLink
+                    href={`/districts/${featuredSchoolDistrict?.slug ?? featuredSchool.districtId
+                      }`}
+                    label="Standings"
+                  />
                   <FeatureLink href="/coverage" label="Coverage" />
                 </div>
               </div>
             </div>
 
-            <div className="rounded-[2rem] border border-white/10 bg-gradient-to-r from-white/[0.08] via-black to-black p-6 shadow-2xl">
-              <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-                <div>
-                  <p className="text-xs font-black uppercase tracking-[0.3em] text-white/45">
-                    Founding Sponsor Opportunities
-                  </p>
-                  <h2 className="mt-2 text-3xl font-black">
-                    High-visibility sponsorship built into the fan experience.
-                  </h2>
-                  <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55">
-                    VarsityVue gives local businesses visible placement across
-                    school hubs, district pages, game pages, and coverage
-                    modules while pilot pricing is still available.
-                  </p>
-                </div>
+            <div className="rounded-[2rem] border border-white/10 bg-gradient-to-r from-white/[0.08] via-black to-black p-6 shadow-2xl md:p-8">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.3em] text-white/45">
+                  Founding Sponsor Opportunities
+                </p>
+
+                <h2 className="mt-2 text-3xl font-black">
+                  Own visible placement before the pilot fills up.
+                </h2>
+
+                <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55">
+                  Founding sponsors receive early visibility across school hubs,
+                  district pages, game pages, score modules, and coverage
+                  inventory while VarsityVue builds regional attention.
+                </p>
 
                 <Link
                   href="/sponsors"
-                  className="rounded-xl border border-white/20 bg-white/10 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
+                  className="mt-6 inline-flex rounded-xl border border-white/20 bg-white/10 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
                 >
                   Become a Founding Sponsor
                 </Link>
               </div>
 
-              <div className="mt-6 grid gap-3 md:grid-cols-2">
+              <div className="mt-7 grid gap-3">
                 {activeSponsors.length > 0 ? (
-                  activeSponsors.map((sponsor) => (
+                  activeSponsors.slice(0, 4).map((sponsor) => (
                     <Link
                       key={sponsor.id}
                       href={sponsor.website || "/sponsors"}
                       target={sponsor.website ? "_blank" : undefined}
                       className="rounded-2xl border border-white/10 bg-black/35 p-5 transition hover:bg-white/10"
                     >
-                      <p className="font-black text-white">{sponsor.name}</p>
-                      <p className="mt-1 text-xs uppercase tracking-[0.14em] text-white/45">
-                        {sponsor.tier} sponsor
-                      </p>
+                      <div className="flex items-center justify-between gap-4">
+                        <div>
+                          <p className="font-black text-white">{sponsor.name}</p>
+                          <p className="mt-1 text-xs uppercase tracking-[0.14em] text-white/45">
+                            {sponsor.tier} sponsor
+                          </p>
+                        </div>
+
+                        <span className="text-xs font-black uppercase tracking-[0.14em] text-white/35">
+                          View →
+                        </span>
+                      </div>
                     </Link>
                   ))
                 ) : (
@@ -583,7 +634,7 @@ function RecordLine({
   districtLosses?: number;
 }) {
   return (
-    <p className="mt-2 text-xs font-black uppercase tracking-[0.14em] text-white/50">
+    <p className="mt-2 text-sm font-black uppercase tracking-[0.12em] text-white/55">
       {overallWins ?? 0}-{overallLosses ?? 0} Overall · {districtWins ?? 0}-
       {districtLosses ?? 0} District
     </p>
