@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getScoreboardGames } from "@/lib/scoreboard";
 import { getSchoolBySlug } from "@/lib/schools";
+import { getStandingForSchool } from "@/lib/standings";
 import SchoolBadge from "./SchoolBadge";
 
 function parseGameDate(kickoff?: string) {
@@ -17,7 +18,6 @@ function parseGameDate(kickoff?: string) {
 
 function formatKickoff(kickoff?: string) {
   const parsedDate = parseGameDate(kickoff);
-
   if (!parsedDate) return "TBD";
 
   const hasTime = kickoff?.includes("T");
@@ -40,6 +40,16 @@ function getGameLabel(gameType: string, week?: number) {
   if (gameType === "scrimmage") return "Scrimmage";
   if (gameType === "playoff") return "Playoff";
   return week === undefined ? "Week TBD" : `Week ${week}`;
+}
+
+function formatRecord(slug?: string) {
+  if (!slug || slug === "bye" || slug === "special-event") return "0-0";
+
+  const standing = getStandingForSchool(slug);
+
+  if (!standing) return "0-0";
+
+  return `${standing.overallWins}-${standing.overallLosses}`;
 }
 
 export default function ScoreStrip() {
@@ -90,22 +100,15 @@ export default function ScoreStrip() {
                 key={game.id}
                 href={`/games/${game.id}`}
                 className="group min-w-[390px] snap-start overflow-hidden rounded-[1.5rem] border border-white/10 bg-black/50 transition-all duration-300 hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.08]"
-                style={{
-                  borderTop: `4px solid ${accentColor}`,
-                }}
+                style={{ borderTop: `4px solid ${accentColor}` }}
               >
                 <div className="p-5">
                   <div className="flex items-center justify-between gap-3">
                     <div className="flex flex-wrap items-center gap-2">
                       <GameChip label={game.displayStatus} />
-
                       {isFeatured && <GameChip label="Featured" strong />}
-
                       {game.districtGame && <GameChip label="District Game" />}
-
-                      {game.specialEvent && (
-                        <GameChip label={game.specialEvent} />
-                      )}
+                      {game.specialEvent && <GameChip label={game.specialEvent} />}
                     </div>
 
                     <p className="shrink-0 text-xs font-bold text-white/40">
@@ -117,6 +120,7 @@ export default function ScoreStrip() {
                     <TeamBlock
                       name={game.awayTeam ?? "Away"}
                       school={awaySchool}
+                      record={formatRecord(game.awaySchoolSlug)}
                       align="left"
                     />
 
@@ -127,6 +131,7 @@ export default function ScoreStrip() {
                     <TeamBlock
                       name={game.homeTeam ?? "Home"}
                       school={homeSchool}
+                      record={formatRecord(game.homeSchoolSlug)}
                       align="right"
                     />
                   </div>
@@ -152,14 +157,6 @@ export default function ScoreStrip() {
                       View Matchup →
                     </p>
                   </div>
-
-                  {game.status === "final" &&
-                    game.homeScore !== undefined &&
-                    game.awayScore !== undefined && (
-                      <p className="mt-3 text-sm font-bold text-white">
-                        Final: {game.awayScore}-{game.homeScore}
-                      </p>
-                    )}
                 </div>
               </Link>
             );
@@ -193,10 +190,12 @@ function GameChip({ label, strong = false }: { label: string; strong?: boolean }
 function TeamBlock({
   name,
   school,
+  record,
   align,
 }: {
   name: string;
   school?: ReturnType<typeof getSchoolBySlug>;
+  record: string;
   align: "left" | "right";
 }) {
   return (
@@ -215,11 +214,9 @@ function TeamBlock({
           {name}
         </p>
 
-        {school?.mascot && (
-          <p className="mt-1 line-clamp-1 text-[10px] font-black uppercase tracking-[0.14em] text-white/35">
-            {school.mascot}
-          </p>
-        )}
+        <p className="mt-1 text-[10px] font-black uppercase tracking-[0.14em] text-white/35">
+          {school?.mascot ?? "Opponent"} · {record}
+        </p>
       </div>
     </div>
   );
