@@ -13,6 +13,7 @@ import {
   getStandingsForDistrictId,
 } from "@/lib/standings";
 import GameBadges from "@/components/GameBadges";
+import DistrictSpotlight from "@/components/DistrictSpotlight";
 import HomeSponsorSlot from "@/components/HomeSponsorSlot";
 import PlayersToWatch from "@/components/PlayersToWatch";
 import SchoolBadge from "@/components/SchoolBadge";
@@ -312,8 +313,13 @@ export default function Home() {
 
       <ScoreStrip />
 
+      <DistrictSpotlight />
+
       <PlayersToWatch />
+
       <HomeSponsorSlot />
+
+
 
       <section className="px-4 py-5 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-[1440px] gap-4 lg:grid-cols-[1fr_0.85fr_0.85fr]">
