@@ -31,15 +31,35 @@ function formatArticleType(type: Article["type"]) {
   return labels[type];
 }
 
-export default function CoveragePage() {
+export default async function CoveragePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ type?: string }>;
+}) {
+  const { type } = await searchParams;
   const sortedArticles = [...articles].sort(
     (a, b) =>
       new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
   );
 
-  const featuredArticle = sortedArticles[0];
-  const latestArticles = sortedArticles.slice(1);
+  const validTypes: Article["type"][] = [
+    "preview",
+    "recap",
+    "news",
+    "feature",
+    "legacy",
+  ];
 
+  const activeType = validTypes.includes(type as Article["type"])
+    ? (type as Article["type"])
+    : undefined;
+
+  const filteredArticles = activeType
+    ? sortedArticles.filter((article) => article.type === activeType)
+    : sortedArticles;
+
+  const featuredArticle = filteredArticles[0];
+  const latestArticles = filteredArticles.slice(1);
   const previewCount = articles.filter((article) => article.type === "preview").length;
   const recapCount = articles.filter((article) => article.type === "recap").length;
   const featureCount = articles.filter((article) => article.type === "feature").length;
@@ -158,11 +178,27 @@ export default function CoveragePage() {
 
           <section className="mt-8 rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:p-6">
             <div className="flex flex-wrap gap-3">
-              <FilterPill label="All Coverage" active />
-              <FilterPill label="Previews" />
-              <FilterPill label="Recaps" />
-              <FilterPill label="Features" />
-              <FilterPill label="Legacy" />
+              <FilterPill href="/coverage" label="All Coverage" active={!activeType} />
+              <FilterPill
+                href="/coverage?type=preview"
+                label="Previews"
+                active={activeType === "preview"}
+              />
+              <FilterPill
+                href="/coverage?type=recap"
+                label="Recaps"
+                active={activeType === "recap"}
+              />
+              <FilterPill
+                href="/coverage?type=feature"
+                label="Features"
+                active={activeType === "feature"}
+              />
+              <FilterPill
+                href="/coverage?type=legacy"
+                label="Legacy"
+                active={activeType === "legacy"}
+              />
             </div>
           </section>
 
@@ -276,21 +312,23 @@ function CoverageStat({ label, value }: { label: string; value: string }) {
 }
 
 function FilterPill({
+  href,
   label,
   active = false,
 }: {
+  href: string;
   label: string;
   active?: boolean;
 }) {
   return (
-    <span
-      className={`rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.14em] ${
-        active
-          ? "border-white/20 bg-white text-black"
-          : "border-white/10 bg-black/30 text-white/60"
-      }`}
+    <Link
+      href={href}
+      className={`rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.14em] transition ${active
+        ? "border-white/20 bg-white text-black"
+        : "border-white/10 bg-black/30 text-white/60 hover:bg-white/10 hover:text-white"
+        }`}
     >
       {label}
-    </span>
+    </Link>
   );
 }
