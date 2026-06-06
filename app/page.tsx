@@ -19,6 +19,8 @@ import SchoolBadge from "@/components/SchoolBadge";
 import ScoreStrip from "@/components/ScoreStrip";
 import SchoolSearch from "../components/SchoolSearch";
 import PilotSchoolSpotlight from "@/components/PilotSchoolSpotlight";
+import FeaturedMatchups from "@/components/FeaturedMatchups";
+import FeaturedCoverage from "@/components/FeaturedCoverage";
 
 export const metadata: Metadata = {
   title: "VarsityVue | Texas High School Sports Platform",
@@ -317,7 +319,11 @@ export default function Home() {
 
       <PilotSchoolSpotlight />
 
+      <FeaturedMatchups />
+
       <HomeSponsorSlot />
+
+      <FeaturedCoverage />
 
       <section className="px-4 py-5 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-[1440px] gap-4 lg:grid-cols-[1fr_0.85fr_0.85fr]">
