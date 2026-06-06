@@ -14,7 +14,7 @@ import SchoolSubnav from "../../../../components/SchoolSubnav";
 type ScheduleGame = ReturnType<typeof getGamesForSchool>[number];
 
 function getGameTimestamp(game: ScheduleGame) {
-  if (!game.kickoff) return 0;
+  if (!game.kickoff) return Number.MAX_SAFE_INTEGER;
 
   if (!game.kickoff.includes("T")) {
     const [year, month, day] = game.kickoff.split("-").map(Number);
@@ -22,7 +22,7 @@ function getGameTimestamp(game: ScheduleGame) {
   }
 
   const timestamp = new Date(game.kickoff).getTime();
-  return Number.isNaN(timestamp) ? 0 : timestamp;
+  return Number.isNaN(timestamp) ? Number.MAX_SAFE_INTEGER : timestamp;
 }
 
 function formatGameDate(kickoff?: string) {
