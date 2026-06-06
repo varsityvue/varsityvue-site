@@ -7,11 +7,13 @@ import { getGameById } from "@/lib/games";
 import { getSchoolBySlug } from "@/lib/schools";
 import { getGameSponsors } from "@/lib/sponsors";
 import { getDistrictById } from "@/lib/districts";
+import { getMatchupPreviewCopy } from "@/lib/matchup-copy";
 import type { UILClassification } from "@/types/platform";
 import MatchupInsights from "@/components/MatchupInsights";
 import MatchupKeys from "@/components/MatchupKeys";
 import MatchupPlayers from "@/components/MatchupPlayers";
 import MatchupStorylines from "@/components/MatchupStorylines";
+import CommonOpponents from "@/components/CommonOpponents";
 
 type GamePageProps = {
   params: Promise<{ gameId: string }>;
@@ -412,6 +414,11 @@ export default async function GamePage({ params }: GamePageProps) {
               homeSchoolSlug={game.homeSchoolSlug}
             />
 
+            <CommonOpponents
+              awaySchoolSlug={game.awaySchoolSlug}
+              homeSchoolSlug={game.homeSchoolSlug}
+            />
+
             <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7 shadow-2xl">
               <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
                 Preview
@@ -422,9 +429,7 @@ export default async function GamePage({ params }: GamePageProps) {
               </h2>
 
               <p className="mt-4 max-w-3xl leading-7 text-white/72">
-                VarsityVue matchup analysis, key storylines, district
-                implications, recent results, broadcast details, and game-week
-                coverage will appear here.
+                {getMatchupPreviewCopy(game)}
               </p>
 
               <div className="mt-6 grid gap-3 md:grid-cols-3">
