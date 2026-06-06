@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 import { getArticleBySlug, articles } from "../../../data/articles";
 import { getSchoolBySlug } from "../../../data/schools";
 import type { Article } from "@/types/platform";
+import SchoolBadge from "@/components/SchoolBadge";
+import { getScoreboardGames } from "@/lib/scoreboard";
 
 type ArticlePageProps = {
   params: Promise<{ slug: string }>;
@@ -74,6 +76,16 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     .filter((item) => item.slug !== article.slug)
     .filter((item) =>
       item.schoolIds?.some((schoolId) => article.schoolIds?.includes(schoolId))
+    )
+    .slice(0, 3);
+
+  const relatedGames = getScoreboardGames()
+    .filter((game) =>
+      article.schoolIds?.some(
+        (slug) =>
+          game.homeSchoolSlug === slug ||
+          game.awaySchoolSlug === slug
+      )
     )
     .slice(0, 3);
 
@@ -212,12 +224,45 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                         <Link
                           key={school.slug}
                           href={`/schools/${school.slug}`}
-                          className="rounded-2xl border border-white/10 bg-black/35 px-4 py-3 text-sm font-black text-white/75 transition hover:bg-white/10 hover:text-white"
+                          className="flex items-center gap-4 rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
                         >
-                          {school.name} {school.mascot}
+                          <SchoolBadge school={school} size="xs" />
+
+                          <div>
+                            <p className="text-sm font-black text-white">{school.name}</p>
+                            <p className="text-xs font-bold uppercase tracking-[0.12em] text-white/40">
+                              {school.mascot}
+                            </p>
+                          </div>
                         </Link>
                       )
                   )}
+                </div>
+              </section>
+            )}
+
+            {relatedGames.length > 0 && (
+              <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
+                <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
+                  Related Matchups
+                </p>
+
+                <div className="mt-5 flex flex-col gap-3">
+                  {relatedGames.map((game) => (
+                    <Link
+                      key={game.id}
+                      href={`/games/${game.id}`}
+                      className="rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
+                    >
+                      <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/40">
+                        Week {game.week ?? "TBD"}
+                      </p>
+
+                      <h3 className="mt-2 text-sm font-black text-white">
+                        {game.awayTeam} at {game.homeTeam}
+                      </h3>
+                    </Link>
+                  ))}
                 </div>
               </section>
             )}
