@@ -16,10 +16,12 @@ import { getArticlesForSchool } from "@/lib/articles";
 import SchoolHero from "../../../components/SchoolHero";
 import SponsorBanner from "../../../components/SponsorBanner";
 import UpcomingGames from "../../../components/UpcomingGames";
+import UpcomingSchedulePreview from "../../../components/UpcomingSchedulePreview";
 import RecentScores from "../../../components/RecentScores";
 import StandingsTable from "../../../components/StandingsTable";
 import NewsFeed from "../../../components/NewsFeed";
 import SchoolSubnav from "../../../components/SchoolSubnav";
+import SchoolCoverage from "@/components/SchoolCoverage";
 
 export async function generateMetadata({
   params,
@@ -132,11 +134,9 @@ export default async function SchoolPage({
         <div className="space-y-6">
           <SponsorBanner theme={theme} schoolId={school.id} />
 
-          <UpcomingGames
-            games={upcomingGames}
-            theme={theme}
-            schoolSlug={slug}
-          />
+          <UpcomingSchedulePreview schoolSlug={school.slug} />
+
+          <SchoolCoverage schoolSlug={school.slug} />
 
           {recentScores.length > 0 && (
             <RecentScores
