@@ -16,12 +16,25 @@ type DistrictPageProps = {
   params: Promise<{ slug: string }>;
 };
 
+function getGameTimestamp(kickoff?: string) {
+  if (!kickoff) return Number.MAX_SAFE_INTEGER;
+
+  if (!kickoff.includes("T")) {
+    const [year, month, day] = kickoff.split("-").map(Number);
+    return new Date(year, month - 1, day).getTime();
+  }
+
+  const timestamp = new Date(kickoff);
+  return Number.isNaN(timestamp.getTime())
+    ? Number.MAX_SAFE_INTEGER
+    : timestamp.getTime();
+}
+
 function formatClassification(classification: UILClassification) {
   if (!classification.division) return classification.conference;
 
-  return `${classification.conference} Division ${
-    classification.division === "D1" ? "I" : "II"
-  }`;
+  return `${classification.conference} Division ${classification.division === "D1" ? "I" : "II"
+    }`;
 }
 
 function formatRegion(region: 1 | 2 | 3 | 4) {
@@ -110,16 +123,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
         self.findIndex((item) => item.id === game.id) === index
     )
     .filter((game) => game.districtGame)
-    .sort((a, b) => {
-      const aTime = a.kickoff
-        ? new Date(a.kickoff).getTime()
-        : Number.MAX_SAFE_INTEGER;
-      const bTime = b.kickoff
-        ? new Date(b.kickoff).getTime()
-        : Number.MAX_SAFE_INTEGER;
-
-      return aTime - bTime;
-    });
+    .sort((a, b) => getGameTimestamp(a.kickoff) - getGameTimestamp(b.kickoff));
 
   const districtGames = allDistrictGames.slice(0, 6);
 
