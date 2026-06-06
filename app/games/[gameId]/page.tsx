@@ -9,6 +9,7 @@ import { getGameSponsors } from "@/lib/sponsors";
 import { getDistrictById } from "@/lib/districts";
 import type { UILClassification } from "@/types/platform";
 import MatchupInsights from "@/components/MatchupInsights";
+import MatchupKeys from "@/components/MatchupKeys";
 
 type GamePageProps = {
   params: Promise<{ gameId: string }>;
@@ -390,6 +391,11 @@ export default async function GamePage({ params }: GamePageProps) {
         <div className="mx-auto grid max-w-[1440px] gap-6 lg:grid-cols-[1.35fr_0.75fr]">
           <div className="space-y-6">
             <MatchupInsights
+              awaySchoolSlug={game.awaySchoolSlug}
+              homeSchoolSlug={game.homeSchoolSlug}
+            />
+
+            <MatchupKeys
               awaySchoolSlug={game.awaySchoolSlug}
               homeSchoolSlug={game.homeSchoolSlug}
             />
