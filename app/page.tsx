@@ -15,10 +15,10 @@ import {
 import GameBadges from "@/components/GameBadges";
 import DistrictSpotlight from "@/components/DistrictSpotlight";
 import HomeSponsorSlot from "@/components/HomeSponsorSlot";
-import PlayersToWatch from "@/components/PlayersToWatch";
 import SchoolBadge from "@/components/SchoolBadge";
 import ScoreStrip from "@/components/ScoreStrip";
 import SchoolSearch from "../components/SchoolSearch";
+import PilotSchoolSpotlight from "@/components/PilotSchoolSpotlight";
 
 export const metadata: Metadata = {
   title: "VarsityVue | Texas High School Sports Platform",
@@ -315,7 +315,7 @@ export default function Home() {
 
       <DistrictSpotlight />
 
-      <PlayersToWatch />
+      <PilotSchoolSpotlight />
 
       <HomeSponsorSlot />
 
