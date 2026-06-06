@@ -11,6 +11,7 @@ import { getSchoolBySlug, getSchoolsByDistrictId } from "@/lib/schools";
 import { getGamesForSchool } from "@/lib/games";
 import { getActiveSponsors } from "@/lib/sponsors";
 import { getStandingsForDistrictId } from "@/lib/standings";
+import DistrictCoverage from "@/components/DistrictCoverage";
 
 type DistrictPageProps = {
   params: Promise<{ slug: string }>;
@@ -232,6 +233,8 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
         <div className="mx-auto grid max-w-[1440px] gap-6 lg:grid-cols-[1.4fr_0.8fr]">
           <div className="space-y-6">
             <StandingsTable standings={districtStandings} theme={districtTheme} />
+
+            <DistrictCoverage districtId={district.id} />
 
             <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:p-6">
               <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">

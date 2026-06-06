@@ -16,3 +16,8 @@ export function getArticlesForSchool(schoolIdOrSlug: string) {
     article.schoolIds?.includes(schoolIdOrSlug)
   );
 }
+export function getArticlesForDistrict(districtId: string) {
+  return articles.filter((article) =>
+    article.districtIds?.includes(districtId)
+  );
+}

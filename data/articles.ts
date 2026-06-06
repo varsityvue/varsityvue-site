@@ -114,6 +114,7 @@ export const articles: Article[] = [
     publishedAt: "2025-10-25T09:00:00-05:00",
 
     schoolIds: ["comanche", "eastland"],
+    districtIds: ["3a-d2-district-5"],
     gameId: "comanche-vs-eastland-2025-week-9",
 
     tags: ["football", "recap", "district", "comanche"],
@@ -141,4 +142,14 @@ export function getArticlesForSchool(slug: string) {
 
 export function getArticleBySlug(slug: string) {
   return articles.find((article) => article.slug === slug);
+}
+
+export function getArticlesForDistrict(districtId: string) {
+  return articles
+    .filter((article) => article.districtIds?.includes(districtId))
+    .sort(
+      (a, b) =>
+        new Date(b.publishedAt).getTime() -
+        new Date(a.publishedAt).getTime()
+    );
 }
