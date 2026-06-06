@@ -1,71 +1,8 @@
 import Link from "next/link";
+import { getFeaturedPlayers } from "@/lib/players";
+import type { WatchPlayer } from "@/data/players";
 
-type WatchPlayer = {
-    school: string;
-    role: string;
-    label: string;
-    name: string;
-    position: string;
-    icon: string;
-    note: string;
-};
-
-const players: WatchPlayer[] = [
-    {
-        school: "Stephenville",
-        role: "Offensive Player",
-        label: "Offensive Engine",
-        name: "Mason Smith",
-        position: "QB",
-        icon: "⭐",
-        note: "Sets the tone for the Yellow Jackets' tempo, rhythm, and explosive-play potential.",
-    },
-    {
-        school: "Stephenville",
-        role: "Defensive Player",
-        label: "Defensive Anchor",
-        name: "Carter Jones",
-        position: "LB",
-        icon: "🛡️",
-        note: "A downhill presence who can control the middle and force Heritage into tough downs.",
-    },
-    {
-        school: "Stephenville",
-        role: "Dark Horse",
-        label: "Breakout Candidate",
-        name: "Tyler Davis",
-        position: "WR",
-        icon: "🔥",
-        note: "The kind of under-the-radar weapon who can flip a game if the defense loses track of him.",
-    },
-    {
-        school: "Midlothian Heritage",
-        role: "Offensive Player",
-        label: "Offensive Engine",
-        name: "Jace Wilson",
-        position: "RB",
-        icon: "⭐",
-        note: "A physical runner who can stress Stephenville's front and keep the Jaguars ahead of schedule.",
-    },
-    {
-        school: "Midlothian Heritage",
-        role: "Defensive Player",
-        label: "Defensive Disruptor",
-        name: "Ethan Brown",
-        position: "DE",
-        icon: "🛡️",
-        note: "Edge pressure is the equalizer. If Brown wins early downs, this matchup tightens fast.",
-    },
-    {
-        school: "Midlothian Heritage",
-        role: "Dark Horse",
-        label: "Breakout Candidate",
-        name: "Cooper White",
-        position: "DB",
-        icon: "🔥",
-        note: "A secondary piece with a chance to swing momentum if Stephenville tests him vertically.",
-    },
-];
+const players = getFeaturedPlayers();
 
 const groupedPlayers = players.reduce<Record<string, WatchPlayer[]>>(
     (groups, player) => {
@@ -76,6 +13,8 @@ const groupedPlayers = players.reduce<Record<string, WatchPlayer[]>>(
 );
 
 export default function PlayersToWatch() {
+    if (players.length === 0) return null;
+
     return (
         <section className="px-4 py-5 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-[1440px] rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 shadow-2xl md:p-8">
@@ -109,19 +48,20 @@ export default function PlayersToWatch() {
                                     <p className="text-xs font-black uppercase tracking-[0.18em] text-white/40">
                                         Program
                                     </p>
+
                                     <h3 className="mt-1 text-2xl font-black text-white">
                                         {school}
                                     </h3>
                                 </div>
 
                                 <div className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.16em] text-white/45">
-                                    3 Watchlist Picks
+                                    {schoolPlayers.length} Watchlist Picks
                                 </div>
                             </div>
 
                             <div className="mt-5 grid gap-3">
                                 {schoolPlayers.map((player) => (
-                                    <PlayerCard key={`${player.school}-${player.name}`} player={player} />
+                                    <PlayerCard key={player.id} player={player} />
                                 ))}
                             </div>
                         </div>
