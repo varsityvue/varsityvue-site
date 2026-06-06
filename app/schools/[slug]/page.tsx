@@ -5,23 +5,20 @@ import { notFound } from "next/navigation";
 import type { SchoolTheme } from "../../../types/school-theme";
 
 import { getSchoolBySlug } from "@/lib/schools";
-import {
-  getUpcomingGamesForSchool,
-  getRecentScoresForSchool,
-} from "@/lib/games";
+import { getRecentScoresForSchool } from "@/lib/games";
 import { getDistrictById } from "@/lib/districts";
 import { getStandingsForSchool } from "@/lib/standings";
 import { getArticlesForSchool } from "@/lib/articles";
 
 import SchoolHero from "../../../components/SchoolHero";
 import SponsorBanner from "../../../components/SponsorBanner";
-import UpcomingGames from "../../../components/UpcomingGames";
 import UpcomingSchedulePreview from "../../../components/UpcomingSchedulePreview";
 import RecentScores from "../../../components/RecentScores";
 import StandingsTable from "../../../components/StandingsTable";
 import NewsFeed from "../../../components/NewsFeed";
 import SchoolSubnav from "../../../components/SchoolSubnav";
 import SchoolCoverage from "@/components/SchoolCoverage";
+import RivalryWatch from "../../../components/RivalryWatch";
 
 export async function generateMetadata({
   params,
@@ -64,7 +61,6 @@ export default async function SchoolPage({
     accent: school.colors.accent,
   };
 
-  const upcomingGames = getUpcomingGamesForSchool(slug);
   const recentScores = getRecentScoresForSchool(slug);
   const standings = getStandingsForSchool(slug);
   const articles = getArticlesForSchool(slug);
@@ -194,6 +190,8 @@ export default async function SchoolPage({
               />
             </div>
           </section>
+
+          <RivalryWatch schoolSlug={school.slug} />
 
           <section
             className="rounded-[1.75rem] border p-6 shadow-2xl"
