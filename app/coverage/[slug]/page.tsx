@@ -7,6 +7,7 @@ import { getSchoolBySlug } from "../../../data/schools";
 import type { Article } from "@/types/platform";
 import SchoolBadge from "@/components/SchoolBadge";
 import { getScoreboardGames } from "@/lib/scoreboard";
+import { getDistrictById } from "@/lib/districts";
 
 type ArticlePageProps = {
   params: Promise<{ slug: string }>;
@@ -72,6 +73,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       ?.map((schoolSlug) => getSchoolBySlug(schoolSlug))
       .filter(Boolean) ?? [];
 
+  const relatedDistricts =
+    article.districtIds
+      ?.map((districtId) => getDistrictById(districtId))
+      .filter(Boolean) ?? [];
+
   const relatedArticles = articles
     .filter((item) => item.slug !== article.slug)
     .filter((item) =>
@@ -82,9 +88,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const relatedGames = getScoreboardGames()
     .filter((game) =>
       article.schoolIds?.some(
-        (slug) =>
-          game.homeSchoolSlug === slug ||
-          game.awaySchoolSlug === slug
+        (slug) => game.homeSchoolSlug === slug || game.awaySchoolSlug === slug
       )
     )
     .slice(0, 3);
@@ -185,6 +189,32 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   {tag}
                 </span>
               ))}
+
+              {relatedSchools.map(
+                (school) =>
+                  school && (
+                    <Link
+                      key={school.slug}
+                      href={`/schools/${school.slug}`}
+                      className="rounded-full border border-white/10 bg-black/35 px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-white/65 transition hover:bg-white/10 hover:text-white"
+                    >
+                      {school.name}
+                    </Link>
+                  )
+              )}
+
+              {relatedDistricts.map(
+                (district) =>
+                  district && (
+                    <Link
+                      key={district.id}
+                      href={`/districts/${district.slug}`}
+                      className="rounded-full border border-white/10 bg-black/35 px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-white/65 transition hover:bg-white/10 hover:text-white"
+                    >
+                      {district.name}
+                    </Link>
+                  )
+              )}
             </div>
           </article>
 
@@ -229,11 +259,46 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                           <SchoolBadge school={school} size="xs" />
 
                           <div>
-                            <p className="text-sm font-black text-white">{school.name}</p>
+                            <p className="text-sm font-black text-white">
+                              {school.name}
+                            </p>
                             <p className="text-xs font-bold uppercase tracking-[0.12em] text-white/40">
                               {school.mascot}
                             </p>
                           </div>
+                        </Link>
+                      )
+                  )}
+                </div>
+              </section>
+            )}
+
+            {relatedDistricts.length > 0 && (
+              <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
+                <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
+                  Related District
+                </p>
+
+                <div className="mt-5 flex flex-col gap-3">
+                  {relatedDistricts.map(
+                    (district) =>
+                      district && (
+                        <Link
+                          key={district.id}
+                          href={`/districts/${district.slug}`}
+                          className="rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
+                        >
+                          <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/40">
+                            District Hub
+                          </p>
+
+                          <h3 className="mt-2 text-sm font-black text-white">
+                            {district.name}
+                          </h3>
+
+                          <p className="mt-2 text-xs font-bold uppercase tracking-[0.14em] text-white/40">
+                            View Standings →
+                          </p>
                         </Link>
                       )
                   )}
