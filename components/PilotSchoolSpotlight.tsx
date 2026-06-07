@@ -92,6 +92,17 @@ export default function PilotSchoolSpotlight() {
                                                     : "0-0"
                                             }
                                         />
+
+                                        {school.stateTitles !== undefined && (
+                                            <MiniStat label="State Titles" value={school.stateTitles.toString()} />
+                                        )}
+
+                                        {school.lastPlayoffAppearance && (
+                                            <MiniStat
+                                                label="Last Playoff"
+                                                value={school.lastPlayoffAppearance.toString()}
+                                            />
+                                        )}
                                     </div>
 
                                     <div className="mt-4 rounded-2xl border border-white/10 bg-white/[0.04] p-4">
@@ -103,6 +114,12 @@ export default function PilotSchoolSpotlight() {
                                             {district?.name ?? "District TBD"}
                                         </p>
                                     </div>
+
+                                    {school.description && (
+                                        <p className="mt-4 line-clamp-3 text-sm leading-6 text-white/55">
+                                            {school.description}
+                                        </p>
+                                    )}
 
                                     {nextGame && (
                                         <div className="mt-3 rounded-2xl border border-white/10 bg-black/35 p-4">
