@@ -172,6 +172,15 @@ export default async function SchoolPage({
               <ProfileRow label="Status" value={school.status} />
               <ProfileRow label="Market" value={school.coverageMarket ?? "TBD"} />
               <ProfileRow label="Region" value={`Region ${school.uilRegion}`} />
+
+              {school.headCoach && (
+                <ProfileRow label="Head Coach" value={school.headCoach} />
+              )}
+
+              {school.athleticDirector && (
+                <ProfileRow label="Athletic Director" value={school.athleticDirector} />
+              )}
+
               <ProfileRow
                 label="District Record"
                 value={
@@ -189,6 +198,17 @@ export default async function SchoolPage({
                 }
               />
             </div>
+
+            {school.officialWebsite && (
+              <Link
+                href={school.officialWebsite}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 block rounded-xl border border-white/10 bg-black/35 px-5 py-4 text-center text-xs font-black uppercase tracking-[0.16em] text-white/70 transition hover:bg-white/10 hover:text-white"
+              >
+                Official School Site →
+              </Link>
+            )}
           </section>
 
           <RivalryWatch schoolSlug={school.slug} />
