@@ -88,7 +88,6 @@ export default function SchoolHero({ school }: { school: School }) {
 
   const primary = school.colors.primary;
   const secondary = school.colors.secondary;
-  const accent = school.colors.accent;
 
   return (
     <section
@@ -137,6 +136,16 @@ export default function SchoolHero({ school }: { school: School }) {
                 <p className="mt-3 text-2xl font-black text-white/70">
                   {school.mascot}
                 </p>
+                {school.headCoach && (
+                  <p className="mt-2 text-sm font-black uppercase tracking-[0.18em] text-white/45">
+                    Head Coach: {school.headCoach}
+                  </p>
+                )}
+                {school.athleticDirector && (
+                  <p className="mt-2 text-sm font-black uppercase tracking-[0.18em] text-white/45">
+                    Athletic Director: {school.athleticDirector}
+                  </p>
+                )}
               </div>
             </div>
 
