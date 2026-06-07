@@ -210,20 +210,53 @@ export default async function SchoolPage({
                 }
               />
             </div>
-
-            {school.officialWebsite && (
-              <Link
-                href={school.officialWebsite}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-4 block rounded-xl border border-white/10 bg-black/35 px-5 py-4 text-center text-xs font-black uppercase tracking-[0.16em] text-white/70 transition hover:bg-white/10 hover:text-white"
-              >
-                Official School Site →
-              </Link>
-            )}
           </section>
 
           <RivalryWatch schoolSlug={school.slug} />
+
+          {(school.officialWebsite ||
+            school.facebookUrl ||
+            school.instagramUrl ||
+            school.xUrl) && (
+              <section
+                className="rounded-[1.75rem] border p-6 shadow-2xl"
+                style={{
+                  borderColor: `${theme.primary}55`,
+                  background:
+                    "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 50%, rgba(0,0,0,1))",
+                  boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)`,
+                }}
+              >
+                <p
+                  className="text-xs font-black uppercase tracking-[0.28em]"
+                  style={{ color: theme.secondary }}
+                >
+                  Official Links
+                </p>
+
+                <h2 className="mt-3 text-2xl font-black text-white">
+                  School resources.
+                </h2>
+
+                <div className="mt-5 flex flex-col gap-3">
+                  {school.officialWebsite && (
+                    <ExternalLinkButton href={school.officialWebsite} label="Official Website" />
+                  )}
+
+                  {school.facebookUrl && (
+                    <ExternalLinkButton href={school.facebookUrl} label="Facebook" />
+                  )}
+
+                  {school.instagramUrl && (
+                    <ExternalLinkButton href={school.instagramUrl} label="Instagram" />
+                  )}
+
+                  {school.xUrl && (
+                    <ExternalLinkButton href={school.xUrl} label="X / Twitter" />
+                  )}
+                </div>
+              </section>
+            )}
 
           <section
             className="rounded-[1.75rem] border p-6 shadow-2xl"
@@ -330,5 +363,18 @@ function LinkButton({ href, label }: { href: string; label: string }) {
     >
       {label}
     </Link>
+  );
+}
+
+function ExternalLinkButton({ href, label }: { href: string; label: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="rounded-2xl border border-white/10 bg-black/35 px-4 py-3 text-sm font-black text-white/75 transition hover:bg-white/10 hover:text-white"
+    >
+      {label} ↗
+    </a>
   );
 }
