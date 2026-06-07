@@ -10,7 +10,7 @@ function formatClassification(conference: string, division?: string | null) {
 }
 
 export default function PilotSchoolSpotlight() {
-    const schools = getPilotSchools().slice(0, 6);
+    const schools = getPilotSchools();
 
     if (schools.length === 0) return null;
 
