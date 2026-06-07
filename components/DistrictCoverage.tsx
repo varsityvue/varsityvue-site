@@ -12,7 +12,30 @@ function formatArticleType(type: string) {
 export default function DistrictCoverage({ districtId }: Props) {
     const articles = getArticlesForDistrict(districtId).slice(0, 3);
 
-    if (articles.length === 0) return null;
+    if (articles.length === 0) {
+        return (
+            <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
+                <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
+                    District Coverage
+                </p>
+
+                <h2 className="mt-2 text-3xl font-black text-white">
+                    District stories coming soon.
+                </h2>
+
+                <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55">
+                    District previews, standings analysis, rivalry coverage, playoff race updates, and weekly notes will appear here as VarsityVue coverage expands.
+                </p>
+
+                <Link
+                    href="/sponsor-inquiry"
+                    className="mt-6 inline-flex rounded-xl border border-white/10 bg-black/35 px-5 py-4 text-xs font-black uppercase tracking-[0.16em] text-white/65 transition hover:bg-white/10 hover:text-white"
+                >
+                    Sponsor District Coverage →
+                </Link>
+            </section>
+        );
+    }
 
     return (
         <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
