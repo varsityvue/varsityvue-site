@@ -56,9 +56,13 @@ export type School = {
   headCoach?: string;
   athleticDirector?: string;
   officialWebsite?: string;
+
   facebookUrl?: string;
   instagramUrl?: string;
   xUrl?: string;
+
+  stadiumCapacity?: number;
+  yearEstablished?: number;
 
   colors: SchoolColors;
 
