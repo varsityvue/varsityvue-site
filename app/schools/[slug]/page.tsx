@@ -171,15 +171,22 @@ export default async function SchoolPage({
             <div className="mt-5 space-y-3 rounded-2xl border border-white/10 bg-black/35 p-4">
               <ProfileRow label="Status" value={school.status} />
               <ProfileRow label="Market" value={school.coverageMarket ?? "TBD"} />
-              <ProfileRow label="Region" value={`Region ${school.uilRegion}`} />
 
               {school.headCoach && (
-                <ProfileRow label="Head Coach" value={school.headCoach} />
+                <ProfileRow
+                  label="Head Coach"
+                  value={school.headCoach}
+                />
               )}
 
               {school.athleticDirector && (
-                <ProfileRow label="Athletic Director" value={school.athleticDirector} />
+                <ProfileRow
+                  label="Athletic Director"
+                  value={school.athleticDirector}
+                />
               )}
+
+              <ProfileRow label="Region" value={`Region ${school.uilRegion}`} />
 
               <ProfileRow
                 label="District Record"
@@ -189,6 +196,7 @@ export default async function SchoolPage({
                     : "0-0"
                 }
               />
+
               <ProfileRow
                 label="Overall Record"
                 value={
