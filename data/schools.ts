@@ -18,8 +18,16 @@ export const schools: School[] = [
     headCoach: "Brennan Whitaker",
     athleticDirector: "Brennan Whitaker",
     officialWebsite: "https://www.deleonisd.net/",
+
+    stadiumCapacity: 1700,
+    stateTitles: 1,
+    lastPlayoffAppearance: 2025,
+    description:
+      "The De Leon Bearcats are a UIL 2A Division I football program located in Comanche County. Known for strong community support and a proud football tradition, the Bearcats compete in Region II and play their home games at Bearcat Stadium.",
+
     facebookUrl: "https://www.facebook.com/DeLeonAthletics/",
     xUrl: "https://x.com/DeLeonFootball",
+
     colors: { primary: "#6a1120", secondary: "#FFFFFF", accent: "#000000" },
     sports: ["football"],
     status: "pilot",
@@ -75,7 +83,15 @@ export const schools: School[] = [
     headCoach: "Kevin Stennett",
     athleticDirector: "Kevin Stennett",
     officialWebsite: "https://www.ciscoisd.net/",
+
+    stadiumCapacity: 3000,
+    stateTitles: 1,
+    lastPlayoffAppearance: 2025,
+    description:
+      "The Cisco Loboes are one of the most tradition-rich football programs in Texas high school football. Competing in UIL 2A Division I Region II, Cisco is known for consistent playoff success, passionate community support, and a championship-winning tradition built over generations.",
+
     facebookUrl: "https://www.facebook.com/profile.php?id=100041376206567",
+
     colors: { primary: "#000000", secondary: "#ffd60d", accent: "#FFFFFF" },
     sports: ["football"],
     status: "pilot",
@@ -115,7 +131,15 @@ export const schools: School[] = [
     headCoach: "Britt Hart",
     athleticDirector: "Britt Hart",
     officialWebsite: "https://www.hico-isd.net/",
+
+    stadiumCapacity: 2500,
+    stateTitles: 0,
+    lastPlayoffAppearance: 2025,
+    description:
+      "The Hico Tigers compete in UIL 2A Division I Region II and are a perennial contender in one of Texas' toughest small-school football districts. Backed by a passionate community and strong football tradition, the Tigers regularly battle district rivals for playoff positioning and postseason success.",
+
     facebookUrl: "https://www.facebook.com/HicoHighSchool",
+
     colors: { primary: "#C1121F", secondary: "#FFFFFF", accent: "#000000" },
     sports: ["football"],
     status: "pilot",
@@ -233,9 +257,17 @@ export const schools: School[] = [
     headCoach: "Jake Escobar",
     athleticDirector: "Jake Escobar",
     officialWebsite: "https://www.comancheisd.net/",
+
+    stadiumCapacity: 3000,
+    stateTitles: 0,
+    lastPlayoffAppearance: 2024,
+    description:
+      "The Comanche Indians compete in UIL 3A Division II Region II and have long been one of the most recognized football programs in Central Texas. Playing at Indian Stadium, Comanche is known for strong community support, a proud athletic tradition, and annual district battles against some of the area's top programs.",
+
     facebookUrl: "https://www.facebook.com/comancheisdtx",
     instagramUrl: "https://www.instagram.com/comancheisd/",
     xUrl: "https://x.com/Comanche_ISD",
+
     colors: { primary: "#000000", secondary: "#8f7d43", accent: "#FFFFFF" },
     sports: ["football"],
     status: "pilot",
@@ -369,7 +401,15 @@ export const schools: School[] = [
     headCoach: "Andy Howard",
     athleticDirector: "Andy Howard",
     officialWebsite: "https://www.goldisd.net/en-US",
+
+    stadiumCapacity: 1800,
+    stateTitles: 4,
+    lastPlayoffAppearance: 2025,
+    description:
+      "The Goldthwaite Eagles are one of the premier small-school football programs in Texas, boasting multiple state championships and a tradition of postseason success. Competing in UIL 2A Division II Region II, the Eagles are known for disciplined football, strong community support, and a history of contending deep into the playoffs.",
+
     facebookUrl: "https://www.facebook.com/p/Goldthwaite-Eagle-Football-100057261977925/",
+
     colors: { primary: "#FFBA00", secondary: "#000000", accent: "#FFFFFF" },
     sports: ["football"],
     status: "pilot",
@@ -391,9 +431,17 @@ export const schools: School[] = [
     headCoach: "Denney Faith",
     athleticDirector: "Ryder Peacock",
     officialWebsite: "https://www.albanyisd.net/",
+
+    stadiumCapacity: 2900,
+    stateTitles: 4,
+    lastPlayoffAppearance: 2025,
+    description:
+      "The Albany Lions are one of Texas high school football's most respected programs, combining a rich championship tradition with consistent playoff success. Competing in UIL 2A Division II Region II, Albany is known statewide for disciplined football, passionate community support, and a culture of excellence that has produced multiple state titles.",
+
     facebookUrl: "https://www.facebook.com/albanyabc/",
     instagramUrl: "https://www.instagram.com/albanylions/",
     xUrl: "https://x.com/AHSLionSports",
+
     colors: { primary: "#E2231A", secondary: "#FFFFFF", accent: "#000000" },
     sports: ["football"],
     status: "pilot",
@@ -463,8 +511,16 @@ export const schools: School[] = [
     headCoach: "Wayne Hutchinson",
     athleticDirector: "Wayne Hutchinson",
     officialWebsite: "https://www.stamfordisd.net/",
+
+    stadiumCapacity: 4700,
+    stateTitles: 5,
+    lastPlayoffAppearance: 2025,
+    description:
+      "The Stamford Bulldogs are one of the most storied football programs in Texas high school history. Competing in UIL 2A Division II Region II, Stamford has built a legacy of state championships, playoff success, and passionate community support that has made Bulldog football a cornerstone of the town's identity for generations.",
+
     facebookUrl: "https://www.facebook.com/p/Stamford-Athletic-Booster-Club-100057301966675/",
     xUrl: "https://x.com/SHStx",
+
     colors: { primary: "#042889", secondary: "#FFFFFF", accent: "#000000" },
     sports: ["football"],
     status: "pilot",
@@ -502,9 +558,17 @@ export const schools: School[] = [
     headCoach: "Sterling Doty",
     athleticDirector: "Sterling Doty",
     officialWebsite: "https://www.sville.us/",
+
+    stadiumCapacity: 7500,
+    stateTitles: 7,
+    lastPlayoffAppearance: 2025,
+    description:
+      "The Stephenville Yellow Jackets are one of the premier football programs in Texas high school history. Competing in UIL 4A Division I Region III, Stephenville has captured multiple state championships and produced generations of standout athletes, making Yellow Jacket football one of the most recognized brands in the state.",
+
     facebookUrl: "https://www.facebook.com/p/Stephenville-HS-Yellowjacket-Honeybee-Athletics-100057783694608/",
     instagramUrl: "https://www.instagram.com/stephenvilleisd/?hl=en",
     xUrl: "https://x.com/SvilleYJFB",
+
     colors: { primary: "#001F4D", secondary: "#D4AF37", accent: "#FFFFFF" },
     sports: ["football"],
     status: "pilot",

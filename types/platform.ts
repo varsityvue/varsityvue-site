@@ -57,13 +57,15 @@ export type School = {
   athleticDirector?: string;
   officialWebsite?: string;
 
+  stadiumCapacity?: number;
+  stateTitles?: number;
+  lastPlayoffAppearance?: number;
+  description?: string;
+
   facebookUrl?: string;
   instagramUrl?: string;
   xUrl?: string;
-
-  stadiumCapacity?: number;
-  yearEstablished?: number;
-
+  
   colors: SchoolColors;
 
   sports: SportKey[];

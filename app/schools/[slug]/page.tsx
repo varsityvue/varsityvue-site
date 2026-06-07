@@ -199,10 +199,17 @@ export default async function SchoolPage({
                 />
               )}
 
-              {school.yearEstablished && (
+              {school.stateTitles !== undefined && (
                 <ProfileRow
-                  label="Established"
-                  value={school.yearEstablished.toString()}
+                  label="State Titles"
+                  value={school.stateTitles.toString()}
+                />
+              )}
+
+              {school.lastPlayoffAppearance && (
+                <ProfileRow
+                  label="Last Playoff Appearance"
+                  value={school.lastPlayoffAppearance.toString()}
                 />
               )}
 
