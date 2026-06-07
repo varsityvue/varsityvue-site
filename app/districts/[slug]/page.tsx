@@ -229,6 +229,24 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
         </div>
       </section>
 
+      <section className="border-b border-white/10 px-4 py-6 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1440px] rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
+          <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
+            District Snapshot
+          </p>
+
+          <h2 className="mt-2 text-3xl font-black text-white">
+            {districtSchools.length} schools competing in {classification}
+          </h2>
+
+          <p className="mt-4 max-w-4xl leading-7 text-white/60">
+            Follow standings, district games, school hubs, matchup coverage,
+            sponsor visibility, and future playoff race tracking throughout the
+            season.
+          </p>
+        </div>
+      </section>
+
       <section className="px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-[1440px] gap-6 lg:grid-cols-[1.4fr_0.8fr]">
           <div className="space-y-6">
