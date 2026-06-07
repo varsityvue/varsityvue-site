@@ -159,6 +159,21 @@ export default function SchoolHero({ school }: { school: School }) {
               <MetaBadge label={formatRegion(school.uilRegion)} />
               <MetaBadge label={districtName} />
 
+              {school.officialWebsite && (
+                <a
+                  href={school.officialWebsite}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full border px-5 py-3 text-sm font-black uppercase tracking-[0.12em] text-white transition hover:bg-white/15"
+                  style={{
+                    borderColor: `${secondary}44`,
+                    backgroundColor: "rgba(255,255,255,0.08)",
+                  }}
+                >
+                  Official Website ↗
+                </a>
+              )}
+
               <Link
                 href={`/districts/${districtSlug}`}
                 className="rounded-full border px-5 py-3 text-sm font-black uppercase tracking-[0.12em] text-white transition hover:bg-white/15"

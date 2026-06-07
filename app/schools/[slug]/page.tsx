@@ -186,6 +186,10 @@ export default async function SchoolPage({
                 />
               )}
 
+              {school.officialWebsite && (
+                <ProfileRow label="Official Site" value="Available" />
+              )}
+
               <ProfileRow label="Region" value={`Region ${school.uilRegion}`} />
 
               <ProfileRow
