@@ -32,22 +32,46 @@ export default function PilotSchools() {
                     <Link
                         key={school.slug}
                         href={`/schools/${school.slug}`}
-                        className="flex items-center gap-4 rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
+                        className="rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
                     >
-                        <SchoolBadge school={school} size="xs" />
+                        <div className="flex items-center gap-4">
+                            <SchoolBadge school={school} size="xs" />
 
-                        <div>
-                            <p className="font-black text-white">
-                                {school.name}
-                            </p>
+                            <div>
+                                <p className="font-black text-white">{school.name}</p>
 
-                            <p className="text-xs font-bold uppercase tracking-[0.12em] text-white/45">
-                                {school.mascot}
-                            </p>
+                                <p className="text-xs font-bold uppercase tracking-[0.12em] text-white/45">
+                                    {school.mascot}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="mt-4 grid grid-cols-2 gap-2">
+                            {school.stateTitles !== undefined && (
+                                <MiniMeta label="Titles" value={school.stateTitles.toString()} />
+                            )}
+
+                            {school.lastPlayoffAppearance && (
+                                <MiniMeta
+                                    label="Last Playoff"
+                                    value={school.lastPlayoffAppearance.toString()}
+                                />
+                            )}
                         </div>
                     </Link>
                 ))}
             </div>
         </section>
+    );
+}
+
+function MiniMeta({ label, value }: { label: string; value: string }) {
+    return (
+        <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3">
+            <p className="text-[10px] font-black uppercase tracking-[0.14em] text-white/35">
+                {label}
+            </p>
+            <p className="mt-1 text-sm font-black text-white">{value}</p>
+        </div>
     );
 }

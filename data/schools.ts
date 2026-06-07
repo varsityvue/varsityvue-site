@@ -15,6 +15,7 @@ export const schools: School[] = [
     uilRegion: 2,
     coverageMarket: "VarsityVue Coverage Area",
     stadium: "Bearcat Stadium",
+    stadiumImageUrl: "/stadiums/de-leon.jpg",
     headCoach: "Brennan Whitaker",
     athleticDirector: "Brennan Whitaker",
     officialWebsite: "https://www.deleonisd.net/",

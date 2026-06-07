@@ -254,6 +254,20 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
                     <SchoolMeta label="Class" value={classification} />
                     <SchoolMeta label="District" value={district} />
                     <SchoolMeta label="Stadium" value={school.stadium ?? "TBD"} />
+
+                    {school.stateTitles !== undefined && (
+                      <SchoolMeta
+                        label="State Titles"
+                        value={school.stateTitles.toString()}
+                      />
+                    )}
+
+                    {school.lastPlayoffAppearance && (
+                      <SchoolMeta
+                        label="Last Playoff"
+                        value={school.lastPlayoffAppearance.toString()}
+                      />
+                    )}
                   </div>
 
                   <div className="mt-6 flex items-center justify-between gap-4">
@@ -297,8 +311,8 @@ function FilterButton({
       type="button"
       onClick={onClick}
       className={`rounded-full border px-4 py-2 text-sm font-black transition ${active
-          ? "border-white/20 bg-white text-black shadow-[0_0_24px_rgba(255,255,255,0.12)]"
-          : "border-white/10 bg-black/30 text-white/60 hover:bg-white/10 hover:text-white"
+        ? "border-white/20 bg-white text-black shadow-[0_0_24px_rgba(255,255,255,0.12)]"
+        : "border-white/10 bg-black/30 text-white/60 hover:bg-white/10 hover:text-white"
         }`}
     >
       {label}

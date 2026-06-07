@@ -102,7 +102,7 @@ export default function SchoolHero({ school }: { school: School }) {
     >
       {school.stadiumImageUrl && (
         <div
-          className="absolute inset-0 bg-cover bg-center opacity-20"
+          className="absolute inset-0 bg-cover bg-center-top opacity-35"
           style={{
             backgroundImage: `url(${school.stadiumImageUrl})`,
           }}
