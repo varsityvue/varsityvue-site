@@ -23,7 +23,7 @@ export const schools: School[] = [
     stateTitles: 1,
     lastPlayoffAppearance: 2025,
     description:
-      "The De Leon Bearcats are a UIL 2A Division I football program located in Comanche County. Known for strong community support and a proud football tradition, the Bearcats compete in Region II and play their home games at Bearcat Stadium.",
+      "The De Leon Bearcats are a UIL 2A Division I football program located in Comanche County, Texas. Known for strong community support and a proud football tradition, the Bearcats compete in Region II and play their home games at Bearcat Stadium.",
 
     facebookUrl: "https://www.facebook.com/DeLeonAthletics/",
     xUrl: "https://x.com/DeLeonFootball",

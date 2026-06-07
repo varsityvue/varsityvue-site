@@ -233,6 +233,29 @@ export default async function SchoolPage({
             </div>
           </section>
 
+          {school.description && (
+            <section
+              className="rounded-[1.75rem] border p-6 shadow-2xl"
+              style={{
+                borderColor: `${theme.primary}55`,
+                background:
+                  "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 48%, rgba(0,0,0,1))",
+                boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)`,
+              }}
+            >
+              <p
+                className="text-xs font-black uppercase tracking-[0.28em]"
+                style={{ color: theme.secondary }}
+              >
+                About the Program
+              </p>
+
+              <p className="mt-4 text-sm leading-7 text-white/65">
+                {school.description}
+              </p>
+            </section>
+          )}
+
           <RivalryWatch schoolSlug={school.slug} />
 
           {(school.officialWebsite ||
