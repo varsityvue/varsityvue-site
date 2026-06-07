@@ -192,6 +192,20 @@ export default async function SchoolPage({
 
               <ProfileRow label="Region" value={`Region ${school.uilRegion}`} />
 
+              {school.stadiumCapacity && (
+                <ProfileRow
+                  label="Stadium Capacity"
+                  value={school.stadiumCapacity.toLocaleString()}
+                />
+              )}
+
+              {school.yearEstablished && (
+                <ProfileRow
+                  label="Established"
+                  value={school.yearEstablished.toString()}
+                />
+              )}
+
               <ProfileRow
                 label="District Record"
                 value={
