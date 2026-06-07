@@ -21,6 +21,7 @@ import SchoolSearch from "../components/SchoolSearch";
 import PilotSchoolSpotlight from "@/components/PilotSchoolSpotlight";
 import FeaturedMatchups from "@/components/FeaturedMatchups";
 import FeaturedCoverage from "@/components/FeaturedCoverage";
+import PilotSchools from "@/components/PilotSchools";
 
 export const metadata: Metadata = {
   title: "VarsityVue | Texas High School Sports Platform",
@@ -320,6 +321,8 @@ export default function Home() {
       <PilotSchoolSpotlight />
 
       <FeaturedMatchups />
+
+      <PilotSchools />
 
       <HomeSponsorSlot />
 
