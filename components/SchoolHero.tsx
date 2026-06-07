@@ -94,12 +94,20 @@ export default function SchoolHero({ school }: { school: School }) {
       className="relative overflow-hidden border-b border-white/10 text-white"
       style={{
         background: `
-          radial-gradient(circle at top left, ${primary}66 0%, transparent 32%),
-          radial-gradient(circle at top right, ${secondary}22 0%, transparent 34%),
-          linear-gradient(120deg, #050505 0%, #080808 52%, #000000 100%)
-        `,
+    radial-gradient(circle at top left, ${primary}66 0%, transparent 32%),
+    radial-gradient(circle at top right, ${secondary}22 0%, transparent 34%),
+    linear-gradient(120deg, #050505 0%, #080808 52%, #000000 100%)
+  `,
       }}
     >
+      {school.stadiumImageUrl && (
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-20"
+          style={{
+            backgroundImage: `url(${school.stadiumImageUrl})`,
+          }}
+        />
+      )}
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.78),rgba(0,0,0,0.22))]" />
       <div className="absolute -right-24 top-16 h-80 w-80 rounded-full bg-white/10 blur-3xl" />
 

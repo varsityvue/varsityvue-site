@@ -51,7 +51,8 @@ export type School = {
 
   coverageMarket?: string;
   stadium?: string;
-  
+  stadiumImageUrl?: string;
+
   headCoach?: string;
   athleticDirector?: string;
   officialWebsite?: string;
