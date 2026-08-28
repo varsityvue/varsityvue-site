@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { articles } from "../../data/articles";
-import { sponsors } from "../../data/sponsors";
 import type { Article } from "@/types/platform";
 
 export const metadata: Metadata = {
@@ -60,15 +59,7 @@ export default async function CoveragePage({
 
   const featuredArticle = filteredArticles[0];
   const latestArticles = filteredArticles.slice(1);
-  const previewCount = articles.filter((article) => article.type === "preview").length;
-  const recapCount = articles.filter((article) => article.type === "recap").length;
-  const featureCount = articles.filter((article) => article.type === "feature").length;
-
-  const coverageSponsor = sponsors.find(
-    (sponsor) =>
-      sponsor.active &&
-      sponsor.placementTypes.includes("directory")
-  );
+  const hasCoverage = articles.length > 0;
 
   return (
     <main className="min-h-screen bg-[#050505] text-white">
@@ -79,183 +70,165 @@ export default async function CoveragePage({
               VarsityVue Coverage
             </p>
 
-            <div className="mt-5 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
-              <div>
-                <h1 className="text-5xl font-black leading-tight tracking-tight sm:text-7xl">
-                  Coverage Hub
-                </h1>
+            <div className="mt-5">
+              <h1 className="text-5xl font-black leading-tight tracking-tight sm:text-7xl">
+                Coverage Hub
+              </h1>
 
-                <p className="mt-4 max-w-3xl text-base leading-7 text-white/60 sm:text-lg">
-                  Texas high school football previews, recaps, features,
-                  district outlooks, player spotlights, and legacy stories
-                  built around the VarsityVue school and game ecosystem.
-                </p>
-              </div>
-
-              <Link
-                href="/sponsor-inquiry"
-                className="rounded-xl border border-[color:var(--vv-accent)]/30 bg-[var(--vv-primary)]/25 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-[var(--vv-accent-soft)] transition hover:bg-[var(--vv-primary)]/40 hover:text-white"
-              >
-                Sponsor Coverage
-              </Link>
+              <p className="mt-4 max-w-3xl text-base leading-7 text-white/60 sm:text-lg">
+                Texas high school football previews, recaps, features,
+                district outlooks, player spotlights, and legacy stories built
+                around the VarsityVue school and game ecosystem.
+              </p>
             </div>
           </div>
-
-          <section className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <CoverageStat label="Stories" value={articles.length.toString()} />
-            <CoverageStat label="Previews" value={previewCount.toString()} />
-            <CoverageStat label="Recaps" value={recapCount.toString()} />
-            <CoverageStat label="Features" value={featureCount.toString()} />
-          </section>
         </div>
       </section>
 
       <section className="px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-[1440px]">
-          <section className="grid gap-6 lg:grid-cols-[1.4fr_0.8fr]">
-            {featuredArticle && (
-              <Link
-                href={`/coverage/${featuredArticle.slug}`}
-                className="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl transition hover:-translate-y-1 hover:border-[color:var(--vv-accent)]/40 hover:bg-white/[0.075] md:p-8"
-              >
-                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(122,16,34,0.48),transparent_55%)] opacity-55 transition group-hover:opacity-75" />
+          {!hasCoverage ? (
+            <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.045] shadow-2xl">
+              <div className="bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.5),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(0,0,0,0.96))] p-7 md:p-10 lg:p-12">
+                <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent-soft)]">
+                  2026 Coverage
+                </p>
 
-                <div className="relative">
-                  <p className="text-xs font-black uppercase tracking-[0.32em] text-[var(--vv-accent)]">
-                    Featured Story
-                  </p>
+                <h2 className="mt-4 max-w-4xl text-4xl font-black leading-tight text-white sm:text-6xl">
+                  2026 coverage starts here.
+                </h2>
 
-                  <p className="mt-5 text-xs font-black uppercase tracking-[0.2em] text-white/45">
-                    {formatArticleType(featuredArticle.type)} ·{" "}
-                    {formatArticleDate(featuredArticle.publishedAt)}
-                  </p>
+                <p className="mt-5 max-w-3xl text-base leading-7 text-white/60 sm:text-lg">
+                  Game previews, player spotlights, weekly recaps and stories
+                  from around the VarsityVue coverage area will appear here as
+                  the season unfolds.
+                </p>
 
-                  <h2 className="mt-5 max-w-4xl text-4xl font-black leading-tight text-white sm:text-5xl">
-                    {featuredArticle.title}
-                  </h2>
-
-                  {featuredArticle.subtitle && (
-                    <p className="mt-4 max-w-3xl text-lg font-semibold leading-7 text-white/55">
-                      {featuredArticle.subtitle}
-                    </p>
-                  )}
-
-                  <p className="mt-5 max-w-3xl leading-7 text-white/65">
-                    {featuredArticle.excerpt}
-                  </p>
-
-                  <p className="mt-8 text-sm font-black uppercase tracking-[0.14em] text-[var(--vv-accent)]">
-                    Read full story →
-                  </p>
+                <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                  <LaunchCard title="Game Previews" body="Week-by-week matchup context before kickoff." />
+                  <LaunchCard title="Results & Recaps" body="Final scores, turning points and postgame notes." />
+                  <LaunchCard title="Player Spotlights" body="Notable performances and athletes to watch." />
+                  <LaunchCard title="District Stories" body="Standings races and storylines across the region." />
                 </div>
-              </Link>
-            )}
 
-            <aside className="rounded-[2rem] border border-[#7A1022]/40 bg-gradient-to-br from-[#7A1022]/45 via-black to-black p-6 shadow-2xl md:p-8">
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent-soft)]">
-                Coverage Sponsor
-              </p>
-
-              <h3 className="mt-4 text-3xl font-black text-white">
-                {coverageSponsor
-                  ? `Presented by ${coverageSponsor.name}`
-                  : "This placement is available"}
-              </h3>
-
-              <p className="mt-4 text-sm leading-6 text-white/55">
-                Weekly previews, recaps, player features, district outlooks,
-                and editorial coverage sponsor inventory for local businesses.
-              </p>
-
-              <Link
-                href="/sponsor-inquiry"
-                className="mt-8 block rounded-xl border border-white/15 bg-white/10 px-5 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
-              >
-                Claim Coverage Inventory
-              </Link>
-            </aside>
-          </section>
-
-          <section className="mt-8 rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:p-6">
-            <div className="flex flex-wrap gap-3">
-              <FilterPill href="/coverage" label="All Coverage" active={!activeType} />
-              <FilterPill
-                href="/coverage?type=preview"
-                label="Previews"
-                active={activeType === "preview"}
-              />
-              <FilterPill
-                href="/coverage?type=recap"
-                label="Recaps"
-                active={activeType === "recap"}
-              />
-              <FilterPill
-                href="/coverage?type=feature"
-                label="Features"
-                active={activeType === "feature"}
-              />
-              <FilterPill
-                href="/coverage?type=legacy"
-                label="Legacy"
-                active={activeType === "legacy"}
-              />
-            </div>
-          </section>
-
-          <section className="mt-10">
-            <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
-                  Latest Coverage
-                </p>
-
-                <h2 className="mt-2 text-3xl font-black text-white">
-                  Recent Stories
-                </h2>
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                  <Link
+                    href="/scoreboard"
+                    className="rounded-xl bg-white px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-black transition hover:bg-white/85"
+                  >
+                    View Scoreboard
+                  </Link>
+                  <Link
+                    href="/schools"
+                    className="rounded-xl border border-white/15 bg-black/35 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white/75 transition hover:bg-white/10 hover:text-white"
+                  >
+                    Explore Schools
+                  </Link>
+                </div>
               </div>
+            </section>
+          ) : (
+            <>
+              <section className="grid gap-6 lg:grid-cols-[1.4fr_0.8fr]">
+                {featuredArticle && (
+                  <Link
+                    href={`/coverage/${featuredArticle.slug}`}
+                    className="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl transition hover:-translate-y-1 hover:border-[color:var(--vv-accent)]/40 hover:bg-white/[0.075] md:p-8"
+                  >
+                    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(122,16,34,0.48),transparent_55%)] opacity-55 transition group-hover:opacity-75" />
+                    <div className="relative">
+                      <p className="text-xs font-black uppercase tracking-[0.32em] text-[var(--vv-accent)]">
+                        Featured Story
+                      </p>
+                      <p className="mt-5 text-xs font-black uppercase tracking-[0.2em] text-white/45">
+                        {formatArticleType(featuredArticle.type)} ·{" "}
+                        {formatArticleDate(featuredArticle.publishedAt)}
+                      </p>
+                      <h2 className="mt-5 max-w-4xl text-4xl font-black leading-tight text-white sm:text-5xl">
+                        {featuredArticle.title}
+                      </h2>
+                      {featuredArticle.subtitle && (
+                        <p className="mt-4 max-w-3xl text-lg font-semibold leading-7 text-white/55">
+                          {featuredArticle.subtitle}
+                        </p>
+                      )}
+                      <p className="mt-5 max-w-3xl leading-7 text-white/65">
+                        {featuredArticle.excerpt}
+                      </p>
+                      <p className="mt-8 text-sm font-black uppercase tracking-[0.14em] text-[var(--vv-accent)]">
+                        Read full story →
+                      </p>
+                    </div>
+                  </Link>
+                )}
 
-              <p className="text-sm font-bold text-white/45">
-                {latestArticles.length} stories shown
-              </p>
-            </div>
+                <aside className="rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl md:p-8">
+                  <p className="text-xs font-black uppercase tracking-[0.28em] text-white/45">
+                    VarsityVue Coverage
+                  </p>
+                  <h3 className="mt-4 text-3xl font-black text-white">
+                    Follow the season as it develops.
+                  </h3>
+                  <p className="mt-4 text-sm leading-6 text-white/55">
+                    Previews, recaps, player performances, district outlooks and
+                    feature stories will build here throughout the year.
+                  </p>
+                </aside>
+              </section>
 
-            {latestArticles.length === 0 ? (
-              <div className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-8 shadow-2xl">
-                <h2 className="text-2xl font-black text-white">
-                  More coverage coming soon.
-                </h2>
-                <p className="mt-2 text-white/50">
-                  Game previews, recaps, features, and district stories will
-                  appear here as the season builds.
-                </p>
-              </div>
-            ) : (
-              <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-                {latestArticles.map((article) => (
-                  <ArticleCard key={article.id} article={article} />
-                ))}
-              </div>
-            )}
-          </section>
+              <section className="mt-8 rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:p-6">
+                <div className="flex flex-wrap gap-3">
+                  <FilterPill href="/coverage" label="All Coverage" active={!activeType} />
+                  <FilterPill href="/coverage?type=preview" label="Previews" active={activeType === "preview"} />
+                  <FilterPill href="/coverage?type=recap" label="Recaps" active={activeType === "recap"} />
+                  <FilterPill href="/coverage?type=feature" label="Features" active={activeType === "feature"} />
+                  <FilterPill href="/coverage?type=legacy" label="Legacy" active={activeType === "legacy"} />
+                </div>
+              </section>
 
-          <section className="mt-10 rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
-              Search Visibility
-            </p>
+              <section className="mt-10">
+                <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
+                      Latest Coverage
+                    </p>
+                    <h2 className="mt-2 text-3xl font-black text-white">
+                      Recent Stories
+                    </h2>
+                  </div>
+                </div>
 
-            <h2 className="mt-3 text-3xl font-black text-white">
-              Built for game-week discovery.
-            </h2>
-
-            <p className="mt-4 max-w-4xl leading-7 text-white/60">
-              VarsityVue coverage connects game previews, recaps, school hubs,
-              district standings, sponsor visibility, and local football
-              storylines into a searchable Texas high school sports ecosystem.
-            </p>
-          </section>
+                {latestArticles.length === 0 ? (
+                  <div className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-8 shadow-2xl">
+                    <h2 className="text-2xl font-black text-white">
+                      More coverage coming soon.
+                    </h2>
+                    <p className="mt-2 text-white/50">
+                      Additional stories will appear here as the season builds.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+                    {latestArticles.map((article) => (
+                      <ArticleCard key={article.id} article={article} />
+                    ))}
+                  </div>
+                )}
+              </section>
+            </>
+          )}
         </div>
       </section>
     </main>
+  );
+}
+
+function LaunchCard({ title, body }: { title: string; body: string }) {
+  return (
+    <div className="rounded-2xl border border-white/10 bg-black/35 p-5">
+      <h3 className="font-black text-white">{title}</h3>
+      <p className="mt-2 text-sm leading-6 text-white/50">{body}</p>
+    </div>
   );
 }
 
@@ -266,48 +239,31 @@ function ArticleCard({ article }: { article: Article }) {
       className="group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-xl transition hover:-translate-y-1 hover:border-[color:var(--vv-accent)]/40 hover:bg-white/[0.075]"
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(122,16,34,0.38),transparent_55%)] opacity-45 transition group-hover:opacity-70" />
-
       <div className="relative">
         <p className="text-xs font-black uppercase tracking-[0.2em] text-[var(--vv-accent)]">
           {formatArticleType(article.type)}
         </p>
-
         <h3 className="mt-4 text-2xl font-black leading-tight text-white">
           {article.title}
         </h3>
-
         {article.subtitle && (
           <p className="mt-3 text-sm font-semibold leading-6 text-white/50">
             {article.subtitle}
           </p>
         )}
-
         <p className="mt-4 line-clamp-3 text-sm leading-6 text-white/60">
           {article.excerpt}
         </p>
-
         <div className="mt-6 flex items-center justify-between gap-4">
           <p className="text-xs font-black uppercase tracking-[0.14em] text-[var(--vv-accent)]">
             Read story
           </p>
-
           <p className="text-xs font-bold text-white/35">
             {formatArticleDate(article.publishedAt)}
           </p>
         </div>
       </div>
     </Link>
-  );
-}
-
-function CoverageStat({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-5 shadow-xl">
-      <p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">
-        {label}
-      </p>
-      <p className="mt-3 text-4xl font-black text-white">{value}</p>
-    </div>
   );
 }
 
@@ -323,10 +279,11 @@ function FilterPill({
   return (
     <Link
       href={href}
-      className={`rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.14em] transition ${active
-        ? "border-white/20 bg-white text-black"
-        : "border-white/10 bg-black/30 text-white/60 hover:bg-white/10 hover:text-white"
-        }`}
+      className={`rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.14em] transition ${
+        active
+          ? "border-white/20 bg-white text-black"
+          : "border-white/10 bg-black/30 text-white/60 hover:bg-white/10 hover:text-white"
+      }`}
     >
       {label}
     </Link>
