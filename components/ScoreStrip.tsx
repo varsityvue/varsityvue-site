@@ -28,9 +28,9 @@ function formatKickoff(kickoff?: string) {
     day: "numeric",
     ...(hasTime
       ? {
-        hour: "numeric" as const,
-        minute: "2-digit" as const,
-      }
+          hour: "numeric" as const,
+          minute: "2-digit" as const,
+        }
       : {}),
     timeZone: "America/Chicago",
   }).format(parsedDate);
@@ -90,17 +90,12 @@ export default function ScoreStrip() {
               : undefined;
 
             const isFeatured = index === 0 || game.isFeatured;
-            const accentColor =
-              homeSchool?.colors.primary ??
-              awaySchool?.colors.primary ??
-              "var(--vv-primary)";
 
             return (
               <Link
                 key={game.id}
                 href={`/games/${game.id}`}
-                className="group min-w-[390px] snap-start overflow-hidden rounded-[1.5rem] border border-white/10 bg-black/50 transition-all duration-300 hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.08]"
-                style={{ borderTop: `4px solid ${accentColor}` }}
+                className="group min-w-[390px] snap-start overflow-hidden rounded-[1.5rem] border border-white/10 border-t-4 border-t-[var(--vv-primary)] bg-black/50 transition-all duration-300 hover:-translate-y-1 hover:border-white/25 hover:border-t-[var(--vv-primary)] hover:bg-white/[0.08]"
               >
                 <div className="p-5">
                   <div className="flex items-center justify-between gap-3">
@@ -124,7 +119,7 @@ export default function ScoreStrip() {
                       align="left"
                     />
 
-                    <div className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-black uppercase tracking-[0.2em] text-[var(--vv-primary)]">
+                    <div className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-black uppercase tracking-[0.2em] text-white/70">
                       VS
                     </div>
 
@@ -177,10 +172,11 @@ export default function ScoreStrip() {
 function GameChip({ label, strong = false }: { label: string; strong?: boolean }) {
   return (
     <p
-      className={`rounded-full border px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] ${strong
+      className={`rounded-full border px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] ${
+        strong
           ? "border-[color:var(--vv-primary)]/40 bg-[var(--vv-primary)]/25 text-white"
           : "border-white/10 bg-white/5 text-white/55"
-        }`}
+      }`}
     >
       {label}
     </p>
@@ -200,8 +196,9 @@ function TeamBlock({
 }) {
   return (
     <div
-      className={`flex min-w-0 flex-col gap-3 ${align === "right" ? "items-end text-right" : "items-start text-left"
-        }`}
+      className={`flex min-w-0 flex-col gap-3 ${
+        align === "right" ? "items-end text-right" : "items-start text-left"
+      }`}
     >
       {school ? (
         <SchoolBadge school={school} size="xs" />
