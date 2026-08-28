@@ -25,3 +25,9 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* The homepage showcase uses neutral matchup typography. VarsityVue red is
+   reserved for interface emphasis rather than the hero VS marker. */
+main > section:first-child .text-\[var\(--vv-primary\)\] {
+  color: rgb(255 255 255 / 0.78) !important;
+}
