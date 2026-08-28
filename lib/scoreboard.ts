@@ -49,15 +49,24 @@ export function getScoreboardGames(): ScoreboardGame[] {
 
 export function getGameOfTheWeek(): ScoreboardGame | undefined {
   const scoreboardGames = getScoreboardGames();
+  const now = Date.now();
 
   const selectedGameOfTheWeekId = "cisco-at-clyde-2026-week-1";
 
+  const selectedGame = scoreboardGames.find(
+    (game) => game.id === selectedGameOfTheWeekId
+  );
+
+  if (selectedGame?.status === "live") return selectedGame;
+
+  if (
+    selectedGame?.status === "upcoming" &&
+    getGameTimestamp(selectedGame) >= now
+  ) {
+    return selectedGame;
+  }
+
   return (
-    scoreboardGames.find(
-      (game) =>
-        game.id === selectedGameOfTheWeekId &&
-        (game.status === "upcoming" || game.status === "live")
-    ) ??
     scoreboardGames.find(
       (game) =>
         game.status === "live" &&
@@ -69,7 +78,13 @@ export function getGameOfTheWeek(): ScoreboardGame | undefined {
         game.status === "upcoming" &&
         game.featured === true &&
         game.coverageStatus === "planned" &&
-        getGameTimestamp(game) >= Date.now()
+        getGameTimestamp(game) >= now
+    ) ??
+    scoreboardGames.find(
+      (game) =>
+        game.status === "upcoming" &&
+        game.isFeatured &&
+        getGameTimestamp(game) >= now
     )
   );
 }
