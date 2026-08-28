@@ -18,28 +18,9 @@ export type Sponsor = {
   active: boolean;
 };
 
-export const sponsors: Sponsor[] = [
-  {
-    id: "1-way-landscape",
-    name: "1 Way Landscape",
-    logo: "/sponsors/1way-landscape.png",
-    website: "https://1waylandscape.com",
-    placementTypes: ["school-hub", "game-page"],
-    schoolIds: ["de-leon"],
-    tier: "founding",
-    active: true,
-  },
-  {
-    id: "premier-event-rentals",
-    name: "Premier Event Rentals",
-    logo: "/sponsors/premier-event-rentals.png",
-    website: "https://premiereventrentals.shop",
-    placementTypes: ["school-hub"],
-    schoolIds: ["de-leon"],
-    tier: "premium",
-    active: true,
-  },
-];
+// Sponsor inventory remains intentionally unclaimed during the 2026 pilot.
+// Add businesses here only after a real sponsorship relationship is active.
+export const sponsors: Sponsor[] = [];
 
 export function getSchoolSponsors(schoolId: string) {
   return sponsors.filter(
