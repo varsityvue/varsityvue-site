@@ -150,16 +150,15 @@ export default function Home() {
 
             <div className="relative z-10 flex min-h-[500px] flex-col justify-between p-6 sm:p-8 lg:p-9">
               <div>
-                <div className="flex flex-wrap items-center gap-3">
-                  <p className="inline-flex rounded-full border border-white/15 bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.22em] text-black shadow-lg">
-                    VarsityVue Spotlight
-                  </p>
+<div className="flex flex-wrap items-center justify-center gap-3">
+  <p className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white px-4 py-2 text-center text-xs font-black uppercase tracking-[0.22em] text-black shadow-lg">
+    VarsityVue Spotlight
+  </p>
 
-                  <p className="inline-flex rounded-full border border-white/15 bg-black/50 px-4 py-2 text-xs font-black uppercase tracking-[0.22em] text-white/75">
-                    Game of the Week
-                  </p>
-                </div>
-
+  <p className="inline-flex items-center justify-center rounded-full border border-white/15 bg-black/50 px-4 py-2 text-center text-xs font-black uppercase tracking-[0.22em] text-white/75">
+    Game of the Week
+  </p>
+</div>
                 {featuredGame ? (
                   <>
                     <div className="mt-5 text-center">
