@@ -43,7 +43,7 @@ export default function SiteHeader() {
             href="/scoreboard"
             className="hidden rounded-full border border-[color:var(--vv-accent)] bg-[var(--vv-primary)] px-5 py-3 text-xs font-black uppercase tracking-[0.16em] text-[var(--vv-accent-soft)] transition hover:bg-[var(--vv-primary-hover)] hover:text-white md:inline-flex"
           >
-            Live Scores
+            Scoreboard
           </Link>
 
           <Link

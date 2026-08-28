@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getScoreboardGames } from "@/lib/scoreboard";
+import { getUpcomingScoreboardGames } from "@/lib/scoreboard";
 import { getSchoolBySlug } from "@/lib/schools";
 import { getStandingForSchool } from "@/lib/standings";
 import SchoolBadge from "./SchoolBadge";
@@ -53,7 +53,7 @@ function formatRecord(slug?: string) {
 }
 
 export default function ScoreStrip() {
-  const games = getScoreboardGames().slice(0, 8);
+  const games = getUpcomingScoreboardGames(8);
 
   if (games.length === 0) return null;
 

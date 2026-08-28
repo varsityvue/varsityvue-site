@@ -52,9 +52,17 @@ export function getGamesForSchool(slug: string) {
 }
 
 export function getUpcomingGamesForSchool(slug: string) {
-  return getGamesForSchool(slug).filter(
-    (game) => game.status === "upcoming" && game.gameType !== "bye"
-  );
+  const now = Date.now();
+
+  return getGamesForSchool(slug).filter((game) => {
+    if (game.status !== "upcoming" || game.gameType === "bye") {
+      return false;
+    }
+
+    const timestamp = getGameTimestamp(game);
+
+    return timestamp >= now;
+  });
 }
 
 export function getRecentScoresForSchool(slug: string) {

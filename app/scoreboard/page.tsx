@@ -12,7 +12,7 @@ import SchoolBadge from "@/components/SchoolBadge";
 export const metadata: Metadata = {
   title: "Texas High School Football Scores | VarsityVue",
   description:
-    "Follow Texas high school football scores, upcoming games, final results, featured matchups, and sponsor-ready scoreboard coverage on VarsityVue.",
+  "Follow Texas high school football schedules, featured matchups, game-night updates, and final results on VarsityVue.",
 };
 
 type ScoreboardGame = ReturnType<typeof getUpcomingScoreboardGames>[number];
@@ -89,24 +89,24 @@ export default function ScoreboardPage() {
             Texas High School Football Scores
           </h1>
 
-          <p className="mt-6 max-w-3xl text-lg leading-8 text-white/65">
-            Live scores, featured matchups, finals, and game-night coverage
-            across VarsityVue.
-          </p>
+<p className="mt-6 max-w-3xl text-lg leading-8 text-white/65">
+  Featured matchups, kickoff information, game-night updates, and
+  final results across VarsityVue.
+</p>
 
           <div className="mt-8 rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
             <p className="text-xs font-black uppercase tracking-[0.24em] text-white/70">
               Friday Night
             </p>
 
-            <h2 className="mt-3 text-3xl font-black text-white md:text-4xl">
-              Lights on. Rivalries live. Scores moving.
-            </h2>
+<h2 className="mt-3 text-3xl font-black text-white md:text-4xl">
+  Lights on. Week 1 is here.
+</h2>
 
-            <p className="mt-3 max-w-3xl text-sm leading-6 text-white/60">
-              Follow the VarsityVue scoreboard for featured matchups, district
-              races, finals, and live football movement across the platform.
-            </p>
+<p className="mt-3 max-w-3xl text-sm leading-6 text-white/60">
+  Follow featured games, kickoff information, matchup centers, and
+  final results throughout the football season.
+</p>
           </div>
         </section>
 

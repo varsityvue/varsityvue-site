@@ -451,36 +451,51 @@ export default async function GamePage({ params }: GamePageProps) {
               </div>
             </section>
 
-            <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7 shadow-2xl">
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
-                Game Center
-              </p>
+<section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7 shadow-2xl">
+  <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
+    Coming Soon
+  </p>
 
-              <h2 className="mt-3 text-3xl font-black text-white">
-                Live scoring and team stats will live here.
-              </h2>
+  <h2 className="mt-3 text-3xl font-black text-white">
+    VarsityVue Live
+  </h2>
 
-              <p className="mt-4 max-w-3xl leading-7 text-white/72">
-                Quarter-by-quarter scoring, team stats, scoring plays, player
-                leaders, and postgame recaps can be layered in as the live score
-                workflow matures.
-              </p>
-            </section>
+  <p className="mt-4 max-w-3xl leading-7 text-white/72">
+    Follow the game as it happens. Live scoring, quarter-by-quarter
+    updates, scoring plays, team stats, and player leaders are coming
+    to VarsityVue.
+  </p>
 
-            <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7 shadow-2xl">
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
-                Legacy
-              </p>
+  <div className="mt-6 flex flex-wrap gap-2">
+    <Badge label="Live Scores" />
+    <Badge label="Scoring Plays" />
+    <Badge label="Team Stats" />
+    <Badge label="Player Leaders" />
+  </div>
+</section>
 
-              <h2 className="mt-3 text-3xl font-black text-white">
-                Matchup History
-              </h2>
+           <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7 shadow-2xl">
+  <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
+    VarsityVue Archives
+  </p>
 
-              <p className="mt-4 leading-7 text-white/60">
-                Historical meetings, rivalry records, playoff clashes, and
-                community-submitted memories will eventually live here.
-              </p>
-            </section>
+  <h2 className="mt-3 text-3xl font-black text-white">
+    Every Season Leaves a Story.
+  </h2>
+
+  <p className="mt-4 max-w-3xl leading-7 text-white/72">
+    Rivalry history, past meetings, playoff runs, championships, program
+    milestones, and the moments communities remember. The VarsityVue
+    historical archive is coming soon.
+  </p>
+
+  <div className="mt-6 flex flex-wrap gap-2">
+    <Badge label="Past Meetings" />
+    <Badge label="Playoff History" />
+    <Badge label="Championships" />
+    <Badge label="Program Milestones" />
+  </div>
+</section>
           </div>
 
           <aside className="space-y-6">
@@ -518,7 +533,7 @@ export default async function GamePage({ params }: GamePageProps) {
               </h2>
 
               <div className="mt-5 flex flex-col gap-3">
-                <LinkButton href="/scoreboard" label="Live Scoreboard" />
+                <LinkButton href="/scoreboard" label="Game Night Scoreboard" />
 
                 {district && (
                   <LinkButton

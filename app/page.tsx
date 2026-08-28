@@ -264,24 +264,24 @@ export default function Home() {
                   </div>
                 )}
 
-                <div className="mt-6 rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
-                  <p className="text-xs font-black uppercase tracking-[0.24em] text-white/55">
-                    Why This Game Matters
-                  </p>
+{featuredGame && (
+  <div className="mt-6 rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
+    <p className="text-xs font-black uppercase tracking-[0.24em] text-white/55">
+      Why This Game Matters
+    </p>
 
-                  <h2 className="mt-3 text-3xl font-black text-white md:text-4xl">
-                    Two playoff-caliber programs open the season in a marquee
-                    showdown.
-                  </h2>
+    <h2 className="mt-3 text-3xl font-black text-white md:text-4xl">
+      Week {featuredGame.week ?? 1} takes center stage.
+    </h2>
 
-                  <p className="mt-3 max-w-3xl text-sm leading-6 text-white/60">
-                    Stephenville and Midlothian Heritage enter 2026 with
-                    district-title expectations and playoff ambition. VarsityVue
-                    selected this matchup as the Week 1 Game of the Week because
-                    of its regional weight, program strength, and early-season
-                    intrigue.
-                  </p>
-                </div>
+    <p className="mt-3 max-w-3xl text-sm leading-6 text-white/60">
+      {featuredGame.awayTeam} and {featuredGame.homeTeam} meet in one
+      of VarsityVue&apos;s featured matchups of the week. Follow the
+      matchup center for kickoff information, program links, game-night
+      updates, and postgame results.
+    </p>
+  </div>
+)}
 
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   {featuredGame && (

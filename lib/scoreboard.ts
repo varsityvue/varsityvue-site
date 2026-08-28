@@ -6,12 +6,6 @@ export type ScoreboardGame = Game & {
   isFeatured: boolean;
 };
 
-function getDisplayStatus(game: Game): ScoreboardGame["displayStatus"] {
-  if (game.status === "live") return "Live";
-  if (game.status === "final") return "Final";
-  return "Upcoming";
-}
-
 function getGameTimestamp(game: Game) {
   if (!game.kickoff) return Number.MAX_SAFE_INTEGER;
 
@@ -22,7 +16,15 @@ function getGameTimestamp(game: Game) {
 
   const timestamp = new Date(game.kickoff).getTime();
 
-  return Number.isNaN(timestamp) ? Number.MAX_SAFE_INTEGER : timestamp;
+  return Number.isNaN(timestamp)
+    ? Number.MAX_SAFE_INTEGER
+    : timestamp;
+}
+
+function getDisplayStatus(game: Game): ScoreboardGame["displayStatus"] {
+  if (game.status === "live") return "Live";
+  if (game.status === "final") return "Final";
+  return "Upcoming";
 }
 
 function isGameFeatured(game: Game) {
@@ -59,11 +61,14 @@ export function getGameOfTheWeek(): ScoreboardGame | undefined {
       (game) =>
         game.status === "upcoming" &&
         game.featured === true &&
-        game.coverageStatus === "planned"
+        game.coverageStatus === "planned" &&
+        getGameTimestamp(game) >= Date.now()
     ) ??
     scoreboardGames.find(
       (game) =>
-        game.status === "upcoming" && game.coverageStatus === "planned"
+        game.status === "upcoming" &&
+        game.coverageStatus === "planned" &&
+        getGameTimestamp(game) >= Date.now()
     )
   );
 }
@@ -74,10 +79,17 @@ export function getFeaturedScoreboardGame(): ScoreboardGame | undefined {
   return (
     scoreboardGames.find((game) => game.status === "live") ??
     scoreboardGames.find(
-      (game) => game.status === "upcoming" && game.isFeatured
+      (game) =>
+        game.status === "upcoming" &&
+        game.isFeatured &&
+        getGameTimestamp(game) >= Date.now()
     ) ??
-    scoreboardGames.find((game) => game.status === "upcoming") ??
-    scoreboardGames[0]
+    scoreboardGames.find(
+      (game) =>
+        game.status === "upcoming" &&
+        getGameTimestamp(game) >= Date.now()
+    ) ??
+    scoreboardGames.find((game) => game.status === "final")
   );
 }
 
@@ -86,13 +98,20 @@ export function getLiveGames(): ScoreboardGame[] {
 }
 
 export function getUpcomingScoreboardGames(limit = 5): ScoreboardGame[] {
+  const now = Date.now();
+
   return getScoreboardGames()
-    .filter((game) => game.status === "upcoming")
+    .filter(
+      (game) =>
+        game.status === "upcoming" &&
+        getGameTimestamp(game) >= now
+    )
     .slice(0, limit);
 }
 
 export function getFinalScoreboardGames(limit = 5): ScoreboardGame[] {
   return getScoreboardGames()
     .filter((game) => game.status === "final")
+    .sort((a, b) => getGameTimestamp(b) - getGameTimestamp(a))
     .slice(0, limit);
 }
