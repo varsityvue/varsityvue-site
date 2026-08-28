@@ -6,8 +6,6 @@ import { getSchools, getPilotSchools, getSchoolBySlug } from "@/lib/schools";
 import { getNextGameForSchool } from "@/lib/games";
 import { getDistricts, getDistrictById } from "@/lib/districts";
 import { getGameOfTheWeek } from "@/lib/scoreboard";
-import { getLatestArticles } from "@/lib/articles";
-import { getActiveSponsors } from "@/lib/sponsors";
 import {
   getStandingForSchool,
   getStandingsForDistrictId,
@@ -21,7 +19,6 @@ import SchoolSearch from "../components/SchoolSearch";
 import PilotSchoolSpotlight from "@/components/PilotSchoolSpotlight";
 import FeaturedMatchups from "@/components/FeaturedMatchups";
 import FeaturedCoverage from "@/components/FeaturedCoverage";
-import PilotSchools from "@/components/PilotSchools";
 
 export const metadata: Metadata = {
   title: "VarsityVue | Texas High School Sports Platform",
@@ -78,17 +75,14 @@ export default function Home() {
   const districts = getDistricts();
 
   const featuredGame = getGameOfTheWeek();
-  const pilotSchools = getPilotSchools().slice(0, 6);
-
-  const latestArticles = getLatestArticles(3);
-  const activeSponsors = getActiveSponsors(5);
+  const featuredPrograms = getPilotSchools().slice(0, 6);
 
   const featuredDistrict = districts[0];
   const featuredStandings = featuredDistrict
     ? getStandingsForDistrictId(featuredDistrict.id).slice(0, 6)
     : [];
 
-  const featuredSchool = pilotSchools[0];
+  const featuredSchool = featuredPrograms[0];
 
   const featuredHomeSchool = featuredGame?.homeSchoolSlug
     ? getSchoolBySlug(featuredGame.homeSchoolSlug)
@@ -150,15 +144,16 @@ export default function Home() {
 
             <div className="relative z-10 flex min-h-[500px] flex-col justify-between p-6 sm:p-8 lg:p-9">
               <div>
-<div className="flex flex-wrap items-center justify-center gap-3">
-  <p className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white px-4 py-2 text-center text-xs font-black uppercase tracking-[0.22em] text-black shadow-lg">
-    VarsityVue Spotlight
-  </p>
+                <div className="flex flex-wrap items-center justify-center gap-3">
+                  <p className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white px-4 py-2 text-center text-xs font-black uppercase tracking-[0.22em] text-black shadow-lg">
+                    VarsityVue Spotlight
+                  </p>
 
-  <p className="inline-flex items-center justify-center rounded-full border border-white/15 bg-black/50 px-4 py-2 text-center text-xs font-black uppercase tracking-[0.22em] text-white/75">
-    Game of the Week
-  </p>
-</div>
+                  <p className="inline-flex items-center justify-center rounded-full border border-white/15 bg-black/50 px-4 py-2 text-center text-xs font-black uppercase tracking-[0.22em] text-white/75">
+                    Game of the Week
+                  </p>
+                </div>
+
                 {featuredGame ? (
                   <>
                     <div className="mt-5 text-center">
@@ -193,7 +188,7 @@ export default function Home() {
                         </div>
                       </div>
 
-                      <div className="my-3 text-4xl font-black uppercase tracking-[0.3em] text-[var(--vv-primary)]">
+                      <div className="my-3 text-4xl font-black uppercase tracking-[0.3em] text-white/75">
                         VS
                       </div>
 
@@ -263,24 +258,24 @@ export default function Home() {
                   </div>
                 )}
 
-{featuredGame && (
-  <div className="mt-6 rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
-    <p className="text-xs font-black uppercase tracking-[0.24em] text-white/55">
-      Why This Game Matters
-    </p>
+                {featuredGame && (
+                  <div className="mt-6 rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
+                    <p className="text-xs font-black uppercase tracking-[0.24em] text-white/55">
+                      Why This Game Matters
+                    </p>
 
-    <h2 className="mt-3 text-3xl font-black text-white md:text-4xl">
-      Week {featuredGame.week ?? 1} takes center stage.
-    </h2>
+                    <h2 className="mt-3 text-3xl font-black text-white md:text-4xl">
+                      Week {featuredGame.week ?? 1} takes center stage.
+                    </h2>
 
-    <p className="mt-3 max-w-3xl text-sm leading-6 text-white/60">
-      {featuredGame.awayTeam} and {featuredGame.homeTeam} meet in one
-      of VarsityVue&apos;s featured matchups of the week. Follow the
-      matchup center for kickoff information, program links, game-night
-      updates, and postgame results.
-    </p>
-  </div>
-)}
+                    <p className="mt-3 max-w-3xl text-sm leading-6 text-white/60">
+                      {featuredGame.awayTeam} and {featuredGame.homeTeam} meet in
+                      one of VarsityVue&apos;s featured matchups of the week.
+                      Follow the matchup center for kickoff information, program
+                      links, game-night updates, and postgame results.
+                    </p>
+                  </div>
+                )}
 
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   {featuredGame && (
@@ -304,7 +299,7 @@ export default function Home() {
               <div className="mt-8 grid gap-3 sm:grid-cols-3">
                 <Stat value={schools.length.toString()} label="Programs Indexed" />
                 <Stat value={districts.length.toString()} label="District Hubs" />
-                <Stat value="2026" label="Pilot Season" />
+                <Stat value="2026" label="Season" />
               </div>
             </div>
           </div>
@@ -321,33 +316,31 @@ export default function Home() {
 
       <FeaturedMatchups />
 
-      <PilotSchools />
-
       <HomeSponsorSlot />
 
       <FeaturedCoverage />
 
       <section className="px-4 py-5 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-[1440px] gap-4 lg:grid-cols-[1fr_0.85fr_0.85fr]">
+        <div className="mx-auto grid max-w-[1440px] items-start gap-4 lg:grid-cols-[1fr_0.85fr_0.85fr]">
           <Panel title="Latest Coverage" kicker="News" href="/coverage">
-            <div className="space-y-4">
-              {latestArticles.map((article) => (
-                <Link
-                  key={article.id}
-                  href={`/coverage/${article.slug}`}
-                  className="block border-b border-white/10 pb-4 transition hover:text-white last:border-0 last:pb-0"
-                >
-                  <p className="text-xs font-black uppercase tracking-[0.16em] text-white/45">
-                    {article.type}
-                  </p>
-                  <h3 className="mt-2 font-black leading-snug text-white">
-                    {article.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-6 text-white/55">
-                    {article.excerpt}
-                  </p>
-                </Link>
-              ))}
+            <div className="rounded-2xl border border-[color:var(--vv-primary)]/30 bg-[var(--vv-primary)]/10 p-5">
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-[var(--vv-accent-soft)]">
+                2026 Coverage
+              </p>
+              <h3 className="mt-3 text-xl font-black text-white">
+                Coverage is just getting started.
+              </h3>
+              <p className="mt-3 text-sm leading-6 text-white/55">
+                Follow the 2026 season as VarsityVue adds game previews,
+                results, player performances and stories from across the
+                region.
+              </p>
+              <Link
+                href="/coverage"
+                className="mt-5 inline-flex text-xs font-black uppercase tracking-[0.16em] text-white/65 transition hover:text-white"
+              >
+                Explore Coverage →
+              </Link>
             </div>
           </Panel>
 
@@ -394,9 +387,9 @@ export default function Home() {
             </div>
           </Panel>
 
-          <Panel title="Trending Programs" kicker="Pilot Hubs" href="/schools">
+          <Panel title="Programs to Watch" kicker="Featured Programs" href="/schools">
             <div className="space-y-3">
-              {pilotSchools.slice(0, 4).map((school) => (
+              {featuredPrograms.slice(0, 4).map((school) => (
                 <Link
                   key={school.id}
                   href={`/schools/${school.slug}`}
@@ -417,7 +410,7 @@ export default function Home() {
 
       {featuredSchool && (
         <section className="px-4 pb-5 sm:px-6 lg:px-8">
-          <div className="mx-auto grid max-w-[1440px] gap-4 lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="mx-auto max-w-[1440px]">
             <div
               className="relative overflow-hidden rounded-[2rem] border border-white/10 p-6 shadow-2xl md:p-8"
               style={{
@@ -517,65 +510,11 @@ export default function Home() {
                     label="Schedule"
                   />
                   <FeatureLink
-                    href={`/districts/${featuredSchoolDistrict?.slug ?? featuredSchool.districtId
-                      }`}
+                    href={`/districts/${featuredSchoolDistrict?.slug ?? featuredSchool.districtId}`}
                     label="Standings"
                   />
                   <FeatureLink href="/coverage" label="Coverage" />
                 </div>
-              </div>
-            </div>
-
-            <div className="rounded-[2rem] border border-white/10 bg-gradient-to-r from-white/[0.08] via-black to-black p-6 shadow-2xl md:p-8">
-              <div>
-                <p className="text-xs font-black uppercase tracking-[0.3em] text-white/45">
-                  Founding Sponsor Opportunities
-                </p>
-
-                <h2 className="mt-2 text-3xl font-black">
-                  Own visible placement before the pilot fills up.
-                </h2>
-
-                <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55">
-                  Founding sponsors receive early visibility across school hubs,
-                  district pages, game pages, score modules, and coverage
-                  inventory while VarsityVue builds regional attention.
-                </p>
-
-                <Link
-                  href="/sponsors"
-                  className="mt-6 inline-flex rounded-xl border border-white/20 bg-white/10 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
-                >
-                  Become a Founding Sponsor
-                </Link>
-              </div>
-
-              <div className="mt-7 grid gap-3">
-                {activeSponsors.length > 0 ? (
-                  activeSponsors.slice(0, 4).map((sponsor) => (
-                    <Link
-                      key={sponsor.id}
-                      href={sponsor.website || "/sponsors"}
-                      target={sponsor.website ? "_blank" : undefined}
-                      className="rounded-2xl border border-white/10 bg-black/35 p-5 transition hover:bg-white/10"
-                    >
-                      <div className="flex items-center justify-between gap-4">
-                        <div>
-                          <p className="font-black text-white">{sponsor.name}</p>
-                          <p className="mt-1 text-xs uppercase tracking-[0.14em] text-white/45">
-                            {sponsor.tier} sponsor
-                          </p>
-                        </div>
-
-                        <span className="text-xs font-black uppercase tracking-[0.14em] text-white/35">
-                          View →
-                        </span>
-                      </div>
-                    </Link>
-                  ))
-                ) : (
-                  <p className="text-white/60">Sponsor placements available.</p>
-                )}
               </div>
             </div>
           </div>
