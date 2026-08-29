@@ -10,7 +10,6 @@ import {
   getStandingForSchool,
   getStandingsForDistrictId,
 } from "@/lib/standings";
-import GameBadges from "@/components/GameBadges";
 import DistrictSpotlight from "@/components/DistrictSpotlight";
 import HomeSponsorSlot from "@/components/HomeSponsorSlot";
 import SchoolBadge from "@/components/SchoolBadge";
@@ -63,10 +62,7 @@ function formatGameTime(kickoff?: string) {
   }).format(parsedDate);
 }
 
-function formatClassification(
-  conference: string,
-  division?: string | null
-) {
+function formatClassification(conference: string, division?: string | null) {
   return `${conference}${division ? ` ${division}` : ""}`;
 }
 
@@ -112,33 +108,16 @@ export default function Home() {
     ? getStandingForSchool(featuredGame.awaySchoolSlug)
     : undefined;
 
-  const heroLeftColor = featuredAwaySchool?.colors.primary ?? "#8B1020";
-  const heroRightColor = featuredHomeSchool?.colors.primary ?? "#001F4D";
+  const awayScore = featuredGame?.awayScore ?? featuredGame?.score?.away;
+  const homeScore = featuredGame?.homeScore ?? featuredGame?.score?.home;
+  const featuredGameFinal = featuredGame?.status === "final";
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] text-white">
-      <section
-        className="border-b border-white/10 px-4 pb-6 pt-6 sm:px-6 lg:px-8"
-        style={{
-          background: `
-            radial-gradient(circle at top left, ${heroLeftColor}55, transparent 34%),
-            radial-gradient(circle at top right, ${heroRightColor}44, transparent 34%),
-            linear-gradient(120deg, #050505 0%, #090909 52%, #000000 100%)
-          `,
-        }}
-      >
+      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.20),transparent_30%),linear-gradient(120deg,#050505_0%,#090909_52%,#000_100%)] px-4 pb-6 pt-6 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-[1440px] gap-5 lg:grid-cols-[1.22fr_0.88fr]">
           <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#080808] shadow-2xl">
-            <div
-              className="absolute inset-0"
-              style={{
-                background: `
-                  radial-gradient(circle at 12% 28%, ${heroLeftColor}33, transparent 30%),
-                  radial-gradient(circle at 88% 42%, ${heroRightColor}33, transparent 32%),
-                  linear-gradient(115deg, rgba(0,0,0,0.98), rgba(0,0,0,0.75) 48%, rgba(255,255,255,0.05))
-                `,
-              }}
-            />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(139,16,32,0.16),transparent_30%),radial-gradient(circle_at_85%_42%,rgba(255,255,255,0.07),transparent_30%),linear-gradient(115deg,rgba(0,0,0,0.98),rgba(0,0,0,0.78)_48%,rgba(255,255,255,0.04))]" />
             <div className="absolute -right-28 top-10 h-96 w-96 rounded-full bg-white/10 blur-3xl" />
             <div className="absolute bottom-0 right-0 h-48 w-2/3 bg-gradient-to-t from-black/80 to-transparent" />
 
@@ -161,66 +140,49 @@ export default function Home() {
                         Week {featuredGame.week ?? "TBD"} Showcase
                       </p>
 
-                      <div className="mt-4 flex items-center justify-center gap-4">
-                        {featuredAwaySchool ? (
-                          <SchoolBadge school={featuredAwaySchool} size="sm" />
-                        ) : (
-                          <TeamChip label="AWY" />
-                        )}
+                      <div className="mt-6 grid items-center gap-5 md:grid-cols-[1fr_auto_1fr]">
+                        <HeroTeam
+                          school={featuredAwaySchool}
+                          team={featuredGame.awayTeam ?? "Away"}
+                          standing={featuredAwayStanding}
+                          align="left"
+                        />
 
-                        <div>
-                          <h1 className="text-4xl font-black uppercase leading-none tracking-tight text-white md:text-6xl">
-                            {featuredGame.awayTeam}
-                          </h1>
-
-                          {featuredAwaySchool?.mascot && (
-                            <p className="mt-2 text-sm font-black uppercase tracking-[0.22em] text-white/45">
-                              {featuredAwaySchool.mascot}
+                        <div className="flex min-w-[150px] flex-col items-center justify-center border-y border-white/10 py-4 md:border-x md:border-y-0 md:px-6 md:py-2">
+                          {featuredGameFinal &&
+                          awayScore !== undefined &&
+                          homeScore !== undefined ? (
+                            <>
+                              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">
+                                Final
+                              </p>
+                              <div className="mt-2 flex items-center gap-3">
+                                <span className="text-5xl font-black leading-none text-white md:text-6xl">
+                                  {awayScore}
+                                </span>
+                                <span className="text-2xl font-black text-white/25">—</span>
+                                <span className="text-5xl font-black leading-none text-white md:text-6xl">
+                                  {homeScore}
+                                </span>
+                              </div>
+                            </>
+                          ) : (
+                            <p className="text-2xl font-black uppercase tracking-[0.3em] text-white/45">
+                              VS
                             </p>
                           )}
-
-                          <RecordLine
-                            overallWins={featuredAwayStanding?.overallWins}
-                            overallLosses={featuredAwayStanding?.overallLosses}
-                            districtWins={featuredAwayStanding?.districtWins}
-                            districtLosses={featuredAwayStanding?.districtLosses}
-                          />
                         </div>
-                      </div>
 
-                      <div className="my-3 text-4xl font-black uppercase tracking-[0.3em] text-white/75">
-                        VS
-                      </div>
-
-                      <div className="flex items-center justify-center gap-4">
-                        {featuredHomeSchool ? (
-                          <SchoolBadge school={featuredHomeSchool} size="sm" />
-                        ) : (
-                          <TeamChip label="HME" />
-                        )}
-
-                        <div>
-                          <h1 className="text-4xl font-black uppercase leading-none tracking-tight text-white md:text-6xl">
-                            {featuredGame.homeTeam}
-                          </h1>
-
-                          {featuredHomeSchool?.mascot && (
-                            <p className="mt-2 text-sm font-black uppercase tracking-[0.22em] text-white/45">
-                              {featuredHomeSchool.mascot}
-                            </p>
-                          )}
-
-                          <RecordLine
-                            overallWins={featuredHomeStanding?.overallWins}
-                            overallLosses={featuredHomeStanding?.overallLosses}
-                            districtWins={featuredHomeStanding?.districtWins}
-                            districtLosses={featuredHomeStanding?.districtLosses}
-                          />
-                        </div>
+                        <HeroTeam
+                          school={featuredHomeSchool}
+                          team={featuredGame.homeTeam ?? "Home"}
+                          standing={featuredHomeStanding}
+                          align="right"
+                        />
                       </div>
                     </div>
 
-                    <div className="mt-5 flex flex-wrap justify-center gap-2">
+                    <div className="mt-6 flex flex-wrap justify-center gap-2">
                       <HeroPill label={`Week ${featuredGame.week ?? "TBD"}`} />
                       <HeroPill
                         label={
@@ -232,15 +194,13 @@ export default function Home() {
                       <HeroPill label="VarsityVue Spotlight" />
                     </div>
 
-                    <div className="mt-5 space-y-3">
-                      <GameBadges game={featuredGame} variant="hero" />
-
+                    <div className="mt-5 text-center">
                       <p className="text-xl font-black text-white">
                         {formatGameDate(featuredGame.kickoff)} ·{" "}
                         {formatGameTime(featuredGame.kickoff)}
                       </p>
 
-                      <p className="text-base font-semibold text-white/55">
+                      <p className="mt-2 text-base font-semibold text-white/55">
                         {featuredGame.venue}
                       </p>
                     </div>
@@ -261,18 +221,19 @@ export default function Home() {
                 {featuredGame && (
                   <div className="mt-6 rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
                     <p className="text-xs font-black uppercase tracking-[0.24em] text-white/55">
-                      Why This Game Matters
+                      {featuredGameFinal ? "Game of the Week Result" : "Why This Game Matters"}
                     </p>
 
                     <h2 className="mt-3 text-3xl font-black text-white md:text-4xl">
-                      Week {featuredGame.week ?? 1} takes center stage.
+                      {featuredGameFinal
+                        ? `${featuredGame.homeTeam} closes Week ${featuredGame.week ?? 1} with the win.`
+                        : `Week ${featuredGame.week ?? 1} takes center stage.`}
                     </h2>
 
                     <p className="mt-3 max-w-3xl text-sm leading-6 text-white/60">
-                      {featuredGame.awayTeam} and {featuredGame.homeTeam} meet in
-                      one of VarsityVue&apos;s featured matchups of the week.
-                      Follow the matchup center for kickoff information, program
-                      links, game-night updates, and postgame results.
+                      {featuredGameFinal
+                        ? `The verified final is posted. Visit the matchup center for the result and program links.`
+                        : `${featuredGame.awayTeam} and ${featuredGame.homeTeam} meet in one of VarsityVue's featured matchups of the week.`}
                     </p>
                   </div>
                 )}
@@ -283,7 +244,7 @@ export default function Home() {
                       href={`/games/${featuredGame.id}`}
                       className="rounded-xl bg-white px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-black transition hover:bg-white/85"
                     >
-                      View Game of the Week
+                      {featuredGameFinal ? "View Final Result" : "View Game of the Week"}
                     </Link>
                   )}
 
@@ -309,15 +270,10 @@ export default function Home() {
       </section>
 
       <ScoreStrip />
-
       <DistrictSpotlight />
-
       <PilotSchoolSpotlight />
-
       <FeaturedMatchups />
-
       <HomeSponsorSlot />
-
       <FeaturedCoverage />
 
       <section className="px-4 py-5 sm:px-6 lg:px-8">
@@ -545,23 +501,54 @@ export default function Home() {
   );
 }
 
-function TeamChip({
-  label,
-  primary,
-  secondary,
+function HeroTeam({
+  school,
+  team,
+  standing,
+  align,
 }: {
-  label: string;
-  primary?: string;
-  secondary?: string;
+  school?: ReturnType<typeof getSchoolBySlug>;
+  team: string;
+  standing?: ReturnType<typeof getStandingForSchool>;
+  align: "left" | "right";
 }) {
   return (
     <div
-      className="flex h-24 w-24 shrink-0 items-center justify-center rounded-3xl text-xl font-black shadow-lg"
-      style={{
-        backgroundColor: primary ?? "#8B1020",
-        color: secondary ?? "#ffffff",
-      }}
+      className={`flex items-center gap-4 ${
+        align === "right"
+          ? "justify-center text-center md:justify-end md:text-right"
+          : "justify-center text-center md:justify-start md:text-left"
+      }`}
     >
+      {align === "left" &&
+        (school ? <SchoolBadge school={school} size="sm" /> : <TeamChip label="AWY" />)}
+
+      <div>
+        <h1 className="text-4xl font-black uppercase leading-none tracking-tight text-white lg:text-5xl xl:text-6xl">
+          {team}
+        </h1>
+        {school?.mascot && (
+          <p className="mt-2 text-sm font-black uppercase tracking-[0.22em] text-white/45">
+            {school.mascot}
+          </p>
+        )}
+        <RecordLine
+          overallWins={standing?.overallWins}
+          overallLosses={standing?.overallLosses}
+          districtWins={standing?.districtWins}
+          districtLosses={standing?.districtLosses}
+        />
+      </div>
+
+      {align === "right" &&
+        (school ? <SchoolBadge school={school} size="sm" /> : <TeamChip label="HME" />)}
+    </div>
+  );
+}
+
+function TeamChip({ label }: { label: string }) {
+  return (
+    <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-3xl bg-[var(--vv-primary)] text-xl font-black text-white shadow-lg">
       {label}
     </div>
   );
@@ -600,9 +587,7 @@ function MiniProgramStat({ label, value }: { label: string; value: string }) {
       <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">
         {label}
       </p>
-      <p className="mt-1 text-sm font-black capitalize text-white/80">
-        {value}
-      </p>
+      <p className="mt-1 text-sm font-black capitalize text-white/80">{value}</p>
     </div>
   );
 }
