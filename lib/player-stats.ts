@@ -34,6 +34,16 @@ export type RushingLeaderboardEntry = Pick<
   "playerId" | "player" | "schoolSlug" | "season" | "gamesRecorded" | "rushing"
 >;
 
+export type PassingLeaderboardEntry = Pick<
+  PlayerSeasonStats,
+  "playerId" | "player" | "schoolSlug" | "season" | "gamesRecorded" | "passing"
+>;
+
+export type ReceivingLeaderboardEntry = Pick<
+  PlayerSeasonStats,
+  "playerId" | "player" | "schoolSlug" | "season" | "gamesRecorded" | "receiving"
+>;
+
 function normalizePlayerName(name: string) {
   return name
     .trim()
@@ -138,6 +148,15 @@ export function getPlayerSeasonStat(playerId: string, season = 2026) {
   return getPlayerSeasonStats(season).find((player) => player.playerId === playerId);
 }
 
+function matchesScope(player: PlayerSeasonStats, schoolSlug?: string, districtId?: string) {
+  if (schoolSlug && player.schoolSlug !== schoolSlug) return false;
+  if (districtId) {
+    const school = getSchoolBySlug(player.schoolSlug);
+    if (!school || school.districtId !== districtId) return false;
+  }
+  return true;
+}
+
 export function getSchoolRushingLeaders(schoolSlug: string, season = 2026) {
   return getRushingLeaders({ season, schoolSlug });
 }
@@ -164,14 +183,7 @@ export function getRushingLeaders({
   sortBy?: "yards" | "touchdowns" | "yardsPerCarry";
 } = {}): RushingLeaderboardEntry[] {
   return getPlayerSeasonStats(season)
-    .filter((player) => {
-      if (schoolSlug && player.schoolSlug !== schoolSlug) return false;
-      if (districtId) {
-        const school = getSchoolBySlug(player.schoolSlug);
-        if (!school || school.districtId !== districtId) return false;
-      }
-      return player.rushing.attempts >= minAttempts;
-    })
+    .filter((player) => matchesScope(player, schoolSlug, districtId) && player.rushing.attempts >= minAttempts)
     .sort((a, b) => {
       const primary = b.rushing[sortBy] - a.rushing[sortBy];
       if (primary !== 0) return primary;
@@ -184,5 +196,65 @@ export function getRushingLeaders({
       season: playerSeason,
       gamesRecorded,
       rushing,
+    }));
+}
+
+export function getPassingLeaders({
+  season = 2026,
+  schoolSlug,
+  districtId,
+  minAttempts = 0,
+  sortBy = "yards",
+}: {
+  season?: number;
+  schoolSlug?: string;
+  districtId?: string;
+  minAttempts?: number;
+  sortBy?: "yards" | "touchdowns" | "completionPercentage";
+} = {}): PassingLeaderboardEntry[] {
+  return getPlayerSeasonStats(season)
+    .filter((player) => matchesScope(player, schoolSlug, districtId) && player.passing.attempts >= minAttempts)
+    .sort((a, b) => {
+      const primary = b.passing[sortBy] - a.passing[sortBy];
+      if (primary !== 0) return primary;
+      return b.passing.yards - a.passing.yards;
+    })
+    .map(({ playerId, player, schoolSlug: slug, season: playerSeason, gamesRecorded, passing }) => ({
+      playerId,
+      player,
+      schoolSlug: slug,
+      season: playerSeason,
+      gamesRecorded,
+      passing,
+    }));
+}
+
+export function getReceivingLeaders({
+  season = 2026,
+  schoolSlug,
+  districtId,
+  minReceptions = 0,
+  sortBy = "yards",
+}: {
+  season?: number;
+  schoolSlug?: string;
+  districtId?: string;
+  minReceptions?: number;
+  sortBy?: "yards" | "touchdowns" | "receptions" | "yardsPerReception";
+} = {}): ReceivingLeaderboardEntry[] {
+  return getPlayerSeasonStats(season)
+    .filter((player) => matchesScope(player, schoolSlug, districtId) && player.receiving.receptions >= minReceptions)
+    .sort((a, b) => {
+      const primary = b.receiving[sortBy] - a.receiving[sortBy];
+      if (primary !== 0) return primary;
+      return b.receiving.yards - a.receiving.yards;
+    })
+    .map(({ playerId, player, schoolSlug: slug, season: playerSeason, gamesRecorded, receiving }) => ({
+      playerId,
+      player,
+      schoolSlug: slug,
+      season: playerSeason,
+      gamesRecorded,
+      receiving,
     }));
 }
