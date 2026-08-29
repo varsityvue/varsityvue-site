@@ -243,8 +243,8 @@ function TeamBlock({
 
 function MiniFallbackBadge({ label }: { label: string }) {
   return (
-    <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/10 p-2 text-center text-[10px] font-black uppercase text-white">
-      {label.slice(0, 3)}
+    <div className="flex h-16 w-20 items-center justify-center rounded-2xl border border-white/10 bg-white/10 px-2 text-center text-[9px] font-black uppercase leading-tight text-white">
+      {label}
     </div>
   );
 }
