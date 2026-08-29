@@ -1,5 +1,8 @@
-import { games } from "@/data/games";
+import { games as scheduledGames } from "@/data/games";
+import { applyVerifiedGames } from "@/data/verified-games";
 import type { Game } from "@/types/platform";
+
+const games = applyVerifiedGames(scheduledGames);
 
 function getGameTimestamp(game: Game) {
   if (!game.kickoff) return Number.MAX_SAFE_INTEGER;
@@ -28,7 +31,7 @@ function assertNoDuplicateGameIds() {
 
   if (duplicates.length > 0) {
     throw new Error(
-      `Duplicate game IDs found in data/games.ts: ${duplicates.join(", ")}`
+      `Duplicate game IDs found after verified results are applied: ${duplicates.join(", ")}`
     );
   }
 }
