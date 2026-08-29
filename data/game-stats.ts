@@ -71,7 +71,7 @@ export const gameStats: GameStats[] = [
   {
     gameId: "san-saba-at-de-leon-2026-week-1",
     sourceStatus: "verified",
-    sourceLabel: "Big Country Preps game report",
+    sourceLabel: "Statistics provided by the coaching staff",
     quarterScores: [
       { schoolSlug: "san-saba", quarters: [0, 0, 0, 7], total: 7 },
       { schoolSlug: "de-leon", quarters: [19, 7, 7, 7], total: 40 },
