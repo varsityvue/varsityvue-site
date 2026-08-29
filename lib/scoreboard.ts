@@ -1,5 +1,8 @@
-import { games } from "@/data/games";
+import { games as scheduledGames } from "@/data/games";
+import { applyVerifiedGames } from "@/data/verified-games";
 import type { Game } from "@/types/platform";
+
+const games = applyVerifiedGames(scheduledGames);
 
 export type ScoreboardGame = Game & {
   displayStatus: "Upcoming" | "Live" | "Final";
