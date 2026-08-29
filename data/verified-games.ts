@@ -57,6 +57,14 @@ const verifiedResultOverrides: Record<string, Partial<Game>> = {
     sourceStatus: "verified",
     sourceLabel: "VarsityVue verified final score",
   },
+  "san-saba-at-de-leon-2026-week-1": {
+    status: "final",
+    homeScore: 40,
+    awayScore: 7,
+    score: { home: 40, away: 7 },
+    sourceStatus: "verified",
+    sourceLabel: "VarsityVue verified final score",
+  },
 };
 
 const verifiedGameAdditions: Game[] = [
