@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -147,7 +148,7 @@ function LeaderboardSection({
   title: string;
   note: string;
   headers: string[];
-  rows: (string | number | React.ReactNode)[][];
+  rows: (string | number | ReactNode)[][];
 }) {
   return (
     <section id={id} className="scroll-mt-24 overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] shadow-2xl">
