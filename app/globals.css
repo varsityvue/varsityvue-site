@@ -39,3 +39,12 @@ main.min-h-screen > section:first-child > div > div:first-child > div.absolute.i
     radial-gradient(circle at 84% 42%, rgba(255, 255, 255, 0.06), transparent 32%),
     linear-gradient(115deg, rgba(0, 0, 0, 0.98), rgba(0, 0, 0, 0.78) 48%, rgba(255, 255, 255, 0.04)) !important;
 }
+
+/* Keep the featured-game final details visually centered under the score. */
+main.min-h-screen > section:first-child > div > div:first-child .mt-5.space-y-3 {
+  text-align: center;
+}
+
+main.min-h-screen > section:first-child > div > div:first-child .mt-5.space-y-3 > div:first-child {
+  justify-content: center;
+}
