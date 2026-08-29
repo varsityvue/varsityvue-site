@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getUpcomingScoreboardGames } from "@/lib/scoreboard";
+import { getHomepageScoreboardGames } from "@/lib/scoreboard";
 import { getSchoolBySlug } from "@/lib/schools";
 import { getStandingForSchool } from "@/lib/standings";
 import SchoolBadge from "./SchoolBadge";
@@ -53,9 +53,12 @@ function formatRecord(slug?: string) {
 }
 
 export default function ScoreStrip() {
-  const games = getUpcomingScoreboardGames(8);
+  const { mode, games } = getHomepageScoreboardGames(8);
 
   if (games.length === 0) return null;
+
+  const showingFinals = mode === "finals";
+  const week = games[0]?.week;
 
   return (
     <section className="border-b border-white/10 bg-white/[0.03] px-4 py-6 sm:px-6 lg:px-8">
@@ -63,11 +66,15 @@ export default function ScoreStrip() {
         <div className="mb-5 flex items-end justify-between gap-4">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.28em] text-white/45">
-              Upcoming This Week
+              {showingFinals
+                ? week
+                  ? `Week ${week} Results`
+                  : "Latest Results"
+                : "Upcoming This Week"}
             </p>
 
             <h2 className="mt-2 text-3xl font-black text-white">
-              Games to Watch
+              {showingFinals ? "Friday Night Finals" : "Games to Watch"}
             </h2>
           </div>
 
@@ -90,6 +97,8 @@ export default function ScoreStrip() {
               : undefined;
 
             const isFeatured = index === 0 || game.isFeatured;
+            const awayScore = game.awayScore ?? game.score?.away;
+            const homeScore = game.homeScore ?? game.score?.home;
 
             return (
               <Link
@@ -100,7 +109,7 @@ export default function ScoreStrip() {
                 <div className="p-5">
                   <div className="flex items-center justify-between gap-3">
                     <div className="flex flex-wrap items-center gap-2">
-                      <GameChip label={game.displayStatus} />
+                      <GameChip label={game.displayStatus} strong={showingFinals} />
                       {isFeatured && <GameChip label="Featured" strong />}
                       {game.districtGame && <GameChip label="District Game" />}
                       {game.specialEvent && <GameChip label={game.specialEvent} />}
@@ -116,17 +125,19 @@ export default function ScoreStrip() {
                       name={game.awayTeam ?? "Away"}
                       school={awaySchool}
                       record={formatRecord(game.awaySchoolSlug)}
+                      score={showingFinals ? awayScore : undefined}
                       align="left"
                     />
 
                     <div className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-black uppercase tracking-[0.2em] text-white/70">
-                      VS
+                      {showingFinals ? "Final" : "VS"}
                     </div>
 
                     <TeamBlock
                       name={game.homeTeam ?? "Home"}
                       school={homeSchool}
                       record={formatRecord(game.homeSchoolSlug)}
+                      score={showingFinals ? homeScore : undefined}
                       align="right"
                     />
                   </div>
@@ -145,7 +156,7 @@ export default function ScoreStrip() {
 
                   <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-4">
                     <p className="text-xs font-black uppercase tracking-[0.16em] text-white/45">
-                      Matchup Preview
+                      {showingFinals ? "Final Result" : "Matchup Preview"}
                     </p>
 
                     <p className="text-xs font-black uppercase tracking-[0.16em] text-white/60 transition group-hover:text-white">
@@ -187,11 +198,13 @@ function TeamBlock({
   name,
   school,
   record,
+  score,
   align,
 }: {
   name: string;
   school?: ReturnType<typeof getSchoolBySlug>;
   record: string;
+  score?: number;
   align: "left" | "right";
 }) {
   return (
@@ -207,9 +220,18 @@ function TeamBlock({
       )}
 
       <div>
-        <p className="line-clamp-2 text-lg font-black leading-tight text-white">
-          {name}
-        </p>
+        <div
+          className={`flex items-end gap-2 ${
+            align === "right" ? "justify-end" : "justify-start"
+          }`}
+        >
+          <p className="line-clamp-2 text-lg font-black leading-tight text-white">
+            {name}
+          </p>
+          {score !== undefined && (
+            <p className="text-3xl font-black leading-none text-white">{score}</p>
+          )}
+        </div>
 
         <p className="mt-1 text-[10px] font-black uppercase tracking-[0.14em] text-white/35">
           {school?.mascot ?? "Opponent"} · {record}
