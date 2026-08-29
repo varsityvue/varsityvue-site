@@ -11,9 +11,7 @@ import { getStandingForSchool } from "@/lib/standings";
 import type { TeamStatLine } from "@/data/game-stats";
 import type { UILClassification } from "@/types/platform";
 
-type GamePageProps = {
-  params: Promise<{ gameId: string }>;
-};
+type GamePageProps = { params: Promise<{ gameId: string }> };
 
 const VARSITYVUE_PRIMARY = "#8B1020";
 const VARSITYVUE_ACCENT = "#F4EBDD";
@@ -71,9 +69,7 @@ function getGameTypeLabel(gameType: string, week?: number) {
 }
 
 function getSchemaEventStatus(status: string) {
-  return status === "final"
-    ? "https://schema.org/EventCompleted"
-    : "https://schema.org/EventScheduled";
+  return status === "final" ? "https://schema.org/EventCompleted" : "https://schema.org/EventScheduled";
 }
 
 function getMapUrl(game: { venue: string; homeTeam: string }) {
@@ -176,16 +172,12 @@ export default async function GamePage({ params }: GamePageProps) {
                   record={awayStanding ? `${awayStanding.overallWins}-${awayStanding.overallLosses}` : undefined}
                   score={hasFinalScore ? game.awayScore : undefined}
                 />
-
                 <div className="flex flex-col items-center justify-center gap-3">
                   <div className="rounded-full border border-white/15 bg-white/[0.08] px-8 py-5 text-2xl font-black text-white/85 shadow-xl">
                     {hasFinalScore ? "FINAL" : "VS"}
                   </div>
-                  <p className="text-center text-xs font-black uppercase tracking-[0.18em] text-white/40">
-                    {formatGameDate(kickoffValue)}
-                  </p>
+                  <p className="text-center text-xs font-black uppercase tracking-[0.18em] text-white/40">{formatGameDate(kickoffValue)}</p>
                 </div>
-
                 <TeamBlock
                   align="right"
                   label="Home"
@@ -232,7 +224,6 @@ export default async function GamePage({ params }: GamePageProps) {
                   </p>
                 </div>
               </section>
-
               <aside className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7 shadow-2xl">
                 <p className="text-xs font-black uppercase tracking-[0.28em] text-white/45">Game Information</p>
                 <div className="mt-5 space-y-3">
@@ -255,13 +246,7 @@ export default async function GamePage({ params }: GamePageProps) {
   );
 }
 
-function VerifiedStatsSection({
-  stats,
-  homeTeamName,
-  awayTeamName,
-  homeSchoolSlug,
-  awaySchoolSlug,
-}: {
+function VerifiedStatsSection({ stats, homeTeamName, awayTeamName, homeSchoolSlug, awaySchoolSlug }: {
   stats: NonNullable<ReturnType<typeof getGameStats>>;
   homeTeamName: string;
   awayTeamName: string;
@@ -281,7 +266,6 @@ function VerifiedStatsSection({
           <p className="text-xs font-black uppercase tracking-[0.28em] text-white/45">Verified Postgame</p>
           <h1 className="mt-3 text-3xl font-black text-white md:text-4xl">Game statistics & scoring summary</h1>
           <p className="mt-3 text-sm text-white/50">Source: {stats.sourceLabel}</p>
-
           {homeQuarter && awayQuarter && (
             <div className="mt-7 overflow-x-auto rounded-2xl border border-white/10 bg-black/30">
               <table className="w-full min-w-[560px] text-sm">
@@ -340,13 +324,44 @@ function VerifiedStatsSection({
       <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7 shadow-2xl">
         <p className="text-xs font-black uppercase tracking-[0.28em] text-white/45">Individual Statistics</p>
         <h2 className="mt-3 text-2xl font-black">Player performances</h2>
-        <div className="mt-6 grid gap-6 lg:grid-cols-3">
-          <StatTable title="Rushing" headers={["Player", "Car", "Yds", "TD"]} rows={stats.rushing.map((line) => [line.player, line.attempts, line.yards, line.touchdowns ?? 0])} />
-          <StatTable title="Passing" headers={["Player", "C/A", "Yds", "TD"]} rows={stats.passing.map((line) => [line.player, `${line.completions}/${line.attempts}`, line.yards, line.touchdowns ?? 0])} />
-          <StatTable title="Receiving" headers={["Player", "Rec", "Yds", "TD"]} rows={stats.receiving.map((line) => [line.player, line.receptions, line.yards, line.touchdowns ?? 0])} />
+        <div className="mt-6 grid gap-6 xl:grid-cols-2">
+          <TeamPlayerStats teamName={awayTeamName} schoolSlug={awaySchoolSlug} stats={stats} />
+          <TeamPlayerStats teamName={homeTeamName} schoolSlug={homeSchoolSlug} stats={stats} />
         </div>
       </section>
     </>
+  );
+}
+
+function TeamPlayerStats({ teamName, schoolSlug, stats }: {
+  teamName: string;
+  schoolSlug: string;
+  stats: NonNullable<ReturnType<typeof getGameStats>>;
+}) {
+  const rushing = stats.rushing
+    .filter((line) => line.schoolSlug === schoolSlug)
+    .sort((a, b) => b.yards - a.yards);
+  const passing = stats.passing
+    .filter((line) => line.schoolSlug === schoolSlug)
+    .sort((a, b) => b.yards - a.yards);
+  const receiving = stats.receiving
+    .filter((line) => line.schoolSlug === schoolSlug)
+    .sort((a, b) => b.yards - a.yards);
+
+  return (
+    <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
+      <div className="border-b border-white/10 pb-4">
+        <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">Team Statistics</p>
+        <h3 className="mt-1 text-xl font-black text-white">{teamName}</h3>
+      </div>
+      <div className="mt-5 space-y-5">
+        <StatTable title="Rushing" headers={["Player", "Car", "Yds", "TD"]} rows={rushing.map((line) => [line.player, line.attempts, line.yards, line.touchdowns ?? 0])} />
+        <StatTable title="Passing" headers={["Player", "C/A", "Yds", "TD"]} rows={passing.map((line) => [line.player, `${line.completions}/${line.attempts}`, line.yards, line.touchdowns ?? 0])} />
+        {receiving.length > 0 && (
+          <StatTable title="Receiving" headers={["Player", "Rec", "Yds", "TD"]} rows={receiving.map((line) => [line.player, line.receptions, line.yards, line.touchdowns ?? 0])} />
+        )}
+      </div>
+    </div>
   );
 }
 
@@ -384,6 +399,7 @@ function formatPenalties(line?: TeamStatLine) {
 }
 
 function StatTable({ title, headers, rows }: { title: string; headers: string[]; rows: (string | number)[][] }) {
+  if (rows.length === 0) return null;
   return (
     <div className="overflow-hidden rounded-2xl border border-white/10 bg-black/30">
       <div className="border-b border-white/10 px-4 py-3 font-black">{title}</div>
