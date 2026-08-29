@@ -15,11 +15,11 @@ const sizeClasses = {
     stroke: "1px",
   },
   sm: {
-    wrap: "w-20 sm:w-24",
-    initials: "text-2xl sm:text-3xl",
-    initialsLong: "text-xl sm:text-2xl",
-    mascot: "text-[8px] sm:text-[9px]",
-    pad: "px-2 py-2 sm:px-3 sm:py-3",
+    wrap: "w-16 sm:w-20",
+    initials: "text-xl sm:text-2xl",
+    initialsLong: "text-base sm:text-xl",
+    mascot: "text-[7px] sm:text-[8px]",
+    pad: "px-2 py-2",
     stroke: "1px",
   },
   md: {
