@@ -28,6 +28,46 @@ function emptyStanding(schoolSlug: string, team: string): Standing {
   };
 }
 
+function isCountableFinal(game: (typeof games)[number]) {
+  return (
+    game.status === "final" &&
+    game.gameType !== "bye" &&
+    game.gameType !== "scrimmage" &&
+    typeof game.homeScore === "number" &&
+    typeof game.awayScore === "number" &&
+    game.homeScore !== game.awayScore
+  );
+}
+
+function applyGameToStanding(
+  standing: Standing,
+  schoolSlug: string,
+  game: (typeof games)[number]
+) {
+  if (!isCountableFinal(game)) return;
+
+  const isHome = game.homeSchoolSlug === schoolSlug;
+  const isAway = game.awaySchoolSlug === schoolSlug;
+  if (!isHome && !isAway) return;
+
+  const homeScore = game.homeScore as number;
+  const awayScore = game.awayScore as number;
+  const pointsFor = isHome ? homeScore : awayScore;
+  const pointsAgainst = isHome ? awayScore : homeScore;
+  const won = pointsFor > pointsAgainst;
+
+  standing.pointsFor += pointsFor;
+  standing.pointsAgainst += pointsAgainst;
+
+  if (won) standing.overallWins += 1;
+  else standing.overallLosses += 1;
+
+  if (game.districtGame) {
+    if (won) standing.districtWins += 1;
+    else standing.districtLosses += 1;
+  }
+}
+
 function sortStandings(standings: Standing[]) {
   return [...standings].sort((a, b) => {
     if (b.districtWins !== a.districtWins) {
@@ -51,81 +91,46 @@ function sortStandings(standings: Standing[]) {
 
 function buildStandingsForDistrict(districtId: string): Standing[] {
   const districtSchools = getSchoolsByDistrictId(districtId);
-  const districtSchoolSlugs = new Set(
-    districtSchools.map((school) => school.slug)
-  );
-
   const standingsMap = new Map<string, Standing>();
 
   districtSchools.forEach((school) => {
     standingsMap.set(school.slug, emptyStanding(school.slug, school.name));
   });
 
-  const finalGames = games.filter((game) => {
-    if (game.status !== "final") return false;
-    if (game.gameType === "bye" || game.gameType === "scrimmage") return false;
-    if (typeof game.homeScore !== "number") return false;
-    if (typeof game.awayScore !== "number") return false;
-
-    return (
-      districtSchoolSlugs.has(game.homeSchoolSlug ?? "") ||
-      districtSchoolSlugs.has(game.awaySchoolSlug ?? "")
-    );
-  });
-
-  finalGames.forEach((game) => {
-    const homeSlug = game.homeSchoolSlug;
-    const awaySlug = game.awaySchoolSlug;
-
-    if (!homeSlug || !awaySlug) return;
-
-    const homeStanding = standingsMap.get(homeSlug);
-    const awayStanding = standingsMap.get(awaySlug);
-
-    const homeScore = game.homeScore;
-    const awayScore = game.awayScore;
-
-    if (typeof homeScore !== "number" || typeof awayScore !== "number") return;
-    if (homeScore === awayScore) return;
-
-    const homeWon = homeScore > awayScore;
-    const awayWon = awayScore > homeScore;
-
-    if (homeStanding) {
-      homeStanding.pointsFor += homeScore;
-      homeStanding.pointsAgainst += awayScore;
-
-      if (homeWon) homeStanding.overallWins += 1;
-      if (awayWon) homeStanding.overallLosses += 1;
-
-      if (game.districtGame) {
-        if (homeWon) homeStanding.districtWins += 1;
-        if (awayWon) homeStanding.districtLosses += 1;
-      }
-    }
-
-    if (awayStanding) {
-      awayStanding.pointsFor += awayScore;
-      awayStanding.pointsAgainst += homeScore;
-
-      if (awayWon) awayStanding.overallWins += 1;
-      if (homeWon) awayStanding.overallLosses += 1;
-
-      if (game.districtGame) {
-        if (awayWon) awayStanding.districtWins += 1;
-        if (homeWon) awayStanding.districtLosses += 1;
-      }
-    }
+  games.forEach((game) => {
+    standingsMap.forEach((standing, schoolSlug) => {
+      applyGameToStanding(standing, schoolSlug, game);
+    });
   });
 
   return sortStandings(Array.from(standingsMap.values()));
+}
+
+function buildStandaloneStanding(slug: string): Standing | undefined {
+  const school = getSchoolBySlug(slug);
+  const matchingGames = games.filter(
+    (game) => game.homeSchoolSlug === slug || game.awaySchoolSlug === slug
+  );
+
+  if (!school && matchingGames.length === 0) return undefined;
+
+  const teamName =
+    school?.name ??
+    matchingGames.find((game) => game.homeSchoolSlug === slug)?.homeTeam ??
+    matchingGames.find((game) => game.awaySchoolSlug === slug)?.awayTeam ??
+    slug;
+
+  const standing = emptyStanding(slug, teamName);
+  matchingGames.forEach((game) => applyGameToStanding(standing, slug, game));
+  return standing;
 }
 
 export function getStandingsForSchool(slug: string): Standing[] {
   const school = getSchoolBySlug(slug);
 
   if (!school) {
-    return [];
+    const standing = buildStandaloneStanding(slug);
+    return standing ? [standing] : [];
   }
 
   return buildStandingsForDistrict(school.districtId);
@@ -138,11 +143,13 @@ export function getStandingsForDistrictId(districtId: string): Standing[] {
 export function getStandingForSchool(slug: string): Standing | undefined {
   const school = getSchoolBySlug(slug);
 
-  if (!school) {
-    return undefined;
+  if (school) {
+    const districtStanding = getStandingsForDistrictId(school.districtId).find(
+      (standing) => standing.schoolSlug === slug
+    );
+
+    if (districtStanding) return districtStanding;
   }
 
-  return getStandingsForDistrictId(school.districtId).find(
-    (standing) => standing.schoolSlug === slug
-  );
+  return buildStandaloneStanding(slug);
 }
