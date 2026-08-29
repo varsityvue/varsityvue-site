@@ -7,7 +7,7 @@ type SchoolBadgeProps = {
 
 const sizeClasses = {
   xs: {
-    wrap: "w-16",
+    wrap: "w-20",
     initials: "text-xl",
     initialsLong: "text-base",
     mascot: "text-[7px]",
@@ -122,7 +122,7 @@ export default function SchoolBadge({
         }}
       >
         <div
-          className={`truncate font-black uppercase tracking-[0.08em] ${classes.mascot}`}
+          className={`whitespace-nowrap font-black uppercase leading-none ${classes.mascot}`}
           style={{
             color: subtextColor,
             textShadow: "0 2px 4px rgba(0,0,0,0.75)",
