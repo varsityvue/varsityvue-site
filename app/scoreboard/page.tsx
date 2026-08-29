@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  getFeaturedScoreboardGame,
   getFinalScoreboardGames,
+  getGameOfTheWeek,
   getLiveGames,
   getUpcomingScoreboardGames,
 } from "@/lib/scoreboard";
@@ -12,7 +12,7 @@ import SchoolBadge from "@/components/SchoolBadge";
 export const metadata: Metadata = {
   title: "Texas High School Football Scores | VarsityVue",
   description:
-  "Follow Texas high school football schedules, featured matchups, game-night updates, and final results on VarsityVue.",
+    "Follow Texas high school football schedules, featured matchups, game-night updates, and final results on VarsityVue.",
 };
 
 type ScoreboardGame = ReturnType<typeof getUpcomingScoreboardGames>[number];
@@ -31,7 +31,6 @@ function parseGameDate(kickoff?: string) {
 
 function formatKickoff(kickoff?: string) {
   const parsedDate = parseGameDate(kickoff);
-
   if (!parsedDate) return "TBD";
 
   const hasTime = kickoff?.includes("T");
@@ -72,15 +71,15 @@ function getMapUrl(game: { venue?: string; homeTeam?: string }) {
 }
 
 export default function ScoreboardPage() {
-  const featuredGame = getFeaturedScoreboardGame();
+  const featuredGame = getGameOfTheWeek();
   const liveGames = getLiveGames();
   const upcomingGames = getUpcomingScoreboardGames(8);
-  const finalGames = getFinalScoreboardGames(8);
+  const finalGames = getFinalScoreboardGames(12);
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] px-4 py-14 text-white sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <section className="rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.45),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-6 md:p-10">
+        <section className="rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.34),transparent_32%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-6 md:p-10">
           <p className="text-xs font-black uppercase tracking-[0.3em] text-white/70">
             VarsityVue Scoreboard
           </p>
@@ -89,74 +88,47 @@ export default function ScoreboardPage() {
             Texas High School Football Scores
           </h1>
 
-<p className="mt-6 max-w-3xl text-lg leading-8 text-white/65">
-  Featured matchups, kickoff information, game-night updates, and
-  final results across VarsityVue.
-</p>
+          <p className="mt-6 max-w-3xl text-lg leading-8 text-white/65">
+            Verified final scores, featured matchups, and upcoming kickoffs from
+            programs across the VarsityVue coverage area.
+          </p>
 
           <div className="mt-8 rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
             <p className="text-xs font-black uppercase tracking-[0.24em] text-white/70">
-              Friday Night
+              Week 1
             </p>
 
-<h2 className="mt-3 text-3xl font-black text-white md:text-4xl">
-  Lights on. Week 1 is here.
-</h2>
+            <h2 className="mt-3 text-3xl font-black text-white md:text-4xl">
+              Friday night results are in.
+            </h2>
 
-<p className="mt-3 max-w-3xl text-sm leading-6 text-white/60">
-  Follow featured games, kickoff information, matchup centers, and
-  final results throughout the football season.
-</p>
+            <p className="mt-3 max-w-3xl text-sm leading-6 text-white/60">
+              Final scores stay front and center through the weekend before the
+              scoreboard shifts its focus to the next week of games.
+            </p>
           </div>
         </section>
 
         {featuredGame && <FeaturedScoreboardGame game={featuredGame} />}
 
-        <section className="mt-10 rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8">
-          <div className="flex flex-col justify-between gap-5 md:flex-row md:items-center">
-            <div>
-              <p className="text-xs font-black uppercase tracking-[0.3em] text-white/70">
-                Sponsor Slot
-              </p>
-
-              <h2 className="mt-3 text-3xl font-black">
-                Own Friday night traffic.
-              </h2>
-
-              <p className="mt-3 max-w-2xl leading-7 text-white/65">
-                Scoreboards create repeat game-night traffic and habitual fan
-                engagement, making this one of VarsityVue’s highest-visibility
-                sponsor placements.
-              </p>
-            </div>
-
-            <Link
-              href="/sponsor-inquiry"
-              className="rounded-full bg-[var(--vv-primary)] px-7 py-4 text-center font-black transition hover:bg-[var(--vv-primary-hover)]"
-            >
-              Sponsor Scoreboard
-            </Link>
-          </div>
-        </section>
-
-        <section className="mt-10 grid gap-8 lg:grid-cols-3">
+        <section className="mt-10 grid gap-8 lg:grid-cols-[0.72fr_1fr_1.15fr]">
           <ScoreboardColumn
             title="Live Now"
-            description="Game night updates as they move."
+            description="Games currently in progress."
             games={liveGames}
             emptyText="No live games right now."
           />
 
           <ScoreboardColumn
             title="Upcoming"
-            description="The next kickoffs across VarsityVue."
+            description="The next kickoffs on the schedule."
             games={upcomingGames}
             emptyText="No upcoming games listed."
           />
 
           <ScoreboardColumn
-            title="Final"
-            description="Latest final scores from across the region."
+            title="Final Scores"
+            description="Verified Week 1 results from across the coverage area."
             games={finalGames}
             emptyText="No final scores posted yet."
           />
@@ -170,71 +142,128 @@ function FeaturedScoreboardGame({ game }: { game: ScoreboardGame }) {
   const awaySchool = game.awaySchoolSlug
     ? getSchoolBySlug(game.awaySchoolSlug)
     : undefined;
-
   const homeSchool = game.homeSchoolSlug
     ? getSchoolBySlug(game.homeSchoolSlug)
     : undefined;
+  const awayScore = game.awayScore ?? game.score?.away;
+  const homeScore = game.homeScore ?? game.score?.home;
+  const isFinal = game.status === "final";
 
   return (
-    <section className="mt-10 rounded-3xl border border-white/10 bg-white/[0.055] p-6 shadow-2xl md:p-8">
-      <p className="text-xs font-black uppercase tracking-[0.3em] text-white/70">
-        Featured Matchup
-      </p>
-
-      <div className="mt-6 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
+    <section className="mt-10 rounded-3xl border border-white/10 bg-white/[0.045] p-6 shadow-2xl md:p-8">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <div className="grid grid-cols-[auto_1fr_auto] items-center gap-5">
-            {awaySchool ? (
-              <SchoolBadge school={awaySchool} size="sm" />
-            ) : (
-              <FallbackBadge label={getTeamName(game.awayTeam, "Away")} />
-            )}
+          <p className="text-xs font-black uppercase tracking-[0.3em] text-white/55">
+            Game of the Week
+          </p>
+          <p className="mt-2 text-sm font-bold text-white/45">
+            {getWeekLabel(game.week)} · {formatKickoff(game.kickoff)} · {getVenueName(game.venue)}
+          </p>
+        </div>
 
-            <div>
-              <h2 className="text-3xl font-black leading-tight md:text-5xl">
-                {getTeamName(game.awayTeam, "Away Team")} at{" "}
-                {getTeamName(game.homeTeam, "Home Team")}
-              </h2>
+        <span className="rounded-full border border-white/15 bg-black/40 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-white/75">
+          {game.displayStatus}
+        </span>
+      </div>
 
-              <p className="mt-4 text-white/65">
-                {getWeekLabel(game.week)} · {formatKickoff(game.kickoff)} ·{" "}
-                {getVenueName(game.venue)}
+      <div className="mt-8 grid items-center gap-6 md:grid-cols-[1fr_auto_1fr]">
+        <TeamResult
+          school={awaySchool}
+          team={getTeamName(game.awayTeam, "Away Team")}
+          score={isFinal ? awayScore : undefined}
+          align="left"
+        />
+
+        <div className="text-center">
+          {isFinal && awayScore !== undefined && homeScore !== undefined ? (
+            <>
+              <p className="text-[10px] font-black uppercase tracking-[0.28em] text-white/40">
+                Final
               </p>
-            </div>
-
-            {homeSchool ? (
-              <SchoolBadge school={homeSchool} size="sm" />
-            ) : (
-              <FallbackBadge label={getTeamName(game.homeTeam, "Home")} />
-            )}
-          </div>
-
-          <div className="mt-5 flex flex-wrap gap-3">
-            <Badge>{game.displayStatus}</Badge>
-            {game.districtGame && <Badge>District Game</Badge>}
-            {game.specialEvent && <Badge>{game.specialEvent}</Badge>}
-          </div>
+              <p className="mt-2 text-5xl font-black tracking-tight text-white md:text-6xl">
+                {awayScore}
+                <span className="mx-3 text-white/25">—</span>
+                {homeScore}
+              </p>
+            </>
+          ) : (
+            <p className="text-2xl font-black uppercase tracking-[0.3em] text-white/45">
+              VS
+            </p>
+          )}
         </div>
 
-        <div className="flex flex-col gap-3">
-          <Link
-            href={`/games/${game.id}`}
-            className="rounded-full bg-white px-7 py-4 text-center font-black text-black transition hover:bg-white/85"
-          >
-            Matchup Center →
-          </Link>
+        <TeamResult
+          school={homeSchool}
+          team={getTeamName(game.homeTeam, "Home Team")}
+          score={isFinal ? homeScore : undefined}
+          align="right"
+        />
+      </div>
 
-          <a
-            href={getMapUrl(game)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full border border-white/15 bg-white/10 px-7 py-4 text-center font-black text-white transition hover:bg-white/15"
-          >
-            Open Venue Map →
-          </a>
-        </div>
+      <div className="mt-8 flex flex-col gap-3 border-t border-white/10 pt-6 sm:flex-row sm:justify-center">
+        <Link
+          href={`/games/${game.id}`}
+          className="rounded-full bg-white px-7 py-4 text-center font-black text-black transition hover:bg-white/85"
+        >
+          {isFinal ? "View Final Result →" : "Matchup Center →"}
+        </Link>
+
+        <a
+          href={getMapUrl(game)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rounded-full border border-white/15 bg-white/5 px-7 py-4 text-center font-black text-white/75 transition hover:bg-white/10 hover:text-white"
+        >
+          Venue Map →
+        </a>
       </div>
     </section>
+  );
+}
+
+function TeamResult({
+  school,
+  team,
+  score,
+  align,
+}: {
+  school?: ReturnType<typeof getSchoolBySlug>;
+  team: string;
+  score?: number;
+  align: "left" | "right";
+}) {
+  return (
+    <div
+      className={`flex items-center gap-4 ${
+        align === "right" ? "justify-end text-right" : "justify-start text-left"
+      }`}
+    >
+      {align === "left" &&
+        (school ? (
+          <SchoolBadge school={school} size="sm" />
+        ) : (
+          <FallbackBadge label={team} />
+        ))}
+
+      <div>
+        <h2 className="text-3xl font-black leading-none text-white md:text-4xl">
+          {team}
+        </h2>
+        {score !== undefined && (
+          <p className="mt-2 text-sm font-black uppercase tracking-[0.2em] text-white/40">
+            {score} points
+          </p>
+        )}
+      </div>
+
+      {align === "right" &&
+        (school ? (
+          <SchoolBadge school={school} size="sm" />
+        ) : (
+          <FallbackBadge label={team} />
+        ))}
+    </div>
   );
 }
 
@@ -250,7 +279,7 @@ function ScoreboardColumn({
   emptyText: string;
 }) {
   return (
-    <section className="rounded-3xl border border-white/10 bg-white/5 p-5">
+    <section className="rounded-3xl border border-white/10 bg-white/[0.04] p-5">
       <h2 className="text-3xl font-black">{title}</h2>
       <p className="mt-2 text-sm text-white/50">{description}</p>
 
@@ -271,84 +300,77 @@ function ScoreboardGameCard({ game }: { game: ScoreboardGame }) {
   const awaySchool = game.awaySchoolSlug
     ? getSchoolBySlug(game.awaySchoolSlug)
     : undefined;
-
   const homeSchool = game.homeSchoolSlug
     ? getSchoolBySlug(game.homeSchoolSlug)
     : undefined;
+  const awayScore = game.awayScore ?? game.score?.away;
+  const homeScore = game.homeScore ?? game.score?.home;
+  const isFinal = game.status === "final";
 
   return (
-    <div
-      className={`rounded-2xl bg-black/35 p-4 transition hover:bg-white/10 ${
+    <Link
+      href={`/games/${game.id}`}
+      className={`block rounded-2xl p-4 transition hover:bg-white/10 ${
         game.status === "live"
-          ? "border border-white/30 shadow-[0_0_28px_rgba(255,255,255,0.12)]"
-          : "border border-white/10"
+          ? "border border-white/30 bg-black/45 shadow-[0_0_28px_rgba(255,255,255,0.10)]"
+          : "border border-white/10 bg-black/35"
       }`}
     >
-      <Link href={`/games/${game.id}`} className="block">
-        <div className="grid grid-cols-[auto_1fr_auto] items-center gap-3">
-          {awaySchool ? (
-            <SchoolBadge school={awaySchool} size="xs" />
-          ) : (
-            <FallbackBadge label={getTeamName(game.awayTeam, "Away")} />
-          )}
+      <div className="flex items-center justify-between gap-3">
+        <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-white/55">
+          {game.displayStatus}
+        </span>
+        <span className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">
+          {getWeekLabel(game.week)}
+        </span>
+      </div>
 
-          <div>
-            <p className="font-black">{getTeamName(game.awayTeam, "Away")}</p>
-            <p className="mt-1 font-black">
-              {getTeamName(game.homeTeam, "Home")}
-            </p>
-          </div>
+      <div className="mt-5 space-y-4">
+        <CompactTeamRow
+          school={awaySchool}
+          team={getTeamName(game.awayTeam, "Away")}
+          score={isFinal ? awayScore : undefined}
+        />
+        <CompactTeamRow
+          school={homeSchool}
+          team={getTeamName(game.homeTeam, "Home")}
+          score={isFinal ? homeScore : undefined}
+        />
+      </div>
 
-          {game.status === "final" ? (
-            <div className="text-right font-black">
-              <p>{game.awayScore ?? "-"}</p>
-              <p className="mt-1">{game.homeScore ?? "-"}</p>
-            </div>
-          ) : homeSchool ? (
-            <SchoolBadge school={homeSchool} size="xs" />
-          ) : (
-            <FallbackBadge label={getTeamName(game.homeTeam, "Home")} />
-          )}
-        </div>
-
-        <div className="mt-4 flex flex-wrap items-center gap-2">
-          <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-bold text-white/60">
-            {game.displayStatus}
-          </span>
-
-          {game.districtGame && (
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-bold text-white/60">
-              District
-            </span>
-          )}
-        </div>
-
-        <p className="mt-4 text-xs text-white/45">
-          {getWeekLabel(game.week)} · {formatKickoff(game.kickoff)}
+      <div className="mt-5 border-t border-white/10 pt-4">
+        <p className="text-xs font-semibold text-white/45">
+          {formatKickoff(game.kickoff)}
         </p>
-
-        <p className="mt-4 text-xs font-black uppercase tracking-[0.14em] text-white/65 transition hover:text-white">
-          Matchup Center →
+        <p className="mt-2 text-[10px] font-black uppercase tracking-[0.16em] text-white/60">
+          {isFinal ? "View Final →" : "View Matchup →"}
         </p>
-      </Link>
-
-      <a
-        href={getMapUrl(game)}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-3 block rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-center text-xs font-black uppercase tracking-[0.14em] text-white/60 transition hover:bg-white/10 hover:text-white"
-      >
-        Venue Map →
-      </a>
-    </div>
+      </div>
+    </Link>
   );
 }
 
-function Badge({ children }: { children: React.ReactNode }) {
+function CompactTeamRow({
+  school,
+  team,
+  score,
+}: {
+  school?: ReturnType<typeof getSchoolBySlug>;
+  team: string;
+  score?: number;
+}) {
   return (
-    <span className="rounded-full border border-white/10 bg-black/40 px-4 py-2 text-sm font-bold text-white/75">
-      {children}
-    </span>
+    <div className="grid grid-cols-[auto_1fr_auto] items-center gap-3">
+      {school ? (
+        <SchoolBadge school={school} size="xs" />
+      ) : (
+        <FallbackBadge label={team} />
+      )}
+      <p className="min-w-0 truncate font-black text-white">{team}</p>
+      {score !== undefined && (
+        <p className="text-2xl font-black leading-none text-white">{score}</p>
+      )}
+    </div>
   );
 }
 
