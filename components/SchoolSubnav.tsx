@@ -29,6 +29,11 @@ export default function SchoolSubnav({
       active: pathname === `/schools/${schoolSlug}/schedule`,
     },
     {
+      href: `/schools/${schoolSlug}/roster`,
+      label: "Roster",
+      active: pathname === `/schools/${schoolSlug}/roster`,
+    },
+    {
       href: "/scoreboard",
       label: "Scores",
       active: pathname === "/scoreboard",
