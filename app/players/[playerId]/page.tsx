@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { getDistrictById } from "@/lib/districts";
 import { getPlayerGameLog } from "@/lib/player-game-log";
+import { getPlayerProfile } from "@/lib/player-profiles";
 import {
   getPassingLeaders,
   getPlayerSeasonStat,
@@ -24,9 +25,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!player) return { title: "Player Not Found | VarsityVue" };
 
   const school = getSchoolBySlug(player.schoolSlug);
+  const profile = getPlayerProfile(playerId, SEASON);
+  const position = profile?.positions?.length ? ` ${profile.positions.join("/")}` : "";
   return {
     title: `${player.player} 2026 Football Stats | VarsityVue`,
-    description: `${player.player} ${SEASON} football season statistics, weekly game log, and leaderboard rankings for ${school?.name ?? player.schoolSlug}.`,
+    description: `${player.player}${position} ${SEASON} football season statistics, weekly game log, and leaderboard rankings for ${school?.name ?? player.schoolSlug}.`,
   };
 }
 
@@ -37,6 +40,7 @@ export default async function PlayerPage({ params }: Props) {
 
   const school = getSchoolBySlug(player.schoolSlug);
   const district = school ? getDistrictById(school.districtId) : undefined;
+  const profile = getPlayerProfile(playerId, SEASON);
   const gameLog = getPlayerGameLog(playerId, SEASON);
 
   const areaRushingRank = rankOf(getRushingLeaders({ season: SEASON, minAttempts: 1 }), playerId);
@@ -48,6 +52,17 @@ export default async function PlayerPage({ params }: Props) {
 
   const primary = school?.colors.primary ?? "#8B1020";
   const secondary = school?.colors.secondary ?? "#F4EBDD";
+
+  const rosterDetails = profile
+    ? [
+        profile.jerseyNumber ? { label: "Number", value: `#${profile.jerseyNumber}` } : undefined,
+        profile.grade ? { label: "Class", value: profile.grade } : undefined,
+        profile.positions?.length ? { label: "Position", value: profile.positions.join(" / ") } : undefined,
+        profile.height ? { label: "Height", value: profile.height } : undefined,
+        profile.weight ? { label: "Weight", value: `${profile.weight} lbs` } : undefined,
+        profile.hometown ? { label: "Hometown", value: profile.hometown } : undefined,
+      ].filter((detail): detail is { label: string; value: string } => Boolean(detail))
+    : [];
 
   return (
     <main className="min-h-screen bg-[#050505] text-white">
@@ -67,12 +82,31 @@ export default async function PlayerPage({ params }: Props) {
               <p className="text-xs font-black uppercase tracking-[0.28em]" style={{ color: secondary }}>
                 {SEASON} Player Profile
               </p>
-              <h1 className="mt-3 text-5xl font-black sm:text-6xl">{player.player}</h1>
+              <div className="mt-3 flex flex-wrap items-center gap-4">
+                <h1 className="text-5xl font-black sm:text-6xl">{player.player}</h1>
+                {profile?.jerseyNumber && (
+                  <span className="rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-xl font-black text-white/70">
+                    #{profile.jerseyNumber}
+                  </span>
+                )}
+              </div>
               <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-white/55">
                 {school && (
                   <Link href={`/schools/${school.slug}`} className="font-black text-white/80 transition hover:text-white">
                     {school.fullName}
                   </Link>
+                )}
+                {profile?.positions?.length && (
+                  <>
+                    <span className="text-white/20">•</span>
+                    <span>{profile.positions.join(" / ")}</span>
+                  </>
+                )}
+                {profile?.grade && (
+                  <>
+                    <span className="text-white/20">•</span>
+                    <span>{profile.grade}</span>
+                  </>
                 )}
                 {district && (
                   <>
@@ -97,6 +131,32 @@ export default async function PlayerPage({ params }: Props) {
 
       <section className="px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl space-y-8">
+          {rosterDetails.length > 0 && (
+            <section className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] shadow-2xl">
+              <div className="h-1.5" style={{ backgroundColor: primary }} />
+              <div className="p-6 md:p-7">
+                <div className="flex flex-wrap items-end justify-between gap-4">
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.28em] text-white/40">Verified Roster Profile</p>
+                    <h2 className="mt-2 text-3xl font-black">Player information</h2>
+                  </div>
+                  <span className="rounded-full border border-white/10 bg-black/30 px-3 py-2 text-[10px] font-black uppercase tracking-[0.14em] text-white/45">
+                    Verified
+                  </span>
+                </div>
+                <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                  {rosterDetails.map((detail) => (
+                    <div key={detail.label} className="rounded-2xl border border-white/10 bg-black/30 p-4">
+                      <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">{detail.label}</p>
+                      <p className="mt-2 text-xl font-black text-white">{detail.value}</p>
+                    </div>
+                  ))}
+                </div>
+                {profile?.bio && <p className="mt-6 max-w-4xl text-sm leading-7 text-white/55">{profile.bio}</p>}
+              </div>
+            </section>
+          )}
+
           <div className="grid gap-4 md:grid-cols-3">
             <StatCard
               label="Rushing"
