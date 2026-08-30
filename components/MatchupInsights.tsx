@@ -70,7 +70,7 @@ export default function MatchupInsights({
     return (
         <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7 shadow-2xl">
             <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
-                Matchup Intelligence
+                Matchup Snapshot
             </p>
 
             <h2 className="mt-3 text-3xl font-black text-white">
