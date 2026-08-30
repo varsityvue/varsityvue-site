@@ -43,11 +43,11 @@ function getGameLabel(gameType: string, week?: number) {
 }
 
 function formatRecord(slug?: string) {
-  if (!slug || slug === "bye" || slug === "special-event") return "0-0";
+  if (!slug || slug === "bye" || slug === "special-event") return "Record unavailable";
 
   const standing = getStandingForSchool(slug);
 
-  if (!standing) return "0-0";
+  if (!standing) return "Record unavailable";
 
   return `${standing.overallWins}-${standing.overallLosses}`;
 }
