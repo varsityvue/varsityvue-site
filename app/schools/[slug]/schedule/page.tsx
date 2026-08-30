@@ -13,37 +13,26 @@ import SchoolSubnav from "../../../../components/SchoolSubnav";
 
 type ScheduleGame = ReturnType<typeof getGamesForSchool>[number];
 
-function getGameTimestamp(game: ScheduleGame) {
-  if (!game.kickoff) return Number.MAX_SAFE_INTEGER;
-
-  if (!game.kickoff.includes("T")) {
-    const [year, month, day] = game.kickoff.split("-").map(Number);
-    return new Date(year, month - 1, day).getTime();
-  }
-
-  const timestamp = new Date(game.kickoff).getTime();
-  return Number.isNaN(timestamp) ? Number.MAX_SAFE_INTEGER : timestamp;
-}
-
-function formatGameDate(kickoff?: string) {
-  if (!kickoff) return "TBD";
+function parseGameDate(kickoff?: string) {
+  if (!kickoff) return null;
 
   if (!kickoff.includes("T")) {
     const [year, month, day] = kickoff.split("-").map(Number);
-
-    return new Intl.DateTimeFormat("en-US", {
-      weekday: "short",
-      month: "short",
-      day: "numeric",
-      timeZone: "America/Chicago",
-    }).format(new Date(year, month - 1, day));
+    const parsed = new Date(year, month - 1, day);
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
   }
 
-  const parsedDate = new Date(kickoff);
+  const parsed = new Date(kickoff);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
 
-  if (Number.isNaN(parsedDate.getTime())) {
-    return "TBD";
-  }
+function getGameTimestamp(game: ScheduleGame) {
+  return parseGameDate(game.kickoff)?.getTime() ?? Number.MAX_SAFE_INTEGER;
+}
+
+function formatGameDate(kickoff?: string) {
+  const parsedDate = parseGameDate(kickoff);
+  if (!parsedDate) return "TBD";
 
   return new Intl.DateTimeFormat("en-US", {
     weekday: "short",
@@ -56,11 +45,8 @@ function formatGameDate(kickoff?: string) {
 function formatGameTime(kickoff?: string) {
   if (!kickoff || !kickoff.includes("T")) return "TBD";
 
-  const parsedDate = new Date(kickoff);
-
-  if (Number.isNaN(parsedDate.getTime())) {
-    return "TBD";
-  }
+  const parsedDate = parseGameDate(kickoff);
+  if (!parsedDate) return "TBD";
 
   return new Intl.DateTimeFormat("en-US", {
     hour: "numeric",
@@ -73,20 +59,36 @@ function getGameTypeLabel(game: ScheduleGame) {
   if (game.gameType === "scrimmage") return "Scrimmage";
   if (game.gameType === "bye") return "BYE";
   if (game.gameType === "playoff") return "Playoff";
-  return `Week ${game.week}`;
+  return game.week === undefined ? "Week TBD" : `Week ${game.week}`;
 }
 
 function getGameStatusLabel(game: ScheduleGame) {
   if (game.gameType === "bye") return "Open Week";
   if (game.status === "final") return "Final";
   if (game.status === "live") return "Live";
+
+  const timestamp = getGameTimestamp(game);
+  if (timestamp !== Number.MAX_SAFE_INTEGER && timestamp < Date.now()) {
+    return "Result Pending";
+  }
+
   return "Upcoming";
 }
 
-function getMapUrl(venue?: string) {
-  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    venue ?? "Texas high school stadium"
-  )}`;
+function getMapUrl(venue: string) {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(venue)}`;
+}
+
+function getResult(game: ScheduleGame, schoolSlug: string) {
+  if (game.status !== "final") return null;
+  if (game.homeScore === undefined || game.awayScore === undefined) return null;
+
+  const isHome = game.homeSchoolSlug === schoolSlug;
+  const schoolScore = isHome ? game.homeScore : game.awayScore;
+  const opponentScore = isHome ? game.awayScore : game.homeScore;
+
+  if (schoolScore === opponentScore) return "T";
+  return schoolScore > opponentScore ? "W" : "L";
 }
 
 export async function generateMetadata({
@@ -98,14 +100,12 @@ export async function generateMetadata({
   const school = getSchoolBySlug(slug);
 
   if (!school) {
-    return {
-      title: "Schedule Not Found | VarsityVue",
-    };
+    return { title: "Schedule Not Found | VarsityVue" };
   }
 
   return {
     title: `${school.fullName} Football Schedule | VarsityVue`,
-    description: `${school.fullName} football schedule, scores, opponents, game times, venues, and VarsityVue coverage.`,
+    description: `${school.fullName} 2026 football schedule, verified scores, opponents, kickoff times, venues, and matchup coverage on VarsityVue.`,
   };
 }
 
@@ -116,17 +116,23 @@ export default async function SchoolSchedulePage({
 }) {
   const { slug } = await params;
   const school = getSchoolBySlug(slug);
-
-  if (!school) {
-    notFound();
-  }
+  if (!school) notFound();
 
   const district = getDistrictById(school.districtId);
   const districtSlug = district?.slug ?? school.districtId;
-
   const games = getGamesForSchool(slug).sort(
     (a, b) => getGameTimestamp(a) - getGameTimestamp(b)
   );
+
+  const finalGames = games.filter(
+    (game) => game.status === "final" && game.gameType !== "bye"
+  );
+  const upcomingGames = games.filter((game) => {
+    if (game.status !== "upcoming" || game.gameType === "bye") return false;
+    const timestamp = getGameTimestamp(game);
+    return timestamp === Number.MAX_SAFE_INTEGER || timestamp >= Date.now();
+  });
+  const districtGames = games.filter((game) => game.districtGame).length;
 
   const theme: SchoolTheme = {
     primary: school.colors.primary,
@@ -146,10 +152,9 @@ export default async function SchoolSchedulePage({
         "@type": "SportsEvent",
         name: `${game.awayTeam} at ${game.homeTeam}`,
         startDate: game.kickoff,
-        location: {
-          "@type": "Place",
-          name: game.venue,
-        },
+        location: game.venue
+          ? { "@type": "Place", name: game.venue }
+          : undefined,
         url: `https://varsityvue.com/games/${game.id}`,
       })),
   };
@@ -168,9 +173,7 @@ export default async function SchoolSchedulePage({
     >
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(scheduleSchema),
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(scheduleSchema) }}
       />
 
       <SchoolSubnav
@@ -182,11 +185,7 @@ export default async function SchoolSchedulePage({
       <section
         className="border-b border-white/10 px-4 py-6 sm:px-6 lg:px-8"
         style={{
-          background: `
-            radial-gradient(circle at top left, ${school.colors.primary}88 0%, transparent 32%),
-            radial-gradient(circle at top right, ${school.colors.secondary}22 0%, transparent 30%),
-            linear-gradient(120deg, ${school.colors.primary}55 0%, #080808 45%, #000 100%)
-          `,
+          background: `radial-gradient(circle at top left, ${school.colors.primary}88 0%, transparent 32%), radial-gradient(circle at top right, ${school.colors.secondary}22 0%, transparent 30%), linear-gradient(120deg, ${school.colors.primary}55 0%, #080808 45%, #000 100%)`,
         }}
       >
         <div className="mx-auto max-w-7xl">
@@ -199,21 +198,20 @@ export default async function SchoolSchedulePage({
 
           <div className="mt-5 rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
             <p className="text-xs font-black uppercase tracking-[0.32em] text-[var(--vv-accent)]">
-              VarsityVue Schedule
+              2026 Football
             </p>
 
-            <div className="mt-4 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+            <div className="mt-4 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
               <div>
                 <p className="text-sm font-black uppercase tracking-[0.18em] text-white/45">
                   {school.mascot}
                 </p>
-
                 <h1 className="mt-2 text-4xl font-black leading-tight tracking-tight sm:text-5xl">
-                  {school.name} Football Schedule
+                  {school.name} Schedule
                 </h1>
-
                 <p className="mt-3 max-w-3xl text-base leading-7 text-white/60">
-                  Schedules, kickoff times, scores, and matchup coverage.
+                  Full season schedule with verified final scores, upcoming matchups,
+                  district games, kickoff information, and game pages.
                 </p>
               </div>
 
@@ -223,6 +221,12 @@ export default async function SchoolSchedulePage({
               >
                 District Hub →
               </Link>
+            </div>
+
+            <div className="mt-6 grid gap-3 sm:grid-cols-3">
+              <SummaryCard label="Finals Recorded" value={finalGames.length.toString()} />
+              <SummaryCard label="Upcoming Games" value={upcomingGames.length.toString()} />
+              <SummaryCard label="District Games" value={districtGames.toString()} />
             </div>
           </div>
         </div>
@@ -235,23 +239,18 @@ export default async function SchoolSchedulePage({
               <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
                 Season Schedule
               </p>
-              <h2 className="mt-2 text-3xl font-black text-white">
-                2026 Games
-              </h2>
+              <h2 className="mt-2 text-3xl font-black text-white">2026 Games</h2>
             </div>
-
             <p className="text-sm font-bold text-white/45">
-              {games.length} game{games.length === 1 ? "" : "s"} listed
+              {games.length} entr{games.length === 1 ? "y" : "ies"} listed
             </p>
           </div>
 
           {games.length === 0 ? (
             <div className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-8 shadow-2xl">
-              <h2 className="text-2xl font-black text-white">
-                Schedule coming soon.
-              </h2>
+              <h2 className="text-2xl font-black text-white">Schedule coming soon.</h2>
               <p className="mt-2 text-white/50">
-                Games will appear here once the schedule is added.
+                Games will appear here after schedule information has been verified.
               </p>
             </div>
           ) : (
@@ -260,37 +259,31 @@ export default async function SchoolSchedulePage({
                 const isBye = game.gameType === "bye";
                 const isHome = game.homeSchoolSlug === slug;
                 const opponent = isHome ? game.awayTeam : game.homeTeam;
-                const opponentSlug = isHome
-                  ? game.awaySchoolSlug
-                  : game.homeSchoolSlug;
+                const opponentSlug = isHome ? game.awaySchoolSlug : game.homeSchoolSlug;
                 const locationLabel = game.isNeutralSite
                   ? "Neutral Site"
                   : isHome
                     ? "Home"
                     : "Away";
-
                 const opponentRecord = opponentSlug
                   ? getSchoolRecord(opponentSlug).record
                   : "TBD";
-
                 const hasScore =
                   game.status === "final" &&
                   game.homeScore !== undefined &&
                   game.awayScore !== undefined;
-
                 const scoreDisplay = hasScore
                   ? isHome
                     ? `${game.homeScore}-${game.awayScore}`
                     : `${game.awayScore}-${game.homeScore}`
                   : null;
+                const result = getResult(game, slug);
 
                 return (
                   <div
                     key={game.id}
-                    className="group relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-6 shadow-xl transition hover:-translate-y-1 hover:bg-white/[0.07]"
-                    style={{
-                      boxShadow: `0 14px 38px ${school.colors.primary}10`,
-                    }}
+                    className="group relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-6 shadow-xl transition hover:bg-white/[0.07]"
+                    style={{ boxShadow: `0 14px 38px ${school.colors.primary}10` }}
                   >
                     <div
                       className="pointer-events-none absolute inset-0 opacity-15 transition group-hover:opacity-25"
@@ -310,35 +303,33 @@ export default async function SchoolSchedulePage({
 
                       <div className="mt-4 grid gap-5 xl:grid-cols-[1fr_auto] xl:items-end">
                         <div>
-                          <h3 className="text-4xl font-black leading-tight text-white">
-                            {isBye
-                              ? "BYE Week"
-                              : `${game.isNeutralSite ? "vs" : isHome ? "vs" : "at"} ${opponent}`}
-                          </h3>
+                          <div className="flex flex-wrap items-center gap-3">
+                            <h3 className="text-3xl font-black leading-tight text-white sm:text-4xl">
+                              {isBye
+                                ? "BYE Week"
+                                : `${game.isNeutralSite || isHome ? "vs" : "at"} ${opponent}`}
+                            </h3>
+                            {result && <ResultPill result={result} />}
+                          </div>
 
                           {!isBye && (
-                            <p className="mt-1 text-sm font-bold text-white/45">
-                              {game.awayTeam} at {game.homeTeam}
-                              {game.isNeutralSite ? " · Neutral Site" : ""}
-                            </p>
+                            <div className="mt-2 space-y-1 text-sm font-bold text-white/45">
+                              <p>
+                                {game.awayTeam} at {game.homeTeam}
+                                {game.isNeutralSite ? " · Neutral Site" : ""}
+                              </p>
+                              {game.venue && <p>{game.venue}</p>}
+                            </div>
                           )}
                         </div>
 
                         {!isBye && (
                           <div className="flex flex-wrap gap-3">
-                            <InfoCard
-                              label="Date"
-                              value={formatGameDate(game.kickoff)}
-                            />
-                            <InfoCard
-                              label="Kickoff"
-                              value={formatGameTime(game.kickoff)}
-                            />
+                            <InfoCard label="Date" value={formatGameDate(game.kickoff)} />
+                            <InfoCard label="Kickoff" value={formatGameTime(game.kickoff)} />
                             <InfoCard
                               label={hasScore ? "Final" : "Opp. Record"}
-                              value={
-                                hasScore ? scoreDisplay ?? "—" : opponentRecord
-                              }
+                              value={hasScore ? scoreDisplay ?? "—" : opponentRecord}
                             />
                           </div>
                         )}
@@ -346,14 +337,16 @@ export default async function SchoolSchedulePage({
 
                       {!isBye && (
                         <div className="mt-5 flex flex-wrap gap-3">
-                          <a
-                            href={getMapUrl(game.venue)}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/70 transition hover:bg-white/15 hover:text-white"
-                          >
-                            Map Venue →
-                          </a>
+                          {game.venue && (
+                            <a
+                              href={getMapUrl(game.venue)}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/70 transition hover:bg-white/15 hover:text-white"
+                            >
+                              Map Venue →
+                            </a>
+                          )}
 
                           <Link
                             href={`/games/${game.id}`}
@@ -383,13 +376,39 @@ function Badge({ label }: { label: string }) {
   );
 }
 
+function ResultPill({ result }: { result: "W" | "L" | "T" }) {
+  const classes =
+    result === "W"
+      ? "border-green-400/30 bg-green-500/15 text-green-300"
+      : result === "L"
+        ? "border-red-400/30 bg-red-500/15 text-red-300"
+        : "border-yellow-400/30 bg-yellow-500/15 text-yellow-200";
+
+  return (
+    <span className={`rounded-full border px-3 py-1 text-sm font-black ${classes}`}>
+      {result}
+    </span>
+  );
+}
+
 function InfoCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-black/35 p-4">
+    <div className="min-w-28 rounded-2xl border border-white/10 bg-black/35 p-4">
       <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">
         {label}
       </p>
       <p className="mt-2 font-black text-white">{value}</p>
+    </div>
+  );
+}
+
+function SummaryCard({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-2xl border border-white/10 bg-black/30 p-4">
+      <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">
+        {label}
+      </p>
+      <p className="mt-2 text-2xl font-black text-white">{value}</p>
     </div>
   );
 }
