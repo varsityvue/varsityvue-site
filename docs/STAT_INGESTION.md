@@ -45,6 +45,30 @@ Use a roster-backed `playerId` whenever the athlete already exists in `data/play
 
 When the roster becomes available, future game stat entries should use the stable roster-backed ID. Historical lines can then be normalized to that same ID.
 
+## Internal review tool
+
+A gated review interface now exists at:
+
+`/internal/stats-import`
+
+The route is disabled unless the server environment includes:
+
+`ENABLE_INTERNAL_TOOLS=true`
+
+The current tool accepts one structured JSON `GameStats` object by paste or JSON upload. It:
+
+1. checks the basic object shape
+2. resolves known roster-backed player IDs by school and player name
+3. generates temporary deterministic player IDs when no verified roster match exists
+4. runs `validateGameStats`
+5. separates blocking errors from warnings
+6. previews record counts and the game identity
+7. generates normalized JSON for manual approval and insertion into `data/game-stats.ts`
+
+The tool intentionally does **not** write to GitHub or publish production data. That is a safety boundary until VarsityVue has authenticated internal tools and a proper persistence layer.
+
+CSV/XLSX, PDF, screenshot, and email parsing are still future ingestion adapters. Those formats should eventually convert into the same reviewable `GameStats` draft before approval.
+
 ## Pre-publish checks
 
 Before committing a new stat sheet:
@@ -60,7 +84,7 @@ Before committing a new stat sheet:
 9. Check player spellings against the roster.
 10. Reuse existing `playerId` values wherever possible.
 
-`lib/game-stats-validation.ts` contains reusable validation checks for an eventual import/admin workflow.
+`lib/game-stats-validation.ts` contains reusable validation checks used by the internal review workflow.
 
 ## What updates automatically
 
@@ -84,4 +108,4 @@ Do not describe a player as the definitive district or area leader unless the st
 
 ## Future import target
 
-The next evolution should accept CSV/XLSX, PDF, screenshot, or email-derived structured data and convert it into a reviewable `GameStats` object before publication. The import process should run validation, resolve school slugs and player IDs, flag conflicts, and require human approval before writing production data.
+The next evolution should add format adapters for CSV/XLSX, PDF, screenshot, or email-derived data and convert them into the same structured review screen. After authenticated internal access and a real persistence layer exist, approval can become a controlled production write rather than a manual code change.
