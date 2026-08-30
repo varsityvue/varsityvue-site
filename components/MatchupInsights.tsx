@@ -130,8 +130,8 @@ export default function MatchupInsights({
 
             <div className="mt-6 grid gap-4 md:grid-cols-2">
                 <InsightCard
-                    title="District Stakes"
-                    body="This matchup can influence district positioning, playoff momentum, and late-season confidence once results begin stacking up."
+                    title="Matchup Context"
+                    body="Compare each team's verified record, scoring totals, and district standing as the season develops."
                 />
 
                 <InsightCard
