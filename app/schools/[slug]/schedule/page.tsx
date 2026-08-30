@@ -105,6 +105,7 @@ function getMapUrl(venue: string) {
 }
 
 function getResult(game: ScheduleGame, schoolSlug: string) {
+  if (game.gameType === "bye" || game.gameType === "scrimmage") return null;
   if (game.status !== "final") return null;
   if (game.homeScore === undefined || game.awayScore === undefined) return null;
 
@@ -151,10 +152,19 @@ export default async function SchoolSchedulePage({
   const todayKey = getCentralDateKey(new Date());
 
   const finalGames = games.filter(
-    (game) => game.status === "final" && game.gameType !== "bye"
+    (game) =>
+      game.status === "final" &&
+      game.gameType !== "bye" &&
+      game.gameType !== "scrimmage"
   );
   const upcomingGames = games.filter((game) => {
-    if (game.status !== "upcoming" || game.gameType === "bye") return false;
+    if (
+      game.status !== "upcoming" ||
+      game.gameType === "bye" ||
+      game.gameType === "scrimmage"
+    ) {
+      return false;
+    }
     const gameDateKey = getGameDateKey(game.kickoff);
     return !todayKey || !gameDateKey || gameDateKey >= todayKey;
   });
