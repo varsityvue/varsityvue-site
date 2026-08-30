@@ -1,6 +1,6 @@
 import { gameStats } from "@/data/game-stats";
 import { getGameById } from "@/lib/games";
-import { getPlayerId } from "@/lib/player-stats";
+import { getPlayerId } from "@/lib/player-identity";
 
 export type PlayerGameLogEntry = {
   gameId: string;
@@ -33,30 +33,32 @@ function round(value: number, decimals = 1) {
   return Math.round(value * factor) / factor;
 }
 
-function inferSeason(gameId: string) {
-  const match = gameId.match(/-(20\d{2})-/);
-  return match ? Number(match[1]) : undefined;
+function lineMatchesPlayer(
+  line: { schoolSlug: string; player: string; playerId?: string },
+  playerId: string,
+  season: number
+) {
+  return (line.playerId ?? getPlayerId(line.schoolSlug, line.player, season)) === playerId;
 }
 
 export function getPlayerGameLog(playerId: string, season = 2026): PlayerGameLogEntry[] {
   const entries: PlayerGameLogEntry[] = [];
 
   for (const stats of gameStats) {
-    if (inferSeason(stats.gameId) !== season) continue;
+    if (stats.season !== season) continue;
 
     const allLines = [...stats.rushing, ...stats.passing, ...stats.receiving];
-    const identity = allLines.find((line) => getPlayerId(line.schoolSlug, line.player, season) === playerId);
+    const identity = allLines.find((line) => lineMatchesPlayer(line, playerId, season));
     if (!identity) continue;
 
     const schoolSlug = identity.schoolSlug;
-    const playerName = identity.player;
     const game = getGameById(stats.gameId);
     const isHome = game?.homeSchoolSlug === schoolSlug;
     const opponent = isHome ? game?.awayTeam : game?.homeTeam;
 
-    const rushing = stats.rushing.find((line) => line.schoolSlug === schoolSlug && line.player === playerName);
-    const passing = stats.passing.find((line) => line.schoolSlug === schoolSlug && line.player === playerName);
-    const receiving = stats.receiving.find((line) => line.schoolSlug === schoolSlug && line.player === playerName);
+    const rushing = stats.rushing.find((line) => lineMatchesPlayer(line, playerId, season));
+    const passing = stats.passing.find((line) => lineMatchesPlayer(line, playerId, season));
+    const receiving = stats.receiving.find((line) => lineMatchesPlayer(line, playerId, season));
 
     let result: string | undefined;
     if (game?.status === "final" && game.homeScore !== undefined && game.awayScore !== undefined) {
