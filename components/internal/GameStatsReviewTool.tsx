@@ -10,6 +10,7 @@ import {
   resolveKnownPlayerIds,
 } from "@/lib/game-stats-import";
 import { validateGameStats } from "@/lib/game-stats-validation";
+import { createStatCorrectionAudit, formatStatCorrectionAudit } from "@/lib/stat-corrections";
 
 type CanonicalGame = {
   id: string;
@@ -57,6 +58,10 @@ export default function GameStatsReviewTool({
   const [selectedGameId, setSelectedGameId] = useState("");
   const [confirmedGameId, setConfirmedGameId] = useState("");
   const [replacementTargetId, setReplacementTargetId] = useState("");
+  const [reviewedBy, setReviewedBy] = useState("");
+  const [promptedBy, setPromptedBy] = useState("");
+  const [correctionNote, setCorrectionNote] = useState("");
+  const [auditRecordedAt, setAuditRecordedAt] = useState("");
   const fileInput = useRef<HTMLInputElement>(null);
 
   const parsed = useMemo(() => parseGameStatsDraft(raw), [raw]);
@@ -108,18 +113,40 @@ export default function GameStatsReviewTool({
   const unchangedProblem = mode === "replace" && originalStats && stats && sameStats(originalStats, stats)
     ? "No changes have been made to the existing GameStats record."
     : undefined;
+
+  const changeSummary = useMemo(
+    () => (mode === "replace" && originalStats && stats ? getChangeSummary(originalStats, stats) : []),
+    [mode, originalStats, stats]
+  );
+
+  const auditMissing = mode === "replace" && (!reviewedBy.trim() || !promptedBy.trim() || !correctionNote.trim());
+  const auditNotFinalized = mode === "replace" && !auditRecordedAt;
+  const correctionAudit = useMemo(() => {
+    if (mode !== "replace" || !stats || !auditRecordedAt || auditMissing || changeSummary.length === 0) return null;
+    return createStatCorrectionAudit({
+      gameId: stats.gameId,
+      season: stats.season,
+      reviewedAt: auditRecordedAt,
+      reviewedBy,
+      promptedBy,
+      note: correctionNote,
+      changedSections: changeSummary,
+    });
+  }, [mode, stats, auditRecordedAt, auditMissing, changeSummary, reviewedBy, promptedBy, correctionNote]);
+
   const approvalBlocked =
     errors.length > 0 ||
     !confirmedGame ||
     canonicalProblems.length > 0 ||
     Boolean(duplicateProblem) ||
     Boolean(replacementProblem) ||
-    Boolean(unchangedProblem);
+    Boolean(unchangedProblem) ||
+    auditMissing ||
+    auditNotFinalized;
 
-  const changeSummary = useMemo(
-    () => (mode === "replace" && originalStats && stats ? getChangeSummary(originalStats, stats) : []),
-    [mode, originalStats, stats]
-  );
+  function invalidateAudit() {
+    if (mode === "replace") setAuditRecordedAt("");
+  }
 
   function clearReviewState() {
     setResolved(null);
@@ -127,11 +154,15 @@ export default function GameStatsReviewTool({
     setFileErrors([]);
     setSelectedGameId("");
     setConfirmedGameId("");
+    setAuditRecordedAt("");
   }
 
   function startNewImport() {
     setMode("new");
     setReplacementTargetId("");
+    setReviewedBy("");
+    setPromptedBy("");
+    setCorrectionNote("");
     setRaw(starter);
     clearReviewState();
   }
@@ -141,6 +172,10 @@ export default function GameStatsReviewTool({
     if (!existing) return;
     setMode("replace");
     setReplacementTargetId(gameId);
+    setReviewedBy("");
+    setPromptedBy("");
+    setCorrectionNote("");
+    setAuditRecordedAt("");
     setRaw(formatGameStatsForDataFile(existing));
     setResolved(existing);
     setSelectedGameId(gameId);
@@ -151,6 +186,7 @@ export default function GameStatsReviewTool({
 
   function resolvePlayers() {
     if (!stats) return;
+    invalidateAudit();
     const result = resolveKnownPlayerIds(stats);
     setResolved(result.stats);
     setNotices((current) => [...current, ...result.notices]);
@@ -158,6 +194,7 @@ export default function GameStatsReviewTool({
 
   function confirmCanonicalGame() {
     if (!stats || !selectedGame) return;
+    invalidateAudit();
     const next = { ...stats, gameId: selectedGame.id, season: selectedGame.season };
     setResolved(next);
     setConfirmedGameId(selectedGame.id);
@@ -198,13 +235,23 @@ export default function GameStatsReviewTool({
     URL.revokeObjectURL(url);
   }
 
+  function finalizeCorrectionAudit() {
+    if (mode !== "replace" || auditMissing || changeSummary.length === 0) return;
+    setAuditRecordedAt(new Date().toISOString());
+  }
+
   async function copyApprovedJson() {
     if (!stats || approvalBlocked) return;
     await navigator.clipboard.writeText(formatGameStatsForDataFile(stats));
   }
 
+  async function copyCorrectionAudit() {
+    if (!correctionAudit) return;
+    await navigator.clipboard.writeText(formatStatCorrectionAudit(correctionAudit));
+  }
+
   const parseErrors = fileErrors.length > 0 ? fileErrors : parsed.ok ? [] : parsed.errors;
-  const errorCount = errors.length + canonicalProblems.length + (duplicateProblem ? 1 : 0) + (replacementProblem ? 1 : 0) + (unchangedProblem ? 1 : 0);
+  const errorCount = errors.length + canonicalProblems.length + (duplicateProblem ? 1 : 0) + (replacementProblem ? 1 : 0) + (unchangedProblem ? 1 : 0) + (auditMissing ? 1 : 0) + (auditNotFinalized ? 1 : 0);
 
   return (
     <div className="space-y-6">
@@ -213,7 +260,7 @@ export default function GameStatsReviewTool({
           <div>
             <p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">Workflow</p>
             <h2 className="mt-2 text-2xl font-black">New import or correction</h2>
-            <p className="mt-2 text-sm leading-6 text-white/45">Corrections load the current verified record first so replacement is deliberate and reviewable.</p>
+            <p className="mt-2 text-sm leading-6 text-white/45">Corrections load the current verified record first and require an internal audit note before replacement output is approved.</p>
           </div>
           <button type="button" onClick={startNewImport} className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white/70">New Import</button>
         </div>
@@ -240,7 +287,7 @@ export default function GameStatsReviewTool({
             <div>
               <p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">Import Draft</p>
               <h2 className="mt-2 text-2xl font-black">{mode === "replace" ? "Edit existing stats" : "Paste JSON or upload CSV"}</h2>
-              <p className="mt-2 max-w-xl text-sm leading-6 text-white/45">{mode === "replace" ? "Make the coach-verified correction below, then re-run identity and validation checks." : "Convert source data into one reviewable GameStats object."}</p>
+              <p className="mt-2 max-w-xl text-sm leading-6 text-white/45">{mode === "replace" ? "Make the verified correction below, then re-run identity and validation checks." : "Convert source data into one reviewable GameStats object."}</p>
             </div>
             <div className="flex flex-wrap gap-2">
               <input ref={fileInput} type="file" accept="application/json,.json,text/plain,text/csv,.csv" className="hidden" onChange={(event) => loadFile(event.target.files?.[0])} />
@@ -256,6 +303,7 @@ export default function GameStatsReviewTool({
               setResolved(null);
               setNotices([]);
               setFileErrors([]);
+              invalidateAudit();
               if (mode === "new") {
                 setSelectedGameId("");
                 setConfirmedGameId("");
@@ -278,7 +326,7 @@ export default function GameStatsReviewTool({
 
             {stats ? (
               <div className="mt-5 space-y-4">
-                <select value={selectedGameId} onChange={(event) => { setSelectedGameId(event.target.value); setConfirmedGameId(""); }} className="w-full rounded-xl border border-white/10 bg-black/50 px-4 py-3 text-sm text-white outline-none">
+                <select value={selectedGameId} onChange={(event) => { setSelectedGameId(event.target.value); setConfirmedGameId(""); invalidateAudit(); }} className="w-full rounded-xl border border-white/10 bg-black/50 px-4 py-3 text-sm text-white outline-none">
                   <option value="">Select canonical game…</option>
                   {suggestedGames.map((game) => <option key={game.id} value={game.id}>{formatGameLabel(game)}{game.hasStats ? " · STATS ALREADY LOADED" : ""}</option>)}
                 </select>
@@ -299,13 +347,37 @@ export default function GameStatsReviewTool({
           </section>
 
           {mode === "replace" && originalStats && stats && (
-            <section className="rounded-[1.75rem] border border-amber-300/15 bg-amber-300/[0.04] p-6">
-              <p className="text-xs font-black uppercase tracking-[0.22em] text-amber-100/55">Correction Comparison</p>
-              <h2 className="mt-2 text-2xl font-black">What changed</h2>
-              {changeSummary.length ? (
-                <div className="mt-4 space-y-2">{changeSummary.map((change) => <div key={change} className="rounded-xl border border-white/10 bg-black/30 p-3 text-sm text-white/65">{change}</div>)}</div>
-              ) : <p className="mt-4 text-sm text-amber-50/60">No changes detected yet.</p>}
-            </section>
+            <>
+              <section className="rounded-[1.75rem] border border-amber-300/15 bg-amber-300/[0.04] p-6">
+                <p className="text-xs font-black uppercase tracking-[0.22em] text-amber-100/55">Correction Comparison</p>
+                <h2 className="mt-2 text-2xl font-black">What changed</h2>
+                {changeSummary.length ? (
+                  <div className="mt-4 space-y-2">{changeSummary.map((change) => <div key={change} className="rounded-xl border border-white/10 bg-black/30 p-3 text-sm text-white/65">{change}</div>)}</div>
+                ) : <p className="mt-4 text-sm text-amber-50/60">No changes detected yet.</p>}
+              </section>
+
+              <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-6">
+                <p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">Correction Audit</p>
+                <h2 className="mt-2 text-2xl font-black">Record why the totals changed</h2>
+                <p className="mt-2 text-sm leading-6 text-white/45">This stays internal. A reviewer, correction source, and note are required before replacement output can be approved.</p>
+                <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                  <label className="block">
+                    <span className="text-[10px] font-black uppercase tracking-[0.14em] text-white/35">Reviewed by</span>
+                    <input value={reviewedBy} onChange={(event) => { setReviewedBy(event.target.value); setAuditRecordedAt(""); }} placeholder="Name or initials" className="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white outline-none" />
+                  </label>
+                  <label className="block">
+                    <span className="text-[10px] font-black uppercase tracking-[0.14em] text-white/35">Prompted by</span>
+                    <input value={promptedBy} onChange={(event) => { setPromptedBy(event.target.value); setAuditRecordedAt(""); }} placeholder="Coach email, stat sheet correction, etc." className="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white outline-none" />
+                  </label>
+                </div>
+                <label className="mt-4 block">
+                  <span className="text-[10px] font-black uppercase tracking-[0.14em] text-white/35">Correction note</span>
+                  <textarea value={correctionNote} onChange={(event) => { setCorrectionNote(event.target.value); setAuditRecordedAt(""); }} placeholder="Briefly explain what was corrected and why." className="mt-2 min-h-28 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white outline-none" />
+                </label>
+                <button type="button" disabled={auditMissing || changeSummary.length === 0} onClick={finalizeCorrectionAudit} className="mt-4 rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white disabled:cursor-not-allowed disabled:opacity-35">Finalize Audit Entry</button>
+                {auditRecordedAt && <div className="mt-4 rounded-xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-sm text-emerald-100">Audit entry finalized at {auditRecordedAt}.</div>}
+              </section>
+            </>
           )}
 
           <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-6">
@@ -324,6 +396,8 @@ export default function GameStatsReviewTool({
                   {issues.length === 0 && confirmedGame && !approvalBlocked && <div className="rounded-xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-sm text-emerald-100">No blocking validation issues found.</div>}
                   {!confirmedGame && <Issue level="error" message="A canonical VarsityVue game must be confirmed before approval." />}
                   {unchangedProblem && <Issue level="error" message={unchangedProblem} />}
+                  {mode === "replace" && auditMissing && <Issue level="error" message="Correction audit fields are required before replacement approval." />}
+                  {mode === "replace" && !auditMissing && auditNotFinalized && <Issue level="error" message="Finalize the correction audit entry after reviewing the changes." />}
                   {issues.map((issue, index) => <Issue key={`${issue.level}-${index}-${issue.message}`} {...issue} />)}
                 </div>
               </>
@@ -361,10 +435,18 @@ export default function GameStatsReviewTool({
           {stats && (
             <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-6">
               <p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">Approval Output</p>
-              <h2 className="mt-2 text-2xl font-black">{mode === "replace" ? "Replacement GameStats object" : "Production-ready object"}</h2>
-              <p className="mt-2 text-sm leading-6 text-white/45">{mode === "replace" ? "Use this to replace the existing object for the same game after reviewing every change." : "Copy is enabled only after canonical game confirmation, duplicate detection, and validation checks pass."}</p>
+              <h2 className="mt-2 text-2xl font-black">{mode === "replace" ? "Correction package" : "Production-ready object"}</h2>
+              <p className="mt-2 text-sm leading-6 text-white/45">{mode === "replace" ? "Copy both the replacement GameStats object and the audit entry. The audit belongs in data/stat-corrections.ts." : "Copy is enabled only after canonical game confirmation, duplicate detection, and validation checks pass."}</p>
               <pre className="mt-5 max-h-[440px] overflow-auto rounded-2xl border border-white/10 bg-black/45 p-4 text-xs leading-6 text-white/65">{formatGameStatsForDataFile(stats)}</pre>
               <button type="button" disabled={approvalBlocked} onClick={copyApprovedJson} className="mt-4 rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white disabled:cursor-not-allowed disabled:opacity-35">{mode === "replace" ? "Copy Replacement JSON" : "Copy Approved JSON"}</button>
+
+              {mode === "replace" && correctionAudit && (
+                <>
+                  <p className="mt-7 text-xs font-black uppercase tracking-[0.18em] text-white/40">Internal audit entry</p>
+                  <pre className="mt-3 max-h-[320px] overflow-auto rounded-2xl border border-white/10 bg-black/45 p-4 text-xs leading-6 text-white/65">{formatStatCorrectionAudit(correctionAudit)}</pre>
+                  <button type="button" disabled={approvalBlocked} onClick={copyCorrectionAudit} className="mt-4 rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white disabled:cursor-not-allowed disabled:opacity-35">Copy Audit JSON</button>
+                </>
+              )}
             </section>
           )}
         </div>
