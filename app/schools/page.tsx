@@ -7,15 +7,10 @@ import SchoolDirectory from "../../components/SchoolDirectory";
 export const metadata: Metadata = {
   title: "Texas High School Sports School Directory | VarsityVue",
   description:
-    "Search VarsityVue school hubs for Texas high school sports schedules, scores, standings, coverage, sponsors, districts, and game-day information.",
+    "Search VarsityVue school hubs for Texas high school sports schedules, scores, standings, rosters, districts, and game-day information.",
 };
 
 export default function SchoolsPage() {
-  const pilotSchools = schools.filter((school) => school.status === "pilot");
-  const watchlistSchools = schools.filter(
-    (school) => school.status === "watchlist"
-  );
-
   const districts = new Set(schools.map((school) => school.districtId));
   const classifications = new Set(
     schools.map(
@@ -33,44 +28,38 @@ export default function SchoolsPage() {
         <div className="mx-auto max-w-[1440px]">
           <div className="rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl md:p-8">
             <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
-              VarsityVue Directory
+              VarsityVue School Directory
             </p>
 
             <div className="mt-5 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
               <div>
                 <h1 className="text-5xl font-black leading-tight tracking-tight sm:text-7xl">
-                  School Directory
+                  Find your school.
                 </h1>
 
                 <p className="mt-4 max-w-3xl text-base leading-7 text-white/60 sm:text-lg">
-                  Search Texas high school football hubs by school, mascot,
-                  district, classification, status, or game-day venue.
+                  Browse Texas high school football hubs by school, mascot,
+                  district, classification, or game-day venue.
                 </p>
               </div>
 
               <Link
-                href="/sponsor-inquiry"
+                href="/school-request"
                 className="rounded-xl border border-[color:var(--vv-accent)]/30 bg-[var(--vv-primary)]/25 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-[var(--vv-accent-soft)] transition hover:bg-[var(--vv-primary)]/40 hover:text-white"
               >
-                Request Coverage
+                Don&apos;t See Your School?
               </Link>
             </div>
           </div>
 
           <section className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <DirectoryStat label="Schools" value={schools.length.toString()} />
+            <DirectoryStat label="School Hubs" value={schools.length.toString()} />
+            <DirectoryStat label="Districts" value={districts.size.toString()} />
             <DirectoryStat
-              label="Pilot Hubs"
-              value={pilotSchools.length.toString()}
-            />
-            <DirectoryStat
-              label="Districts"
-              value={districts.size.toString()}
-            />
-            <DirectoryStat
-              label="Classes"
+              label="Classifications"
               value={classifications.size.toString()}
             />
+            <DirectoryStat label="Season" value="2026" />
           </section>
         </div>
       </section>
@@ -84,12 +73,12 @@ export default function SchoolsPage() {
               </p>
 
               <h2 className="mt-2 text-3xl font-black text-white">
-                Browse Coverage
+                Browse programs
               </h2>
             </div>
 
-            <p className="text-sm font-bold text-white/45">
-              {pilotSchools.length} pilot · {watchlistSchools.length} watchlist
+            <p className="max-w-xl text-sm font-bold leading-6 text-white/45 sm:text-right">
+              School information reflects what VarsityVue currently has on file and will continue to fill out as verified schedules, rosters, scores, and statistics are added.
             </p>
           </div>
 
