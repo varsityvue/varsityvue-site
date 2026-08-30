@@ -428,7 +428,7 @@ export default function Home() {
                     value={
                       featuredSchoolStanding
                         ? `${featuredSchoolStanding.overallWins}-${featuredSchoolStanding.overallLosses}`
-                        : "0-0"
+                        : "—"
                     }
                   />
                   <MiniProgramStat
