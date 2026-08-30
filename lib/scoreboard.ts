@@ -15,7 +15,10 @@ function getGameTimestamp(game: Game) {
 
   if (!game.kickoff.includes("T")) {
     const [year, month, day] = game.kickoff.split("-").map(Number);
-    return new Date(year, month - 1, day).getTime();
+    const parsed = new Date(Date.UTC(year, month - 1, day, 12));
+    return Number.isNaN(parsed.getTime())
+      ? Number.MAX_SAFE_INTEGER
+      : parsed.getTime();
   }
 
   const timestamp = new Date(game.kickoff).getTime();
