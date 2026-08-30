@@ -73,7 +73,9 @@ export default function ScoreStrip() {
                 ? allSameWeek
                   ? `Week ${week} Results`
                   : "Latest Results"
-                : "Upcoming This Week"}
+                : allSameWeek
+                  ? `Week ${week} Matchups`
+                  : "Upcoming Games"}
             </p>
 
             <h2 className="mt-2 text-3xl font-black text-white">
