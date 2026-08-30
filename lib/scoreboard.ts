@@ -69,39 +69,28 @@ export function getScoreboardGames(): ScoreboardGame[] {
 export function getGameOfTheWeek(): ScoreboardGame | undefined {
   const scoreboardGames = getScoreboardGames();
   const now = Date.now();
-  const selectedGameOfTheWeekId = "cisco-at-clyde-2026-week-1";
-
-  const selectedGame = scoreboardGames.find(
-    (game) => game.id === selectedGameOfTheWeekId
-  );
-
-  if (selectedGame?.status === "live") return selectedGame;
-  if (selectedGame && isRecentFinal(selectedGame, now)) return selectedGame;
-
-  if (
-    selectedGame?.status === "upcoming" &&
-    getGameTimestamp(selectedGame) >= now
-  ) {
-    return selectedGame;
-  }
 
   return (
     scoreboardGames.find(
-      (game) =>
-        game.status === "live" &&
-        game.featured === true &&
-        game.coverageStatus === "planned"
+      (game) => game.status === "live" && game.featured === true
     ) ??
+    scoreboardGames.find((game) => game.status === "live" && game.isFeatured) ??
     scoreboardGames
-      .filter((game) => isRecentFinal(game, now) && game.isFeatured)
+      .filter(
+        (game) =>
+          isRecentFinal(game, now) &&
+          game.featured === true
+      )
       .sort((a, b) => getGameTimestamp(b) - getGameTimestamp(a))[0] ??
     scoreboardGames.find(
       (game) =>
         game.status === "upcoming" &&
         game.featured === true &&
-        game.coverageStatus === "planned" &&
         getGameTimestamp(game) >= now
     ) ??
+    scoreboardGames
+      .filter((game) => isRecentFinal(game, now) && game.isFeatured)
+      .sort((a, b) => getGameTimestamp(b) - getGameTimestamp(a))[0] ??
     scoreboardGames.find(
       (game) =>
         game.status === "upcoming" &&
