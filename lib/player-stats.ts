@@ -57,11 +57,6 @@ export function getPlayerId(schoolSlug: string, player: string, season: number) 
   return `${schoolSlug}-${normalizePlayerName(player)}-${season}`;
 }
 
-function inferSeason(gameId: string) {
-  const match = gameId.match(/-(20\d{2})-/);
-  return match ? Number(match[1]) : undefined;
-}
-
 function round(value: number, decimals = 1) {
   const factor = 10 ** decimals;
   return Math.round(value * factor) / factor;
@@ -101,8 +96,8 @@ export function getPlayerSeasonStats(season = 2026): PlayerSeasonStats[] {
   const players = new Map<string, PlayerSeasonStats>();
   const gamesByPlayer = new Map<string, Set<string>>();
 
-  function ensurePlayer(player: string, schoolSlug: string) {
-    const playerId = getPlayerId(schoolSlug, player, season);
+  function ensurePlayer(player: string, schoolSlug: string, explicitPlayerId?: string) {
+    const playerId = explicitPlayerId ?? getPlayerId(schoolSlug, player, season);
     const existing = players.get(playerId);
     if (existing) return existing;
 
@@ -119,10 +114,10 @@ export function getPlayerSeasonStats(season = 2026): PlayerSeasonStats[] {
   }
 
   for (const game of gameStats) {
-    if (inferSeason(game.gameId) !== season) continue;
+    if (game.season !== season) continue;
 
     for (const line of game.rushing) {
-      const player = ensurePlayer(line.player, line.schoolSlug);
+      const player = ensurePlayer(line.player, line.schoolSlug, line.playerId);
       player.rushing.attempts += line.attempts;
       player.rushing.yards += line.yards;
       player.rushing.touchdowns += line.touchdowns ?? 0;
@@ -130,7 +125,7 @@ export function getPlayerSeasonStats(season = 2026): PlayerSeasonStats[] {
     }
 
     for (const line of game.passing) {
-      const player = ensurePlayer(line.player, line.schoolSlug);
+      const player = ensurePlayer(line.player, line.schoolSlug, line.playerId);
       player.passing.completions += line.completions;
       player.passing.attempts += line.attempts;
       player.passing.yards += line.yards;
@@ -140,7 +135,7 @@ export function getPlayerSeasonStats(season = 2026): PlayerSeasonStats[] {
     }
 
     for (const line of game.receiving) {
-      const player = ensurePlayer(line.player, line.schoolSlug);
+      const player = ensurePlayer(line.player, line.schoolSlug, line.playerId);
       player.receiving.receptions += line.receptions;
       player.receiving.yards += line.yards;
       player.receiving.touchdowns += line.touchdowns ?? 0;
