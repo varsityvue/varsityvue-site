@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 
 import GameStatsReviewTool from "@/components/internal/GameStatsReviewTool";
+import { gameStats } from "@/data/game-stats";
 import { getGames } from "@/lib/games";
 
 export const metadata = {
@@ -16,6 +17,7 @@ export default function InternalStatsImportPage() {
     notFound();
   }
 
+  const gamesWithStats = new Set(gameStats.map((stats) => stats.gameId));
   const canonicalGames = getGames()
     .filter((game) => game.gameType !== "bye")
     .map((game) => ({
@@ -31,6 +33,7 @@ export default function InternalStatsImportPage() {
       status: game.status,
       homeScore: game.score?.home ?? game.homeScore,
       awayScore: game.score?.away ?? game.awayScore,
+      hasStats: gamesWithStats.has(game.id),
     }));
 
   return (
