@@ -15,12 +15,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { playerId } = await params;
   const player = getPlayerSeasonStat(playerId, SEASON);
   if (!player) return { title: "Player Not Found | VarsityVue" };
+
   const school = getSchoolBySlug(player.schoolSlug);
   const profile = getPlayerProfile(playerId, SEASON);
   const position = profile?.positions?.length ? ` ${profile.positions.join("/")}` : "";
+  const hasStats = player.gamesRecorded > 0;
+
   return {
-    title: `${player.player} 2026 Football Stats | VarsityVue`,
-    description: `${player.player}${position} ${SEASON} football statistics and game log currently on file for ${school?.name ?? player.schoolSlug}.`,
+    title: `${player.player} 2026 Football Profile | VarsityVue`,
+    description: hasStats
+      ? `${player.player}${position} ${SEASON} football profile, verified statistics, and game log currently on file for ${school?.name ?? player.schoolSlug}.`
+      : `${player.player}${position} ${SEASON} football roster profile for ${school?.name ?? player.schoolSlug}, with verified player information currently on file.`,
   };
 }
 
@@ -46,16 +51,16 @@ export default async function PlayerPage({ params }: Props) {
     profile.jerseyNumber ? { label: "Number", value: `#${profile.jerseyNumber}` } : undefined,
     profile.grade ? { label: "Class", value: profile.grade } : undefined,
     profile.positions?.length ? { label: "Position", value: profile.positions.join(" / ") } : undefined,
-    profile.height ? { label: "Height", value: profile.height } : undefined,
-    profile.weight ? { label: "Weight", value: `${profile.weight} lbs` } : undefined,
-    profile.hometown ? { label: "Hometown", value: profile.hometown } : undefined,
   ].filter((detail): detail is { label: string; value: string } => Boolean(detail)) : [];
+
+  const backHref = school ? `/schools/${school.slug}/roster` : "/stats";
+  const backLabel = school ? `${school.name} Roster` : "Stat Leaders";
 
   return (
     <main className="min-h-screen bg-[#050505] text-white">
       <section className="border-b border-white/10 px-4 py-10 sm:px-6 lg:px-8" style={{ background: `radial-gradient(circle at top left, ${primary}66 0%, transparent 35%), radial-gradient(circle at top right, ${secondary}33 0%, transparent 30%), linear-gradient(120deg, #050505 0%, #090909 50%, #000 100%)` }}>
         <div className="mx-auto max-w-7xl">
-          <Link href="/stats" className="text-xs font-black uppercase tracking-[0.16em] text-white/45 transition hover:text-white">← Stat Leaders</Link>
+          <Link href={backHref} className="text-xs font-black uppercase tracking-[0.16em] text-white/45 transition hover:text-white">← {backLabel}</Link>
           <div className="mt-7 grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
             <div>
               <p className="text-xs font-black uppercase tracking-[0.28em]" style={{ color: secondary }}>{SEASON} Player Profile</p>
@@ -73,7 +78,7 @@ export default async function PlayerPage({ params }: Props) {
       </section>
 
       <section className="px-4 py-8 sm:px-6 lg:px-8"><div className="mx-auto max-w-7xl space-y-8">
-        <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-5"><p className="text-xs font-black uppercase tracking-[0.18em] text-white/40">2026 data status</p><p className="mt-2 max-w-4xl text-sm leading-6 text-white/55">{hasStats ? `Season totals below are calculated from ${player.gamesRecorded} verified game${player.gamesRecorded === 1 ? "" : "s"} currently on file. Additional games will be added as verified statistics become available.` : "No verified game statistics are on file for this player yet. Roster information may still appear when it has been verified."}</p></div>
+        <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-5"><p className="text-xs font-black uppercase tracking-[0.18em] text-white/40">2026 data status</p><p className="mt-2 max-w-4xl text-sm leading-6 text-white/55">{hasStats ? `Season totals below are calculated from ${player.gamesRecorded} verified game${player.gamesRecorded === 1 ? "" : "s"} currently on file. Additional games will be added as verified statistics become available.` : "This player has a verified roster profile, but no verified game statistics are on file yet. Statistical sections will populate as game reports become available."}</p></div>
 
         {rosterDetails.length > 0 && <section className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] shadow-2xl"><div className="h-1.5" style={{ backgroundColor: primary }} /><div className="p-6 md:p-7"><div className="flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-black uppercase tracking-[0.28em] text-white/40">Verified Roster Profile</p><h2 className="mt-2 text-3xl font-black">Player information</h2></div><span className="rounded-full border border-white/10 bg-black/30 px-3 py-2 text-[10px] font-black uppercase tracking-[0.14em] text-white/45">Verified</span></div><div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{rosterDetails.map((detail) => <div key={detail.label} className="rounded-2xl border border-white/10 bg-black/30 p-4"><p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">{detail.label}</p><p className="mt-2 text-xl font-black text-white">{detail.value}</p></div>)}</div>{profile?.bio && <p className="mt-6 max-w-4xl text-sm leading-7 text-white/55">{profile.bio}</p>}</div></section>}
 
