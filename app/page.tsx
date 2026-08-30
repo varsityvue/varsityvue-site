@@ -343,11 +343,33 @@ export default function Home() {
                 const school = getSchoolBySlug(team.schoolSlug);
                 const differential = team.pointsFor - team.pointsAgainst;
                 const hasOverallResult = team.overallWins > 0 || team.overallLosses > 0;
+                const previousTeam = featuredStandings[index - 1];
+                const tiedWithPrevious =
+                  featuredDistrictHasResults &&
+                  previousTeam &&
+                  previousTeam.districtWins === team.districtWins &&
+                  previousTeam.districtLosses === team.districtLosses;
+                const firstTieIndex = tiedWithPrevious
+                  ? featuredStandings.findIndex(
+                      (item) =>
+                        item.districtWins === team.districtWins &&
+                        item.districtLosses === team.districtLosses
+                    )
+                  : index;
+                const tiedWithNext =
+                  featuredDistrictHasResults &&
+                  featuredStandings[index + 1] &&
+                  featuredStandings[index + 1].districtWins === team.districtWins &&
+                  featuredStandings[index + 1].districtLosses === team.districtLosses;
+                const position =
+                  featuredDistrictHasResults && (tiedWithPrevious || tiedWithNext)
+                    ? `T-${firstTieIndex + 1}`
+                    : featuredDistrictHasResults
+                      ? `#${index + 1}`
+                      : "—";
                 const rowContent = (
                   <>
-                    <span className="font-black text-white/45">
-                      {featuredDistrictHasResults ? `#${index + 1}` : "—"}
-                    </span>
+                    <span className="font-black text-white/45">{position}</span>
                     <span className="truncate font-black text-white">
                       {team.team}
                     </span>
