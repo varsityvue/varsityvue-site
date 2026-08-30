@@ -1,10 +1,14 @@
-import { games } from "@/data/games";
+import { games as scheduledGames } from "@/data/games";
+import { applyVerifiedGames } from "@/data/verified-games";
+
+const games = applyVerifiedGames(scheduledGames);
 
 export function getSchoolRecord(slug: string) {
   const relevantGames = games.filter(
     (game) =>
       game.status === "final" &&
       game.gameType !== "bye" &&
+      game.gameType !== "scrimmage" &&
       game.homeScore !== undefined &&
       game.awayScore !== undefined &&
       (game.homeSchoolSlug === slug || game.awaySchoolSlug === slug)
