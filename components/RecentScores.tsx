@@ -18,7 +18,8 @@ function parseGameDate(kickoff?: string) {
 
   if (!kickoff.includes("T")) {
     const [year, month, day] = kickoff.split("-").map(Number);
-    return new Date(year, month - 1, day);
+    const parsedDate = new Date(Date.UTC(year, month - 1, day, 12));
+    return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
   }
 
   const parsedDate = new Date(kickoff);
