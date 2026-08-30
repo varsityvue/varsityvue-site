@@ -34,7 +34,7 @@ export default function StatsPage() {
           <div className="mt-6 grid max-w-2xl gap-3 sm:grid-cols-3">
             <SummaryStat value={representedSchools.size.toString()} label="Schools represented" />
             <SummaryStat value={allPlayers.length.toString()} label="Players with stats" />
-            <SummaryStat value={recordedGames ? `${recordedGames}+` : "0"} label="Weeks represented" />
+            <SummaryStat value={recordedGames.toString()} label="Most games recorded" />
           </div>
           <div className="mt-6 flex flex-wrap gap-3">
             <a href="#rushing" className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-black text-white/75 hover:bg-white/10">Rushing</a>
