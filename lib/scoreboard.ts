@@ -104,7 +104,6 @@ export function getGameOfTheWeek(): ScoreboardGame | undefined {
     scoreboardGames.find(
       (game) => game.status === "live" && game.featured === true
     ) ??
-    scoreboardGames.find((game) => game.status === "live" && game.isFeatured) ??
     scoreboardGames
       .filter(
         (game) =>
@@ -114,12 +113,6 @@ export function getGameOfTheWeek(): ScoreboardGame | undefined {
       .sort((a, b) => getGameTimestamp(b) - getGameTimestamp(a))[0] ??
     scoreboardGames.find(
       (game) => game.featured === true && isUpcomingByScheduleDate(game, nowDate)
-    ) ??
-    scoreboardGames
-      .filter((game) => isRecentFinal(game, now) && game.isFeatured)
-      .sort((a, b) => getGameTimestamp(b) - getGameTimestamp(a))[0] ??
-    scoreboardGames.find(
-      (game) => game.isFeatured && isUpcomingByScheduleDate(game, nowDate)
     )
   );
 }
