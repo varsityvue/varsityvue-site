@@ -64,7 +64,14 @@ function formatGameTime(kickoff?: string) {
 }
 
 function formatClassification(conference: string, division?: string | null) {
-  return `${conference}${division ? ` ${division}` : ""}`;
+  const divisionLabel =
+    division === "D1"
+      ? "Division I"
+      : division === "D2"
+        ? "Division II"
+        : division;
+
+  return `${conference}${divisionLabel ? ` ${divisionLabel}` : ""}`;
 }
 
 export default function Home() {
