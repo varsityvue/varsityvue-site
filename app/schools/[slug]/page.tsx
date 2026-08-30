@@ -16,6 +16,7 @@ import StandingsTable from "../../../components/StandingsTable";
 import NewsFeed from "../../../components/NewsFeed";
 import SchoolSubnav from "../../../components/SchoolSubnav";
 import SchoolCoverage from "@/components/SchoolCoverage";
+import SchoolTeamLeaders from "@/components/SchoolTeamLeaders";
 import RivalryWatch from "../../../components/RivalryWatch";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -68,6 +69,12 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
           <UpcomingSchedulePreview schoolSlug={school.slug} />
           <SchoolCoverage schoolSlug={school.slug} />
           {recentScores.length > 0 && <RecentScores scores={recentScores} theme={theme} schoolSlug={slug} />}
+          <SchoolTeamLeaders
+            schoolSlug={school.slug}
+            season={2026}
+            primaryColor={theme.primary}
+            secondaryColor={theme.secondary}
+          />
           <StandingsTable standings={standings} theme={theme} />
           <NewsFeed articles={articles} theme={theme} />
           <SponsorBanner theme={theme} schoolId={school.id} />
