@@ -23,7 +23,10 @@ function getGameTimestamp(kickoff?: string) {
 
   if (!kickoff.includes("T")) {
     const [year, month, day] = kickoff.split("-").map(Number);
-    return new Date(year, month - 1, day).getTime();
+    const parsedDate = new Date(Date.UTC(year, month - 1, day, 12));
+    return Number.isNaN(parsedDate.getTime())
+      ? Number.MAX_SAFE_INTEGER
+      : parsedDate.getTime();
   }
 
   const timestamp = new Date(kickoff);
@@ -59,12 +62,15 @@ function formatGameDate(kickoff?: string) {
 
   if (!kickoff.includes("T")) {
     const [year, month, day] = kickoff.split("-").map(Number);
+    const parsedDate = new Date(Date.UTC(year, month - 1, day, 12));
+
+    if (Number.isNaN(parsedDate.getTime())) return "TBD";
 
     return new Intl.DateTimeFormat("en-US", {
       month: "short",
       day: "numeric",
       timeZone: "America/Chicago",
-    }).format(new Date(year, month - 1, day));
+    }).format(parsedDate);
   }
 
   const parsedDate = new Date(kickoff);
