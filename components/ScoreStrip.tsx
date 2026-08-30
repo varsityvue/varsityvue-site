@@ -88,7 +88,7 @@ export default function ScoreStrip() {
         </div>
 
         <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2">
-          {games.map((game, index) => {
+          {games.map((game) => {
             const awaySchool = game.awaySchoolSlug
               ? getSchoolBySlug(game.awaySchoolSlug)
               : undefined;
@@ -97,7 +97,6 @@ export default function ScoreStrip() {
               ? getSchoolBySlug(game.homeSchoolSlug)
               : undefined;
 
-            const isFeatured = index === 0 || game.isFeatured;
             const awayScore = game.awayScore ?? game.score?.away;
             const homeScore = game.homeScore ?? game.score?.home;
 
@@ -111,7 +110,7 @@ export default function ScoreStrip() {
                   <div className="flex items-center justify-between gap-3">
                     <div className="flex flex-wrap items-center gap-2">
                       <GameChip label={game.displayStatus} strong={showingFinals} />
-                      {isFeatured && <GameChip label="Featured" strong />}
+                      {game.isFeatured && <GameChip label="Featured" strong />}
                       {game.districtGame && <GameChip label="District Game" />}
                       {game.specialEvent && <GameChip label={game.specialEvent} />}
                     </div>
