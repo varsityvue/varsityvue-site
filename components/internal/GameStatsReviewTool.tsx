@@ -24,6 +24,7 @@ type CanonicalGame = {
   status: string;
   homeScore?: number;
   awayScore?: number;
+  hasStats?: boolean;
 };
 
 const starter = `{
@@ -84,7 +85,10 @@ export default function GameStatsReviewTool({ canonicalGames }: { canonicalGames
   const selectedGame = canonicalGames.find((game) => game.id === selectedGameId);
   const confirmedGame = canonicalGames.find((game) => game.id === confirmedGameId);
   const canonicalProblems = useMemo(() => getCanonicalProblems(stats, confirmedGame), [stats, confirmedGame]);
-  const approvalBlocked = errors.length > 0 || !confirmedGame || canonicalProblems.length > 0;
+  const duplicateProblem = confirmedGame?.hasStats
+    ? `This game already has a verified GameStats record (${confirmedGame.id}). Replace or correct the existing record instead of importing a duplicate.`
+    : undefined;
+  const approvalBlocked = errors.length > 0 || !confirmedGame || canonicalProblems.length > 0 || Boolean(duplicateProblem);
 
   function resetReviewState() {
     setResolved(null);
@@ -120,12 +124,10 @@ export default function GameStatsReviewTool({ canonicalGames }: { canonicalGames
 
   function loadFile(file?: File) {
     if (!file) return;
-
     const reader = new FileReader();
     reader.onload = () => {
       if (typeof reader.result !== "string") return;
       resetReviewState();
-
       const lowerName = file.name.toLowerCase();
       if (lowerName.endsWith(".csv") || file.type === "text/csv") {
         const csv = parseGameStatsCsv(reader.result);
@@ -133,12 +135,10 @@ export default function GameStatsReviewTool({ canonicalGames }: { canonicalGames
           setFileErrors(csv.errors);
           return;
         }
-
         setRaw(formatGameStatsForDataFile(csv.stats));
         setNotices(csv.notices);
         return;
       }
-
       setRaw(reader.result);
     };
     reader.readAsText(file);
@@ -162,6 +162,7 @@ export default function GameStatsReviewTool({ canonicalGames }: { canonicalGames
   }
 
   const parseErrors = fileErrors.length > 0 ? fileErrors : parsed.ok ? [] : parsed.errors;
+  const errorCount = errors.length + canonicalProblems.length + (duplicateProblem ? 1 : 0);
 
   return (
     <div className="grid gap-6 xl:grid-cols-[1fr_1fr]">
@@ -171,23 +172,13 @@ export default function GameStatsReviewTool({ canonicalGames }: { canonicalGames
             <p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">Import Draft</p>
             <h2 className="mt-2 text-2xl font-black">Paste JSON or upload CSV</h2>
             <p className="mt-2 max-w-xl text-sm leading-6 text-white/45">
-              Convert source data into one reviewable GameStats object. Approval now requires matching the draft to a canonical VarsityVue game.
+              Convert source data into one reviewable GameStats object. Approval requires a canonical game match and duplicate check.
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <input
-              ref={fileInput}
-              type="file"
-              accept="application/json,.json,text/plain,text/csv,.csv"
-              className="hidden"
-              onChange={(event) => loadFile(event.target.files?.[0])}
-            />
-            <button type="button" onClick={downloadCsvTemplate} className="rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white/60 transition hover:bg-white/10 hover:text-white">
-              CSV Template
-            </button>
-            <button type="button" onClick={() => fileInput.current?.click()} className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white/70 transition hover:bg-white/10 hover:text-white">
-              Upload JSON / CSV
-            </button>
+            <input ref={fileInput} type="file" accept="application/json,.json,text/plain,text/csv,.csv" className="hidden" onChange={(event) => loadFile(event.target.files?.[0])} />
+            <button type="button" onClick={downloadCsvTemplate} className="rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white/60 transition hover:bg-white/10 hover:text-white">CSV Template</button>
+            <button type="button" onClick={() => fileInput.current?.click()} className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white/70 transition hover:bg-white/10 hover:text-white">Upload JSON / CSV</button>
           </div>
         </div>
 
@@ -202,14 +193,8 @@ export default function GameStatsReviewTool({ canonicalGames }: { canonicalGames
         />
 
         <div className="mt-4 flex flex-wrap gap-3">
-          <button type="button" disabled={!stats || fileErrors.length > 0} onClick={resolvePlayers} className="rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white transition disabled:cursor-not-allowed disabled:opacity-35">
-            Resolve Player IDs
-          </button>
-          {resolved && (
-            <button type="button" onClick={useOriginalDraft} className="rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white/60">
-              Use Original Draft
-            </button>
-          )}
+          <button type="button" disabled={!stats || fileErrors.length > 0} onClick={resolvePlayers} className="rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white transition disabled:cursor-not-allowed disabled:opacity-35">Resolve Player IDs</button>
+          {resolved && <button type="button" onClick={useOriginalDraft} className="rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white/60">Use Original Draft</button>}
         </div>
       </section>
 
@@ -217,9 +202,7 @@ export default function GameStatsReviewTool({ canonicalGames }: { canonicalGames
         <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-6">
           <p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">Canonical Game Match</p>
           <h2 className="mt-2 text-2xl font-black">Confirm the schedule record</h2>
-          <p className="mt-2 text-sm leading-6 text-white/45">
-            The production object cannot be approved until it is explicitly matched to an existing VarsityVue game.
-          </p>
+          <p className="mt-2 text-sm leading-6 text-white/45">The production object cannot be approved until it is explicitly matched to an existing VarsityVue game.</p>
 
           {stats ? (
             <div className="mt-5 space-y-4">
@@ -233,7 +216,7 @@ export default function GameStatsReviewTool({ canonicalGames }: { canonicalGames
               >
                 <option value="">Select canonical game…</option>
                 {suggestedGames.map((game) => (
-                  <option key={game.id} value={game.id}>{formatGameLabel(game)}</option>
+                  <option key={game.id} value={game.id}>{formatGameLabel(game)}{game.hasStats ? " · STATS ALREADY LOADED" : ""}</option>
                 ))}
               </select>
 
@@ -241,26 +224,18 @@ export default function GameStatsReviewTool({ canonicalGames }: { canonicalGames
                 <div className="rounded-2xl border border-white/10 bg-black/30 p-4 text-sm text-white/60">
                   <p className="font-black text-white/85">{formatGameLabel(selectedGame)}</p>
                   <p className="mt-2 text-xs text-white/40">Canonical ID: {selectedGame.id}</p>
-                  {selectedGame.status === "final" && selectedGame.awayScore !== undefined && selectedGame.homeScore !== undefined && (
-                    <p className="mt-1 text-xs text-white/40">Final: {selectedGame.awayScore}–{selectedGame.homeScore}</p>
-                  )}
+                  {selectedGame.status === "final" && selectedGame.awayScore !== undefined && selectedGame.homeScore !== undefined && <p className="mt-1 text-xs text-white/40">Final: {selectedGame.awayScore}–{selectedGame.homeScore}</p>}
+                  {selectedGame.hasStats && <p className="mt-3 text-xs font-black uppercase tracking-[0.12em] text-red-200">Verified stats already exist for this game</p>}
                 </div>
               )}
 
-              <button type="button" disabled={!selectedGame} onClick={confirmCanonicalGame} className="rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white disabled:cursor-not-allowed disabled:opacity-35">
-                Apply & Confirm Game
-              </button>
+              <button type="button" disabled={!selectedGame} onClick={confirmCanonicalGame} className="rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white disabled:cursor-not-allowed disabled:opacity-35">Apply & Confirm Game</button>
 
-              {confirmedGame && (
-                <div className="rounded-xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-sm text-emerald-100">
-                  Confirmed: {formatGameLabel(confirmedGame)}
-                </div>
-              )}
+              {confirmedGame && !duplicateProblem && <div className="rounded-xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-sm text-emerald-100">Confirmed: {formatGameLabel(confirmedGame)}</div>}
+              {duplicateProblem && <Issue level="error" message={duplicateProblem} />}
               {canonicalProblems.map((problem) => <Issue key={problem} level="error" message={problem} />)}
             </div>
-          ) : (
-            <p className="mt-5 text-sm text-white/35">Load a valid draft to see game matches.</p>
-          )}
+          ) : <p className="mt-5 text-sm text-white/35">Load a valid draft to see game matches.</p>}
         </section>
 
         <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-6">
@@ -270,15 +245,13 @@ export default function GameStatsReviewTool({ canonicalGames }: { canonicalGames
           ) : (
             <>
               <div className="mt-5 grid gap-3 sm:grid-cols-4">
-                <StatusCard label="Errors" value={errors.length + canonicalProblems.length} />
+                <StatusCard label="Errors" value={errorCount} />
                 <StatusCard label="Warnings" value={warnings.length} />
                 <StatusCard label="Notices" value={notices.length} />
-                <StatusCard label="Game Match" value={confirmedGame ? 1 : 0} />
+                <StatusCard label="Game Match" value={confirmedGame && !duplicateProblem ? 1 : 0} />
               </div>
               <div className="mt-5 space-y-2">
-                {issues.length === 0 && confirmedGame && canonicalProblems.length === 0 && (
-                  <div className="rounded-xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-sm text-emerald-100">No validation issues found.</div>
-                )}
+                {issues.length === 0 && confirmedGame && canonicalProblems.length === 0 && !duplicateProblem && <div className="rounded-xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-sm text-emerald-100">No validation issues found.</div>}
                 {!confirmedGame && <Issue level="error" message="A canonical VarsityVue game must be confirmed before approval." />}
                 {issues.map((issue, index) => <Issue key={`${issue.level}-${index}-${issue.message}`} {...issue} />)}
               </div>
@@ -294,9 +267,7 @@ export default function GameStatsReviewTool({ canonicalGames }: { canonicalGames
                 <h2 className="mt-2 text-2xl font-black">{stats.gameId || "Unassigned game"}</h2>
                 <p className="mt-2 text-sm text-white/45">Season {stats.season} · {stats.sourceLabel}</p>
               </div>
-              <span className={`rounded-full border px-3 py-2 text-[10px] font-black uppercase tracking-[0.14em] ${approvalBlocked ? "border-red-400/20 bg-red-400/10 text-red-100" : "border-emerald-400/20 bg-emerald-400/10 text-emerald-100"}`}>
-                {approvalBlocked ? "Blocked" : "Ready for review"}
-              </span>
+              <span className={`rounded-full border px-3 py-2 text-[10px] font-black uppercase tracking-[0.14em] ${approvalBlocked ? "border-red-400/20 bg-red-400/10 text-red-100" : "border-emerald-400/20 bg-emerald-400/10 text-emerald-100"}`}>{approvalBlocked ? "Blocked" : "Ready for review"}</span>
             </div>
             <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               <PreviewCard label="Quarter score lines" value={stats.quarterScores.length} />
@@ -320,11 +291,9 @@ export default function GameStatsReviewTool({ canonicalGames }: { canonicalGames
           <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-6">
             <p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">Approval Output</p>
             <h2 className="mt-2 text-2xl font-black">Production-ready object</h2>
-            <p className="mt-2 text-sm leading-6 text-white/45">Copy is enabled only after canonical game confirmation and all blocking validation checks pass.</p>
+            <p className="mt-2 text-sm leading-6 text-white/45">Copy is enabled only after canonical game confirmation, duplicate detection, and all blocking validation checks pass.</p>
             <pre className="mt-5 max-h-[440px] overflow-auto rounded-2xl border border-white/10 bg-black/45 p-4 text-xs leading-6 text-white/65">{formatGameStatsForDataFile(stats)}</pre>
-            <button type="button" disabled={approvalBlocked} onClick={copyApprovedJson} className="mt-4 rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white transition disabled:cursor-not-allowed disabled:opacity-35">
-              Copy Approved JSON
-            </button>
+            <button type="button" disabled={approvalBlocked} onClick={copyApprovedJson} className="mt-4 rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white transition disabled:cursor-not-allowed disabled:opacity-35">Copy Approved JSON</button>
           </section>
         )}
       </div>
