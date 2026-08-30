@@ -5,6 +5,7 @@ import {
   getReceivingLeaders,
   getRushingLeaders,
 } from "@/lib/player-stats";
+import { getPlayerProfile } from "@/lib/player-profiles";
 
 type SchoolTeamLeadersProps = {
   schoolSlug: string;
@@ -60,6 +61,7 @@ export default function SchoolTeamLeaders({
             leaders={rushing.map((entry) => ({
               id: entry.playerId,
               name: entry.player,
+              href: getPlayerProfile(entry.playerId, season) ? `/players/${entry.playerId}` : undefined,
               primary: `${entry.rushing.yards.toLocaleString()} yds`,
               secondary: `${entry.rushing.attempts} car · ${entry.rushing.touchdowns} TD · ${entry.rushing.yardsPerCarry} YPC · ${entry.gamesRecorded} G`,
             }))}
@@ -69,6 +71,7 @@ export default function SchoolTeamLeaders({
             leaders={passing.map((entry) => ({
               id: entry.playerId,
               name: entry.player,
+              href: getPlayerProfile(entry.playerId, season) ? `/players/${entry.playerId}` : undefined,
               primary: `${entry.passing.yards.toLocaleString()} yds`,
               secondary: `${entry.passing.completions}/${entry.passing.attempts} · ${entry.passing.touchdowns} TD · ${entry.passing.interceptions} INT · ${entry.gamesRecorded} G`,
             }))}
@@ -78,6 +81,7 @@ export default function SchoolTeamLeaders({
             leaders={receiving.map((entry) => ({
               id: entry.playerId,
               name: entry.player,
+              href: getPlayerProfile(entry.playerId, season) ? `/players/${entry.playerId}` : undefined,
               primary: `${entry.receiving.yards.toLocaleString()} yds`,
               secondary: `${entry.receiving.receptions} rec · ${entry.receiving.touchdowns} TD · ${entry.receiving.yardsPerReception} YPR · ${entry.gamesRecorded} G`,
             }))}
@@ -93,7 +97,7 @@ function LeaderCard({
   leaders,
 }: {
   title: string;
-  leaders: { id: string; name: string; primary: string; secondary: string }[];
+  leaders: { id: string; name: string; href?: string; primary: string; secondary: string }[];
 }) {
   return (
     <div className="overflow-hidden rounded-2xl border border-white/10 bg-black/35">
@@ -106,9 +110,13 @@ function LeaderCard({
             <div key={leader.id} className="grid grid-cols-[2rem_1fr_auto] items-center gap-3 px-4 py-4 transition hover:bg-white/[0.03]">
               <span className="text-lg font-black text-white/25">{index + 1}</span>
               <div className="min-w-0">
-                <Link href={`/players/${leader.id}`} className="truncate font-black text-white transition hover:text-white/70">
-                  {leader.name}
-                </Link>
+                {leader.href ? (
+                  <Link href={leader.href} className="truncate font-black text-white transition hover:text-white/70">
+                    {leader.name}
+                  </Link>
+                ) : (
+                  <p className="truncate font-black text-white">{leader.name}</p>
+                )}
                 <p className="mt-1 text-xs text-white/40">{leader.secondary}</p>
               </div>
               <span className="text-right text-sm font-black text-white/80">{leader.primary}</span>
