@@ -6,6 +6,26 @@ import SchoolBadge from "./SchoolBadge";
 
 const DISTRICT_ID = "2a-d1-district-5";
 
+type Standing = ReturnType<typeof getStandingsForDistrictId>[number];
+
+function getStandingPosition(standings: Standing[], index: number) {
+  const team = standings[index];
+  const firstMatchingIndex = standings.findIndex(
+    (item) =>
+      item.districtWins === team.districtWins &&
+      item.districtLosses === team.districtLosses
+  );
+  const tied = standings.some(
+    (item, itemIndex) =>
+      itemIndex !== index &&
+      item.districtWins === team.districtWins &&
+      item.districtLosses === team.districtLosses
+  );
+  const place = firstMatchingIndex + 1;
+
+  return tied ? `T-${place}` : `#${place}`;
+}
+
 export default function DistrictSpotlight() {
   const district = getDistrictById(DISTRICT_ID);
   const schools = getSchoolsByDistrictId(DISTRICT_ID);
@@ -88,7 +108,7 @@ export default function DistrictSpotlight() {
                   className="grid grid-cols-[32px_auto_1fr_auto] items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4 transition hover:bg-white/[0.08]"
                 >
                   <p className="font-black text-white/45">
-                    {districtStarted ? `#${index + 1}` : "—"}
+                    {districtStarted ? getStandingPosition(standings, index) : "—"}
                   </p>
 
                   {school && <SchoolBadge school={school} size="xs" />}
