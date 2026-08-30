@@ -40,7 +40,7 @@ function parseGameDate(kickoff?: string) {
 
 function formatGameDate(kickoff?: string) {
   const parsedDate = parseGameDate(kickoff);
-  if (!parsedDate) return "TBD";
+  if (!parsedDate) return "—";
 
   return new Intl.DateTimeFormat("en-US", {
     weekday: "short",
@@ -51,10 +51,10 @@ function formatGameDate(kickoff?: string) {
 }
 
 function formatGameTime(kickoff?: string) {
-  if (!kickoff || !kickoff.includes("T")) return "Time TBD";
+  if (!kickoff || !kickoff.includes("T")) return "—";
 
   const parsedDate = parseGameDate(kickoff);
-  if (!parsedDate) return "Time TBD";
+  if (!parsedDate) return "—";
 
   return new Intl.DateTimeFormat("en-US", {
     hour: "numeric",
