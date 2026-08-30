@@ -155,6 +155,24 @@ export default function StandingsTable({
                 {standings.map((team, index) => {
                   const differential = team.pointsFor - team.pointsAgainst;
                   const school = getSchoolBySlug(team.schoolSlug);
+                  const teamContent = (
+                    <div className="flex items-center gap-4">
+                      {school ? (
+                        <SchoolBadge school={school} size="xs" />
+                      ) : (
+                        <FallbackBadge label={team.team} />
+                      )}
+
+                      <div>
+                        <p className="font-black text-white">{team.team}</p>
+                        {school && (
+                          <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-white/40">
+                            {school.mascot}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  );
 
                   return (
                     <tr
@@ -170,25 +188,16 @@ export default function StandingsTable({
                       </td>
 
                       <td className="px-5 py-4">
-                        <Link
-                          href={`/schools/${team.schoolSlug}`}
-                          className="flex items-center gap-4 text-white transition hover:text-white/70"
-                        >
-                          {school ? (
-                            <SchoolBadge school={school} size="xs" />
-                          ) : (
-                            <FallbackBadge label={team.team} />
-                          )}
-
-                          <div>
-                            <p className="font-black text-white">{team.team}</p>
-                            {school && (
-                              <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-white/40">
-                                {school.mascot}
-                              </p>
-                            )}
-                          </div>
-                        </Link>
+                        {school ? (
+                          <Link
+                            href={`/schools/${team.schoolSlug}`}
+                            className="block text-white transition hover:text-white/70"
+                          >
+                            {teamContent}
+                          </Link>
+                        ) : (
+                          teamContent
+                        )}
                       </td>
 
                       <td className="px-5 py-4 font-black text-white">
