@@ -39,9 +39,7 @@ function getGroupedDistricts() {
 
 export default function DistrictsPage() {
   const groupedDistricts = getGroupedDistricts();
-  const pilotDistricts = districts.filter(
-    (district) => district.status === "pilot"
-  );
+  const representedClassifications = groupedDistricts.length;
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] text-white">
@@ -55,36 +53,46 @@ export default function DistrictsPage() {
             <div className="mt-5 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
               <div>
                 <h1 className="text-4xl font-black leading-tight tracking-tight sm:text-6xl">
-                  District Directory
+                  Find your district.
                 </h1>
 
                 <p className="mt-4 max-w-3xl text-base leading-7 text-white/60 sm:text-lg">
-                  Browse district hubs by classification, then drill into
-                  standings, school ecosystems, schedules, matchups, and
-                  sponsor-supported football coverage.
+                  Browse Texas high school football districts by classification,
+                  then open a district hub for member schools, schedules,
+                  standings, matchups, and coverage currently available on
+                  VarsityVue.
                 </p>
               </div>
 
               <Link
                 href="/sponsor-inquiry"
-                className="rounded-xl border border-[color:var(--vv-accent)] bg-[var(--vv-primary)]/25 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-[var(--vv-accent-soft)] transition hover:bg-[var(--vv-primary)]/40 hover:text-white"
+                className="rounded-xl border border-white/15 bg-white/[0.08] px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
               >
-                Sponsor a District
+                2027 Sponsor Interest →
               </Link>
             </div>
           </div>
 
           <section className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <StatCard label="Districts" value={districts.length.toString()} />
-            <StatCard label="Pilot Hubs" value={pilotDistricts.length.toString()} />
-            <StatCard label="Schools" value={schools.length.toString()} />
-            <StatCard label="Structure" value="1A–6A" />
+            <StatCard label="District Hubs" value={districts.length.toString()} />
+            <StatCard label="Schools Listed" value={schools.length.toString()} />
+            <StatCard
+              label="Classifications"
+              value={representedClassifications.toString()}
+            />
+            <StatCard label="UIL Range" value="1A–6A" />
           </section>
         </div>
       </section>
 
       <section className="px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-[1440px] space-y-8">
+          <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.035] p-5 text-sm leading-6 text-white/50">
+            District hubs reflect the schedules, results, standings, and school
+            information currently on file. Coverage will continue to expand as
+            additional information is verified.
+          </div>
+
           {groupedDistricts.map((group) => (
             <section
               key={group.classification}
@@ -103,7 +111,7 @@ export default function DistrictsPage() {
 
                 <p className="text-sm font-bold text-white/45">
                   {group.districts.length} district
-                  {group.districts.length === 1 ? "" : "s"}
+                  {group.districts.length === 1 ? "" : "s"} listed
                 </p>
               </div>
 
@@ -126,7 +134,7 @@ export default function DistrictsPage() {
                           </p>
 
                           <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-white/65">
-                            {district.status}
+                            Region {district.uilRegion}
                           </p>
                         </div>
 
@@ -135,8 +143,7 @@ export default function DistrictsPage() {
                         </h3>
 
                         <p className="mt-3 text-sm font-bold uppercase tracking-[0.14em] text-white/45">
-                          {getDistrictClassificationLabel(district)} • Region{" "}
-                          {district.uilRegion}
+                          {getDistrictClassificationLabel(district)}
                         </p>
 
                         <div className="mt-5 grid grid-cols-2 gap-3">
@@ -145,13 +152,13 @@ export default function DistrictsPage() {
                             value={schoolCount.toString()}
                           />
                           <MiniStat
-                            label="Market"
-                            value={district.coverageMarket ?? "TBD"}
+                            label="Region"
+                            value={`Region ${district.uilRegion}`}
                           />
                         </div>
 
                         <p className="mt-6 text-sm font-black uppercase tracking-[0.14em] text-white/70 transition group-hover:text-white">
-                          View district hub →
+                          Open district hub →
                         </p>
                       </div>
                     </Link>
