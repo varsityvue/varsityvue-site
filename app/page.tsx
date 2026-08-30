@@ -148,7 +148,9 @@ export default function Home() {
                   <>
                     <div className="mt-5 text-center">
                       <p className="text-sm font-black uppercase tracking-[0.35em] text-white/40">
-                        Week {featuredGame.week ?? "TBD"} Showcase
+                        {featuredGame.week !== undefined
+                          ? `Week ${featuredGame.week} Showcase`
+                          : "Featured Matchup"}
                       </p>
 
                       <div className="mt-6 grid items-center gap-5 md:grid-cols-[1fr_auto_1fr]">
@@ -194,7 +196,9 @@ export default function Home() {
                     </div>
 
                     <div className="mt-6 flex flex-wrap justify-center gap-2">
-                      <HeroPill label={`Week ${featuredGame.week ?? "TBD"}`} />
+                      {featuredGame.week !== undefined && (
+                        <HeroPill label={`Week ${featuredGame.week}`} />
+                      )}
                       <HeroPill
                         label={
                           featuredGame.districtGame
@@ -237,8 +241,12 @@ export default function Home() {
 
                     <h2 className="mt-3 text-3xl font-black text-white md:text-4xl">
                       {featuredGameFinal
-                        ? `Week ${featuredGame.week ?? 1} final is on the board.`
-                        : `Week ${featuredGame.week ?? 1} takes center stage.`}
+                        ? featuredGame.week !== undefined
+                          ? `Week ${featuredGame.week} final is on the board.`
+                          : "The final is on the board."
+                        : featuredGame.week !== undefined
+                          ? `Week ${featuredGame.week} takes center stage.`
+                          : "This matchup takes center stage."}
                     </h2>
 
                     <p className="mt-3 max-w-3xl text-sm leading-6 text-white/60">
