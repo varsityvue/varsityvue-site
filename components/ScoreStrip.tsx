@@ -40,7 +40,7 @@ function formatKickoff(kickoff?: string) {
 function getGameLabel(gameType: string, week?: number) {
   if (gameType === "scrimmage") return "Scrimmage";
   if (gameType === "playoff") return "Playoff";
-  return week === undefined ? "Week TBD" : `Week ${week}`;
+  return week === undefined ? "—" : `Week ${week}`;
 }
 
 function formatRecord(slug?: string) {
