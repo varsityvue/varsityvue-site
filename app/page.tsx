@@ -22,7 +22,7 @@ import FeaturedCoverage from "@/components/FeaturedCoverage";
 export const metadata: Metadata = {
   title: "VarsityVue | Texas High School Sports Platform",
   description:
-    "VarsityVue is a Texas high school sports platform for school hubs, schedules, scores, district standings, matchup pages, coverage, and sponsor visibility.",
+    "VarsityVue is a Texas high school sports platform for school hubs, schedules, scores, district standings, matchup pages, coverage, and program discovery.",
 };
 
 function parseGameDate(kickoff?: string) {
@@ -227,8 +227,8 @@ export default function Home() {
                     </h1>
 
                     <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">
-                      Texas high school sports hubs, scores, standings,
-                      coverage, and sponsor visibility.
+                      Texas high school sports hubs, verified scores, schedules,
+                      district standings, player stats, and local coverage.
                     </p>
                   </div>
                 )}
