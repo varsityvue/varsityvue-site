@@ -13,17 +13,42 @@ import SchoolSubnav from "../../../../components/SchoolSubnav";
 
 type ScheduleGame = ReturnType<typeof getGamesForSchool>[number];
 
+const CENTRAL_TIME_ZONE = "America/Chicago";
+
 function parseGameDate(kickoff?: string) {
   if (!kickoff) return null;
 
   if (!kickoff.includes("T")) {
     const [year, month, day] = kickoff.split("-").map(Number);
-    const parsed = new Date(year, month - 1, day);
+    const parsed = new Date(Date.UTC(year, month - 1, day, 12));
     return Number.isNaN(parsed.getTime()) ? null : parsed;
   }
 
   const parsed = new Date(kickoff);
   return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+function getCentralDateKey(date: Date) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    timeZone: CENTRAL_TIME_ZONE,
+  }).formatToParts(date);
+
+  const year = parts.find((part) => part.type === "year")?.value;
+  const month = parts.find((part) => part.type === "month")?.value;
+  const day = parts.find((part) => part.type === "day")?.value;
+
+  return year && month && day ? `${year}-${month}-${day}` : null;
+}
+
+function getGameDateKey(kickoff?: string) {
+  if (!kickoff) return null;
+  if (!kickoff.includes("T")) return kickoff;
+
+  const parsed = parseGameDate(kickoff);
+  return parsed ? getCentralDateKey(parsed) : null;
 }
 
 function getGameTimestamp(game: ScheduleGame) {
@@ -38,7 +63,7 @@ function formatGameDate(kickoff?: string) {
     weekday: "short",
     month: "short",
     day: "numeric",
-    timeZone: "America/Chicago",
+    timeZone: CENTRAL_TIME_ZONE,
   }).format(parsedDate);
 }
 
@@ -51,7 +76,7 @@ function formatGameTime(kickoff?: string) {
   return new Intl.DateTimeFormat("en-US", {
     hour: "numeric",
     minute: "2-digit",
-    timeZone: "America/Chicago",
+    timeZone: CENTRAL_TIME_ZONE,
   }).format(parsedDate);
 }
 
@@ -62,13 +87,13 @@ function getGameTypeLabel(game: ScheduleGame) {
   return game.week === undefined ? "Week TBD" : `Week ${game.week}`;
 }
 
-function getGameStatusLabel(game: ScheduleGame) {
+function getGameStatusLabel(game: ScheduleGame, todayKey: string | null) {
   if (game.gameType === "bye") return "Open Week";
   if (game.status === "final") return "Final";
   if (game.status === "live") return "Live";
 
-  const timestamp = getGameTimestamp(game);
-  if (timestamp !== Number.MAX_SAFE_INTEGER && timestamp < Date.now()) {
+  const gameDateKey = getGameDateKey(game.kickoff);
+  if (todayKey && gameDateKey && gameDateKey < todayKey) {
     return "Result Pending";
   }
 
@@ -123,14 +148,15 @@ export default async function SchoolSchedulePage({
   const games = getGamesForSchool(slug).sort(
     (a, b) => getGameTimestamp(a) - getGameTimestamp(b)
   );
+  const todayKey = getCentralDateKey(new Date());
 
   const finalGames = games.filter(
     (game) => game.status === "final" && game.gameType !== "bye"
   );
   const upcomingGames = games.filter((game) => {
     if (game.status !== "upcoming" || game.gameType === "bye") return false;
-    const timestamp = getGameTimestamp(game);
-    return timestamp === Number.MAX_SAFE_INTEGER || timestamp >= Date.now();
+    const gameDateKey = getGameDateKey(game.kickoff);
+    return !todayKey || !gameDateKey || gameDateKey >= todayKey;
   });
   const districtGames = games.filter((game) => game.districtGame).length;
 
@@ -295,7 +321,7 @@ export default async function SchoolSchedulePage({
                     <div className="relative">
                       <div className="flex flex-wrap gap-2">
                         <Badge label={getGameTypeLabel(game)} />
-                        <Badge label={getGameStatusLabel(game)} />
+                        <Badge label={getGameStatusLabel(game, todayKey)} />
                         {!isBye && <Badge label={locationLabel} />}
                         {game.districtGame && <Badge label="District" />}
                         {game.specialEvent && <Badge label={game.specialEvent} />}
