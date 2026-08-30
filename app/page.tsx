@@ -340,15 +340,11 @@ export default function Home() {
 
             <div className="space-y-3">
               {featuredStandings.map((team, index) => {
+                const school = getSchoolBySlug(team.schoolSlug);
                 const differential = team.pointsFor - team.pointsAgainst;
                 const hasOverallResult = team.overallWins > 0 || team.overallLosses > 0;
-
-                return (
-                  <Link
-                    key={team.schoolSlug}
-                    href={`/schools/${team.schoolSlug}`}
-                    className="grid grid-cols-[32px_1fr_58px_58px_44px] items-center gap-3 rounded-xl bg-black/35 px-3 py-3 text-sm transition hover:bg-white/10"
-                  >
+                const rowContent = (
+                  <>
                     <span className="font-black text-white/45">
                       {featuredDistrictHasResults ? `#${index + 1}` : "—"}
                     </span>
@@ -366,7 +362,24 @@ export default function Home() {
                     <span className="font-bold text-white/45">
                       {hasOverallResult ? `${differential > 0 ? "+" : ""}${differential}` : "—"}
                     </span>
+                  </>
+                );
+
+                return school ? (
+                  <Link
+                    key={team.schoolSlug}
+                    href={`/schools/${school.slug}`}
+                    className="grid grid-cols-[32px_1fr_58px_58px_44px] items-center gap-3 rounded-xl bg-black/35 px-3 py-3 text-sm transition hover:bg-white/10"
+                  >
+                    {rowContent}
                   </Link>
+                ) : (
+                  <div
+                    key={team.schoolSlug}
+                    className="grid grid-cols-[32px_1fr_58px_58px_44px] items-center gap-3 rounded-xl bg-black/35 px-3 py-3 text-sm"
+                  >
+                    {rowContent}
+                  </div>
                 );
               })}
             </div>
