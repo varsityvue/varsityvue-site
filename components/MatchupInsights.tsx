@@ -19,10 +19,10 @@ function formatPoints(value?: number) {
 }
 
 function getDistrictRank(slug?: string) {
-    if (!slug) return "TBD";
+    if (!slug) return "—";
 
     const school = getSchoolBySlug(slug);
-    if (!school) return "TBD";
+    if (!school) return "—";
 
     const standings = getStandingsForDistrictId(school.districtId);
     const districtStarted = standings.some(
@@ -32,7 +32,7 @@ function getDistrictRank(slug?: string) {
     if (!districtStarted) return "—";
 
     const index = standings.findIndex((team) => team.schoolSlug === slug);
-    if (index === -1) return "TBD";
+    if (index === -1) return "—";
 
     const team = standings[index];
     const firstTieIndex = standings.findIndex(
