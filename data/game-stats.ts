@@ -17,6 +17,7 @@ export type TeamStatLine = {
 };
 
 export type RushingStatLine = {
+  playerId?: string;
   player: string;
   schoolSlug: string;
   attempts: number;
@@ -25,6 +26,7 @@ export type RushingStatLine = {
 };
 
 export type PassingStatLine = {
+  playerId?: string;
   player: string;
   schoolSlug: string;
   completions: number;
@@ -35,6 +37,7 @@ export type PassingStatLine = {
 };
 
 export type ReceivingStatLine = {
+  playerId?: string;
   player: string;
   schoolSlug: string;
   receptions: number;
@@ -57,6 +60,7 @@ export type QuarterScore = {
 
 export type GameStats = {
   gameId: string;
+  season: number;
   sourceStatus: "verified";
   sourceLabel: string;
   quarterScores: QuarterScore[];
@@ -70,6 +74,7 @@ export type GameStats = {
 export const gameStats: GameStats[] = [
   {
     gameId: "san-saba-at-de-leon-2026-week-1",
+    season: 2026,
     sourceStatus: "verified",
     sourceLabel: "Statistics provided by the coaching staff",
     quarterScores: [
