@@ -35,14 +35,6 @@ function formatDistrictName(districtId: string) {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
-function formatStatus(status: School["status"]) {
-  return status.charAt(0).toUpperCase() + status.slice(1);
-}
-
-function getStatusCount(schools: School[], status: School["status"]) {
-  return schools.filter((school) => school.status === status).length;
-}
-
 function getClassificationCount(
   schools: School[],
   classification: ClassificationFilter
@@ -56,19 +48,8 @@ function getClassificationCount(
 
 export default function SchoolDirectory({ schools }: { schools: School[] }) {
   const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState<"all" | School["status"]>(
-    "all"
-  );
   const [classificationFilter, setClassificationFilter] =
     useState<ClassificationFilter>("all");
-
-  const statusCounts = {
-    pilot: getStatusCount(schools, "pilot"),
-    watchlist: getStatusCount(schools, "watchlist"),
-    planned: getStatusCount(schools, "planned"),
-    active: getStatusCount(schools, "active"),
-    archived: getStatusCount(schools, "archived"),
-  };
 
   const filteredSchools = useMemo(() => {
     const searchValue = search.trim().toLowerCase();
@@ -86,8 +67,6 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
         district,
         school.districtId,
         school.stadium,
-        school.status,
-        school.coverageMarket,
       ]
         .filter(Boolean)
         .join(" ")
@@ -96,16 +75,13 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
       const matchesSearch =
         searchValue.length === 0 || searchText.includes(searchValue);
 
-      const matchesStatus =
-        statusFilter === "all" || school.status === statusFilter;
-
       const matchesClassification =
         classificationFilter === "all" ||
         school.classification.conference === classificationFilter;
 
-      return matchesSearch && matchesStatus && matchesClassification;
+      return matchesSearch && matchesClassification;
     });
-  }, [schools, search, statusFilter, classificationFilter]);
+  }, [schools, search, classificationFilter]);
 
   return (
     <>
@@ -113,7 +89,7 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
         <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
-              Search Database
+              School Search
             </p>
 
             <h2 className="mt-2 text-3xl font-black text-white">
@@ -151,39 +127,6 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
                 onClick={() => setClassificationFilter(classification)}
               />
             ))}
-          </div>
-        </div>
-
-        <div className="mt-5">
-          <p className="mb-3 text-[10px] font-black uppercase tracking-[0.22em] text-white/35">
-            Coverage Status
-          </p>
-
-          <div className="flex flex-wrap gap-3">
-            <FilterButton
-              active={statusFilter === "all"}
-              label="All"
-              count={schools.length}
-              onClick={() => setStatusFilter("all")}
-            />
-
-            {statusCounts.pilot > 0 && (
-              <FilterButton
-                active={statusFilter === "pilot"}
-                label="Pilot"
-                count={statusCounts.pilot}
-                onClick={() => setStatusFilter("pilot")}
-              />
-            )}
-
-            {statusCounts.watchlist > 0 && (
-              <FilterButton
-                active={statusFilter === "watchlist"}
-                label="Watchlist"
-                count={statusCounts.watchlist}
-                onClick={() => setStatusFilter("watchlist")}
-              />
-            )}
           </div>
         </div>
       </section>
@@ -233,7 +176,7 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
                     </div>
 
                     <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-white/70">
-                      {formatStatus(school.status)}
+                      School Hub
                     </span>
                   </div>
 
