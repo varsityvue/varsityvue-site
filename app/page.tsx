@@ -326,6 +326,7 @@ export default function Home() {
             <div className="space-y-3">
               {featuredStandings.map((team, index) => {
                 const differential = team.pointsFor - team.pointsAgainst;
+                const hasOverallResult = team.overallWins > 0 || team.overallLosses > 0;
 
                 return (
                   <Link
@@ -348,8 +349,7 @@ export default function Home() {
                       {team.overallWins}-{team.overallLosses}
                     </span>
                     <span className="font-bold text-white/45">
-                      {differential > 0 ? "+" : ""}
-                      {differential}
+                      {hasOverallResult ? `${differential > 0 ? "+" : ""}${differential}` : "—"}
                     </span>
                   </Link>
                 );
