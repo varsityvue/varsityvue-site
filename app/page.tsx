@@ -268,7 +268,7 @@ export default function Home() {
                   )}
 
                   <Link
-                    href="/recommend-school"
+                    href="/school-request"
                     className="rounded-xl border border-white/15 bg-black/40 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white/75 transition hover:bg-white/10 hover:text-white"
                   >
                     Recommend Your School
