@@ -478,7 +478,9 @@ export default function Home() {
                   <MiniProgramStat
                     label="Overall"
                     value={
-                      featuredSchoolStanding
+                      featuredSchoolStanding &&
+                      (featuredSchoolStanding.overallWins > 0 ||
+                        featuredSchoolStanding.overallLosses > 0)
                         ? `${featuredSchoolStanding.overallWins}-${featuredSchoolStanding.overallLosses}`
                         : "—"
                     }
