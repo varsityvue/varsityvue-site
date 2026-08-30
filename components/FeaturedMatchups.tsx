@@ -8,7 +8,8 @@ function parseGameDate(kickoff?: string) {
 
   if (!kickoff.includes("T")) {
     const [year, month, day] = kickoff.split("-").map(Number);
-    return new Date(year, month - 1, day);
+    const parsedDate = new Date(Date.UTC(year, month - 1, day, 12));
+    return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
   }
 
   const parsedDate = new Date(kickoff);
@@ -18,11 +19,25 @@ function parseGameDate(kickoff?: string) {
 function formatGameDate(kickoff?: string) {
   const parsedDate = parseGameDate(kickoff);
 
-  if (!parsedDate) return "TBD";
+  if (!parsedDate) return "Date TBD";
 
   return new Intl.DateTimeFormat("en-US", {
+    weekday: "short",
     month: "short",
     day: "numeric",
+    timeZone: "America/Chicago",
+  }).format(parsedDate);
+}
+
+function formatGameTime(kickoff?: string) {
+  if (!kickoff?.includes("T")) return null;
+
+  const parsedDate = parseGameDate(kickoff);
+  if (!parsedDate) return null;
+
+  return new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
     timeZone: "America/Chicago",
   }).format(parsedDate);
 }
@@ -44,12 +59,15 @@ export default function FeaturedMatchups() {
         <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.3em] text-white/45">
-              Featured Matchups
+              Upcoming Matchups
             </p>
 
             <h2 className="mt-2 text-3xl font-black text-white md:text-4xl">
-              Upcoming games with VarsityVue coverage potential
+              Next games on the VarsityVue schedule
             </h2>
+            <p className="mt-3 max-w-3xl text-sm leading-6 text-white/50">
+              Upcoming kickoffs currently on file across VarsityVue school hubs.
+            </p>
           </div>
 
           <Link
@@ -69,6 +87,7 @@ export default function FeaturedMatchups() {
             const homeSchool = game.homeSchoolSlug
               ? getSchoolBySlug(game.homeSchoolSlug)
               : undefined;
+            const gameTime = formatGameTime(game.kickoff);
 
             return (
               <Link
@@ -103,6 +122,7 @@ export default function FeaturedMatchups() {
                   <div className="mt-5 rounded-2xl border border-white/10 bg-white/[0.04] p-4">
                     <p className="text-sm font-black text-white">
                       {formatGameDate(game.kickoff)}
+                      {gameTime ? ` · ${gameTime}` : ""}
                     </p>
 
                     {game.venue && (
