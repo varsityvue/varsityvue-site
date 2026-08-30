@@ -153,7 +153,7 @@ export default function UpcomingSchedulePreview({ schoolSlug }: Props) {
                                 <div className="flex flex-wrap items-center gap-2">
                                     {index === 0 && (
                                         <span className="rounded-full border border-white/15 bg-white/10 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.16em] text-white/75">
-                                            Next Game
+                                            {game.gameType === "scrimmage" ? "Next Event" : "Next Game"}
                                         </span>
                                     )}
                                     <span className="text-[10px] font-black uppercase tracking-[0.18em] text-white/40">
