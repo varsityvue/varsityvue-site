@@ -19,11 +19,15 @@ type StandingsTableProps = {
   theme: SchoolTheme;
 };
 
-function hasPlayedGames(standings: Standing[]) {
+function hasDistrictResults(standings: Standing[]) {
+  return standings.some(
+    (team) => team.districtWins > 0 || team.districtLosses > 0
+  );
+}
+
+function hasOverallResults(standings: Standing[]) {
   return standings.some(
     (team) =>
-      team.districtWins > 0 ||
-      team.districtLosses > 0 ||
       team.overallWins > 0 ||
       team.overallLosses > 0 ||
       team.pointsFor > 0 ||
@@ -35,7 +39,8 @@ export default function StandingsTable({
   standings,
   theme,
 }: StandingsTableProps) {
-  const standingsStarted = hasPlayedGames(standings);
+  const districtStarted = hasDistrictResults(standings);
+  const seasonStarted = hasOverallResults(standings);
 
   return (
     <section
@@ -74,22 +79,23 @@ export default function StandingsTable({
             No standings available yet.
           </p>
           <p className="mt-2 text-sm leading-6 text-white/50">
-            District standings will appear here once results are added.
+            District standings will appear here once verified results are on file.
           </p>
         </div>
       ) : (
         <>
-          {!standingsStarted && (
+          {!districtStarted && (
             <div
               className="mb-4 rounded-2xl border bg-black/35 p-4"
               style={{ borderColor: `${theme.secondary}33` }}
             >
               <p className="text-sm font-black text-white">
-                2026 standings begin after final scores are added.
+                District play has not started yet.
               </p>
               <p className="mt-1 text-sm leading-6 text-white/45">
-                Teams are currently listed by district membership until games
-                are played.
+                {seasonStarted
+                  ? "Overall records are shown for context. Teams remain listed alphabetically until verified district results are available."
+                  : "Teams are listed alphabetically by district membership until verified district results are available."}
               </p>
             </div>
           )}
@@ -111,16 +117,16 @@ export default function StandingsTable({
               >
                 <tr>
                   {[
-                    "Rank",
+                    districtStarted ? "Rank" : "—",
                     "Team",
                     "District",
                     "Overall",
                     "PF",
                     "PA",
                     "Diff",
-                  ].map((header) => (
+                  ].map((header, index) => (
                     <th
-                      key={header}
+                      key={`${header}-${index}`}
                       className="px-5 py-4 text-xs font-black uppercase tracking-[0.18em] text-white"
                     >
                       {header}
@@ -133,7 +139,7 @@ export default function StandingsTable({
                 {standings.map((team, index) => {
                   const differential = team.pointsFor - team.pointsAgainst;
                   const school = getSchoolBySlug(team.schoolSlug);
-                  const playoffPosition = standingsStarted && index < 4;
+                  const playoffPosition = districtStarted && index < 4;
 
                   return (
                     <tr
@@ -149,20 +155,24 @@ export default function StandingsTable({
                       }}
                     >
                       <td className="px-5 py-4 font-black text-white">
-                        <div className="flex items-center gap-2">
-                          <span>#{index + 1}</span>
+                        {districtStarted ? (
+                          <div className="flex items-center gap-2">
+                            <span>#{index + 1}</span>
 
-                          {playoffPosition && (
-                            <span
-                              className="rounded-full border bg-white/10 px-2 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-white/75"
-                              style={{
-                                borderColor: `${theme.secondary}33`,
-                              }}
-                            >
-                              Playoff
-                            </span>
-                          )}
-                        </div>
+                            {playoffPosition && (
+                              <span
+                                className="rounded-full border bg-white/10 px-2 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-white/75"
+                                style={{
+                                  borderColor: `${theme.secondary}33`,
+                                }}
+                              >
+                                Playoff
+                              </span>
+                            )}
+                          </div>
+                        ) : (
+                          <span className="text-white/25">—</span>
+                        )}
                       </td>
 
                       <td className="px-5 py-4">
@@ -188,24 +198,29 @@ export default function StandingsTable({
                       </td>
 
                       <td className="px-5 py-4 font-black text-white">
-                        {team.districtWins}-{team.districtLosses}
+                        {districtStarted
+                          ? `${team.districtWins}-${team.districtLosses}`
+                          : "—"}
                       </td>
 
                       <td className="px-5 py-4 font-black text-white/70">
-                        {team.overallWins}-{team.overallLosses}
+                        {seasonStarted
+                          ? `${team.overallWins}-${team.overallLosses}`
+                          : "—"}
                       </td>
 
                       <td className="px-5 py-4 font-black text-white/70">
-                        {team.pointsFor}
+                        {seasonStarted ? team.pointsFor : "—"}
                       </td>
 
                       <td className="px-5 py-4 font-black text-white/70">
-                        {team.pointsAgainst}
+                        {seasonStarted ? team.pointsAgainst : "—"}
                       </td>
 
                       <td className="px-5 py-4 font-black text-white">
-                        {differential > 0 ? "+" : ""}
-                        {differential}
+                        {seasonStarted
+                          ? `${differential > 0 ? "+" : ""}${differential}`
+                          : "—"}
                       </td>
                     </tr>
                   );
