@@ -72,33 +72,37 @@ export default async function DistrictStatsPage({ params }: Props) {
             title="Rushing yards"
             note="Minimum 1 carry"
             headers={["RK", "Player", "School", "G", "CAR", "YDS", "TD", "YPC"]}
-            rows={rushing.map((entry, index) => [index + 1, entry.player, schoolLink(entry.schoolSlug), entry.gamesRecorded, entry.rushing.attempts, entry.rushing.yards, entry.rushing.touchdowns, entry.rushing.yardsPerCarry])}
+            rows={rushing.map((entry, index) => [index + 1, playerLink(entry.playerId, entry.player), schoolLink(entry.schoolSlug), entry.gamesRecorded, entry.rushing.attempts, entry.rushing.yards, entry.rushing.touchdowns, entry.rushing.yardsPerCarry])}
           />
           <LeaderboardSection
             id="passing"
             title="Passing yards"
             note="Minimum 1 attempt"
             headers={["RK", "Player", "School", "G", "CMP/ATT", "YDS", "TD", "INT", "CMP%"]}
-            rows={passing.map((entry, index) => [index + 1, entry.player, schoolLink(entry.schoolSlug), entry.gamesRecorded, `${entry.passing.completions}/${entry.passing.attempts}`, entry.passing.yards, entry.passing.touchdowns, entry.passing.interceptions, `${entry.passing.completionPercentage}%`])}
+            rows={passing.map((entry, index) => [index + 1, playerLink(entry.playerId, entry.player), schoolLink(entry.schoolSlug), entry.gamesRecorded, `${entry.passing.completions}/${entry.passing.attempts}`, entry.passing.yards, entry.passing.touchdowns, entry.passing.interceptions, `${entry.passing.completionPercentage}%`])}
           />
           <LeaderboardSection
             id="receiving"
             title="Receiving yards"
             note="Minimum 1 reception"
             headers={["RK", "Player", "School", "G", "REC", "YDS", "TD", "YPR"]}
-            rows={receiving.map((entry, index) => [index + 1, entry.player, schoolLink(entry.schoolSlug), entry.gamesRecorded, entry.receiving.receptions, entry.receiving.yards, entry.receiving.touchdowns, entry.receiving.yardsPerReception])}
+            rows={receiving.map((entry, index) => [index + 1, playerLink(entry.playerId, entry.player), schoolLink(entry.schoolSlug), entry.gamesRecorded, entry.receiving.receptions, entry.receiving.yards, entry.receiving.touchdowns, entry.receiving.yardsPerReception])}
           />
           <LeaderboardSection
             id="ypc"
             title="Yards per carry"
             note="Minimum 5 carries"
             headers={["RK", "Player", "School", "G", "CAR", "YDS", "YPC"]}
-            rows={ypc.map((entry, index) => [index + 1, entry.player, schoolLink(entry.schoolSlug), entry.gamesRecorded, entry.rushing.attempts, entry.rushing.yards, entry.rushing.yardsPerCarry])}
+            rows={ypc.map((entry, index) => [index + 1, playerLink(entry.playerId, entry.player), schoolLink(entry.schoolSlug), entry.gamesRecorded, entry.rushing.attempts, entry.rushing.yards, entry.rushing.yardsPerCarry])}
           />
         </div>
       </section>
     </main>
   );
+}
+
+function playerLink(playerId: string, player: string) {
+  return <Link href={`/players/${playerId}`} className="font-black text-white transition hover:text-white/70">{player}</Link>;
 }
 
 function schoolLink(schoolSlug: string) {
