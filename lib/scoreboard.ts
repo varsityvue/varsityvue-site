@@ -86,7 +86,7 @@ function isRecentFinal(game: Game, now = Date.now()) {
 
 export function getScoreboardGames(): ScoreboardGame[] {
   return games
-    .filter((game) => game.gameType !== "bye")
+    .filter((game) => game.gameType !== "bye" && game.gameType !== "scrimmage")
     .map((game) => ({
       ...game,
       displayStatus: getDisplayStatus(game),
