@@ -20,9 +20,29 @@ function getDistrictRank(slug?: string) {
     if (!school) return "TBD";
 
     const standings = getStandingsForDistrictId(school.districtId);
-    const index = standings.findIndex((team) => team.schoolSlug === slug);
+    const districtStarted = standings.some(
+        (team) => team.districtWins > 0 || team.districtLosses > 0
+    );
 
-    return index === -1 ? "TBD" : `#${index + 1}`;
+    if (!districtStarted) return "—";
+
+    const index = standings.findIndex((team) => team.schoolSlug === slug);
+    if (index === -1) return "TBD";
+
+    const team = standings[index];
+    const firstTieIndex = standings.findIndex(
+        (item) =>
+            item.districtWins === team.districtWins &&
+            item.districtLosses === team.districtLosses
+    );
+    const tied = standings.some(
+        (item, itemIndex) =>
+            itemIndex !== index &&
+            item.districtWins === team.districtWins &&
+            item.districtLosses === team.districtLosses
+    );
+
+    return tied ? `T-${firstTieIndex + 1}` : `#${index + 1}`;
 }
 
 export default function MatchupInsights({
