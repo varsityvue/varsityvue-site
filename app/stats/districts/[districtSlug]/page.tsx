@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 
 import { getDistrictBySlug } from "@/lib/districts";
 import { getPassingLeaders, getPlayerSeasonStats, getReceivingLeaders, getRushingLeaders } from "@/lib/player-stats";
+import { getPlayerProfile } from "@/lib/player-profiles";
 import { getSchoolBySlug } from "@/lib/schools";
 
 const SEASON = 2026;
@@ -65,8 +66,8 @@ export default async function DistrictStatsPage({ params }: Props) {
 }
 
 function SummaryStat({ value, label }: { value: string; label: string }) { return <div className="rounded-2xl border border-white/10 bg-black/30 px-4 py-4"><p className="text-2xl font-black text-white">{value}</p><p className="mt-1 text-[10px] font-black uppercase tracking-[0.16em] text-white/35">{label}</p></div>; }
-function playerLink(playerId: string, player: string) { return <Link href={`/players/${playerId}`} className="font-black text-white transition hover:text-white/70">{player}</Link>; }
-function schoolLink(schoolSlug: string) { const school = getSchoolBySlug(schoolSlug); return <Link href={`/schools/${schoolSlug}`} className="font-black text-white/75 transition hover:text-white">{school?.name ?? schoolSlug}</Link>; }
+function playerLink(playerId: string, player: string) { const profile = getPlayerProfile(playerId, SEASON); return profile ? <Link href={`/players/${playerId}`} className="font-black text-white transition hover:text-white/70">{player}</Link> : <span className="font-black text-white">{player}</span>; }
+function schoolLink(schoolSlug: string) { const school = getSchoolBySlug(schoolSlug); return school ? <Link href={`/schools/${schoolSlug}`} className="font-black text-white/75 transition hover:text-white">{school.name}</Link> : <span className="font-black text-white/75">{schoolSlug}</span>; }
 
 function LeaderboardSection({ id, title, note, headers, rows }: { id: string; title: string; note: string; headers: string[]; rows: (string | number | ReactNode)[][] }) {
   return <section id={id} className="scroll-mt-24 overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] shadow-2xl"><div className="h-1.5 bg-[#8B1020]" /><div className="p-6 md:p-7"><div className="flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-black uppercase tracking-[0.28em] text-white/40">District View</p><h2 className="mt-2 text-3xl font-black">{title}</h2></div><p className="text-xs font-black uppercase tracking-[0.14em] text-white/30">{note}</p></div>{rows.length ? <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10 bg-black/30"><table className="w-full min-w-[760px] text-sm"><thead className="border-b border-white/10 text-[10px] font-black uppercase tracking-[0.12em] text-white/35"><tr>{headers.map((header) => <th key={header} className="px-4 py-3 text-left">{header}</th>)}</tr></thead><tbody>{rows.map((row, rowIndex) => <tr key={rowIndex} className="border-t border-white/5 first:border-0 transition hover:bg-white/[0.035]">{row.map((value, cellIndex) => <td key={cellIndex} className={`px-4 py-3 ${cellIndex === 0 ? "font-black text-white/35" : "text-white/75"}`}>{value}</td>)}</tr>)}</tbody></table></div> : <div className="mt-6 rounded-2xl border border-white/10 bg-black/30 p-6 text-sm text-white/40">No verified statistics are available for this category yet.</div>}</div></section>;
