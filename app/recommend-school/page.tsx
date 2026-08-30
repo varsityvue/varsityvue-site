@@ -26,17 +26,17 @@ export default function RecommendSchoolPage() {
 
         <div className="mt-8 rounded-2xl border border-white/10 bg-black/35 p-5">
           <p className="text-sm font-bold leading-7 text-white/65">
-            Full recommendation form coming soon. For now, send us the school
-            name, town, sport, and why your community should be included.
+            Use the school request form to send the school name, town, and any
+            additional details that can help VarsityVue evaluate future coverage.
           </p>
         </div>
 
         <div className="mt-8 grid gap-3 sm:grid-cols-2">
           <Link
-            href="/sponsor-inquiry"
-            className="rounded-xl border border-white/15 bg-white/10 px-5 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
+            href="/school-request"
+            className="rounded-xl bg-white px-5 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-black transition hover:bg-white/85"
           >
-            Sponsor a School Hub →
+            Request a School →
           </Link>
 
           <Link
