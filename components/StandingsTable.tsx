@@ -35,6 +35,22 @@ function hasOverallResults(standings: Standing[]) {
   );
 }
 
+function getStandingPosition(standings: Standing[], index: number) {
+  const team = standings[index];
+  const firstIndex = standings.findIndex(
+    (candidate) =>
+      candidate.districtWins === team.districtWins &&
+      candidate.districtLosses === team.districtLosses
+  );
+  const tiedTeams = standings.filter(
+    (candidate) =>
+      candidate.districtWins === team.districtWins &&
+      candidate.districtLosses === team.districtLosses
+  ).length;
+
+  return tiedTeams > 1 ? `T-${firstIndex + 1}` : `#${firstIndex + 1}`;
+}
+
 export default function StandingsTable({
   standings,
   theme,
@@ -117,7 +133,7 @@ export default function StandingsTable({
               >
                 <tr>
                   {[
-                    districtStarted ? "Rank" : "—",
+                    districtStarted ? "Place" : "—",
                     "Team",
                     "District",
                     "Overall",
@@ -139,37 +155,15 @@ export default function StandingsTable({
                 {standings.map((team, index) => {
                   const differential = team.pointsFor - team.pointsAgainst;
                   const school = getSchoolBySlug(team.schoolSlug);
-                  const playoffPosition = districtStarted && index < 4;
 
                   return (
                     <tr
                       key={team.schoolSlug}
                       className="border-t border-white/10 transition hover:bg-white/[0.06]"
-                      style={{
-                        backgroundColor: playoffPosition
-                          ? "rgba(255,255,255,0.045)"
-                          : undefined,
-                        boxShadow: playoffPosition
-                          ? `inset 4px 0 0 ${theme.primary}`
-                          : undefined,
-                      }}
                     >
                       <td className="px-5 py-4 font-black text-white">
                         {districtStarted ? (
-                          <div className="flex items-center gap-2">
-                            <span>#{index + 1}</span>
-
-                            {playoffPosition && (
-                              <span
-                                className="rounded-full border bg-white/10 px-2 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-white/75"
-                                style={{
-                                  borderColor: `${theme.secondary}33`,
-                                }}
-                              >
-                                Playoff
-                              </span>
-                            )}
-                          </div>
+                          <span>{getStandingPosition(standings, index)}</span>
                         ) : (
                           <span className="text-white/25">—</span>
                         )}
@@ -228,6 +222,12 @@ export default function StandingsTable({
               </tbody>
             </table>
           </div>
+
+          {districtStarted && (
+            <p className="mt-4 text-xs leading-5 text-white/35">
+              Teams with the same verified district record are shown as tied. VarsityVue does not apply unofficial district tiebreakers or project playoff qualifiers.
+            </p>
+          )}
         </>
       )}
     </section>
