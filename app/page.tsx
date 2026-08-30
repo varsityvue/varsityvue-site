@@ -230,7 +230,7 @@ export default function Home() {
 
                     <h2 className="mt-3 text-3xl font-black text-white md:text-4xl">
                       {featuredGameFinal
-                        ? `${featuredGame.homeTeam} closes Week ${featuredGame.week ?? 1} with the win.`
+                        ? `Week ${featuredGame.week ?? 1} final is on the board.`
                         : `Week ${featuredGame.week ?? 1} takes center stage.`}
                     </h2>
 
