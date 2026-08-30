@@ -2,8 +2,10 @@ import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { getDistricts } from "@/lib/districts";
 import {
   getPassingLeaders,
+  getPlayerSeasonStats,
   getReceivingLeaders,
   getRushingLeaders,
 } from "@/lib/player-stats";
@@ -27,6 +29,13 @@ export default function StatsPage() {
     sortBy: "yardsPerCarry",
   }).slice(0, 25);
 
+  const districtIdsWithStats = new Set(
+    getPlayerSeasonStats(SEASON)
+      .map((player) => getSchoolBySlug(player.schoolSlug)?.districtId)
+      .filter((districtId): districtId is string => Boolean(districtId))
+  );
+  const districtsWithStats = getDistricts().filter((district) => districtIdsWithStats.has(district.id));
+
   return (
     <main className="min-h-screen bg-[#050505] text-white">
       <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.38),transparent_34%),linear-gradient(120deg,#050505_0%,#090909_50%,#000_100%)] px-4 py-10 sm:px-6 lg:px-8">
@@ -43,6 +52,30 @@ export default function StatsPage() {
             <a href="#passing" className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-black text-white/75 hover:bg-white/10">Passing</a>
             <a href="#receiving" className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-black text-white/75 hover:bg-white/10">Receiving</a>
             <a href="#ypc" className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-black text-white/75 hover:bg-white/10">Yards / Carry</a>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-white/10 px-4 py-6 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.22em] text-white/35">Filter by District</p>
+              <p className="mt-2 text-sm text-white/50">View leaders among schools in a specific UIL district.</p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {districtsWithStats.length > 0 ? districtsWithStats.map((district) => (
+                <Link
+                  key={district.id}
+                  href={`/stats/districts/${district.slug}`}
+                  className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white/65 transition hover:bg-white/10 hover:text-white"
+                >
+                  {district.name}
+                </Link>
+              )) : (
+                <span className="text-sm text-white/35">District leaderboards will appear as more verified stats are added.</span>
+              )}
+            </div>
           </div>
         </div>
       </section>
