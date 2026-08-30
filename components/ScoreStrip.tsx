@@ -75,7 +75,7 @@ export default function ScoreStrip() {
             </p>
 
             <h2 className="mt-2 text-3xl font-black text-white">
-              {showingFinals ? "Friday Night Finals" : "Games to Watch"}
+              {showingFinals ? "Latest Finals" : "Games to Watch"}
             </h2>
           </div>
 
