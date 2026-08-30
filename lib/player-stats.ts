@@ -1,4 +1,5 @@
 import { gameStats } from "@/data/game-stats";
+import { getPlayerProfile } from "@/lib/player-profiles";
 import { getSchoolBySlug } from "@/lib/schools";
 
 export type PlayerSeasonStats = {
@@ -66,6 +67,36 @@ function round(value: number, decimals = 1) {
   return Math.round(value * factor) / factor;
 }
 
+function emptyPlayerSeasonStats({
+  playerId,
+  player,
+  schoolSlug,
+  season,
+}: {
+  playerId: string;
+  player: string;
+  schoolSlug: string;
+  season: number;
+}): PlayerSeasonStats {
+  return {
+    playerId,
+    player,
+    schoolSlug,
+    season,
+    gamesRecorded: 0,
+    rushing: { attempts: 0, yards: 0, touchdowns: 0, yardsPerCarry: 0 },
+    passing: {
+      completions: 0,
+      attempts: 0,
+      yards: 0,
+      touchdowns: 0,
+      interceptions: 0,
+      completionPercentage: 0,
+    },
+    receiving: { receptions: 0, yards: 0, touchdowns: 0, yardsPerReception: 0 },
+  };
+}
+
 export function getPlayerSeasonStats(season = 2026): PlayerSeasonStats[] {
   const players = new Map<string, PlayerSeasonStats>();
   const gamesByPlayer = new Map<string, Set<string>>();
@@ -75,23 +106,12 @@ export function getPlayerSeasonStats(season = 2026): PlayerSeasonStats[] {
     const existing = players.get(playerId);
     if (existing) return existing;
 
-    const created: PlayerSeasonStats = {
+    const created = emptyPlayerSeasonStats({
       playerId,
       player,
       schoolSlug,
       season,
-      gamesRecorded: 0,
-      rushing: { attempts: 0, yards: 0, touchdowns: 0, yardsPerCarry: 0 },
-      passing: {
-        completions: 0,
-        attempts: 0,
-        yards: 0,
-        touchdowns: 0,
-        interceptions: 0,
-        completionPercentage: 0,
-      },
-      receiving: { receptions: 0, yards: 0, touchdowns: 0, yardsPerReception: 0 },
-    };
+    });
 
     players.set(playerId, created);
     gamesByPlayer.set(playerId, new Set<string>());
@@ -145,7 +165,20 @@ export function getPlayerSeasonStats(season = 2026): PlayerSeasonStats[] {
 }
 
 export function getPlayerSeasonStat(playerId: string, season = 2026) {
-  return getPlayerSeasonStats(season).find((player) => player.playerId === playerId);
+  const statisticalPlayer = getPlayerSeasonStats(season).find(
+    (player) => player.playerId === playerId
+  );
+  if (statisticalPlayer) return statisticalPlayer;
+
+  const profile = getPlayerProfile(playerId, season);
+  if (!profile) return undefined;
+
+  return emptyPlayerSeasonStats({
+    playerId: profile.playerId,
+    player: profile.name,
+    schoolSlug: profile.schoolSlug,
+    season: profile.season,
+  });
 }
 
 function matchesScope(player: PlayerSeasonStats, schoolSlug?: string, districtId?: string) {
