@@ -20,21 +20,29 @@ export default function FeaturedCoverage() {
             </p>
 
             <h2 className="mt-4 text-4xl font-black text-white md:text-5xl">
-              2026 coverage starts here.
+              Stories will build with the season.
             </h2>
 
             <p className="mt-4 max-w-3xl text-base leading-7 text-white/60">
-              Game previews, player spotlights, weekly recaps and stories from
-              around the VarsityVue coverage area will appear here throughout
-              the season.
+              Published coverage will appear here as VarsityVue adds verified
+              results, matchup context, and program-specific stories during the
+              2026 season.
             </p>
 
-            <Link
-              href="/coverage"
-              className="mt-7 inline-flex rounded-xl border border-white/15 bg-white/10 px-5 py-3 text-xs font-black uppercase tracking-[0.16em] text-white/75 transition hover:bg-white/15 hover:text-white"
-            >
-              Explore Coverage →
-            </Link>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Link
+                href="/coverage"
+                className="inline-flex rounded-xl border border-white/15 bg-white/10 px-5 py-3 text-xs font-black uppercase tracking-[0.16em] text-white/75 transition hover:bg-white/15 hover:text-white"
+              >
+                Explore Coverage →
+              </Link>
+              <Link
+                href="/scoreboard"
+                className="inline-flex rounded-xl border border-white/10 bg-black/35 px-5 py-3 text-xs font-black uppercase tracking-[0.16em] text-white/60 transition hover:bg-white/10 hover:text-white"
+              >
+                View Results →
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -51,7 +59,7 @@ export default function FeaturedCoverage() {
             </p>
 
             <h2 className="mt-2 text-3xl font-black text-white md:text-4xl">
-              Latest stories from around the VarsityVue coverage area
+              Latest stories from VarsityVue
             </h2>
           </div>
 
