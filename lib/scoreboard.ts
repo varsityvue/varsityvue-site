@@ -138,7 +138,9 @@ export function getFeaturedScoreboardGame(): ScoreboardGame | undefined {
       (game) => game.isFeatured && isUpcomingByScheduleDate(game, nowDate)
     ) ??
     scoreboardGames.find((game) => isUpcomingByScheduleDate(game, nowDate)) ??
-    scoreboardGames.find((game) => game.status === "final")
+    scoreboardGames
+      .filter((game) => game.status === "final")
+      .sort((a, b) => getGameTimestamp(b) - getGameTimestamp(a))[0]
   );
 }
 
