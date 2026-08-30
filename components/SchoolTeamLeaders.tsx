@@ -38,22 +38,19 @@ export default function SchoolTeamLeaders({
       <div className="p-6 md:p-7">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p
-              className="text-xs font-black uppercase tracking-[0.28em]"
-              style={{ color: secondaryColor }}
-            >
+            <p className="text-xs font-black uppercase tracking-[0.28em]" style={{ color: secondaryColor }}>
               {season} Team Leaders
             </p>
-            <h2 className="mt-3 text-3xl font-black text-white">Stat leaders</h2>
-            <p className="mt-2 text-sm text-white/45">
-              Season totals from verified game statistics currently in VarsityVue.
+            <h2 className="mt-3 text-3xl font-black text-white">Verified stat leaders</h2>
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-white/45">
+              Season totals from verified game statistics currently on file for this program.
             </p>
           </div>
           <Link
             href="/stats"
             className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-xs font-black uppercase tracking-[0.14em] text-white/65 transition hover:bg-white/10 hover:text-white"
           >
-            View Area Leaders →
+            View Stat Leaders →
           </Link>
         </div>
 
@@ -64,7 +61,7 @@ export default function SchoolTeamLeaders({
               id: entry.playerId,
               name: entry.player,
               primary: `${entry.rushing.yards.toLocaleString()} yds`,
-              secondary: `${entry.rushing.attempts} car · ${entry.rushing.touchdowns} TD · ${entry.rushing.yardsPerCarry} YPC`,
+              secondary: `${entry.rushing.attempts} car · ${entry.rushing.touchdowns} TD · ${entry.rushing.yardsPerCarry} YPC · ${entry.gamesRecorded} G`,
             }))}
           />
           <LeaderCard
@@ -73,7 +70,7 @@ export default function SchoolTeamLeaders({
               id: entry.playerId,
               name: entry.player,
               primary: `${entry.passing.yards.toLocaleString()} yds`,
-              secondary: `${entry.passing.completions}/${entry.passing.attempts} · ${entry.passing.touchdowns} TD · ${entry.passing.interceptions} INT`,
+              secondary: `${entry.passing.completions}/${entry.passing.attempts} · ${entry.passing.touchdowns} TD · ${entry.passing.interceptions} INT · ${entry.gamesRecorded} G`,
             }))}
           />
           <LeaderCard
@@ -82,7 +79,7 @@ export default function SchoolTeamLeaders({
               id: entry.playerId,
               name: entry.player,
               primary: `${entry.receiving.yards.toLocaleString()} yds`,
-              secondary: `${entry.receiving.receptions} rec · ${entry.receiving.touchdowns} TD · ${entry.receiving.yardsPerReception} YPR`,
+              secondary: `${entry.receiving.receptions} rec · ${entry.receiving.touchdowns} TD · ${entry.receiving.yardsPerReception} YPR · ${entry.gamesRecorded} G`,
             }))}
           />
         </div>
@@ -106,7 +103,7 @@ function LeaderCard({
       {leaders.length ? (
         <div className="divide-y divide-white/5">
           {leaders.map((leader, index) => (
-            <div key={leader.id} className="grid grid-cols-[2rem_1fr_auto] items-center gap-3 px-4 py-4">
+            <div key={leader.id} className="grid grid-cols-[2rem_1fr_auto] items-center gap-3 px-4 py-4 transition hover:bg-white/[0.03]">
               <span className="text-lg font-black text-white/25">{index + 1}</span>
               <div className="min-w-0">
                 <Link href={`/players/${leader.id}`} className="truncate font-black text-white transition hover:text-white/70">
@@ -119,7 +116,7 @@ function LeaderCard({
           ))}
         </div>
       ) : (
-        <p className="px-4 py-6 text-sm text-white/35">No verified statistics yet.</p>
+        <p className="px-4 py-6 text-sm text-white/35">No verified statistics are on file for this category yet.</p>
       )}
     </div>
   );
