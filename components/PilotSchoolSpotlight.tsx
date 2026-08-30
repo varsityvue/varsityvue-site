@@ -83,7 +83,7 @@ export default function PilotSchoolSpotlight() {
                     </p>
 
                     <p className="mt-2 line-clamp-1 text-sm font-black text-white/75">
-                      {district?.name ?? "District TBD"}
+                      {district?.name ?? "—"}
                     </p>
                   </div>
 
