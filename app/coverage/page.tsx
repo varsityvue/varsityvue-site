@@ -76,9 +76,9 @@ export default async function CoveragePage({
               </h1>
 
               <p className="mt-4 max-w-3xl text-base leading-7 text-white/60 sm:text-lg">
-                Texas high school football previews, recaps, features,
-                district outlooks, player spotlights, and legacy stories built
-                around the VarsityVue school and game ecosystem.
+                Local game coverage, verified results, program stories, and
+                district context connected directly to VarsityVue school and
+                matchup pages.
               </p>
             </div>
           </div>
@@ -95,20 +95,20 @@ export default async function CoveragePage({
                 </p>
 
                 <h2 className="mt-4 max-w-4xl text-4xl font-black leading-tight text-white sm:text-6xl">
-                  2026 coverage starts here.
+                  Coverage is building with the season.
                 </h2>
 
                 <p className="mt-5 max-w-3xl text-base leading-7 text-white/60 sm:text-lg">
-                  Game previews, player spotlights, weekly recaps and stories
-                  from around the VarsityVue coverage area will appear here as
-                  the season unfolds.
+                  Published stories will appear here as VarsityVue adds
+                  verified results, matchup context, and program-specific
+                  coverage during the 2026 season.
                 </p>
 
                 <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                  <LaunchCard title="Game Previews" body="Week-by-week matchup context before kickoff." />
-                  <LaunchCard title="Results & Recaps" body="Final scores, turning points and postgame notes." />
-                  <LaunchCard title="Player Spotlights" body="Notable performances and athletes to watch." />
-                  <LaunchCard title="District Stories" body="Standings races and storylines across the region." />
+                  <LaunchCard title="Matchup Previews" body="Context around selected games before kickoff." />
+                  <LaunchCard title="Results & Recaps" body="Verified finals with postgame coverage when available." />
+                  <LaunchCard title="Program Stories" body="Features connected to the schools and athletes we cover." />
+                  <LaunchCard title="District Context" body="Stories around district races as verified results build." />
                 </div>
 
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -167,11 +167,11 @@ export default async function CoveragePage({
                     VarsityVue Coverage
                   </p>
                   <h3 className="mt-4 text-3xl font-black text-white">
-                    Follow the season as it develops.
+                    Stories connected to the games and programs.
                   </h3>
                   <p className="mt-4 text-sm leading-6 text-white/55">
-                    Previews, recaps, player performances, district outlooks and
-                    feature stories will build here throughout the year.
+                    Coverage grows from verified results, matchup information,
+                    and program details already connected across VarsityVue.
                   </p>
                 </aside>
               </section>
@@ -201,10 +201,10 @@ export default async function CoveragePage({
                 {latestArticles.length === 0 ? (
                   <div className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-8 shadow-2xl">
                     <h2 className="text-2xl font-black text-white">
-                      More coverage coming soon.
+                      No additional stories in this view.
                     </h2>
                     <p className="mt-2 text-white/50">
-                      Additional stories will appear here as the season builds.
+                      Browse another coverage type or check back as new stories are published.
                     </p>
                   </div>
                 ) : (
