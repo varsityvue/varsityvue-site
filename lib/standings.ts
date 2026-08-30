@@ -88,14 +88,9 @@ function sortStandings(standings: Standing[]) {
       return a.districtLosses - b.districtLosses;
     }
 
-    if (b.overallWins !== a.overallWins) {
-      return b.overallWins - a.overallWins;
-    }
-
-    const aDiff = a.pointsFor - a.pointsAgainst;
-    const bDiff = b.pointsFor - b.pointsAgainst;
-
-    return bDiff - aDiff;
+    // VarsityVue does not apply unofficial tiebreakers. Teams with the same
+    // verified district record remain tied and are ordered alphabetically for display.
+    return a.team.localeCompare(b.team);
   });
 }
 
