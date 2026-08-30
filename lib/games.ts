@@ -3,18 +3,35 @@ import { applyVerifiedGames } from "@/data/verified-games";
 import type { Game } from "@/types/platform";
 
 const games = applyVerifiedGames(scheduledGames);
+const CENTRAL_TIME_ZONE = "America/Chicago";
 
 function getGameTimestamp(game: Game) {
   if (!game.kickoff) return Number.MAX_SAFE_INTEGER;
 
   if (!game.kickoff.includes("T")) {
     const [year, month, day] = game.kickoff.split("-").map(Number);
-    return new Date(year, month - 1, day).getTime();
+    const timestamp = Date.UTC(year, month - 1, day, 12);
+    return Number.isNaN(timestamp) ? Number.MAX_SAFE_INTEGER : timestamp;
   }
 
   const timestamp = new Date(game.kickoff).getTime();
 
   return Number.isNaN(timestamp) ? Number.MAX_SAFE_INTEGER : timestamp;
+}
+
+function getCentralDateKey(date: Date) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    timeZone: CENTRAL_TIME_ZONE,
+  }).formatToParts(date);
+
+  const year = parts.find((part) => part.type === "year")?.value;
+  const month = parts.find((part) => part.type === "month")?.value;
+  const day = parts.find((part) => part.type === "day")?.value;
+
+  return year && month && day ? `${year}-${month}-${day}` : "";
 }
 
 function assertNoDuplicateGameIds() {
@@ -55,22 +72,32 @@ export function getGamesForSchool(slug: string) {
 }
 
 export function getUpcomingGamesForSchool(slug: string) {
-  const now = Date.now();
+  const now = new Date();
+  const todayKey = getCentralDateKey(now);
 
   return getGamesForSchool(slug).filter((game) => {
     if (game.status !== "upcoming" || game.gameType === "bye") {
       return false;
     }
 
+    if (game.kickoff && !game.kickoff.includes("T")) {
+      return !todayKey || game.kickoff >= todayKey;
+    }
+
     const timestamp = getGameTimestamp(game);
 
-    return timestamp >= now;
+    return timestamp >= now.getTime();
   });
 }
 
 export function getRecentScoresForSchool(slug: string) {
   return getGamesForSchool(slug)
-    .filter((game) => game.status === "final" && game.gameType !== "bye")
+    .filter(
+      (game) =>
+        game.status === "final" &&
+        game.gameType !== "bye" &&
+        game.gameType !== "scrimmage"
+    )
     .sort((a, b) => getGameTimestamp(b) - getGameTimestamp(a));
 }
 
