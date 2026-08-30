@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Sponsor Inquiry | VarsityVue",
+  title: "2027 Sponsor Interest | VarsityVue",
   description:
-    "Request VarsityVue sponsorship information for Texas high school sports school hubs, game pages, coverage, scoreboard placements, and Game of the Week inventory.",
+    "Join the VarsityVue 2027 sponsor interest list for future opportunities across school hubs, game pages, districts, scoreboards, and local sports coverage.",
 };
 
 const sponsorshipInterests = [
@@ -16,31 +16,29 @@ const sponsorshipInterests = [
   "Not sure yet",
 ];
 
-const budgetRanges = [
-  "Under $250",
-  "$250-$750",
-  "$750-$1,500",
-  "$1,500+",
-  "Let's discuss",
-];
-
 export default function SponsorInquiryPage() {
   return (
     <main className="min-h-screen bg-black px-4 py-14 text-white sm:px-6 lg:px-8">
       <div className="mx-auto max-w-5xl">
         <section className="rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.45),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-6 md:p-10">
           <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
-            Sponsor Inquiry
+            2027 Sponsor Interest
           </p>
 
           <h1 className="mt-4 max-w-4xl text-4xl font-black leading-tight sm:text-6xl">
-            Become a VarsityVue founding partner.
+            Put your business in front of local sports fans.
           </h1>
 
           <p className="mt-6 max-w-3xl text-lg leading-8 text-white/65">
-            Tell us where your business wants visibility. We’ll follow up with
-            available sponsor inventory across schools, games, districts,
-            scoreboard placements, and coverage.
+            VarsityVue is collecting interest from businesses that want to hear
+            about 2027 partnership opportunities across school hubs, game
+            pages, districts, scoreboards, and local sports coverage.
+          </p>
+
+          <p className="mt-4 max-w-3xl text-sm leading-6 text-white/45">
+            Joining the interest list is not a purchase or commitment. We&apos;ll
+            use your information to follow up as 2027 sponsorship options take
+            shape.
           </p>
         </section>
 
@@ -51,13 +49,13 @@ export default function SponsorInquiryPage() {
               method="POST"
               className="space-y-5"
             >
-<input
-  type="hidden"
-  name="_subject"
-  value="New VarsityVue Sponsor Inquiry"
-/>
+              <input
+                type="hidden"
+                name="_subject"
+                value="New VarsityVue 2027 Sponsor Interest"
+              />
 
-<input type="hidden" name="_template" value="table" />
+              <input type="hidden" name="_template" value="table" />
 
               <input
                 type="text"
@@ -102,13 +100,13 @@ export default function SponsorInquiryPage() {
               <input
                 type="text"
                 name="target_school_or_market"
-                placeholder="Target School / Town / Market"
+                placeholder="School / Town / Market You Care About"
                 className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:outline-none"
               />
 
               <fieldset className="rounded-3xl border border-white/10 bg-black/30 p-5">
                 <legend className="px-2 text-xs font-black uppercase tracking-[0.25em] text-[var(--vv-accent)]">
-                  Sponsorship Interest
+                  Partnership Interest
                 </legend>
 
                 <div className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -129,25 +127,10 @@ export default function SponsorInquiryPage() {
                 </div>
               </fieldset>
 
-              <select
-                name="budget_range"
-                defaultValue=""
-                className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white focus:border-[color:var(--vv-accent)] focus:outline-none"
-              >
-                <option value="" disabled>
-                  Budget Range
-                </option>
-                {budgetRanges.map((range) => (
-                  <option key={range} value={range}>
-                    {range}
-                  </option>
-                ))}
-              </select>
-
               <textarea
                 name="notes"
                 rows={6}
-                placeholder="Tell us about your business, target schools, sponsorship goals, or any questions..."
+                placeholder="Tell us about your business, the communities you want to reach, or any questions you have..."
                 className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:outline-none"
               />
 
@@ -155,35 +138,35 @@ export default function SponsorInquiryPage() {
                 type="submit"
                 className="w-full rounded-full bg-[var(--vv-primary)] px-8 py-4 font-bold transition hover:bg-[#93142a]"
               >
-                Request Sponsorship Info
+                Join 2027 Interest List
               </button>
             </form>
           </div>
 
           <aside className="rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8">
             <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
-              Why VarsityVue
+              Built Around Local Sports
             </p>
 
             <div className="mt-6 space-y-6">
               <Benefit
-                title="Native Visibility"
-                text="Sponsors are embedded into school, game, district, scoreboard, and coverage experiences."
+                title="School-Level Relevance"
+                text="Future placements can connect businesses with the schools, towns, and fan bases they care about most."
               />
 
               <Benefit
-                title="Community Attention"
-                text="Texas high school sports concentrate loyal local audiences around weekly habits."
+                title="Game-Day Context"
+                text="Partnership opportunities can live alongside schedules, matchup pages, results, and district coverage."
               />
 
               <Benefit
-                title="Searchable Shelf Life"
-                text="Exposure can live beyond game night through searchable pages and internal links."
+                title="Local Discovery"
+                text="VarsityVue is being built to help fans move between schools, games, districts, statistics, and stories in one local sports ecosystem."
               />
 
               <Benefit
-                title="Founding Access"
-                text="Early sponsors can secure premium inventory before schools, districts, and categories fill up."
+                title="2027 Planning"
+                text="The interest list helps us understand which schools, markets, and partnership formats businesses want before 2027 options are finalized."
               />
             </div>
           </aside>
