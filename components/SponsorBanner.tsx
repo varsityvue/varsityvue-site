@@ -32,22 +32,22 @@ export default function SponsorBanner({
         <div className="relative grid gap-0 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="p-6 sm:p-8">
             <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
-              Premium Sponsor Placement
+              2027 Sponsor Interest
             </p>
 
             <h2 className="mt-3 text-3xl font-black text-white sm:text-4xl">
-              Own this school hub.
+              Support this school hub.
             </h2>
 
             <p className="mt-4 max-w-2xl text-sm leading-6 text-white/55">
-              Reach parents, athletes, alumni, fans, and local supporters with
-              premium placement inside this school’s VarsityVue ecosystem.
+              Local businesses can join the interest list for future VarsityVue
+              school-hub sponsorship opportunities as coverage grows.
             </p>
 
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
-              <MiniStat label="Visibility" value="School Hub" />
+              <MiniStat label="Placement" value="School Hub" />
               <MiniStat label="Audience" value="Local Fans" />
-              <MiniStat label="Placement" value="Founding Slot" />
+              <MiniStat label="Status" value="Interest List" />
             </div>
           </div>
 
@@ -61,7 +61,7 @@ export default function SponsorBanner({
                 color: theme.secondary,
               }}
             >
-              Claim This Placement →
+              Join Sponsor Interest List →
             </Link>
           </div>
         </div>
@@ -136,10 +136,10 @@ export default function SponsorBanner({
                 style={{ borderColor: `${theme.secondary}22` }}
               >
                 <p className="font-black text-white">
-                  Supporting placements available
+                  Future supporting opportunities
                 </p>
                 <p className="mt-1 text-sm text-white/45">
-                  Add local business visibility under this school hub.
+                  Businesses can join the sponsor interest list as school coverage expands.
                 </p>
               </div>
             )}
