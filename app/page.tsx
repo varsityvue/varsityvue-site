@@ -379,7 +379,9 @@ export default function Home() {
                         : "—"}
                     </span>
                     <span className="font-bold text-white/55">
-                      {team.overallWins}-{team.overallLosses}
+                      {hasOverallResult
+                        ? `${team.overallWins}-${team.overallLosses}`
+                        : "—"}
                     </span>
                     <span className="font-bold text-white/45">
                       {hasOverallResult ? `${differential > 0 ? "+" : ""}${differential}` : "—"}
