@@ -128,15 +128,10 @@ export default function MatchupInsights({
                 />
             </div>
 
-            <div className="mt-6 grid gap-4 md:grid-cols-2">
+            <div className="mt-6">
                 <InsightCard
                     title="Matchup Context"
                     body="Compare each team's verified record, scoring totals, and district standing as the season develops."
-                />
-
-                <InsightCard
-                    title="VarsityVue Projection"
-                    body="Projection module coming soon. For now, VarsityVue is tracking matchup context, records, and district movement."
                 />
             </div>
         </section>
