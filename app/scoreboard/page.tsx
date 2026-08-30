@@ -129,12 +129,13 @@ function FeaturedScoreboardGame({ game }: { game: ScoreboardGame }) {
   const homeScore = game.homeScore ?? game.score?.home;
   const isFinal = game.status === "final";
   const mapUrl = getMapUrl(game);
+  const featuredLabel = game.featured === true ? "Game of the Week" : "Featured Matchup";
 
   return (
     <section className="mt-8 rounded-3xl border border-white/10 bg-white/[0.045] p-6 shadow-2xl md:p-8">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-white/55">Game of the Week</p>
+          <p className="text-xs font-black uppercase tracking-[0.3em] text-white/55">{featuredLabel}</p>
           <p className="mt-2 text-sm font-bold text-white/45">
             {getWeekLabel(game.week)} · {formatKickoff(game.kickoff)}{game.venue ? ` · ${game.venue}` : ""}
           </p>
@@ -193,13 +194,18 @@ function TeamResult({ school, team, standing, align }: {
   standing?: ReturnType<typeof getStandingForSchool>;
   align: "left" | "right";
 }) {
+  const districtRecord =
+    standing && standing.districtWins + standing.districtLosses > 0
+      ? ` · ${standing.districtWins}-${standing.districtLosses} District`
+      : "";
+
   return (
     <div className={`flex items-center gap-4 ${align === "right" ? "justify-end text-right" : "justify-start text-left"}`}>
       {align === "left" && (school ? <SchoolBadge school={school} size="sm" /> : <FallbackBadge label={team} />)}
       <div>
         <h2 className="text-3xl font-black leading-none text-white md:text-4xl">{team}</h2>
         <p className="mt-2 text-sm font-black uppercase tracking-[0.16em] text-white/40">
-          {standing ? `${standing.overallWins}-${standing.overallLosses} Overall · ${standing.districtWins}-${standing.districtLosses} District` : "Record unavailable"}
+          {standing ? `${standing.overallWins}-${standing.overallLosses} Overall${districtRecord}` : "Record unavailable"}
         </p>
       </div>
       {align === "right" && (school ? <SchoolBadge school={school} size="sm" /> : <FallbackBadge label={team} />)}
