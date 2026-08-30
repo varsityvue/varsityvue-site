@@ -30,7 +30,7 @@ Only add fields that have actually been verified. Jersey number, grade, position
 
 ## Game stats workflow
 
-Game-level statistics belong in `data/game-stats.ts`. Every game entry must include:
+Game-level statistics belongs in `data/game-stats.ts`. Every game entry must include:
 
 - `gameId` matching the canonical VarsityVue game
 - explicit `season`
@@ -58,12 +58,18 @@ The route is disabled unless the server environment includes:
 The tool accepts one game at a time by pasted JSON, uploaded JSON, or VarsityVue-format CSV. Every format is converted into the same `GameStats` object before review. The workflow:
 
 1. checks the basic object shape
-2. resolves known roster-backed player IDs by school and player name
-3. generates temporary deterministic player IDs when no verified roster match exists
-4. runs `validateGameStats`
-5. separates blocking errors from warnings
-6. previews record counts and the game identity
-7. generates normalized JSON for manual approval and insertion into `data/game-stats.ts`
+2. suggests canonical games from the live VarsityVue schedule using season, existing game ID, and school overlap
+3. requires an explicit canonical-game confirmation before approval
+4. replaces the draft `gameId` with the selected canonical game ID
+5. checks imported school slugs against the selected matchup and compares imported final quarter-score totals with an existing canonical final when available
+6. resolves known roster-backed player IDs by school and player name
+7. generates temporary deterministic player IDs when no verified roster match exists
+8. runs `validateGameStats`
+9. separates blocking errors from warnings
+10. previews record counts and the game identity
+11. generates normalized JSON for manual approval and insertion into `data/game-stats.ts`
+
+The approval-copy action remains blocked until a canonical game is confirmed and all blocking validation checks pass. This prevents a valid stat sheet from accidentally being attached to the wrong game record.
 
 The tool intentionally does **not** write to GitHub or publish production data. That is a safety boundary until VarsityVue has authenticated internal tools and a proper persistence layer.
 
@@ -89,7 +95,7 @@ PDF, screenshot, and email parsing remain future adapters and should feed this s
 
 Before committing a new stat sheet:
 
-1. Confirm the `gameId` is the correct game.
+1. Confirm the draft is matched to the correct canonical VarsityVue game.
 2. Confirm home/away teams and final score.
 3. Confirm quarter scores add to the final score.
 4. Confirm team passing completions do not exceed attempts.
