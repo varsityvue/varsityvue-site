@@ -37,6 +37,9 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
   const standings = getStandingsForSchool(slug);
   const articles = getArticlesForSchool(slug);
   const schoolStanding = standings.find((standing) => standing.schoolSlug === school.slug);
+  const districtPlayStarted = standings.some(
+    (standing) => standing.districtWins > 0 || standing.districtLosses > 0
+  );
 
   const schoolSchema = {
     "@context": "https://schema.org", "@type": "SportsTeam", name: school.fullName, alternateName: school.name, sport: "Football", url: `https://varsityvue.com/schools/${school.slug}`,
@@ -75,15 +78,13 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
             <p className="text-xs font-black uppercase tracking-[0.28em]" style={{ color: theme.secondary }}>Program Profile</p>
             <h2 className="mt-3 text-3xl font-black text-white">{school.fullName}</h2>
             <div className="mt-5 space-y-3 rounded-2xl border border-white/10 bg-black/35 p-4">
-              <ProfileRow label="Market" value={school.coverageMarket ?? "TBD"} />
               {school.headCoach && <ProfileRow label="Head Coach" value={school.headCoach} />}
-              {school.athleticDirector && <ProfileRow label="Athletic Director" value={school.athleticDirector} />}
-              {school.officialWebsite && <ProfileRow label="Official Site" value="Available" />}
+              {school.athleticDirector && school.athleticDirector !== school.headCoach && <ProfileRow label="Athletic Director" value={school.athleticDirector} />}
               <ProfileRow label="Region" value={`Region ${school.uilRegion}`} />
               {school.stadiumCapacity && <ProfileRow label="Stadium Capacity" value={school.stadiumCapacity.toLocaleString()} />}
               {school.stateTitles !== undefined && <ProfileRow label="State Titles" value={school.stateTitles.toString()} />}
               {school.lastPlayoffAppearance && <ProfileRow label="Last Playoff Appearance" value={school.lastPlayoffAppearance.toString()} />}
-              <ProfileRow label="District Record" value={schoolStanding ? `${schoolStanding.districtWins}-${schoolStanding.districtLosses}` : "Not yet available"} />
+              <ProfileRow label="District Record" value={districtPlayStarted && schoolStanding ? `${schoolStanding.districtWins}-${schoolStanding.districtLosses}` : "—"} />
               <ProfileRow label="Overall Record" value={schoolStanding ? `${schoolStanding.overallWins}-${schoolStanding.overallLosses}` : "Not yet available"} />
             </div>
           </section>
@@ -100,7 +101,7 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
             <p className="mt-3 text-sm leading-6 text-white/55">Businesses can join the interest list for future school-hub sponsorship opportunities as VarsityVue coverage grows.</p>
             <div className="mt-6 grid gap-3">
               <Link href="/sponsor-inquiry" className="block rounded-xl border border-white/15 bg-white/10 px-5 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15">Join Sponsor Interest List →</Link>
-              <Link href="/recommend-school" className="block rounded-xl border border-white/10 bg-black/35 px-5 py-4 text-center text-xs font-black uppercase tracking-[0.16em] text-white/70 transition hover:bg-white/10 hover:text-white">Recommend Your School →</Link>
+              <Link href="/school-request" className="block rounded-xl border border-white/10 bg-black/35 px-5 py-4 text-center text-xs font-black uppercase tracking-[0.16em] text-white/70 transition hover:bg-white/10 hover:text-white">Request Another School →</Link>
             </div>
           </section>
 
