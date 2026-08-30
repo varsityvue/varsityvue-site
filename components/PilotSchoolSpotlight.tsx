@@ -23,11 +23,11 @@ export default function PilotSchoolSpotlight() {
             </p>
 
             <h2 className="mt-2 text-3xl font-black text-white md:text-4xl">
-              Programs to watch in 2026
+              Featured school hubs for 2026
             </h2>
 
             <p className="mt-2 max-w-2xl text-sm leading-6 text-white/50">
-              Programs VarsityVue is following during the 2026 season.
+              Explore program hubs with schedules, results, district context, and coverage currently available on VarsityVue.
             </p>
           </div>
 
