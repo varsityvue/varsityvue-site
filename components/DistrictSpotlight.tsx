@@ -135,7 +135,9 @@ export default function DistrictSpotlight() {
 
                   <div className="text-right">
                     <p className="font-black text-white">
-                      {team.overallWins}-{team.overallLosses}
+                      {hasOverallResult
+                        ? `${team.overallWins}-${team.overallLosses}`
+                        : "—"}
                     </p>
                     <p className="text-[10px] font-black uppercase tracking-[0.12em] text-white/35">
                       Overall
