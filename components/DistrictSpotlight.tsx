@@ -94,6 +94,7 @@ export default function DistrictSpotlight() {
             {standings.map((team, index) => {
               const school = schools.find((item) => item.slug === team.schoolSlug);
               const differential = team.pointsFor - team.pointsAgainst;
+              const hasOverallResult = team.overallWins > 0 || team.overallLosses > 0;
               const previousTeam = standings[index - 1];
               const tiedWithPrevious =
                 districtStarted &&
@@ -140,8 +141,7 @@ export default function DistrictSpotlight() {
                       Overall
                     </p>
                     <p className="mt-1 text-xs font-bold text-white/40">
-                      {differential > 0 ? "+" : ""}
-                      {differential}
+                      {hasOverallResult ? `${differential > 0 ? "+" : ""}${differential}` : "—"}
                     </p>
                   </div>
                 </>
