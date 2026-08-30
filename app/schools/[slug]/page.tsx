@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const school = getSchoolBySlug(slug);
   if (!school) return { title: "Page Not Found | VarsityVue" };
-  return { title: `${school.fullName} Football Hub | VarsityVue`, description: `${school.fullName} schedules, scores, standings, district information, game coverage, sponsors, and football updates on VarsityVue.` };
+  return { title: `${school.fullName} Football Hub | VarsityVue`, description: `${school.fullName} schedules, scores, standings, roster, player statistics, district information, game coverage, and football updates on VarsityVue.` };
 }
 
 export default async function SchoolPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -62,12 +62,12 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
 
       <div className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[1.45fr_0.75fr] lg:px-8">
         <div className="space-y-6">
-          <SponsorBanner theme={theme} schoolId={school.id} />
           <UpcomingSchedulePreview schoolSlug={school.slug} />
           <SchoolCoverage schoolSlug={school.slug} />
           {recentScores.length > 0 && <RecentScores scores={recentScores} theme={theme} schoolSlug={slug} />}
           <StandingsTable standings={standings} theme={theme} />
           <NewsFeed articles={articles} theme={theme} />
+          <SponsorBanner theme={theme} schoolId={school.id} />
         </div>
 
         <aside className="space-y-6">
@@ -107,7 +107,7 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
           <section className="rounded-[1.75rem] border p-6 shadow-2xl" style={{ borderColor: `${theme.primary}55`, background: "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 50%, rgba(0,0,0,1))", boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)` }}>
             <p className="text-xs font-black uppercase tracking-[0.28em]" style={{ color: theme.secondary }}>School Utility</p>
             <h2 className="mt-3 text-2xl font-black text-white">Quick links for fans.</h2>
-            <div className="mt-5 flex flex-col gap-3"><LinkButton href={`/schools/${school.slug}/schedule`} label="Full Schedule" /><LinkButton href={`/districts/${districtSlug}`} label="Standings" /><LinkButton href="/scoreboard" label="Scoreboard" /><LinkButton href="/coverage" label="Team Coverage" /></div>
+            <div className="mt-5 flex flex-col gap-3"><LinkButton href={`/schools/${school.slug}/schedule`} label="Full Schedule" /><LinkButton href={`/schools/${school.slug}/roster`} label="Team Roster" /><LinkButton href={`/districts/${districtSlug}`} label="Standings" /><LinkButton href="/scoreboard" label="Scoreboard" /><LinkButton href="/coverage" label="Team Coverage" /></div>
           </section>
         </aside>
       </div>
