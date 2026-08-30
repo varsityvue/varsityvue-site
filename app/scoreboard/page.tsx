@@ -46,10 +46,6 @@ function getTeamName(team?: string, fallback = "Team TBD") {
   return team ?? fallback;
 }
 
-function getVenueName(venue?: string) {
-  return venue ?? "Venue TBD";
-}
-
 function getWeekLabel(week?: number) {
   return week === undefined ? "Week TBD" : `Week ${week}`;
 }
