@@ -66,12 +66,32 @@ The tool accepts one game at a time by pasted JSON, uploaded JSON, or VarsityVue
 7. generates temporary deterministic player IDs when no verified roster match exists
 8. runs `validateGameStats`
 9. separates blocking errors from warnings
-10. previews record counts and the game identity
-11. generates normalized JSON for manual approval and insertion into `data/game-stats.ts`
+10. blocks a new import when that canonical game already has a `GameStats` record
+11. supports correction mode by loading the current record first and showing a change summary
+12. requires a finalized internal correction audit before replacement output is approved
+13. generates normalized JSON for manual insertion into the production data files
 
 The approval-copy action remains blocked until a canonical game is confirmed and all blocking validation checks pass. This prevents a valid stat sheet from accidentally being attached to the wrong game record.
 
 The tool intentionally does **not** write to GitHub or publish production data. That is a safety boundary until VarsityVue has authenticated internal tools and a proper persistence layer.
+
+### Correction audit trail
+
+Every intentional replacement of an existing `GameStats` record should also create an internal audit entry in:
+
+`data/stat-corrections.ts`
+
+Correction mode requires:
+
+- who reviewed the correction
+- what prompted it, such as a coach email or corrected stat sheet
+- a short note explaining the change
+- the sections that changed
+- an ISO timestamp created when the audit entry is finalized
+
+The review tool generates this audit object separately from the replacement `GameStats` object. Both should be committed together. Audit data is internal operational metadata and should not be rendered on public game or player pages.
+
+If the stat draft changes after the audit has been finalized, the audit timestamp is invalidated and must be finalized again. This prevents an audit record from describing an earlier version of the correction.
 
 ### CSV format
 
@@ -105,6 +125,7 @@ Before committing a new stat sheet:
 8. Confirm touchdown totals are plausible against the scoring summary.
 9. Check player spellings against the roster.
 10. Reuse existing `playerId` values wherever possible.
+11. For corrections, commit the replacement record and its correction-audit entry together.
 
 `lib/game-stats-validation.ts` contains reusable validation checks used by the internal review workflow.
 
