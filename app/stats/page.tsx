@@ -90,7 +90,7 @@ export default function StatsPage() {
             headers={["RK", "Player", "School", "G", "CAR", "YDS", "TD", "YPC"]}
             rows={rushing.map((entry, index) => [
               index + 1,
-              entry.player,
+              playerLink(entry.playerId, entry.player),
               schoolLink(entry.schoolSlug),
               entry.gamesRecorded,
               entry.rushing.attempts,
@@ -108,7 +108,7 @@ export default function StatsPage() {
             headers={["RK", "Player", "School", "G", "CMP/ATT", "YDS", "TD", "INT", "CMP%"]}
             rows={passing.map((entry, index) => [
               index + 1,
-              entry.player,
+              playerLink(entry.playerId, entry.player),
               schoolLink(entry.schoolSlug),
               entry.gamesRecorded,
               `${entry.passing.completions}/${entry.passing.attempts}`,
@@ -127,7 +127,7 @@ export default function StatsPage() {
             headers={["RK", "Player", "School", "G", "REC", "YDS", "TD", "YPR"]}
             rows={receiving.map((entry, index) => [
               index + 1,
-              entry.player,
+              playerLink(entry.playerId, entry.player),
               schoolLink(entry.schoolSlug),
               entry.gamesRecorded,
               entry.receiving.receptions,
@@ -145,7 +145,7 @@ export default function StatsPage() {
             headers={["RK", "Player", "School", "G", "CAR", "YDS", "YPC"]}
             rows={ypc.map((entry, index) => [
               index + 1,
-              entry.player,
+              playerLink(entry.playerId, entry.player),
               schoolLink(entry.schoolSlug),
               entry.gamesRecorded,
               entry.rushing.attempts,
@@ -156,6 +156,14 @@ export default function StatsPage() {
         </div>
       </section>
     </main>
+  );
+}
+
+function playerLink(playerId: string, player: string) {
+  return (
+    <Link href={`/players/${playerId}`} className="font-black text-white transition hover:text-white/70">
+      {player}
+    </Link>
   );
 }
 
