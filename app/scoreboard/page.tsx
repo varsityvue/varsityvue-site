@@ -13,7 +13,7 @@ import SchoolBadge from "@/components/SchoolBadge";
 export const metadata: Metadata = {
   title: "Texas High School Football Scores | VarsityVue",
   description:
-    "Follow Texas high school football schedules, featured matchups, game-night updates, and final results on VarsityVue.",
+    "Follow verified Texas high school football final scores, featured matchups, and upcoming games across the VarsityVue coverage area.",
 };
 
 type ScoreboardGame = ReturnType<typeof getUpcomingScoreboardGames>[number];
@@ -22,7 +22,8 @@ function parseGameDate(kickoff?: string) {
   if (!kickoff) return null;
   if (!kickoff.includes("T")) {
     const [year, month, day] = kickoff.split("-").map(Number);
-    return new Date(year, month - 1, day);
+    const parsed = new Date(Date.UTC(year, month - 1, day, 12));
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
   }
   const parsedDate = new Date(kickoff);
   return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
@@ -54,10 +55,10 @@ function getWeekLabel(week?: number) {
 }
 
 function getMapUrl(game: { venue?: string; homeTeam?: string }) {
-  const venue = getVenueName(game.venue);
+  if (!game.venue) return null;
   const homeTeam = getTeamName(game.homeTeam, "");
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    `${venue} ${homeTeam} Texas`
+    `${game.venue} ${homeTeam} Texas`
   )}`;
 }
 
@@ -72,7 +73,7 @@ export default function ScoreboardPage() {
       <div className="mx-auto max-w-7xl">
         <section className="rounded-[1.75rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.24),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))] p-6 md:p-7">
           <p className="text-xs font-black uppercase tracking-[0.28em] text-white/65">
-            VarsityVue Scoreboard · Week 1
+            VarsityVue Scoreboard · 2026 Football
           </p>
           <div className="mt-3 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
@@ -80,13 +81,13 @@ export default function ScoreboardPage() {
                 Texas High School Football Scores
               </h1>
               <p className="mt-4 max-w-3xl text-base leading-7 text-white/60">
-                Verified final scores, featured matchups, and upcoming kickoffs across the VarsityVue coverage area.
+                Verified final scores, featured matchups, and upcoming kickoffs from programs currently tracked by VarsityVue.
               </p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-black/25 px-5 py-4 lg:max-w-sm">
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-white/45">Friday Night</p>
-              <p className="mt-1 text-lg font-black text-white">Week 1 results are in.</p>
-              <p className="mt-1 text-sm leading-5 text-white/50">Finals stay front and center through the weekend.</p>
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-white/45">Latest Results</p>
+              <p className="mt-1 text-lg font-black text-white">Verified finals stay easy to find.</p>
+              <p className="mt-1 text-sm leading-5 text-white/50">The scoreboard updates as new results and schedule information are added.</p>
             </div>
           </div>
         </section>
@@ -96,20 +97,20 @@ export default function ScoreboardPage() {
         <section className="mt-8 grid gap-6 lg:grid-cols-[0.58fr_1fr_1fr]">
           <ScoreboardColumn
             title="Live Now"
-            description="Games currently in progress."
+            description="Games currently marked in progress."
             games={liveGames}
-            emptyText="No live games right now."
+            emptyText="No games are currently marked live."
             compact
           />
           <ScoreboardColumn
             title="Upcoming"
-            description="The next kickoffs on the schedule."
+            description="The next scheduled kickoffs currently on file."
             games={upcomingGames}
             emptyText="No upcoming games listed."
           />
           <ScoreboardColumn
             title="Final Scores"
-            description="Verified Week 1 results from across the coverage area."
+            description="Latest verified results from across the coverage area."
             games={finalGames}
             emptyText="No final scores posted yet."
           />
@@ -127,6 +128,7 @@ function FeaturedScoreboardGame({ game }: { game: ScoreboardGame }) {
   const awayScore = game.awayScore ?? game.score?.away;
   const homeScore = game.homeScore ?? game.score?.home;
   const isFinal = game.status === "final";
+  const mapUrl = getMapUrl(game);
 
   return (
     <section className="mt-8 rounded-3xl border border-white/10 bg-white/[0.045] p-6 shadow-2xl md:p-8">
@@ -134,7 +136,7 @@ function FeaturedScoreboardGame({ game }: { game: ScoreboardGame }) {
         <div>
           <p className="text-xs font-black uppercase tracking-[0.3em] text-white/55">Game of the Week</p>
           <p className="mt-2 text-sm font-bold text-white/45">
-            {getWeekLabel(game.week)} · {formatKickoff(game.kickoff)} · {getVenueName(game.venue)}
+            {getWeekLabel(game.week)} · {formatKickoff(game.kickoff)}{game.venue ? ` · ${game.venue}` : ""}
           </p>
         </div>
         <span className="rounded-full border border-white/15 bg-black/40 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-white/75">
@@ -175,9 +177,11 @@ function FeaturedScoreboardGame({ game }: { game: ScoreboardGame }) {
         <Link href={`/games/${game.id}`} className="rounded-full bg-white px-7 py-4 text-center font-black text-black transition hover:bg-white/85">
           {isFinal ? "View Final Result →" : "Matchup Center →"}
         </Link>
-        <a href={getMapUrl(game)} target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/15 bg-white/5 px-7 py-4 text-center font-black text-white/75 transition hover:bg-white/10 hover:text-white">
-          Venue Map →
-        </a>
+        {mapUrl && (
+          <a href={mapUrl} target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/15 bg-white/5 px-7 py-4 text-center font-black text-white/75 transition hover:bg-white/10 hover:text-white">
+            Venue Map →
+          </a>
+        )}
       </div>
     </section>
   );
