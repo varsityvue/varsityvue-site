@@ -3,6 +3,7 @@
 import { useMemo, useRef, useState } from "react";
 
 import type { GameStats } from "@/data/game-stats";
+import { getGameStatsCsvTemplate, parseGameStatsCsv } from "@/lib/game-stats-csv";
 import {
   formatGameStatsForDataFile,
   parseGameStatsDraft,
@@ -27,6 +28,7 @@ export default function GameStatsReviewTool() {
   const [raw, setRaw] = useState(starter);
   const [resolved, setResolved] = useState<GameStats | null>(null);
   const [notices, setNotices] = useState<string[]>([]);
+  const [fileErrors, setFileErrors] = useState<string[]>([]);
   const fileInput = useRef<HTMLInputElement>(null);
 
   const parsed = useMemo(() => parseGameStatsDraft(raw), [raw]);
@@ -39,25 +41,58 @@ export default function GameStatsReviewTool() {
     if (!parsed.ok) return;
     const result = resolveKnownPlayerIds(parsed.stats);
     setResolved(result.stats);
-    setNotices(result.notices);
+    setNotices((current) => [...current, ...result.notices]);
   }
 
   function resetResolved() {
     setResolved(null);
     setNotices([]);
+    setFileErrors([]);
   }
 
   function loadFile(file?: File) {
     if (!file) return;
+
     const reader = new FileReader();
     reader.onload = () => {
-      if (typeof reader.result === "string") {
-        setRaw(reader.result);
+      if (typeof reader.result !== "string") return;
+
+      const lowerName = file.name.toLowerCase();
+      if (lowerName.endsWith(".csv") || file.type === "text/csv") {
+        const csv = parseGameStatsCsv(reader.result);
+        if (!csv.ok) {
+          setFileErrors(csv.errors);
+          setResolved(null);
+          setNotices([]);
+          return;
+        }
+
+        const normalized = formatGameStatsForDataFile(csv.stats);
+        setRaw(normalized);
         setResolved(null);
-        setNotices([]);
+        setNotices(csv.notices);
+        setFileErrors([]);
+        return;
       }
+
+      setRaw(reader.result);
+      setResolved(null);
+      setNotices([]);
+      setFileErrors([]);
     };
     reader.readAsText(file);
+  }
+
+  function downloadCsvTemplate() {
+    const blob = new Blob([getGameStatsCsvTemplate()], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = "varsityvue-game-stats-template.csv";
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    URL.revokeObjectURL(url);
   }
 
   async function copyApprovedJson() {
@@ -65,33 +100,46 @@ export default function GameStatsReviewTool() {
     await navigator.clipboard.writeText(formatGameStatsForDataFile(stats));
   }
 
+  const parseErrors = fileErrors.length > 0 ? fileErrors : parsed.ok ? [] : parsed.errors;
+
   return (
     <div className="grid gap-6 xl:grid-cols-[1fr_1fr]">
       <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-6">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">Import Draft</p>
-            <h2 className="mt-2 text-2xl font-black">Paste or upload JSON</h2>
+            <h2 className="mt-2 text-2xl font-black">Paste JSON or upload CSV</h2>
             <p className="mt-2 max-w-xl text-sm leading-6 text-white/45">
-              This tool reviews one structured GameStats object at a time. It does not publish directly to production.
+              Review one structured GameStats object at a time, or convert the VarsityVue CSV template into the same review flow. Nothing publishes directly to production.
             </p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <input
               ref={fileInput}
               type="file"
-              accept="application/json,.json,text/plain"
+              accept="application/json,.json,text/plain,text/csv,.csv"
               className="hidden"
               onChange={(event) => loadFile(event.target.files?.[0])}
             />
             <button
               type="button"
+              onClick={downloadCsvTemplate}
+              className="rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white/60 transition hover:bg-white/10 hover:text-white"
+            >
+              CSV Template
+            </button>
+            <button
+              type="button"
               onClick={() => fileInput.current?.click()}
               className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white/70 transition hover:bg-white/10 hover:text-white"
             >
-              Upload JSON
+              Upload JSON / CSV
             </button>
           </div>
+        </div>
+
+        <div className="mt-5 rounded-2xl border border-white/10 bg-black/25 p-4 text-xs leading-5 text-white/45">
+          CSV rows use a <code className="font-mono text-white/65">section</code> column. Supported sections are <code className="font-mono text-white/65">meta</code>, <code className="font-mono text-white/65">quarterScore</code>, <code className="font-mono text-white/65">scoringPlay</code>, <code className="font-mono text-white/65">teamStats</code>, <code className="font-mono text-white/65">rushing</code>, <code className="font-mono text-white/65">passing</code>, and <code className="font-mono text-white/65">receiving</code>. Download the template rather than rebuilding the columns manually.
         </div>
 
         <textarea
@@ -107,7 +155,7 @@ export default function GameStatsReviewTool() {
         <div className="mt-4 flex flex-wrap gap-3">
           <button
             type="button"
-            disabled={!parsed.ok}
+            disabled={!parsed.ok || fileErrors.length > 0}
             onClick={resolvePlayers}
             className="rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white transition disabled:cursor-not-allowed disabled:opacity-35"
           >
@@ -128,9 +176,9 @@ export default function GameStatsReviewTool() {
       <div className="space-y-6">
         <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-6">
           <p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">Review Status</p>
-          {!parsed.ok ? (
+          {parseErrors.length > 0 ? (
             <div className="mt-5 space-y-2">
-              {parsed.errors.map((error) => (
+              {parseErrors.map((error) => (
                 <Issue key={error} level="error" message={error} />
               ))}
             </div>
@@ -139,7 +187,7 @@ export default function GameStatsReviewTool() {
               <div className="mt-5 grid gap-3 sm:grid-cols-3">
                 <StatusCard label="Errors" value={errors.length} />
                 <StatusCard label="Warnings" value={warnings.length} />
-                <StatusCard label="Player Matches" value={notices.length} />
+                <StatusCard label="Import Notices" value={notices.length} />
               </div>
 
               <div className="mt-5 space-y-2">
@@ -182,10 +230,10 @@ export default function GameStatsReviewTool() {
 
         {notices.length > 0 && (
           <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-6">
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">Player Identity Review</p>
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">Import & Identity Review</p>
             <div className="mt-4 space-y-2">
-              {notices.map((notice) => (
-                <div key={notice} className="rounded-xl border border-white/10 bg-black/30 p-3 text-xs leading-5 text-white/55">
+              {notices.map((notice, index) => (
+                <div key={`${index}-${notice}`} className="rounded-xl border border-white/10 bg-black/30 p-3 text-xs leading-5 text-white/55">
                   {notice}
                 </div>
               ))}
