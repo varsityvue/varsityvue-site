@@ -7,17 +7,17 @@ export default function HomeSponsorSlot() {
         <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.3em] text-white/45">
-              Founding Sponsor Opportunity
+              2027 Sponsor Interest
             </p>
 
             <h2 className="mt-2 text-3xl font-black text-white md:text-4xl">
-              Your business here.
+              Connect your business with local sports fans.
             </h2>
 
             <p className="mt-3 max-w-3xl text-sm leading-6 text-white/60">
-              VarsityVue is building future sponsor placements across school
-              hubs, game pages, district races, scoreboards, and coverage
-              modules. Register interest for 2027 founding sponsor inventory.
+              VarsityVue is building future partnership opportunities across
+              school hubs, game pages, district coverage, scoreboards, and
+              local sports discovery. Join the interest list for 2027.
             </p>
           </div>
 
@@ -25,7 +25,7 @@ export default function HomeSponsorSlot() {
             href="/sponsor-inquiry"
             className="rounded-xl border border-white/20 bg-white/10 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
           >
-            Reserve Interest →
+            Join Interest List →
           </Link>
         </div>
       </div>
