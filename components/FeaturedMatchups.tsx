@@ -19,7 +19,7 @@ function parseGameDate(kickoff?: string) {
 function formatGameDate(kickoff?: string) {
   const parsedDate = parseGameDate(kickoff);
 
-  if (!parsedDate) return "Date TBD";
+  if (!parsedDate) return "—";
 
   return new Intl.DateTimeFormat("en-US", {
     weekday: "short",
@@ -45,7 +45,7 @@ function formatGameTime(kickoff?: string) {
 function getGameLabel(gameType: string, week?: number) {
   if (gameType === "scrimmage") return "Scrimmage";
   if (gameType === "playoff") return "Playoff";
-  return week === undefined ? "Week TBD" : `Week ${week}`;
+  return week === undefined ? "—" : `Week ${week}`;
 }
 
 export default function FeaturedMatchups() {
