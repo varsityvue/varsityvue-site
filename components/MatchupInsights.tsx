@@ -14,6 +14,12 @@ function formatRecord(wins?: number, losses?: number) {
     return `${wins}-${losses}`;
 }
 
+function formatDistrictRecord(wins?: number, losses?: number) {
+    if (wins === undefined || losses === undefined) return "—";
+    if (wins === 0 && losses === 0) return "—";
+    return `${wins}-${losses}`;
+}
+
 function formatPoints(value?: number) {
     return value === undefined ? "—" : value.toString();
 }
@@ -99,11 +105,11 @@ export default function MatchupInsights({
 
                 <ComparisonRow
                     label="District"
-                    awayValue={formatRecord(
+                    awayValue={formatDistrictRecord(
                         awayStanding?.districtWins,
                         awayStanding?.districtLosses
                     )}
-                    homeValue={formatRecord(
+                    homeValue={formatDistrictRecord(
                         homeStanding?.districtWins,
                         homeStanding?.districtLosses
                     )}
