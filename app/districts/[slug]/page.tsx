@@ -103,6 +103,19 @@ function getDistrictGameStatus(game: DistrictGame) {
   return "Scheduled";
 }
 
+function getDistrictGamesForDisplay(games: DistrictGame[], limit = 6) {
+  const upcoming = games
+    .filter((game) => game.status !== "final")
+    .sort((a, b) => getGameTimestamp(a.kickoff) - getGameTimestamp(b.kickoff));
+
+  if (upcoming.length > 0) return upcoming.slice(0, limit);
+
+  return games
+    .filter((game) => game.status === "final")
+    .sort((a, b) => getGameTimestamp(b.kickoff) - getGameTimestamp(a.kickoff))
+    .slice(0, limit);
+}
+
 export async function generateMetadata({
   params,
 }: DistrictPageProps): Promise<Metadata> {
@@ -137,7 +150,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
     .filter((game) => game.districtGame)
     .sort((a, b) => getGameTimestamp(a.kickoff) - getGameTimestamp(b.kickoff));
 
-  const districtGames = allDistrictGames.slice(0, 6);
+  const districtGames = getDistrictGamesForDisplay(allDistrictGames);
   const districtResults = allDistrictGames.filter(
     (game) =>
       game.status === "final" &&
