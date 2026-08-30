@@ -10,6 +10,9 @@ export default function DistrictSpotlight() {
   const district = getDistrictById(DISTRICT_ID);
   const schools = getSchoolsByDistrictId(DISTRICT_ID);
   const standings = getStandingsForDistrictId(DISTRICT_ID).slice(0, 4);
+  const districtStarted = standings.some(
+    (team) => team.districtWins > 0 || team.districtLosses > 0
+  );
 
   if (!district) return null;
 
@@ -51,11 +54,11 @@ export default function DistrictSpotlight() {
           <div className="mb-5 flex items-end justify-between gap-4">
             <div>
               <p className="text-xs font-black uppercase tracking-[0.3em] text-white/45">
-                Current Race
+                {districtStarted ? "Current Race" : "District Preview"}
               </p>
 
               <h3 className="mt-2 text-3xl font-black text-white">
-                Standings Snapshot
+                {districtStarted ? "Standings Snapshot" : "District Teams"}
               </h3>
             </div>
 
@@ -66,6 +69,12 @@ export default function DistrictSpotlight() {
               Full Table →
             </Link>
           </div>
+
+          {!districtStarted && (
+            <p className="mb-4 text-sm leading-6 text-white/45">
+              District play has not produced a verified result yet. Teams are shown without a district ranking.
+            </p>
+          )}
 
           <div className="space-y-3">
             {standings.map((team, index) => {
@@ -78,7 +87,9 @@ export default function DistrictSpotlight() {
                   href={`/schools/${team.schoolSlug}`}
                   className="grid grid-cols-[32px_auto_1fr_auto] items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4 transition hover:bg-white/[0.08]"
                 >
-                  <p className="font-black text-white/45">#{index + 1}</p>
+                  <p className="font-black text-white/45">
+                    {districtStarted ? `#${index + 1}` : "—"}
+                  </p>
 
                   {school && <SchoolBadge school={school} size="xs" />}
 
