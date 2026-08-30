@@ -105,15 +105,9 @@ export default function DistrictSpotlight() {
                     ? `#${index + 1}`
                     : "—";
 
-              return (
-                <Link
-                  key={team.schoolSlug}
-                  href={`/schools/${team.schoolSlug}`}
-                  className="grid grid-cols-[32px_auto_1fr_auto] items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4 transition hover:bg-white/[0.08]"
-                >
-                  <p className="font-black text-white/45">
-                    {position}
-                  </p>
+              const teamContent = (
+                <>
+                  <p className="font-black text-white/45">{position}</p>
 
                   {school && <SchoolBadge school={school} size="xs" />}
 
@@ -136,7 +130,24 @@ export default function DistrictSpotlight() {
                       {differential}
                     </p>
                   </div>
+                </>
+              );
+
+              return school ? (
+                <Link
+                  key={team.schoolSlug}
+                  href={`/schools/${school.slug}`}
+                  className="grid grid-cols-[32px_auto_1fr_auto] items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4 transition hover:bg-white/[0.08]"
+                >
+                  {teamContent}
                 </Link>
+              ) : (
+                <div
+                  key={team.schoolSlug}
+                  className="grid grid-cols-[32px_auto_1fr_auto] items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4"
+                >
+                  {teamContent}
+                </div>
               );
             })}
           </div>
