@@ -47,7 +47,7 @@ When the roster becomes available, future game stat entries should use the stabl
 
 ## Internal review tool
 
-A gated review interface now exists at:
+A gated review interface exists at:
 
 `/internal/stats-import`
 
@@ -55,7 +55,7 @@ The route is disabled unless the server environment includes:
 
 `ENABLE_INTERNAL_TOOLS=true`
 
-The current tool accepts one structured JSON `GameStats` object by paste or JSON upload. It:
+The tool accepts one game at a time by pasted JSON, uploaded JSON, or VarsityVue-format CSV. Every format is converted into the same `GameStats` object before review. The workflow:
 
 1. checks the basic object shape
 2. resolves known roster-backed player IDs by school and player name
@@ -67,7 +67,23 @@ The current tool accepts one structured JSON `GameStats` object by paste or JSON
 
 The tool intentionally does **not** write to GitHub or publish production data. That is a safety boundary until VarsityVue has authenticated internal tools and a proper persistence layer.
 
-CSV/XLSX, PDF, screenshot, and email parsing are still future ingestion adapters. Those formats should eventually convert into the same reviewable `GameStats` draft before approval.
+### CSV format
+
+Use the **CSV Template** button in the internal tool rather than rebuilding the columns manually. Each row has a `section` value describing the record type. Supported values are:
+
+- `meta`
+- `quarterScore`
+- `scoringPlay`
+- `teamStats`
+- `rushing`
+- `passing`
+- `receiving`
+
+A file requires one `meta` row with `gameId`, `season`, and `sourceLabel`. Other rows only need the columns used by that section. Quarter scoring uses `|` separators, for example `7|0|7|0`.
+
+CSV is the first spreadsheet adapter because it can be supported without introducing another production dependency. Native XLSX support should be added only when a spreadsheet parsing package is deliberately added and locked in `package.json` / `package-lock.json`; do not use a browser CDN as a shortcut.
+
+PDF, screenshot, and email parsing remain future adapters and should feed this same review layer rather than bypassing validation.
 
 ## Pre-publish checks
 
@@ -108,4 +124,4 @@ Do not describe a player as the definitive district or area leader unless the st
 
 ## Future import target
 
-The next evolution should add format adapters for CSV/XLSX, PDF, screenshot, or email-derived data and convert them into the same structured review screen. After authenticated internal access and a real persistence layer exist, approval can become a controlled production write rather than a manual code change.
+The next evolution should add native XLSX support, then adapters for PDF, screenshot, or email-derived data. Every format should convert into the same structured review screen. After authenticated internal access and a real persistence layer exist, approval can become a controlled production write rather than a manual code change.
