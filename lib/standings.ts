@@ -68,7 +68,17 @@ function applyGameToStanding(
   }
 }
 
+function hasDistrictResults(standings: Standing[]) {
+  return standings.some(
+    (standing) => standing.districtWins > 0 || standing.districtLosses > 0
+  );
+}
+
 function sortStandings(standings: Standing[]) {
+  if (!hasDistrictResults(standings)) {
+    return [...standings].sort((a, b) => a.team.localeCompare(b.team));
+  }
+
   return [...standings].sort((a, b) => {
     if (b.districtWins !== a.districtWins) {
       return b.districtWins - a.districtWins;
