@@ -589,12 +589,14 @@ function RecordLine({
   districtWins?: number;
   districtLosses?: number;
 }) {
+  const hasOverallRecord =
+    overallWins !== undefined && overallLosses !== undefined;
   const hasDistrictResult =
     (districtWins ?? 0) > 0 || (districtLosses ?? 0) > 0;
 
   return (
     <p className="mt-2 text-sm font-black uppercase tracking-[0.12em] text-white/55">
-      {overallWins ?? 0}-{overallLosses ?? 0} Overall · {hasDistrictResult
+      {hasOverallRecord ? `${overallWins}-${overallLosses} Overall` : "Overall —"} · {hasDistrictResult
         ? `${districtWins ?? 0}-${districtLosses ?? 0} District`
         : "District —"}
     </p>
