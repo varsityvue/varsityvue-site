@@ -12,447 +12,55 @@ import type { TeamStatLine } from "@/data/game-stats";
 import type { UILClassification } from "@/types/platform";
 
 type GamePageProps = { params: Promise<{ gameId: string }> };
+const VARSITYVUE_PRIMARY = "#8B1020"; const VARSITYVUE_ACCENT = "#F4EBDD"; const VARSITYVUE_BG = "#050505";
+function formatClassification(classification: UILClassification) { if (!classification.division) return classification.conference; return `${classification.conference} Division ${classification.division === "D1" ? "I" : "II"}`; }
+function parseKickoff(kickoff?: string) { if (!kickoff) return null; if (!kickoff.includes("T")) { const [year, month, day] = kickoff.split("-").map(Number); return new Date(year, month - 1, day); } const parsed = new Date(kickoff); return Number.isNaN(parsed.getTime()) ? null : parsed; }
+function formatGameDate(kickoff?: string) { const parsed = parseKickoff(kickoff); if (!parsed) return "Date TBD"; return new Intl.DateTimeFormat("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric", timeZone: "America/Chicago" }).format(parsed); }
+function formatGameTime(kickoff?: string) { if (!kickoff || !kickoff.includes("T")) return "Time TBD"; const parsed = parseKickoff(kickoff); if (!parsed) return "Time TBD"; return new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/Chicago" }).format(parsed); }
+function getGameStatusLabel(status: string) { if (status === "upcoming") return "Upcoming"; if (status === "live") return "Live"; if (status === "final") return "Final"; return status; }
+function getGameTypeLabel(gameType: string, week?: number) { if (gameType === "scrimmage") return "Scrimmage"; if (gameType === "playoff") return "Playoff"; return week === undefined ? "Week TBD" : `Week ${week}`; }
+function getSchemaEventStatus(status: string) { return status === "final" ? "https://schema.org/EventCompleted" : "https://schema.org/EventScheduled"; }
+function getMapUrl(game: { venue: string; homeTeam: string }) { return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${game.venue} ${game.homeTeam} Texas`)}`; }
 
-const VARSITYVUE_PRIMARY = "#8B1020";
-const VARSITYVUE_ACCENT = "#F4EBDD";
-const VARSITYVUE_BG = "#050505";
-
-function formatClassification(classification: UILClassification) {
-  if (!classification.division) return classification.conference;
-  return `${classification.conference} Division ${classification.division === "D1" ? "I" : "II"}`;
-}
-
-function parseKickoff(kickoff?: string) {
-  if (!kickoff) return null;
-  if (!kickoff.includes("T")) {
-    const [year, month, day] = kickoff.split("-").map(Number);
-    return new Date(year, month - 1, day);
-  }
-  const parsed = new Date(kickoff);
-  return Number.isNaN(parsed.getTime()) ? null : parsed;
-}
-
-function formatGameDate(kickoff?: string) {
-  const parsed = parseKickoff(kickoff);
-  if (!parsed) return "Date TBD";
-  return new Intl.DateTimeFormat("en-US", {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-    timeZone: "America/Chicago",
-  }).format(parsed);
-}
-
-function formatGameTime(kickoff?: string) {
-  if (!kickoff || !kickoff.includes("T")) return "Time TBD";
-  const parsed = parseKickoff(kickoff);
-  if (!parsed) return "Time TBD";
-  return new Intl.DateTimeFormat("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-    timeZone: "America/Chicago",
-  }).format(parsed);
-}
-
-function getGameStatusLabel(status: string) {
-  if (status === "upcoming") return "Upcoming";
-  if (status === "live") return "Live";
-  if (status === "final") return "Final";
-  return status;
-}
-
-function getGameTypeLabel(gameType: string, week?: number) {
-  if (gameType === "scrimmage") return "Scrimmage";
-  if (gameType === "playoff") return "Playoff";
-  return week === undefined ? "Week TBD" : `Week ${week}`;
-}
-
-function getSchemaEventStatus(status: string) {
-  return status === "final" ? "https://schema.org/EventCompleted" : "https://schema.org/EventScheduled";
-}
-
-function getMapUrl(game: { venue: string; homeTeam: string }) {
-  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${game.venue} ${game.homeTeam} Texas`)}`;
-}
-
-export async function generateMetadata({ params }: GamePageProps): Promise<Metadata> {
-  const { gameId } = await params;
-  const game = getGameById(gameId);
-  if (!game) return { title: "Game Not Found | VarsityVue" };
-
-  const homeTeamName = game.homeTeam ?? "Home Team";
-  const awayTeamName = game.awayTeam ?? "Away Team";
-  return {
-    title: `${awayTeamName} at ${homeTeamName} | VarsityVue`,
-    description: `${awayTeamName} at ${homeTeamName} game center with scores, verified statistics, venue information, and VarsityVue coverage.`,
-  };
-}
+export async function generateMetadata({ params }: GamePageProps): Promise<Metadata> { const { gameId } = await params; const game = getGameById(gameId); if (!game) return { title: "Game Not Found | VarsityVue" }; const homeTeamName = game.homeTeam ?? "Home Team"; const awayTeamName = game.awayTeam ?? "Away Team"; return { title: `${awayTeamName} at ${homeTeamName} | VarsityVue`, description: `${awayTeamName} at ${homeTeamName} game center with scores, verified statistics, venue information, and VarsityVue coverage.` }; }
 
 export default async function GamePage({ params }: GamePageProps) {
-  const { gameId } = await params;
-  const game = getGameById(gameId);
-  if (!game) notFound();
-
-  const stats = getGameStats(game.id);
-  const homeTeamName = game.homeTeam ?? "Home Team";
-  const awayTeamName = game.awayTeam ?? "Away Team";
-  const kickoffValue = game.kickoff ?? "";
-  const venueName = game.venue ?? "Venue TBD";
-
-  const homeSchool = getSchoolBySlug(game.homeSchoolSlug ?? "");
-  const awaySchool = getSchoolBySlug(game.awaySchoolSlug ?? "");
-  const homeDistrict = homeSchool ? getDistrictById(homeSchool.districtId) : undefined;
-  const awayDistrict = awaySchool ? getDistrictById(awaySchool.districtId) : undefined;
-  const homeStanding = homeSchool ? getStandingForSchool(homeSchool.slug) : undefined;
-  const awayStanding = awaySchool ? getStandingForSchool(awaySchool.slug) : undefined;
-
-  const primaryColor = homeSchool?.colors.primary ?? awaySchool?.colors.primary ?? VARSITYVUE_PRIMARY;
-  const secondaryColor = awaySchool?.colors.primary ?? homeSchool?.colors.secondary ?? VARSITYVUE_ACCENT;
-  const hasFinalScore = game.status === "final" && game.homeScore !== undefined && game.awayScore !== undefined;
-
-  const sportsEventSchema = {
-    "@context": "https://schema.org",
-    "@type": "SportsEvent",
-    name: `${awayTeamName} at ${homeTeamName}`,
-    startDate: kickoffValue,
-    eventStatus: getSchemaEventStatus(game.status),
-    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-    url: `https://varsityvue.com/games/${game.id}`,
-    location: { "@type": "Place", name: venueName },
-    competitor: [
-      { "@type": "SportsTeam", name: awayTeamName },
-      { "@type": "SportsTeam", name: homeTeamName },
-    ],
-    organizer: { "@type": "Organization", name: "VarsityVue", url: "https://varsityvue.com" },
-  };
-
-  return (
-    <main
-      className="min-h-screen bg-[var(--vv-bg)] text-white"
-      style={{
-        "--vv-primary": primaryColor,
-        "--vv-secondary": secondaryColor,
-        "--vv-accent": VARSITYVUE_ACCENT,
-        "--vv-bg": VARSITYVUE_BG,
-      } as CSSProperties}
-    >
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sportsEventSchema) }} />
-
-      <section
-        className="border-b border-white/10 px-4 py-8 sm:px-6 lg:px-8"
-        style={{
-          background: `radial-gradient(circle at top left, ${primaryColor}66 0%, transparent 34%), radial-gradient(circle at top right, ${secondaryColor}44 0%, transparent 34%), linear-gradient(120deg, #050505 0%, #080808 48%, #000 100%)`,
-        }}
-      >
-        <div className="mx-auto max-w-[1440px]">
-          <Link href="/scoreboard" className="text-sm font-black uppercase tracking-[0.14em] text-white/55 transition hover:text-white">
-            ← Back to Scoreboard
-          </Link>
-
-          <div className="mt-6 overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.045] shadow-2xl">
-            <div className="border-b border-white/10 bg-black/35 p-5">
-              <div className="flex flex-wrap gap-2">
-                <Badge label="VarsityVue Game Center" />
-                <Badge label={getGameStatusLabel(game.status)} />
-                <Badge label={getGameTypeLabel(game.gameType, game.week)} />
-                {stats && <Badge label="Verified Stats" />}
-                {game.districtGame && <Badge label="District Game" />}
-              </div>
-            </div>
-
-            <div className="p-6 md:p-8">
-              <div className="grid gap-8 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
-                <TeamBlock
-                  align="left"
-                  label="Away"
-                  team={awayTeamName}
-                  school={awaySchool}
-                  districtName={awayDistrict?.name}
-                  record={awayStanding ? `${awayStanding.overallWins}-${awayStanding.overallLosses}` : undefined}
-                  score={hasFinalScore ? game.awayScore : undefined}
-                />
-                <div className="flex flex-col items-center justify-center gap-3">
-                  <div className="rounded-full border border-white/15 bg-white/[0.08] px-8 py-5 text-2xl font-black text-white/85 shadow-xl">
-                    {hasFinalScore ? "FINAL" : "VS"}
-                  </div>
-                  <p className="text-center text-xs font-black uppercase tracking-[0.18em] text-white/40">{formatGameDate(kickoffValue)}</p>
-                </div>
-                <TeamBlock
-                  align="right"
-                  label="Home"
-                  team={homeTeamName}
-                  school={homeSchool}
-                  districtName={homeDistrict?.name}
-                  record={homeStanding ? `${homeStanding.overallWins}-${homeStanding.overallLosses}` : undefined}
-                  score={hasFinalScore ? game.homeScore : undefined}
-                />
-              </div>
-
-              <div className="mt-8 grid gap-3 md:grid-cols-4">
-                <InfoCard label="Date" value={formatGameDate(kickoffValue)} />
-                <InfoCard label="Kickoff" value={formatGameTime(kickoffValue)} />
-                <a href={getMapUrl({ venue: venueName, homeTeam: homeTeamName })} target="_blank" rel="noopener noreferrer">
-                  <InfoCard label="Venue" value={`${venueName} →`} />
-                </a>
-                <InfoCard label="Coverage" value={stats ? "Verified Postgame" : game.status === "final" ? "Postgame" : "Game Center"} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-[1440px] space-y-6">
-          {stats ? (
-            <VerifiedStatsSection
-              stats={stats}
-              homeTeamName={homeTeamName}
-              awayTeamName={awayTeamName}
-              homeSchoolSlug={game.homeSchoolSlug ?? ""}
-              awaySchoolSlug={game.awaySchoolSlug ?? ""}
-            />
-          ) : (
-            <div className="grid gap-6 lg:grid-cols-[1.35fr_0.75fr]">
-              <section className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] shadow-2xl">
-                <div className="h-1.5 bg-[var(--vv-primary)]" />
-                <div className="p-7">
-                  <p className="text-xs font-black uppercase tracking-[0.28em] text-white/45">Pregame Matchup Center</p>
-                  <h1 className="mt-3 text-3xl font-black text-white md:text-4xl">{awayTeamName} at {homeTeamName}</h1>
-                  <p className="mt-4 max-w-3xl leading-7 text-white/60">
-                    VarsityVue is tracking this Week {game.week ?? "1"} matchup. Confirmed game details appear here first, with additional coverage added as verified information becomes available.
-                  </p>
-                </div>
-              </section>
-              <aside className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7 shadow-2xl">
-                <p className="text-xs font-black uppercase tracking-[0.28em] text-white/45">Game Information</p>
-                <div className="mt-5 space-y-3">
-                  <Fact label="Kickoff" value={`${formatGameDate(kickoffValue)} · ${formatGameTime(kickoffValue)}`} />
-                  <Fact label="Venue" value={venueName} />
-                  <Fact label="Game Type" value={getGameTypeLabel(game.gameType, game.week)} />
-                </div>
-              </aside>
-            </div>
-          )}
-
-          <div className="flex flex-wrap gap-3">
-            {awaySchool && <LinkButton href={`/schools/${awaySchool.slug}`} label={`View ${awaySchool.name} Hub →`} />}
-            {homeSchool && <LinkButton href={`/schools/${homeSchool.slug}`} label={`View ${homeSchool.name} Hub →`} />}
-            <LinkButton href="/coverage" label="VarsityVue Coverage →" />
-          </div>
-        </div>
-      </section>
-    </main>
-  );
+  const { gameId } = await params; const game = getGameById(gameId); if (!game) notFound();
+  const stats = getGameStats(game.id); const homeTeamName = game.homeTeam ?? "Home Team"; const awayTeamName = game.awayTeam ?? "Away Team"; const kickoffValue = game.kickoff ?? ""; const venueName = game.venue ?? "Venue TBD";
+  const homeSchool = getSchoolBySlug(game.homeSchoolSlug ?? ""); const awaySchool = getSchoolBySlug(game.awaySchoolSlug ?? ""); const homeDistrict = homeSchool ? getDistrictById(homeSchool.districtId) : undefined; const awayDistrict = awaySchool ? getDistrictById(awaySchool.districtId) : undefined; const homeStanding = homeSchool ? getStandingForSchool(homeSchool.slug) : undefined; const awayStanding = awaySchool ? getStandingForSchool(awaySchool.slug) : undefined;
+  const primaryColor = homeSchool?.colors.primary ?? awaySchool?.colors.primary ?? VARSITYVUE_PRIMARY; const secondaryColor = awaySchool?.colors.primary ?? homeSchool?.colors.secondary ?? VARSITYVUE_ACCENT; const hasFinalScore = game.status === "final" && game.homeScore !== undefined && game.awayScore !== undefined;
+  const sportsEventSchema = { "@context": "https://schema.org", "@type": "SportsEvent", name: `${awayTeamName} at ${homeTeamName}`, startDate: kickoffValue, eventStatus: getSchemaEventStatus(game.status), eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode", url: `https://varsityvue.com/games/${game.id}`, location: { "@type": "Place", name: venueName }, competitor: [{ "@type": "SportsTeam", name: awayTeamName }, { "@type": "SportsTeam", name: homeTeamName }], organizer: { "@type": "Organization", name: "VarsityVue", url: "https://varsityvue.com" } };
+  return <main className="min-h-screen bg-[var(--vv-bg)] text-white" style={{ "--vv-primary": primaryColor, "--vv-secondary": secondaryColor, "--vv-accent": VARSITYVUE_ACCENT, "--vv-bg": VARSITYVUE_BG } as CSSProperties}>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sportsEventSchema) }} />
+    <section className="border-b border-white/10 px-4 py-8 sm:px-6 lg:px-8" style={{ background: `radial-gradient(circle at top left, ${primaryColor}66 0%, transparent 34%), radial-gradient(circle at top right, ${secondaryColor}44 0%, transparent 34%), linear-gradient(120deg, #050505 0%, #080808 48%, #000 100%)` }}><div className="mx-auto max-w-[1440px]">
+      <Link href="/scoreboard" className="text-sm font-black uppercase tracking-[0.14em] text-white/55 transition hover:text-white">← Back to Scoreboard</Link>
+      <div className="mt-6 overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.045] shadow-2xl"><div className="border-b border-white/10 bg-black/35 p-5"><div className="flex flex-wrap gap-2"><Badge label="VarsityVue Game Center" /><Badge label={getGameStatusLabel(game.status)} /><Badge label={getGameTypeLabel(game.gameType, game.week)} />{stats && <Badge label="Verified Stats" />}{game.districtGame && <Badge label="District Game" />}</div></div>
+      <div className="p-6 md:p-8"><div className="grid gap-8 lg:grid-cols-[1fr_auto_1fr] lg:items-center"><TeamBlock align="left" label="Away" team={awayTeamName} school={awaySchool} districtName={awayDistrict?.name} record={awayStanding ? `${awayStanding.overallWins}-${awayStanding.overallLosses}` : undefined} score={hasFinalScore ? game.awayScore : undefined} /><div className="flex flex-col items-center justify-center gap-3"><div className="rounded-full border border-white/15 bg-white/[0.08] px-8 py-5 text-2xl font-black text-white/85 shadow-xl">{hasFinalScore ? "FINAL" : "VS"}</div><p className="text-center text-xs font-black uppercase tracking-[0.18em] text-white/40">{formatGameDate(kickoffValue)}</p></div><TeamBlock align="right" label="Home" team={homeTeamName} school={homeSchool} districtName={homeDistrict?.name} record={homeStanding ? `${homeStanding.overallWins}-${homeStanding.overallLosses}` : undefined} score={hasFinalScore ? game.homeScore : undefined} /></div>
+      <div className="mt-8 grid gap-3 md:grid-cols-4"><InfoCard label="Date" value={formatGameDate(kickoffValue)} /><InfoCard label="Kickoff" value={formatGameTime(kickoffValue)} /><a href={getMapUrl({ venue: venueName, homeTeam: homeTeamName })} target="_blank" rel="noopener noreferrer"><InfoCard label="Venue" value={`${venueName} →`} /></a><InfoCard label="Coverage" value={stats ? "Verified Postgame" : game.status === "final" ? "Postgame" : "Game Center"} /></div></div></div>
+    </div></section>
+    <section className="px-4 py-8 sm:px-6 lg:px-8"><div className="mx-auto max-w-[1440px] space-y-6">{stats ? <VerifiedStatsSection stats={stats} homeTeamName={homeTeamName} awayTeamName={awayTeamName} homeSchoolSlug={game.homeSchoolSlug ?? ""} awaySchoolSlug={game.awaySchoolSlug ?? ""} /> : <div className="grid gap-6 lg:grid-cols-[1.35fr_0.75fr]"><section className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] shadow-2xl"><div className="h-1.5 bg-[var(--vv-primary)]" /><div className="p-7"><p className="text-xs font-black uppercase tracking-[0.28em] text-white/45">Pregame Matchup Center</p><h1 className="mt-3 text-3xl font-black text-white md:text-4xl">{awayTeamName} at {homeTeamName}</h1><p className="mt-4 max-w-3xl leading-7 text-white/60">VarsityVue is tracking this Week {game.week ?? "1"} matchup. Confirmed game details appear here first, with additional coverage added as verified information becomes available.</p></div></section><aside className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7 shadow-2xl"><p className="text-xs font-black uppercase tracking-[0.28em] text-white/45">Game Information</p><div className="mt-5 space-y-3"><Fact label="Kickoff" value={`${formatGameDate(kickoffValue)} · ${formatGameTime(kickoffValue)}`} /><Fact label="Venue" value={venueName} /><Fact label="Game Type" value={getGameTypeLabel(game.gameType, game.week)} /></div></aside></div>}
+    <div className="flex flex-wrap gap-3">{awaySchool && <LinkButton href={`/schools/${awaySchool.slug}`} label={`View ${awaySchool.name} Hub →`} />}{homeSchool && <LinkButton href={`/schools/${homeSchool.slug}`} label={`View ${homeSchool.name} Hub →`} />}<LinkButton href="/coverage" label="VarsityVue Coverage →" /></div></div></section>
+  </main>;
 }
 
-function VerifiedStatsSection({ stats, homeTeamName, awayTeamName, homeSchoolSlug, awaySchoolSlug }: {
-  stats: NonNullable<ReturnType<typeof getGameStats>>;
-  homeTeamName: string;
-  awayTeamName: string;
-  homeSchoolSlug: string;
-  awaySchoolSlug: string;
-}) {
-  const homeTeamStats = stats.teamStats.find((line) => line.schoolSlug === homeSchoolSlug);
-  const awayTeamStats = stats.teamStats.find((line) => line.schoolSlug === awaySchoolSlug);
-  const homeQuarter = stats.quarterScores.find((line) => line.schoolSlug === homeSchoolSlug);
-  const awayQuarter = stats.quarterScores.find((line) => line.schoolSlug === awaySchoolSlug);
-
-  return (
-    <>
-      <section className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] shadow-2xl">
-        <div className="h-1.5 bg-[var(--vv-primary)]" />
-        <div className="p-7">
-          <p className="text-xs font-black uppercase tracking-[0.28em] text-white/45">Verified Postgame</p>
-          <h1 className="mt-3 text-3xl font-black text-white md:text-4xl">Game statistics & scoring summary</h1>
-          <p className="mt-3 text-sm text-white/50">Source: {stats.sourceLabel}</p>
-          {homeQuarter && awayQuarter && (
-            <div className="mt-7 overflow-x-auto rounded-2xl border border-white/10 bg-black/30">
-              <table className="w-full min-w-[560px] text-sm">
-                <thead className="border-b border-white/10 text-white/40">
-                  <tr>
-                    <th className="px-4 py-3 text-left">Team</th>
-                    <th className="px-4 py-3 text-center">1</th><th className="px-4 py-3 text-center">2</th>
-                    <th className="px-4 py-3 text-center">3</th><th className="px-4 py-3 text-center">4</th>
-                    <th className="px-4 py-3 text-center">Final</th>
-                  </tr>
-                </thead>
-                <tbody className="font-black text-white/85">
-                  <QuarterRow team={awayTeamName} line={awayQuarter} />
-                  <QuarterRow team={homeTeamName} line={homeQuarter} />
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
-      </section>
-
-      <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-        <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7 shadow-2xl">
-          <p className="text-xs font-black uppercase tracking-[0.28em] text-white/45">Team Comparison</p>
-          <h2 className="mt-3 text-2xl font-black">By the numbers</h2>
-          <div className="mt-6 space-y-2">
-            <ComparisonRow label="First Downs" away={awayTeamStats?.firstDowns} home={homeTeamStats?.firstDowns} />
-            <ComparisonRow label="Rushing" away={formatRush(awayTeamStats)} home={formatRush(homeTeamStats)} />
-            <ComparisonRow label="Passing Yards" away={awayTeamStats?.passingYards} home={homeTeamStats?.passingYards} />
-            <ComparisonRow label="Total Yards" away={awayTeamStats?.totalYards} home={homeTeamStats?.totalYards} />
-            <ComparisonRow label="Comp-Att-INT" away={formatPassing(awayTeamStats)} home={formatPassing(homeTeamStats)} />
-            <ComparisonRow label="Fumbles-Lost" away={formatFumbles(awayTeamStats)} home={formatFumbles(homeTeamStats)} />
-            <ComparisonRow label="Penalties" away={formatPenalties(awayTeamStats)} home={formatPenalties(homeTeamStats)} />
-          </div>
-          <div className="mt-4 grid grid-cols-[1fr_auto_1fr] text-[10px] font-black uppercase tracking-[0.14em] text-white/35">
-            <span>{awayTeamName}</span><span>Stat</span><span className="text-right">{homeTeamName}</span>
-          </div>
-        </section>
-
-        <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7 shadow-2xl">
-          <p className="text-xs font-black uppercase tracking-[0.28em] text-white/45">Scoring Summary</p>
-          <div className="mt-5 space-y-3">
-            {stats.scoringPlays.map((play, index) => (
-              <div key={`${play.quarter}-${play.clock}-${index}`} className="rounded-xl border border-white/10 bg-black/30 p-4">
-                <div className="flex items-center justify-between gap-3 text-[10px] font-black uppercase tracking-[0.14em] text-white/40">
-                  <span>{play.quarter === "OT" ? "OT" : `${play.quarter}Q`}</span>
-                  <span>{play.clock ?? ""}</span>
-                </div>
-                <p className="mt-2 text-sm font-bold text-white/80">{play.description}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-      </div>
-
-      <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7 shadow-2xl">
-        <p className="text-xs font-black uppercase tracking-[0.28em] text-white/45">Individual Statistics</p>
-        <h2 className="mt-3 text-2xl font-black">Player performances</h2>
-        <div className="mt-6 grid gap-6 xl:grid-cols-2">
-          <TeamPlayerStats teamName={awayTeamName} schoolSlug={awaySchoolSlug} stats={stats} />
-          <TeamPlayerStats teamName={homeTeamName} schoolSlug={homeSchoolSlug} stats={stats} />
-        </div>
-      </section>
-    </>
-  );
+function VerifiedStatsSection({ stats, homeTeamName, awayTeamName, homeSchoolSlug, awaySchoolSlug }: { stats: NonNullable<ReturnType<typeof getGameStats>>; homeTeamName: string; awayTeamName: string; homeSchoolSlug: string; awaySchoolSlug: string }) {
+  const homeTeamStats = stats.teamStats.find((line) => line.schoolSlug === homeSchoolSlug); const awayTeamStats = stats.teamStats.find((line) => line.schoolSlug === awaySchoolSlug); const homeQuarter = stats.quarterScores.find((line) => line.schoolSlug === homeSchoolSlug); const awayQuarter = stats.quarterScores.find((line) => line.schoolSlug === awaySchoolSlug);
+  return <><section className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] shadow-2xl"><div className="h-1.5 bg-[var(--vv-primary)]" /><div className="p-7"><p className="text-xs font-black uppercase tracking-[0.28em] text-white/45">Verified Postgame</p><h1 className="mt-3 text-3xl font-black text-white md:text-4xl">Game statistics & scoring summary</h1>{homeQuarter && awayQuarter && <div className="mt-7 overflow-x-auto rounded-2xl border border-white/10 bg-black/30"><table className="w-full min-w-[560px] text-sm"><thead className="border-b border-white/10 text-white/40"><tr><th className="px-4 py-3 text-left">Team</th><th className="px-4 py-3 text-center">1</th><th className="px-4 py-3 text-center">2</th><th className="px-4 py-3 text-center">3</th><th className="px-4 py-3 text-center">4</th><th className="px-4 py-3 text-center">Final</th></tr></thead><tbody className="font-black text-white/85"><QuarterRow team={awayTeamName} line={awayQuarter} /><QuarterRow team={homeTeamName} line={homeQuarter} /></tbody></table></div>}</div></section>
+  <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]"><section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7 shadow-2xl"><p className="text-xs font-black uppercase tracking-[0.28em] text-white/45">Team Comparison</p><h2 className="mt-3 text-2xl font-black">By the numbers</h2><div className="mt-6 space-y-2"><ComparisonRow label="First Downs" away={awayTeamStats?.firstDowns} home={homeTeamStats?.firstDowns} /><ComparisonRow label="Rushing" away={formatRush(awayTeamStats)} home={formatRush(homeTeamStats)} /><ComparisonRow label="Passing Yards" away={awayTeamStats?.passingYards} home={homeTeamStats?.passingYards} /><ComparisonRow label="Total Yards" away={awayTeamStats?.totalYards} home={homeTeamStats?.totalYards} /><ComparisonRow label="Comp-Att-INT" away={formatPassing(awayTeamStats)} home={formatPassing(homeTeamStats)} /><ComparisonRow label="Fumbles-Lost" away={formatFumbles(awayTeamStats)} home={formatFumbles(homeTeamStats)} /><ComparisonRow label="Penalties" away={formatPenalties(awayTeamStats)} home={formatPenalties(homeTeamStats)} /></div><div className="mt-4 grid grid-cols-[1fr_auto_1fr] text-[10px] font-black uppercase tracking-[0.14em] text-white/35"><span>{awayTeamName}</span><span>Stat</span><span className="text-right">{homeTeamName}</span></div></section>
+  <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7 shadow-2xl"><p className="text-xs font-black uppercase tracking-[0.28em] text-white/45">Scoring Summary</p><div className="mt-5 space-y-3">{stats.scoringPlays.map((play, index) => <div key={`${play.quarter}-${play.clock}-${index}`} className="rounded-xl border border-white/10 bg-black/30 p-4"><div className="flex items-center justify-between gap-3 text-[10px] font-black uppercase tracking-[0.14em] text-white/40"><span>{play.quarter === "OT" ? "OT" : `${play.quarter}Q`}</span><span>{play.clock ?? ""}</span></div><p className="mt-2 text-sm font-bold text-white/80">{play.description}</p></div>)}</div></section></div>
+  <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7 shadow-2xl"><p className="text-xs font-black uppercase tracking-[0.28em] text-white/45">Individual Statistics</p><h2 className="mt-3 text-2xl font-black">Player performances</h2><div className="mt-6 grid gap-6 xl:grid-cols-2"><TeamPlayerStats teamName={awayTeamName} schoolSlug={awaySchoolSlug} stats={stats} /><TeamPlayerStats teamName={homeTeamName} schoolSlug={homeSchoolSlug} stats={stats} /></div></section></>;
 }
 
-function TeamPlayerStats({ teamName, schoolSlug, stats }: {
-  teamName: string;
-  schoolSlug: string;
-  stats: NonNullable<ReturnType<typeof getGameStats>>;
-}) {
-  const rushing = stats.rushing
-    .filter((line) => line.schoolSlug === schoolSlug)
-    .sort((a, b) => b.yards - a.yards);
-  const passing = stats.passing
-    .filter((line) => line.schoolSlug === schoolSlug)
-    .sort((a, b) => b.yards - a.yards);
-  const receiving = stats.receiving
-    .filter((line) => line.schoolSlug === schoolSlug)
-    .sort((a, b) => b.yards - a.yards);
-
-  return (
-    <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
-      <div className="border-b border-white/10 pb-4">
-        <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">Team Statistics</p>
-        <h3 className="mt-1 text-xl font-black text-white">{teamName}</h3>
-      </div>
-      <div className="mt-5 space-y-5">
-        <StatTable title="Rushing" headers={["Player", "Car", "Yds", "TD"]} rows={rushing.map((line) => [line.player, line.attempts, line.yards, line.touchdowns ?? 0])} />
-        <StatTable title="Passing" headers={["Player", "C/A", "Yds", "TD"]} rows={passing.map((line) => [line.player, `${line.completions}/${line.attempts}`, line.yards, line.touchdowns ?? 0])} />
-        {receiving.length > 0 && (
-          <StatTable title="Receiving" headers={["Player", "Rec", "Yds", "TD"]} rows={receiving.map((line) => [line.player, line.receptions, line.yards, line.touchdowns ?? 0])} />
-        )}
-      </div>
-    </div>
-  );
-}
-
-function QuarterRow({ team, line }: { team: string; line: { quarters: number[]; total: number } }) {
-  return (
-    <tr className="border-b border-white/5 last:border-0">
-      <td className="px-4 py-4">{team}</td>
-      {line.quarters.map((score, index) => <td key={index} className="px-4 py-4 text-center">{score}</td>)}
-      <td className="px-4 py-4 text-center text-lg">{line.total}</td>
-    </tr>
-  );
-}
-
-function ComparisonRow({ label, away, home }: { label: string; away: string | number | undefined; home: string | number | undefined }) {
-  return (
-    <div className="grid grid-cols-[1fr_auto_1fr] items-center rounded-xl border border-white/10 bg-black/25 px-4 py-3">
-      <span className="font-black text-white/80">{away ?? "—"}</span>
-      <span className="px-3 text-[10px] font-black uppercase tracking-[0.12em] text-white/35">{label}</span>
-      <span className="text-right font-black text-white/80">{home ?? "—"}</span>
-    </div>
-  );
-}
-
-function formatRush(line?: TeamStatLine) {
-  return line?.rushingAttempts !== undefined && line.rushingYards !== undefined ? `${line.rushingAttempts}-${line.rushingYards}` : undefined;
-}
-function formatPassing(line?: TeamStatLine) {
-  return line?.completions !== undefined && line.passAttempts !== undefined && line.interceptionsThrown !== undefined ? `${line.completions}-${line.passAttempts}-${line.interceptionsThrown}` : undefined;
-}
-function formatFumbles(line?: TeamStatLine) {
-  return line?.fumbles !== undefined && line.fumblesLost !== undefined ? `${line.fumbles}-${line.fumblesLost}` : undefined;
-}
-function formatPenalties(line?: TeamStatLine) {
-  return line?.penalties !== undefined && line.penaltyYards !== undefined ? `${line.penalties}-${line.penaltyYards}` : undefined;
-}
-
-function StatTable({ title, headers, rows }: { title: string; headers: string[]; rows: (string | number)[][] }) {
-  if (rows.length === 0) return null;
-  return (
-    <div className="overflow-hidden rounded-2xl border border-white/10 bg-black/30">
-      <div className="border-b border-white/10 px-4 py-3 font-black">{title}</div>
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead className="text-[10px] uppercase tracking-[0.12em] text-white/35"><tr>{headers.map((header) => <th key={header} className="px-3 py-2 text-left">{header}</th>)}</tr></thead>
-          <tbody>{rows.map((row, index) => <tr key={index} className="border-t border-white/5">{row.map((value, cellIndex) => <td key={cellIndex} className="px-3 py-2 text-white/75">{value}</td>)}</tr>)}</tbody>
-        </table>
-      </div>
-    </div>
-  );
-}
-
-function TeamBlock({ align, label, team, school, districtName, record, score }: {
-  align: "left" | "right";
-  label: string;
-  team: string;
-  school?: NonNullable<ReturnType<typeof getSchoolBySlug>>;
-  districtName?: string;
-  record?: string;
-  score?: number;
-}) {
-  const content = (
-    <div className={`h-full rounded-[1.75rem] border border-white/10 bg-black/35 p-7 ${align === "right" ? "text-left lg:text-right" : "text-left"}`}>
-      <p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">{label}</p>
-      <div className={`mt-4 flex items-center gap-6 ${align === "right" ? "lg:flex-row-reverse" : ""}`}>
-        <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-3xl border border-white/10 text-2xl font-black shadow-xl" style={{ backgroundColor: school ? `${school.colors.primary}dd` : "rgba(255,255,255,0.1)", color: school?.colors.secondary ?? "#ffffff" }}>
-          {school?.badgeLabel ?? school?.abbreviation ?? team.slice(0, 2).toUpperCase()}
-        </div>
-        <div>
-          <h2 className="text-4xl font-black leading-tight text-white md:text-5xl">{team}</h2>
-          {school && <p className="mt-1 text-sm font-black uppercase tracking-[0.14em] text-white/45">{school.mascot}</p>}
-          {school && <p className="mt-2 text-xs font-bold text-white/45">{formatClassification(school.classification)}{districtName ? ` · ${districtName}` : ""}{record ? ` · ${record}` : ""}</p>}
-          {score !== undefined && <p className="mt-3 text-5xl font-black text-white">{score}</p>}
-        </div>
-      </div>
-    </div>
-  );
-  return school ? <Link href={`/schools/${school.slug}`}>{content}</Link> : content;
-}
-
-function Badge({ label }: { label: string }) {
-  return <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-white/60">{label}</span>;
-}
-
-function InfoCard({ label, value }: { label: string; value: string }) {
-  return <div className="h-full rounded-xl border border-white/10 bg-black/30 p-4"><p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">{label}</p><p className="mt-2 text-sm font-black text-white/80">{value}</p></div>;
-}
-
-function Fact({ label, value }: { label: string; value: string }) {
-  return <div className="rounded-2xl border border-white/10 bg-black/30 p-5"><p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">{label}</p><p className="mt-2 font-black text-white/80">{value}</p></div>;
-}
-
-function LinkButton({ href, label }: { href: string; label: string }) {
-  return <Link href={href} className="rounded-2xl border border-white/10 bg-black/35 px-4 py-3 text-sm font-black text-white/75 transition hover:bg-white/10 hover:text-white">{label}</Link>;
-}
+function TeamPlayerStats({ teamName, schoolSlug, stats }: { teamName: string; schoolSlug: string; stats: NonNullable<ReturnType<typeof getGameStats>> }) { const rushing = stats.rushing.filter((line) => line.schoolSlug === schoolSlug).sort((a, b) => b.yards - a.yards); const passing = stats.passing.filter((line) => line.schoolSlug === schoolSlug).sort((a, b) => b.yards - a.yards); const receiving = stats.receiving.filter((line) => line.schoolSlug === schoolSlug).sort((a, b) => b.yards - a.yards); return <div className="rounded-2xl border border-white/10 bg-black/20 p-5"><div className="border-b border-white/10 pb-4"><p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">Team Statistics</p><h3 className="mt-1 text-xl font-black text-white">{teamName}</h3></div><div className="mt-5 space-y-5"><StatTable title="Rushing" headers={["Player", "Car", "Yds", "TD"]} rows={rushing.map((line) => [line.player, line.attempts, line.yards, line.touchdowns ?? 0])} /><StatTable title="Passing" headers={["Player", "C/A", "Yds", "TD"]} rows={passing.map((line) => [line.player, `${line.completions}/${line.attempts}`, line.yards, line.touchdowns ?? 0])} />{receiving.length > 0 && <StatTable title="Receiving" headers={["Player", "Rec", "Yds", "TD"]} rows={receiving.map((line) => [line.player, line.receptions, line.yards, line.touchdowns ?? 0])} />}</div></div>; }
+function QuarterRow({ team, line }: { team: string; line: { quarters: number[]; total: number } }) { return <tr className="border-b border-white/5 last:border-0"><td className="px-4 py-4">{team}</td>{line.quarters.map((score, index) => <td key={index} className="px-4 py-4 text-center">{score}</td>)}<td className="px-4 py-4 text-center text-lg">{line.total}</td></tr>; }
+function ComparisonRow({ label, away, home }: { label: string; away: string | number | undefined; home: string | number | undefined }) { return <div className="grid grid-cols-[1fr_auto_1fr] items-center rounded-xl border border-white/10 bg-black/25 px-4 py-3"><span className="font-black text-white/80">{away ?? "—"}</span><span className="px-3 text-[10px] font-black uppercase tracking-[0.12em] text-white/35">{label}</span><span className="text-right font-black text-white/80">{home ?? "—"}</span></div>; }
+function formatRush(line?: TeamStatLine) { return line?.rushingAttempts !== undefined && line.rushingYards !== undefined ? `${line.rushingAttempts}-${line.rushingYards}` : undefined; }
+function formatPassing(line?: TeamStatLine) { return line?.completions !== undefined && line.passAttempts !== undefined && line.interceptionsThrown !== undefined ? `${line.completions}-${line.passAttempts}-${line.interceptionsThrown}` : undefined; }
+function formatFumbles(line?: TeamStatLine) { return line?.fumbles !== undefined && line.fumblesLost !== undefined ? `${line.fumbles}-${line.fumblesLost}` : undefined; }
+function formatPenalties(line?: TeamStatLine) { return line?.penalties !== undefined && line.penaltyYards !== undefined ? `${line.penalties}-${line.penaltyYards}` : undefined; }
+function StatTable({ title, headers, rows }: { title: string; headers: string[]; rows: (string | number)[][] }) { if (rows.length === 0) return null; return <div className="overflow-hidden rounded-2xl border border-white/10 bg-black/30"><div className="border-b border-white/10 px-4 py-3 font-black">{title}</div><div className="overflow-x-auto"><table className="w-full text-sm"><thead className="text-[10px] uppercase tracking-[0.12em] text-white/35"><tr>{headers.map((header) => <th key={header} className="px-3 py-2 text-left">{header}</th>)}</tr></thead><tbody>{rows.map((row, index) => <tr key={index} className="border-t border-white/5">{row.map((value, cellIndex) => <td key={cellIndex} className="px-3 py-2 text-white/75">{value}</td>)}</tr>)}</tbody></table></div></div>; }
+function TeamBlock({ align, label, team, school, districtName, record, score }: { align: "left" | "right"; label: string; team: string; school?: NonNullable<ReturnType<typeof getSchoolBySlug>>; districtName?: string; record?: string; score?: number }) { const content = <div className={`h-full rounded-[1.75rem] border border-white/10 bg-black/35 p-7 ${align === "right" ? "text-left lg:text-right" : "text-left"}`}><p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">{label}</p><div className={`mt-4 flex items-center gap-6 ${align === "right" ? "lg:flex-row-reverse" : ""}`}><div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-3xl border border-white/10 text-2xl font-black shadow-xl" style={{ backgroundColor: school ? `${school.colors.primary}dd` : "rgba(255,255,255,0.1)", color: school?.colors.secondary ?? "#ffffff" }}>{school?.badgeLabel ?? school?.abbreviation ?? team.slice(0, 2).toUpperCase()}</div><div><h2 className="text-4xl font-black leading-tight text-white md:text-5xl">{team}</h2>{school && <p className="mt-1 text-sm font-black uppercase tracking-[0.14em] text-white/45">{school.mascot}</p>}{school && <p className="mt-2 text-xs font-bold text-white/45">{formatClassification(school.classification)}{districtName ? ` · ${districtName}` : ""}{record ? ` · ${record}` : ""}</p>}{score !== undefined && <p className="mt-3 text-5xl font-black text-white">{score}</p>}</div></div></div>; return school ? <Link href={`/schools/${school.slug}`}>{content}</Link> : content; }
+function Badge({ label }: { label: string }) { return <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-white/60">{label}</span>; }
+function InfoCard({ label, value }: { label: string; value: string }) { return <div className="h-full rounded-xl border border-white/10 bg-black/30 p-4"><p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">{label}</p><p className="mt-2 text-sm font-black text-white/80">{value}</p></div>; }
+function Fact({ label, value }: { label: string; value: string }) { return <div className="rounded-2xl border border-white/10 bg-black/30 p-5"><p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">{label}</p><p className="mt-2 font-black text-white/80">{value}</p></div>; }
+function LinkButton({ href, label }: { href: string; label: string }) { return <Link href={href} className="rounded-2xl border border-white/10 bg-black/35 px-4 py-3 text-sm font-black text-white/75 transition hover:bg-white/10 hover:text-white">{label}</Link>; }
