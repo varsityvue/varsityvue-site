@@ -88,7 +88,7 @@ function getCentralDateKey(date: Date) {
 }
 
 function isStillUpcoming(game: SchoolGame, todayKey: string) {
-    if (game.status !== "upcoming") return false;
+    if (game.status !== "upcoming" || game.gameType === "bye") return false;
     if (!game.kickoff || !todayKey) return true;
 
     const gameDateKey = game.kickoff.slice(0, 10);
@@ -98,7 +98,6 @@ function isStillUpcoming(game: SchoolGame, todayKey: string) {
 function getWeekLabel(game: SchoolGame) {
     if (game.gameType === "scrimmage") return "Scrimmage";
     if (game.gameType === "playoff") return "Playoff";
-    if (game.gameType === "bye") return "BYE";
     return game.week === undefined ? "Week TBD" : `Week ${game.week}`;
 }
 
