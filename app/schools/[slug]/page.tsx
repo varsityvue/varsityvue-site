@@ -75,7 +75,6 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
             <p className="text-xs font-black uppercase tracking-[0.28em]" style={{ color: theme.secondary }}>Program Profile</p>
             <h2 className="mt-3 text-3xl font-black text-white">{school.fullName}</h2>
             <div className="mt-5 space-y-3 rounded-2xl border border-white/10 bg-black/35 p-4">
-              <ProfileRow label="Status" value={school.status === "pilot" ? "2026 Pilot" : "Watchlist"} />
               <ProfileRow label="Market" value={school.coverageMarket ?? "TBD"} />
               {school.headCoach && <ProfileRow label="Head Coach" value={school.headCoach} />}
               {school.athleticDirector && <ProfileRow label="Athletic Director" value={school.athleticDirector} />}
@@ -98,7 +97,7 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
           <section className="rounded-[1.75rem] border p-6 shadow-2xl" style={{ borderColor: `${theme.primary}55`, background: "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 50%, rgba(0,0,0,1))", boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)` }}>
             <p className="text-xs font-black uppercase tracking-[0.28em]" style={{ color: theme.secondary }}>2027 Sponsor Interest</p>
             <h2 className="mt-3 text-3xl font-black text-white">Support this school hub.</h2>
-            <p className="mt-3 text-sm leading-6 text-white/55">VarsityVue is using the 2026 season as a pilot. Businesses can raise their hand now for future school-hub sponsorship opportunities as the platform grows.</p>
+            <p className="mt-3 text-sm leading-6 text-white/55">Businesses can join the interest list for future school-hub sponsorship opportunities as VarsityVue coverage grows.</p>
             <div className="mt-6 grid gap-3">
               <Link href="/sponsor-inquiry" className="block rounded-xl border border-white/15 bg-white/10 px-5 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15">Join Sponsor Interest List →</Link>
               <Link href="/recommend-school" className="block rounded-xl border border-white/10 bg-black/35 px-5 py-4 text-center text-xs font-black uppercase tracking-[0.16em] text-white/70 transition hover:bg-white/10 hover:text-white">Recommend Your School →</Link>
