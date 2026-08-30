@@ -6,26 +6,6 @@ import SchoolBadge from "./SchoolBadge";
 
 const DISTRICT_ID = "2a-d1-district-5";
 
-type Standing = ReturnType<typeof getStandingsForDistrictId>[number];
-
-function getStandingPosition(standings: Standing[], index: number) {
-  const team = standings[index];
-  const firstMatchingIndex = standings.findIndex(
-    (item) =>
-      item.districtWins === team.districtWins &&
-      item.districtLosses === team.districtLosses
-  );
-  const tied = standings.some(
-    (item, itemIndex) =>
-      itemIndex !== index &&
-      item.districtWins === team.districtWins &&
-      item.districtLosses === team.districtLosses
-  );
-  const place = firstMatchingIndex + 1;
-
-  return tied ? `T-${place}` : `#${place}`;
-}
-
 export default function DistrictSpotlight() {
   const district = getDistrictById(DISTRICT_ID);
   const schools = getSchoolsByDistrictId(DISTRICT_ID);
@@ -49,8 +29,8 @@ export default function DistrictSpotlight() {
           </h2>
 
           <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55">
-            One of VarsityVue&apos;s featured district races, connecting school
-            hubs, schedules, standings, and matchup coverage across the region.
+            A featured VarsityVue district hub connecting school hubs, schedules,
+            standings, and matchup coverage across the region.
           </p>
 
           <div className="mt-6 grid gap-3 sm:grid-cols-3">
@@ -100,6 +80,30 @@ export default function DistrictSpotlight() {
             {standings.map((team, index) => {
               const school = schools.find((item) => item.slug === team.schoolSlug);
               const differential = team.pointsFor - team.pointsAgainst;
+              const previousTeam = standings[index - 1];
+              const tiedWithPrevious =
+                districtStarted &&
+                previousTeam &&
+                previousTeam.districtWins === team.districtWins &&
+                previousTeam.districtLosses === team.districtLosses;
+              const firstTieIndex = tiedWithPrevious
+                ? standings.findIndex(
+                    (item) =>
+                      item.districtWins === team.districtWins &&
+                      item.districtLosses === team.districtLosses
+                  )
+                : index;
+              const tiedWithNext =
+                districtStarted &&
+                standings[index + 1] &&
+                standings[index + 1].districtWins === team.districtWins &&
+                standings[index + 1].districtLosses === team.districtLosses;
+              const position =
+                districtStarted && (tiedWithPrevious || tiedWithNext)
+                  ? `T-${firstTieIndex + 1}`
+                  : districtStarted
+                    ? `#${index + 1}`
+                    : "—";
 
               return (
                 <Link
@@ -108,7 +112,7 @@ export default function DistrictSpotlight() {
                   className="grid grid-cols-[32px_auto_1fr_auto] items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4 transition hover:bg-white/[0.08]"
                 >
                   <p className="font-black text-white/45">
-                    {districtStarted ? getStandingPosition(standings, index) : "—"}
+                    {position}
                   </p>
 
                   {school && <SchoolBadge school={school} size="xs" />}
