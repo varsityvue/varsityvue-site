@@ -60,6 +60,8 @@ export default function ScoreStrip() {
 
   const showingFinals = mode === "finals";
   const week = games[0]?.week;
+  const allSameWeek =
+    week !== undefined && games.every((game) => game.week === week);
 
   return (
     <section className="border-b border-white/10 bg-white/[0.03] px-4 py-6 sm:px-6 lg:px-8">
@@ -68,7 +70,7 @@ export default function ScoreStrip() {
           <div>
             <p className="text-xs font-black uppercase tracking-[0.28em] text-white/45">
               {showingFinals
-                ? week
+                ? allSameWeek
                   ? `Week ${week} Results`
                   : "Latest Results"
                 : "Upcoming This Week"}
