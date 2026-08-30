@@ -109,7 +109,9 @@ function LeaderCard({
             <div key={leader.id} className="grid grid-cols-[2rem_1fr_auto] items-center gap-3 px-4 py-4">
               <span className="text-lg font-black text-white/25">{index + 1}</span>
               <div className="min-w-0">
-                <p className="truncate font-black text-white">{leader.name}</p>
+                <Link href={`/players/${leader.id}`} className="truncate font-black text-white transition hover:text-white/70">
+                  {leader.name}
+                </Link>
                 <p className="mt-1 text-xs text-white/40">{leader.secondary}</p>
               </div>
               <span className="text-right text-sm font-black text-white/80">{leader.primary}</span>
