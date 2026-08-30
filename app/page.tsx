@@ -30,7 +30,8 @@ function parseGameDate(kickoff?: string) {
 
   if (!kickoff.includes("T")) {
     const [year, month, day] = kickoff.split("-").map(Number);
-    return new Date(year, month - 1, day);
+    const parsedDate = new Date(Date.UTC(year, month - 1, day, 12));
+    return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
   }
 
   const parsedDate = new Date(kickoff);
@@ -77,6 +78,9 @@ export default function Home() {
   const featuredStandings = featuredDistrict
     ? getStandingsForDistrictId(featuredDistrict.id).slice(0, 6)
     : [];
+  const featuredDistrictHasResults = featuredStandings.some(
+    (team) => team.districtWins > 0 || team.districtLosses > 0
+  );
 
   const featuredSchool = featuredPrograms[0];
 
@@ -301,12 +305,18 @@ export default function Home() {
           </Panel>
 
           <Panel
-            title="District Standings"
+            title={featuredDistrictHasResults ? "District Standings" : "District Teams"}
             kicker={featuredDistrict?.name ?? "Standings"}
             href="/districts"
           >
+            {!featuredDistrictHasResults && (
+              <p className="mb-4 rounded-xl border border-white/10 bg-black/35 px-3 py-3 text-xs leading-5 text-white/50">
+                District play has not started. Overall records shown are based on verified results currently on file.
+              </p>
+            )}
+
             <div className="grid grid-cols-[32px_1fr_58px_58px_44px] gap-3 px-3 pb-2 text-[10px] font-black uppercase tracking-[0.16em] text-white/35">
-              <span>#</span>
+              <span>{featuredDistrictHasResults ? "#" : ""}</span>
               <span>Team</span>
               <span>Dist</span>
               <span>Ovr</span>
@@ -323,12 +333,16 @@ export default function Home() {
                     href={`/schools/${team.schoolSlug}`}
                     className="grid grid-cols-[32px_1fr_58px_58px_44px] items-center gap-3 rounded-xl bg-black/35 px-3 py-3 text-sm transition hover:bg-white/10"
                   >
-                    <span className="font-black text-white/45">#{index + 1}</span>
+                    <span className="font-black text-white/45">
+                      {featuredDistrictHasResults ? `#${index + 1}` : "—"}
+                    </span>
                     <span className="truncate font-black text-white">
                       {team.team}
                     </span>
                     <span className="font-bold text-white">
-                      {team.districtWins}-{team.districtLosses}
+                      {featuredDistrictHasResults
+                        ? `${team.districtWins}-${team.districtLosses}`
+                        : "—"}
                     </span>
                     <span className="font-bold text-white/55">
                       {team.overallWins}-{team.overallLosses}
@@ -343,7 +357,7 @@ export default function Home() {
             </div>
           </Panel>
 
-          <Panel title="Programs to Watch" kicker="Featured Programs" href="/schools">
+          <Panel title="Featured Programs" kicker="School Hubs" href="/schools">
             <div className="space-y-3">
               {featuredPrograms.slice(0, 4).map((school) => (
                 <Link
@@ -420,9 +434,11 @@ export default function Home() {
                   <MiniProgramStat
                     label="District"
                     value={
-                      featuredSchoolStanding
+                      featuredSchoolStanding &&
+                      (featuredSchoolStanding.districtWins > 0 ||
+                        featuredSchoolStanding.districtLosses > 0)
                         ? `${featuredSchoolStanding.districtWins}-${featuredSchoolStanding.districtLosses}`
-                        : "0-0"
+                        : "—"
                     }
                   />
                 </div>
@@ -480,8 +496,8 @@ export default function Home() {
       <section className="border-t border-white/10 px-4 py-6 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-[1440px] gap-4 md:grid-cols-4">
           <Feature
-            title="Live Scores & Alerts"
-            body="Real-time scoreboard experiences built for Friday nights."
+            title="Scores & Results"
+            body="Verified scoreboards and matchup pages built for Friday nights."
           />
           <Feature
             title="In-Depth Coverage"
@@ -489,11 +505,11 @@ export default function Home() {
           />
           <Feature
             title="Stats & Data"
-            body="Standings, schedules, matchup pages, player watchlists, and future rankings."
+            body="Standings, schedules, matchup pages, player stats, and district leaderboards as verified data is added."
           />
           <Feature
             title="Built for Fans"
-            body="School-native hubs that keep communities coming back."
+            body="School-native hubs that keep communities connected to their programs."
           />
         </div>
       </section>
@@ -573,10 +589,14 @@ function RecordLine({
   districtWins?: number;
   districtLosses?: number;
 }) {
+  const hasDistrictResult =
+    (districtWins ?? 0) > 0 || (districtLosses ?? 0) > 0;
+
   return (
     <p className="mt-2 text-sm font-black uppercase tracking-[0.12em] text-white/55">
-      {overallWins ?? 0}-{overallLosses ?? 0} Overall · {districtWins ?? 0}-
-      {districtLosses ?? 0} District
+      {overallWins ?? 0}-{overallLosses ?? 0} Overall · {hasDistrictResult
+        ? `${districtWins ?? 0}-${districtLosses ?? 0} District`
+        : "District —"}
     </p>
   );
 }
