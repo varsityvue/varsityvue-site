@@ -6,6 +6,17 @@ import SchoolBadge from "./SchoolBadge";
 
 const DISTRICT_ID = "2a-d1-district-5";
 
+function formatClassification(conference: string, division?: string | null) {
+  const divisionLabel =
+    division === "D1"
+      ? "Division I"
+      : division === "D2"
+        ? "Division II"
+        : division;
+
+  return `${conference}${divisionLabel ? ` ${divisionLabel}` : ""}`;
+}
+
 export default function DistrictSpotlight() {
   const district = getDistrictById(DISTRICT_ID);
   const schools = getSchoolsByDistrictId(DISTRICT_ID);
@@ -38,7 +49,10 @@ export default function DistrictSpotlight() {
             <MiniStat label="Region" value={`Region ${district.uilRegion}`} />
             <MiniStat
               label="Class"
-              value={`${district.classification.conference} ${district.classification.division}`}
+              value={formatClassification(
+                district.classification.conference,
+                district.classification.division
+              )}
             />
           </div>
 
