@@ -10,7 +10,12 @@ type MatchupInsightsProps = {
 };
 
 function formatRecord(wins?: number, losses?: number) {
-    return `${wins ?? 0}-${losses ?? 0}`;
+    if (wins === undefined || losses === undefined) return "—";
+    return `${wins}-${losses}`;
+}
+
+function formatPoints(value?: number) {
+    return value === undefined ? "—" : value.toString();
 }
 
 function getDistrictRank(slug?: string) {
@@ -112,14 +117,14 @@ export default function MatchupInsights({
 
                 <ComparisonRow
                     label="Points For"
-                    awayValue={(awayStanding?.pointsFor ?? 0).toString()}
-                    homeValue={(homeStanding?.pointsFor ?? 0).toString()}
+                    awayValue={formatPoints(awayStanding?.pointsFor)}
+                    homeValue={formatPoints(homeStanding?.pointsFor)}
                 />
 
                 <ComparisonRow
                     label="Points Against"
-                    awayValue={(awayStanding?.pointsAgainst ?? 0).toString()}
-                    homeValue={(homeStanding?.pointsAgainst ?? 0).toString()}
+                    awayValue={formatPoints(awayStanding?.pointsAgainst)}
+                    homeValue={formatPoints(homeStanding?.pointsAgainst)}
                 />
             </div>
 
