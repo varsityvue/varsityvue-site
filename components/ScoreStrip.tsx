@@ -19,7 +19,7 @@ function parseGameDate(kickoff?: string) {
 
 function formatKickoff(kickoff?: string) {
   const parsedDate = parseGameDate(kickoff);
-  if (!parsedDate) return "TBD";
+  if (!parsedDate) return "—";
 
   const hasTime = kickoff?.includes("T");
 
