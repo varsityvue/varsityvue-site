@@ -421,7 +421,7 @@ export default function Home() {
                   />
                   <MiniProgramStat
                     label="District"
-                    value={featuredSchoolDistrict?.name ?? "TBD"}
+                    value={featuredSchoolDistrict?.name ?? "—"}
                   />
                   <MiniProgramStat
                     label="Overall"
