@@ -48,7 +48,7 @@ export default function Footer() {
             title="Business"
             links={[
               { href: "/sponsors", label: "Sponsors" },
-              { href: "/sponsor-inquiry", label: "Become a Sponsor" },
+              { href: "/sponsor-inquiry", label: "2027 Sponsor Interest" },
             ]}
           />
 
