@@ -63,6 +63,16 @@ function formatGameTime(kickoff?: string) {
   }).format(parsedDate);
 }
 
+function formatGameDateTime(kickoff?: string) {
+  const date = formatGameDate(kickoff);
+  const time = formatGameTime(kickoff);
+
+  if (date === "—") return "Schedule TBD";
+  if (time === "—") return date;
+
+  return `${date} · ${time}`;
+}
+
 function formatClassification(conference: string, division?: string | null) {
   const divisionLabel =
     division === "D1"
@@ -211,8 +221,7 @@ export default function Home() {
 
                     <div className="mt-5 text-center">
                       <p className="text-xl font-black text-white">
-                        {formatGameDate(featuredGame.kickoff)} ·{" "}
-                        {formatGameTime(featuredGame.kickoff)}
+                        {formatGameDateTime(featuredGame.kickoff)}
                       </p>
 
                       {featuredGame.venue && (
@@ -513,8 +522,7 @@ export default function Home() {
                         </h3>
 
                         <p className="mt-2 text-sm font-semibold text-white/55">
-                          {formatGameDate(featuredSchoolNextGame.kickoff)} ·{" "}
-                          {formatGameTime(featuredSchoolNextGame.kickoff)}
+                          {formatGameDateTime(featuredSchoolNextGame.kickoff)}
                         </p>
                       </div>
 
