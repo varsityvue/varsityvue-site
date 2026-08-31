@@ -22,7 +22,7 @@ export default function Footer() {
 
             <p className="mt-4 text-sm leading-6 text-white/55">
               Texas high school sports coverage, district ecosystems, school
-              hubs, matchup pages, rankings, legacy archives, and sponsor-driven
+              hubs, matchup pages, rankings, legacy archives, and community-focused
               local sports media.
             </p>
 
