@@ -3,6 +3,7 @@ export default function robots() {
     rules: {
       userAgent: "*",
       allow: "/",
+      disallow: "/internal/",
     },
     sitemap: "https://varsityvue.com/sitemap.xml",
   };
