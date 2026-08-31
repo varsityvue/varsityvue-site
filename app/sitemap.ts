@@ -11,12 +11,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const staticRoutes = [
     "",
+    "/scoreboard",
     "/schools",
     "/districts",
     "/games",
     "/coverage",
+    "/rankings",
+    "/legacy",
     "/sponsors",
     "/sponsor-inquiry",
+    "/school-request",
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: now,
