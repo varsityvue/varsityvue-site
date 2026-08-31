@@ -193,16 +193,16 @@ export default function RankingsPage() {
 
         <section className="mt-14 rounded-3xl border border-white/10 bg-white/5 p-6 text-center md:p-10">
           <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
-            Weekly Visibility
+            2027 Sponsor Interest
           </p>
 
           <h2 className="mt-4 text-4xl font-black">
-            Put your business where fans come back every week.
+            Interested in being part of VarsityVue in 2027?
           </h2>
 
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/65">
-            Rankings are built to become a recurring fan habit during football
-            season, making them a strong sponsor placement.
+            Join the sponsor interest list to hear about future opportunities
+            around rankings and VarsityVue coverage as the platform grows.
           </p>
 
           <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
@@ -210,14 +210,14 @@ export default function RankingsPage() {
               href="/sponsor-inquiry"
               className="rounded-full bg-[var(--vv-primary)] px-8 py-4 font-black transition hover:bg-[var(--vv-primary-hover)]"
             >
-              Request Sponsor Info
+              Join 2027 Sponsor Interest
             </Link>
 
             <Link
               href="/sponsors"
               className="rounded-full border border-white/20 px-8 py-4 font-black transition hover:bg-white/10"
             >
-              View Sponsor Options
+              Learn About Sponsorships
             </Link>
           </div>
         </section>
