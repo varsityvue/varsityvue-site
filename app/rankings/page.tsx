@@ -69,16 +69,16 @@ export default function RankingsPage() {
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-center">
             <div>
               <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
-                Sponsor Slot
+                2027 Sponsor Interest
               </p>
 
               <h2 className="mt-3 text-3xl font-black">
-                Own the weekly debate.
+                Interested in rankings visibility for 2027?
               </h2>
 
               <p className="mt-3 max-w-2xl leading-7 text-white/65">
-                Rankings are repeat-visit inventory built around fan attention,
-                school pride, and weekly football conversation.
+                Join the 2027 sponsor interest list to learn about future
+                rankings placements as VarsityVue coverage grows.
               </p>
             </div>
 
@@ -86,7 +86,7 @@ export default function RankingsPage() {
               href="/sponsor-inquiry"
               className="rounded-full bg-white px-7 py-4 text-center font-black text-black transition hover:bg-white/85"
             >
-              Sponsor Rankings
+              Join 2027 Sponsor Interest
             </Link>
           </div>
         </section>
