@@ -104,9 +104,10 @@ export default function RankingsPage() {
             </div>
 
             <p className="max-w-xl text-sm leading-6 text-white/50">
-              MVP rankings are human-reviewed editorial rankings seeded for the
-              pilot platform. Weekly movement can expand as score, standings,
-              and coverage data mature.
+              VarsityVue rankings are human-reviewed editorial rankings built
+              from results, context, and regional football knowledge. Weekly
+              movement will evolve as verified scores, standings, and coverage
+              are added throughout the season.
             </p>
           </div>
 
