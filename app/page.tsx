@@ -163,8 +163,8 @@ export default function Home() {
 
                         <div className="flex min-w-[150px] flex-col items-center justify-center border-y border-white/10 py-4 md:border-x md:border-y-0 md:px-6 md:py-2">
                           {featuredGameFinal &&
-                          awayScore !== undefined &&
-                          homeScore !== undefined ? (
+                            awayScore !== undefined &&
+                            homeScore !== undefined ? (
                             <>
                               <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">
                                 Final
@@ -215,9 +215,11 @@ export default function Home() {
                         {formatGameTime(featuredGame.kickoff)}
                       </p>
 
-                      <p className="mt-2 text-base font-semibold text-white/55">
-                        {featuredGame.venue}
-                      </p>
+                      {featuredGame.venue && (
+                        <p className="mt-2 text-base font-semibold text-white/55">
+                          {featuredGame.venue}
+                        </p>
+                      )}
                     </div>
                   </>
                 ) : (
@@ -351,10 +353,10 @@ export default function Home() {
                   previousTeam.districtLosses === team.districtLosses;
                 const firstTieIndex = tiedWithPrevious
                   ? featuredStandings.findIndex(
-                      (item) =>
-                        item.districtWins === team.districtWins &&
-                        item.districtLosses === team.districtLosses
-                    )
+                    (item) =>
+                      item.districtWins === team.districtWins &&
+                      item.districtLosses === team.districtLosses
+                  )
                   : index;
                 const tiedWithNext =
                   featuredDistrictHasResults &&
@@ -479,8 +481,8 @@ export default function Home() {
                     label="Overall"
                     value={
                       featuredSchoolStanding &&
-                      (featuredSchoolStanding.overallWins > 0 ||
-                        featuredSchoolStanding.overallLosses > 0)
+                        (featuredSchoolStanding.overallWins > 0 ||
+                          featuredSchoolStanding.overallLosses > 0)
                         ? `${featuredSchoolStanding.overallWins}-${featuredSchoolStanding.overallLosses}`
                         : "—"
                     }
@@ -489,8 +491,8 @@ export default function Home() {
                     label="District"
                     value={
                       featuredSchoolStanding &&
-                      (featuredSchoolStanding.districtWins > 0 ||
-                        featuredSchoolStanding.districtLosses > 0)
+                        (featuredSchoolStanding.districtWins > 0 ||
+                          featuredSchoolStanding.districtLosses > 0)
                         ? `${featuredSchoolStanding.districtWins}-${featuredSchoolStanding.districtLosses}`
                         : "—"
                     }
@@ -584,11 +586,10 @@ function HeroTeam({
 }) {
   return (
     <div
-      className={`flex items-center gap-4 ${
-        align === "right"
+      className={`flex items-center gap-4 ${align === "right"
           ? "justify-center text-center md:justify-end md:text-right"
           : "justify-center text-center md:justify-start md:text-left"
-      }`}
+        }`}
     >
       {align === "left" &&
         (school ? <SchoolBadge school={school} size="sm" /> : <TeamChip label="AWY" />)}
