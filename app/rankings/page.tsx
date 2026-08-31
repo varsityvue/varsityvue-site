@@ -6,7 +6,7 @@ import { getSchoolById } from "@/lib/schools";
 export const metadata: Metadata = {
   title: "Texas High School Football Rankings | VarsityVue",
   description:
-    "VarsityVue football rankings for Texas high school sports, featuring regional teams, records, classifications, notes, and sponsor-ready weekly rankings coverage.",
+    "VarsityVue football rankings for Texas high school sports, featuring regional teams, records, classifications, notes, and weekly rankings coverage.",
 };
 
 const methodology = [
