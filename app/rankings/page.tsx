@@ -28,6 +28,12 @@ function getMovementLabel(
   return "Hold";
 }
 
+function getDivisionLabel(division?: string | null) {
+  if (division === "D1") return "Division I";
+  if (division === "D2") return "Division II";
+  return division;
+}
+
 export default function RankingsPage() {
   const rankings = getFootballRankings();
 
@@ -118,6 +124,9 @@ export default function RankingsPage() {
               if (!school) return null;
 
               const movement = getMovementLabel(entry.previousRank, entry.rank);
+              const divisionLabel = getDivisionLabel(
+                school.classification.division
+              );
 
               return (
                 <Link
@@ -152,9 +161,7 @@ export default function RankingsPage() {
 
                     <span className="rounded-full border border-white/10 bg-black/40 px-4 py-2 text-sm font-bold text-white/75">
                       {school.classification.conference}
-                      {school.classification.division
-                        ? ` ${school.classification.division}`
-                        : ""}
+                      {divisionLabel ? ` ${divisionLabel}` : ""}
                     </span>
                   </div>
                 </Link>
