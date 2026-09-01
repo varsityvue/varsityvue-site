@@ -13,14 +13,16 @@ const sizeClasses = {
     mascot: "text-[7px]",
     pad: "px-2 py-2",
     stroke: "1px",
+    footer: "min-h-7 px-1.5 py-1",
   },
   sm: {
     wrap: "w-16 sm:w-20",
     initials: "text-xl sm:text-2xl",
     initialsLong: "text-base sm:text-xl",
-    mascot: "text-[7px] sm:text-[8px]",
+    mascot: "text-[6px] sm:text-[7px]",
     pad: "px-2 py-2",
     stroke: "1px",
+    footer: "min-h-7 px-1.5 py-1",
   },
   md: {
     wrap: "w-36",
@@ -29,6 +31,7 @@ const sizeClasses = {
     mascot: "text-xs",
     pad: "px-4 py-4",
     stroke: "2px",
+    footer: "min-h-9 px-2 py-1.5",
   },
   lg: {
     wrap: "w-52",
@@ -37,6 +40,7 @@ const sizeClasses = {
     mascot: "text-sm",
     pad: "px-5 py-5",
     stroke: "2px",
+    footer: "min-h-10 px-2 py-2",
   },
 } as const;
 
@@ -113,7 +117,7 @@ export default function SchoolBadge({
       </div>
 
       <div
-        className="relative -mt-1 rounded-b-3xl border-[3px] px-2 py-1.5 text-center shadow-xl"
+        className={`relative -mt-1 flex items-center justify-center overflow-hidden rounded-b-3xl border-[3px] text-center shadow-xl ${classes.footer}`}
         style={{
           background: "linear-gradient(180deg, #111111 0%, #050505 100%)",
           borderColor: "#000000",
@@ -122,7 +126,7 @@ export default function SchoolBadge({
         }}
       >
         <div
-          className={`whitespace-nowrap font-black uppercase leading-none ${classes.mascot}`}
+          className={`max-w-full text-balance font-black uppercase leading-[1.05] ${classes.mascot}`}
           style={{
             color: subtextColor,
             textShadow: "0 2px 4px rgba(0,0,0,0.75)",
