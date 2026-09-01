@@ -117,8 +117,6 @@ export default function ScoreboardPage() {
 }
 
 function FeaturedScoreboardGame({ game }: { game: ScoreboardGame }) {
-  const awaySchool = game.awaySchoolSlug ? getSchoolBySlug(game.awaySchoolSlug) : undefined;
-  const homeSchool = game.homeSchoolSlug ? getSchoolBySlug(game.homeSchoolSlug) : undefined;
   const awayStanding = game.awaySchoolSlug ? getStandingForSchool(game.awaySchoolSlug) : undefined;
   const homeStanding = game.homeSchoolSlug ? getStandingForSchool(game.homeSchoolSlug) : undefined;
   const awayScore = game.awayScore ?? game.score?.away;
@@ -143,10 +141,8 @@ function FeaturedScoreboardGame({ game }: { game: ScoreboardGame }) {
 
       <div className="mt-8 grid items-center gap-6 md:grid-cols-[1fr_auto_1fr]">
         <TeamResult
-          school={awaySchool}
           team={getTeamName(game.awayTeam, "Away Team")}
           standing={awayStanding}
-          align="left"
         />
 
         <div className="text-center">
@@ -163,10 +159,8 @@ function FeaturedScoreboardGame({ game }: { game: ScoreboardGame }) {
         </div>
 
         <TeamResult
-          school={homeSchool}
           team={getTeamName(game.homeTeam, "Home Team")}
           standing={homeStanding}
-          align="right"
         />
       </div>
 
@@ -184,11 +178,9 @@ function FeaturedScoreboardGame({ game }: { game: ScoreboardGame }) {
   );
 }
 
-function TeamResult({ school, team, standing, align }: {
-  school?: ReturnType<typeof getSchoolBySlug>;
+function TeamResult({ team, standing }: {
   team: string;
   standing?: ReturnType<typeof getStandingForSchool>;
-  align: "left" | "right";
 }) {
   const hasOverallResult =
     !!standing && (standing.overallWins > 0 || standing.overallLosses > 0);
@@ -198,17 +190,13 @@ function TeamResult({ school, team, standing, align }: {
       : "";
 
   return (
-    <div className={`flex items-center gap-4 ${align === "right" ? "justify-end text-right" : "justify-start text-left"}`}>
-      {align === "left" && (school ? <SchoolBadge school={school} size="sm" /> : <FallbackBadge label={team} />)}
-      <div>
-        <h2 className="text-3xl font-black leading-none text-white md:text-4xl">{team}</h2>
-        <p className="mt-2 text-sm font-black uppercase tracking-[0.16em] text-white/40">
-          {hasOverallResult
-            ? `${standing!.overallWins}-${standing!.overallLosses} Overall${districtRecord}`
-            : "Overall —"}
-        </p>
-      </div>
-      {align === "right" && (school ? <SchoolBadge school={school} size="sm" /> : <FallbackBadge label={team} />)}
+    <div className="min-w-0 text-center">
+      <h2 className="text-3xl font-black leading-none text-white md:text-4xl">{team}</h2>
+      <p className="mt-2 text-sm font-black uppercase tracking-[0.16em] text-white/40">
+        {hasOverallResult
+          ? `${standing!.overallWins}-${standing!.overallLosses} Overall${districtRecord}`
+          : "Overall —"}
+      </p>
     </div>
   );
 }
