@@ -24,7 +24,7 @@ export default function SchoolsPage() {
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] text-white">
-      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(220,38,38,0.12),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.06),transparent_30%)] px-4 py-8 sm:px-6 lg:px-8">
+      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.12),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.06),transparent_30%)] px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-[1440px]">
           <div className="rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl md:p-8">
             <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
@@ -45,7 +45,7 @@ export default function SchoolsPage() {
 
               <Link
                 href="/school-request"
-                className="rounded-xl border border-red-500/35 bg-red-600/70 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-red-600"
+                className="rounded-xl border border-[color:var(--vv-accent)] bg-[var(--vv-primary)] px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-[var(--vv-accent-soft)] transition hover:bg-[var(--vv-primary-hover)] hover:text-white"
               >
                 Don&apos;t See Your School?
               </Link>
