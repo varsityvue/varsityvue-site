@@ -598,43 +598,23 @@ function HeroTeam({
       : team.length >= 8
         ? "text-3xl lg:text-4xl xl:text-4xl"
         : "text-4xl lg:text-5xl xl:text-6xl";
-  const teamLayout =
-    align === "left"
-      ? "grid-cols-[5rem_minmax(0,1fr)]"
-      : "grid-cols-[minmax(0,1fr)_5rem]";
 
   return (
-    <div className={`grid min-w-0 items-center gap-3 ${teamLayout}`}>
-      {align === "left" &&
-        (school ? <SchoolBadge school={school} size="sm" /> : <TeamChip label="AWY" />)}
-
-      <div className="min-w-0 text-center">
-        <h1 className={`${teamNameSize} font-black uppercase leading-none tracking-tight text-white`}>
-          {team}
-        </h1>
-        {school?.mascot && (
-          <p className="mt-2 text-sm font-black uppercase tracking-[0.22em] text-white/45">
-            {school.mascot}
-          </p>
-        )}
-        <RecordLine
-          overallWins={standing?.overallWins}
-          overallLosses={standing?.overallLosses}
-          districtWins={standing?.districtWins}
-          districtLosses={standing?.districtLosses}
-        />
-      </div>
-
-      {align === "right" &&
-        (school ? <SchoolBadge school={school} size="sm" /> : <TeamChip label="HME" />)}
-    </div>
-  );
-}
-
-function TeamChip({ label }: { label: string }) {
-  return (
-    <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-3xl bg-[var(--vv-primary)] text-xl font-black text-white shadow-lg">
-      {label}
+    <div data-side={align} className="min-w-0 text-center">
+      <h1 className={`${teamNameSize} font-black uppercase leading-none tracking-tight text-white`}>
+        {team}
+      </h1>
+      {school?.mascot && (
+        <p className="mt-2 text-sm font-black uppercase tracking-[0.22em] text-white/45">
+          {school.mascot}
+        </p>
+      )}
+      <RecordLine
+        overallWins={standing?.overallWins}
+        overallLosses={standing?.overallLosses}
+        districtWins={standing?.districtWins}
+        districtLosses={standing?.districtLosses}
+      />
     </div>
   );
 }
