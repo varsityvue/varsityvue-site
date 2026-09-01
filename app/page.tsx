@@ -592,13 +592,20 @@ function HeroTeam({
   standing?: ReturnType<typeof getStandingForSchool>;
   align: "left" | "right";
 }) {
+  const teamNameSize =
+    team.length >= 11
+      ? "text-3xl lg:text-3xl xl:text-4xl"
+      : team.length >= 8
+        ? "text-3xl lg:text-4xl xl:text-4xl"
+        : "text-4xl lg:text-5xl xl:text-6xl";
+
   return (
-    <div className="flex items-center justify-center gap-4 text-center">
+    <div className="flex min-w-0 items-center justify-center gap-3 text-center">
       {align === "left" &&
         (school ? <SchoolBadge school={school} size="sm" /> : <TeamChip label="AWY" />)}
 
-      <div>
-        <h1 className="text-4xl font-black uppercase leading-none tracking-tight text-white lg:text-5xl xl:text-6xl">
+      <div className="min-w-0">
+        <h1 className={`${teamNameSize} font-black uppercase leading-none tracking-tight text-white`}>
           {team}
         </h1>
         {school?.mascot && (
