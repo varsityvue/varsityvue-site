@@ -17,6 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/games",
     "/coverage",
     "/rankings",
+    "/stats",
     "/legacy",
     "/sponsors",
     "/sponsor-inquiry",
