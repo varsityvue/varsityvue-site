@@ -90,13 +90,13 @@ export default function ScoreboardPage() {
 
         {featuredGame && <FeaturedScoreboardGame game={featuredGame} />}
 
-        <section className="mt-8 grid gap-6 lg:grid-cols-[0.58fr_1fr_1fr]">
+        <section className="mt-8 grid items-start gap-6 lg:grid-cols-3">
           <ScoreboardColumn
             title="Live Now"
             description="Games currently marked in progress."
             games={liveGames}
             emptyText="No games are currently marked live."
-            compact
+            collapsibleWhenEmpty
           />
           <ScoreboardColumn
             title="Upcoming"
@@ -213,18 +213,35 @@ function TeamResult({ school, team, standing, align }: {
   );
 }
 
-function ScoreboardColumn({ title, description, games, emptyText, compact = false }: {
+function ScoreboardColumn({ title, description, games, emptyText, collapsibleWhenEmpty = false }: {
   title: string;
   description: string;
   games: ScoreboardGame[];
   emptyText: string;
-  compact?: boolean;
+  collapsibleWhenEmpty?: boolean;
 }) {
+  if (collapsibleWhenEmpty && games.length === 0) {
+    return (
+      <details className="group rounded-3xl border border-white/10 bg-white/[0.04] p-5">
+        <summary className="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h2 className="text-3xl font-black">{title}</h2>
+              <p className="mt-2 text-sm text-white/50">{description}</p>
+            </div>
+            <span className="mt-1 text-sm font-black text-white/45 transition group-open:rotate-180">⌄</span>
+          </div>
+        </summary>
+        <p className="mt-6 rounded-2xl border border-white/10 bg-black/30 p-4 text-sm text-white/50">{emptyText}</p>
+      </details>
+    );
+  }
+
   return (
-    <section className={`rounded-3xl border border-white/10 bg-white/[0.04] ${compact ? "p-4" : "p-5"}`}>
-      <h2 className={`${compact ? "text-2xl" : "text-3xl"} font-black`}>{title}</h2>
+    <section className="rounded-3xl border border-white/10 bg-white/[0.04] p-5">
+      <h2 className="text-3xl font-black">{title}</h2>
       <p className="mt-2 text-sm text-white/50">{description}</p>
-      <div className={`${compact ? "mt-4" : "mt-6"} space-y-4`}>
+      <div className="mt-6 space-y-4">
         {games.length === 0 ? (
           <p className="rounded-2xl border border-white/10 bg-black/30 p-4 text-sm text-white/50">{emptyText}</p>
         ) : (
