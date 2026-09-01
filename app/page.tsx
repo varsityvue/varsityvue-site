@@ -593,12 +593,7 @@ function HeroTeam({
   align: "left" | "right";
 }) {
   return (
-    <div
-      className={`flex items-center gap-4 ${align === "right"
-          ? "justify-center text-center md:justify-end md:text-right"
-          : "justify-center text-center md:justify-start md:text-left"
-        }`}
-    >
+    <div className="flex items-center justify-center gap-4 text-center">
       {align === "left" &&
         (school ? <SchoolBadge school={school} size="sm" /> : <TeamChip label="AWY" />)}
 
