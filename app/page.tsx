@@ -598,13 +598,17 @@ function HeroTeam({
       : team.length >= 8
         ? "text-3xl lg:text-4xl xl:text-4xl"
         : "text-4xl lg:text-5xl xl:text-6xl";
+  const teamLayout =
+    align === "left"
+      ? "grid-cols-[5rem_minmax(0,1fr)]"
+      : "grid-cols-[minmax(0,1fr)_5rem]";
 
   return (
-    <div className="flex min-w-0 items-center justify-center gap-3 text-center">
+    <div className={`grid min-w-0 items-center gap-3 ${teamLayout}`}>
       {align === "left" &&
         (school ? <SchoolBadge school={school} size="sm" /> : <TeamChip label="AWY" />)}
 
-      <div className="min-w-0">
+      <div className="min-w-0 text-center">
         <h1 className={`${teamNameSize} font-black uppercase leading-none tracking-tight text-white`}>
           {team}
         </h1>
