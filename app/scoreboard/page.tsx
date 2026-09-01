@@ -190,6 +190,8 @@ function TeamResult({ school, team, standing, align }: {
   standing?: ReturnType<typeof getStandingForSchool>;
   align: "left" | "right";
 }) {
+  const hasOverallResult =
+    !!standing && (standing.overallWins > 0 || standing.overallLosses > 0);
   const districtRecord =
     standing && standing.districtWins + standing.districtLosses > 0
       ? ` · ${standing.districtWins}-${standing.districtLosses} District`
@@ -201,7 +203,9 @@ function TeamResult({ school, team, standing, align }: {
       <div>
         <h2 className="text-3xl font-black leading-none text-white md:text-4xl">{team}</h2>
         <p className="mt-2 text-sm font-black uppercase tracking-[0.16em] text-white/40">
-          {standing ? `${standing.overallWins}-${standing.overallLosses} Overall${districtRecord}` : "Record unavailable"}
+          {hasOverallResult
+            ? `${standing!.overallWins}-${standing!.overallLosses} Overall${districtRecord}`
+            : "Overall —"}
         </p>
       </div>
       {align === "right" && (school ? <SchoolBadge school={school} size="sm" /> : <FallbackBadge label={team} />)}
