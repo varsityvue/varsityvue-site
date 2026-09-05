@@ -35,7 +35,6 @@ export default function SiteHeader() {
           <NavLink href="/districts" label="Districts" />
           <NavLink href="/coverage" label="Coverage" />
           <NavLink href="/legacy" label="Legacy" />
-          <NavLink href="/sponsors" label="Sponsors" />
         </nav>
 
         <div className="flex items-center gap-3">
