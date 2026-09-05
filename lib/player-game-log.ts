@@ -1,4 +1,4 @@
-import { gameStats } from "@/data/game-stats";
+import { gameStats } from "@/lib/all-game-stats";
 import { getGameById } from "@/lib/games";
 import { getPlayerId } from "@/lib/player-identity";
 
