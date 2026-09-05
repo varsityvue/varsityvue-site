@@ -10,7 +10,18 @@ export const week2GameStats: GameStats[] = [
       { schoolSlug: "de-leon", quarters: [7, 36, 14, 0], total: 57 },
       { schoolSlug: "stamford", quarters: [0, 0, 7, 0], total: 7 },
     ],
-    scoringPlays: [],
+    scoringPlays: [
+      { quarter: 1, clock: "6:26", schoolSlug: "de-leon", description: "Bryce Burkeen 15-yard interception return (Trenton Zmeskal kick)" },
+      { quarter: 2, clock: "8:28", schoolSlug: "de-leon", description: "Bryce Burkeen 29-yard pass from Hud Price (Trenton Zmeskal kick)" },
+      { quarter: 2, clock: "5:39", schoolSlug: "de-leon", description: "Lane Couch 27-yard run (Trenton Zmeskal kick)" },
+      { quarter: 2, clock: "3:35", schoolSlug: "de-leon", description: "Trenton Zmeskal 24-yard pass from Hud Price (kick failed)" },
+      { quarter: 2, clock: "1:51", schoolSlug: "de-leon", description: "Hud Price 14-yard run (Trenton Zmeskal kick)" },
+      { quarter: 2, clock: "1:46", schoolSlug: "de-leon", description: "Safety, Chris McCann tackled in end zone" },
+      { quarter: 2, clock: "0:13", schoolSlug: "de-leon", description: "Trenton Zmeskal 6-yard pass from Hud Price (Trenton Zmeskal kick)" },
+      { quarter: 3, clock: "8:57", schoolSlug: "de-leon", description: "Hud Price 3-yard run (Trenton Zmeskal kick)" },
+      { quarter: 3, clock: "5:02", schoolSlug: "de-leon", description: "Lane Couch 3-yard run (Luke Stokes kick)" },
+      { quarter: 3, clock: "2:11", schoolSlug: "stamford", description: "Brennan Armstrong 12-yard pass from Miles Follis (Slayden Young kick)" },
+    ],
     teamStats: [
       {
         schoolSlug: "de-leon",
