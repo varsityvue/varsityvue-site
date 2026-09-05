@@ -27,12 +27,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: route === "" ? 1.0 : 0.8,
   }));
 
-  const schoolRoutes = schools.map((school) => ({
-    url: `${baseUrl}/schools/${school.slug}`,
-    lastModified: now,
-    changeFrequency: "weekly" as const,
-    priority: 0.9,
-  }));
+  const schoolRoutes = schools
+    .filter((school) => school.status === "pilot")
+    .map((school) => ({
+      url: `${baseUrl}/schools/${school.slug}`,
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: 0.9,
+    }));
 
   const districtRoutes = districts.map((district) => ({
     url: `${baseUrl}/districts/${district.slug}`,
