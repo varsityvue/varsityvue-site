@@ -1,6 +1,79 @@
 import type { Game } from "@/types/platform";
 
+type VerifiedFinal = {
+  teamASlugs: string[];
+  teamBSlugs: string[];
+  scoreA: number;
+  scoreB: number;
+};
+
+const verifiedWeek2Finals: VerifiedFinal[] = [
+  { teamASlugs: ["abilene", "abilene-high"], teamBSlugs: ["abilene-cooper", "cooper"], scoreA: 14, scoreB: 6 },
+  { teamASlugs: ["abilene-wylie", "wylie"], teamBSlugs: ["lubbock-monterey", "monterey"], scoreA: 49, scoreB: 3 },
+  { teamASlugs: ["stephenville"], teamBSlugs: ["brownwood"], scoreA: 28, scoreB: 24 },
+  { teamASlugs: ["san-angelo-lake-view", "lake-view"], teamBSlugs: ["snyder"], scoreA: 62, scoreB: 0 },
+  { teamASlugs: ["coahoma"], teamBSlugs: ["brownfield"], scoreA: 37, scoreB: 0 },
+  { teamASlugs: ["clyde"], teamBSlugs: ["tolar"], scoreA: 55, scoreB: 26 },
+  { teamASlugs: ["ingram-moore", "ingram-tom-moore", "ingram"], teamBSlugs: ["brady"], scoreA: 41, scoreB: 0 },
+  { teamASlugs: ["llano"], teamBSlugs: ["tuscola-jim-ned", "jim-ned"], scoreA: 26, scoreB: 7 },
+  { teamASlugs: ["mineral-wells"], teamBSlugs: ["pilot-point"], scoreA: 24, scoreB: 19 },
+  { teamASlugs: ["graham"], teamBSlugs: ["eagle-mountain"], scoreA: 48, scoreB: 0 },
+  { teamASlugs: ["anna"], teamBSlugs: ["brock"], scoreA: 38, scoreB: 27 },
+  { teamASlugs: ["millsap"], teamBSlugs: ["callisburg"], scoreA: 29, scoreB: 13 },
+  { teamASlugs: ["lubbock-estacado", "estacado"], teamBSlugs: ["sweetwater"], scoreA: 52, scoreB: 50 },
+  { teamASlugs: ["cisco"], teamBSlugs: ["comanche"], scoreA: 38, scoreB: 6 },
+  { teamASlugs: ["santo"], teamBSlugs: ["dublin"], scoreA: 61, scoreB: 0 },
+  { teamASlugs: ["san-saba"], teamBSlugs: ["eastland"], scoreA: 34, scoreB: 19 },
+  { teamASlugs: ["early"], teamBSlugs: ["breckenridge"], scoreA: 47, scoreB: 18 },
+  { teamASlugs: ["mason"], teamBSlugs: ["hamilton"], scoreA: 46, scoreB: 44 },
+  { teamASlugs: ["hawley"], teamBSlugs: ["merkel"], scoreA: 35, scoreB: 34 },
+  { teamASlugs: ["albany"], teamBSlugs: ["anson"], scoreA: 27, scoreB: 26 },
+  { teamASlugs: ["haskell"], teamBSlugs: ["bangs"], scoreA: 62, scoreB: 44 },
+  { teamASlugs: ["miles"], teamBSlugs: ["christoval"], scoreA: 27, scoreB: 15 },
+  { teamASlugs: ["colorado-city"], teamBSlugs: ["winters"], scoreA: 38, scoreB: 0 },
+  { teamASlugs: ["de-leon"], teamBSlugs: ["stamford"], scoreA: 57, scoreB: 7 },
+  { teamASlugs: ["goldthwaite"], teamBSlugs: ["granger"], scoreA: 48, scoreB: 0 },
+  { teamASlugs: ["hico"], teamBSlugs: ["cross-plains"], scoreA: 31, scoreB: 14 },
+  { teamASlugs: ["petrolia"], teamBSlugs: ["olney"], scoreA: 30, scoreB: 26 },
+  { teamASlugs: ["munday"], teamBSlugs: ["quanah"], scoreA: 46, scoreB: 21 },
+  { teamASlugs: ["seymour"], teamBSlugs: ["hamlin"], scoreA: 48, scoreB: 15 },
+  { teamASlugs: ["forsan"], teamBSlugs: ["roscoe"], scoreA: 44, scoreB: 19 },
+  { teamASlugs: ["san-angelo-texas-leadership", "san-angelo-tlca", "tlca-san-angelo"], teamBSlugs: ["abilene-texas-leadership", "abilene-tlca", "tlca-abilene"], scoreA: 67, scoreB: 20 },
+];
+
+const verifiedWeek2Overrides: Record<string, Partial<Game>> = Object.fromEntries(
+  verifiedWeek2Finals.flatMap(({ teamASlugs, teamBSlugs, scoreA, scoreB }) =>
+    teamASlugs.flatMap((teamA) =>
+      teamBSlugs.flatMap((teamB) => [
+        [
+          `${teamA}-at-${teamB}-2026-week-2`,
+          {
+            status: "final",
+            homeScore: scoreB,
+            awayScore: scoreA,
+            score: { home: scoreB, away: scoreA },
+            sourceStatus: "verified",
+            sourceLabel: "VarsityVue verified Week 2 final score",
+          },
+        ],
+        [
+          `${teamB}-at-${teamA}-2026-week-2`,
+          {
+            status: "final",
+            homeScore: scoreA,
+            awayScore: scoreB,
+            score: { home: scoreA, away: scoreB },
+            sourceStatus: "verified",
+            sourceLabel: "VarsityVue verified Week 2 final score",
+          },
+        ],
+      ]),
+    ),
+  ),
+);
+
 const verifiedResultOverrides: Record<string, Partial<Game>> = {
+  ...verifiedWeek2Overrides,
   "midlothian-heritage-at-stephenville-2026-week-1": {
     status: "final",
     homeScore: 44,
