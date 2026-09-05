@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer className="border-t border-white/10 bg-[var(--vv-bg)] px-4 py-10 text-white sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr]">
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr]">
           <div className="max-w-md">
             <Link href="/" className="inline-flex items-center gap-3">
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[color:var(--vv-accent)] bg-[var(--vv-primary)] text-3xl font-black text-[var(--vv-accent-soft)]">
@@ -41,13 +41,6 @@ export default function Footer() {
               { href: "/districts", label: "Districts" },
               { href: "/coverage", label: "Coverage" },
               { href: "/legacy", label: "Legacy" },
-            ]}
-          />
-
-          <FooterColumn
-            title="Business"
-            links={[
-              { href: "/sponsor-inquiry", label: "2027 Sponsor Interest" },
             ]}
           />
 
