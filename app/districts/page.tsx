@@ -50,26 +50,17 @@ export default function DistrictsPage() {
               VarsityVue District Directory
             </p>
 
-            <div className="mt-5 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
-              <div>
-                <h1 className="text-4xl font-black leading-tight tracking-tight sm:text-6xl">
-                  Find your district.
-                </h1>
+            <div className="mt-5">
+              <h1 className="text-4xl font-black leading-tight tracking-tight sm:text-6xl">
+                Find your district.
+              </h1>
 
-                <p className="mt-4 max-w-3xl text-base leading-7 text-white/60 sm:text-lg">
-                  Browse Texas high school football districts by classification,
-                  then open a district hub for member schools, schedules,
-                  standings, matchups, and coverage currently available on
-                  VarsityVue.
-                </p>
-              </div>
-
-              <Link
-                href="/sponsor-inquiry"
-                className="rounded-xl border border-white/15 bg-white/[0.08] px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
-              >
-                2027 Sponsor Interest →
-              </Link>
+              <p className="mt-4 max-w-3xl text-base leading-7 text-white/60 sm:text-lg">
+                Browse Texas high school football districts by classification,
+                then open a district hub for member schools, schedules,
+                standings, matchups, and coverage currently available on
+                VarsityVue.
+              </p>
             </div>
           </div>
 
