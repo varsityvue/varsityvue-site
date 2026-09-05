@@ -47,7 +47,6 @@ export default function Footer() {
           <FooterColumn
             title="Business"
             links={[
-              { href: "/sponsors", label: "Sponsors" },
               { href: "/sponsor-inquiry", label: "2027 Sponsor Interest" },
             ]}
           />
