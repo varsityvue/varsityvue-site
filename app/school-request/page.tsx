@@ -41,6 +41,17 @@ export default function SchoolRequestPage() {
               />
               <input type="hidden" name="_template" value="table" />
 
+              <div className="hidden" aria-hidden="true">
+                <label htmlFor="company_website">Company website</label>
+                <input
+                  id="company_website"
+                  type="text"
+                  name="_gotcha"
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </div>
+
               <input
                 type="text"
                 name="school_name"
@@ -79,6 +90,25 @@ export default function SchoolRequestPage() {
                 placeholder="Email Address"
                 className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:outline-none"
               />
+
+              <select
+                name="how_did_you_hear_about_us"
+                required
+                defaultValue=""
+                className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white focus:border-[color:var(--vv-accent)] focus:outline-none"
+              >
+                <option value="" disabled>
+                  How did you hear about us? *
+                </option>
+                <option value="Google / Search Engine">Google / Search Engine</option>
+                <option value="Facebook">Facebook</option>
+                <option value="Instagram">Instagram</option>
+                <option value="X / Twitter">X / Twitter</option>
+                <option value="Friend / Family">Friend / Family</option>
+                <option value="School / Coach / Booster Club">School / Coach / Booster Club</option>
+                <option value="Saw VarsityVue linked somewhere">Saw VarsityVue linked somewhere</option>
+                <option value="Other">Other</option>
+              </select>
 
               <textarea
                 name="notes"
