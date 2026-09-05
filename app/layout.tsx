@@ -5,16 +5,16 @@ import Footer from "../components/Footer";
 
 export const metadata: Metadata = {
   title: {
-    default: "VarsityVue",
+    default: "VarsityVue | Texas High School Football Scores & Coverage",
     template: "%s | VarsityVue",
   },
   description:
-    "Texas high school sports coverage, school hubs, schedules, scores, standings, sponsors, and game previews.",
+    "Texas high school football scores, schedules, standings, school hubs, matchup pages, player statistics, and local coverage on VarsityVue.",
   metadataBase: new URL("https://varsityvue.com"),
   openGraph: {
-    title: "VarsityVue",
+    title: "VarsityVue | Texas High School Football Scores & Coverage",
     description:
-      "Texas high school sports coverage, school hubs, schedules, scores, standings, sponsors, and game previews.",
+      "Texas high school football scores, schedules, standings, school hubs, matchup pages, player statistics, and local coverage on VarsityVue.",
     url: "https://varsityvue.com",
     siteName: "VarsityVue",
     type: "website",
@@ -27,7 +27,7 @@ const organizationSchema = {
   name: "VarsityVue",
   url: "https://varsityvue.com",
   description:
-    "Texas high school sports coverage, school hubs, schedules, scores, standings, sponsors, and game previews.",
+    "Texas high school football scores, schedules, standings, school hubs, matchup pages, player statistics, and local coverage.",
   sameAs: [
     "https://x.com/varsityvue",
     "https://instagram.com/varsityvueapp",
