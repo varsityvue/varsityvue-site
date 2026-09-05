@@ -1,7 +1,8 @@
 import { games as scheduledGames } from "@/data/games";
 import { applyVerifiedGames } from "@/data/verified-games";
+import { week2GameAdditions } from "@/data/week2-game-additions";
 
-const games = applyVerifiedGames(scheduledGames);
+const games = [...applyVerifiedGames(scheduledGames), ...week2GameAdditions];
 
 export function getSchoolRecord(slug: string) {
   const relevantGames = games.filter(
