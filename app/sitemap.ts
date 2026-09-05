@@ -19,8 +19,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/rankings",
     "/stats",
     "/legacy",
-    "/sponsors",
-    "/sponsor-inquiry",
     "/school-request",
   ].map((route) => ({
     url: `${baseUrl}${route}`,
