@@ -38,10 +38,11 @@ export default function AboutPage() {
         <section className="mt-10 rounded-3xl border border-white/10 bg-white/5 p-7 md:p-9">
           <h2 className="text-2xl font-black">Help make the platform better</h2>
           <p className="mt-4 max-w-3xl leading-7 text-white/60">
-            Know a school that should be added, have information that needs correcting, or want to get in touch? VarsityVue welcomes useful local input as coverage expands.
+            Know a school that should be added, have stats or program history to share, found something that needs correcting, or want to get in touch? VarsityVue welcomes useful local input as coverage expands.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link href="/school-request" className="rounded-full bg-[var(--vv-primary)] px-6 py-3 text-sm font-bold transition hover:bg-[#93142a]">Request a School</Link>
+            <Link href="/submit" className="rounded-full border border-[color:var(--vv-accent)]/40 bg-white/5 px-6 py-3 text-sm font-bold text-white transition hover:bg-white/10">Submit to VarsityVue</Link>
             <Link href="/contact" className="rounded-full border border-white/15 px-6 py-3 text-sm font-bold text-white/80 transition hover:border-white/30 hover:text-white">Contact VarsityVue</Link>
           </div>
         </section>
