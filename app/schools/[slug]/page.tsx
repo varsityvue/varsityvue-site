@@ -24,9 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${school.fullName} Football Hub`,
     description: `${school.fullName} schedules, scores, standings, roster, player statistics, district information, game coverage, and football updates on VarsityVue.`,
-    alternates: {
-      canonical: `/schools/${school.slug}`,
-    },
+    alternates: { canonical: `/schools/${school.slug}` },
   };
 }
 
@@ -37,55 +35,23 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
 
   const district = getDistrictById(school.districtId);
   const districtSlug = district?.slug ?? school.districtId;
-  const theme: SchoolTheme = {
-    primary: school.colors.primary,
-    secondary: school.colors.secondary,
-    accent: school.colors.accent,
-  };
+  const theme: SchoolTheme = { primary: school.colors.primary, secondary: school.colors.secondary, accent: school.colors.accent };
   const recentScores = getRecentScoresForSchool(slug);
   const standings = getStandingsForSchool(slug);
-  const schoolStanding = standings.find((standing) => standing.schoolSlug === school.slug);
-  const districtPlayStarted = standings.some(
-    (standing) => standing.districtWins > 0 || standing.districtLosses > 0
-  );
 
   const schoolSchema = {
-    "@context": "https://schema.org",
-    "@type": "SportsTeam",
-    name: school.fullName,
-    alternateName: school.name,
-    sport: "Football",
+    "@context": "https://schema.org", "@type": "SportsTeam", name: school.fullName, alternateName: school.name, sport: "Football",
     url: `https://varsityvue.com/schools/${school.slug}`,
-    location: {
-      "@type": "Place",
-      name: school.stadium ?? `${school.name} football stadium`,
-    },
-    memberOf: district
-      ? {
-          "@type": "SportsOrganization",
-          name: district.name,
-          url: `https://varsityvue.com/districts/${district.slug}`,
-        }
-      : undefined,
-    publisher: {
-      "@type": "Organization",
-      name: "VarsityVue",
-      url: "https://varsityvue.com",
-    },
+    location: { "@type": "Place", name: school.stadium ?? `${school.name} football stadium` },
+    memberOf: district ? { "@type": "SportsOrganization", name: district.name, url: `https://varsityvue.com/districts/${district.slug}` } : undefined,
+    publisher: { "@type": "Organization", name: "VarsityVue", url: "https://varsityvue.com" },
   };
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] text-white">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schoolSchema) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schoolSchema) }} />
       <SchoolHero school={school} />
-      <SchoolSubnav
-        schoolSlug={school.slug}
-        districtSlug={districtSlug}
-        theme={theme}
-      />
+      <SchoolSubnav schoolSlug={school.slug} districtSlug={districtSlug} theme={theme} />
 
       <div className="mx-auto w-full max-w-6xl px-4 pt-5 sm:px-6 sm:pt-6 lg:px-8">
         <SchoolSeasonPulse schoolSlug={school.slug} theme={theme} />
@@ -93,134 +59,48 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
 
       <div className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-5 sm:px-6 sm:py-6 lg:grid-cols-[1.45fr_0.75fr] lg:px-8">
         <div className="min-w-0 space-y-5 sm:space-y-6">
-          {recentScores.length > 0 && (
-            <RecentScores scores={recentScores} theme={theme} schoolSlug={slug} />
-          )}
-          <SchoolTeamLeaders
-            schoolSlug={school.slug}
-            season={2026}
-            primaryColor={theme.primary}
-            secondaryColor={theme.secondary}
-          />
+          {recentScores.length > 0 && <RecentScores scores={recentScores} theme={theme} schoolSlug={slug} />}
+          <SchoolTeamLeaders schoolSlug={school.slug} season={2026} primaryColor={theme.primary} secondaryColor={theme.secondary} />
           <UpcomingSchedulePreview schoolSlug={school.slug} theme={theme} />
           <StandingsTable standings={standings} theme={theme} />
           <SchoolCoverage schoolSlug={school.slug} />
         </div>
 
         <aside className="min-w-0 space-y-6">
-          <section
-            className="rounded-[1.75rem] border p-6 shadow-2xl"
-            style={{
-              borderColor: `${theme.primary}55`,
-              background:
-                "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 48%, rgba(0,0,0,1))",
-              boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)`,
-            }}
-          >
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-white/50">
-              Program Snapshot
-            </p>
+          <section className="rounded-[1.75rem] border p-6 shadow-2xl" style={{ borderColor: `${theme.primary}55`, background: "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 48%, rgba(0,0,0,1))", boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)` }}>
+            <p className="text-xs font-black uppercase tracking-[0.28em] text-white/50">Program Snapshot</p>
             <h2 className="mt-3 text-3xl font-black text-white">{school.fullName}</h2>
-            {school.description && (
-              <p className="mt-4 text-sm leading-7 text-white/60">{school.description}</p>
-            )}
+            {school.description && <p className="mt-4 text-sm leading-7 text-white/60">{school.description}</p>}
             <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
               {school.headCoach && <SnapshotTile label="Head Coach" value={school.headCoach} />}
               <SnapshotTile label="Region" value={`Region ${school.uilRegion}`} />
               <SnapshotTile label="District" value={district?.name ?? "TBD"} />
               {school.stadium && <SnapshotTile label="Stadium" value={school.stadium} />}
-              {school.stadiumCapacity && (
-                <SnapshotTile label="Capacity" value={school.stadiumCapacity.toLocaleString()} />
-              )}
-              {school.stateTitles !== undefined && (
-                <SnapshotTile label="State Titles" value={school.stateTitles.toString()} />
-              )}
-              {school.lastPlayoffAppearance && (
-                <SnapshotTile label="Last Playoff Appearance" value={school.lastPlayoffAppearance.toString()} />
-              )}
+              {school.stadiumCapacity && <SnapshotTile label="Capacity" value={school.stadiumCapacity.toLocaleString()} />}
+              {school.stateTitles !== undefined && <SnapshotTile label="State Titles" value={school.stateTitles.toString()} />}
+              {school.lastPlayoffAppearance && <SnapshotTile label="Last Playoff Appearance" value={school.lastPlayoffAppearance.toString()} />}
             </div>
           </section>
 
           <RivalryWatch schoolSlug={school.slug} />
 
-          {(school.officialWebsite ||
-            school.facebookUrl ||
-            school.instagramUrl ||
-            school.xUrl) && (
-            <section
-              className="rounded-[1.75rem] border p-6 shadow-2xl"
-              style={{
-                borderColor: `${theme.primary}55`,
-                background:
-                  "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 50%, rgba(0,0,0,1))",
-                boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)`,
-              }}
-            >
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-white/50">
-                Official Links
-              </p>
-              <h2 className="mt-3 text-2xl font-black text-white">School resources.</h2>
-              <div className="mt-5 flex flex-col gap-3">
-                {school.officialWebsite && (
-                  <ExternalLinkButton href={school.officialWebsite} label="Official Website" />
-                )}
-                {school.facebookUrl && (
-                  <ExternalLinkButton href={school.facebookUrl} label="Facebook" />
-                )}
-                {school.instagramUrl && (
-                  <ExternalLinkButton href={school.instagramUrl} label="Instagram" />
-                )}
-                {school.xUrl && <ExternalLinkButton href={school.xUrl} label="X / Twitter" />}
+          {(school.officialWebsite || school.facebookUrl || school.instagramUrl || school.xUrl) && (
+            <section className="rounded-[1.75rem] border p-6 shadow-2xl" style={{ borderColor: `${theme.primary}55`, background: "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 50%, rgba(0,0,0,1))", boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)` }}>
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-white/50">Official Links</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {school.officialWebsite && <ExternalLinkButton href={school.officialWebsite} label="Website" />}
+                {school.facebookUrl && <ExternalLinkButton href={school.facebookUrl} label="Facebook" />}
+                {school.instagramUrl && <ExternalLinkButton href={school.instagramUrl} label="Instagram" />}
+                {school.xUrl && <ExternalLinkButton href={school.xUrl} label="X" />}
               </div>
             </section>
           )}
 
-          <section
-            className="rounded-[1.75rem] border p-6 shadow-2xl"
-            style={{
-              borderColor: `${theme.secondary}66`,
-              background: `linear-gradient(135deg, ${theme.primary}55, ${theme.secondary}22 52%, rgba(0,0,0,0.96) 82%)`,
-              boxShadow: `inset 4px 0 0 ${theme.secondary}, 0 18px 50px rgba(0,0,0,0.45)`,
-            }}
-          >
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-white/55">
-              Community Input
-            </p>
-            <h2 className="mt-3 text-2xl font-black text-white">Know something we should add?</h2>
-            <p className="mt-3 text-sm leading-6 text-white/60">
-              Fans, coaches, alumni, and community members can submit stats, photos, videos, records, corrections, and program history for review.
-            </p>
-            <Link
-              href="/submit"
-              className="mt-5 inline-flex rounded-full px-5 py-3 text-sm font-black transition hover:opacity-90"
-              style={{ backgroundColor: theme.secondary, color: theme.primary }}
-            >
-              Submit to VarsityVue
-            </Link>
-          </section>
-
-          <section
-            className="rounded-[1.75rem] border p-6 shadow-2xl"
-            style={{
-              borderColor: `${theme.primary}55`,
-              background:
-                "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 50%, rgba(0,0,0,1))",
-              boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)`,
-            }}
-          >
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-white/50">
-              School Utility
-            </p>
-            <h2 className="mt-3 text-2xl font-black text-white">Quick links for fans.</h2>
-            <div className="mt-5 flex flex-col gap-3">
-              <LinkButton href={`/schools/${school.slug}/schedule`} label="Full Schedule" />
-              <LinkButton href={`/schools/${school.slug}/roster`} label="Team Roster" />
-              <LinkButton href={`/districts/${districtSlug}`} label="Standings" />
-              <LinkButton href="/scoreboard" label="Scoreboard" />
-              <LinkButton href="/coverage" label="Team Coverage" />
-              <LinkButton href="/submit" label="Submit Stats, Photos or History" />
-              <LinkButton href="/school-request" label="Request Another School" />
-            </div>
+          <section className="rounded-[1.75rem] border p-6 shadow-2xl" style={{ borderColor: `${theme.secondary}66`, background: `linear-gradient(135deg, ${theme.primary}55, ${theme.secondary}22 52%, rgba(0,0,0,0.96) 82%)`, boxShadow: `inset 4px 0 0 ${theme.secondary}, 0 18px 50px rgba(0,0,0,0.45)` }}>
+            <p className="text-xs font-black uppercase tracking-[0.28em] text-white/55">Help Build This Hub</p>
+            <h2 className="mt-3 text-2xl font-black text-white">Have stats, photos or a correction?</h2>
+            <p className="mt-3 text-sm leading-6 text-white/60">Send program information to VarsityVue for review.</p>
+            <Link href="/submit" className="mt-5 inline-flex rounded-full px-5 py-3 text-sm font-black transition hover:opacity-90" style={{ backgroundColor: theme.secondary, color: theme.primary }}>Submit Information</Link>
           </section>
         </aside>
       </div>
@@ -229,34 +109,9 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
 }
 
 function SnapshotTile({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-black/35 p-4">
-      <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">{label}</p>
-      <p className="mt-2 text-sm font-black text-white/80">{value}</p>
-    </div>
-  );
-}
-
-function LinkButton({ href, label }: { href: string; label: string }) {
-  return (
-    <Link
-      href={href}
-      className="rounded-2xl border border-white/10 bg-black/35 px-4 py-3 text-sm font-black text-white/75 transition hover:bg-white/10 hover:text-white"
-    >
-      {label}
-    </Link>
-  );
+  return <div className="rounded-2xl border border-white/10 bg-black/35 p-4"><p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">{label}</p><p className="mt-2 text-sm font-black text-white/80">{value}</p></div>;
 }
 
 function ExternalLinkButton({ href, label }: { href: string; label: string }) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="rounded-2xl border border-white/10 bg-black/35 px-4 py-3 text-sm font-black text-white/75 transition hover:bg-white/10 hover:text-white"
-    >
-      {label} ↗
-    </a>
-  );
+  return <a href={href} target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/10 bg-black/35 px-4 py-2.5 text-xs font-black text-white/70 transition hover:bg-white/10 hover:text-white">{label} ↗</a>;
 }
