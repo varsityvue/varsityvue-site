@@ -35,6 +35,15 @@ function getCentralDateKey(date: Date) {
   return year && month && day ? `${year}-${month}-${day}` : "";
 }
 
+function markPastUnverifiedGame(game: Game): Game {
+  return {
+    ...game,
+    status: "scheduled",
+    featured: false,
+    specialEvent: undefined,
+  };
+}
+
 function normalizeGameStatus(game: Game, now = new Date()): Game {
   if (game.status !== "upcoming" || !game.kickoff) {
     return game;
@@ -44,7 +53,7 @@ function normalizeGameStatus(game: Game, now = new Date()): Game {
 
   if (!game.kickoff.includes("T")) {
     if (todayKey && game.kickoff < todayKey) {
-      return { ...game, status: "scheduled" };
+      return markPastUnverifiedGame(game);
     }
 
     return game;
@@ -53,7 +62,7 @@ function normalizeGameStatus(game: Game, now = new Date()): Game {
   const timestamp = getGameTimestamp(game);
 
   if (timestamp !== Number.MAX_SAFE_INTEGER && timestamp < now.getTime()) {
-    return { ...game, status: "scheduled" };
+    return markPastUnverifiedGame(game);
   }
 
   return game;
