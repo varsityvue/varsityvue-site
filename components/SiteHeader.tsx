@@ -33,7 +33,7 @@ export default function SiteHeader() {
             </div>
 
             <div className="mt-1 hidden text-[10px] font-black uppercase tracking-[0.34em] text-white/45 sm:block">
-              Texas High School Sports
+              Texas HS Football
             </div>
           </div>
         </Link>
