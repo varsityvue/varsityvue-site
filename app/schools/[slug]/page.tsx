@@ -7,12 +7,10 @@ import { getSchoolBySlug } from "@/lib/schools";
 import { getRecentScoresForSchool } from "@/lib/games";
 import { getDistrictById } from "@/lib/districts";
 import { getStandingsForSchool } from "@/lib/standings";
-import { getArticlesForSchool } from "@/lib/articles";
 import SchoolHero from "../../../components/SchoolHero";
 import UpcomingSchedulePreview from "../../../components/UpcomingSchedulePreview";
 import RecentScores from "../../../components/RecentScores";
 import StandingsTable from "../../../components/StandingsTable";
-import NewsFeed from "../../../components/NewsFeed";
 import SchoolSubnav from "../../../components/SchoolSubnav";
 import SchoolSeasonPulse from "../../../components/SchoolSeasonPulse";
 import SchoolCoverage from "@/components/SchoolCoverage";
@@ -46,7 +44,10 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
   };
   const recentScores = getRecentScoresForSchool(slug);
   const standings = getStandingsForSchool(slug);
-  const articles = getArticlesForSchool(slug);
+  const schoolStanding = standings.find((standing) => standing.schoolSlug === school.slug);
+  const districtPlayStarted = standings.some(
+    (standing) => standing.districtWins > 0 || standing.districtLosses > 0
+  );
 
   const schoolSchema = {
     "@context": "https://schema.org",
@@ -104,47 +105,39 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
           <UpcomingSchedulePreview schoolSlug={school.slug} theme={theme} />
           <StandingsTable standings={standings} theme={theme} />
           <SchoolCoverage schoolSlug={school.slug} />
-          <NewsFeed articles={articles} theme={theme} />
         </div>
 
         <aside className="min-w-0 space-y-6">
           <section
-            className="overflow-hidden rounded-[1.75rem] border shadow-2xl"
+            className="rounded-[1.75rem] border p-6 shadow-2xl"
             style={{
               borderColor: `${theme.primary}55`,
               background:
-                "linear-gradient(145deg, rgba(255,255,255,0.06), rgba(0,0,0,0.95) 55%, rgba(0,0,0,1))",
+                "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 48%, rgba(0,0,0,1))",
               boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)`,
             }}
           >
-            <div className="p-5 sm:p-6">
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-white/50">
-                Program Snapshot
-              </p>
-              <h2 className="mt-3 text-2xl font-black text-white">{school.fullName}</h2>
-
-              {school.description && (
-                <p className="mt-3 text-sm leading-6 text-white/60">{school.description}</p>
+            <p className="text-xs font-black uppercase tracking-[0.28em] text-white/50">
+              Program Snapshot
+            </p>
+            <h2 className="mt-3 text-3xl font-black text-white">{school.fullName}</h2>
+            {school.description && (
+              <p className="mt-4 text-sm leading-7 text-white/60">{school.description}</p>
+            )}
+            <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+              {school.headCoach && <SnapshotTile label="Head Coach" value={school.headCoach} />}
+              <SnapshotTile label="Region" value={`Region ${school.uilRegion}`} />
+              <SnapshotTile label="District" value={district?.name ?? "TBD"} />
+              {school.stadium && <SnapshotTile label="Stadium" value={school.stadium} />}
+              {school.stadiumCapacity && (
+                <SnapshotTile label="Capacity" value={school.stadiumCapacity.toLocaleString()} />
               )}
-
-              <div className="mt-5 grid grid-cols-2 gap-2">
-                {school.headCoach && <ProfileTile label="Head Coach" value={school.headCoach} />}
-                {school.athleticDirector && school.athleticDirector !== school.headCoach && (
-                  <ProfileTile label="Athletic Director" value={school.athleticDirector} />
-                )}
-                <ProfileTile label="Region" value={`Region ${school.uilRegion}`} />
-                <ProfileTile label="Stadium" value={school.stadium ?? "TBD"} />
-                {school.stadiumCapacity && (
-                  <ProfileTile label="Capacity" value={school.stadiumCapacity.toLocaleString()} />
-                )}
-                {school.stateTitles !== undefined && (
-                  <ProfileTile label="State Titles" value={school.stateTitles.toString()} />
-                )}
-                {school.lastPlayoffAppearance && (
-                  <ProfileTile label="Last Playoff" value={school.lastPlayoffAppearance.toString()} />
-                )}
-                <ProfileTile label="District" value={district?.name ?? "TBD"} />
-              </div>
+              {school.stateTitles !== undefined && (
+                <SnapshotTile label="State Titles" value={school.stateTitles.toString()} />
+              )}
+              {school.lastPlayoffAppearance && (
+                <SnapshotTile label="Last Playoff Appearance" value={school.lastPlayoffAppearance.toString()} />
+              )}
             </div>
           </section>
 
@@ -235,11 +228,11 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
   );
 }
 
-function ProfileTile({ label, value }: { label: string; value: string }) {
+function SnapshotTile({ label, value }: { label: string; value: string }) {
   return (
-    <div className="min-w-0 rounded-2xl border border-white/10 bg-black/35 p-3.5">
-      <p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/30">{label}</p>
-      <p className="mt-1.5 break-words text-sm font-black leading-5 text-white/80">{value}</p>
+    <div className="rounded-2xl border border-white/10 bg-black/35 p-4">
+      <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">{label}</p>
+      <p className="mt-2 text-sm font-black text-white/80">{value}</p>
     </div>
   );
 }
