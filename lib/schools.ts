@@ -1,18 +1,24 @@
+import { districts } from "@/data/districts";
 import { schools } from "@/data/schools";
 
 const SCHOOL_COLOR_OVERRIDES: Record<string, { primary?: string; secondary?: string; accent?: string }> = {
   brownwood: { primary: "#5B0B1E" },
 };
 
-function assertUniqueSchoolIdentity() {
+function assertSchoolDataIntegrity() {
   const seenSlugs = new Set<string>();
   const seenIds = new Set<string>();
   const duplicateSlugs: string[] = [];
   const duplicateIds: string[] = [];
+  const districtIds = new Set(districts.map((district) => district.id));
+  const invalidDistrictReferences: string[] = [];
 
   for (const school of schools) {
     if (seenSlugs.has(school.slug)) duplicateSlugs.push(school.slug);
     if (seenIds.has(school.id)) duplicateIds.push(school.id);
+    if (!districtIds.has(school.districtId)) {
+      invalidDistrictReferences.push(`${school.slug} → ${school.districtId}`);
+    }
 
     seenSlugs.add(school.slug);
     seenIds.add(school.id);
@@ -25,13 +31,18 @@ function assertUniqueSchoolIdentity() {
   if (duplicateIds.length > 0) {
     problems.push(`duplicate school IDs: ${duplicateIds.join(", ")}`);
   }
+  if (invalidDistrictReferences.length > 0) {
+    problems.push(
+      `schools reference unknown districts: ${invalidDistrictReferences.join(", ")}`
+    );
+  }
 
   if (problems.length > 0) {
     throw new Error(`School data integrity check failed (${problems.join("; ")})`);
   }
 }
 
-assertUniqueSchoolIdentity();
+assertSchoolDataIntegrity();
 
 function applySchoolOverrides<T extends (typeof schools)[number]>(school: T): T {
   const colorOverride = SCHOOL_COLOR_OVERRIDES[school.slug];
