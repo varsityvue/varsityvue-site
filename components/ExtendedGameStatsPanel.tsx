@@ -15,23 +15,11 @@ export default function ExtendedGameStatsPanel({
   return (
     <div className="space-y-6">
       <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7 shadow-2xl">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-white/45">
-              Detailed Team Stats
-            </p>
-            <h2 className="mt-3 text-2xl font-black">Situational breakdown</h2>
-          </div>
-          {stats.sourceUrl && (
-            <a
-              href={stats.sourceUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs font-black uppercase tracking-[0.14em] text-white/45 transition hover:text-white"
-            >
-              Source: PressBox Stats →
-            </a>
-          )}
+        <div>
+          <p className="text-xs font-black uppercase tracking-[0.28em] text-white/45">
+            Detailed Team Stats
+          </p>
+          <h2 className="mt-3 text-2xl font-black">Situational breakdown</h2>
         </div>
 
         <div className="mt-6 space-y-2">
@@ -75,7 +63,7 @@ export default function ExtendedGameStatsPanel({
         <p className="text-xs font-black uppercase tracking-[0.28em] text-white/45">
           Special Teams & Defense
         </p>
-        <h2 className="mt-3 text-2xl font-black">Additional verified statistics</h2>
+        <h2 className="mt-3 text-2xl font-black">Verified VarsityVue statistics</h2>
         <div className="mt-6 grid gap-5 xl:grid-cols-2">
           {stats.tables.map((table) => (
             <div key={table.title} className="overflow-hidden rounded-2xl border border-white/10 bg-black/30">
@@ -104,7 +92,6 @@ export default function ExtendedGameStatsPanel({
             </div>
           ))}
         </div>
-        <p className="mt-5 text-xs font-bold text-white/35">Verified source: {stats.sourceLabel}</p>
       </section>
     </div>
   );
