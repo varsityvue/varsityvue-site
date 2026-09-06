@@ -2,9 +2,18 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Sponsor Inquiry Received | VarsityVue",
+  title: {
+    absolute: "Partnership Interest Received | VarsityVue",
+  },
   description:
-    "Thank you for submitting a VarsityVue sponsor inquiry.",
+    "Thank you for sharing your interest in a future VarsityVue partnership.",
+  robots: {
+    index: false,
+    follow: true,
+  },
+  alternates: {
+    canonical: "/sponsor-inquiry/success",
+  },
 };
 
 export default function SponsorInquirySuccessPage() {
@@ -13,7 +22,7 @@ export default function SponsorInquirySuccessPage() {
       <div className="mx-auto max-w-3xl">
         <section className="rounded-[2rem] border border-white/10 bg-white/5 p-6 text-center md:p-10">
           <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
-            Inquiry Received
+            Interest Received
           </p>
 
           <h1 className="mt-4 text-4xl font-black leading-tight sm:text-6xl">
@@ -21,16 +30,17 @@ export default function SponsorInquirySuccessPage() {
           </h1>
 
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/65">
-            We received your VarsityVue sponsor inquiry and will follow up with
-            available sponsorship options.
+            We received your partnership interest. As VarsityVue coverage grows,
+            we can follow up when an opportunity makes sense for the schools,
+            communities, or markets you care about.
           </p>
 
           <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
             <Link
-              href="/sponsors"
+              href="/sponsor-inquiry"
               className="rounded-full bg-[var(--vv-primary)] px-8 py-4 font-semibold transition hover:bg-[#93142a]"
             >
-              Back to Sponsors
+              Back to Partner With VarsityVue
             </Link>
 
             <Link
