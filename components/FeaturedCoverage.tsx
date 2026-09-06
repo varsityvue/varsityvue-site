@@ -64,12 +64,20 @@ export default function FeaturedCoverage() {
             </h2>
           </div>
 
-          <Link
-            href="/coverage"
-            className="inline-flex rounded-full border border-white/10 bg-black/35 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-white/60 transition hover:bg-white/10 hover:text-white"
-          >
-            View All Coverage →
-          </Link>
+          <div className="flex flex-wrap gap-2">
+            <Link
+              href="/submit"
+              className="inline-flex rounded-full border border-white/10 bg-black/35 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-white/60 transition hover:bg-white/10 hover:text-white"
+            >
+              Submit a Story Tip →
+            </Link>
+            <Link
+              href="/coverage"
+              className="inline-flex rounded-full border border-white/10 bg-black/35 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-white/60 transition hover:bg-white/10 hover:text-white"
+            >
+              View All Coverage →
+            </Link>
+          </div>
         </div>
 
         <div className="grid gap-5 lg:grid-cols-[1.25fr_0.75fr]">
