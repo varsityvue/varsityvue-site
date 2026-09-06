@@ -2,9 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Request a School | VarsityVue",
+  title: "Request a Texas High School Football Program",
   description:
-    "Request a Texas high school sports program for future VarsityVue school hub coverage.",
+    "Request a Texas high school football program for future VarsityVue school hub coverage and help guide which communities are prioritized next.",
+  alternates: {
+    canonical: "/school-request",
+  },
 };
 
 export default function SchoolRequestPage() {
@@ -55,6 +58,7 @@ export default function SchoolRequestPage() {
               <input
                 type="text"
                 name="school_name"
+                aria-label="School name"
                 placeholder="School Name *"
                 required
                 className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:outline-none"
@@ -64,6 +68,7 @@ export default function SchoolRequestPage() {
                 <input
                   type="text"
                   name="city"
+                  aria-label="City or town"
                   placeholder="City / Town *"
                   required
                   className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:outline-none"
@@ -72,6 +77,7 @@ export default function SchoolRequestPage() {
                 <input
                   type="text"
                   name="classification_or_district"
+                  aria-label="Classification or district"
                   placeholder="Classification / District (if known)"
                   className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:outline-none"
                 />
@@ -80,6 +86,7 @@ export default function SchoolRequestPage() {
               <input
                 type="text"
                 name="requester_name"
+                aria-label="Your name"
                 placeholder="Your Name"
                 className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:outline-none"
               />
@@ -87,12 +94,15 @@ export default function SchoolRequestPage() {
               <input
                 type="email"
                 name="email"
+                aria-label="Email address"
                 placeholder="Email Address"
+                autoComplete="email"
                 className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:outline-none"
               />
 
               <select
                 name="how_did_you_hear_about_us"
+                aria-label="How did you hear about VarsityVue?"
                 required
                 defaultValue=""
                 className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white focus:border-[color:var(--vv-accent)] focus:outline-none"
@@ -113,6 +123,7 @@ export default function SchoolRequestPage() {
               <textarea
                 name="notes"
                 rows={5}
+                aria-label="Additional notes"
                 placeholder="Anything else we should know about the program?"
                 className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:outline-none"
               />
