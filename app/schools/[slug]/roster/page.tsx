@@ -22,9 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${school.fullName} ${SEASON} Football Roster`,
     description: `${school.fullName} ${SEASON} football roster with verified jersey numbers, grades, positions, and player profiles currently available on VarsityVue.`,
-    alternates: {
-      canonical: `/schools/${school.slug}/roster`,
-    },
+    alternates: { canonical: `/schools/${school.slug}/roster` },
   };
 }
 
@@ -45,33 +43,30 @@ export default async function SchoolRosterPage({ params }: Props) {
   return (
     <main className="min-h-screen bg-[#050505] text-white">
       <section
-        className="border-b border-white/10 px-4 py-10 sm:px-6 lg:px-8"
+        className="border-b border-white/10 px-4 py-7 sm:px-6 sm:py-10 lg:px-8"
         style={{
           background: `radial-gradient(circle at top left, ${theme.primary}66 0%, transparent 35%), radial-gradient(circle at top right, ${theme.secondary}22 0%, transparent 28%), linear-gradient(120deg,#050505 0%,#090909 50%,#000 100%)`,
         }}
       >
         <div className="mx-auto max-w-6xl">
-          <Link href={`/schools/${school.slug}`} className="text-xs font-black uppercase tracking-[0.16em] text-white/45 transition hover:text-white">
+          <Link href={`/schools/${school.slug}`} className="text-[10px] font-black uppercase tracking-[0.16em] text-white/45 transition hover:text-white sm:text-xs">
             ← {school.name} Hub
           </Link>
-          <p className="mt-6 text-xs font-black uppercase tracking-[0.28em]" style={{ color: theme.secondary }}>
+
+          <p className="mt-5 text-[10px] font-black uppercase tracking-[0.26em] text-white/55 sm:mt-6 sm:text-xs sm:tracking-[0.28em]">
             {SEASON} Football
           </p>
-          <h1 className="mt-3 text-4xl font-black sm:text-5xl lg:text-6xl">{school.fullName} Roster</h1>
-          <p className="mt-4 max-w-3xl text-base leading-7 text-white/55">
-            Verified roster information currently available for the {SEASON} season. Select a player to view their VarsityVue profile and any verified game statistics on file.
+          <h1 className="mt-2 break-words text-3xl font-black leading-tight sm:mt-3 sm:text-5xl lg:text-6xl">
+            {school.name} Roster
+          </h1>
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-white/55 sm:mt-4 sm:text-base sm:leading-7">
+            Verified roster information for the {SEASON} season. Select a player to view their VarsityVue profile and verified game statistics on file.
           </p>
 
           {roster.length > 0 && (
-            <div className="mt-7 flex flex-wrap gap-3">
-              <div className="rounded-2xl border border-white/10 bg-black/30 px-5 py-4">
-                <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">Players Listed</p>
-                <p className="mt-1 text-2xl font-black">{roster.length}</p>
-              </div>
-              <div className="rounded-2xl border border-white/10 bg-black/30 px-5 py-4">
-                <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">Roster Season</p>
-                <p className="mt-1 text-2xl font-black">{SEASON}</p>
-              </div>
+            <div className="mt-5 grid grid-cols-2 gap-3 sm:mt-7 sm:flex sm:flex-wrap">
+              <SummaryCard label="Players Listed" value={roster.length.toString()} />
+              <SummaryCard label="Roster Season" value={SEASON.toString()} />
             </div>
           )}
         </div>
@@ -79,22 +74,46 @@ export default async function SchoolRosterPage({ params }: Props) {
 
       <SchoolSubnav schoolSlug={school.slug} districtSlug={districtSlug} theme={theme} />
 
-      <section className="px-4 py-8 sm:px-6 lg:px-8">
+      <section className="px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         <div className="mx-auto max-w-6xl">
           {roster.length > 0 ? (
-            <div className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] shadow-2xl">
+            <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.045] shadow-2xl sm:rounded-[1.75rem]">
               <div className="h-1.5" style={{ backgroundColor: theme.primary }} />
-              <div className="border-b border-white/10 px-5 py-5 sm:px-6">
-                <div className="flex flex-wrap items-end justify-between gap-3">
-                  <div>
-                    <p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">Verified Roster</p>
-                    <h2 className="mt-2 text-2xl font-black">{school.name} football</h2>
-                  </div>
-                  <p className="text-xs text-white/35">Number · Player · Grade · Position</p>
-                </div>
+
+              <div className="border-b border-white/10 px-4 py-4 sm:px-6 sm:py-5">
+                <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/40 sm:text-xs">Verified Roster</p>
+                <h2 className="mt-1.5 text-xl font-black sm:mt-2 sm:text-2xl">{school.name} football</h2>
               </div>
-              <div className="overflow-x-auto">
-                <table className="w-full min-w-[620px] text-sm">
+
+              <div className="divide-y divide-white/10 md:hidden">
+                {roster.map((player) => (
+                  <Link
+                    key={player.playerId}
+                    href={`/players/${player.playerId}`}
+                    className="grid grid-cols-[46px_1fr_auto] items-center gap-3 px-4 py-4 transition hover:bg-white/[0.04]"
+                  >
+                    <div
+                      className="flex h-11 w-11 items-center justify-center rounded-xl border text-base font-black"
+                      style={{ borderColor: `${theme.primary}66`, backgroundColor: `${theme.primary}22` }}
+                    >
+                      {player.jerseyNumber ?? "—"}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-black text-white">{player.name}</p>
+                      <p className="mt-1 truncate text-[10px] font-bold uppercase tracking-[0.12em] text-white/35">
+                        {player.positions?.join(" / ") ?? "Position TBD"}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-[9px] font-black uppercase tracking-[0.12em] text-white/30">Grade</p>
+                      <p className="mt-1 text-sm font-black text-white/65">{player.grade ?? "—"}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+
+              <div className="hidden overflow-x-auto md:block">
+                <table className="w-full text-sm">
                   <thead className="border-b border-white/10 text-[10px] font-black uppercase tracking-[0.12em] text-white/35">
                     <tr>
                       <th className="w-20 px-5 py-4 text-left">#</th>
@@ -119,16 +138,17 @@ export default async function SchoolRosterPage({ params }: Props) {
                   </tbody>
                 </table>
               </div>
-              <div className="border-t border-white/10 px-5 py-4 text-xs leading-5 text-white/35 sm:px-6">
-                Roster details reflect verified information currently on file. Player profiles may contain game statistics only when verified statistical reports are available.
+
+              <div className="border-t border-white/10 px-4 py-3 text-[11px] leading-5 text-white/35 sm:px-6 sm:py-4 sm:text-xs">
+                Roster details reflect verified information currently on file.
               </div>
             </div>
           ) : (
-            <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7 shadow-2xl">
-              <p className="text-xs font-black uppercase tracking-[0.24em] text-white/35">Roster Pending</p>
-              <h2 className="mt-3 text-3xl font-black">Roster information is not available yet.</h2>
-              <p className="mt-3 max-w-2xl text-sm leading-7 text-white/50">
-                VarsityVue will add this roster after player information has been verified from a trusted source. Coaches, fans, parents, and community members can send roster information or a source for review.
+            <section className="rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:rounded-[1.75rem] sm:p-7">
+              <p className="text-[10px] font-black uppercase tracking-[0.24em] text-white/35 sm:text-xs">Roster Pending</p>
+              <h2 className="mt-3 text-2xl font-black sm:text-3xl">Roster information is not available yet.</h2>
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-white/50 sm:leading-7">
+                Send roster information or a trusted source to VarsityVue for review.
               </p>
               <Link
                 href="/submit"
@@ -142,5 +162,14 @@ export default async function SchoolRosterPage({ params }: Props) {
         </div>
       </section>
     </main>
+  );
+}
+
+function SummaryCard({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-2xl border border-white/10 bg-black/30 px-4 py-3 sm:px-5 sm:py-4">
+      <p className="text-[9px] font-black uppercase tracking-[0.14em] text-white/35 sm:text-[10px] sm:tracking-[0.16em]">{label}</p>
+      <p className="mt-1 text-xl font-black sm:text-2xl">{value}</p>
+    </div>
   );
 }
