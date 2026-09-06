@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import {
   getFinalScoreboardGames,
@@ -9,12 +8,6 @@ import {
 import { getSchoolBySlug } from "@/lib/schools";
 import { getStandingForSchool } from "@/lib/standings";
 import SchoolBadge from "@/components/SchoolBadge";
-
-export const metadata: Metadata = {
-  title: "Texas High School Football Scores | VarsityVue",
-  description:
-    "Follow verified Texas high school football final scores, featured matchups, and upcoming games across the VarsityVue coverage area.",
-};
 
 type ScoreboardGame = ReturnType<typeof getUpcomingScoreboardGames>[number];
 
