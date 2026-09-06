@@ -85,6 +85,14 @@ function isRecentFinal(game: Game, now = Date.now()) {
   return age >= 0 && age <= RESULT_WINDOW_HOURS * 60 * 60 * 1000;
 }
 
+function getHighestWeek(games: ScoreboardGame[]) {
+  const weeks = games
+    .map((game) => game.week)
+    .filter((week): week is number => typeof week === "number");
+
+  return weeks.length > 0 ? Math.max(...weeks) : undefined;
+}
+
 export function getScoreboardGames(): ScoreboardGame[] {
   return games
     .filter((game) => game.gameType !== "bye" && game.gameType !== "scrimmage")
@@ -164,18 +172,34 @@ export function getRecentFinalScoreboardGames(limit = 8): ScoreboardGame[] {
 }
 
 export function getHomepageScoreboardGames(limit = 8) {
-  const recentFinals = getRecentFinalScoreboardGames(limit);
+  const recentFinals = getRecentFinalScoreboardGames(Math.max(limit * 3, 24));
+  const finalWeek = getHighestWeek(recentFinals);
 
   if (recentFinals.length > 0) {
+    const currentWeekFinals =
+      finalWeek === undefined
+        ? recentFinals
+        : recentFinals.filter((game) => game.week === finalWeek);
+
     return {
       mode: "finals" as const,
-      games: recentFinals,
+      games: currentWeekFinals.slice(0, limit),
     };
   }
 
+  const upcomingGames = getUpcomingScoreboardGames(Math.max(limit * 3, 24));
+  const upcomingWeeks = upcomingGames
+    .map((game) => game.week)
+    .filter((week): week is number => typeof week === "number");
+  const nextWeek = upcomingWeeks.length > 0 ? Math.min(...upcomingWeeks) : undefined;
+  const currentWeekUpcoming =
+    nextWeek === undefined
+      ? upcomingGames
+      : upcomingGames.filter((game) => game.week === nextWeek);
+
   return {
     mode: "upcoming" as const,
-    games: getUpcomingScoreboardGames(limit),
+    games: currentWeekUpcoming.slice(0, limit),
   };
 }
 
