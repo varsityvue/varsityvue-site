@@ -7,7 +7,11 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr]">
           <div className="max-w-md">
-            <Link href="/" className="inline-flex items-center gap-3">
+            <Link
+              href="/"
+              aria-label="VarsityVue home"
+              className="inline-flex items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+            >
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[color:var(--vv-accent)] bg-[var(--vv-primary)] text-3xl font-black text-[var(--vv-accent-soft)]">
                 V
               </div>
@@ -26,10 +30,10 @@ export default function Footer() {
               local sports media.
             </p>
 
-            <div className="mt-5 flex gap-3">
-              <Social href="https://x.com/varsityvue" label="X" />
-              <Social href="https://instagram.com/varsityvueapp" label="IG" />
-              <Social href="https://facebook.com/VarsityVue" label="f" />
+            <div className="mt-5 flex gap-3" aria-label="VarsityVue social links">
+              <Social href="https://x.com/varsityvue" label="X" accessibleLabel="VarsityVue on X" />
+              <Social href="https://instagram.com/varsityvueapp" label="IG" accessibleLabel="VarsityVue on Instagram" />
+              <Social href="https://facebook.com/VarsityVue" label="f" accessibleLabel="VarsityVue on Facebook" />
             </div>
           </div>
 
@@ -51,9 +55,9 @@ export default function Footer() {
 
             <Link
               href="mailto:info@varsityvue.com"
-              className="mt-4 flex items-center gap-2 text-sm text-white/70 transition hover:text-white"
+              className="mt-4 flex items-center gap-2 text-sm text-white/70 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
             >
-              <Mail size={16} />
+              <Mail size={16} aria-hidden="true" />
               info@varsityvue.com
             </Link>
           </div>
@@ -71,15 +75,19 @@ export default function Footer() {
 function Social({
   href,
   label,
+  accessibleLabel,
 }: {
   href: string;
   label: string;
+  accessibleLabel: string;
 }) {
   return (
     <Link
       href={href}
       target="_blank"
-      className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-xs font-bold text-white/60 transition hover:border-[color:var(--vv-accent)] hover:bg-[var(--vv-primary)] hover:text-white"
+      rel="noreferrer"
+      aria-label={accessibleLabel}
+      className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-xs font-bold text-white/60 transition hover:border-[color:var(--vv-accent)] hover:bg-[var(--vv-primary)] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
     >
       {label}
     </Link>
@@ -104,7 +112,7 @@ function FooterColumn({
           <Link
             key={link.href}
             href={link.href}
-            className="transition hover:text-white"
+            className="transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
           >
             {link.label}
           </Link>
