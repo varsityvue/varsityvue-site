@@ -233,8 +233,7 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
             className="rounded-[1.75rem] border p-6 shadow-2xl"
             style={{
               borderColor: `${theme.secondary}66`,
-              background:
-                "linear-gradient(135deg, rgba(122,16,34,0.24), rgba(0,0,0,0.92) 58%, rgba(0,0,0,1))",
+              background: `linear-gradient(135deg, ${theme.primary}55, ${theme.secondary}22 52%, rgba(0,0,0,0.96) 82%)`,
               boxShadow: `inset 4px 0 0 ${theme.secondary}, 0 18px 50px rgba(0,0,0,0.45)`,
             }}
           >
@@ -250,8 +249,8 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
             </p>
             <Link
               href="/submit"
-              className="mt-5 inline-flex rounded-full px-5 py-3 text-sm font-black text-white transition hover:opacity-90"
-              style={{ backgroundColor: theme.primary }}
+              className="mt-5 inline-flex rounded-full px-5 py-3 text-sm font-black transition hover:opacity-90"
+              style={{ backgroundColor: theme.secondary, color: theme.primary }}
             >
               Submit to VarsityVue
             </Link>
