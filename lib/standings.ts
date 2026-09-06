@@ -1,5 +1,4 @@
-import { games as scheduledGames } from "@/data/games";
-import { applyVerifiedGames } from "@/data/verified-games";
+import { getGames } from "@/lib/games";
 import { getSchoolBySlug, getSchoolsByDistrictId } from "@/lib/schools";
 
 export type Standing = {
@@ -13,7 +12,7 @@ export type Standing = {
   pointsAgainst: number;
 };
 
-const games = applyVerifiedGames(scheduledGames);
+const games = getGames();
 
 function emptyStanding(schoolSlug: string, team: string): Standing {
   return {
