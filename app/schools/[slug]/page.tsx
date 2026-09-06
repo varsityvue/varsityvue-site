@@ -58,7 +58,7 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
         <SchoolSeasonPulse schoolSlug={school.slug} theme={theme} />
       </div>
 
-      <div className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-5 sm:px-6 sm:py-6 lg:grid-cols-[1.45fr_0.75fr] lg:px-8">
+      <div className="mx-auto w-full max-w-6xl px-4 py-5 sm:px-6 sm:py-6 lg:px-8">
         <div className="min-w-0 space-y-5 sm:space-y-6">
           {recentScores.length > 0 && <RecentScores scores={recentScores} theme={theme} schoolSlug={slug} />}
           <SchoolTeamLeaders schoolSlug={school.slug} season={2026} primaryColor={theme.primary} secondaryColor={theme.secondary} />
@@ -72,11 +72,16 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
           <SchoolCoverage schoolSlug={school.slug} />
         </div>
 
-        <aside className="min-w-0 space-y-6">
-          <section className="rounded-[1.75rem] border p-5 shadow-2xl sm:p-6" style={{ borderColor: `${theme.primary}55`, background: "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 48%, rgba(0,0,0,1))", boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)` }}>
-            <p className="text-[10px] font-black uppercase tracking-[0.24em] text-white/50 sm:text-xs sm:tracking-[0.28em]">Program Snapshot</p>
-            <h2 className="mt-2 text-2xl font-black text-white sm:text-3xl">{school.fullName}</h2>
-            <div className="mt-4 grid grid-cols-2 gap-2.5 sm:mt-5 sm:gap-3">
+        <div className="mt-6 grid min-w-0 gap-5 lg:grid-cols-2">
+          <section className="rounded-[1.5rem] border p-5 shadow-2xl sm:rounded-[1.75rem] sm:p-6" style={{ borderColor: `${theme.primary}55`, background: "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 48%, rgba(0,0,0,1))", boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)` }}>
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/45 sm:text-xs sm:tracking-[0.28em]">Program Snapshot</p>
+                <h2 className="mt-1.5 text-xl font-black text-white sm:mt-2 sm:text-2xl">{school.fullName}</h2>
+              </div>
+              {hasOfficialLinks && <span className="shrink-0 text-[9px] font-black uppercase tracking-[0.12em] text-white/30">Official</span>}
+            </div>
+            <div className="mt-4 grid grid-cols-2 gap-2 sm:gap-3">
               {school.headCoach && <SnapshotTile label="Head Coach" value={school.headCoach} />}
               <SnapshotTile label="Region" value={`Region ${school.uilRegion}`} />
               <SnapshotTile label="District" value={district?.name ?? "TBD"} />
@@ -86,36 +91,35 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
               {school.lastPlayoffAppearance && <SnapshotTile label="Last Playoff" value={school.lastPlayoffAppearance.toString()} />}
             </div>
             {hasOfficialLinks && (
-              <div className="mt-4 border-t border-white/10 pt-4">
-                <p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/35">Official Links</p>
-                <div className="mt-2.5 flex flex-wrap gap-2">
-                  {school.officialWebsite && <ExternalLinkButton href={school.officialWebsite} label="Website" />}
-                  {school.facebookUrl && <ExternalLinkButton href={school.facebookUrl} label="Facebook" />}
-                  {school.instagramUrl && <ExternalLinkButton href={school.instagramUrl} label="Instagram" />}
-                  {school.xUrl && <ExternalLinkButton href={school.xUrl} label="X" />}
-                </div>
+              <div className="mt-3 flex flex-wrap gap-2 border-t border-white/10 pt-3">
+                {school.officialWebsite && <ExternalLinkButton href={school.officialWebsite} label="Website" />}
+                {school.facebookUrl && <ExternalLinkButton href={school.facebookUrl} label="Facebook" />}
+                {school.instagramUrl && <ExternalLinkButton href={school.instagramUrl} label="Instagram" />}
+                {school.xUrl && <ExternalLinkButton href={school.xUrl} label="X" />}
               </div>
             )}
           </section>
 
           <RivalryWatch schoolSlug={school.slug} />
+        </div>
 
-          <section className="rounded-[1.75rem] border p-6 shadow-2xl" style={{ borderColor: `${theme.secondary}66`, background: `linear-gradient(135deg, ${theme.primary}55, ${theme.secondary}22 52%, rgba(0,0,0,0.96) 82%)`, boxShadow: `inset 4px 0 0 ${theme.secondary}, 0 18px 50px rgba(0,0,0,0.45)` }}>
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-white/55">Help Build This Hub</p>
-            <h2 className="mt-3 text-2xl font-black text-white">Have stats, photos or a correction?</h2>
-            <p className="mt-3 text-sm leading-6 text-white/60">Send program information to VarsityVue for review.</p>
-            <Link href="/submit" className="mt-5 inline-flex rounded-full px-5 py-3 text-sm font-black transition hover:opacity-90" style={{ backgroundColor: theme.secondary, color: theme.primary }}>Submit Information</Link>
-          </section>
-        </aside>
+        <section className="mt-5 flex flex-col gap-4 rounded-[1.5rem] border p-5 shadow-2xl sm:flex-row sm:items-center sm:justify-between sm:rounded-[1.75rem] sm:p-6" style={{ borderColor: `${theme.secondary}55`, background: `linear-gradient(120deg, ${theme.primary}3d, rgba(0,0,0,0.96) 62%)`, boxShadow: `inset 4px 0 0 ${theme.secondary}, 0 18px 50px rgba(0,0,0,0.35)` }}>
+          <div className="min-w-0">
+            <p className="text-[9px] font-black uppercase tracking-[0.2em] text-white/45 sm:text-xs sm:tracking-[0.24em]">Help Build This Hub</p>
+            <h2 className="mt-1.5 text-lg font-black text-white sm:text-xl">Have stats, photos or a correction?</h2>
+            <p className="mt-1 text-xs leading-5 text-white/45 sm:text-sm">Send program information to VarsityVue for review.</p>
+          </div>
+          <Link href="/submit" className="inline-flex shrink-0 self-start rounded-full px-4 py-2.5 text-xs font-black transition hover:opacity-90 sm:self-auto sm:px-5 sm:py-3 sm:text-sm" style={{ backgroundColor: theme.secondary, color: theme.primary }}>Submit Information</Link>
+        </section>
       </div>
     </main>
   );
 }
 
 function SnapshotTile({ label, value }: { label: string; value: string }) {
-  return <div className="min-w-0 rounded-xl border border-white/10 bg-black/35 p-3.5 sm:rounded-2xl sm:p-4"><p className="text-[9px] font-black uppercase tracking-[0.14em] text-white/35 sm:text-[10px] sm:tracking-[0.16em]">{label}</p><p className="mt-1.5 break-words text-xs font-black leading-5 text-white/80 sm:mt-2 sm:text-sm">{value}</p></div>;
+  return <div className="min-w-0 rounded-xl border border-white/10 bg-black/35 p-3 sm:rounded-2xl sm:p-4"><p className="text-[8px] font-black uppercase tracking-[0.12em] text-white/30 sm:text-[10px] sm:tracking-[0.16em]">{label}</p><p className="mt-1 break-words text-[11px] font-black leading-4 text-white/75 sm:mt-2 sm:text-sm sm:leading-5">{value}</p></div>;
 }
 
 function ExternalLinkButton({ href, label }: { href: string; label: string }) {
-  return <a href={href} target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/10 bg-black/35 px-3 py-2 text-[10px] font-black text-white/65 transition hover:bg-white/10 hover:text-white sm:px-4 sm:py-2.5 sm:text-xs">{label} ↗</a>;
+  return <a href={href} target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/10 bg-black/35 px-2.5 py-1.5 text-[9px] font-black text-white/55 transition hover:bg-white/10 hover:text-white sm:px-4 sm:py-2.5 sm:text-xs">{label} ↗</a>;
 }
