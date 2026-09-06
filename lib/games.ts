@@ -109,7 +109,35 @@ function assertNoDuplicateGameIds() {
   }
 }
 
+function assertGameScoreConsistency() {
+  const problems: string[] = [];
+
+  for (const game of rawGames) {
+    const hasHomeScore = typeof game.homeScore === "number";
+    const hasAwayScore = typeof game.awayScore === "number";
+
+    if (game.status === "final" && (!hasHomeScore || !hasAwayScore)) {
+      problems.push(`${game.id}: final without both team scores`);
+      continue;
+    }
+
+    if (game.score && hasHomeScore && hasAwayScore) {
+      if (
+        game.score.home !== game.homeScore ||
+        game.score.away !== game.awayScore
+      ) {
+        problems.push(`${game.id}: score fields disagree`);
+      }
+    }
+  }
+
+  if (problems.length > 0) {
+    throw new Error(`Game score integrity check failed (${problems.join("; ")})`);
+  }
+}
+
 assertNoDuplicateGameIds();
+assertGameScoreConsistency();
 
 export function getGames() {
   return getNormalizedGames();
