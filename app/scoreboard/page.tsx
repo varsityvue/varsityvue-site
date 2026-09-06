@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import {
   getFinalScoreboardGames,
@@ -8,6 +9,28 @@ import {
 import { getSchoolBySlug } from "@/lib/schools";
 import { getStandingForSchool } from "@/lib/standings";
 import SchoolBadge from "@/components/SchoolBadge";
+
+export const metadata: Metadata = {
+  title: "Texas High School Football Scores",
+  description:
+    "Verified Texas high school football final scores, live games, featured matchups, and upcoming kickoffs from programs tracked by VarsityVue.",
+  alternates: {
+    canonical: "/scoreboard",
+  },
+  openGraph: {
+    title: "Texas High School Football Scores | VarsityVue",
+    description:
+      "Verified Texas high school football final scores, live games, featured matchups, and upcoming kickoffs from programs tracked by VarsityVue.",
+    url: "/scoreboard",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Texas High School Football Scores | VarsityVue",
+    description:
+      "Verified Texas high school football final scores, live games, featured matchups, and upcoming kickoffs from programs tracked by VarsityVue.",
+  },
+};
 
 type ScoreboardGame = ReturnType<typeof getUpcomingScoreboardGames>[number];
 
@@ -116,7 +139,8 @@ function FeaturedScoreboardGame({ game }: { game: ScoreboardGame }) {
   const homeScore = game.homeScore ?? game.score?.home;
   const isFinal = game.status === "final";
   const mapUrl = getMapUrl(game);
-  const featuredLabel = game.featured === true ? "Game of the Week" : "Featured Matchup";
+  const isGameOfTheWeek = game.specialEvent?.toLowerCase() === "game of the week";
+  const featuredLabel = isGameOfTheWeek ? "Game of the Week" : "Featured Matchup";
 
   return (
     <section className="mt-8 rounded-3xl border border-white/10 bg-white/[0.045] p-6 shadow-2xl md:p-8">
