@@ -1,254 +1,118 @@
 import Link from "next/link";
 import { getHomepageScoreboardGames } from "@/lib/scoreboard";
-import { getSchoolBySlug } from "@/lib/schools";
-import { getStandingForSchool } from "@/lib/standings";
-import SchoolBadge from "./SchoolBadge";
 
-function parseGameDate(kickoff?: string) {
-  if (!kickoff) return null;
+function getScore(game: { awayScore?: number; homeScore?: number; score?: { away?: number; home?: number } }) {
+  return {
+    away: game.awayScore ?? game.score?.away,
+    home: game.homeScore ?? game.score?.home,
+  };
+}
 
-  if (!kickoff.includes("T")) {
-    const [year, month, day] = kickoff.split("-").map(Number);
-    const parsedDate = new Date(Date.UTC(year, month - 1, day, 12));
-    return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
+function getTickerLabel(mode: "finals" | "upcoming", week?: number) {
+  if (mode === "finals") {
+    return week !== undefined ? `Week ${week} Scores` : "Latest Scores";
   }
 
-  const parsedDate = new Date(kickoff);
-  return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
-}
-
-function formatKickoff(kickoff?: string) {
-  const parsedDate = parseGameDate(kickoff);
-  if (!parsedDate) return "—";
-
-  const hasTime = kickoff?.includes("T");
-
-  return new Intl.DateTimeFormat("en-US", {
-    weekday: "short",
-    month: "short",
-    day: "numeric",
-    ...(hasTime
-      ? {
-          hour: "numeric" as const,
-          minute: "2-digit" as const,
-        }
-      : {}),
-    timeZone: "America/Chicago",
-  }).format(parsedDate);
-}
-
-function getGameLabel(gameType: string, week?: number) {
-  if (gameType === "scrimmage") return "Scrimmage";
-  if (gameType === "playoff") return "Playoff";
-  return week === undefined ? "—" : `Week ${week}`;
-}
-
-function formatRecord(slug?: string) {
-  if (!slug || slug === "bye" || slug === "special-event") return "Record unavailable";
-
-  const standing = getStandingForSchool(slug);
-
-  if (!standing) return "Record unavailable";
-
-  return `${standing.overallWins}-${standing.overallLosses}`;
+  return week !== undefined ? `Week ${week} Games` : "Upcoming Games";
 }
 
 export default function ScoreStrip() {
-  const { mode, games } = getHomepageScoreboardGames(8);
+  const { mode, games } = getHomepageScoreboardGames(12);
 
   if (games.length === 0) return null;
 
-  const showingFinals = mode === "finals";
   const week = games[0]?.week;
-  const allSameWeek =
-    week !== undefined && games.every((game) => game.week === week);
+  const allSameWeek = week !== undefined && games.every((game) => game.week === week);
+  const label = getTickerLabel(mode, allSameWeek ? week : undefined);
+  const tickerGames = [...games, ...games];
 
   return (
-    <section className="border-b border-white/10 bg-white/[0.03] px-4 py-6 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-[1440px]">
-        <div className="mb-5 flex items-end justify-between gap-4">
-          <div>
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-white/45">
-              {showingFinals
-                ? allSameWeek
-                  ? `Week ${week} Results`
-                  : "Latest Results"
-                : allSameWeek
-                  ? `Week ${week} Matchups`
-                  : "Upcoming Games"}
-            </p>
+    <section
+      aria-label={label}
+      className="overflow-hidden border-y border-white/10 bg-[#090909]"
+    >
+      <style>{`
+        @keyframes vv-score-ticker {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
+        }
 
-            <h2 className="mt-2 text-3xl font-black text-white">
-              {showingFinals ? "Latest Finals" : "Games to Watch"}
-            </h2>
-          </div>
+        .vv-score-ticker-track {
+          animation: vv-score-ticker 38s linear infinite;
+          width: max-content;
+        }
 
-          <Link
-            href="/scoreboard"
-            className="hidden rounded-full border border-white/10 bg-black/35 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-white/60 transition hover:bg-white/10 hover:text-white sm:inline-flex"
-          >
-            Full Scoreboard →
-          </Link>
-        </div>
+        .vv-score-ticker-wrap:hover .vv-score-ticker-track,
+        .vv-score-ticker-wrap:focus-within .vv-score-ticker-track {
+          animation-play-state: paused;
+        }
 
-        <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2">
-          {games.map((game) => {
-            const awaySchool = game.awaySchoolSlug
-              ? getSchoolBySlug(game.awaySchoolSlug)
-              : undefined;
+        @media (prefers-reduced-motion: reduce) {
+          .vv-score-ticker-track {
+            animation: none;
+          }
+        }
+      `}</style>
 
-            const homeSchool = game.homeSchoolSlug
-              ? getSchoolBySlug(game.homeSchoolSlug)
-              : undefined;
-
-            const awayScore = game.awayScore ?? game.score?.away;
-            const homeScore = game.homeScore ?? game.score?.home;
-
-            return (
-              <Link
-                key={game.id}
-                href={`/games/${game.id}`}
-                className="group min-w-[390px] snap-start overflow-hidden rounded-[1.5rem] border border-white/10 border-t-4 border-t-[var(--vv-primary)] bg-black/50 transition-all duration-300 hover:-translate-y-1 hover:border-white/25 hover:border-t-[var(--vv-primary)] hover:bg-white/[0.08]"
-              >
-                <div className="p-5">
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <GameChip label={game.displayStatus} strong={showingFinals} />
-                      {game.isFeatured && <GameChip label="Featured" strong />}
-                      {game.districtGame && <GameChip label="District Game" />}
-                      {game.specialEvent && <GameChip label={game.specialEvent} />}
-                    </div>
-
-                    <p className="shrink-0 text-xs font-bold text-white/40">
-                      {getGameLabel(game.gameType, game.week)}
-                    </p>
-                  </div>
-
-                  <div className="mt-6 grid grid-cols-[1fr_auto_1fr] items-center gap-4">
-                    <TeamBlock
-                      name={game.awayTeam ?? "Away"}
-                      school={awaySchool}
-                      record={formatRecord(game.awaySchoolSlug)}
-                      score={showingFinals ? awayScore : undefined}
-                      align="left"
-                    />
-
-                    <div className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-black uppercase tracking-[0.2em] text-white/70">
-                      {showingFinals ? "Final" : "VS"}
-                    </div>
-
-                    <TeamBlock
-                      name={game.homeTeam ?? "Home"}
-                      school={homeSchool}
-                      record={formatRecord(game.homeSchoolSlug)}
-                      score={showingFinals ? homeScore : undefined}
-                      align="right"
-                    />
-                  </div>
-
-                  <div className="mt-6 rounded-2xl border border-white/10 bg-black/30 p-4">
-                    <p className="text-sm font-black text-white">
-                      {formatKickoff(game.kickoff)}
-                    </p>
-
-                    {game.venue && (
-                      <p className="mt-1 line-clamp-1 text-xs font-semibold text-white/45">
-                        {game.venue}
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-4">
-                    <p className="text-xs font-black uppercase tracking-[0.16em] text-white/45">
-                      {showingFinals ? "Final Result" : "Matchup Preview"}
-                    </p>
-
-                    <p className="text-xs font-black uppercase tracking-[0.16em] text-white/60 transition group-hover:text-white">
-                      View Matchup →
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-
+      <div className="flex items-stretch">
         <Link
           href="/scoreboard"
-          className="mt-4 block rounded-xl border border-white/10 bg-black/35 px-5 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white/65 transition hover:bg-white/10 hover:text-white sm:hidden"
+          className="relative z-10 flex shrink-0 items-center border-r border-white/10 bg-[var(--vv-primary)] px-4 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-white sm:px-5 sm:text-xs"
         >
-          Full Scoreboard →
+          {label}
+          <span className="ml-2 text-white/60">→</span>
         </Link>
+
+        <div className="vv-score-ticker-wrap min-w-0 flex-1 overflow-hidden">
+          <div className="vv-score-ticker-track flex items-center py-2">
+            {tickerGames.map((game, index) => {
+              const score = getScore(game);
+              const duplicate = index >= games.length;
+              const isFinal = mode === "finals";
+
+              return (
+                <Link
+                  key={`${game.id}-${index}`}
+                  href={`/games/${game.id}`}
+                  aria-hidden={duplicate ? true : undefined}
+                  tabIndex={duplicate ? -1 : undefined}
+                  className="group mx-1 flex min-w-max items-center gap-3 rounded-lg border border-white/10 bg-white/[0.035] px-4 py-2 transition hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                >
+                  <span className="text-[10px] font-black uppercase tracking-[0.14em] text-white/35">
+                    {isFinal ? "Final" : game.displayStatus}
+                  </span>
+
+                  <span className="text-sm font-black text-white">
+                    {game.awayTeam ?? "Away"}
+                  </span>
+
+                  {isFinal && score.away !== undefined ? (
+                    <span className="text-base font-black text-white">{score.away}</span>
+                  ) : null}
+
+                  <span className="text-[10px] font-black uppercase text-white/25">
+                    {isFinal ? "—" : "at"}
+                  </span>
+
+                  {isFinal && score.home !== undefined ? (
+                    <span className="text-base font-black text-white">{score.home}</span>
+                  ) : null}
+
+                  <span className="text-sm font-black text-white">
+                    {game.homeTeam ?? "Home"}
+                  </span>
+
+                  {game.districtGame && (
+                    <span className="rounded-full border border-white/10 bg-white/5 px-2 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/35">
+                      District
+                    </span>
+                  )}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </section>
-  );
-}
-
-function GameChip({ label, strong = false }: { label: string; strong?: boolean }) {
-  return (
-    <p
-      className={`rounded-full border px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] ${
-        strong
-          ? "border-[color:var(--vv-primary)]/40 bg-[var(--vv-primary)]/25 text-white"
-          : "border-white/10 bg-white/5 text-white/55"
-      }`}
-    >
-      {label}
-    </p>
-  );
-}
-
-function TeamBlock({
-  name,
-  school,
-  record,
-  score,
-  align,
-}: {
-  name: string;
-  school?: ReturnType<typeof getSchoolBySlug>;
-  record: string;
-  score?: number;
-  align: "left" | "right";
-}) {
-  return (
-    <div
-      className={`flex min-w-0 flex-col gap-3 ${
-        align === "right" ? "items-end text-right" : "items-start text-left"
-      }`}
-    >
-      {school ? (
-        <SchoolBadge school={school} size="xs" />
-      ) : (
-        <MiniFallbackBadge label={name} />
-      )}
-
-      <div>
-        <div
-          className={`flex items-end gap-2 ${
-            align === "right" ? "justify-end" : "justify-start"
-          }`}
-        >
-          <p className="line-clamp-2 text-lg font-black leading-tight text-white">
-            {name}
-          </p>
-          {score !== undefined && (
-            <p className="text-3xl font-black leading-none text-white">{score}</p>
-          )}
-        </div>
-
-        <p className="mt-1 text-[10px] font-black uppercase tracking-[0.14em] text-white/35">
-          {school?.mascot ?? "Opponent"} · {record}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function MiniFallbackBadge({ label }: { label: string }) {
-  return (
-    <div className="flex h-16 w-20 items-center justify-center rounded-2xl border border-white/10 bg-white/10 px-2 text-center text-[9px] font-black uppercase leading-tight text-white">
-      {label}
-    </div>
   );
 }
