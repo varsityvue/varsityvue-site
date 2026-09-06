@@ -13,9 +13,14 @@ type ArticlePageProps = {
   params: Promise<{ slug: string }>;
 };
 
-function parseArticleDate(publishedAt: string) {
+function parseArticleDate(publishedAt?: string) {
+  if (!publishedAt) return null;
   const parsed = new Date(publishedAt);
   return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+function getValidArticleDate(publishedAt?: string) {
+  return parseArticleDate(publishedAt)?.toISOString();
 }
 
 function formatArticleDate(publishedAt: string) {
@@ -75,6 +80,9 @@ export async function generateMetadata({
 
   const title = stripVarsityVueBranding(article.seo.title || article.title);
   const canonical = `/coverage/${article.slug}`;
+  const publishedTime = getValidArticleDate(article.publishedAt);
+  const modifiedTime =
+    getValidArticleDate(article.updatedAt) ?? publishedTime;
 
   return {
     title,
@@ -87,8 +95,8 @@ export async function generateMetadata({
       description: article.seo.description,
       url: canonical,
       type: "article",
-      publishedTime: article.publishedAt,
-      modifiedTime: article.updatedAt ?? article.publishedAt,
+      ...(publishedTime ? { publishedTime } : {}),
+      ...(modifiedTime ? { modifiedTime } : {}),
     },
     twitter: {
       card: "summary",
@@ -141,14 +149,16 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     .filter((game) => game.gameType !== "scrimmage" && game.gameType !== "bye")
     .slice(0, 3);
 
+  const publishedDate = getValidArticleDate(article.publishedAt);
+  const modifiedDate = getValidArticleDate(article.updatedAt) ?? publishedDate;
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": article.type === "news" ? "NewsArticle" : "Article",
     headline: article.title,
     description: article.excerpt,
     articleBody: article.body,
-    datePublished: article.publishedAt,
-    dateModified: article.updatedAt ?? article.publishedAt,
+    ...(publishedDate ? { datePublished: publishedDate } : {}),
+    ...(modifiedDate ? { dateModified: modifiedDate } : {}),
     author: {
       "@type": "Organization",
       name: article.author,
@@ -205,7 +215,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               {article.aiAssisted && (
                 <>
                   <span>•</span>
-                  <span>AI-assisted, human-reviewed</span>
+                  <span>
+                    {article.humanReviewed
+                      ? "AI-assisted, human-reviewed"
+                      : "AI-assisted"}
+                  </span>
                 </>
               )}
             </div>
