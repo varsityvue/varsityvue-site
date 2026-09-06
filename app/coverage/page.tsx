@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { articles } from "../../data/articles";
+import { getArticles } from "@/lib/articles";
 import type { Article } from "@/types/platform";
 
 const coverageTitle = "Texas High School Football Coverage, Previews & Recaps";
@@ -27,12 +27,15 @@ export const metadata: Metadata = {
 };
 
 function formatArticleDate(publishedAt: string) {
+  const parsedDate = new Date(publishedAt);
+  if (Number.isNaN(parsedDate.getTime())) return "Date TBD";
+
   return new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
     timeZone: "America/Chicago",
-  }).format(new Date(publishedAt));
+  }).format(parsedDate);
 }
 
 function formatArticleType(type: Article["type"]) {
@@ -53,10 +56,7 @@ export default async function CoveragePage({
   searchParams: Promise<{ type?: string }>;
 }) {
   const { type } = await searchParams;
-  const sortedArticles = [...articles].sort(
-    (a, b) =>
-      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-  );
+  const sortedArticles = getArticles();
 
   const validTypes: Article["type"][] = [
     "preview",
@@ -76,7 +76,7 @@ export default async function CoveragePage({
 
   const featuredArticle = filteredArticles[0];
   const latestArticles = filteredArticles.slice(1);
-  const hasCoverage = articles.length > 0;
+  const hasCoverage = sortedArticles.length > 0;
 
   return (
     <main className="min-h-screen bg-[#050505] text-white">
@@ -136,10 +136,10 @@ export default async function CoveragePage({
                     View Scoreboard
                   </Link>
                   <Link
-                    href="/schools"
+                    href="/submit"
                     className="rounded-xl border border-white/15 bg-black/35 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white/75 transition hover:bg-white/10 hover:text-white"
                   >
-                    Explore Schools
+                    Submit a Story Tip
                   </Link>
                 </div>
               </div>
@@ -190,6 +190,12 @@ export default async function CoveragePage({
                     Coverage grows from verified results, matchup information,
                     and program details already connected across VarsityVue.
                   </p>
+                  <Link
+                    href="/submit"
+                    className="mt-6 inline-flex rounded-full border border-white/10 bg-black/35 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-white/60 transition hover:bg-white/10 hover:text-white"
+                  >
+                    Send a Story Tip →
+                  </Link>
                 </aside>
               </section>
 
@@ -198,6 +204,7 @@ export default async function CoveragePage({
                   <FilterPill href="/coverage" label="All Coverage" active={!activeType} />
                   <FilterPill href="/coverage?type=preview" label="Previews" active={activeType === "preview"} />
                   <FilterPill href="/coverage?type=recap" label="Recaps" active={activeType === "recap"} />
+                  <FilterPill href="/coverage?type=news" label="News" active={activeType === "news"} />
                   <FilterPill href="/coverage?type=feature" label="Features" active={activeType === "feature"} />
                   <FilterPill href="/coverage?type=legacy" label="Legacy" active={activeType === "legacy"} />
                 </div>
