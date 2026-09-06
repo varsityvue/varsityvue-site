@@ -105,7 +105,7 @@ export default function SchoolSeasonPulse({
           boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.4)`,
         }}
       >
-        <p className="text-[10px] font-black uppercase tracking-[0.24em] text-white/45">Season Pulse</p>
+        <p className="text-[10px] font-black uppercase tracking-[0.24em] text-white/45">Season Overview</p>
         <div className="mt-3">
           <p className="text-5xl font-black tracking-tight text-white">{wins}-{losses}</p>
           <p className="mt-1 text-xs font-black uppercase tracking-[0.16em] text-white/35">2026 Record</p>
