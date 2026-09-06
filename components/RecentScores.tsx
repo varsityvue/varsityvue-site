@@ -83,19 +83,19 @@ export default function RecentScores({ scores, theme, schoolSlug }: RecentScores
       className="overflow-hidden rounded-[1.5rem] border bg-white/[0.045] shadow-2xl sm:rounded-[1.75rem]"
       style={{ borderColor: `${theme.secondary}22`, boxShadow: `0 18px 55px ${theme.primary}14` }}
     >
-      <div className="flex flex-wrap items-end justify-between gap-4 border-b border-white/10 px-4 py-5 sm:px-6">
-        <div>
-          <p className="text-[10px] font-black uppercase tracking-[0.24em] text-white/45 sm:text-xs">Recent Results</p>
-          <h2 className="mt-2 text-2xl font-black text-white sm:text-3xl">Latest from the field</h2>
-          <p className="mt-2 text-xs text-white/45 sm:text-sm">Verified VarsityVue finals for this program.</p>
+      <div className="flex items-end justify-between gap-3 border-b border-white/10 px-4 py-4 sm:px-6 sm:py-5">
+        <div className="min-w-0">
+          <p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/40 sm:text-xs sm:tracking-[0.24em]">Recent Results</p>
+          <h2 className="mt-1.5 text-2xl font-black text-white sm:mt-2 sm:text-3xl">Latest scores</h2>
+          <p className="mt-2 hidden text-sm text-white/45 sm:block">Verified VarsityVue finals for this program.</p>
         </div>
-        <Link href={`/schools/${schoolSlug}/schedule`} className="text-xs font-black uppercase tracking-[0.16em] text-white/55 transition hover:text-white">Full Schedule →</Link>
+        <Link href={`/schools/${schoolSlug}/schedule`} className="shrink-0 text-[10px] font-black uppercase tracking-[0.12em] text-white/50 transition hover:text-white sm:text-xs sm:tracking-[0.16em]">Schedule →</Link>
       </div>
 
       {!latest ? (
-        <div className="p-5 sm:p-6">
-          <div className="rounded-3xl border bg-black/35 p-6" style={{ borderColor: `${theme.secondary}33` }}>
-            <p className="text-lg font-black text-white">No final scores available yet.</p>
+        <div className="p-4 sm:p-6">
+          <div className="rounded-2xl border bg-black/35 p-5 sm:rounded-3xl sm:p-6" style={{ borderColor: `${theme.secondary}33` }}>
+            <p className="text-base font-black text-white sm:text-lg">No final scores available yet.</p>
             <p className="mt-2 text-sm leading-6 text-white/50">Results will appear here after verified finals are added.</p>
           </div>
         </div>
@@ -103,7 +103,7 @@ export default function RecentScores({ scores, theme, schoolSlug }: RecentScores
         <div className="p-4 sm:p-6">
           <FeaturedResult game={latest} schoolSlug={schoolSlug} theme={theme} />
           {previous.length > 0 && (
-            <div className="mt-4 grid gap-3 sm:grid-cols-3">
+            <div className="mt-3 grid gap-2.5 sm:mt-4 sm:grid-cols-3 sm:gap-3">
               {previous.map((game) => (
                 <CompactResult key={game.id} game={game} schoolSlug={schoolSlug} theme={theme} />
               ))}
@@ -113,7 +113,7 @@ export default function RecentScores({ scores, theme, schoolSlug }: RecentScores
       )}
 
       {scores.length > MAX_RESULTS && (
-        <p className="px-4 pb-5 text-xs text-white/35 sm:px-6">Showing the {MAX_RESULTS} most recent finals.</p>
+        <p className="px-4 pb-4 text-[10px] text-white/30 sm:px-6 sm:pb-5 sm:text-xs">Showing the {MAX_RESULTS} most recent finals.</p>
       )}
     </section>
   );
@@ -128,30 +128,32 @@ function FeaturedResult({ game, schoolSlug, theme }: { game: Game; schoolSlug: s
   return (
     <Link
       href={`/games/${game.id}`}
-      className="group relative block overflow-hidden rounded-[1.5rem] border bg-black/40 p-5 transition hover:bg-white/[0.06] sm:p-6"
+      className="group relative block overflow-hidden rounded-[1.25rem] border bg-black/40 p-4 transition hover:bg-white/[0.06] sm:rounded-[1.5rem] sm:p-6"
       style={{ borderColor: `${theme.secondary}30` }}
     >
       <div className="pointer-events-none absolute inset-0 opacity-30" style={{ background: `radial-gradient(circle at 100% 0%, ${theme.primary}, transparent 54%)` }} />
-      <div className="relative grid gap-5 sm:grid-cols-[1fr_auto] sm:items-center">
+      <div className="relative grid gap-4 sm:grid-cols-[1fr_auto] sm:items-center sm:gap-5">
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
-            <span className={`rounded-full border px-3 py-1.5 text-xs font-black ${getResultClass(result)}`}>{result ?? "FINAL"}</span>
-            <span className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">Latest Result</span>
-            <span className="text-xs font-bold text-white/40">{formatScoreDate(game.kickoff)}</span>
+            <span className={`rounded-full border px-2.5 py-1 text-[10px] font-black sm:px-3 sm:py-1.5 sm:text-xs ${getResultClass(result)}`}>{result ?? "FINAL"}</span>
+            <span className="text-[9px] font-black uppercase tracking-[0.14em] text-white/30 sm:text-[10px] sm:tracking-[0.18em]">Latest</span>
+            <span className="text-[10px] font-bold text-white/35 sm:text-xs">{formatScoreDate(game.kickoff)}</span>
           </div>
-          <div className="mt-5 flex items-center gap-4">
+          <div className="mt-3.5 flex items-center gap-3 sm:mt-5 sm:gap-4">
             {opponentSchool ? <SchoolBadge school={opponentSchool} size="xs" /> : <FallbackBadge label={opponent.name} />}
             <div className="min-w-0">
-              <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">{opponent.location}{game.districtGame ? " · District" : ""}</p>
-              <h3 className="mt-1 truncate text-xl font-black text-white sm:text-2xl">{opponent.prefix} {opponent.name}</h3>
-              <p className="mt-2 text-xs font-black uppercase tracking-[0.12em] text-white/40 group-hover:text-white/70">Open Game Center →</p>
+              <p className="text-[9px] font-black uppercase tracking-[0.14em] text-white/30 sm:text-[10px] sm:tracking-[0.16em]">{opponent.location}{game.districtGame ? " · District" : ""}</p>
+              <h3 className="mt-1 break-words text-lg font-black leading-tight text-white sm:text-2xl">{opponent.prefix} {opponent.name}</h3>
+              <p className="mt-1.5 text-[9px] font-black uppercase tracking-[0.1em] text-white/35 group-hover:text-white/70 sm:mt-2 sm:text-xs sm:tracking-[0.12em]">Game Center →</p>
             </div>
           </div>
         </div>
-        <div className="border-t border-white/10 pt-4 sm:border-l sm:border-t-0 sm:pl-7 sm:pt-0 sm:text-right">
-          <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/30">Final</p>
-          <p className="mt-1 text-5xl font-black tracking-[-0.05em] text-white sm:text-6xl">{getScoreDisplay(game, schoolSlug)}</p>
-          {game.articleIds?.length ? <div className="mt-3"><ResultBadge label="Recap Available" /></div> : null}
+        <div className="flex items-end justify-between gap-3 border-t border-white/10 pt-3 sm:block sm:border-l sm:border-t-0 sm:pl-7 sm:pt-0 sm:text-right">
+          <div>
+            <p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/25 sm:text-[10px] sm:tracking-[0.18em]">Final</p>
+            <p className="mt-0.5 text-4xl font-black tracking-[-0.05em] text-white sm:mt-1 sm:text-6xl">{getScoreDisplay(game, schoolSlug)}</p>
+          </div>
+          {game.articleIds?.length ? <div className="pb-1 sm:mt-3 sm:pb-0"><ResultBadge label="Recap" /></div> : null}
         </div>
       </div>
     </Link>
@@ -162,21 +164,23 @@ function CompactResult({ game, schoolSlug, theme }: { game: Game; schoolSlug: st
   const result = getResult(game, schoolSlug);
   const opponent = getOpponent(game, schoolSlug);
   return (
-    <Link href={`/games/${game.id}`} className="rounded-2xl border bg-black/30 p-4 transition hover:bg-white/[0.05]" style={{ borderColor: `${theme.secondary}25` }}>
+    <Link href={`/games/${game.id}`} className="rounded-xl border bg-black/30 p-3.5 transition hover:bg-white/[0.05] sm:rounded-2xl sm:p-4" style={{ borderColor: `${theme.secondary}25` }}>
       <div className="flex items-center justify-between gap-2">
-        <span className={`rounded-full border px-2.5 py-1 text-[10px] font-black ${getResultClass(result)}`}>{result ?? "FINAL"}</span>
-        <span className="text-[10px] font-bold text-white/35">{formatScoreDate(game.kickoff)}</span>
+        <span className={`rounded-full border px-2.5 py-1 text-[9px] font-black sm:text-[10px] ${getResultClass(result)}`}>{result ?? "FINAL"}</span>
+        <span className="text-[9px] font-bold text-white/30 sm:text-[10px]">{formatScoreDate(game.kickoff)}</span>
       </div>
-      <p className="mt-3 truncate text-sm font-black text-white">{opponent.prefix} {opponent.name}</p>
-      <p className="mt-2 text-2xl font-black tracking-tight text-white">{getScoreDisplay(game, schoolSlug)}</p>
+      <div className="mt-2.5 flex items-end justify-between gap-3 sm:block sm:mt-3">
+        <p className="min-w-0 break-words text-sm font-black leading-tight text-white">{opponent.prefix} {opponent.name}</p>
+        <p className="shrink-0 text-2xl font-black tracking-tight text-white sm:mt-2">{getScoreDisplay(game, schoolSlug)}</p>
+      </div>
     </Link>
   );
 }
 
 function ResultBadge({ label }: { label: string }) {
-  return <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-white/65">{label}</span>;
+  return <span className="rounded-full border border-white/10 bg-white/10 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.1em] text-white/55 sm:px-3 sm:text-[10px] sm:tracking-[0.12em]">{label}</span>;
 }
 
 function FallbackBadge({ label }: { label: string }) {
-  return <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/10 p-2 text-center text-[10px] font-black uppercase text-white">{label.trim().slice(0, 3)}</div>;
+  return <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/10 p-2 text-center text-[9px] font-black uppercase text-white sm:h-14 sm:w-14 sm:rounded-2xl sm:text-[10px]">{label.trim().slice(0, 3)}</div>;
 }
