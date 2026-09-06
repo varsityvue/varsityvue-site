@@ -16,7 +16,7 @@ function assertSchoolDataIntegrity() {
   for (const school of schools) {
     if (seenSlugs.has(school.slug)) duplicateSlugs.push(school.slug);
     if (seenIds.has(school.id)) duplicateIds.push(school.id);
-    if (!districtIds.has(school.districtId)) {
+    if (school.districtId !== "opponent" && !districtIds.has(school.districtId)) {
       invalidDistrictReferences.push(`${school.slug} → ${school.districtId}`);
     }
 
