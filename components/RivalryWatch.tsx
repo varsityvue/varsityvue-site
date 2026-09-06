@@ -66,8 +66,8 @@ export default function RivalryWatch({ schoolSlug }: Props) {
 
         {rivalryGame.week && (
           <span className="shrink-0 rounded-full border border-white/10 bg-black/35 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.1em] text-white/45 sm:px-3 sm:py-1.5 sm:text-[10px] sm:tracking-[0.12em]">
-            W{rivalryGame.week}
-            <span className="hidden sm:inline">eek {rivalryGame.week}</span>
+            <span className="sm:hidden">W{rivalryGame.week}</span>
+            <span className="hidden sm:inline">Week {rivalryGame.week}</span>
           </span>
         )}
       </div>
