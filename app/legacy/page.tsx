@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getPilotSchools } from "@/lib/schools";
+import { getFeaturedSchools } from "@/lib/schools";
 
 export const metadata: Metadata = {
-  title: "VarsityVue Legacy | Texas High School Sports History",
+  title: "Texas High School Football History & Program Archives",
   description:
-    "VarsityVue Legacy is building historical school archives with records, rivalry history, playoff runs, district titles, notable teams, and community-submitted Texas high school sports history.",
+    "Explore VarsityVue Legacy as it builds Texas high school football history with playoff runs, rivalry records, district titles, milestone seasons, and community-submitted program archives.",
+  alternates: {
+    canonical: "/legacy",
+  },
 };
 
 const legacyFeatures = [
@@ -17,7 +20,7 @@ const legacyFeatures = [
   "Historical archives inside school hubs",
 ];
 
-const pilotSchools = getPilotSchools().slice(0, 8);
+const featuredSchools = getFeaturedSchools().slice(0, 8);
 
 export default function LegacyPage() {
   return (
@@ -35,7 +38,7 @@ export default function LegacyPage() {
           <p className="mt-6 max-w-3xl text-lg leading-8 text-white/65">
             Legacy will preserve playoff runs, rivalry history, district titles,
             unforgettable teams, and community-submitted football history for
-            select pilot schools.
+            featured programs as the archive grows.
           </p>
 
           <div className="mt-8 rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
@@ -59,14 +62,14 @@ export default function LegacyPage() {
               href="/schools"
               className="rounded-full bg-[var(--vv-primary)] px-7 py-4 text-center font-black transition hover:bg-[var(--vv-primary-hover)]"
             >
-              Explore Pilot Programs
+              Explore Featured Programs
             </Link>
 
             <Link
-              href="/sponsor-inquiry"
+              href="/school-request"
               className="rounded-full border border-white/20 bg-white/5 px-7 py-4 text-center font-black transition hover:bg-white/10"
             >
-              Become Founding Legacy Sponsor
+              Recommend Your School
             </Link>
           </div>
         </section>
@@ -83,48 +86,38 @@ export default function LegacyPage() {
         </section>
 
         <section className="mt-10 rounded-3xl border border-[color:var(--vv-primary)] bg-[var(--vv-primary)]/10 p-6 md:p-10">
-          <div className="flex flex-col justify-between gap-5 md:flex-row md:items-center">
-            <div>
-              <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
-                Founding Opportunity
-              </p>
+          <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
+            Archive in Progress
+          </p>
 
-              <h2 className="mt-3 text-4xl font-black">
-                Own the historical conversation.
-              </h2>
+          <h2 className="mt-3 text-4xl font-black">
+            Program history will deepen as verified records are added.
+          </h2>
 
-              <p className="mt-3 max-w-2xl leading-7 text-white/65">
-                Legacy creates emotionally sticky sponsor inventory tied to
-                school pride, nostalgia, and repeat community engagement.
-              </p>
-            </div>
-
-            <Link
-              href="/sponsor-inquiry"
-              className="rounded-full bg-white px-7 py-4 text-center font-black text-black transition hover:bg-white/85"
-            >
-              Sponsor Legacy
-            </Link>
-          </div>
+          <p className="mt-3 max-w-3xl leading-7 text-white/65">
+            VarsityVue is building Legacy in stages so historical records,
+            rivalry information, and milestone seasons can be reviewed before
+            they are presented as part of a school&apos;s permanent archive.
+          </p>
         </section>
 
         <section className="mt-10 rounded-3xl border border-white/10 bg-white/5 p-6 md:p-10">
           <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
-            Pilot Archive Targets
+            Featured Archive Programs
           </p>
 
           <h2 className="mt-3 text-4xl font-black">
-            Select schools will receive deeper historical pages first.
+            Featured schools will receive deeper historical pages first.
           </h2>
 
           <p className="mt-4 max-w-3xl leading-7 text-white/60">
-            Pilot archive pages will eventually include rivalry records, playoff
+            Archive pages can grow to include rivalry records, playoff
             timelines, milestone seasons, notable alumni moments, and
             community-submitted historical preservation.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
-            {pilotSchools.map((school) => (
+            {featuredSchools.map((school) => (
               <Link
                 key={school.id}
                 href={`/schools/${school.slug}`}
