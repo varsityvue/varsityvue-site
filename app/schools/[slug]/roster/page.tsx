@@ -17,11 +17,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const school = getSchoolBySlug(slug);
 
-  if (!school) return { title: "School Not Found | VarsityVue" };
+  if (!school) return { title: "School Not Found" };
 
   return {
-    title: `${school.fullName} ${SEASON} Football Roster | VarsityVue`,
+    title: `${school.fullName} ${SEASON} Football Roster`,
     description: `${school.fullName} ${SEASON} football roster with verified jersey numbers, grades, positions, and player profiles currently available on VarsityVue.`,
+    alternates: {
+      canonical: `/schools/${school.slug}/roster`,
+    },
   };
 }
 
@@ -125,8 +128,15 @@ export default async function SchoolRosterPage({ params }: Props) {
               <p className="text-xs font-black uppercase tracking-[0.24em] text-white/35">Roster Pending</p>
               <h2 className="mt-3 text-3xl font-black">Roster information is not available yet.</h2>
               <p className="mt-3 max-w-2xl text-sm leading-7 text-white/50">
-                VarsityVue will add this roster after player information has been verified from a trusted source.
+                VarsityVue will add this roster after player information has been verified from a trusted source. Coaches, fans, parents, and community members can send roster information or a source for review.
               </p>
+              <Link
+                href="/submit"
+                className="mt-5 inline-flex rounded-full px-5 py-3 text-sm font-black transition hover:opacity-90"
+                style={{ backgroundColor: theme.secondary, color: theme.primary }}
+              >
+                Submit Roster Information
+              </Link>
             </section>
           )}
         </div>
