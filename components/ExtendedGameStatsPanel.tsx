@@ -67,21 +67,40 @@ export default function ExtendedGameStatsPanel({
           {stats.tables.map((table) => (
             <div key={table.title} className="overflow-hidden rounded-xl border border-white/10 bg-black/30 sm:rounded-2xl">
               <div className="border-b border-white/10 px-3 py-3 text-sm font-black sm:px-4">{table.title}</div>
-              <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                <table className="w-full min-w-max text-xs sm:text-sm">
-                  <thead className="text-[9px] uppercase tracking-[0.1em] text-white/35 sm:text-[10px] sm:tracking-[0.12em]">
+
+              <div className="divide-y divide-white/10 sm:hidden">
+                {table.rows.map((row) => (
+                  <div key={`${table.title}-${row.schoolSlug}-${row.player}`} className="p-3">
+                    <p className="text-sm font-black text-white/85">{row.player}</p>
+                    <div className="mt-2 grid grid-cols-2 gap-2">
+                      {row.values.map((value, index) => (
+                        <div key={index} className="rounded-lg border border-white/10 bg-black/25 px-2.5 py-2">
+                          <p className="text-[8px] font-black uppercase tracking-[0.1em] text-white/30">
+                            {table.headers[index + 1] ?? `Stat ${index + 1}`}
+                          </p>
+                          <p className="mt-1 text-xs font-black text-white/75">{value}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="hidden overflow-x-auto sm:block">
+                <table className="w-full min-w-max text-sm">
+                  <thead className="text-[10px] uppercase tracking-[0.12em] text-white/35">
                     <tr>
                       {table.headers.map((header) => (
-                        <th key={header} className="whitespace-nowrap px-2.5 py-2 text-left sm:px-3">{header}</th>
+                        <th key={header} className="whitespace-nowrap px-3 py-2 text-left">{header}</th>
                       ))}
                     </tr>
                   </thead>
                   <tbody>
                     {table.rows.map((row) => (
                       <tr key={`${table.title}-${row.schoolSlug}-${row.player}`} className="border-t border-white/5">
-                        <td className="whitespace-nowrap px-2.5 py-2 font-black text-white/80 sm:px-3">{row.player}</td>
+                        <td className="whitespace-nowrap px-3 py-2 font-black text-white/80">{row.player}</td>
                         {row.values.map((value, index) => (
-                          <td key={index} className="whitespace-nowrap px-2.5 py-2 text-white/70 sm:px-3">{value}</td>
+                          <td key={index} className="whitespace-nowrap px-3 py-2 text-white/70">{value}</td>
                         ))}
                       </tr>
                     ))}
