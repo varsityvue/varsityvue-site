@@ -1,8 +1,9 @@
 import { games as scheduledGames } from "@/data/games";
 import { applyVerifiedGames } from "@/data/verified-games";
+import { week2GameAdditions } from "@/data/week2-game-additions";
 import type { Game } from "@/types/platform";
 
-const games = applyVerifiedGames(scheduledGames);
+const games = [...applyVerifiedGames(scheduledGames), ...week2GameAdditions];
 const RESULT_WINDOW_HOURS = 60;
 const CENTRAL_TIME_ZONE = "America/Chicago";
 
