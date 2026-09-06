@@ -133,6 +133,9 @@ export async function generateMetadata({
   return {
     title: `${district.name} District Hub`,
     description: `${district.name} football standings, schedules, school hubs, district matchups, and verified results currently available on VarsityVue.`,
+    alternates: {
+      canonical: `/districts/${district.slug}`,
+    },
     robots:
       district.status === "pilot"
         ? { index: true, follow: true }
