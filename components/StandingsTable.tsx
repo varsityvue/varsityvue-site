@@ -114,11 +114,11 @@ export default function StandingsTable({
                     style={isCurrent ? { background: `${theme.primary}18`, boxShadow: `inset 3px 0 0 ${theme.primary}` } : undefined}
                   >
                     <div className="min-w-0">
-                      <div className="flex min-w-0 items-center gap-1.5">
-                        {districtStarted && <span className="w-7 shrink-0 text-[9px] font-black text-white/30">{getStandingPosition(displayed, index)}</span>}
-                        <p className="min-w-0 truncate text-[13px] font-black text-white">{team.team}</p>
+                      <div className="flex min-w-0 items-start gap-1.5">
+                        {districtStarted && <span className="mt-0.5 w-7 shrink-0 text-[9px] font-black text-white/30">{getStandingPosition(displayed, index)}</span>}
+                        <p className="min-w-0 break-words text-[13px] font-black leading-[1.15] text-white">{team.team}</p>
                       </div>
-                      <div className={`mt-0.5 flex min-w-0 items-center gap-1.5 ${districtStarted ? "pl-[34px]" : ""}`}>
+                      <div className={`mt-1 flex min-w-0 items-center gap-1.5 ${districtStarted ? "pl-[34px]" : ""}`}>
                         {school?.mascot && <p className="min-w-0 truncate text-[8px] font-bold uppercase tracking-[0.1em] text-white/25">{school.mascot}</p>}
                         {isCurrent && <span className="shrink-0 rounded-full border border-white/10 bg-white/10 px-1.5 py-0.5 text-[7px] font-black uppercase tracking-[0.08em] text-white/45">Your team</span>}
                       </div>
