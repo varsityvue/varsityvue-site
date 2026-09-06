@@ -36,6 +36,7 @@ export default function Footer() {
           <FooterColumn title="VarsityVue" links={[
             { href: "/about", label: "About" },
             { href: "/contact", label: "Contact" },
+            { href: "/submit", label: "Submit to VarsityVue" },
             { href: "/school-request", label: "Request a School" },
             { href: "/sponsor-inquiry", label: "Partner With VarsityVue" },
           ]} />
