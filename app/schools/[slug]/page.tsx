@@ -72,18 +72,17 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
         </div>
 
         <aside className="min-w-0 space-y-6">
-          <section className="rounded-[1.75rem] border p-6 shadow-2xl" style={{ borderColor: `${theme.primary}55`, background: "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 48%, rgba(0,0,0,1))", boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)` }}>
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-white/50">Program Snapshot</p>
-            <h2 className="mt-3 text-3xl font-black text-white">{school.fullName}</h2>
-            {school.description && <p className="mt-4 text-sm leading-7 text-white/60">{school.description}</p>}
-            <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+          <section className="rounded-[1.75rem] border p-5 shadow-2xl sm:p-6" style={{ borderColor: `${theme.primary}55`, background: "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 48%, rgba(0,0,0,1))", boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)` }}>
+            <p className="text-[10px] font-black uppercase tracking-[0.24em] text-white/50 sm:text-xs sm:tracking-[0.28em]">Program Snapshot</p>
+            <h2 className="mt-2 text-2xl font-black text-white sm:text-3xl">{school.fullName}</h2>
+            <div className="mt-4 grid grid-cols-2 gap-2.5 sm:mt-5 sm:gap-3">
               {school.headCoach && <SnapshotTile label="Head Coach" value={school.headCoach} />}
               <SnapshotTile label="Region" value={`Region ${school.uilRegion}`} />
               <SnapshotTile label="District" value={district?.name ?? "TBD"} />
               {school.stadium && <SnapshotTile label="Stadium" value={school.stadium} />}
               {school.stadiumCapacity && <SnapshotTile label="Capacity" value={school.stadiumCapacity.toLocaleString()} />}
               {school.stateTitles !== undefined && <SnapshotTile label="State Titles" value={school.stateTitles.toString()} />}
-              {school.lastPlayoffAppearance && <SnapshotTile label="Last Playoff Appearance" value={school.lastPlayoffAppearance.toString()} />}
+              {school.lastPlayoffAppearance && <SnapshotTile label="Last Playoff" value={school.lastPlayoffAppearance.toString()} />}
             </div>
           </section>
 
@@ -114,7 +113,7 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
 }
 
 function SnapshotTile({ label, value }: { label: string; value: string }) {
-  return <div className="rounded-2xl border border-white/10 bg-black/35 p-4"><p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">{label}</p><p className="mt-2 text-sm font-black text-white/80">{value}</p></div>;
+  return <div className="min-w-0 rounded-xl border border-white/10 bg-black/35 p-3.5 sm:rounded-2xl sm:p-4"><p className="text-[9px] font-black uppercase tracking-[0.14em] text-white/35 sm:text-[10px] sm:tracking-[0.16em]">{label}</p><p className="mt-1.5 break-words text-xs font-black leading-5 text-white/80 sm:mt-2 sm:text-sm">{value}</p></div>;
 }
 
 function ExternalLinkButton({ href, label }: { href: string; label: string }) {
