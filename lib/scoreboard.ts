@@ -4,7 +4,9 @@ import { week2GameAdditions } from "@/data/week2-game-additions";
 import type { Game } from "@/types/platform";
 
 const games = [...applyVerifiedGames(scheduledGames), ...week2GameAdditions];
-const RESULT_WINDOW_HOURS = 60;
+// Keep Thursday/Friday finals available through the weekend and into the
+// beginning of the next week so the homepage ticker does not go empty too soon.
+const RESULT_WINDOW_HOURS = 120;
 const CENTRAL_TIME_ZONE = "America/Chicago";
 
 export type ScoreboardGame = Game & {
