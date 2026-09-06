@@ -38,6 +38,7 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
   const theme: SchoolTheme = { primary: school.colors.primary, secondary: school.colors.secondary, accent: school.colors.accent };
   const recentScores = getRecentScoresForSchool(slug);
   const standings = getStandingsForSchool(slug);
+  const hasOfficialLinks = Boolean(school.officialWebsite || school.facebookUrl || school.instagramUrl || school.xUrl);
 
   const schoolSchema = {
     "@context": "https://schema.org", "@type": "SportsTeam", name: school.fullName, alternateName: school.name, sport: "Football",
@@ -84,21 +85,20 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
               {school.stateTitles !== undefined && <SnapshotTile label="State Titles" value={school.stateTitles.toString()} />}
               {school.lastPlayoffAppearance && <SnapshotTile label="Last Playoff" value={school.lastPlayoffAppearance.toString()} />}
             </div>
+            {hasOfficialLinks && (
+              <div className="mt-4 border-t border-white/10 pt-4">
+                <p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/35">Official Links</p>
+                <div className="mt-2.5 flex flex-wrap gap-2">
+                  {school.officialWebsite && <ExternalLinkButton href={school.officialWebsite} label="Website" />}
+                  {school.facebookUrl && <ExternalLinkButton href={school.facebookUrl} label="Facebook" />}
+                  {school.instagramUrl && <ExternalLinkButton href={school.instagramUrl} label="Instagram" />}
+                  {school.xUrl && <ExternalLinkButton href={school.xUrl} label="X" />}
+                </div>
+              </div>
+            )}
           </section>
 
           <RivalryWatch schoolSlug={school.slug} />
-
-          {(school.officialWebsite || school.facebookUrl || school.instagramUrl || school.xUrl) && (
-            <section className="rounded-[1.75rem] border p-6 shadow-2xl" style={{ borderColor: `${theme.primary}55`, background: "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 50%, rgba(0,0,0,1))", boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)` }}>
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-white/50">Official Links</p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {school.officialWebsite && <ExternalLinkButton href={school.officialWebsite} label="Website" />}
-                {school.facebookUrl && <ExternalLinkButton href={school.facebookUrl} label="Facebook" />}
-                {school.instagramUrl && <ExternalLinkButton href={school.instagramUrl} label="Instagram" />}
-                {school.xUrl && <ExternalLinkButton href={school.xUrl} label="X" />}
-              </div>
-            </section>
-          )}
 
           <section className="rounded-[1.75rem] border p-6 shadow-2xl" style={{ borderColor: `${theme.secondary}66`, background: `linear-gradient(135deg, ${theme.primary}55, ${theme.secondary}22 52%, rgba(0,0,0,0.96) 82%)`, boxShadow: `inset 4px 0 0 ${theme.secondary}, 0 18px 50px rgba(0,0,0,0.45)` }}>
             <p className="text-xs font-black uppercase tracking-[0.28em] text-white/55">Help Build This Hub</p>
@@ -117,5 +117,5 @@ function SnapshotTile({ label, value }: { label: string; value: string }) {
 }
 
 function ExternalLinkButton({ href, label }: { href: string; label: string }) {
-  return <a href={href} target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/10 bg-black/35 px-4 py-2.5 text-xs font-black text-white/70 transition hover:bg-white/10 hover:text-white">{label} ↗</a>;
+  return <a href={href} target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/10 bg-black/35 px-3 py-2 text-[10px] font-black text-white/65 transition hover:bg-white/10 hover:text-white sm:px-4 sm:py-2.5 sm:text-xs">{label} ↗</a>;
 }
