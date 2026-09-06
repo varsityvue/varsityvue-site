@@ -11,26 +11,34 @@ function sortNewestFirst<T extends { publishedAt: string }>(items: T[]) {
   );
 }
 
+function getPublishedArticles() {
+  return articles.filter((article) => article.humanReviewed === true);
+}
+
 export function getArticles() {
-  return sortNewestFirst(articles);
+  return sortNewestFirst(getPublishedArticles());
 }
 
 export function getLatestArticles(limit = 3) {
-  return sortNewestFirst(articles).slice(0, limit);
+  return sortNewestFirst(getPublishedArticles()).slice(0, limit);
 }
 
 export function getArticleBySlug(slug: string) {
-  return articles.find((article) => article.slug === slug);
+  return getPublishedArticles().find((article) => article.slug === slug);
 }
 
 export function getArticlesForSchool(schoolIdOrSlug: string) {
   return sortNewestFirst(
-    articles.filter((article) => article.schoolIds?.includes(schoolIdOrSlug))
+    getPublishedArticles().filter((article) =>
+      article.schoolIds?.includes(schoolIdOrSlug)
+    )
   );
 }
 
 export function getArticlesForDistrict(districtId: string) {
   return sortNewestFirst(
-    articles.filter((article) => article.districtIds?.includes(districtId))
+    getPublishedArticles().filter((article) =>
+      article.districtIds?.includes(districtId)
+    )
   );
 }
