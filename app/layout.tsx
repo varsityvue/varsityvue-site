@@ -3,6 +3,8 @@ import "./globals.css";
 import SiteHeader from "../components/SiteHeader";
 import Footer from "../components/Footer";
 
+export const revalidate = 300;
+
 export const metadata: Metadata = {
   title: {
     default: "VarsityVue | Texas High School Football Scores & Coverage",
