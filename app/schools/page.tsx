@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { schools } from "../../data/schools";
-import SchoolDirectory from "../../components/SchoolDirectory";
+import SchoolDirectory, { type DirectorySchool } from "../../components/SchoolDirectory";
 
 export const metadata: Metadata = {
   title: "Texas High School Football School Directory",
@@ -15,6 +15,23 @@ export const metadata: Metadata = {
 
 export default function SchoolsPage() {
   const liveSchools = schools.filter((school) => school.status === "pilot");
+  const directorySchools: DirectorySchool[] = liveSchools.map((school) => ({
+    slug: school.slug,
+    name: school.name,
+    fullName: school.fullName,
+    mascot: school.mascot,
+    abbreviation: school.abbreviation,
+    badgeLabel: school.badgeLabel,
+    districtId: school.districtId,
+    stadium: school.stadium,
+    stateTitles: school.stateTitles,
+    lastPlayoffAppearance: school.lastPlayoffAppearance,
+    classification: school.classification,
+    colors: {
+      primary: school.colors.primary,
+      secondary: school.colors.secondary,
+    },
+  }));
   const districts = new Set(liveSchools.map((school) => school.districtId));
   const classifications = new Set(
     liveSchools.map(
@@ -86,7 +103,7 @@ export default function SchoolsPage() {
             </p>
           </div>
 
-          <SchoolDirectory schools={liveSchools} />
+          <SchoolDirectory schools={directorySchools} />
         </div>
       </section>
     </main>
