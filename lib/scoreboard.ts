@@ -4,9 +4,6 @@ import { week2GameAdditions } from "@/data/week2-game-additions";
 import type { Game } from "@/types/platform";
 
 const games = [...applyVerifiedGames(scheduledGames), ...week2GameAdditions];
-// Keep Thursday/Friday finals available through the weekend and into the
-// beginning of the next week so the homepage ticker does not go empty too soon.
-const RESULT_WINDOW_HOURS = 120;
 const CENTRAL_TIME_ZONE = "America/Chicago";
 
 export type ScoreboardGame = Game & {
@@ -47,6 +44,31 @@ function getCentralDateKey(date: Date) {
   return year && month && day ? `${year}-${month}-${day}` : "";
 }
 
+function getCentralWeekStartKey(date: Date) {
+  const dateKey = getCentralDateKey(date);
+  if (!dateKey) return "";
+
+  const weekday = new Intl.DateTimeFormat("en-US", {
+    weekday: "short",
+    timeZone: CENTRAL_TIME_ZONE,
+  }).format(date);
+  const weekdayIndex: Record<string, number> = {
+    Sun: 0,
+    Mon: 1,
+    Tue: 2,
+    Wed: 3,
+    Thu: 4,
+    Fri: 5,
+    Sat: 6,
+  };
+  const daysSinceMonday = ((weekdayIndex[weekday] ?? 1) + 6) % 7;
+  const [year, month, day] = dateKey.split("-").map(Number);
+  const monday = new Date(Date.UTC(year, month - 1, day));
+  monday.setUTCDate(monday.getUTCDate() - daysSinceMonday);
+
+  return monday.toISOString().slice(0, 10);
+}
+
 function isUpcomingByScheduleDate(game: Game, now = new Date()) {
   if (game.status !== "upcoming") return false;
   if (!game.kickoff) return true;
@@ -83,8 +105,14 @@ function isRecentFinal(game: Game, now = Date.now()) {
     return false;
   }
 
-  const age = now - timestamp;
-  return age >= 0 && age <= RESULT_WINDOW_HOURS * 60 * 60 * 1000;
+  if (timestamp > now) return false;
+
+  const weekStartKey = getCentralWeekStartKey(new Date(now));
+  const gameDateKey = game.kickoff?.includes("T")
+    ? getCentralDateKey(new Date(timestamp))
+    : game.kickoff ?? "";
+
+  return Boolean(weekStartKey && gameDateKey && gameDateKey >= weekStartKey);
 }
 
 function getHighestWeek(games: ScoreboardGame[]) {
