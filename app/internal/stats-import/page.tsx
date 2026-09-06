@@ -1,14 +1,16 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import GameStatsReviewTool from "@/components/internal/GameStatsReviewTool";
 import { gameStats } from "@/data/game-stats";
 import { getGames } from "@/lib/games";
 
-export const metadata = {
-  title: "Stat Import Review | VarsityVue",
+export const metadata: Metadata = {
+  title: "Stat Import Review",
   robots: {
     index: false,
     follow: false,
+    nocache: true,
   },
 };
 
