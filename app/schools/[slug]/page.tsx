@@ -89,7 +89,7 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
         theme={theme}
       />
 
-      <section className="border-b border-white/10 px-4 py-6 sm:px-6 lg:px-8">
+      <section className="hidden border-b border-white/10 px-4 py-6 sm:block sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <HubStat label="Mascot" value={school.mascot} />
           <HubStat
@@ -101,8 +101,8 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
         </div>
       </section>
 
-      <div className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[1.45fr_0.75fr] lg:px-8">
-        <div className="space-y-6">
+      <div className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-5 sm:px-6 sm:py-6 lg:grid-cols-[1.45fr_0.75fr] lg:px-8">
+        <div className="min-w-0 space-y-5 sm:space-y-6">
           <UpcomingSchedulePreview schoolSlug={school.slug} />
           <SchoolCoverage schoolSlug={school.slug} />
           {recentScores.length > 0 && (
@@ -118,7 +118,7 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
           <NewsFeed articles={articles} theme={theme} />
         </div>
 
-        <aside className="space-y-6">
+        <aside className="min-w-0 space-y-6">
           <section
             className="rounded-[1.75rem] border p-6 shadow-2xl"
             style={{
