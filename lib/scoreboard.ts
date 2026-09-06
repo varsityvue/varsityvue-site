@@ -1,9 +1,6 @@
-import { games as scheduledGames } from "@/data/games";
-import { applyVerifiedGames } from "@/data/verified-games";
-import { week2GameAdditions } from "@/data/week2-game-additions";
+import { getGames } from "@/lib/games";
 import type { Game } from "@/types/platform";
 
-const games = [...applyVerifiedGames(scheduledGames), ...week2GameAdditions];
 const CENTRAL_TIME_ZONE = "America/Chicago";
 
 export type ScoreboardGame = Game & {
@@ -128,7 +125,7 @@ function getHighestWeek(games: ScoreboardGame[]) {
 }
 
 export function getScoreboardGames(): ScoreboardGame[] {
-  return games
+  return getGames()
     .filter((game) => game.gameType !== "bye" && game.gameType !== "scrimmage")
     .map((game) => ({
       ...game,
