@@ -57,12 +57,19 @@ export default function LegacyPage() {
             </p>
           </div>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <Link
               href="/schools"
               className="rounded-full bg-[var(--vv-primary)] px-7 py-4 text-center font-black transition hover:bg-[var(--vv-primary-hover)]"
             >
               Explore Featured Programs
+            </Link>
+
+            <Link
+              href="/submit"
+              className="rounded-full border border-[color:var(--vv-accent)] bg-[var(--vv-primary)]/20 px-7 py-4 text-center font-black transition hover:bg-[var(--vv-primary)]/35"
+            >
+              Submit Stats, Records & Stories
             </Link>
 
             <Link
@@ -72,6 +79,24 @@ export default function LegacyPage() {
               Recommend Your School
             </Link>
           </div>
+        </section>
+
+        <section className="mt-10 rounded-3xl border border-[color:var(--vv-accent)]/40 bg-[var(--vv-primary)]/10 p-6 md:p-10">
+          <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
+            Help Build the Archive
+          </p>
+          <h2 className="mt-3 max-w-4xl text-3xl font-black md:text-4xl">
+            Have old stats, newspaper stories, photos, records, or a piece of program history worth preserving?
+          </h2>
+          <p className="mt-4 max-w-3xl leading-7 text-white/65">
+            Community submissions can help fill gaps that never made it into a modern database. VarsityVue reviews submissions before adding them to Legacy or other parts of the platform.
+          </p>
+          <Link
+            href="/submit"
+            className="mt-6 inline-flex rounded-full bg-[var(--vv-primary)] px-7 py-4 font-black transition hover:bg-[var(--vv-primary-hover)]"
+          >
+            Submit to VarsityVue
+          </Link>
         </section>
 
         <section className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
