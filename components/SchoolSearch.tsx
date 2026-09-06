@@ -10,12 +10,17 @@ export default function SchoolSearch({ schools }: { schools: School[] }) {
   const router = useRouter();
   const [query, setQuery] = useState("");
 
+  const availableSchools = useMemo(
+    () => schools.filter((school) => school.status === "pilot"),
+    [schools]
+  );
+
   const filteredSchools = useMemo(() => {
     const search = query.trim().toLowerCase();
 
-    if (!search) return schools.slice(0, 9);
+    if (!search) return availableSchools.slice(0, 9);
 
-    return schools
+    return availableSchools
       .filter((school) => {
         const haystack = [
           school.name,
@@ -35,11 +40,11 @@ export default function SchoolSearch({ schools }: { schools: School[] }) {
         return haystack.includes(search);
       })
       .slice(0, 12);
-  }, [query, schools]);
+  }, [query, availableSchools]);
 
-  const pilotSchools = useMemo(
-    () => schools.filter((school) => school.status === "pilot").slice(0, 4),
-    [schools]
+  const featuredSchools = useMemo(
+    () => availableSchools.slice(0, 4),
+    [availableSchools]
   );
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
@@ -68,25 +73,29 @@ export default function SchoolSearch({ schools }: { schools: School[] }) {
         </div>
 
         <div className="hidden rounded-full border border-white/10 bg-black/35 px-3 py-2 text-[10px] font-black uppercase tracking-[0.18em] text-white/45 sm:block">
-          Pilot
+          Live Hubs
         </div>
       </div>
 
       <div className="mt-6">
+        <label htmlFor="home-school-search" className="sr-only">
+          Search live VarsityVue school hubs
+        </label>
         <input
+          id="home-school-search"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Find your school, mascot, district, or stadium..."
+          autoComplete="off"
           className="w-full rounded-xl border border-white/10 bg-black/55 px-4 py-3 text-sm font-bold text-white outline-none transition placeholder:text-white/35 focus:border-white/35 focus:bg-black/75"
         />
 
         <div className="mt-3 flex items-center justify-between gap-4 text-xs font-bold text-white/40">
-          <span>
+          <span aria-live="polite">
             {hasQuery
-              ? `${filteredSchools.length} result${filteredSchools.length === 1 ? "" : "s"
-              } found`
-              : `Explore ${schools.length} Texas high school programs`}
+              ? `${filteredSchools.length} result${filteredSchools.length === 1 ? "" : "s"} found`
+              : `Explore ${availableSchools.length} live Texas high school hubs`}
           </span>
 
           {filteredSchools.length > 0 && (
@@ -102,7 +111,7 @@ export default function SchoolSearch({ schools }: { schools: School[] }) {
               <Link
                 key={school.id}
                 href={`/schools/${school.slug}`}
-                className="group rounded-2xl border border-white/10 bg-black/35 p-4 text-center transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:border-white/25 hover:bg-white/[0.08]"
+                className="group rounded-2xl border border-white/10 bg-black/35 p-4 text-center transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:border-white/25 hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
               >
                 <div className="flex justify-center">
                   <SchoolBadge school={school} size="xs" />
@@ -119,10 +128,16 @@ export default function SchoolSearch({ schools }: { schools: School[] }) {
             ))
           ) : (
             <div className="col-span-3 rounded-2xl border border-white/10 bg-black/35 p-6 text-center">
-              <p className="text-sm font-black text-white">No schools found.</p>
+              <p className="text-sm font-black text-white">No live hubs found.</p>
               <p className="mt-2 text-sm text-white/45">
-                Try a school name, mascot, district, or stadium.
+                Try another school name, mascot, district, or stadium.
               </p>
+              <Link
+                href="/school-request"
+                className="mt-4 inline-flex text-xs font-black uppercase tracking-[0.14em] text-white/70 transition hover:text-white"
+              >
+                Request a School →
+              </Link>
             </div>
           )}
         </div>
@@ -130,15 +145,15 @@ export default function SchoolSearch({ schools }: { schools: School[] }) {
 
       <div className="mt-5 rounded-2xl border border-white/10 bg-black/35 p-4">
         <p className="text-xs font-black uppercase tracking-[0.22em] text-white/45">
-          Trending Programs
+          Featured Programs
         </p>
 
         <div className="mt-4 grid gap-3">
-          {pilotSchools.map((school) => (
+          {featuredSchools.map((school) => (
             <Link
               key={school.id}
               href={`/schools/${school.slug}`}
-              className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 transition hover:border-white/20 hover:bg-white/[0.08]"
+              className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 transition hover:border-white/20 hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
             >
               <div>
                 <p className="text-sm font-black text-white">{school.name}</p>
@@ -155,9 +170,9 @@ export default function SchoolSearch({ schools }: { schools: School[] }) {
 
       <Link
         href="/schools"
-        className="mt-5 block rounded-xl border border-white/10 bg-black/35 px-5 py-4 text-center text-sm font-black uppercase tracking-[0.18em] text-white/70 transition hover:bg-white/10 hover:text-white"
+        className="mt-5 block rounded-xl border border-white/10 bg-black/35 px-5 py-4 text-center text-sm font-black uppercase tracking-[0.18em] text-white/70 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
       >
-        View All Schools →
+        View All Live Hubs →
       </Link>
     </aside>
   );
