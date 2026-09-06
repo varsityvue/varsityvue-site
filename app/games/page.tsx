@@ -51,6 +51,20 @@ function getGameTimestamp(game: { kickoff?: string }) {
   return parsed ? parsed.getTime() : Number.MAX_SAFE_INTEGER;
 }
 
+function compareGameDatesDesc(
+  a: { kickoff?: string },
+  b: { kickoff?: string }
+) {
+  const aTime = getGameTimestamp(a);
+  const bTime = getGameTimestamp(b);
+
+  if (aTime === Number.MAX_SAFE_INTEGER && bTime === Number.MAX_SAFE_INTEGER) return 0;
+  if (aTime === Number.MAX_SAFE_INTEGER) return 1;
+  if (bTime === Number.MAX_SAFE_INTEGER) return -1;
+
+  return bTime - aTime;
+}
+
 function formatStatus(status: string) {
   if (status === "upcoming") return "Upcoming";
   if (status === "live") return "Live";
@@ -84,11 +98,10 @@ export default function GamesPage() {
     .sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b));
 
   const finalGames = regularGames.filter((game) => game.status === "final");
-  const latestFinal = [...finalGames]
-    .sort((a, b) => getGameTimestamp(b) - getGameTimestamp(a))[0];
+  const latestFinal = [...finalGames].sort(compareGameDatesDesc)[0];
   const latestFeaturedFinal = [...finalGames]
     .filter((game) => game.specialEvent || game.featured)
-    .sort((a, b) => getGameTimestamp(b) - getGameTimestamp(a))[0];
+    .sort(compareGameDatesDesc)[0];
 
   const featuredGame =
     regularGames.find((game) => game.status === "live") ??
@@ -136,9 +149,7 @@ export default function GamesPage() {
     ? liveGames
     : upcomingGames.length > 0
       ? upcomingGames.slice(0, 5)
-      : [...finalGames]
-          .sort((a, b) => getGameTimestamp(b) - getGameTimestamp(a))
-          .slice(0, 5);
+      : [...finalGames].sort(compareGameDatesDesc).slice(0, 5);
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] text-white">
