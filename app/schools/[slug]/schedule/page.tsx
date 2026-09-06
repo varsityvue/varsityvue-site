@@ -149,10 +149,16 @@ export default async function SchoolSchedulePage({
 
   const district = getDistrictById(school.districtId);
   const districtSlug = district?.slug ?? school.districtId;
-  const games = getGamesForSchool(slug).sort(
+  const allGames = getGamesForSchool(slug).sort(
     (a, b) => getGameTimestamp(a) - getGameTimestamp(b)
   );
   const todayKey = getCentralDateKey(new Date());
+  const games = allGames.filter((game) => {
+    if (game.gameType !== "scrimmage") return true;
+
+    const gameDateKey = getGameDateKey(game.kickoff);
+    return !todayKey || !gameDateKey || gameDateKey >= todayKey;
+  });
   const schoolRecord = getSchoolRecord(slug).record;
 
   const finalGames = games.filter(
