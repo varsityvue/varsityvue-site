@@ -126,12 +126,15 @@ export async function generateMetadata({
   const school = getSchoolBySlug(slug);
 
   if (!school) {
-    return { title: "Schedule Not Found | VarsityVue" };
+    return { title: "Schedule Not Found" };
   }
 
   return {
-    title: `${school.fullName} Football Schedule | VarsityVue`,
+    title: `${school.fullName} Football Schedule`,
     description: `${school.fullName} 2026 football schedule, verified scores, opponents, kickoff times, venues, and matchup coverage on VarsityVue.`,
+    alternates: {
+      canonical: `/schools/${school.slug}/schedule`,
+    },
   };
 }
 
@@ -150,6 +153,7 @@ export default async function SchoolSchedulePage({
     (a, b) => getGameTimestamp(a) - getGameTimestamp(b)
   );
   const todayKey = getCentralDateKey(new Date());
+  const schoolRecord = getSchoolRecord(slug).record;
 
   const finalGames = games.filter(
     (game) =>
@@ -259,7 +263,8 @@ export default async function SchoolSchedulePage({
               </Link>
             </div>
 
-            <div className="mt-6 grid gap-3 sm:grid-cols-3">
+            <div className="mt-6 grid gap-3 sm:grid-cols-4">
+              <SummaryCard label="2026 Record" value={schoolRecord} />
               <SummaryCard label="Finals Recorded" value={finalGames.length.toString()} />
               <SummaryCard label="Upcoming Games" value={upcomingGames.length.toString()} />
               <SummaryCard label="District Games" value={districtGames.toString()} />
@@ -285,9 +290,16 @@ export default async function SchoolSchedulePage({
           {games.length === 0 ? (
             <div className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-8 shadow-2xl">
               <h2 className="text-2xl font-black text-white">Schedule coming soon.</h2>
-              <p className="mt-2 text-white/50">
-                Games will appear here after schedule information has been verified.
+              <p className="mt-2 max-w-2xl text-white/50">
+                Games will appear here after schedule information has been verified. Coaches, fans, and community members can send a schedule or trusted source for review.
               </p>
+              <Link
+                href="/submit"
+                className="mt-5 inline-flex rounded-full px-5 py-3 text-sm font-black transition hover:opacity-90"
+                style={{ backgroundColor: theme.secondary, color: theme.primary }}
+              >
+                Submit Schedule Information
+              </Link>
             </div>
           ) : (
             <div className="grid gap-4">
