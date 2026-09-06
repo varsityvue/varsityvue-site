@@ -229,7 +229,7 @@ export default async function SchoolSchedulePage({
       />
 
       <section
-        className="border-b border-white/10 px-4 py-6 sm:px-6 lg:px-8"
+        className="border-b border-white/10 px-4 py-5 sm:px-6 sm:py-6 lg:px-8"
         style={{
           background: `radial-gradient(circle at top left, ${school.colors.primary}88 0%, transparent 32%), radial-gradient(circle at top right, ${school.colors.secondary}22 0%, transparent 30%), linear-gradient(120deg, ${school.colors.primary}55 0%, #080808 45%, #000 100%)`,
         }}
@@ -237,67 +237,63 @@ export default async function SchoolSchedulePage({
         <div className="mx-auto max-w-7xl">
           <Link
             href={`/schools/${school.slug}`}
-            className="text-sm font-black uppercase tracking-[0.14em] text-white/55 transition hover:text-white"
+            className="text-[10px] font-black uppercase tracking-[0.14em] text-white/45 transition hover:text-white sm:text-sm"
           >
-            ← Back to School Hub
+            ← {school.name} Hub
           </Link>
 
-          <div className="mt-5 rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
-            <p className="text-xs font-black uppercase tracking-[0.32em] text-[var(--vv-accent)]">
+          <div className="mt-4 rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:mt-5 sm:rounded-[1.75rem] sm:p-6">
+            <p className="text-[10px] font-black uppercase tracking-[0.24em] text-white/55 sm:text-xs sm:tracking-[0.32em]">
               2026 Football
             </p>
 
-            <div className="mt-4 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+            <div className="mt-3 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
               <div>
-                <p className="text-sm font-black uppercase tracking-[0.18em] text-white/45">
-                  {school.mascot}
-                </p>
-                <h1 className="mt-2 text-4xl font-black leading-tight tracking-tight sm:text-5xl">
+                <h1 className="break-words text-3xl font-black leading-tight tracking-tight sm:text-5xl">
                   {school.name} Schedule
                 </h1>
-                <p className="mt-3 max-w-3xl text-base leading-7 text-white/60">
-                  Full season schedule with verified final scores, upcoming matchups,
-                  district games, kickoff information, and game pages.
+                <p className="mt-2 hidden max-w-3xl text-base leading-7 text-white/60 sm:block">
+                  Verified scores, upcoming matchups, kickoff information, and game pages.
                 </p>
               </div>
 
               <Link
                 href={`/districts/${districtSlug}`}
-                className="shrink-0 rounded-xl border border-[color:var(--vv-accent)]/30 bg-[var(--vv-primary)]/30 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-[var(--vv-accent-soft)] transition hover:bg-[var(--vv-primary)]/45 hover:text-white"
+                className="inline-flex w-fit shrink-0 rounded-full border border-white/10 bg-black/25 px-4 py-2.5 text-xs font-black uppercase tracking-[0.12em] text-white/70 transition hover:bg-white/10 hover:text-white sm:rounded-xl sm:px-6 sm:py-4 sm:text-sm sm:tracking-[0.16em]"
               >
                 District Hub →
               </Link>
             </div>
 
-            <div className="mt-6 grid gap-3 sm:grid-cols-4">
-              <SummaryCard label="2026 Record" value={schoolRecord} />
-              <SummaryCard label="Finals Recorded" value={finalGames.length.toString()} />
-              <SummaryCard label="Upcoming Games" value={upcomingGames.length.toString()} />
-              <SummaryCard label="District Games" value={districtGames.toString()} />
+            <div className="mt-5 grid grid-cols-2 gap-2.5 sm:mt-6 sm:grid-cols-4 sm:gap-3">
+              <SummaryCard label="Record" value={schoolRecord} />
+              <SummaryCard label="Finals" value={finalGames.length.toString()} />
+              <SummaryCard label="Upcoming" value={upcomingGames.length.toString()} />
+              <SummaryCard label="District" value={districtGames.toString()} />
             </div>
           </div>
         </div>
       </section>
 
-      <section className="px-4 py-8 sm:px-6 lg:px-8">
+      <section className="px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         <div className="mx-auto max-w-5xl">
-          <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div className="mb-4 flex items-end justify-between gap-3 sm:mb-6">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
+              <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/45 sm:text-xs sm:tracking-[0.28em]">
                 Season Schedule
               </p>
-              <h2 className="mt-2 text-3xl font-black text-white">2026 Games</h2>
+              <h2 className="mt-1.5 text-2xl font-black text-white sm:mt-2 sm:text-3xl">2026 Games</h2>
             </div>
-            <p className="text-sm font-bold text-white/45">
-              {games.length} entr{games.length === 1 ? "y" : "ies"} listed
+            <p className="shrink-0 text-xs font-bold text-white/35 sm:text-sm">
+              {games.length} listed
             </p>
           </div>
 
           {games.length === 0 ? (
-            <div className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-8 shadow-2xl">
+            <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:rounded-[1.75rem] sm:p-8">
               <h2 className="text-2xl font-black text-white">Schedule coming soon.</h2>
-              <p className="mt-2 max-w-2xl text-white/50">
-                Games will appear here after schedule information has been verified. Coaches, fans, and community members can send a schedule or trusted source for review.
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-white/50 sm:text-base">
+                Send schedule information or a trusted source to VarsityVue for review.
               </p>
               <Link
                 href="/submit"
@@ -308,7 +304,7 @@ export default async function SchoolSchedulePage({
               </Link>
             </div>
           ) : (
-            <div className="grid gap-4">
+            <div className="grid gap-3 sm:gap-4">
               {games.map((game) => {
                 const isBye = game.gameType === "bye";
                 const isHome = game.homeSchoolSlug === slug;
@@ -336,7 +332,7 @@ export default async function SchoolSchedulePage({
                 return (
                   <div
                     key={game.id}
-                    className="group relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-6 shadow-xl transition hover:bg-white/[0.07]"
+                    className="group relative overflow-hidden rounded-[1.25rem] border border-white/10 bg-white/[0.04] p-4 shadow-xl transition hover:bg-white/[0.07] sm:rounded-[1.5rem] sm:p-6"
                     style={{ boxShadow: `0 14px 38px ${school.colors.primary}10` }}
                   >
                     <div
@@ -347,7 +343,7 @@ export default async function SchoolSchedulePage({
                     />
 
                     <div className="relative">
-                      <div className="flex flex-wrap gap-2">
+                      <div className="flex flex-wrap gap-1.5 sm:gap-2">
                         <Badge label={getGameTypeLabel(game)} />
                         <Badge label={getGameStatusLabel(game, todayKey)} />
                         {!isBye && <Badge label={locationLabel} />}
@@ -355,10 +351,10 @@ export default async function SchoolSchedulePage({
                         {game.specialEvent && <Badge label={game.specialEvent} />}
                       </div>
 
-                      <div className="mt-4 grid gap-5 xl:grid-cols-[1fr_auto] xl:items-end">
+                      <div className="mt-3 grid gap-4 sm:mt-4 xl:grid-cols-[1fr_auto] xl:items-end">
                         <div>
-                          <div className="flex flex-wrap items-center gap-3">
-                            <h3 className="text-3xl font-black leading-tight text-white sm:text-4xl">
+                          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
+                            <h3 className="break-words text-2xl font-black leading-tight text-white sm:text-4xl">
                               {isBye
                                 ? "BYE Week"
                                 : `${game.isNeutralSite || isHome ? "vs" : "at"} ${opponent}`}
@@ -366,19 +362,13 @@ export default async function SchoolSchedulePage({
                             {result && <ResultPill result={result} />}
                           </div>
 
-                          {!isBye && (
-                            <div className="mt-2 space-y-1 text-sm font-bold text-white/45">
-                              <p>
-                                {game.awayTeam} at {game.homeTeam}
-                                {game.isNeutralSite ? " · Neutral Site" : ""}
-                              </p>
-                              {game.venue && <p>{game.venue}</p>}
-                            </div>
+                          {!isBye && game.venue && (
+                            <p className="mt-1.5 truncate text-xs font-bold text-white/40 sm:mt-2 sm:text-sm">{game.venue}</p>
                           )}
                         </div>
 
                         {!isBye && (
-                          <div className="flex flex-wrap gap-3">
+                          <div className="grid grid-cols-3 gap-2 sm:flex sm:flex-wrap sm:gap-3">
                             <InfoCard label="Date" value={formatGameDate(game.kickoff)} />
                             <InfoCard label="Kickoff" value={formatGameTime(game.kickoff)} />
                             <InfoCard
@@ -390,23 +380,23 @@ export default async function SchoolSchedulePage({
                       </div>
 
                       {!isBye && (
-                        <div className="mt-5 flex flex-wrap gap-3">
+                        <div className="mt-4 flex flex-wrap gap-2 sm:mt-5 sm:gap-3">
                           {game.venue && (
                             <a
                               href={getMapUrl(game.venue)}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="inline-flex rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/70 transition hover:bg-white/15 hover:text-white"
+                              className="inline-flex rounded-full border border-white/10 bg-white/10 px-3.5 py-2 text-[10px] font-black uppercase tracking-[0.12em] text-white/65 transition hover:bg-white/15 hover:text-white sm:px-4 sm:text-xs sm:tracking-[0.14em]"
                             >
-                              Map Venue →
+                              Map →
                             </a>
                           )}
 
                           <Link
                             href={`/games/${game.id}`}
-                            className="inline-flex rounded-full border border-[color:var(--vv-accent)]/30 bg-[var(--vv-primary)]/30 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-[var(--vv-accent-soft)] transition hover:bg-[var(--vv-primary)]/45 hover:text-white"
+                            className="inline-flex rounded-full border border-white/10 bg-white/[0.07] px-3.5 py-2 text-[10px] font-black uppercase tracking-[0.12em] text-white/80 transition hover:bg-white/12 hover:text-white sm:px-4 sm:text-xs sm:tracking-[0.14em]"
                           >
-                            View Matchup →
+                            Game Center →
                           </Link>
                         </div>
                       )}
@@ -424,7 +414,7 @@ export default async function SchoolSchedulePage({
 
 function Badge({ label }: { label: string }) {
   return (
-    <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-white/70">
+    <span className="rounded-full border border-white/10 bg-white/10 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.11em] text-white/65 sm:px-3 sm:text-[10px] sm:tracking-[0.14em]">
       {label}
     </span>
   );
@@ -439,7 +429,7 @@ function ResultPill({ result }: { result: "W" | "L" | "T" }) {
         : "border-yellow-400/30 bg-yellow-500/15 text-yellow-200";
 
   return (
-    <span className={`rounded-full border px-3 py-1 text-sm font-black ${classes}`}>
+    <span className={`rounded-full border px-2.5 py-1 text-xs font-black sm:px-3 sm:text-sm ${classes}`}>
       {result}
     </span>
   );
@@ -447,22 +437,22 @@ function ResultPill({ result }: { result: "W" | "L" | "T" }) {
 
 function InfoCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="min-w-28 rounded-2xl border border-white/10 bg-black/35 p-4">
-      <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">
+    <div className="min-w-0 rounded-xl border border-white/10 bg-black/35 p-2.5 sm:min-w-28 sm:rounded-2xl sm:p-4">
+      <p className="truncate text-[8px] font-black uppercase tracking-[0.12em] text-white/30 sm:text-[10px] sm:tracking-[0.18em]">
         {label}
       </p>
-      <p className="mt-2 font-black text-white">{value}</p>
+      <p className="mt-1 truncate text-xs font-black text-white sm:mt-2 sm:text-base">{value}</p>
     </div>
   );
 }
 
 function SummaryCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-black/30 p-4">
-      <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">
+    <div className="rounded-xl border border-white/10 bg-black/30 p-3 sm:rounded-2xl sm:p-4">
+      <p className="text-[9px] font-black uppercase tracking-[0.13em] text-white/35 sm:text-[10px] sm:tracking-[0.16em]">
         {label}
       </p>
-      <p className="mt-2 text-2xl font-black text-white">{value}</p>
+      <p className="mt-1.5 text-xl font-black text-white sm:mt-2 sm:text-2xl">{value}</p>
     </div>
   );
 }
