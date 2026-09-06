@@ -35,8 +35,12 @@ export function getSchoolsByDistrictId(districtId: string) {
   return schools.filter((school) => school.districtId === districtId).map(applySchoolOverrides);
 }
 
-export function getPilotSchools() {
+export function getFeaturedSchools() {
   return schools.filter((school) => school.status === "pilot").map(applySchoolOverrides);
+}
+
+export function getPilotSchools() {
+  return getFeaturedSchools();
 }
 
 export function getWatchlistSchools() {
