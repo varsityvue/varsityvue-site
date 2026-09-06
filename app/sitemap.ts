@@ -1,12 +1,14 @@
 import type { MetadataRoute } from "next";
 import { schools } from "../data/schools";
-import { games } from "../data/games";
-import { articles } from "../data/articles";
 import { districts } from "../data/districts";
+import { getGames } from "../lib/games";
+import { getArticles } from "../lib/articles";
 import { getPlayerSeasonStats } from "../lib/player-stats";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://varsityvue.com";
+  const games = getGames();
+  const articles = getArticles();
 
   const featuredSchoolSlugs = new Set(
     schools
@@ -72,6 +74,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       (game) =>
         game.gameType !== "scrimmage" &&
         game.gameType !== "bye" &&
+        game.status !== "cancelled" &&
+        game.status !== "postponed" &&
         ((game.homeSchoolSlug && featuredSchoolSlugs.has(game.homeSchoolSlug)) ||
           (game.awaySchoolSlug && featuredSchoolSlugs.has(game.awaySchoolSlug)))
     )
@@ -99,14 +103,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.75,
     }));
 
-  const articleRoutes = articles.map((article) => ({
-    url: `${baseUrl}/coverage/${article.slug}`,
-    ...(article.publishedAt
-      ? { lastModified: new Date(article.publishedAt) }
-      : {}),
-    changeFrequency: "weekly" as const,
-    priority: 0.75,
-  }));
+  const articleRoutes = articles.map((article) => {
+    const publishedAt = new Date(article.publishedAt);
+    const hasValidPublishedAt = !Number.isNaN(publishedAt.getTime());
+
+    return {
+      url: `${baseUrl}/coverage/${article.slug}`,
+      ...(hasValidPublishedAt ? { lastModified: publishedAt } : {}),
+      changeFrequency: "weekly" as const,
+      priority: 0.75,
+    };
+  });
 
   return [
     ...staticRoutes,
