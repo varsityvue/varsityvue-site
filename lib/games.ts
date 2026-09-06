@@ -1,6 +1,7 @@
 import { games as scheduledGames } from "@/data/games";
 import { applyVerifiedGames } from "@/data/verified-games";
 import { week2GameAdditions } from "@/data/week2-game-additions";
+import { getSchoolBySlug } from "@/lib/schools";
 import type { Game } from "@/types/platform";
 
 const GAME_OF_THE_WEEK_IDS = new Set([
@@ -136,8 +137,27 @@ function assertGameScoreConsistency() {
   }
 }
 
+function assertGameSchoolReferences() {
+  const problems: string[] = [];
+
+  for (const game of rawGames) {
+    if (game.homeSchoolSlug && !getSchoolBySlug(game.homeSchoolSlug)) {
+      problems.push(`${game.id}: unknown home school ${game.homeSchoolSlug}`);
+    }
+
+    if (game.awaySchoolSlug && !getSchoolBySlug(game.awaySchoolSlug)) {
+      problems.push(`${game.id}: unknown away school ${game.awaySchoolSlug}`);
+    }
+  }
+
+  if (problems.length > 0) {
+    throw new Error(`Game school integrity check failed (${problems.join("; ")})`);
+  }
+}
+
 assertNoDuplicateGameIds();
 assertGameScoreConsistency();
+assertGameSchoolReferences();
 
 export function getGames() {
   return getNormalizedGames();
