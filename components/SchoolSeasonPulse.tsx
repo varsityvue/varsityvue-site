@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { getGamesForSchool, getNextGameForSchool } from "@/lib/games";
 import { getSchoolBySlug } from "@/lib/schools";
+import { getStandingForSchool } from "@/lib/standings";
 import type { SchoolTheme } from "@/types/school-theme";
 import SchoolBadge from "./SchoolBadge";
 
@@ -74,9 +75,10 @@ export default function SchoolSeasonPulse({
       game.awayScore !== undefined
   );
   const nextGame = getNextGameForSchool(schoolSlug);
+  const verifiedStanding = getStandingForSchool(schoolSlug);
 
-  let wins = 0;
-  let losses = 0;
+  let calculatedWins = 0;
+  let calculatedLosses = 0;
   let pointsFor = 0;
   let pointsAgainst = 0;
 
@@ -86,11 +88,15 @@ export default function SchoolSeasonPulse({
       if (score.team === undefined || score.opponent === undefined) return null;
       pointsFor += score.team;
       pointsAgainst += score.opponent;
-      if (score.team > score.opponent) wins += 1;
-      if (score.team < score.opponent) losses += 1;
+      if (score.team > score.opponent) calculatedWins += 1;
+      if (score.team < score.opponent) calculatedLosses += 1;
       return score.team > score.opponent ? "W" : score.team < score.opponent ? "L" : "T";
     })
     .filter((result): result is "W" | "L" | "T" => Boolean(result));
+
+  const wins = verifiedStanding?.overallWins ?? calculatedWins;
+  const losses = verifiedStanding?.overallLosses ?? calculatedLosses;
+  const hasScoringData = finals.length > 0;
 
   const nextOpponent = nextGame ? getOpponent(nextGame, schoolSlug) : null;
   const nextOpponentSchool = nextOpponent?.slug ? getSchoolBySlug(nextOpponent.slug) : undefined;
@@ -112,9 +118,16 @@ export default function SchoolSeasonPulse({
         </div>
 
         <div className="mt-5 grid grid-cols-3 gap-2">
-          <PulseStat label="PF" value={pointsFor.toString()} />
-          <PulseStat label="PA" value={pointsAgainst.toString()} />
-          <PulseStat label="Diff" value={`${pointsFor - pointsAgainst > 0 ? "+" : ""}${pointsFor - pointsAgainst}`} />
+          <PulseStat label="PF" value={hasScoringData ? pointsFor.toString() : "—"} />
+          <PulseStat label="PA" value={hasScoringData ? pointsAgainst.toString() : "—"} />
+          <PulseStat
+            label="Diff"
+            value={
+              hasScoringData
+                ? `${pointsFor - pointsAgainst > 0 ? "+" : ""}${pointsFor - pointsAgainst}`
+                : "—"
+            }
+          />
         </div>
 
         {recentResults.length > 0 && (
