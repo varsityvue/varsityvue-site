@@ -8,21 +8,47 @@ export const metadata: Metadata = {
     "Browse Texas high school football schedules, scores, district matchups, kickoff times, venues, previews, and VarsityVue game coverage.",
 };
 
-function formatGameDate(kickoff: string) {
+function parseGameDate(kickoff?: string) {
+  if (!kickoff) return null;
+
+  if (!kickoff.includes("T")) {
+    const [year, month, day] = kickoff.split("-").map(Number);
+    if (!year || !month || !day) return null;
+    const parsed = new Date(Date.UTC(year, month - 1, day, 12));
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
+  }
+
+  const parsed = new Date(kickoff);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+function formatGameDate(kickoff?: string) {
+  const parsed = parseGameDate(kickoff);
+  if (!parsed) return "Date TBD";
+
   return new Intl.DateTimeFormat("en-US", {
     weekday: "short",
     month: "short",
     day: "numeric",
-    timeZone: "America/Chicago",
-  }).format(new Date(kickoff));
+    timeZone: kickoff?.includes("T") ? "America/Chicago" : "UTC",
+  }).format(parsed);
 }
 
-function formatGameTime(kickoff: string) {
+function formatGameTime(kickoff?: string) {
+  if (!kickoff?.includes("T")) return "Time TBD";
+  const parsed = parseGameDate(kickoff);
+  if (!parsed) return "Time TBD";
+
   return new Intl.DateTimeFormat("en-US", {
     hour: "numeric",
     minute: "2-digit",
     timeZone: "America/Chicago",
-  }).format(new Date(kickoff));
+  }).format(parsed);
+}
+
+function getGameTimestamp(game: { kickoff?: string }) {
+  const parsed = parseGameDate(game.kickoff);
+  return parsed ? parsed.getTime() : Number.MAX_SAFE_INTEGER;
 }
 
 function formatStatus(status: string) {
@@ -40,10 +66,6 @@ function getGameTypeLabel(gameType: string, week?: number) {
   return `Week ${week ?? "-"}`;
 }
 
-function getKickoffValue(game: { kickoff?: string }) {
-  return game.kickoff ?? "";
-}
-
 function getAwayTeam(game: { awayTeam?: string }) {
   return game.awayTeam ?? "Away Team";
 }
@@ -59,22 +81,22 @@ function getVenue(game: { venue?: string }) {
 export default function GamesPage() {
   const regularGames = [...getGames()]
     .filter((game) => game.gameType !== "bye")
-    .sort(
-      (a, b) =>
-        new Date(getKickoffValue(a)).getTime() -
-        new Date(getKickoffValue(b)).getTime()
-    );
+    .sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b));
 
   const finalGames = regularGames.filter((game) => game.status === "final");
-  const latestFinal = [...finalGames].reverse()[0];
+  const latestFinal = [...finalGames]
+    .sort((a, b) => getGameTimestamp(b) - getGameTimestamp(a))[0];
   const latestFeaturedFinal = [...finalGames]
-    .reverse()
-    .find((game) => game.specialEvent);
+    .filter((game) => game.specialEvent || game.featured)
+    .sort((a, b) => getGameTimestamp(b) - getGameTimestamp(a))[0];
 
   const featuredGame =
     regularGames.find((game) => game.status === "live") ??
     regularGames.find(
-      (game) => game.status === "upcoming" && game.specialEvent
+      (game) => game.status === "upcoming" && game.specialEvent === "Game of the Week"
+    ) ??
+    regularGames.find(
+      (game) => game.status === "upcoming" && (game.featured || game.specialEvent)
     ) ??
     regularGames.find((game) => game.status === "upcoming") ??
     latestFeaturedFinal ??
@@ -100,11 +122,23 @@ export default function GamesPage() {
       (statusPriority[a.status] ?? 4) - (statusPriority[b.status] ?? 4);
     if (priorityDifference !== 0) return priorityDifference;
 
-    const aTime = new Date(getKickoffValue(a)).getTime();
-    const bTime = new Date(getKickoffValue(b)).getTime();
+    const aTime = getGameTimestamp(a);
+    const bTime = getGameTimestamp(b);
+
+    if (aTime === Number.MAX_SAFE_INTEGER && bTime === Number.MAX_SAFE_INTEGER) return 0;
+    if (aTime === Number.MAX_SAFE_INTEGER) return 1;
+    if (bTime === Number.MAX_SAFE_INTEGER) return -1;
 
     return a.status === "final" ? bTime - aTime : aTime - bTime;
   });
+
+  const stripGames = hasLiveGames
+    ? liveGames
+    : upcomingGames.length > 0
+      ? upcomingGames.slice(0, 5)
+      : [...finalGames]
+          .sort((a, b) => getGameTimestamp(b) - getGameTimestamp(a))
+          .slice(0, 5);
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] text-white">
@@ -121,7 +155,7 @@ export default function GamesPage() {
             }}
           >
             <h1 className="max-w-5xl text-4xl font-black leading-tight tracking-tight sm:text-6xl">
-              VarsityVue Football Scores + Schedule
+              VarsityVue Football Scores + Schedules
             </h1>
 
             <p className="mt-6 max-w-3xl text-base leading-7 text-white/60 sm:text-lg">
@@ -146,7 +180,7 @@ export default function GamesPage() {
               <div className="grid gap-0 lg:grid-cols-[1.25fr_0.75fr]">
                 <div className="p-6 md:p-8">
                   <p className="text-xs font-black uppercase tracking-[0.32em] text-[var(--vv-accent-soft)]">
-                    Featured Matchup
+                    {featuredGame.specialEvent === "Game of the Week" ? "Game of the Week" : "Featured Matchup"}
                   </p>
 
                   <h2 className="mt-4 text-4xl font-black leading-tight sm:text-5xl">
@@ -168,8 +202,8 @@ export default function GamesPage() {
                   </div>
 
                   <div className="mt-7 grid gap-3 sm:grid-cols-3">
-                    <InfoCard label="Date" value={formatGameDate(getKickoffValue(featuredGame))} />
-                    <InfoCard label="Kickoff" value={formatGameTime(getKickoffValue(featuredGame))} />
+                    <InfoCard label="Date" value={formatGameDate(featuredGame.kickoff)} />
+                    <InfoCard label="Kickoff" value={formatGameTime(featuredGame.kickoff)} />
                     <InfoCard label="Venue" value={getVenue(featuredGame)} />
                   </div>
                 </div>
@@ -203,10 +237,10 @@ export default function GamesPage() {
             <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
-                  {hasLiveGames ? "Live Score Strip" : "Next Up"}
+                  {hasLiveGames ? "Live Score Strip" : upcomingGames.length > 0 ? "Next Up" : "Recent Results"}
                 </p>
                 <h2 className="mt-2 text-3xl font-black text-white">
-                  {hasLiveGames ? "Friday Night Board" : "Upcoming Games"}
+                  {hasLiveGames ? "Live Scoreboard" : upcomingGames.length > 0 ? "Upcoming Games" : "Latest Finals"}
                 </h2>
               </div>
 
@@ -215,29 +249,37 @@ export default function GamesPage() {
                   ? `${liveGames.length} live`
                   : upcomingGames.length > 0
                     ? `${upcomingGames.length} upcoming`
-                    : "No upcoming games listed"}
+                    : finalGames.length > 0
+                      ? `${finalGames.length} final`
+                      : "No games listed"}
               </p>
             </div>
 
-            <div className="flex gap-3 overflow-x-auto pb-2 pr-4">
-              {(hasLiveGames ? liveGames : upcomingGames.slice(0, 5)).map((game) => (
-                <Link
-                  key={game.id}
-                  href={`/games/${game.id}`}
-                  className="min-w-[280px] rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
-                >
-                  <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[var(--vv-accent)]">
-                    {formatStatus(game.status)} · {getGameTypeLabel(game.gameType, game.week)}
-                  </p>
-                  <h3 className="mt-2 text-lg font-black text-white">
-                    {getAwayTeam(game)} at {getHomeTeam(game)}
-                  </h3>
-                  <p className="mt-2 text-sm text-white/45">
-                    {formatGameDate(getKickoffValue(game))} · {formatGameTime(getKickoffValue(game))}
-                  </p>
-                </Link>
-              ))}
-            </div>
+            {stripGames.length > 0 ? (
+              <div className="flex gap-3 overflow-x-auto pb-2 pr-4">
+                {stripGames.map((game) => (
+                  <Link
+                    key={game.id}
+                    href={`/games/${game.id}`}
+                    className="min-w-[280px] rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
+                  >
+                    <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[var(--vv-accent)]">
+                      {formatStatus(game.status)} · {getGameTypeLabel(game.gameType, game.week)}
+                    </p>
+                    <h3 className="mt-2 text-lg font-black text-white">
+                      {getAwayTeam(game)} at {getHomeTeam(game)}
+                    </h3>
+                    <p className="mt-2 text-sm text-white/45">
+                      {formatGameDate(game.kickoff)} · {formatGameTime(game.kickoff)}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <p className="rounded-2xl border border-white/10 bg-black/35 p-4 text-sm text-white/55">
+                No game information is currently available.
+              </p>
+            )}
           </section>
 
           <section className="mt-10">
@@ -250,53 +292,59 @@ export default function GamesPage() {
               </div>
             </div>
 
-            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-              {displayGames.map((game) => (
-                <Link
-                  key={game.id}
-                  href={`/games/${game.id}`}
-                  className="group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-xl transition hover:-translate-y-1 hover:border-[color:var(--vv-accent)]/40 hover:bg-white/[0.075]"
-                >
-                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(139,16,32,0.38),transparent_55%)] opacity-45 transition group-hover:opacity-70" />
-                  <div className="relative">
-                    <div className="flex flex-wrap gap-2">
-                      <Badge label={getGameTypeLabel(game.gameType, game.week)} />
-                      <Badge label={formatStatus(game.status)} />
-                      {game.districtGame && <Badge label="District" />}
-                      {game.specialEvent && <Badge label={game.specialEvent} />}
+            {displayGames.length > 0 ? (
+              <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+                {displayGames.map((game) => (
+                  <Link
+                    key={game.id}
+                    href={`/games/${game.id}`}
+                    className="group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-xl transition hover:-translate-y-1 hover:border-[color:var(--vv-accent)]/40 hover:bg-white/[0.075]"
+                  >
+                    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(139,16,32,0.38),transparent_55%)] opacity-45 transition group-hover:opacity-70" />
+                    <div className="relative">
+                      <div className="flex flex-wrap gap-2">
+                        <Badge label={getGameTypeLabel(game.gameType, game.week)} />
+                        <Badge label={formatStatus(game.status)} />
+                        {game.districtGame && <Badge label="District" />}
+                        {game.specialEvent && <Badge label={game.specialEvent} />}
+                      </div>
+
+                      <h3 className="mt-5 text-2xl font-black leading-tight text-white">
+                        {getAwayTeam(game)}
+                        <span className="block text-white/35">at</span>
+                        {getHomeTeam(game)}
+                      </h3>
+
+                      <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                        <InfoCard label="Date" value={formatGameDate(game.kickoff)} />
+                        <InfoCard label="Kickoff" value={formatGameTime(game.kickoff)} />
+                      </div>
+
+                      <div className="mt-3 rounded-2xl border border-white/10 bg-black/35 p-4">
+                        <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">Venue</p>
+                        <p className="mt-2 font-black text-white">{getVenue(game)}</p>
+                      </div>
+
+                      {game.status === "final" &&
+                        game.homeScore !== undefined &&
+                        game.awayScore !== undefined && (
+                          <p className="mt-4 text-lg font-black text-white">
+                            Final: {game.awayScore}-{game.homeScore}
+                          </p>
+                        )}
+
+                      <p className="mt-6 text-sm font-black uppercase tracking-[0.14em] text-[var(--vv-accent)]">
+                        Matchup Center →
+                      </p>
                     </div>
-
-                    <h3 className="mt-5 text-2xl font-black leading-tight text-white">
-                      {getAwayTeam(game)}
-                      <span className="block text-white/35">at</span>
-                      {getHomeTeam(game)}
-                    </h3>
-
-                    <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                      <InfoCard label="Date" value={formatGameDate(getKickoffValue(game))} />
-                      <InfoCard label="Kickoff" value={formatGameTime(getKickoffValue(game))} />
-                    </div>
-
-                    <div className="mt-3 rounded-2xl border border-white/10 bg-black/35 p-4">
-                      <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">Venue</p>
-                      <p className="mt-2 font-black text-white">{getVenue(game)}</p>
-                    </div>
-
-                    {game.status === "final" &&
-                      game.homeScore !== undefined &&
-                      game.awayScore !== undefined && (
-                        <p className="mt-4 text-lg font-black text-white">
-                          Final: {game.awayScore}-{game.homeScore}
-                        </p>
-                      )}
-
-                    <p className="mt-6 text-sm font-black uppercase tracking-[0.14em] text-[var(--vv-accent)]">
-                      Matchup Center →
-                    </p>
-                  </div>
-                </Link>
-              ))}
-            </div>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <p className="rounded-2xl border border-white/10 bg-white/[0.045] p-5 text-sm text-white/55">
+                No matchups are currently listed.
+              </p>
+            )}
           </section>
 
           <section className="mt-10 rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
