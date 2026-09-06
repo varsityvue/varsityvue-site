@@ -15,13 +15,10 @@ export default function SchoolTeamLeaders({ schoolSlug, season = 2026, primaryCo
   return (
     <section className="min-w-0 overflow-hidden rounded-[1.5rem] border shadow-2xl sm:rounded-[1.75rem]" style={{ borderColor: `${primaryColor}55`, background: "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 48%, rgba(0,0,0,1))", boxShadow: `inset 4px 0 0 ${primaryColor}, 0 18px 50px rgba(0,0,0,0.45)` }}>
       <div className="p-4 sm:p-6 md:p-7">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/50 sm:text-xs sm:tracking-[0.28em]">{season} Offensive Leaders</p>
-            <h2 className="mt-2 text-2xl font-black text-white sm:mt-3 sm:text-3xl">Players setting the pace</h2>
-            <p className="mt-2 max-w-2xl text-xs leading-5 text-white/45 sm:text-sm">Season totals from verified VarsityVue statistics.</p>
-          </div>
-          <Link href="/stats" className="hidden rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-xs font-black uppercase tracking-[0.14em] text-white/65 transition hover:bg-white/10 hover:text-white sm:inline-flex">All Stat Leaders →</Link>
+        <div>
+          <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/50 sm:text-xs sm:tracking-[0.28em]">{season} Offensive Leaders</p>
+          <h2 className="mt-2 text-2xl font-black text-white sm:mt-3 sm:text-3xl">Team Leaders</h2>
+          <p className="mt-2 max-w-2xl text-xs leading-5 text-white/45 sm:text-sm">Season totals from verified VarsityVue statistics.</p>
         </div>
 
         <div className="mt-5 grid gap-4 lg:grid-cols-3">
@@ -29,7 +26,6 @@ export default function SchoolTeamLeaders({ schoolSlug, season = 2026, primaryCo
           <CategoryCard label="Passing" leaders={passing} primaryColor={primaryColor} secondaryColor={secondaryColor} />
           <CategoryCard label="Receiving" leaders={receiving} primaryColor={primaryColor} secondaryColor={secondaryColor} />
         </div>
-        <Link href="/stats" className="mt-4 inline-flex text-xs font-black uppercase tracking-[0.12em] text-white/55 sm:hidden">All stat leaders →</Link>
       </div>
     </section>
   );
