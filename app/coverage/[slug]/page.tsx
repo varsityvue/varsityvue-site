@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { getArticleBySlug, articles } from "../../../data/articles";
+import { getArticleBySlug, getArticles } from "@/lib/articles";
 import { getSchoolBySlug } from "@/lib/schools";
 import type { Article } from "@/types/platform";
 import SchoolBadge from "@/components/SchoolBadge";
@@ -13,21 +13,32 @@ type ArticlePageProps = {
   params: Promise<{ slug: string }>;
 };
 
+function parseArticleDate(publishedAt: string) {
+  const parsed = new Date(publishedAt);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
 function formatArticleDate(publishedAt: string) {
+  const parsed = parseArticleDate(publishedAt);
+  if (!parsed) return "Date TBD";
+
   return new Intl.DateTimeFormat("en-US", {
     month: "long",
     day: "numeric",
     year: "numeric",
     timeZone: "America/Chicago",
-  }).format(new Date(publishedAt));
+  }).format(parsed);
 }
 
 function formatShortDate(publishedAt: string) {
+  const parsed = parseArticleDate(publishedAt);
+  if (!parsed) return "Date TBD";
+
   return new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
     timeZone: "America/Chicago",
-  }).format(new Date(publishedAt));
+  }).format(parsed);
 }
 
 function formatArticleType(type: Article["type"]) {
@@ -105,19 +116,29 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       ?.map((districtId) => getDistrictById(districtId))
       .filter(Boolean) ?? [];
 
-  const relatedArticles = articles
+  const relatedArticles = getArticles()
     .filter((item) => item.slug !== article.slug)
-    .filter((item) =>
-      item.schoolIds?.some((schoolId) => article.schoolIds?.includes(schoolId))
-    )
+    .filter((item) => {
+      const sharesSchool = item.schoolIds?.some((schoolId) =>
+        article.schoolIds?.includes(schoolId)
+      );
+      const sharesDistrict = item.districtIds?.some((districtId) =>
+        article.districtIds?.includes(districtId)
+      );
+      const sharesGame = article.gameId && item.gameId === article.gameId;
+
+      return Boolean(sharesSchool || sharesDistrict || sharesGame);
+    })
     .slice(0, 3);
 
   const relatedGames = getScoreboardGames()
     .filter((game) =>
       article.schoolIds?.some(
-        (slug) => game.homeSchoolSlug === slug || game.awaySchoolSlug === slug
+        (schoolSlug) =>
+          game.homeSchoolSlug === schoolSlug || game.awaySchoolSlug === schoolSlug
       )
     )
+    .filter((game) => game.gameType !== "scrimmage" && game.gameType !== "bye")
     .slice(0, 3);
 
   const articleSchema = {
@@ -202,9 +223,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             <div className="mt-8 h-px bg-white/10" />
 
             <div className="mt-8 space-y-6 text-lg leading-8 text-white/75">
-              {article.body.split("\n").map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
+              {article.body
+                .split("\n")
+                .map((paragraph) => paragraph.trim())
+                .filter(Boolean)
+                .map((paragraph, index) => (
+                  <p key={`${article.id}-paragraph-${index}`}>{paragraph}</p>
+                ))}
             </div>
 
             <div className="mt-10 flex flex-wrap gap-2">
@@ -361,9 +386,17 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     </Link>
                   ))
                 ) : (
-                  <p className="rounded-2xl border border-white/10 bg-black/35 p-4 text-sm text-white/55">
-                    More related coverage coming soon.
-                  </p>
+                  <div className="rounded-2xl border border-white/10 bg-black/35 p-4">
+                    <p className="text-sm text-white/55">
+                      More related coverage will appear here as stories are published.
+                    </p>
+                    <Link
+                      href="/submit"
+                      className="mt-3 inline-flex text-xs font-black uppercase tracking-[0.14em] text-white/55 transition hover:text-white"
+                    >
+                      Send a Story Tip →
+                    </Link>
+                  </div>
                 )}
               </div>
             </section>
