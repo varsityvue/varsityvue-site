@@ -222,12 +222,6 @@ export default async function SchoolSchedulePage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(scheduleSchema) }}
       />
 
-      <SchoolSubnav
-        schoolSlug={school.slug}
-        districtSlug={districtSlug}
-        theme={theme}
-      />
-
       <section
         className="border-b border-white/10 px-4 py-5 sm:px-6 sm:py-6 lg:px-8"
         style={{
@@ -274,6 +268,12 @@ export default async function SchoolSchedulePage({
           </div>
         </div>
       </section>
+
+      <SchoolSubnav
+        schoolSlug={school.slug}
+        districtSlug={districtSlug}
+        theme={theme}
+      />
 
       <section className="px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         <div className="mx-auto max-w-5xl">
