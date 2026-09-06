@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getGameById } from "@/lib/games";
+import { getSchoolBySlug } from "@/lib/schools";
 
 type GameLayoutProps = {
   children: React.ReactNode;
@@ -23,12 +24,22 @@ export async function generateMetadata({ params }: Omit<GameLayoutProps, "childr
     };
   }
 
+  const homeSchool = game.homeSchoolSlug
+    ? getSchoolBySlug(game.homeSchoolSlug)
+    : undefined;
+  const awaySchool = game.awaySchoolSlug
+    ? getSchoolBySlug(game.awaySchoolSlug)
+    : undefined;
+  const hasFeaturedProgram =
+    homeSchool?.status === "pilot" || awaySchool?.status === "pilot";
+
   const shouldNoIndex =
     game.gameType === "scrimmage" ||
     game.gameType === "bye" ||
     game.status === "scheduled" ||
     game.status === "cancelled" ||
-    game.status === "postponed";
+    game.status === "postponed" ||
+    !hasFeaturedProgram;
 
   return {
     title: {
