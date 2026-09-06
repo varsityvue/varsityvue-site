@@ -17,6 +17,8 @@ type Standing = {
 type StandingsTableProps = {
   standings: Standing[];
   theme: SchoolTheme;
+  currentSchoolSlug?: string;
+  districtHref?: string;
 };
 
 function hasDistrictResults(standings: Standing[]) {
@@ -57,7 +59,12 @@ function getStandingPosition(standings: Standing[], index: number, districtStart
   return tiedTeams > 1 ? `T-${firstIndex + 1}` : `#${firstIndex + 1}`;
 }
 
-export default function StandingsTable({ standings, theme }: StandingsTableProps) {
+export default function StandingsTable({
+  standings,
+  theme,
+  currentSchoolSlug,
+  districtHref = "/districts",
+}: StandingsTableProps) {
   const districtStarted = hasDistrictResults(standings);
   const seasonStarted = hasOverallResults(standings);
   const displayed = displayStandings(standings, districtStarted, seasonStarted);
@@ -72,7 +79,7 @@ export default function StandingsTable({ standings, theme }: StandingsTableProps
           <p className="text-[10px] font-black uppercase tracking-[0.24em] text-white/70 sm:text-xs sm:tracking-[0.28em]">District Race</p>
           <h2 className="mt-2 text-2xl font-black text-white sm:text-3xl">Standings</h2>
         </div>
-        <Link href="/districts" className="shrink-0 rounded-full border px-3 py-2 text-[10px] font-black uppercase tracking-[0.12em] text-white/70 transition hover:bg-white/10 hover:text-white sm:px-4 sm:text-xs sm:tracking-[0.14em]" style={{ borderColor: `${theme.secondary}33`, backgroundColor: "rgba(255,255,255,0.08)" }}>District →</Link>
+        <Link href={districtHref} className="shrink-0 rounded-full border px-3 py-2 text-[10px] font-black uppercase tracking-[0.12em] text-white/70 transition hover:bg-white/10 hover:text-white sm:px-4 sm:text-xs sm:tracking-[0.14em]" style={{ borderColor: `${theme.secondary}33`, backgroundColor: "rgba(255,255,255,0.08)" }}>Full District →</Link>
       </div>
 
       {displayed.length === 0 ? (
@@ -99,12 +106,17 @@ export default function StandingsTable({ standings, theme }: StandingsTableProps
             <div className="divide-y divide-white/10">
               {displayed.map((team, index) => {
                 const school = getSchoolBySlug(team.schoolSlug);
+                const isCurrent = team.schoolSlug === currentSchoolSlug;
                 const teamRow = (
-                  <div className="grid grid-cols-[1fr_58px_58px] items-center gap-2 px-4 py-3.5">
+                  <div
+                    className="grid grid-cols-[1fr_58px_58px] items-center gap-2 px-4 py-3.5"
+                    style={isCurrent ? { background: `${theme.primary}18`, boxShadow: `inset 3px 0 0 ${theme.primary}` } : undefined}
+                  >
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
                         {seasonStarted && <span className="shrink-0 text-[10px] font-black text-white/35">{getStandingPosition(displayed, index, districtStarted)}</span>}
                         <p className="truncate text-sm font-black text-white">{team.team}</p>
+                        {isCurrent && <span className="shrink-0 rounded-full border border-white/10 bg-white/10 px-2 py-0.5 text-[8px] font-black uppercase tracking-[0.12em] text-white/55">You are here</span>}
                       </div>
                       {school?.mascot && <p className="mt-0.5 truncate text-[9px] font-bold uppercase tracking-[0.12em] text-white/30">{school.mascot}</p>}
                     </div>
@@ -126,14 +138,15 @@ export default function StandingsTable({ standings, theme }: StandingsTableProps
                 {displayed.map((team, index) => {
                   const differential = team.pointsFor - team.pointsAgainst;
                   const school = getSchoolBySlug(team.schoolSlug);
+                  const isCurrent = team.schoolSlug === currentSchoolSlug;
                   const teamContent = (
                     <div className="flex items-center gap-4">
                       {school ? <SchoolBadge school={school} size="xs" /> : <FallbackBadge label={team.team} />}
-                      <div><p className="font-black text-white">{team.team}</p>{school && <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-white/40">{school.mascot}</p>}</div>
+                      <div><div className="flex items-center gap-2"><p className="font-black text-white">{team.team}</p>{isCurrent && <span className="rounded-full border border-white/10 bg-white/10 px-2 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/55">Current team</span>}</div>{school && <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-white/40">{school.mascot}</p>}</div>
                     </div>
                   );
                   return (
-                    <tr key={team.schoolSlug} className="border-t border-white/10 transition hover:bg-white/[0.06]">
+                    <tr key={team.schoolSlug} className="border-t border-white/10 transition hover:bg-white/[0.06]" style={isCurrent ? { background: `${theme.primary}14`, boxShadow: `inset 4px 0 0 ${theme.primary}` } : undefined}>
                       <td className="px-5 py-4 font-black text-white">{seasonStarted ? <span>{getStandingPosition(displayed, index, districtStarted)}</span> : <span className="text-white/25">—</span>}</td>
                       <td className="px-5 py-4">{school ? <Link href={`/schools/${team.schoolSlug}`} className="block text-white transition hover:text-white/70">{teamContent}</Link> : teamContent}</td>
                       <td className="px-5 py-4 font-black text-white">{districtStarted ? `${team.districtWins}-${team.districtLosses}` : "—"}</td>
