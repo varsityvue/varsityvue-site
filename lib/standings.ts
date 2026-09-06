@@ -85,6 +85,14 @@ function applyVerifiedRecordOverride(standing: Standing) {
   const override = verifiedRecordOverrides[standing.schoolSlug];
   if (!override) return;
 
+  const derivedGames = standing.overallWins + standing.overallLosses;
+  const overrideGames = override.overallWins + override.overallLosses;
+
+  // Record-only overrides fill gaps while VarsityVue has fewer complete results
+  // than the verified record. Once equal or newer game data is ingested, the
+  // derived record wins so an old override can never freeze a team's record.
+  if (derivedGames >= overrideGames) return;
+
   standing.overallWins = override.overallWins;
   standing.overallLosses = override.overallLosses;
   standing.districtWins = override.districtWins;
