@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getPilotSchools } from "@/lib/schools";
+import { getFeaturedSchools } from "@/lib/schools";
 import { getDistrictById } from "@/lib/districts";
 import { getNextGameForSchool } from "@/lib/games";
 import SchoolBadge from "./SchoolBadge";
@@ -15,8 +15,8 @@ function formatClassification(conference: string, division?: string | null) {
   return `${conference}${divisionLabel ? ` ${divisionLabel}` : ""}`;
 }
 
-export default function PilotSchoolSpotlight() {
-  const schools = getPilotSchools();
+export default function FeaturedSchoolSpotlight() {
+  const schools = getFeaturedSchools();
 
   if (schools.length === 0) return null;
 
