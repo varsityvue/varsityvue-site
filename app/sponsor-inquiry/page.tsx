@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "2027 Sponsor Interest | VarsityVue",
+  title: "2027 Sponsor Interest",
   description:
     "Join the VarsityVue 2027 sponsor interest list for future opportunities across school hubs, game pages, districts, scoreboards, and local sports coverage.",
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 const sponsorshipInterests = [
@@ -57,10 +61,22 @@ export default function SponsorInquiryPage() {
 
               <input type="hidden" name="_template" value="table" />
 
+              <div className="hidden" aria-hidden="true">
+                <label htmlFor="sponsor-company-website">Company Website</label>
+                <input
+                  id="sponsor-company-website"
+                  type="text"
+                  name="_gotcha"
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </div>
+
               <input
                 type="text"
                 name="business_name"
                 placeholder="Business Name *"
+                aria-label="Business Name"
                 required
                 className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:outline-none"
               />
@@ -69,6 +85,7 @@ export default function SponsorInquiryPage() {
                 type="text"
                 name="contact_name"
                 placeholder="Contact Name *"
+                aria-label="Contact Name"
                 required
                 className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:outline-none"
               />
@@ -78,6 +95,7 @@ export default function SponsorInquiryPage() {
                   type="email"
                   name="email"
                   placeholder="Email Address *"
+                  aria-label="Email Address"
                   required
                   className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:outline-none"
                 />
@@ -86,6 +104,7 @@ export default function SponsorInquiryPage() {
                   type="tel"
                   name="phone"
                   placeholder="Phone Number"
+                  aria-label="Phone Number"
                   className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:outline-none"
                 />
               </div>
@@ -94,6 +113,7 @@ export default function SponsorInquiryPage() {
                 type="text"
                 name="website_or_social"
                 placeholder="Website / Facebook Page / Social Profile"
+                aria-label="Website or social profile"
                 className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:outline-none"
               />
 
@@ -101,6 +121,7 @@ export default function SponsorInquiryPage() {
                 type="text"
                 name="target_school_or_market"
                 placeholder="School / Town / Market You Care About"
+                aria-label="School town or market"
                 className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:outline-none"
               />
 
@@ -131,6 +152,7 @@ export default function SponsorInquiryPage() {
                 name="notes"
                 rows={6}
                 placeholder="Tell us about your business, the communities you want to reach, or any questions you have..."
+                aria-label="Additional notes"
                 className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:outline-none"
               />
 
