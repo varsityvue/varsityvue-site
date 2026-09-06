@@ -5,15 +5,19 @@ import { schools } from "../../data/schools";
 import SchoolDirectory from "../../components/SchoolDirectory";
 
 export const metadata: Metadata = {
-  title: "Texas High School Sports School Directory | VarsityVue",
+  title: "Texas High School Football School Directory",
   description:
-    "Search VarsityVue school hubs for Texas high school sports schedules, scores, standings, rosters, districts, and game-day information.",
+    "Search live VarsityVue school hubs for Texas high school football schedules, scores, standings, districts, and game-day information.",
+  alternates: {
+    canonical: "/schools",
+  },
 };
 
 export default function SchoolsPage() {
-  const districts = new Set(schools.map((school) => school.districtId));
+  const liveSchools = schools.filter((school) => school.status === "pilot");
+  const districts = new Set(liveSchools.map((school) => school.districtId));
   const classifications = new Set(
-    schools.map(
+    liveSchools.map(
       (school) =>
         `${school.classification.conference}${school.classification.division
           ? ` ${school.classification.division}`
@@ -38,7 +42,7 @@ export default function SchoolsPage() {
                 </h1>
 
                 <p className="mt-4 max-w-3xl text-base leading-7 text-white/60 sm:text-lg">
-                  Browse Texas high school football hubs by school, mascot,
+                  Browse live Texas high school football hubs by school, mascot,
                   district, classification, or game-day venue.
                 </p>
               </div>
@@ -53,7 +57,7 @@ export default function SchoolsPage() {
           </div>
 
           <section className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <DirectoryStat label="School Hubs" value={schools.length.toString()} />
+            <DirectoryStat label="Live School Hubs" value={liveSchools.length.toString()} />
             <DirectoryStat label="Districts" value={districts.size.toString()} />
             <DirectoryStat
               label="Classifications"
@@ -69,7 +73,7 @@ export default function SchoolsPage() {
           <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
-                School Hubs
+                Live School Hubs
               </p>
 
               <h2 className="mt-2 text-3xl font-black text-white">
@@ -78,11 +82,11 @@ export default function SchoolsPage() {
             </div>
 
             <p className="max-w-xl text-sm font-bold leading-6 text-white/45 sm:text-right">
-              School information reflects what VarsityVue currently has on file and will continue to fill out as verified schedules, rosters, scores, and statistics are added.
+              VarsityVue is publishing verified football hubs in stages. If your school is not live yet, send a request and we&apos;ll use that interest to help prioritize future coverage.
             </p>
           </div>
 
-          <SchoolDirectory schools={schools} />
+          <SchoolDirectory schools={liveSchools} />
         </div>
       </section>
     </main>
