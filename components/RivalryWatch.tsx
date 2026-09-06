@@ -3,92 +3,88 @@ import { getGamesForSchool } from "@/lib/games";
 import { getSchoolBySlug } from "@/lib/schools";
 
 type Props = {
-    schoolSlug: string;
+  schoolSlug: string;
 };
 
-const RIVALRY_TERMS = [
-    "rival",
-    "rivalry",
-    "classic",
-    "battle",
-    "showdown",
-    "cup",
-    "bowl",
-];
-
-function getRivalryLabel(schoolName: string, opponentName: string) {
-    return `${schoolName} vs ${opponentName}`;
-}
+const RIVALRY_TERMS = ["rival", "rivalry", "classic", "battle", "showdown", "cup", "bowl"];
 
 function isExplicitRivalryGame(specialEvent?: string) {
-    if (!specialEvent) return false;
-
-    const normalized = specialEvent.toLowerCase();
-    return RIVALRY_TERMS.some((term) => normalized.includes(term));
+  if (!specialEvent) return false;
+  const normalized = specialEvent.toLowerCase();
+  return RIVALRY_TERMS.some((term) => normalized.includes(term));
 }
 
 function getUpcomingRivalryGame(schoolSlug: string) {
-    return getGamesForSchool(schoolSlug).find(
-        (game) =>
-            game.status === "upcoming" &&
-            game.gameType !== "bye" &&
-            isExplicitRivalryGame(game.specialEvent)
-    );
+  return getGamesForSchool(schoolSlug).find(
+    (game) =>
+      game.status === "upcoming" &&
+      game.gameType !== "bye" &&
+      isExplicitRivalryGame(game.specialEvent)
+  );
+}
+
+function formatDate(date?: string) {
+  if (!date) return null;
+  const parsed = new Date(`${date}T12:00:00`);
+  if (Number.isNaN(parsed.getTime())) return date;
+  return parsed.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
 export default function RivalryWatch({ schoolSlug }: Props) {
-    const school = getSchoolBySlug(schoolSlug);
-    const rivalryGame = getUpcomingRivalryGame(schoolSlug);
+  const school = getSchoolBySlug(schoolSlug);
+  const rivalryGame = getUpcomingRivalryGame(schoolSlug);
 
-    if (!school || !rivalryGame) return null;
+  if (!school || !rivalryGame) return null;
 
-    const isHome = rivalryGame.homeSchoolSlug === schoolSlug;
-    const opponentSlug = isHome
-        ? rivalryGame.awaySchoolSlug
-        : rivalryGame.homeSchoolSlug;
+  const isHome = rivalryGame.homeSchoolSlug === schoolSlug;
+  const opponentSlug = isHome ? rivalryGame.awaySchoolSlug : rivalryGame.homeSchoolSlug;
+  const opponent = opponentSlug ? getSchoolBySlug(opponentSlug) : undefined;
+  const opponentName =
+    opponent?.name ??
+    (isHome ? rivalryGame.awayTeam : rivalryGame.homeTeam) ??
+    "Opponent TBD";
+  const date = formatDate(rivalryGame.date);
+  const kickoff = rivalryGame.kickoff ?? rivalryGame.time;
+  const venue = rivalryGame.venue ?? rivalryGame.location;
 
-    const opponent = opponentSlug ? getSchoolBySlug(opponentSlug) : undefined;
-    const opponentName =
-        opponent?.name ??
-        (isHome ? rivalryGame.awayTeam : rivalryGame.homeTeam) ??
-        "Opponent TBD";
-
-    return (
-        <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-6 shadow-2xl">
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-white/45">
-                Rivalry Watch
+  return (
+    <section className="rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-5 shadow-2xl sm:rounded-[1.75rem] sm:p-6">
+      <div className="flex items-start justify-between gap-4">
+        <div className="min-w-0">
+          <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/45 sm:text-xs">
+            Rivalry Watch
+          </p>
+          <h2 className="mt-2 text-xl font-black text-white sm:text-2xl">
+            {school.name} vs {opponentName}
+          </h2>
+          {rivalryGame.specialEvent && (
+            <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-white/40">
+              {rivalryGame.specialEvent}
             </p>
+          )}
+        </div>
 
-            <h2 className="mt-2 text-2xl font-black text-white">
-                {getRivalryLabel(school.name, opponentName)}
-            </h2>
+        {rivalryGame.week && (
+          <span className="shrink-0 rounded-full border border-white/10 bg-black/35 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.12em] text-white/45">
+            Week {rivalryGame.week}
+          </span>
+        )}
+      </div>
 
-            <p className="mt-3 text-sm leading-6 text-white/55">
-                VarsityVue will use this space for rivalry records, legacy notes,
-                playoff history, memorable matchups, and community-submitted program
-                history as the archive expands.
-            </p>
+      {(date || kickoff || venue) && (
+        <div className="mt-4 flex flex-wrap gap-2 text-xs font-bold text-white/55">
+          {date && <span className="rounded-full bg-white/[0.06] px-3 py-2">{date}</span>}
+          {kickoff && <span className="rounded-full bg-white/[0.06] px-3 py-2">{kickoff}</span>}
+          {venue && <span className="rounded-full bg-white/[0.06] px-3 py-2">{venue}</span>}
+        </div>
+      )}
 
-            <div className="mt-5 rounded-2xl border border-white/10 bg-black/35 p-4">
-                <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">
-                    Next Meeting
-                </p>
-
-                <h3 className="mt-2 text-lg font-black text-white">
-                    {rivalryGame.awayTeam} at {rivalryGame.homeTeam}
-                </h3>
-
-                <p className="mt-1 text-xs font-semibold text-white/45">
-                    {rivalryGame.specialEvent ?? "Rivalry matchup"}
-                </p>
-            </div>
-
-            <Link
-                href={`/games/${rivalryGame.id}`}
-                className="mt-5 block rounded-xl border border-white/10 bg-black/35 px-5 py-4 text-center text-xs font-black uppercase tracking-[0.16em] text-white/65 transition hover:bg-white/10 hover:text-white"
-            >
-                View Matchup →
-            </Link>
-        </section>
-    );
+      <Link
+        href={`/games/${rivalryGame.id}`}
+        className="mt-4 inline-flex rounded-full border border-white/10 bg-black/35 px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.14em] text-white/65 transition hover:bg-white/10 hover:text-white sm:text-xs"
+      >
+        Open Matchup →
+      </Link>
+    </section>
+  );
 }
