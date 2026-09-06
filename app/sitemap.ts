@@ -3,6 +3,7 @@ import { schools } from "../data/schools";
 import { games } from "../data/games";
 import { articles } from "../data/articles";
 import { districts } from "../data/districts";
+import { getPlayerSeasonStats } from "../lib/player-stats";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://varsityvue.com";
@@ -12,6 +13,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
     schools
       .filter((school) => school.status === "pilot")
       .map((school) => school.slug)
+  );
+  const featuredDistrictIds = new Set(
+    districts
+      .filter((district) => district.status === "pilot")
+      .map((district) => district.id)
+  );
+  const schoolDistrictBySlug = new Map(
+    schools.map((school) => [school.slug, school.districtId])
+  );
+  const verifiedPlayers = getPlayerSeasonStats(2026).filter(
+    (player) =>
+      player.gamesRecorded > 0 &&
+      pilotSchoolSlugs.has(player.schoolSlug)
+  );
+  const districtIdsWithVerifiedStats = new Set(
+    verifiedPlayers
+      .map((player) => schoolDistrictBySlug.get(player.schoolSlug))
+      .filter((districtId): districtId is string => Boolean(districtId))
   );
 
   const staticRoutes = [
@@ -64,6 +83,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.85,
     }));
 
+  const playerRoutes = verifiedPlayers.map((player) => ({
+    url: `${baseUrl}/players/${player.playerId}`,
+    lastModified: now,
+    changeFrequency: "weekly" as const,
+    priority: 0.75,
+  }));
+
+  const districtStatRoutes = districts
+    .filter(
+      (district) =>
+        featuredDistrictIds.has(district.id) &&
+        districtIdsWithVerifiedStats.has(district.id)
+    )
+    .map((district) => ({
+      url: `${baseUrl}/stats/districts/${district.slug}`,
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: 0.75,
+    }));
+
   const articleRoutes = articles.map((article) => ({
     url: `${baseUrl}/coverage/${article.slug}`,
     lastModified: article.publishedAt
@@ -78,6 +117,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...schoolRoutes,
     ...districtRoutes,
     ...gameRoutes,
+    ...playerRoutes,
+    ...districtStatRoutes,
     ...articleRoutes,
   ];
 }
