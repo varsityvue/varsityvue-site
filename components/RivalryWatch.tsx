@@ -6,8 +6,25 @@ type Props = {
     schoolSlug: string;
 };
 
+const RIVALRY_TERMS = [
+    "rival",
+    "rivalry",
+    "classic",
+    "battle",
+    "showdown",
+    "cup",
+    "bowl",
+];
+
 function getRivalryLabel(schoolName: string, opponentName: string) {
     return `${schoolName} vs ${opponentName}`;
+}
+
+function isExplicitRivalryGame(specialEvent?: string) {
+    if (!specialEvent) return false;
+
+    const normalized = specialEvent.toLowerCase();
+    return RIVALRY_TERMS.some((term) => normalized.includes(term));
 }
 
 function getUpcomingRivalryGame(schoolSlug: string) {
@@ -15,7 +32,7 @@ function getUpcomingRivalryGame(schoolSlug: string) {
         (game) =>
             game.status === "upcoming" &&
             game.gameType !== "bye" &&
-            (game.districtGame || game.specialEvent)
+            isExplicitRivalryGame(game.specialEvent)
     );
 }
 
@@ -62,8 +79,7 @@ export default function RivalryWatch({ schoolSlug }: Props) {
                 </h3>
 
                 <p className="mt-1 text-xs font-semibold text-white/45">
-                    {rivalryGame.specialEvent ??
-                        (rivalryGame.districtGame ? "District matchup" : "Upcoming game")}
+                    {rivalryGame.specialEvent ?? "Rivalry matchup"}
                 </p>
             </div>
 
