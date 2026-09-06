@@ -11,19 +11,44 @@ export async function generateMetadata({
   const { slug } = await params;
   const school = getSchoolBySlug(slug);
 
-  if (!school || school.status === "pilot") {
-    return {};
+  if (!school) {
+    return {
+      title: {
+        default: "Page Not Found",
+        template: "%s",
+      },
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
   }
 
   return {
-    robots: {
-      index: false,
-      follow: true,
-      googleBot: {
-        index: false,
-        follow: true,
-      },
+    title: {
+      default: `${school.fullName} Football Hub | VarsityVue`,
+      template: "%s",
     },
+    alternates: {
+      canonical: `/schools/${school.slug}`,
+    },
+    openGraph: {
+      url: `/schools/${school.slug}`,
+    },
+    robots:
+      school.status === "pilot"
+        ? {
+            index: true,
+            follow: true,
+          }
+        : {
+            index: false,
+            follow: true,
+            googleBot: {
+              index: false,
+              follow: true,
+            },
+          },
   };
 }
 
