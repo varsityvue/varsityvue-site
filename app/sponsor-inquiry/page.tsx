@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Partner With VarsityVue",
+  title: { absolute: "Partner With VarsityVue" },
   description:
     "Learn about future partnership opportunities with VarsityVue as Texas high school football coverage expands across schools, games, districts, scoreboards, and local communities.",
+  alternates: { canonical: "/sponsor-inquiry" },
   robots: {
     index: false,
     follow: true,
