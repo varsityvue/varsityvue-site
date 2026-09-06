@@ -24,14 +24,14 @@ export default function DistrictCoverage({ districtId }: Props) {
                 </h2>
 
                 <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55">
-                    District previews, standings analysis, rivalry coverage, playoff race updates, and weekly notes will appear here as VarsityVue coverage expands.
+                    District previews, standings analysis, rivalry coverage, playoff race updates, and weekly notes will appear here as VarsityVue coverage expands. Fans, coaches, and community members can send story ideas, records, photos, and program information for review.
                 </p>
 
                 <Link
-                    href="/sponsor-inquiry"
+                    href="/submit"
                     className="mt-6 inline-flex rounded-xl border border-white/10 bg-black/35 px-5 py-4 text-xs font-black uppercase tracking-[0.16em] text-white/65 transition hover:bg-white/10 hover:text-white"
                 >
-                    Sponsor District Coverage →
+                    Submit a District Story Tip →
                 </Link>
             </section>
         );
@@ -39,7 +39,7 @@ export default function DistrictCoverage({ districtId }: Props) {
 
     return (
         <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
-            <div className="flex items-start justify-between gap-4">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div>
                     <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
                         District Coverage
@@ -54,12 +54,20 @@ export default function DistrictCoverage({ districtId }: Props) {
                     </p>
                 </div>
 
-                <Link
-                    href="/coverage"
-                    className="hidden rounded-full border border-white/10 bg-black/35 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-white/60 transition hover:bg-white/10 hover:text-white sm:inline-flex"
-                >
-                    View Coverage →
-                </Link>
+                <div className="flex flex-wrap gap-2">
+                    <Link
+                        href="/submit"
+                        className="hidden rounded-full border border-white/10 bg-black/35 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-white/60 transition hover:bg-white/10 hover:text-white sm:inline-flex"
+                    >
+                        Submit a Story Tip →
+                    </Link>
+                    <Link
+                        href="/coverage"
+                        className="hidden rounded-full border border-white/10 bg-black/35 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-white/60 transition hover:bg-white/10 hover:text-white sm:inline-flex"
+                    >
+                        View Coverage →
+                    </Link>
+                </div>
             </div>
 
             <div className="mt-6 grid gap-4 md:grid-cols-3">
@@ -88,12 +96,20 @@ export default function DistrictCoverage({ districtId }: Props) {
                 ))}
             </div>
 
-            <Link
-                href="/coverage"
-                className="mt-5 block rounded-xl border border-white/10 bg-black/35 px-5 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white/65 transition hover:bg-white/10 hover:text-white sm:hidden"
-            >
-                View Coverage →
-            </Link>
+            <div className="mt-5 grid gap-2 sm:hidden">
+                <Link
+                    href="/submit"
+                    className="block rounded-xl border border-white/10 bg-black/35 px-5 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white/65 transition hover:bg-white/10 hover:text-white"
+                >
+                    Submit a Story Tip →
+                </Link>
+                <Link
+                    href="/coverage"
+                    className="block rounded-xl border border-white/10 bg-black/35 px-5 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white/65 transition hover:bg-white/10 hover:text-white"
+                >
+                    View Coverage →
+                </Link>
+            </div>
         </section>
     );
 }
