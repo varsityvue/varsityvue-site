@@ -9,7 +9,6 @@ import StandingsTable from "@/components/StandingsTable";
 import { getDistrictBySlug } from "@/lib/districts";
 import { getGamesForSchool } from "@/lib/games";
 import { getSchoolBySlug, getSchoolsByDistrictId } from "@/lib/schools";
-import { getActiveSponsors } from "@/lib/sponsors";
 import { getStandingsForDistrictId } from "@/lib/standings";
 
 type DistrictPageProps = {
@@ -100,15 +99,16 @@ function getDistrictGameStatus(game: DistrictGame) {
     return `${game.awayScore}-${game.homeScore} Final`;
   }
 
+  if (game.status === "live") return "Live";
   return "Scheduled";
 }
 
 function getDistrictGamesForDisplay(games: DistrictGame[], limit = 6) {
-  const upcoming = games
-    .filter((game) => game.status !== "final")
+  const currentOrUpcoming = games
+    .filter((game) => game.status === "live" || game.status === "upcoming")
     .sort((a, b) => getGameTimestamp(a.kickoff) - getGameTimestamp(b.kickoff));
 
-  if (upcoming.length > 0) return upcoming.slice(0, limit);
+  if (currentOrUpcoming.length > 0) return currentOrUpcoming.slice(0, limit);
 
   return games
     .filter((game) => game.status === "final")
@@ -123,12 +123,16 @@ export async function generateMetadata({
   const district = getDistrictBySlug(slug);
 
   if (!district) {
-    return { title: "District Not Found | VarsityVue" };
+    return { title: "District Not Found" };
   }
 
   return {
-    title: `${district.name} District Hub | VarsityVue`,
+    title: `${district.name} District Hub`,
     description: `${district.name} football standings, schedules, school hubs, district matchups, and verified results currently available on VarsityVue.`,
+    robots:
+      district.status === "pilot"
+        ? { index: true, follow: true }
+        : { index: false, follow: true },
   };
 }
 
@@ -158,12 +162,6 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
       typeof game.awayScore === "number"
   ).length;
   const districtPlayStarted = districtResults > 0;
-
-  const districtSponsor = getActiveSponsors().find(
-    (sponsor) =>
-      sponsor.placementTypes.includes("district-hub") &&
-      sponsor.districtIds?.includes(district.id)
-  );
 
   const classification = formatClassification(district.classification);
   const region = formatRegion(district.uilRegion);
@@ -214,29 +212,20 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
               VarsityVue District Hub
             </p>
 
-            <div className="mt-5 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
-              <div>
-                <h1 className="text-5xl font-black leading-tight tracking-tight sm:text-7xl">
-                  {displayName}
-                </h1>
+            <div className="mt-5">
+              <h1 className="text-5xl font-black leading-tight tracking-tight sm:text-7xl">
+                {displayName}
+              </h1>
 
-                <p className="mt-4 text-sm font-black uppercase tracking-[0.18em] text-white/45">
-                  {classification} • {region}
-                </p>
+              <p className="mt-4 text-sm font-black uppercase tracking-[0.18em] text-white/45">
+                {classification} • {region}
+              </p>
 
-                <p className="mt-5 max-w-3xl text-base leading-7 text-white/60 sm:text-lg">
-                  Follow the district race, verified results, upcoming matchups,
-                  school hubs, player statistics, and local coverage throughout
-                  the 2026 season.
-                </p>
-              </div>
-
-              <Link
-                href="/sponsor-inquiry"
-                className="rounded-xl border border-white/15 bg-white/[0.08] px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
-              >
-                2027 Sponsor Interest →
-              </Link>
+              <p className="mt-5 max-w-3xl text-base leading-7 text-white/60 sm:text-lg">
+                Follow the district race, verified results, upcoming matchups,
+                school hubs, player statistics, and local coverage throughout
+                the 2026 season.
+              </p>
             </div>
           </div>
 
@@ -315,33 +304,6 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
           </div>
 
           <aside className="space-y-6">
-            <section className="rounded-[1.75rem] border border-[color:var(--vv-primary)]/40 bg-gradient-to-br from-[var(--vv-primary)]/45 via-black to-black p-6 shadow-2xl">
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
-                {districtSponsor ? "District Partner" : "2027 Sponsor Interest"}
-              </p>
-
-              <h2 className="mt-3 text-3xl font-black text-white">
-                {districtSponsor
-                  ? `Presented by ${districtSponsor.name}`
-                  : "Support this district hub."}
-              </h2>
-
-              <p className="mt-3 text-sm leading-6 text-white/55">
-                {districtSponsor
-                  ? "This partner supports VarsityVue coverage across this district hub."
-                  : "Businesses can join the interest list for future district-hub partnership opportunities as VarsityVue coverage grows."}
-              </p>
-
-              {!districtSponsor && (
-                <Link
-                  href="/sponsor-inquiry"
-                  className="mt-6 block rounded-xl border border-white/15 bg-white/10 px-5 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
-                >
-                  Join Sponsor Interest List →
-                </Link>
-              )}
-            </section>
-
             <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
               <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
                 District Games
