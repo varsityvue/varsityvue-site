@@ -86,6 +86,25 @@ export default function GamesPage() {
     (game) => game.status === "upcoming"
   );
   const districtGames = regularGames.filter((game) => game.districtGame);
+  const hasLiveGames = liveGames.length > 0;
+
+  const displayGames = [...regularGames].sort((a, b) => {
+    const statusPriority: Record<string, number> = {
+      live: 0,
+      upcoming: 1,
+      scheduled: 2,
+      final: 3,
+    };
+
+    const priorityDifference =
+      (statusPriority[a.status] ?? 4) - (statusPriority[b.status] ?? 4);
+    if (priorityDifference !== 0) return priorityDifference;
+
+    const aTime = new Date(getKickoffValue(a)).getTime();
+    const bTime = new Date(getKickoffValue(b)).getTime();
+
+    return a.status === "final" ? bTime - aTime : aTime - bTime;
+  });
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] text-white">
@@ -184,18 +203,24 @@ export default function GamesPage() {
             <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
-                  Live Score Strip
+                  {hasLiveGames ? "Live Score Strip" : "Next Up"}
                 </p>
-                <h2 className="mt-2 text-3xl font-black text-white">Friday Night Board</h2>
+                <h2 className="mt-2 text-3xl font-black text-white">
+                  {hasLiveGames ? "Friday Night Board" : "Upcoming Games"}
+                </h2>
               </div>
 
               <p className="text-sm font-bold text-white/45">
-                {liveGames.length > 0 ? `${liveGames.length} live` : "Live scoring coming soon"}
+                {hasLiveGames
+                  ? `${liveGames.length} live`
+                  : upcomingGames.length > 0
+                    ? `${upcomingGames.length} upcoming`
+                    : "No upcoming games listed"}
               </p>
             </div>
 
             <div className="flex gap-3 overflow-x-auto pb-2 pr-4">
-              {(liveGames.length > 0 ? liveGames : upcomingGames.slice(0, 5)).map((game) => (
+              {(hasLiveGames ? liveGames : upcomingGames.slice(0, 5)).map((game) => (
                 <Link
                   key={game.id}
                   href={`/games/${game.id}`}
@@ -226,7 +251,7 @@ export default function GamesPage() {
             </div>
 
             <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-              {regularGames.map((game) => (
+              {displayGames.map((game) => (
                 <Link
                   key={game.id}
                   href={`/games/${game.id}`}
