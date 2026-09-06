@@ -8,6 +8,24 @@ const combinedGameStats = [
   ...coachGameStats,
 ];
 
+function assertNoDuplicateGameStatIds() {
+  const seen = new Set<string>();
+  const duplicates: string[] = [];
+
+  for (const game of combinedGameStats) {
+    if (seen.has(game.gameId)) duplicates.push(game.gameId);
+    seen.add(game.gameId);
+  }
+
+  if (duplicates.length > 0) {
+    throw new Error(
+      `Duplicate GameStats records found: ${Array.from(new Set(duplicates)).join(", ")}`
+    );
+  }
+}
+
+assertNoDuplicateGameStatIds();
+
 export const gameStats = combinedGameStats.map((game) => {
   if (game.gameId !== "hawley-at-albany-2026-week-1") return game;
 
