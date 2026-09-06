@@ -62,7 +62,12 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
           {recentScores.length > 0 && <RecentScores scores={recentScores} theme={theme} schoolSlug={slug} />}
           <SchoolTeamLeaders schoolSlug={school.slug} season={2026} primaryColor={theme.primary} secondaryColor={theme.secondary} />
           <UpcomingSchedulePreview schoolSlug={school.slug} theme={theme} />
-          <StandingsTable standings={standings} theme={theme} />
+          <StandingsTable
+            standings={standings}
+            theme={theme}
+            currentSchoolSlug={school.slug}
+            districtHref={`/districts/${districtSlug}`}
+          />
           <SchoolCoverage schoolSlug={school.slug} />
         </div>
 
