@@ -100,7 +100,8 @@ function getDistrictGameStatus(game: DistrictGame) {
   }
 
   if (game.status === "live") return "Live";
-  return "Scheduled";
+  if (game.status === "scheduled") return "Result Pending";
+  return "Upcoming";
 }
 
 function getDistrictGamesForDisplay(games: DistrictGame[], limit = 6) {
@@ -108,12 +109,15 @@ function getDistrictGamesForDisplay(games: DistrictGame[], limit = 6) {
     .filter((game) => game.status === "live" || game.status === "upcoming")
     .sort((a, b) => getGameTimestamp(a.kickoff) - getGameTimestamp(b.kickoff));
 
-  if (currentOrUpcoming.length > 0) return currentOrUpcoming.slice(0, limit);
+  const pendingResults = games
+    .filter((game) => game.status === "scheduled")
+    .sort((a, b) => getGameTimestamp(b.kickoff) - getGameTimestamp(a.kickoff));
 
-  return games
+  const recentFinals = games
     .filter((game) => game.status === "final")
-    .sort((a, b) => getGameTimestamp(b.kickoff) - getGameTimestamp(a.kickoff))
-    .slice(0, limit);
+    .sort((a, b) => getGameTimestamp(b.kickoff) - getGameTimestamp(a.kickoff));
+
+  return [...currentOrUpcoming, ...pendingResults, ...recentFinals].slice(0, limit);
 }
 
 export async function generateMetadata({
