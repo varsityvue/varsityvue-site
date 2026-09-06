@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
 
-import { getSchools, getPilotSchools, getSchoolBySlug } from "@/lib/schools";
+import { getSchools, getFeaturedSchools, getSchoolBySlug } from "@/lib/schools";
 import { getNextGameForSchool } from "@/lib/games";
 import { getDistricts, getDistrictById } from "@/lib/districts";
 import { getGameOfTheWeek } from "@/lib/scoreboard";
@@ -11,18 +11,29 @@ import {
   getStandingsForDistrictId,
 } from "@/lib/standings";
 import DistrictSpotlight from "@/components/DistrictSpotlight";
-import HomeSponsorSlot from "@/components/HomeSponsorSlot";
 import SchoolBadge from "@/components/SchoolBadge";
 import ScoreStrip from "@/components/ScoreStrip";
 import SchoolSearch from "../components/SchoolSearch";
-import PilotSchoolSpotlight from "@/components/PilotSchoolSpotlight";
+import FeaturedSchoolSpotlight from "@/components/PilotSchoolSpotlight";
 import FeaturedMatchups from "@/components/FeaturedMatchups";
 import FeaturedCoverage from "@/components/FeaturedCoverage";
 
 export const metadata: Metadata = {
-  title: "VarsityVue | Texas High School Sports Platform",
+  title: {
+    absolute: "VarsityVue | Texas High School Football Scores & Coverage",
+  },
   description:
-    "VarsityVue is a Texas high school sports platform for school hubs, schedules, scores, district standings, matchup pages, coverage, and program discovery.",
+    "Texas high school football scores, schedules, standings, school hubs, matchup pages, player statistics, and local coverage on VarsityVue.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "VarsityVue | Texas High School Football Scores & Coverage",
+    description:
+      "Texas high school football scores, schedules, standings, school hubs, matchup pages, player statistics, and local coverage on VarsityVue.",
+    url: "https://varsityvue.com",
+    type: "website",
+  },
 };
 
 function parseGameDate(kickoff?: string) {
@@ -87,11 +98,13 @@ function formatClassification(conference: string, division?: string | null) {
 export default function Home() {
   const schools = getSchools();
   const districts = getDistricts();
+  const featuredPrograms = getFeaturedSchools();
+  const featuredDistricts = districts.filter((district) => district.status === "pilot");
 
   const featuredGame = getGameOfTheWeek();
-  const featuredPrograms = getPilotSchools().slice(0, 6);
+  const featuredProgramsForDisplay = featuredPrograms.slice(0, 6);
 
-  const featuredDistrict = districts[0];
+  const featuredDistrict = featuredDistricts[0];
   const featuredStandings = featuredDistrict
     ? getStandingsForDistrictId(featuredDistrict.id).slice(0, 6)
     : [];
@@ -99,7 +112,7 @@ export default function Home() {
     (team) => team.districtWins > 0 || team.districtLosses > 0
   );
 
-  const featuredSchool = featuredPrograms[0];
+  const featuredSchool = featuredProgramsForDisplay[0];
 
   const featuredHomeSchool = featuredGame?.homeSchoolSlug
     ? getSchoolBySlug(featuredGame.homeSchoolSlug)
@@ -135,6 +148,10 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] text-white">
+      <h1 className="sr-only">
+        Texas High School Football Scores, Schedules, Standings and Local Coverage
+      </h1>
+
       <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.20),transparent_30%),linear-gradient(120deg,#050505_0%,#090909_52%,#000_100%)] px-4 pb-6 pt-6 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-[1440px] gap-5 lg:grid-cols-[1.22fr_0.88fr]">
           <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#080808] shadow-2xl">
@@ -233,12 +250,12 @@ export default function Home() {
                   </>
                 ) : (
                   <div className="mt-8">
-                    <h1 className="max-w-4xl text-5xl font-black uppercase leading-[0.9] tracking-tight text-white sm:text-7xl lg:text-8xl">
+                    <h2 className="max-w-4xl text-5xl font-black uppercase leading-[0.9] tracking-tight text-white sm:text-7xl lg:text-8xl">
                       The Game, Seen Smarter
-                    </h1>
+                    </h2>
 
                     <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">
-                      Texas high school sports hubs, verified scores, schedules,
+                      Texas high school football hubs, verified scores, schedules,
                       district standings, player stats, and local coverage.
                     </p>
                   </div>
@@ -288,8 +305,8 @@ export default function Home() {
               </div>
 
               <div className="mt-8 grid gap-3 sm:grid-cols-3">
-                <Stat value={schools.length.toString()} label="Programs Indexed" />
-                <Stat value={districts.length.toString()} label="District Hubs" />
+                <Stat value={featuredPrograms.length.toString()} label="Featured Programs" />
+                <Stat value={featuredDistricts.length.toString()} label="Featured Districts" />
                 <Stat value="2026" label="Season" />
               </div>
             </div>
@@ -301,9 +318,8 @@ export default function Home() {
 
       <ScoreStrip />
       <DistrictSpotlight />
-      <PilotSchoolSpotlight />
+      <FeaturedSchoolSpotlight />
       <FeaturedMatchups />
-      <HomeSponsorSlot />
       <FeaturedCoverage />
 
       <section className="px-4 py-5 sm:px-6 lg:px-8">
@@ -422,7 +438,7 @@ export default function Home() {
 
           <Panel title="Featured Programs" kicker="School Hubs" href="/schools">
             <div className="space-y-3">
-              {featuredPrograms.slice(0, 4).map((school) => (
+              {featuredProgramsForDisplay.slice(0, 4).map((school) => (
                 <Link
                   key={school.id}
                   href={`/schools/${school.slug}`}
@@ -601,9 +617,9 @@ function HeroTeam({
 
   return (
     <div data-side={align} className="min-w-0 text-center">
-      <h1 className={`${teamNameSize} font-black uppercase leading-none tracking-tight text-white`}>
+      <h2 className={`${teamNameSize} font-black uppercase leading-none tracking-tight text-white`}>
         {team}
-      </h1>
+      </h2>
       {school?.mascot && (
         <p className="mt-2 text-sm font-black uppercase tracking-[0.22em] text-white/45">
           {school.mascot}
