@@ -101,11 +101,7 @@ export default function GamesPage() {
               `,
             }}
           >
-            <p className="text-xs font-black uppercase tracking-[0.32em] text-[var(--vv-accent)]">
-              VarsityVue Games
-            </p>
-
-            <h1 className="mt-4 max-w-5xl text-4xl font-black leading-tight tracking-tight sm:text-6xl">
+            <h1 className="max-w-5xl text-4xl font-black leading-tight tracking-tight sm:text-6xl">
               VarsityVue Football Scores + Schedule
             </h1>
 
