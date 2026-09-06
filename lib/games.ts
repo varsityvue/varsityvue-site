@@ -137,27 +137,37 @@ function assertGameScoreConsistency() {
   }
 }
 
-function assertGameSchoolReferences() {
+function assertDistrictGameSchoolReferences() {
   const problems: string[] = [];
 
   for (const game of rawGames) {
-    if (game.homeSchoolSlug && !getSchoolBySlug(game.homeSchoolSlug)) {
-      problems.push(`${game.id}: unknown home school ${game.homeSchoolSlug}`);
+    if (!game.districtGame) continue;
+
+    const homeSchool = game.homeSchoolSlug
+      ? getSchoolBySlug(game.homeSchoolSlug)
+      : undefined;
+    const awaySchool = game.awaySchoolSlug
+      ? getSchoolBySlug(game.awaySchoolSlug)
+      : undefined;
+
+    if (!homeSchool || !awaySchool) {
+      problems.push(`${game.id}: district game references an unknown school`);
+      continue;
     }
 
-    if (game.awaySchoolSlug && !getSchoolBySlug(game.awaySchoolSlug)) {
-      problems.push(`${game.id}: unknown away school ${game.awaySchoolSlug}`);
+    if (homeSchool.districtId !== awaySchool.districtId) {
+      problems.push(`${game.id}: district opponents are assigned to different districts`);
     }
   }
 
   if (problems.length > 0) {
-    throw new Error(`Game school integrity check failed (${problems.join("; ")})`);
+    throw new Error(`District game integrity check failed (${problems.join("; ")})`);
   }
 }
 
 assertNoDuplicateGameIds();
 assertGameScoreConsistency();
-assertGameSchoolReferences();
+assertDistrictGameSchoolReferences();
 
 export function getGames() {
   return getNormalizedGames();
