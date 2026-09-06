@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "About VarsityVue",
+  title: "About",
   description:
     "Learn about VarsityVue, a growing home for Texas high school football scores, schedules, standings, school hubs, verified statistics, and local coverage.",
   alternates: { canonical: "/about" },
