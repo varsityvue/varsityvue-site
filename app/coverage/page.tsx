@@ -3,10 +3,27 @@ import Link from "next/link";
 import { articles } from "../../data/articles";
 import type { Article } from "@/types/platform";
 
+const coverageTitle = "Texas High School Football Coverage, Previews & Recaps";
+const coverageDescription =
+  "Read VarsityVue Texas high school football coverage including game previews, recaps, athlete spotlights, district outlooks, legacy stories, and local sports features.";
+
 export const metadata: Metadata = {
-  title: "Texas High School Football Coverage, Previews & Recaps | VarsityVue",
-  description:
-    "Read VarsityVue Texas high school football coverage including game previews, recaps, athlete spotlights, district outlooks, legacy stories, and local sports features.",
+  title: coverageTitle,
+  description: coverageDescription,
+  alternates: {
+    canonical: "/coverage",
+  },
+  openGraph: {
+    title: `${coverageTitle} | VarsityVue`,
+    description: coverageDescription,
+    url: "/coverage",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: `${coverageTitle} | VarsityVue`,
+    description: coverageDescription,
+  },
 };
 
 function formatArticleDate(publishedAt: string) {
