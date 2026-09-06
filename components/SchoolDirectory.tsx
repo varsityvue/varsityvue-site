@@ -97,25 +97,30 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
             </h2>
           </div>
 
-          <p className="text-sm font-bold text-white/45">
+          <p className="text-sm font-bold text-white/45" aria-live="polite">
             {filteredSchools.length} of {schools.length} schools shown
           </p>
         </div>
 
         <div className="mt-5">
+          <label htmlFor="school-directory-search" className="sr-only">
+            Search school hubs by school, mascot, district, classification, or stadium
+          </label>
           <input
-            type="text"
+            id="school-directory-search"
+            type="search"
             placeholder="Find your school, mascot, abbreviation, district, classification, or stadium..."
             value={search}
             onChange={(event) => setSearch(event.target.value)}
-            className="w-full rounded-2xl border border-white/10 bg-black/55 px-5 py-4 text-sm font-bold text-white outline-none transition placeholder:text-white/35 focus:border-white/30 focus:bg-black/75"
+            autoComplete="off"
+            className="w-full rounded-2xl border border-white/10 bg-black/55 px-5 py-4 text-sm font-bold text-white outline-none transition placeholder:text-white/35 focus:border-white/30 focus:bg-black/75 focus-visible:ring-2 focus-visible:ring-white/70"
           />
         </div>
 
-        <div className="mt-5">
-          <p className="mb-3 text-[10px] font-black uppercase tracking-[0.22em] text-white/35">
+        <fieldset className="mt-5">
+          <legend className="mb-3 text-[10px] font-black uppercase tracking-[0.22em] text-white/35">
             Classification
-          </p>
+          </legend>
 
           <div className="flex flex-wrap gap-3">
             {classificationFilters.map((classification) => (
@@ -128,7 +133,7 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
               />
             ))}
           </div>
-        </div>
+        </fieldset>
       </section>
 
       {filteredSchools.length === 0 ? (
@@ -138,6 +143,12 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
             Try searching by school name, mascot, abbreviation, district,
             classification, or stadium.
           </p>
+          <Link
+            href="/school-request"
+            className="mt-5 inline-flex rounded-full border border-white/15 bg-white/5 px-5 py-3 text-sm font-black uppercase tracking-[0.14em] text-white/75 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+          >
+            Request a School →
+          </Link>
         </div>
       ) : (
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -149,7 +160,7 @@ export default function SchoolDirectory({ schools }: { schools: School[] }) {
               <Link
                 key={school.slug}
                 href={`/schools/${school.slug}`}
-                className="group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-xl transition-all duration-200 hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.075]"
+                className="group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-xl transition-all duration-200 hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.075] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
                 style={{
                   boxShadow: `0 18px 50px ${school.colors.primary}24`,
                 }}
@@ -253,7 +264,8 @@ function FilterButton({
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-full border px-4 py-2 text-sm font-black transition ${active
+      aria-pressed={active}
+      className={`rounded-full border px-4 py-2 text-sm font-black transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 ${active
         ? "border-white/20 bg-white text-black shadow-[0_0_24px_rgba(255,255,255,0.12)]"
         : "border-white/10 bg-black/30 text-white/60 hover:bg-white/10 hover:text-white"
         }`}
