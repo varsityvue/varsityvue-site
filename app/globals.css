@@ -25,3 +25,23 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Keep the Game Center quarter-by-quarter score line fully visible on phones. */
+@media (max-width: 639px) {
+  table.min-w-\[560px\] {
+    min-width: 100% !important;
+    table-layout: fixed;
+  }
+
+  table.min-w-\[560px\] th,
+  table.min-w-\[560px\] td {
+    padding-left: 0.25rem !important;
+    padding-right: 0.25rem !important;
+  }
+
+  table.min-w-\[560px\] th:first-child,
+  table.min-w-\[560px\] td:first-child {
+    width: 34%;
+    overflow-wrap: anywhere;
+  }
+}
