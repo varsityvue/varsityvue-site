@@ -92,14 +92,6 @@ export default function SchoolSeasonPulse({
     })
     .filter((result): result is "W" | "L" | "T" => Boolean(result));
 
-  let streak = "—";
-  if (recentResults.length) {
-    const latest = recentResults[recentResults.length - 1];
-    let count = 0;
-    for (let i = recentResults.length - 1; i >= 0 && recentResults[i] === latest; i -= 1) count += 1;
-    streak = `${latest}${count}`;
-  }
-
   const nextOpponent = nextGame ? getOpponent(nextGame, schoolSlug) : null;
   const nextOpponentSchool = nextOpponent?.slug ? getSchoolBySlug(nextOpponent.slug) : undefined;
 
@@ -114,14 +106,9 @@ export default function SchoolSeasonPulse({
         }}
       >
         <p className="text-[10px] font-black uppercase tracking-[0.24em] text-white/45">Season Pulse</p>
-        <div className="mt-3 flex items-end justify-between gap-4">
-          <div>
-            <p className="text-5xl font-black tracking-tight text-white">{wins}-{losses}</p>
-            <p className="mt-1 text-xs font-black uppercase tracking-[0.16em] text-white/35">2026 Record</p>
-          </div>
-          <span className="rounded-full border border-white/10 bg-black/35 px-3 py-2 text-xs font-black text-white/70">
-            {streak === "—" ? "No streak" : `${streak} streak`}
-          </span>
+        <div className="mt-3">
+          <p className="text-5xl font-black tracking-tight text-white">{wins}-{losses}</p>
+          <p className="mt-1 text-xs font-black uppercase tracking-[0.16em] text-white/35">2026 Record</p>
         </div>
 
         <div className="mt-5 grid grid-cols-3 gap-2">
@@ -132,7 +119,7 @@ export default function SchoolSeasonPulse({
 
         {recentResults.length > 0 && (
           <div className="mt-5 border-t border-white/10 pt-4">
-            <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">Recent form</p>
+            <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">Last 5</p>
             <div className="mt-3 flex gap-2">
               {recentResults.slice(-5).map((result, index) => (
                 <span
