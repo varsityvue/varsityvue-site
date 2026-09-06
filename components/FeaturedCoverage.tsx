@@ -26,7 +26,8 @@ export default function FeaturedCoverage() {
             <p className="mt-4 max-w-3xl text-base leading-7 text-white/60">
               Published coverage will appear here as VarsityVue adds verified
               results, matchup context, and program-specific stories during the
-              2026 season.
+              2026 season. Fans, coaches, and community members can also send
+              story ideas, photos, records, and program information for review.
             </p>
 
             <div className="mt-7 flex flex-wrap gap-3">
@@ -37,10 +38,10 @@ export default function FeaturedCoverage() {
                 Explore Coverage →
               </Link>
               <Link
-                href="/scoreboard"
+                href="/submit"
                 className="inline-flex rounded-xl border border-white/10 bg-black/35 px-5 py-3 text-xs font-black uppercase tracking-[0.16em] text-white/60 transition hover:bg-white/10 hover:text-white"
               >
-                View Results →
+                Submit a Story Tip →
               </Link>
             </div>
           </div>
