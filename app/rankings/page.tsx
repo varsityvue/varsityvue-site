@@ -4,9 +4,16 @@ import { getFootballRankings } from "@/lib/rankings";
 import { getSchoolById } from "@/lib/schools";
 
 export const metadata: Metadata = {
-  title: "Texas High School Football Rankings | VarsityVue",
+  title: "Texas High School Football Rankings",
   description:
-    "VarsityVue football rankings for Texas high school sports, featuring regional teams, records, classifications, notes, and weekly rankings coverage.",
+    "VarsityVue editorial Texas high school football rankings featuring regional teams, records, classifications, notes, and weekly ranking context.",
+  alternates: {
+    canonical: "/rankings",
+  },
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 const methodology = [
@@ -68,32 +75,6 @@ export default function RankingsPage() {
               come back, compare programs, and follow momentum across the
               VarsityVue football network.
             </p>
-          </div>
-        </section>
-
-        <section className="mt-10 rounded-3xl border border-[color:var(--vv-primary)]/30 bg-[var(--vv-primary)]/10 p-6 md:p-8">
-          <div className="flex flex-col justify-between gap-5 md:flex-row md:items-center">
-            <div>
-              <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
-                2027 Sponsor Interest
-              </p>
-
-              <h2 className="mt-3 text-3xl font-black">
-                Interested in rankings visibility for 2027?
-              </h2>
-
-              <p className="mt-3 max-w-2xl leading-7 text-white/65">
-                Join the 2027 sponsor interest list to learn about future
-                rankings placements as VarsityVue coverage grows.
-              </p>
-            </div>
-
-            <Link
-              href="/sponsor-inquiry"
-              className="rounded-full bg-white px-7 py-4 text-center font-black text-black transition hover:bg-white/85"
-            >
-              Join 2027 Sponsor Interest
-            </Link>
           </div>
         </section>
 
@@ -195,37 +176,6 @@ export default function RankingsPage() {
                 <p className="text-lg font-black">{item}</p>
               </div>
             ))}
-          </div>
-        </section>
-
-        <section className="mt-14 rounded-3xl border border-white/10 bg-white/5 p-6 text-center md:p-10">
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
-            2027 Sponsor Interest
-          </p>
-
-          <h2 className="mt-4 text-4xl font-black">
-            Interested in being part of VarsityVue in 2027?
-          </h2>
-
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/65">
-            Join the sponsor interest list to hear about future opportunities
-            around rankings and VarsityVue coverage as the platform grows.
-          </p>
-
-          <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
-            <Link
-              href="/sponsor-inquiry"
-              className="rounded-full bg-[var(--vv-primary)] px-8 py-4 font-black transition hover:bg-[var(--vv-primary-hover)]"
-            >
-              Join 2027 Sponsor Interest
-            </Link>
-
-            <Link
-              href="/sponsors"
-              className="rounded-full border border-white/20 px-8 py-4 font-black transition hover:bg-white/10"
-            >
-              Learn About Sponsorships
-            </Link>
           </div>
         </section>
       </div>
