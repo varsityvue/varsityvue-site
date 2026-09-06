@@ -48,42 +48,43 @@ export default function RivalryWatch({ schoolSlug }: Props) {
   const venue = rivalryGame.venue ?? rivalryGame.location;
 
   return (
-    <section className="rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-5 shadow-2xl sm:rounded-[1.75rem] sm:p-6">
-      <div className="flex items-start justify-between gap-4">
+    <section className="rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6">
+      <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/45 sm:text-xs">
+          <p className="text-[9px] font-black uppercase tracking-[0.2em] text-white/45 sm:text-xs sm:tracking-[0.22em]">
             Rivalry Watch
           </p>
-          <h2 className="mt-2 text-xl font-black text-white sm:text-2xl">
+          <h2 className="mt-1.5 break-words text-lg font-black leading-tight text-white sm:mt-2 sm:text-2xl">
             {school.name} vs {opponentName}
           </h2>
           {rivalryGame.specialEvent && (
-            <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-white/40">
+            <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.1em] text-white/40 sm:text-xs sm:tracking-[0.12em]">
               {rivalryGame.specialEvent}
             </p>
           )}
         </div>
 
         {rivalryGame.week && (
-          <span className="shrink-0 rounded-full border border-white/10 bg-black/35 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.12em] text-white/45">
-            Week {rivalryGame.week}
+          <span className="shrink-0 rounded-full border border-white/10 bg-black/35 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.1em] text-white/45 sm:px-3 sm:py-1.5 sm:text-[10px] sm:tracking-[0.12em]">
+            W{rivalryGame.week}
+            <span className="hidden sm:inline">eek {rivalryGame.week}</span>
           </span>
         )}
       </div>
 
       {(date || kickoff || venue) && (
-        <div className="mt-4 flex flex-wrap gap-2 text-xs font-bold text-white/55">
-          {date && <span className="rounded-full bg-white/[0.06] px-3 py-2">{date}</span>}
-          {kickoff && <span className="rounded-full bg-white/[0.06] px-3 py-2">{kickoff}</span>}
-          {venue && <span className="rounded-full bg-white/[0.06] px-3 py-2">{venue}</span>}
+        <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-[11px] font-bold text-white/50 sm:mt-4 sm:gap-2 sm:text-xs">
+          {date && <span>{date}</span>}
+          {kickoff && <span>{kickoff}</span>}
+          {venue && <span className="hidden sm:inline">{venue}</span>}
         </div>
       )}
 
       <Link
         href={`/games/${rivalryGame.id}`}
-        className="mt-4 inline-flex rounded-full border border-white/10 bg-black/35 px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.14em] text-white/65 transition hover:bg-white/10 hover:text-white sm:text-xs"
+        className="mt-3 inline-flex items-center text-[10px] font-black uppercase tracking-[0.12em] text-white/55 transition hover:text-white sm:mt-4 sm:rounded-full sm:border sm:border-white/10 sm:bg-black/35 sm:px-4 sm:py-2.5 sm:text-xs sm:tracking-[0.14em] sm:text-white/65 sm:hover:bg-white/10"
       >
-        Open Matchup →
+        Matchup →
       </Link>
     </section>
   );
