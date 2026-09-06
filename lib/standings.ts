@@ -12,6 +12,20 @@ export type Standing = {
   pointsAgainst: number;
 };
 
+type RecordOverride = Pick<
+  Standing,
+  "overallWins" | "overallLosses" | "districtWins" | "districtLosses"
+>;
+
+// Verified record-only data for teams whose complete game results have not yet
+// been ingested into VarsityVue. These values affect W-L records only; points
+// for/against continue to come exclusively from individual verified game data.
+const verifiedRecordOverrides: Record<string, RecordOverride> = {
+  hamlin: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0 },
+  miles: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0 },
+  winters: { overallWins: 0, overallLosses: 2, districtWins: 0, districtLosses: 0 },
+};
+
 const games = getGames();
 
 function emptyStanding(schoolSlug: string, team: string): Standing {
@@ -67,6 +81,16 @@ function applyGameToStanding(
   }
 }
 
+function applyVerifiedRecordOverride(standing: Standing) {
+  const override = verifiedRecordOverrides[standing.schoolSlug];
+  if (!override) return;
+
+  standing.overallWins = override.overallWins;
+  standing.overallLosses = override.overallLosses;
+  standing.districtWins = override.districtWins;
+  standing.districtLosses = override.districtLosses;
+}
+
 function hasDistrictResults(standings: Standing[]) {
   return standings.some(
     (standing) => standing.districtWins > 0 || standing.districtLosses > 0
@@ -79,16 +103,8 @@ function sortStandings(standings: Standing[]) {
   }
 
   return [...standings].sort((a, b) => {
-    if (b.districtWins !== a.districtWins) {
-      return b.districtWins - a.districtWins;
-    }
-
-    if (a.districtLosses !== b.districtLosses) {
-      return a.districtLosses - b.districtLosses;
-    }
-
-    // VarsityVue does not apply unofficial tiebreakers. Teams with the same
-    // verified district record remain tied and are ordered alphabetically for display.
+    if (b.districtWins !== a.districtWins) return b.districtWins - a.districtWins;
+    if (a.districtLosses !== b.districtLosses) return a.districtLosses - b.districtLosses;
     return a.team.localeCompare(b.team);
   });
 }
@@ -106,6 +122,8 @@ function buildStandingsForDistrict(districtId: string): Standing[] {
       applyGameToStanding(standing, schoolSlug, game);
     });
   });
+
+  standingsMap.forEach((standing) => applyVerifiedRecordOverride(standing));
 
   return sortStandings(Array.from(standingsMap.values()));
 }
@@ -126,6 +144,7 @@ function buildStandaloneStanding(slug: string): Standing | undefined {
 
   const standing = emptyStanding(slug, teamName);
   matchingGames.forEach((game) => applyGameToStanding(standing, slug, game));
+  applyVerifiedRecordOverride(standing);
   return standing;
 }
 
