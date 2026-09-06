@@ -8,8 +8,7 @@ import { getPlayerSeasonStats } from "../lib/player-stats";
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://varsityvue.com";
 
-  const now = new Date();
-  const pilotSchoolSlugs = new Set(
+  const featuredSchoolSlugs = new Set(
     schools
       .filter((school) => school.status === "pilot")
       .map((school) => school.slug)
@@ -25,7 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const verifiedPlayers = getPlayerSeasonStats(2026).filter(
     (player) =>
       player.gamesRecorded > 0 &&
-      pilotSchoolSlugs.has(player.schoolSlug)
+      featuredSchoolSlugs.has(player.schoolSlug)
   );
   const districtIdsWithVerifiedStats = new Set(
     verifiedPlayers
@@ -45,7 +44,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/school-request",
   ].map((route) => ({
     url: `${baseUrl}${route}`,
-    lastModified: now,
     changeFrequency: "daily" as const,
     priority: route === "" ? 1.0 : 0.8,
   }));
@@ -54,7 +52,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     .filter((school) => school.status === "pilot")
     .map((school) => ({
       url: `${baseUrl}/schools/${school.slug}`,
-      lastModified: now,
       changeFrequency: "weekly" as const,
       priority: 0.9,
     }));
@@ -63,7 +60,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     .filter((district) => district.status === "pilot")
     .map((district) => ({
       url: `${baseUrl}/districts/${district.slug}`,
-      lastModified: now,
       changeFrequency: "weekly" as const,
       priority: 0.8,
     }));
@@ -73,19 +69,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
       (game) =>
         game.gameType !== "scrimmage" &&
         game.gameType !== "bye" &&
-        ((game.homeSchoolSlug && pilotSchoolSlugs.has(game.homeSchoolSlug)) ||
-          (game.awaySchoolSlug && pilotSchoolSlugs.has(game.awaySchoolSlug)))
+        ((game.homeSchoolSlug && featuredSchoolSlugs.has(game.homeSchoolSlug)) ||
+          (game.awaySchoolSlug && featuredSchoolSlugs.has(game.awaySchoolSlug)))
     )
     .map((game) => ({
       url: `${baseUrl}/games/${game.id}`,
-      lastModified: now,
       changeFrequency: "daily" as const,
       priority: 0.85,
     }));
 
   const playerRoutes = verifiedPlayers.map((player) => ({
     url: `${baseUrl}/players/${player.playerId}`,
-    lastModified: now,
     changeFrequency: "weekly" as const,
     priority: 0.75,
   }));
@@ -98,16 +92,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     )
     .map((district) => ({
       url: `${baseUrl}/stats/districts/${district.slug}`,
-      lastModified: now,
       changeFrequency: "weekly" as const,
       priority: 0.75,
     }));
 
   const articleRoutes = articles.map((article) => ({
     url: `${baseUrl}/coverage/${article.slug}`,
-    lastModified: article.publishedAt
-      ? new Date(article.publishedAt)
-      : now,
+    ...(article.publishedAt
+      ? { lastModified: new Date(article.publishedAt) }
+      : {}),
     changeFrequency: "weekly" as const,
     priority: 0.75,
   }));
