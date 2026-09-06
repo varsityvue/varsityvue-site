@@ -60,38 +60,38 @@ export default function StandingsTable({
 
   return (
     <section
-      className="rounded-[1.75rem] border bg-white/[0.045] p-5 shadow-2xl sm:p-6"
+      className="min-w-0 rounded-[1.5rem] border bg-white/[0.045] p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6"
       style={{
         borderColor: `${theme.secondary}22`,
         boxShadow: `0 18px 55px ${theme.primary}14`,
       }}
     >
-      <div className="mb-6 flex items-end justify-between gap-4">
-        <div>
-          <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
+      <div className="mb-5 flex items-end justify-between gap-3 sm:mb-6 sm:gap-4">
+        <div className="min-w-0">
+          <p className="text-[10px] font-black uppercase tracking-[0.24em] text-white/70 sm:text-xs sm:tracking-[0.28em]">
             District Race
           </p>
-          <h2 className="mt-2 text-3xl font-black text-white">Standings</h2>
+          <h2 className="mt-2 text-2xl font-black text-white sm:text-3xl">Standings</h2>
         </div>
 
         <Link
           href="/districts"
-          className="rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/70 transition hover:bg-white/10 hover:text-white"
+          className="shrink-0 rounded-full border px-3 py-2 text-[10px] font-black uppercase tracking-[0.12em] text-white/70 transition hover:bg-white/10 hover:text-white sm:px-4 sm:text-xs sm:tracking-[0.14em]"
           style={{
             borderColor: `${theme.secondary}33`,
             backgroundColor: "rgba(255,255,255,0.08)",
           }}
         >
-          Districts →
+          District →
         </Link>
       </div>
 
       {standings.length === 0 ? (
         <div
-          className="rounded-3xl border bg-black/35 p-6"
+          className="rounded-2xl border bg-black/35 p-5 sm:rounded-3xl sm:p-6"
           style={{ borderColor: `${theme.secondary}33` }}
         >
-          <p className="text-lg font-black text-white">
+          <p className="text-base font-black text-white sm:text-lg">
             No standings available yet.
           </p>
           <p className="mt-2 text-sm leading-6 text-white/50">
@@ -108,16 +108,78 @@ export default function StandingsTable({
               <p className="text-sm font-black text-white">
                 District play has not started yet.
               </p>
-              <p className="mt-1 text-sm leading-6 text-white/45">
+              <p className="mt-1 text-xs leading-5 text-white/45 sm:text-sm sm:leading-6">
                 {seasonStarted
-                  ? "Overall records are shown for context. Teams remain listed alphabetically until verified district results are available."
-                  : "Teams are listed alphabetically by district membership until verified district results are available."}
+                  ? "Overall records are shown for context."
+                  : "Teams are listed alphabetically by district membership."}
+                <span className="hidden sm:inline">
+                  {seasonStarted
+                    ? " Teams remain listed alphabetically until verified district results are available."
+                    : " Rankings will appear once verified district results are available."}
+                </span>
               </p>
             </div>
           )}
 
           <div
-            className="overflow-x-auto rounded-3xl border bg-black/35"
+            className="overflow-hidden rounded-2xl border bg-black/35 md:hidden"
+            style={{ borderColor: `${theme.secondary}33` }}
+          >
+            <div
+              className="grid grid-cols-[1fr_58px_58px] items-center gap-2 px-4 py-3 text-[9px] font-black uppercase tracking-[0.14em] text-white/40"
+              style={{ borderBottom: `2px solid ${theme.primary}` }}
+            >
+              <span>Team</span>
+              <span className="text-center">Dist</span>
+              <span className="text-right">Ovr</span>
+            </div>
+
+            <div className="divide-y divide-white/10">
+              {standings.map((team, index) => {
+                const school = getSchoolBySlug(team.schoolSlug);
+                const teamRow = (
+                  <div className="grid grid-cols-[1fr_58px_58px] items-center gap-2 px-4 py-3.5">
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2">
+                        {districtStarted && (
+                          <span className="shrink-0 text-[10px] font-black text-white/35">
+                            {getStandingPosition(standings, index)}
+                          </span>
+                        )}
+                        <p className="truncate text-sm font-black text-white">{team.team}</p>
+                      </div>
+                      {school?.mascot && (
+                        <p className="mt-0.5 truncate text-[9px] font-bold uppercase tracking-[0.12em] text-white/30">
+                          {school.mascot}
+                        </p>
+                      )}
+                    </div>
+                    <span className="text-center text-sm font-black text-white/80">
+                      {districtStarted ? `${team.districtWins}-${team.districtLosses}` : "—"}
+                    </span>
+                    <span className="text-right text-sm font-black text-white/60">
+                      {seasonStarted ? `${team.overallWins}-${team.overallLosses}` : "—"}
+                    </span>
+                  </div>
+                );
+
+                return school ? (
+                  <Link
+                    key={team.schoolSlug}
+                    href={`/schools/${team.schoolSlug}`}
+                    className="block transition hover:bg-white/[0.05]"
+                  >
+                    {teamRow}
+                  </Link>
+                ) : (
+                  <div key={team.schoolSlug}>{teamRow}</div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div
+            className="hidden overflow-x-auto rounded-3xl border bg-black/35 md:block"
             style={{
               borderColor: `${theme.secondary}33`,
               boxShadow: `0 18px 50px ${theme.primary}18`,
