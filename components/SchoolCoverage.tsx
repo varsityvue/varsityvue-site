@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { getLatestArticles } from "@/lib/articles";
+import { getArticlesForSchool } from "@/lib/articles";
 import { getSchoolBySlug } from "@/lib/schools";
 
 type Props = {
@@ -9,9 +9,7 @@ type Props = {
 
 export default function SchoolCoverage({ schoolSlug }: Props) {
   const school = getSchoolBySlug(schoolSlug);
-  const articles = getLatestArticles(20)
-    .filter((article) => article.schoolIds?.includes(schoolSlug))
-    .slice(0, 3);
+  const articles = getArticlesForSchool(schoolSlug).slice(0, 3);
 
   if (articles.length === 0) return null;
 
