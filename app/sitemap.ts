@@ -74,6 +74,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       (game) =>
         game.gameType !== "scrimmage" &&
         game.gameType !== "bye" &&
+        game.status !== "scheduled" &&
         game.status !== "cancelled" &&
         game.status !== "postponed" &&
         ((game.homeSchoolSlug && featuredSchoolSlugs.has(game.homeSchoolSlug)) ||
