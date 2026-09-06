@@ -105,7 +105,7 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
             primaryColor={theme.primary}
             secondaryColor={theme.secondary}
           />
-          <UpcomingSchedulePreview schoolSlug={school.slug} />
+          <UpcomingSchedulePreview schoolSlug={school.slug} theme={theme} />
           <StandingsTable standings={standings} theme={theme} />
           <SchoolCoverage schoolSlug={school.slug} />
           <NewsFeed articles={articles} theme={theme} />
