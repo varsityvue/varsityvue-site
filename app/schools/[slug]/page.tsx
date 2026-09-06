@@ -14,6 +14,7 @@ import RecentScores from "../../../components/RecentScores";
 import StandingsTable from "../../../components/StandingsTable";
 import NewsFeed from "../../../components/NewsFeed";
 import SchoolSubnav from "../../../components/SchoolSubnav";
+import SchoolSeasonPulse from "../../../components/SchoolSeasonPulse";
 import SchoolCoverage from "@/components/SchoolCoverage";
 import SchoolTeamLeaders from "@/components/SchoolTeamLeaders";
 import RivalryWatch from "../../../components/RivalryWatch";
@@ -89,22 +90,12 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
         theme={theme}
       />
 
-      <section className="hidden border-b border-white/10 px-4 py-6 sm:block sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <HubStat label="Mascot" value={school.mascot} />
-          <HubStat
-            label="Classification"
-            value={`${school.classification.conference}${school.classification.division ? ` ${school.classification.division}` : ""}`}
-          />
-          <HubStat label="District" value={district?.name ?? "TBD"} />
-          <HubStat label="Stadium" value={school.stadium ?? "TBD"} />
-        </div>
-      </section>
+      <div className="mx-auto w-full max-w-6xl px-4 pt-5 sm:px-6 sm:pt-6 lg:px-8">
+        <SchoolSeasonPulse schoolSlug={school.slug} theme={theme} />
+      </div>
 
       <div className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-5 sm:px-6 sm:py-6 lg:grid-cols-[1.45fr_0.75fr] lg:px-8">
         <div className="min-w-0 space-y-5 sm:space-y-6">
-          <UpcomingSchedulePreview schoolSlug={school.slug} />
-          <SchoolCoverage schoolSlug={school.slug} />
           {recentScores.length > 0 && (
             <RecentScores scores={recentScores} theme={theme} schoolSlug={slug} />
           )}
@@ -114,7 +105,9 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
             primaryColor={theme.primary}
             secondaryColor={theme.secondary}
           />
+          <UpcomingSchedulePreview schoolSlug={school.slug} />
           <StandingsTable standings={standings} theme={theme} />
+          <SchoolCoverage schoolSlug={school.slug} />
           <NewsFeed articles={articles} theme={theme} />
         </div>
 
@@ -273,15 +266,6 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
         </aside>
       </div>
     </main>
-  );
-}
-
-function HubStat({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-5 shadow-xl">
-      <p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">{label}</p>
-      <p className="mt-3 text-xl font-black text-white">{value}</p>
-    </div>
   );
 }
 
