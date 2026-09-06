@@ -74,12 +74,12 @@ export default function StandingsTable({
       className="min-w-0 rounded-[1.5rem] border bg-white/[0.045] p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6"
       style={{ borderColor: `${theme.secondary}22`, boxShadow: `0 18px 55px ${theme.primary}14` }}
     >
-      <div className="mb-5 flex items-end justify-between gap-3 sm:mb-6 sm:gap-4">
+      <div className="mb-4 flex items-center justify-between gap-3 sm:mb-6 sm:items-end sm:gap-4">
         <div className="min-w-0">
-          <p className="text-[10px] font-black uppercase tracking-[0.24em] text-white/70 sm:text-xs sm:tracking-[0.28em]">District Race</p>
-          <h2 className="mt-2 text-2xl font-black text-white sm:text-3xl">Standings</h2>
+          <p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/55 sm:text-xs sm:tracking-[0.28em]">District Race</p>
+          <h2 className="mt-1.5 text-2xl font-black text-white sm:mt-2 sm:text-3xl">Standings</h2>
         </div>
-        <Link href={districtHref} className="shrink-0 rounded-full border px-3 py-2 text-[10px] font-black uppercase tracking-[0.12em] text-white/70 transition hover:bg-white/10 hover:text-white sm:px-4 sm:text-xs sm:tracking-[0.14em]" style={{ borderColor: `${theme.secondary}33`, backgroundColor: "rgba(255,255,255,0.08)" }}>Full District →</Link>
+        <Link href={districtHref} className="shrink-0 rounded-full border px-3 py-2 text-[9px] font-black uppercase tracking-[0.1em] text-white/65 transition hover:bg-white/10 hover:text-white sm:px-4 sm:text-xs sm:tracking-[0.14em]" style={{ borderColor: `${theme.secondary}33`, backgroundColor: "rgba(255,255,255,0.08)" }}>Full District →</Link>
       </div>
 
       {displayed.length === 0 ? (
@@ -90,17 +90,20 @@ export default function StandingsTable({
       ) : (
         <>
           {!districtStarted && (
-            <div className="mb-4 rounded-2xl border bg-black/35 p-4" style={{ borderColor: `${theme.secondary}33` }}>
-              <p className="text-sm font-black text-white">District play has not started yet.</p>
-              <p className="mt-1 text-xs leading-5 text-white/45 sm:text-sm sm:leading-6">
-                {seasonStarted ? "Overall records are shown for context and ordered by current overall record." : "Teams are listed alphabetically by district membership."}
-                <span className="hidden sm:inline">{seasonStarted ? " District standings will take over once verified district results are available." : " Rankings will appear once verified district results are available."}</span>
-              </p>
+            <div className="mb-3 flex items-center gap-2.5 rounded-xl border bg-black/30 px-3 py-2.5 sm:mb-4 sm:block sm:rounded-2xl sm:p-4" style={{ borderColor: `${theme.secondary}33` }}>
+              <span className="h-2 w-2 shrink-0 rounded-full bg-white/35 sm:hidden" />
+              <div className="min-w-0">
+                <p className="text-xs font-black text-white/80 sm:text-sm sm:text-white">Pre-district standings</p>
+                <p className="mt-0.5 text-[10px] leading-4 text-white/40 sm:mt-1 sm:text-sm sm:leading-6">
+                  {seasonStarted ? "Ordered by overall record until district play begins." : "Teams are listed alphabetically until district play begins."}
+                  <span className="hidden sm:inline">{seasonStarted ? " District standings will take over once verified district results are available." : " Rankings will appear once verified district results are available."}</span>
+                </p>
+              </div>
             </div>
           )}
 
           <div className="overflow-hidden rounded-2xl border bg-black/35 md:hidden" style={{ borderColor: `${theme.secondary}33` }}>
-            <div className="grid grid-cols-[1fr_58px_58px] items-center gap-2 px-4 py-3 text-[9px] font-black uppercase tracking-[0.14em] text-white/40" style={{ borderBottom: `2px solid ${theme.primary}` }}>
+            <div className="grid grid-cols-[minmax(0,1fr)_44px_44px] items-center gap-2 px-3 py-2.5 text-[8px] font-black uppercase tracking-[0.12em] text-white/35" style={{ borderBottom: `2px solid ${theme.primary}` }}>
               <span>Team</span><span className="text-center">Dist</span><span className="text-right">Ovr</span>
             </div>
             <div className="divide-y divide-white/10">
@@ -109,19 +112,21 @@ export default function StandingsTable({
                 const isCurrent = team.schoolSlug === currentSchoolSlug;
                 const teamRow = (
                   <div
-                    className="grid grid-cols-[1fr_58px_58px] items-center gap-2 px-4 py-3.5"
+                    className="grid grid-cols-[minmax(0,1fr)_44px_44px] items-center gap-2 px-3 py-3"
                     style={isCurrent ? { background: `${theme.primary}18`, boxShadow: `inset 3px 0 0 ${theme.primary}` } : undefined}
                   >
                     <div className="min-w-0">
-                      <div className="flex items-center gap-2">
-                        {seasonStarted && <span className="shrink-0 text-[10px] font-black text-white/35">{getStandingPosition(displayed, index, districtStarted)}</span>}
-                        <p className="truncate text-sm font-black text-white">{team.team}</p>
-                        {isCurrent && <span className="shrink-0 rounded-full border border-white/10 bg-white/10 px-2 py-0.5 text-[8px] font-black uppercase tracking-[0.12em] text-white/55">You are here</span>}
+                      <div className="flex min-w-0 items-center gap-1.5">
+                        {seasonStarted && <span className="w-7 shrink-0 text-[9px] font-black text-white/30">{getStandingPosition(displayed, index, districtStarted)}</span>}
+                        <p className="min-w-0 truncate text-[13px] font-black text-white">{team.team}</p>
                       </div>
-                      {school?.mascot && <p className="mt-0.5 truncate text-[9px] font-bold uppercase tracking-[0.12em] text-white/30">{school.mascot}</p>}
+                      <div className="mt-0.5 flex min-w-0 items-center gap-1.5 pl-[34px]">
+                        {school?.mascot && <p className="min-w-0 truncate text-[8px] font-bold uppercase tracking-[0.1em] text-white/25">{school.mascot}</p>}
+                        {isCurrent && <span className="shrink-0 rounded-full border border-white/10 bg-white/10 px-1.5 py-0.5 text-[7px] font-black uppercase tracking-[0.08em] text-white/45">Your team</span>}
+                      </div>
                     </div>
-                    <span className="text-center text-sm font-black text-white/80">{districtStarted ? `${team.districtWins}-${team.districtLosses}` : "—"}</span>
-                    <span className="text-right text-sm font-black text-white/60">{seasonStarted ? `${team.overallWins}-${team.overallLosses}` : "—"}</span>
+                    <span className="text-center text-[13px] font-black text-white/70">{districtStarted ? `${team.districtWins}-${team.districtLosses}` : "—"}</span>
+                    <span className="text-right text-[13px] font-black text-white/55">{seasonStarted ? `${team.overallWins}-${team.overallLosses}` : "—"}</span>
                   </div>
                 );
                 return school ? <Link key={team.schoolSlug} href={`/schools/${team.schoolSlug}`} className="block transition hover:bg-white/[0.05]">{teamRow}</Link> : <div key={team.schoolSlug}>{teamRow}</div>;
