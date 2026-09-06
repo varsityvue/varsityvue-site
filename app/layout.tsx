@@ -5,27 +5,34 @@ import Footer from "../components/Footer";
 
 export const revalidate = 300;
 
+const siteTitle = "VarsityVue | Texas High School Football Scores & Coverage";
+const siteDescription =
+  "Texas high school football scores, schedules, standings, school hubs, matchup pages, player statistics, and local coverage on VarsityVue.";
+
 export const metadata: Metadata = {
   title: {
-    default: "VarsityVue | Texas High School Football Scores & Coverage",
+    default: siteTitle,
     template: "%s | VarsityVue",
   },
-  description:
-    "Texas high school football scores, schedules, standings, school hubs, matchup pages, player statistics, and local coverage on VarsityVue.",
+  description: siteDescription,
   metadataBase: new URL("https://varsityvue.com"),
   openGraph: {
-    title: "VarsityVue | Texas High School Football Scores & Coverage",
-    description:
-      "Texas high school football scores, schedules, standings, school hubs, matchup pages, player statistics, and local coverage on VarsityVue.",
+    title: siteTitle,
+    description: siteDescription,
     url: "https://varsityvue.com",
     siteName: "VarsityVue",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: siteDescription,
   },
 };
 
 const organizationSchema = {
   "@context": "https://schema.org",
-  "@type": "SportsOrganization",
+  "@type": "Organization",
   name: "VarsityVue",
   url: "https://varsityvue.com",
   description:
