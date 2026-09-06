@@ -31,24 +31,23 @@ function parseGameDate(kickoff?: string) {
 }
 
 function formatGameDate(kickoff?: string) {
-    if (!kickoff) return { month: "TBD", day: "—", full: "Date TBD" };
+    if (!kickoff) return { month: "TBD", day: "—" };
 
     const parsedDate = parseGameDate(kickoff);
-    if (!parsedDate) return { month: "TBD", day: "—", full: "Date TBD" };
+    if (!parsedDate) return { month: "TBD", day: "—" };
     const timeZone = kickoff.includes("T") ? CENTRAL_TIME_ZONE : "UTC";
 
     return {
         month: new Intl.DateTimeFormat("en-US", { month: "short", timeZone }).format(parsedDate).toUpperCase(),
         day: new Intl.DateTimeFormat("en-US", { day: "numeric", timeZone }).format(parsedDate),
-        full: new Intl.DateTimeFormat("en-US", { weekday: "short", month: "short", day: "numeric", timeZone }).format(parsedDate),
     };
 }
 
 function formatKickoffTime(kickoff?: string) {
-    if (!kickoff?.includes("T")) return "Time TBD";
+    if (!kickoff?.includes("T")) return "TBD";
 
     const parsedDate = parseGameDate(kickoff);
-    if (!parsedDate) return "Time TBD";
+    if (!parsedDate) return "TBD";
 
     return new Intl.DateTimeFormat("en-US", {
         hour: "numeric",
@@ -96,7 +95,7 @@ function getOpponent(game: SchoolGame, schoolSlug: string) {
 
     return {
         name: isHome ? game.awayTeam ?? "Opponent TBD" : game.homeTeam ?? "Opponent TBD",
-        location: game.isNeutralSite ? "Neutral Site" : isHome ? "Home" : "Away",
+        location: game.isNeutralSite ? "Neutral" : isHome ? "Home" : "Away",
     };
 }
 
@@ -107,34 +106,29 @@ export default function UpcomingSchedulePreview({ schoolSlug, theme }: Props) {
         .sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b));
 
     // The immediate next matchup is already featured in Season Overview.
-    // This section intentionally looks beyond it so the hub does not repeat itself.
     const games = upcoming.slice(1, 4);
 
     if (games.length === 0) return null;
 
     return (
         <section
-            className="overflow-hidden rounded-[1.75rem] border shadow-2xl"
+            className="overflow-hidden rounded-[1.5rem] border shadow-2xl sm:rounded-[1.75rem]"
             style={{
                 borderColor: `${theme.primary}44`,
                 background: "linear-gradient(135deg, rgba(255,255,255,0.045), rgba(0,0,0,0.97) 62%)",
                 boxShadow: `0 18px 50px ${theme.primary}12`,
             }}
         >
-            <div className="flex flex-wrap items-end justify-between gap-4 border-b border-white/10 px-5 py-5 sm:px-6">
+            <div className="flex items-end justify-between gap-3 border-b border-white/10 px-4 py-4 sm:px-6 sm:py-5">
                 <div>
-                    <p className="text-[10px] font-black uppercase tracking-[0.24em] text-white/45 sm:text-xs">
-                        Road Ahead
-                    </p>
-                    <h2 className="mt-2 text-2xl font-black text-white">Coming up after this week</h2>
-                    <p className="mt-1 text-xs text-white/35">A quick look at the next stretch of the schedule.</p>
+                    <p className="text-[9px] font-black uppercase tracking-[0.2em] text-white/45 sm:text-xs sm:tracking-[0.24em]">Road Ahead</p>
+                    <h2 className="mt-1.5 text-2xl font-black text-white sm:mt-2">Next on the schedule</h2>
                 </div>
-
                 <Link
                     href={`/schools/${schoolSlug}/schedule`}
-                    className="shrink-0 text-xs font-black uppercase tracking-[0.16em] text-white/55 transition hover:text-white"
+                    className="shrink-0 text-[10px] font-black uppercase tracking-[0.12em] text-white/50 transition hover:text-white sm:text-xs sm:tracking-[0.16em]"
                 >
-                    Full Schedule →
+                    Schedule →
                 </Link>
             </div>
 
@@ -147,43 +141,30 @@ export default function UpcomingSchedulePreview({ schoolSlug, theme }: Props) {
                         <Link
                             key={game.id}
                             href={`/games/${game.id}`}
-                            className="group relative grid grid-cols-[3.6rem_minmax(0,1fr)_auto] items-center gap-3 overflow-hidden px-4 py-4 transition hover:bg-white/[0.045] sm:grid-cols-[4rem_minmax(0,1fr)_auto] sm:gap-4 sm:px-6 sm:py-5"
+                            className="group relative grid grid-cols-[3.25rem_minmax(0,1fr)_auto] items-center gap-2.5 overflow-hidden px-3.5 py-3 transition hover:bg-white/[0.045] sm:grid-cols-[4rem_minmax(0,1fr)_auto] sm:gap-4 sm:px-6 sm:py-5"
                         >
-                            <div
-                                className="absolute inset-y-0 left-0 w-1 opacity-80"
-                                style={{ backgroundColor: theme.primary }}
-                            />
+                            <div className="absolute inset-y-0 left-0 w-1 opacity-80" style={{ backgroundColor: theme.primary }} />
 
-                            <div className="rounded-2xl border border-white/10 bg-black/35 px-2 py-2.5 text-center">
-                                <p className="text-[9px] font-black uppercase tracking-[0.14em] text-white/35">{date.month}</p>
-                                <p className="mt-0.5 text-xl font-black leading-none text-white">{date.day}</p>
+                            <div className="rounded-xl border border-white/10 bg-black/35 px-1.5 py-2 text-center sm:rounded-2xl sm:px-2 sm:py-2.5">
+                                <p className="text-[8px] font-black uppercase tracking-[0.12em] text-white/35 sm:text-[9px] sm:tracking-[0.14em]">{date.month}</p>
+                                <p className="mt-0.5 text-lg font-black leading-none text-white sm:text-xl">{date.day}</p>
                             </div>
 
                             <div className="min-w-0">
-                                <div className="flex flex-wrap items-center gap-2">
-                                    <span className="text-[9px] font-black uppercase tracking-[0.16em] text-white/40">
-                                        {getWeekLabel(game)} · {opponent.location}
-                                    </span>
+                                <div className="flex min-w-0 items-center gap-1.5">
+                                    <span className="truncate text-[8px] font-black uppercase tracking-[0.12em] text-white/35 sm:text-[9px] sm:tracking-[0.16em]">{getWeekLabel(game)} · {opponent.location}</span>
                                     {game.districtGame && (
-                                        <span
-                                            className="rounded-full border px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.12em]"
-                                            style={{ borderColor: `${theme.primary}66`, color: theme.accent ?? theme.primary }}
-                                        >
-                                            District
-                                        </span>
+                                        <span className="shrink-0 rounded-full border px-1.5 py-0.5 text-[7px] font-black uppercase tracking-[0.08em] sm:px-2 sm:text-[9px] sm:tracking-[0.12em]" style={{ borderColor: `${theme.primary}66`, color: theme.accent ?? theme.primary }}>District</span>
                                     )}
                                 </div>
-                                <h3 className="mt-1.5 truncate text-lg font-black text-white transition group-hover:text-white/80 sm:text-xl">
-                                    {opponent.name}
-                                </h3>
-                                <p className="mt-1 truncate text-[11px] text-white/35">
-                                    {game.venue ?? "Venue TBD"}
-                                </p>
+                                <h3 className="mt-1 break-words text-[15px] font-black leading-5 text-white transition group-hover:text-white/80 sm:mt-1.5 sm:text-xl">{opponent.name}</h3>
+                                {game.venue && <p className="mt-0.5 truncate text-[9px] text-white/30 sm:mt-1 sm:text-[11px]">{game.venue}</p>}
                             </div>
 
-                            <div className="text-right">
-                                <p className="text-xs font-black text-white/70 sm:text-sm">{formatKickoffTime(game.kickoff)}</p>
-                                <p className="mt-1 text-[10px] font-black uppercase tracking-[0.1em] text-white/30">Game Center →</p>
+                            <div className="shrink-0 text-right">
+                                <p className="text-[11px] font-black text-white/65 sm:text-sm">{formatKickoffTime(game.kickoff)}</p>
+                                <p className="mt-1 hidden text-[10px] font-black uppercase tracking-[0.1em] text-white/30 sm:block">Game Center →</p>
+                                <p className="mt-1 text-sm font-black text-white/25 sm:hidden">→</p>
                             </div>
                         </Link>
                     );
