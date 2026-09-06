@@ -128,10 +128,7 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
               boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)`,
             }}
           >
-            <p
-              className="text-xs font-black uppercase tracking-[0.28em]"
-              style={{ color: theme.secondary }}
-            >
+            <p className="text-xs font-black uppercase tracking-[0.28em] text-white/50">
               Program Profile
             </p>
             <h2 className="mt-3 text-3xl font-black text-white">{school.fullName}</h2>
@@ -185,10 +182,7 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
                 boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)`,
               }}
             >
-              <p
-                className="text-xs font-black uppercase tracking-[0.28em]"
-                style={{ color: theme.secondary }}
-              >
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-white/50">
                 About the Program
               </p>
               <p className="mt-4 text-sm leading-7 text-white/65">{school.description}</p>
@@ -210,10 +204,7 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
                 boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)`,
               }}
             >
-              <p
-                className="text-xs font-black uppercase tracking-[0.28em]"
-                style={{ color: theme.secondary }}
-              >
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-white/50">
                 Official Links
               </p>
               <h2 className="mt-3 text-2xl font-black text-white">School resources.</h2>
@@ -240,10 +231,7 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
               boxShadow: `inset 4px 0 0 ${theme.secondary}, 0 18px 50px rgba(0,0,0,0.45)`,
             }}
           >
-            <p
-              className="text-xs font-black uppercase tracking-[0.28em]"
-              style={{ color: theme.secondary }}
-            >
+            <p className="text-xs font-black uppercase tracking-[0.28em] text-white/55">
               Community Input
             </p>
             <h2 className="mt-3 text-2xl font-black text-white">Know something we should add?</h2>
@@ -268,10 +256,7 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
               boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)`,
             }}
           >
-            <p
-              className="text-xs font-black uppercase tracking-[0.28em]"
-              style={{ color: theme.secondary }}
-            >
+            <p className="text-xs font-black uppercase tracking-[0.28em] text-white/50">
               School Utility
             </p>
             <h2 className="mt-3 text-2xl font-black text-white">Quick links for fans.</h2>
