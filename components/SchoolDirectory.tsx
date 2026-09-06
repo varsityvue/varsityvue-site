@@ -2,7 +2,25 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import type { School, UILClassification } from "@/types/platform";
+import type { UILClassification } from "@/types/platform";
+
+export type DirectorySchool = {
+  slug: string;
+  name: string;
+  fullName: string;
+  mascot: string;
+  abbreviation?: string;
+  badgeLabel?: string;
+  districtId: string;
+  stadium?: string;
+  stateTitles?: number;
+  lastPlayoffAppearance?: number;
+  classification: UILClassification;
+  colors: {
+    primary: string;
+    secondary: string;
+  };
+};
 
 type ClassificationFilter = "all" | "1A" | "2A" | "3A" | "4A" | "5A" | "6A";
 
@@ -19,8 +37,7 @@ const classificationFilters: ClassificationFilter[] = [
 function formatClassification(classification: UILClassification) {
   if (!classification.division) return classification.conference;
 
-  return `${classification.conference} Division ${classification.division === "D1" ? "I" : "II"
-    }`;
+  return `${classification.conference} Division ${classification.division === "D1" ? "I" : "II"}`;
 }
 
 function formatDistrictName(districtId: string) {
@@ -36,7 +53,7 @@ function formatDistrictName(districtId: string) {
 }
 
 function getClassificationCount(
-  schools: School[],
+  schools: DirectorySchool[],
   classification: ClassificationFilter
 ) {
   if (classification === "all") return schools.length;
@@ -46,7 +63,7 @@ function getClassificationCount(
   ).length;
 }
 
-export default function SchoolDirectory({ schools }: { schools: School[] }) {
+export default function SchoolDirectory({ schools }: { schools: DirectorySchool[] }) {
   const [search, setSearch] = useState("");
   const [classificationFilter, setClassificationFilter] =
     useState<ClassificationFilter>("all");
