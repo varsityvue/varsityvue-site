@@ -19,15 +19,15 @@ export default function Footer() {
               <div>
                 <h2 className="text-2xl font-black">VARSITYVUE</h2>
                 <p className="text-xs uppercase tracking-[0.3em] text-white/40">
-                  Texas HS Sports
+                  Texas HS Football
                 </p>
               </div>
             </Link>
 
             <p className="mt-4 text-sm leading-6 text-white/55">
-              Texas high school sports coverage, district ecosystems, school
-              hubs, matchup pages, rankings, legacy archives, and community-focused
-              local sports media.
+              Texas high school football scores, schedules, district standings,
+              school hubs, matchup pages, verified statistics, legacy archives,
+              and community-focused local coverage.
             </p>
 
             <div className="mt-5 flex gap-3" aria-label="VarsityVue social links">
@@ -65,7 +65,7 @@ export default function Footer() {
 
         <div className="mt-10 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 VarsityVue. All rights reserved.</p>
-          <p>Built for Texas high school sports communities.</p>
+          <p>Built for Texas high school football communities.</p>
         </div>
       </div>
     </footer>
