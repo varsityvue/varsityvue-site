@@ -65,15 +65,23 @@ export default function GamesPage() {
         new Date(getKickoffValue(b)).getTime()
     );
 
+  const finalGames = regularGames.filter((game) => game.status === "final");
+  const latestFinal = [...finalGames].reverse()[0];
+  const latestFeaturedFinal = [...finalGames]
+    .reverse()
+    .find((game) => game.specialEvent);
+
   const featuredGame =
-    regularGames.find((game) => game.specialEvent) ??
-    regularGames.find((game) => game.status === "upcoming") ??
     regularGames.find((game) => game.status === "live") ??
-    [...regularGames].reverse().find((game) => game.status === "final") ??
+    regularGames.find(
+      (game) => game.status === "upcoming" && game.specialEvent
+    ) ??
+    regularGames.find((game) => game.status === "upcoming") ??
+    latestFeaturedFinal ??
+    latestFinal ??
     regularGames[0];
 
   const liveGames = regularGames.filter((game) => game.status === "live");
-  const finalGames = regularGames.filter((game) => game.status === "final");
   const upcomingGames = regularGames.filter(
     (game) => game.status === "upcoming"
   );
@@ -105,14 +113,6 @@ export default function GamesPage() {
               Schedules, live scores, featured matchups, district games, and
               game-week coverage across the VarsityVue ecosystem.
             </p>
-
-            <div className="mt-7 flex flex-wrap gap-3">
-              <FilterPill label="All Games" active />
-              <FilterPill label="Live" />
-              <FilterPill label="Upcoming" />
-              <FilterPill label="Final" />
-              <FilterPill label="District" />
-            </div>
           </section>
 
           <section className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -304,20 +304,6 @@ function StatCard({ label, value }: { label: string; value: string }) {
       <p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">{label}</p>
       <p className="mt-3 text-4xl font-black text-white">{value}</p>
     </div>
-  );
-}
-
-function FilterPill({ label, active = false }: { label: string; active?: boolean }) {
-  return (
-    <span
-      className={`rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.14em] ${
-        active
-          ? "border-white/20 bg-white text-black"
-          : "border-white/10 bg-white/5 text-white/60"
-      }`}
-    >
-      {label}
-    </span>
   );
 }
 
