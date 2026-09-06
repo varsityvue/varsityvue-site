@@ -3,7 +3,7 @@ import { applyVerifiedGames } from "@/data/verified-games";
 import { week2GameAdditions } from "@/data/week2-game-additions";
 import type { Game } from "@/types/platform";
 
-const games = [...applyVerifiedGames(scheduledGames), ...week2GameAdditions];
+const rawGames = [...applyVerifiedGames(scheduledGames), ...week2GameAdditions];
 const CENTRAL_TIME_ZONE = "America/Chicago";
 
 function getGameTimestamp(game: Game) {
@@ -34,6 +34,32 @@ function getCentralDateKey(date: Date) {
 
   return year && month && day ? `${year}-${month}-${day}` : "";
 }
+
+function normalizeGameStatus(game: Game, now = new Date()): Game {
+  if (game.status !== "upcoming" || !game.kickoff) {
+    return game;
+  }
+
+  const todayKey = getCentralDateKey(now);
+
+  if (!game.kickoff.includes("T")) {
+    if (todayKey && game.kickoff < todayKey) {
+      return { ...game, status: "scheduled" };
+    }
+
+    return game;
+  }
+
+  const timestamp = getGameTimestamp(game);
+
+  if (timestamp !== Number.MAX_SAFE_INTEGER && timestamp < now.getTime()) {
+    return { ...game, status: "scheduled" };
+  }
+
+  return game;
+}
+
+const games = rawGames.map((game) => normalizeGameStatus(game));
 
 function assertNoDuplicateGameIds() {
   const seen = new Set<string>();
