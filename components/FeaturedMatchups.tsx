@@ -1,5 +1,8 @@
 import Link from "next/link";
-import { getUpcomingScoreboardGames } from "@/lib/scoreboard";
+import {
+  getGameOfTheWeek,
+  getUpcomingScoreboardGames,
+} from "@/lib/scoreboard";
 import { getSchoolBySlug } from "@/lib/schools";
 import SchoolBadge from "./SchoolBadge";
 
@@ -49,7 +52,15 @@ function getGameLabel(gameType: string, week?: number) {
 }
 
 export default function FeaturedMatchups() {
-  const games = getUpcomingScoreboardGames(4);
+  const gameOfTheWeek = getGameOfTheWeek();
+  const upcomingGames = getUpcomingScoreboardGames(8);
+  const upcomingGameOfTheWeek =
+    gameOfTheWeek?.status === "upcoming" ? gameOfTheWeek : undefined;
+
+  const games = [
+    ...(upcomingGameOfTheWeek ? [upcomingGameOfTheWeek] : []),
+    ...upcomingGames.filter((game) => game.id !== upcomingGameOfTheWeek?.id),
+  ].slice(0, 4);
 
   if (games.length === 0) return null;
 
@@ -88,6 +99,7 @@ export default function FeaturedMatchups() {
               ? getSchoolBySlug(game.homeSchoolSlug)
               : undefined;
             const gameTime = formatGameTime(game.kickoff);
+            const isGameOfTheWeek = game.id === upcomingGameOfTheWeek?.id;
 
             return (
               <Link
@@ -96,9 +108,13 @@ export default function FeaturedMatchups() {
                 className="group overflow-hidden rounded-[1.5rem] border border-white/10 border-t-4 border-t-[var(--vv-primary)] bg-black/35 transition hover:-translate-y-1 hover:bg-white/[0.07]"
               >
                 <div className="p-5">
-                  <div className="flex items-center justify-between gap-3">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
                     <Badge label={getGameLabel(game.gameType, game.week)} />
-                    {game.districtGame && <Badge label="District" />}
+                    {isGameOfTheWeek ? (
+                      <Badge label="Game of the Week" />
+                    ) : game.districtGame ? (
+                      <Badge label="District" />
+                    ) : null}
                   </div>
 
                   <div className="mt-5 grid grid-cols-[1fr_auto_1fr] items-center gap-3">
