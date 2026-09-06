@@ -6,6 +6,7 @@ import { getSchools, getFeaturedSchools, getSchoolBySlug } from "@/lib/schools";
 import { getNextGameForSchool } from "@/lib/games";
 import { getDistricts, getDistrictById } from "@/lib/districts";
 import { getGameOfTheWeek } from "@/lib/scoreboard";
+import { getGamePreview } from "@/data/game-previews";
 import {
   getStandingForSchool,
   getStandingsForDistrictId,
@@ -102,6 +103,7 @@ export default function Home() {
   const featuredDistricts = districts.filter((district) => district.status === "pilot");
 
   const featuredGame = getGameOfTheWeek();
+  const featuredPreview = featuredGame ? getGamePreview(featuredGame.id) : undefined;
   const featuredProgramsForDisplay = featuredPrograms.slice(0, 6);
 
   const featuredDistrict = featuredDistricts[0];
@@ -272,15 +274,17 @@ export default function Home() {
                         ? featuredGame.week !== undefined
                           ? `Week ${featuredGame.week} final is on the board.`
                           : "The final is on the board."
-                        : featuredGame.week !== undefined
-                          ? `Week ${featuredGame.week} takes center stage.`
-                          : "This matchup takes center stage."}
+                        : featuredPreview?.title ??
+                          (featuredGame.week !== undefined
+                            ? `Week ${featuredGame.week} takes center stage.`
+                            : "This matchup takes center stage.")}
                     </h2>
 
                     <p className="mt-3 max-w-3xl text-sm leading-6 text-white/60">
                       {featuredGameFinal
                         ? `The verified final is posted. Visit the matchup center for the result and program links.`
-                        : `${featuredGame.awayTeam} and ${featuredGame.homeTeam} meet in one of VarsityVue's featured matchups of the week.`}
+                        : featuredPreview?.excerpt ??
+                          `${featuredGame.awayTeam} and ${featuredGame.homeTeam} meet in one of VarsityVue's featured matchups of the week.`}
                     </p>
                   </div>
                 )}
