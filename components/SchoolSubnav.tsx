@@ -20,7 +20,7 @@ export default function SchoolSubnav({
   const links = [
     {
       href: `/schools/${schoolSlug}`,
-      label: "Hub",
+      label: "Overview",
       active: pathname === `/schools/${schoolSlug}`,
     },
     {
@@ -48,35 +48,33 @@ export default function SchoolSubnav({
       label: "Coverage",
       active: pathname.startsWith("/coverage"),
     },
-    {
-      href: "/legacy",
-      label: "Legacy",
-      active: pathname.startsWith("/legacy"),
-    },
   ];
 
   return (
-    <nav className="sticky top-0 z-40 border-b border-white/10 bg-[#050505]/92 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-[1440px] items-center gap-2 overflow-x-auto px-4 py-3 sm:px-6 lg:px-8">
-        {links.map((link) => (
-          <NavLink key={link.href} {...link} theme={theme} />
-        ))}
+    <nav aria-label="Team navigation" className="sticky top-0 z-40 border-b border-white/10 bg-[#050505]/95 backdrop-blur-xl">
+      <div className="relative mx-auto max-w-[1440px]">
+        <div className="flex snap-x snap-mandatory items-center gap-2 overflow-x-auto px-4 py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:px-6 lg:px-8">
+          {links.map((link) => (
+            <NavLink key={link.href} {...link} theme={theme} />
+          ))}
 
-        <div
-          className="ml-auto hidden items-center gap-2 rounded-full border px-4 py-2 text-[10px] font-black uppercase tracking-[0.18em] md:flex"
-          style={{
-            borderColor: `${theme.primary}55`,
-            backgroundColor: "rgba(0,0,0,0.35)",
-            color: "rgba(255,255,255,0.78)",
-            boxShadow: `inset 3px 0 0 ${theme.primary}`,
-          }}
-        >
-          <span
-            className="h-2.5 w-2.5 rounded-full"
-            style={{ backgroundColor: theme.secondary }}
-          />
-          School Hub
+          <div
+            className="ml-auto hidden shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-[10px] font-black uppercase tracking-[0.18em] md:flex"
+            style={{
+              borderColor: `${theme.primary}55`,
+              backgroundColor: "rgba(0,0,0,0.35)",
+              color: "rgba(255,255,255,0.78)",
+              boxShadow: `inset 3px 0 0 ${theme.primary}`,
+            }}
+          >
+            <span
+              className="h-2.5 w-2.5 rounded-full"
+              style={{ backgroundColor: theme.secondary }}
+            />
+            Team Hub
+          </div>
         </div>
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-[#050505] to-transparent sm:hidden" />
       </div>
 
       <div
@@ -103,20 +101,21 @@ function NavLink({
   return (
     <Link
       href={href}
-      className="shrink-0 rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.14em] transition hover:bg-white/10 hover:text-white"
+      aria-current={active ? "page" : undefined}
+      className="shrink-0 snap-start rounded-full border px-4 py-2 text-[11px] font-black uppercase tracking-[0.13em] transition hover:bg-white/10 hover:text-white sm:px-5 sm:py-2.5 sm:text-xs"
       style={
         active
           ? {
-            borderColor: `${theme.primary}55`,
-            backgroundColor: "rgba(255,255,255,0.08)",
-            color: "#FFFFFF",
-            boxShadow: `inset 3px 0 0 ${theme.primary}`,
-          }
+              borderColor: `${theme.primary}66`,
+              backgroundColor: "rgba(255,255,255,0.09)",
+              color: "#FFFFFF",
+              boxShadow: `inset 3px 0 0 ${theme.primary}, 0 0 24px ${theme.primary}18`,
+            }
           : {
-            borderColor: "rgba(255,255,255,0.08)",
-            backgroundColor: "rgba(255,255,255,0.05)",
-            color: "rgba(255,255,255,0.65)",
-          }
+              borderColor: "rgba(255,255,255,0.08)",
+              backgroundColor: "rgba(255,255,255,0.04)",
+              color: "rgba(255,255,255,0.62)",
+            }
       }
     >
       {label}
