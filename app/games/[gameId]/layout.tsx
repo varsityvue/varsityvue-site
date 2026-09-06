@@ -12,6 +12,10 @@ export async function generateMetadata({ params }: Omit<GameLayoutProps, "childr
 
   if (!game) {
     return {
+      title: {
+        default: "Game Not Found",
+        template: "%s",
+      },
       robots: {
         index: false,
         follow: false,
@@ -27,6 +31,16 @@ export async function generateMetadata({ params }: Omit<GameLayoutProps, "childr
     game.status === "postponed";
 
   return {
+    title: {
+      default: `${game.awayTeam ?? "Away Team"} at ${game.homeTeam ?? "Home Team"} | VarsityVue`,
+      template: "%s",
+    },
+    alternates: {
+      canonical: `/games/${game.id}`,
+    },
+    openGraph: {
+      url: `/games/${game.id}`,
+    },
     robots: shouldNoIndex
       ? {
           index: false,
