@@ -68,13 +68,15 @@ function normalizeGameStatus(game: Game, now = new Date()): Game {
   return game;
 }
 
-const games = rawGames.map((game) => normalizeGameStatus(game));
+function getNormalizedGames(now = new Date()) {
+  return rawGames.map((game) => normalizeGameStatus(game, now));
+}
 
 function assertNoDuplicateGameIds() {
   const seen = new Set<string>();
   const duplicates: string[] = [];
 
-  for (const game of games) {
+  for (const game of rawGames) {
     if (seen.has(game.id)) {
       duplicates.push(game.id);
     }
@@ -92,15 +94,15 @@ function assertNoDuplicateGameIds() {
 assertNoDuplicateGameIds();
 
 export function getGames() {
-  return games;
+  return getNormalizedGames();
 }
 
 export function getGameById(id: string) {
-  return games.find((game) => game.id === id);
+  return getNormalizedGames().find((game) => game.id === id);
 }
 
 export function getGamesForSchool(slug: string) {
-  return games
+  return getNormalizedGames()
     .filter(
       (game) => game.homeSchoolSlug === slug || game.awaySchoolSlug === slug
     )
@@ -138,13 +140,13 @@ export function getRecentScoresForSchool(slug: string) {
 }
 
 export function getFeaturedGames() {
-  return games
+  return getNormalizedGames()
     .filter((game) => game.featured && game.status === "upcoming")
     .sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b));
 }
 
 export function getDistrictGames() {
-  return games
+  return getNormalizedGames()
     .filter((game) => game.districtGame)
     .sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b));
 }
