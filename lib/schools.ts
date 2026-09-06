@@ -4,6 +4,35 @@ const SCHOOL_COLOR_OVERRIDES: Record<string, { primary?: string; secondary?: str
   brownwood: { primary: "#5B0B1E" },
 };
 
+function assertUniqueSchoolIdentity() {
+  const seenSlugs = new Set<string>();
+  const seenIds = new Set<string>();
+  const duplicateSlugs: string[] = [];
+  const duplicateIds: string[] = [];
+
+  for (const school of schools) {
+    if (seenSlugs.has(school.slug)) duplicateSlugs.push(school.slug);
+    if (seenIds.has(school.id)) duplicateIds.push(school.id);
+
+    seenSlugs.add(school.slug);
+    seenIds.add(school.id);
+  }
+
+  const problems: string[] = [];
+  if (duplicateSlugs.length > 0) {
+    problems.push(`duplicate school slugs: ${duplicateSlugs.join(", ")}`);
+  }
+  if (duplicateIds.length > 0) {
+    problems.push(`duplicate school IDs: ${duplicateIds.join(", ")}`);
+  }
+
+  if (problems.length > 0) {
+    throw new Error(`School data integrity check failed (${problems.join("; ")})`);
+  }
+}
+
+assertUniqueSchoolIdentity();
+
 function applySchoolOverrides<T extends (typeof schools)[number]>(school: T): T {
   const colorOverride = SCHOOL_COLOR_OVERRIDES[school.slug];
   if (!colorOverride) return school;
