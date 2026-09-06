@@ -21,10 +21,13 @@ import RivalryWatch from "../../../components/RivalryWatch";
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const school = getSchoolBySlug(slug);
-  if (!school) return { title: "Page Not Found | VarsityVue" };
+  if (!school) return { title: "Page Not Found" };
   return {
-    title: `${school.fullName} Football Hub | VarsityVue`,
+    title: `${school.fullName} Football Hub`,
     description: `${school.fullName} schedules, scores, standings, roster, player statistics, district information, game coverage, and football updates on VarsityVue.`,
+    alternates: {
+      canonical: `/schools/${school.slug}`,
+    },
   };
 }
 
