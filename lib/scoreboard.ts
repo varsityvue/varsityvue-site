@@ -97,6 +97,10 @@ function isGameFeatured(game: Game) {
   );
 }
 
+function isExplicitGameOfTheWeek(game: Game) {
+  return game.specialEvent?.toLowerCase() === "game of the week";
+}
+
 function isRecentFinal(game: Game, now = Date.now()) {
   if (game.status !== "final") return false;
 
@@ -139,7 +143,14 @@ export function getGameOfTheWeek(): ScoreboardGame | undefined {
   const now = Date.now();
   const nowDate = new Date(now);
 
+  const explicitSelections = scoreboardGames.filter(isExplicitGameOfTheWeek);
+
   return (
+    explicitSelections.find((game) => game.status === "live") ??
+    explicitSelections.find((game) => isUpcomingByScheduleDate(game, nowDate)) ??
+    explicitSelections
+      .filter((game) => isRecentFinal(game, now))
+      .sort((a, b) => getGameTimestamp(b) - getGameTimestamp(a))[0] ??
     scoreboardGames.find(
       (game) => game.status === "live" && game.featured === true
     ) ??
