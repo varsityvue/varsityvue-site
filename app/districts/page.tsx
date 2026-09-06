@@ -7,17 +7,17 @@ import { schools } from "../../data/schools";
 export const metadata: Metadata = {
   title: "Texas High School Football District Directory",
   description:
-    "Browse live VarsityVue district hubs by classification for standings, schedules, school hubs, district matchups, and Texas high school football coverage.",
+    "Browse VarsityVue district hubs by classification for standings, schedules, school hubs, district matchups, and Texas high school football coverage.",
   alternates: {
     canonical: "/districts",
   },
 };
 
 const classificationOrder = ["6A", "5A", "4A", "3A", "2A", "1A"];
-const liveDistricts = districts.filter((district) => district.status === "pilot");
-const liveDistrictIds = new Set(liveDistricts.map((district) => district.id));
-const liveSchools = schools.filter(
-  (school) => school.status === "pilot" && liveDistrictIds.has(school.districtId)
+const featuredDistricts = districts.filter((district) => district.status === "pilot");
+const featuredDistrictIds = new Set(featuredDistricts.map((district) => district.id));
+const featuredSchools = schools.filter(
+  (school) => school.status === "pilot" && featuredDistrictIds.has(school.districtId)
 );
 
 function getDistrictClassificationLabel(district: (typeof districts)[number]) {
@@ -29,14 +29,14 @@ function getDistrictClassificationLabel(district: (typeof districts)[number]) {
 }
 
 function getDistrictSchoolCount(districtId: string) {
-  return liveSchools.filter((school) => school.districtId === districtId).length;
+  return featuredSchools.filter((school) => school.districtId === districtId).length;
 }
 
 function getGroupedDistricts() {
   return classificationOrder
     .map((classification) => ({
       classification,
-      districts: liveDistricts
+      districts: featuredDistricts
         .filter(
           (district) => district.classification.conference === classification
         )
@@ -64,7 +64,7 @@ export default function DistrictsPage() {
               </h1>
 
               <p className="mt-4 max-w-3xl text-base leading-7 text-white/60 sm:text-lg">
-                Browse live Texas high school football district hubs by classification,
+                Browse featured Texas high school football district hubs by classification,
                 then open a district for member schools, schedules, standings,
                 matchups, and coverage currently available on VarsityVue.
               </p>
@@ -72,8 +72,8 @@ export default function DistrictsPage() {
           </div>
 
           <section className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <StatCard label="Live District Hubs" value={liveDistricts.length.toString()} />
-            <StatCard label="Live Schools" value={liveSchools.length.toString()} />
+            <StatCard label="Featured Districts" value={featuredDistricts.length.toString()} />
+            <StatCard label="Featured Programs" value={featuredSchools.length.toString()} />
             <StatCard
               label="Classifications"
               value={representedClassifications.toString()}
@@ -86,7 +86,7 @@ export default function DistrictsPage() {
       <section className="px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-[1440px] space-y-8">
           <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.035] p-5 text-sm leading-6 text-white/50">
-            VarsityVue publishes district hubs in stages as schedules, results,
+            VarsityVue publishes district hubs as schedules, results,
             standings, and school information are verified. Additional districts
             will appear here as they become ready for public coverage.
           </div>
@@ -108,7 +108,7 @@ export default function DistrictsPage() {
                 </div>
 
                 <p className="text-sm font-bold text-white/45">
-                  {group.districts.length} live district
+                  {group.districts.length} featured district
                   {group.districts.length === 1 ? "" : "s"}
                 </p>
               </div>
@@ -146,7 +146,7 @@ export default function DistrictsPage() {
 
                         <div className="mt-5 grid grid-cols-2 gap-3">
                           <MiniStat
-                            label="Live Schools"
+                            label="Featured Programs"
                             value={schoolCount.toString()}
                           />
                           <MiniStat
