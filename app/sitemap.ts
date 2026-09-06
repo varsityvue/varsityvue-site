@@ -21,7 +21,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/districts",
     "/games",
     "/coverage",
-    "/rankings",
     "/stats",
     "/legacy",
     "/school-request",
