@@ -3,7 +3,25 @@ import { applyVerifiedGames } from "@/data/verified-games";
 import { week2GameAdditions } from "@/data/week2-game-additions";
 import type { Game } from "@/types/platform";
 
-const rawGames = [...applyVerifiedGames(scheduledGames), ...week2GameAdditions];
+const GAME_OF_THE_WEEK_IDS = new Set([
+  "stamford-at-hawley-2026-week-3",
+]);
+
+function applyEditorialGameFlags(game: Game): Game {
+  if (!GAME_OF_THE_WEEK_IDS.has(game.id)) return game;
+
+  return {
+    ...game,
+    featured: true,
+    specialEvent: "Game of the Week",
+    coverageStatus: "preview-published",
+  };
+}
+
+const rawGames = [
+  ...applyVerifiedGames(scheduledGames),
+  ...week2GameAdditions,
+].map(applyEditorialGameFlags);
 const CENTRAL_TIME_ZONE = "America/Chicago";
 
 function getGameTimestamp(game: Game) {
