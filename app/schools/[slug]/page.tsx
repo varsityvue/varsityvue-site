@@ -232,6 +232,34 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
           <section
             className="rounded-[1.75rem] border p-6 shadow-2xl"
             style={{
+              borderColor: `${theme.secondary}66`,
+              background:
+                "linear-gradient(135deg, rgba(122,16,34,0.24), rgba(0,0,0,0.92) 58%, rgba(0,0,0,1))",
+              boxShadow: `inset 4px 0 0 ${theme.secondary}, 0 18px 50px rgba(0,0,0,0.45)`,
+            }}
+          >
+            <p
+              className="text-xs font-black uppercase tracking-[0.28em]"
+              style={{ color: theme.secondary }}
+            >
+              Community Input
+            </p>
+            <h2 className="mt-3 text-2xl font-black text-white">Know something we should add?</h2>
+            <p className="mt-3 text-sm leading-6 text-white/60">
+              Fans, coaches, alumni, and community members can submit stats, photos, videos, records, corrections, and program history for review.
+            </p>
+            <Link
+              href="/submit"
+              className="mt-5 inline-flex rounded-full px-5 py-3 text-sm font-black text-white transition hover:opacity-90"
+              style={{ backgroundColor: theme.primary }}
+            >
+              Submit to VarsityVue
+            </Link>
+          </section>
+
+          <section
+            className="rounded-[1.75rem] border p-6 shadow-2xl"
+            style={{
               borderColor: `${theme.primary}55`,
               background:
                 "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 50%, rgba(0,0,0,1))",
@@ -251,6 +279,7 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
               <LinkButton href={`/districts/${districtSlug}`} label="Standings" />
               <LinkButton href="/scoreboard" label="Scoreboard" />
               <LinkButton href="/coverage" label="Team Coverage" />
+              <LinkButton href="/submit" label="Submit Stats, Photos or History" />
               <LinkButton href="/school-request" label="Request Another School" />
             </div>
           </section>
