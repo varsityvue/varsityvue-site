@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Submit to VarsityVue",
+  title: "Submit",
   description:
     "Submit Texas high school football stats, photos, videos, records, historical information, corrections, and story tips to VarsityVue for review.",
   alternates: { canonical: "/submit" },
