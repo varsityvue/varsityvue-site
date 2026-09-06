@@ -1,32 +1,9 @@
-import { games as scheduledGames } from "@/data/games";
-import { applyVerifiedGames } from "@/data/verified-games";
-import { week2GameAdditions } from "@/data/week2-game-additions";
-
-const games = [...applyVerifiedGames(scheduledGames), ...week2GameAdditions];
+import { getStandingForSchool } from "@/lib/standings";
 
 export function getSchoolRecord(slug: string) {
-  const relevantGames = games.filter(
-    (game) =>
-      game.status === "final" &&
-      game.gameType !== "bye" &&
-      game.gameType !== "scrimmage" &&
-      game.homeScore !== undefined &&
-      game.awayScore !== undefined &&
-      (game.homeSchoolSlug === slug || game.awaySchoolSlug === slug)
-  );
-
-  let wins = 0;
-  let losses = 0;
-
-  relevantGames.forEach((game) => {
-    const isHome = game.homeSchoolSlug === slug;
-
-    const teamScore = isHome ? game.homeScore! : game.awayScore!;
-    const oppScore = isHome ? game.awayScore! : game.homeScore!;
-
-    if (teamScore > oppScore) wins++;
-    else if (teamScore < oppScore) losses++;
-  });
+  const standing = getStandingForSchool(slug);
+  const wins = standing?.overallWins ?? 0;
+  const losses = standing?.overallLosses ?? 0;
 
   return {
     wins,
