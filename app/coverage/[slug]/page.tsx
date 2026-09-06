@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { getArticleBySlug, articles } from "../../../data/articles";
-import { getSchoolBySlug } from "../../../data/schools";
+import { getSchoolBySlug } from "@/lib/schools";
 import type { Article } from "@/types/platform";
 import SchoolBadge from "@/components/SchoolBadge";
 import { getScoreboardGames } from "@/lib/scoreboard";
@@ -42,6 +42,10 @@ function formatArticleType(type: Article["type"]) {
   return labels[type];
 }
 
+function stripVarsityVueBranding(title: string) {
+  return title.replace(/\s*[|–—-]\s*VarsityVue\s*$/i, "").trim();
+}
+
 export async function generateMetadata({
   params,
 }: ArticlePageProps): Promise<Metadata> {
@@ -50,13 +54,36 @@ export async function generateMetadata({
 
   if (!article) {
     return {
-      title: "Article Not Found | VarsityVue",
+      title: "Article Not Found",
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 
+  const title = stripVarsityVueBranding(article.seo.title || article.title);
+  const canonical = `/coverage/${article.slug}`;
+
   return {
-    title: article.seo.title,
+    title,
     description: article.seo.description,
+    alternates: {
+      canonical,
+    },
+    openGraph: {
+      title: `${title} | VarsityVue`,
+      description: article.seo.description,
+      url: canonical,
+      type: "article",
+      publishedTime: article.publishedAt,
+      modifiedTime: article.updatedAt ?? article.publishedAt,
+    },
+    twitter: {
+      card: "summary",
+      title: `${title} | VarsityVue`,
+      description: article.seo.description,
+    },
   };
 }
 
@@ -219,28 +246,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           </article>
 
           <aside className="space-y-6">
-            <section className="rounded-[1.75rem] border border-[#7A1022]/40 bg-gradient-to-br from-[#7A1022]/45 via-black to-black p-6 shadow-2xl">
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent-soft)]">
-                Coverage Sponsor
-              </p>
-
-              <h2 className="mt-3 text-2xl font-black text-white">
-                This article placement is available
-              </h2>
-
-              <p className="mt-3 text-sm leading-6 text-white/55">
-                Sponsor local previews, recaps, features, and game-week
-                coverage across the VarsityVue ecosystem.
-              </p>
-
-              <Link
-                href="/sponsor-inquiry"
-                className="mt-6 block rounded-xl border border-white/15 bg-white/10 px-5 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
-              >
-                Sponsor Coverage
-              </Link>
-            </section>
-
             {relatedSchools.length > 0 && (
               <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
                 <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
