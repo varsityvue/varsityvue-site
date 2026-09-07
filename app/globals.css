@@ -26,6 +26,48 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Game Center crests should read as clean identity marks, not clipped shield shapes. */
+a[href^="/schools/"] div[style*="clip-path"] {
+  clip-path: none !important;
+  border-radius: 1rem;
+}
+
+/* Featured programs use their supplied program logos anywhere the Game Center crest appears. */
+a[href="/schools/de-leon"] div[style*="clip-path"],
+a[href="/schools/cisco"] div[style*="clip-path"],
+a[href="/schools/hico"] div[style*="clip-path"],
+a[href="/schools/comanche"] div[style*="clip-path"],
+a[href="/schools/goldthwaite"] div[style*="clip-path"],
+a[href="/schools/albany"] div[style*="clip-path"],
+a[href="/schools/stamford"] div[style*="clip-path"],
+a[href="/schools/stephenville"] div[style*="clip-path"] {
+  background-color: rgba(0, 0, 0, 0.35) !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: contain !important;
+  color: transparent !important;
+}
+
+a[href="/schools/de-leon"] div[style*="clip-path"] { background-image: url("/logos/schools/de-leon.png") !important; }
+a[href="/schools/cisco"] div[style*="clip-path"] { background-image: url("/logos/schools/cisco.png") !important; }
+a[href="/schools/hico"] div[style*="clip-path"] { background-image: url("/logos/schools/hico.png") !important; }
+a[href="/schools/comanche"] div[style*="clip-path"] { background-image: url("/logos/schools/comanche.png") !important; }
+a[href="/schools/goldthwaite"] div[style*="clip-path"] { background-image: url("/logos/schools/goldthwaite.png") !important; }
+a[href="/schools/albany"] div[style*="clip-path"] { background-image: url("/logos/schools/albany.png") !important; }
+a[href="/schools/stamford"] div[style*="clip-path"] { background-image: url("/logos/schools/stamford.png") !important; }
+a[href="/schools/stephenville"] div[style*="clip-path"] { background-image: url("/logos/schools/stephenville.png") !important; }
+
+a[href="/schools/de-leon"] div[style*="clip-path"] > span,
+a[href="/schools/cisco"] div[style*="clip-path"] > span,
+a[href="/schools/hico"] div[style*="clip-path"] > span,
+a[href="/schools/comanche"] div[style*="clip-path"] > span,
+a[href="/schools/goldthwaite"] div[style*="clip-path"] > span,
+a[href="/schools/albany"] div[style*="clip-path"] > span,
+a[href="/schools/stamford"] div[style*="clip-path"] > span,
+a[href="/schools/stephenville"] div[style*="clip-path"] > span {
+  display: none !important;
+}
+
 /* Keep the Game Center quarter-by-quarter score line fully visible on phones. */
 @media (max-width: 639px) {
   table.min-w-\[560px\] {
