@@ -51,6 +51,11 @@ div[class~="rounded-[1.5rem]"][class~="bg-black/30"] > p[class~="tracking-[0.24e
   display: none;
 }
 
+/* Remove the homepage hero inventory counters; fans do not need internal site totals. */
+main > section:first-of-type > div > div:first-child > div.relative.z-10 > div.mt-8.grid {
+  display: none;
+}
+
 /* The homepage already demonstrates these capabilities; the four explanatory feature cards are redundant. */
 main > section.border-t[class~="py-6"] {
   display: none;
