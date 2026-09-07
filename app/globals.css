@@ -61,6 +61,34 @@ main > section.border-t[class~="py-6"] {
   display: none;
 }
 
+/* Refresh the homepage Latest Coverage card so it reads like an active-season destination, not a pre-launch placeholder. */
+main > section[class~="py-5"] > div > div:first-child > div[class~="bg-[var(--vv-primary)]/10"] > p:first-child,
+main > section[class~="py-5"] > div > div:first-child > div[class~="bg-[var(--vv-primary)]/10"] > h3,
+main > section[class~="py-5"] > div > div:first-child > div[class~="bg-[var(--vv-primary)]/10"] > p:nth-of-type(2),
+main > section[class~="py-5"] > div > div:first-child > div[class~="bg-[var(--vv-primary)]/10"] > a {
+  font-size: 0 !important;
+}
+
+main > section[class~="py-5"] > div > div:first-child > div[class~="bg-[var(--vv-primary)]/10"] > p:first-child::after {
+  content: "WEEK 2";
+  font-size: 0.75rem;
+}
+
+main > section[class~="py-5"] > div > div:first-child > div[class~="bg-[var(--vv-primary)]/10"] > h3::after {
+  content: "Friday night is in the books.";
+  font-size: 1.25rem;
+}
+
+main > section[class~="py-5"] > div > div:first-child > div[class~="bg-[var(--vv-primary)]/10"] > p:nth-of-type(2)::after {
+  content: "Catch up on Week 2 results, standout performances and updated records from across the VarsityVue coverage area.";
+  font-size: 0.875rem;
+}
+
+main > section[class~="py-5"] > div > div:first-child > div[class~="bg-[var(--vv-primary)]/10"] > a::after {
+  content: "VIEW WEEK 2 COVERAGE →";
+  font-size: 0.75rem;
+}
+
 /* Keep the Game Center quarter-by-quarter score line fully visible on phones. */
 @media (max-width: 639px) {
   table.min-w-\[560px\] {
