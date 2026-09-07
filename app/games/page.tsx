@@ -65,10 +65,11 @@ function compareGameDatesDesc(
   return bTime - aTime;
 }
 
-function formatStatus(status: string) {
+function formatStatus(status: string, gameType?: string) {
   if (status === "upcoming") return "Upcoming";
   if (status === "live") return "Live";
   if (status === "final") return "Final";
+  if (status === "scheduled" && gameType === "scrimmage") return "Score Not Tracked";
   if (status === "scheduled") return "Result Pending";
   return status.charAt(0).toUpperCase() + status.slice(1);
 }
@@ -207,7 +208,7 @@ export default function GamesPage() {
                         featuredGame.week
                       )}
                     />
-                    <Badge label={formatStatus(featuredGame.status)} />
+                    <Badge label={formatStatus(featuredGame.status, featuredGame.gameType)} />
                     {featuredGame.districtGame && <Badge label="District Game" />}
                     {featuredGame.specialEvent && <Badge label={featuredGame.specialEvent} />}
                   </div>
@@ -275,7 +276,7 @@ export default function GamesPage() {
                     className="min-w-[280px] rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
                   >
                     <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[var(--vv-accent)]">
-                      {formatStatus(game.status)} · {getGameTypeLabel(game.gameType, game.week)}
+                      {formatStatus(game.status, game.gameType)} · {getGameTypeLabel(game.gameType, game.week)}
                     </p>
                     <h3 className="mt-2 text-lg font-black text-white">
                       {getAwayTeam(game)} at {getHomeTeam(game)}
@@ -315,7 +316,7 @@ export default function GamesPage() {
                     <div className="relative">
                       <div className="flex flex-wrap gap-2">
                         <Badge label={getGameTypeLabel(game.gameType, game.week)} />
-                        <Badge label={formatStatus(game.status)} />
+                        <Badge label={formatStatus(game.status, game.gameType)} />
                         {game.districtGame && <Badge label="District" />}
                         {game.specialEvent && <Badge label={game.specialEvent} />}
                       </div>
@@ -352,25 +353,10 @@ export default function GamesPage() {
                 ))}
               </div>
             ) : (
-              <p className="rounded-2xl border border-white/10 bg-white/[0.045] p-5 text-sm text-white/55">
-                No matchups are currently listed.
-              </p>
+              <div className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 text-white/55">
+                No games are currently available.
+              </div>
             )}
-          </section>
-
-          <section className="mt-10 rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
-              VarsityVue Coverage
-            </p>
-            <h2 className="mt-3 text-3xl font-black text-white">
-              Built for Texas high school football discovery.
-            </h2>
-            <p className="mt-4 max-w-4xl leading-7 text-white/60">
-              VarsityVue organizes Texas high school football schedules, scores,
-              district matchups, school hubs, game previews, player statistics,
-              and local coverage into one searchable platform built for fans,
-              families, athletes, schools, and communities.
-            </p>
           </section>
         </div>
       </section>
@@ -378,20 +364,20 @@ export default function GamesPage() {
   );
 }
 
-function StatCard({ label, value }: { label: string; value: string }) {
+function Badge({ label }: { label: string }) {
   return (
-    <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-5 shadow-xl">
-      <p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">{label}</p>
-      <p className="mt-3 text-4xl font-black text-white">{value}</p>
-    </div>
+    <span className="rounded-full border border-white/10 bg-black/35 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.16em] text-white/70">
+      {label}
+    </span>
   );
 }
 
-function Badge({ label }: { label: string }) {
+function StatCard({ label, value }: { label: string; value: string }) {
   return (
-    <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-white/70">
-      {label}
-    </span>
+    <div className="rounded-2xl border border-white/10 bg-white/[0.045] p-5 shadow-xl">
+      <p className="text-xs font-black uppercase tracking-[0.22em] text-white/35">{label}</p>
+      <p className="mt-2 text-3xl font-black text-white">{value}</p>
+    </div>
   );
 }
 
