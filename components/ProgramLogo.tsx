@@ -8,14 +8,14 @@ type ProgramLogoProps = {
 };
 
 const logoBySlug: Record<string, string> = {
-  "de-leon": "/logos/de-leon-bearcats-logo.png",
-  cisco: "https://cache.bsnsports.com/comp/sls/get/43/16466?f=jpg&sid=16466&ts=1709573019",
-  hico: "https://static.hudl.com/users/prod/9098039_ace5b0fb54b54edc8ab89b736d90cd98.jpg",
-  comanche: "https://s3-us-west-2.amazonaws.com/scorestream-team-profile-pictures/15955/20181010210738_647_mascot1280Near.png",
-  goldthwaite: "https://assets-us-01.kc-usercontent.com/37044744-256f-009a-8039-e00bdaabaf39/0170227d-29cd-4e45-8748-ad14c20d4acd/Goldthwaite%20CISD.jpg",
-  albany: "https://assets.scorebooklive.com/uploads/production/school/37677-v3/image/Albany_Lions_.png",
-  stamford: "https://sportshub2-uploads.vnn-prod.zone/files/sites/1085/2018/01/10194433/logo_outline.png",
-  stephenville: "https://assets.scorebooklive.com/uploads/production/school/28419/image/Stephenville_Yellowjackets_TX.jpg",
+  "de-leon": "/logos/schools/de-leon.png",
+  cisco: "/logos/schools/cisco.png",
+  hico: "/logos/schools/hico.png",
+  comanche: "/logos/schools/comanche.png",
+  goldthwaite: "/logos/schools/goldthwaite.png",
+  albany: "/logos/schools/albany.png",
+  stamford: "/logos/schools/stamford.png",
+  stephenville: "/logos/schools/stephenville.png",
 };
 
 const dimensions = {
