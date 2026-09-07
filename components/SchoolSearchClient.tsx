@@ -55,11 +55,7 @@ export default function SchoolSearchClient({ schools }: { schools: School[] }) {
     <aside className="rounded-[2rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:p-6">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-white/55">
-            Find Your Team
-          </p>
-
-          <h2 className="mt-3 text-4xl font-black tracking-tight text-white">
+          <h2 className="text-4xl font-black tracking-tight text-white">
             School Lookup
           </h2>
         </div>
