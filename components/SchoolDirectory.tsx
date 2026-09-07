@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import type { UILClassification } from "@/types/platform";
+import { getProgramLogoPath } from "@/components/SchoolBadge";
 
 export type DirectorySchool = {
   slug: string;
@@ -172,6 +173,7 @@ export default function SchoolDirectory({ schools }: { schools: DirectorySchool[
           {filteredSchools.map((school) => {
             const classification = formatClassification(school.classification);
             const district = formatDistrictName(school.districtId);
+            const programLogo = getProgramLogoPath(school.slug);
 
             return (
               <Link
@@ -191,17 +193,29 @@ export default function SchoolDirectory({ schools }: { schools: DirectorySchool[
 
                 <div className="relative">
                   <div className="mb-6 flex items-start justify-between gap-4">
-                    <div
-                      className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 text-xl font-black shadow-lg"
-                      style={{
-                        backgroundColor: school.colors.primary,
-                        color: school.colors.secondary,
-                      }}
-                    >
-                      {school.badgeLabel ??
-                        school.abbreviation ??
-                        school.name.slice(0, 2).toUpperCase()}
-                    </div>
+                    {programLogo ? (
+                      <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-black/35 p-1.5 shadow-lg">
+                        <img
+                          src={programLogo}
+                          alt={`${school.fullName} logo`}
+                          className="h-full w-full object-contain drop-shadow-lg"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </div>
+                    ) : (
+                      <div
+                        className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 text-xl font-black shadow-lg"
+                        style={{
+                          backgroundColor: school.colors.primary,
+                          color: school.colors.secondary,
+                        }}
+                      >
+                        {school.badgeLabel ??
+                          school.abbreviation ??
+                          school.name.slice(0, 2).toUpperCase()}
+                      </div>
+                    )}
 
                     <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-white/70">
                       School Hub
