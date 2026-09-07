@@ -26,6 +26,14 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Keep both Game of the Week team names visually equal on phones. */
+@media (max-width: 767px) {
+  [data-side="left"] > h2,
+  [data-side="right"] > h2 {
+    font-size: 2.25rem !important;
+  }
+}
+
 /* Keep the Game Center quarter-by-quarter score line fully visible on phones. */
 @media (max-width: 639px) {
   table.min-w-\[560px\] {
