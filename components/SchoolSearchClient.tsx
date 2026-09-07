@@ -107,22 +107,18 @@ export default function SchoolSearchClient({ schools }: { schools: School[] }) {
                 <Link
                   key={school.id}
                   href={`/schools/${school.slug}`}
-                  className="group min-w-0 rounded-2xl border border-white/10 bg-black/35 p-4 text-center transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:border-white/25 hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                  className="group min-w-0 rounded-2xl border border-white/10 bg-black/35 p-3 text-center transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:border-white/25 hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:p-4"
                 >
                   <div className="flex justify-center">
                     <SchoolBadge school={school} size="xs" />
                   </div>
 
                   <p
-                    className={`mt-3 break-words font-black uppercase leading-tight text-white ${
-                      longSchoolName ? "text-[9px] sm:text-[10px]" : "text-[11px]"
+                    className={`mt-3 whitespace-nowrap font-black uppercase leading-tight text-white ${
+                      longSchoolName ? "text-[8px] sm:text-[10px]" : "text-[11px]"
                     }`}
                   >
                     {school.name}
-                  </p>
-
-                  <p className="mt-1 text-[9px] uppercase tracking-[0.12em] text-white/40">
-                    {school.badgeSubtext ?? school.mascot}
                   </p>
                 </Link>
               );
