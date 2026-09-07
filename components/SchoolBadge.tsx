@@ -5,6 +5,22 @@ type SchoolBadgeProps = {
   size?: "xs" | "sm" | "md" | "lg";
 };
 
+const programLogoBySlug: Record<string, string> = {
+  "de-leon": "/logos/schools/de-leon.png",
+  cisco: "/logos/schools/cisco.png",
+  hico: "/logos/schools/hico.png",
+  comanche: "/logos/schools/comanche.png",
+  goldthwaite: "/logos/schools/goldthwaite.png",
+  albany: "/logos/schools/albany.png",
+  stamford: "/logos/schools/stamford.png",
+  stephenville: "/logos/schools/stephenville.png",
+};
+
+const largeLogoClasses = {
+  md: "h-28 w-28 sm:h-36 sm:w-36",
+  lg: "h-40 w-40 sm:h-52 sm:w-52",
+} as const;
+
 const sizeClasses = {
   xs: {
     wrap: "w-20",
@@ -74,6 +90,26 @@ export default function SchoolBadge({
   school,
   size = "md",
 }: SchoolBadgeProps) {
+  const programLogo = programLogoBySlug[school.slug];
+
+  // Large identity treatments should use the official program mark when one
+  // is available. Compact xs/sm contexts retain the uniform VarsityVue badge.
+  if (programLogo && (size === "md" || size === "lg")) {
+    return (
+      <div
+        className={`${largeLogoClasses[size]} flex shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-black/35 p-2 shadow-xl`}
+      >
+        <img
+          src={programLogo}
+          alt={`${school.fullName} logo`}
+          className="h-full w-full object-contain drop-shadow-xl"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    );
+  }
+
   const classes = sizeClasses[size];
   const initials = getInitials(school);
   const badgeSubtext = school.badgeSubtext ?? school.mascot;
