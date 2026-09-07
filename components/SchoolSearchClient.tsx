@@ -10,12 +10,17 @@ export default function SchoolSearchClient({ schools }: { schools: School[] }) {
   const router = useRouter();
   const [query, setQuery] = useState("");
 
+  const sortedSchools = useMemo(
+    () => [...schools].sort((a, b) => a.name.localeCompare(b.name)),
+    [schools]
+  );
+
   const filteredSchools = useMemo(() => {
     const search = query.trim().toLowerCase();
 
-    if (!search) return schools.slice(0, 9);
+    if (!search) return sortedSchools.slice(0, 9);
 
-    return schools
+    return sortedSchools
       .filter((school) => {
         const haystack = [
           school.name,
@@ -35,9 +40,9 @@ export default function SchoolSearchClient({ schools }: { schools: School[] }) {
         return haystack.includes(search);
       })
       .slice(0, 12);
-  }, [query, schools]);
+  }, [query, sortedSchools]);
 
-  const featuredSchools = schools.slice(0, 4);
+  const featuredSchools = sortedSchools.slice(0, 4);
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key !== "Enter") return;
