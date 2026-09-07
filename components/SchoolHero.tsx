@@ -5,6 +5,7 @@ import { getDistrictById } from "@/lib/districts";
 import { getSchoolBySlug } from "@/lib/schools";
 import { getSchoolRecord } from "@/lib/records";
 import SchoolBadge from "./SchoolBadge";
+import ProgramLogo from "./ProgramLogo";
 
 function formatClassification(classification: UILClassification) {
   if (!classification.division) return classification.conference;
@@ -32,8 +33,8 @@ export default function SchoolHero({ school }: { school: School }) {
           <Link href="/schools" className="inline-flex text-[11px] font-black uppercase tracking-[0.16em] text-white/50 transition hover:text-white sm:text-xs sm:tracking-[0.18em]">← School Directory</Link>
           <div className="mt-4 flex min-w-0 flex-wrap items-center gap-2 sm:mt-6 sm:gap-3"><HeroChip label="VarsityVue School Hub" color={primary} /><HeroChip label="2026 Football" color={secondary} /></div>
           <div className="mt-5 flex min-w-0 items-center gap-4 sm:mt-8 sm:gap-6">
-            <div className="shrink-0 sm:hidden"><SchoolBadge school={school} size="sm" /></div>
-            <div className="hidden shrink-0 sm:block"><SchoolBadge school={school} size="md" /></div>
+            <div className="shrink-0 sm:hidden"><ProgramLogo school={school} size="sm" /></div>
+            <div className="hidden shrink-0 sm:block"><ProgramLogo school={school} size="md" /></div>
             <div className="min-w-0"><p className="truncate text-[10px] font-black uppercase tracking-[0.22em] text-white/40 sm:text-xs sm:tracking-[0.28em]">{school.fullName}</p><h1 className="mt-2 break-words text-4xl font-black uppercase leading-[0.92] tracking-tight text-white sm:text-7xl xl:text-8xl">{school.name}</h1>{school.headCoach && <p className="mt-3 text-xs font-black uppercase tracking-[0.14em] text-white/45 sm:text-sm sm:tracking-[0.18em]">Head Coach: {school.headCoach}</p>}{school.athleticDirector && school.athleticDirector !== school.headCoach && <p className="mt-2 text-xs font-black uppercase tracking-[0.14em] text-white/45 sm:text-sm sm:tracking-[0.18em]">Athletic Director: {school.athleticDirector}</p>}</div>
           </div>
           <p className="mt-5 max-w-3xl text-sm leading-6 text-white/60 sm:mt-7 sm:text-lg sm:leading-7">Schedules, scores, standings, matchup coverage, player statistics, and program updates in one place.</p>
