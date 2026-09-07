@@ -104,14 +104,14 @@ export default function AreaLeaders() {
       schoolSlug: player.schoolSlug,
       gamesRecorded: player.gamesRecorded,
       value: touchdowns,
-      detail: `${player.passing.touchdowns} PASS · ${player.rushing.touchdowns + player.receiving.touchdowns} SCORE`,
+      detail: `${player.passing.touchdowns} PASS · ${player.rushing.touchdowns} RUSH`,
     }));
 
   const cards: LeaderCard[] = [
     { title: "Passing", statLabel: "YDS", rows: passing },
+    { title: "Receiving", statLabel: "YDS", rows: receiving },
     { title: "Rushing", statLabel: "YDS", rows: rushing },
     { title: "All-Purpose", statLabel: "YDS", rows: allPurpose },
-    { title: "Receiving", statLabel: "YDS", rows: receiving },
     { title: "Total TDs", statLabel: "TD", rows: totalTouchdowns },
   ];
 
