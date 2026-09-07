@@ -22,6 +22,14 @@ function number(value: number) {
   return new Intl.NumberFormat("en-US").format(value);
 }
 
+function touchdownDetail(player: ReturnType<typeof getPlayerSeasonStats>[number]) {
+  const parts: string[] = [];
+  if (player.passing.touchdowns > 0) parts.push(`${player.passing.touchdowns} PASS`);
+  if (player.rushing.touchdowns > 0) parts.push(`${player.rushing.touchdowns} RUSH`);
+  if (player.receiving.touchdowns > 0) parts.push(`${player.receiving.touchdowns} REC`);
+  return parts.join(" · ");
+}
+
 export default function AreaLeaders() {
   const featuredSchools = getFeaturedSchools();
   const featuredSlugs = new Set(featuredSchools.map((school) => school.slug));
@@ -104,7 +112,7 @@ export default function AreaLeaders() {
       schoolSlug: player.schoolSlug,
       gamesRecorded: player.gamesRecorded,
       value: touchdowns,
-      detail: `${player.passing.touchdowns} PASS · ${player.rushing.touchdowns} RUSH`,
+      detail: touchdownDetail(player),
     }));
 
   const cards: LeaderCard[] = [
