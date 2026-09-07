@@ -100,25 +100,33 @@ export default function SchoolSearchClient({ schools }: { schools: School[] }) {
       <div className="mt-5 max-h-[420px] overflow-y-auto pr-1">
         <div className="grid grid-cols-3 gap-3">
           {filteredSchools.length > 0 ? (
-            filteredSchools.map((school) => (
-              <Link
-                key={school.id}
-                href={`/schools/${school.slug}`}
-                className="group rounded-2xl border border-white/10 bg-black/35 p-4 text-center transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:border-white/25 hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
-              >
-                <div className="flex justify-center">
-                  <SchoolBadge school={school} size="xs" />
-                </div>
+            filteredSchools.map((school) => {
+              const longSchoolName = school.name.length >= 10;
 
-                <p className="mt-3 text-[11px] font-black uppercase leading-tight text-white">
-                  {school.name}
-                </p>
+              return (
+                <Link
+                  key={school.id}
+                  href={`/schools/${school.slug}`}
+                  className="group min-w-0 rounded-2xl border border-white/10 bg-black/35 p-4 text-center transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:border-white/25 hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                >
+                  <div className="flex justify-center">
+                    <SchoolBadge school={school} size="xs" />
+                  </div>
 
-                <p className="mt-1 text-[9px] uppercase tracking-[0.12em] text-white/40">
-                  {school.badgeSubtext ?? school.mascot}
-                </p>
-              </Link>
-            ))
+                  <p
+                    className={`mt-3 break-words font-black uppercase leading-tight text-white ${
+                      longSchoolName ? "text-[9px] sm:text-[10px]" : "text-[11px]"
+                    }`}
+                  >
+                    {school.name}
+                  </p>
+
+                  <p className="mt-1 text-[9px] uppercase tracking-[0.12em] text-white/40">
+                    {school.badgeSubtext ?? school.mascot}
+                  </p>
+                </Link>
+              );
+            })
           ) : (
             <div className="col-span-3 rounded-2xl border border-white/10 bg-black/35 p-6 text-center">
               <p className="text-sm font-black text-white">No live hubs found.</p>
