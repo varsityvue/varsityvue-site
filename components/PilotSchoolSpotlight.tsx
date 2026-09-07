@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getFeaturedSchools } from "@/lib/schools";
 import { getDistrictById } from "@/lib/districts";
 import { getNextGameForSchool } from "@/lib/games";
-import SchoolBadge from "./SchoolBadge";
+import ProgramLogo from "./ProgramLogo";
 
 function formatClassification(conference: string, division?: string | null) {
   const divisionLabel =
@@ -81,7 +81,7 @@ export default function FeaturedSchoolSpotlight() {
                       </p>
                     </div>
 
-                    <SchoolBadge school={school} size="sm" />
+                    <ProgramLogo school={school} size="sm" />
                   </div>
 
                   <div className="mt-5 rounded-2xl border border-white/10 bg-white/[0.04] p-4">
