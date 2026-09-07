@@ -18,18 +18,18 @@ export const comancheGameStats: GameStats[] = [
       { schoolSlug: "comanche", rushingAttempts: 29, rushingYards: 248, passingYards: 135, totalYards: 383, completions: 6, passAttempts: 10, interceptionsThrown: 0 },
     ],
     rushing: [
-      { player: "Z. Tello", schoolSlug: "comanche", attempts: 6, yards: 82, touchdowns: 0 },
-      { player: "A. Guerrero", schoolSlug: "comanche", attempts: 1, yards: 1, touchdowns: 0 },
-      { player: "C. Welch", schoolSlug: "comanche", attempts: 1, yards: 11, touchdowns: 0 },
-      { player: "L. Smith", schoolSlug: "comanche", attempts: 15, yards: 63, touchdowns: 2 },
-      { player: "N. Anaya", schoolSlug: "comanche", attempts: 6, yards: 91, touchdowns: 0 },
+      { player: "Zaden Tello", schoolSlug: "comanche", attempts: 6, yards: 82, touchdowns: 0 },
+      { player: "Adrian Guerrero", schoolSlug: "comanche", attempts: 1, yards: 1, touchdowns: 0 },
+      { player: "Cooper Welch", schoolSlug: "comanche", attempts: 1, yards: 11, touchdowns: 0 },
+      { player: "Ladanian Smith", schoolSlug: "comanche", attempts: 15, yards: 63, touchdowns: 2 },
+      { player: "Nicolas Anaya", schoolSlug: "comanche", attempts: 6, yards: 91, touchdowns: 0 },
     ],
     passing: [
-      { player: "C. Welch", schoolSlug: "comanche", completions: 6, attempts: 10, yards: 135, interceptions: 0, touchdowns: 2 },
+      { player: "Cooper Welch", schoolSlug: "comanche", completions: 6, attempts: 10, yards: 135, interceptions: 0, touchdowns: 2 },
     ],
     receiving: [
-      { player: "Z. Tello", schoolSlug: "comanche", receptions: 2, yards: 64, touchdowns: 1 },
-      { player: "A. Guerrero", schoolSlug: "comanche", receptions: 1, yards: 24, touchdowns: 1 },
+      { player: "Zaden Tello", schoolSlug: "comanche", receptions: 2, yards: 64, touchdowns: 1 },
+      { player: "Adrian Guerrero", schoolSlug: "comanche", receptions: 1, yards: 24, touchdowns: 1 },
     ],
   },
 ];
