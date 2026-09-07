@@ -19,12 +19,30 @@ const combinedGameStats = [
   ...stephenvilleGameStats,
 ];
 
-// Some pilot games existed in the legacy dataset before their audited stat files
-// were added. Keep exactly one record per game and let later, audited datasets
-// override earlier legacy entries with the same gameId.
+function getGameIdentity(game: (typeof combinedGameStats)[number]) {
+  const weekMatch = game.gameId.match(/-week-(\d+)(?:$|-)/);
+  const week = weekMatch?.[1];
+  const participants = Array.from(
+    new Set(game.quarterScores.map((line) => line.schoolSlug))
+  ).sort();
+
+  // A few legacy stat records use opposite home/away wording in gameId for the
+  // same matchup. Prefer season + week + participants so those records cannot
+  // be counted twice. Fall back to gameId when a full matchup cannot be proved.
+  if (week && participants.length === 2) {
+    return `${game.season}|week-${week}|${participants.join("|")}`;
+  }
+
+  return `${game.season}|${game.gameId}`;
+}
+
+// Legacy data and newer audited files can contain the same game under different
+// gameIds (for example, reversed home/away wording). Keep exactly one statistical
+// record per actual matchup. Later sources are the audited sources and therefore
+// intentionally override earlier legacy records.
 const uniqueGameStats = Array.from(
   combinedGameStats.reduce((games, game) => {
-    games.set(game.gameId, game);
+    games.set(getGameIdentity(game), game);
     return games;
   }, new Map<string, (typeof combinedGameStats)[number]>()).values()
 );
