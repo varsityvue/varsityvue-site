@@ -11,6 +11,7 @@ const sizeClasses = {
     initials: "text-xl",
     initialsLong: "text-base",
     mascot: "text-[7px]",
+    mascotLong: "text-[6px]",
     pad: "px-2 py-2",
     stroke: "1px",
     footer: "min-h-7 px-1.5 py-1",
@@ -20,6 +21,7 @@ const sizeClasses = {
     initials: "text-xl sm:text-2xl",
     initialsLong: "text-base sm:text-xl",
     mascot: "text-[6px] sm:text-[7px]",
+    mascotLong: "text-[5px] sm:text-[6px]",
     pad: "px-2 py-2",
     stroke: "1px",
     footer: "min-h-7 px-1.5 py-1",
@@ -29,6 +31,7 @@ const sizeClasses = {
     initials: "text-5xl",
     initialsLong: "text-4xl",
     mascot: "text-xs",
+    mascotLong: "text-[10px]",
     pad: "px-4 py-4",
     stroke: "2px",
     footer: "min-h-9 px-2 py-1.5",
@@ -38,6 +41,7 @@ const sizeClasses = {
     initials: "text-7xl",
     initialsLong: "text-6xl",
     mascot: "text-sm",
+    mascotLong: "text-xs",
     pad: "px-5 py-5",
     stroke: "2px",
     footer: "min-h-10 px-2 py-2",
@@ -72,8 +76,11 @@ export default function SchoolBadge({
 }: SchoolBadgeProps) {
   const classes = sizeClasses[size];
   const initials = getInitials(school);
+  const badgeSubtext = school.badgeSubtext ?? school.mascot;
   const initialsClass =
     initials.length >= 4 ? classes.initialsLong : classes.initials;
+  const mascotClass =
+    badgeSubtext.length >= 10 ? classes.mascotLong : classes.mascot;
 
   const subtextColor = isDarkColor(school.colors.secondary)
     ? "#FFFFFF"
@@ -126,13 +133,13 @@ export default function SchoolBadge({
         }}
       >
         <div
-          className={`max-w-full text-balance font-black uppercase leading-[1.05] ${classes.mascot}`}
+          className={`max-w-full text-balance font-black uppercase leading-[1.05] ${mascotClass}`}
           style={{
             color: subtextColor,
             textShadow: "0 2px 4px rgba(0,0,0,0.75)",
           }}
         >
-          {school.badgeSubtext ?? school.mascot}
+          {badgeSubtext}
         </div>
       </div>
     </div>
