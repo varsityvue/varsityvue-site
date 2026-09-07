@@ -1,12 +1,14 @@
 import { gameStats as baseGameStats } from "@/data/game-stats";
 import { week2GameStats } from "@/data/week2-game-stats";
 import { coachGameStats } from "@/data/coach-game-stats";
+import { stamfordGameStats } from "@/data/stamford-game-stats";
 import { applyDeLeonStatCorrections } from "@/data/de-leon-stat-corrections";
 
 const combinedGameStats = [
   ...baseGameStats,
   ...week2GameStats,
   ...coachGameStats,
+  ...stamfordGameStats,
 ];
 
 function assertNoDuplicateGameStatIds() {
