@@ -34,6 +34,11 @@ body {
   }
 }
 
+/* The preview headline already explains the matchup; the kicker above it is redundant. */
+div[class~="rounded-[1.5rem]"][class~="bg-black/30"] > p[class~="tracking-[0.24em]"] {
+  display: none;
+}
+
 /* Keep the Game Center quarter-by-quarter score line fully visible on phones. */
 @media (max-width: 639px) {
   table.min-w-\[560px\] {
