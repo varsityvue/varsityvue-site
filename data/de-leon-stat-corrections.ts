@@ -8,6 +8,11 @@ export function applyDeLeonStatCorrections(game: GameStats): GameStats {
     return {
       ...game,
       sourceLabel: "MaxPreps — coach-designated official statistics",
+      teamStats: game.teamStats.map((line) =>
+        line.schoolSlug === "de-leon"
+          ? { ...line, rushingAttempts: 19, rushingYards: 378, passingYards: 64, totalYards: 442, completions: 9, passAttempts: 12, interceptionsThrown: 0 }
+          : line
+      ),
       rushing: [
         ...game.rushing.filter((line) => line.schoolSlug !== "de-leon"),
         { player: "Lane Couch", schoolSlug: "de-leon", attempts: 14, yards: 351, touchdowns: 4 },
@@ -33,6 +38,11 @@ export function applyDeLeonStatCorrections(game: GameStats): GameStats {
     return {
       ...game,
       sourceLabel: "MaxPreps — coach-designated official statistics",
+      teamStats: game.teamStats.map((line) =>
+        line.schoolSlug === "de-leon"
+          ? { ...line, rushingAttempts: 39, rushingYards: 370, passingYards: 101, totalYards: 471, completions: 9, passAttempts: 16, interceptionsThrown: 0 }
+          : line
+      ),
       rushing: [
         ...game.rushing.filter((line) => line.schoolSlug !== "de-leon"),
         { player: "Lane Couch", schoolSlug: "de-leon", attempts: 19, yards: 205, touchdowns: 2 },
