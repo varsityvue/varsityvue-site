@@ -19,7 +19,7 @@ export const stamfordGameStats: GameStats[] = [
     ],
     rushing: [
       { player: "Miles Follis", schoolSlug: "stamford", attempts: 7, yards: 48 },
-      { player: "B. Flow", schoolSlug: "stamford", attempts: 1, yards: 8 },
+      { player: "Baylor Flow", schoolSlug: "stamford", attempts: 1, yards: 8 },
       { player: "Josh Andruch", schoolSlug: "stamford", attempts: 5, yards: 38 },
       { player: "Slayden Young", schoolSlug: "stamford", attempts: 2, yards: 54 },
       { player: "Chris McCann", schoolSlug: "stamford", attempts: 8, yards: 112 },
@@ -30,7 +30,7 @@ export const stamfordGameStats: GameStats[] = [
     ],
     receiving: [
       { player: "Karsten Hall", schoolSlug: "stamford", receptions: 2, yards: 8 },
-      { player: "C. Vega", schoolSlug: "stamford", receptions: 1, yards: 14 },
+      { player: "Carlos Vega", schoolSlug: "stamford", receptions: 1, yards: 14 },
       { player: "Brennan Armstrong", schoolSlug: "stamford", receptions: 2, yards: 67 },
       { player: "Slayden Young", schoolSlug: "stamford", receptions: 9, yards: 215 },
       { player: "Levi Vahlenkamp", schoolSlug: "stamford", receptions: 2, yards: 29 },
