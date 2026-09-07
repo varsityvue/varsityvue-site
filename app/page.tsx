@@ -440,22 +440,56 @@ export default function Home() {
             </div>
           </Panel>
 
-          <Panel title="Featured Programs" kicker="School Hubs" href="/schools">
+          <Panel title="This Week on VarsityVue" kicker="Week at a Glance" href="/coverage">
             <div className="space-y-3">
-              {featuredProgramsForDisplay.slice(0, 4).map((school) => (
+              {featuredGame && (
                 <Link
-                  key={school.id}
-                  href={`/schools/${school.slug}`}
-                  className="flex items-center gap-4 rounded-xl border border-white/10 bg-black/35 p-3 transition hover:bg-white/10"
+                  href={`/games/${featuredGame.id}`}
+                  className="block rounded-xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
                 >
-                  <SchoolBadge school={school} size="xs" />
-
-                  <div>
-                    <p className="font-black text-white">{school.name}</p>
-                    <p className="text-sm text-white/45">{school.mascot}</p>
-                  </div>
+                  <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/40">
+                    {featuredGameFinal ? "Latest Final" : "Game to Watch"}
+                  </p>
+                  <p className="mt-2 font-black text-white">
+                    {featuredGame.awayTeam} at {featuredGame.homeTeam}
+                  </p>
+                  <p className="mt-1 text-sm text-white/50">
+                    {featuredGameFinal && awayScore !== undefined && homeScore !== undefined
+                      ? `Final · ${awayScore}-${homeScore}`
+                      : formatGameDateTime(featuredGame.kickoff)}
+                  </p>
                 </Link>
-              ))}
+              )}
+
+              {featuredDistrict && (
+                <Link
+                  href={`/districts/${featuredDistrict.slug}`}
+                  className="block rounded-xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
+                >
+                  <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/40">
+                    District Watch
+                  </p>
+                  <p className="mt-2 font-black text-white">{featuredDistrict.name}</p>
+                  <p className="mt-1 text-sm leading-5 text-white/50">
+                    {featuredDistrictHasResults
+                      ? "Track the latest verified district standings and results."
+                      : "District play is still ahead. Follow the teams and early-season records."}
+                  </p>
+                </Link>
+              )}
+
+              <Link
+                href="/coverage"
+                className="block rounded-xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
+              >
+                <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/40">
+                  Around the Area
+                </p>
+                <p className="mt-2 font-black text-white">Follow the latest VarsityVue coverage</p>
+                <p className="mt-1 text-sm leading-5 text-white/50">
+                  Game previews, verified results, player performances, and local storylines as they are added.
+                </p>
+              </Link>
             </div>
           </Panel>
         </div>
