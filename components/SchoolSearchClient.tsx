@@ -100,29 +100,21 @@ export default function SchoolSearchClient({ schools }: { schools: School[] }) {
       <div className="mt-5 max-h-[420px] overflow-y-auto pr-1">
         <div className="grid grid-cols-3 gap-3">
           {filteredSchools.length > 0 ? (
-            filteredSchools.map((school) => {
-              const longSchoolName = school.name.length >= 10;
+            filteredSchools.map((school) => (
+              <Link
+                key={school.id}
+                href={`/schools/${school.slug}`}
+                className="group min-w-0 rounded-2xl border border-white/10 bg-black/35 p-3 text-center transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:border-white/25 hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:p-4"
+              >
+                <div className="flex justify-center">
+                  <SchoolBadge school={school} size="xs" />
+                </div>
 
-              return (
-                <Link
-                  key={school.id}
-                  href={`/schools/${school.slug}`}
-                  className="group min-w-0 rounded-2xl border border-white/10 bg-black/35 p-3 text-center transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:border-white/25 hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:p-4"
-                >
-                  <div className="flex justify-center">
-                    <SchoolBadge school={school} size="xs" />
-                  </div>
-
-                  <p
-                    className={`mt-3 whitespace-nowrap font-black uppercase leading-tight text-white ${
-                      longSchoolName ? "text-[8px] sm:text-[10px]" : "text-[11px]"
-                    }`}
-                  >
-                    {school.name}
-                  </p>
-                </Link>
-              );
-            })
+                <p className="mt-3 whitespace-nowrap text-[10px] font-black uppercase leading-tight tracking-[-0.02em] text-white">
+                  {school.name}
+                </p>
+              </Link>
+            ))
           ) : (
             <div className="col-span-3 rounded-2xl border border-white/10 bg-black/35 p-6 text-center">
               <p className="text-sm font-black text-white">No live hubs found.</p>
