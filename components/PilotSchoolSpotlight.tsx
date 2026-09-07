@@ -25,11 +25,7 @@ export default function FeaturedSchoolSpotlight() {
       <div className="mx-auto max-w-[1440px] rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 shadow-2xl md:p-8">
         <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.3em] text-white/45">
-              Featured Programs
-            </p>
-
-            <h2 className="mt-2 text-3xl font-black text-white md:text-4xl">
+            <h2 className="text-3xl font-black text-white md:text-4xl">
               Featured school hubs for 2026
             </h2>
 
