@@ -19,25 +19,17 @@ const combinedGameStats = [
   ...stephenvilleGameStats,
 ];
 
-function assertNoDuplicateGameStatIds() {
-  const seen = new Set<string>();
-  const duplicates: string[] = [];
+// Some pilot games existed in the legacy dataset before their audited stat files
+// were added. Keep exactly one record per game and let later, audited datasets
+// override earlier legacy entries with the same gameId.
+const uniqueGameStats = Array.from(
+  combinedGameStats.reduce((games, game) => {
+    games.set(game.gameId, game);
+    return games;
+  }, new Map<string, (typeof combinedGameStats)[number]>()).values()
+);
 
-  for (const game of combinedGameStats) {
-    if (seen.has(game.gameId)) duplicates.push(game.gameId);
-    seen.add(game.gameId);
-  }
-
-  if (duplicates.length > 0) {
-    throw new Error(
-      `Duplicate GameStats records found: ${Array.from(new Set(duplicates)).join(", ")}`
-    );
-  }
-}
-
-assertNoDuplicateGameStatIds();
-
-export const gameStats = combinedGameStats.map((game) => {
+export const gameStats = uniqueGameStats.map((game) => {
   const correctedGame = applyDeLeonStatCorrections(game);
 
   if (correctedGame.gameId !== "hawley-at-albany-2026-week-1") return correctedGame;
