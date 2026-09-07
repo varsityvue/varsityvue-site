@@ -16,7 +16,7 @@ function formatClassification(conference: string, division?: string | null) {
 }
 
 export default function FeaturedSchoolSpotlight() {
-  const schools = getFeaturedSchools();
+  const schools = [...getFeaturedSchools()].sort((a, b) => a.name.localeCompare(b.name));
 
   if (schools.length === 0) return null;
 
