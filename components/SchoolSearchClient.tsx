@@ -42,8 +42,6 @@ export default function SchoolSearchClient({ schools }: { schools: School[] }) {
       .slice(0, 12);
   }, [query, sortedSchools]);
 
-  const featuredSchools = sortedSchools.slice(0, 4);
-
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key !== "Enter") return;
 
@@ -133,31 +131,6 @@ export default function SchoolSearchClient({ schools }: { schools: School[] }) {
               </Link>
             </div>
           )}
-        </div>
-      </div>
-
-      <div className="mt-5 rounded-2xl border border-white/10 bg-black/35 p-4">
-        <p className="text-xs font-black uppercase tracking-[0.22em] text-white/45">
-          Featured Programs
-        </p>
-
-        <div className="mt-4 grid gap-3">
-          {featuredSchools.map((school) => (
-            <Link
-              key={school.id}
-              href={`/schools/${school.slug}`}
-              className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 transition hover:border-white/20 hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
-            >
-              <div>
-                <p className="text-sm font-black text-white">{school.name}</p>
-                <p className="text-xs text-white/45">{school.mascot}</p>
-              </div>
-
-              <span className="text-xs font-black uppercase tracking-[0.16em] text-white/35">
-                View →
-              </span>
-            </Link>
-          ))}
         </div>
       </div>
 
