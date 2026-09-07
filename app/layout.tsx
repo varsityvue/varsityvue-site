@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import SiteHeader from "../components/SiteHeader";
 import Footer from "../components/Footer";
+import HomepageRecordCleanup from "../components/HomepageRecordCleanup";
 
 export const revalidate = 300;
 
@@ -62,6 +63,7 @@ export default function RootLayout({
 
         <SiteHeader />
         {children}
+        <HomepageRecordCleanup />
         <Footer />
         <Analytics />
       </body>
