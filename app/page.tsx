@@ -331,21 +331,20 @@ export default function Home() {
           <Panel title="Latest Coverage" kicker="News" href="/coverage">
             <div className="rounded-2xl border border-[color:var(--vv-primary)]/30 bg-[var(--vv-primary)]/10 p-5">
               <p className="text-xs font-black uppercase tracking-[0.18em] text-[var(--vv-accent-soft)]">
-                2026 Coverage
+                Week 2
               </p>
               <h3 className="mt-3 text-xl font-black text-white">
-                Coverage is just getting started.
+                Friday night is in the books.
               </h3>
               <p className="mt-3 text-sm leading-6 text-white/55">
-                Follow the 2026 season as VarsityVue adds game previews,
-                results, player performances and stories from across the
-                region.
+                Catch up on Week 2 results, standout performances and updated
+                records from across the VarsityVue coverage area.
               </p>
               <Link
                 href="/coverage"
                 className="mt-5 inline-flex text-xs font-black uppercase tracking-[0.16em] text-white/65 transition hover:text-white"
               >
-                Explore Coverage →
+                View Week 2 Coverage →
               </Link>
             </div>
           </Panel>
