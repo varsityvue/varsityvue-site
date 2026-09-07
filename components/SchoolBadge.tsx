@@ -16,6 +16,10 @@ const programLogoBySlug: Record<string, string> = {
   stephenville: "/logos/schools/stephenville.png",
 };
 
+export function getProgramLogoPath(schoolSlug: string) {
+  return programLogoBySlug[schoolSlug];
+}
+
 const largeLogoClasses = {
   md: "h-28 w-28 sm:h-36 sm:w-36",
   lg: "h-40 w-40 sm:h-52 sm:w-52",
@@ -90,7 +94,7 @@ export default function SchoolBadge({
   school,
   size = "md",
 }: SchoolBadgeProps) {
-  const programLogo = programLogoBySlug[school.slug];
+  const programLogo = getProgramLogoPath(school.slug);
 
   // Large identity treatments should use the official program mark when one
   // is available. Compact xs/sm contexts retain the uniform VarsityVue badge.
