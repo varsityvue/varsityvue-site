@@ -23,7 +23,7 @@ export default function SchoolTeamLeaders({ schoolSlug, season = 2026, primaryCo
           <p className="hidden text-xs text-white/35 sm:block">Verified VarsityVue stats</p>
         </div>
 
-        <div className="mt-4 grid gap-3 sm:mt-5 sm:gap-4 lg:grid-cols-3">
+        <div className="mt-4 grid gap-3 sm:mt-5 sm:gap-4 lg:grid-cols-[repeat(3,minmax(0,1fr))]">
           <CategoryCard label="Rushing" leaders={rushing} primaryColor={primaryColor} secondaryColor={secondaryColor} />
           <CategoryCard label="Passing" leaders={passing} primaryColor={primaryColor} secondaryColor={secondaryColor} />
           <CategoryCard label="Receiving" leaders={receiving} primaryColor={primaryColor} secondaryColor={secondaryColor} />
@@ -37,23 +37,23 @@ function CategoryCard({ label, leaders, primaryColor, secondaryColor }: { label:
   if (!leaders.length) return null;
   const [leader, ...others] = leaders;
   return (
-    <div className="min-w-0 overflow-hidden rounded-xl border border-white/10 bg-black/40 sm:rounded-2xl">
+    <div className="w-full min-w-0 max-w-full overflow-hidden rounded-xl border border-white/10 bg-black/40 sm:rounded-2xl">
       <div className="relative overflow-hidden border-b border-white/10 p-4 sm:p-5" style={{ background: `radial-gradient(circle at 100% 0%, ${primaryColor}35, transparent 55%), linear-gradient(135deg, rgba(255,255,255,.055), rgba(0,0,0,.82))` }}>
         <div className="absolute inset-x-0 top-0 h-1" style={{ background: `linear-gradient(90deg, ${primaryColor}, ${secondaryColor})` }} />
         <div className="flex items-center justify-between gap-3">
           <p className="text-[9px] font-black uppercase tracking-[0.18em] text-white/45 sm:text-[10px] sm:tracking-[0.22em]">{label}</p>
           <p className="text-[9px] font-black uppercase tracking-[0.12em] text-white/25">Leader</p>
         </div>
-        <div className="mt-2.5 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3 sm:mt-4 sm:gap-4">
+        <div className="mt-2.5 grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-end gap-3 sm:mt-4 sm:gap-4">
           <div className="min-w-0">
             {leader.href ? <Link href={leader.href} className="block break-words text-lg font-black leading-tight text-white transition hover:text-white/75 sm:text-2xl">{leader.name}</Link> : <p className="break-words text-lg font-black leading-tight text-white sm:text-2xl">{leader.name}</p>}
           </div>
-          <p className="shrink-0 text-right text-xl font-black tracking-tight text-white sm:text-3xl">{leader.primary}</p>
+          <p className="shrink-0 whitespace-nowrap text-right text-xl font-black tracking-tight text-white sm:text-3xl">{leader.primary}</p>
         </div>
         <p className="mt-2 text-[9px] font-bold uppercase leading-4 tracking-[0.04em] text-white/40 sm:mt-3 sm:text-[11px] sm:tracking-[0.06em]">{leader.secondary}</p>
       </div>
       {others.length > 0 && <div className="divide-y divide-white/[0.07]">{others.map((player, index) => (
-        <div key={player.id} className="grid grid-cols-[1.25rem_minmax(0,1fr)_auto] items-center gap-2.5 px-3.5 py-2.5 transition hover:bg-white/[0.03] sm:grid-cols-[1.5rem_minmax(0,1fr)_auto] sm:gap-3 sm:px-4 sm:py-3.5">
+        <div key={player.id} className="grid min-w-0 grid-cols-[1.25rem_minmax(0,1fr)_auto] items-center gap-2.5 px-3.5 py-2.5 transition hover:bg-white/[0.03] sm:grid-cols-[1.5rem_minmax(0,1fr)_auto] sm:gap-3 sm:px-4 sm:py-3.5">
           <span className="text-xs font-black text-white/25 sm:text-sm">{index + 2}</span>
           <div className="min-w-0">
             {player.href ? <Link href={player.href} className="block break-words text-xs font-black leading-4 text-white/85 hover:text-white sm:text-sm">{player.name}</Link> : <p className="break-words text-xs font-black leading-4 text-white/85 sm:text-sm">{player.name}</p>}
