@@ -36,6 +36,7 @@ export default function SchoolTeamLeaders({ schoolSlug, season = 2026, primaryCo
 function CategoryCard({ label, leaders, primaryColor, secondaryColor }: { label: string; leaders: Leader[]; primaryColor: string; secondaryColor: string }) {
   if (!leaders.length) return null;
   const [leader, ...others] = leaders;
+  const leaderNameClass = leader.name.length >= 13 ? "text-base sm:text-xl xl:text-[1.35rem]" : "text-lg sm:text-2xl";
   return (
     <div className="w-full min-w-0 max-w-full overflow-hidden rounded-xl border border-white/10 bg-black/40 sm:rounded-2xl">
       <div className="relative overflow-hidden border-b border-white/10 p-4 sm:p-5" style={{ background: `radial-gradient(circle at 100% 0%, ${primaryColor}35, transparent 55%), linear-gradient(135deg, rgba(255,255,255,.055), rgba(0,0,0,.82))` }}>
@@ -44,9 +45,9 @@ function CategoryCard({ label, leaders, primaryColor, secondaryColor }: { label:
           <p className="text-[9px] font-black uppercase tracking-[0.18em] text-white/45 sm:text-[10px] sm:tracking-[0.22em]">{label}</p>
           <p className="text-[9px] font-black uppercase tracking-[0.12em] text-white/25">Leader</p>
         </div>
-        <div className="mt-2.5 grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-end gap-3 sm:mt-4 sm:gap-4">
-          <div className="min-w-0">
-            {leader.href ? <Link href={leader.href} className="block break-words text-lg font-black leading-tight text-white transition hover:text-white/75 sm:text-2xl">{leader.name}</Link> : <p className="break-words text-lg font-black leading-tight text-white sm:text-2xl">{leader.name}</p>}
+        <div className="mt-2.5 grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-end gap-2 sm:mt-4 sm:gap-3">
+          <div className="min-w-0 overflow-hidden">
+            {leader.href ? <Link href={leader.href} className={`block truncate font-black leading-tight text-white transition hover:text-white/75 ${leaderNameClass}`}>{leader.name}</Link> : <p className={`truncate font-black leading-tight text-white ${leaderNameClass}`}>{leader.name}</p>}
           </div>
           <p className="shrink-0 whitespace-nowrap text-right text-xl font-black tracking-tight text-white sm:text-3xl">{leader.primary}</p>
         </div>
@@ -56,7 +57,7 @@ function CategoryCard({ label, leaders, primaryColor, secondaryColor }: { label:
         <div key={player.id} className="grid min-w-0 grid-cols-[1.25rem_minmax(0,1fr)_auto] items-center gap-2.5 px-3.5 py-2.5 transition hover:bg-white/[0.03] sm:grid-cols-[1.5rem_minmax(0,1fr)_auto] sm:gap-3 sm:px-4 sm:py-3.5">
           <span className="text-xs font-black text-white/25 sm:text-sm">{index + 2}</span>
           <div className="min-w-0">
-            {player.href ? <Link href={player.href} className="block break-words text-xs font-black leading-4 text-white/85 hover:text-white sm:text-sm">{player.name}</Link> : <p className="break-words text-xs font-black leading-4 text-white/85 sm:text-sm">{player.name}</p>}
+            {player.href ? <Link href={player.href} className="block truncate text-xs font-black leading-4 text-white/85 hover:text-white sm:text-sm">{player.name}</Link> : <p className="truncate text-xs font-black leading-4 text-white/85 sm:text-sm">{player.name}</p>}
             <p className="mt-0.5 hidden truncate text-[10px] text-white/35 sm:block">{player.secondary}</p>
           </div>
           <span className="whitespace-nowrap text-[11px] font-black text-white/60 sm:text-xs">{player.primary}</span>
