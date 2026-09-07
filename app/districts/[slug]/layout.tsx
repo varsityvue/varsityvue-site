@@ -13,6 +13,10 @@ export async function generateMetadata({
 
   if (!district) {
     return {
+      title: {
+        default: "District Not Found",
+        template: "%s",
+      },
       robots: {
         index: false,
         follow: false,
@@ -20,13 +24,32 @@ export async function generateMetadata({
     };
   }
 
+  const isPublicDistrict = district.status === "pilot";
+
   return {
+    title: {
+      default: `${district.name} Football Hub | VarsityVue`,
+      template: "%s",
+    },
     alternates: {
       canonical: `/districts/${district.slug}`,
     },
     openGraph: {
       url: `/districts/${district.slug}`,
     },
+    robots: isPublicDistrict
+      ? {
+          index: true,
+          follow: true,
+        }
+      : {
+          index: false,
+          follow: true,
+          googleBot: {
+            index: false,
+            follow: true,
+          },
+        },
   };
 }
 
