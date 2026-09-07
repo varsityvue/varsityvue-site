@@ -113,6 +113,9 @@ export default function SchoolSearchClient({ schools }: { schools: School[] }) {
                 <p className="mt-3 whitespace-nowrap text-[10px] font-black uppercase leading-tight tracking-[-0.02em] text-white">
                   {school.name}
                 </p>
+                <p className="mt-1 truncate text-[9px] font-semibold leading-tight tracking-[0.02em] text-white/45 sm:text-[10px]">
+                  {school.mascot}
+                </p>
               </Link>
             ))
           ) : (
