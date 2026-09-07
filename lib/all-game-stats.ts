@@ -1,6 +1,7 @@
 import { gameStats as baseGameStats } from "@/data/game-stats";
 import { week2GameStats } from "@/data/week2-game-stats";
 import { coachGameStats } from "@/data/coach-game-stats";
+import { applyDeLeonStatCorrections } from "@/data/de-leon-stat-corrections";
 
 const combinedGameStats = [
   ...baseGameStats,
@@ -27,11 +28,13 @@ function assertNoDuplicateGameStatIds() {
 assertNoDuplicateGameStatIds();
 
 export const gameStats = combinedGameStats.map((game) => {
-  if (game.gameId !== "hawley-at-albany-2026-week-1") return game;
+  const correctedGame = applyDeLeonStatCorrections(game);
+
+  if (correctedGame.gameId !== "hawley-at-albany-2026-week-1") return correctedGame;
 
   return {
-    ...game,
-    quarterScores: game.quarterScores.map((line) =>
+    ...correctedGame,
+    quarterScores: correctedGame.quarterScores.map((line) =>
       line.schoolSlug === "hawley"
         ? { ...line, quarters: [13, 6, 0, 8], total: 27 }
         : line
