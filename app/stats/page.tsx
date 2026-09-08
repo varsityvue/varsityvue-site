@@ -10,9 +10,7 @@ import { getSchoolBySlug } from "@/lib/schools";
 export const metadata: Metadata = {
   title: "2026 Football Stat Leaders | VarsityVue",
   description: "VarsityVue 2026 football rushing, passing, and receiving leaders based on verified game statistics currently available.",
-  alternates: {
-    canonical: "/stats",
-  },
+  alternates: { canonical: "/stats" },
 };
 
 const SEASON = 2026;
@@ -34,11 +32,11 @@ export default function StatsPage() {
         <div className="mx-auto max-w-7xl">
           <p className="text-xs font-black uppercase tracking-[0.28em] text-[#F4EBDD]/60">2026 Football</p>
           <h1 className="mt-3 text-4xl font-black sm:text-5xl lg:text-6xl">Stat Leaders</h1>
-          <p className="mt-4 max-w-3xl text-base leading-7 text-white/55">A running look at top performances from the verified game statistics currently available to VarsityVue. These rankings reflect only games and schools with stats on file—not every player or program in the coverage area.</p>
+          <p className="mt-4 max-w-3xl text-base leading-7 text-white/55">A running look at top performances from the verified game statistics currently available to VarsityVue. These rankings reflect only games and schools with stats on file, not every player or program in the coverage area.</p>
           <div className="mt-6 grid max-w-2xl gap-3 sm:grid-cols-3">
             <SummaryStat value={representedSchools.size.toString()} label="Schools represented" />
             <SummaryStat value={allPlayers.length.toString()} label="Players with stats" />
-            <SummaryStat value={recordedGames.toString()} label="Most games recorded" />
+            <SummaryStat value={recordedGames.toString()} label="Games recorded" />
           </div>
           <div className="mt-6 flex flex-wrap gap-3">
             <a href="#rushing" className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-black text-white/75 hover:bg-white/10">Rushing</a>
@@ -64,10 +62,20 @@ export default function StatsPage() {
 function SummaryStat({ value, label }: { value: string; label: string }) { return <div className="rounded-2xl border border-white/10 bg-black/30 px-4 py-4"><p className="text-2xl font-black text-white">{value}</p><p className="mt-1 text-[10px] font-black uppercase tracking-[0.16em] text-white/35">{label}</p></div>; }
 function playerLink(playerId: string, player: string) { const profile = getPlayerProfile(playerId, SEASON); return profile ? <Link href={`/players/${playerId}`} className="font-black text-white transition hover:text-white/70">{player}</Link> : <span className="font-black text-white">{player}</span>; }
 function schoolLink(schoolSlug: string) { const school = getSchoolBySlug(schoolSlug); return school ? <Link href={`/schools/${schoolSlug}`} className="font-black text-white/75 transition hover:text-white">{school.name}</Link> : <span className="font-black text-white/75">{schoolSlug.replace(/-/g, " ")}</span>; }
+
+function MobileRow({ row, headers, rowIndex }: { row: (string | number | ReactNode)[]; headers: string[]; rowIndex: number }) {
+  return <div key={rowIndex} className="rounded-2xl border border-white/10 bg-black/30 p-4"><div className="flex items-start gap-3"><div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-sm font-black text-white/40">{row[0]}</div><div className="min-w-0 flex-1"><div className="text-base font-black text-white">{row[1]}</div><div className="mt-1 text-xs font-bold text-white/50">{row[2]}</div></div></div><div className="mt-4 grid grid-cols-2 gap-2 border-t border-white/10 pt-4">{headers.slice(3).map((header, index) => <div key={header} className="rounded-xl bg-white/[0.035] px-3 py-2.5"><p className="text-[9px] font-black uppercase tracking-[0.14em] text-white/30">{header}</p><div className="mt-1 text-sm font-black text-white/75">{row[index + 3]}</div></div>)}</div></div>;
+}
+
 function LeaderboardSection({ id, eyebrow, title, note, headers, rows }: { id: string; eyebrow: string; title: string; note: string; headers: string[]; rows: (string | number | ReactNode)[][] }) {
+  const mobilePreview = rows.slice(0, 5);
+  const mobileRemainder = rows.slice(5);
   return <section id={id} className="scroll-mt-24 overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] shadow-2xl"><div className="h-1.5 bg-[#8B1020]" /><div className="p-5 sm:p-6 md:p-7"><div className="flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-black uppercase tracking-[0.28em] text-white/40">{eyebrow}</p><h2 className="mt-2 text-3xl font-black">{title}</h2></div><p className="text-xs font-black uppercase tracking-[0.14em] text-white/30">{note}</p></div>
     {rows.length ? <>
-      <div className="mt-6 space-y-3 md:hidden">{rows.map((row, rowIndex) => <div key={rowIndex} className="rounded-2xl border border-white/10 bg-black/30 p-4"><div className="flex items-start gap-3"><div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-sm font-black text-white/40">{row[0]}</div><div className="min-w-0 flex-1"><div className="text-base font-black text-white">{row[1]}</div><div className="mt-1 text-xs font-bold text-white/50">{row[2]}</div></div></div><div className="mt-4 grid grid-cols-2 gap-2 border-t border-white/10 pt-4">{headers.slice(3).map((header, index) => <div key={header} className="rounded-xl bg-white/[0.035] px-3 py-2.5"><p className="text-[9px] font-black uppercase tracking-[0.14em] text-white/30">{header}</p><div className="mt-1 text-sm font-black text-white/75">{row[index + 3]}</div></div>)}</div></div>)}</div>
+      <div className="mt-6 space-y-3 md:hidden">
+        {mobilePreview.map((row, rowIndex) => <MobileRow key={rowIndex} row={row} headers={headers} rowIndex={rowIndex} />)}
+        {mobileRemainder.length > 0 && <details className="group"><summary className="cursor-pointer list-none rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-center text-xs font-black uppercase tracking-[0.14em] text-white/65 transition hover:bg-white/10 [&::-webkit-details-marker]:hidden"><span className="group-open:hidden">View all {rows.length}</span><span className="hidden group-open:inline">Show less</span></summary><div className="mt-3 space-y-3">{mobileRemainder.map((row, index) => <MobileRow key={index + 5} row={row} headers={headers} rowIndex={index + 5} />)}</div></details>}
+      </div>
       <div className="mt-6 hidden overflow-x-auto rounded-2xl border border-white/10 bg-black/30 md:block"><table className="w-full min-w-[760px] text-sm"><thead className="border-b border-white/10 text-[10px] font-black uppercase tracking-[0.12em] text-white/35"><tr>{headers.map((header) => <th key={header} className="px-4 py-3 text-left">{header}</th>)}</tr></thead><tbody>{rows.map((row, rowIndex) => <tr key={rowIndex} className="border-t border-white/5 first:border-0 transition hover:bg-white/[0.035]">{row.map((value, cellIndex) => <td key={cellIndex} className={`px-4 py-3 ${cellIndex === 0 ? "font-black text-white/35" : "text-white/75"}`}>{value}</td>)}</tr>)}</tbody></table></div>
     </> : <div className="mt-6 rounded-2xl border border-white/10 bg-black/30 p-6 text-sm text-white/40">No verified statistics are available for this category yet.</div>}
   </div></section>;
