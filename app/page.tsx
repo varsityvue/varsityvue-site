@@ -1,18 +1,11 @@
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
 import Link from "next/link";
 
-import { getSchools, getFeaturedSchools, getSchoolBySlug } from "@/lib/schools";
-import { getNextGameForSchool } from "@/lib/games";
-import { getDistricts, getDistrictById } from "@/lib/districts";
+import { getSchools, getSchoolBySlug } from "@/lib/schools";
 import { getGameOfTheWeek } from "@/lib/scoreboard";
 import { getGamePreview } from "@/data/game-previews";
-import {
-  getStandingForSchool,
-  getStandingsForDistrictId,
-} from "@/lib/standings";
+import { getStandingForSchool } from "@/lib/standings";
 import DistrictSpotlight from "@/components/DistrictSpotlight";
-import SchoolBadge from "@/components/SchoolBadge";
 import ScoreStrip from "@/components/ScoreStrip";
 import SchoolSearch from "../components/SchoolSearch";
 import FeaturedSchoolSpotlight from "@/components/PilotSchoolSpotlight";
@@ -85,36 +78,10 @@ function formatGameDateTime(kickoff?: string) {
   return `${date} · ${time}`;
 }
 
-function formatClassification(conference: string, division?: string | null) {
-  const divisionLabel =
-    division === "D1"
-      ? "Division I"
-      : division === "D2"
-        ? "Division II"
-        : division;
-
-  return `${conference}${divisionLabel ? ` ${divisionLabel}` : ""}`;
-}
-
 export default function Home() {
   const schools = getSchools();
-  const districts = getDistricts();
-  const featuredPrograms = getFeaturedSchools();
-  const featuredDistricts = districts.filter((district) => district.status === "pilot");
-
   const featuredGame = getGameOfTheWeek();
   const featuredPreview = featuredGame ? getGamePreview(featuredGame.id) : undefined;
-  const featuredProgramsForDisplay = featuredPrograms.slice(0, 6);
-
-  const featuredDistrict = featuredDistricts[0];
-  const featuredStandings = featuredDistrict
-    ? getStandingsForDistrictId(featuredDistrict.id).slice(0, 6)
-    : [];
-  const featuredDistrictHasResults = featuredStandings.some(
-    (team) => team.districtWins > 0 || team.districtLosses > 0
-  );
-
-  const featuredSchool = featuredProgramsForDisplay[0];
 
   const featuredHomeSchool = featuredGame?.homeSchoolSlug
     ? getSchoolBySlug(featuredGame.homeSchoolSlug)
@@ -122,18 +89,6 @@ export default function Home() {
 
   const featuredAwaySchool = featuredGame?.awaySchoolSlug
     ? getSchoolBySlug(featuredGame.awaySchoolSlug)
-    : undefined;
-
-  const featuredSchoolNextGame = featuredSchool
-    ? getNextGameForSchool(featuredSchool.slug)
-    : undefined;
-
-  const featuredSchoolDistrict = featuredSchool
-    ? getDistrictById(featuredSchool.districtId)
-    : undefined;
-
-  const featuredSchoolStanding = featuredSchool
-    ? getStandingForSchool(featuredSchool.slug)
     : undefined;
 
   const featuredHomeStanding = featuredGame?.homeSchoolSlug
@@ -154,122 +109,79 @@ export default function Home() {
         Texas High School Football Scores, Schedules, Standings and Local Coverage
       </h1>
 
-      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.20),transparent_30%),linear-gradient(120deg,#050505_0%,#090909_52%,#000_100%)] px-4 pb-6 pt-6 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-[1440px] gap-5 lg:grid-cols-[1.22fr_0.88fr]">
+      <section className="border-b border-white/10 bg-[linear-gradient(120deg,#050505_0%,#090909_52%,#000_100%)] px-4 py-5 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1440px]">
           <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#080808] shadow-2xl">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(139,16,32,0.16),transparent_30%),radial-gradient(circle_at_85%_42%,rgba(255,255,255,0.07),transparent_30%),linear-gradient(115deg,rgba(0,0,0,0.98),rgba(0,0,0,0.78)_48%,rgba(255,255,255,0.04))]" />
-            <div className="absolute -right-28 top-10 h-96 w-96 rounded-full bg-white/10 blur-3xl" />
-            <div className="absolute bottom-0 right-0 h-48 w-2/3 bg-gradient-to-t from-black/80 to-transparent" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(139,16,32,0.18),transparent_34%),linear-gradient(115deg,rgba(0,0,0,0.98),rgba(0,0,0,0.82)_55%,rgba(0,0,0,0.96))]" />
 
-            <div className="relative z-10 flex min-h-[500px] flex-col justify-between p-6 sm:p-8 lg:p-9">
-              <div>
-                <div className="flex flex-wrap items-center justify-center gap-3">
-                  <p className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white px-4 py-2 text-center text-xs font-black uppercase tracking-[0.22em] text-black shadow-lg">
-                    VarsityVue Spotlight
-                  </p>
+            <div className="relative z-10 p-5 sm:p-7 lg:p-9">
+              <div className="flex justify-center">
+                <p className="inline-flex items-center justify-center rounded-full border border-white/15 bg-black/50 px-4 py-2 text-center text-xs font-black uppercase tracking-[0.22em] text-white/75">
+                  Game of the Week
+                </p>
+              </div>
 
-                  <p className="inline-flex items-center justify-center rounded-full border border-white/15 bg-black/50 px-4 py-2 text-center text-xs font-black uppercase tracking-[0.22em] text-white/75">
-                    Game of the Week
-                  </p>
-                </div>
+              {featuredGame ? (
+                <>
+                  <div className="mt-6 grid items-center gap-4 md:grid-cols-[1fr_auto_1fr]">
+                    <HeroTeam
+                      school={featuredAwaySchool}
+                      team={featuredGame.awayTeam ?? "Away"}
+                      standing={featuredAwayStanding}
+                      align="left"
+                    />
 
-                {featuredGame ? (
-                  <>
-                    <div className="mt-5 text-center">
-                      <p className="text-sm font-black uppercase tracking-[0.35em] text-white/40">
-                        {featuredGame.week !== undefined
-                          ? `Week ${featuredGame.week} Showcase`
-                          : "Featured Matchup"}
-                      </p>
-
-                      <div className="mt-6 grid items-center gap-5 md:grid-cols-[1fr_auto_1fr]">
-                        <HeroTeam
-                          school={featuredAwaySchool}
-                          team={featuredGame.awayTeam ?? "Away"}
-                          standing={featuredAwayStanding}
-                          align="left"
-                        />
-
-                        <div className="flex min-w-[150px] flex-col items-center justify-center border-y border-white/10 py-4 md:border-x md:border-y-0 md:px-6 md:py-2">
-                          {featuredGameFinal &&
-                            awayScore !== undefined &&
-                            homeScore !== undefined ? (
-                            <>
-                              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">
-                                Final
-                              </p>
-                              <div className="mt-2 flex items-center gap-3">
-                                <span className="text-5xl font-black leading-none text-white md:text-6xl">
-                                  {awayScore}
-                                </span>
-                                <span className="text-2xl font-black text-white/25">—</span>
-                                <span className="text-5xl font-black leading-none text-white md:text-6xl">
-                                  {homeScore}
-                                </span>
-                              </div>
-                            </>
-                          ) : (
-                            <p className="text-2xl font-black uppercase tracking-[0.3em] text-white/45">
-                              VS
-                            </p>
-                          )}
-                        </div>
-
-                        <HeroTeam
-                          school={featuredHomeSchool}
-                          team={featuredGame.homeTeam ?? "Home"}
-                          standing={featuredHomeStanding}
-                          align="right"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="mt-6 flex flex-wrap justify-center gap-2">
-                      {featuredGame.week !== undefined && (
-                        <HeroPill label={`Week ${featuredGame.week}`} />
-                      )}
-                      <HeroPill
-                        label={
-                          featuredGame.districtGame
-                            ? "District Game"
-                            : "Non-District"
-                        }
-                      />
-                      <HeroPill label="VarsityVue Spotlight" />
-                    </div>
-
-                    <div className="mt-5 text-center">
-                      <p className="text-xl font-black text-white">
-                        {formatGameDateTime(featuredGame.kickoff)}
-                      </p>
-
-                      {featuredGame.venue && (
-                        <p className="mt-2 text-base font-semibold text-white/55">
-                          {featuredGame.venue}
+                    <div className="flex min-w-[120px] flex-col items-center justify-center py-2 md:px-4">
+                      {featuredGameFinal &&
+                      awayScore !== undefined &&
+                      homeScore !== undefined ? (
+                        <>
+                          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">
+                            Final
+                          </p>
+                          <div className="mt-2 flex items-center gap-3">
+                            <span className="text-5xl font-black leading-none text-white md:text-6xl">
+                              {awayScore}
+                            </span>
+                            <span className="text-2xl font-black text-white/25">—</span>
+                            <span className="text-5xl font-black leading-none text-white md:text-6xl">
+                              {homeScore}
+                            </span>
+                          </div>
+                        </>
+                      ) : (
+                        <p className="text-sm font-black uppercase tracking-[0.3em] text-white/35">
+                          VS
                         </p>
                       )}
                     </div>
-                  </>
-                ) : (
-                  <div className="mt-8">
-                    <h2 className="max-w-4xl text-5xl font-black uppercase leading-[0.9] tracking-tight text-white sm:text-7xl lg:text-8xl">
-                      The Game, Seen Smarter
-                    </h2>
 
-                    <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">
-                      Texas high school football hubs, verified scores, schedules,
-                      district standings, player stats, and local coverage.
-                    </p>
+                    <HeroTeam
+                      school={featuredHomeSchool}
+                      team={featuredGame.homeTeam ?? "Home"}
+                      standing={featuredHomeStanding}
+                      align="right"
+                    />
                   </div>
-                )}
 
-                {featuredGame && (
-                  <div className="mt-6 rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
-                    <p className="text-xs font-black uppercase tracking-[0.24em] text-white/55">
-                      {featuredGameFinal ? "Game of the Week Result" : "Why This Game Matters"}
+                  <div className="mt-6 text-center">
+                    <p className="text-xs font-black uppercase tracking-[0.22em] text-white/45">
+                      {featuredGame.week !== undefined ? `Week ${featuredGame.week} · ` : ""}
+                      {featuredGame.districtGame ? "District Game" : "Non-District"}
+                    </p>
+                    <p className="mt-3 text-xl font-black text-white">
+                      {formatGameDateTime(featuredGame.kickoff)}
                     </p>
 
-                    <h2 className="mt-3 text-3xl font-black text-white md:text-4xl">
+                    {featuredGame.venue && (
+                      <p className="mt-1.5 text-sm font-semibold text-white/50">
+                        {featuredGame.venue}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="mx-auto mt-6 max-w-3xl text-center">
+                    <h2 className="text-2xl font-black text-white md:text-3xl">
                       {featuredGameFinal
                         ? featuredGame.week !== undefined
                           ? `Week ${featuredGame.week} final is on the board.`
@@ -279,44 +191,40 @@ export default function Home() {
                             ? `Week ${featuredGame.week} takes center stage.`
                             : "This matchup takes center stage.")}
                     </h2>
-
-                    <p className="mt-3 max-w-3xl text-sm leading-6 text-white/60">
+                    <p className="mt-2 text-sm leading-6 text-white/55">
                       {featuredGameFinal
-                        ? `The verified final is posted. Visit the matchup center for the result and program links.`
+                        ? "The verified final is posted. Visit the matchup center for the result and program links."
                         : featuredPreview?.excerpt ??
                           `${featuredGame.awayTeam} and ${featuredGame.homeTeam} meet in one of VarsityVue's featured matchups of the week.`}
                     </p>
                   </div>
-                )}
 
-                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  {featuredGame && (
+                  <div className="mt-6 flex justify-center">
                     <Link
                       href={`/games/${featuredGame.id}`}
-                      className="rounded-xl bg-white px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-black transition hover:bg-white/85"
+                      className="rounded-xl bg-white px-6 py-3.5 text-center text-sm font-black uppercase tracking-[0.16em] text-black transition hover:bg-white/85"
                     >
                       {featuredGameFinal ? "View Final Result" : "View Game of the Week"}
                     </Link>
-                  )}
-
-                  <Link
-                    href="/school-request"
-                    className="rounded-xl border border-white/15 bg-black/40 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white/75 transition hover:bg-white/10 hover:text-white"
-                  >
-                    Recommend Your School
-                  </Link>
+                  </div>
+                </>
+              ) : (
+                <div className="py-8 text-center">
+                  <h2 className="text-5xl font-black uppercase leading-[0.9] tracking-tight text-white sm:text-7xl">
+                    The Game, Seen Smarter
+                  </h2>
+                  <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-white/65">
+                    Texas high school football hubs, verified scores, schedules,
+                    district standings, player stats, and local coverage.
+                  </p>
                 </div>
-              </div>
-
-              <div className="mt-8 grid gap-3 sm:grid-cols-3">
-                <Stat value={featuredPrograms.length.toString()} label="Featured Programs" />
-                <Stat value={featuredDistricts.length.toString()} label="Featured Districts" />
-                <Stat value="2026" label="Season" />
-              </div>
+              )}
             </div>
           </div>
 
-          <SchoolSearch schools={schools} />
+          <div className="mt-4">
+            <SchoolSearch schools={schools} />
+          </div>
         </div>
       </section>
 
@@ -325,290 +233,6 @@ export default function Home() {
       <FeaturedSchoolSpotlight />
       <FeaturedMatchups />
       <FeaturedCoverage />
-
-      <section className="px-4 py-5 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-[1440px] items-start gap-4 lg:grid-cols-2">
-          <Panel
-            title={featuredDistrictHasResults ? "District Standings" : "District Teams"}
-            kicker={featuredDistrict?.name ?? "Standings"}
-            href="/districts"
-          >
-            {!featuredDistrictHasResults && (
-              <p className="mb-4 rounded-xl border border-white/10 bg-black/35 px-3 py-3 text-xs leading-5 text-white/50">
-                District play has not started. Overall records shown are based on verified results currently on file.
-              </p>
-            )}
-
-            <div className="grid grid-cols-[32px_1fr_58px_58px_44px] gap-3 px-3 pb-2 text-[10px] font-black uppercase tracking-[0.16em] text-white/35">
-              <span>{featuredDistrictHasResults ? "#" : ""}</span>
-              <span>Team</span>
-              <span>Dist</span>
-              <span>Ovr</span>
-              <span>Diff</span>
-            </div>
-
-            <div className="space-y-3">
-              {featuredStandings.map((team, index) => {
-                const school = getSchoolBySlug(team.schoolSlug);
-                const differential = team.pointsFor - team.pointsAgainst;
-                const hasOverallResult = team.overallWins > 0 || team.overallLosses > 0;
-                const previousTeam = featuredStandings[index - 1];
-                const tiedWithPrevious =
-                  featuredDistrictHasResults &&
-                  previousTeam &&
-                  previousTeam.districtWins === team.districtWins &&
-                  previousTeam.districtLosses === team.districtLosses;
-                const firstTieIndex = tiedWithPrevious
-                  ? featuredStandings.findIndex(
-                    (item) =>
-                      item.districtWins === team.districtWins &&
-                      item.districtLosses === team.districtLosses
-                  )
-                  : index;
-                const tiedWithNext =
-                  featuredDistrictHasResults &&
-                  featuredStandings[index + 1] &&
-                  featuredStandings[index + 1].districtWins === team.districtWins &&
-                  featuredStandings[index + 1].districtLosses === team.districtLosses;
-                const position =
-                  featuredDistrictHasResults && (tiedWithPrevious || tiedWithNext)
-                    ? `T-${firstTieIndex + 1}`
-                    : featuredDistrictHasResults
-                      ? `#${index + 1}`
-                      : "—";
-                const rowContent = (
-                  <>
-                    <span className="font-black text-white/45">{position}</span>
-                    <span className="truncate font-black text-white">
-                      {team.team}
-                    </span>
-                    <span className="font-bold text-white">
-                      {featuredDistrictHasResults
-                        ? `${team.districtWins}-${team.districtLosses}`
-                        : "—"}
-                    </span>
-                    <span className="font-bold text-white/55">
-                      {hasOverallResult
-                        ? `${team.overallWins}-${team.overallLosses}`
-                        : "—"}
-                    </span>
-                    <span className="font-bold text-white/45">
-                      {hasOverallResult ? `${differential > 0 ? "+" : ""}${differential}` : "—"}
-                    </span>
-                  </>
-                );
-
-                return school ? (
-                  <Link
-                    key={team.schoolSlug}
-                    href={`/schools/${school.slug}`}
-                    className="grid grid-cols-[32px_1fr_58px_58px_44px] items-center gap-3 rounded-xl bg-black/35 px-3 py-3 text-sm transition hover:bg-white/10"
-                  >
-                    {rowContent}
-                  </Link>
-                ) : (
-                  <div
-                    key={team.schoolSlug}
-                    className="grid grid-cols-[32px_1fr_58px_58px_44px] items-center gap-3 rounded-xl bg-black/35 px-3 py-3 text-sm"
-                  >
-                    {rowContent}
-                  </div>
-                );
-              })}
-            </div>
-          </Panel>
-
-          <Panel title="This Week on VarsityVue" kicker="Week at a Glance" href="/coverage">
-            <div className="space-y-3">
-              {featuredGame && (
-                <Link
-                  href={`/games/${featuredGame.id}`}
-                  className="block rounded-xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
-                >
-                  <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/40">
-                    {featuredGameFinal ? "Latest Final" : "Game to Watch"}
-                  </p>
-                  <p className="mt-2 font-black text-white">
-                    {featuredGame.awayTeam} at {featuredGame.homeTeam}
-                  </p>
-                  <p className="mt-1 text-sm text-white/50">
-                    {featuredGameFinal && awayScore !== undefined && homeScore !== undefined
-                      ? `Final · ${awayScore}-${homeScore}`
-                      : formatGameDateTime(featuredGame.kickoff)}
-                  </p>
-                </Link>
-              )}
-
-              {featuredDistrict && (
-                <Link
-                  href={`/districts/${featuredDistrict.slug}`}
-                  className="block rounded-xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
-                >
-                  <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/40">
-                    District Watch
-                  </p>
-                  <p className="mt-2 font-black text-white">{featuredDistrict.name}</p>
-                  <p className="mt-1 text-sm leading-5 text-white/50">
-                    {featuredDistrictHasResults
-                      ? "Track the latest verified district standings and results."
-                      : "District play is still ahead. Follow the teams and early-season records."}
-                  </p>
-                </Link>
-              )}
-
-              <Link
-                href="/coverage"
-                className="block rounded-xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
-              >
-                <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/40">
-                  Around the Area
-                </p>
-                <p className="mt-2 font-black text-white">Follow the latest VarsityVue coverage</p>
-                <p className="mt-1 text-sm leading-5 text-white/50">
-                  Game previews, verified results, player performances, and local storylines as they are added.
-                </p>
-              </Link>
-            </div>
-          </Panel>
-        </div>
-      </section>
-
-      {featuredSchool && (
-        <section className="px-4 pb-5 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-[1440px]">
-            <div
-              className="relative overflow-hidden rounded-[2rem] border border-white/10 p-6 shadow-2xl md:p-8"
-              style={{
-                background: `
-                  radial-gradient(circle at top right, ${featuredSchool.colors.primary}66, transparent 44%),
-                  linear-gradient(135deg, rgba(255,255,255,0.07), rgba(0,0,0,0.94) 48%, #000)
-                `,
-              }}
-            >
-              <div className="relative">
-                <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-                  <div>
-                    <p className="text-xs font-black uppercase tracking-[0.3em] text-white/50">
-                      Program Spotlight
-                    </p>
-
-                    <h2 className="mt-3 text-4xl font-black uppercase leading-none text-white md:text-5xl">
-                      {featuredSchool.name} {featuredSchool.mascot}
-                    </h2>
-
-                    <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55">
-                      A featured VarsityVue school hub built for schedules,
-                      standings, matchup coverage, program identity, and fan
-                      discovery.
-                    </p>
-                  </div>
-
-                  <SchoolBadge school={featuredSchool} size="md" />
-                </div>
-
-                <div className="mt-6 grid gap-3 sm:grid-cols-4">
-                  <MiniProgramStat
-                    label="Class"
-                    value={formatClassification(
-                      featuredSchool.classification.conference,
-                      featuredSchool.classification.division
-                    )}
-                  />
-                  <MiniProgramStat
-                    label="District"
-                    value={featuredSchoolDistrict?.name ?? "—"}
-                  />
-                  <MiniProgramStat
-                    label="Overall"
-                    value={
-                      featuredSchoolStanding &&
-                        (featuredSchoolStanding.overallWins > 0 ||
-                          featuredSchoolStanding.overallLosses > 0)
-                        ? `${featuredSchoolStanding.overallWins}-${featuredSchoolStanding.overallLosses}`
-                        : "—"
-                    }
-                  />
-                  <MiniProgramStat
-                    label="District"
-                    value={
-                      featuredSchoolStanding &&
-                        (featuredSchoolStanding.districtWins > 0 ||
-                          featuredSchoolStanding.districtLosses > 0)
-                        ? `${featuredSchoolStanding.districtWins}-${featuredSchoolStanding.districtLosses}`
-                        : "—"
-                    }
-                  />
-                </div>
-
-                {featuredSchoolNextGame && (
-                  <div className="mt-6 rounded-2xl border border-white/10 bg-black/35 p-5">
-                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                      <div>
-                        <p className="text-xs font-black uppercase tracking-[0.18em] text-white/45">
-                          Next Up
-                        </p>
-
-                        <h3 className="mt-2 text-2xl font-black text-white">
-                          {featuredSchoolNextGame.awayTeam} at{" "}
-                          {featuredSchoolNextGame.homeTeam}
-                        </h3>
-
-                        <p className="mt-2 text-sm font-semibold text-white/55">
-                          {formatGameDateTime(featuredSchoolNextGame.kickoff)}
-                        </p>
-                      </div>
-
-                      <Link
-                        href={`/games/${featuredSchoolNextGame.id}`}
-                        className="rounded-xl border border-white/10 bg-white/10 px-5 py-3 text-center text-xs font-black uppercase tracking-[0.16em] text-white/75 transition hover:bg-white/15 hover:text-white"
-                      >
-                        View Matchup →
-                      </Link>
-                    </div>
-                  </div>
-                )}
-
-                <div className="mt-6 grid gap-3 sm:grid-cols-4">
-                  <FeatureLink
-                    href={`/schools/${featuredSchool.slug}`}
-                    label="School Hub"
-                  />
-                  <FeatureLink
-                    href={`/schools/${featuredSchool.slug}/schedule`}
-                    label="Schedule"
-                  />
-                  <FeatureLink
-                    href={`/districts/${featuredSchoolDistrict?.slug ?? featuredSchool.districtId}`}
-                    label="Standings"
-                  />
-                  <FeatureLink href="/coverage" label="Coverage" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      <section className="border-t border-white/10 px-4 py-6 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-[1440px] gap-4 md:grid-cols-4">
-          <Feature
-            title="Scores & Results"
-            body="Verified scoreboards and matchup pages built for Friday nights."
-          />
-          <Feature
-            title="In-Depth Coverage"
-            body="Previews, recaps, spotlights, and district storylines."
-          />
-          <Feature
-            title="Stats & Data"
-            body="Standings, schedules, matchup pages, player stats, and district leaderboards as verified data is added."
-          />
-          <Feature
-            title="Built for Fans"
-            body="School-native hubs that keep communities connected to their programs."
-          />
-        </div>
-      </section>
     </main>
   );
 }
@@ -651,14 +275,6 @@ function HeroTeam({
   );
 }
 
-function HeroPill({ label }: { label: string }) {
-  return (
-    <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-black uppercase tracking-[0.14em] text-white/60">
-      {label}
-    </span>
-  );
-}
-
 function RecordLine({
   overallWins,
   overallLosses,
@@ -685,81 +301,5 @@ function RecordLine({
         ? `${districtWins ?? 0}-${districtLosses ?? 0} District`
         : "District —"}
     </p>
-  );
-}
-
-function MiniProgramStat({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-xl border border-white/10 bg-black/30 p-3">
-      <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">
-        {label}
-      </p>
-      <p className="mt-1 text-sm font-black capitalize text-white/80">{value}</p>
-    </div>
-  );
-}
-
-function Stat({ value, label }: { value: string; label: string }) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-black/50 p-4 shadow-lg">
-      <p className="text-3xl font-black text-white">{value}</p>
-      <p className="mt-1 text-xs uppercase tracking-[0.2em] text-white/40">
-        {label}
-      </p>
-    </div>
-  );
-}
-
-function Panel({
-  kicker,
-  title,
-  href,
-  children,
-}: {
-  kicker: string;
-  title: string;
-  href: string;
-  children: ReactNode;
-}) {
-  return (
-    <section className="rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-5">
-      <div className="mb-5 flex items-start justify-between gap-4">
-        <div>
-          <p className="text-xs font-black uppercase tracking-[0.22em] text-white/45">
-            {kicker}
-          </p>
-          <h2 className="mt-2 text-2xl font-black text-white">{title}</h2>
-        </div>
-
-        <Link
-          href={href}
-          className="text-xs font-black uppercase tracking-[0.16em] text-white/55 transition hover:text-white"
-        >
-          View →
-        </Link>
-      </div>
-
-      {children}
-    </section>
-  );
-}
-
-function FeatureLink({ href, label }: { href: string; label: string }) {
-  return (
-    <Link
-      href={href}
-      className="rounded-xl border border-white/10 bg-black/35 px-4 py-3 text-sm font-black uppercase tracking-[0.12em] text-white/75 transition hover:bg-white/10 hover:text-white"
-    >
-      {label}
-    </Link>
-  );
-}
-
-function Feature({ title, body }: { title: string; body: string }) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-5">
-      <h3 className="font-black text-white">{title}</h3>
-      <p className="mt-2 text-sm leading-6 text-white/55">{body}</p>
-    </div>
   );
 }
