@@ -29,7 +29,7 @@ export default function ScoreStrip() {
   return (
     <section
       aria-label={label}
-      className="overflow-hidden border-y border-white/10 bg-[#090909]"
+      className="overflow-hidden border-y border-white/10 bg-[#070707]"
     >
       <style>{`
         @keyframes vv-score-ticker {
@@ -54,17 +54,17 @@ export default function ScoreStrip() {
         }
       `}</style>
 
-      <div className="flex items-stretch">
+      <div className="flex min-h-14 items-stretch">
         <Link
           href="/scoreboard"
-          className="relative z-10 flex shrink-0 items-center border-r border-white/10 bg-[var(--vv-primary)] px-4 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-white sm:px-5 sm:text-xs"
+          className="relative z-10 flex shrink-0 items-center border-r border-white/10 bg-[var(--vv-primary)] px-4 text-[10px] font-black uppercase tracking-[0.2em] text-white shadow-[8px_0_20px_rgba(0,0,0,0.35)] sm:px-5 sm:text-xs"
         >
           {label}
-          <span className="ml-2 text-white/60">→</span>
+          <span className="ml-2 text-white/65">→</span>
         </Link>
 
         <div className="vv-score-ticker-wrap min-w-0 flex-1 overflow-hidden">
-          <div className="vv-score-ticker-track flex items-center py-2">
+          <div className="vv-score-ticker-track flex h-full items-center">
             {tickerGames.map((game, index) => {
               const score = getScore(game);
               const duplicate = index >= games.length;
@@ -76,9 +76,13 @@ export default function ScoreStrip() {
                   href={`/games/${game.id}`}
                   aria-hidden={duplicate ? true : undefined}
                   tabIndex={duplicate ? -1 : undefined}
-                  className="group mx-1 flex min-w-max items-center gap-3 rounded-lg border border-white/10 bg-white/[0.035] px-4 py-2 transition hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                  className="group flex min-w-max items-center gap-2.5 border-r border-white/10 px-4 py-3 transition hover:bg-white/[0.055] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white/70"
                 >
-                  <span className="text-[10px] font-black uppercase tracking-[0.14em] text-white/35">
+                  <span
+                    className={`text-[9px] font-black uppercase tracking-[0.16em] ${
+                      isFinal ? "text-white/45" : "text-[var(--vv-primary)]"
+                    }`}
+                  >
                     {isFinal ? "Final" : game.displayStatus}
                   </span>
 
@@ -87,15 +91,19 @@ export default function ScoreStrip() {
                   </span>
 
                   {isFinal && score.away !== undefined ? (
-                    <span className="text-base font-black text-white">{score.away}</span>
+                    <span className="min-w-5 text-center text-base font-black tabular-nums text-white">
+                      {score.away}
+                    </span>
                   ) : null}
 
-                  <span className="text-[10px] font-black uppercase text-white/25">
+                  <span className="text-[9px] font-black uppercase tracking-[0.1em] text-white/25">
                     {isFinal ? "—" : "at"}
                   </span>
 
                   {isFinal && score.home !== undefined ? (
-                    <span className="text-base font-black text-white">{score.home}</span>
+                    <span className="min-w-5 text-center text-base font-black tabular-nums text-white">
+                      {score.home}
+                    </span>
                   ) : null}
 
                   <span className="text-sm font-black text-white">
@@ -103,7 +111,7 @@ export default function ScoreStrip() {
                   </span>
 
                   {game.districtGame && (
-                    <span className="rounded-full border border-white/10 bg-white/5 px-2 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/35">
+                    <span className="ml-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/35">
                       District
                     </span>
                   )}
