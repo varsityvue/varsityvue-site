@@ -61,6 +61,17 @@ main > section.border-t[class~="py-6"] {
   display: none;
 }
 
+/* The section titles are sufficient; remove redundant homepage kicker labels. */
+section[class~="rounded-[1.5rem]"] > div[class~="mb-5"]:has(> a[href="/coverage"]) > div > p:first-child,
+div[class~="mb-6"]:has(a[href="/submit"]):has(a[href="/coverage"]) > div > p:first-child {
+  display: none;
+}
+
+section[class~="rounded-[1.5rem]"] > div[class~="mb-5"]:has(> a[href="/coverage"]) > div > h2,
+div[class~="mb-6"]:has(a[href="/submit"]):has(a[href="/coverage"]) > div > h2 {
+  margin-top: 0;
+}
+
 /* Keep the Game Center quarter-by-quarter score line fully visible on phones. */
 @media (max-width: 639px) {
   table.min-w-\[560px\] {
