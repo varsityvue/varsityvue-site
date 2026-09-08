@@ -212,16 +212,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               <span>{formatArticleDate(article.publishedAt)}</span>
               <span>•</span>
               <span>{article.author}</span>
-              {article.aiAssisted && (
-                <>
-                  <span>•</span>
-                  <span>
-                    {article.humanReviewed
-                      ? "AI-assisted, human-reviewed"
-                      : "AI-assisted"}
-                  </span>
-                </>
-              )}
             </div>
           </div>
         </div>
