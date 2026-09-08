@@ -327,28 +327,7 @@ export default function Home() {
       <FeaturedCoverage />
 
       <section className="px-4 py-5 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-[1440px] items-start gap-4 lg:grid-cols-[1fr_0.85fr_0.85fr]">
-          <Panel title="Latest Coverage" kicker="News" href="/coverage">
-            <div className="rounded-2xl border border-[color:var(--vv-primary)]/30 bg-[var(--vv-primary)]/10 p-5">
-              <p className="text-xs font-black uppercase tracking-[0.18em] text-[var(--vv-accent-soft)]">
-                Week 3
-              </p>
-              <h3 className="mt-3 text-xl font-black text-white">
-                Week 3 is taking shape.
-              </h3>
-              <p className="mt-3 text-sm leading-6 text-white/55">
-                Preview the matchups, storylines and programs to watch as VarsityVue
-                heads into another Friday night across the coverage area.
-              </p>
-              <Link
-                href="/coverage"
-                className="mt-5 inline-flex text-xs font-black uppercase tracking-[0.16em] text-white/65 transition hover:text-white"
-              >
-                View Week 3 Coverage →
-              </Link>
-            </div>
-          </Panel>
-
+        <div className="mx-auto grid max-w-[1440px] items-start gap-4 lg:grid-cols-2">
           <Panel
             title={featuredDistrictHasResults ? "District Standings" : "District Teams"}
             kicker={featuredDistrict?.name ?? "Standings"}
