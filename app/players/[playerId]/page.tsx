@@ -26,6 +26,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: hasStats
       ? `${player.player}${position} ${SEASON} football profile, verified statistics, and game log currently on file for ${school?.name ?? player.schoolSlug}.`
       : `${player.player}${position} ${SEASON} football roster profile for ${school?.name ?? player.schoolSlug}, with verified player information currently on file.`,
+    alternates: {
+      canonical: `/players/${playerId}`,
+    },
   };
 }
 
@@ -91,7 +94,28 @@ export default async function PlayerPage({ params }: Props) {
         {hasStats && <section className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] shadow-2xl"><div className="h-1.5" style={{ backgroundColor: primary }} /><div className="p-6 md:p-7"><p className="text-xs font-black uppercase tracking-[0.28em] text-white/40">Rankings From Stats On File</p><h2 className="mt-2 text-3xl font-black">Current VarsityVue rankings</h2><div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"><RankCard label="Rushing" rank={rushingRank} /><RankCard label="District Rushing" rank={districtRushingRank} /><RankCard label="Passing" rank={passingRank} /><RankCard label="Receiving" rank={receivingRank} /></div><p className="mt-5 text-xs leading-5 text-white/35">These positions compare only players represented in verified statistics currently on file. They are not complete area- or district-wide rankings until all programs are represented.</p></div></section>}
 
         <section className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] shadow-2xl"><div className="p-6 md:p-7"><div className="flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-black uppercase tracking-[0.28em] text-white/40">Weekly Game Log</p><h2 className="mt-2 text-3xl font-black">{SEASON} performances</h2></div>{school && <Link href={`/schools/${school.slug}`} className="text-xs font-black uppercase tracking-[0.14em] text-white/50 transition hover:text-white">{school.name} Hub →</Link>}</div>
-          {gameLog.length > 0 ? <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10 bg-black/30"><table className="w-full min-w-[980px] text-sm"><thead className="border-b border-white/10 text-[10px] font-black uppercase tracking-[0.12em] text-white/35"><tr><th className="px-4 py-3 text-left">Week</th><th className="px-4 py-3 text-left">Opponent</th><th className="px-4 py-3 text-left">Result</th><th className="px-4 py-3 text-left">Rush</th><th className="px-4 py-3 text-left">Pass</th><th className="px-4 py-3 text-left">Rec</th></tr></thead><tbody>{gameLog.map((entry) => <tr key={entry.gameId} className="border-t border-white/5 first:border-0 transition hover:bg-white/[0.035]"><td className="px-4 py-4 font-black text-white/45">{entry.week ?? "—"}</td><td className="px-4 py-4"><Link href={`/games/${entry.gameId}`} className="font-black text-white/80 transition hover:text-white">{entry.opponent}</Link></td><td className="px-4 py-4 font-black text-white/65">{entry.result ?? "—"}</td><td className="px-4 py-4 text-white/65">{formatRushing(entry.rushing)}</td><td className="px-4 py-4 text-white/65">{formatPassing(entry.passing)}</td><td className="px-4 py-4 text-white/65">{formatReceiving(entry.receiving)}</td></tr>)}</tbody></table></div> : <p className="mt-6 rounded-2xl border border-white/10 bg-black/30 p-6 text-sm text-white/40">No verified weekly game statistics are on file yet.</p>}
+          {gameLog.length > 0 ? <>
+            <div className="mt-6 space-y-3 md:hidden">
+              {gameLog.map((entry) => (
+                <Link key={entry.gameId} href={`/games/${entry.gameId}`} className="block rounded-2xl border border-white/10 bg-black/30 p-4 transition hover:bg-white/[0.05]">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">Week {entry.week ?? "—"}</p>
+                      <p className="mt-2 text-base font-black text-white">{entry.opponent}</p>
+                    </div>
+                    <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-black text-white/65">{entry.result ?? "—"}</span>
+                  </div>
+                  <div className="mt-4 grid gap-2 sm:grid-cols-3">
+                    <GameLogStat label="Rush" value={formatRushing(entry.rushing)} />
+                    <GameLogStat label="Pass" value={formatPassing(entry.passing)} />
+                    <GameLogStat label="Rec" value={formatReceiving(entry.receiving)} />
+                  </div>
+                  <p className="mt-4 text-[10px] font-black uppercase tracking-[0.14em] text-white/35">Open Game Center →</p>
+                </Link>
+              ))}
+            </div>
+            <div className="mt-6 hidden overflow-x-auto rounded-2xl border border-white/10 bg-black/30 md:block"><table className="w-full min-w-[980px] text-sm"><thead className="border-b border-white/10 text-[10px] font-black uppercase tracking-[0.12em] text-white/35"><tr><th className="px-4 py-3 text-left">Week</th><th className="px-4 py-3 text-left">Opponent</th><th className="px-4 py-3 text-left">Result</th><th className="px-4 py-3 text-left">Rush</th><th className="px-4 py-3 text-left">Pass</th><th className="px-4 py-3 text-left">Rec</th></tr></thead><tbody>{gameLog.map((entry) => <tr key={entry.gameId} className="border-t border-white/5 first:border-0 transition hover:bg-white/[0.035]"><td className="px-4 py-4 font-black text-white/45">{entry.week ?? "—"}</td><td className="px-4 py-4"><Link href={`/games/${entry.gameId}`} className="font-black text-white/80 transition hover:text-white">{entry.opponent}</Link></td><td className="px-4 py-4 font-black text-white/65">{entry.result ?? "—"}</td><td className="px-4 py-4 text-white/65">{formatRushing(entry.rushing)}</td><td className="px-4 py-4 text-white/65">{formatPassing(entry.passing)}</td><td className="px-4 py-4 text-white/65">{formatReceiving(entry.receiving)}</td></tr>)}</tbody></table></div>
+          </> : <p className="mt-6 rounded-2xl border border-white/10 bg-black/30 p-6 text-sm text-white/40">No verified weekly game statistics are on file yet.</p>}
         </div></section>
       </div></section>
     </main>
@@ -101,6 +125,7 @@ export default async function PlayerPage({ params }: Props) {
 function rankOf(entries: { playerId: string }[], playerId: string) { const index = entries.findIndex((entry) => entry.playerId === playerId); return index >= 0 ? index + 1 : undefined; }
 function StatCard({ label, headline, details, active }: { label: string; headline: string; details: string; active: boolean }) { return <div className={`rounded-[1.5rem] border p-5 shadow-xl ${active ? "border-white/10 bg-white/[0.045]" : "border-white/5 bg-white/[0.02]"}`}><p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">{label}</p><p className={`mt-3 font-black text-white ${active ? "text-3xl" : "text-xl text-white/55"}`}>{headline}</p><p className="mt-2 text-sm text-white/45">{details}</p></div>; }
 function RankCard({ label, rank }: { label: string; rank?: number }) { return <div className="rounded-2xl border border-white/10 bg-black/30 p-5"><p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">{label}</p><p className="mt-2 text-3xl font-black">{rank ? `#${rank}` : "—"}</p></div>; }
+function GameLogStat({ label, value }: { label: string; value: string }) { return <div className="rounded-xl border border-white/10 bg-white/[0.035] p-3"><p className="text-[9px] font-black uppercase tracking-[0.14em] text-white/30">{label}</p><p className="mt-1 text-xs font-black leading-5 text-white/70">{value}</p></div>; }
 function formatRushing(line?: { attempts: number; yards: number; touchdowns: number; yardsPerCarry: number }) { if (!line || line.attempts === 0) return "—"; return `${line.attempts} car, ${line.yards} yds, ${line.touchdowns} TD`; }
 function formatPassing(line?: { completions: number; attempts: number; yards: number; touchdowns: number; interceptions: number }) { if (!line || line.attempts === 0) return "—"; return `${line.completions}/${line.attempts}, ${line.yards} yds, ${line.touchdowns} TD`; }
 function formatReceiving(line?: { receptions: number; yards: number; touchdowns: number }) { if (!line || line.receptions === 0) return "—"; return `${line.receptions} rec, ${line.yards} yds, ${line.touchdowns} TD`; }
