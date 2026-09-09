@@ -1,4 +1,5 @@
 import type { School } from "@/types/platform";
+import santoLogo from "@/public/logos/schools/santo-v2.png";
 import SchoolBadge from "./SchoolBadge";
 
 type ProgramLogoProps = {
@@ -16,7 +17,7 @@ const logoBySlug: Record<string, string> = {
   albany: "/logos/schools/albany.png",
   stamford: "/logos/schools/stamford.png",
   stephenville: "/logos/schools/stephenville.png",
-  santo: "/logos/schools/santo-v2.png",
+  santo: santoLogo.src,
 };
 
 const dimensions = {
@@ -43,7 +44,7 @@ export default function ProgramLogo({ school, size = "md", className = "" }: Pro
         src={src}
         alt={`${school.fullName} logo`}
         className="h-full w-full object-contain drop-shadow-xl"
-        loading="lazy"
+        loading="eager"
         decoding="async"
       />
     </div>
