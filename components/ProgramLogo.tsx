@@ -16,6 +16,7 @@ const logoBySlug: Record<string, string> = {
   albany: "/logos/schools/albany.png",
   stamford: "/logos/schools/stamford.png",
   stephenville: "/logos/schools/stephenville.png",
+  santo: "/logos/schools/santo.png",
 };
 
 const dimensions = {
@@ -31,20 +32,10 @@ export function hasProgramLogo(school: School) {
 
 export default function ProgramLogo({ school, size = "md", className = "" }: ProgramLogoProps) {
   const src = logoBySlug[school.slug];
-
   if (!src) return <SchoolBadge school={school} size={size} />;
-
   return (
-    <div
-      className={`${dimensions[size]} ${className} flex shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-black/35 p-2 shadow-xl`}
-    >
-      <img
-        src={src}
-        alt={`${school.fullName} logo`}
-        className="h-full w-full object-contain drop-shadow-xl"
-        loading="lazy"
-        decoding="async"
-      />
+    <div className={`${dimensions[size]} ${className} flex shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-black/35 p-2 shadow-xl`}>
+      <img src={src} alt={`${school.fullName} logo`} className="h-full w-full object-contain drop-shadow-xl" loading="lazy" decoding="async" />
     </div>
   );
 }
