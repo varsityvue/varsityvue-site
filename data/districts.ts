@@ -47,6 +47,15 @@ export const districts: District[] = [
     status: "pilot",
   },
   {
+    id: "2a-d2-district-8",
+    slug: "2a-d2-district-8",
+    name: "2A Division II District 8",
+    classification: { conference: "2A", division: "D2" },
+    uilRegion: 2,
+    coverageMarket: "VarsityVue Coverage Area",
+    status: "pilot",
+  },
+  {
     id: "4a-d2-district-13",
     slug: "4a-d2-district-13",
     name: "4A Division II District 13",
