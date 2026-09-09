@@ -21,32 +21,34 @@ type RecordOverride = Pick<
 type VerifiedStandingOverride = RecordOverride & {
   pointsFor?: number;
   pointsAgainst?: number;
+  throughWeek?: number;
 };
 
 // Verified manual data for teams whose complete game results have not yet been
-// ingested into VarsityVue. Record-only entries fill W-L gaps. When PF/PA are
-// supplied, they represent verified totals through the same number of games.
+// ingested into VarsityVue. Record-only entries fill W-L gaps. Full snapshots
+// provide a verified baseline through a specific week, then newer game rows are
+// layered on top so the snapshot can never hide later results.
 const verifiedStandingOverrides: Record<string, VerifiedStandingOverride> = {
   hamlin: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0 },
   miles: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0 },
   winters: { overallWins: 0, overallLosses: 2, districtWins: 0, districtLosses: 0 },
 
   // Santo 2026 schedule opponents, verified through Week 2.
-  crawford: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 28, pointsAgainst: 20 },
-  frost: { overallWins: 2, overallLosses: 0, districtWins: 0, districtLosses: 0, pointsFor: 64, pointsAgainst: 29 },
-  hubbard: { overallWins: 2, overallLosses: 0, districtWins: 0, districtLosses: 0, pointsFor: 61, pointsAgainst: 42 },
-  mart: { overallWins: 0, overallLosses: 2, districtWins: 0, districtLosses: 0, pointsFor: 0, pointsAgainst: 84 },
-  meridian: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 45, pointsAgainst: 58 },
-  wortham: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 63, pointsAgainst: 54 },
-  haskell: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 124, pointsAgainst: 124 },
-  roscoe: { overallWins: 0, overallLosses: 2, districtWins: 0, districtLosses: 0, pointsFor: 41, pointsAgainst: 73 },
+  crawford: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 28, pointsAgainst: 20, throughWeek: 2 },
+  frost: { overallWins: 2, overallLosses: 0, districtWins: 0, districtLosses: 0, pointsFor: 64, pointsAgainst: 29, throughWeek: 2 },
+  hubbard: { overallWins: 2, overallLosses: 0, districtWins: 0, districtLosses: 0, pointsFor: 61, pointsAgainst: 42, throughWeek: 2 },
+  mart: { overallWins: 0, overallLosses: 2, districtWins: 0, districtLosses: 0, pointsFor: 0, pointsAgainst: 84, throughWeek: 2 },
+  meridian: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 45, pointsAgainst: 58, throughWeek: 2 },
+  wortham: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 63, pointsAgainst: 54, throughWeek: 2 },
+  haskell: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 124, pointsAgainst: 124, throughWeek: 2 },
+  roscoe: { overallWins: 0, overallLosses: 2, districtWins: 0, districtLosses: 0, pointsFor: 41, pointsAgainst: 73, throughWeek: 2 },
 
   // Stephenville 2026 district opponents, verified through Week 2.
-  lampasas: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 53, pointsAgainst: 33 },
-  jarrell: { overallWins: 2, overallLosses: 0, districtWins: 0, districtLosses: 0, pointsFor: 93, pointsAgainst: 31 },
-  "marble-falls": { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 68, pointsAgainst: 81 },
-  burnet: { overallWins: 0, overallLosses: 2, districtWins: 0, districtLosses: 0, pointsFor: 61, pointsAgainst: 87 },
-  "china-spring": { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 68, pointsAgainst: 41 },
+  lampasas: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 53, pointsAgainst: 33, throughWeek: 2 },
+  jarrell: { overallWins: 2, overallLosses: 0, districtWins: 0, districtLosses: 0, pointsFor: 93, pointsAgainst: 31, throughWeek: 2 },
+  "marble-falls": { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 68, pointsAgainst: 81, throughWeek: 2 },
+  burnet: { overallWins: 0, overallLosses: 2, districtWins: 0, districtLosses: 0, pointsFor: 61, pointsAgainst: 87, throughWeek: 2 },
+  "china-spring": { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 68, pointsAgainst: 41, throughWeek: 2 },
 };
 
 const games = getGames();
@@ -110,27 +112,43 @@ function applyVerifiedStandingOverride(standing: Standing) {
   const override = verifiedStandingOverrides[standing.schoolSlug];
   if (!override) return;
 
+  standing.overallRecordKnown = true;
+
+  const throughWeek = override.throughWeek;
+  if (
+    typeof override.pointsFor === "number" &&
+    typeof override.pointsAgainst === "number" &&
+    typeof throughWeek === "number"
+  ) {
+    // Treat a full manual snapshot as the verified baseline through its week,
+    // then add only newer finals. This prevents both double counting old games
+    // and hiding Week 3+ results when earlier individual game rows are missing.
+    standing.overallWins = override.overallWins;
+    standing.overallLosses = override.overallLosses;
+    standing.districtWins = override.districtWins;
+    standing.districtLosses = override.districtLosses;
+    standing.pointsFor = override.pointsFor;
+    standing.pointsAgainst = override.pointsAgainst;
+
+    for (const game of games) {
+      if (game.week > throughWeek) {
+        applyGameToStanding(standing, standing.schoolSlug, game);
+      }
+    }
+    return;
+  }
+
   const derivedGames = standing.overallWins + standing.overallLosses;
   const overrideGames = override.overallWins + override.overallLosses;
 
-  standing.overallRecordKnown = true;
-
-  // Manual data fills gaps only while VarsityVue has fewer complete results.
-  // Once equal or newer game data is ingested, derived game data takes over so
-  // an old override cannot freeze a team's record or scoring totals.
+  // Record-only overrides still fill gaps only while fewer complete results
+  // are present. Once equal or newer game data exists, derived data wins.
   if (derivedGames >= overrideGames) return;
 
   standing.overallWins = override.overallWins;
   standing.overallLosses = override.overallLosses;
   standing.districtWins = override.districtWins;
   standing.districtLosses = override.districtLosses;
-
-  if (typeof override.pointsFor === "number") {
-    standing.pointsFor = override.pointsFor;
-  }
-  if (typeof override.pointsAgainst === "number") {
-    standing.pointsAgainst = override.pointsAgainst;
-  }
 }
 
 function hasDistrictResults(standings: Standing[]) {
