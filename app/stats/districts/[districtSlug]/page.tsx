@@ -15,12 +15,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { districtSlug } = await params;
   const district = getDistrictBySlug(districtSlug);
   if (!district) return { title: "District Not Found | VarsityVue" };
+
+  const hasIndexableStats = getPlayerSeasonStats(SEASON).some((player) => {
+    if (player.gamesRecorded <= 0) return false;
+    const school = getSchoolBySlug(player.schoolSlug);
+    return school?.status === "pilot" && school.districtId === district.id;
+  });
+
+  const shouldIndex = district.status === "pilot" && hasIndexableStats;
+
   return {
     title: `${district.name} 2026 Stat Leaders | VarsityVue`,
     description: `${district.name} 2026 rushing, passing, receiving, and efficiency leaders based on verified game statistics currently available to VarsityVue.`,
     alternates: {
       canonical: `/stats/districts/${district.slug}`,
     },
+    robots: shouldIndex
+      ? { index: true, follow: true }
+      : { index: false, follow: true },
   };
 }
 
