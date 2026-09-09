@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { schools } from "../../data/schools";
+import { getPilotSchools } from "@/lib/schools";
 import SchoolDirectory, { type DirectorySchool } from "../../components/SchoolDirectory";
 
 export const metadata: Metadata = {
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default function SchoolsPage() {
-  const liveSchools = schools.filter((school) => school.status === "pilot");
+  const liveSchools = getPilotSchools();
   const directorySchools: DirectorySchool[] = liveSchools.map((school) => ({
     slug: school.slug,
     name: school.name,
