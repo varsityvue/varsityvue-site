@@ -14,7 +14,6 @@ const programLogoBySlug: Record<string, string> = {
   albany: "/logos/schools/albany.png",
   stamford: "/logos/schools/stamford.png",
   stephenville: "/logos/schools/stephenville.png",
-  santo: "/logos/schools/santo.png",
 };
 
 export function getProgramLogoPath(schoolSlug: string) {
