@@ -12,7 +12,7 @@ export default function SchoolSubnav({ schoolSlug, districtSlug, theme }: School
     { href: `/schools/${schoolSlug}`, label: "Overview", active: pathname === `/schools/${schoolSlug}` },
     { href: `/schools/${schoolSlug}/schedule`, label: "Schedule", active: pathname === `/schools/${schoolSlug}/schedule` },
     { href: `/schools/${schoolSlug}/roster`, label: "Roster", active: pathname === `/schools/${schoolSlug}/roster` },
-    { href: `/districts/${districtSlug}`, label: "Standings", active: pathname === `/districts/${districtSlug}` },
+    ...(districtSlug !== "opponent" ? [{ href: `/districts/${districtSlug}`, label: "Standings", active: pathname === `/districts/${districtSlug}` }] : []),
   ];
 
   return (
