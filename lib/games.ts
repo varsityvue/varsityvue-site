@@ -7,7 +7,9 @@ import type { Game } from "@/types/platform";
 
 const GAME_OF_THE_WEEK_IDS = new Set(["stamford-at-hawley-2026-week-3"]);
 function applyEditorialGameFlags(game: Game): Game { if (!GAME_OF_THE_WEEK_IDS.has(game.id)) return game; return { ...game, featured: true, specialEvent: "Game of the Week", coverageStatus: "preview-published" }; }
-const rawGames = [...applyVerifiedGames(scheduledGames), ...week2GameAdditions, ...santoGames].map(applyEditorialGameFlags);
+const santoGameIds = new Set(santoGames.map((game) => game.id));
+const verifiedScheduledGames = applyVerifiedGames(scheduledGames).filter((game) => !santoGameIds.has(game.id));
+const rawGames = [...verifiedScheduledGames, ...week2GameAdditions, ...santoGames].map(applyEditorialGameFlags);
 const CENTRAL_TIME_ZONE = "America/Chicago";
 function getGameTimestamp(game: Game) { if (!game.kickoff) return Number.MAX_SAFE_INTEGER; if (!game.kickoff.includes("T")) { const [year, month, day] = game.kickoff.split("-").map(Number); const timestamp = Date.UTC(year, month - 1, day, 12); return Number.isNaN(timestamp) ? Number.MAX_SAFE_INTEGER : timestamp; } const timestamp = new Date(game.kickoff).getTime(); return Number.isNaN(timestamp) ? Number.MAX_SAFE_INTEGER : timestamp; }
 function getCentralDateKey(date: Date) { const parts = new Intl.DateTimeFormat("en-US", { year: "numeric", month: "2-digit", day: "2-digit", timeZone: CENTRAL_TIME_ZONE }).formatToParts(date); const year = parts.find((part) => part.type === "year")?.value; const month = parts.find((part) => part.type === "month")?.value; const day = parts.find((part) => part.type === "day")?.value; return year && month && day ? `${year}-${month}-${day}` : ""; }
