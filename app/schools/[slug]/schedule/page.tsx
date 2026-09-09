@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function SchoolSchedulePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params; const school = getSchoolBySlug(slug); if (!school) notFound();
-  const district = getDistrictById(school.districtId); const districtSlug = district?.slug ?? school.districtId;
+  const district = getDistrictById(school.districtId); const districtSlug = district?.slug;
   const allGames = getGamesForSchool(slug).sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b)); const todayKey = getCentralDateKey(new Date());
   const games = allGames.filter((game) => { if (game.gameType !== "scrimmage") return true; const gameDateKey = getGameDateKey(game.kickoff); return !todayKey || !gameDateKey || gameDateKey >= todayKey; });
   const schoolRecord = getSchoolRecord(slug).record;
@@ -46,7 +46,7 @@ export default async function SchoolSchedulePage({ params }: { params: Promise<{
           <p className="text-[9px] font-black uppercase tracking-[0.2em] text-white/55 sm:text-xs sm:tracking-[0.32em]">2026 Football</p>
           <div className="mt-2.5 flex items-end justify-between gap-3 sm:mt-3">
             <div className="min-w-0"><h1 className="break-words text-3xl font-black leading-tight tracking-tight sm:text-5xl">{school.name} Schedule</h1><p className="mt-2 hidden max-w-3xl text-base leading-7 text-white/60 sm:block">Verified scores, upcoming matchups, kickoff information, and game pages.</p></div>
-            <Link href={`/districts/${districtSlug}`} className="hidden shrink-0 rounded-xl border border-white/10 bg-black/25 px-5 py-3 text-xs font-black uppercase tracking-[0.14em] text-white/70 transition hover:bg-white/10 hover:text-white sm:inline-flex">District Hub →</Link>
+            {districtSlug && <Link href={`/districts/${districtSlug}`} className="hidden shrink-0 rounded-xl border border-white/10 bg-black/25 px-5 py-3 text-xs font-black uppercase tracking-[0.14em] text-white/70 transition hover:bg-white/10 hover:text-white sm:inline-flex">District Hub →</Link>}
           </div>
           <div className="mt-4 grid grid-cols-3 divide-x divide-white/10 rounded-xl border border-white/10 bg-black/30 sm:mt-6 sm:max-w-xl sm:rounded-2xl">
             <SummaryStat label="Record" value={schoolRecord} /><SummaryStat label="Finals" value={finalGames.length.toString()} /><SummaryStat label="Upcoming" value={upcomingGames.length.toString()} />
