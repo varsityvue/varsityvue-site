@@ -10,6 +10,7 @@ export type Standing = {
   overallLosses: number;
   pointsFor: number;
   pointsAgainst: number;
+  overallRecordKnown: boolean;
 };
 
 type RecordOverride = Pick<
@@ -38,6 +39,7 @@ function emptyStanding(schoolSlug: string, team: string): Standing {
     overallLosses: 0,
     pointsFor: 0,
     pointsAgainst: 0,
+    overallRecordKnown: false,
   };
 }
 
@@ -69,6 +71,7 @@ function applyGameToStanding(
   const pointsAgainst = isHome ? awayScore : homeScore;
   const won = pointsFor > pointsAgainst;
 
+  standing.overallRecordKnown = true;
   standing.pointsFor += pointsFor;
   standing.pointsAgainst += pointsAgainst;
 
@@ -87,6 +90,8 @@ function applyVerifiedRecordOverride(standing: Standing) {
 
   const derivedGames = standing.overallWins + standing.overallLosses;
   const overrideGames = override.overallWins + override.overallLosses;
+
+  standing.overallRecordKnown = true;
 
   // Record-only overrides fill gaps while VarsityVue has fewer complete results
   // than the verified record. Once equal or newer game data is ingested, the
@@ -117,6 +122,43 @@ function sortStandings(standings: Standing[]) {
   });
 }
 
+function addScheduledDistrictOpponents(
+  standingsMap: Map<string, Standing>,
+  districtSchoolSlugs: Set<string>
+) {
+  for (const game of games) {
+    if (!game.districtGame) continue;
+
+    const homeIsDistrictSchool = Boolean(
+      game.homeSchoolSlug && districtSchoolSlugs.has(game.homeSchoolSlug)
+    );
+    const awayIsDistrictSchool = Boolean(
+      game.awaySchoolSlug && districtSchoolSlugs.has(game.awaySchoolSlug)
+    );
+
+    // Infer only the opponent directly paired with a known district member.
+    // This gives schedule-only district members a row without inventing a full
+    // school profile or an overall record that VarsityVue does not have.
+    if (homeIsDistrictSchool && game.awaySchoolSlug && game.awayTeam) {
+      if (!standingsMap.has(game.awaySchoolSlug)) {
+        standingsMap.set(
+          game.awaySchoolSlug,
+          emptyStanding(game.awaySchoolSlug, game.awayTeam)
+        );
+      }
+    }
+
+    if (awayIsDistrictSchool && game.homeSchoolSlug && game.homeTeam) {
+      if (!standingsMap.has(game.homeSchoolSlug)) {
+        standingsMap.set(
+          game.homeSchoolSlug,
+          emptyStanding(game.homeSchoolSlug, game.homeTeam)
+        );
+      }
+    }
+  }
+}
+
 function buildStandingsForDistrict(districtId: string): Standing[] {
   const districtSchools = getSchoolsByDistrictId(districtId);
   const standingsMap = new Map<string, Standing>();
@@ -124,6 +166,11 @@ function buildStandingsForDistrict(districtId: string): Standing[] {
   districtSchools.forEach((school) => {
     standingsMap.set(school.slug, emptyStanding(school.slug, school.name));
   });
+
+  addScheduledDistrictOpponents(
+    standingsMap,
+    new Set(districtSchools.map((school) => school.slug))
+  );
 
   games.forEach((game) => {
     standingsMap.forEach((standing, schoolSlug) => {
