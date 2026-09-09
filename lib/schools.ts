@@ -1,5 +1,8 @@
 import { districts } from "@/data/districts";
-import { schools } from "@/data/schools";
+import { schools as baseSchools } from "@/data/schools";
+import { santoSchool } from "@/data/santo-school";
+
+const schools = [...baseSchools, santoSchool];
 
 const SCHOOL_COLOR_OVERRIDES: Record<string, { primary?: string; secondary?: string; accent?: string }> = {
   brownwood: { primary: "#5B0B1E" },
