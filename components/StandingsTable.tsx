@@ -70,7 +70,7 @@ function getStandingPosition(standings: Standing[], index: number) {
   return tiedTeams > 1 ? `T-${firstIndex + 1}` : `#${firstIndex + 1}`;
 }
 
-export default function StandingsTable({ standings, theme, currentSchoolSlug, districtHref = "/districts" }: StandingsTableProps) {
+export default function StandingsTable({ standings, theme, currentSchoolSlug, districtHref }: StandingsTableProps) {
   const districtStarted = hasDistrictResults(standings);
   const seasonStarted = hasOverallResults(standings);
   const displayed = displayStandings(standings, districtStarted, seasonStarted);
@@ -79,7 +79,7 @@ export default function StandingsTable({ standings, theme, currentSchoolSlug, di
     <section className="min-w-0 rounded-[1.5rem] border bg-white/[0.045] p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6" style={{ borderColor: `${theme.secondary}22`, boxShadow: `0 18px 55px ${theme.primary}14` }}>
       <div className="mb-4 flex items-center justify-between gap-3 sm:mb-6 sm:items-end sm:gap-4">
         <div className="min-w-0"><p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/55 sm:text-xs sm:tracking-[0.28em]">District Race</p><h2 className="mt-1.5 text-2xl font-black text-white sm:mt-2 sm:text-3xl">Standings</h2></div>
-        <Link href={districtHref} className="shrink-0 rounded-full border px-3 py-2 text-[9px] font-black uppercase tracking-[0.1em] text-white/65 transition hover:bg-white/10 hover:text-white sm:px-4 sm:text-xs sm:tracking-[0.14em]" style={{ borderColor: `${theme.secondary}33`, backgroundColor: "rgba(255,255,255,0.08)" }}>Full District →</Link>
+        {districtHref && <Link href={districtHref} className="shrink-0 rounded-full border px-3 py-2 text-[9px] font-black uppercase tracking-[0.1em] text-white/65 transition hover:bg-white/10 hover:text-white sm:px-4 sm:text-xs sm:tracking-[0.14em]" style={{ borderColor: `${theme.secondary}33`, backgroundColor: "rgba(255,255,255,0.08)" }}>Full District →</Link>}
       </div>
 
       {displayed.length === 0 ? (
