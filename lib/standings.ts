@@ -131,7 +131,7 @@ function applyVerifiedStandingOverride(standing: Standing) {
     standing.pointsAgainst = override.pointsAgainst;
 
     for (const game of games) {
-      if (game.week > throughWeek) {
+      if (typeof game.week === "number" && game.week > throughWeek) {
         applyGameToStanding(standing, standing.schoolSlug, game);
       }
     }
