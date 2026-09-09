@@ -40,6 +40,13 @@ const verifiedStandingOverrides: Record<string, VerifiedStandingOverride> = {
   wortham: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 63, pointsAgainst: 54 },
   haskell: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 124, pointsAgainst: 124 },
   roscoe: { overallWins: 0, overallLosses: 2, districtWins: 0, districtLosses: 0, pointsFor: 41, pointsAgainst: 73 },
+
+  // Stephenville 2026 district opponents, verified through Week 2.
+  lampasas: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 53, pointsAgainst: 33 },
+  jarrell: { overallWins: 2, overallLosses: 0, districtWins: 0, districtLosses: 0, pointsFor: 93, pointsAgainst: 31 },
+  "marble-falls": { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 68, pointsAgainst: 81 },
+  burnet: { overallWins: 0, overallLosses: 2, districtWins: 0, districtLosses: 0, pointsFor: 61, pointsAgainst: 87 },
+  "china-spring": { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 68, pointsAgainst: 41 },
 };
 
 const games = getGames();
