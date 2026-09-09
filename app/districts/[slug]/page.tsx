@@ -239,8 +239,8 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
 
           <section className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <DistrictStat label="Teams" value={trackedDistrictTeams.toString()} />
-            <DistrictStat label="District Games" value={allDistrictGames.length.toString()} />
-            <DistrictStat label="District Results" value={districtResults.toString()} />
+            <DistrictStat label="Tracked Games" value={allDistrictGames.length.toString()} />
+            <DistrictStat label="Verified Results" value={districtResults.toString()} />
             <DistrictStat label="Region" value={region.replace("Region ", "")} />
           </section>
         </div>
@@ -258,8 +258,8 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
 
           <p className="mt-4 max-w-4xl leading-7 text-white/60">
             {districtPlayStarted
-              ? "District results are now shaping the standings. Follow the race here as verified finals are added throughout district play."
-              : "District play has not produced a verified result yet. Overall records may already be available, while the district table remains unranked until district games begin."}
+              ? "Verified district results are now shaping the standings. Follow the race here as additional finals are added throughout district play."
+              : "District play has not produced a verified result in VarsityVue yet. Overall records may already be available, while the district table remains unranked until district games begin."}
           </p>
         </div>
       </section>
@@ -314,7 +314,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
           <aside className="space-y-6">
             <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
               <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
-                District Games
+                Tracked District Games
               </p>
               <h2 className="mt-3 text-3xl font-black text-white">District Matchups</h2>
 
