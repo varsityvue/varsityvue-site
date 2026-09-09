@@ -23,4 +23,4 @@ Git history is the recovery source for site code and data. If a bad update reach
 
 ## Current pilot
 
-Featured programs are maintained as `pilot` schools in the shared school data layer. Santo joined the pilot in September 2026 with a dedicated school profile and weekly stat pipeline.
+Featured programs are maintained as `pilot` schools in the shared school data layer. Santo joined the pilot in September 2026 with a dedicated school profile, 2026 schedule, verified results, and weekly stat pipeline.
