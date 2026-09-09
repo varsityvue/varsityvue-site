@@ -1,12 +1,13 @@
 import type { MetadataRoute } from "next";
-import { schools } from "../data/schools";
 import { districts } from "../data/districts";
+import { getSchools } from "../lib/schools";
 import { getGames } from "../lib/games";
 import { getArticles } from "../lib/articles";
 import { getPlayerSeasonStats } from "../lib/player-stats";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://varsityvue.com";
+  const schools = getSchools();
   const games = getGames();
   const articles = getArticles();
 
