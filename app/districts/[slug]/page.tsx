@@ -151,6 +151,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
 
   const districtSchools = getSchoolsByDistrictId(district.id);
   const districtStandings = getStandingsForDistrictId(district.id);
+  const trackedDistrictTeams = districtStandings.length;
 
   const allDistrictGames = districtSchools
     .flatMap((school) => getGamesForSchool(school.slug))
@@ -237,7 +238,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
           </div>
 
           <section className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <DistrictStat label="Schools" value={districtSchools.length.toString()} />
+            <DistrictStat label="Teams" value={trackedDistrictTeams.toString()} />
             <DistrictStat label="District Games" value={allDistrictGames.length.toString()} />
             <DistrictStat label="District Results" value={districtResults.toString()} />
             <DistrictStat label="Region" value={region.replace("Region ", "")} />
@@ -252,7 +253,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
           </p>
 
           <h2 className="mt-2 text-3xl font-black text-white">
-            {districtSchools.length} schools competing in {classification}
+            {trackedDistrictTeams} teams tracked in {classification}
           </h2>
 
           <p className="mt-4 max-w-4xl leading-7 text-white/60">
@@ -270,7 +271,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
 
             <DistrictCoverage districtId={district.id} />
 
-            <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:p-6">
+            <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:rounded-[1.75rem] sm:p-6">
               <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                   <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
