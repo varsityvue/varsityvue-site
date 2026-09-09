@@ -16,7 +16,7 @@ const logoBySlug: Record<string, string> = {
   albany: "/logos/schools/albany.png",
   stamford: "/logos/schools/stamford.png",
   stephenville: "/logos/schools/stephenville.png",
-  santo: "/logos/schools/santo.png",
+  santo: "/logos/schools/santo.png?v=20260909-2",
 };
 
 const dimensions = {
