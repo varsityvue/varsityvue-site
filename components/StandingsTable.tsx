@@ -22,6 +22,16 @@ type StandingsTableProps = {
   districtHref?: string;
 };
 
+// Verified mascot labels for schedule-only District 8 teams that do not yet
+// have full VarsityVue school profiles. Full school-profile data takes priority.
+const STANDINGS_MASCOT_OVERRIDES: Record<string, string> = {
+  crawford: "Pirates",
+  frost: "Polar Bears",
+  mart: "Panthers",
+  hubbard: "Jaguars",
+  wortham: "Bulldogs",
+};
+
 function hasDistrictResults(standings: Standing[]) {
   return standings.some((team) => team.districtWins > 0 || team.districtLosses > 0);
 }
@@ -83,11 +93,12 @@ export default function StandingsTable({ standings, theme, currentSchoolSlug, di
             <div className="divide-y divide-white/10">
               {displayed.map((team, index) => {
                 const school = getSchoolBySlug(team.schoolSlug);
+                const mascot = school?.mascot ?? STANDINGS_MASCOT_OVERRIDES[team.schoolSlug];
                 const isCurrent = team.schoolSlug === currentSchoolSlug;
                 const teamRow = <div className="grid grid-cols-[minmax(0,1fr)_44px_44px] items-center gap-2 px-3 py-3" style={isCurrent ? { background: `${theme.primary}18`, boxShadow: `inset 3px 0 0 ${theme.primary}` } : undefined}>
                   <div className="min-w-0">
                     <div className="flex min-w-0 items-start gap-1.5">{districtStarted && <span className="mt-0.5 w-7 shrink-0 text-[9px] font-black text-white/30">{getStandingPosition(displayed, index)}</span>}<p className="min-w-0 break-words text-[13px] font-black leading-[1.15] text-white">{team.team}</p></div>
-                    {school?.mascot && <p className={`mt-1 min-w-0 truncate text-[8px] font-bold uppercase tracking-[0.1em] text-white/25 ${districtStarted ? "pl-[34px]" : ""}`}>{school.mascot}</p>}
+                    {mascot && <p className={`mt-1 min-w-0 truncate text-[8px] font-bold uppercase tracking-[0.1em] text-white/25 ${districtStarted ? "pl-[34px]" : ""}`}>{mascot}</p>}
                   </div>
                   <span className="text-center text-[13px] font-black text-white/70">{districtStarted ? `${team.districtWins}-${team.districtLosses}` : "—"}</span>
                   <span className="text-right text-[13px] font-black text-white/55">{team.overallRecordKnown ? `${team.overallWins}-${team.overallLosses}` : "—"}</span>
@@ -103,8 +114,9 @@ export default function StandingsTable({ standings, theme, currentSchoolSlug, di
               <tbody>{displayed.map((team, index) => {
                 const differential = team.pointsFor - team.pointsAgainst;
                 const school = getSchoolBySlug(team.schoolSlug);
+                const mascot = school?.mascot ?? STANDINGS_MASCOT_OVERRIDES[team.schoolSlug];
                 const isCurrent = team.schoolSlug === currentSchoolSlug;
-                const teamContent = <div className="flex items-center gap-4">{school ? <SchoolBadge school={school} size="xs" /> : <FallbackBadge label={team.team} />}<div><div className="flex items-center gap-2"><p className="font-black text-white">{team.team}</p>{isCurrent && <span className="rounded-full border border-white/10 bg-white/10 px-2 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/55">Current team</span>}</div>{school && <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-white/40">{school.mascot}</p>}</div></div>;
+                const teamContent = <div className="flex items-center gap-4">{school ? <SchoolBadge school={school} size="xs" /> : <FallbackBadge label={team.team} />}<div><div className="flex items-center gap-2"><p className="font-black text-white">{team.team}</p>{isCurrent && <span className="rounded-full border border-white/10 bg-white/10 px-2 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/55">Current team</span>}</div>{mascot && <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-white/40">{mascot}</p>}</div></div>;
                 return <tr key={team.schoolSlug} className="border-t border-white/10 transition hover:bg-white/[0.06]" style={isCurrent ? { background: `${theme.primary}14`, boxShadow: `inset 4px 0 0 ${theme.primary}` } : undefined}>
                   {districtStarted && <td className="px-5 py-4 font-black text-white"><span>{getStandingPosition(displayed, index)}</span></td>}
                   <td className="px-5 py-4">{school ? <Link href={`/schools/${team.schoolSlug}`} className="block text-white transition hover:text-white/70">{teamContent}</Link> : teamContent}</td>
