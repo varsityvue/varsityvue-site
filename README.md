@@ -1,49 +1,26 @@
 # VarsityVue
 
-VarsityVue is a Next.js site for Texas high school football scores, schedules, standings, player stats, school hubs, and local coverage.
+VarsityVue is a lean Texas high school sports pilot focused on useful school hubs, verified schedules, scores, statistics, and local coverage.
 
-## Local development
+## 2026 operating model
 
-```bash
-npm install
-npm run dev
-```
+The 2026 site is intentionally operated as a focused pilot. The goal is to build audience interest, school relationships, reliable data workflows, and product usage signals ahead of a broader 2027 push.
 
-Open `http://localhost:3000`.
+## Data workflow
 
-Before pushing a change, run:
+Program data is kept in source-controlled files under `data/` and exposed through shared helpers under `lib/`. Verified coaching-staff or school-provided data should be preferred over inferred or placeholder information.
 
-```bash
-npm run lint
-npm run build
-```
+### Weekly update flow
 
-## 2026 data update workflow
-
-Most public football data is source-controlled in the repository rather than entered through a production CMS. That keeps the pilot simple and makes every change recoverable through Git history.
-
-For weekly updates:
-
-1. Update the relevant source data in `data/` and any supporting files in `lib/`.
-2. Confirm game status, week, kickoff, opponent, score, and statistical totals before publishing.
-3. Check the affected school hub, scoreboard/game page, standings, and Stats page for consistency.
-4. Run `npm run lint` and `npm run build`.
-5. Commit with a specific message describing the data or content change, then deploy from `main`.
-6. After deployment, smoke-test the homepage and at least one affected route on `https://varsityvue.com`.
-
-Do not use a missing statistic as zero unless the source actually reports zero. Unknown or unavailable data should remain absent or display the site's missing-data state.
+1. Receive or collect verified schedule, result, and stat information.
+2. Update the relevant school-specific data file.
+3. Verify school hub, scoreboard, game center, and stat-leader output.
+4. Commit the change to `main` and confirm the production deployment succeeds.
 
 ## Recovery
 
-GitHub is the recovery source for code and source-controlled football data. If a bad update reaches production:
+Git history is the recovery source for site code and data. If a bad update reaches production, identify the last known-good commit, compare the affected files, and revert or restore only the necessary changes. Avoid rewriting history on `main` unless there is no safer option.
 
-1. Identify the last known-good commit.
-2. Revert the bad commit or restore the affected file from that commit.
-3. Run lint/build again.
-4. Push the recovery commit to `main` and verify the production route after redeployment.
+## Current pilot
 
-Form submissions are handled outside the repository through Formspree and are therefore not recovered through Git history.
-
-## Deployment
-
-The production site is deployed from this repository to Vercel. The canonical production domain is `https://varsityvue.com`.
+Featured programs are maintained as `pilot` schools in the shared school data layer. Santo joined the pilot in September 2026 with a dedicated school profile and weekly stat pipeline.
