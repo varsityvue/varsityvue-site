@@ -146,9 +146,12 @@ function assertDistrictGameSchoolReferences() {
       ? getSchoolBySlug(game.awaySchoolSlug)
       : undefined;
 
-    // A missing profile means the opponent is schedule-only and cannot yet be
-    // district-validated. If both profiles exist, always validate them.
+    // Missing and generic opponent profiles are intentionally incomplete and
+    // cannot be district-validated yet. Fully modeled schools must still match.
     if (!homeSchool || !awaySchool) continue;
+    if (homeSchool.districtId === "opponent" || awaySchool.districtId === "opponent") {
+      continue;
+    }
 
     if (homeSchool.districtId !== awaySchool.districtId) {
       problems.push(
