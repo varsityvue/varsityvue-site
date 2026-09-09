@@ -18,13 +18,28 @@ type RecordOverride = Pick<
   "overallWins" | "overallLosses" | "districtWins" | "districtLosses"
 >;
 
-// Verified record-only data for teams whose complete game results have not yet
-// been ingested into VarsityVue. These values affect W-L records only; points
-// for/against continue to come exclusively from individual verified game data.
-const verifiedRecordOverrides: Record<string, RecordOverride> = {
+type VerifiedStandingOverride = RecordOverride & {
+  pointsFor?: number;
+  pointsAgainst?: number;
+};
+
+// Verified manual data for teams whose complete game results have not yet been
+// ingested into VarsityVue. Record-only entries fill W-L gaps. When PF/PA are
+// supplied, they represent verified totals through the same number of games.
+const verifiedStandingOverrides: Record<string, VerifiedStandingOverride> = {
   hamlin: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0 },
   miles: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0 },
   winters: { overallWins: 0, overallLosses: 2, districtWins: 0, districtLosses: 0 },
+
+  // Santo 2026 schedule opponents, verified through Week 2.
+  crawford: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 28, pointsAgainst: 20 },
+  frost: { overallWins: 2, overallLosses: 0, districtWins: 0, districtLosses: 0, pointsFor: 64, pointsAgainst: 29 },
+  hubbard: { overallWins: 2, overallLosses: 0, districtWins: 0, districtLosses: 0, pointsFor: 61, pointsAgainst: 42 },
+  mart: { overallWins: 0, overallLosses: 2, districtWins: 0, districtLosses: 0, pointsFor: 0, pointsAgainst: 84 },
+  meridian: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 45, pointsAgainst: 58 },
+  wortham: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 63, pointsAgainst: 54 },
+  haskell: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 124, pointsAgainst: 124 },
+  roscoe: { overallWins: 0, overallLosses: 2, districtWins: 0, districtLosses: 0, pointsFor: 41, pointsAgainst: 73 },
 };
 
 const games = getGames();
@@ -84,8 +99,8 @@ function applyGameToStanding(
   }
 }
 
-function applyVerifiedRecordOverride(standing: Standing) {
-  const override = verifiedRecordOverrides[standing.schoolSlug];
+function applyVerifiedStandingOverride(standing: Standing) {
+  const override = verifiedStandingOverrides[standing.schoolSlug];
   if (!override) return;
 
   const derivedGames = standing.overallWins + standing.overallLosses;
@@ -93,15 +108,22 @@ function applyVerifiedRecordOverride(standing: Standing) {
 
   standing.overallRecordKnown = true;
 
-  // Record-only overrides fill gaps while VarsityVue has fewer complete results
-  // than the verified record. Once equal or newer game data is ingested, the
-  // derived record wins so an old override can never freeze a team's record.
+  // Manual data fills gaps only while VarsityVue has fewer complete results.
+  // Once equal or newer game data is ingested, derived game data takes over so
+  // an old override cannot freeze a team's record or scoring totals.
   if (derivedGames >= overrideGames) return;
 
   standing.overallWins = override.overallWins;
   standing.overallLosses = override.overallLosses;
   standing.districtWins = override.districtWins;
   standing.districtLosses = override.districtLosses;
+
+  if (typeof override.pointsFor === "number") {
+    standing.pointsFor = override.pointsFor;
+  }
+  if (typeof override.pointsAgainst === "number") {
+    standing.pointsAgainst = override.pointsAgainst;
+  }
 }
 
 function hasDistrictResults(standings: Standing[]) {
@@ -136,9 +158,6 @@ function addScheduledDistrictOpponents(
       game.awaySchoolSlug && districtSchoolSlugs.has(game.awaySchoolSlug)
     );
 
-    // Infer only the opponent directly paired with a known district member.
-    // This gives schedule-only district members a row without inventing a full
-    // school profile or an overall record that VarsityVue does not have.
     if (homeIsDistrictSchool && game.awaySchoolSlug && game.awayTeam) {
       if (!standingsMap.has(game.awaySchoolSlug)) {
         standingsMap.set(
@@ -178,7 +197,7 @@ function buildStandingsForDistrict(districtId: string): Standing[] {
     });
   });
 
-  standingsMap.forEach((standing) => applyVerifiedRecordOverride(standing));
+  standingsMap.forEach((standing) => applyVerifiedStandingOverride(standing));
 
   return sortStandings(Array.from(standingsMap.values()));
 }
@@ -189,7 +208,8 @@ function buildStandaloneStanding(slug: string): Standing | undefined {
     (game) => game.homeSchoolSlug === slug || game.awaySchoolSlug === slug
   );
 
-  if (!school && matchingGames.length === 0) return undefined;
+  const override = verifiedStandingOverrides[slug];
+  if (!school && matchingGames.length === 0 && !override) return undefined;
 
   const teamName =
     school?.name ??
@@ -199,7 +219,7 @@ function buildStandaloneStanding(slug: string): Standing | undefined {
 
   const standing = emptyStanding(slug, teamName);
   matchingGames.forEach((game) => applyGameToStanding(standing, slug, game));
-  applyVerifiedRecordOverride(standing);
+  applyVerifiedStandingOverride(standing);
   return standing;
 }
 
