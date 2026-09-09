@@ -2,7 +2,10 @@ import { districts } from "@/data/districts";
 import { schools as baseSchools } from "@/data/schools";
 import { santoSchool } from "@/data/santo-school";
 
-const schools = [...baseSchools, santoSchool];
+const schools = [
+  ...baseSchools.filter((school) => school.slug !== santoSchool.slug && school.id !== santoSchool.id),
+  santoSchool,
+];
 
 const SCHOOL_COLOR_OVERRIDES: Record<string, { primary?: string; secondary?: string; accent?: string }> = {
   brownwood: { primary: "#5B0B1E" },
