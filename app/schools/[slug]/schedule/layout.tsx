@@ -17,6 +17,10 @@ export async function generateMetadata({
   return {
     alternates: { canonical: url },
     openGraph: { url },
+    robots:
+      school.status === "pilot"
+        ? { index: true, follow: true }
+        : { index: false, follow: true },
   };
 }
 
