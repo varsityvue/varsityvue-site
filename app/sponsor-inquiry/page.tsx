@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import FormspreeForm from "../../components/FormspreeForm";
 
 export const metadata: Metadata = {
   title: { absolute: "Partner With VarsityVue" },
@@ -45,7 +44,7 @@ export default function SponsorInquiryPage() {
 
         <section className="mt-10 grid gap-8 lg:grid-cols-[1.45fr_0.55fr]">
           <div className="rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8">
-            <FormspreeForm successPath="/thank-you" className="space-y-5">
+            <form action="https://formspree.io/f/mpqnjqen" method="POST" className="space-y-5">
               <input type="hidden" name="_subject" value="New VarsityVue Partnership Interest" />
               <input type="hidden" name="_template" value="table" />
 
@@ -82,7 +81,7 @@ export default function SponsorInquiryPage() {
               <button type="submit" className="w-full rounded-full bg-[var(--vv-primary)] px-8 py-4 font-bold transition hover:bg-[#93142a]">
                 Share Partnership Interest
               </button>
-            </FormspreeForm>
+            </form>
           </div>
 
           <aside className="rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8">
