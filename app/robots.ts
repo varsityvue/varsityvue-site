@@ -1,10 +1,14 @@
-export default function robots() {
+import type { MetadataRoute } from "next";
+
+export default function robots(): MetadataRoute.Robots {
   return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-      disallow: "/internal/",
-    },
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+      },
+    ],
     sitemap: "https://varsityvue.com/sitemap.xml",
+    host: "https://varsityvue.com",
   };
 }
