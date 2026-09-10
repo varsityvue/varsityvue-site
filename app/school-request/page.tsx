@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import FormspreeForm from "../../components/FormspreeForm";
 
 export const metadata: Metadata = {
   title: "Request a Texas High School Football Program",
@@ -32,11 +33,7 @@ export default function SchoolRequestPage() {
 
         <section className="mt-10 grid gap-8 lg:grid-cols-[1.35fr_0.65fr]">
           <div className="rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8">
-            <form
-              action="https://formspree.io/f/mpqnjqen"
-              method="POST"
-              className="space-y-5"
-            >
+            <FormspreeForm successPath="/thank-you" className="space-y-5">
               <input
                 type="hidden"
                 name="_subject"
@@ -134,7 +131,7 @@ export default function SchoolRequestPage() {
               >
                 Request This School
               </button>
-            </form>
+            </FormspreeForm>
           </div>
 
           <aside className="rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8">
