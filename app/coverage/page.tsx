@@ -144,29 +144,26 @@ export default async function CoveragePage({
                 {featuredArticle && (
                   <Link
                     href={`/coverage/${featuredArticle.slug}`}
-                    className="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl transition hover:-translate-y-1 hover:border-[color:var(--vv-accent)]/40 hover:bg-white/[0.075] md:p-8"
+                    className="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl transition hover:-translate-y-1 hover:border-[color:var(--vv-accent)]/40 hover:bg-white/[0.075] sm:p-6 md:p-8"
                   >
                     <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(122,16,34,0.48),transparent_55%)] opacity-55 transition group-hover:opacity-75" />
                     <div className="relative">
                       <p className="text-xs font-black uppercase tracking-[0.32em] text-[var(--vv-accent)]">
                         Featured Story
                       </p>
-                      <p className="mt-5 text-xs font-black uppercase tracking-[0.2em] text-white/45">
+                      <p className="mt-4 text-xs font-black uppercase tracking-[0.2em] text-white/45 sm:mt-5">
                         {formatArticleType(featuredArticle.type)} ·{" "}
                         {formatArticleDate(featuredArticle.publishedAt)}
                       </p>
-                      <h2 className="mt-5 max-w-4xl text-4xl font-black leading-tight text-white sm:text-5xl">
+                      <h2 className="mt-4 max-w-4xl text-[2.15rem] font-black leading-[1.08] text-white sm:mt-5 sm:text-5xl sm:leading-tight">
                         {featuredArticle.title}
                       </h2>
                       {featuredArticle.subtitle && (
-                        <p className="mt-4 max-w-3xl text-lg font-semibold leading-7 text-white/55">
+                        <p className="mt-4 max-w-3xl text-base font-semibold leading-7 text-white/55 sm:text-lg">
                           {featuredArticle.subtitle}
                         </p>
                       )}
-                      <p className="mt-5 max-w-3xl leading-7 text-white/65">
-                        {featuredArticle.excerpt}
-                      </p>
-                      <p className="mt-8 text-sm font-black uppercase tracking-[0.14em] text-[var(--vv-accent)]">
+                      <p className="mt-6 text-sm font-black uppercase tracking-[0.14em] text-[var(--vv-accent)] sm:mt-8">
                         Read full story →
                       </p>
                     </div>
