@@ -9,9 +9,6 @@ type ArticleShareProps = {
 
 export default function ArticleShare({ title, url }: ArticleShareProps) {
   const [copied, setCopied] = useState(false);
-  const encodedUrl = encodeURIComponent(url);
-  const encodedTitle = encodeURIComponent(title);
-  const textBody = encodeURIComponent(`${title} ${url}`);
 
   async function handleShare() {
     if (navigator.share) {
@@ -28,42 +25,19 @@ export default function ArticleShare({ title, url }: ArticleShareProps) {
       setCopied(true);
       window.setTimeout(() => setCopied(false), 1800);
     } catch {
-      window.location.href = url;
+      window.location.href = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`;
     }
   }
 
-  const buttonClass =
-    "inline-flex min-h-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.06] px-4 text-xs font-black uppercase tracking-[0.12em] text-white/70 transition hover:border-white/20 hover:bg-white/10 hover:text-white";
-
   return (
-    <div className="mt-5 border-t border-white/10 pt-5">
-      <p className="mb-3 text-[10px] font-black uppercase tracking-[0.22em] text-white/35">
-        Share this story
-      </p>
-      <div className="flex flex-wrap gap-2">
-        <button type="button" onClick={handleShare} className={buttonClass}>
-          {copied ? "Link Copied" : "Share"}
-        </button>
-        <a href={`sms:?&body=${textBody}`} className={buttonClass}>
-          Text
-        </a>
-        <a
-          href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
-          target="_blank"
-          rel="noreferrer"
-          className={buttonClass}
-        >
-          Facebook
-        </a>
-        <a
-          href={`https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`}
-          target="_blank"
-          rel="noreferrer"
-          className={buttonClass}
-        >
-          X
-        </a>
-      </div>
-    </div>
+    <button
+      type="button"
+      onClick={handleShare}
+      className="inline-flex min-h-10 items-center gap-2 rounded-full border border-white/12 bg-white/[0.055] px-4 text-[11px] font-black uppercase tracking-[0.14em] text-white/65 transition hover:border-white/20 hover:bg-white/10 hover:text-white"
+      aria-label={`Share ${title}`}
+    >
+      <span aria-hidden="true">↗</span>
+      {copied ? "Link Copied" : "Share Story"}
+    </button>
   );
 }
