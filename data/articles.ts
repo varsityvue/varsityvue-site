@@ -15,6 +15,7 @@ export const articles: Article[] = [
     publishedAt: "2026-09-10T23:41:00-05:00",
     schoolIds: ["goldthwaite"],
     featuredImageUrl: "/images/coverage/goldthwaite-gary-proffitt-stadium.jpg",
+    featuredImageSocialUrl: "/images/coverage/goldthwaite-gary-proffitt-stadium-social.jpg",
     featuredImageAlt: "Gary Proffitt Stadium in Goldthwaite, Texas, at sunset.",
     featuredImageCaption: "Gary Proffitt Stadium — Goldthwaite, Texas",
     tags: ["Goldthwaite", "Feature", "Program Spotlight", "Landry Sanderson", "Hayes Greenway", "Aidyn Lee"],

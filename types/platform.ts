@@ -65,7 +65,7 @@ export type School = {
   facebookUrl?: string;
   instagramUrl?: string;
   xUrl?: string;
-  
+
   colors: SchoolColors;
 
   sports: SportKey[];
@@ -200,6 +200,7 @@ export type Article = {
   excerpt: string;
   body: string;
   featuredImageUrl?: string;
+  featuredImageSocialUrl?: string;
   featuredImageAlt?: string;
   featuredImageCaption?: string;
 

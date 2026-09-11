@@ -76,6 +76,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
   const canonical = `/coverage/${article.slug}`;
   const publishedTime = getValidArticleDate(article.publishedAt);
   const modifiedTime = getValidArticleDate(article.updatedAt) ?? publishedTime;
+  const socialImageUrl = article.featuredImageSocialUrl ?? article.featuredImageUrl;
 
   return {
     title,
@@ -88,13 +89,13 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
       type: "article",
       ...(publishedTime ? { publishedTime } : {}),
       ...(modifiedTime ? { modifiedTime } : {}),
-      ...(article.featuredImageUrl ? { images: [{ url: article.featuredImageUrl, alt: article.featuredImageAlt ?? article.title }] } : {}),
+      ...(socialImageUrl ? { images: [{ url: socialImageUrl, alt: article.featuredImageAlt ?? article.title }] } : {}),
     },
     twitter: {
-      card: article.featuredImageUrl ? "summary_large_image" : "summary",
+      card: socialImageUrl ? "summary_large_image" : "summary",
       title: `${title} | VarsityVue`,
       description: article.seo.description,
-      ...(article.featuredImageUrl ? { images: [article.featuredImageUrl] } : {}),
+      ...(socialImageUrl ? { images: [socialImageUrl] } : {}),
     },
   };
 }
@@ -131,13 +132,15 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const publishedDate = getValidArticleDate(article.publishedAt);
   const modifiedDate = getValidArticleDate(article.updatedAt) ?? publishedDate;
   const articleUrl = `https://varsityvue.com/coverage/${article.slug}`;
+  const socialImageUrl = article.featuredImageSocialUrl ?? article.featuredImageUrl;
+
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": article.type === "news" ? "NewsArticle" : "Article",
     headline: article.title,
     description: article.excerpt,
     articleBody: article.body,
-    ...(article.featuredImageUrl ? { image: article.featuredImageUrl } : {}),
+    ...(socialImageUrl ? { image: socialImageUrl } : {}),
     ...(publishedDate ? { datePublished: publishedDate } : {}),
     ...(modifiedDate ? { dateModified: modifiedDate } : {}),
     author: { "@type": "Organization", name: article.author },
