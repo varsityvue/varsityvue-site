@@ -199,6 +199,9 @@ export type Article = {
   subtitle?: string;
   excerpt: string;
   body: string;
+  featuredImageUrl?: string;
+  featuredImageAlt?: string;
+  featuredImageCaption?: string;
 
   type: ArticleType;
 
