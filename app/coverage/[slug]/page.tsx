@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { getArticleBySlug, getArticles } from "@/lib/articles";
 import { getSchoolBySlug } from "@/lib/schools";
 import type { Article } from "@/types/platform";
+import ArticleShare from "@/components/ArticleShare";
 import SchoolBadge from "@/components/SchoolBadge";
 import { getScoreboardGames } from "@/lib/scoreboard";
 import { getDistrictById } from "@/lib/districts";
@@ -151,6 +152,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   const publishedDate = getValidArticleDate(article.publishedAt);
   const modifiedDate = getValidArticleDate(article.updatedAt) ?? publishedDate;
+  const articleUrl = `https://varsityvue.com/coverage/${article.slug}`;
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": article.type === "news" ? "NewsArticle" : "Article",
@@ -170,7 +172,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://varsityvue.com/coverage/${article.slug}`,
+      "@id": articleUrl,
     },
     keywords: article.tags?.join(", "),
   };
@@ -184,31 +186,31 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         }}
       />
 
-      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.62),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 py-8 sm:px-6 lg:px-8">
+      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.62),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         <div className="mx-auto max-w-5xl">
           <Link
             href="/coverage"
-            className="text-sm font-black uppercase tracking-[0.14em] text-[var(--vv-accent)] transition hover:text-white"
+            className="text-xs font-black uppercase tracking-[0.14em] text-[var(--vv-accent)] transition hover:text-white sm:text-sm"
           >
             ← Back to Coverage
           </Link>
 
-          <div className="mt-6 rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl md:p-8">
-            <p className="text-xs font-black uppercase tracking-[0.32em] text-[var(--vv-accent)]">
+          <div className="mt-5 rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:mt-6 sm:rounded-[2rem] sm:p-6 md:p-8">
+            <p className="text-[11px] font-black uppercase tracking-[0.28em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.32em]">
               {formatArticleType(article.type)}
             </p>
 
-            <h1 className="mt-4 text-4xl font-black leading-tight tracking-tight sm:text-6xl">
+            <h1 className="mt-3 text-[2rem] font-black leading-[1.08] tracking-tight sm:mt-4 sm:text-5xl md:text-6xl">
               {article.title}
             </h1>
 
             {article.subtitle && (
-              <p className="mt-5 text-xl font-semibold leading-8 text-white/55">
+              <p className="mt-4 text-base font-semibold leading-6 text-white/55 sm:mt-5 sm:text-xl sm:leading-8">
                 {article.subtitle}
               </p>
             )}
 
-            <div className="mt-6 flex flex-wrap gap-3 text-sm font-bold text-white/45">
+            <div className="mt-5 flex flex-wrap gap-2 text-xs font-bold text-white/45 sm:mt-6 sm:gap-3 sm:text-sm">
               <span>{formatArticleDate(article.publishedAt)}</span>
               <span>•</span>
               <span>{article.author}</span>
@@ -217,16 +219,18 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         </div>
       </section>
 
-      <section className="px-4 py-8 sm:px-6 lg:px-8">
+      <section className="px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         <div className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-[1fr_320px]">
-          <article className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl md:p-8">
-            <p className="text-xl font-bold leading-9 text-white/70">
+          <article className="rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:rounded-[1.75rem] sm:p-6 md:p-8">
+            <p className="text-lg font-bold leading-7 text-white/70 sm:text-xl sm:leading-8">
               {article.excerpt}
             </p>
 
-            <div className="mt-8 h-px bg-white/10" />
+            <ArticleShare title={article.title} url={articleUrl} />
 
-            <div className="mt-8 space-y-6 text-lg leading-8 text-white/75">
+            <div className="mt-6 h-px bg-white/10 sm:mt-8" />
+
+            <div className="mt-6 space-y-5 text-[17px] leading-7 text-white/75 sm:mt-8 sm:space-y-6 sm:text-lg sm:leading-8">
               {article.body
                 .split("\n")
                 .map((paragraph) => paragraph.trim())
@@ -236,7 +240,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 ))}
             </div>
 
-            <div className="mt-10 flex flex-wrap gap-2">
+            <div className="mt-8 border-t border-white/10 pt-6 sm:mt-10">
+              <ArticleShare title={article.title} url={articleUrl} />
+            </div>
+
+            <div className="mt-8 flex flex-wrap gap-2 sm:mt-10">
               {article.tags.map((tag) => (
                 <span
                   key={tag}
