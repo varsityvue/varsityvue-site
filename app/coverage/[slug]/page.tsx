@@ -175,7 +175,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           <article className="min-w-0">
             {article.featuredImageUrl && (
               <figure className="mb-7 overflow-hidden rounded-[1.35rem] border border-white/10 bg-white/[0.035] shadow-2xl sm:mb-9 sm:rounded-[1.75rem]">
-                <Image src={article.featuredImageUrl} alt={article.featuredImageAlt ?? article.title} width={1600} height={900} priority className="aspect-[16/9] w-full object-cover" />
+                <Image src={article.featuredImageUrl} alt={article.featuredImageAlt ?? article.title} width={1600} height={900} priority className="h-auto w-full object-contain" />
                 {article.featuredImageCaption && <figcaption className="border-t border-white/10 px-4 py-3 text-[11px] leading-5 text-white/40 sm:px-5">{article.featuredImageCaption}</figcaption>}
               </figure>
             )}
