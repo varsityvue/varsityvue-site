@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -95,11 +96,15 @@ export async function generateMetadata({
       type: "article",
       ...(publishedTime ? { publishedTime } : {}),
       ...(modifiedTime ? { modifiedTime } : {}),
+      ...(article.featuredImageUrl
+        ? { images: [{ url: article.featuredImageUrl, alt: article.featuredImageAlt ?? article.title }] }
+        : {}),
     },
     twitter: {
-      card: "summary",
+      card: article.featuredImageUrl ? "summary_large_image" : "summary",
       title: `${title} | VarsityVue`,
       description: article.seo.description,
+      ...(article.featuredImageUrl ? { images: [article.featuredImageUrl] } : {}),
     },
   };
 }
@@ -144,6 +149,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     .filter((game) => game.gameType !== "scrimmage" && game.gameType !== "bye")
     .slice(0, 3);
 
+  const schoolNames = new Set(
+    relatedSchools
+      .filter((school): school is NonNullable<typeof school> => Boolean(school))
+      .map((school) => school.name.toLowerCase())
+  );
+  const topicTags = article.tags.filter((tag) => !schoolNames.has(tag.toLowerCase()));
+
   const publishedDate = getValidArticleDate(article.publishedAt);
   const modifiedDate = getValidArticleDate(article.updatedAt) ?? publishedDate;
   const articleUrl = `https://varsityvue.com/coverage/${article.slug}`;
@@ -153,6 +165,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     headline: article.title,
     description: article.excerpt,
     articleBody: article.body,
+    ...(article.featuredImageUrl ? { image: article.featuredImageUrl } : {}),
     ...(publishedDate ? { datePublished: publishedDate } : {}),
     ...(modifiedDate ? { dateModified: modifiedDate } : {}),
     author: { "@type": "Organization", name: article.author },
@@ -194,7 +207,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             </h1>
 
             {article.subtitle && (
-              <p className="mt-3 text-[15px] font-semibold leading-[1.45] text-white/55 sm:mt-5 sm:text-xl sm:leading-8">
+              <p className="mt-3 max-w-3xl text-[15px] font-semibold leading-[1.45] text-white/55 sm:mt-5 sm:text-xl sm:leading-8">
                 {article.subtitle}
               </p>
             )}
@@ -210,60 +223,58 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         </div>
       </section>
 
-      <section className="px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
-        <div className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-[1fr_320px]">
-          <article className="rounded-[1.35rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6 md:p-8">
-            <div className="space-y-4 text-base leading-7 text-white/78 sm:space-y-6 sm:text-lg sm:leading-8">
-              {article.body
-                .split("\n")
-                .map((paragraph) => paragraph.trim())
-                .filter(Boolean)
-                .map((paragraph, index) => (
-                  <p key={`${article.id}-paragraph-${index}`}>{paragraph}</p>
-                ))}
+      <section className="px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
+        <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-10">
+          <article className="min-w-0">
+            {article.featuredImageUrl && (
+              <figure className="mb-7 overflow-hidden rounded-[1.35rem] border border-white/10 bg-white/[0.035] shadow-2xl sm:mb-9 sm:rounded-[1.75rem]">
+                <Image
+                  src={article.featuredImageUrl}
+                  alt={article.featuredImageAlt ?? article.title}
+                  width={1600}
+                  height={900}
+                  priority
+                  className="aspect-[16/9] w-full object-cover"
+                />
+                {article.featuredImageCaption && (
+                  <figcaption className="border-t border-white/10 px-4 py-3 text-[11px] leading-5 text-white/40 sm:px-5">
+                    {article.featuredImageCaption}
+                  </figcaption>
+                )}
+              </figure>
+            )}
+
+            <div className="border-t border-white/10 pt-6 sm:pt-8">
+              <div className="space-y-5 text-[17px] leading-8 text-white/78 sm:space-y-7 sm:text-lg sm:leading-8">
+                {article.body
+                  .split("\n")
+                  .map((paragraph) => paragraph.trim())
+                  .filter(Boolean)
+                  .map((paragraph, index) => (
+                    <p key={`${article.id}-paragraph-${index}`}>{paragraph}</p>
+                  ))}
+              </div>
             </div>
 
-            <div className="mt-7 flex items-center justify-between gap-3 border-t border-white/10 pt-5 sm:mt-10 sm:pt-6">
-              <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">
-                Enjoyed this story?
-              </p>
-              <ArticleShare title={article.title} url={articleUrl} />
-            </div>
+            <div className="mt-9 border-t border-white/10 pt-6 sm:mt-12 sm:pt-7">
+              <div className="flex flex-wrap items-center justify-between gap-4">
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/35">
+                  Share this story
+                </p>
+                <ArticleShare title={article.title} url={articleUrl} />
+              </div>
 
-            <div className="mt-7 flex flex-wrap gap-2 sm:mt-10">
-              {article.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-white/65"
-                >
-                  {tag}
-                </span>
-              ))}
-
-              {relatedSchools.map(
-                (school) =>
-                  school && (
-                    <Link
-                      key={school.slug}
-                      href={`/schools/${school.slug}`}
-                      className="rounded-full border border-white/10 bg-black/35 px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-white/65 transition hover:bg-white/10 hover:text-white"
+              {topicTags.length > 0 && (
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {topicTags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full border border-white/10 bg-white/[0.055] px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-white/55"
                     >
-                      {school.name}
-                    </Link>
-                  )
-              )}
-
-              {relatedDistricts.map(
-                (district) =>
-                  district && (
-                    <Link
-                      key={district.id}
-                      href={`/districts/${district.slug}`}
-                      className="rounded-full border border-white/10 bg-black/35 px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-white/65 transition hover:bg-white/10 hover:text-white"
-                    >
-                      {district.name}
-                    </Link>
-                  )
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               )}
             </div>
           </article>
@@ -331,20 +342,48 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   Related Matchups
                 </p>
                 <div className="mt-5 flex flex-col gap-3">
-                  {relatedGames.map((game) => (
-                    <Link
-                      key={game.id}
-                      href={`/games/${game.id}`}
-                      className="rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
-                    >
-                      <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/40">
-                        Week {game.week ?? "TBD"}
-                      </p>
-                      <h3 className="mt-2 text-sm font-black text-white">
-                        {game.awayTeam} at {game.homeTeam}
-                      </h3>
-                    </Link>
-                  ))}
+                  {relatedGames.map((game) => {
+                    const awaySchool = game.awaySchoolSlug
+                      ? getSchoolBySlug(game.awaySchoolSlug)
+                      : undefined;
+                    const homeSchool = game.homeSchoolSlug
+                      ? getSchoolBySlug(game.homeSchoolSlug)
+                      : undefined;
+                    const awayScore = game.awayScore ?? game.score?.away;
+                    const homeScore = game.homeScore ?? game.score?.home;
+
+                    return (
+                      <Link
+                        key={game.id}
+                        href={`/games/${game.id}`}
+                        className="block rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
+                      >
+                        <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/40">
+                          Week {game.week ?? "TBD"}
+                        </p>
+                        <div className="mt-3 space-y-2.5">
+                          <div className="flex items-center gap-3">
+                            {awaySchool && <SchoolBadge school={awaySchool} size="xs" />}
+                            <p className="min-w-0 flex-1 truncate text-sm font-black text-white">
+                              {game.awayTeam}
+                            </p>
+                            {awayScore !== undefined && (
+                              <span className="text-sm font-black tabular-nums text-white">{awayScore}</span>
+                            )}
+                          </div>
+                          <div className="flex items-center gap-3">
+                            {homeSchool && <SchoolBadge school={homeSchool} size="xs" />}
+                            <p className="min-w-0 flex-1 truncate text-sm font-black text-white">
+                              {game.homeTeam}
+                            </p>
+                            {homeScore !== undefined && (
+                              <span className="text-sm font-black tabular-nums text-white">{homeScore}</span>
+                            )}
+                          </div>
+                        </div>
+                      </Link>
+                    );
+                  })}
                 </div>
               </section>
             )}
