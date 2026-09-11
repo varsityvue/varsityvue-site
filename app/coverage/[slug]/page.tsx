@@ -82,15 +82,12 @@ export async function generateMetadata({
   const title = stripVarsityVueBranding(article.seo.title || article.title);
   const canonical = `/coverage/${article.slug}`;
   const publishedTime = getValidArticleDate(article.publishedAt);
-  const modifiedTime =
-    getValidArticleDate(article.updatedAt) ?? publishedTime;
+  const modifiedTime = getValidArticleDate(article.updatedAt) ?? publishedTime;
 
   return {
     title,
     description: article.seo.description,
-    alternates: {
-      canonical,
-    },
+    alternates: { canonical },
     openGraph: {
       title: `${title} | VarsityVue`,
       description: article.seo.description,
@@ -111,9 +108,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params;
   const article = getArticleBySlug(slug);
 
-  if (!article) {
-    notFound();
-  }
+  if (!article) notFound();
 
   const relatedSchools =
     article.schoolIds
@@ -135,7 +130,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         article.districtIds?.includes(districtId)
       );
       const sharesGame = article.gameId && item.gameId === article.gameId;
-
       return Boolean(sharesSchool || sharesDistrict || sharesGame);
     })
     .slice(0, 3);
@@ -161,10 +155,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     articleBody: article.body,
     ...(publishedDate ? { datePublished: publishedDate } : {}),
     ...(modifiedDate ? { dateModified: modifiedDate } : {}),
-    author: {
-      "@type": "Organization",
-      name: article.author,
-    },
+    author: { "@type": "Organization", name: article.author },
     publisher: {
       "@type": "Organization",
       name: "VarsityVue",
@@ -181,56 +172,54 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     <main className="min-h-screen bg-[#050505] text-white">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(articleSchema),
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
 
-      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.62),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.62),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 py-4 sm:px-6 sm:py-7 lg:px-8">
         <div className="mx-auto max-w-5xl">
           <Link
             href="/coverage"
-            className="text-xs font-black uppercase tracking-[0.14em] text-[var(--vv-accent)] transition hover:text-white sm:text-sm"
+            className="text-[11px] font-black uppercase tracking-[0.14em] text-[var(--vv-accent)] transition hover:text-white sm:text-sm"
           >
             ← Back to Coverage
           </Link>
 
-          <div className="mt-5 rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:mt-6 sm:rounded-[2rem] sm:p-6 md:p-8">
-            <p className="text-[11px] font-black uppercase tracking-[0.28em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.32em]">
+          <div className="mt-4 rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:mt-5 sm:rounded-[1.75rem] sm:p-6 md:p-8">
+            <p className="text-[10px] font-black uppercase tracking-[0.26em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.32em]">
               {formatArticleType(article.type)}
             </p>
 
-            <h1 className="mt-3 text-[2rem] font-black leading-[1.08] tracking-tight sm:mt-4 sm:text-5xl md:text-6xl">
+            <h1 className="mt-2.5 text-[1.85rem] font-black leading-[1.06] tracking-tight sm:mt-4 sm:text-5xl md:text-6xl">
               {article.title}
             </h1>
 
             {article.subtitle && (
-              <p className="mt-4 text-base font-semibold leading-6 text-white/55 sm:mt-5 sm:text-xl sm:leading-8">
+              <p className="mt-3 text-[15px] font-semibold leading-[1.45] text-white/55 sm:mt-5 sm:text-xl sm:leading-8">
                 {article.subtitle}
               </p>
             )}
 
-            <div className="mt-5 flex flex-wrap gap-2 text-xs font-bold text-white/45 sm:mt-6 sm:gap-3 sm:text-sm">
+            <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 text-[11px] font-bold text-white/45 sm:mt-6 sm:text-sm">
               <span>{formatArticleDate(article.publishedAt)}</span>
               <span>•</span>
               <span>{article.author}</span>
+              <span className="hidden sm:inline">•</span>
+              <ArticleShare title={article.title} url={articleUrl} />
             </div>
           </div>
         </div>
       </section>
 
-      <section className="px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+      <section className="px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
         <div className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-[1fr_320px]">
-          <article className="rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:rounded-[1.75rem] sm:p-6 md:p-8">
-            <p className="text-lg font-bold leading-7 text-white/70 sm:text-xl sm:leading-8">
+          <article className="rounded-[1.35rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6 md:p-8">
+            <p className="text-base font-semibold leading-6 text-white/65 sm:text-xl sm:font-bold sm:leading-8">
               {article.excerpt}
             </p>
 
-            <ArticleShare title={article.title} url={articleUrl} />
+            <div className="mt-5 h-px bg-white/10 sm:mt-8" />
 
-            <div className="mt-6 h-px bg-white/10 sm:mt-8" />
-
-            <div className="mt-6 space-y-5 text-[17px] leading-7 text-white/75 sm:mt-8 sm:space-y-6 sm:text-lg sm:leading-8">
+            <div className="mt-5 space-y-4 text-base leading-7 text-white/78 sm:mt-8 sm:space-y-6 sm:text-lg sm:leading-8">
               {article.body
                 .split("\n")
                 .map((paragraph) => paragraph.trim())
@@ -240,11 +229,14 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 ))}
             </div>
 
-            <div className="mt-8 border-t border-white/10 pt-6 sm:mt-10">
+            <div className="mt-7 flex items-center justify-between gap-3 border-t border-white/10 pt-5 sm:mt-10 sm:pt-6">
+              <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">
+                Enjoyed this story?
+              </p>
               <ArticleShare title={article.title} url={articleUrl} />
             </div>
 
-            <div className="mt-8 flex flex-wrap gap-2 sm:mt-10">
+            <div className="mt-7 flex flex-wrap gap-2 sm:mt-10">
               {article.tags.map((tag) => (
                 <span
                   key={tag}
@@ -288,7 +280,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
                   Related Schools
                 </p>
-
                 <div className="mt-5 flex flex-col gap-3">
                   {relatedSchools.map(
                     (school) =>
@@ -299,11 +290,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                           className="flex items-center gap-4 rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
                         >
                           <SchoolBadge school={school} size="xs" />
-
                           <div>
-                            <p className="text-sm font-black text-white">
-                              {school.name}
-                            </p>
+                            <p className="text-sm font-black text-white">{school.name}</p>
                             <p className="text-xs font-bold uppercase tracking-[0.12em] text-white/40">
                               {school.mascot}
                             </p>
@@ -320,7 +308,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
                   Related District
                 </p>
-
                 <div className="mt-5 flex flex-col gap-3">
                   {relatedDistricts.map(
                     (district) =>
@@ -333,11 +320,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                           <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/40">
                             District Hub
                           </p>
-
-                          <h3 className="mt-2 text-sm font-black text-white">
-                            {district.name}
-                          </h3>
-
+                          <h3 className="mt-2 text-sm font-black text-white">{district.name}</h3>
                           <p className="mt-2 text-xs font-bold uppercase tracking-[0.14em] text-white/40">
                             View Standings →
                           </p>
@@ -353,7 +336,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
                   Related Matchups
                 </p>
-
                 <div className="mt-5 flex flex-col gap-3">
                   {relatedGames.map((game) => (
                     <Link
@@ -364,7 +346,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                       <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/40">
                         Week {game.week ?? "TBD"}
                       </p>
-
                       <h3 className="mt-2 text-sm font-black text-white">
                         {game.awayTeam} at {game.homeTeam}
                       </h3>
@@ -378,7 +359,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
                 More Coverage
               </p>
-
               <div className="mt-5 flex flex-col gap-3">
                 {relatedArticles.length > 0 ? (
                   relatedArticles.map((related) => (
@@ -388,10 +368,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                       className="rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
                     >
                       <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/40">
-                        {formatArticleType(related.type)} ·{" "}
-                        {formatShortDate(related.publishedAt)}
+                        {formatArticleType(related.type)} · {formatShortDate(related.publishedAt)}
                       </p>
-
                       <h3 className="mt-2 text-sm font-black leading-5 text-white">
                         {related.title}
                       </h3>
