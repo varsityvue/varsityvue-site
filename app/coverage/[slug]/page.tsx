@@ -192,7 +192,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         <div className="mx-auto max-w-5xl">
           <Link
             href="/coverage"
-            className="text-[11px] font-black uppercase tracking-[0.14em] text-[var(--vv-accent)] transition hover:text-white sm:text-sm"
+            className="text-[11px] font-black uppercase tracking-[0.14em] text-white/45 transition hover:text-[var(--vv-accent)] sm:text-sm"
           >
             ← Back to Coverage
           </Link>
@@ -381,6 +381,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                             )}
                           </div>
                         </div>
+                        <p className="mt-3 text-[10px] font-bold uppercase tracking-[0.14em] text-white/35">
+                          {formatShortDate(game.date)} · View Matchup →
+                        </p>
                       </Link>
                     );
                   })}
@@ -388,41 +391,27 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               </section>
             )}
 
-            <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
-                More Coverage
-              </p>
-              <div className="mt-5 flex flex-col gap-3">
-                {relatedArticles.length > 0 ? (
-                  relatedArticles.map((related) => (
+            {relatedArticles.length > 0 && (
+              <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
+                <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
+                  More Coverage
+                </p>
+                <div className="mt-5 flex flex-col gap-3">
+                  {relatedArticles.map((item) => (
                     <Link
-                      key={related.id}
-                      href={`/coverage/${related.slug}`}
+                      key={item.id}
+                      href={`/coverage/${item.slug}`}
                       className="rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
                     >
                       <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/40">
-                        {formatArticleType(related.type)} · {formatShortDate(related.publishedAt)}
+                        {formatArticleType(item.type)} · {formatShortDate(item.publishedAt)}
                       </p>
-                      <h3 className="mt-2 text-sm font-black leading-5 text-white">
-                        {related.title}
-                      </h3>
+                      <h3 className="mt-2 text-sm font-black leading-5 text-white">{item.title}</h3>
                     </Link>
-                  ))
-                ) : (
-                  <div className="rounded-2xl border border-white/10 bg-black/35 p-4">
-                    <p className="text-sm text-white/55">
-                      More related coverage will appear here as stories are published.
-                    </p>
-                    <Link
-                      href="/submit"
-                      className="mt-3 inline-flex text-xs font-black uppercase tracking-[0.14em] text-white/55 transition hover:text-white"
-                    >
-                      Send a Story Tip →
-                    </Link>
-                  </div>
-                )}
-              </div>
-            </section>
+                  ))}
+                </div>
+              </section>
+            )}
           </aside>
         </div>
       </section>
