@@ -37,7 +37,7 @@ function formatArticleDate(publishedAt: string) {
   }).format(parsed);
 }
 
-function formatShortDate(publishedAt: string) {
+function formatShortDate(publishedAt?: string) {
   const parsed = parseArticleDate(publishedAt);
   if (!parsed) return "Date TBD";
 
