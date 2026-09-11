@@ -58,14 +58,14 @@ export default function FeaturedCoverage() {
     <>
       <AreaLeaders />
       <section className="px-4 py-5 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-[1440px] rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 shadow-2xl md:p-8">
-          <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+        <div className="mx-auto max-w-[1440px] rounded-[1.6rem] border border-white/10 bg-white/[0.04] p-4 shadow-2xl sm:rounded-[2rem] sm:p-6 md:p-8">
+          <div className="mb-5 flex flex-col gap-3 sm:mb-6 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.3em] text-white/45">
+              <p className="text-[10px] font-black uppercase tracking-[0.26em] text-white/45 sm:text-xs sm:tracking-[0.3em]">
                 Featured Coverage
               </p>
 
-              <h2 className="mt-2 text-3xl font-black text-white md:text-4xl">
+              <h2 className="mt-2 text-[1.95rem] font-black leading-[1.05] text-white sm:text-3xl md:text-4xl">
                 Latest stories from VarsityVue
               </h2>
             </div>
@@ -73,38 +73,38 @@ export default function FeaturedCoverage() {
             <div className="flex flex-wrap gap-2">
               <Link
                 href="/submit"
-                className="inline-flex rounded-full border border-white/10 bg-black/35 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-white/60 transition hover:bg-white/10 hover:text-white"
+                className="inline-flex rounded-full border border-white/10 bg-black/35 px-4 py-2 text-[11px] font-black uppercase tracking-[0.14em] text-white/60 transition hover:bg-white/10 hover:text-white sm:text-xs sm:tracking-[0.16em]"
               >
                 Submit a Story Tip →
               </Link>
               <Link
                 href="/coverage"
-                className="inline-flex rounded-full border border-white/10 bg-black/35 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-white/60 transition hover:bg-white/10 hover:text-white"
+                className="inline-flex rounded-full border border-white/10 bg-black/35 px-4 py-2 text-[11px] font-black uppercase tracking-[0.14em] text-white/60 transition hover:bg-white/10 hover:text-white sm:text-xs sm:tracking-[0.16em]"
               >
                 View All Coverage →
               </Link>
             </div>
           </div>
 
-          <div className="grid gap-5 lg:grid-cols-[1.25fr_0.75fr]">
+          <div className="grid gap-4 sm:gap-5 lg:grid-cols-[1.25fr_0.75fr]">
             <Link
               href={`/coverage/${featuredArticle.slug}`}
-              className="group overflow-hidden rounded-[1.75rem] border border-white/10 bg-black/35 transition hover:-translate-y-1 hover:bg-white/[0.07]"
+              className="group overflow-hidden rounded-[1.4rem] border border-white/10 bg-black/35 transition hover:-translate-y-1 hover:bg-white/[0.07] sm:rounded-[1.75rem]"
             >
-              <div className="min-h-[260px] bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.65),transparent_35%),linear-gradient(135deg,rgba(255,255,255,0.08),rgba(0,0,0,0.92))] p-6 md:p-8">
+              <div className="bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.65),transparent_35%),linear-gradient(135deg,rgba(255,255,255,0.08),rgba(0,0,0,0.92))] p-5 sm:min-h-[260px] sm:p-6 md:p-8">
                 <p className="inline-flex rounded-full border border-white/10 bg-white/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-white/60">
                   {formatArticleType(featuredArticle.type)}
                 </p>
 
-                <h3 className="mt-5 max-w-3xl text-4xl font-black leading-tight text-white md:text-5xl">
+                <h3 className="mt-4 max-w-3xl text-[2rem] font-black leading-[1.08] tracking-[-0.025em] text-white sm:mt-5 sm:text-4xl sm:leading-tight md:text-5xl">
                   {featuredArticle.title}
                 </h3>
 
-                <p className="mt-4 max-w-3xl text-sm leading-6 text-white/60">
+                <p className="mt-3 max-w-3xl text-sm leading-6 text-white/60 sm:mt-4">
                   {featuredArticle.excerpt}
                 </p>
 
-                <p className="mt-6 text-xs font-black uppercase tracking-[0.16em] text-white/50 transition group-hover:text-white">
+                <p className="mt-5 text-[11px] font-black uppercase tracking-[0.14em] text-white/50 transition group-hover:text-white sm:mt-6 sm:text-xs sm:tracking-[0.16em]">
                   Read Featured Story →
                 </p>
               </div>
@@ -115,13 +115,13 @@ export default function FeaturedCoverage() {
                 <Link
                   key={article.id}
                   href={`/coverage/${article.slug}`}
-                  className="group rounded-[1.5rem] border border-white/10 bg-black/35 p-5 transition hover:-translate-y-1 hover:bg-white/[0.07]"
+                  className="group rounded-[1.4rem] border border-white/10 bg-black/35 p-4 transition hover:-translate-y-1 hover:bg-white/[0.07] sm:rounded-[1.5rem] sm:p-5"
                 >
                   <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">
                     {formatArticleType(article.type)}
                   </p>
 
-                  <h3 className="mt-3 text-xl font-black leading-snug text-white">
+                  <h3 className="mt-3 text-lg font-black leading-snug text-white sm:text-xl">
                     {article.title}
                   </h3>
 
@@ -129,7 +129,7 @@ export default function FeaturedCoverage() {
                     {article.excerpt}
                   </p>
 
-                  <p className="mt-4 text-xs font-black uppercase tracking-[0.16em] text-white/45 transition group-hover:text-white">
+                  <p className="mt-4 text-[11px] font-black uppercase tracking-[0.14em] text-white/45 transition group-hover:text-white sm:text-xs sm:tracking-[0.16em]">
                     Read Story →
                   </p>
                 </Link>
