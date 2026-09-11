@@ -213,13 +213,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       <section className="px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
         <div className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-[1fr_320px]">
           <article className="rounded-[1.35rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6 md:p-8">
-            <p className="text-base font-semibold leading-6 text-white/65 sm:text-xl sm:font-bold sm:leading-8">
-              {article.excerpt}
-            </p>
-
-            <div className="mt-5 h-px bg-white/10 sm:mt-8" />
-
-            <div className="mt-5 space-y-4 text-base leading-7 text-white/78 sm:mt-8 sm:space-y-6 sm:text-lg sm:leading-8">
+            <div className="space-y-4 text-base leading-7 text-white/78 sm:space-y-6 sm:text-lg sm:leading-8">
               {article.body
                 .split("\n")
                 .map((paragraph) => paragraph.trim())
