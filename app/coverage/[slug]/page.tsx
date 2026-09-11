@@ -244,7 +244,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                           <div className="flex items-center gap-3">{awaySchool && <SchoolBadge school={awaySchool} size="xs" />}<p className="min-w-0 flex-1 truncate text-sm font-black text-white">{game.awayTeam}</p>{awayScore !== undefined && <span className="text-sm font-black tabular-nums text-white">{awayScore}</span>}</div>
                           <div className="flex items-center gap-3">{homeSchool && <SchoolBadge school={homeSchool} size="xs" />}<p className="min-w-0 flex-1 truncate text-sm font-black text-white">{game.homeTeam}</p>{homeScore !== undefined && <span className="text-sm font-black tabular-nums text-white">{homeScore}</span>}</div>
                         </div>
-                        <p className="mt-3 text-[10px] font-bold uppercase tracking-[0.14em] text-white/35">{formatShortDate(game.date)} · View Matchup →</p>
+                        <p className="mt-3 text-[10px] font-bold uppercase tracking-[0.14em] text-white/35">{formatShortDate(game.date ?? "")} · View Matchup →</p>
                       </Link>
                     );
                   })}
