@@ -31,7 +31,7 @@ type VerifiedStandingOverride = RecordOverride & {
 const verifiedStandingOverrides: Record<string, VerifiedStandingOverride> = {
   hamlin: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 74, pointsAgainst: 56, throughWeek: 2 },
   miles: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0 },
-  winters: { overallWins: 0, overallLosses: 2, districtWins: 0, districtLosses: 0 },
+  winters: { overallWins: 0, overallLosses: 2, districtWins: 0, districtLosses: 0, pointsFor: 8, pointsAgainst: 53, throughWeek: 2 },
 
   // District 5-3A Division II, verified through Week 2.
   // Week 3+ finals are layered on top automatically from the game feed.
