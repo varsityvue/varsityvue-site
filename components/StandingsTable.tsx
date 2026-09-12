@@ -89,38 +89,40 @@ export default function StandingsTable({ standings, theme, currentSchoolSlug, di
           {!districtStarted && <div className="mb-3 flex items-center gap-2.5 rounded-xl border bg-black/30 px-3 py-2.5 sm:mb-4 sm:block sm:rounded-2xl sm:p-4" style={{ borderColor: `${theme.secondary}33` }}><span className="h-2 w-2 shrink-0 rounded-full bg-white/35 sm:hidden" /><div className="min-w-0"><p className="text-xs font-black text-white/80 sm:text-sm sm:text-white">Pre-district standings</p><p className="mt-0.5 text-[10px] leading-4 text-white/40 sm:mt-1 sm:text-sm sm:leading-6">{seasonStarted ? "Ordered by verified overall record where available until district play begins." : "Teams are listed alphabetically until district play begins."}<span className="hidden sm:inline">{seasonStarted ? " Unknown overall records remain unranked rather than being shown as 0-0." : " Rankings will appear once verified district results are available."}</span></p></div></div>}
 
           <div className="overflow-hidden rounded-2xl border bg-black/35 md:hidden" style={{ borderColor: `${theme.secondary}33` }}>
-            <div className="grid grid-cols-[minmax(0,1fr)_44px_44px] items-center gap-2 px-3 py-2.5 text-[8px] font-black uppercase tracking-[0.12em] text-white/35" style={{ borderBottom: `2px solid ${theme.primary}` }}><span>Team</span><span className="text-center">Dist</span><span className="text-right">Ovr</span></div>
+            <div className="grid grid-cols-[minmax(0,1fr)_48px_48px] items-center gap-2 px-3 py-2.5 text-[8px] font-black uppercase tracking-[0.12em] text-white/35" style={{ borderBottom: `2px solid ${theme.primary}` }}><span>Team</span><span className="text-center">Dist</span><span className="text-right">Ovr</span></div>
             <div className="divide-y divide-white/10">
               {displayed.map((team, index) => {
                 const school = getSchoolBySlug(team.schoolSlug);
                 const mascot = school?.mascot ?? STANDINGS_MASCOT_OVERRIDES[team.schoolSlug];
+                const displayName = school?.name ?? team.team;
                 const isCurrent = team.schoolSlug === currentSchoolSlug;
-                const teamRow = <div className="grid grid-cols-[minmax(0,1fr)_44px_44px] items-center gap-2 px-3 py-3" style={isCurrent ? { background: `${theme.primary}18`, boxShadow: `inset 3px 0 0 ${theme.primary}` } : undefined}>
+                const teamRow = <div className="grid grid-cols-[minmax(0,1fr)_48px_48px] items-center gap-2 px-3 py-3" style={isCurrent ? { background: `${theme.primary}18`, boxShadow: `inset 3px 0 0 ${theme.primary}` } : undefined}>
                   <div className="min-w-0">
-                    <div className="flex min-w-0 items-start gap-1.5">{districtStarted && <span className="mt-0.5 w-7 shrink-0 text-[9px] font-black text-white/30">{getStandingPosition(displayed, index)}</span>}<p className="min-w-0 break-words text-[13px] font-black leading-[1.15] text-white">{team.team}</p></div>
+                    <div className="flex min-w-0 items-start gap-1.5">{districtStarted && <span className="mt-0.5 w-7 shrink-0 text-[9px] font-black text-white/30">{getStandingPosition(displayed, index)}</span>}<p className="min-w-0 break-words text-[13px] font-black leading-[1.15] text-white">{displayName}</p></div>
                     {mascot && <p className={`mt-1 min-w-0 truncate text-[8px] font-bold uppercase tracking-[0.1em] text-white/25 ${districtStarted ? "pl-[34px]" : ""}`}>{mascot}</p>}
                   </div>
-                  <span className="text-center text-[13px] font-black text-white/70">{districtStarted ? `${team.districtWins}-${team.districtLosses}` : "—"}</span>
-                  <span className="text-right text-[13px] font-black text-white/55">{team.overallRecordKnown ? `${team.overallWins}-${team.overallLosses}` : "—"}</span>
+                  <span className="text-center text-[13px] font-black tabular-nums text-white/70">{districtStarted ? `${team.districtWins}-${team.districtLosses}` : "—"}</span>
+                  <span className="text-right text-[13px] font-black tabular-nums text-white/55">{team.overallRecordKnown ? `${team.overallWins}-${team.overallLosses}` : "—"}</span>
                 </div>;
-                return school ? <Link key={team.schoolSlug} href={`/schools/${team.schoolSlug}`} aria-label={`${team.team}${isCurrent ? ", current team" : ""}`} className="block transition hover:bg-white/[0.05]">{teamRow}</Link> : <div key={team.schoolSlug}>{teamRow}</div>;
+                return school ? <Link key={team.schoolSlug} href={`/schools/${team.schoolSlug}`} aria-label={`${displayName}${isCurrent ? ", current team" : ""}`} className="block transition hover:bg-white/[0.05]">{teamRow}</Link> : <div key={team.schoolSlug}>{teamRow}</div>;
               })}
             </div>
           </div>
 
           <div className="hidden overflow-x-auto rounded-3xl border bg-black/35 md:block" style={{ borderColor: `${theme.secondary}33`, boxShadow: `0 18px 50px ${theme.primary}18` }}>
-            <table className={`w-full border-collapse text-left ${districtStarted ? "min-w-[900px]" : "min-w-[820px]"}`}>
+            <table className={`w-full border-collapse text-left ${districtStarted ? "min-w-[840px]" : "min-w-[760px]"}`}>
               <thead style={{ background: "linear-gradient(90deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04))", borderBottom: `2px solid ${theme.primary}` }}><tr>{districtStarted && <th className="px-5 py-4 text-xs font-black uppercase tracking-[0.18em] text-white">Place</th>} {["Team", "District", "Overall", "PF", "PA", "Diff"].map((header) => <th key={header} className="px-5 py-4 text-xs font-black uppercase tracking-[0.18em] text-white">{header}</th>)}</tr></thead>
               <tbody>{displayed.map((team, index) => {
                 const differential = team.pointsFor - team.pointsAgainst;
                 const school = getSchoolBySlug(team.schoolSlug);
                 const mascot = school?.mascot ?? STANDINGS_MASCOT_OVERRIDES[team.schoolSlug];
+                const displayName = school?.name ?? team.team;
                 const isCurrent = team.schoolSlug === currentSchoolSlug;
-                const teamContent = <div className="flex items-center gap-4">{school ? <SchoolBadge school={school} size="xs" /> : <FallbackBadge label={team.team} />}<div><div className="flex items-center gap-2"><p className="font-black text-white">{team.team}</p>{isCurrent && <span className="rounded-full border border-white/10 bg-white/10 px-2 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/55">Current team</span>}</div>{mascot && <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-white/40">{mascot}</p>}</div></div>;
+                const teamContent = <div className="flex items-center gap-4">{school ? <SchoolBadge school={school} size="xs" /> : <FallbackBadge label={displayName} />}<div className="min-w-0"><div className="flex min-w-0 items-center gap-2"><p className="truncate font-black text-white">{displayName}</p>{isCurrent && <span className="shrink-0 rounded-full border border-white/10 bg-white/10 px-2 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/55">Current team</span>}</div>{mascot && <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-white/40">{mascot}</p>}</div></div>;
                 return <tr key={team.schoolSlug} className="border-t border-white/10 transition hover:bg-white/[0.06]" style={isCurrent ? { background: `${theme.primary}14`, boxShadow: `inset 4px 0 0 ${theme.primary}` } : undefined}>
-                  {districtStarted && <td className="px-5 py-4 font-black text-white"><span>{getStandingPosition(displayed, index)}</span></td>}
+                  {districtStarted && <td className="px-5 py-4 font-black tabular-nums text-white"><span>{getStandingPosition(displayed, index)}</span></td>}
                   <td className="px-5 py-4">{school ? <Link href={`/schools/${team.schoolSlug}`} className="block text-white transition hover:text-white/70">{teamContent}</Link> : teamContent}</td>
-                  <td className="px-5 py-4 font-black text-white">{districtStarted ? `${team.districtWins}-${team.districtLosses}` : "—"}</td><td className="px-5 py-4 font-black text-white/70">{team.overallRecordKnown ? `${team.overallWins}-${team.overallLosses}` : "—"}</td><td className="px-5 py-4 font-black text-white/70">{team.pointsFor || team.pointsAgainst ? team.pointsFor : "—"}</td><td className="px-5 py-4 font-black text-white/70">{team.pointsFor || team.pointsAgainst ? team.pointsAgainst : "—"}</td><td className="px-5 py-4 font-black text-white">{team.pointsFor || team.pointsAgainst ? `${differential > 0 ? "+" : ""}${differential}` : "—"}</td>
+                  <td className="px-5 py-4 font-black tabular-nums text-white">{districtStarted ? `${team.districtWins}-${team.districtLosses}` : "—"}</td><td className="px-5 py-4 font-black tabular-nums text-white/70">{team.overallRecordKnown ? `${team.overallWins}-${team.overallLosses}` : "—"}</td><td className="px-5 py-4 font-black tabular-nums text-white/70">{team.pointsFor || team.pointsAgainst ? team.pointsFor : "—"}</td><td className="px-5 py-4 font-black tabular-nums text-white/70">{team.pointsFor || team.pointsAgainst ? team.pointsAgainst : "—"}</td><td className="px-5 py-4 font-black tabular-nums text-white">{team.pointsFor || team.pointsAgainst ? `${differential > 0 ? "+" : ""}${differential}` : "—"}</td>
                 </tr>;
               })}</tbody>
             </table>
