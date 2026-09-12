@@ -15,6 +15,7 @@ const logoBySlug: Record<string, string> = {
   goldthwaite: "/logos/schools/goldthwaite.png",
   albany: "/logos/schools/albany.png",
   stamford: "/logos/schools/stamford.png",
+  hawley: "/logos/schools/hawley.png",
   stephenville: "/logos/schools/stephenville.png",
   santo: "/logos/schools/santo-final.webp",
 };
