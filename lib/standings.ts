@@ -30,7 +30,7 @@ type VerifiedStandingOverride = RecordOverride & {
 // layered on top so the snapshot can never hide later results.
 const verifiedStandingOverrides: Record<string, VerifiedStandingOverride> = {
   hamlin: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 74, pointsAgainst: 56, throughWeek: 2 },
-  miles: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0 },
+  miles: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 33, pointsAgainst: 29, throughWeek: 2 },
   winters: { overallWins: 0, overallLosses: 2, districtWins: 0, districtLosses: 0, pointsFor: 8, pointsAgainst: 53, throughWeek: 2 },
 
   // District 5-3A Division II, verified through Week 2.
