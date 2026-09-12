@@ -3,6 +3,7 @@ import { applyVerifiedGames } from "@/data/verified-games";
 import { week2GameAdditions } from "@/data/week2-game-additions";
 import { santoGames } from "@/data/santo-games";
 import { liveGameAdditions } from "@/data/live-game-additions";
+import { lateWeek3Results } from "@/data/late-week3-results";
 import { getSchoolBySlug } from "@/lib/schools";
 import type { Game } from "@/types/platform";
 
@@ -32,7 +33,7 @@ const baseGames = [
 ];
 
 const gamesById = new Map(baseGames.map((game) => [game.id, game]));
-for (const liveGame of liveGameAdditions) {
+for (const liveGame of [...liveGameAdditions, ...lateWeek3Results]) {
   const existing = gamesById.get(liveGame.id);
   gamesById.set(liveGame.id, existing ? { ...existing, ...liveGame } : liveGame);
 }
