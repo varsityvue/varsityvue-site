@@ -10,6 +10,7 @@ export const revalidate = 300;
 const siteTitle = "VarsityVue | Texas High School Football Scores & Coverage";
 const siteDescription =
   "Texas high school football scores, schedules, standings, school hubs, matchup pages, player statistics, and local coverage on VarsityVue.";
+const socialImage = "/opengraph-image";
 
 export const metadata: Metadata = {
   title: {
@@ -50,11 +51,20 @@ export const metadata: Metadata = {
     url: "https://varsityvue.com",
     siteName: "VarsityVue",
     type: "website",
+    images: [
+      {
+        url: socialImage,
+        width: 1200,
+        height: 630,
+        alt: "VarsityVue Texas high school football scores, stats, school hubs, and local coverage",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
+    images: [socialImage],
   },
 };
 
