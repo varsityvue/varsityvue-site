@@ -331,6 +331,8 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
                     const homeSchool = game.homeSchoolSlug
                       ? getSchoolBySlug(game.homeSchoolSlug)
                       : undefined;
+                    const awayDisplayName = awaySchool?.name ?? getTeamName(game.awayTeam);
+                    const homeDisplayName = homeSchool?.name ?? getTeamName(game.homeTeam);
 
                     return (
                       <Link
@@ -351,21 +353,21 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
                           {awaySchool ? (
                             <SchoolBadge school={awaySchool} size="xs" />
                           ) : (
-                            <MiniTeamBadge label={getTeamName(game.awayTeam)} />
+                            <MiniTeamBadge label={awayDisplayName} />
                           )}
                           <div>
                             <p className="text-xs font-black uppercase tracking-[0.14em] text-white/35">Away</p>
-                            <p className="font-black text-white">{getTeamName(game.awayTeam)}</p>
+                            <p className="font-black text-white">{awayDisplayName}</p>
                           </div>
 
                           {homeSchool ? (
                             <SchoolBadge school={homeSchool} size="xs" />
                           ) : (
-                            <MiniTeamBadge label={getTeamName(game.homeTeam)} />
+                            <MiniTeamBadge label={homeDisplayName} />
                           )}
                           <div>
                             <p className="text-xs font-black uppercase tracking-[0.14em] text-white/35">Home</p>
-                            <p className="font-black text-white">{getTeamName(game.homeTeam)}</p>
+                            <p className="font-black text-white">{homeDisplayName}</p>
                           </div>
                         </div>
 
