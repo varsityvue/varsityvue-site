@@ -49,9 +49,7 @@ for (const verifiedGame of [
   );
 }
 
-const rawGames = Array.from(gamesById.values())
-  .map(applyEditorialGameFlags)
-  .map(applySchoolBroadcasts);
+const rawGames = Array.from(gamesById.values()).map(applyEditorialGameFlags);
 
 const CENTRAL_TIME_ZONE = "America/Chicago";
 
@@ -122,7 +120,9 @@ function normalizeGameStatus(game: Game, now = new Date()): Game {
 }
 
 function getNormalizedGames(now = new Date()) {
-  return rawGames.map((game) => normalizeGameStatus(game, now));
+  return rawGames
+    .map((game) => normalizeGameStatus(game, now))
+    .map(applySchoolBroadcasts);
 }
 
 function assertNoDuplicateGameIds() {
