@@ -8,6 +8,7 @@ import type { Game } from "@/types/platform";
 
 const GAME_OF_THE_WEEK_IDS = new Set(["stamford-at-hawley-2026-week-3"]);
 const santoGameIds = new Set(santoGames.map((game) => game.id));
+const AUTO_LIVE_WINDOW_MS = 4 * 60 * 60 * 1000;
 
 function applyEditorialGameFlags(game: Game): Game {
   if (!GAME_OF_THE_WEEK_IDS.has(game.id)) return game;
@@ -81,7 +82,18 @@ function normalizeGameStatus(game: Game, now = new Date()): Game {
   }
 
   const timestamp = getGameTimestamp(game);
-  if (timestamp !== Number.MAX_SAFE_INTEGER && timestamp < now.getTime()) {
+  if (timestamp === Number.MAX_SAFE_INTEGER) return game;
+
+  const elapsed = now.getTime() - timestamp;
+  if (elapsed >= 0 && elapsed <= AUTO_LIVE_WINDOW_MS) {
+    return {
+      ...game,
+      status: "live",
+      coverageStatus: game.coverageStatus === "none" ? "live" : game.coverageStatus,
+    };
+  }
+
+  if (elapsed > AUTO_LIVE_WINDOW_MS) {
     return markPastUnverifiedGame(game);
   }
 
@@ -148,8 +160,6 @@ function assertDistrictGameSchoolReferences() {
       ? getSchoolBySlug(game.awaySchoolSlug)
       : undefined;
 
-    // Missing and generic opponent profiles are intentionally incomplete and
-    // cannot be district-validated yet. Fully modeled schools must still match.
     if (!homeSchool || !awaySchool) continue;
     if (homeSchool.districtId === "opponent" || awaySchool.districtId === "opponent") {
       continue;
