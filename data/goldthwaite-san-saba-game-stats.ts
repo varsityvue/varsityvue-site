@@ -1,0 +1,72 @@
+import type { GameStats } from "@/data/game-stats";
+
+export const goldthwaiteSanSabaGameStats: GameStats[] = [
+  {
+    gameId: "goldthwaite-at-san-saba-2026-week-3",
+    season: 2026,
+    sourceStatus: "verified",
+    sourceLabel: "VarsityVue Verified Stats",
+    quarterScores: [
+      { schoolSlug: "san-saba", quarters: [10, 0, 0, 7], total: 17 },
+      { schoolSlug: "goldthwaite", quarters: [7, 14, 0, 14], total: 35 },
+    ],
+    scoringPlays: [
+      { quarter: 1, clock: "10:06", schoolSlug: "goldthwaite", description: "Landry Sanderson 49-yard rushing touchdown (Blake Howard kick)" },
+      { quarter: 1, clock: "03:09", schoolSlug: "san-saba", description: "Brandon Gonzalez 43-yard field goal" },
+      { quarter: 1, clock: "02:09", schoolSlug: "san-saba", description: "Jason Everett 17-yard rushing touchdown (Brandon Gonzalez kick)" },
+      { quarter: 2, clock: "08:56", schoolSlug: "goldthwaite", description: "Aidyn Lee 84-yard punt return touchdown (Blake Howard kick)" },
+      { quarter: 2, clock: "05:17", schoolSlug: "goldthwaite", description: "Owen Campbell 2-yard touchdown reception from Hayes Greenway (Blake Howard kick)" },
+      { quarter: 4, clock: "08:16", schoolSlug: "goldthwaite", description: "Hayes Greenway 2-yard rushing touchdown (Blake Howard kick)" },
+      { quarter: 4, clock: "05:24", schoolSlug: "san-saba", description: "Jason Everett 43-yard rushing touchdown (Brandon Gonzalez kick)" },
+      { quarter: 4, clock: "02:45", schoolSlug: "goldthwaite", description: "Hayes Greenway 5-yard rushing touchdown (Blake Howard kick)" },
+    ],
+    teamStats: [
+      {
+        schoolSlug: "goldthwaite",
+        firstDowns: 13,
+        rushingAttempts: 34,
+        rushingYards: 204,
+        passingYards: 15,
+        totalYards: 219,
+        completions: 3,
+        passAttempts: 11,
+        interceptionsThrown: 1,
+        fumblesLost: 1,
+        penalties: 6,
+        penaltyYards: 50,
+      },
+      {
+        schoolSlug: "san-saba",
+        firstDowns: 9,
+        rushingAttempts: 32,
+        rushingYards: 177,
+        passingYards: 39,
+        totalYards: 216,
+        completions: 6,
+        passAttempts: 10,
+        interceptionsThrown: 0,
+        fumblesLost: 1,
+        penalties: 5,
+        penaltyYards: 55,
+      },
+    ],
+    rushing: [
+      { player: "Landry Sanderson", schoolSlug: "goldthwaite", attempts: 18, yards: 158, touchdowns: 1 },
+      { player: "Hayes Greenway", schoolSlug: "goldthwaite", attempts: 13, yards: 39, touchdowns: 2 },
+      { player: "Owen Campbell", schoolSlug: "goldthwaite", attempts: 3, yards: 7, touchdowns: 0 },
+      { player: "Jason Everett", schoolSlug: "san-saba", attempts: 12, yards: 93, touchdowns: 2 },
+      { player: "Graden Lebow", schoolSlug: "san-saba", attempts: 10, yards: 85, touchdowns: 0 },
+      { player: "Enrique Mendoza", schoolSlug: "san-saba", attempts: 7, yards: -5, touchdowns: 0 },
+      { player: "Melvin Umble", schoolSlug: "san-saba", attempts: 3, yards: 4, touchdowns: 0 },
+    ],
+    passing: [
+      { player: "Hayes Greenway", schoolSlug: "goldthwaite", completions: 3, attempts: 11, yards: 15, touchdowns: 1, interceptions: 1 },
+      { player: "Jason Everett", schoolSlug: "san-saba", completions: 4, attempts: 7, yards: 24, touchdowns: 0, interceptions: 0 },
+    ],
+    receiving: [
+      { player: "Owen Campbell", schoolSlug: "goldthwaite", receptions: 1, yards: 2, touchdowns: 1 },
+      { player: "Talen Gardner", schoolSlug: "goldthwaite", receptions: 1, yards: 9, touchdowns: 0 },
+      { player: "Aidyn Lee", schoolSlug: "goldthwaite", receptions: 1, yards: 4, touchdowns: 0 },
+    ],
+  },
+];
