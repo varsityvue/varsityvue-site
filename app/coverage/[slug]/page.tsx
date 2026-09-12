@@ -185,7 +185,22 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
             <div className="border-t border-white/10 pt-6 sm:pt-8">
               <div className="space-y-5 text-[17px] leading-8 text-white/78 sm:space-y-7 sm:text-lg sm:leading-8">
-                {article.body.split("\n").map((paragraph) => paragraph.trim()).filter(Boolean).map((paragraph, index) => <p key={`${article.id}-paragraph-${index}`}>{paragraph}</p>)}
+                {article.body
+                  .split("\n")
+                  .map((paragraph) => paragraph.trim())
+                  .filter(Boolean)
+                  .map((paragraph, index) =>
+                    paragraph.startsWith("## ") ? (
+                      <h2
+                        key={`${article.id}-heading-${index}`}
+                        className="mt-8 border-l-4 border-[var(--vv-accent)] pl-4 text-2xl font-black leading-tight tracking-tight text-white sm:mt-10 sm:text-3xl"
+                      >
+                        {paragraph.slice(3)}
+                      </h2>
+                    ) : (
+                      <p key={`${article.id}-paragraph-${index}`}>{paragraph}</p>
+                    )
+                  )}
               </div>
             </div>
 
