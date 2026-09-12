@@ -103,6 +103,22 @@ export default function Home() {
   const awayScore = featuredGame?.awayScore ?? featuredGame?.score?.away;
   const homeScore = featuredGame?.homeScore ?? featuredGame?.score?.home;
   const featuredGameFinal = featuredGame?.status === "final";
+  const hasFeaturedFinalScore =
+    featuredGameFinal && awayScore !== undefined && homeScore !== undefined;
+  const awayResult = hasFeaturedFinalScore
+    ? awayScore > homeScore
+      ? "W"
+      : awayScore < homeScore
+        ? "L"
+        : undefined
+    : undefined;
+  const homeResult = hasFeaturedFinalScore
+    ? homeScore > awayScore
+      ? "W"
+      : homeScore < awayScore
+        ? "L"
+        : undefined
+    : undefined;
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] text-white">
@@ -130,6 +146,7 @@ export default function Home() {
                       team={featuredGame.awayTeam ?? "Away"}
                       standing={featuredAwayStanding}
                       align="left"
+                      result={awayResult}
                     />
 
                     <div className="flex min-w-[120px] flex-col items-center justify-center py-2 md:px-4">
@@ -141,11 +158,11 @@ export default function Home() {
                             Final
                           </p>
                           <div className="mt-2 flex items-center gap-3">
-                            <span className="text-5xl font-black leading-none text-white md:text-6xl">
+                            <span className={`text-5xl font-black leading-none md:text-6xl ${awayResult === "L" ? "text-white/55" : "text-white"}`}>
                               {awayScore}
                             </span>
                             <span className="text-2xl font-black text-white/25">—</span>
-                            <span className="text-5xl font-black leading-none text-white md:text-6xl">
+                            <span className={`text-5xl font-black leading-none md:text-6xl ${homeResult === "L" ? "text-white/55" : "text-white"}`}>
                               {homeScore}
                             </span>
                           </div>
@@ -162,6 +179,7 @@ export default function Home() {
                       team={featuredGame.homeTeam ?? "Home"}
                       standing={featuredHomeStanding}
                       align="right"
+                      result={homeResult}
                     />
                   </div>
 
@@ -297,11 +315,13 @@ function HeroTeam({
   team,
   standing,
   align,
+  result,
 }: {
   school?: ReturnType<typeof getSchoolBySlug>;
   team: string;
   standing?: ReturnType<typeof getStandingForSchool>;
   align: "left" | "right";
+  result?: "W" | "L";
 }) {
   const teamNameSize =
     team.length >= 11
@@ -309,17 +329,25 @@ function HeroTeam({
       : team.length >= 8
         ? "text-3xl lg:text-4xl xl:text-4xl"
         : "text-4xl lg:text-5xl xl:text-6xl";
+  const isLoser = result === "L";
 
   return (
-    <div data-side={align} className="min-w-0 text-center">
+    <div data-side={align} className={`min-w-0 text-center transition-opacity ${isLoser ? "opacity-60" : "opacity-100"}`}>
       {school && (
         <div className="mb-3 flex justify-center sm:mb-4">
           <ProgramLogo school={school} size="sm" />
         </div>
       )}
-      <h2 className={`${teamNameSize} font-black uppercase leading-none tracking-tight text-white`}>
-        {team}
-      </h2>
+      <div className="flex items-center justify-center gap-2 sm:gap-3">
+        <h2 className={`${teamNameSize} font-black uppercase leading-none tracking-tight text-white`}>
+          {team}
+        </h2>
+        {result && (
+          <span className={`inline-flex h-7 min-w-7 items-center justify-center rounded-full border px-2 text-xs font-black ${result === "W" ? "border-emerald-400/35 bg-emerald-400/15 text-emerald-300" : "border-white/15 bg-white/[0.06] text-white/55"}`}>
+            {result}
+          </span>
+        )}
+      </div>
       {school?.mascot && (
         <p className="mt-2 text-sm font-black uppercase tracking-[0.22em] text-white/45">
           {school.mascot}
