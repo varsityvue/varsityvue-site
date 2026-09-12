@@ -2,6 +2,7 @@ import { games as scheduledGames } from "@/data/games";
 import { applyVerifiedGames } from "@/data/verified-games";
 import { week2GameAdditions } from "@/data/week2-game-additions";
 import { santoGames } from "@/data/santo-games";
+import { liveGameAdditions } from "@/data/live-game-additions";
 import { getSchoolBySlug } from "@/lib/schools";
 import type { Game } from "@/types/platform";
 
@@ -27,6 +28,7 @@ const rawGames = [
   ...verifiedScheduledGames,
   ...week2GameAdditions,
   ...santoGames,
+  ...liveGameAdditions,
 ].map(applyEditorialGameFlags);
 
 const CENTRAL_TIME_ZONE = "America/Chicago";
