@@ -17,7 +17,7 @@ export const liveGameAdditions: Game[] = [
     homeScore: 42,
     awayScore: 7,
     score: { home: 42, away: 7, period: "Final" },
-    coverageStatus: "final",
+    coverageStatus: "none",
     sourceStatus: "verified",
     sourceLabel: "VarsityVue final score",
   },
