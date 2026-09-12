@@ -1,10 +1,19 @@
 import { districts } from "@/data/districts";
+import { districtSchoolAdditions } from "@/data/district-school-additions";
 import { schools as baseSchools } from "@/data/schools";
 import { santoSchool } from "@/data/santo-school";
 
+const supplementalSchools = [...districtSchoolAdditions, santoSchool];
+const supplementalSchoolSlugs = new Set(supplementalSchools.map((school) => school.slug));
+const supplementalSchoolIds = new Set(supplementalSchools.map((school) => school.id));
+
 const schools = [
-  ...baseSchools.filter((school) => school.slug !== santoSchool.slug && school.id !== santoSchool.id),
-  santoSchool,
+  ...baseSchools.filter(
+    (school) =>
+      !supplementalSchoolSlugs.has(school.slug) &&
+      !supplementalSchoolIds.has(school.id)
+  ),
+  ...supplementalSchools,
 ];
 
 const SCHOOL_COLOR_OVERRIDES: Record<string, { primary?: string; secondary?: string; accent?: string }> = {
