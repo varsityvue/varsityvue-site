@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import SiteHeader from "../components/SiteHeader";
@@ -18,6 +18,12 @@ export const metadata: Metadata = {
   },
   description: siteDescription,
   metadataBase: new URL("https://varsityvue.com"),
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    title: "VarsityVue",
+    statusBarStyle: "black-translucent",
+  },
   openGraph: {
     title: siteTitle,
     description: siteDescription,
@@ -30,6 +36,11 @@ export const metadata: Metadata = {
     title: siteTitle,
     description: siteDescription,
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#8B1020",
+  colorScheme: "dark",
 };
 
 const organizationSchema = {
