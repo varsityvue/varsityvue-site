@@ -88,7 +88,7 @@ export const stephenvilleGameStats: GameStats[] = [
       { player: "Adan Jergins", schoolSlug: "stephenville", receptions: 2, yards: 59, touchdowns: 2 },
       { player: "Pecos Tally", schoolSlug: "stephenville", receptions: 2, yards: 32, touchdowns: 0 },
       { player: "Caden Monk", schoolSlug: "stephenville", receptions: 7, yards: 101, touchdowns: 0 },
-      { player: "H. Devivo", schoolSlug: "stephenville", receptions: 1, yards: 5, touchdowns: 1 },
+      { player: "Hudson Devivo", schoolSlug: "stephenville", receptions: 1, yards: 5, touchdowns: 1 },
     ],
   },
 ];
