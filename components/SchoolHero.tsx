@@ -4,6 +4,7 @@ import { getUpcomingGamesForSchool } from "@/lib/games";
 import { getDistrictById } from "@/lib/districts";
 import { getSchoolBySlug } from "@/lib/schools";
 import { getSchoolRecord } from "@/lib/records";
+import { getStadiumAddress } from "@/data/stadium-locations";
 import SchoolBadge from "./SchoolBadge";
 import ProgramLogo from "./ProgramLogo";
 
@@ -24,9 +25,9 @@ function formatGameDate(kickoff?: string) { const parsedDate = parseGameDate(kic
 function formatGameTime(kickoff?: string) { if (!kickoff || !kickoff.includes("T")) return "Time TBD"; const parsedDate = parseGameDate(kickoff); if (!parsedDate) return "Time TBD"; return new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/Chicago" }).format(parsedDate); }
 function getWeekLabel(gameType: string, week?: number) { if (gameType === "playoff") return "Playoff"; if (gameType === "scrimmage") return "Scrimmage"; if (gameType === "bye") return "BYE"; return week === undefined ? "Week TBD" : `Week ${week}`; }
 function getStadiumMapUrl(school: School) {
-  if (!school.stadium) return undefined;
-  const query = `${school.stadium}, ${school.name}, Texas`;
-  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+  const stadiumAddress = school.stadiumAddress?.trim() || getStadiumAddress(school.slug);
+  if (!stadiumAddress) return undefined;
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(stadiumAddress)}`;
 }
 function getGameMapUrl(game: { venue?: string; venueAddress?: string; homeTeam?: string }) {
   const query = game.venueAddress?.trim() || [game.venue, game.homeTeam, "Texas"].filter(Boolean).join(" ");
