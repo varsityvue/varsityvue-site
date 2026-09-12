@@ -158,11 +158,11 @@ export default function Home() {
                             Final
                           </p>
                           <div className="mt-2 flex items-center gap-3">
-                            <span className={`text-5xl font-black leading-none md:text-6xl ${awayResult === "L" ? "text-white/55" : "text-white"}`}>
+                            <span className="text-5xl font-black leading-none text-white md:text-6xl">
                               {awayScore}
                             </span>
                             <span className="text-2xl font-black text-white/25">—</span>
-                            <span className={`text-5xl font-black leading-none md:text-6xl ${homeResult === "L" ? "text-white/55" : "text-white"}`}>
+                            <span className="text-5xl font-black leading-none text-white md:text-6xl">
                               {homeScore}
                             </span>
                           </div>
@@ -329,10 +329,9 @@ function HeroTeam({
       : team.length >= 8
         ? "text-3xl lg:text-4xl xl:text-4xl"
         : "text-4xl lg:text-5xl xl:text-6xl";
-  const isLoser = result === "L";
 
   return (
-    <div data-side={align} className={`min-w-0 text-center transition-opacity ${isLoser ? "opacity-60" : "opacity-100"}`}>
+    <div data-side={align} className="min-w-0 text-center">
       {school && (
         <div className="mb-3 flex justify-center sm:mb-4">
           <ProgramLogo school={school} size="sm" />
