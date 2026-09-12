@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import PageHero from "@/components/PageHero";
 import { districts } from "../../data/districts";
 import { schools } from "../../data/schools";
 
@@ -51,37 +52,19 @@ export default function DistrictsPage() {
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] text-white">
-      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.62),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-[1440px]">
-          <div className="rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl md:p-8">
-            <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-white/70">
-              VarsityVue District Directory
-            </p>
-
-            <div className="mt-5">
-              <h1 className="text-4xl font-black leading-tight tracking-tight sm:text-6xl">
-                Find your district.
-              </h1>
-
-              <p className="mt-4 max-w-3xl text-base leading-7 text-white/60 sm:text-lg">
-                Browse featured Texas high school football district hubs by classification,
-                then open a district for member schools, schedules, standings,
-                matchups, and coverage currently available on VarsityVue.
-              </p>
-            </div>
-          </div>
-
-          <section className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <PageHero
+        eyebrow="VarsityVue District Directory"
+        title="Find your district."
+        description="Browse featured Texas high school football district hubs by classification, then open a district for member schools, schedules, standings, matchups, and coverage currently available on VarsityVue."
+        footer={
+          <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Featured Districts" value={featuredDistricts.length.toString()} />
             <StatCard label="Featured Programs" value={featuredSchools.length.toString()} />
-            <StatCard
-              label="Classifications"
-              value={representedClassifications.toString()}
-            />
+            <StatCard label="Classifications" value={representedClassifications.toString()} />
             <StatCard label="Season" value="2026" />
           </section>
-        </div>
-      </section>
+        }
+      />
 
       <section className="px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-[1440px] space-y-8">
@@ -145,14 +128,8 @@ export default function DistrictsPage() {
                         </p>
 
                         <div className="mt-5 grid grid-cols-2 gap-3">
-                          <MiniStat
-                            label="Featured Programs"
-                            value={schoolCount.toString()}
-                          />
-                          <MiniStat
-                            label="Region"
-                            value={`Region ${district.uilRegion}`}
-                          />
+                          <MiniStat label="Featured Programs" value={schoolCount.toString()} />
+                          <MiniStat label="Region" value={`Region ${district.uilRegion}`} />
                         </div>
 
                         <p className="mt-6 text-sm font-black uppercase tracking-[0.14em] text-white/70 transition group-hover:text-white">
