@@ -23,6 +23,11 @@ function parseGameDate(kickoff?: string) { if (!kickoff) return null; if (!kicko
 function formatGameDate(kickoff?: string) { const parsedDate = parseGameDate(kickoff); if (!parsedDate) return "TBD"; return new Intl.DateTimeFormat("en-US", { weekday: "short", month: "short", day: "numeric", timeZone: "America/Chicago" }).format(parsedDate); }
 function formatGameTime(kickoff?: string) { if (!kickoff || !kickoff.includes("T")) return "Time TBD"; const parsedDate = parseGameDate(kickoff); if (!parsedDate) return "Time TBD"; return new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/Chicago" }).format(parsedDate); }
 function getWeekLabel(gameType: string, week?: number) { if (gameType === "playoff") return "Playoff"; if (gameType === "scrimmage") return "Scrimmage"; if (gameType === "bye") return "BYE"; return week === undefined ? "Week TBD" : `Week ${week}`; }
+function getStadiumMapUrl(school: School) {
+  if (!school.stadium) return undefined;
+  const query = `${school.stadium}, ${school.name}, Texas`;
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+}
 
 export default function SchoolHero({ school }: { school: School }) {
   const upcomingGames = getUpcomingGamesForSchool(school.slug); const nextGame = upcomingGames[0];
@@ -32,6 +37,7 @@ export default function SchoolHero({ school }: { school: School }) {
   const primary = school.colors.primary; const secondary = school.colors.secondary;
   const longSchoolName = school.name.length > 10;
   const programDescription = school.description ?? "Schedules, scores, standings, matchup coverage, player statistics, and program updates in one place.";
+  const stadiumMapUrl = getStadiumMapUrl(school);
   return (
     <section className="relative overflow-hidden border-b border-white/10 text-white" style={{ background: `radial-gradient(circle at top left, ${primary}66 0%, transparent 32%), radial-gradient(circle at top right, ${secondary}22 0%, transparent 34%), linear-gradient(120deg, #050505 0%, #080808 52%, #000000 100%)` }}>
       {school.stadiumImageUrl && <div className="absolute inset-0 bg-cover bg-center-top opacity-40" style={{ backgroundImage: `url(${school.stadiumImageUrl})` }} />}
@@ -47,9 +53,8 @@ export default function SchoolHero({ school }: { school: School }) {
               <p className="truncate text-[10px] font-black uppercase tracking-[0.22em] text-white/40 sm:text-xs sm:tracking-[0.28em]">{school.fullName}</p>
               <h1 className={`mt-2 font-black uppercase leading-[0.92] tracking-tight text-white ${longSchoolName ? "text-4xl sm:text-5xl lg:text-6xl xl:text-7xl" : "text-4xl sm:text-7xl xl:text-8xl"}`}>{school.name}</h1>
               <div className="mt-3 flex flex-wrap gap-2 sm:mt-4">
-                <IdentityPill label={school.mascot} />
                 {school.headCoach && <IdentityPill label={`Coach ${school.headCoach}`} />}
-                {school.stadium && <IdentityPill label={school.stadium} />}
+                {school.stadium && stadiumMapUrl ? <a href={stadiumMapUrl} target="_blank" rel="noopener noreferrer" title={`Open ${school.stadium} in Google Maps`} className="rounded-full border border-white/12 bg-black/35 px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.12em] text-white/65 backdrop-blur-sm transition hover:border-white/25 hover:bg-white/10 hover:text-white sm:px-3.5 sm:py-2 sm:text-[10px]">{school.stadium}</a> : school.stadium ? <IdentityPill label={school.stadium} /> : null}
               </div>
               {school.athleticDirector && school.athleticDirector !== school.headCoach && <p className="mt-2 text-[10px] font-black uppercase tracking-[0.12em] text-white/40 sm:text-xs">Athletic Director · {school.athleticDirector}</p>}
             </div>
