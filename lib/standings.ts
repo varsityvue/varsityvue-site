@@ -44,12 +44,12 @@ const verifiedStandingOverrides: Record<string, VerifiedStandingOverride> = {
   millsap: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 47, pointsAgainst: 65, throughWeek: 2 },
   "rio-vista": { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 76, pointsAgainst: 56, throughWeek: 2 },
 
-  // Santo 2026 schedule opponents, verified through Week 2.
+  // Santo 2026 schedule opponents, verified through Week 2 unless noted.
   crawford: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 28, pointsAgainst: 20, throughWeek: 2 },
   frost: { overallWins: 2, overallLosses: 0, districtWins: 0, districtLosses: 0, pointsFor: 64, pointsAgainst: 29, throughWeek: 2 },
   hubbard: { overallWins: 2, overallLosses: 0, districtWins: 0, districtLosses: 0, pointsFor: 61, pointsAgainst: 42, throughWeek: 2 },
   mart: { overallWins: 0, overallLosses: 2, districtWins: 0, districtLosses: 0, pointsFor: 0, pointsAgainst: 84, throughWeek: 2 },
-  meridian: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 45, pointsAgainst: 58, throughWeek: 2 },
+  meridian: { overallWins: 1, overallLosses: 2, districtWins: 0, districtLosses: 0, pointsFor: 72, pointsAgainst: 120, throughWeek: 3 },
   wortham: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 63, pointsAgainst: 54, throughWeek: 2 },
   haskell: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 124, pointsAgainst: 124, throughWeek: 2 },
   roscoe: { overallWins: 0, overallLosses: 2, districtWins: 0, districtLosses: 0, pointsFor: 41, pointsAgainst: 73, throughWeek: 2 },
