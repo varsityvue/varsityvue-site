@@ -23,7 +23,7 @@ export const deLeonWeek3GameStats: GameStats[] = [
         totalYards: 449,
         completions: 17,
         passAttempts: 21,
-        interceptionsThrown: 0,
+        interceptionsThrown: 1,
       },
       {
         schoolSlug: "albany",
@@ -35,7 +35,7 @@ export const deLeonWeek3GameStats: GameStats[] = [
       { player: "Ed Garcia", schoolSlug: "de-leon", attempts: 8, yards: 53, touchdowns: 1 },
     ],
     passing: [
-      { player: "Hud Price", schoolSlug: "de-leon", completions: 17, attempts: 21, yards: 158, interceptions: 0, touchdowns: 2 },
+      { player: "Hud Price", schoolSlug: "de-leon", completions: 17, attempts: 21, yards: 158, interceptions: 1, touchdowns: 2 },
     ],
     receiving: [
       { player: "Bryce Burkeen", schoolSlug: "de-leon", receptions: 13, yards: 104, touchdowns: 2 },
