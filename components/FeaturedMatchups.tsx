@@ -51,6 +51,12 @@ function getGameLabel(gameType: string, week?: number) {
   return week === undefined ? "—" : `Week ${week}`;
 }
 
+function getBroadcastActionLabel(type: string) {
+  if (type === "radio") return "Listen Live";
+  if (type === "stream" || type === "tv") return "Watch Live";
+  return "Live Coverage";
+}
+
 export default function FeaturedMatchups() {
   const gameOfTheWeek = getGameOfTheWeek();
   const upcomingGames = getUpcomingScoreboardGames(8);
@@ -100,11 +106,13 @@ export default function FeaturedMatchups() {
               : undefined;
             const gameTime = formatGameTime(game.kickoff);
             const isGameOfTheWeek = game.id === upcomingGameOfTheWeek?.id;
+            const broadcastLinks = (game.mediaLinks ?? []).filter((link) =>
+              ["radio", "stream", "tv", "coverage"].includes(link.type),
+            );
 
             return (
-              <Link
+              <article
                 key={game.id}
-                href={`/games/${game.id}`}
                 className="group overflow-hidden rounded-[1.5rem] border border-white/10 border-t-4 border-t-[var(--vv-primary)] bg-black/35 transition hover:-translate-y-1 hover:bg-white/[0.07]"
               >
                 <div className="p-5">
@@ -148,11 +156,31 @@ export default function FeaturedMatchups() {
                     )}
                   </div>
 
-                  <p className="mt-5 text-xs font-black uppercase tracking-[0.16em] text-white/50 transition group-hover:text-white">
+                  {broadcastLinks.length > 0 && (
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {broadcastLinks.map((link) => (
+                        <a
+                          key={`${link.type}-${link.url}`}
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center rounded-full border border-white/15 bg-white/[0.08] px-3 py-2 text-[10px] font-black uppercase tracking-[0.14em] text-white/80 transition hover:border-white/30 hover:bg-white/[0.14] hover:text-white"
+                          title={link.label}
+                        >
+                          {getBroadcastActionLabel(link.type)} ↗
+                        </a>
+                      ))}
+                    </div>
+                  )}
+
+                  <Link
+                    href={`/games/${game.id}`}
+                    className="mt-5 inline-flex text-xs font-black uppercase tracking-[0.16em] text-white/50 transition group-hover:text-white"
+                  >
                     View Matchup →
-                  </p>
+                  </Link>
                 </div>
-              </Link>
+              </article>
             );
           })}
         </div>
