@@ -11,6 +11,7 @@ import SchoolSearch from "../components/SchoolSearch";
 import FeaturedSchoolSpotlight from "@/components/PilotSchoolSpotlight";
 import FeaturedMatchups from "@/components/FeaturedMatchups";
 import FeaturedCoverage from "@/components/FeaturedCoverage";
+import ProgramLogo from "@/components/ProgramLogo";
 
 export const metadata: Metadata = {
   title: {
@@ -222,6 +223,30 @@ export default function Home() {
             </div>
           </div>
 
+          <section className="mt-4 grid gap-3 md:grid-cols-3" aria-label="Scores and schedule navigation">
+            <HomePathCard
+              eyebrow="What just happened?"
+              title="Latest Finals"
+              description="Jump straight to the newest verified results from around the coverage area."
+              href="/scoreboard#final-scores"
+              action="See Latest Finals"
+            />
+            <HomePathCard
+              eyebrow="What’s next?"
+              title="Upcoming Games"
+              description="See the next scheduled kickoffs, live games, and featured matchups."
+              href="/scoreboard#upcoming"
+              action="Open Scoreboard"
+            />
+            <HomePathCard
+              eyebrow="Earlier weeks"
+              title="Schedule + Archive"
+              description="Browse the full season board when you need a result or matchup from a prior week."
+              href="/games#all-matchups"
+              action="Browse All Weeks"
+            />
+          </section>
+
           <div className="mt-4">
             <SchoolSearch schools={schools} />
           </div>
@@ -234,6 +259,36 @@ export default function Home() {
       <FeaturedMatchups />
       <FeaturedCoverage />
     </main>
+  );
+}
+
+function HomePathCard({
+  eyebrow,
+  title,
+  description,
+  href,
+  action,
+}: {
+  eyebrow: string;
+  title: string;
+  description: string;
+  href: string;
+  action: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="group rounded-2xl border border-white/10 bg-white/[0.045] p-4 transition hover:border-white/20 hover:bg-white/[0.075]"
+    >
+      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">
+        {eyebrow}
+      </p>
+      <h2 className="mt-2 text-xl font-black text-white">{title}</h2>
+      <p className="mt-2 text-sm leading-5 text-white/50">{description}</p>
+      <p className="mt-4 text-xs font-black uppercase tracking-[0.14em] text-white/70 transition group-hover:text-white">
+        {action} →
+      </p>
+    </Link>
   );
 }
 
@@ -257,6 +312,11 @@ function HeroTeam({
 
   return (
     <div data-side={align} className="min-w-0 text-center">
+      {school && (
+        <div className="mb-3 flex justify-center sm:mb-4">
+          <ProgramLogo school={school} size="sm" />
+        </div>
+      )}
       <h2 className={`${teamNameSize} font-black uppercase leading-none tracking-tight text-white`}>
         {team}
       </h2>
