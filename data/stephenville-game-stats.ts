@@ -60,4 +60,35 @@ export const stephenvilleGameStats: GameStats[] = [
       { player: "Caden Monk", schoolSlug: "stephenville", receptions: 4, yards: 104, touchdowns: 1 },
     ],
   },
+  {
+    gameId: "lubbock-cooper-at-stephenville-2026-week-3",
+    season: 2026,
+    sourceStatus: "verified",
+    sourceLabel: "VarsityVue Verified Stats",
+    quarterScores: [
+      { schoolSlug: "lubbock-cooper", quarters: [], total: 7 },
+      { schoolSlug: "stephenville", quarters: [], total: 48 },
+    ],
+    scoringPlays: [],
+    teamStats: [
+      { schoolSlug: "stephenville", rushingAttempts: 24, rushingYards: 138, passingYards: 248, totalYards: 386, completions: 16, passAttempts: 19, interceptionsThrown: 0 },
+    ],
+    rushing: [
+      { player: "Zyler McClendon", schoolSlug: "stephenville", attempts: 12, yards: 65, touchdowns: 2 },
+      { player: "Grayson Copeland", schoolSlug: "stephenville", attempts: 1, yards: 2, touchdowns: 0 },
+      { player: "Caleb Gleason", schoolSlug: "stephenville", attempts: 5, yards: 22, touchdowns: 1 },
+      { player: "Trot Jordan", schoolSlug: "stephenville", attempts: 6, yards: 49, touchdowns: 1 },
+    ],
+    passing: [
+      { player: "Trot Jordan", schoolSlug: "stephenville", completions: 16, attempts: 19, yards: 248, interceptions: 0, touchdowns: 3 },
+    ],
+    receiving: [
+      { player: "Zyler McClendon", schoolSlug: "stephenville", receptions: 3, yards: 35, touchdowns: 0 },
+      { player: "Jhett Banuelos", schoolSlug: "stephenville", receptions: 1, yards: 12, touchdowns: 0 },
+      { player: "Adan Jergins", schoolSlug: "stephenville", receptions: 2, yards: 59, touchdowns: 2 },
+      { player: "Pecos Tally", schoolSlug: "stephenville", receptions: 2, yards: 32, touchdowns: 0 },
+      { player: "Caden Monk", schoolSlug: "stephenville", receptions: 7, yards: 101, touchdowns: 0 },
+      { player: "H. Devivo", schoolSlug: "stephenville", receptions: 1, yards: 5, touchdowns: 1 },
+    ],
+  },
 ];
