@@ -6,6 +6,7 @@ import { liveGameAdditions } from "@/data/live-game-additions";
 import { lateWeek3Results } from "@/data/late-week3-results";
 import { followedDistrictResults } from "@/data/followed-district-results";
 import { followedDistrictResultsPhase2 } from "@/data/followed-district-results-phase2";
+import { applySchoolBroadcasts } from "@/data/school-broadcasts";
 import { getSchoolBySlug } from "@/lib/schools";
 import type { Game } from "@/types/platform";
 
@@ -48,7 +49,9 @@ for (const verifiedGame of [
   );
 }
 
-const rawGames = Array.from(gamesById.values()).map(applyEditorialGameFlags);
+const rawGames = Array.from(gamesById.values())
+  .map(applyEditorialGameFlags)
+  .map(applySchoolBroadcasts);
 
 const CENTRAL_TIME_ZONE = "America/Chicago";
 
