@@ -20,6 +20,12 @@ const SCHOOL_COLOR_OVERRIDES: Record<string, { primary?: string; secondary?: str
   brownwood: { primary: "#5B0B1E" },
 };
 
+// Display-only identity patches for established school records. Keeping these
+// centralized lets standings, search, and school hubs share the same fallback badge.
+const SCHOOL_IDENTITY_OVERRIDES: Record<string, { badgeLabel?: string; badgeSubtext?: string }> = {
+  anson: { badgeLabel: "AHS", badgeSubtext: "Tigers" },
+};
+
 function assertSchoolDataIntegrity() {
   const seenSlugs = new Set<string>();
   const seenIds = new Set<string>();
@@ -61,15 +67,17 @@ assertSchoolDataIntegrity();
 
 function applySchoolOverrides<T extends (typeof schools)[number]>(school: T): T {
   const colorOverride = SCHOOL_COLOR_OVERRIDES[school.slug];
-  if (!colorOverride) return school;
+  const identityOverride = SCHOOL_IDENTITY_OVERRIDES[school.slug];
+  if (!colorOverride && !identityOverride) return school;
 
   return {
     ...school,
+    ...identityOverride,
     colors: {
       ...school.colors,
       ...colorOverride,
     },
-  };
+  } as T;
 }
 
 export function getSchools() {
