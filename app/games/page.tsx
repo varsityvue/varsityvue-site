@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getGames } from "@/lib/games";
+import type { MediaLink } from "@/types/platform";
 
 export const metadata: Metadata = {
   title: "Texas High School Football Scores, Schedules & Matchups",
@@ -234,12 +235,15 @@ export default function GamesPage() {
                     </p>
                   </div>
 
-                  <Link
-                    href={`/games/${featuredGame.id}`}
-                    className="mt-6 rounded-xl border border-white/15 bg-white/10 px-5 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
-                  >
-                    Matchup Center →
-                  </Link>
+                  <div className="mt-6 space-y-3">
+                    <BroadcastButtons links={featuredGame.mediaLinks} />
+                    <Link
+                      href={`/games/${featuredGame.id}`}
+                      className="block rounded-xl border border-white/15 bg-white/10 px-5 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
+                    >
+                      Matchup Center →
+                    </Link>
+                  </div>
                 </div>
               </div>
             </section>
@@ -270,21 +274,23 @@ export default function GamesPage() {
             {stripGames.length > 0 ? (
               <div className="flex gap-3 overflow-x-auto pb-2 pr-4">
                 {stripGames.map((game) => (
-                  <Link
+                  <div
                     key={game.id}
-                    href={`/games/${game.id}`}
-                    className="min-w-[280px] rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
+                    className="min-w-[280px] rounded-2xl border border-white/10 bg-black/35 p-4"
                   >
-                    <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[var(--vv-accent)]">
-                      {formatStatus(game.status, game.gameType)} · {getGameTypeLabel(game.gameType, game.week)}
-                    </p>
-                    <h3 className="mt-2 text-lg font-black text-white">
-                      {getAwayTeam(game)} at {getHomeTeam(game)}
-                    </h3>
-                    <p className="mt-2 text-sm text-white/45">
-                      {formatGameDate(game.kickoff)} · {formatGameTime(game.kickoff)}
-                    </p>
-                  </Link>
+                    <Link href={`/games/${game.id}`} className="block transition hover:opacity-80">
+                      <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[var(--vv-accent)]">
+                        {formatStatus(game.status, game.gameType)} · {getGameTypeLabel(game.gameType, game.week)}
+                      </p>
+                      <h3 className="mt-2 text-lg font-black text-white">
+                        {getAwayTeam(game)} at {getHomeTeam(game)}
+                      </h3>
+                      <p className="mt-2 text-sm text-white/45">
+                        {formatGameDate(game.kickoff)} · {formatGameTime(game.kickoff)}
+                      </p>
+                    </Link>
+                    <BroadcastButtons links={game.mediaLinks} compact />
+                  </div>
                 ))}
               </div>
             ) : (
@@ -307,49 +313,51 @@ export default function GamesPage() {
             {displayGames.length > 0 ? (
               <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
                 {displayGames.map((game) => (
-                  <Link
+                  <div
                     key={game.id}
-                    href={`/games/${game.id}`}
                     className="group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-xl transition hover:-translate-y-1 hover:border-[color:var(--vv-accent)]/40 hover:bg-white/[0.075]"
                   >
                     <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(139,16,32,0.38),transparent_55%)] opacity-45 transition group-hover:opacity-70" />
                     <div className="relative">
-                      <div className="flex flex-wrap gap-2">
-                        <Badge label={getGameTypeLabel(game.gameType, game.week)} />
-                        <Badge label={formatStatus(game.status, game.gameType)} />
-                        {game.districtGame && <Badge label="District" />}
-                        {game.specialEvent && <Badge label={game.specialEvent} />}
-                      </div>
+                      <Link href={`/games/${game.id}`} className="block">
+                        <div className="flex flex-wrap gap-2">
+                          <Badge label={getGameTypeLabel(game.gameType, game.week)} />
+                          <Badge label={formatStatus(game.status, game.gameType)} />
+                          {game.districtGame && <Badge label="District" />}
+                          {game.specialEvent && <Badge label={game.specialEvent} />}
+                        </div>
 
-                      <h3 className="mt-5 text-2xl font-black leading-tight text-white">
-                        {getAwayTeam(game)}
-                        <span className="block text-white/35">at</span>
-                        {getHomeTeam(game)}
-                      </h3>
+                        <h3 className="mt-5 text-2xl font-black leading-tight text-white">
+                          {getAwayTeam(game)}
+                          <span className="block text-white/35">at</span>
+                          {getHomeTeam(game)}
+                        </h3>
 
-                      <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                        <InfoCard label="Date" value={formatGameDate(game.kickoff)} />
-                        <InfoCard label="Kickoff" value={formatGameTime(game.kickoff)} />
-                      </div>
+                        <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                          <InfoCard label="Date" value={formatGameDate(game.kickoff)} />
+                          <InfoCard label="Kickoff" value={formatGameTime(game.kickoff)} />
+                        </div>
 
-                      <div className="mt-3 rounded-2xl border border-white/10 bg-black/35 p-4">
-                        <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">Venue</p>
-                        <p className="mt-2 font-black text-white">{getVenue(game)}</p>
-                      </div>
+                        <div className="mt-3 rounded-2xl border border-white/10 bg-black/35 p-4">
+                          <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">Venue</p>
+                          <p className="mt-2 font-black text-white">{getVenue(game)}</p>
+                        </div>
 
-                      {game.status === "final" &&
-                        game.homeScore !== undefined &&
-                        game.awayScore !== undefined && (
-                          <p className="mt-4 text-lg font-black text-white">
-                            Final: {game.awayScore}-{game.homeScore}
-                          </p>
-                        )}
+                        {game.status === "final" &&
+                          game.homeScore !== undefined &&
+                          game.awayScore !== undefined && (
+                            <p className="mt-4 text-lg font-black text-white">
+                              Final: {game.awayScore}-{game.homeScore}
+                            </p>
+                          )}
 
-                      <p className="mt-6 text-sm font-black uppercase tracking-[0.14em] text-[var(--vv-accent)]">
-                        Matchup Center →
-                      </p>
+                        <p className="mt-6 text-sm font-black uppercase tracking-[0.14em] text-[var(--vv-accent)]">
+                          Matchup Center →
+                        </p>
+                      </Link>
+                      <BroadcastButtons links={game.mediaLinks} />
                     </div>
-                  </Link>
+                  </div>
                 ))}
               </div>
             ) : (
@@ -361,6 +369,29 @@ export default function GamesPage() {
         </div>
       </section>
     </main>
+  );
+}
+
+function BroadcastButtons({ links, compact = false }: { links?: MediaLink[]; compact?: boolean }) {
+  const broadcasts = (links ?? []).filter((link) =>
+    ["stream", "radio", "tv"].includes(link.type)
+  );
+  if (broadcasts.length === 0) return null;
+
+  return (
+    <div className={`${compact ? "mt-3" : "mt-4"} flex flex-wrap gap-2`}>
+      {broadcasts.map((link) => (
+        <a
+          key={`${link.type}-${link.url}`}
+          href={link.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`${compact ? "px-3 py-2 text-[10px]" : "px-4 py-3 text-xs"} rounded-xl border border-white/15 bg-white/10 font-black uppercase tracking-[0.14em] text-white transition hover:bg-white/15`}
+        >
+          {link.type === "radio" ? "Listen Live" : "Watch Live"} ↗
+        </a>
+      ))}
+    </div>
   );
 }
 
