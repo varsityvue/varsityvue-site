@@ -16,13 +16,33 @@ export const metadata: Metadata = {
     default: siteTitle,
     template: "%s | VarsityVue",
   },
+  applicationName: "VarsityVue",
   description: siteDescription,
   metadataBase: new URL("https://varsityvue.com"),
   manifest: "/manifest.webmanifest",
+  icons: {
+    icon: [
+      {
+        url: "/varsityvue-v-icon-512.png",
+        sizes: "512x512",
+        type: "image/png",
+      },
+    ],
+    apple: [
+      {
+        url: "/varsityvue-v-icon-180.png",
+        sizes: "180x180",
+        type: "image/png",
+      },
+    ],
+  },
   appleWebApp: {
     capable: true,
     title: "VarsityVue",
     statusBarStyle: "black-translucent",
+  },
+  other: {
+    "apple-mobile-web-app-title": "VarsityVue",
   },
   openGraph: {
     title: siteTitle,
