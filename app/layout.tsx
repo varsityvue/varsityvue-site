@@ -30,8 +30,8 @@ export const metadata: Metadata = {
     ],
     apple: [
       {
-        url: "/apple-icon",
-        sizes: "180x180",
+        url: "/icon",
+        sizes: "512x512",
         type: "image/png",
       },
     ],
