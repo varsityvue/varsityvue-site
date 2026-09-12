@@ -125,55 +125,55 @@ export default function AreaLeaders() {
 
   return (
     <section className="px-4 py-5 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-[1440px] rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 shadow-2xl md:p-8">
+      <div className="mx-auto max-w-[1440px] rounded-[1.6rem] border border-white/10 bg-white/[0.04] p-4 shadow-2xl sm:rounded-[2rem] sm:p-6 md:p-8">
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.3em] text-white/45">
+            <p className="text-[10px] font-black uppercase tracking-[0.26em] text-white/45 sm:text-xs sm:tracking-[0.3em]">
               2026 Stat Leaders
             </p>
-            <h2 className="mt-2 text-3xl font-black text-white md:text-4xl">
+            <h2 className="mt-2 text-[1.95rem] font-black leading-[1.05] text-white sm:text-3xl md:text-4xl">
               Area Leaders
             </h2>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-white/50">
               Top performers from VarsityVue featured programs based on verified statistics currently on file.
             </p>
           </div>
-          <p className="text-xs font-black uppercase tracking-[0.16em] text-white/35">
-            Through Week 2
+          <p className="w-fit rounded-full border border-white/10 bg-black/35 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-white/40 sm:text-xs sm:tracking-[0.16em]">
+            Through Week 3
           </p>
         </div>
 
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+        <div className="mt-5 grid gap-3 sm:mt-6 sm:grid-cols-2 sm:gap-4 xl:grid-cols-5">
           {cards.map((card) => (
-            <div key={card.title} className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-black/35">
-              <div className="border-b border-white/10 bg-[linear-gradient(135deg,rgba(139,16,32,0.24),rgba(255,255,255,0.03))] px-5 py-4">
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/35">
+            <div key={card.title} className="overflow-hidden rounded-[1.35rem] border border-white/10 bg-black/35 sm:rounded-[1.5rem]">
+              <div className="border-b border-white/10 bg-[linear-gradient(135deg,rgba(139,16,32,0.24),rgba(255,255,255,0.03))] px-4 py-3.5 sm:px-5 sm:py-4">
+                <p className="text-[9px] font-black uppercase tracking-[0.18em] text-white/35 sm:text-[10px] sm:tracking-[0.2em]">
                   Top 3
                 </p>
-                <h3 className="mt-1 text-lg font-black uppercase tracking-tight text-white">
+                <h3 className="mt-1 text-base font-black uppercase tracking-tight text-white sm:text-lg">
                   {card.title}
                 </h3>
               </div>
 
               <div className="divide-y divide-white/10">
                 {card.rows.map((row, index) => (
-                  <div key={`${card.title}-${row.playerId}`} className="grid grid-cols-[28px_1fr_auto] items-center gap-3 px-4 py-4">
-                    <span className="text-lg font-black text-white/25">{index + 1}</span>
+                  <div key={`${card.title}-${row.playerId}`} className="grid grid-cols-[24px_1fr_auto] items-center gap-2.5 px-3.5 py-3.5 sm:grid-cols-[28px_1fr_auto] sm:gap-3 sm:px-4 sm:py-4">
+                    <span className="text-base font-black text-white/25 sm:text-lg">{index + 1}</span>
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-black text-white">{row.player}</p>
+                      <p className="truncate text-[13px] font-black text-white sm:text-sm">{row.player}</p>
                       <Link
                         href={`/schools/${row.schoolSlug}`}
-                        className="mt-0.5 block truncate text-[10px] font-black uppercase tracking-[0.14em] text-white/40 transition hover:text-white/70"
+                        className="mt-0.5 block truncate text-[9px] font-black uppercase tracking-[0.12em] text-white/40 transition hover:text-white/70 sm:text-[10px] sm:tracking-[0.14em]"
                       >
                         {schoolNames.get(row.schoolSlug) ?? row.schoolSlug} · {row.gamesRecorded} G
                       </Link>
-                      <p className="mt-1 truncate text-[10px] font-semibold uppercase tracking-[0.08em] text-white/30">
+                      <p className="mt-1 truncate text-[9px] font-semibold uppercase tracking-[0.06em] text-white/30 sm:text-[10px] sm:tracking-[0.08em]">
                         {row.detail}
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="text-xl font-black text-white">{number(row.value)}</p>
-                      <p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/30">
+                      <p className="text-lg font-black text-white sm:text-xl">{number(row.value)}</p>
+                      <p className="text-[8px] font-black uppercase tracking-[0.14em] text-white/30 sm:text-[9px] sm:tracking-[0.16em]">
                         {card.statLabel}
                       </p>
                     </div>
@@ -184,7 +184,7 @@ export default function AreaLeaders() {
           ))}
         </div>
 
-        <p className="mt-5 text-[11px] leading-5 text-white/35">
+        <p className="mt-4 text-[10px] leading-5 text-white/35 sm:mt-5 sm:text-[11px]">
           All-purpose yards currently include rushing plus receiving yards from verified game statistics; return yardage is not yet tracked. Total TDs include passing, rushing, and receiving touchdowns.
         </p>
       </div>
