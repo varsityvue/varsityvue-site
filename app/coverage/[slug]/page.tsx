@@ -48,6 +48,18 @@ function formatShortDate(publishedAt?: string) {
   }).format(parsed);
 }
 
+function formatShortTime(kickoff?: string) {
+  if (!kickoff?.includes("T")) return "Time TBD";
+  const parsed = parseArticleDate(kickoff);
+  if (!parsed) return "Time TBD";
+
+  return new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    timeZone: "America/Chicago",
+  }).format(parsed);
+}
+
 function formatArticleType(type: Article["type"]) {
   const labels: Record<Article["type"], string> = {
     preview: "Game Preview",
@@ -117,10 +129,21 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     })
     .slice(0, 3);
 
-  const relatedGames = getScoreboardGames()
+  const scoreboardGames = getScoreboardGames();
+  const relatedGames = scoreboardGames
     .filter((game) => article.schoolIds?.some((schoolSlug) => game.homeSchoolSlug === schoolSlug || game.awaySchoolSlug === schoolSlug))
     .filter((game) => game.gameType !== "scrimmage" && game.gameType !== "bye")
     .slice(0, 3);
+
+  const primarySchoolSlug = article.schoolIds?.[0];
+  const primarySchool = primarySchoolSlug ? getSchoolBySlug(primarySchoolSlug) : undefined;
+  const nextPrimaryGame = primarySchoolSlug
+    ? scoreboardGames.find(
+        (game) =>
+          (game.status === "upcoming" || game.status === "live") &&
+          (game.homeSchoolSlug === primarySchoolSlug || game.awaySchoolSlug === primarySchoolSlug),
+      )
+    : undefined;
 
   const schoolNames = new Set(
     relatedSchools
@@ -204,6 +227,42 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               </div>
             </div>
 
+            {(primarySchool || nextPrimaryGame) && (
+              <section className="mt-9 overflow-hidden rounded-[1.5rem] border border-[color:var(--vv-accent)]/25 bg-white/[0.055] shadow-xl sm:mt-12 sm:rounded-[1.75rem]">
+                <div className="h-1 bg-[var(--vv-primary)]" />
+                <div className="p-5 sm:p-6">
+                  <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[var(--vv-accent)]">Keep Following</p>
+                  <h2 className="mt-2 text-xl font-black text-white sm:text-2xl">
+                    {primarySchool ? `${primarySchool.name} football` : "Continue on VarsityVue"}
+                  </h2>
+
+                  {nextPrimaryGame && (
+                    <Link href={`/games/${nextPrimaryGame.id}`} className="mt-5 block rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10">
+                      <div className="flex items-center justify-between gap-4">
+                        <div>
+                          <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/40">Next Matchup</p>
+                          <p className="mt-1.5 text-base font-black text-white">{nextPrimaryGame.awayTeam} at {nextPrimaryGame.homeTeam}</p>
+                          <p className="mt-1 text-xs font-bold text-white/45">{formatShortDate(nextPrimaryGame.kickoff)} · {formatShortTime(nextPrimaryGame.kickoff)}</p>
+                        </div>
+                        <span className="shrink-0 text-xl text-white/45">→</span>
+                      </div>
+                    </Link>
+                  )}
+
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {primarySchool && (
+                      <Link href={`/schools/${primarySchool.slug}`} className="rounded-xl border border-white/10 bg-white/[0.07] px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white/75 transition hover:bg-white/12 hover:text-white">
+                        View {primarySchool.name} Hub →
+                      </Link>
+                    )}
+                    <Link href="/scoreboard" className="rounded-xl border border-white/10 bg-white/[0.07] px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white/75 transition hover:bg-white/12 hover:text-white">
+                      View Scoreboard →
+                    </Link>
+                  </div>
+                </div>
+              </section>
+            )}
+
             <div className="mt-9 border-t border-white/10 pt-6 sm:mt-12 sm:pt-7">
               <div className="flex items-center">
                 <ArticleShare title={article.title} url={articleUrl} />
@@ -262,7 +321,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                           <div className="flex items-center gap-3">{awaySchool && <SchoolBadge school={awaySchool} size="xs" />}<p className="min-w-0 flex-1 truncate text-sm font-black text-white">{game.awayTeam}</p>{awayScore !== undefined && <span className="text-sm font-black tabular-nums text-white">{awayScore}</span>}</div>
                           <div className="flex items-center gap-3">{homeSchool && <SchoolBadge school={homeSchool} size="xs" />}<p className="min-w-0 flex-1 truncate text-sm font-black text-white">{game.homeTeam}</p>{homeScore !== undefined && <span className="text-sm font-black tabular-nums text-white">{homeScore}</span>}</div>
                         </div>
-                        <p className="mt-3 text-[10px] font-bold uppercase tracking-[0.14em] text-white/35">{formatShortDate(game.date ?? "")} · View Matchup →</p>
+                        <p className="mt-3 text-[10px] font-bold uppercase tracking-[0.14em] text-white/35">{formatShortDate(game.kickoff ?? game.date ?? "")} · View Matchup →</p>
                       </Link>
                     );
                   })}
