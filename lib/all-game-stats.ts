@@ -7,6 +7,7 @@ import { comancheGameStats } from "@/data/comanche-game-stats";
 import { albanyGameStats } from "@/data/albany-game-stats";
 import { stephenvilleGameStats } from "@/data/stephenville-game-stats";
 import { santoGameStats } from "@/data/santo-game-stats";
+import { deLeonWeek3GameStats } from "@/data/de-leon-week3-game-stats";
 import { applyDeLeonStatCorrections } from "@/data/de-leon-stat-corrections";
 
 const combinedGameStats = [
@@ -19,6 +20,7 @@ const combinedGameStats = [
   ...albanyGameStats,
   ...stephenvilleGameStats,
   ...santoGameStats,
+  ...deLeonWeek3GameStats,
 ];
 
 function getGameIdentity(game: (typeof combinedGameStats)[number]) {
