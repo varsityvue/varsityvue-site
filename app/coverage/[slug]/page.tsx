@@ -228,42 +228,44 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             </div>
 
             {(primarySchool || nextPrimaryGame) && (
-              <section className="mt-9 overflow-hidden rounded-[1.5rem] border border-[color:var(--vv-accent)]/25 bg-white/[0.055] shadow-xl sm:mt-12 sm:rounded-[1.75rem]">
+              <section className="mt-7 overflow-hidden rounded-[1.35rem] border border-[color:var(--vv-accent)]/25 bg-white/[0.055] shadow-xl sm:mt-12 sm:rounded-[1.75rem]">
                 <div className="h-1 bg-[var(--vv-primary)]" />
-                <div className="p-5 sm:p-6">
-                  <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[var(--vv-accent)]">Keep Following</p>
-                  <h2 className="mt-2 text-xl font-black text-white sm:text-2xl">
-                    {primarySchool ? `${primarySchool.name} football` : "Continue on VarsityVue"}
-                  </h2>
+                <div className="p-4 sm:p-6">
+                  <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                    <p className="text-[9px] font-black uppercase tracking-[0.2em] text-[var(--vv-accent)] sm:text-[10px]">Keep Following</p>
+                    <h2 className="text-base font-black text-white sm:text-2xl">
+                      {primarySchool ? `${primarySchool.name} football` : "Continue on VarsityVue"}
+                    </h2>
+                  </div>
 
                   {nextPrimaryGame && (
-                    <Link href={`/games/${nextPrimaryGame.id}`} className="mt-5 block rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10">
-                      <div className="flex items-center justify-between gap-4">
-                        <div>
-                          <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/40">Next Matchup</p>
-                          <p className="mt-1.5 text-base font-black text-white">{nextPrimaryGame.awayTeam} at {nextPrimaryGame.homeTeam}</p>
-                          <p className="mt-1 text-xs font-bold text-white/45">{formatShortDate(nextPrimaryGame.kickoff)} · {formatShortTime(nextPrimaryGame.kickoff)}</p>
+                    <Link href={`/games/${nextPrimaryGame.id}`} className="mt-3 block rounded-xl border border-white/10 bg-black/35 px-3.5 py-3 transition hover:bg-white/10 sm:mt-5 sm:rounded-2xl sm:p-4">
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="min-w-0">
+                          <p className="text-[9px] font-black uppercase tracking-[0.15em] text-white/40 sm:text-[10px]">Next Matchup</p>
+                          <p className="mt-1 truncate text-sm font-black text-white sm:mt-1.5 sm:text-base">{nextPrimaryGame.awayTeam} at {nextPrimaryGame.homeTeam}</p>
+                          <p className="mt-0.5 text-[11px] font-bold text-white/45 sm:mt-1 sm:text-xs">{formatShortDate(nextPrimaryGame.kickoff)} · {formatShortTime(nextPrimaryGame.kickoff)}</p>
                         </div>
-                        <span className="shrink-0 text-xl text-white/45">→</span>
+                        <span className="shrink-0 text-lg text-white/45 sm:text-xl">→</span>
                       </div>
                     </Link>
                   )}
 
-                  <div className="mt-3 flex flex-wrap gap-2">
+                  <div className="mt-2.5 grid grid-cols-2 gap-2 sm:mt-3 sm:flex sm:flex-wrap">
                     {primarySchool && (
-                      <Link href={`/schools/${primarySchool.slug}`} className="rounded-xl border border-white/10 bg-white/[0.07] px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white/75 transition hover:bg-white/12 hover:text-white">
-                        View {primarySchool.name} Hub →
+                      <Link href={`/schools/${primarySchool.slug}`} className="rounded-lg border border-white/10 bg-white/[0.07] px-2.5 py-2.5 text-center text-[9px] font-black uppercase tracking-[0.08em] text-white/75 transition hover:bg-white/12 hover:text-white sm:rounded-xl sm:px-4 sm:py-3 sm:text-xs sm:tracking-[0.12em]">
+                        {primarySchool.name} Hub →
                       </Link>
                     )}
-                    <Link href="/scoreboard" className="rounded-xl border border-white/10 bg-white/[0.07] px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white/75 transition hover:bg-white/12 hover:text-white">
-                      View Scoreboard →
+                    <Link href="/scoreboard" className="rounded-lg border border-white/10 bg-white/[0.07] px-2.5 py-2.5 text-center text-[9px] font-black uppercase tracking-[0.08em] text-white/75 transition hover:bg-white/12 hover:text-white sm:rounded-xl sm:px-4 sm:py-3 sm:text-xs sm:tracking-[0.12em]">
+                      Scoreboard →
                     </Link>
                   </div>
                 </div>
               </section>
             )}
 
-            <div className="mt-9 border-t border-white/10 pt-6 sm:mt-12 sm:pt-7">
+            <div className="mt-6 border-t border-white/10 pt-5 sm:mt-12 sm:pt-7">
               <div className="flex items-center">
                 <ArticleShare title={article.title} url={articleUrl} />
               </div>
