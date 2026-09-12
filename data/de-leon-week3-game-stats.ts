@@ -44,7 +44,9 @@ export const deLeonWeek3GameStats: GameStats[] = [
     ],
     passing: [
       { player: "Hud Price", schoolSlug: "de-leon", completions: 17, attempts: 21, yards: 158, interceptions: 1, touchdowns: 2 },
-      { player: "C. Chapman", schoolSlug: "albany", completions: 11, attempts: 22, yards: 97, touchdowns: 1 },
+      // Albany's team passing line is verified at 11-of-22 for 97 yards and 1 TD.
+      // The source did not report an interception total for C. Chapman, so the
+      // individual passing line is intentionally withheld rather than inferring 0.
     ],
     receiving: [
       { player: "Bryce Burkeen", schoolSlug: "de-leon", receptions: 13, yards: 104, touchdowns: 2 },
