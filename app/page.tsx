@@ -126,21 +126,21 @@ export default function Home() {
         Texas High School Football Scores, Schedules, Standings and Local Coverage
       </h1>
 
-      <section className="border-b border-white/10 bg-[linear-gradient(120deg,#050505_0%,#090909_52%,#000_100%)] px-4 py-5 sm:px-6 lg:px-8">
+      <section className="border-b border-white/10 bg-[linear-gradient(120deg,#050505_0%,#090909_52%,#000_100%)] px-4 py-4 sm:px-6 sm:py-5 lg:px-8">
         <div className="mx-auto max-w-[1440px]">
-          <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#080808] shadow-2xl">
+          <div className="relative overflow-hidden rounded-[1.6rem] border border-white/10 bg-[#080808] shadow-2xl sm:rounded-[2rem]">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(139,16,32,0.18),transparent_34%),linear-gradient(115deg,rgba(0,0,0,0.98),rgba(0,0,0,0.82)_55%,rgba(0,0,0,0.96))]" />
 
-            <div className="relative z-10 p-5 sm:p-7 lg:p-9">
+            <div className="relative z-10 p-4 sm:p-7 lg:p-9">
               <div className="flex justify-center">
-                <p className="inline-flex items-center justify-center rounded-full border border-white/15 bg-black/50 px-4 py-2 text-center text-xs font-black uppercase tracking-[0.22em] text-white/75">
+                <p className="inline-flex items-center justify-center rounded-full border border-white/15 bg-black/50 px-3 py-1.5 text-center text-[10px] font-black uppercase tracking-[0.18em] text-white/75 sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.22em]">
                   Game of the Week
                 </p>
               </div>
 
               {featuredGame ? (
                 <>
-                  <div className="mt-6 grid items-center gap-4 md:grid-cols-[1fr_auto_1fr]">
+                  <div className="mt-5 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 sm:mt-6 sm:gap-4">
                     <HeroTeam
                       school={featuredAwaySchool}
                       team={featuredGame.awayTeam ?? "Away"}
@@ -149,26 +149,26 @@ export default function Home() {
                       result={awayResult}
                     />
 
-                    <div className="flex min-w-[120px] flex-col items-center justify-center py-2 md:px-4">
+                    <div className="flex min-w-[54px] flex-col items-center justify-center py-2 sm:min-w-[90px] md:px-4">
                       {featuredGameFinal &&
                       awayScore !== undefined &&
                       homeScore !== undefined ? (
                         <>
-                          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">
+                          <p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/40 sm:text-[10px] sm:tracking-[0.3em]">
                             Final
                           </p>
-                          <div className="mt-2 flex items-center gap-3">
-                            <span className="text-5xl font-black leading-none text-white md:text-6xl">
+                          <div className="mt-1.5 flex items-center gap-1.5 sm:mt-2 sm:gap-3">
+                            <span className="text-3xl font-black leading-none text-white sm:text-5xl md:text-6xl">
                               {awayScore}
                             </span>
-                            <span className="text-2xl font-black text-white/25">—</span>
-                            <span className="text-5xl font-black leading-none text-white md:text-6xl">
+                            <span className="text-lg font-black text-white/25 sm:text-2xl">—</span>
+                            <span className="text-3xl font-black leading-none text-white sm:text-5xl md:text-6xl">
                               {homeScore}
                             </span>
                           </div>
                         </>
                       ) : (
-                        <p className="text-sm font-black uppercase tracking-[0.3em] text-white/35">
+                        <p className="text-[11px] font-black uppercase tracking-[0.2em] text-white/35 sm:text-sm sm:tracking-[0.3em]">
                           VS
                         </p>
                       )}
@@ -183,24 +183,24 @@ export default function Home() {
                     />
                   </div>
 
-                  <div className="mt-6 text-center">
-                    <p className="text-xs font-black uppercase tracking-[0.22em] text-white/45">
+                  <div className="mt-5 text-center sm:mt-6">
+                    <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/45 sm:text-xs sm:tracking-[0.22em]">
                       {featuredGame.week !== undefined ? `Week ${featuredGame.week} · ` : ""}
                       {featuredGame.districtGame ? "District Game" : "Non-District"}
                     </p>
-                    <p className="mt-3 text-xl font-black text-white">
+                    <p className="mt-2 text-lg font-black text-white sm:mt-3 sm:text-xl">
                       {formatGameDateTime(featuredGame.kickoff)}
                     </p>
 
                     {featuredGame.venue && (
-                      <p className="mt-1.5 text-sm font-semibold text-white/50">
+                      <p className="mt-1 text-xs font-semibold text-white/50 sm:mt-1.5 sm:text-sm">
                         {featuredGame.venue}
                       </p>
                     )}
                   </div>
 
-                  <div className="mx-auto mt-6 max-w-3xl text-center">
-                    <h2 className="text-2xl font-black text-white md:text-3xl">
+                  <div className="mx-auto mt-5 max-w-3xl text-center sm:mt-6">
+                    <h2 className="text-xl font-black leading-tight text-white sm:text-2xl md:text-3xl">
                       {featuredGameFinal
                         ? featuredGame.week !== undefined
                           ? `Week ${featuredGame.week} final is on the board.`
@@ -210,7 +210,7 @@ export default function Home() {
                             ? `Week ${featuredGame.week} takes center stage.`
                             : "This matchup takes center stage.")}
                     </h2>
-                    <p className="mt-2 text-sm leading-6 text-white/55">
+                    <p className="mx-auto mt-2 max-w-2xl text-xs leading-5 text-white/55 sm:text-sm sm:leading-6">
                       {featuredGameFinal
                         ? "The verified final is posted. Visit the matchup center for the result and program links."
                         : featuredPreview?.excerpt ??
@@ -218,21 +218,21 @@ export default function Home() {
                     </p>
                   </div>
 
-                  <div className="mt-6 flex justify-center">
+                  <div className="mt-5 flex justify-center sm:mt-6">
                     <Link
                       href={`/games/${featuredGame.id}`}
-                      className="rounded-xl bg-white px-6 py-3.5 text-center text-sm font-black uppercase tracking-[0.16em] text-black transition hover:bg-white/85"
+                      className="rounded-full bg-white px-5 py-2.5 text-center text-[11px] font-black uppercase tracking-[0.14em] text-black transition hover:bg-white/85 sm:px-6 sm:py-3 sm:text-xs sm:tracking-[0.16em]"
                     >
                       {featuredGameFinal ? "View Final Result" : "View Game of the Week"}
                     </Link>
                   </div>
                 </>
               ) : (
-                <div className="py-8 text-center">
-                  <h2 className="text-5xl font-black uppercase leading-[0.9] tracking-tight text-white sm:text-7xl">
+                <div className="py-6 text-center sm:py-8">
+                  <h2 className="text-4xl font-black uppercase leading-[0.9] tracking-tight text-white sm:text-7xl">
                     The Game, Seen Smarter
                   </h2>
-                  <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-white/65">
+                  <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-white/65 sm:mt-5 sm:text-lg sm:leading-8">
                     Texas high school football hubs, verified scores, schedules,
                     district standings, player stats, and local coverage.
                   </p>
@@ -241,7 +241,7 @@ export default function Home() {
             </div>
           </div>
 
-          <section className="mt-4 grid gap-3 md:grid-cols-3" aria-label="Scores and schedule navigation">
+          <section className="mt-3 grid gap-2.5 sm:mt-4 sm:gap-3 md:grid-cols-3" aria-label="Scores and schedule navigation">
             <HomePathCard
               eyebrow="What just happened?"
               title="Latest Finals"
@@ -265,7 +265,7 @@ export default function Home() {
             />
           </section>
 
-          <div className="mt-4">
+          <div className="mt-3 sm:mt-4">
             <SchoolSearch schools={schools} />
           </div>
         </div>
@@ -296,14 +296,14 @@ function HomePathCard({
   return (
     <Link
       href={href}
-      className="group rounded-2xl border border-white/10 bg-white/[0.045] p-4 transition hover:border-white/20 hover:bg-white/[0.075]"
+      className="group rounded-[1.2rem] border border-white/10 bg-white/[0.045] p-3.5 transition hover:border-white/20 hover:bg-white/[0.075] sm:rounded-2xl sm:p-4"
     >
-      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">
+      <p className="text-[9px] font-black uppercase tracking-[0.18em] text-white/40 sm:text-[10px] sm:tracking-[0.2em]">
         {eyebrow}
       </p>
-      <h2 className="mt-2 text-xl font-black text-white">{title}</h2>
-      <p className="mt-2 text-sm leading-5 text-white/50">{description}</p>
-      <p className="mt-4 text-xs font-black uppercase tracking-[0.14em] text-white/70 transition group-hover:text-white">
+      <h2 className="mt-1.5 text-lg font-black text-white sm:mt-2 sm:text-xl">{title}</h2>
+      <p className="mt-1.5 text-xs leading-5 text-white/50 sm:mt-2 sm:text-sm">{description}</p>
+      <p className="mt-3 text-[10px] font-black uppercase tracking-[0.12em] text-white/70 transition group-hover:text-white sm:mt-4 sm:text-xs sm:tracking-[0.14em]">
         {action} →
       </p>
     </Link>
@@ -325,30 +325,30 @@ function HeroTeam({
 }) {
   const teamNameSize =
     team.length >= 11
-      ? "text-3xl lg:text-3xl xl:text-4xl"
+      ? "text-[1.05rem] sm:text-3xl lg:text-3xl xl:text-4xl"
       : team.length >= 8
-        ? "text-3xl lg:text-4xl xl:text-4xl"
-        : "text-4xl lg:text-5xl xl:text-6xl";
+        ? "text-xl sm:text-3xl lg:text-4xl xl:text-4xl"
+        : "text-2xl sm:text-4xl lg:text-5xl xl:text-6xl";
 
   return (
     <div data-side={align} className="min-w-0 text-center">
       {school && (
-        <div className="mb-3 flex justify-center sm:mb-4">
+        <div className="mb-2 flex justify-center sm:mb-4">
           <ProgramLogo school={school} size="sm" />
         </div>
       )}
-      <div className="flex items-center justify-center gap-2 sm:gap-3">
-        <h2 className={`${teamNameSize} font-black uppercase leading-none tracking-tight text-white`}>
+      <div className="flex items-center justify-center gap-1.5 sm:gap-3">
+        <h2 className={`${teamNameSize} min-w-0 break-words font-black uppercase leading-[0.95] tracking-tight text-white`}>
           {team}
         </h2>
         {result && (
-          <span className={`inline-flex h-7 min-w-7 items-center justify-center rounded-full border px-2 text-xs font-black ${result === "W" ? "border-emerald-400/35 bg-emerald-400/15 text-emerald-300" : "border-white/15 bg-white/[0.06] text-white/55"}`}>
+          <span className={`hidden h-7 min-w-7 items-center justify-center rounded-full border px-2 text-xs font-black sm:inline-flex ${result === "W" ? "border-emerald-400/35 bg-emerald-400/15 text-emerald-300" : "border-white/15 bg-white/[0.06] text-white/55"}`}>
             {result}
           </span>
         )}
       </div>
       {school?.mascot && (
-        <p className="mt-2 text-sm font-black uppercase tracking-[0.22em] text-white/45">
+        <p className="mt-1.5 truncate text-[9px] font-black uppercase tracking-[0.12em] text-white/45 sm:mt-2 sm:text-sm sm:tracking-[0.22em]">
           {school.mascot}
         </p>
       )}
@@ -379,14 +379,12 @@ function RecordLine({
     (districtWins ?? 0) > 0 || (districtLosses ?? 0) > 0;
 
   return (
-    <p className="mt-2 text-sm font-black uppercase tracking-[0.12em] text-white/55">
-      {hasOverallResult
-        ? `${overallWins ?? 0}-${overallLosses ?? 0} Overall`
-        : "Overall —"}{" "}
-      ·{" "}
-      {hasDistrictResult
-        ? `${districtWins ?? 0}-${districtLosses ?? 0} District`
-        : "District —"}
+    <p className="mt-1.5 text-[9px] font-black uppercase tracking-[0.08em] text-white/55 sm:mt-2 sm:text-sm sm:tracking-[0.12em]">
+      <span>{hasOverallResult ? `${overallWins ?? 0}-${overallLosses ?? 0}` : "—"}</span>
+      <span className="hidden sm:inline"> Overall</span>
+      <span className="mx-1 text-white/25 sm:mx-1.5">·</span>
+      <span>{hasDistrictResult ? `${districtWins ?? 0}-${districtLosses ?? 0}` : "—"}</span>
+      <span className="hidden sm:inline"> District</span>
     </p>
   );
 }
