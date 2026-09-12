@@ -115,16 +115,16 @@ export default function ScoreboardPage() {
             collapsibleWhenEmpty
           />
           <ScoreboardColumn
-            title="Upcoming"
-            description="The next scheduled kickoffs currently on file."
-            games={upcomingGames}
-            emptyText="No upcoming games listed."
-          />
-          <ScoreboardColumn
             title="Final Scores"
             description="Latest verified results from across the coverage area."
             games={finalGames}
             emptyText="No final scores posted yet."
+          />
+          <ScoreboardColumn
+            title="Upcoming"
+            description="The next scheduled kickoffs currently on file."
+            games={upcomingGames}
+            emptyText="No upcoming games listed."
           />
         </section>
       </div>
