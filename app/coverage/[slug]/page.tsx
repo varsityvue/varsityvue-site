@@ -232,12 +232,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 <div className="h-1 bg-[var(--vv-primary)]" />
                 <div className="px-4 py-3.5 sm:p-6">
                   <p className="text-[9px] font-black uppercase tracking-[0.2em] text-[var(--vv-accent)] sm:text-[10px]">Keep Following</p>
-                  <h2 className="mt-1 text-lg font-black leading-tight text-white sm:mt-2 sm:text-2xl">
-                    {primarySchool ? primarySchool.name : "Continue on VarsityVue"}
-                  </h2>
 
                   {nextPrimaryGame && (
-                    <Link href={`/games/${nextPrimaryGame.id}`} className="mt-2.5 block rounded-xl border border-white/10 bg-black/35 px-3.5 py-2.5 transition hover:bg-white/10 sm:mt-5 sm:rounded-2xl sm:p-4">
+                    <Link href={`/games/${nextPrimaryGame.id}`} className="mt-2.5 block rounded-xl border border-white/10 bg-black/35 px-3.5 py-2.5 transition hover:bg-white/10 sm:mt-4 sm:rounded-2xl sm:p-4">
                       <div className="flex items-center justify-between gap-3">
                         <div className="min-w-0">
                           <p className="text-[9px] font-black uppercase tracking-[0.15em] text-white/40 sm:text-[10px]">Next Matchup</p>
