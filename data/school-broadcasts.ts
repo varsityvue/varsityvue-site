@@ -33,9 +33,14 @@ function ruleAppliesToGame(rule: SchoolBroadcastRule, game: Game) {
 }
 
 export function applySchoolBroadcasts(game: Game): Game {
-  const inheritedLinks = schoolBroadcastRules
-    .filter((rule) => ruleAppliesToGame(rule, game))
-    .map(({ label, url, type }) => ({ label, url, type }));
+  const canInheritSchoolBroadcasts =
+    game.status === "upcoming" || game.status === "live";
+
+  const inheritedLinks = canInheritSchoolBroadcasts
+    ? schoolBroadcastRules
+        .filter((rule) => ruleAppliesToGame(rule, game))
+        .map(({ label, url, type }) => ({ label, url, type }))
+    : [];
 
   const legacyLivestreamLink: MediaLink[] = game.livestreamUrl
     ? [{ label: "Watch Live", url: game.livestreamUrl, type: "stream" }]
