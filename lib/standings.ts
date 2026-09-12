@@ -29,7 +29,7 @@ type VerifiedStandingOverride = RecordOverride & {
 // provide a verified baseline through a specific week, then newer game rows are
 // layered on top so the snapshot can never hide later results.
 const verifiedStandingOverrides: Record<string, VerifiedStandingOverride> = {
-  hamlin: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0 },
+  hamlin: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 74, pointsAgainst: 56, throughWeek: 2 },
   miles: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0 },
   winters: { overallWins: 0, overallLosses: 2, districtWins: 0, districtLosses: 0 },
 
