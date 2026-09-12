@@ -33,6 +33,17 @@ const verifiedStandingOverrides: Record<string, VerifiedStandingOverride> = {
   miles: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0 },
   winters: { overallWins: 0, overallLosses: 2, districtWins: 0, districtLosses: 0 },
 
+  // District 5-3A Division II, verified through Week 2.
+  // Week 3+ finals are layered on top automatically from the game feed.
+  comanche: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 34, pointsAgainst: 44, throughWeek: 2 },
+  eastland: { overallWins: 0, overallLosses: 2, districtWins: 0, districtLosses: 0, pointsFor: 25, pointsAgainst: 61, throughWeek: 2 },
+  hamilton: { overallWins: 0, overallLosses: 2, districtWins: 0, districtLosses: 0, pointsFor: 65, pointsAgainst: 72, throughWeek: 2 },
+  tolar: { overallWins: 0, overallLosses: 2, districtWins: 0, districtLosses: 0, pointsFor: 52, pointsAgainst: 88, throughWeek: 2 },
+  dublin: { overallWins: 0, overallLosses: 2, districtWins: 0, districtLosses: 0, pointsFor: 7, pointsAgainst: 103, throughWeek: 2 },
+  clifton: { overallWins: 2, overallLosses: 0, districtWins: 0, districtLosses: 0, pointsFor: 56, pointsAgainst: 41, throughWeek: 2 },
+  millsap: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 47, pointsAgainst: 65, throughWeek: 2 },
+  "rio-vista": { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 76, pointsAgainst: 56, throughWeek: 2 },
+
   // Santo 2026 schedule opponents, verified through Week 2.
   crawford: { overallWins: 1, overallLosses: 1, districtWins: 0, districtLosses: 0, pointsFor: 28, pointsAgainst: 20, throughWeek: 2 },
   frost: { overallWins: 2, overallLosses: 0, districtWins: 0, districtLosses: 0, pointsFor: 64, pointsAgainst: 29, throughWeek: 2 },
