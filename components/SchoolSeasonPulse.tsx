@@ -74,7 +74,8 @@ export default function SchoolSeasonPulse({
       game.homeScore !== undefined &&
       game.awayScore !== undefined
   );
-  const nextGame = getNextGameForSchool(schoolSlug);
+  const liveGame = games.find((game) => game.status === "live");
+  const featuredGame = liveGame ?? getNextGameForSchool(schoolSlug);
   const verifiedStanding = getStandingForSchool(schoolSlug);
 
   let calculatedWins = 0;
@@ -98,8 +99,13 @@ export default function SchoolSeasonPulse({
   const losses = verifiedStanding?.overallLosses ?? calculatedLosses;
   const hasScoringData = finals.length > 0;
 
-  const nextOpponent = nextGame ? getOpponent(nextGame, schoolSlug) : null;
-  const nextOpponentSchool = nextOpponent?.slug ? getSchoolBySlug(nextOpponent.slug) : undefined;
+  const featuredOpponent = featuredGame ? getOpponent(featuredGame, schoolSlug) : null;
+  const featuredOpponentSchool = featuredOpponent?.slug ? getSchoolBySlug(featuredOpponent.slug) : undefined;
+  const featuredScore = featuredGame ? getTeamScore(featuredGame, schoolSlug) : null;
+  const hasLiveScore =
+    featuredGame?.status === "live" &&
+    featuredScore?.team !== undefined &&
+    featuredScore?.opponent !== undefined;
 
   return (
     <section className="grid gap-3 sm:gap-4 lg:grid-cols-[0.95fr_1.35fr]">
@@ -156,8 +162,10 @@ export default function SchoolSeasonPulse({
       <div
         className="relative overflow-hidden rounded-[1.5rem] border p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6"
         style={{
-          borderColor: `${theme.secondary}33`,
-          background: "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.96) 62%)",
+          borderColor: featuredGame?.status === "live" ? `${theme.primary}88` : `${theme.secondary}33`,
+          background: featuredGame?.status === "live"
+            ? `linear-gradient(135deg, ${theme.primary}2e, rgba(255,255,255,0.055), rgba(0,0,0,0.96) 66%)`
+            : "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.96) 62%)",
           boxShadow: `0 18px 50px ${theme.primary}18`,
         }}
       >
@@ -167,39 +175,60 @@ export default function SchoolSeasonPulse({
         />
         <div className="relative">
           <div className="flex items-center justify-between gap-3">
-            <p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/45 sm:text-[10px] sm:tracking-[0.24em]">Next Game</p>
-            {nextGame?.districtGame && (
-              <span className="rounded-full border border-white/10 bg-white/10 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/60 sm:px-3 sm:py-1.5 sm:text-[10px] sm:tracking-[0.14em]">District</span>
-            )}
+            <p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/45 sm:text-[10px] sm:tracking-[0.24em]">
+              {featuredGame?.status === "live" ? "Live Now" : "Next Game"}
+            </p>
+            <div className="flex items-center gap-2">
+              {featuredGame?.status === "live" && (
+                <span className="rounded-full border border-red-400/30 bg-red-500/15 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-red-200 sm:px-3 sm:py-1.5 sm:text-[10px] sm:tracking-[0.14em]">Live</span>
+              )}
+              {featuredGame?.districtGame && (
+                <span className="rounded-full border border-white/10 bg-white/10 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/60 sm:px-3 sm:py-1.5 sm:text-[10px] sm:tracking-[0.14em]">District</span>
+              )}
+            </div>
           </div>
 
-          {nextGame && nextOpponent ? (
+          {featuredGame && featuredOpponent ? (
             <>
               <div className="mt-3 flex items-center gap-3 sm:mt-5 sm:gap-4">
-                {nextOpponentSchool ? <SchoolBadge school={nextOpponentSchool} size="xs" /> : null}
+                {featuredOpponentSchool ? <SchoolBadge school={featuredOpponentSchool} size="xs" /> : null}
                 <div className="min-w-0 flex-1">
-                  <h2 className="break-words text-xl font-black leading-tight text-white sm:text-2xl">{nextOpponent.name}</h2>
-                  <p className="mt-1 text-[9px] font-black uppercase tracking-[0.14em] text-white/35 sm:text-[10px] sm:tracking-[0.16em]">{nextOpponent.location} · Week {nextGame.week ?? "TBD"}</p>
+                  <h2 className="break-words text-xl font-black leading-tight text-white sm:text-2xl">{featuredOpponent.name}</h2>
+                  <p className="mt-1 text-[9px] font-black uppercase tracking-[0.14em] text-white/35 sm:text-[10px] sm:tracking-[0.16em]">{featuredOpponent.location} · Week {featuredGame.week ?? "TBD"}</p>
                 </div>
               </div>
 
-              <div className="mt-3 grid grid-cols-2 gap-2 sm:mt-5">
-                <InfoStat label="Date" value={formatDate(nextGame.kickoff)} />
-                <InfoStat label="Kickoff" value={formatTime(nextGame.kickoff)} />
-              </div>
+              {hasLiveScore && featuredScore ? (
+                <div className="mt-3 rounded-2xl border border-white/10 bg-black/35 p-4 sm:mt-5">
+                  <p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/35">Current Score</p>
+                  <div className="mt-2 flex items-end justify-between gap-4">
+                    <p className="text-3xl font-black tracking-tight text-white sm:text-4xl">
+                      {featuredScore.team} <span className="mx-1 text-white/25">—</span> {featuredScore.opponent}
+                    </p>
+                    <p className="pb-1 text-xs font-black uppercase tracking-[0.14em] text-red-200">
+                      {featuredGame.score?.period ?? "Live"}
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <div className="mt-3 grid grid-cols-2 gap-2 sm:mt-5">
+                  <InfoStat label="Date" value={formatDate(featuredGame.kickoff)} />
+                  <InfoStat label="Kickoff" value={formatTime(featuredGame.kickoff)} />
+                </div>
+              )}
 
               <div className="mt-2 flex items-center gap-2 rounded-xl border border-white/10 bg-black/20 px-3 py-2.5 sm:mt-3 sm:rounded-2xl sm:px-4 sm:py-3">
                 <span className="text-[8px] font-black uppercase tracking-[0.14em] text-white/25 sm:text-[9px]">Venue</span>
-                <span className="min-w-0 break-words text-[11px] font-black text-white/60 sm:text-xs">{nextGame.venue ?? "TBD"}</span>
+                <span className="min-w-0 break-words text-[11px] font-black text-white/60 sm:text-xs">{featuredGame.venue ?? "TBD"}</span>
               </div>
 
               <div className="mt-3 flex gap-2 sm:mt-5">
                 <Link
-                  href={`/games/${nextGame.id}`}
+                  href={`/games/${featuredGame.id}`}
                   className="rounded-full px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.1em] transition hover:opacity-90 sm:text-xs sm:tracking-[0.12em]"
                   style={{ backgroundColor: theme.secondary, color: theme.primary }}
                 >
-                  Game Center →
+                  {featuredGame.status === "live" ? "Follow Live →" : "Game Center →"}
                 </Link>
                 <Link
                   href={`/schools/${schoolSlug}/schedule`}
