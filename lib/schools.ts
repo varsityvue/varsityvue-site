@@ -24,6 +24,10 @@ const SCHOOL_COLOR_OVERRIDES: Record<string, { primary?: string; secondary?: str
 // centralized lets standings, search, and school hubs share the same fallback badge.
 const SCHOOL_IDENTITY_OVERRIDES: Record<string, { badgeLabel?: string; badgeSubtext?: string }> = {
   anson: { badgeLabel: "AHS", badgeSubtext: "Tigers" },
+  "cross-plains": { badgeLabel: "CPHS", badgeSubtext: "Buffaloes" },
+  hamlin: { badgeLabel: "HHS", badgeSubtext: "Pied Pipers" },
+  miles: { badgeLabel: "MHS", badgeSubtext: "Bulldogs" },
+  winters: { badgeLabel: "WHS", badgeSubtext: "Blizzards" },
 };
 
 function assertSchoolDataIntegrity() {
