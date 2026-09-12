@@ -64,6 +64,37 @@ export async function generateMetadata({ params }: Omit<GameLayoutProps, "childr
   };
 }
 
-export default function GameLayout({ children }: GameLayoutProps) {
-  return children;
+export default async function GameLayout({ children, params }: GameLayoutProps) {
+  const { gameId } = await params;
+  const game = getGameById(gameId);
+  const awayScore = game?.awayScore ?? game?.score?.away;
+  const homeScore = game?.homeScore ?? game?.score?.home;
+  const hasLiveScore =
+    game?.status === "live" &&
+    typeof awayScore === "number" &&
+    typeof homeScore === "number";
+
+  return (
+    <>
+      {hasLiveScore && game && (
+        <div className="border-b border-red-500/20 bg-[#120507] px-4 py-3 text-white sm:px-6 lg:px-8">
+          <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-4 rounded-2xl border border-red-500/25 bg-black/35 px-4 py-3 shadow-[0_0_30px_rgba(139,16,32,0.18)] sm:px-5">
+            <div className="min-w-0">
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-red-300">Live Score</p>
+              <p className="mt-1 truncate text-sm font-black text-white sm:text-base">
+                {game.awayTeam ?? "Away"} {awayScore} <span className="mx-1 text-white/30">—</span> {game.homeTeam ?? "Home"} {homeScore}
+              </p>
+            </div>
+            <div className="shrink-0 text-right">
+              <p className="text-xs font-black uppercase tracking-[0.14em] text-white/75">
+                {game.score?.period ?? "Live"}
+              </p>
+              <p className="mt-1 text-[9px] font-black uppercase tracking-[0.14em] text-white/35">In Progress</p>
+            </div>
+          </div>
+        </div>
+      )}
+      {children}
+    </>
+  );
 }
