@@ -4,6 +4,7 @@ import { week2GameAdditions } from "@/data/week2-game-additions";
 import { santoGames } from "@/data/santo-games";
 import { liveGameAdditions } from "@/data/live-game-additions";
 import { lateWeek3Results } from "@/data/late-week3-results";
+import { followedDistrictResults } from "@/data/followed-district-results";
 import { getSchoolBySlug } from "@/lib/schools";
 import type { Game } from "@/types/platform";
 
@@ -33,9 +34,16 @@ const baseGames = [
 ];
 
 const gamesById = new Map(baseGames.map((game) => [game.id, game]));
-for (const liveGame of [...liveGameAdditions, ...lateWeek3Results]) {
-  const existing = gamesById.get(liveGame.id);
-  gamesById.set(liveGame.id, existing ? { ...existing, ...liveGame } : liveGame);
+for (const verifiedGame of [
+  ...followedDistrictResults,
+  ...liveGameAdditions,
+  ...lateWeek3Results,
+]) {
+  const existing = gamesById.get(verifiedGame.id);
+  gamesById.set(
+    verifiedGame.id,
+    existing ? { ...existing, ...verifiedGame } : verifiedGame,
+  );
 }
 
 const rawGames = Array.from(gamesById.values()).map(applyEditorialGameFlags);
