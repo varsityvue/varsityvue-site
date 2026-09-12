@@ -125,15 +125,20 @@ function applyVerifiedStandingOverride(standing: Standing) {
 
   standing.overallRecordKnown = true;
 
+  const derivedGames = standing.overallWins + standing.overallLosses;
+  const overrideGames = override.overallWins + override.overallLosses;
+
+  // Once the game feed has at least as many complete results as the manual
+  // fallback, trust the real game rows. This lets historical ingestion retire
+  // standings patches automatically without risking double counting.
+  if (derivedGames >= overrideGames) return;
+
   const throughWeek = override.throughWeek;
   if (
     typeof override.pointsFor === "number" &&
     typeof override.pointsAgainst === "number" &&
     typeof throughWeek === "number"
   ) {
-    // Treat a full manual snapshot as the verified baseline through its week,
-    // then add only newer finals. This prevents both double counting old games
-    // and hiding Week 3+ results when earlier individual game rows are missing.
     standing.overallWins = override.overallWins;
     standing.overallLosses = override.overallLosses;
     standing.districtWins = override.districtWins;
@@ -148,13 +153,6 @@ function applyVerifiedStandingOverride(standing: Standing) {
     }
     return;
   }
-
-  const derivedGames = standing.overallWins + standing.overallLosses;
-  const overrideGames = override.overallWins + override.overallLosses;
-
-  // Record-only overrides still fill gaps only while fewer complete results
-  // are present. Once equal or newer game data exists, derived data wins.
-  if (derivedGames >= overrideGames) return;
 
   standing.overallWins = override.overallWins;
   standing.overallLosses = override.overallLosses;
