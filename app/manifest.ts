@@ -14,12 +14,12 @@ export default function manifest(): MetadataRoute.Manifest {
     categories: ["sports", "news"],
     icons: [
       {
-        src: "/varsityvue-v-icon-512.png",
+        src: "/icon",
         sizes: "512x512",
         type: "image/png",
       },
       {
-        src: "/varsityvue-v-icon-180.png",
+        src: "/apple-icon",
         sizes: "180x180",
         type: "image/png",
       },
