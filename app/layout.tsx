@@ -23,14 +23,14 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/varsityvue-v-icon-512.png",
+        url: "/icon",
         sizes: "512x512",
         type: "image/png",
       },
     ],
     apple: [
       {
-        url: "/varsityvue-v-icon-180.png",
+        url: "/apple-icon",
         sizes: "180x180",
         type: "image/png",
       },
