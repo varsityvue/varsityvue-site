@@ -7,6 +7,11 @@ export const size = {
 
 export const contentType = "image/png";
 
+const outerPath =
+  "M 47 49 L 46 194 L 99 195 L 282 678 L 592 678 L 784 195 L 836 194 L 835 47 L 499 48 L 499 194 L 542 207 L 444 447 L 340 207 L 384 193 L 384 48 Z";
+const redPath =
+  "M 76 76 L 75 167 L 122 170 L 304 649 L 570 648 L 758 177 L 806 164 L 807 76 L 527 77 L 527 167 L 587 179 L 445 523 L 423 514 L 299 167 L 355 166 L 355 76 Z";
+
 export default function AppleIcon() {
   return new ImageResponse(
     (
@@ -17,26 +22,18 @@ export default function AppleIcon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "linear-gradient(145deg, #05070A 0%, #11151B 100%)",
-          color: "white",
-          border: "10px solid #8B1020",
-          fontFamily: "Arial, Helvetica, sans-serif",
+          background: "#05070A",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            lineHeight: 1,
-          }}
+        <svg
+          width="160"
+          height="129"
+          viewBox="0 0 883 710"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <div style={{ fontSize: 92, fontWeight: 900, letterSpacing: -7 }}>V</div>
-          <div style={{ marginTop: 7, fontSize: 14, fontWeight: 900, letterSpacing: 2 }}>
-            VARSITYVUE
-          </div>
-        </div>
+          <path d={outerPath} fill="#F3E9D5" stroke="#111111" strokeWidth="32" strokeLinejoin="round" />
+          <path d={redPath} fill="#C8102E" stroke="#111111" strokeWidth="8" strokeLinejoin="round" />
+        </svg>
       </div>
     ),
     size
