@@ -25,12 +25,19 @@ const verifiedScheduledGames = applyVerifiedGames(scheduledGames).filter(
   (game) => !santoGameIds.has(game.id),
 );
 
-const rawGames = [
+const baseGames = [
   ...verifiedScheduledGames,
   ...week2GameAdditions,
   ...santoGames,
-  ...liveGameAdditions,
-].map(applyEditorialGameFlags);
+];
+
+const gamesById = new Map(baseGames.map((game) => [game.id, game]));
+for (const liveGame of liveGameAdditions) {
+  const existing = gamesById.get(liveGame.id);
+  gamesById.set(liveGame.id, existing ? { ...existing, ...liveGame } : liveGame);
+}
+
+const rawGames = Array.from(gamesById.values()).map(applyEditorialGameFlags);
 
 const CENTRAL_TIME_ZONE = "America/Chicago";
 
