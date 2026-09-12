@@ -22,21 +22,25 @@ export default function FeaturedSchoolSpotlight() {
 
   return (
     <section className="px-4 py-5 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-[1440px] rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 shadow-2xl md:p-8">
-        <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+      <div className="mx-auto max-w-[1440px] rounded-[1.6rem] border border-white/10 bg-white/[0.04] p-4 shadow-2xl sm:rounded-[2rem] sm:p-6 md:p-8">
+        <div className="mb-5 flex flex-col gap-3 sm:mb-6 md:flex-row md:items-end md:justify-between">
           <div>
-            <h2 className="text-3xl font-black text-white md:text-4xl">
-              Featured school hubs for 2026
+            <p className="text-[10px] font-black uppercase tracking-[0.26em] text-white/45 sm:text-xs sm:tracking-[0.3em]">
+              Featured School Hubs
+            </p>
+
+            <h2 className="mt-2 text-[1.95rem] font-black leading-[1.05] text-white sm:text-3xl md:text-4xl">
+              Programs to follow in 2026
             </h2>
 
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-white/50">
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/50">
               Explore program hubs with schedules, results, district context, and coverage currently available on VarsityVue.
             </p>
           </div>
 
           <Link
             href="/schools"
-            className="inline-flex rounded-full border border-white/10 bg-black/35 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-white/60 transition hover:bg-white/10 hover:text-white"
+            className="inline-flex rounded-full border border-white/10 bg-black/35 px-4 py-2 text-[11px] font-black uppercase tracking-[0.14em] text-white/60 transition hover:bg-white/10 hover:text-white sm:text-xs sm:tracking-[0.16em]"
           >
             View All Schools →
           </Link>
