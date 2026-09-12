@@ -5,6 +5,7 @@ import { santoGames } from "@/data/santo-games";
 import { liveGameAdditions } from "@/data/live-game-additions";
 import { lateWeek3Results } from "@/data/late-week3-results";
 import { followedDistrictResults } from "@/data/followed-district-results";
+import { followedDistrictResultsPhase2 } from "@/data/followed-district-results-phase2";
 import { getSchoolBySlug } from "@/lib/schools";
 import type { Game } from "@/types/platform";
 
@@ -36,6 +37,7 @@ const baseGames = [
 const gamesById = new Map(baseGames.map((game) => [game.id, game]));
 for (const verifiedGame of [
   ...followedDistrictResults,
+  ...followedDistrictResultsPhase2,
   ...liveGameAdditions,
   ...lateWeek3Results,
 ]) {
