@@ -29,22 +29,22 @@ export default function DistrictSpotlight() {
 
   return (
     <section className="px-4 py-5 sm:px-6 lg:px-8">
-      <div className="mx-auto grid max-w-[1440px] gap-5 lg:grid-cols-[0.95fr_1.05fr]">
-        <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 shadow-2xl md:p-8">
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-white/45">
+      <div className="mx-auto grid max-w-[1440px] gap-4 sm:gap-5 lg:grid-cols-[0.95fr_1.05fr]">
+        <div className="rounded-[1.6rem] border border-white/10 bg-white/[0.04] p-4 shadow-2xl sm:rounded-[2rem] sm:p-6 md:p-8">
+          <p className="text-[10px] font-black uppercase tracking-[0.26em] text-white/45 sm:text-xs sm:tracking-[0.3em]">
             District Spotlight
           </p>
 
-          <h2 className="mt-3 text-4xl font-black leading-tight text-white md:text-5xl">
+          <h2 className="mt-2 text-[1.95rem] font-black leading-[1.05] text-white sm:mt-3 sm:text-4xl md:text-5xl">
             {district.name}
           </h2>
 
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55">
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-white/55 sm:mt-3">
             A featured VarsityVue district hub connecting school hubs, schedules,
             standings, and matchup coverage across the region.
           </p>
 
-          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          <div className="mt-5 grid grid-cols-3 gap-2 sm:mt-6 sm:gap-3">
             <MiniStat label="Schools" value={schools.length.toString()} />
             <MiniStat label="Region" value={`Region ${district.uilRegion}`} />
             <MiniStat
@@ -58,27 +58,27 @@ export default function DistrictSpotlight() {
 
           <Link
             href={`/districts/${district.slug}`}
-            className="mt-6 inline-flex rounded-xl border border-white/15 bg-white/10 px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
+            className="mt-5 inline-flex rounded-full border border-white/10 bg-black/35 px-4 py-2 text-[11px] font-black uppercase tracking-[0.14em] text-white/65 transition hover:bg-white/10 hover:text-white sm:mt-6 sm:text-xs sm:tracking-[0.16em]"
           >
             View District Hub →
           </Link>
         </div>
 
-        <div className="rounded-[2rem] border border-white/10 bg-black/35 p-6 shadow-2xl md:p-8">
-          <div className="mb-5 flex items-end justify-between gap-4">
+        <div className="rounded-[1.6rem] border border-white/10 bg-black/35 p-4 shadow-2xl sm:rounded-[2rem] sm:p-6 md:p-8">
+          <div className="mb-4 flex items-end justify-between gap-4 sm:mb-5">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.3em] text-white/45">
+              <p className="text-[10px] font-black uppercase tracking-[0.26em] text-white/45 sm:text-xs sm:tracking-[0.3em]">
                 {districtStarted ? "Current Race" : "District Preview"}
               </p>
 
-              <h3 className="mt-2 text-3xl font-black text-white">
+              <h3 className="mt-2 text-2xl font-black leading-tight text-white sm:text-3xl">
                 {districtStarted ? "Standings Snapshot" : "District Teams"}
               </h3>
             </div>
 
             <Link
               href={`/districts/${district.slug}`}
-              className="text-xs font-black uppercase tracking-[0.16em] text-white/45 transition hover:text-white"
+              className="shrink-0 text-[10px] font-black uppercase tracking-[0.14em] text-white/45 transition hover:text-white sm:text-xs sm:tracking-[0.16em]"
             >
               Full Table →
             </Link>
@@ -90,7 +90,7 @@ export default function DistrictSpotlight() {
             </p>
           )}
 
-          <div className="space-y-3">
+          <div className="space-y-2.5 sm:space-y-3">
             {standings.map((team, index) => {
               const school = schools.find((item) => item.slug === team.schoolSlug);
               const differential = team.pointsFor - team.pointsAgainst;
@@ -128,7 +128,7 @@ export default function DistrictSpotlight() {
 
                   <div className="min-w-0">
                     <p className="truncate font-black text-white">{team.team}</p>
-                    <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-white/35">
+                    <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.12em] text-white/35 sm:text-xs">
                       {school?.mascot ?? "Program"}
                     </p>
                   </div>
@@ -139,7 +139,7 @@ export default function DistrictSpotlight() {
                         ? `${team.overallWins}-${team.overallLosses}`
                         : "—"}
                     </p>
-                    <p className="text-[10px] font-black uppercase tracking-[0.12em] text-white/35">
+                    <p className="text-[9px] font-black uppercase tracking-[0.12em] text-white/35 sm:text-[10px]">
                       Overall
                     </p>
                     <p className="mt-1 text-xs font-bold text-white/40">
@@ -153,14 +153,14 @@ export default function DistrictSpotlight() {
                 <Link
                   key={team.schoolSlug}
                   href={`/schools/${school.slug}`}
-                  className="grid grid-cols-[32px_auto_1fr_auto] items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4 transition hover:bg-white/[0.08]"
+                  className="grid grid-cols-[28px_auto_1fr_auto] items-center gap-2.5 rounded-xl border border-white/10 bg-white/[0.04] p-3.5 transition hover:bg-white/[0.08] sm:grid-cols-[32px_auto_1fr_auto] sm:gap-3 sm:rounded-2xl sm:p-4"
                 >
                   {teamContent}
                 </Link>
               ) : (
                 <div
                   key={team.schoolSlug}
-                  className="grid grid-cols-[32px_auto_1fr_auto] items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4"
+                  className="grid grid-cols-[28px_auto_1fr_auto] items-center gap-2.5 rounded-xl border border-white/10 bg-white/[0.04] p-3.5 sm:grid-cols-[32px_auto_1fr_auto] sm:gap-3 sm:rounded-2xl sm:p-4"
                 >
                   {teamContent}
                 </div>
@@ -175,11 +175,11 @@ export default function DistrictSpotlight() {
 
 function MiniStat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-black/35 p-4">
-      <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">
+    <div className="min-w-0 rounded-xl border border-white/10 bg-black/35 p-3 sm:rounded-2xl sm:p-4">
+      <p className="text-[9px] font-black uppercase tracking-[0.14em] text-white/35 sm:text-[10px] sm:tracking-[0.18em]">
         {label}
       </p>
-      <p className="mt-2 font-black text-white">{value}</p>
+      <p className="mt-1.5 break-words text-xs font-black leading-tight text-white sm:mt-2 sm:text-base">{value}</p>
     </div>
   );
 }
