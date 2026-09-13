@@ -241,7 +241,7 @@ export default function Home() {
             </div>
           </div>
 
-          <section className="mt-3 grid gap-2.5 sm:mt-4 sm:gap-3 md:grid-cols-3" aria-label="Scores and schedule navigation">
+          <section className="mt-3 grid gap-2 sm:mt-4 sm:gap-3 md:grid-cols-3" aria-label="Scores and schedule navigation">
             <HomePathCard
               eyebrow="What just happened?"
               title="Latest Finals"
@@ -296,15 +296,18 @@ function HomePathCard({
   return (
     <Link
       href={href}
-      className="group rounded-[1.2rem] border border-white/10 bg-white/[0.045] p-3.5 transition hover:border-white/20 hover:bg-white/[0.075] sm:rounded-2xl sm:p-4"
+      className="group flex items-center justify-between gap-3 rounded-[1rem] border border-white/10 bg-white/[0.045] p-3 transition hover:border-white/20 hover:bg-white/[0.075] sm:block sm:rounded-2xl sm:p-4"
     >
-      <p className="text-[9px] font-black uppercase tracking-[0.18em] text-white/40 sm:text-[10px] sm:tracking-[0.2em]">
-        {eyebrow}
-      </p>
-      <h2 className="mt-1.5 text-lg font-black text-white sm:mt-2 sm:text-xl">{title}</h2>
-      <p className="mt-1.5 text-xs leading-5 text-white/50 sm:mt-2 sm:text-sm">{description}</p>
-      <p className="mt-3 text-[10px] font-black uppercase tracking-[0.12em] text-white/70 transition group-hover:text-white sm:mt-4 sm:text-xs sm:tracking-[0.14em]">
-        {action} →
+      <div className="min-w-0">
+        <p className="text-[8px] font-black uppercase tracking-[0.16em] text-white/40 sm:text-[10px] sm:tracking-[0.2em]">
+          {eyebrow}
+        </p>
+        <h2 className="mt-1 truncate text-base font-black text-white sm:mt-2 sm:text-xl">{title}</h2>
+        <p className="mt-2 hidden text-sm leading-5 text-white/50 sm:block">{description}</p>
+      </div>
+      <p className="shrink-0 text-[10px] font-black uppercase tracking-[0.1em] text-white/70 transition group-hover:text-white sm:mt-4 sm:text-xs sm:tracking-[0.14em]">
+        <span className="sm:hidden">Open →</span>
+        <span className="hidden sm:inline">{action} →</span>
       </p>
     </Link>
   );
