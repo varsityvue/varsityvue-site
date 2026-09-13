@@ -33,4 +33,19 @@ export const santoGameStats: GameStats[] = [
     passing: [],
     receiving: [],
   },
+  {
+    gameId: "haskell-at-santo-2026-week-3",
+    season: 2026,
+    sourceStatus: "verified",
+    sourceLabel: "Quarter scoring supplied to VarsityVue",
+    quarterScores: [
+      { schoolSlug: "haskell", quarters: [8, 16, 6, 14], total: 44 },
+      { schoolSlug: "santo", quarters: [0, 21, 9, 12], total: 42 },
+    ],
+    scoringPlays: [],
+    teamStats: [],
+    rushing: [],
+    passing: [],
+    receiving: [],
+  },
 ];
