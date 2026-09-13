@@ -14,11 +14,27 @@ type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const school = getSchoolBySlug(slug);
-  if (!school) return { title: "School Not Found" };
+  if (!school) return { title: "School Not Found", robots: { index: false, follow: false } };
+  const description = `${school.fullName} ${SEASON} football roster with verified jersey numbers, grades, positions, and player profiles currently available on VarsityVue.`;
+  const shouldIndex = school.status === "pilot";
   return {
     title: `${school.fullName} ${SEASON} Football Roster`,
-    description: `${school.fullName} ${SEASON} football roster with verified jersey numbers, grades, positions, and player profiles currently available on VarsityVue.`,
+    description,
     alternates: { canonical: `/schools/${school.slug}/roster` },
+    openGraph: {
+      title: `${school.fullName} ${SEASON} Football Roster | VarsityVue`,
+      description,
+      url: `/schools/${school.slug}/roster`,
+      type: "website",
+      images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "VarsityVue — Texas High School Football" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${school.fullName} ${SEASON} Football Roster | VarsityVue`,
+      description,
+      images: ["/opengraph-image"],
+    },
+    robots: shouldIndex ? { index: true, follow: true } : { index: false, follow: true },
   };
 }
 
@@ -53,31 +69,22 @@ export default async function SchoolRosterPage({ params }: Props) {
       <section className="px-4 py-4 sm:px-6 sm:py-8 lg:px-8">
         <div className="mx-auto max-w-6xl">
           {roster.length > 0 ? (
-            <div className="overflow-hidden rounded-[1.25rem] border border-white/10 bg-white/[0.045] shadow-2xl sm:rounded-[1.75rem]">
-              <div className="h-1" style={{ backgroundColor: theme.primary }} />
-              <div className="flex items-center justify-between gap-3 border-b border-white/10 px-3.5 py-3 sm:px-6 sm:py-5">
-                <div><p className="text-[8px] font-black uppercase tracking-[0.16em] text-white/40 sm:text-xs sm:tracking-[0.22em]">Verified Roster</p><h2 className="mt-0.5 text-base font-black sm:mt-2 sm:text-2xl">{school.name} football</h2></div>
-                <span className="rounded-full border border-white/10 bg-black/30 px-2.5 py-1 text-[8px] font-black uppercase tracking-[0.08em] text-white/40 sm:hidden">{SEASON}</span>
-              </div>
-
-              <div className="divide-y divide-white/10 md:hidden">
-                {roster.map((player) => (
-                  <Link key={player.playerId} href={`/players/${player.playerId}`} className="grid grid-cols-[36px_minmax(0,1fr)_auto] items-center gap-2.5 px-3.5 py-2.5 transition hover:bg-white/[0.04] sm:grid-cols-[40px_minmax(0,1fr)_auto] sm:gap-3 sm:px-4 sm:py-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-lg border text-xs font-black sm:h-10 sm:w-10 sm:text-sm" style={{ borderColor: `${theme.primary}66`, backgroundColor: `${theme.primary}22` }}>{player.jerseyNumber ?? "—"}</div>
-                    <div className="min-w-0"><p className="break-words text-[13px] font-black leading-4 text-white sm:text-sm">{player.name}</p><p className="mt-0.5 truncate text-[8px] font-bold uppercase tracking-[0.08em] text-white/30 sm:mt-1 sm:text-[9px] sm:tracking-[0.1em]">{player.positions?.join(" / ") ?? "Position TBD"}</p></div>
-                    <div className="text-right"><p className="text-[7px] font-black uppercase tracking-[0.08em] text-white/25 sm:text-[8px] sm:tracking-[0.1em]">Grade</p><p className="mt-0.5 text-[11px] font-black text-white/55 sm:text-xs">{player.grade ?? "—"}</p></div>
-                  </Link>
-                ))}
-              </div>
-
-              <div className="hidden overflow-x-auto md:block">
-                <table className="w-full text-sm"><thead className="border-b border-white/10 text-[10px] font-black uppercase tracking-[0.12em] text-white/35"><tr><th className="w-20 px-5 py-4 text-left">#</th><th className="px-5 py-4 text-left">Player</th><th className="px-5 py-4 text-left">Grade</th><th className="px-5 py-4 text-left">Position</th></tr></thead><tbody>{roster.map((player) => <tr key={player.playerId} className="border-t border-white/5 first:border-0 transition hover:bg-white/[0.035]"><td className="px-5 py-4 text-lg font-black text-white/45">{player.jerseyNumber ?? "—"}</td><td className="px-5 py-4"><Link href={`/players/${player.playerId}`} className="font-black text-white transition hover:text-white/70">{player.name}</Link></td><td className="px-5 py-4 text-white/60">{player.grade ?? "—"}</td><td className="px-5 py-4 font-semibold text-white/65">{player.positions?.join(" / ") ?? "—"}</td></tr>)}</tbody></table>
-              </div>
-
-              <div className="hidden border-t border-white/10 px-6 py-4 text-xs leading-5 text-white/35 sm:block">Roster details reflect verified information currently on file.</div>
+            <div className="grid gap-2 sm:gap-3">
+              {roster.map((player) => (
+                <Link key={player.playerId} href={`/players/${player.playerId}`} className="group grid grid-cols-[2.5rem_1fr_auto] items-center gap-2.5 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2.5 transition hover:border-white/20 hover:bg-white/[0.07] sm:grid-cols-[3.5rem_1fr_auto] sm:gap-4 sm:rounded-2xl sm:px-5 sm:py-4">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-black/30 text-sm font-black sm:h-12 sm:w-12 sm:rounded-xl sm:text-lg">{player.number ? `#${player.number}` : "—"}</div>
+                  <div className="min-w-0"><p className="truncate text-sm font-black text-white sm:text-lg">{player.name}</p><p className="mt-0.5 truncate text-[9px] font-bold uppercase tracking-[0.08em] text-white/35 sm:text-xs sm:tracking-[0.12em]">{[player.grade, player.position].filter(Boolean).join(" · ") || "Roster"}</p></div>
+                  <span className="text-[9px] font-black uppercase tracking-[0.1em] text-white/35 transition group-hover:text-white sm:text-xs">Profile →</span>
+                </Link>
+              ))}
             </div>
           ) : (
-            <section className="rounded-[1.25rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-7"><p className="text-[8px] font-black uppercase tracking-[0.18em] text-white/35 sm:text-xs sm:tracking-[0.24em]">Roster Pending</p><h2 className="mt-1.5 text-lg font-black sm:mt-3 sm:text-3xl">Roster information is not available yet.</h2><p className="mt-1.5 max-w-2xl text-[11px] leading-5 text-white/45 sm:mt-3 sm:text-sm sm:leading-7">Send roster information or a trusted source to VarsityVue for review.</p><Link href="/submit" className="mt-3 inline-flex rounded-full px-4 py-2 text-[11px] font-black transition hover:opacity-90 sm:mt-5 sm:px-5 sm:py-3 sm:text-sm" style={{ backgroundColor: theme.secondary, color: theme.primary }}>Submit Roster Information</Link></section>
+            <div className="rounded-[1.25rem] border border-white/10 bg-white/[0.04] p-4 sm:rounded-[1.75rem] sm:p-8">
+              <p className="text-[8px] font-black uppercase tracking-[0.18em] text-white/40 sm:text-xs sm:tracking-[0.24em]">Roster Status</p>
+              <h2 className="mt-1.5 text-xl font-black sm:mt-2 sm:text-3xl">Roster coming soon.</h2>
+              <p className="mt-2 max-w-2xl text-xs leading-5 text-white/50 sm:text-base sm:leading-7">VarsityVue only publishes roster details that can be verified from a trusted source.</p>
+              <Link href="/submit" className="mt-4 inline-flex rounded-full border border-white/10 bg-white/10 px-4 py-2 text-[9px] font-black uppercase tracking-[0.1em] text-white transition hover:bg-white/15 sm:mt-6 sm:px-5 sm:py-3 sm:text-xs sm:tracking-[0.14em]">Submit Roster Information</Link>
+            </div>
           )}
         </div>
       </section>
