@@ -1,11 +1,33 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+const contactDescription =
+  "Contact VarsityVue about Texas high school football information, corrections, school requests, general questions, or partnership opportunities.";
+
 export const metadata: Metadata = {
   title: "Contact",
-  description:
-    "Contact VarsityVue about Texas high school football information, corrections, school requests, general questions, or partnership opportunities.",
+  description: contactDescription,
   alternates: { canonical: "/contact" },
+  openGraph: {
+    title: "Contact VarsityVue",
+    description: contactDescription,
+    url: "/contact",
+    type: "website",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "VarsityVue Texas high school football scores, stats, school hubs, and local coverage",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact VarsityVue",
+    description: contactDescription,
+    images: ["/opengraph-image"],
+  },
 };
 
 const contactOptions = [
