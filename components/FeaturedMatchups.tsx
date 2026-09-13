@@ -93,31 +93,31 @@ export default function FeaturedMatchups() {
   if (games.length === 0) return null;
 
   return (
-    <section className="px-4 py-5 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-[1440px] rounded-[1.6rem] border border-white/10 bg-white/[0.04] p-4 shadow-2xl sm:rounded-[2rem] sm:p-6 md:p-8">
-        <div className="mb-5 flex flex-col gap-3 sm:mb-6 md:flex-row md:items-end md:justify-between">
+    <section className="px-4 py-4 sm:px-6 sm:py-5 lg:px-8">
+      <div className="mx-auto max-w-[1440px] rounded-[1.4rem] border border-white/10 bg-white/[0.04] p-3.5 shadow-2xl sm:rounded-[2rem] sm:p-6 md:p-8">
+        <div className="mb-4 flex flex-col gap-2.5 sm:mb-6 sm:gap-3 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="text-[10px] font-black uppercase tracking-[0.26em] text-white/45 sm:text-xs sm:tracking-[0.3em]">
+            <p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/45 sm:text-xs sm:tracking-[0.3em]">
               Upcoming Matchups
             </p>
 
-            <h2 className="mt-2 text-[1.95rem] font-black leading-[1.05] text-white sm:text-3xl md:text-4xl">
+            <h2 className="mt-1.5 text-[1.65rem] font-black leading-[1.05] text-white sm:mt-2 sm:text-3xl md:text-4xl">
               Next games on the VarsityVue schedule
             </h2>
-            <p className="mt-2 max-w-3xl text-sm leading-6 text-white/50 sm:mt-3">
+            <p className="mt-1.5 max-w-3xl text-xs leading-5 text-white/50 sm:mt-3 sm:text-sm sm:leading-6">
               Upcoming kickoffs currently on file across VarsityVue school hubs.
             </p>
           </div>
 
           <Link
             href="/scoreboard"
-            className="inline-flex w-fit rounded-full border border-white/10 bg-black/35 px-4 py-2 text-[11px] font-black uppercase tracking-[0.14em] text-white/60 transition hover:bg-white/10 hover:text-white sm:text-xs sm:tracking-[0.16em]"
+            className="inline-flex w-fit rounded-full border border-white/10 bg-black/35 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-[0.12em] text-white/60 transition hover:bg-white/10 hover:text-white sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.16em]"
           >
             Full Scoreboard →
           </Link>
         </div>
 
-        <div className="grid gap-3 sm:gap-4 lg:grid-cols-4">
+        <div className="grid gap-2.5 sm:gap-4 lg:grid-cols-4">
           {games.map((game) => {
             const awaySchool = game.awaySchoolSlug
               ? getSchoolBySlug(game.awaySchoolSlug)
@@ -135,10 +135,10 @@ export default function FeaturedMatchups() {
             return (
               <article
                 key={game.id}
-                className="group overflow-hidden rounded-[1.35rem] border border-white/10 border-t-4 border-t-[var(--vv-primary)] bg-black/35 transition hover:-translate-y-1 hover:bg-white/[0.07] sm:rounded-[1.5rem]"
+                className="group overflow-hidden rounded-[1.15rem] border border-white/10 border-t-[3px] border-t-[var(--vv-primary)] bg-black/35 transition hover:-translate-y-1 hover:bg-white/[0.07] sm:rounded-[1.5rem] sm:border-t-4"
               >
-                <div className="p-4 sm:p-5">
-                  <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="p-3.5 sm:p-5">
+                  <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-3">
                     <Badge label={getGameLabel(game.gameType, game.week)} />
                     {isGameOfTheWeek ? (
                       <Badge label="Game of the Week" />
@@ -147,14 +147,14 @@ export default function FeaturedMatchups() {
                     ) : null}
                   </div>
 
-                  <div className="mt-4 grid grid-cols-[1fr_auto_1fr] items-center gap-3 sm:mt-5">
+                  <div className="mt-3 grid grid-cols-[1fr_auto_1fr] items-center gap-2 sm:mt-5 sm:gap-3">
                     <TeamBlock
                       name={game.awayTeam ?? "Away"}
                       school={awaySchool}
                       align="left"
                     />
 
-                    <span className="text-xs font-black uppercase tracking-[0.18em] text-white/50">
+                    <span className="text-[10px] font-black uppercase tracking-[0.14em] text-white/50 sm:text-xs sm:tracking-[0.18em]">
                       VS
                     </span>
 
@@ -165,28 +165,28 @@ export default function FeaturedMatchups() {
                     />
                   </div>
 
-                  <div className="mt-4 rounded-xl border border-white/10 bg-white/[0.04] p-3.5 sm:mt-5 sm:rounded-2xl sm:p-4">
-                    <p className="text-sm font-black text-white">
+                  <div className="mt-3 rounded-xl border border-white/10 bg-white/[0.04] p-3 sm:mt-5 sm:rounded-2xl sm:p-4">
+                    <p className="text-xs font-black text-white sm:text-sm">
                       {formatGameDate(game.kickoff)}
                       {gameTime ? ` · ${gameTime}` : ""}
                     </p>
 
                     {game.venue && (
-                      <p className="mt-1 line-clamp-1 text-xs text-white/45">
+                      <p className="mt-0.5 line-clamp-1 text-[11px] text-white/45 sm:mt-1 sm:text-xs">
                         {game.venue}
                       </p>
                     )}
                   </div>
 
                   {broadcastLinks.length > 0 && (
-                    <div className="mt-3 flex flex-wrap gap-2 sm:mt-4">
+                    <div className="mt-2.5 flex flex-wrap gap-1.5 sm:mt-4 sm:gap-2">
                       {broadcastLinks.map((link) => (
                         <a
                           key={`${link.type}-${link.url}`}
                           href={link.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.08] px-3 py-2 text-[10px] font-black uppercase tracking-[0.12em] text-white/80 transition hover:border-white/30 hover:bg-white/[0.14] hover:text-white"
+                          className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.08] px-2.5 py-1.5 text-[9px] font-black uppercase tracking-[0.1em] text-white/80 transition hover:border-white/30 hover:bg-white/[0.14] hover:text-white sm:px-3 sm:py-2 sm:text-[10px] sm:tracking-[0.12em]"
                           title={link.label}
                         >
                           <BroadcastIcon type={link.type} />
@@ -198,7 +198,7 @@ export default function FeaturedMatchups() {
 
                   <Link
                     href={`/games/${game.id}`}
-                    className="mt-4 inline-flex text-[11px] font-black uppercase tracking-[0.14em] text-white/50 transition group-hover:text-white sm:mt-5 sm:text-xs sm:tracking-[0.16em]"
+                    className="mt-3 inline-flex text-[10px] font-black uppercase tracking-[0.12em] text-white/50 transition group-hover:text-white sm:mt-5 sm:text-xs sm:tracking-[0.16em]"
                   >
                     View Matchup →
                   </Link>
@@ -233,12 +233,12 @@ function TeamBlock({
         )}
       </div>
 
-      <p className="mt-3 line-clamp-2 text-sm font-black leading-tight text-white">
+      <p className="mt-2 line-clamp-2 text-xs font-black leading-tight text-white sm:mt-3 sm:text-sm">
         {name}
       </p>
 
       {school?.mascot && (
-        <p className="mt-1 line-clamp-1 text-[10px] font-black uppercase tracking-[0.12em] text-white/35">
+        <p className="mt-0.5 line-clamp-1 text-[9px] font-black uppercase tracking-[0.1em] text-white/35 sm:mt-1 sm:text-[10px] sm:tracking-[0.12em]">
           {school.mascot}
         </p>
       )}
@@ -248,7 +248,7 @@ function TeamBlock({
 
 function Badge({ label }: { label: string }) {
   return (
-    <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-white/55">
+    <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[9px] font-black uppercase tracking-[0.12em] text-white/55 sm:px-3 sm:py-1 sm:text-[10px] sm:tracking-[0.14em]">
       {label}
     </span>
   );
@@ -256,7 +256,7 @@ function Badge({ label }: { label: string }) {
 
 function MiniBadge({ label }: { label: string }) {
   return (
-    <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/10 p-2 text-center text-[10px] font-black uppercase text-white">
+    <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/10 p-2 text-center text-[9px] font-black uppercase text-white sm:h-14 sm:w-14 sm:rounded-2xl sm:text-[10px]">
       {label.slice(0, 3)}
     </div>
   );
