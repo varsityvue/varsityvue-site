@@ -2,12 +2,35 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getFeaturedSchools } from "@/lib/schools";
 
+const title = "Texas High School Football History & Program Archives";
+const description =
+  "Explore verified program history for VarsityVue featured schools, including state championships, recent playoff appearances, stadiums, and community-submitted archives.";
+
 export const metadata: Metadata = {
-  title: "Texas High School Football History & Program Archives",
-  description:
-    "Explore verified program history for VarsityVue featured schools, including state championships, recent playoff appearances, stadiums, and community-submitted archives.",
+  title,
+  description,
   alternates: {
     canonical: "/legacy",
+  },
+  openGraph: {
+    title: `${title} | VarsityVue`,
+    description,
+    url: "/legacy",
+    type: "website",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "VarsityVue Texas high school football history and program archives",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${title} | VarsityVue`,
+    description,
+    images: ["/opengraph-image"],
   },
 };
 
