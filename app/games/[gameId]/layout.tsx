@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { getGameById } from "@/lib/games";
 import { getSchoolBySlug } from "@/lib/schools";
+import { getGameStatAvailability, getStatAvailabilityLabel } from "@/data/stat-availability";
 
 type GameLayoutProps = {
   children: React.ReactNode;
@@ -91,12 +93,17 @@ export async function generateMetadata({ params }: Omit<GameLayoutProps, "childr
 export default async function GameLayout({ children, params }: GameLayoutProps) {
   const { gameId } = await params;
   const game = getGameById(gameId);
+  const statAvailability = getGameStatAvailability(gameId);
   const awayScore = game?.awayScore ?? game?.score?.away;
   const homeScore = game?.homeScore ?? game?.score?.home;
   const hasLiveScore =
     game?.status === "live" &&
     typeof awayScore === "number" &&
     typeof homeScore === "number";
+  const showStatAvailability =
+    game?.status === "final" &&
+    statAvailability &&
+    statAvailability.status !== "verified";
 
   return (
     <>
@@ -118,6 +125,28 @@ export default async function GameLayout({ children, params }: GameLayoutProps) 
           </div>
         </div>
       )}
+
+      {showStatAvailability && statAvailability && (
+        <div className="border-b border-white/10 bg-[#080808] px-4 py-3 text-white sm:px-6 lg:px-8">
+          <div className="mx-auto flex max-w-[1440px] flex-col gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:rounded-2xl sm:px-5 sm:py-4">
+            <div className="min-w-0">
+              <p className="text-[9px] font-black uppercase tracking-[0.18em] text-white/45 sm:text-[10px]">
+                {getStatAvailabilityLabel(statAvailability.status)}
+              </p>
+              <p className="mt-1 max-w-4xl text-xs leading-5 text-white/60 sm:text-sm sm:leading-6">
+                {statAvailability.note ?? "Game statistics are added as verified data becomes available."}
+              </p>
+            </div>
+            <Link
+              href="/submit"
+              className="w-fit shrink-0 text-[9px] font-black uppercase tracking-[0.12em] text-white/45 transition hover:text-white sm:text-[10px]"
+            >
+              Submit Stats →
+            </Link>
+          </div>
+        </div>
+      )}
+
       {children}
     </>
   );
