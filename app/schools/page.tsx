@@ -5,12 +5,35 @@ import { getPilotSchools } from "@/lib/schools";
 import PageHero from "@/components/PageHero";
 import SchoolDirectory, { type DirectorySchool } from "../../components/SchoolDirectory";
 
+const title = "Texas High School Football School Directory";
+const description =
+  "Search live VarsityVue school hubs for Texas high school football schedules, scores, standings, districts, and game-day information.";
+
 export const metadata: Metadata = {
-  title: "Texas High School Football School Directory",
-  description:
-    "Search live VarsityVue school hubs for Texas high school football schedules, scores, standings, districts, and game-day information.",
+  title,
+  description,
   alternates: {
     canonical: "/schools",
+  },
+  openGraph: {
+    title: `${title} | VarsityVue`,
+    description,
+    url: "/schools",
+    type: "website",
+    images: [
+      {
+        url: "/schools/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "VarsityVue Texas high school football school directory",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${title} | VarsityVue`,
+    description,
+    images: ["/schools/twitter-image"],
   },
 };
 
