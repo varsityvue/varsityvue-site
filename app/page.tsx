@@ -13,21 +13,37 @@ import FeaturedMatchups from "@/components/FeaturedMatchups";
 import FeaturedCoverage from "@/components/FeaturedCoverage";
 import ProgramLogo from "@/components/ProgramLogo";
 
+const homeTitle = "VarsityVue | Texas High School Football Scores & Coverage";
+const homeDescription =
+  "Texas high school football scores, schedules, standings, school hubs, matchup pages, player statistics, and local coverage on VarsityVue.";
+
 export const metadata: Metadata = {
   title: {
-    absolute: "VarsityVue | Texas High School Football Scores & Coverage",
+    absolute: homeTitle,
   },
-  description:
-    "Texas high school football scores, schedules, standings, school hubs, matchup pages, player statistics, and local coverage on VarsityVue.",
+  description: homeDescription,
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "VarsityVue | Texas High School Football Scores & Coverage",
-    description:
-      "Texas high school football scores, schedules, standings, school hubs, matchup pages, player statistics, and local coverage on VarsityVue.",
+    title: homeTitle,
+    description: homeDescription,
     url: "https://varsityvue.com",
     type: "website",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "VarsityVue Texas high school football scores, stats, school hubs, and local coverage",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: homeTitle,
+    description: homeDescription,
+    images: ["/opengraph-image"],
   },
 };
 
