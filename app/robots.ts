@@ -6,6 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
+        disallow: ["/internal/"],
       },
     ],
     sitemap: "https://varsityvue.com/sitemap.xml",
