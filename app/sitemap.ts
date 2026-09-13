@@ -11,11 +11,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const games = getGames();
   const articles = getArticles();
 
-  const featuredSchoolSlugs = new Set(
-    schools
-      .filter((school) => school.status === "pilot")
-      .map((school) => school.slug)
-  );
+  const featuredSchools = schools.filter((school) => school.status === "pilot");
+  const featuredSchoolSlugs = new Set(featuredSchools.map((school) => school.slug));
   const featuredDistrictIds = new Set(
     districts
       .filter((district) => district.status === "pilot")
@@ -48,19 +45,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contact",
     "/submit",
     "/school-request",
+    "/sponsor-inquiry",
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     changeFrequency: "daily" as const,
     priority: route === "" ? 1.0 : 0.8,
   }));
 
-  const schoolRoutes = schools
-    .filter((school) => school.status === "pilot")
-    .map((school) => ({
-      url: `${baseUrl}/schools/${school.slug}`,
-      changeFrequency: "weekly" as const,
-      priority: 0.9,
-    }));
+  const schoolRoutes = featuredSchools.map((school) => ({
+    url: `${baseUrl}/schools/${school.slug}`,
+    changeFrequency: "weekly" as const,
+    priority: 0.9,
+  }));
+
+  const schoolScheduleRoutes = featuredSchools.map((school) => ({
+    url: `${baseUrl}/schools/${school.slug}/schedule`,
+    changeFrequency: "weekly" as const,
+    priority: 0.8,
+  }));
+
+  const schoolRosterRoutes = featuredSchools.map((school) => ({
+    url: `${baseUrl}/schools/${school.slug}/roster`,
+    changeFrequency: "weekly" as const,
+    priority: 0.7,
+  }));
 
   const districtRoutes = districts
     .filter((district) => district.status === "pilot")
@@ -120,6 +128,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     ...staticRoutes,
     ...schoolRoutes,
+    ...schoolScheduleRoutes,
+    ...schoolRosterRoutes,
     ...districtRoutes,
     ...gameRoutes,
     ...playerRoutes,
