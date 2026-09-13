@@ -176,19 +176,19 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     <main className="min-h-screen bg-[#050505] text-white">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
 
-      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.62),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 py-4 sm:px-6 sm:py-7 lg:px-8">
+      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.62),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 py-3.5 sm:px-6 sm:py-7 lg:px-8">
         <div className="mx-auto max-w-5xl">
-          <Link href="/coverage" className="text-[11px] font-black uppercase tracking-[0.14em] text-white/45 transition hover:text-[var(--vv-accent)] sm:text-sm">
+          <Link href="/coverage" className="text-[10px] font-black uppercase tracking-[0.12em] text-white/45 transition hover:text-[var(--vv-accent)] sm:text-sm sm:tracking-[0.14em]">
             ← Back to Coverage
           </Link>
 
-          <div className="mt-4 rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:mt-5 sm:rounded-[1.75rem] sm:p-6 md:p-8">
-            <p className="text-[10px] font-black uppercase tracking-[0.26em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.32em]">
+          <div className="mt-3 rounded-[1.35rem] border border-white/10 bg-white/[0.045] p-3.5 shadow-2xl sm:mt-5 sm:rounded-[1.75rem] sm:p-6 md:p-8">
+            <p className="text-[9px] font-black uppercase tracking-[0.22em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.32em]">
               {formatArticleType(article.type)}
             </p>
-            <h1 className="mt-2.5 text-[1.85rem] font-black leading-[1.06] tracking-tight sm:mt-4 sm:text-5xl md:text-6xl">{article.title}</h1>
-            {article.subtitle && <p className="mt-3 max-w-3xl text-[15px] font-semibold leading-[1.45] text-white/55 sm:mt-5 sm:text-xl sm:leading-8">{article.subtitle}</p>}
-            <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 text-[11px] font-bold text-white/45 sm:mt-6 sm:text-sm">
+            <h1 className="mt-2 text-[1.72rem] font-black leading-[1.05] tracking-tight sm:mt-4 sm:text-5xl md:text-6xl">{article.title}</h1>
+            {article.subtitle && <p className="mt-2.5 max-w-3xl text-sm font-semibold leading-[1.45] text-white/55 sm:mt-5 sm:text-xl sm:leading-8">{article.subtitle}</p>}
+            <div className="mt-3.5 flex flex-wrap items-center gap-x-2.5 gap-y-1.5 text-[10px] font-bold text-white/45 sm:mt-6 sm:gap-x-3 sm:gap-y-2 sm:text-sm">
               <span>{formatArticleDate(article.publishedAt)}</span><span>•</span><span>{article.author}</span><span className="hidden sm:inline">•</span>
               <ArticleShare title={article.title} url={articleUrl} />
             </div>
@@ -196,18 +196,18 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         </div>
       </section>
 
-      <section className="px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
-        <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-10">
+      <section className="px-4 py-5 sm:px-6 sm:py-10 lg:px-8">
+        <div className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-10">
           <article className="min-w-0">
             {article.featuredImageUrl && (
-              <figure className="mb-7 overflow-hidden rounded-[1.35rem] border border-white/10 bg-white/[0.035] shadow-2xl sm:mb-9 sm:rounded-[1.75rem]">
+              <figure className="mb-5 overflow-hidden rounded-[1.2rem] border border-white/10 bg-white/[0.035] shadow-2xl sm:mb-9 sm:rounded-[1.75rem]">
                 <Image src={article.featuredImageUrl} alt={article.featuredImageAlt ?? article.title} width={1600} height={900} priority className="h-auto w-full object-contain" />
-                {article.featuredImageCaption && <figcaption className="border-t border-white/10 px-4 py-3 text-[11px] leading-5 text-white/40 sm:px-5">{article.featuredImageCaption}</figcaption>}
+                {article.featuredImageCaption && <figcaption className="border-t border-white/10 px-3.5 py-2.5 text-[10px] leading-4 text-white/40 sm:px-5 sm:py-3 sm:text-[11px] sm:leading-5">{article.featuredImageCaption}</figcaption>}
               </figure>
             )}
 
-            <div className="border-t border-white/10 pt-6 sm:pt-8">
-              <div className="space-y-5 text-[17px] leading-8 text-white/78 sm:space-y-7 sm:text-lg sm:leading-8">
+            <div className="border-t border-white/10 pt-5 sm:pt-8">
+              <div className="space-y-4 text-[16px] leading-[1.75] text-white/78 sm:space-y-7 sm:text-lg sm:leading-8">
                 {article.body
                   .split("\n")
                   .map((paragraph) => paragraph.trim())
@@ -216,7 +216,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     paragraph.startsWith("## ") ? (
                       <h2
                         key={`${article.id}-heading-${index}`}
-                        className="mt-8 border-l-4 border-[var(--vv-accent)] pl-4 text-2xl font-black leading-tight tracking-tight text-white sm:mt-10 sm:text-3xl"
+                        className="mt-7 border-l-[3px] border-[var(--vv-accent)] pl-3 text-xl font-black leading-tight tracking-tight text-white sm:mt-10 sm:border-l-4 sm:pl-4 sm:text-3xl"
                       >
                         {paragraph.slice(3)}
                       </h2>
@@ -228,31 +228,31 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             </div>
 
             {(primarySchool || nextPrimaryGame) && (
-              <section className="mt-7 overflow-hidden rounded-[1.35rem] border border-[color:var(--vv-accent)]/25 bg-white/[0.055] shadow-xl sm:mt-12 sm:rounded-[1.75rem]">
+              <section className="mt-6 overflow-hidden rounded-[1.2rem] border border-[color:var(--vv-accent)]/25 bg-white/[0.055] shadow-xl sm:mt-12 sm:rounded-[1.75rem]">
                 <div className="h-1 bg-[var(--vv-primary)]" />
-                <div className="px-4 py-3.5 sm:p-6">
-                  <p className="text-[9px] font-black uppercase tracking-[0.2em] text-[var(--vv-accent)] sm:text-[10px]">Keep Following</p>
+                <div className="px-3.5 py-3 sm:p-6">
+                  <p className="text-[8px] font-black uppercase tracking-[0.18em] text-[var(--vv-accent)] sm:text-[10px] sm:tracking-[0.2em]">Keep Following</p>
 
                   {nextPrimaryGame && (
-                    <Link href={`/games/${nextPrimaryGame.id}`} className="mt-2.5 block rounded-xl border border-white/10 bg-black/35 px-3.5 py-2.5 transition hover:bg-white/10 sm:mt-4 sm:rounded-2xl sm:p-4">
+                    <Link href={`/games/${nextPrimaryGame.id}`} className="mt-2 block rounded-xl border border-white/10 bg-black/35 px-3 py-2.5 transition hover:bg-white/10 sm:mt-4 sm:rounded-2xl sm:p-4">
                       <div className="flex items-center justify-between gap-3">
                         <div className="min-w-0">
-                          <p className="text-[9px] font-black uppercase tracking-[0.15em] text-white/40 sm:text-[10px]">Next Matchup</p>
-                          <p className="mt-1 truncate text-sm font-black text-white sm:mt-1.5 sm:text-base">{nextPrimaryGame.awayTeam} at {nextPrimaryGame.homeTeam}</p>
-                          <p className="mt-0.5 text-[11px] font-bold text-white/45 sm:mt-1 sm:text-xs">{formatShortDate(nextPrimaryGame.kickoff)} · {formatShortTime(nextPrimaryGame.kickoff)}</p>
+                          <p className="text-[8px] font-black uppercase tracking-[0.13em] text-white/40 sm:text-[10px] sm:tracking-[0.15em]">Next Matchup</p>
+                          <p className="mt-0.5 truncate text-[13px] font-black text-white sm:mt-1.5 sm:text-base">{nextPrimaryGame.awayTeam} at {nextPrimaryGame.homeTeam}</p>
+                          <p className="mt-0.5 text-[10px] font-bold text-white/45 sm:mt-1 sm:text-xs">{formatShortDate(nextPrimaryGame.kickoff)} · {formatShortTime(nextPrimaryGame.kickoff)}</p>
                         </div>
-                        <span className="shrink-0 text-lg text-white/45 sm:text-xl">→</span>
+                        <span className="shrink-0 text-base text-white/45 sm:text-xl">→</span>
                       </div>
                     </Link>
                   )}
 
-                  <div className="mt-2 grid grid-cols-2 gap-2 sm:mt-3 sm:flex sm:flex-wrap">
+                  <div className="mt-2 grid grid-cols-2 gap-1.5 sm:mt-3 sm:flex sm:flex-wrap sm:gap-2">
                     {primarySchool && (
-                      <Link href={`/schools/${primarySchool.slug}`} className="rounded-lg border border-white/10 bg-white/[0.07] px-2.5 py-2.5 text-center text-[9px] font-black uppercase tracking-[0.08em] text-white/75 transition hover:bg-white/12 hover:text-white sm:rounded-xl sm:px-4 sm:py-3 sm:text-xs sm:tracking-[0.12em]">
+                      <Link href={`/schools/${primarySchool.slug}`} className="rounded-lg border border-white/10 bg-white/[0.07] px-2 py-2 text-center text-[8px] font-black uppercase tracking-[0.06em] text-white/75 transition hover:bg-white/12 hover:text-white sm:rounded-xl sm:px-4 sm:py-3 sm:text-xs sm:tracking-[0.12em]">
                         {primarySchool.name} Hub →
                       </Link>
                     )}
-                    <Link href="/scoreboard" className="rounded-lg border border-white/10 bg-white/[0.07] px-2.5 py-2.5 text-center text-[9px] font-black uppercase tracking-[0.08em] text-white/75 transition hover:bg-white/12 hover:text-white sm:rounded-xl sm:px-4 sm:py-3 sm:text-xs sm:tracking-[0.12em]">
+                    <Link href="/scoreboard" className="rounded-lg border border-white/10 bg-white/[0.07] px-2 py-2 text-center text-[8px] font-black uppercase tracking-[0.06em] text-white/75 transition hover:bg-white/12 hover:text-white sm:rounded-xl sm:px-4 sm:py-3 sm:text-xs sm:tracking-[0.12em]">
                       Scoreboard →
                     </Link>
                   </div>
@@ -260,27 +260,27 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               </section>
             )}
 
-            <div className="mt-5 border-t border-white/10 pt-5 sm:mt-12 sm:pt-7">
+            <div className="mt-5 border-t border-white/10 pt-4 sm:mt-12 sm:pt-7">
               <div className="flex items-center">
                 <ArticleShare title={article.title} url={articleUrl} />
               </div>
               {topicTags.length > 0 && (
-                <div className="mt-6 flex flex-wrap gap-2">
-                  {topicTags.map((tag) => <span key={tag} className="rounded-full border border-white/10 bg-white/[0.055] px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-white/55">{tag}</span>)}
+                <div className="mt-4 flex flex-wrap gap-1.5 sm:mt-6 sm:gap-2">
+                  {topicTags.map((tag) => <span key={tag} className="rounded-full border border-white/10 bg-white/[0.055] px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/55 sm:px-3 sm:py-1.5 sm:text-[10px] sm:tracking-[0.14em]">{tag}</span>)}
                 </div>
               )}
             </div>
           </article>
 
-          <aside className="space-y-6">
+          <aside className="space-y-4 sm:space-y-6">
             {relatedSchools.length > 0 && (
-              <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
-                <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">Related Schools</p>
-                <div className="mt-5 flex flex-col gap-3">
+              <section className="rounded-[1.35rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6">
+                <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.28em]">Related Schools</p>
+                <div className="mt-3 flex flex-col gap-2 sm:mt-5 sm:gap-3">
                   {relatedSchools.map((school) => school && (
-                    <Link key={school.slug} href={`/schools/${school.slug}`} className="flex items-center gap-4 rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10">
+                    <Link key={school.slug} href={`/schools/${school.slug}`} className="flex items-center gap-3 rounded-xl border border-white/10 bg-black/35 p-3 transition hover:bg-white/10 sm:gap-4 sm:rounded-2xl sm:p-4">
                       <SchoolBadge school={school} size="xs" />
-                      <div><p className="text-sm font-black text-white">{school.name}</p><p className="text-xs font-bold uppercase tracking-[0.12em] text-white/40">{school.mascot}</p></div>
+                      <div><p className="text-[13px] font-black text-white sm:text-sm">{school.name}</p><p className="text-[10px] font-bold uppercase tracking-[0.1em] text-white/40 sm:text-xs sm:tracking-[0.12em]">{school.mascot}</p></div>
                     </Link>
                   ))}
                 </div>
@@ -288,14 +288,14 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             )}
 
             {relatedDistricts.length > 0 && (
-              <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
-                <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">Related District</p>
-                <div className="mt-5 flex flex-col gap-3">
+              <section className="rounded-[1.35rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6">
+                <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.28em]">Related District</p>
+                <div className="mt-3 flex flex-col gap-2 sm:mt-5 sm:gap-3">
                   {relatedDistricts.map((district) => district && (
-                    <Link key={district.id} href={`/districts/${district.slug}`} className="rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10">
-                      <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/40">District Hub</p>
-                      <h3 className="mt-2 text-sm font-black text-white">{district.name}</h3>
-                      <p className="mt-2 text-xs font-bold uppercase tracking-[0.14em] text-white/40">View Standings →</p>
+                    <Link key={district.id} href={`/districts/${district.slug}`} className="rounded-xl border border-white/10 bg-black/35 p-3 transition hover:bg-white/10 sm:rounded-2xl sm:p-4">
+                      <p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/40 sm:text-[10px] sm:tracking-[0.18em]">District Hub</p>
+                      <h3 className="mt-1.5 text-[13px] font-black text-white sm:mt-2 sm:text-sm">{district.name}</h3>
+                      <p className="mt-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-white/40 sm:mt-2 sm:text-xs sm:tracking-[0.14em]">View Standings →</p>
                     </Link>
                   ))}
                 </div>
@@ -303,22 +303,22 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             )}
 
             {relatedGames.length > 0 && (
-              <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
-                <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">Related Matchups</p>
-                <div className="mt-5 flex flex-col gap-3">
+              <section className="rounded-[1.35rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6">
+                <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.28em]">Related Matchups</p>
+                <div className="mt-3 flex flex-col gap-2 sm:mt-5 sm:gap-3">
                   {relatedGames.map((game) => {
                     const awaySchool = game.awaySchoolSlug ? getSchoolBySlug(game.awaySchoolSlug) : undefined;
                     const homeSchool = game.homeSchoolSlug ? getSchoolBySlug(game.homeSchoolSlug) : undefined;
                     const awayScore = game.awayScore ?? game.score?.away;
                     const homeScore = game.homeScore ?? game.score?.home;
                     return (
-                      <Link key={game.id} href={`/games/${game.id}`} className="block rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10">
-                        <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/40">Week {game.week ?? "TBD"}</p>
-                        <div className="mt-3 space-y-2.5">
-                          <div className="flex items-center gap-3">{awaySchool && <SchoolBadge school={awaySchool} size="xs" />}<p className="min-w-0 flex-1 truncate text-sm font-black text-white">{game.awayTeam}</p>{awayScore !== undefined && <span className="text-sm font-black tabular-nums text-white">{awayScore}</span>}</div>
-                          <div className="flex items-center gap-3">{homeSchool && <SchoolBadge school={homeSchool} size="xs" />}<p className="min-w-0 flex-1 truncate text-sm font-black text-white">{game.homeTeam}</p>{homeScore !== undefined && <span className="text-sm font-black tabular-nums text-white">{homeScore}</span>}</div>
+                      <Link key={game.id} href={`/games/${game.id}`} className="block rounded-xl border border-white/10 bg-black/35 p-3 transition hover:bg-white/10 sm:rounded-2xl sm:p-4">
+                        <p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/40 sm:text-[10px] sm:tracking-[0.18em]">Week {game.week ?? "TBD"}</p>
+                        <div className="mt-2 space-y-2 sm:mt-3 sm:space-y-2.5">
+                          <div className="flex items-center gap-2.5 sm:gap-3">{awaySchool && <SchoolBadge school={awaySchool} size="xs" />}<p className="min-w-0 flex-1 truncate text-[13px] font-black text-white sm:text-sm">{game.awayTeam}</p>{awayScore !== undefined && <span className="text-[13px] font-black tabular-nums text-white sm:text-sm">{awayScore}</span>}</div>
+                          <div className="flex items-center gap-2.5 sm:gap-3">{homeSchool && <SchoolBadge school={homeSchool} size="xs" />}<p className="min-w-0 flex-1 truncate text-[13px] font-black text-white sm:text-sm">{game.homeTeam}</p>{homeScore !== undefined && <span className="text-[13px] font-black tabular-nums text-white sm:text-sm">{homeScore}</span>}</div>
                         </div>
-                        <p className="mt-3 text-[10px] font-bold uppercase tracking-[0.14em] text-white/35">{formatShortDate(game.kickoff ?? game.date ?? "")} · View Matchup →</p>
+                        <p className="mt-2 text-[9px] font-bold uppercase tracking-[0.12em] text-white/35 sm:mt-3 sm:text-[10px] sm:tracking-[0.14em]">{formatShortDate(game.kickoff ?? game.date ?? "")} · View Matchup →</p>
                       </Link>
                     );
                   })}
@@ -327,13 +327,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             )}
 
             {relatedArticles.length > 0 && (
-              <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
-                <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">More Coverage</p>
-                <div className="mt-5 flex flex-col gap-3">
+              <section className="rounded-[1.35rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6">
+                <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.28em]">More Coverage</p>
+                <div className="mt-3 flex flex-col gap-2 sm:mt-5 sm:gap-3">
                   {relatedArticles.map((item) => (
-                    <Link key={item.id} href={`/coverage/${item.slug}`} className="rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10">
-                      <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/40">{formatArticleType(item.type)} · {formatShortDate(item.publishedAt)}</p>
-                      <h3 className="mt-2 text-sm font-black leading-5 text-white">{item.title}</h3>
+                    <Link key={item.id} href={`/coverage/${item.slug}`} className="rounded-xl border border-white/10 bg-black/35 p-3 transition hover:bg-white/10 sm:rounded-2xl sm:p-4">
+                      <p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/40 sm:text-[10px] sm:tracking-[0.18em]">{formatArticleType(item.type)} · {formatShortDate(item.publishedAt)}</p>
+                      <h3 className="mt-1.5 text-[13px] font-black leading-5 text-white sm:mt-2 sm:text-sm">{item.title}</h3>
                     </Link>
                   ))}
                 </div>
