@@ -77,4 +77,34 @@ export const ciscoGameStats: GameStats[] = [
       { player: "Terrick Hernandez", schoolSlug: "cisco", receptions: 1, yards: 27, touchdowns: 0 },
     ],
   },
+  {
+    gameId: "breckenridge-at-cisco-2026-week-3",
+    season: 2026,
+    sourceStatus: "verified",
+    sourceLabel: "VarsityVue Verified Stats",
+    quarterScores: [
+      { schoolSlug: "breckenridge", quarters: [0, 6, 0, 0], total: 6 },
+      { schoolSlug: "cisco", quarters: [7, 14, 14, 7], total: 42 },
+    ],
+    scoringPlays: [],
+    teamStats: [
+      { schoolSlug: "cisco", rushingAttempts: 41, rushingYards: 261, passingYards: 149, totalYards: 410, completions: 10, passAttempts: 13, interceptionsThrown: 2 },
+    ],
+    rushing: [
+      { player: "Gage Johnson", schoolSlug: "cisco", attempts: 2, yards: 24, touchdowns: 1 },
+      { player: "Landry Vosburg", schoolSlug: "cisco", attempts: 13, yards: 111, touchdowns: 3 },
+      { player: "July Johnson", schoolSlug: "cisco", attempts: 15, yards: 82, touchdowns: 1 },
+      { player: "Colby McIlroy", schoolSlug: "cisco", attempts: 11, yards: 44, touchdowns: 0 },
+    ],
+    passing: [
+      { player: "Colby McIlroy", schoolSlug: "cisco", completions: 10, attempts: 13, yards: 149, interceptions: 2, touchdowns: 1 },
+    ],
+    receiving: [
+      { player: "Corbin Harrison", schoolSlug: "cisco", receptions: 5, yards: 52, touchdowns: 0 },
+      { player: "Gage Johnson", schoolSlug: "cisco", receptions: 1, yards: 10, touchdowns: 0 },
+      { player: "Cannon Harris", schoolSlug: "cisco", receptions: 2, yards: 20, touchdowns: 0 },
+      { player: "Landry Vosburg", schoolSlug: "cisco", receptions: 1, yards: 52, touchdowns: 1 },
+      { player: "Carter Toof", schoolSlug: "cisco", receptions: 1, yards: 15, touchdowns: 0 },
+    ],
+  },
 ];
