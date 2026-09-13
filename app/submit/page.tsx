@@ -1,10 +1,33 @@
 import type { Metadata } from "next";
 
+const title = "Submit Texas High School Football Information | VarsityVue";
+const description =
+  "Submit Texas high school football stats, photos, videos, records, historical information, corrections, and story tips to VarsityVue for review.";
+
 export const metadata: Metadata = {
-  title: "Submit",
-  description:
-    "Submit Texas high school football stats, photos, videos, records, historical information, corrections, and story tips to VarsityVue for review.",
+  title,
+  description,
   alternates: { canonical: "/submit" },
+  openGraph: {
+    title,
+    description,
+    url: "/submit",
+    type: "website",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "VarsityVue Texas high school football",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: ["/opengraph-image"],
+  },
 };
 
 const submissionTypes = [
