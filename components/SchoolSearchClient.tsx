@@ -50,13 +50,13 @@ export default function SchoolSearchClient({ schools }: { schools: School[] }) {
   const hasQuery = query.trim().length > 0;
 
   return (
-    <aside className="rounded-[1.6rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:rounded-[2rem] sm:p-6">
+    <aside className="rounded-[1.35rem] border border-white/10 bg-white/[0.045] p-3.5 shadow-2xl sm:rounded-[2rem] sm:p-6">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-[10px] font-black uppercase tracking-[0.26em] text-white/45 sm:text-xs sm:tracking-[0.3em]">
+          <p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/45 sm:text-xs sm:tracking-[0.3em]">
             Find Your Program
           </p>
-          <h2 className="mt-2 text-[1.95rem] font-black leading-[1.05] tracking-tight text-white sm:text-3xl">
+          <h2 className="mt-1.5 text-[1.55rem] font-black leading-[1.05] tracking-tight text-white sm:mt-2 sm:text-3xl">
             School Lookup
           </h2>
         </div>
@@ -66,7 +66,7 @@ export default function SchoolSearchClient({ schools }: { schools: School[] }) {
         </div>
       </div>
 
-      <div className="mt-5 sm:mt-6">
+      <div className="mt-4 sm:mt-6">
         <label htmlFor="home-school-search" className="sr-only">
           Search live VarsityVue school hubs
         </label>
@@ -78,10 +78,10 @@ export default function SchoolSearchClient({ schools }: { schools: School[] }) {
           onKeyDown={handleKeyDown}
           placeholder="School, mascot, district, or stadium..."
           autoComplete="off"
-          className="w-full rounded-xl border border-white/10 bg-black/55 px-4 py-3 text-sm font-bold text-white outline-none transition placeholder:text-white/35 focus:border-white/35 focus:bg-black/75 focus-visible:ring-2 focus-visible:ring-white/70"
+          className="w-full rounded-xl border border-white/10 bg-black/55 px-3.5 py-2.5 text-sm font-bold text-white outline-none transition placeholder:text-white/35 focus:border-white/35 focus:bg-black/75 focus-visible:ring-2 focus-visible:ring-white/70 sm:px-4 sm:py-3"
         />
 
-        <div className="mt-3 flex items-center justify-between gap-4 text-[11px] font-bold text-white/40 sm:text-xs">
+        <div className="mt-2.5 flex items-center justify-between gap-4 text-[10px] font-bold text-white/40 sm:mt-3 sm:text-xs">
           <span aria-live="polite">
             {hasQuery
               ? `${filteredSchools.length} result${filteredSchools.length === 1 ? "" : "s"} found`
@@ -93,22 +93,22 @@ export default function SchoolSearchClient({ schools }: { schools: School[] }) {
         </div>
       </div>
 
-      <div className="mt-4 max-h-[420px] overflow-y-auto pr-1 sm:mt-5">
-        <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3">
+      <div className="mt-3.5 max-h-[420px] overflow-y-auto pr-1 sm:mt-5">
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3">
           {filteredSchools.length > 0 ? (
-            filteredSchools.map((school) => (
+            filteredSchools.map((school, index) => (
               <Link
                 key={school.id}
                 href={`/schools/${school.slug}`}
-                className="group min-w-0 rounded-xl border border-white/10 bg-black/35 p-3 text-center transition-all duration-300 hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:rounded-2xl sm:p-4"
+                className={`group min-w-0 rounded-xl border border-white/10 bg-black/35 p-2.5 text-center transition-all duration-300 hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:rounded-2xl sm:p-4 ${!hasQuery && index >= 6 ? "hidden sm:block" : ""}`}
               >
                 <div className="flex justify-center">
                   <ProgramLogo school={school} size="xs" />
                 </div>
-                <p className="mt-2.5 truncate text-[10px] font-black uppercase leading-tight tracking-[-0.01em] text-white sm:mt-3">
+                <p className="mt-2 truncate text-[10px] font-black uppercase leading-tight tracking-[-0.01em] text-white sm:mt-3">
                   {school.name}
                 </p>
-                <p className="mt-1 truncate text-[9px] font-semibold leading-tight tracking-[0.02em] text-white/45 sm:text-[10px]">
+                <p className="mt-0.5 truncate text-[9px] font-semibold leading-tight tracking-[0.02em] text-white/45 sm:mt-1 sm:text-[10px]">
                   {school.mascot}
                 </p>
               </Link>
@@ -130,10 +130,10 @@ export default function SchoolSearchClient({ schools }: { schools: School[] }) {
         </div>
       </div>
 
-      <div className="mt-4 flex justify-end sm:mt-5">
+      <div className="mt-3.5 flex justify-end sm:mt-5">
         <Link
           href="/schools"
-          className="inline-flex rounded-full border border-white/10 bg-black/35 px-4 py-2 text-[11px] font-black uppercase tracking-[0.14em] text-white/60 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:text-xs sm:tracking-[0.16em]"
+          className="inline-flex rounded-full border border-white/10 bg-black/35 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-[0.12em] text-white/60 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.16em]"
         >
           View All Live Hubs →
         </Link>
