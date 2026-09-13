@@ -40,13 +40,85 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
   const recentScores = getRecentScoresForSchool(slug);
   const standings = getStandingsForSchool(slug);
   const hasOfficialLinks = Boolean(school.officialWebsite || school.facebookUrl || school.instagramUrl || school.xUrl);
+  const officialProfiles = [school.officialWebsite, school.facebookUrl, school.instagramUrl, school.xUrl].filter(
+    (url): url is string => Boolean(url),
+  );
+  const schoolUrl = `https://varsityvue.com/schools/${school.slug}`;
 
   const schoolSchema = {
-    "@context": "https://schema.org", "@type": "SportsTeam", name: school.fullName, alternateName: school.name, sport: "Football",
-    url: `https://varsityvue.com/schools/${school.slug}`,
-    location: { "@type": "Place", name: school.stadium ?? `${school.name} football stadium` },
-    memberOf: district ? { "@type": "SportsOrganization", name: district.name, url: `https://varsityvue.com/districts/${district.slug}` } : undefined,
-    publisher: { "@type": "Organization", name: "VarsityVue", url: "https://varsityvue.com" },
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SportsTeam",
+        "@id": `${schoolUrl}#team`,
+        name: school.fullName,
+        alternateName: school.name,
+        sport: "Football",
+        url: schoolUrl,
+        ...(officialProfiles.length ? { sameAs: officialProfiles } : {}),
+        ...(school.headCoach
+          ? {
+              coach: {
+                "@type": "Person",
+                name: school.headCoach,
+              },
+            }
+          : {}),
+        location: {
+          "@type": "Place",
+          name: school.stadium ?? `${school.name} football stadium`,
+          ...(school.stadiumAddress
+            ? {
+                address: {
+                  "@type": "PostalAddress",
+                  streetAddress: school.stadiumAddress,
+                  addressRegion: "TX",
+                  addressCountry: "US",
+                },
+              }
+            : {}),
+        },
+        ...(district
+          ? {
+              memberOf: {
+                "@type": "SportsOrganization",
+                name: district.name,
+                url: `https://varsityvue.com/districts/${district.slug}`,
+              },
+            }
+          : {}),
+        publisher: {
+          "@type": "Organization",
+          "@id": "https://varsityvue.com/#organization",
+          name: "VarsityVue",
+          url: "https://varsityvue.com",
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${schoolUrl}#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: "https://varsityvue.com/",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Schools",
+            item: "https://varsityvue.com/schools",
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: school.fullName,
+            item: schoolUrl,
+          },
+        ],
+      },
+    ],
   };
 
   return (
