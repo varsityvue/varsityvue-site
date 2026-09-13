@@ -63,7 +63,7 @@ export async function generateMetadata({ params }: Omit<GameLayoutProps, "childr
       type: "website",
       images: [
         {
-          url: "/opengraph-image",
+          url: "/games/opengraph-image",
           width: 1200,
           height: 630,
           alt: `${awayTeam} at ${homeTeam} on VarsityVue`,
@@ -74,7 +74,7 @@ export async function generateMetadata({ params }: Omit<GameLayoutProps, "childr
       card: "summary_large_image",
       title,
       description,
-      images: ["/opengraph-image"],
+      images: ["/games/twitter-image"],
     },
     robots: shouldNoIndex
       ? {
