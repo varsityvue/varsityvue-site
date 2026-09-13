@@ -55,7 +55,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: "profile",
       images: [
         {
-          url: "/opengraph-image",
+          url: "/players/opengraph-image",
           width: 1200,
           height: 630,
           alt: `${player.player} football stats on VarsityVue`,
@@ -66,7 +66,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: "summary_large_image",
       title,
       description,
-      images: ["/opengraph-image"],
+      images: ["/players/twitter-image"],
     },
     robots: shouldIndex
       ? { index: true, follow: true }
