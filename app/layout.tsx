@@ -73,17 +73,34 @@ export const viewport: Viewport = {
   colorScheme: "dark",
 };
 
-const organizationSchema = {
+const structuredData = {
   "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "VarsityVue",
-  url: "https://varsityvue.com",
-  description:
-    "Texas high school football scores, schedules, standings, school hubs, matchup pages, player statistics, and local coverage.",
-  sameAs: [
-    "https://x.com/varsityvue",
-    "https://instagram.com/varsityvueapp",
-    "https://facebook.com/VarsityVue",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://varsityvue.com/#organization",
+      name: "VarsityVue",
+      url: "https://varsityvue.com",
+      logo: "https://varsityvue.com/logo-mark.svg",
+      description:
+        "Texas high school football scores, schedules, standings, school hubs, matchup pages, player statistics, and local coverage.",
+      sameAs: [
+        "https://x.com/varsityvue",
+        "https://instagram.com/varsityvueapp",
+        "https://facebook.com/VarsityVue",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://varsityvue.com/#website",
+      url: "https://varsityvue.com",
+      name: "VarsityVue",
+      description: siteDescription,
+      publisher: {
+        "@id": "https://varsityvue.com/#organization",
+      },
+      inLanguage: "en-US",
+    },
   ],
 };
 
@@ -98,7 +115,7 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationSchema),
+            __html: JSON.stringify(structuredData),
           }}
         />
 
