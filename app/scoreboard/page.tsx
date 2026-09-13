@@ -11,23 +11,33 @@ import { getStandingForSchool } from "@/lib/standings";
 import SchoolBadge from "@/components/SchoolBadge";
 import PageHero from "@/components/PageHero";
 
+const scoreboardTitle = "Texas High School Football Scores";
+const scoreboardDescription =
+  "Verified Texas high school football final scores, live games, featured matchups, and upcoming kickoffs from programs tracked by VarsityVue.";
+
 export const metadata: Metadata = {
-  title: "Texas High School Football Scores",
-  description:
-    "Verified Texas high school football final scores, live games, featured matchups, and upcoming kickoffs from programs tracked by VarsityVue.",
+  title: scoreboardTitle,
+  description: scoreboardDescription,
   alternates: { canonical: "/scoreboard" },
   openGraph: {
-    title: "Texas High School Football Scores | VarsityVue",
-    description:
-      "Verified Texas high school football final scores, live games, featured matchups, and upcoming kickoffs from programs tracked by VarsityVue.",
+    title: `${scoreboardTitle} | VarsityVue`,
+    description: scoreboardDescription,
     url: "/scoreboard",
     type: "website",
+    images: [
+      {
+        url: "/scoreboard/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "VarsityVue Texas high school football scores",
+      },
+    ],
   },
   twitter: {
-    card: "summary",
-    title: "Texas High School Football Scores | VarsityVue",
-    description:
-      "Verified Texas high school football final scores, live games, featured matchups, and upcoming kickoffs from programs tracked by VarsityVue.",
+    card: "summary_large_image",
+    title: `${scoreboardTitle} | VarsityVue`,
+    description: scoreboardDescription,
+    images: ["/scoreboard/twitter-image"],
   },
 };
 
