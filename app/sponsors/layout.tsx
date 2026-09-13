@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: "/sponsor-inquiry",
+  },
   robots: {
     index: false,
     follow: true,
