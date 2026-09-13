@@ -46,7 +46,7 @@ export default function AreaLeaders() {
       schoolSlug: player.schoolSlug,
       gamesRecorded: player.gamesRecorded,
       value: player.passing.yards,
-      detail: `${player.passing.completions}/${player.passing.attempts} · ${player.passing.touchdowns} TD`,
+      detail: `${player.passing.completions}/${player.passing.attempts} · ${player.passing.touchdowns} TD · ${player.passing.interceptions} INT`,
     }));
 
   const rushing: LeaderRow[] = players
@@ -135,12 +135,12 @@ export default function AreaLeaders() {
               Area Leaders
             </h2>
             <p className="mt-1.5 max-w-3xl text-xs leading-5 text-white/50 sm:mt-2 sm:text-sm sm:leading-6">
-              Top performers from VarsityVue featured programs based on verified statistics currently on file.
+              Top performers from VarsityVue featured programs based on verified statistics currently on file. Rankings update as additional game stats are received and may not represent every program equally.
             </p>
           </div>
-          <p className="w-fit rounded-full border border-white/10 bg-black/35 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/40 sm:px-3 sm:py-1.5 sm:text-xs sm:tracking-[0.16em]">
-            Through Week 3
-          </p>
+          <Link href="/stats" className="w-fit rounded-full border border-white/10 bg-black/35 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/45 transition hover:bg-white/10 hover:text-white sm:px-3 sm:py-1.5 sm:text-xs sm:tracking-[0.16em]">
+            View Full Leaders →
+          </Link>
         </div>
 
         <div className="mt-4 grid gap-2.5 sm:mt-6 sm:grid-cols-2 sm:gap-4 xl:grid-cols-5">
@@ -185,7 +185,7 @@ export default function AreaLeaders() {
         </div>
 
         <p className="mt-3 text-[9px] leading-4 text-white/35 sm:mt-5 sm:text-[11px] sm:leading-5">
-          All-purpose yards currently include rushing plus receiving yards from verified game statistics; return yardage is not yet tracked. Total TDs include passing, rushing, and receiving touchdowns.
+          All-purpose yards currently include rushing plus receiving yards from verified game statistics; return yardage is not yet tracked. Total TDs include passing, rushing, and receiving touchdowns. Statistical coverage varies by program and game based on verified data available to VarsityVue.
         </p>
       </div>
     </section>
