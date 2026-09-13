@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { gameStats } from "@/lib/all-game-stats";
 import { getPassingLeaders, getReceivingLeaders, getRushingLeaders } from "@/lib/player-stats";
 import { getPlayerProfile } from "@/lib/player-profiles";
 
@@ -11,6 +12,7 @@ export default function SchoolTeamLeaders({ schoolSlug, season = 2026, primaryCo
   const passing = getPassingLeaders({ season, schoolSlug, minAttempts: 1 }).slice(0, 3).map((entry) => ({ id: entry.playerId, name: entry.player, href: getPlayerProfile(entry.playerId, season) ? `/players/${entry.playerId}` : undefined, primary: `${entry.passing.yards.toLocaleString()} YDS`, secondary: `${entry.passing.completions}/${entry.passing.attempts} · ${entry.passing.touchdowns} TD · ${entry.passing.interceptions} INT · ${entry.gamesRecorded} G` }));
   const receiving = getReceivingLeaders({ season, schoolSlug, minReceptions: 1 }).slice(0, 3).map((entry) => ({ id: entry.playerId, name: entry.player, href: getPlayerProfile(entry.playerId, season) ? `/players/${entry.playerId}` : undefined, primary: `${entry.receiving.yards.toLocaleString()} YDS`, secondary: `${entry.receiving.receptions} REC · ${entry.receiving.touchdowns} TD · ${entry.receiving.yardsPerReception} YPR · ${entry.gamesRecorded} G` }));
   const hasLeaders = rushing.length > 0 || passing.length > 0 || receiving.length > 0;
+  const verifiedGames = gameStats.filter((game) => game.season === season && game.quarterScores.some((line) => line.schoolSlug === schoolSlug)).length;
 
   return (
     <section className="min-w-0 overflow-hidden rounded-[1.5rem] border shadow-2xl sm:rounded-[1.75rem]" style={{ borderColor: `${primaryColor}55`, background: "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 48%, rgba(0,0,0,1))", boxShadow: `inset 4px 0 0 ${primaryColor}, 0 18px 50px rgba(0,0,0,0.45)` }}>
@@ -20,12 +22,12 @@ export default function SchoolTeamLeaders({ schoolSlug, season = 2026, primaryCo
             <p className="text-[9px] font-black uppercase tracking-[0.2em] text-white/45 sm:text-xs sm:tracking-[0.28em]">{season} Offensive Leaders</p>
             <h2 className="mt-1.5 text-2xl font-black text-white sm:mt-3 sm:text-3xl">Team Leaders</h2>
           </div>
-          <p className="hidden text-xs text-white/35 sm:block">Verified VarsityVue stats</p>
+          <p className="hidden text-xs text-white/35 sm:block">{verifiedGames} verified {verifiedGames === 1 ? "game" : "games"} on file</p>
         </div>
 
         {hasLeaders ? (
           <>
-            <p className="mt-2 max-w-3xl text-[10px] leading-4 text-white/35 sm:mt-3 sm:text-xs sm:leading-5">Season totals reflect verified games currently on file and update as additional statistics are received.</p>
+            <p className="mt-2 max-w-3xl text-[10px] leading-4 text-white/35 sm:mt-3 sm:text-xs sm:leading-5">Season totals reflect {verifiedGames} verified {verifiedGames === 1 ? "game" : "games"} currently on file and update as additional statistics are received.</p>
             <div className="mt-4 grid gap-3 sm:mt-5 sm:gap-4 lg:grid-cols-[repeat(3,minmax(0,1fr))]">
               <CategoryCard label="Rushing" leaders={rushing} primaryColor={primaryColor} secondaryColor={secondaryColor} />
               <CategoryCard label="Passing" leaders={passing} primaryColor={primaryColor} secondaryColor={secondaryColor} />
