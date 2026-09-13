@@ -10,7 +10,7 @@ export default function SchoolTeamLeaders({ schoolSlug, season = 2026, primaryCo
   const rushing = getRushingLeaders({ season, schoolSlug, minAttempts: 1 }).slice(0, 3).map((entry) => ({ id: entry.playerId, name: entry.player, href: getPlayerProfile(entry.playerId, season) ? `/players/${entry.playerId}` : undefined, primary: `${entry.rushing.yards.toLocaleString()} YDS`, secondary: `${entry.rushing.attempts} CAR · ${entry.rushing.touchdowns} TD · ${entry.rushing.yardsPerCarry} YPC · ${entry.gamesRecorded} G` }));
   const passing = getPassingLeaders({ season, schoolSlug, minAttempts: 1 }).slice(0, 3).map((entry) => ({ id: entry.playerId, name: entry.player, href: getPlayerProfile(entry.playerId, season) ? `/players/${entry.playerId}` : undefined, primary: `${entry.passing.yards.toLocaleString()} YDS`, secondary: `${entry.passing.completions}/${entry.passing.attempts} · ${entry.passing.touchdowns} TD · ${entry.passing.interceptions} INT · ${entry.gamesRecorded} G` }));
   const receiving = getReceivingLeaders({ season, schoolSlug, minReceptions: 1 }).slice(0, 3).map((entry) => ({ id: entry.playerId, name: entry.player, href: getPlayerProfile(entry.playerId, season) ? `/players/${entry.playerId}` : undefined, primary: `${entry.receiving.yards.toLocaleString()} YDS`, secondary: `${entry.receiving.receptions} REC · ${entry.receiving.touchdowns} TD · ${entry.receiving.yardsPerReception} YPR · ${entry.gamesRecorded} G` }));
-  if (!rushing.length && !passing.length && !receiving.length) return null;
+  const hasLeaders = rushing.length > 0 || passing.length > 0 || receiving.length > 0;
 
   return (
     <section className="min-w-0 overflow-hidden rounded-[1.5rem] border shadow-2xl sm:rounded-[1.75rem]" style={{ borderColor: `${primaryColor}55`, background: "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 48%, rgba(0,0,0,1))", boxShadow: `inset 4px 0 0 ${primaryColor}, 0 18px 50px rgba(0,0,0,0.45)` }}>
@@ -23,11 +23,22 @@ export default function SchoolTeamLeaders({ schoolSlug, season = 2026, primaryCo
           <p className="hidden text-xs text-white/35 sm:block">Verified VarsityVue stats</p>
         </div>
 
-        <div className="mt-4 grid gap-3 sm:mt-5 sm:gap-4 lg:grid-cols-[repeat(3,minmax(0,1fr))]">
-          <CategoryCard label="Rushing" leaders={rushing} primaryColor={primaryColor} secondaryColor={secondaryColor} />
-          <CategoryCard label="Passing" leaders={passing} primaryColor={primaryColor} secondaryColor={secondaryColor} />
-          <CategoryCard label="Receiving" leaders={receiving} primaryColor={primaryColor} secondaryColor={secondaryColor} />
-        </div>
+        {hasLeaders ? (
+          <>
+            <p className="mt-2 max-w-3xl text-[10px] leading-4 text-white/35 sm:mt-3 sm:text-xs sm:leading-5">Season totals reflect verified games currently on file and update as additional statistics are received.</p>
+            <div className="mt-4 grid gap-3 sm:mt-5 sm:gap-4 lg:grid-cols-[repeat(3,minmax(0,1fr))]">
+              <CategoryCard label="Rushing" leaders={rushing} primaryColor={primaryColor} secondaryColor={secondaryColor} />
+              <CategoryCard label="Passing" leaders={passing} primaryColor={primaryColor} secondaryColor={secondaryColor} />
+              <CategoryCard label="Receiving" leaders={receiving} primaryColor={primaryColor} secondaryColor={secondaryColor} />
+            </div>
+          </>
+        ) : (
+          <div className="mt-4 rounded-xl border border-white/10 bg-black/35 p-4 sm:mt-5 sm:rounded-2xl sm:p-5">
+            <p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/40 sm:text-[10px] sm:tracking-[0.2em]">Stats Pending</p>
+            <p className="mt-2 max-w-3xl text-xs leading-5 text-white/55 sm:text-sm sm:leading-6">Verified individual statistics are not currently on file for this program. VarsityVue adds season statistics as reliable data is received.</p>
+            <Link href="/submit" className="mt-3 inline-flex text-[9px] font-black uppercase tracking-[0.12em] text-white/55 transition hover:text-white sm:mt-4 sm:text-[10px] sm:tracking-[0.14em]">Submit stats →</Link>
+          </div>
+        )}
       </div>
     </section>
   );
