@@ -1,13 +1,36 @@
 import type { Metadata } from "next";
 
+const title = "Partner With VarsityVue";
+const description =
+  "Learn about future partnership opportunities with VarsityVue as Texas high school football coverage expands across schools, games, districts, scoreboards, and local communities.";
+
 export const metadata: Metadata = {
-  title: { absolute: "Partner With VarsityVue" },
-  description:
-    "Learn about future partnership opportunities with VarsityVue as Texas high school football coverage expands across schools, games, districts, scoreboards, and local communities.",
+  title: { absolute: title },
+  description,
   alternates: { canonical: "/sponsor-inquiry" },
   robots: {
     index: false,
     follow: true,
+  },
+  openGraph: {
+    title,
+    description,
+    url: "/sponsor-inquiry",
+    type: "website",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "VarsityVue Texas high school football",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: ["/opengraph-image"],
   },
 };
 
