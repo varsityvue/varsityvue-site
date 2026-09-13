@@ -41,16 +41,40 @@ export async function generateMetadata({ params }: Omit<GameLayoutProps, "childr
     game.status === "postponed" ||
     !hasFeaturedProgram;
 
+  const awayTeam = game.awayTeam ?? "Away Team";
+  const homeTeam = game.homeTeam ?? "Home Team";
+  const title = `${awayTeam} at ${homeTeam} | VarsityVue`;
+  const description = `Follow ${awayTeam} at ${homeTeam} with scores, matchup details, schedules, and verified football coverage on VarsityVue.`;
+  const url = `/games/${game.id}`;
+
   return {
     title: {
-      default: `${game.awayTeam ?? "Away Team"} at ${game.homeTeam ?? "Home Team"} | VarsityVue`,
+      default: title,
       template: "%s",
     },
+    description,
     alternates: {
-      canonical: `/games/${game.id}`,
+      canonical: url,
     },
     openGraph: {
-      url: `/games/${game.id}`,
+      title,
+      description,
+      url,
+      type: "website",
+      images: [
+        {
+          url: "/opengraph-image",
+          width: 1200,
+          height: 630,
+          alt: `${awayTeam} at ${homeTeam} on VarsityVue`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/opengraph-image"],
     },
     robots: shouldNoIndex
       ? {
