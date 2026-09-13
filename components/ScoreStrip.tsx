@@ -54,13 +54,13 @@ export default function ScoreStrip() {
         }
       `}</style>
 
-      <div className="flex min-h-12 items-stretch sm:min-h-14">
+      <div className="flex min-h-10 items-stretch sm:min-h-14">
         <Link
           href="/scoreboard"
-          className="relative z-10 flex shrink-0 items-center border-r border-white/10 bg-[var(--vv-primary)] px-3 text-[9px] font-black uppercase tracking-[0.16em] text-white shadow-[8px_0_20px_rgba(0,0,0,0.35)] sm:px-5 sm:text-xs sm:tracking-[0.2em]"
+          className="relative z-10 flex shrink-0 items-center border-r border-white/10 bg-[var(--vv-primary)] px-2.5 text-[8px] font-black uppercase tracking-[0.14em] text-white shadow-[8px_0_20px_rgba(0,0,0,0.35)] sm:px-5 sm:text-xs sm:tracking-[0.2em]"
         >
-          <span className="max-w-[74px] leading-tight sm:max-w-none">{label}</span>
-          <span className="ml-1.5 text-white/65 sm:ml-2">→</span>
+          <span className="max-w-[62px] leading-tight sm:max-w-none">{label}</span>
+          <span className="ml-1 text-white/65 sm:ml-2">→</span>
         </Link>
 
         <div className="vv-score-ticker-wrap min-w-0 flex-1 overflow-hidden">
@@ -76,37 +76,37 @@ export default function ScoreStrip() {
                   href={`/games/${game.id}`}
                   aria-hidden={duplicate ? true : undefined}
                   tabIndex={duplicate ? -1 : undefined}
-                  className="group flex min-w-max items-center gap-2 border-r border-white/10 px-3 py-2.5 transition hover:bg-white/[0.055] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white/70 sm:gap-2.5 sm:px-4 sm:py-3"
+                  className="group flex min-w-max items-center gap-1.5 border-r border-white/10 px-2.5 py-2 transition hover:bg-white/[0.055] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white/70 sm:gap-2.5 sm:px-4 sm:py-3"
                 >
                   <span
-                    className={`text-[8px] font-black uppercase tracking-[0.14em] sm:text-[9px] sm:tracking-[0.16em] ${
+                    className={`text-[7px] font-black uppercase tracking-[0.12em] sm:text-[9px] sm:tracking-[0.16em] ${
                       isFinal ? "text-white/45" : "text-white/50"
                     }`}
                   >
                     {isFinal ? "Final" : game.displayStatus}
                   </span>
 
-                  <span className="text-xs font-black text-white sm:text-sm">
+                  <span className="text-[11px] font-black text-white sm:text-sm">
                     {game.awayTeam ?? "Away"}
                   </span>
 
                   {isFinal && score.away !== undefined ? (
-                    <span className="min-w-4 text-center text-sm font-black tabular-nums text-white sm:min-w-5 sm:text-base">
+                    <span className="min-w-4 text-center text-xs font-black tabular-nums text-white sm:min-w-5 sm:text-base">
                       {score.away}
                     </span>
                   ) : null}
 
-                  <span className="text-[8px] font-black uppercase tracking-[0.1em] text-white/25 sm:text-[9px]">
+                  <span className="text-[7px] font-black uppercase tracking-[0.08em] text-white/25 sm:text-[9px] sm:tracking-[0.1em]">
                     {isFinal ? "—" : "at"}
                   </span>
 
                   {isFinal && score.home !== undefined ? (
-                    <span className="min-w-4 text-center text-sm font-black tabular-nums text-white sm:min-w-5 sm:text-base">
+                    <span className="min-w-4 text-center text-xs font-black tabular-nums text-white sm:min-w-5 sm:text-base">
                       {score.home}
                     </span>
                   ) : null}
 
-                  <span className="text-xs font-black text-white sm:text-sm">
+                  <span className="text-[11px] font-black text-white sm:text-sm">
                     {game.homeTeam ?? "Home"}
                   </span>
 
