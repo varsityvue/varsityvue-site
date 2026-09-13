@@ -103,44 +103,44 @@ export default function SchoolDirectory({ schools }: { schools: DirectorySchool[
 
   return (
     <>
-      <section className="mb-8 rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:p-6">
-        <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
+      <section className="mb-5 rounded-[1.3rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:mb-8 sm:rounded-[1.75rem] sm:p-6">
+        <div className="grid gap-2.5 sm:gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
+            <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/70 sm:text-xs sm:tracking-[0.28em]">
               School Search
             </p>
 
-            <h2 className="mt-2 text-3xl font-black text-white">
+            <h2 className="mt-1.5 text-2xl font-black text-white sm:mt-2 sm:text-3xl">
               Find a School Hub
             </h2>
           </div>
 
-          <p className="text-sm font-bold text-white/45" aria-live="polite">
+          <p className="text-xs font-bold text-white/45 sm:text-sm" aria-live="polite">
             {filteredSchools.length} of {schools.length} schools shown
           </p>
         </div>
 
-        <div className="mt-5">
+        <div className="mt-3.5 sm:mt-5">
           <label htmlFor="school-directory-search" className="sr-only">
             Search school hubs by school, mascot, district, classification, or stadium
           </label>
           <input
             id="school-directory-search"
             type="search"
-            placeholder="Find your school, mascot, abbreviation, district, classification, or stadium..."
+            placeholder="Search school, mascot, district, class, or stadium..."
             value={search}
             onChange={(event) => setSearch(event.target.value)}
             autoComplete="off"
-            className="w-full rounded-2xl border border-white/10 bg-black/55 px-5 py-4 text-sm font-bold text-white outline-none transition placeholder:text-white/35 focus:border-white/30 focus:bg-black/75 focus-visible:ring-2 focus-visible:ring-white/70"
+            className="w-full rounded-xl border border-white/10 bg-black/55 px-4 py-3 text-sm font-bold text-white outline-none transition placeholder:text-white/35 focus:border-white/30 focus:bg-black/75 focus-visible:ring-2 focus-visible:ring-white/70 sm:rounded-2xl sm:px-5 sm:py-4"
           />
         </div>
 
-        <fieldset className="mt-5">
-          <legend className="mb-3 text-[10px] font-black uppercase tracking-[0.22em] text-white/35">
+        <fieldset className="mt-4 sm:mt-5">
+          <legend className="mb-2 text-[9px] font-black uppercase tracking-[0.18em] text-white/35 sm:mb-3 sm:text-[10px] sm:tracking-[0.22em]">
             Classification
           </legend>
 
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2 sm:gap-3">
             {classificationFilters.map((classification) => (
               <FilterButton
                 key={classification}
@@ -155,21 +155,21 @@ export default function SchoolDirectory({ schools }: { schools: DirectorySchool[
       </section>
 
       {filteredSchools.length === 0 ? (
-        <div className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-10 text-center shadow-2xl">
-          <h2 className="text-3xl font-black text-white">No schools found.</h2>
-          <p className="mt-3 text-white/50">
+        <div className="rounded-[1.3rem] border border-white/10 bg-white/[0.045] p-6 text-center shadow-2xl sm:rounded-[1.75rem] sm:p-10">
+          <h2 className="text-2xl font-black text-white sm:text-3xl">No schools found.</h2>
+          <p className="mt-2 text-sm text-white/50 sm:mt-3">
             Try searching by school name, mascot, abbreviation, district,
             classification, or stadium.
           </p>
           <Link
             href="/school-request"
-            className="mt-5 inline-flex rounded-full border border-white/15 bg-white/5 px-5 py-3 text-sm font-black uppercase tracking-[0.14em] text-white/75 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+            className="mt-4 inline-flex rounded-full border border-white/15 bg-white/5 px-4 py-2.5 text-xs font-black uppercase tracking-[0.12em] text-white/75 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:mt-5 sm:px-5 sm:py-3 sm:text-sm sm:tracking-[0.14em]"
           >
             Request a School →
           </Link>
         </div>
       ) : (
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-3 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
           {filteredSchools.map((school) => {
             const classification = formatClassification(school.classification);
             const district = formatDistrictName(school.districtId);
@@ -179,7 +179,7 @@ export default function SchoolDirectory({ schools }: { schools: DirectorySchool[
               <Link
                 key={school.slug}
                 href={`/schools/${school.slug}`}
-                className="group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-xl transition-all duration-200 hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.075] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                className="group relative overflow-hidden rounded-[1.3rem] border border-white/10 bg-white/[0.045] p-4 shadow-xl transition-all duration-200 hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.075] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:rounded-[1.75rem] sm:p-5"
                 style={{
                   boxShadow: `0 18px 50px ${school.colors.primary}24`,
                 }}
@@ -192,9 +192,9 @@ export default function SchoolDirectory({ schools }: { schools: DirectorySchool[
                 />
 
                 <div className="relative">
-                  <div className="mb-6 flex items-start justify-between gap-4">
+                  <div className="mb-4 flex items-start justify-between gap-3 sm:mb-6 sm:gap-4">
                     {programLogo ? (
-                      <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-black/35 p-1.5 shadow-lg">
+                      <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-black/35 p-1.5 shadow-lg sm:h-16 sm:w-16 sm:rounded-2xl">
                         <img
                           src={programLogo}
                           alt={`${school.fullName} logo`}
@@ -205,7 +205,7 @@ export default function SchoolDirectory({ schools }: { schools: DirectorySchool[
                       </div>
                     ) : (
                       <div
-                        className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 text-xl font-black shadow-lg"
+                        className="flex h-14 w-14 items-center justify-center rounded-xl border border-white/10 text-lg font-black shadow-lg sm:h-16 sm:w-16 sm:rounded-2xl sm:text-xl"
                         style={{
                           backgroundColor: school.colors.primary,
                           color: school.colors.secondary,
@@ -217,25 +217,25 @@ export default function SchoolDirectory({ schools }: { schools: DirectorySchool[
                       </div>
                     )}
 
-                    <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-white/70">
+                    <span className="rounded-full border border-white/15 bg-white/10 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.14em] text-white/70 sm:px-3 sm:py-1.5 sm:text-[10px] sm:tracking-[0.18em]">
                       School Hub
                     </span>
                   </div>
 
-                  <h2 className="text-2xl font-black leading-tight text-white transition group-hover:text-white/80">
+                  <h2 className="text-xl font-black leading-tight text-white transition group-hover:text-white/80 sm:text-2xl">
                     {school.name}
                   </h2>
 
-                  <p className="mt-2 text-sm font-bold uppercase tracking-[0.14em] text-white/45">
+                  <p className="mt-1.5 text-xs font-bold uppercase tracking-[0.12em] text-white/45 sm:mt-2 sm:text-sm sm:tracking-[0.14em]">
                     {school.mascot}
                   </p>
 
-                  <div className="mt-6 flex flex-wrap gap-2">
+                  <div className="mt-4 flex flex-wrap gap-1.5 sm:mt-6 sm:gap-2">
                     <MiniPill label={classification} />
                     <MiniPill label={district} />
                   </div>
 
-                  <div className="mt-5 space-y-3 rounded-2xl border border-white/10 bg-black/40 p-4">
+                  <div className="mt-4 space-y-2 rounded-xl border border-white/10 bg-black/40 p-3 sm:mt-5 sm:space-y-3 sm:rounded-2xl sm:p-4">
                     <SchoolMeta label="Class" value={classification} />
                     <SchoolMeta label="District" value={district} />
                     <SchoolMeta label="Stadium" value={school.stadium ?? "TBD"} />
@@ -255,13 +255,13 @@ export default function SchoolDirectory({ schools }: { schools: DirectorySchool[
                     )}
                   </div>
 
-                  <div className="mt-6 flex items-center justify-between gap-4">
-                    <p className="text-sm font-black uppercase tracking-[0.14em] text-white/70 transition group-hover:text-white">
+                  <div className="mt-4 flex items-center justify-between gap-3 sm:mt-6 sm:gap-4">
+                    <p className="text-[11px] font-black uppercase tracking-[0.12em] text-white/70 transition group-hover:text-white sm:text-sm sm:tracking-[0.14em]">
                       View school hub
                     </p>
 
                     <span
-                      className="rounded-full border border-white/10 px-3 py-2 text-sm font-black transition group-hover:text-white"
+                      className="rounded-full border border-white/10 px-2.5 py-1.5 text-xs font-black transition group-hover:text-white sm:px-3 sm:py-2 sm:text-sm"
                       style={{
                         backgroundColor: `${school.colors.primary}33`,
                         color: school.colors.secondary,
@@ -296,13 +296,13 @@ function FilterButton({
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`rounded-full border px-4 py-2 text-sm font-black transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 ${active
+      className={`rounded-full border px-3 py-1.5 text-xs font-black transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:px-4 sm:py-2 sm:text-sm ${active
         ? "border-white/20 bg-white text-black shadow-[0_0_24px_rgba(255,255,255,0.12)]"
         : "border-white/10 bg-black/30 text-white/60 hover:bg-white/10 hover:text-white"
         }`}
     >
       {label}
-      <span className={`ml-2 ${active ? "text-black/45" : "text-white/40"}`}>
+      <span className={`ml-1.5 sm:ml-2 ${active ? "text-black/45" : "text-white/40"}`}>
         {count}
       </span>
     </button>
@@ -311,7 +311,7 @@ function FilterButton({
 
 function MiniPill({ label }: { label: string }) {
   return (
-    <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-white/65">
+    <span className="rounded-full border border-white/10 bg-white/10 px-2.5 py-0.5 text-[9px] font-black uppercase tracking-[0.1em] text-white/65 sm:px-3 sm:py-1 sm:text-[10px] sm:tracking-[0.12em]">
       {label}
     </span>
   );
@@ -319,7 +319,7 @@ function MiniPill({ label }: { label: string }) {
 
 function SchoolMeta({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex justify-between gap-4 text-sm">
+    <div className="flex justify-between gap-3 text-xs sm:gap-4 sm:text-sm">
       <span className="text-white/40">{label}</span>
       <span className="text-right font-semibold text-white/80">{value}</span>
     </div>
