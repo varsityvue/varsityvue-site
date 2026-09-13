@@ -21,9 +21,52 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       school?.status === "pilot"
   );
 
+  if (!player) {
+    return {
+      title: {
+        default: "Player Not Found",
+        template: "%s",
+      },
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
+  }
+
+  const schoolName = school?.fullName ?? "Texas High School Football";
+  const title = `${player.player} Football Stats | VarsityVue`;
+  const description = `${player.player}'s ${SEASON} football stats for ${schoolName}, including verified rushing, passing, receiving, and game data on VarsityVue.`;
+  const url = `/players/${player.playerId}`;
+
   return {
+    title: {
+      default: title,
+      template: "%s",
+    },
+    description,
     alternates: {
-      canonical: `/players/${playerId}`,
+      canonical: url,
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      type: "profile",
+      images: [
+        {
+          url: "/opengraph-image",
+          width: 1200,
+          height: 630,
+          alt: `${player.player} football stats on VarsityVue`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/opengraph-image"],
     },
     robots: shouldIndex
       ? { index: true, follow: true }
