@@ -119,9 +119,7 @@ export default function GamesPage() {
     regularGames[0];
 
   const liveGames = regularGames.filter((game) => game.status === "live");
-  const upcomingGames = regularGames.filter(
-    (game) => game.status === "upcoming"
-  );
+  const upcomingGames = regularGames.filter((game) => game.status === "upcoming");
   const districtGames = regularGames.filter((game) => game.districtGame);
   const hasLiveGames = liveGames.length > 0;
 
@@ -155,10 +153,10 @@ export default function GamesPage() {
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] text-white">
-      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.62),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 py-8 sm:px-6 lg:px-8">
+      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.62),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
         <div className="mx-auto max-w-[1440px]">
           <section
-            className="rounded-[2rem] border border-white/10 p-6 shadow-2xl md:p-8"
+            className="rounded-[1.5rem] border border-white/10 p-5 shadow-2xl sm:rounded-[2rem] sm:p-6 md:p-8"
             style={{
               background: `
                 radial-gradient(circle at top left, rgba(139,16,32,0.42), transparent 42%),
@@ -167,17 +165,16 @@ export default function GamesPage() {
               `,
             }}
           >
-            <h1 className="max-w-5xl text-4xl font-black leading-tight tracking-tight sm:text-6xl">
+            <h1 className="max-w-5xl text-[2rem] font-black leading-[1.08] tracking-tight sm:text-6xl sm:leading-tight">
               VarsityVue Football Scores + Schedules
             </h1>
 
-            <p className="mt-6 max-w-3xl text-base leading-7 text-white/60 sm:text-lg">
-              Schedules, live scores, featured matchups, district games, and
-              game-week coverage across the VarsityVue ecosystem.
+            <p className="mt-3 max-w-3xl text-sm leading-6 text-white/60 sm:mt-6 sm:text-lg sm:leading-7">
+              Schedules, live scores, featured matchups, district games, and game-week coverage across the VarsityVue ecosystem.
             </p>
           </section>
 
-          <section className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <section className="mt-4 grid grid-cols-2 gap-2.5 sm:mt-6 sm:gap-4 lg:grid-cols-4">
             <StatCard label="Total Games" value={regularGames.length.toString()} />
             <StatCard label="Live Now" value={liveGames.length.toString()} />
             <StatCard label="Final Scores" value={finalGames.length.toString()} />
@@ -186,60 +183,54 @@ export default function GamesPage() {
         </div>
       </section>
 
-      <section className="px-4 py-8 sm:px-6 lg:px-8">
+      <section className="px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
         <div className="mx-auto max-w-[1440px]">
           {featuredGame && (
-            <section className="overflow-hidden rounded-[2rem] border border-[color:var(--vv-primary)]/40 bg-gradient-to-br from-[var(--vv-primary)]/45 via-black to-black shadow-2xl">
+            <section className="overflow-hidden rounded-[1.5rem] border border-[color:var(--vv-primary)]/40 bg-gradient-to-br from-[var(--vv-primary)]/45 via-black to-black shadow-2xl sm:rounded-[2rem]">
               <div className="grid gap-0 lg:grid-cols-[1.25fr_0.75fr]">
-                <div className="p-6 md:p-8">
-                  <p className="text-xs font-black uppercase tracking-[0.32em] text-[var(--vv-accent-soft)]">
+                <div className="p-4 sm:p-6 md:p-8">
+                  <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent-soft)] sm:text-xs sm:tracking-[0.32em]">
                     {featuredGame.specialEvent === "Game of the Week" ? "Game of the Week" : "Featured Matchup"}
                   </p>
 
-                  <h2 className="mt-4 text-4xl font-black leading-tight sm:text-5xl">
+                  <h2 className="mt-2.5 text-3xl font-black leading-[1.05] sm:mt-4 sm:text-5xl sm:leading-tight">
                     {getAwayTeam(featuredGame)}
                     <span className="block text-white/35">at</span>
                     {getHomeTeam(featuredGame)}
                   </h2>
 
-                  <div className="mt-6 flex flex-wrap gap-2">
-                    <Badge
-                      label={getGameTypeLabel(
-                        featuredGame.gameType,
-                        featuredGame.week
-                      )}
-                    />
+                  <div className="mt-4 flex flex-wrap gap-1.5 sm:mt-6 sm:gap-2">
+                    <Badge label={getGameTypeLabel(featuredGame.gameType, featuredGame.week)} />
                     <Badge label={formatStatus(featuredGame.status, featuredGame.gameType)} />
                     {featuredGame.districtGame && <Badge label="District Game" />}
                     {featuredGame.specialEvent && <Badge label={featuredGame.specialEvent} />}
                   </div>
 
-                  <div className="mt-7 grid gap-3 sm:grid-cols-3">
+                  <div className="mt-4 grid grid-cols-3 gap-2 sm:mt-7 sm:gap-3">
                     <InfoCard label="Date" value={formatGameDate(featuredGame.kickoff)} />
                     <InfoCard label="Kickoff" value={formatGameTime(featuredGame.kickoff)} />
                     <InfoCard label="Venue" value={getVenue(featuredGame)} />
                   </div>
                 </div>
 
-                <div className="flex flex-col justify-between border-t border-white/10 bg-black/35 p-6 md:p-8 lg:border-l lg:border-t-0">
+                <div className="flex flex-col justify-between border-t border-white/10 bg-black/35 p-4 sm:p-6 md:p-8 lg:border-l lg:border-t-0">
                   <div>
-                    <p className="text-xs font-black uppercase tracking-[0.28em] text-white/40">
+                    <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/40 sm:text-xs sm:tracking-[0.28em]">
                       Matchup Center
                     </p>
-                    <h3 className="mt-3 text-3xl font-black">
+                    <h3 className="mt-2 text-xl font-black sm:mt-3 sm:text-3xl">
                       Follow the game in one place.
                     </h3>
-                    <p className="mt-3 text-sm leading-6 text-white/55">
-                      Open the matchup center for confirmed game details, scores,
-                      team links, and verified postgame information as it becomes available.
+                    <p className="mt-2 text-xs leading-5 text-white/55 sm:mt-3 sm:text-sm sm:leading-6">
+                      Open the matchup center for confirmed game details, scores, team links, and verified postgame information as it becomes available.
                     </p>
                   </div>
 
-                  <div className="mt-6 space-y-3">
+                  <div className="mt-4 space-y-2 sm:mt-6 sm:space-y-3">
                     <BroadcastButtons links={featuredGame.mediaLinks} />
                     <Link
                       href={`/games/${featuredGame.id}`}
-                      className="block rounded-xl border border-white/15 bg-white/10 px-5 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white/15"
+                      className="block rounded-xl border border-white/15 bg-white/10 px-4 py-3 text-center text-[11px] font-black uppercase tracking-[0.12em] text-white transition hover:bg-white/15 sm:px-5 sm:py-4 sm:text-sm sm:tracking-[0.16em]"
                     >
                       Matchup Center →
                     </Link>
@@ -249,18 +240,18 @@ export default function GamesPage() {
             </section>
           )}
 
-          <section className="mt-8 rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:p-6">
-            <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <section className="mt-5 rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:mt-8 sm:rounded-[1.75rem] sm:p-6">
+            <div className="mb-4 flex items-end justify-between gap-3 sm:mb-6">
               <div>
-                <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
+                <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.28em]">
                   {hasLiveGames ? "Live Score Strip" : upcomingGames.length > 0 ? "Next Up" : "Recent Results"}
                 </p>
-                <h2 className="mt-2 text-3xl font-black text-white">
+                <h2 className="mt-1.5 text-xl font-black text-white sm:mt-2 sm:text-3xl">
                   {hasLiveGames ? "Live Scoreboard" : upcomingGames.length > 0 ? "Upcoming Games" : "Latest Finals"}
                 </h2>
               </div>
 
-              <p className="text-sm font-bold text-white/45">
+              <p className="shrink-0 text-[11px] font-bold text-white/45 sm:text-sm">
                 {hasLiveGames
                   ? `${liveGames.length} live`
                   : upcomingGames.length > 0
@@ -272,20 +263,17 @@ export default function GamesPage() {
             </div>
 
             {stripGames.length > 0 ? (
-              <div className="flex gap-3 overflow-x-auto pb-2 pr-4">
+              <div className="flex gap-2.5 overflow-x-auto pb-1.5 pr-2 sm:gap-3 sm:pb-2 sm:pr-4">
                 {stripGames.map((game) => (
-                  <div
-                    key={game.id}
-                    className="min-w-[280px] rounded-2xl border border-white/10 bg-black/35 p-4"
-                  >
+                  <div key={game.id} className="min-w-[235px] rounded-[1.1rem] border border-white/10 bg-black/35 p-3 sm:min-w-[280px] sm:rounded-2xl sm:p-4">
                     <Link href={`/games/${game.id}`} className="block transition hover:opacity-80">
-                      <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[var(--vv-accent)]">
+                      <p className="text-[9px] font-black uppercase tracking-[0.14em] text-[var(--vv-accent)] sm:text-[10px] sm:tracking-[0.18em]">
                         {formatStatus(game.status, game.gameType)} · {getGameTypeLabel(game.gameType, game.week)}
                       </p>
-                      <h3 className="mt-2 text-lg font-black text-white">
+                      <h3 className="mt-1.5 text-sm font-black leading-5 text-white sm:mt-2 sm:text-lg">
                         {getAwayTeam(game)} at {getHomeTeam(game)}
                       </h3>
-                      <p className="mt-2 text-sm text-white/45">
+                      <p className="mt-1.5 text-xs text-white/45 sm:mt-2 sm:text-sm">
                         {formatGameDate(game.kickoff)} · {formatGameTime(game.kickoff)}
                       </p>
                     </Link>
@@ -300,58 +288,54 @@ export default function GamesPage() {
             )}
           </section>
 
-          <section id="all-matchups" className="mt-10 scroll-mt-24">
-            <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
-                  Schedule Board
-                </p>
-                <h2 className="mt-2 text-3xl font-black text-white">All Matchups</h2>
-              </div>
+          <section id="all-matchups" className="mt-7 scroll-mt-24 sm:mt-10">
+            <div className="mb-4 sm:mb-6">
+              <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.28em]">
+                Schedule Board
+              </p>
+              <h2 className="mt-1.5 text-2xl font-black text-white sm:mt-2 sm:text-3xl">All Matchups</h2>
             </div>
 
             {displayGames.length > 0 ? (
-              <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+              <div className="grid gap-3 sm:gap-5 md:grid-cols-2 xl:grid-cols-3">
                 {displayGames.map((game) => (
                   <div
                     key={game.id}
-                    className="group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-xl transition hover:-translate-y-1 hover:border-[color:var(--vv-accent)]/40 hover:bg-white/[0.075]"
+                    className="group relative overflow-hidden rounded-[1.35rem] border border-white/10 bg-white/[0.045] p-4 shadow-xl transition hover:-translate-y-1 hover:border-[color:var(--vv-accent)]/40 hover:bg-white/[0.075] sm:rounded-[1.75rem] sm:p-5"
                   >
                     <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(139,16,32,0.38),transparent_55%)] opacity-45 transition group-hover:opacity-70" />
                     <div className="relative">
                       <Link href={`/games/${game.id}`} className="block">
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-1.5 sm:gap-2">
                           <Badge label={getGameTypeLabel(game.gameType, game.week)} />
                           <Badge label={formatStatus(game.status, game.gameType)} />
                           {game.districtGame && <Badge label="District" />}
                           {game.specialEvent && <Badge label={game.specialEvent} />}
                         </div>
 
-                        <h3 className="mt-5 text-2xl font-black leading-tight text-white">
+                        <h3 className="mt-3 text-xl font-black leading-[1.08] text-white sm:mt-5 sm:text-2xl sm:leading-tight">
                           {getAwayTeam(game)}
                           <span className="block text-white/35">at</span>
                           {getHomeTeam(game)}
                         </h3>
 
-                        <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                        <div className="mt-3 grid grid-cols-2 gap-2 sm:mt-6 sm:gap-3">
                           <InfoCard label="Date" value={formatGameDate(game.kickoff)} />
                           <InfoCard label="Kickoff" value={formatGameTime(game.kickoff)} />
                         </div>
 
-                        <div className="mt-3 rounded-2xl border border-white/10 bg-black/35 p-4">
-                          <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">Venue</p>
-                          <p className="mt-2 font-black text-white">{getVenue(game)}</p>
+                        <div className="mt-2 rounded-xl border border-white/10 bg-black/35 p-3 sm:mt-3 sm:rounded-2xl sm:p-4">
+                          <p className="text-[9px] font-black uppercase tracking-[0.15em] text-white/35 sm:text-[10px] sm:tracking-[0.18em]">Venue</p>
+                          <p className="mt-1 text-sm font-black leading-5 text-white sm:mt-2 sm:text-base">{getVenue(game)}</p>
                         </div>
 
-                        {game.status === "final" &&
-                          game.homeScore !== undefined &&
-                          game.awayScore !== undefined && (
-                            <p className="mt-4 text-lg font-black text-white">
-                              Final: {game.awayScore}-{game.homeScore}
-                            </p>
-                          )}
+                        {game.status === "final" && game.homeScore !== undefined && game.awayScore !== undefined && (
+                          <p className="mt-3 text-base font-black text-white sm:mt-4 sm:text-lg">
+                            Final: {game.awayScore}-{game.homeScore}
+                          </p>
+                        )}
 
-                        <p className="mt-6 text-sm font-black uppercase tracking-[0.14em] text-[var(--vv-accent)]">
+                        <p className="mt-4 text-[11px] font-black uppercase tracking-[0.11em] text-[var(--vv-accent)] sm:mt-6 sm:text-sm sm:tracking-[0.14em]">
                           Matchup Center →
                         </p>
                       </Link>
@@ -373,22 +357,20 @@ export default function GamesPage() {
 }
 
 function BroadcastButtons({ links, compact = false }: { links?: MediaLink[]; compact?: boolean }) {
-  const broadcasts = (links ?? []).filter((link) =>
-    ["stream", "radio", "tv"].includes(link.type)
-  );
+  const broadcasts = (links ?? []).filter((link) => ["stream", "radio", "tv"].includes(link.type));
   if (broadcasts.length === 0) return null;
 
   return (
-    <div className={`${compact ? "mt-3" : "mt-4"} flex flex-wrap gap-2`}>
+    <div className={`${compact ? "mt-2.5" : "mt-3"} flex flex-wrap gap-2 sm:mt-4`}>
       {broadcasts.map((link) => (
         <a
           key={`${link.type}-${link.url}`}
           href={link.url}
           target="_blank"
           rel="noopener noreferrer"
-          className={`${compact ? "px-3 py-2 text-[10px]" : "px-4 py-3 text-xs"} rounded-xl border border-white/15 bg-white/10 font-black uppercase tracking-[0.14em] text-white transition hover:bg-white/15`}
+          className={`${compact ? "px-2.5 py-1.5 text-[9px] sm:px-3 sm:py-2 sm:text-[10px]" : "px-3 py-2 text-[10px] sm:px-4 sm:py-3 sm:text-xs"} rounded-lg border border-white/15 bg-white/10 font-black uppercase tracking-[0.12em] text-white transition hover:bg-white/15 sm:rounded-xl sm:tracking-[0.14em]`}
         >
-          {link.type === "radio" ? "Listen Live" : "Watch Live"} ↗
+          {link.type === "radio" ? "Listen Live" : "Watch Live"}
         </a>
       ))}
     </div>
@@ -397,7 +379,7 @@ function BroadcastButtons({ links, compact = false }: { links?: MediaLink[]; com
 
 function Badge({ label }: { label: string }) {
   return (
-    <span className="rounded-full border border-white/10 bg-black/35 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.16em] text-white/70">
+    <span className="rounded-full border border-white/10 bg-black/35 px-2 py-1 text-[8px] font-black uppercase tracking-[0.11em] text-white/70 sm:px-3 sm:py-1.5 sm:text-[10px] sm:tracking-[0.16em]">
       {label}
     </span>
   );
@@ -405,18 +387,18 @@ function Badge({ label }: { label: string }) {
 
 function StatCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.045] p-5 shadow-xl">
-      <p className="text-xs font-black uppercase tracking-[0.22em] text-white/35">{label}</p>
-      <p className="mt-2 text-3xl font-black text-white">{value}</p>
+    <div className="rounded-xl border border-white/10 bg-white/[0.045] p-3 shadow-xl sm:rounded-2xl sm:p-5">
+      <p className="text-[9px] font-black uppercase tracking-[0.14em] text-white/35 sm:text-xs sm:tracking-[0.22em]">{label}</p>
+      <p className="mt-1 text-xl font-black text-white sm:mt-2 sm:text-3xl">{value}</p>
     </div>
   );
 }
 
 function InfoCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-black/35 p-4">
-      <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">{label}</p>
-      <p className="mt-2 font-black text-white">{value}</p>
+    <div className="min-w-0 rounded-xl border border-white/10 bg-black/35 p-2.5 sm:rounded-2xl sm:p-4">
+      <p className="text-[8px] font-black uppercase tracking-[0.12em] text-white/35 sm:text-[10px] sm:tracking-[0.18em]">{label}</p>
+      <p className="mt-1 truncate text-[11px] font-black text-white sm:mt-2 sm:text-base">{value}</p>
     </div>
   );
 }
