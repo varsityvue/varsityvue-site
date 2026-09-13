@@ -1,12 +1,35 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+const title = "Request a Texas High School Football Program | VarsityVue";
+const description =
+  "Request a Texas high school football program for future VarsityVue school hub coverage and help guide which communities are prioritized next.";
+
 export const metadata: Metadata = {
-  title: "Request a Texas High School Football Program",
-  description:
-    "Request a Texas high school football program for future VarsityVue school hub coverage and help guide which communities are prioritized next.",
+  title,
+  description,
   alternates: {
     canonical: "/school-request",
+  },
+  openGraph: {
+    title,
+    description,
+    url: "/school-request",
+    type: "website",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "VarsityVue Texas high school football",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: ["/opengraph-image"],
   },
 };
 
