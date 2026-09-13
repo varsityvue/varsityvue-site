@@ -206,30 +206,30 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(districtSchema) }}
       />
 
-      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.62),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 py-8 sm:px-6 lg:px-8">
+      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.62),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
         <div className="mx-auto max-w-[1440px]">
           <Link
             href="/districts"
-            className="text-sm font-black uppercase tracking-[0.14em] text-white/60 transition hover:text-white"
+            className="text-[10px] font-black uppercase tracking-[0.12em] text-white/60 transition hover:text-white sm:text-sm sm:tracking-[0.14em]"
           >
             ← Back to Districts
           </Link>
 
-          <div className="mt-6 rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl md:p-8">
-            <p className="text-xs font-black uppercase tracking-[0.32em] text-white/70">
+          <div className="mt-3 rounded-[1.4rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:mt-6 sm:rounded-[2rem] sm:p-6 md:p-8">
+            <p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/70 sm:text-xs sm:tracking-[0.32em]">
               VarsityVue District Hub
             </p>
 
-            <div className="mt-5">
-              <h1 className="text-5xl font-black leading-tight tracking-tight sm:text-7xl">
+            <div className="mt-3 sm:mt-5">
+              <h1 className="text-4xl font-black leading-tight tracking-tight sm:text-7xl">
                 {displayName}
               </h1>
 
-              <p className="mt-4 text-sm font-black uppercase tracking-[0.18em] text-white/45">
+              <p className="mt-2.5 text-[10px] font-black uppercase tracking-[0.14em] text-white/45 sm:mt-4 sm:text-sm sm:tracking-[0.18em]">
                 {classification} • {region}
               </p>
 
-              <p className="mt-5 max-w-3xl text-base leading-7 text-white/60 sm:text-lg">
+              <p className="mt-3 max-w-3xl text-sm leading-6 text-white/60 sm:mt-5 sm:text-lg sm:leading-7">
                 Follow the district race, verified results, upcoming matchups,
                 school hubs, player statistics, and local coverage throughout
                 the 2026 season.
@@ -237,7 +237,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
             </div>
           </div>
 
-          <section className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <section className="mt-3 grid grid-cols-2 gap-2 sm:mt-6 sm:gap-4 lg:grid-cols-4">
             <DistrictStat label="Teams" value={trackedDistrictTeams.toString()} />
             <DistrictStat label="Tracked Games" value={allDistrictGames.length.toString()} />
             <DistrictStat label="Verified Results" value={districtResults.toString()} />
@@ -246,17 +246,17 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
         </div>
       </section>
 
-      <section className="border-b border-white/10 px-4 py-6 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-[1440px] rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
-          <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
+      <section className="border-b border-white/10 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
+        <div className="mx-auto max-w-[1440px] rounded-[1.35rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6">
+          <p className="text-[9px] font-black uppercase tracking-[0.2em] text-white/70 sm:text-xs sm:tracking-[0.28em]">
             District Snapshot
           </p>
 
-          <h2 className="mt-2 text-3xl font-black text-white">
+          <h2 className="mt-1.5 text-xl font-black text-white sm:mt-2 sm:text-3xl">
             {trackedDistrictTeams} teams tracked in {classification}
           </h2>
 
-          <p className="mt-4 max-w-4xl leading-7 text-white/60">
+          <p className="mt-2.5 max-w-4xl text-xs leading-5 text-white/60 sm:mt-4 sm:text-base sm:leading-7">
             {districtPlayStarted
               ? "Verified district results are now shaping the standings. Follow the race here as additional finals are added throughout district play."
               : "District play has not produced a verified result in VarsityVue yet. Overall records may already be available, while the district table remains unranked until district games begin."}
@@ -264,46 +264,46 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
         </div>
       </section>
 
-      <section className="px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-[1440px] gap-6 lg:grid-cols-[1.4fr_0.8fr]">
-          <div className="space-y-6">
+      <section className="px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
+        <div className="mx-auto grid max-w-[1440px] gap-4 sm:gap-6 lg:grid-cols-[1.4fr_0.8fr]">
+          <div className="space-y-4 sm:space-y-6">
             <StandingsTable standings={districtStandings} theme={districtTheme} />
 
             <DistrictCoverage districtId={district.id} />
 
-            <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:rounded-[1.75rem] sm:p-6">
-              <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-                <div>
-                  <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
+            <section className="rounded-[1.4rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6">
+              <div className="mb-3 flex items-end justify-between gap-3 sm:mb-6">
+                <div className="min-w-0">
+                  <p className="text-[9px] font-black uppercase tracking-[0.2em] text-white/70 sm:text-xs sm:tracking-[0.28em]">
                     District Schools
                   </p>
-                  <h2 className="mt-2 text-3xl font-black text-white">School Hubs</h2>
+                  <h2 className="mt-1.5 text-2xl font-black text-white sm:mt-2 sm:text-3xl">School Hubs</h2>
                 </div>
 
                 <Link
                   href="/schools"
-                  className="text-sm font-black uppercase tracking-[0.14em] text-white/60 transition hover:text-white"
+                  className="shrink-0 text-[9px] font-black uppercase tracking-[0.1em] text-white/60 transition hover:text-white sm:text-sm sm:tracking-[0.14em]"
                 >
-                  View all schools →
+                  All schools →
                 </Link>
               </div>
 
-              <div className="overflow-hidden rounded-2xl border border-white/10 bg-black/35">
+              <div className="overflow-hidden rounded-xl border border-white/10 bg-black/35 sm:rounded-2xl">
                 {districtSchools.map((school) => (
                   <Link
                     key={school.slug}
                     href={`/schools/${school.slug}`}
-                    className="grid gap-4 border-b border-white/10 p-4 transition last:border-b-0 hover:bg-white/[0.06] sm:grid-cols-[auto_1fr_auto]"
+                    className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2.5 border-b border-white/10 px-3 py-2.5 transition last:border-b-0 hover:bg-white/[0.06] sm:gap-4 sm:p-4"
                   >
                     <SchoolBadge school={school} size="xs" />
-                    <div>
-                      <p className="font-black text-white">{school.name}</p>
-                      <p className="text-sm font-bold uppercase tracking-[0.12em] text-white/40">
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-black text-white sm:text-base">{school.name}</p>
+                      <p className="mt-0.5 truncate text-[9px] font-bold uppercase tracking-[0.08em] text-white/40 sm:text-sm sm:tracking-[0.12em]">
                         {school.mascot} • {school.stadium ?? "Stadium TBD"}
                       </p>
                     </div>
-                    <p className="self-center text-sm font-black uppercase tracking-[0.14em] text-white/55">
-                      View Hub →
+                    <p className="self-center text-[9px] font-black uppercase tracking-[0.08em] text-white/55 sm:text-sm sm:tracking-[0.14em]">
+                      Hub →
                     </p>
                   </Link>
                 ))}
@@ -311,16 +311,16 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
             </section>
           </div>
 
-          <aside className="space-y-6">
-            <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">
+          <aside className="space-y-4 sm:space-y-6">
+            <section className="rounded-[1.4rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6">
+              <p className="text-[9px] font-black uppercase tracking-[0.2em] text-white/70 sm:text-xs sm:tracking-[0.28em]">
                 Tracked District Games
               </p>
-              <h2 className="mt-3 text-3xl font-black text-white">District Matchups</h2>
+              <h2 className="mt-1.5 text-2xl font-black text-white sm:mt-3 sm:text-3xl">District Matchups</h2>
 
-              <div className="mt-6 space-y-3">
+              <div className="mt-3 space-y-2 sm:mt-6 sm:space-y-3">
                 {districtGames.length === 0 ? (
-                  <p className="rounded-2xl border border-white/10 bg-black/35 p-4 text-sm text-white/55">
+                  <p className="rounded-xl border border-white/10 bg-black/35 p-3 text-xs text-white/55 sm:rounded-2xl sm:p-4 sm:text-sm">
                     No district matchups are currently listed.
                   </p>
                 ) : (
@@ -338,26 +338,26 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
                       <Link
                         key={game.id}
                         href={`/games/${game.id}`}
-                        className="block rounded-2xl border border-white/10 bg-black/35 p-4 transition hover:bg-white/10"
+                        className="block rounded-xl border border-white/10 bg-black/35 p-3 transition hover:bg-white/10 sm:rounded-2xl sm:p-4"
                       >
                         <div className="flex flex-wrap items-center justify-between gap-2">
-                          <p className="text-xs font-black uppercase tracking-[0.18em] text-white/40">
+                          <p className="text-[9px] font-black uppercase tracking-[0.12em] text-white/40 sm:text-xs sm:tracking-[0.18em]">
                             {formatGameDate(game.kickoff)} · {getWeekLabel(game.week)}
                           </p>
-                          <span className="text-[10px] font-black uppercase tracking-[0.14em] text-white/45">
+                          <span className="text-[8px] font-black uppercase tracking-[0.1em] text-white/45 sm:text-[10px] sm:tracking-[0.14em]">
                             {getDistrictGameStatus(game)}
                           </span>
                         </div>
 
-                        <div className="mt-4 grid grid-cols-[auto_1fr] gap-3">
+                        <div className="mt-2.5 grid grid-cols-[auto_1fr] items-center gap-x-2.5 gap-y-2 sm:mt-4 sm:gap-3">
                           {awaySchool ? (
                             <SchoolBadge school={awaySchool} size="xs" />
                           ) : (
                             <MiniTeamBadge label={awayDisplayName} />
                           )}
-                          <div>
-                            <p className="text-xs font-black uppercase tracking-[0.14em] text-white/35">Away</p>
-                            <p className="font-black text-white">{awayDisplayName}</p>
+                          <div className="min-w-0">
+                            <p className="text-[8px] font-black uppercase tracking-[0.1em] text-white/35 sm:text-xs sm:tracking-[0.14em]">Away</p>
+                            <p className="truncate text-sm font-black text-white sm:text-base">{awayDisplayName}</p>
                           </div>
 
                           {homeSchool ? (
@@ -365,14 +365,14 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
                           ) : (
                             <MiniTeamBadge label={homeDisplayName} />
                           )}
-                          <div>
-                            <p className="text-xs font-black uppercase tracking-[0.14em] text-white/35">Home</p>
-                            <p className="font-black text-white">{homeDisplayName}</p>
+                          <div className="min-w-0">
+                            <p className="text-[8px] font-black uppercase tracking-[0.1em] text-white/35 sm:text-xs sm:tracking-[0.14em]">Home</p>
+                            <p className="truncate text-sm font-black text-white sm:text-base">{homeDisplayName}</p>
                           </div>
                         </div>
 
                         {game.venue && (
-                          <p className="mt-4 text-sm text-white/55">{game.venue}</p>
+                          <p className="mt-2.5 truncate text-[10px] text-white/55 sm:mt-4 sm:text-sm">{game.venue}</p>
                         )}
                       </Link>
                     );
@@ -381,10 +381,10 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
               </div>
             </section>
 
-            <section className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 shadow-2xl">
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">Legacy</p>
-              <h2 className="mt-3 text-3xl font-black text-white">Coming Soon</h2>
-              <p className="mt-4 leading-7 text-white/60">
+            <section className="rounded-[1.4rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6">
+              <p className="text-[9px] font-black uppercase tracking-[0.2em] text-white/70 sm:text-xs sm:tracking-[0.28em]">Legacy</p>
+              <h2 className="mt-1.5 text-2xl font-black text-white sm:mt-3 sm:text-3xl">Coming Soon</h2>
+              <p className="mt-2.5 text-xs leading-5 text-white/60 sm:mt-4 sm:text-base sm:leading-7">
                 Rivalry records, playoff history, notable teams, and community-submitted historical notes will live here.
               </p>
             </section>
@@ -397,16 +397,16 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
 
 function DistrictStat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-5 shadow-xl">
-      <p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">{label}</p>
-      <p className="mt-3 text-4xl font-black text-white">{value}</p>
+    <div className="rounded-[1.15rem] border border-white/10 bg-white/[0.045] p-3.5 shadow-xl sm:rounded-[1.5rem] sm:p-5">
+      <p className="text-[9px] font-black uppercase tracking-[0.14em] text-white/40 sm:text-xs sm:tracking-[0.22em]">{label}</p>
+      <p className="mt-1.5 text-2xl font-black text-white sm:mt-3 sm:text-4xl">{value}</p>
     </div>
   );
 }
 
 function MiniTeamBadge({ label }: { label: string }) {
   return (
-    <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/10 p-2 text-center text-[10px] font-black uppercase leading-tight text-white">
+    <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/10 p-1.5 text-center text-[9px] font-black uppercase leading-tight text-white sm:h-14 sm:w-14 sm:rounded-2xl sm:p-2 sm:text-[10px]">
       {label.slice(0, 3)}
     </div>
   );
