@@ -24,16 +24,38 @@ export async function generateMetadata({
     };
   }
 
+  const title = `${school.fullName} Football Hub | VarsityVue`;
+  const description = `${school.fullName} football scores, schedule, roster, standings, stats, and local coverage on VarsityVue.`;
+  const url = `/schools/${school.slug}`;
+
   return {
     title: {
-      default: `${school.fullName} Football Hub | VarsityVue`,
+      default: title,
       template: "%s",
     },
+    description,
     alternates: {
-      canonical: `/schools/${school.slug}`,
+      canonical: url,
     },
     openGraph: {
-      url: `/schools/${school.slug}`,
+      title,
+      description,
+      url,
+      type: "website",
+      images: [
+        {
+          url: "/opengraph-image",
+          width: 1200,
+          height: 630,
+          alt: `${school.fullName} football on VarsityVue`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/opengraph-image"],
     },
     robots:
       school.status === "pilot"
