@@ -21,10 +21,18 @@ export default function ScoreboardOpenGraphImage() {
       <div style={{ color: "#C8102E", fontSize: 28, fontWeight: 800, letterSpacing: 5 }}>
         VARSITYVUE
       </div>
-      <div style={{ marginTop: 28, fontSize: 72, fontWeight: 900, lineHeight: 1.02 }}>
-        Texas High School
-        <br />
-        Football Scores
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          marginTop: 28,
+          fontSize: 72,
+          fontWeight: 900,
+          lineHeight: 1.02,
+        }}
+      >
+        <span>Texas High School</span>
+        <span>Football Scores</span>
       </div>
       <div style={{ marginTop: 28, fontSize: 28, color: "#B7BDC8" }}>
         Verified finals, live games, and upcoming kickoffs.
