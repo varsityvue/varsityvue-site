@@ -25,17 +25,38 @@ export async function generateMetadata({
   }
 
   const isPublicDistrict = district.status === "pilot";
+  const title = `${district.name} Football Hub | VarsityVue`;
+  const description = `${district.name} football standings, scores, schedules, school hubs, player stats, and local coverage on VarsityVue.`;
+  const url = `/districts/${district.slug}`;
 
   return {
     title: {
-      default: `${district.name} Football Hub | VarsityVue`,
+      default: title,
       template: "%s",
     },
+    description,
     alternates: {
-      canonical: `/districts/${district.slug}`,
+      canonical: url,
     },
     openGraph: {
-      url: `/districts/${district.slug}`,
+      title,
+      description,
+      url,
+      type: "website",
+      images: [
+        {
+          url: "/opengraph-image",
+          width: 1200,
+          height: 630,
+          alt: `${district.name} football on VarsityVue`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/opengraph-image"],
     },
     robots: isPublicDistrict
       ? {
