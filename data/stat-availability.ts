@@ -21,6 +21,22 @@ export const gameStatAvailability: Record<string, GameStatAvailability> = {
     status: "pending",
     note: DEFAULT_PENDING_NOTE,
   },
+  "holland-at-hico-2026-week-1": {
+    status: "pending",
+    note: DEFAULT_PENDING_NOTE,
+  },
+  "cross-plains-at-hico-2026-week-2": {
+    status: "pending",
+    note: DEFAULT_PENDING_NOTE,
+  },
+  "hico-at-moody-2026-week-3": {
+    status: "pending",
+    note: DEFAULT_PENDING_NOTE,
+  },
+  "stamford-at-hawley-2026-week-3": {
+    status: "pending",
+    note: DEFAULT_PENDING_NOTE,
+  },
 };
 
 export function getGameStatAvailability(gameId: string): GameStatAvailability | undefined {
