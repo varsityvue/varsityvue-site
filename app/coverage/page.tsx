@@ -7,6 +7,7 @@ import type { Article } from "@/types/platform";
 const coverageTitle = "Texas High School Football Coverage, Previews & Recaps";
 const coverageDescription =
   "Read VarsityVue Texas high school football coverage including game previews, recaps, athlete spotlights, district outlooks, legacy stories, and local sports features.";
+const coverageSocialImage = "/coverage/opengraph-image";
 
 export const metadata: Metadata = {
   title: coverageTitle,
@@ -17,11 +18,20 @@ export const metadata: Metadata = {
     description: coverageDescription,
     url: "/coverage",
     type: "website",
+    images: [
+      {
+        url: coverageSocialImage,
+        width: 1200,
+        height: 630,
+        alt: "VarsityVue Texas high school football stories, previews, recaps, and features",
+      },
+    ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: `${coverageTitle} | VarsityVue`,
     description: coverageDescription,
+    images: [coverageSocialImage],
   },
 };
 
