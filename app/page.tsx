@@ -131,7 +131,7 @@ export default function Home() {
           <div className="relative overflow-hidden rounded-[1.6rem] border border-white/10 bg-[#080808] shadow-2xl sm:rounded-[2rem]">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(139,16,32,0.18),transparent_34%),linear-gradient(115deg,rgba(0,0,0,0.98),rgba(0,0,0,0.82)_55%,rgba(0,0,0,0.96))]" />
 
-            <div className="relative z-10 p-4 sm:p-7 lg:p-9">
+            <div className="relative z-10 p-3.5 sm:p-7 lg:p-9">
               <div className="flex justify-center">
                 <p className="inline-flex items-center justify-center rounded-full border border-white/15 bg-black/50 px-3 py-1.5 text-center text-[10px] font-black uppercase tracking-[0.18em] text-white/75 sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.22em]">
                   Game of the Week
@@ -140,7 +140,7 @@ export default function Home() {
 
               {featuredGame ? (
                 <>
-                  <div className="mt-5 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 sm:mt-6 sm:gap-4">
+                  <div className="mt-4 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 sm:mt-6 sm:gap-4">
                     <HeroTeam
                       school={featuredAwaySchool}
                       team={featuredGame.awayTeam ?? "Away"}
@@ -149,7 +149,7 @@ export default function Home() {
                       result={awayResult}
                     />
 
-                    <div className="flex min-w-[54px] flex-col items-center justify-center py-2 sm:min-w-[90px] md:px-4">
+                    <div className="flex min-w-[54px] flex-col items-center justify-center py-1 sm:min-w-[90px] sm:py-2 md:px-4">
                       {featuredGameFinal &&
                       awayScore !== undefined &&
                       homeScore !== undefined ? (
@@ -157,7 +157,7 @@ export default function Home() {
                           <p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/40 sm:text-[10px] sm:tracking-[0.3em]">
                             Final
                           </p>
-                          <div className="mt-1.5 flex items-center gap-1.5 sm:mt-2 sm:gap-3">
+                          <div className="mt-1 flex items-center gap-1.5 sm:mt-2 sm:gap-3">
                             <span className="text-3xl font-black leading-none text-white sm:text-5xl md:text-6xl">
                               {awayScore}
                             </span>
@@ -183,24 +183,24 @@ export default function Home() {
                     />
                   </div>
 
-                  <div className="mt-5 text-center sm:mt-6">
+                  <div className="mt-4 text-center sm:mt-6">
                     <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/45 sm:text-xs sm:tracking-[0.22em]">
                       {featuredGame.week !== undefined ? `Week ${featuredGame.week} · ` : ""}
                       {featuredGame.districtGame ? "District Game" : "Non-District"}
                     </p>
-                    <p className="mt-2 text-lg font-black text-white sm:mt-3 sm:text-xl">
+                    <p className="mt-1.5 text-base font-black text-white sm:mt-3 sm:text-xl">
                       {formatGameDateTime(featuredGame.kickoff)}
                     </p>
 
                     {featuredGame.venue && (
-                      <p className="mt-1 text-xs font-semibold text-white/50 sm:mt-1.5 sm:text-sm">
+                      <p className="mt-0.5 text-[11px] font-semibold text-white/50 sm:mt-1.5 sm:text-sm">
                         {featuredGame.venue}
                       </p>
                     )}
                   </div>
 
-                  <div className="mx-auto mt-5 max-w-3xl text-center sm:mt-6">
-                    <h2 className="text-xl font-black leading-tight text-white sm:text-2xl md:text-3xl">
+                  <div className="mx-auto mt-4 max-w-3xl text-center sm:mt-6">
+                    <h2 className="text-lg font-black leading-tight text-white sm:text-2xl md:text-3xl">
                       {featuredGameFinal
                         ? featuredGame.week !== undefined
                           ? `Week ${featuredGame.week} final is on the board.`
@@ -210,7 +210,7 @@ export default function Home() {
                             ? `Week ${featuredGame.week} takes center stage.`
                             : "This matchup takes center stage.")}
                     </h2>
-                    <p className="mx-auto mt-2 max-w-2xl text-xs leading-5 text-white/55 sm:text-sm sm:leading-6">
+                    <p className="mx-auto mt-1.5 max-w-2xl text-[11px] leading-[1.45] text-white/55 sm:mt-2 sm:text-sm sm:leading-6">
                       {featuredGameFinal
                         ? "The verified final is posted. Visit the matchup center for the result and program links."
                         : featuredPreview?.excerpt ??
@@ -218,10 +218,10 @@ export default function Home() {
                     </p>
                   </div>
 
-                  <div className="mt-5 flex justify-center sm:mt-6">
+                  <div className="mt-4 flex justify-center sm:mt-6">
                     <Link
                       href={`/games/${featuredGame.id}`}
-                      className="rounded-full bg-white px-5 py-2.5 text-center text-[11px] font-black uppercase tracking-[0.14em] text-black transition hover:bg-white/85 sm:px-6 sm:py-3 sm:text-xs sm:tracking-[0.16em]"
+                      className="rounded-full bg-white px-5 py-2 text-center text-[10px] font-black uppercase tracking-[0.14em] text-black transition hover:bg-white/85 sm:px-6 sm:py-3 sm:text-xs sm:tracking-[0.16em]"
                     >
                       {featuredGameFinal ? "View Final Result" : "View Game of the Week"}
                     </Link>
@@ -325,15 +325,15 @@ function HeroTeam({
 }) {
   const teamNameSize =
     team.length >= 11
-      ? "text-[1.05rem] sm:text-3xl lg:text-3xl xl:text-4xl"
+      ? "text-[0.95rem] sm:text-3xl lg:text-3xl xl:text-4xl"
       : team.length >= 8
-        ? "text-xl sm:text-3xl lg:text-4xl xl:text-4xl"
-        : "text-2xl sm:text-4xl lg:text-5xl xl:text-6xl";
+        ? "text-lg sm:text-3xl lg:text-4xl xl:text-4xl"
+        : "text-xl sm:text-4xl lg:text-5xl xl:text-6xl";
 
   return (
     <div data-side={align} className="min-w-0 text-center">
       {school && (
-        <div className="mb-2 flex justify-center sm:mb-4">
+        <div className="mb-1.5 flex justify-center sm:mb-4">
           <ProgramLogo school={school} size="sm" />
         </div>
       )}
@@ -348,7 +348,7 @@ function HeroTeam({
         )}
       </div>
       {school?.mascot && (
-        <p className="mt-1.5 truncate text-[9px] font-black uppercase tracking-[0.12em] text-white/45 sm:mt-2 sm:text-sm sm:tracking-[0.22em]">
+        <p className="mt-1 truncate text-[8px] font-black uppercase tracking-[0.12em] text-white/45 sm:mt-2 sm:text-sm sm:tracking-[0.22em]">
           {school.mascot}
         </p>
       )}
@@ -379,7 +379,7 @@ function RecordLine({
     (districtWins ?? 0) > 0 || (districtLosses ?? 0) > 0;
 
   return (
-    <p className="mt-1.5 text-[9px] font-black uppercase tracking-[0.08em] text-white/55 sm:mt-2 sm:text-sm sm:tracking-[0.12em]">
+    <p className="mt-1 text-[8px] font-black uppercase tracking-[0.08em] text-white/55 sm:mt-2 sm:text-sm sm:tracking-[0.12em]">
       <span>{hasOverallResult ? `${overallWins ?? 0}-${overallLosses ?? 0}` : "—"}</span>
       <span className="hidden sm:inline"> Overall</span>
       <span className="mx-1 text-white/25 sm:mx-1.5">·</span>
