@@ -68,7 +68,10 @@ function getWeekLabel(week?: number) {
   return week === undefined ? "Week TBD" : `Week ${week}`;
 }
 
-function getMapUrl(game: { venue?: string; homeTeam?: string }) {
+function getMapUrl(game: { venue?: string; venueAddress?: string; homeTeam?: string }) {
+  if (game.venueAddress) {
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(game.venueAddress)}`;
+  }
   if (!game.venue) return null;
   const homeTeam = getTeamName(game.homeTeam, "");
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${game.venue} ${homeTeam} Texas`)}`;
