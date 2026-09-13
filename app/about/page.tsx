@@ -1,11 +1,34 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+const aboutTitle = "About VarsityVue";
+const aboutDescription =
+  "Learn about VarsityVue, a growing home for Texas high school football scores, schedules, standings, school hubs, verified statistics, and local coverage.";
+
 export const metadata: Metadata = {
   title: "About",
-  description:
-    "Learn about VarsityVue, a growing home for Texas high school football scores, schedules, standings, school hubs, verified statistics, and local coverage.",
+  description: aboutDescription,
   alternates: { canonical: "/about" },
+  openGraph: {
+    title: `${aboutTitle} | VarsityVue`,
+    description: aboutDescription,
+    url: "/about",
+    type: "website",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "VarsityVue Texas high school football scores, stats, school hubs, and local coverage",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${aboutTitle} | VarsityVue`,
+    description: aboutDescription,
+    images: ["/opengraph-image"],
+  },
 };
 
 export default function AboutPage() {
