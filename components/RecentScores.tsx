@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Game } from "@/types/platform";
 import type { SchoolTheme } from "../types/school-theme";
 import { getSchoolBySlug } from "@/lib/schools";
+import { getGameStatAvailability, getStatAvailabilityLabel } from "@/data/stat-availability";
 import SchoolBadge from "./SchoolBadge";
 
 type RecentScoresProps = {
@@ -74,6 +75,16 @@ function getResultClass(result: "W" | "L" | "T" | null) {
   return "border-white/10 bg-white/10 text-white/60";
 }
 
+function StatStatusBadge({ gameId }: { gameId: string }) {
+  const availability = getGameStatAvailability(gameId);
+  if (!availability || availability.status === "verified") return null;
+  return (
+    <span className="rounded-full border border-white/10 bg-white/[0.06] px-2.5 py-1 text-[8px] font-black uppercase tracking-[0.1em] text-white/40 sm:text-[9px]">
+      {getStatAvailabilityLabel(availability.status)}
+    </span>
+  );
+}
+
 export default function RecentScores({ scores, theme, schoolSlug }: RecentScoresProps) {
   const visibleScores = scores.slice(0, MAX_RESULTS);
   const [latest, ...previous] = visibleScores;
@@ -137,6 +148,7 @@ function FeaturedResult({ game, schoolSlug, theme }: { game: Game; schoolSlug: s
           <div className="flex flex-wrap items-center gap-2">
             <span className={`rounded-full border px-2.5 py-1 text-[10px] font-black sm:px-3 sm:py-1.5 sm:text-xs ${getResultClass(result)}`}>{result ?? "FINAL"}</span>
             <span className="text-[9px] font-black uppercase tracking-[0.14em] text-white/30 sm:text-[10px] sm:tracking-[0.18em]">Latest</span>
+            <StatStatusBadge gameId={game.id} />
             <span className="text-[10px] font-bold text-white/35 sm:text-xs">{formatScoreDate(game.kickoff)}</span>
           </div>
           <div className="mt-3.5 flex items-center gap-3 sm:mt-5 sm:gap-4">
@@ -172,6 +184,9 @@ function CompactResult({ game, schoolSlug, theme }: { game: Game; schoolSlug: st
       <div className="mt-2.5 flex items-end justify-between gap-3 sm:block sm:mt-3">
         <p className="min-w-0 break-words text-sm font-black leading-tight text-white">{opponent.prefix} {opponent.name}</p>
         <p className="shrink-0 text-2xl font-black tracking-tight text-white sm:mt-2">{getScoreDisplay(game, schoolSlug)}</p>
+      </div>
+      <div className="mt-2">
+        <StatStatusBadge gameId={game.id} />
       </div>
     </Link>
   );
