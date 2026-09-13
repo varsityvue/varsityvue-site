@@ -5,11 +5,34 @@ import PageHero from "@/components/PageHero";
 import { districts } from "../../data/districts";
 import { schools } from "../../data/schools";
 
+const title = "Texas High School Football District Directory";
+const description =
+  "Browse VarsityVue district hubs by classification for standings, schedules, school hubs, district matchups, and Texas high school football coverage.";
+
 export const metadata: Metadata = {
-  title: "Texas High School Football District Directory",
-  description:
-    "Browse VarsityVue district hubs by classification for standings, schedules, school hubs, district matchups, and Texas high school football coverage.",
+  title,
+  description,
   alternates: { canonical: "/districts" },
+  openGraph: {
+    title: `${title} | VarsityVue`,
+    description,
+    url: "/districts",
+    type: "website",
+    images: [
+      {
+        url: "/districts/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "VarsityVue Texas high school football district hubs",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${title} | VarsityVue`,
+    description,
+    images: ["/districts/twitter-image"],
+  },
 };
 
 const classificationOrder = ["6A", "5A", "4A", "3A", "2A", "1A"];
