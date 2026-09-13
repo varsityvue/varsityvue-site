@@ -31,7 +31,7 @@ export default function SiteHeader() {
 
           <div className="min-w-0 leading-none">
             <div className="truncate text-[21px] font-black tracking-tight text-white sm:text-[31px]">
-              Varsity<span className="text-[var(--vv-accent)]">Vue</span>
+              VARSITY<span className="text-[var(--vv-accent)]">VUE</span>
             </div>
             <div className="mt-1 hidden text-[10px] font-black uppercase tracking-[0.34em] text-white/45 sm:block">
               Texas HS Football
@@ -68,7 +68,7 @@ export default function SiteHeader() {
             <Link
               key={item.href}
               href={item.href}
-              className="min-w-0 rounded-full px-1 py-1.5 text-center text-[8px] font-black uppercase tracking-[0.06em] text-white/60 transition hover:bg-white/[0.07] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:px-3 sm:py-2 sm:text-[11px] sm:tracking-[0.14em]"
+              className="min-w-0 rounded-full px-1 py-1.5 text-center text-[9px] font-black uppercase tracking-[0.05em] text-white/70 transition hover:bg-white/[0.07] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:px-3 sm:py-2 sm:text-xs sm:tracking-[0.12em]"
             >
               {item.label}
             </Link>
