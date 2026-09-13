@@ -40,7 +40,7 @@ export const deLeonWeek3GameStats: GameStats[] = [
       { player: "Lyle Wheeler", schoolSlug: "albany", attempts: 3, yards: 7, touchdowns: 0 },
       { player: "Jakobi Roberson", schoolSlug: "albany", attempts: 20, yards: 84, touchdowns: 0 },
       { player: "Clay Chapman", schoolSlug: "albany", attempts: 12, yards: -1, touchdowns: 0 },
-      { player: "S. Tidwell", schoolSlug: "albany", attempts: 2, yards: 4, touchdowns: 0 },
+      { player: "Sam Tidwell", schoolSlug: "albany", attempts: 2, yards: 4, touchdowns: 0 },
     ],
     passing: [
       { player: "Hud Price", schoolSlug: "de-leon", completions: 17, attempts: 21, yards: 158, interceptions: 1, touchdowns: 2 },
