@@ -53,13 +53,13 @@ export default function SchoolsPage() {
         aside={
           <Link
             href="/school-request"
-            className="inline-flex rounded-xl border border-[color:var(--vv-accent)] bg-[var(--vv-primary)] px-6 py-4 text-center text-sm font-black uppercase tracking-[0.16em] text-[var(--vv-accent-soft)] transition hover:bg-[var(--vv-primary-hover)] hover:text-white"
+            className="inline-flex rounded-xl border border-[color:var(--vv-accent)] bg-[var(--vv-primary)] px-4 py-2.5 text-center text-[11px] font-black uppercase tracking-[0.14em] text-[var(--vv-accent-soft)] transition hover:bg-[var(--vv-primary-hover)] hover:text-white sm:px-6 sm:py-4 sm:text-sm sm:tracking-[0.16em]"
           >
             Don&apos;t See Your School?
           </Link>
         }
         footer={
-          <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <section className="grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-4">
             <DirectoryStat label="Live School Hubs" value={liveSchools.length.toString()} />
             <DirectoryStat label="Districts" value={districts.size.toString()} />
             <DirectoryStat label="Classifications" value={classifications.size.toString()} />
@@ -68,20 +68,20 @@ export default function SchoolsPage() {
         }
       />
 
-      <section className="px-4 py-8 sm:px-6 lg:px-8">
+      <section className="px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         <div className="mx-auto max-w-[1440px]">
-          <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div className="mb-4 flex flex-col gap-2.5 sm:mb-6 sm:flex-row sm:items-end sm:justify-between sm:gap-3">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">
+              <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.28em]">
                 Live School Hubs
               </p>
 
-              <h2 className="mt-2 text-3xl font-black text-white">
+              <h2 className="mt-1.5 text-2xl font-black text-white sm:mt-2 sm:text-3xl">
                 Browse programs
               </h2>
             </div>
 
-            <p className="max-w-xl text-sm font-bold leading-6 text-white/45 sm:text-right">
+            <p className="max-w-xl text-xs font-bold leading-5 text-white/45 sm:text-right sm:text-sm sm:leading-6">
               VarsityVue is publishing verified football hubs in stages. If your school is not live yet, send a request and we&apos;ll use that interest to help prioritize future coverage.
             </p>
           </div>
@@ -95,12 +95,12 @@ export default function SchoolsPage() {
 
 function DirectoryStat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-5 shadow-xl">
-      <p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">
+    <div className="rounded-[1.1rem] border border-white/10 bg-white/[0.045] p-3 shadow-xl sm:rounded-[1.5rem] sm:p-5">
+      <p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/40 sm:text-xs sm:tracking-[0.22em]">
         {label}
       </p>
 
-      <p className="mt-3 text-4xl font-black text-white">{value}</p>
+      <p className="mt-1.5 text-2xl font-black text-white sm:mt-3 sm:text-4xl">{value}</p>
     </div>
   );
 }
