@@ -31,31 +31,31 @@ const contactOptions = [
 
 export default function ContactPage() {
   return (
-    <main className="min-h-screen bg-[var(--vv-bg)] px-4 py-14 text-white sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-[var(--vv-bg)] px-4 py-8 text-white sm:px-6 sm:py-12 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-5xl">
-        <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--vv-accent)]">
+        <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.3em]">
           Contact
         </p>
-        <h1 className="mt-4 text-4xl font-black sm:text-6xl">
+        <h1 className="mt-3 text-3xl font-black leading-tight sm:mt-4 sm:text-6xl">
           Get in touch with VarsityVue.
         </h1>
-        <p className="mt-6 max-w-3xl text-lg leading-8 text-white/65">
+        <p className="mt-4 max-w-3xl text-sm leading-6 text-white/65 sm:mt-6 sm:text-lg sm:leading-8">
           Whether you have information to share, a general question, or an interest in working with VarsityVue, choose the path below that best fits what you need.
         </p>
 
-        <div className="mt-12 grid gap-5 md:grid-cols-3">
+        <div className="mt-8 grid gap-3 sm:mt-12 sm:gap-5 md:grid-cols-3">
           {contactOptions.map((option) => (
             <section
               key={option.title}
-              className="flex flex-col rounded-3xl border border-white/10 bg-white/5 p-6"
+              className="flex flex-col rounded-[1.25rem] border border-white/10 bg-white/5 p-4 sm:rounded-3xl sm:p-6"
             >
-              <h2 className="text-xl font-black">{option.title}</h2>
-              <p className="mt-3 flex-1 text-sm leading-6 text-white/55">
+              <h2 className="text-lg font-black leading-snug sm:text-xl">{option.title}</h2>
+              <p className="mt-2.5 flex-1 text-[13px] leading-5 text-white/55 sm:mt-3 sm:text-sm sm:leading-6">
                 {option.text}
               </p>
               <Link
                 href={option.href}
-                className="mt-5 text-sm font-black text-[var(--vv-accent)] transition hover:text-white"
+                className="mt-4 inline-flex min-h-10 items-center justify-between rounded-xl border border-white/10 bg-black/20 px-3 text-[11px] font-black text-[var(--vv-accent)] transition hover:bg-white/10 hover:text-white sm:mt-5 sm:min-h-0 sm:rounded-none sm:border-0 sm:bg-transparent sm:px-0 sm:text-sm"
               >
                 {option.label}
               </Link>
@@ -63,25 +63,25 @@ export default function ContactPage() {
           ))}
         </div>
 
-        <section className="mt-10 rounded-3xl border border-white/10 bg-white/5 p-7 md:p-9">
-          <h2 className="text-2xl font-black">General contact</h2>
-          <p className="mt-3 leading-7 text-white/60">
+        <section className="mt-6 rounded-[1.35rem] border border-white/10 bg-white/5 p-4 sm:mt-10 sm:rounded-3xl sm:p-7 md:p-9">
+          <h2 className="text-xl font-black sm:text-2xl">General contact</h2>
+          <p className="mt-2.5 text-sm leading-6 text-white/60 sm:mt-3 sm:leading-7">
             For questions that do not fit one of the options above, email VarsityVue directly.
           </p>
           <a
             href="mailto:info@varsityvue.com"
-            className="mt-5 inline-block text-lg font-bold text-[var(--vv-accent)] hover:text-white"
+            className="mt-4 inline-block break-all text-base font-bold text-[var(--vv-accent)] hover:text-white sm:mt-5 sm:text-lg"
           >
             info@varsityvue.com
           </a>
 
-          <div className="mt-7 border-t border-white/10 pt-7">
-            <p className="text-sm text-white/50">
+          <div className="mt-5 border-t border-white/10 pt-5 sm:mt-7 sm:pt-7">
+            <p className="text-xs leading-5 text-white/50 sm:text-sm sm:leading-6">
               Want to see another Texas high school football program on VarsityVue?
             </p>
             <Link
               href="/school-request"
-              className="mt-3 inline-block text-sm font-bold text-white hover:text-[var(--vv-accent)]"
+              className="mt-3 inline-flex min-h-10 w-full items-center justify-center rounded-xl border border-white/10 bg-black/20 px-4 text-xs font-bold text-white transition hover:bg-white/10 hover:text-[var(--vv-accent)] sm:min-h-0 sm:w-auto sm:justify-start sm:rounded-none sm:border-0 sm:bg-transparent sm:px-0 sm:text-sm"
             >
               Request a school →
             </Link>
