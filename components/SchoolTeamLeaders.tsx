@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { gameStats } from "@/lib/all-game-stats";
+import { getGamesForSchool } from "@/lib/games";
 import { getPassingLeaders, getReceivingLeaders, getRushingLeaders } from "@/lib/player-stats";
 import { getPlayerProfile } from "@/lib/player-profiles";
 
@@ -13,6 +14,9 @@ export default function SchoolTeamLeaders({ schoolSlug, season = 2026, primaryCo
   const receiving = getReceivingLeaders({ season, schoolSlug, minReceptions: 1 }).slice(0, 3).map((entry) => ({ id: entry.playerId, name: entry.player, href: getPlayerProfile(entry.playerId, season) ? `/players/${entry.playerId}` : undefined, primary: `${entry.receiving.yards.toLocaleString()} YDS`, secondary: `${entry.receiving.receptions} REC · ${entry.receiving.touchdowns} TD · ${entry.receiving.yardsPerReception} YPR · ${entry.gamesRecorded} G` }));
   const hasLeaders = rushing.length > 0 || passing.length > 0 || receiving.length > 0;
   const verifiedGames = gameStats.filter((game) => game.season === season && game.quarterScores.some((line) => line.schoolSlug === schoolSlug)).length;
+  const finalGames = getGamesForSchool(schoolSlug).filter((game) => game.status === "final" && game.gameType !== "bye" && game.gameType !== "scrimmage").length;
+  const coverageComplete = finalGames > 0 && verifiedGames >= finalGames;
+  const coverageLabel = finalGames > 0 ? `${verifiedGames} of ${finalGames} finals with stats` : `${verifiedGames} verified ${verifiedGames === 1 ? "game" : "games"} on file`;
 
   return (
     <section className="min-w-0 overflow-hidden rounded-[1.5rem] border shadow-2xl sm:rounded-[1.75rem]" style={{ borderColor: `${primaryColor}55`, background: "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 48%, rgba(0,0,0,1))", boxShadow: `inset 4px 0 0 ${primaryColor}, 0 18px 50px rgba(0,0,0,0.45)` }}>
@@ -22,12 +26,15 @@ export default function SchoolTeamLeaders({ schoolSlug, season = 2026, primaryCo
             <p className="text-[9px] font-black uppercase tracking-[0.2em] text-white/45 sm:text-xs sm:tracking-[0.28em]">{season} Offensive Leaders</p>
             <h2 className="mt-1.5 text-2xl font-black text-white sm:mt-3 sm:text-3xl">Team Leaders</h2>
           </div>
-          <p className="hidden text-xs text-white/35 sm:block">{verifiedGames} verified {verifiedGames === 1 ? "game" : "games"} on file</p>
+          <p className="hidden text-xs text-white/35 sm:block">{coverageLabel}</p>
         </div>
 
         {hasLeaders ? (
           <>
-            <p className="mt-2 max-w-3xl text-[10px] leading-4 text-white/35 sm:mt-3 sm:text-xs sm:leading-5">Season totals reflect {verifiedGames} verified {verifiedGames === 1 ? "game" : "games"} currently on file and update as additional statistics are received.</p>
+            <div className="mt-2 flex flex-wrap items-center gap-2 sm:mt-3">
+              <p className="max-w-3xl text-[10px] leading-4 text-white/35 sm:text-xs sm:leading-5">Season totals reflect {verifiedGames} verified {verifiedGames === 1 ? "game" : "games"} currently on file and update as additional statistics are received.</p>
+              {finalGames > 0 && <span className={`rounded-full border px-2 py-1 text-[8px] font-black uppercase tracking-[0.1em] sm:px-2.5 sm:text-[9px] ${coverageComplete ? "border-white/10 bg-white/5 text-white/40" : "border-amber-300/20 bg-amber-300/10 text-amber-100/70"}`}>{coverageComplete ? "Full current coverage" : `${verifiedGames}/${finalGames} finals covered`}</span>}
+            </div>
             <div className="mt-4 grid gap-3 sm:mt-5 sm:gap-4 lg:grid-cols-[repeat(3,minmax(0,1fr))]">
               <CategoryCard label="Rushing" leaders={rushing} primaryColor={primaryColor} secondaryColor={secondaryColor} />
               <CategoryCard label="Passing" leaders={passing} primaryColor={primaryColor} secondaryColor={secondaryColor} />
@@ -38,6 +45,7 @@ export default function SchoolTeamLeaders({ schoolSlug, season = 2026, primaryCo
           <div className="mt-4 rounded-xl border border-white/10 bg-black/35 p-4 sm:mt-5 sm:rounded-2xl sm:p-5">
             <p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/40 sm:text-[10px] sm:tracking-[0.2em]">Stats Pending</p>
             <p className="mt-2 max-w-3xl text-xs leading-5 text-white/55 sm:text-sm sm:leading-6">Verified individual statistics are not currently on file for this program. VarsityVue adds season statistics as reliable data is received.</p>
+            {finalGames > 0 && <p className="mt-2 text-[10px] font-bold text-white/35 sm:text-xs">0 of {finalGames} final {finalGames === 1 ? "game has" : "games have"} verified player statistics on file.</p>}
             <Link href="/submit" className="mt-3 inline-flex text-[9px] font-black uppercase tracking-[0.12em] text-white/55 transition hover:text-white sm:mt-4 sm:text-[10px] sm:tracking-[0.14em]">Submit stats →</Link>
           </div>
         )}
