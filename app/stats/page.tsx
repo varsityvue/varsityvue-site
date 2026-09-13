@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { gameStats } from "@/lib/all-game-stats";
 import { getDistricts } from "@/lib/districts";
 import { getPassingLeaders, getPlayerSeasonStats, getReceivingLeaders, getRushingLeaders } from "@/lib/player-stats";
 import { getPlayerProfile } from "@/lib/player-profiles";
@@ -22,7 +23,9 @@ export default function StatsPage() {
   const receiving = getReceivingLeaders({ season: SEASON, minReceptions: 1 }).slice(0, 25);
   const ypc = getRushingLeaders({ season: SEASON, minAttempts: 5, sortBy: "yardsPerCarry" }).slice(0, 25);
   const representedSchools = new Set(allPlayers.map((player) => player.schoolSlug));
-  const recordedGames = Math.max(0, ...allPlayers.map((player) => player.gamesRecorded));
+  const gamesWithPlayerStats = gameStats.filter(
+    (game) => game.season === SEASON && (game.rushing.length > 0 || game.passing.length > 0 || game.receiving.length > 0)
+  ).length;
   const districtIdsWithStats = new Set(allPlayers.map((player) => getSchoolBySlug(player.schoolSlug)?.districtId).filter((districtId): districtId is string => Boolean(districtId)));
   const districtsWithStats = getDistricts().filter((district) => districtIdsWithStats.has(district.id));
 
@@ -36,13 +39,27 @@ export default function StatsPage() {
           <div className="mt-4 grid max-w-2xl grid-cols-3 gap-2 sm:mt-6 sm:gap-3">
             <SummaryStat value={representedSchools.size.toString()} label="Schools represented" />
             <SummaryStat value={allPlayers.length.toString()} label="Players with stats" />
-            <SummaryStat value={recordedGames.toString()} label="Games recorded" />
+            <SummaryStat value={gamesWithPlayerStats.toString()} label="Games with stats" />
           </div>
           <div className="mt-4 flex flex-wrap gap-2 sm:mt-6 sm:gap-3">
             <a href="#rushing" className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-[10px] font-black text-white/75 hover:bg-white/10 sm:rounded-xl sm:px-4 sm:py-3 sm:text-sm">Rushing</a>
             <a href="#passing" className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-[10px] font-black text-white/75 hover:bg-white/10 sm:rounded-xl sm:px-4 sm:py-3 sm:text-sm">Passing</a>
             <a href="#receiving" className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-[10px] font-black text-white/75 hover:bg-white/10 sm:rounded-xl sm:px-4 sm:py-3 sm:text-sm">Receiving</a>
             <a href="#ypc" className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-[10px] font-black text-white/75 hover:bg-white/10 sm:rounded-xl sm:px-4 sm:py-3 sm:text-sm">Yards / Carry</a>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-white/10 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="rounded-xl border border-white/10 bg-white/[0.035] p-3.5 sm:rounded-2xl sm:p-5">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="max-w-4xl">
+                <p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/40 sm:text-[10px] sm:tracking-[0.2em]">Stat Availability</p>
+                <p className="mt-1.5 text-xs leading-5 text-white/50 sm:text-sm sm:leading-6">Statistics are added as verified data is received. Availability can vary by program and by game, so leaderboards may not represent every school equally at a given time.</p>
+              </div>
+              <Link href="/submit" className="shrink-0 text-[9px] font-black uppercase tracking-[0.1em] text-white/55 transition hover:text-white sm:text-xs sm:tracking-[0.14em]">Submit stats →</Link>
+            </div>
           </div>
         </div>
       </section>
