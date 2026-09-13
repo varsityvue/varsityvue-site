@@ -72,8 +72,8 @@ export default async function SchoolRosterPage({ params }: Props) {
             <div className="grid gap-2 sm:gap-3">
               {roster.map((player) => (
                 <Link key={player.playerId} href={`/players/${player.playerId}`} className="group grid grid-cols-[2.5rem_1fr_auto] items-center gap-2.5 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2.5 transition hover:border-white/20 hover:bg-white/[0.07] sm:grid-cols-[3.5rem_1fr_auto] sm:gap-4 sm:rounded-2xl sm:px-5 sm:py-4">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-black/30 text-sm font-black sm:h-12 sm:w-12 sm:rounded-xl sm:text-lg">{player.number ? `#${player.number}` : "—"}</div>
-                  <div className="min-w-0"><p className="truncate text-sm font-black text-white sm:text-lg">{player.name}</p><p className="mt-0.5 truncate text-[9px] font-bold uppercase tracking-[0.08em] text-white/35 sm:text-xs sm:tracking-[0.12em]">{[player.grade, player.position].filter(Boolean).join(" · ") || "Roster"}</p></div>
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-black/30 text-sm font-black sm:h-12 sm:w-12 sm:rounded-xl sm:text-lg">{player.jerseyNumber ? `#${player.jerseyNumber}` : "—"}</div>
+                  <div className="min-w-0"><p className="truncate text-sm font-black text-white sm:text-lg">{player.name}</p><p className="mt-0.5 truncate text-[9px] font-bold uppercase tracking-[0.08em] text-white/35 sm:text-xs sm:tracking-[0.12em]">{[player.grade, player.positions?.join(" / ")].filter(Boolean).join(" · ") || "Roster"}</p></div>
                   <span className="text-[9px] font-black uppercase tracking-[0.1em] text-white/35 transition group-hover:text-white sm:text-xs">Profile →</span>
                 </Link>
               ))}
