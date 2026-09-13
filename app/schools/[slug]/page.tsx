@@ -68,13 +68,13 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
           <SchoolCoverage schoolSlug={school.slug} />
         </div>
 
-        <div className="mt-6 grid min-w-0 gap-5 lg:grid-cols-2">
-          <section className="rounded-[1.5rem] border p-5 shadow-2xl sm:rounded-[1.75rem] sm:p-6" style={{ borderColor: `${theme.primary}55`, background: "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 48%, rgba(0,0,0,1))", boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)` }}>
+        <div className="mt-5 grid min-w-0 gap-4 sm:mt-6 sm:gap-5 lg:grid-cols-2">
+          <section className="rounded-[1.35rem] border p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6" style={{ borderColor: `${theme.primary}55`, background: "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 48%, rgba(0,0,0,1))", boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)` }}>
             <div className="flex items-start justify-between gap-3">
-              <div className="min-w-0"><p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/45 sm:text-xs sm:tracking-[0.28em]">Program Snapshot</p><h2 className="mt-1.5 text-xl font-black text-white sm:mt-2 sm:text-2xl">{school.fullName}</h2></div>
-              {hasOfficialLinks && <span className="shrink-0 text-[9px] font-black uppercase tracking-[0.12em] text-white/30">Official</span>}
+              <div className="min-w-0"><p className="text-[8px] font-black uppercase tracking-[0.2em] text-white/45 sm:text-xs sm:tracking-[0.28em]">Program Snapshot</p><h2 className="mt-1.5 text-lg font-black text-white sm:mt-2 sm:text-2xl">{school.fullName}</h2></div>
+              {hasOfficialLinks && <span className="shrink-0 text-[8px] font-black uppercase tracking-[0.1em] text-white/30 sm:text-[9px] sm:tracking-[0.12em]">Official</span>}
             </div>
-            <div className="mt-4 grid grid-cols-2 gap-2 sm:gap-3">
+            <div className="mt-3 grid grid-cols-2 gap-1.5 sm:mt-4 sm:gap-3">
               {school.headCoach && <SnapshotTile label="Head Coach" value={school.headCoach} />}
               <SnapshotTile label="Region" value={`Region ${school.uilRegion}`} />
               <SnapshotTile label="District" value={district?.name ?? "TBD"} />
@@ -82,16 +82,16 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
               {school.stadiumCapacity && <SnapshotTile label="Capacity" value={school.stadiumCapacity.toLocaleString()} />}
               {school.stateTitles !== undefined && <SnapshotTile label="State Titles" value={school.stateTitles.toString()} />}
             </div>
-            {hasOfficialLinks && <div className="mt-5 flex flex-wrap gap-2">{school.officialWebsite && <a href={school.officialWebsite} target="_blank" rel="noreferrer" className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-[10px] font-black uppercase tracking-[0.12em] text-white/60 transition hover:bg-white/10 hover:text-white">School Website</a>}{school.facebookUrl && <a href={school.facebookUrl} target="_blank" rel="noreferrer" className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-[10px] font-black uppercase tracking-[0.12em] text-white/60 transition hover:bg-white/10 hover:text-white">Facebook</a>}{school.instagramUrl && <a href={school.instagramUrl} target="_blank" rel="noreferrer" className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-[10px] font-black uppercase tracking-[0.12em] text-white/60 transition hover:bg-white/10 hover:text-white">Instagram</a>}{school.xUrl && <a href={school.xUrl} target="_blank" rel="noreferrer" className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-[10px] font-black uppercase tracking-[0.12em] text-white/60 transition hover:bg-white/10 hover:text-white">X / Twitter</a>}</div>}
+            {hasOfficialLinks && <div className="mt-4 flex flex-wrap gap-1.5 sm:mt-5 sm:gap-2">{school.officialWebsite && <a href={school.officialWebsite} target="_blank" rel="noreferrer" className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5 text-[9px] font-black uppercase tracking-[0.1em] text-white/60 transition hover:bg-white/10 hover:text-white sm:rounded-xl sm:px-3 sm:py-2 sm:text-[10px] sm:tracking-[0.12em]">School Website</a>}{school.facebookUrl && <a href={school.facebookUrl} target="_blank" rel="noreferrer" className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5 text-[9px] font-black uppercase tracking-[0.1em] text-white/60 transition hover:bg-white/10 hover:text-white sm:rounded-xl sm:px-3 sm:py-2 sm:text-[10px] sm:tracking-[0.12em]">Facebook</a>}{school.instagramUrl && <a href={school.instagramUrl} target="_blank" rel="noreferrer" className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5 text-[9px] font-black uppercase tracking-[0.1em] text-white/60 transition hover:bg-white/10 hover:text-white sm:rounded-xl sm:px-3 sm:py-2 sm:text-[10px] sm:tracking-[0.12em]">Instagram</a>}{school.xUrl && <a href={school.xUrl} target="_blank" rel="noreferrer" className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5 text-[9px] font-black uppercase tracking-[0.1em] text-white/60 transition hover:bg-white/10 hover:text-white sm:rounded-xl sm:px-3 sm:py-2 sm:text-[10px] sm:tracking-[0.12em]">X / Twitter</a>}</div>}
           </section>
           <RivalryWatch schoolSlug={school.slug} />
         </div>
 
-        <section className="mt-6 rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl sm:rounded-[1.75rem] sm:p-6">
-          <p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/45 sm:text-xs sm:tracking-[0.28em]">Help Build the Hub</p>
-          <h2 className="mt-2 text-xl font-black text-white sm:text-2xl">Know something we should add or correct?</h2>
-          <p className="mt-3 max-w-3xl text-sm leading-6 text-white/55">VarsityVue grows through verified schedules, results, rosters, stats, historical information, and local knowledge. Send us a correction, source, or program update and we&apos;ll review it.</p>
-          <Link href="/submit" className="mt-5 inline-flex rounded-xl border border-white/15 bg-white/10 px-5 py-3 text-xs font-black uppercase tracking-[0.16em] text-white/75 transition hover:bg-white/15 hover:text-white">Submit an Update →</Link>
+        <section className="mt-5 rounded-[1.35rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:mt-6 sm:rounded-[1.75rem] sm:p-6">
+          <p className="text-[8px] font-black uppercase tracking-[0.2em] text-white/45 sm:text-xs sm:tracking-[0.28em]">Help Build the Hub</p>
+          <h2 className="mt-1.5 text-lg font-black text-white sm:mt-2 sm:text-2xl">Know something we should add or correct?</h2>
+          <p className="mt-2 max-w-3xl text-xs leading-5 text-white/55 sm:mt-3 sm:text-sm sm:leading-6">VarsityVue grows through verified schedules, results, rosters, stats, historical information, and local knowledge. Send us a correction, source, or program update and we&apos;ll review it.</p>
+          <Link href="/submit" className="mt-4 inline-flex rounded-lg border border-white/15 bg-white/10 px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.12em] text-white/75 transition hover:bg-white/15 hover:text-white sm:mt-5 sm:rounded-xl sm:px-5 sm:py-3 sm:text-xs sm:tracking-[0.16em]">Submit an Update →</Link>
         </section>
       </div>
     </main>
@@ -99,5 +99,5 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
 }
 
 function SnapshotTile({ label, value }: { label: string; value: string }) {
-  return <div className="min-w-0 rounded-xl border border-white/10 bg-black/35 p-3 sm:rounded-2xl sm:p-4"><p className="text-[8px] font-black uppercase tracking-[0.14em] text-white/35 sm:text-[9px] sm:tracking-[0.16em]">{label}</p><p className="mt-1 break-words text-xs font-black text-white sm:mt-1.5 sm:text-sm">{value}</p></div>;
+  return <div className="min-w-0 rounded-lg border border-white/10 bg-black/35 p-2.5 sm:rounded-2xl sm:p-4"><p className="text-[7px] font-black uppercase tracking-[0.12em] text-white/35 sm:text-[9px] sm:tracking-[0.16em]">{label}</p><p className="mt-1 break-words text-[11px] font-black leading-4 text-white sm:mt-1.5 sm:text-sm">{value}</p></div>;
 }
