@@ -22,7 +22,7 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#24272B",
+          background: "#05070A",
         }}
       >
         <svg
