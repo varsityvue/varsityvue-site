@@ -12,6 +12,15 @@ type TeamVisualIdentity = {
   logoPath: string | null;
 } | null;
 
+type PendingReport = {
+  awayScore: number;
+  homeScore: number;
+  gameStatus: string;
+  period: string | null;
+  clock: string | null;
+  createdAt: string;
+} | null;
+
 type ScoreGameOption = {
   id: string;
   week?: number;
@@ -19,6 +28,7 @@ type ScoreGameOption = {
   homeName: string;
   awayIdentity: TeamVisualIdentity;
   homeIdentity: TeamVisualIdentity;
+  pendingReport: PendingReport;
 };
 
 type Props = {
@@ -57,6 +67,11 @@ function TeamMark({ name, identity }: { name: string; identity: TeamVisualIdenti
   );
 }
 
+function formatPendingContext(report: NonNullable<PendingReport>) {
+  if (report.gameStatus === "final") return "Final";
+  return [report.period || "Live", report.clock].filter(Boolean).join(" · ");
+}
+
 export default function ScoreReportForm({ games, selectedGameId, disabled, restricted }: Props) {
   const [gameId, setGameId] = useState(selectedGameId);
   const [gameStatus, setGameStatus] = useState<"live" | "final">("live");
@@ -93,7 +108,7 @@ export default function ScoreReportForm({ games, selectedGameId, disabled, restr
           <option value="" disabled>Select a game</option>
           {games.map((game) => (
             <option key={game.id} value={game.id}>
-              Week {game.week}: {game.awayName} at {game.homeName}
+              Week {game.week}: {game.awayName} at {game.homeName}{game.pendingReport ? " · Pending report" : ""}
             </option>
           ))}
         </select>
@@ -124,6 +139,16 @@ export default function ScoreReportForm({ games, selectedGameId, disabled, restr
               <span className="mt-1 text-[9px] font-black uppercase tracking-[0.14em] text-white/30">Home</span>
             </div>
           </div>
+        </div>
+      ) : null}
+
+      {selectedGame?.pendingReport ? (
+        <div className="rounded-2xl border border-amber-300/20 bg-amber-300/[0.08] px-4 py-3 text-sm leading-6 text-amber-50/85">
+          <p className="font-black">You already have a report pending for this game.</p>
+          <p className="mt-1 text-xs leading-5 text-amber-50/60">
+            {selectedGame.awayName} {selectedGame.pendingReport.awayScore} · {selectedGame.homeName} {selectedGame.pendingReport.homeScore} · {formatPendingContext(selectedGame.pendingReport)}
+          </p>
+          <p className="mt-1 text-xs leading-5 text-amber-50/50">Send another update only if the score or game status has changed. Exact duplicate reports are blocked.</p>
         </div>
       ) : null}
 
