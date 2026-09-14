@@ -94,6 +94,13 @@ function getVenue(game: { venue?: string }) {
   return game.venue ?? "Venue TBD";
 }
 
+function getScoreReportLabel(game: { status: string; gameType: string }) {
+  if (game.gameType === "scrimmage" || game.gameType === "bye") return null;
+  if (game.status === "live") return "Report Live Score";
+  if (game.status === "scheduled") return "Report Final Score";
+  return null;
+}
+
 export default async function GamesPage() {
   const regularGames = [...(await getDynamicGames())]
     .filter((game) => game.gameType !== "bye")
@@ -235,6 +242,7 @@ export default async function GamesPage() {
                     >
                       Matchup Center →
                     </Link>
+                    <ScoreReportLink game={featuredGame} />
                   </div>
                 </div>
               </div>
@@ -279,6 +287,7 @@ export default async function GamesPage() {
                       </p>
                     </Link>
                     <BroadcastButtons links={game.mediaLinks} compact />
+                    <ScoreReportLink game={game} compact />
                   </div>
                 ))}
               </div>
@@ -341,6 +350,7 @@ export default async function GamesPage() {
                         </p>
                       </Link>
                       <BroadcastButtons links={game.mediaLinks} />
+                      <ScoreReportLink game={game} />
                     </div>
                   </div>
                 ))}
@@ -354,6 +364,20 @@ export default async function GamesPage() {
         </div>
       </section>
     </main>
+  );
+}
+
+function ScoreReportLink({ game, compact = false }: { game: { id: string; status: string; gameType: string }; compact?: boolean }) {
+  const label = getScoreReportLabel(game);
+  if (!label) return null;
+
+  return (
+    <Link
+      href={`/report-score?game=${encodeURIComponent(game.id)}`}
+      className={`${compact ? "mt-2.5 px-2.5 py-2 text-[9px] sm:px-3 sm:text-[10px]" : "mt-3 px-3 py-2.5 text-[10px] sm:mt-4 sm:px-4 sm:py-3 sm:text-xs"} block rounded-xl border border-[var(--vv-accent)]/25 bg-[var(--vv-accent)]/10 text-center font-black uppercase tracking-[0.12em] text-[var(--vv-accent)] transition hover:bg-[var(--vv-accent)]/15`}
+    >
+      {label} →
+    </Link>
   );
 }
 
