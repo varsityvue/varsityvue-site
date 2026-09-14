@@ -11,6 +11,7 @@ import { getSchoolBySlug } from "@/lib/schools";
 import { getStandingForSchool } from "@/lib/standings";
 import { createClient } from "@/lib/supabase/server";
 import { getGameStatAvailability, getStatAvailabilityLabel } from "@/data/stat-availability";
+import { getScoreboardTeamIdentity } from "@/data/scoreboard-team-identities";
 import SchoolBadge from "@/components/SchoolBadge";
 import PageHero from "@/components/PageHero";
 
@@ -171,14 +172,20 @@ function getFallbackInitials(label: string) {
 }
 
 function FallbackBadge({ label }: { label: string }) {
-  const initials = getFallbackInitials(label);
+  const identity = getScoreboardTeamIdentity(label);
+  const initials = identity?.abbreviation ?? getFallbackInitials(label);
+  const footer = identity?.mascot ?? label;
+  const textColor = identity?.primary ?? "#FFFFFF";
+  const strokeColor = identity?.secondary === "#000000" ? identity.accent : (identity?.secondary ?? "#FFFFFF");
+  const footerColor = identity?.secondary === "#000000" ? identity.accent : (identity?.secondary ?? "#FFFFFF");
+
   return <div className="w-20 shrink-0 drop-shadow-2xl">
     <div className="relative overflow-hidden rounded-t-3xl border-[3px] border-black bg-[linear-gradient(180deg,#151515_0%,#050505_100%)] px-2 py-2">
       <div className="absolute inset-0 opacity-[0.08] [background-image:repeating-linear-gradient(45deg,rgba(255,255,255,0.6),rgba(255,255,255,0.6)_1px,transparent_1px,transparent_4px)]" />
-      <div className="relative text-center text-xl font-black uppercase leading-none tracking-[-0.04em] text-white [text-shadow:2px_2px_0_#000,-1px_-1px_0_#000,0_8px_14px_rgba(0,0,0,0.75)]">{initials}</div>
+      <div className="relative text-center text-xl font-black uppercase leading-none tracking-[-0.04em] [text-shadow:2px_2px_0_#000,-1px_-1px_0_#000,0_8px_14px_rgba(0,0,0,0.75)]" style={{ color: textColor, WebkitTextStroke: `1px ${strokeColor}` }}>{initials}</div>
     </div>
     <div className="relative -mt-1 flex min-h-7 items-center justify-center overflow-hidden rounded-b-3xl border-[3px] border-black bg-[linear-gradient(180deg,#111111_0%,#050505_100%)] px-1.5 py-1 text-center shadow-xl">
-      <div className="max-w-full text-[6px] font-black uppercase leading-[1.05] text-white">{label}</div>
+      <div className="max-w-full text-[6px] font-black uppercase leading-[1.05]" style={{ color: footerColor }}>{footer}</div>
     </div>
   </div>;
 }
