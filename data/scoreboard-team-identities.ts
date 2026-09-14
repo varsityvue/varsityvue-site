@@ -126,6 +126,34 @@ const scoreboardTeamIdentities: Record<string, ScoreboardTeamIdentity> = {
     secondary: "#FFFFFF",
     accent: "#FFFFFF",
   },
+  snook: {
+    abbreviation: "SHS",
+    mascot: "Bluejays",
+    primary: "#0046B7",
+    secondary: "#FFFFFF",
+    accent: "#FFFFFF",
+  },
+  "cross roads": {
+    abbreviation: "CRHS",
+    mascot: "Bobcats",
+    primary: "#1B4D3E",
+    secondary: "#FFFFFF",
+    accent: "#FFFFFF",
+  },
+  callisburg: {
+    abbreviation: "CHS",
+    mascot: "Wildcats",
+    primary: "#800000",
+    secondary: "#FFFFFF",
+    accent: "#FFFFFF",
+  },
+  "rosebud-lott": {
+    abbreviation: "RLHS",
+    mascot: "Cougars",
+    primary: "#000000",
+    secondary: "#D4AF37",
+    accent: "#FFFFFF",
+  },
 };
 
 export function getScoreboardTeamIdentity(teamName: string) {
