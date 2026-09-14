@@ -11,7 +11,7 @@ import { getSchoolBySlug } from "@/lib/schools";
 import { getStandingForSchool } from "@/lib/standings";
 import { createClient } from "@/lib/supabase/server";
 import { getGameStatAvailability, getStatAvailabilityLabel } from "@/data/stat-availability";
-import { getScoreboardTeamIdentity } from "@/data/scoreboard-team-identities";
+import { getCanonicalScoreboardTeamName, getScoreboardTeamIdentity } from "@/data/scoreboard-team-identities";
 import SchoolBadge from "@/components/SchoolBadge";
 import PageHero from "@/components/PageHero";
 
@@ -53,7 +53,7 @@ function formatKickoff(kickoff?: string) {
   return new Intl.DateTimeFormat("en-US", { weekday: "short", month: "short", day: "numeric", ...(hasTime ? { hour: "numeric" as const, minute: "2-digit" as const } : {}), timeZone: "America/Chicago" }).format(parsedDate);
 }
 
-function getTeamName(team?: string, fallback = "Team TBD") { return team ?? fallback; }
+function getTeamName(team?: string, fallback = "Team TBD") { return team ? getCanonicalScoreboardTeamName(team) : fallback; }
 function getWeekLabel(week?: number) { return week === undefined ? "Week TBD" : `Week ${week}`; }
 function getMapUrl(game: { venue?: string; venueAddress?: string; homeTeam?: string }) {
   if (game.venueAddress) return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(game.venueAddress)}`;
