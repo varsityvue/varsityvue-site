@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { getGameStatAvailability, getStatAvailabilityLabel } from "@/data/stat-availability";
 import { getHomepageScoreboardGames } from "@/lib/scoreboard";
 
 function getScore(game: { awayScore?: number; homeScore?: number; score?: { away?: number; home?: number } }) {
@@ -70,8 +69,6 @@ export default function ScoreStrip() {
               const score = getScore(game);
               const duplicate = index >= games.length;
               const isFinal = mode === "finals";
-              const statAvailability = isFinal ? getGameStatAvailability(game.id) : undefined;
-              const showStatStatus = statAvailability && statAvailability.status !== "verified";
 
               return (
                 <Link
@@ -88,12 +85,6 @@ export default function ScoreStrip() {
                   >
                     {isFinal ? "Final" : game.displayStatus}
                   </span>
-
-                  {showStatStatus && (
-                    <span className="rounded-full border border-amber-300/20 bg-amber-300/10 px-1.5 py-0.5 text-[6px] font-black uppercase tracking-[0.08em] text-amber-100/75 sm:px-2 sm:text-[8px] sm:tracking-[0.1em]">
-                      {getStatAvailabilityLabel(statAvailability.status)}
-                    </span>
-                  )}
 
                   <span className="text-[11px] font-black text-white sm:text-sm">
                     {game.awayTeam ?? "Away"}
