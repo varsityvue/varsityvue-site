@@ -141,6 +141,7 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
   const selectedGameId = params.game && relevantGames.some((game) => game.id === params.game)
     ? params.game
     : "";
+  const selectedGameHref = selectedGameId ? `/games/${encodeURIComponent(selectedGameId)}` : null;
 
   const [{ data: recentSubmissions }, { data: pendingSubmissions }] = await Promise.all([
     supabase
@@ -200,8 +201,13 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
         </section>
 
         {params.submitted === "1" ? (
-          <div className="mt-5 rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-sm text-emerald-50">
-            Score report received. It is now in the VarsityVue review queue.
+          <div className="mt-5 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-sm text-emerald-50">
+            <p>Score report received. It is now in the VarsityVue review queue.</p>
+            {selectedGameHref ? (
+              <Link href={selectedGameHref} className="shrink-0 rounded-full border border-emerald-200/20 bg-black/20 px-3.5 py-2 text-[10px] font-black uppercase tracking-[0.12em] text-emerald-50 transition hover:bg-black/35">
+                Back to Game Center →
+              </Link>
+            ) : null}
           </div>
         ) : null}
 
@@ -283,8 +289,9 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
           </section>
         ) : null}
 
-        <div className="mt-6">
-          <Link href="/account" className="text-sm font-bold text-white/55 transition hover:text-white">← Back to account</Link>
+        <div className="mt-6 flex flex-wrap gap-3">
+          {selectedGameHref ? <Link href={selectedGameHref} className="text-sm font-bold text-white/55 transition hover:text-white">← Back to Game Center</Link> : null}
+          <Link href="/account" className="text-sm font-bold text-white/55 transition hover:text-white">Back to account</Link>
         </div>
       </div>
     </main>
