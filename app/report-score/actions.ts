@@ -60,6 +60,31 @@ export async function submitScore(formData: FormData) {
     redirect("/report-score?message=This%20game%20is%20not%20available%20for%20reporting%20until%20both%20teams%20have%20complete%20identity%20data.");
   }
 
+  const [{ data: roles }, { data: assignments }] = await Promise.all([
+    supabase.from("user_roles").select("role").eq("user_id", userId),
+    supabase
+      .from("contributor_school_assignments")
+      .select("school_slug")
+      .eq("user_id", userId)
+      .eq("active", true),
+  ]);
+
+  const roleSet = new Set((roles ?? []).map((row) => row.role));
+  const canModerate = roleSet.has("moderator") || roleSet.has("admin");
+  const isRestrictedScorekeeper = roleSet.has("scorekeeper") && !canModerate;
+
+  if (isRestrictedScorekeeper) {
+    const assignedSchoolSlugs = new Set((assignments ?? []).map((assignment) => assignment.school_slug));
+    const hasAssignedTeam = Boolean(
+      (game.awaySchoolSlug && assignedSchoolSlugs.has(game.awaySchoolSlug)) ||
+      (game.homeSchoolSlug && assignedSchoolSlugs.has(game.homeSchoolSlug)),
+    );
+
+    if (!hasAssignedTeam) {
+      redirect("/report-score?message=Your%20contributor%20account%20is%20not%20assigned%20to%20either%20team%20in%20this%20game.");
+    }
+  }
+
   if (homeScore === null || awayScore === null) {
     redirect("/report-score?message=Enter%20valid%20scores%20for%20both%20teams.");
   }
