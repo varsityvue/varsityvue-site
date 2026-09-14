@@ -62,11 +62,28 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
     .order("created_at", { ascending: true });
 
   const submitterIds = Array.from(new Set((submissions ?? []).map((item) => item.submitted_by)));
-  const { data: profiles } = submitterIds.length
-    ? await supabase.from("profiles").select("id, display_name, username").in("id", submitterIds)
-    : { data: [] as { id: string; display_name: string | null; username: string | null }[] };
+  const [{ data: profiles }, { data: contributorAssignments }] = submitterIds.length
+    ? await Promise.all([
+        supabase.from("profiles").select("id, display_name, username").in("id", submitterIds),
+        supabase
+          .from("contributor_school_assignments")
+          .select("user_id, school_slug, assignment_role")
+          .in("user_id", submitterIds)
+          .eq("active", true),
+      ])
+    : [
+        { data: [] as { id: string; display_name: string | null; username: string | null }[] },
+        { data: [] as { user_id: string; school_slug: string; assignment_role: string }[] },
+      ];
 
   const profileMap = new Map((profiles ?? []).map((profile) => [profile.id, profile]));
+  const assignmentsByUser = (contributorAssignments ?? []).reduce((map, assignment) => {
+    const current = map.get(assignment.user_id) ?? [];
+    current.push(assignment);
+    map.set(assignment.user_id, current);
+    return map;
+  }, new Map<string, NonNullable<typeof contributorAssignments>>());
+
   const groupedSubmissions = Array.from(
     (submissions ?? []).reduce((groups, submission) => {
       const existing = groups.get(submission.game_id) ?? [];
@@ -83,7 +100,7 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
           <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">Internal Tool</p>
           <h1 className="mt-3 text-4xl font-black sm:text-5xl">Score review queue</h1>
           <p className="mt-4 text-base leading-7 text-white/50">
-            Reports for the same game are grouped together so you can compare multiple sources before approving one. Approving a report updates canonical game state and supersedes older pending reports for that game.
+            Reports for the same game are grouped together so you can compare multiple sources before approving one. Assigned program contributors are identified in the queue, but every report still requires moderation before it becomes verified game state.
           </p>
         </section>
 
@@ -193,14 +210,34 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
                         submission.away_score === firstReport.away_score &&
                         submission.home_score === firstReport.home_score
                       );
+                      const matchingAssignment = game
+                        ? (assignmentsByUser.get(submission.submitted_by) ?? []).find(
+                            (assignment) =>
+                              assignment.school_slug === game.awaySchoolSlug ||
+                              assignment.school_slug === game.homeSchoolSlug,
+                          )
+                        : undefined;
+                      const isAssignedContributor = Boolean(matchingAssignment);
+                      const contributorLabel = matchingAssignment?.assignment_role === "coach"
+                        ? "Assigned Coach"
+                        : "Assigned Scorekeeper";
 
                       return (
-                        <section key={submission.id} className={`rounded-2xl border bg-black/20 p-4 sm:p-5 ${hasMultipleReports && !scoresAgree && !scoreMatchesReference ? "border-red-400/25" : "border-white/10"}`}>
+                        <section key={submission.id} className={`rounded-2xl border bg-black/20 p-4 sm:p-5 ${isAssignedContributor ? "border-sky-300/25" : hasMultipleReports && !scoresAgree && !scoreMatchesReference ? "border-red-400/25" : "border-white/10"}`}>
                           <div className="flex flex-wrap items-center justify-between gap-2">
                             <div className="flex flex-wrap items-center gap-2">
                               <span className="rounded-full border border-amber-300/20 bg-amber-300/10 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-amber-100">
                                 Report {index + 1}
                               </span>
+                              {isAssignedContributor ? (
+                                <span className="rounded-full border border-sky-300/25 bg-sky-300/10 px-2 py-1 text-[8px] font-black uppercase tracking-[0.1em] text-sky-100">
+                                  {contributorLabel}
+                                </span>
+                              ) : (
+                                <span className="rounded-full border border-white/10 bg-white/[0.04] px-2 py-1 text-[8px] font-black uppercase tracking-[0.1em] text-white/35">
+                                  Community
+                                </span>
+                              )}
                               {hasMultipleReports && !scoresAgree ? (
                                 <span className={`rounded-full border px-2 py-1 text-[8px] font-black uppercase tracking-[0.1em] ${scoreMatchesReference ? "border-white/10 bg-white/[0.05] text-white/45" : "border-red-400/20 bg-red-500/10 text-red-100"}`}>
                                   {scoreMatchesReference ? "Reference Score" : "Different Score"}
@@ -211,6 +248,12 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
                               {isFinal ? "Final" : "Live"}
                             </span>
                           </div>
+
+                          {isAssignedContributor ? (
+                            <p className="mt-3 rounded-xl border border-sky-300/15 bg-sky-300/[0.06] px-3 py-2 text-[11px] font-semibold text-sky-100/75">
+                              This reporter is assigned to {getSchoolBySlug(matchingAssignment!.school_slug)?.name ?? matchingAssignment!.school_slug} for this matchup.
+                            </p>
+                          ) : null}
 
                           <div className="mt-4 grid grid-cols-[1fr_auto_1fr] items-center gap-3 rounded-xl border border-white/10 bg-black/25 p-3">
                             <div className="min-w-0">
