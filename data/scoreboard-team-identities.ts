@@ -154,6 +154,55 @@ const scoreboardTeamIdentities: Record<string, ScoreboardTeamIdentity> = {
     secondary: "#D4AF37",
     accent: "#FFFFFF",
   },
+  west: {
+    abbreviation: "WHS",
+    mascot: "Trojans",
+    primary: "#C8102E",
+    secondary: "#000000",
+    accent: "#FFFFFF",
+  },
+  taylor: {
+    abbreviation: "THS",
+    mascot: "Ducks",
+    primary: "#228B22",
+    secondary: "#FFFFFF",
+    accent: "#FFFFFF",
+  },
+  "waco university": {
+    abbreviation: "UHS",
+    mascot: "Trojans",
+    primary: "#451899",
+    secondary: "#FFFFFF",
+    accent: "#FFFFFF",
+  },
+  "midland christian": {
+    abbreviation: "MCHS",
+    mascot: "Mustangs",
+    primary: "#C8102E",
+    secondary: "#003DA5",
+    accent: "#FFFFFF",
+  },
+  "pflugerville connally": {
+    abbreviation: "CHS",
+    mascot: "Cougars",
+    primary: "#005710",
+    secondary: "#000000",
+    accent: "#FFFFFF",
+  },
+  "little river academy": {
+    abbreviation: "AHS",
+    mascot: "Bumblebees",
+    primary: "#005710",
+    secondary: "#FDBA31",
+    accent: "#FFFFFF",
+  },
+  bremond: {
+    abbreviation: "BHS",
+    mascot: "Tigers",
+    primary: "#C8102E",
+    secondary: "#FFFFFF",
+    accent: "#FFFFFF",
+  },
 };
 
 export function getScoreboardTeamIdentity(teamName: string) {
