@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 type PageProps = {
-  searchParams: Promise<{ message?: string; submitted?: string }>;
+  searchParams: Promise<{ message?: string; submitted?: string; game?: string }>;
 };
 
 function schoolHasCompleteIdentity(slug?: string) {
@@ -88,6 +88,10 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
     );
   });
 
+  const selectedGameId = params.game && relevantGames.some((game) => game.id === params.game)
+    ? params.game
+    : "";
+
   const { data: recentSubmissions } = await supabase
     .from("score_submissions")
     .select("id, game_id, home_score, away_score, game_status, period, status, created_at")
@@ -138,7 +142,7 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
                 id="game_id"
                 name="game_id"
                 required
-                defaultValue=""
+                defaultValue={selectedGameId}
                 disabled={isRestrictedScorekeeper && assignedSchoolSlugs.size === 0}
                 className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white focus:border-[var(--vv-accent)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-40"
               >
