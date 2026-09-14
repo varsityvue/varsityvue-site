@@ -91,7 +91,7 @@ const scoreboardTeamIdentities: Record<string, ScoreboardTeamIdentity> = {
     secondary: "#FFFFFF",
     accent: "#D4AF37",
   },
-  "san angelo tlca": {
+  "san angelo texas leadership": {
     abbreviation: "TLCA",
     mascot: "Eagles",
     primary: "#6698C9",
@@ -101,5 +101,8 @@ const scoreboardTeamIdentities: Record<string, ScoreboardTeamIdentity> = {
 };
 
 export function getScoreboardTeamIdentity(teamName: string) {
-  return scoreboardTeamIdentities[teamName.trim().toLowerCase()];
+  const normalized = teamName.trim().toLowerCase() === "san angelo tlca"
+    ? "san angelo texas leadership"
+    : teamName.trim().toLowerCase();
+  return scoreboardTeamIdentities[normalized];
 }
