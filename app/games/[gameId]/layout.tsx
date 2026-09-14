@@ -104,17 +104,6 @@ export default async function GameLayout({ children, params }: GameLayoutProps) 
     game?.status === "final" &&
     statAvailability &&
     statAvailability.status !== "verified";
-  const showReportScore = Boolean(
-    game &&
-    game.season === 2026 &&
-    game.week !== undefined &&
-    game.week >= 3 &&
-    game.week <= 6 &&
-    game.gameType !== "scrimmage" &&
-    game.gameType !== "bye" &&
-    game.status !== "cancelled" &&
-    game.status !== "postponed",
-  );
 
   return (
     <>
@@ -157,23 +146,6 @@ export default async function GameLayout({ children, params }: GameLayoutProps) 
           </div>
         </div>
       )}
-
-      {showReportScore && game ? (
-        <div className="border-b border-white/10 bg-[#080808] px-4 py-2.5 text-white sm:px-6 lg:px-8">
-          <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.035] px-3.5 py-2.5 sm:px-4 sm:py-3">
-            <div className="min-w-0">
-              <p className="text-[9px] font-black uppercase tracking-[0.15em] text-white/35">Community Score Update</p>
-              <p className="mt-0.5 truncate text-xs font-semibold text-white/55 sm:text-sm">At the game or following live? Help keep this Game Center current.</p>
-            </div>
-            <Link
-              href={`/report-score?game=${encodeURIComponent(game.id)}`}
-              className="shrink-0 rounded-full bg-[var(--vv-primary)] px-3.5 py-2 text-[9px] font-black uppercase tracking-[0.12em] text-white transition hover:brightness-110 sm:px-4 sm:text-[10px]"
-            >
-              Report Score
-            </Link>
-          </div>
-        </div>
-      ) : null}
 
       {children}
     </>
