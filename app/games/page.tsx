@@ -122,13 +122,14 @@ export default async function GamesPage() {
   const upcomingGames = regularGames.filter((game) => game.status === "upcoming");
   const districtGames = regularGames.filter((game) => game.districtGame);
   const hasLiveGames = liveGames.length > 0;
+  const hasFinalGames = finalGames.length > 0;
 
   const displayGames = [...regularGames].sort((a, b) => {
     const statusPriority: Record<string, number> = {
       live: 0,
-      upcoming: 1,
-      scheduled: 2,
-      final: 3,
+      final: 1,
+      upcoming: 2,
+      scheduled: 3,
     };
 
     const priorityDifference =
@@ -147,9 +148,9 @@ export default async function GamesPage() {
 
   const stripGames = hasLiveGames
     ? liveGames
-    : upcomingGames.length > 0
-      ? upcomingGames.slice(0, 5)
-      : [...finalGames].sort(compareGameDatesDesc).slice(0, 5);
+    : hasFinalGames
+      ? [...finalGames].sort(compareGameDatesDesc).slice(0, 5)
+      : upcomingGames.slice(0, 5);
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] text-white">
@@ -244,20 +245,20 @@ export default async function GamesPage() {
             <div className="mb-4 flex items-end justify-between gap-3 sm:mb-6">
               <div>
                 <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.28em]">
-                  {hasLiveGames ? "Live Score Strip" : upcomingGames.length > 0 ? "Next Up" : "Recent Results"}
+                  {hasLiveGames ? "Live Score Strip" : hasFinalGames ? "Recent Results" : "Next Up"}
                 </p>
                 <h2 className="mt-1.5 text-xl font-black text-white sm:mt-2 sm:text-3xl">
-                  {hasLiveGames ? "Live Scoreboard" : upcomingGames.length > 0 ? "Upcoming Games" : "Latest Finals"}
+                  {hasLiveGames ? "Live Scoreboard" : hasFinalGames ? "Latest Finals" : "Upcoming Games"}
                 </h2>
               </div>
 
               <p className="shrink-0 text-[11px] font-bold text-white/45 sm:text-sm">
                 {hasLiveGames
                   ? `${liveGames.length} live`
-                  : upcomingGames.length > 0
-                    ? `${upcomingGames.length} upcoming`
-                    : finalGames.length > 0
-                      ? `${finalGames.length} final`
+                  : hasFinalGames
+                    ? `${finalGames.length} final`
+                    : upcomingGames.length > 0
+                      ? `${upcomingGames.length} upcoming`
                       : "No games listed"}
               </p>
             </div>
