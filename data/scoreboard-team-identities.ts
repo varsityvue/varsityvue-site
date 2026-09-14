@@ -45,6 +45,15 @@ const scoreboardTeamIdentities: Record<string, ScoreboardTeamIdentity> = {
   crosbyton: { abbreviation: "CHS", mascot: "Chiefs", primary: "#410346", secondary: "#FFBB1E", accent: "#FFFFFF" },
   sonora: { abbreviation: "SHS", mascot: "Broncos", primary: "#FF0000", secondary: "#FFFFFF", accent: "#000000" },
   chilton: { abbreviation: "CHS", mascot: "Pirates", primary: "#005DA3", secondary: "#FFFFFF", accent: "#FFFFFF" },
+  "blooming grove": { abbreviation: "BGHS", mascot: "Lions", primary: "#005DA3", secondary: "#FFFFFF", accent: "#000000" },
+  milano: { abbreviation: "MHS", mascot: "Eagles", primary: "#800000", secondary: "#D4AF37", accent: "#FFFFFF" },
+  kerens: { abbreviation: "KHS", mascot: "Bobcats", primary: "#4CBB17", secondary: "#000000", accent: "#FFFFFF" },
+  bosqueville: { abbreviation: "BHS", mascot: "Bulldogs", primary: "#0042BE", secondary: "#000000", accent: "#FFFFFF" },
+  llano: { abbreviation: "LHS", mascot: "Yellowjackets", primary: "#FF8200", secondary: "#000000", accent: "#FFFFFF" },
+  "austin navarro": { abbreviation: "ANHS", mascot: "Vikings", primary: "#DCC16F", secondary: "#000000", accent: "#FFFFFF" },
+  lockhart: { abbreviation: "LHS", mascot: "Lions", primary: "#800000", secondary: "#FFFFFF", accent: "#FFFFFF" },
+  shamrock: { abbreviation: "SHS", mascot: "Irish", primary: "#008000", secondary: "#FFFFFF", accent: "#FFFFFF" },
+  itasca: { abbreviation: "IHS", mascot: "Wampus Cats", primary: "#FFD700", secondary: "#000000", accent: "#FFFFFF" },
 };
 
 export function getScoreboardTeamIdentity(teamName: string) {
