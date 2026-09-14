@@ -174,14 +174,19 @@ export default async function AccountPage() {
         {canModerate ? (
           <section className="mt-6 rounded-2xl border border-emerald-400/15 bg-emerald-400/[0.06] p-5 sm:p-6">
             <p className="text-[10px] font-black uppercase tracking-[0.18em] text-emerald-100/60">Moderation</p>
-            <h2 className="mt-2 text-xl font-black">Verification queue</h2>
+            <h2 className="mt-2 text-xl font-black">Verification and access</h2>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-white/55">
-              Review pending reports, confirm team identity readiness, and approve or reject updates before they reach the public scoreboard.
+              Review pending reports, confirm team identity readiness, and manage contributor access before updates reach the public scoreboard.
             </p>
-            <div className="mt-5">
+            <div className="mt-5 flex flex-wrap gap-3">
               <Link href="/internal/score-review" className="inline-flex rounded-full bg-emerald-600 px-5 py-2.5 text-sm font-black text-white transition hover:bg-emerald-500">
                 Open Review Queue
               </Link>
+              {isAdmin ? (
+                <Link href="/internal/contributor-access" className="inline-flex rounded-full border border-white/15 bg-white/[0.04] px-5 py-2.5 text-sm font-black text-white/80 transition hover:border-white/30 hover:text-white">
+                  Manage Contributor Access
+                </Link>
+              ) : null}
             </div>
           </section>
         ) : null}
