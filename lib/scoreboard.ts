@@ -275,9 +275,8 @@ export function getHomepageScoreboardGames(limit = 8, states?: DynamicScoreState
   };
 }
 
-export function getFinalScoreboardGames(limit = 5, states?: DynamicScoreStateMap): ScoreboardGame[] {
+export function getFinalScoreboardGames(_limit = 5, states?: DynamicScoreStateMap): ScoreboardGame[] {
   return getScoreboardGames(states)
     .filter((game) => game.status === "final")
-    .sort((a, b) => getGameTimestamp(b) - getGameTimestamp(a))
-    .slice(0, limit);
+    .sort((a, b) => getGameTimestamp(b) - getGameTimestamp(a));
 }
