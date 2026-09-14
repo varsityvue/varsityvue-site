@@ -54,6 +54,21 @@ const scoreboardTeamIdentities: Record<string, ScoreboardTeamIdentity> = {
   lockhart: { abbreviation: "LHS", mascot: "Lions", primary: "#800000", secondary: "#FFFFFF", accent: "#FFFFFF" },
   shamrock: { abbreviation: "SHS", mascot: "Irish", primary: "#008000", secondary: "#FFFFFF", accent: "#FFFFFF" },
   itasca: { abbreviation: "IHS", mascot: "Wampus Cats", primary: "#FFD700", secondary: "#000000", accent: "#FFFFFF" },
+  seymour: { abbreviation: "SHS", mascot: "Panthers", primary: "#360305", secondary: "#FFFFFF", accent: "#000000" },
+  christoval: { abbreviation: "CHS", mascot: "Cougars", primary: "#CF152D", secondary: "#FFFFFF", accent: "#000000" },
+  "colorado city": { abbreviation: "CCHS", mascot: "Wolves", primary: "#CC0000", secondary: "#000000", accent: "#FFFFFF" },
+  crawford: { abbreviation: "CHS", mascot: "Pirates", primary: "#B47609", secondary: "#000000", accent: "#FFFFFF" },
+  frost: { abbreviation: "FHS", mascot: "Polar Bears", primary: "#4169E1", secondary: "#FFFFFF", accent: "#FFFFFF" },
+  hubbard: { abbreviation: "HHS", mascot: "Jaguars", primary: "#000000", secondary: "#D4AF37", accent: "#FFFFFF" },
+  mart: { abbreviation: "MHS", mascot: "Panthers", primary: "#4E2A84", secondary: "#CBB77D", accent: "#FFFFFF" },
+  meridian: { abbreviation: "MHS", mascot: "Yellowjackets", primary: "#000000", secondary: "#D4AF37", accent: "#FFFFFF" },
+  wortham: { abbreviation: "WHS", mascot: "Bulldogs", primary: "#004CA0", secondary: "#FFFFFF", accent: "#FFFFFF" },
+  breckenridge: { abbreviation: "BHS", mascot: "Buckaroos", primary: "#008442", secondary: "#FFFFFF", accent: "#FFFFFF" },
+  bangs: { abbreviation: "BHS", mascot: "Dragons", primary: "#0D9443", secondary: "#FFFFFF", accent: "#000000" },
+  mason: { abbreviation: "MHS", mascot: "Punchers", primary: "#320065", secondary: "#FFFFFF", accent: "#FFFFFF" },
+  jacksboro: { abbreviation: "JHS", mascot: "Tigers", primary: "#502984", secondary: "#FFFFFF", accent: "#9FA1A0" },
+  "rio vista": { abbreviation: "RVHS", mascot: "Eagles", primary: "#008000", secondary: "#000000", accent: "#FFFFFF" },
+  tolar: { abbreviation: "THS", mascot: "Rattlers", primary: "#800080", secondary: "#FFFFFF", accent: "#FFFFFF" },
 };
 
 export function getScoreboardTeamIdentity(teamName: string) {
