@@ -75,6 +75,11 @@ const scoreboardTeamIdentities: Record<string, ScoreboardTeamIdentity> = {
   olney: { abbreviation: "OHS", mascot: "Cubs", primary: "#BB0303", secondary: "#A70303", accent: "#E4E4E4" },
   brady: { abbreviation: "BHS", mascot: "Bulldogs", primary: "#B3A264", secondary: "#000000", accent: "#FFFFFF" },
   moody: { abbreviation: "MHS", mascot: "Bearcats", primary: "#008000", secondary: "#D4AF37", accent: "#000000" },
+  jarrell: { abbreviation: "JHS", mascot: "Cougars", primary: "#002F87", secondary: "#FFFFFF", accent: "#FFFFFF" },
+  "marble falls": { abbreviation: "MFHS", mascot: "Mustangs", primary: "#4E2A84", secondary: "#CBB778", accent: "#FFFFFF" },
+  burnet: { abbreviation: "BHS", mascot: "Bulldogs", primary: "#036330", secondary: "#000000", accent: "#FFFFFF" },
+  lampasas: { abbreviation: "LHS", mascot: "Badgers", primary: "#00009C", secondary: "#FFFFFF", accent: "#FFFFFF" },
+  "china spring": { abbreviation: "CSHS", mascot: "Cougars", primary: "#478BCA", secondary: "#121B4E", accent: "#FFFFFF" },
 };
 
 export function getScoreboardTeamIdentity(teamName: string) {
