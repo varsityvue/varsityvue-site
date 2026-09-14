@@ -56,6 +56,41 @@ const scoreboardTeamIdentities: Record<string, ScoreboardTeamIdentity> = {
     secondary: "#D4AF37",
     accent: "#FFFFFF",
   },
+  "central catholic": {
+    abbreviation: "CCHS",
+    mascot: "Buttons",
+    primary: "#000080",
+    secondary: "#FFFFFF",
+    accent: "#FFFFFF",
+  },
+  gatesville: {
+    abbreviation: "GHS",
+    mascot: "Hornets",
+    primary: "#000000",
+    secondary: "#D4AF37",
+    accent: "#FFFFFF",
+  },
+  italy: {
+    abbreviation: "IHS",
+    mascot: "Gladiators",
+    primary: "#D4AF37",
+    secondary: "#FFFFFF",
+    accent: "#000000",
+  },
+  "archer city": {
+    abbreviation: "ACHS",
+    mascot: "Wildcats",
+    primary: "#C5B358",
+    secondary: "#000000",
+    accent: "#FFFFFF",
+  },
+  "reagan county": {
+    abbreviation: "RCHS",
+    mascot: "Owls",
+    primary: "#005C97",
+    secondary: "#FFFFFF",
+    accent: "#D4AF37",
+  },
 };
 
 export function getScoreboardTeamIdentity(teamName: string) {
