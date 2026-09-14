@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getGames } from "@/lib/games";
+import { getDynamicGames } from "@/lib/dynamic-games";
 import type { MediaLink } from "@/types/platform";
 
 export const metadata: Metadata = {
@@ -94,8 +94,8 @@ function getVenue(game: { venue?: string }) {
   return game.venue ?? "Venue TBD";
 }
 
-export default function GamesPage() {
-  const regularGames = [...getGames()]
+export default async function GamesPage() {
+  const regularGames = [...(await getDynamicGames())]
     .filter((game) => game.gameType !== "bye")
     .sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b));
 
