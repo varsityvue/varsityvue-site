@@ -82,9 +82,34 @@ const scoreboardTeamIdentities: Record<string, ScoreboardTeamIdentity> = {
   "china spring": { abbreviation: "CSHS", mascot: "Cougars", primary: "#478BCA", secondary: "#121B4E", accent: "#FFFFFF" },
 };
 
+const scoreboardTeamAliases: Record<string, string> = {
+  "san angelo tlca": "san angelo texas leadership",
+};
+
+const scoreboardTeamDisplayNames: Record<string, string> = {
+  "san angelo texas leadership": "San Angelo Texas Leadership",
+};
+
+function normalizeScoreboardTeamName(teamName: string) {
+  const normalized = teamName.trim().toLowerCase();
+  return scoreboardTeamAliases[normalized] ?? normalized;
+}
+
 export function getScoreboardTeamIdentity(teamName: string) {
-  const normalized = teamName.trim().toLowerCase() === "san angelo tlca"
-    ? "san angelo texas leadership"
-    : teamName.trim().toLowerCase();
-  return scoreboardTeamIdentities[normalized];
+  return scoreboardTeamIdentities[normalizeScoreboardTeamName(teamName)];
+}
+
+export function getCanonicalScoreboardTeamName(teamName: string) {
+  const normalized = normalizeScoreboardTeamName(teamName);
+  return scoreboardTeamDisplayNames[normalized] ?? teamName.trim();
+}
+
+export function hasCompleteScoreboardTeamIdentity(teamName: string) {
+  const identity = getScoreboardTeamIdentity(teamName);
+  return Boolean(
+    identity?.abbreviation?.trim() &&
+    identity?.mascot?.trim() &&
+    identity?.primary?.trim() &&
+    identity?.secondary?.trim(),
+  );
 }
