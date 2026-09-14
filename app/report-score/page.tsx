@@ -142,21 +142,47 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
     ? params.game
     : "";
 
-  const formGames = relevantGames.map((game) => ({
-    id: game.id,
-    week: game.week,
-    awayName: displayTeamName(game.awayTeam, game.awaySchoolSlug),
-    homeName: displayTeamName(game.homeTeam, game.homeSchoolSlug),
-    awayIdentity: teamVisualIdentity(game.awaySchoolSlug, game.awayTeam),
-    homeIdentity: teamVisualIdentity(game.homeSchoolSlug, game.homeTeam),
-  }));
+  const [{ data: recentSubmissions }, { data: pendingSubmissions }] = await Promise.all([
+    supabase
+      .from("score_submissions")
+      .select("id, game_id, home_score, away_score, game_status, period, status, created_at")
+      .eq("submitted_by", claims.sub)
+      .order("created_at", { ascending: false })
+      .limit(5),
+    supabase
+      .from("score_submissions")
+      .select("game_id, home_score, away_score, game_status, period, clock, created_at")
+      .eq("submitted_by", claims.sub)
+      .eq("status", "pending")
+      .order("created_at", { ascending: false }),
+  ]);
 
-  const { data: recentSubmissions } = await supabase
-    .from("score_submissions")
-    .select("id, game_id, home_score, away_score, game_status, period, status, created_at")
-    .eq("submitted_by", claims.sub)
-    .order("created_at", { ascending: false })
-    .limit(5);
+  const pendingByGame = new Map<string, NonNullable<typeof pendingSubmissions>[number]>();
+  for (const pending of pendingSubmissions ?? []) {
+    if (!pendingByGame.has(pending.game_id)) pendingByGame.set(pending.game_id, pending);
+  }
+
+  const formGames = relevantGames.map((game) => {
+    const pending = pendingByGame.get(game.id);
+    return {
+      id: game.id,
+      week: game.week,
+      awayName: displayTeamName(game.awayTeam, game.awaySchoolSlug),
+      homeName: displayTeamName(game.homeTeam, game.homeSchoolSlug),
+      awayIdentity: teamVisualIdentity(game.awaySchoolSlug, game.awayTeam),
+      homeIdentity: teamVisualIdentity(game.homeSchoolSlug, game.homeTeam),
+      pendingReport: pending
+        ? {
+            awayScore: pending.away_score,
+            homeScore: pending.home_score,
+            gameStatus: pending.game_status,
+            period: pending.period,
+            clock: pending.clock,
+            createdAt: pending.created_at,
+          }
+        : null,
+    };
+  });
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] px-4 py-10 text-white sm:px-6 sm:py-16 lg:px-8">
