@@ -91,6 +91,13 @@ const scoreboardTeamIdentities: Record<string, ScoreboardTeamIdentity> = {
     secondary: "#FFFFFF",
     accent: "#D4AF37",
   },
+  "san angelo tlca": {
+    abbreviation: "TLCA",
+    mascot: "Eagles",
+    primary: "#6698C9",
+    secondary: "#000000",
+    accent: "#FFFFFF",
+  },
 };
 
 export function getScoreboardTeamIdentity(teamName: string) {
