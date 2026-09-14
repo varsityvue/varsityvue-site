@@ -54,7 +54,5 @@ export async function signup(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect(
-    "/login?message=Check%20your%20email%20to%20confirm%20your%20VarsityVue%20account.",
-  );
+  redirect("/login?message=Check%20your%20email%20to%20confirm%20your%20account.");
 }
