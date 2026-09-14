@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { getGamesForSchool, getNextGameForSchool } from "@/lib/games";
+import { getGamesForSchool, getUpcomingGamesForSchool } from "@/lib/games";
 import { getSchoolBySlug } from "@/lib/schools";
 import { getStandingForSchool } from "@/lib/standings";
 import type { SchoolTheme } from "@/types/school-theme";
@@ -75,7 +75,7 @@ export default function SchoolSeasonPulse({
       game.awayScore !== undefined
   );
   const liveGame = games.find((game) => game.status === "live");
-  const featuredGame = liveGame ?? getNextGameForSchool(schoolSlug);
+  const featuredGame = liveGame ?? getUpcomingGamesForSchool(schoolSlug)[0];
   const verifiedStanding = getStandingForSchool(schoolSlug);
 
   let calculatedWins = 0;
