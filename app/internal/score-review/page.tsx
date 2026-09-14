@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
+import {
+  getCanonicalScoreboardTeamName,
+  hasCompleteScoreboardTeamIdentity,
+} from "@/data/scoreboard-team-identities";
 import { getGameById } from "@/lib/games";
 import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
-import { hasCompleteScoreboardTeamIdentity } from "@/data/scoreboard-team-identities";
 import { approveScoreSubmission, rejectScoreSubmission } from "./actions";
 
 export const metadata: Metadata = {
@@ -28,6 +31,12 @@ function hasCompleteSchoolIdentity(slug?: string, teamName?: string) {
   }
 
   return teamName ? hasCompleteScoreboardTeamIdentity(teamName) : false;
+}
+
+function displayTeamName(team?: string, slug?: string) {
+  if (team) return getCanonicalScoreboardTeamName(team);
+  if (slug) return getSchoolBySlug(slug)?.name ?? slug;
+  return "Team TBD";
 }
 
 export default async function ScoreReviewPage({ searchParams }: PageProps) {
@@ -70,6 +79,12 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
           </p>
         </section>
 
+        <div className="mt-6 flex flex-wrap items-center gap-3">
+          <span className="rounded-full border border-amber-300/20 bg-amber-300/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-amber-100">
+            {(submissions ?? []).length} Pending
+          </span>
+        </div>
+
         {params.reviewed ? (
           <div className="mt-6 rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-sm text-emerald-50">
             Submission {params.reviewed}.
@@ -89,49 +104,80 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
               const awayReady = game ? hasCompleteSchoolIdentity(game.awaySchoolSlug, game.awayTeam) : false;
               const homeReady = game ? hasCompleteSchoolIdentity(game.homeSchoolSlug, game.homeTeam) : false;
               const identityReady = Boolean(game && awayReady && homeReady);
+              const awayName = game ? displayTeamName(game.awayTeam, game.awaySchoolSlug) : "Away";
+              const homeName = game ? displayTeamName(game.homeTeam, game.homeSchoolSlug) : "Home";
               const missingIdentityTeams = game
-                ? [
-                    !awayReady ? (game.awayTeam ?? game.awaySchoolSlug ?? "Away team") : null,
-                    !homeReady ? (game.homeTeam ?? game.homeSchoolSlug ?? "Home team") : null,
-                  ].filter(Boolean)
+                ? [!awayReady ? awayName : null, !homeReady ? homeName : null].filter(Boolean)
                 : ["Unknown game"];
+              const isFinal = submission.game_status === "final";
 
               return (
-                <article key={submission.id} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 sm:p-6">
-                  <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                    <div>
+                <article key={submission.id} className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04]">
+                  <div className="border-b border-white/10 bg-black/20 px-5 py-3 sm:px-6">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
                       <div className="flex flex-wrap items-center gap-2">
-                        <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">
-                          {game ? `Week ${game.week ?? "—"}` : "Unknown game"}
-                        </p>
-                        <span className={`rounded-full border px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] ${identityReady ? "border-emerald-400/20 bg-emerald-400/10 text-emerald-100" : "border-amber-300/20 bg-amber-300/10 text-amber-100"}`}>
+                        <span className="rounded-full border border-amber-300/20 bg-amber-300/10 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-amber-100">Pending Review</span>
+                        <span className={`rounded-full border px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] ${identityReady ? "border-emerald-400/20 bg-emerald-400/10 text-emerald-100" : "border-red-400/20 bg-red-500/10 text-red-100"}`}>
                           {identityReady ? "Identity Ready" : "Identity Missing"}
                         </span>
                       </div>
-                      <h2 className="mt-2 text-xl font-black">
-                        {game ? `${game.awayTeam ?? game.awaySchoolSlug} at ${game.homeTeam ?? game.homeSchoolSlug}` : submission.game_id}
-                      </h2>
+                      <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/30">
+                        {game ? `Week ${game.week ?? "—"}` : "Unknown game"}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="grid gap-6 p-5 sm:p-6 lg:grid-cols-[1fr_320px]">
+                    <div>
+                      <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 rounded-2xl border border-white/10 bg-black/25 p-4 sm:p-5">
+                        <div className="min-w-0 text-center sm:text-left">
+                          <p className="text-[9px] font-black uppercase tracking-[0.14em] text-white/30">Away</p>
+                          <p className="mt-1 truncate text-sm font-black text-white sm:text-base">{awayName}</p>
+                          <p className="mt-2 text-4xl font-black tabular-nums">{submission.away_score}</p>
+                        </div>
+
+                        <div className="text-center">
+                          <span className={`inline-flex rounded-full border px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.14em] ${isFinal ? "border-white/15 bg-white/[0.06] text-white/60" : "border-red-400/20 bg-red-500/10 text-red-100"}`}>
+                            {isFinal ? "Final" : "Live"}
+                          </span>
+                          {!isFinal && (submission.period || submission.clock) ? (
+                            <p className="mt-2 text-xs font-bold text-white/45">
+                              {[submission.period, submission.clock].filter(Boolean).join(" · ")}
+                            </p>
+                          ) : null}
+                        </div>
+
+                        <div className="min-w-0 text-center sm:text-right">
+                          <p className="text-[9px] font-black uppercase tracking-[0.14em] text-white/30">Home</p>
+                          <p className="mt-1 truncate text-sm font-black text-white sm:text-base">{homeName}</p>
+                          <p className="mt-2 text-4xl font-black tabular-nums">{submission.home_score}</p>
+                        </div>
+                      </div>
+
                       {!identityReady ? (
-                        <p className="mt-2 text-xs font-semibold text-amber-100/75">
-                          Add complete identity data for {missingIdentityTeams.join(" and ")} before approval.
+                        <p className="mt-3 rounded-xl border border-red-400/15 bg-red-500/[0.07] p-3 text-xs font-semibold text-red-100/80">
+                          Approval blocked until complete identity data is added for {missingIdentityTeams.join(" and ")}.
                         </p>
                       ) : null}
-                      <p className="mt-3 text-2xl font-black">
-                        Away {submission.away_score} <span className="text-white/25">·</span> Home {submission.home_score}
-                      </p>
-                      <p className="mt-2 text-sm text-white/55">
-                        {submission.game_status}{submission.period ? ` · ${submission.period}` : ""}{submission.clock ? ` · ${submission.clock}` : ""}
-                      </p>
-                      <p className="mt-3 text-xs text-white/35">
-                        Submitted by {submitter?.display_name || submitter?.username || submission.submitted_by} · {new Date(submission.created_at).toLocaleString("en-US", { timeZone: "America/Chicago" })}
-                      </p>
-                      {submission.source_note ? <p className="mt-3 max-w-2xl rounded-xl border border-white/10 bg-black/20 p-3 text-sm leading-6 text-white/60">{submission.source_note}</p> : null}
+
+                      <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-xs text-white/35">
+                        <span>Submitted by <strong className="font-bold text-white/55">{submitter?.display_name || submitter?.username || submission.submitted_by}</strong></span>
+                        <span>{new Date(submission.created_at).toLocaleString("en-US", { timeZone: "America/Chicago", dateStyle: "medium", timeStyle: "short" })} CT</span>
+                      </div>
+
+                      {submission.source_note ? (
+                        <div className="mt-4 rounded-xl border border-white/10 bg-black/20 p-3">
+                          <p className="text-[9px] font-black uppercase tracking-[0.14em] text-white/30">Source note</p>
+                          <p className="mt-1 text-sm leading-6 text-white/60">{submission.source_note}</p>
+                        </div>
+                      ) : null}
                     </div>
 
-                    <div className="w-full lg:max-w-sm">
+                    <div className="lg:border-l lg:border-white/10 lg:pl-6">
+                      <p className="mb-3 text-[10px] font-black uppercase tracking-[0.16em] text-white/35">Moderation action</p>
                       <form className="space-y-3">
                         <input type="hidden" name="submission_id" value={submission.id} />
-                        <textarea name="review_note" rows={2} placeholder="Review note (optional)" className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white placeholder:text-white/25 focus:border-[var(--vv-accent)] focus:outline-none" />
+                        <textarea name="review_note" rows={3} placeholder="Review note (optional)" className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white placeholder:text-white/25 focus:border-[var(--vv-accent)] focus:outline-none" />
                         <div className="grid grid-cols-2 gap-3">
                           <button
                             formAction={approveScoreSubmission}
