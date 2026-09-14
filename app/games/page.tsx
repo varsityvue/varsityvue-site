@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getDynamicGames } from "@/lib/dynamic-games";
+import { createClient } from "@/lib/supabase/server";
 import type { MediaLink } from "@/types/platform";
 
 export const metadata: Metadata = {
@@ -105,6 +106,21 @@ export default async function GamesPage() {
   const regularGames = [...(await getDynamicGames())]
     .filter((game) => game.gameType !== "bye")
     .sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b));
+
+  const supabase = await createClient();
+  const { data: claimsData } = await supabase.auth.getClaims();
+  const pendingGameIds = new Set<string>();
+  const userId = claimsData?.claims?.sub;
+
+  if (userId) {
+    const { data: pendingRows } = await supabase
+      .from("score_submissions")
+      .select("game_id")
+      .eq("submitted_by", userId)
+      .eq("status", "pending");
+
+    for (const row of pendingRows ?? []) pendingGameIds.add(row.game_id);
+  }
 
   const finalGames = regularGames.filter((game) => game.status === "final");
   const latestFinal = [...finalGames].sort(compareGameDatesDesc)[0];
@@ -242,7 +258,7 @@ export default async function GamesPage() {
                     >
                       Matchup Center →
                     </Link>
-                    <ScoreReportLink game={featuredGame} />
+                    <ScoreReportLink game={featuredGame} hasPendingReport={pendingGameIds.has(featuredGame.id)} />
                   </div>
                 </div>
               </div>
@@ -287,7 +303,7 @@ export default async function GamesPage() {
                       </p>
                     </Link>
                     <BroadcastButtons links={game.mediaLinks} compact />
-                    <ScoreReportLink game={game} compact />
+                    <ScoreReportLink game={game} compact hasPendingReport={pendingGameIds.has(game.id)} />
                   </div>
                 ))}
               </div>
@@ -350,7 +366,7 @@ export default async function GamesPage() {
                         </p>
                       </Link>
                       <BroadcastButtons links={game.mediaLinks} />
-                      <ScoreReportLink game={game} />
+                      <ScoreReportLink game={game} hasPendingReport={pendingGameIds.has(game.id)} />
                     </div>
                   </div>
                 ))}
@@ -367,14 +383,23 @@ export default async function GamesPage() {
   );
 }
 
-function ScoreReportLink({ game, compact = false }: { game: { id: string; status: string; gameType: string }; compact?: boolean }) {
-  const label = getScoreReportLabel(game);
-  if (!label) return null;
+function ScoreReportLink({
+  game,
+  compact = false,
+  hasPendingReport = false,
+}: {
+  game: { id: string; status: string; gameType: string };
+  compact?: boolean;
+  hasPendingReport?: boolean;
+}) {
+  const reportLabel = getScoreReportLabel(game);
+  if (!reportLabel) return null;
+  const label = hasPendingReport ? "Pending Review" : reportLabel;
 
   return (
     <Link
       href={`/report-score?game=${encodeURIComponent(game.id)}`}
-      className={`${compact ? "mt-2.5 px-2.5 py-2 text-[9px] sm:px-3 sm:text-[10px]" : "mt-3 px-3 py-2.5 text-[10px] sm:mt-4 sm:px-4 sm:py-3 sm:text-xs"} block rounded-xl border border-[var(--vv-accent)]/25 bg-[var(--vv-accent)]/10 text-center font-black uppercase tracking-[0.12em] text-[var(--vv-accent)] transition hover:bg-[var(--vv-accent)]/15`}
+      className={`${compact ? "mt-2.5 px-2.5 py-2 text-[9px] sm:px-3 sm:text-[10px]" : "mt-3 px-3 py-2.5 text-[10px] sm:mt-4 sm:px-4 sm:py-3 sm:text-xs"} block rounded-xl border text-center font-black uppercase tracking-[0.12em] transition ${hasPendingReport ? "border-amber-300/30 bg-amber-300/10 text-amber-100 hover:bg-amber-300/15" : "border-[var(--vv-accent)]/25 bg-[var(--vv-accent)]/10 text-[var(--vv-accent)] hover:bg-[var(--vv-accent)]/15"}`}
     >
       {label} →
     </Link>
