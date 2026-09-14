@@ -12,6 +12,12 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false, nocache: true },
 };
 
+type HistoryFilter = "all" | "approved" | "rejected" | "superseded";
+
+type PageProps = {
+  searchParams: Promise<{ status?: string }>;
+};
+
 function displayTeamName(team?: string, slug?: string) {
   if (team) return getCanonicalScoreboardTeamName(team);
   if (slug) return getSchoolBySlug(slug)?.name ?? slug;
@@ -31,7 +37,16 @@ function statusLabel(status: string) {
   return status;
 }
 
-export default async function ScoreReviewHistoryPage() {
+function normalizeFilter(value?: string): HistoryFilter {
+  if (value === "approved" || value === "rejected" || value === "superseded") return value;
+  return "all";
+}
+
+function filterHref(filter: HistoryFilter) {
+  return filter === "all" ? "/internal/score-review/history" : `/internal/score-review/history?status=${filter}`;
+}
+
+export default async function ScoreReviewHistoryPage({ searchParams }: PageProps) {
   const supabase = await createClient();
   const { data: claimsData } = await supabase.auth.getClaims();
   const userId = claimsData?.claims?.sub;
@@ -46,6 +61,9 @@ export default async function ScoreReviewHistoryPage() {
   const canModerate = roles?.some((row) => row.role === "moderator" || row.role === "admin");
   if (!canModerate) redirect("/account");
 
+  const params = await searchParams;
+  const activeFilter = normalizeFilter(params.status);
+
   const { data: submissions } = await supabase
     .from("score_submissions")
     .select("id, game_id, submitted_by, reviewed_by, home_score, away_score, game_status, period, clock, source_note, status, created_at, reviewed_at, review_note")
@@ -53,9 +71,14 @@ export default async function ScoreReviewHistoryPage() {
     .order("reviewed_at", { ascending: false, nullsFirst: false })
     .limit(50);
 
+  const allSubmissions = submissions ?? [];
+  const filteredSubmissions = activeFilter === "all"
+    ? allSubmissions
+    : allSubmissions.filter((item) => item.status === activeFilter);
+
   const userIds = Array.from(
     new Set(
-      (submissions ?? []).flatMap((item) => [item.submitted_by, item.reviewed_by].filter(Boolean) as string[]),
+      filteredSubmissions.flatMap((item) => [item.submitted_by, item.reviewed_by].filter(Boolean) as string[]),
     ),
   );
 
@@ -65,9 +88,16 @@ export default async function ScoreReviewHistoryPage() {
 
   const profileMap = new Map((profiles ?? []).map((profile) => [profile.id, profile]));
 
-  const approvedCount = (submissions ?? []).filter((item) => item.status === "approved").length;
-  const rejectedCount = (submissions ?? []).filter((item) => item.status === "rejected").length;
-  const supersededCount = (submissions ?? []).filter((item) => item.status === "superseded").length;
+  const approvedCount = allSubmissions.filter((item) => item.status === "approved").length;
+  const rejectedCount = allSubmissions.filter((item) => item.status === "rejected").length;
+  const supersededCount = allSubmissions.filter((item) => item.status === "superseded").length;
+
+  const filters: { key: HistoryFilter; label: string; count: number }[] = [
+    { key: "all", label: "All", count: allSubmissions.length },
+    { key: "approved", label: "Approved", count: approvedCount },
+    { key: "rejected", label: "Rejected", count: rejectedCount },
+    { key: "superseded", label: "Superseded", count: supersededCount },
+  ];
 
   return (
     <main className="min-h-screen bg-[#050505] px-4 py-10 text-white sm:px-6 lg:px-8">
@@ -80,17 +110,47 @@ export default async function ScoreReviewHistoryPage() {
           </p>
         </section>
 
-        <div className="mt-6 flex flex-wrap gap-3">
-          <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-emerald-100">{approvedCount} Approved</span>
-          <span className="rounded-full border border-red-400/20 bg-red-500/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-red-100">{rejectedCount} Rejected</span>
-          <span className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-white/45">{supersededCount} Superseded</span>
+        <div className="mt-6 flex flex-wrap gap-2">
+          {filters.map((filter) => {
+            const active = filter.key === activeFilter;
+            return (
+              <Link
+                key={filter.key}
+                href={filterHref(filter.key)}
+                aria-current={active ? "page" : undefined}
+                className={`rounded-full border px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] transition ${
+                  active
+                    ? filter.key === "approved"
+                      ? "border-emerald-400/30 bg-emerald-400/15 text-emerald-50"
+                      : filter.key === "rejected"
+                        ? "border-red-400/30 bg-red-500/15 text-red-50"
+                        : filter.key === "superseded"
+                          ? "border-white/20 bg-white/10 text-white"
+                          : "border-[var(--vv-accent)]/40 bg-[var(--vv-accent)]/10 text-white"
+                    : "border-white/10 bg-white/[0.04] text-white/45 hover:border-white/20 hover:text-white/70"
+                }`}
+              >
+                {filter.label} · {filter.count}
+              </Link>
+            );
+          })}
+        </div>
+
+        <div className="mt-4 flex flex-wrap gap-3 text-[10px] font-black uppercase tracking-[0.14em] text-white/30">
+          <span>{approvedCount} Approved</span>
+          <span>·</span>
+          <span>{rejectedCount} Rejected</span>
+          <span>·</span>
+          <span>{supersededCount} Superseded</span>
         </div>
 
         <section className="mt-8 space-y-4">
-          {(submissions ?? []).length === 0 ? (
-            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-sm text-white/55">No moderation history yet.</div>
+          {filteredSubmissions.length === 0 ? (
+            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-sm text-white/55">
+              {activeFilter === "all" ? "No moderation history yet." : `No ${statusLabel(activeFilter).toLowerCase()} reports in the recent history.`}
+            </div>
           ) : (
-            submissions!.map((submission) => {
+            filteredSubmissions.map((submission) => {
               const game = getGameById(submission.game_id);
               const awayName = game ? displayTeamName(game.awayTeam, game.awaySchoolSlug) : "Away";
               const homeName = game ? displayTeamName(game.homeTeam, game.homeSchoolSlug) : "Home";
