@@ -141,6 +141,21 @@ function CompactTeamRow({ school, team, score }: { school?: ReturnType<typeof ge
   return <div className="grid grid-cols-[auto_1fr_auto] items-center gap-2.5 sm:gap-3">{school ? <SchoolBadge school={school} size="xs" /> : <FallbackBadge label={team} />}<p className="min-w-0 truncate text-sm font-black text-white sm:text-base">{team}</p>{score !== undefined && <p className="text-xl font-black leading-none text-white sm:text-2xl">{score}</p>}</div>;
 }
 
+function getFallbackInitials(label: string) {
+  const words = label.trim().split(/\s+/).filter(Boolean);
+  if (words.length > 1) return words.slice(0, 3).map((word) => word[0]).join("").toUpperCase();
+  return label.slice(0, 3).toUpperCase();
+}
+
 function FallbackBadge({ label }: { label: string }) {
-  return <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/10 p-1.5 text-center text-[9px] font-black uppercase text-white sm:h-14 sm:w-14 sm:rounded-2xl sm:p-2 sm:text-[10px]">{label.slice(0, 3)}</div>;
+  const initials = getFallbackInitials(label);
+  return <div className="w-20 shrink-0 drop-shadow-2xl">
+    <div className="relative overflow-hidden rounded-t-3xl border-[3px] border-black bg-[linear-gradient(180deg,#151515_0%,#050505_100%)] px-2 py-2">
+      <div className="absolute inset-0 opacity-[0.08] [background-image:repeating-linear-gradient(45deg,rgba(255,255,255,0.6),rgba(255,255,255,0.6)_1px,transparent_1px,transparent_4px)]" />
+      <div className="relative text-center text-xl font-black uppercase leading-none tracking-[-0.04em] text-white [text-shadow:2px_2px_0_#000,-1px_-1px_0_#000,0_8px_14px_rgba(0,0,0,0.75)]">{initials}</div>
+    </div>
+    <div className="relative -mt-1 flex min-h-7 items-center justify-center overflow-hidden rounded-b-3xl border-[3px] border-black bg-[linear-gradient(180deg,#111111_0%,#050505_100%)] px-1.5 py-1 text-center shadow-xl">
+      <div className="max-w-full text-[6px] font-black uppercase leading-[1.05] text-white">{label}</div>
+    </div>
+  </div>;
 }
