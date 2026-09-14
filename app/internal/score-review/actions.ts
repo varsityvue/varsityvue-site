@@ -3,10 +3,41 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+import { hasCompleteScoreboardTeamIdentity } from "@/data/scoreboard-team-identities";
+import { getGameById } from "@/lib/games";
+import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
 
 function text(formData: FormData, key: string) {
   return String(formData.get(key) ?? "").trim();
+}
+
+function hasCompleteSchoolIdentity(slug?: string) {
+  if (!slug) return false;
+  const school = getSchoolBySlug(slug);
+  return Boolean(
+    school?.abbreviation?.trim() &&
+    school?.mascot?.trim() &&
+    school?.colors?.primary?.trim() &&
+    school?.colors?.secondary?.trim(),
+  );
+}
+
+function missingGameIdentity(gameId: string) {
+  const game = getGameById(gameId);
+  if (!game) return ["unknown game"];
+
+  const sides = [
+    { label: game.awayTeam ?? game.awaySchoolSlug ?? "Away team", slug: game.awaySchoolSlug, team: game.awayTeam },
+    { label: game.homeTeam ?? game.homeSchoolSlug ?? "Home team", slug: game.homeSchoolSlug, team: game.homeTeam },
+  ];
+
+  return sides
+    .filter(({ slug, team }) => {
+      if (slug === "bye" || slug === "special-event") return false;
+      return !hasCompleteSchoolIdentity(slug) && !(team && hasCompleteScoreboardTeamIdentity(team));
+    })
+    .map(({ label }) => label);
 }
 
 async function requireModerator() {
@@ -32,6 +63,30 @@ export async function approveScoreSubmission(formData: FormData) {
   const reviewNote = text(formData, "review_note") || null;
   const { supabase, userId } = await requireModerator();
 
+  const { data: submission, error: submissionError } = await supabase
+    .from("score_submissions")
+    .select("id, game_id, status")
+    .eq("id", submissionId)
+    .eq("status", "pending")
+    .maybeSingle();
+
+  if (submissionError) {
+    redirect(`/internal/score-review?message=${encodeURIComponent(submissionError.message)}`);
+  }
+
+  if (!submission) {
+    redirect(`/internal/score-review?message=${encodeURIComponent("Pending score submission not found.")}`);
+  }
+
+  const missingIdentity = missingGameIdentity(submission.game_id);
+  if (missingIdentity.length) {
+    redirect(
+      `/internal/score-review?message=${encodeURIComponent(
+        `Approval blocked. Add scoreboard identity metadata for: ${missingIdentity.join(", ")}. Required: abbreviation, mascot, primary color, and secondary color.`,
+      )}`,
+    );
+  }
+
   const { error } = await supabase
     .from("score_submissions")
     .update({
@@ -48,6 +103,7 @@ export async function approveScoreSubmission(formData: FormData) {
 
   revalidatePath("/internal/score-review");
   revalidatePath("/scores");
+  revalidatePath("/scoreboard");
   redirect("/internal/score-review?reviewed=approved");
 }
 
