@@ -10,7 +10,7 @@ import { applySchoolBroadcasts } from "@/data/school-broadcasts";
 import { getSchoolBySlug } from "@/lib/schools";
 import type { Game } from "@/types/platform";
 
-const GAME_OF_THE_WEEK_IDS = new Set(["stamford-at-hawley-2026-week-3"]);
+const GAME_OF_THE_WEEK_IDS = new Set(["de-leon-at-goldthwaite-2026-week-4"]);
 const santoGameIds = new Set(santoGames.map((game) => game.id));
 const AUTO_LIVE_WINDOW_MS = 4 * 60 * 60 * 1000;
 
@@ -257,8 +257,4 @@ export function getDistrictGames() {
   return getNormalizedGames()
     .filter((game) => game.districtGame)
     .sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b));
-}
-
-export function getNextGameForSchool(slug: string) {
-  return getUpcomingGamesForSchool(slug)[0];
 }
