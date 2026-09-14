@@ -8,6 +8,18 @@ export type ScoreboardGame = Game & {
   isFeatured: boolean;
 };
 
+export type DynamicScoreState = {
+  game_id: string;
+  status: string;
+  home_score: number | null;
+  away_score: number | null;
+  period: string | null;
+  clock: string | null;
+  verified: boolean;
+};
+
+type DynamicScoreStateMap = Map<string, DynamicScoreState>;
+
 function getGameTimestamp(game: Game) {
   if (!game.kickoff) return Number.MAX_SAFE_INTEGER;
 
@@ -124,9 +136,34 @@ function getHighestWeek(games: ScoreboardGame[]) {
   return weeks.length > 0 ? Math.max(...weeks) : undefined;
 }
 
-export function getScoreboardGames(): ScoreboardGame[] {
+function applyDynamicScoreState(game: Game, states?: DynamicScoreStateMap): Game {
+  const state = states?.get(game.id);
+  if (!state || !state.verified) return game;
+
+  const status = ["live", "final", "upcoming", "scheduled", "postponed", "cancelled"].includes(state.status)
+    ? (state.status as Game["status"])
+    : game.status;
+
+  return {
+    ...game,
+    status,
+    homeScore: state.home_score ?? game.homeScore,
+    awayScore: state.away_score ?? game.awayScore,
+    score:
+      state.home_score !== null && state.away_score !== null
+        ? {
+            home: state.home_score,
+            away: state.away_score,
+            period: state.period ?? undefined,
+          }
+        : game.score,
+  };
+}
+
+export function getScoreboardGames(states?: DynamicScoreStateMap): ScoreboardGame[] {
   return getGames()
     .filter((game) => game.gameType !== "bye" && game.gameType !== "scrimmage")
+    .map((game) => applyDynamicScoreState(game, states))
     .map((game) => ({
       ...game,
       displayStatus: getDisplayStatus(game),
@@ -135,8 +172,8 @@ export function getScoreboardGames(): ScoreboardGame[] {
     .sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b));
 }
 
-export function getGameOfTheWeek(): ScoreboardGame | undefined {
-  const scoreboardGames = getScoreboardGames();
+export function getGameOfTheWeek(states?: DynamicScoreStateMap): ScoreboardGame | undefined {
+  const scoreboardGames = getScoreboardGames(states);
   const now = Date.now();
   const nowDate = new Date(now);
 
@@ -164,8 +201,8 @@ export function getGameOfTheWeek(): ScoreboardGame | undefined {
   );
 }
 
-export function getFeaturedScoreboardGame(): ScoreboardGame | undefined {
-  const scoreboardGames = getScoreboardGames();
+export function getFeaturedScoreboardGame(states?: DynamicScoreStateMap): ScoreboardGame | undefined {
+  const scoreboardGames = getScoreboardGames(states);
   const now = Date.now();
   const nowDate = new Date(now);
 
@@ -181,22 +218,22 @@ export function getFeaturedScoreboardGame(): ScoreboardGame | undefined {
   );
 }
 
-export function getLiveGames(): ScoreboardGame[] {
-  return getScoreboardGames().filter((game) => game.status === "live");
+export function getLiveGames(states?: DynamicScoreStateMap): ScoreboardGame[] {
+  return getScoreboardGames(states).filter((game) => game.status === "live");
 }
 
-export function getUpcomingScoreboardGames(limit = 5): ScoreboardGame[] {
+export function getUpcomingScoreboardGames(limit = 5, states?: DynamicScoreStateMap): ScoreboardGame[] {
   const now = new Date();
 
-  return getScoreboardGames()
+  return getScoreboardGames(states)
     .filter((game) => isUpcomingByScheduleDate(game, now))
     .slice(0, limit);
 }
 
-export function getRecentFinalScoreboardGames(limit = 8): ScoreboardGame[] {
+export function getRecentFinalScoreboardGames(limit = 8, states?: DynamicScoreStateMap): ScoreboardGame[] {
   const now = Date.now();
 
-  return getScoreboardGames()
+  return getScoreboardGames(states)
     .filter((game) => isRecentFinal(game, now))
     .sort((a, b) => {
       if (a.week !== b.week) return (b.week ?? -1) - (a.week ?? -1);
@@ -206,8 +243,8 @@ export function getRecentFinalScoreboardGames(limit = 8): ScoreboardGame[] {
     .slice(0, limit);
 }
 
-export function getHomepageScoreboardGames(limit = 8) {
-  const recentFinals = getRecentFinalScoreboardGames(Math.max(limit * 3, 24));
+export function getHomepageScoreboardGames(limit = 8, states?: DynamicScoreStateMap) {
+  const recentFinals = getRecentFinalScoreboardGames(Math.max(limit * 3, 24), states);
   const finalWeek = getHighestWeek(recentFinals);
 
   if (recentFinals.length > 0) {
@@ -222,7 +259,7 @@ export function getHomepageScoreboardGames(limit = 8) {
     };
   }
 
-  const upcomingGames = getUpcomingScoreboardGames(Math.max(limit * 3, 24));
+  const upcomingGames = getUpcomingScoreboardGames(Math.max(limit * 3, 24), states);
   const upcomingWeeks = upcomingGames
     .map((game) => game.week)
     .filter((week): week is number => typeof week === "number");
@@ -238,8 +275,8 @@ export function getHomepageScoreboardGames(limit = 8) {
   };
 }
 
-export function getFinalScoreboardGames(limit = 5): ScoreboardGame[] {
-  return getScoreboardGames()
+export function getFinalScoreboardGames(limit = 5, states?: DynamicScoreStateMap): ScoreboardGame[] {
+  return getScoreboardGames(states)
     .filter((game) => game.status === "final")
     .sort((a, b) => getGameTimestamp(b) - getGameTimestamp(a))
     .slice(0, limit);
