@@ -54,6 +54,20 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
     redirect("/login?message=Sign%20in%20to%20report%20a%20score.");
   }
 
+  const [{ data: roles }, { data: assignments }] = await Promise.all([
+    supabase.from("user_roles").select("role").eq("user_id", claims.sub),
+    supabase
+      .from("contributor_school_assignments")
+      .select("school_slug, active")
+      .eq("user_id", claims.sub)
+      .eq("active", true),
+  ]);
+
+  const roleSet = new Set((roles ?? []).map((row) => row.role));
+  const canModerate = roleSet.has("moderator") || roleSet.has("admin");
+  const isRestrictedScorekeeper = roleSet.has("scorekeeper") && !canModerate;
+  const assignedSchoolSlugs = new Set((assignments ?? []).map((assignment) => assignment.school_slug));
+
   const params = await searchParams;
   const games = getGames()
     .filter(
@@ -65,12 +79,14 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
     )
     .sort((a, b) => (b.week ?? 0) - (a.week ?? 0));
 
-  const relevantGames = games.filter(
-    (game) =>
-      (game.week ?? 0) >= 3 &&
-      (game.week ?? 0) <= 6 &&
-      gameIsIdentityReady(game),
-  );
+  const relevantGames = games.filter((game) => {
+    if ((game.week ?? 0) < 3 || (game.week ?? 0) > 6 || !gameIsIdentityReady(game)) return false;
+    if (!isRestrictedScorekeeper) return true;
+    return Boolean(
+      (game.awaySchoolSlug && assignedSchoolSlugs.has(game.awaySchoolSlug)) ||
+      (game.homeSchoolSlug && assignedSchoolSlugs.has(game.homeSchoolSlug)),
+    );
+  });
 
   const { data: recentSubmissions } = await supabase
     .from("score_submissions")
@@ -84,11 +100,13 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
       <div className="mx-auto max-w-4xl">
         <section className="rounded-[1.5rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.42),transparent_36%),linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-5 sm:rounded-[2rem] sm:p-8">
           <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.3em]">
-            Community Score Report
+            {isRestrictedScorekeeper ? "Contributor Score Entry" : "Community Score Report"}
           </p>
           <h1 className="mt-3 text-3xl font-black sm:text-5xl">Help keep Friday night current.</h1>
           <p className="mt-4 max-w-2xl text-sm leading-6 text-white/60 sm:text-base sm:leading-7">
-            Submit a live or final score you can verify. Reports are saved with your account and reviewed before becoming an official VarsityVue update.
+            {isRestrictedScorekeeper
+              ? "Your contributor account can submit scores only for games involving programs assigned to you. Reports are still reviewed before becoming an official VarsityVue update."
+              : "Submit a live or final score you can verify. Reports are saved with your account and reviewed before becoming an official VarsityVue update."}
           </p>
         </section>
 
@@ -104,6 +122,12 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
           </div>
         ) : null}
 
+        {isRestrictedScorekeeper && assignedSchoolSlugs.size === 0 ? (
+          <div className="mt-5 rounded-2xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm leading-6 text-amber-50">
+            No programs are assigned to this contributor account yet. A moderator or admin must add an assignment before score entry is available.
+          </div>
+        ) : null}
+
         <section className="mt-6 rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-5 sm:p-7">
           <form action={submitScore} className="space-y-5">
             <div>
@@ -115,7 +139,8 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
                 name="game_id"
                 required
                 defaultValue=""
-                className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white focus:border-[var(--vv-accent)] focus:outline-none"
+                disabled={isRestrictedScorekeeper && assignedSchoolSlugs.size === 0}
+                className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white focus:border-[var(--vv-accent)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-40"
               >
                 <option value="" disabled>Select a game</option>
                 {relevantGames.map((game) => (
@@ -125,45 +150,47 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
                 ))}
               </select>
               <p className="mt-2 text-xs leading-5 text-white/35">
-                Only games with complete team identity data are available for score reporting.
+                {isRestrictedScorekeeper
+                  ? "Only identity-ready games involving one of your assigned programs are shown."
+                  : "Only games with complete team identity data are available for score reporting."}
               </p>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <label htmlFor="away_score" className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-white/45">Away Score</label>
-                <input id="away_score" name="away_score" type="number" min="0" max="150" required className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white focus:border-[var(--vv-accent)] focus:outline-none" />
+                <input id="away_score" name="away_score" type="number" min="0" max="150" required disabled={isRestrictedScorekeeper && assignedSchoolSlugs.size === 0} className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white focus:border-[var(--vv-accent)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-40" />
               </div>
               <div>
                 <label htmlFor="home_score" className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-white/45">Home Score</label>
-                <input id="home_score" name="home_score" type="number" min="0" max="150" required className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white focus:border-[var(--vv-accent)] focus:outline-none" />
+                <input id="home_score" name="home_score" type="number" min="0" max="150" required disabled={isRestrictedScorekeeper && assignedSchoolSlugs.size === 0} className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white focus:border-[var(--vv-accent)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-40" />
               </div>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-3">
               <div>
                 <label htmlFor="game_status" className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-white/45">Status</label>
-                <select id="game_status" name="game_status" defaultValue="live" className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white focus:border-[var(--vv-accent)] focus:outline-none">
+                <select id="game_status" name="game_status" defaultValue="live" disabled={isRestrictedScorekeeper && assignedSchoolSlugs.size === 0} className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white focus:border-[var(--vv-accent)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-40">
                   <option value="live">Live</option>
                   <option value="final">Final</option>
                 </select>
               </div>
               <div>
                 <label htmlFor="period" className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-white/45">Quarter / Period</label>
-                <input id="period" name="period" placeholder="3rd" className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/25 focus:border-[var(--vv-accent)] focus:outline-none" />
+                <input id="period" name="period" placeholder="3rd" disabled={isRestrictedScorekeeper && assignedSchoolSlugs.size === 0} className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/25 focus:border-[var(--vv-accent)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-40" />
               </div>
               <div>
                 <label htmlFor="clock" className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-white/45">Clock</label>
-                <input id="clock" name="clock" placeholder="4:21" className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/25 focus:border-[var(--vv-accent)] focus:outline-none" />
+                <input id="clock" name="clock" placeholder="4:21" disabled={isRestrictedScorekeeper && assignedSchoolSlugs.size === 0} className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/25 focus:border-[var(--vv-accent)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-40" />
               </div>
             </div>
 
             <div>
               <label htmlFor="source_note" className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-white/45">How do you know? <span className="font-normal normal-case tracking-normal text-white/30">Optional</span></label>
-              <textarea id="source_note" name="source_note" rows={3} placeholder="At the game, radio broadcast, school stream, scoreboard photo, etc." className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm leading-6 text-white placeholder:text-white/25 focus:border-[var(--vv-accent)] focus:outline-none" />
+              <textarea id="source_note" name="source_note" rows={3} disabled={isRestrictedScorekeeper && assignedSchoolSlugs.size === 0} placeholder="At the game, radio broadcast, school stream, scoreboard photo, etc." className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm leading-6 text-white placeholder:text-white/25 focus:border-[var(--vv-accent)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-40" />
             </div>
 
-            <button type="submit" className="w-full rounded-full bg-[var(--vv-primary)] px-6 py-3.5 text-sm font-black transition hover:bg-[#93142a]">
+            <button type="submit" disabled={isRestrictedScorekeeper && assignedSchoolSlugs.size === 0} className="w-full rounded-full bg-[var(--vv-primary)] px-6 py-3.5 text-sm font-black transition hover:bg-[#93142a] disabled:cursor-not-allowed disabled:opacity-35">
               Submit Score Report
             </button>
           </form>
