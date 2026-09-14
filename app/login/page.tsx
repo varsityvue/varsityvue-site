@@ -23,7 +23,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
             {signupMode ? "Create your account." : "Welcome back."}
           </h1>
           <p className="mt-4 text-sm leading-6 text-white/60 sm:text-base sm:leading-7">
-            Member accounts will power Pick ’Ems, followed schools, score contributions, notifications, and contributor reputation.
+            Sign in to make picks, follow your teams, and contribute to VarsityVue.
           </p>
 
           {message ? (
