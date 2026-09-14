@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+import { getCanonicalScoreboardTeamName, hasCompleteScoreboardTeamIdentity } from "@/data/scoreboard-team-identities";
 import { getGames } from "@/lib/games";
+import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
 import { submitScore } from "./actions";
 
@@ -15,6 +17,33 @@ export const metadata: Metadata = {
 type PageProps = {
   searchParams: Promise<{ message?: string; submitted?: string }>;
 };
+
+function schoolHasCompleteIdentity(slug?: string) {
+  if (!slug) return false;
+  const school = getSchoolBySlug(slug);
+  return Boolean(
+    school?.abbreviation?.trim() &&
+    school?.mascot?.trim() &&
+    school?.colors?.primary?.trim() &&
+    school?.colors?.secondary?.trim(),
+  );
+}
+
+function teamHasCompleteIdentity(slug: string | undefined, team: string | undefined) {
+  if (schoolHasCompleteIdentity(slug)) return true;
+  return team ? hasCompleteScoreboardTeamIdentity(team) : false;
+}
+
+function gameIsIdentityReady(game: ReturnType<typeof getGames>[number]) {
+  return (
+    teamHasCompleteIdentity(game.awaySchoolSlug, game.awayTeam) &&
+    teamHasCompleteIdentity(game.homeSchoolSlug, game.homeTeam)
+  );
+}
+
+function displayTeamName(team?: string, fallback?: string) {
+  return team ? getCanonicalScoreboardTeamName(team) : (fallback ?? "Team TBD");
+}
 
 export default async function ReportScorePage({ searchParams }: PageProps) {
   const supabase = await createClient();
@@ -36,7 +65,12 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
     )
     .sort((a, b) => (b.week ?? 0) - (a.week ?? 0));
 
-  const relevantGames = games.filter((game) => (game.week ?? 0) >= 3 && (game.week ?? 0) <= 6);
+  const relevantGames = games.filter(
+    (game) =>
+      (game.week ?? 0) >= 3 &&
+      (game.week ?? 0) <= 6 &&
+      gameIsIdentityReady(game),
+  );
 
   const { data: recentSubmissions } = await supabase
     .from("score_submissions")
@@ -86,10 +120,13 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
                 <option value="" disabled>Select a game</option>
                 {relevantGames.map((game) => (
                   <option key={game.id} value={game.id}>
-                    Week {game.week}: {game.awayTeam ?? game.awaySchoolSlug} at {game.homeTeam ?? game.homeSchoolSlug}
+                    Week {game.week}: {displayTeamName(game.awayTeam, game.awaySchoolSlug)} at {displayTeamName(game.homeTeam, game.homeSchoolSlug)}
                   </option>
                 ))}
               </select>
+              <p className="mt-2 text-xs leading-5 text-white/35">
+                Only games with complete team identity data are available for score reporting.
+              </p>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
@@ -141,7 +178,7 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
                 return (
                   <div key={submission.id} className="rounded-xl border border-white/10 bg-black/20 p-4">
                     <div className="flex flex-wrap items-center justify-between gap-2">
-                      <p className="text-sm font-bold">{game ? `${game.awayTeam} at ${game.homeTeam}` : submission.game_id}</p>
+                      <p className="text-sm font-bold">{game ? `${displayTeamName(game.awayTeam, game.awaySchoolSlug)} at ${displayTeamName(game.homeTeam, game.homeSchoolSlug)}` : submission.game_id}</p>
                       <span className="rounded-full border border-white/10 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-white/50">{submission.status}</span>
                     </div>
                     <p className="mt-2 text-sm text-white/65">Away {submission.away_score} · Home {submission.home_score} · {submission.game_status}{submission.period ? ` · ${submission.period}` : ""}</p>
