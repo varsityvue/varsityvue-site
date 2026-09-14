@@ -4,11 +4,21 @@ import { useMemo, useState } from "react";
 
 import { submitScore } from "./actions";
 
+type TeamVisualIdentity = {
+  abbreviation: string;
+  mascot: string;
+  primary: string;
+  secondary: string;
+  logoPath: string | null;
+} | null;
+
 type ScoreGameOption = {
   id: string;
   week?: number;
   awayName: string;
   homeName: string;
+  awayIdentity: TeamVisualIdentity;
+  homeIdentity: TeamVisualIdentity;
 };
 
 type Props = {
@@ -17,6 +27,35 @@ type Props = {
   disabled: boolean;
   restricted: boolean;
 };
+
+function TeamMark({ name, identity }: { name: string; identity: TeamVisualIdentity }) {
+  if (!identity) {
+    return (
+      <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-black/35 text-lg font-black text-white/50">
+        {name.slice(0, 2).toUpperCase()}
+      </div>
+    );
+  }
+
+  if (identity.logoPath) {
+    return (
+      <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-black/35 p-1.5">
+        <img src={identity.logoPath} alt={`${name} logo`} className="h-full w-full object-contain" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-16 shrink-0 overflow-hidden rounded-2xl border-[2px] border-black bg-black shadow-lg">
+      <div className="relative flex min-h-11 items-center justify-center px-1 py-2 text-center font-black uppercase leading-none" style={{ color: identity.primary, WebkitTextStroke: `1px ${identity.secondary}`, textShadow: "1px 1px 0 #000, -1px -1px 0 #000" }}>
+        <span className="text-base tracking-[-0.04em]">{identity.abbreviation}</span>
+      </div>
+      <div className="flex min-h-5 items-center justify-center border-t-2 border-black bg-[#0b0b0b] px-1 py-1 text-center text-[6px] font-black uppercase leading-none" style={{ color: identity.secondary }}>
+        {identity.mascot}
+      </div>
+    </div>
+  );
+}
 
 export default function ScoreReportForm({ games, selectedGameId, disabled, restricted }: Props) {
   const [gameId, setGameId] = useState(selectedGameId);
@@ -55,9 +94,25 @@ export default function ScoreReportForm({ games, selectedGameId, disabled, restr
       </div>
 
       {selectedGame ? (
-        <div className="rounded-2xl border border-white/10 bg-black/20 px-4 py-3">
-          <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">Selected matchup</p>
-          <p className="mt-1 text-sm font-black text-white">{selectedGame.awayName} at {selectedGame.homeName}</p>
+        <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex min-w-0 flex-1 flex-col items-center text-center">
+              <TeamMark name={selectedGame.awayName} identity={selectedGame.awayIdentity} />
+              <p className="mt-2 line-clamp-2 text-xs font-black text-white sm:text-sm">{selectedGame.awayName}</p>
+              <span className="mt-1 text-[9px] font-black uppercase tracking-[0.14em] text-white/30">Away</span>
+            </div>
+
+            <div className="shrink-0 text-center">
+              <p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/30">Week {selectedGame.week}</p>
+              <p className="mt-1 text-sm font-black text-white/60">AT</p>
+            </div>
+
+            <div className="flex min-w-0 flex-1 flex-col items-center text-center">
+              <TeamMark name={selectedGame.homeName} identity={selectedGame.homeIdentity} />
+              <p className="mt-2 line-clamp-2 text-xs font-black text-white sm:text-sm">{selectedGame.homeName}</p>
+              <span className="mt-1 text-[9px] font-black uppercase tracking-[0.14em] text-white/30">Home</span>
+            </div>
+          </div>
         </div>
       ) : null}
 
