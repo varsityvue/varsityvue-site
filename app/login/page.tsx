@@ -5,12 +5,23 @@ type LoginPageProps = {
   searchParams: Promise<{
     message?: string;
     mode?: string;
+    next?: string;
   }>;
 };
 
+function safeNext(value?: string) {
+  if (!value || !value.startsWith("/") || value.startsWith("//")) return "/account";
+  return value;
+}
+
 export default async function LoginPage({ searchParams }: LoginPageProps) {
-  const { message, mode } = await searchParams;
+  const { message, mode, next } = await searchParams;
   const signupMode = mode === "signup";
+  const returnTo = safeNext(next);
+  const toggleParams = new URLSearchParams();
+  if (!signupMode) toggleParams.set("mode", "signup");
+  if (returnTo !== "/account") toggleParams.set("next", returnTo);
+  const toggleHref = toggleParams.size ? `/login?${toggleParams.toString()}` : "/login";
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] px-4 py-10 text-white sm:px-6 sm:py-16 lg:px-8">
@@ -26,6 +37,12 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
             Sign in to make picks, follow your teams, and contribute to VarsityVue.
           </p>
 
+          {returnTo.startsWith("/report-score") ? (
+            <div className="mt-5 rounded-2xl border border-[var(--vv-accent)]/15 bg-white/[0.04] px-4 py-3 text-xs leading-5 text-white/55">
+              Sign in or create an account and we’ll return you directly to the score report you selected.
+            </div>
+          ) : null}
+
           {message ? (
             <div className="mt-5 rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm leading-6 text-white/75">
               {message}
@@ -33,6 +50,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           ) : null}
 
           <form className="mt-6 space-y-4">
+            <input type="hidden" name="next" value={returnTo} />
             {signupMode ? (
               <div>
                 <label htmlFor="display_name" className="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-white/55">
@@ -92,7 +110,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           <div className="mt-5 text-center text-sm text-white/50">
             {signupMode ? "Already have an account?" : "New to VarsityVue?"}{" "}
             <Link
-              href={signupMode ? "/login" : "/login?mode=signup"}
+              href={toggleHref}
               className="font-bold text-white underline decoration-white/30 underline-offset-4 hover:decoration-white"
             >
               {signupMode ? "Sign in" : "Create one"}
