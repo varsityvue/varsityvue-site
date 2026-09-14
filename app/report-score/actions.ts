@@ -32,7 +32,7 @@ function teamHasCompleteIdentity(slug: string | undefined, team: string | undefi
   return team ? hasCompleteScoreboardTeamIdentity(team) : false;
 }
 
-function reportRedirect(gameId: string, message: string) {
+function reportRedirect(gameId: string, message: string): never {
   const params = new URLSearchParams({ message });
   if (gameId) params.set("game", gameId);
   redirect(`/report-score?${params.toString()}`);
