@@ -120,6 +120,19 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
                 ? [!awayReady ? awayName : null, !homeReady ? homeName : null].filter(Boolean)
                 : ["Unknown game"];
               const hasMultipleReports = reports.length > 1;
+              const firstReport = reports[0];
+              const scoresAgree = hasMultipleReports && reports.every(
+                (report) =>
+                  report.away_score === firstReport.away_score &&
+                  report.home_score === firstReport.home_score,
+              );
+              const stateAgrees = hasMultipleReports && reports.every(
+                (report) =>
+                  report.game_status === firstReport.game_status &&
+                  (report.period ?? "") === (firstReport.period ?? "") &&
+                  (report.clock ?? "") === (firstReport.clock ?? ""),
+              );
+              const reportsAgree = scoresAgree && stateAgrees;
 
               return (
                 <article key={gameId} className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.035]">
@@ -138,8 +151,26 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
                               Compare {reports.length} Reports
                             </span>
                           ) : null}
+                          {hasMultipleReports ? (
+                            <span className={`rounded-full border px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] ${reportsAgree ? "border-emerald-400/20 bg-emerald-400/10 text-emerald-100" : scoresAgree ? "border-amber-300/20 bg-amber-300/10 text-amber-100" : "border-red-400/20 bg-red-500/10 text-red-100"}`}>
+                              {reportsAgree ? "Reports Agree" : scoresAgree ? "Score Match · State Differs" : "Score Conflict"}
+                            </span>
+                          ) : null}
                         </div>
                         <h2 className="mt-2 text-xl font-black sm:text-2xl">{awayName} at {homeName}</h2>
+                        {hasMultipleReports && !scoresAgree ? (
+                          <p className="mt-2 text-xs font-semibold text-red-100/75">
+                            Pending reports disagree on the score. Compare sources before approving.
+                          </p>
+                        ) : hasMultipleReports && scoresAgree && !stateAgrees ? (
+                          <p className="mt-2 text-xs font-semibold text-amber-100/75">
+                            Scores match, but live/final state, period, or clock differs between reports.
+                          </p>
+                        ) : hasMultipleReports ? (
+                          <p className="mt-2 text-xs font-semibold text-emerald-100/65">
+                            All pending reports match on score and game state.
+                          </p>
+                        ) : null}
                       </div>
                       <div className="rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-center">
                         <p className="text-2xl font-black tabular-nums">{reports.length}</p>
@@ -158,13 +189,24 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
                     {reports.map((submission, index) => {
                       const submitter = profileMap.get(submission.submitted_by);
                       const isFinal = submission.game_status === "final";
+                      const scoreMatchesReference = !hasMultipleReports || (
+                        submission.away_score === firstReport.away_score &&
+                        submission.home_score === firstReport.home_score
+                      );
 
                       return (
-                        <section key={submission.id} className="rounded-2xl border border-white/10 bg-black/20 p-4 sm:p-5">
+                        <section key={submission.id} className={`rounded-2xl border bg-black/20 p-4 sm:p-5 ${hasMultipleReports && !scoresAgree && !scoreMatchesReference ? "border-red-400/25" : "border-white/10"}`}>
                           <div className="flex flex-wrap items-center justify-between gap-2">
-                            <span className="rounded-full border border-amber-300/20 bg-amber-300/10 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-amber-100">
-                              Report {index + 1}
-                            </span>
+                            <div className="flex flex-wrap items-center gap-2">
+                              <span className="rounded-full border border-amber-300/20 bg-amber-300/10 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-amber-100">
+                                Report {index + 1}
+                              </span>
+                              {hasMultipleReports && !scoresAgree ? (
+                                <span className={`rounded-full border px-2 py-1 text-[8px] font-black uppercase tracking-[0.1em] ${scoreMatchesReference ? "border-white/10 bg-white/[0.05] text-white/45" : "border-red-400/20 bg-red-500/10 text-red-100"}`}>
+                                  {scoreMatchesReference ? "Reference Score" : "Different Score"}
+                                </span>
+                              ) : null}
+                            </div>
                             <span className={`rounded-full border px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] ${isFinal ? "border-white/15 bg-white/[0.06] text-white/60" : "border-red-400/20 bg-red-500/10 text-red-100"}`}>
                               {isFinal ? "Final" : "Live"}
                             </span>
