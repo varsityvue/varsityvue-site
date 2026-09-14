@@ -81,14 +81,14 @@ export default async function ScoreboardPage() {
   const featuredGame = getGameOfTheWeek(dynamicState);
   const liveGames = getLiveGames(dynamicState);
   const upcomingGames = getUpcomingScoreboardGames(8, dynamicState);
-  const finalGames = getFinalScoreboardGames(12, dynamicState);
+  const finalGames = getFinalScoreboardGames(500, dynamicState);
   return <main className="min-h-screen bg-[var(--vv-bg)] text-white">
     <PageHero eyebrow="VarsityVue Scoreboard · 2026 Football" title="Texas High School Football Scores" description="Verified final scores, featured matchups, and upcoming kickoffs from programs currently tracked by VarsityVue." aside={<div className="rounded-2xl border border-white/10 bg-black/25 px-5 py-4 lg:max-w-sm"><p className="text-xs font-black uppercase tracking-[0.2em] text-white/45">Latest Results</p><p className="mt-1 text-lg font-black text-white">Verified finals stay easy to find.</p><p className="mt-1 text-sm leading-5 text-white/50">The scoreboard updates as new results and approved community reports are verified.</p></div>} />
     <div className="mx-auto max-w-[1440px] px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
       {featuredGame && <FeaturedScoreboardGame game={featuredGame} />}
       <section className="mt-5 grid items-start gap-3 sm:mt-8 sm:gap-6 lg:grid-cols-3">
         <ScoreboardColumn id="live-now" title="Live Now" description="Games currently marked in progress." games={liveGames} emptyText="No games are currently marked live." collapsibleWhenEmpty />
-        <ScoreboardColumn id="final-scores" title="Final Scores" description="Latest verified results from across the coverage area." games={finalGames} emptyText="No final scores posted yet." />
+        <ScoreboardColumn id="final-scores" title="Final Scores" description="Latest verified results from across the coverage area." games={finalGames} emptyText="No final scores posted yet." mobileLimit={10} />
         <ScoreboardColumn id="upcoming" title="Upcoming" description="The next scheduled kickoffs currently on file." games={upcomingGames} emptyText="No upcoming games listed." />
       </section>
     </div>
@@ -118,9 +118,32 @@ function TeamResult({ team, standing }: { team: string; standing?: ReturnType<ty
   return <div className="min-w-0 text-center"><h2 className="break-words text-base font-black leading-[1.05] text-white sm:text-3xl md:text-4xl">{team}</h2><p className="mt-1 text-[8px] font-black uppercase tracking-[0.08em] text-white/40 sm:mt-2 sm:text-sm sm:tracking-[0.16em]">{hasOverallResult ? `${standing!.overallWins}-${standing!.overallLosses} Overall${districtRecord}` : "Overall —"}</p></div>;
 }
 
-function ScoreboardColumn({ id, title, description, games, emptyText, collapsibleWhenEmpty = false }: { id: string; title: string; description: string; games: ScoreboardGame[]; emptyText: string; collapsibleWhenEmpty?: boolean }) {
+function ScoreboardColumn({ id, title, description, games, emptyText, collapsibleWhenEmpty = false, mobileLimit }: { id: string; title: string; description: string; games: ScoreboardGame[]; emptyText: string; collapsibleWhenEmpty?: boolean; mobileLimit?: number }) {
   if (collapsibleWhenEmpty && games.length === 0) return <details id={id} className="group scroll-mt-24 rounded-[1.4rem] border border-white/10 bg-white/[0.04] p-3.5 sm:rounded-3xl sm:p-5"><summary className="cursor-pointer list-none [&::-webkit-details-marker]:hidden"><div className="flex items-start justify-between gap-3 sm:gap-4"><div><h2 className="text-2xl font-black sm:text-3xl">{title}</h2><p className="mt-1 text-xs text-white/50 sm:mt-2 sm:text-sm">{description}</p></div><span className="mt-1 text-sm font-black text-white/45 transition group-open:rotate-180">⌄</span></div></summary><p className="mt-4 rounded-xl border border-white/10 bg-black/30 p-3 text-xs text-white/50 sm:mt-6 sm:rounded-2xl sm:p-4 sm:text-sm">{emptyText}</p></details>;
-  return <section id={id} className="scroll-mt-24 rounded-[1.4rem] border border-white/10 bg-white/[0.04] p-3.5 sm:rounded-3xl sm:p-5"><h2 className="text-2xl font-black sm:text-3xl">{title}</h2><p className="mt-1 text-xs text-white/50 sm:mt-2 sm:text-sm">{description}</p><div className="mt-4 space-y-2.5 sm:mt-6 sm:space-y-4">{games.length === 0 ? <p className="rounded-xl border border-white/10 bg-black/30 p-3 text-xs text-white/50 sm:rounded-2xl sm:p-4 sm:text-sm">{emptyText}</p> : games.map((game) => <ScoreboardGameCard key={game.id} game={game} />)}</div></section>;
+
+  const hasMobileOverflow = mobileLimit !== undefined && games.length > mobileLimit;
+  const visibleGames = hasMobileOverflow ? games.slice(0, mobileLimit) : games;
+  const overflowGames = hasMobileOverflow ? games.slice(mobileLimit) : [];
+
+  return <section id={id} className="scroll-mt-24 rounded-[1.4rem] border border-white/10 bg-white/[0.04] p-3.5 sm:rounded-3xl sm:p-5">
+    <h2 className="text-2xl font-black sm:text-3xl">{title}</h2>
+    <p className="mt-1 text-xs text-white/50 sm:mt-2 sm:text-sm">{description}</p>
+    <div className="mt-4 space-y-2.5 sm:mt-6 sm:space-y-4">
+      {games.length === 0 ? <p className="rounded-xl border border-white/10 bg-black/30 p-3 text-xs text-white/50 sm:rounded-2xl sm:p-4 sm:text-sm">{emptyText}</p> : <>
+        {visibleGames.map((game) => <ScoreboardGameCard key={game.id} game={game} />)}
+        {hasMobileOverflow && <>
+          <div className="hidden space-y-4 md:block">{overflowGames.map((game) => <ScoreboardGameCard key={game.id} game={game} />)}</div>
+          <details className="group md:hidden">
+            <summary className="mt-3 cursor-pointer list-none rounded-full border border-white/15 bg-white/[0.06] px-4 py-3 text-center text-[10px] font-black uppercase tracking-[0.14em] text-white/75 [&::-webkit-details-marker]:hidden">
+              <span className="group-open:hidden">View all {games.length} scores ↓</span>
+              <span className="hidden group-open:inline">Show fewer ↑</span>
+            </summary>
+            <div className="mt-2.5 space-y-2.5">{overflowGames.map((game) => <ScoreboardGameCard key={`mobile-${game.id}`} game={game} />)}</div>
+          </details>
+        </>}
+      </>}
+    </div>
+  </section>;
 }
 
 function ScoreboardGameCard({ game }: { game: ScoreboardGame }) {
