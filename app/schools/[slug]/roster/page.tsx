@@ -6,10 +6,43 @@ import SchoolSubnav from "../../../../components/SchoolSubnav";
 import { getDistrictById } from "@/lib/districts";
 import { getSchoolRoster } from "@/lib/rosters";
 import { getSchoolBySlug } from "@/lib/schools";
+import { createClient } from "@/lib/supabase/server";
 
 const SEASON = 2026;
 
 type Props = { params: Promise<{ slug: string }> };
+
+type DisplayRosterPlayer = {
+  key: string;
+  name: string;
+  jerseyNumber?: string;
+  grade?: string;
+  positions: string[];
+  playerId?: string;
+};
+
+function normalizeName(value: string) {
+  return value.trim().toLowerCase().replace(/\s+/g, " ");
+}
+
+function gradeLabel(grade: string | null) {
+  if (grade === "Fr") return "Freshman";
+  if (grade === "So") return "Sophomore";
+  if (grade === "Jr") return "Junior";
+  if (grade === "Sr") return "Senior";
+  return undefined;
+}
+
+function sortRoster(a: DisplayRosterPlayer, b: DisplayRosterPlayer) {
+  const aNumber = Number(a.jerseyNumber);
+  const bNumber = Number(b.jerseyNumber);
+  const aHasNumber = Number.isFinite(aNumber);
+  const bHasNumber = Number.isFinite(bNumber);
+
+  if (aHasNumber && bHasNumber && aNumber !== bNumber) return aNumber - bNumber;
+  if (aHasNumber !== bHasNumber) return aHasNumber ? -1 : 1;
+  return a.name.localeCompare(b.name);
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
@@ -45,7 +78,47 @@ export default async function SchoolRosterPage({ params }: Props) {
 
   const district = getDistrictById(school.districtId);
   const districtSlug = district?.slug ?? school.districtId;
-  const roster = getSchoolRoster(slug, SEASON);
+  const staticRoster = getSchoolRoster(slug, SEASON);
+  const supabase = await createClient();
+  const { data: managedRoster } = await supabase
+    .from("school_roster_players")
+    .select("id, first_name, last_name, jersey_number, position, grade")
+    .eq("school_slug", slug)
+    .eq("season", SEASON)
+    .eq("active", true)
+    .order("jersey_number", { ascending: true, nullsFirst: false })
+    .order("last_name", { ascending: true });
+
+  const roster: DisplayRosterPlayer[] = staticRoster.map((player) => ({
+    key: `profile:${player.playerId}`,
+    playerId: player.playerId,
+    name: player.name,
+    jerseyNumber: player.jerseyNumber,
+    grade: player.grade,
+    positions: player.positions ?? [],
+  }));
+
+  const staticNames = new Set(roster.map((player) => normalizeName(player.name)));
+  const staticNumbers = new Set(roster.map((player) => player.jerseyNumber).filter(Boolean));
+
+  for (const player of managedRoster ?? []) {
+    const name = `${player.first_name} ${player.last_name}`.trim();
+    const jerseyNumber = player.jersey_number === null ? undefined : String(player.jersey_number);
+    const matchesStaticName = staticNames.has(normalizeName(name));
+    const matchesStaticNumber = Boolean(jerseyNumber && staticNumbers.has(jerseyNumber));
+    if (matchesStaticName || matchesStaticNumber) continue;
+
+    roster.push({
+      key: `managed:${player.id}`,
+      name,
+      jerseyNumber,
+      grade: gradeLabel(player.grade),
+      positions: player.position ? [player.position] : [],
+    });
+  }
+
+  roster.sort(sortRoster);
+
   const theme = { primary: school.colors.primary, secondary: school.colors.secondary, accent: school.colors.accent };
 
   return (
@@ -60,7 +133,7 @@ export default async function SchoolRosterPage({ params }: Props) {
             </div>
             {roster.length > 0 && <div className="shrink-0 text-right"><p className="text-2xl font-black leading-none text-white sm:text-4xl">{roster.length}</p><p className="mt-0.5 text-[7px] font-black uppercase tracking-[0.1em] text-white/30 sm:mt-1 sm:text-[10px]">Players</p></div>}
           </div>
-          <p className="mt-3 hidden max-w-3xl text-sm leading-6 text-white/50 sm:block sm:text-base sm:leading-7">Verified roster information for the {SEASON} season. Select a player to view their VarsityVue profile and verified game statistics on file.</p>
+          <p className="mt-3 hidden max-w-3xl text-sm leading-6 text-white/50 sm:block sm:text-base sm:leading-7">Verified roster information for the {SEASON} season. Players with a VarsityVue profile can be opened for verified game statistics.</p>
         </div>
       </section>
 
@@ -70,13 +143,25 @@ export default async function SchoolRosterPage({ params }: Props) {
         <div className="mx-auto max-w-6xl">
           {roster.length > 0 ? (
             <div className="grid gap-2 sm:gap-3">
-              {roster.map((player) => (
-                <Link key={player.playerId} href={`/players/${player.playerId}`} className="group grid grid-cols-[2.5rem_1fr_auto] items-center gap-2.5 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2.5 transition hover:border-white/20 hover:bg-white/[0.07] sm:grid-cols-[3.5rem_1fr_auto] sm:gap-4 sm:rounded-2xl sm:px-5 sm:py-4">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-black/30 text-sm font-black sm:h-12 sm:w-12 sm:rounded-xl sm:text-lg">{player.jerseyNumber ? `#${player.jerseyNumber}` : "—"}</div>
-                  <div className="min-w-0"><p className="truncate text-sm font-black text-white sm:text-lg">{player.name}</p><p className="mt-0.5 truncate text-[9px] font-bold uppercase tracking-[0.08em] text-white/35 sm:text-xs sm:tracking-[0.12em]">{[player.grade, player.positions?.join(" / ")].filter(Boolean).join(" · ") || "Roster"}</p></div>
-                  <span className="text-[9px] font-black uppercase tracking-[0.1em] text-white/35 transition group-hover:text-white sm:text-xs">Profile →</span>
-                </Link>
-              ))}
+              {roster.map((player) => {
+                const row = (
+                  <>
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-black/30 text-sm font-black sm:h-12 sm:w-12 sm:rounded-xl sm:text-lg">{player.jerseyNumber !== undefined ? `#${player.jerseyNumber}` : "—"}</div>
+                    <div className="min-w-0"><p className="truncate text-sm font-black text-white sm:text-lg">{player.name}</p><p className="mt-0.5 truncate text-[9px] font-bold uppercase tracking-[0.08em] text-white/35 sm:text-xs sm:tracking-[0.12em]">{[player.grade, player.positions.join(" / ")].filter(Boolean).join(" · ") || "Roster"}</p></div>
+                    <span className="text-[9px] font-black uppercase tracking-[0.1em] text-white/35 transition group-hover:text-white sm:text-xs">{player.playerId ? "Profile →" : "Verified"}</span>
+                  </>
+                );
+
+                return player.playerId ? (
+                  <Link key={player.key} href={`/players/${player.playerId}`} className="group grid grid-cols-[2.5rem_1fr_auto] items-center gap-2.5 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2.5 transition hover:border-white/20 hover:bg-white/[0.07] sm:grid-cols-[3.5rem_1fr_auto] sm:gap-4 sm:rounded-2xl sm:px-5 sm:py-4">
+                    {row}
+                  </Link>
+                ) : (
+                  <div key={player.key} className="group grid grid-cols-[2.5rem_1fr_auto] items-center gap-2.5 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2.5 sm:grid-cols-[3.5rem_1fr_auto] sm:gap-4 sm:rounded-2xl sm:px-5 sm:py-4">
+                    {row}
+                  </div>
+                );
+              })}
             </div>
           ) : (
             <div className="rounded-[1.25rem] border border-white/10 bg-white/[0.04] p-4 sm:rounded-[1.75rem] sm:p-8">
