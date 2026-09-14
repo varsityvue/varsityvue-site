@@ -103,6 +103,13 @@ export default async function AccountPage() {
       role: assignment.assignment_role === "coach" ? "Coach" : "Scorekeeper",
     };
   });
+  const coachPrograms = assignedPrograms.filter((program) => program.role === "Coach");
+  const canManageRoster = isAdmin || coachPrograms.length > 0;
+  const manageRosterHref = isAdmin
+    ? "/manage-roster"
+    : coachPrograms[0]
+      ? `/manage-roster?school=${encodeURIComponent(coachPrograms[0].slug)}`
+      : "/manage-roster";
 
   const upcomingAssignedGames = isScorekeeper && !canModerate
     ? Array.from(
@@ -182,11 +189,21 @@ export default async function AccountPage() {
                 <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">Assigned Programs</p>
                 {assignedPrograms.length ? (
                   <div className="mt-3 flex flex-wrap gap-2">
-                    {assignedPrograms.map((program) => (
-                      <span key={program.slug} className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 text-xs font-bold text-white/75">
-                        {program.name} · {program.role}
-                      </span>
-                    ))}
+                    {assignedPrograms.map((program) =>
+                      program.role === "Coach" ? (
+                        <Link
+                          key={program.slug}
+                          href={`/manage-roster?school=${encodeURIComponent(program.slug)}`}
+                          className="rounded-full border border-amber-300/20 bg-amber-300/10 px-3 py-1.5 text-xs font-bold text-amber-100 transition hover:bg-amber-300/15"
+                        >
+                          {program.name} · Coach · Manage Roster →
+                        </Link>
+                      ) : (
+                        <span key={program.slug} className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 text-xs font-bold text-white/75">
+                          {program.name} · {program.role}
+                        </span>
+                      ),
+                    )}
                   </div>
                 ) : (
                   <p className="mt-2 text-sm text-amber-100/75">No programs are assigned yet. Score entry will stay unavailable until an assignment is added.</p>
@@ -242,6 +259,11 @@ export default async function AccountPage() {
                   Enter Score
                 </span>
               )}
+              {canManageRoster ? (
+                <Link href={manageRosterHref} className="rounded-full border border-amber-300/25 bg-amber-300/10 px-5 py-2.5 text-sm font-black text-amber-100 transition hover:bg-amber-300/15">
+                  Manage Roster
+                </Link>
+              ) : null}
               <Link href="/scoreboard" className="rounded-full border border-white/15 px-5 py-2.5 text-sm font-bold text-white/80 transition hover:border-white/30 hover:text-white">
                 View Scoreboard
               </Link>
@@ -282,9 +304,14 @@ export default async function AccountPage() {
                 Open Review Queue
               </Link>
               {isAdmin ? (
-                <Link href="/internal/contributor-access" className="inline-flex rounded-full border border-white/15 bg-white/[0.04] px-5 py-2.5 text-sm font-black text-white/80 transition hover:border-white/30 hover:text-white">
-                  Manage Contributor Access
-                </Link>
+                <>
+                  <Link href="/internal/contributor-access" className="inline-flex rounded-full border border-white/15 bg-white/[0.04] px-5 py-2.5 text-sm font-black text-white/80 transition hover:border-white/30 hover:text-white">
+                    Manage Contributor Access
+                  </Link>
+                  <Link href="/manage-roster" className="inline-flex rounded-full border border-amber-300/20 bg-amber-300/10 px-5 py-2.5 text-sm font-black text-amber-100 transition hover:bg-amber-300/15">
+                    Manage Rosters
+                  </Link>
+                </>
               ) : null}
             </div>
           </section>
