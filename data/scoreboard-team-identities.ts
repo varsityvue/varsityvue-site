@@ -98,6 +98,34 @@ const scoreboardTeamIdentities: Record<string, ScoreboardTeamIdentity> = {
     secondary: "#000000",
     accent: "#FFFFFF",
   },
+  riesel: {
+    abbreviation: "RHS",
+    mascot: "Indians",
+    primary: "#800000",
+    secondary: "#FFFFFF",
+    accent: "#FFFFFF",
+  },
+  dawson: {
+    abbreviation: "DHS",
+    mascot: "Bulldogs",
+    primary: "#000000",
+    secondary: "#D4AF37",
+    accent: "#FFFFFF",
+  },
+  centerville: {
+    abbreviation: "CHS",
+    mascot: "Tigers",
+    primary: "#F26522",
+    secondary: "#04113E",
+    accent: "#FFFFFF",
+  },
+  axtell: {
+    abbreviation: "AHS",
+    mascot: "Longhorns",
+    primary: "#C8102E",
+    secondary: "#FFFFFF",
+    accent: "#FFFFFF",
+  },
 };
 
 export function getScoreboardTeamIdentity(teamName: string) {
