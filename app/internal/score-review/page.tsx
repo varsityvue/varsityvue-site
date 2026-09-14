@@ -100,7 +100,7 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
           <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">Internal Tool</p>
           <h1 className="mt-3 text-4xl font-black sm:text-5xl">Score review queue</h1>
           <p className="mt-4 text-base leading-7 text-white/50">
-            Reports for the same game are grouped together so you can compare multiple sources before approving one. Assigned program contributors are identified in the queue, but every report still requires moderation before it becomes verified game state.
+            Reports for the same game are grouped together so you can compare multiple sources before approving one. Assigned program contributors are identified and surfaced first during conflicts, but every report still requires moderation before it becomes verified game state.
           </p>
         </section>
 
@@ -137,19 +137,38 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
                 ? [!awayReady ? awayName : null, !homeReady ? homeName : null].filter(Boolean)
                 : ["Unknown game"];
               const hasMultipleReports = reports.length > 1;
-              const firstReport = reports[0];
+              const originalFirstReport = reports[0];
               const scoresAgree = hasMultipleReports && reports.every(
                 (report) =>
-                  report.away_score === firstReport.away_score &&
-                  report.home_score === firstReport.home_score,
+                  report.away_score === originalFirstReport.away_score &&
+                  report.home_score === originalFirstReport.home_score,
               );
               const stateAgrees = hasMultipleReports && reports.every(
                 (report) =>
-                  report.game_status === firstReport.game_status &&
-                  (report.period ?? "") === (firstReport.period ?? "") &&
-                  (report.clock ?? "") === (firstReport.clock ?? ""),
+                  report.game_status === originalFirstReport.game_status &&
+                  (report.period ?? "") === (originalFirstReport.period ?? "") &&
+                  (report.clock ?? "") === (originalFirstReport.clock ?? ""),
               );
               const reportsAgree = scoresAgree && stateAgrees;
+
+              const assignmentForReport = (submittedBy: string) => game
+                ? (assignmentsByUser.get(submittedBy) ?? []).find(
+                    (assignment) =>
+                      assignment.school_slug === game.awaySchoolSlug ||
+                      assignment.school_slug === game.homeSchoolSlug,
+                  )
+                : undefined;
+
+              const hasAssignedContributorReport = reports.some((report) => Boolean(assignmentForReport(report.submitted_by)));
+              const prioritizedReports = !scoresAgree && hasAssignedContributorReport
+                ? [...reports].sort((a, b) => {
+                    const aAssigned = assignmentForReport(a.submitted_by) ? 1 : 0;
+                    const bAssigned = assignmentForReport(b.submitted_by) ? 1 : 0;
+                    if (aAssigned !== bAssigned) return bAssigned - aAssigned;
+                    return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+                  })
+                : reports;
+              const referenceReport = prioritizedReports[0];
 
               return (
                 <article key={gameId} className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.035]">
@@ -173,6 +192,11 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
                               {reportsAgree ? "Reports Agree" : scoresAgree ? "Score Match · State Differs" : "Score Conflict"}
                             </span>
                           ) : null}
+                          {hasMultipleReports && !scoresAgree && hasAssignedContributorReport ? (
+                            <span className="rounded-full border border-sky-300/25 bg-sky-300/10 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-sky-100">
+                              Contributor Signal
+                            </span>
+                          ) : null}
                         </div>
                         <h2 className="mt-2 text-xl font-black sm:text-2xl">{awayName} at {homeName}</h2>
                         {hasMultipleReports && !scoresAgree ? (
@@ -186,6 +210,11 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
                         ) : hasMultipleReports ? (
                           <p className="mt-2 text-xs font-semibold text-emerald-100/65">
                             All pending reports match on score and game state.
+                          </p>
+                        ) : null}
+                        {hasMultipleReports && !scoresAgree && hasAssignedContributorReport ? (
+                          <p className="mt-2 text-xs font-semibold text-sky-100/70">
+                            An assigned contributor report is shown first as a review signal. It is not automatically treated as correct.
                           </p>
                         ) : null}
                       </div>
@@ -202,28 +231,23 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
                     ) : null}
                   </div>
 
-                  <div className={`grid gap-4 p-4 sm:p-5 ${reports.length > 1 ? "lg:grid-cols-2" : ""}`}>
-                    {reports.map((submission, index) => {
+                  <div className={`grid gap-4 p-4 sm:p-5 ${prioritizedReports.length > 1 ? "lg:grid-cols-2" : ""}`}>
+                    {prioritizedReports.map((submission, index) => {
                       const submitter = profileMap.get(submission.submitted_by);
                       const isFinal = submission.game_status === "final";
                       const scoreMatchesReference = !hasMultipleReports || (
-                        submission.away_score === firstReport.away_score &&
-                        submission.home_score === firstReport.home_score
+                        submission.away_score === referenceReport.away_score &&
+                        submission.home_score === referenceReport.home_score
                       );
-                      const matchingAssignment = game
-                        ? (assignmentsByUser.get(submission.submitted_by) ?? []).find(
-                            (assignment) =>
-                              assignment.school_slug === game.awaySchoolSlug ||
-                              assignment.school_slug === game.homeSchoolSlug,
-                          )
-                        : undefined;
+                      const matchingAssignment = assignmentForReport(submission.submitted_by);
                       const isAssignedContributor = Boolean(matchingAssignment);
                       const contributorLabel = matchingAssignment?.assignment_role === "coach"
                         ? "Assigned Coach"
                         : "Assigned Scorekeeper";
+                      const prioritizedForReview = hasMultipleReports && !scoresAgree && isAssignedContributor;
 
                       return (
-                        <section key={submission.id} className={`rounded-2xl border bg-black/20 p-4 sm:p-5 ${isAssignedContributor ? "border-sky-300/25" : hasMultipleReports && !scoresAgree && !scoreMatchesReference ? "border-red-400/25" : "border-white/10"}`}>
+                        <section key={submission.id} className={`rounded-2xl border bg-black/20 p-4 sm:p-5 ${prioritizedForReview ? "border-sky-300/35 ring-1 ring-sky-300/10" : hasMultipleReports && !scoresAgree && !scoreMatchesReference ? "border-red-400/25" : "border-white/10"}`}>
                           <div className="flex flex-wrap items-center justify-between gap-2">
                             <div className="flex flex-wrap items-center gap-2">
                               <span className="rounded-full border border-amber-300/20 bg-amber-300/10 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-amber-100">
@@ -238,9 +262,14 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
                                   Community
                                 </span>
                               )}
+                              {prioritizedForReview ? (
+                                <span className="rounded-full border border-sky-300/25 bg-sky-300/10 px-2 py-1 text-[8px] font-black uppercase tracking-[0.1em] text-sky-100">
+                                  Review First
+                                </span>
+                              ) : null}
                               {hasMultipleReports && !scoresAgree ? (
                                 <span className={`rounded-full border px-2 py-1 text-[8px] font-black uppercase tracking-[0.1em] ${scoreMatchesReference ? "border-white/10 bg-white/[0.05] text-white/45" : "border-red-400/20 bg-red-500/10 text-red-100"}`}>
-                                  {scoreMatchesReference ? "Reference Score" : "Different Score"}
+                                  {scoreMatchesReference ? "Priority Score" : "Different Score"}
                                 </span>
                               ) : null}
                             </div>
