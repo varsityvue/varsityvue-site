@@ -74,6 +74,22 @@ function teamVisualIdentity(slug: string | undefined, team: string | undefined) 
     : null;
 }
 
+function submissionStatusClasses(status: string) {
+  if (status === "approved") {
+    return "border-emerald-400/25 bg-emerald-400/10 text-emerald-100";
+  }
+  if (status === "rejected") {
+    return "border-red-400/25 bg-red-400/10 text-red-100";
+  }
+  return "border-amber-300/25 bg-amber-300/10 text-amber-100";
+}
+
+function submissionStatusLabel(status: string) {
+  if (status === "approved") return "Approved";
+  if (status === "rejected") return "Rejected";
+  return "Pending";
+}
+
 export default async function ReportScorePage({ searchParams }: PageProps) {
   const supabase = await createClient();
   const { data: claimsData } = await supabase.auth.getClaims();
@@ -181,17 +197,54 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
 
         {recentSubmissions && recentSubmissions.length > 0 ? (
           <section className="mt-6 rounded-2xl border border-white/10 bg-white/[0.04] p-5 sm:p-6">
-            <h2 className="text-lg font-black">Your recent reports</h2>
+            <div className="flex items-end justify-between gap-3">
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">Submission history</p>
+                <h2 className="mt-1 text-lg font-black">Your recent reports</h2>
+              </div>
+              <span className="text-xs font-bold text-white/30">Last {recentSubmissions.length}</span>
+            </div>
             <div className="mt-4 space-y-3">
               {recentSubmissions.map((submission) => {
                 const game = games.find((item) => item.id === submission.game_id);
+                const awayName = game ? displayTeamName(game.awayTeam, game.awaySchoolSlug) : "Away";
+                const homeName = game ? displayTeamName(game.homeTeam, game.homeSchoolSlug) : "Home";
+                const submittedAt = new Intl.DateTimeFormat("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  hour: "numeric",
+                  minute: "2-digit",
+                  timeZone: "America/Chicago",
+                }).format(new Date(submission.created_at));
+
                 return (
-                  <div key={submission.id} className="rounded-xl border border-white/10 bg-black/20 p-4">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <p className="text-sm font-bold">{game ? `${displayTeamName(game.awayTeam, game.awaySchoolSlug)} at ${displayTeamName(game.homeTeam, game.homeSchoolSlug)}` : submission.game_id}</p>
-                      <span className="rounded-full border border-white/10 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-white/50">{submission.status}</span>
+                  <div key={submission.id} className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="text-[10px] font-black uppercase tracking-[0.14em] text-white/30">
+                          {submission.game_status === "final" ? "Final report" : submission.period ? `Live · ${submission.period}` : "Live report"}
+                        </p>
+                        <p className="mt-1 text-xs text-white/35">{submittedAt} CT</p>
+                      </div>
+                      <span className={`shrink-0 rounded-full border px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.12em] ${submissionStatusClasses(submission.status)}`}>
+                        {submissionStatusLabel(submission.status)}
+                      </span>
                     </div>
-                    <p className="mt-2 text-sm text-white/65">Away {submission.away_score} · Home {submission.home_score} · {submission.game_status}{submission.period ? ` · ${submission.period}` : ""}</p>
+
+                    <div className="mt-4 grid grid-cols-[1fr_auto] gap-x-4 gap-y-2 text-sm">
+                      <p className="truncate font-bold text-white/80">{awayName}</p>
+                      <p className="text-lg font-black tabular-nums text-white">{submission.away_score}</p>
+                      <p className="truncate font-bold text-white/80">{homeName}</p>
+                      <p className="text-lg font-black tabular-nums text-white">{submission.home_score}</p>
+                    </div>
+
+                    {submission.status === "pending" ? (
+                      <p className="mt-3 border-t border-white/10 pt-3 text-xs leading-5 text-white/35">Waiting for VarsityVue verification.</p>
+                    ) : submission.status === "approved" ? (
+                      <p className="mt-3 border-t border-white/10 pt-3 text-xs leading-5 text-emerald-100/60">Verified and approved for the scoreboard.</p>
+                    ) : (
+                      <p className="mt-3 border-t border-white/10 pt-3 text-xs leading-5 text-red-100/60">This report was not approved for the scoreboard.</p>
+                    )}
                   </div>
                 );
               })}
