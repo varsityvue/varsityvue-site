@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 type HistoryFilter = "all" | "approved" | "rejected" | "superseded";
 
 type PageProps = {
-  searchParams: Promise<{ status?: string }>;
+  searchParams: Promise<{ status?: string; q?: string }>;
 };
 
 function displayTeamName(team?: string, slug?: string) {
@@ -42,8 +42,12 @@ function normalizeFilter(value?: string): HistoryFilter {
   return "all";
 }
 
-function filterHref(filter: HistoryFilter) {
-  return filter === "all" ? "/internal/score-review/history" : `/internal/score-review/history?status=${filter}`;
+function filterHref(filter: HistoryFilter, query: string) {
+  const params = new URLSearchParams();
+  if (filter !== "all") params.set("status", filter);
+  if (query) params.set("q", query);
+  const search = params.toString();
+  return search ? `/internal/score-review/history?${search}` : "/internal/score-review/history";
 }
 
 export default async function ScoreReviewHistoryPage({ searchParams }: PageProps) {
@@ -63,6 +67,8 @@ export default async function ScoreReviewHistoryPage({ searchParams }: PageProps
 
   const params = await searchParams;
   const activeFilter = normalizeFilter(params.status);
+  const searchQuery = params.q?.trim() ?? "";
+  const normalizedQuery = searchQuery.toLowerCase();
 
   const { data: submissions } = await supabase
     .from("score_submissions")
@@ -72,9 +78,18 @@ export default async function ScoreReviewHistoryPage({ searchParams }: PageProps
     .limit(50);
 
   const allSubmissions = submissions ?? [];
-  const filteredSubmissions = activeFilter === "all"
+  const statusFilteredSubmissions = activeFilter === "all"
     ? allSubmissions
     : allSubmissions.filter((item) => item.status === activeFilter);
+
+  const filteredSubmissions = normalizedQuery
+    ? statusFilteredSubmissions.filter((item) => {
+        const game = getGameById(item.game_id);
+        const awayName = game ? displayTeamName(game.awayTeam, game.awaySchoolSlug) : "";
+        const homeName = game ? displayTeamName(game.homeTeam, game.homeSchoolSlug) : "";
+        return `${awayName} ${homeName} ${item.game_id}`.toLowerCase().includes(normalizedQuery);
+      })
+    : statusFilteredSubmissions;
 
   const userIds = Array.from(
     new Set(
@@ -110,13 +125,28 @@ export default async function ScoreReviewHistoryPage({ searchParams }: PageProps
           </p>
         </section>
 
-        <div className="mt-6 flex flex-wrap gap-2">
+        <form method="get" className="mt-6 flex max-w-2xl flex-col gap-2 sm:flex-row">
+          {activeFilter !== "all" ? <input type="hidden" name="status" value={activeFilter} /> : null}
+          <input
+            type="search"
+            name="q"
+            defaultValue={searchQuery}
+            placeholder="Search school or matchup"
+            className="min-w-0 flex-1 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white placeholder:text-white/25 focus:border-[var(--vv-accent)] focus:outline-none"
+          />
+          <button type="submit" className="rounded-xl bg-[var(--vv-primary)] px-5 py-3 text-sm font-black transition hover:bg-[#93142a]">Search</button>
+          {searchQuery ? (
+            <Link href={filterHref(activeFilter, "")} className="rounded-xl border border-white/10 px-4 py-3 text-center text-sm font-bold text-white/50 transition hover:text-white">Clear</Link>
+          ) : null}
+        </form>
+
+        <div className="mt-4 flex flex-wrap gap-2">
           {filters.map((filter) => {
             const active = filter.key === activeFilter;
             return (
               <Link
                 key={filter.key}
-                href={filterHref(filter.key)}
+                href={filterHref(filter.key, searchQuery)}
                 aria-current={active ? "page" : undefined}
                 className={`rounded-full border px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] transition ${
                   active
@@ -142,12 +172,17 @@ export default async function ScoreReviewHistoryPage({ searchParams }: PageProps
           <span>{rejectedCount} Rejected</span>
           <span>·</span>
           <span>{supersededCount} Superseded</span>
+          {searchQuery ? <><span>·</span><span>{filteredSubmissions.length} Search Results</span></> : null}
         </div>
 
         <section className="mt-8 space-y-4">
           {filteredSubmissions.length === 0 ? (
             <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-sm text-white/55">
-              {activeFilter === "all" ? "No moderation history yet." : `No ${statusLabel(activeFilter).toLowerCase()} reports in the recent history.`}
+              {searchQuery
+                ? `No recent moderation records match “${searchQuery}”.`
+                : activeFilter === "all"
+                  ? "No moderation history yet."
+                  : `No ${statusLabel(activeFilter).toLowerCase()} reports in the recent history.`}
             </div>
           ) : (
             filteredSubmissions.map((submission) => {
