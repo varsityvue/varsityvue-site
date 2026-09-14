@@ -13,7 +13,13 @@ export default function SchoolTeamLeaders({ schoolSlug, season = 2026, primaryCo
   const passing = getPassingLeaders({ season, schoolSlug, minAttempts: 1 }).slice(0, 3).map((entry) => ({ id: entry.playerId, name: entry.player, href: getPlayerProfile(entry.playerId, season) ? `/players/${entry.playerId}` : undefined, primary: `${entry.passing.yards.toLocaleString()} YDS`, secondary: `${entry.passing.completions}/${entry.passing.attempts} · ${entry.passing.touchdowns} TD · ${entry.passing.interceptions} INT · ${entry.gamesRecorded} G` }));
   const receiving = getReceivingLeaders({ season, schoolSlug, minReceptions: 1 }).slice(0, 3).map((entry) => ({ id: entry.playerId, name: entry.player, href: getPlayerProfile(entry.playerId, season) ? `/players/${entry.playerId}` : undefined, primary: `${entry.receiving.yards.toLocaleString()} YDS`, secondary: `${entry.receiving.receptions} REC · ${entry.receiving.touchdowns} TD · ${entry.receiving.yardsPerReception} YPR · ${entry.gamesRecorded} G` }));
   const hasLeaders = rushing.length > 0 || passing.length > 0 || receiving.length > 0;
-  const verifiedGames = gameStats.filter((game) => game.season === season && game.quarterScores.some((line) => line.schoolSlug === schoolSlug)).length;
+  const verifiedGames = gameStats.filter(
+    (game) =>
+      game.season === season &&
+      (game.rushing.some((line) => line.schoolSlug === schoolSlug) ||
+        game.passing.some((line) => line.schoolSlug === schoolSlug) ||
+        game.receiving.some((line) => line.schoolSlug === schoolSlug))
+  ).length;
   const finalGames = getGamesForSchool(schoolSlug).filter((game) => game.status === "final" && game.gameType !== "bye" && game.gameType !== "scrimmage").length;
   const coverageComplete = finalGames > 0 && verifiedGames >= finalGames;
   const coverageLabel = finalGames > 0 ? `${verifiedGames} of ${finalGames} finals with stats` : `${verifiedGames} verified ${verifiedGames === 1 ? "game" : "games"} on file`;
