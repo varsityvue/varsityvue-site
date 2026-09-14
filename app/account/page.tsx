@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function AccountPage() {
@@ -11,13 +12,19 @@ export default async function AccountPage() {
     redirect("/login");
   }
 
-  const [{ data: profile }, { data: roles }] = await Promise.all([
+  const [{ data: profile }, { data: roles }, { data: assignments }] = await Promise.all([
     supabase
       .from("profiles")
       .select("display_name, username, favorite_school_slug, created_at")
       .eq("id", claims.sub)
       .maybeSingle(),
     supabase.from("user_roles").select("role").eq("user_id", claims.sub),
+    supabase
+      .from("contributor_school_assignments")
+      .select("school_slug, assignment_role, active")
+      .eq("user_id", claims.sub)
+      .eq("active", true)
+      .order("school_slug", { ascending: true }),
   ]);
 
   const roleSet = new Set((roles ?? []).map((row) => row.role));
@@ -42,6 +49,15 @@ export default async function AccountPage() {
     isModerator ? "Moderator" : null,
     isAdmin ? "Admin" : null,
   ].filter(Boolean) as string[];
+
+  const assignedPrograms = (assignments ?? []).map((assignment) => {
+    const school = getSchoolBySlug(assignment.school_slug);
+    return {
+      slug: assignment.school_slug,
+      name: school?.name ?? assignment.school_slug,
+      role: assignment.assignment_role === "coach" ? "Coach" : "Scorekeeper",
+    };
+  });
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] px-4 py-10 text-white sm:px-6 sm:py-16 lg:px-8">
@@ -90,7 +106,9 @@ export default async function AccountPage() {
                 <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--vv-accent)]">Contributor Dashboard</p>
                 <h2 className="mt-2 text-2xl font-black">Game-night tools</h2>
                 <p className="mt-2 max-w-2xl text-sm leading-6 text-white/55">
-                  Submit live or final score reports from games already cleared for scoreboard identity. Reports still pass through verification before becoming official VarsityVue game state.
+                  {isScorekeeper && !canModerate
+                    ? "Enter score reports only for games involving programs assigned to your contributor account. Reports still pass through verification before becoming official VarsityVue game state."
+                    : "Submit live or final score reports from games already cleared for scoreboard identity. Reports still pass through verification before becoming official VarsityVue game state."}
                 </p>
               </div>
               <span className="w-fit rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.14em] text-emerald-100">
@@ -98,10 +116,33 @@ export default async function AccountPage() {
               </span>
             </div>
 
+            {isScorekeeper && !canModerate ? (
+              <div className="mt-5 rounded-2xl border border-white/10 bg-black/20 p-4">
+                <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">Assigned Programs</p>
+                {assignedPrograms.length ? (
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {assignedPrograms.map((program) => (
+                      <span key={program.slug} className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 text-xs font-bold text-white/75">
+                        {program.name} · {program.role}
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="mt-2 text-sm text-amber-100/75">No programs are assigned yet. Score entry will stay unavailable until an assignment is added.</p>
+                )}
+              </div>
+            ) : null}
+
             <div className="mt-5 flex flex-wrap gap-3">
-              <Link href="/report-score" className="rounded-full bg-[var(--vv-primary)] px-5 py-2.5 text-sm font-black transition hover:bg-[#93142a]">
-                Enter Score
-              </Link>
+              {(!isScorekeeper || canModerate || assignedPrograms.length > 0) ? (
+                <Link href="/report-score" className="rounded-full bg-[var(--vv-primary)] px-5 py-2.5 text-sm font-black transition hover:bg-[#93142a]">
+                  Enter Score
+                </Link>
+              ) : (
+                <span className="rounded-full border border-white/10 bg-white/[0.04] px-5 py-2.5 text-sm font-black text-white/30">
+                  Enter Score
+                </span>
+              )}
               <Link href="/scoreboard" className="rounded-full border border-white/15 px-5 py-2.5 text-sm font-bold text-white/80 transition hover:border-white/30 hover:text-white">
                 View Scoreboard
               </Link>
