@@ -59,10 +59,21 @@ function TeamMark({ name, identity }: { name: string; identity: TeamVisualIdenti
 
 export default function ScoreReportForm({ games, selectedGameId, disabled, restricted }: Props) {
   const [gameId, setGameId] = useState(selectedGameId);
+  const [gameStatus, setGameStatus] = useState<"live" | "final">("live");
+  const [period, setPeriod] = useState("");
+  const [clock, setClock] = useState("");
   const selectedGame = useMemo(() => games.find((game) => game.id === gameId), [games, gameId]);
 
   const awayLabel = selectedGame ? `${selectedGame.awayName} score` : "Away score";
   const homeLabel = selectedGame ? `${selectedGame.homeName} score` : "Home score";
+
+  function handleStatusChange(value: "live" | "final") {
+    setGameStatus(value);
+    if (value === "final") {
+      setPeriod("");
+      setClock("");
+    }
+  }
 
   return (
     <form action={submitScore} className="space-y-5">
@@ -127,23 +138,53 @@ export default function ScoreReportForm({ games, selectedGameId, disabled, restr
         </div>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-3">
-        <div>
-          <label htmlFor="game_status" className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-white/45">Status</label>
-          <select id="game_status" name="game_status" defaultValue="live" disabled={disabled} className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white focus:border-[var(--vv-accent)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-40">
-            <option value="live">Live</option>
-            <option value="final">Final</option>
-          </select>
-        </div>
-        <div>
-          <label htmlFor="period" className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-white/45">Quarter / Period</label>
-          <input id="period" name="period" placeholder="3rd" disabled={disabled} className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/25 focus:border-[var(--vv-accent)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-40" />
-        </div>
-        <div>
-          <label htmlFor="clock" className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-white/45">Clock</label>
-          <input id="clock" name="clock" placeholder="4:21" disabled={disabled} className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/25 focus:border-[var(--vv-accent)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-40" />
-        </div>
+      <div>
+        <label htmlFor="game_status" className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-white/45">Status</label>
+        <select
+          id="game_status"
+          name="game_status"
+          value={gameStatus}
+          onChange={(event) => handleStatusChange(event.target.value as "live" | "final")}
+          disabled={disabled}
+          className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white focus:border-[var(--vv-accent)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          <option value="live">Live</option>
+          <option value="final">Final</option>
+        </select>
       </div>
+
+      {gameStatus === "live" ? (
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label htmlFor="period" className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-white/45">Quarter / Period</label>
+            <input
+              id="period"
+              name="period"
+              value={period}
+              onChange={(event) => setPeriod(event.target.value)}
+              placeholder="3rd"
+              disabled={disabled}
+              className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/25 focus:border-[var(--vv-accent)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-40"
+            />
+          </div>
+          <div>
+            <label htmlFor="clock" className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-white/45">Clock</label>
+            <input
+              id="clock"
+              name="clock"
+              value={clock}
+              onChange={(event) => setClock(event.target.value)}
+              placeholder="4:21"
+              disabled={disabled}
+              className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/25 focus:border-[var(--vv-accent)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-40"
+            />
+          </div>
+        </div>
+      ) : (
+        <div className="rounded-2xl border border-emerald-400/15 bg-emerald-400/[0.06] px-4 py-3 text-sm leading-6 text-emerald-50/75">
+          Final score selected. Quarter and clock are not needed and will not be saved with this report.
+        </div>
+      )}
 
       <div>
         <label htmlFor="source_note" className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-white/45">How do you know? <span className="font-normal normal-case tracking-normal text-white/30">Optional</span></label>
@@ -151,7 +192,7 @@ export default function ScoreReportForm({ games, selectedGameId, disabled, restr
       </div>
 
       <button type="submit" disabled={disabled} className="w-full rounded-full bg-[var(--vv-primary)] px-6 py-3.5 text-sm font-black transition hover:bg-[#93142a] disabled:cursor-not-allowed disabled:opacity-35">
-        Submit Score Report
+        {gameStatus === "final" ? "Submit Final Score" : "Submit Live Update"}
       </button>
     </form>
   );
