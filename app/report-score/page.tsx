@@ -6,7 +6,7 @@ import { getCanonicalScoreboardTeamName, hasCompleteScoreboardTeamIdentity } fro
 import { getGames } from "@/lib/games";
 import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
-import { submitScore } from "./actions";
+import ScoreReportForm from "./ScoreReportForm";
 
 export const metadata: Metadata = {
   title: "Report a Score | VarsityVue",
@@ -92,6 +92,13 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
     ? params.game
     : "";
 
+  const formGames = relevantGames.map((game) => ({
+    id: game.id,
+    week: game.week,
+    awayName: displayTeamName(game.awayTeam, game.awaySchoolSlug),
+    homeName: displayTeamName(game.homeTeam, game.homeSchoolSlug),
+  }));
+
   const { data: recentSubmissions } = await supabase
     .from("score_submissions")
     .select("id, game_id, home_score, away_score, game_status, period, status, created_at")
@@ -128,76 +135,17 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
 
         {isRestrictedScorekeeper && assignedSchoolSlugs.size === 0 ? (
           <div className="mt-5 rounded-2xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm leading-6 text-amber-50">
-            No programs are assigned to this contributor account yet. A moderator or admin must add an assignment before score entry is available.
+            No programs are assigned to this contributor account yet. An admin must add an assignment before score entry is available.
           </div>
         ) : null}
 
         <section className="mt-6 rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-5 sm:p-7">
-          <form action={submitScore} className="space-y-5">
-            <div>
-              <label htmlFor="game_id" className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-white/45">
-                Game
-              </label>
-              <select
-                id="game_id"
-                name="game_id"
-                required
-                defaultValue={selectedGameId}
-                disabled={isRestrictedScorekeeper && assignedSchoolSlugs.size === 0}
-                className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white focus:border-[var(--vv-accent)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                <option value="" disabled>Select a game</option>
-                {relevantGames.map((game) => (
-                  <option key={game.id} value={game.id}>
-                    Week {game.week}: {displayTeamName(game.awayTeam, game.awaySchoolSlug)} at {displayTeamName(game.homeTeam, game.homeSchoolSlug)}
-                  </option>
-                ))}
-              </select>
-              <p className="mt-2 text-xs leading-5 text-white/35">
-                {isRestrictedScorekeeper
-                  ? "Only identity-ready games involving one of your assigned programs are shown."
-                  : "Only games with complete team identity data are available for score reporting."}
-              </p>
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <label htmlFor="away_score" className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-white/45">Away Score</label>
-                <input id="away_score" name="away_score" type="number" min="0" max="150" required disabled={isRestrictedScorekeeper && assignedSchoolSlugs.size === 0} className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white focus:border-[var(--vv-accent)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-40" />
-              </div>
-              <div>
-                <label htmlFor="home_score" className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-white/45">Home Score</label>
-                <input id="home_score" name="home_score" type="number" min="0" max="150" required disabled={isRestrictedScorekeeper && assignedSchoolSlugs.size === 0} className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white focus:border-[var(--vv-accent)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-40" />
-              </div>
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-3">
-              <div>
-                <label htmlFor="game_status" className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-white/45">Status</label>
-                <select id="game_status" name="game_status" defaultValue="live" disabled={isRestrictedScorekeeper && assignedSchoolSlugs.size === 0} className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white focus:border-[var(--vv-accent)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-40">
-                  <option value="live">Live</option>
-                  <option value="final">Final</option>
-                </select>
-              </div>
-              <div>
-                <label htmlFor="period" className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-white/45">Quarter / Period</label>
-                <input id="period" name="period" placeholder="3rd" disabled={isRestrictedScorekeeper && assignedSchoolSlugs.size === 0} className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/25 focus:border-[var(--vv-accent)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-40" />
-              </div>
-              <div>
-                <label htmlFor="clock" className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-white/45">Clock</label>
-                <input id="clock" name="clock" placeholder="4:21" disabled={isRestrictedScorekeeper && assignedSchoolSlugs.size === 0} className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/25 focus:border-[var(--vv-accent)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-40" />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="source_note" className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-white/45">How do you know? <span className="font-normal normal-case tracking-normal text-white/30">Optional</span></label>
-              <textarea id="source_note" name="source_note" rows={3} disabled={isRestrictedScorekeeper && assignedSchoolSlugs.size === 0} placeholder="At the game, radio broadcast, school stream, scoreboard photo, etc." className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm leading-6 text-white placeholder:text-white/25 focus:border-[var(--vv-accent)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-40" />
-            </div>
-
-            <button type="submit" disabled={isRestrictedScorekeeper && assignedSchoolSlugs.size === 0} className="w-full rounded-full bg-[var(--vv-primary)] px-6 py-3.5 text-sm font-black transition hover:bg-[#93142a] disabled:cursor-not-allowed disabled:opacity-35">
-              Submit Score Report
-            </button>
-          </form>
+          <ScoreReportForm
+            games={formGames}
+            selectedGameId={selectedGameId}
+            disabled={isRestrictedScorekeeper && assignedSchoolSlugs.size === 0}
+            restricted={isRestrictedScorekeeper}
+          />
         </section>
 
         {recentSubmissions && recentSubmissions.length > 0 ? (
