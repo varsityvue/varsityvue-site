@@ -46,8 +46,6 @@ export async function submitScore(formData: FormData) {
   const homeScore = score(formData, "home_score");
   const awayScore = score(formData, "away_score");
   const gameStatus = text(formData, "game_status");
-  const period = text(formData, "period") || null;
-  const clock = text(formData, "clock") || null;
   const sourceNote = text(formData, "source_note") || null;
 
   if (!game || game.gameType === "bye" || game.gameType === "scrimmage") {
@@ -92,6 +90,9 @@ export async function submitScore(formData: FormData) {
   if (!["live", "final"].includes(gameStatus)) {
     redirect("/report-score?message=Choose%20Live%20or%20Final%20for%20the%20game%20status.");
   }
+
+  const period = gameStatus === "live" ? (text(formData, "period") || null) : null;
+  const clock = gameStatus === "live" ? (text(formData, "clock") || null) : null;
 
   const { error } = await supabase.from("score_submissions").insert({
     game_id: gameId,
