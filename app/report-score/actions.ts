@@ -32,6 +32,12 @@ function teamHasCompleteIdentity(slug: string | undefined, team: string | undefi
   return team ? hasCompleteScoreboardTeamIdentity(team) : false;
 }
 
+function reportRedirect(gameId: string, message: string) {
+  const params = new URLSearchParams({ message });
+  if (gameId) params.set("game", gameId);
+  redirect(`/report-score?${params.toString()}`);
+}
+
 export async function submitScore(formData: FormData) {
   const supabase = await createClient();
   const { data: claimsData } = await supabase.auth.getClaims();
@@ -49,13 +55,13 @@ export async function submitScore(formData: FormData) {
   const sourceNote = text(formData, "source_note") || null;
 
   if (!game || game.gameType === "bye" || game.gameType === "scrimmage") {
-    redirect("/report-score?message=Choose%20a%20valid%20game.");
+    reportRedirect(gameId, "Choose a valid game.");
   }
 
   const awayReady = teamHasCompleteIdentity(game.awaySchoolSlug, game.awayTeam);
   const homeReady = teamHasCompleteIdentity(game.homeSchoolSlug, game.homeTeam);
   if (!awayReady || !homeReady) {
-    redirect("/report-score?message=This%20game%20is%20not%20available%20for%20reporting%20until%20both%20teams%20have%20complete%20identity%20data.");
+    reportRedirect(gameId, "This game is not available for reporting until both teams have complete identity data.");
   }
 
   const [{ data: roles }, { data: assignments }] = await Promise.all([
@@ -79,20 +85,39 @@ export async function submitScore(formData: FormData) {
     );
 
     if (!hasAssignedTeam) {
-      redirect("/report-score?message=Your%20contributor%20account%20is%20not%20assigned%20to%20either%20team%20in%20this%20game.");
+      reportRedirect(gameId, "Your contributor account is not assigned to either team in this game.");
     }
   }
 
   if (homeScore === null || awayScore === null) {
-    redirect("/report-score?message=Enter%20valid%20scores%20for%20both%20teams.");
+    reportRedirect(gameId, "Enter valid scores for both teams.");
   }
 
   if (!["live", "final"].includes(gameStatus)) {
-    redirect("/report-score?message=Choose%20Live%20or%20Final%20for%20the%20game%20status.");
+    reportRedirect(gameId, "Choose Live or Final for the game status.");
   }
 
   const period = gameStatus === "live" ? (text(formData, "period") || null) : null;
   const clock = gameStatus === "live" ? (text(formData, "clock") || null) : null;
+
+  const { data: pendingReports } = await supabase
+    .from("score_submissions")
+    .select("home_score, away_score, game_status, period, clock")
+    .eq("submitted_by", userId)
+    .eq("game_id", gameId)
+    .eq("status", "pending");
+
+  const exactDuplicate = (pendingReports ?? []).some((pending) =>
+    pending.home_score === homeScore &&
+    pending.away_score === awayScore &&
+    pending.game_status === gameStatus &&
+    (pending.period ?? null) === period &&
+    (pending.clock ?? null) === clock,
+  );
+
+  if (exactDuplicate) {
+    reportRedirect(gameId, "That exact score update is already pending review. Send another report only if the score or game status has changed.");
+  }
 
   const { error } = await supabase.from("score_submissions").insert({
     game_id: gameId,
@@ -106,8 +131,8 @@ export async function submitScore(formData: FormData) {
   });
 
   if (error) {
-    redirect(`/report-score?message=${encodeURIComponent(error.message)}`);
+    reportRedirect(gameId, error.message);
   }
 
-  redirect("/report-score?submitted=1");
+  redirect(`/report-score?submitted=1&game=${encodeURIComponent(gameId)}`);
 }
