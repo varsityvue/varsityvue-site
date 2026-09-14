@@ -2,7 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-import { getCanonicalScoreboardTeamName, hasCompleteScoreboardTeamIdentity } from "@/data/scoreboard-team-identities";
+import {
+  getCanonicalScoreboardTeamName,
+  getScoreboardTeamIdentity,
+  hasCompleteScoreboardTeamIdentity,
+} from "@/data/scoreboard-team-identities";
+import { getProgramLogoPath } from "@/components/SchoolBadge";
 import { getGames } from "@/lib/games";
 import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
@@ -43,6 +48,30 @@ function gameIsIdentityReady(game: ReturnType<typeof getGames>[number]) {
 
 function displayTeamName(team?: string, fallback?: string) {
   return team ? getCanonicalScoreboardTeamName(team) : (fallback ?? "Team TBD");
+}
+
+function teamVisualIdentity(slug: string | undefined, team: string | undefined) {
+  const school = slug ? getSchoolBySlug(slug) : undefined;
+  if (school) {
+    return {
+      abbreviation: school.badgeLabel ?? school.abbreviation ?? school.name.slice(0, 2).toUpperCase(),
+      mascot: school.badgeSubtext ?? school.mascot,
+      primary: school.colors.primary,
+      secondary: school.colors.secondary,
+      logoPath: getProgramLogoPath(school.slug) ?? null,
+    };
+  }
+
+  const identity = team ? getScoreboardTeamIdentity(team) : undefined;
+  return identity
+    ? {
+        abbreviation: identity.abbreviation,
+        mascot: identity.mascot,
+        primary: identity.primary,
+        secondary: identity.secondary,
+        logoPath: null,
+      }
+    : null;
 }
 
 export default async function ReportScorePage({ searchParams }: PageProps) {
@@ -97,6 +126,8 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
     week: game.week,
     awayName: displayTeamName(game.awayTeam, game.awaySchoolSlug),
     homeName: displayTeamName(game.homeTeam, game.homeSchoolSlug),
+    awayIdentity: teamVisualIdentity(game.awaySchoolSlug, game.awayTeam),
+    homeIdentity: teamVisualIdentity(game.homeSchoolSlug, game.homeTeam),
   }));
 
   const { data: recentSubmissions } = await supabase
