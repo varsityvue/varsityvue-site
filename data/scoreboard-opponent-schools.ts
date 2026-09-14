@@ -14,7 +14,7 @@ export const scoreboardOpponentSchools: School[] = [
     districtId: "opponent",
     uilRegion: 2,
     coverageMarket: "VarsityVue Coverage Area",
-    colors: { primary: "#FFFFFF", secondary: "#FFFFFF", accent: "#000000" },
+    colors: { primary: "#4CBB17", secondary: "#D4AF37", accent: "#FFFFFF" },
     sports: ["football"],
     status: "planned",
   },
