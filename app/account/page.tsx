@@ -1,7 +1,52 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+
+import { getCanonicalScoreboardTeamName, hasCompleteScoreboardTeamIdentity } from "@/data/scoreboard-team-identities";
+import { getUpcomingGamesForSchool } from "@/lib/games";
 import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
+
+function schoolHasCompleteIdentity(slug?: string) {
+  if (!slug) return false;
+  const school = getSchoolBySlug(slug);
+  return Boolean(
+    school?.abbreviation?.trim() &&
+    school?.mascot?.trim() &&
+    school?.colors?.primary?.trim() &&
+    school?.colors?.secondary?.trim(),
+  );
+}
+
+function teamHasCompleteIdentity(slug: string | undefined, team: string | undefined) {
+  if (schoolHasCompleteIdentity(slug)) return true;
+  return team ? hasCompleteScoreboardTeamIdentity(team) : false;
+}
+
+function displayTeamName(team?: string, fallback?: string) {
+  return team ? getCanonicalScoreboardTeamName(team) : (fallback ?? "Team TBD");
+}
+
+function formatKickoff(kickoff?: string) {
+  if (!kickoff) return "Kickoff TBD";
+
+  if (!kickoff.includes("T")) {
+    const date = new Date(`${kickoff}T12:00:00Z`);
+    return Number.isNaN(date.getTime())
+      ? kickoff
+      : date.toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "America/Chicago" });
+  }
+
+  const date = new Date(kickoff);
+  if (Number.isNaN(date.getTime())) return kickoff;
+
+  return date.toLocaleString("en-US", {
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZone: "America/Chicago",
+  });
+}
 
 export default async function AccountPage() {
   const supabase = await createClient();
@@ -58,6 +103,22 @@ export default async function AccountPage() {
       role: assignment.assignment_role === "coach" ? "Coach" : "Scorekeeper",
     };
   });
+
+  const upcomingAssignedGames = isScorekeeper && !canModerate
+    ? Array.from(
+        new Map(
+          assignedPrograms
+            .flatMap((program) => getUpcomingGamesForSchool(program.slug))
+            .filter(
+              (game) =>
+                game.gameType !== "scrimmage" &&
+                teamHasCompleteIdentity(game.awaySchoolSlug, game.awayTeam) &&
+                teamHasCompleteIdentity(game.homeSchoolSlug, game.homeTeam),
+            )
+            .map((game) => [game.id, game]),
+        ).values(),
+      ).slice(0, 6)
+    : [];
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] px-4 py-10 text-white sm:px-6 sm:py-16 lg:px-8">
@@ -129,6 +190,44 @@ export default async function AccountPage() {
                   </div>
                 ) : (
                   <p className="mt-2 text-sm text-amber-100/75">No programs are assigned yet. Score entry will stay unavailable until an assignment is added.</p>
+                )}
+              </div>
+            ) : null}
+
+            {isScorekeeper && !canModerate && assignedPrograms.length > 0 ? (
+              <div className="mt-5">
+                <div className="flex items-end justify-between gap-4">
+                  <div>
+                    <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">Upcoming Assigned Games</p>
+                    <p className="mt-1 text-xs text-white/40">Identity-ready matchups for your programs.</p>
+                  </div>
+                </div>
+
+                {upcomingAssignedGames.length ? (
+                  <div className="mt-3 grid gap-3">
+                    {upcomingAssignedGames.map((game) => (
+                      <div key={game.id} className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-black/20 p-4 sm:flex-row sm:items-center sm:justify-between">
+                        <div className="min-w-0">
+                          <p className="text-[10px] font-black uppercase tracking-[0.14em] text-white/35">
+                            Week {game.week ?? "—"} · {formatKickoff(game.kickoff)}
+                          </p>
+                          <p className="mt-1 truncate text-sm font-black text-white">
+                            {displayTeamName(game.awayTeam, game.awaySchoolSlug)} at {displayTeamName(game.homeTeam, game.homeSchoolSlug)}
+                          </p>
+                        </div>
+                        <Link
+                          href={`/report-score?game=${encodeURIComponent(game.id)}`}
+                          className="shrink-0 rounded-full bg-[var(--vv-primary)] px-4 py-2 text-center text-xs font-black transition hover:bg-[#93142a]"
+                        >
+                          Enter Score
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="mt-3 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-white/45">
+                    No upcoming identity-ready games are currently available for your assigned programs.
+                  </div>
                 )}
               </div>
             ) : null}
