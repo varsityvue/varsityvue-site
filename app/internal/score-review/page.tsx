@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { getGameById } from "@/lib/games";
+import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
+import { hasCompleteScoreboardTeamIdentity } from "@/data/scoreboard-team-identities";
 import { approveScoreSubmission, rejectScoreSubmission } from "./actions";
 
 export const metadata: Metadata = {
@@ -13,6 +15,20 @@ export const metadata: Metadata = {
 type PageProps = {
   searchParams: Promise<{ message?: string; reviewed?: string }>;
 };
+
+function hasCompleteSchoolIdentity(slug?: string, teamName?: string) {
+  const school = slug ? getSchoolBySlug(slug) : undefined;
+  if (school) {
+    return Boolean(
+      school.abbreviation?.trim() &&
+      school.mascot?.trim() &&
+      school.colors?.primary?.trim() &&
+      school.colors?.secondary?.trim(),
+    );
+  }
+
+  return teamName ? hasCompleteScoreboardTeamIdentity(teamName) : false;
+}
 
 export default async function ScoreReviewPage({ searchParams }: PageProps) {
   const supabase = await createClient();
@@ -70,16 +86,36 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
             submissions!.map((submission) => {
               const game = getGameById(submission.game_id);
               const submitter = profileMap.get(submission.submitted_by);
+              const awayReady = game ? hasCompleteSchoolIdentity(game.awaySchoolSlug, game.awayTeam) : false;
+              const homeReady = game ? hasCompleteSchoolIdentity(game.homeSchoolSlug, game.homeTeam) : false;
+              const identityReady = Boolean(game && awayReady && homeReady);
+              const missingIdentityTeams = game
+                ? [
+                    !awayReady ? (game.awayTeam ?? game.awaySchoolSlug ?? "Away team") : null,
+                    !homeReady ? (game.homeTeam ?? game.homeSchoolSlug ?? "Home team") : null,
+                  ].filter(Boolean)
+                : ["Unknown game"];
+
               return (
                 <article key={submission.id} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 sm:p-6">
                   <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                     <div>
-                      <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">
-                        {game ? `Week ${game.week ?? "—"}` : "Unknown game"}
-                      </p>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">
+                          {game ? `Week ${game.week ?? "—"}` : "Unknown game"}
+                        </p>
+                        <span className={`rounded-full border px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] ${identityReady ? "border-emerald-400/20 bg-emerald-400/10 text-emerald-100" : "border-amber-300/20 bg-amber-300/10 text-amber-100"}`}>
+                          {identityReady ? "Identity Ready" : "Identity Missing"}
+                        </span>
+                      </div>
                       <h2 className="mt-2 text-xl font-black">
                         {game ? `${game.awayTeam ?? game.awaySchoolSlug} at ${game.homeTeam ?? game.homeSchoolSlug}` : submission.game_id}
                       </h2>
+                      {!identityReady ? (
+                        <p className="mt-2 text-xs font-semibold text-amber-100/75">
+                          Add complete identity data for {missingIdentityTeams.join(" and ")} before approval.
+                        </p>
+                      ) : null}
                       <p className="mt-3 text-2xl font-black">
                         Away {submission.away_score} <span className="text-white/25">·</span> Home {submission.home_score}
                       </p>
@@ -97,7 +133,14 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
                         <input type="hidden" name="submission_id" value={submission.id} />
                         <textarea name="review_note" rows={2} placeholder="Review note (optional)" className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white placeholder:text-white/25 focus:border-[var(--vv-accent)] focus:outline-none" />
                         <div className="grid grid-cols-2 gap-3">
-                          <button formAction={approveScoreSubmission} className="rounded-full bg-emerald-600 px-4 py-2.5 text-sm font-black transition hover:bg-emerald-500">Approve</button>
+                          <button
+                            formAction={approveScoreSubmission}
+                            disabled={!identityReady}
+                            title={identityReady ? "Approve score submission" : "Complete team identity data before approval"}
+                            className="rounded-full bg-emerald-600 px-4 py-2.5 text-sm font-black transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/30 disabled:hover:bg-white/10"
+                          >
+                            Approve
+                          </button>
                           <button formAction={rejectScoreSubmission} className="rounded-full border border-red-400/25 bg-red-500/10 px-4 py-2.5 text-sm font-black text-red-100 transition hover:bg-red-500/20">Reject</button>
                         </div>
                       </form>
