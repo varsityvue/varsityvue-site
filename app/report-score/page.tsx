@@ -91,12 +91,18 @@ function submissionStatusLabel(status: string) {
 }
 
 export default async function ReportScorePage({ searchParams }: PageProps) {
+  const params = await searchParams;
   const supabase = await createClient();
   const { data: claimsData } = await supabase.auth.getClaims();
   const claims = claimsData?.claims;
 
   if (!claims?.sub) {
-    redirect("/login?message=Sign%20in%20to%20report%20a%20score.");
+    const next = params.game ? `/report-score?game=${encodeURIComponent(params.game)}` : "/report-score";
+    const loginParams = new URLSearchParams({
+      message: "Sign in to report a score.",
+      next,
+    });
+    redirect(`/login?${loginParams.toString()}`);
   }
 
   const [{ data: roles }, { data: assignments }] = await Promise.all([
@@ -113,7 +119,6 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
   const isRestrictedScorekeeper = roleSet.has("scorekeeper") && !canModerate;
   const assignedSchoolSlugs = new Set((assignments ?? []).map((assignment) => assignment.school_slug));
 
-  const params = await searchParams;
   const games = getGames()
     .filter(
       (game) =>
