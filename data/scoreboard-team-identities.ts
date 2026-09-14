@@ -69,6 +69,12 @@ const scoreboardTeamIdentities: Record<string, ScoreboardTeamIdentity> = {
   jacksboro: { abbreviation: "JHS", mascot: "Tigers", primary: "#502984", secondary: "#FFFFFF", accent: "#9FA1A0" },
   "rio vista": { abbreviation: "RVHS", mascot: "Eagles", primary: "#008000", secondary: "#000000", accent: "#FFFFFF" },
   tolar: { abbreviation: "THS", mascot: "Rattlers", primary: "#800080", secondary: "#FFFFFF", accent: "#FFFFFF" },
+  "lubbock cooper": { abbreviation: "LCHS", mascot: "Pirates", primary: "#C8102E", secondary: "#000000", accent: "#FFFFFF" },
+  clyde: { abbreviation: "CHS", mascot: "Bulldogs", primary: "#CEB767", secondary: "#000000", accent: "#FFFFFF" },
+  haskell: { abbreviation: "HHS", mascot: "Indians", primary: "#C6B47E", secondary: "#000000", accent: "#FFFFFF" },
+  olney: { abbreviation: "OHS", mascot: "Cubs", primary: "#BB0303", secondary: "#A70303", accent: "#E4E4E4" },
+  brady: { abbreviation: "BHS", mascot: "Bulldogs", primary: "#B3A264", secondary: "#000000", accent: "#FFFFFF" },
+  moody: { abbreviation: "MHS", mascot: "Bearcats", primary: "#008000", secondary: "#D4AF37", accent: "#000000" },
 };
 
 export function getScoreboardTeamIdentity(teamName: string) {
