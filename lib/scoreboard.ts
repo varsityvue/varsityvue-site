@@ -1,11 +1,10 @@
-import { getGameStatAvailability, getStatAvailabilityLabel } from "@/data/stat-availability";
 import { getGames } from "@/lib/games";
 import type { Game } from "@/types/platform";
 
 const CENTRAL_TIME_ZONE = "America/Chicago";
 
 export type ScoreboardGame = Game & {
-  displayStatus: string;
+  displayStatus: "Upcoming" | "Live" | "Final";
   isFeatured: boolean;
 };
 
@@ -80,15 +79,9 @@ function isUpcomingByScheduleDate(game: Game, now = new Date()) {
   return timestamp !== Number.MAX_SAFE_INTEGER && timestamp >= now.getTime();
 }
 
-function getDisplayStatus(game: Game) {
+function getDisplayStatus(game: Game): ScoreboardGame["displayStatus"] {
   if (game.status === "live") return "Live";
-  if (game.status === "final") {
-    const statAvailability = getGameStatAvailability(game.id);
-    if (statAvailability && statAvailability.status !== "verified") {
-      return `Final · ${getStatAvailabilityLabel(statAvailability.status)}`;
-    }
-    return "Final";
-  }
+  if (game.status === "final") return "Final";
   return "Upcoming";
 }
 
