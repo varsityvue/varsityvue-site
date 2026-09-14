@@ -43,7 +43,7 @@ export default async function ContributorAccessPage({ searchParams }: PageProps)
   ]);
 
   const schools = getSchools()
-    .filter((school) => school.status !== "inactive")
+    .filter((school) => school.status !== "archived")
     .sort((a, b) => a.name.localeCompare(b.name));
 
   const schoolMap = new Map(schools.map((school) => [school.slug, school]));
