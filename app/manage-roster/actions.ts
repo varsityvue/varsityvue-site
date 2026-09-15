@@ -48,8 +48,14 @@ function validateRosterFields(schoolSlug: string, fields: ReturnType<typeof rost
     rosterRedirect(schoolSlug, "Jersey number must be 0-99.");
   }
   if (fields.grade && !["Fr", "So", "Jr", "Sr"].includes(fields.grade)) rosterRedirect(schoolSlug, "Choose a valid grade.");
-  if (fields.playerProfileId && !verifiedProfileForFields(schoolSlug, fields)) {
-    rosterRedirect(schoolSlug, "Choose a valid verified player profile for this school.");
+  if (fields.playerProfileId) {
+    const verifiedProfile = verifiedProfileForFields(schoolSlug, fields);
+    if (!verifiedProfile) rosterRedirect(schoolSlug, "Choose a valid verified player profile for this school.");
+
+    const submittedName = `${fields.firstName} ${fields.lastName}`.trim().toLowerCase();
+    if (verifiedProfile.name.trim().toLowerCase() !== submittedName) {
+      rosterRedirect(schoolSlug, "Verified player names cannot be changed from roster management.");
+    }
   }
 }
 
