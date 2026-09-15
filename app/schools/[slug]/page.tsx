@@ -7,6 +7,7 @@ import { getSchoolBySlug } from "@/lib/schools";
 import { getRecentScoresForSchool } from "@/lib/games";
 import { getDistrictById } from "@/lib/districts";
 import { getStandingsForSchool } from "@/lib/standings";
+import { createClient } from "@/lib/supabase/server";
 import SchoolHero from "../../../components/SchoolHero";
 import UpcomingSchedulePreview from "../../../components/UpcomingSchedulePreview";
 import RecentScores from "../../../components/RecentScores";
@@ -44,6 +45,30 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
     (url): url is string => Boolean(url),
   );
   const schoolUrl = `https://varsityvue.com/schools/${school.slug}`;
+
+  let canManageRoster = false;
+  const supabase = await createClient();
+  const { data: claimsData } = await supabase.auth.getClaims();
+  const userId = claimsData?.claims?.sub;
+  if (userId) {
+    const [{ data: adminRole }, { data: coachAssignment }] = await Promise.all([
+      supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", userId)
+        .eq("role", "admin")
+        .maybeSingle(),
+      supabase
+        .from("contributor_school_assignments")
+        .select("school_slug")
+        .eq("user_id", userId)
+        .eq("school_slug", school.slug)
+        .eq("assignment_role", "coach")
+        .eq("active", true)
+        .maybeSingle(),
+    ]);
+    canManageRoster = Boolean(adminRole || coachAssignment);
+  }
 
   const schoolSchema = {
     "@context": "https://schema.org",
@@ -126,6 +151,18 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schoolSchema) }} />
       <SchoolHero school={school} />
       <SchoolSubnav schoolSlug={school.slug} districtSlug={districtSlug} theme={theme} />
+
+      {canManageRoster ? (
+        <div className="mx-auto w-full max-w-6xl px-4 pt-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between gap-3 rounded-xl border border-amber-300/15 bg-amber-300/[0.07] px-3 py-2.5 sm:px-4">
+            <div className="min-w-0">
+              <p className="text-[8px] font-black uppercase tracking-[0.14em] text-amber-100/45">Team Management</p>
+              <p className="mt-0.5 truncate text-xs font-black text-amber-50 sm:text-sm">You can manage {school.name}&apos;s 2026 roster.</p>
+            </div>
+            <Link href={`/manage-roster?school=${encodeURIComponent(school.slug)}`} className="shrink-0 rounded-lg border border-amber-200/15 bg-amber-200/10 px-3 py-2 text-[9px] font-black uppercase tracking-[0.1em] text-amber-50 transition hover:bg-amber-200/15 sm:text-[10px]">Manage Roster →</Link>
+          </div>
+        </div>
+      ) : null}
 
       <div className="mx-auto w-full max-w-6xl px-4 pt-5 sm:px-6 sm:pt-6 lg:px-8">
         <SchoolSeasonPulse schoolSlug={school.slug} theme={theme} />
