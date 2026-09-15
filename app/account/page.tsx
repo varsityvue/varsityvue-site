@@ -104,8 +104,8 @@ export default async function AccountPage() {
     };
   });
   const coachPrograms = assignedPrograms.filter((program) => program.role === "Coach");
-  const canManageRoster = isAdmin || coachPrograms.length > 0;
-  const manageRosterHref = isAdmin
+  const canManageRoster = canModerate || coachPrograms.length > 0;
+  const manageRosterHref = canModerate
     ? "/manage-roster"
     : coachPrograms[0]
       ? `/manage-roster?school=${encodeURIComponent(coachPrograms[0].slug)}`
@@ -303,6 +303,11 @@ export default async function AccountPage() {
               <Link href="/internal/score-review" className="inline-flex rounded-full bg-emerald-600 px-5 py-2.5 text-sm font-black text-white transition hover:bg-emerald-500">
                 Open Review Queue
               </Link>
+              {canManageRoster ? (
+                <Link href={manageRosterHref} className="inline-flex rounded-full border border-amber-300/20 bg-amber-300/10 px-5 py-2.5 text-sm font-black text-amber-100 transition hover:bg-amber-300/15">
+                  Manage Rosters
+                </Link>
+              ) : null}
               {isAdmin ? (
                 <>
                   <Link href="/internal/members" className="inline-flex rounded-full border border-[var(--vv-accent)]/30 bg-[var(--vv-primary)]/15 px-5 py-2.5 text-sm font-black text-red-50 transition hover:bg-[var(--vv-primary)]/25">
@@ -310,9 +315,6 @@ export default async function AccountPage() {
                   </Link>
                   <Link href="/internal/contributor-access" className="inline-flex rounded-full border border-white/15 bg-white/[0.04] px-5 py-2.5 text-sm font-black text-white/80 transition hover:border-white/30 hover:text-white">
                     Manage Contributor Access
-                  </Link>
-                  <Link href="/manage-roster" className="inline-flex rounded-full border border-amber-300/20 bg-amber-300/10 px-5 py-2.5 text-sm font-black text-amber-100 transition hover:bg-amber-300/15">
-                    Manage Rosters
                   </Link>
                 </>
               ) : null}
