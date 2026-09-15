@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import type { SchoolTheme } from "../../../types/school-theme";
+import type { MediaLinkType } from "@/types/platform";
 import { getSchoolBySlug } from "@/lib/schools";
 import { getRecentScoresForSchool } from "@/lib/games";
 import { getDistrictById } from "@/lib/districts";
@@ -86,7 +87,7 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
   );
 }
 
-function BroadcastTypeIcon({ type }: { type: "radio" | "stream" | "article" }) {
+function BroadcastTypeIcon({ type }: { type: MediaLinkType }) {
   if (type === "radio") return <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-white/65 sm:h-10 sm:w-10"><svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M8.5 16.5h7"/><path d="M10 16.5 8.5 21"/><path d="M14 16.5l1.5 4.5"/><circle cx="12" cy="10" r="2"/><path d="M7.8 5.8a6 6 0 0 0 0 8.4M16.2 5.8a6 6 0 0 1 0 8.4M4.9 2.9a10 10 0 0 0 0 14.2M19.1 2.9a10 10 0 0 1 0 14.2"/></svg></span>;
   return <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-white/65 sm:h-10 sm:w-10"><svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="13" rx="2"/><path d="m10 9 5 2.5-5 2.5Z"/><path d="M9 21h6"/></svg></span>;
 }
