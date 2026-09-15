@@ -3,14 +3,18 @@ import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 
 const navItems = [
-  { href: "/scoreboard", label: "Scores" },
   { href: "/schools", label: "Schools" },
   { href: "/districts", label: "Districts" },
   { href: "/coverage", label: "Coverage" },
   { href: "/legacy", label: "Legacy" },
 ];
 
-const mobileNavItems = navItems.filter((item) => item.href !== "/legacy");
+const mobileNavItems = [
+  { href: "/scoreboard", label: "Scores" },
+  { href: "/schools", label: "Schools" },
+  { href: "/districts", label: "Districts" },
+  { href: "/coverage", label: "Coverage" },
+];
 
 export default async function SiteHeader() {
   const supabase = await createClient();
@@ -44,7 +48,7 @@ export default async function SiteHeader() {
           </div>
         </Link>
 
-        <nav aria-label="Primary navigation" className="hidden items-center gap-0 xl:flex">
+        <nav aria-label="Primary navigation" className="hidden items-center gap-0 lg:flex">
           {navItems.map((item) => (
             <NavLink key={item.href} href={item.href} label={item.label} />
           ))}
@@ -84,7 +88,7 @@ export default async function SiteHeader() {
         </div>
       </div>
 
-      <nav aria-label="Mobile navigation" className="border-t border-white/10 xl:hidden">
+      <nav aria-label="Mobile navigation" className="border-t border-white/10 lg:hidden">
         <div className="mx-auto grid max-w-[1440px] grid-cols-4 px-1.5 py-1 sm:px-5 sm:py-1.5">
           {mobileNavItems.map((item) => (
             <Link
@@ -107,7 +111,7 @@ function NavLink({ href, label }: { href: string; label: string }) {
   return (
     <Link
       href={href}
-      className="rounded-full px-3 py-2 text-[11px] font-black uppercase tracking-[0.13em] text-white/60 transition hover:bg-white/[0.07] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 2xl:px-4 2xl:text-[12px] 2xl:tracking-[0.16em]"
+      className="rounded-full px-3 py-2 text-[11px] font-black uppercase tracking-[0.13em] text-white/60 transition hover:bg-white/[0.07] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 xl:px-4 xl:text-[12px] xl:tracking-[0.16em]"
     >
       {label}
     </Link>
