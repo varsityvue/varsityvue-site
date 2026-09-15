@@ -29,10 +29,10 @@ export default async function ManageRosterPage({ searchParams }: Props) {
     supabase.from("user_roles").select("role").eq("user_id", userId),
     supabase.from("contributor_school_assignments").select("school_slug").eq("user_id", userId).eq("assignment_role", "coach").eq("active", true),
   ]);
-  const isAdmin = roles?.some((row) => row.role === "admin") ?? false;
+  const canManageAllRosters = roles?.some((row) => row.role === "admin" || row.role === "moderator") ?? false;
   const coachSlugs = new Set((assignments ?? []).map((row) => row.school_slug));
-  const schools = isAdmin ? getSchools().filter((school) => school.status !== "archived") : getSchools().filter((school) => coachSlugs.has(school.slug));
-  if (!isAdmin && !schools.length) redirect("/account");
+  const schools = canManageAllRosters ? getSchools().filter((school) => school.status !== "archived") : getSchools().filter((school) => coachSlugs.has(school.slug));
+  if (!canManageAllRosters && !schools.length) redirect("/account");
 
   const selectedSlug = params.school && schools.some((school) => school.slug === params.school) ? params.school : schools[0]?.slug;
   const school = selectedSlug ? getSchoolBySlug(selectedSlug) : undefined;
@@ -57,7 +57,7 @@ export default async function ManageRosterPage({ searchParams }: Props) {
 
   return <main className="min-h-screen bg-[var(--vv-bg)] px-4 py-8 text-white sm:px-6 sm:py-12 lg:px-8"><div className="mx-auto max-w-5xl">
     <div className="flex items-center justify-between gap-4"><Link href="/account" className="text-xs font-black uppercase tracking-[0.12em] text-white/45 hover:text-white">← Account</Link><span className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/45">2026 Roster</span></div>
-    <section className="mt-4 rounded-[1.5rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.35),transparent_42%),rgba(255,255,255,0.04)] p-5 shadow-2xl sm:p-7"><p className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--vv-accent)]">Team Management</p><h1 className="mt-2 text-3xl font-black sm:text-5xl">Manage Roster</h1><p className="mt-3 text-sm text-white/55 sm:text-base">{isAdmin ? "Manage 2026 rosters for any active VarsityVue program." : "Manage the 2026 roster for programs where you are assigned as a coach."}</p></section>
+    <section className="mt-4 rounded-[1.5rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.35),transparent_42%),rgba(255,255,255,0.04)] p-5 shadow-2xl sm:p-7"><p className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--vv-accent)]">Team Management</p><h1 className="mt-2 text-3xl font-black sm:text-5xl">Manage Roster</h1><p className="mt-3 text-sm text-white/55 sm:text-base">{canManageAllRosters ? "Manage 2026 rosters for any active VarsityVue program." : "Manage the 2026 roster for programs where you are assigned as a coach."}</p></section>
     {params.message && <div className="mt-4 rounded-xl border border-amber-300/20 bg-amber-300/10 px-4 py-3 text-sm text-amber-100">{params.message}</div>}{params.updated && <div className="mt-4 rounded-xl border border-emerald-300/20 bg-emerald-300/10 px-4 py-3 text-sm text-emerald-100">Roster updated.</div>}
     <section className="mt-5 rounded-[1.35rem] border border-white/10 bg-white/[0.04] p-4 sm:p-6"><p className="mb-3 text-[10px] font-black uppercase tracking-[0.18em] text-white/35">Select program</p><div className="flex flex-wrap gap-2">{schools.map((s) => <Link key={s.slug} href={`/manage-roster?school=${encodeURIComponent(s.slug)}`} className={`rounded-full border px-3 py-2 text-xs font-black ${s.slug === selectedSlug ? "border-[var(--vv-primary)] bg-[var(--vv-primary)]" : "border-white/10 bg-black/20 text-white/60"}`}>{s.name}</Link>)}</div></section>
     {school && <>
