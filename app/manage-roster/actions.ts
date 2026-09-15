@@ -203,7 +203,9 @@ export async function removeRosterPlayer(formData: FormData) {
     .from("school_roster_players")
     .update({ active: false, updated_at: new Date().toISOString() })
     .eq("id", playerId)
-    .eq("school_slug", schoolSlug);
+    .eq("school_slug", schoolSlug)
+    .eq("season", 2026)
+    .eq("active", true);
 
   if (error) rosterRedirect(schoolSlug, error.message);
 
