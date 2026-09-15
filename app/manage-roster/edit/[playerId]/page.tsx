@@ -86,6 +86,7 @@ export default async function EditRosterPlayerPage({ params }: EditRosterPlayerP
           <form action={updateRosterPlayer} className="mt-5 space-y-3">
             <input type="hidden" name="school_slug" value={school.slug} />
             <input type="hidden" name="player_id" value={player.id} />
+            {player.player_profile_id && <input type="hidden" name="player_profile_id" value={player.player_profile_id} />}
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <Field label="First name" name="first_name" required defaultValue={player.first_name} />
               <Field label="Last name" name="last_name" required defaultValue={player.last_name} />
