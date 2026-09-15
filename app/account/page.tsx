@@ -305,6 +305,9 @@ export default async function AccountPage() {
               </Link>
               {isAdmin ? (
                 <>
+                  <Link href="/internal/members" className="inline-flex rounded-full border border-[var(--vv-accent)]/30 bg-[var(--vv-primary)]/15 px-5 py-2.5 text-sm font-black text-red-50 transition hover:bg-[var(--vv-primary)]/25">
+                    Manage Members & Roles
+                  </Link>
                   <Link href="/internal/contributor-access" className="inline-flex rounded-full border border-white/15 bg-white/[0.04] px-5 py-2.5 text-sm font-black text-white/80 transition hover:border-white/30 hover:text-white">
                     Manage Contributor Access
                   </Link>
