@@ -27,13 +27,11 @@ export default async function EditRosterPlayerPage({ params }: EditRosterPlayerP
 
   if (!player) notFound();
 
-  const [{ data: adminRole }, { data: coachAssignment }] = await Promise.all([
+  const [{ data: roles }, { data: coachAssignment }] = await Promise.all([
     supabase
       .from("user_roles")
       .select("role")
-      .eq("user_id", userId)
-      .eq("role", "admin")
-      .maybeSingle(),
+      .eq("user_id", userId),
     supabase
       .from("contributor_school_assignments")
       .select("school_slug")
@@ -44,7 +42,8 @@ export default async function EditRosterPlayerPage({ params }: EditRosterPlayerP
       .maybeSingle(),
   ]);
 
-  if (!adminRole && !coachAssignment) redirect("/account");
+  const canManageAllRosters = roles?.some((row) => row.role === "admin" || row.role === "moderator") ?? false;
+  if (!canManageAllRosters && !coachAssignment) redirect("/account");
 
   const school = getSchoolBySlug(player.school_slug);
   if (!school) notFound();
