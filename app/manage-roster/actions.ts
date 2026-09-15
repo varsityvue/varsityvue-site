@@ -27,15 +27,29 @@ function rosterFields(formData: FormData) {
   return { firstName, lastName, jerseyNumber, position, grade, playerProfileId };
 }
 
+function verifiedProfileForFields(schoolSlug: string, fields: ReturnType<typeof rosterFields>) {
+  if (fields.playerProfileId) {
+    return playerProfiles.find(
+      (player) => player.playerId === fields.playerProfileId && player.season === 2026 && player.schoolSlug === schoolSlug,
+    );
+  }
+
+  const fullName = `${fields.firstName} ${fields.lastName}`.trim().toLowerCase();
+  return playerProfiles.find((player) => {
+    if (player.season !== 2026 || player.schoolSlug !== schoolSlug || player.name.trim().toLowerCase() !== fullName) return false;
+    if (fields.jerseyNumber === null || player.jerseyNumber === undefined) return true;
+    return Number(player.jerseyNumber) === fields.jerseyNumber;
+  });
+}
+
 function validateRosterFields(schoolSlug: string, fields: ReturnType<typeof rosterFields>) {
   if (!fields.firstName || !fields.lastName) rosterRedirect(schoolSlug, "First and last name are required.");
   if (fields.jerseyNumber !== null && (!Number.isInteger(fields.jerseyNumber) || fields.jerseyNumber < 0 || fields.jerseyNumber > 99)) {
     rosterRedirect(schoolSlug, "Jersey number must be 0-99.");
   }
   if (fields.grade && !["Fr", "So", "Jr", "Sr"].includes(fields.grade)) rosterRedirect(schoolSlug, "Choose a valid grade.");
-  if (fields.playerProfileId) {
-    const profile = playerProfiles.find((player) => player.playerId === fields.playerProfileId && player.season === 2026);
-    if (!profile) rosterRedirect(schoolSlug, "Choose a valid verified player profile.");
+  if (fields.playerProfileId && !verifiedProfileForFields(schoolSlug, fields)) {
+    rosterRedirect(schoolSlug, "Choose a valid verified player profile for this school.");
   }
 }
 
@@ -70,17 +84,19 @@ export async function addRosterPlayer(formData: FormData) {
 
   const fields = rosterFields(formData);
   validateRosterFields(schoolSlug, fields);
+  const verifiedProfile = verifiedProfileForFields(schoolSlug, fields);
+  const playerProfileId = verifiedProfile?.playerId ?? null;
 
   const { supabase, userId } = await requireRosterAccess(schoolSlug);
 
-  if (fields.playerProfileId) {
+  if (playerProfileId) {
     const { data: linkedProfile } = await supabase
       .from("school_roster_players")
       .select("id")
       .eq("school_slug", schoolSlug)
       .eq("season", 2026)
       .eq("active", true)
-      .eq("player_profile_id", fields.playerProfileId)
+      .eq("player_profile_id", playerProfileId)
       .limit(1)
       .maybeSingle();
     if (linkedProfile) rosterRedirect(schoolSlug, "That verified player is already linked to this roster.");
@@ -107,7 +123,7 @@ export async function addRosterPlayer(formData: FormData) {
     jersey_number: fields.jerseyNumber,
     position: fields.position || null,
     grade: fields.grade || null,
-    player_profile_id: fields.playerProfileId,
+    player_profile_id: playerProfileId,
     created_by: userId,
   });
 
