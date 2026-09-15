@@ -153,7 +153,7 @@ export async function updateRosterPlayer(formData: FormData) {
   const { supabase } = await requireRosterAccess(schoolSlug);
   const { data: existingPlayer } = await supabase
     .from("school_roster_players")
-    .select("player_profile_id")
+    .select("first_name, last_name, player_profile_id")
     .eq("id", playerId)
     .eq("school_slug", schoolSlug)
     .eq("season", 2026)
@@ -162,6 +162,10 @@ export async function updateRosterPlayer(formData: FormData) {
 
   if (!existingPlayer) rosterRedirect(schoolSlug, "That roster player is no longer available.");
   fields.playerProfileId = existingPlayer.player_profile_id;
+  if (existingPlayer.player_profile_id) {
+    fields.firstName = existingPlayer.first_name;
+    fields.lastName = existingPlayer.last_name;
+  }
   validateRosterFields(schoolSlug, fields);
 
   const { data: duplicate } = await supabase
