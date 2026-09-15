@@ -65,12 +65,29 @@ export default async function SiteHeader() {
             All Schools
           </Link>
 
-          <Link
-            href={signedIn ? "/account" : "/login?mode=signup"}
-            className="rounded-full border border-[color:var(--vv-accent)] bg-[var(--vv-primary)] px-3 py-2 text-[8px] font-black uppercase tracking-[0.08em] text-white transition hover:bg-[var(--vv-primary-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:px-5 sm:py-3 sm:text-xs sm:tracking-[0.14em]"
-          >
-            {signedIn ? "My Account" : "Join VarsityVue"}
-          </Link>
+          {signedIn ? (
+            <Link
+              href="/account"
+              className="rounded-full border border-white/15 bg-white/[0.06] px-3 py-2 text-[8px] font-black uppercase tracking-[0.08em] text-white/80 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:px-5 sm:py-3 sm:text-xs sm:tracking-[0.14em]"
+            >
+              Account
+            </Link>
+          ) : (
+            <div className="flex items-center gap-1 sm:gap-2">
+              <Link
+                href="/login"
+                className="rounded-full px-2 py-2 text-[8px] font-black uppercase tracking-[0.06em] text-white/65 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:border sm:border-white/15 sm:px-4 sm:py-3 sm:text-xs sm:tracking-[0.12em]"
+              >
+                Log In
+              </Link>
+              <Link
+                href="/login?mode=signup"
+                className="rounded-full border border-[color:var(--vv-accent)] bg-[var(--vv-primary)] px-2.5 py-2 text-[8px] font-black uppercase tracking-[0.06em] text-white transition hover:bg-[var(--vv-primary-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:px-4 sm:py-3 sm:text-xs sm:tracking-[0.12em]"
+              >
+                Register
+              </Link>
+            </div>
+          )}
         </div>
       </div>
 
