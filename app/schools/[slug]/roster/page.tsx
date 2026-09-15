@@ -82,7 +82,7 @@ export default async function SchoolRosterPage({ params }: Props) {
   const supabase = await createClient();
   const { data: managedRoster } = await supabase
     .from("school_roster_players")
-    .select("id, first_name, last_name, jersey_number, position, grade")
+    .select("id, first_name, last_name, jersey_number, position, grade, player_profile_id")
     .eq("school_slug", slug)
     .eq("season", SEASON)
     .eq("active", true)
@@ -98,10 +98,13 @@ export default async function SchoolRosterPage({ params }: Props) {
     positions: player.positions ?? [],
   }));
 
+  const staticProfileIds = new Set(roster.map((player) => player.playerId).filter(Boolean));
   const staticNames = new Set(roster.map((player) => normalizeName(player.name)));
   const staticNumbers = new Set(roster.map((player) => player.jerseyNumber).filter(Boolean));
 
   for (const player of managedRoster ?? []) {
+    if (player.player_profile_id && staticProfileIds.has(player.player_profile_id)) continue;
+
     const name = `${player.first_name} ${player.last_name}`.trim();
     const jerseyNumber = player.jersey_number === null ? undefined : String(player.jersey_number);
     const matchesStaticName = staticNames.has(normalizeName(name));
@@ -110,6 +113,7 @@ export default async function SchoolRosterPage({ params }: Props) {
 
     roster.push({
       key: `managed:${player.id}`,
+      playerId: player.player_profile_id ?? undefined,
       name,
       jerseyNumber,
       grade: gradeLabel(player.grade),
