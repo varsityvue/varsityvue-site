@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { getGamesForSchool } from "@/lib/games";
+import { getDynamicGamesForSchool } from "@/lib/dynamic-games";
+import type { Game } from "@/types/platform";
 import type { SchoolTheme } from "@/types/school-theme";
 
 type Props = {
@@ -7,7 +8,7 @@ type Props = {
     theme: SchoolTheme;
 };
 
-type SchoolGame = ReturnType<typeof getGamesForSchool>[number];
+type SchoolGame = Game;
 
 const CENTRAL_TIME_ZONE = "America/Chicago";
 
@@ -99,14 +100,16 @@ function getOpponent(game: SchoolGame, schoolSlug: string) {
     };
 }
 
-export default function UpcomingSchedulePreview({ schoolSlug, theme }: Props) {
+export default async function UpcomingSchedulePreview({ schoolSlug, theme }: Props) {
     const todayKey = getCentralDateKey(new Date());
-    const upcoming = getGamesForSchool(schoolSlug)
+    const schoolGames = await getDynamicGamesForSchool(schoolSlug);
+    const hasLiveGame = schoolGames.some((game) => game.status === "live");
+    const upcoming = schoolGames
         .filter((game) => isStillUpcoming(game, todayKey))
         .sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b));
 
-    // The immediate next matchup is already featured in Season Overview.
-    const games = upcoming.slice(1, 4);
+    // Season Overview owns the immediate next matchup unless it is currently showing a live game.
+    const games = hasLiveGame ? upcoming.slice(0, 3) : upcoming.slice(1, 4);
 
     if (games.length === 0) return null;
 
