@@ -23,19 +23,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const school = getSchoolBySlug(slug);
   if (!school) return { title: "Page Not Found" };
-  return {
-    title: `${school.fullName} Football Hub`,
-    description: `${school.fullName} schedules, scores, standings, roster, player statistics, district information, game coverage, and football updates on VarsityVue.`,
-    alternates: { canonical: `/schools/${school.slug}` },
-    robots: school.status === "pilot" ? { index: true, follow: true } : { index: false, follow: true },
-  };
+  return { title: `${school.fullName} Football Hub`, description: `${school.fullName} schedules, scores, standings, roster, player statistics, district information, game coverage, and football updates on VarsityVue.`, alternates: { canonical: `/schools/${school.slug}` }, robots: school.status === "pilot" ? { index: true, follow: true } : { index: false, follow: true } };
 }
 
 export default async function SchoolPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const school = getSchoolBySlug(slug);
   if (!school) notFound();
-
   const district = getDistrictById(school.districtId);
   const districtSlug = district?.slug ?? school.districtId;
   const theme: SchoolTheme = { primary: school.colors.primary, secondary: school.colors.secondary, accent: school.colors.accent };
@@ -43,9 +37,7 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
   const standings = getStandingsForSchool(slug);
   const broadcastLinks = getSchoolBroadcastLinks(school.slug);
   const hasOfficialLinks = Boolean(school.officialWebsite || school.facebookUrl || school.instagramUrl || school.xUrl);
-  const officialProfiles = [school.officialWebsite, school.facebookUrl, school.instagramUrl, school.xUrl].filter(
-    (url): url is string => Boolean(url),
-  );
+  const officialProfiles = [school.officialWebsite, school.facebookUrl, school.instagramUrl, school.xUrl].filter((url): url is string => Boolean(url));
   const schoolUrl = `https://varsityvue.com/schools/${school.slug}`;
 
   let canManageRoster = false;
@@ -63,19 +55,8 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
   const schoolSchema = {
     "@context": "https://schema.org",
     "@graph": [
-      {
-        "@type": "SportsTeam", "@id": `${schoolUrl}#team`, name: school.fullName, alternateName: school.name, sport: "Football", url: schoolUrl,
-        ...(officialProfiles.length ? { sameAs: officialProfiles } : {}),
-        ...(school.headCoach ? { coach: { "@type": "Person", name: school.headCoach } } : {}),
-        location: { "@type": "Place", name: school.stadium ?? `${school.name} football stadium`, ...(school.stadiumAddress ? { address: { "@type": "PostalAddress", streetAddress: school.stadiumAddress, addressRegion: "TX", addressCountry: "US" } } : {}) },
-        ...(district ? { memberOf: { "@type": "SportsOrganization", name: district.name, url: `https://varsityvue.com/districts/${district.slug}` } } : {}),
-        publisher: { "@type": "Organization", "@id": "https://varsityvue.com/#organization", name: "VarsityVue", url: "https://varsityvue.com" },
-      },
-      { "@type": "BreadcrumbList", "@id": `${schoolUrl}#breadcrumb`, itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://varsityvue.com/" },
-        { "@type": "ListItem", position: 2, name: "Schools", item: "https://varsityvue.com/schools" },
-        { "@type": "ListItem", position: 3, name: school.fullName, item: schoolUrl },
-      ] },
+      { "@type": "SportsTeam", "@id": `${schoolUrl}#team`, name: school.fullName, alternateName: school.name, sport: "Football", url: schoolUrl, ...(officialProfiles.length ? { sameAs: officialProfiles } : {}), ...(school.headCoach ? { coach: { "@type": "Person", name: school.headCoach } } : {}), location: { "@type": "Place", name: school.stadium ?? `${school.name} football stadium`, ...(school.stadiumAddress ? { address: { "@type": "PostalAddress", streetAddress: school.stadiumAddress, addressRegion: "TX", addressCountry: "US" } } : {}) }, ...(district ? { memberOf: { "@type": "SportsOrganization", name: district.name, url: `https://varsityvue.com/districts/${district.slug}` } } : {}), publisher: { "@type": "Organization", "@id": "https://varsityvue.com/#organization", name: "VarsityVue", url: "https://varsityvue.com" } },
+      { "@type": "BreadcrumbList", "@id": `${schoolUrl}#breadcrumb`, itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: "https://varsityvue.com/" }, { "@type": "ListItem", position: 2, name: "Schools", item: "https://varsityvue.com/schools" }, { "@type": "ListItem", position: 3, name: school.fullName, item: schoolUrl }] },
     ],
   };
 
@@ -91,22 +72,27 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
           {recentScores.length > 0 && <RecentScores scores={recentScores} theme={theme} schoolSlug={slug} />}
           <SchoolTeamLeaders schoolSlug={school.slug} season={2026} primaryColor={theme.primary} secondaryColor={theme.secondary} />
           <UpcomingSchedulePreview schoolSlug={school.slug} theme={theme} />
-          {broadcastLinks.length > 0 && <section className="rounded-[1.35rem] border p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6" style={{ borderColor: `${theme.primary}55`, background: "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 48%, rgba(0,0,0,1))", boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)` }}><p className="text-[8px] font-black uppercase tracking-[0.2em] text-white/45 sm:text-xs sm:tracking-[0.28em]">Watch &amp; Listen</p><h2 className="mt-1.5 text-lg font-black text-white sm:mt-2 sm:text-2xl">Follow {school.name} on game night</h2><p className="mt-2 max-w-3xl text-xs leading-5 text-white/50 sm:text-sm sm:leading-6">Official and local broadcast destinations for {school.name} football. Game-specific options also appear on matchup cards when available.</p><div className="mt-4 grid gap-2 sm:grid-cols-2 sm:gap-3">{broadcastLinks.map((link) => <a key={`${link.type}:${link.url}`} href={link.url} target="_blank" rel="noreferrer" className="group flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-black/35 px-3 py-3 transition hover:border-white/20 hover:bg-white/[0.07] sm:px-4 sm:py-4"><div className="min-w-0"><p className="text-[8px] font-black uppercase tracking-[0.14em] text-white/35">{link.type === "radio" ? "Listen" : "Watch"}{link.scope === "home" ? " · Home games" : " · All games"}</p><p className="mt-1 truncate text-sm font-black text-white sm:text-base">{link.label}</p></div><span className="shrink-0 text-xs font-black text-white/40 transition group-hover:text-white">↗</span></a>)}</div></section>}
+          {broadcastLinks.length > 0 && <section className="rounded-[1.35rem] border p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6" style={{ borderColor: `${theme.primary}55`, background: "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 48%, rgba(0,0,0,1))", boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)` }}><p className="text-[8px] font-black uppercase tracking-[0.2em] text-white/45 sm:text-xs sm:tracking-[0.28em]">Watch &amp; Listen</p><h2 className="mt-1.5 text-lg font-black text-white sm:mt-2 sm:text-2xl">Follow {school.name} on game night</h2><p className="mt-2 max-w-3xl text-xs leading-5 text-white/50 sm:text-sm sm:leading-6">Official and local broadcast destinations for {school.name} football. Game-specific options also appear on matchup cards when available.</p><div className="mt-4 grid gap-2 sm:grid-cols-2 sm:gap-3">{broadcastLinks.map((link) => <a key={`${link.type}:${link.url}`} href={link.url} target="_blank" rel="noreferrer" className="group flex items-center gap-3 rounded-xl border border-white/10 bg-black/35 px-3 py-3 transition hover:border-white/20 hover:bg-white/[0.07] sm:px-4 sm:py-4"><BroadcastTypeIcon type={link.type} /><div className="min-w-0 flex-1"><p className="text-[8px] font-black uppercase tracking-[0.14em] text-white/35">{link.type === "radio" ? "Listen" : "Watch"}{link.scope === "home" ? " · Home games" : " · All games"}</p><p className="mt-1 truncate text-sm font-black text-white sm:text-base">{link.label}</p></div><ChevronRightIcon /></a>)}</div></section>}
           <StandingsTable standings={standings} theme={theme} currentSchoolSlug={school.slug} districtHref={`/districts/${districtSlug}`} />
           <SchoolCoverage schoolSlug={school.slug} />
         </div>
         <div className="mt-5 grid min-w-0 gap-4 sm:mt-6 sm:gap-5 lg:grid-cols-2">
-          <section className="rounded-[1.35rem] border p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6" style={{ borderColor: `${theme.primary}55`, background: "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 48%, rgba(0,0,0,1))", boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)` }}>
-            <div className="flex items-start justify-between gap-3"><div className="min-w-0"><p className="text-[8px] font-black uppercase tracking-[0.2em] text-white/45 sm:text-xs sm:tracking-[0.28em]">Program Snapshot</p><h2 className="mt-1.5 text-lg font-black text-white sm:mt-2 sm:text-2xl">{school.fullName}</h2></div>{hasOfficialLinks && <span className="shrink-0 text-[8px] font-black uppercase tracking-[0.1em] text-white/30 sm:text-[9px] sm:tracking-[0.12em]">Official</span>}</div>
-            <div className="mt-3 grid grid-cols-2 gap-1.5 sm:mt-4 sm:gap-3">{school.headCoach && <SnapshotTile label="Head Coach" value={school.headCoach} />}<SnapshotTile label="Region" value={`Region ${school.uilRegion}`} /><SnapshotTile label="District" value={district?.name ?? "TBD"} />{school.stadium && <SnapshotTile label="Stadium" value={school.stadium} />}{school.stadiumCapacity && <SnapshotTile label="Capacity" value={school.stadiumCapacity.toLocaleString()} />}{school.stateTitles !== undefined && <SnapshotTile label="State Titles" value={school.stateTitles.toString()} />}</div>
-            {hasOfficialLinks && <div className="mt-4 flex flex-wrap gap-1.5 sm:mt-5 sm:gap-2">{school.officialWebsite && <a href={school.officialWebsite} target="_blank" rel="noreferrer" className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5 text-[9px] font-black uppercase tracking-[0.1em] text-white/60 transition hover:bg-white/10 hover:text-white sm:rounded-xl sm:px-3 sm:py-2 sm:text-[10px] sm:tracking-[0.12em]">School Website</a>}{school.facebookUrl && <a href={school.facebookUrl} target="_blank" rel="noreferrer" className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5 text-[9px] font-black uppercase tracking-[0.1em] text-white/60 transition hover:bg-white/10 hover:text-white sm:rounded-xl sm:px-3 sm:py-2 sm:text-[10px] sm:tracking-[0.12em]">Facebook</a>}{school.instagramUrl && <a href={school.instagramUrl} target="_blank" rel="noreferrer" className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5 text-[9px] font-black uppercase tracking-[0.1em] text-white/60 transition hover:bg-white/10 hover:text-white sm:rounded-xl sm:px-3 sm:py-2 sm:text-[10px] sm:tracking-[0.12em]">Instagram</a>}{school.xUrl && <a href={school.xUrl} target="_blank" rel="noreferrer" className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5 text-[9px] font-black uppercase tracking-[0.1em] text-white/60 transition hover:bg-white/10 hover:text-white sm:rounded-xl sm:px-3 sm:py-2 sm:text-[10px] sm:tracking-[0.12em]">X / Twitter</a>}</div>}
-          </section>
+          <section className="rounded-[1.35rem] border p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6" style={{ borderColor: `${theme.primary}55`, background: "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 48%, rgba(0,0,0,1))", boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.45)` }}><div className="flex items-start justify-between gap-3"><div className="min-w-0"><p className="text-[8px] font-black uppercase tracking-[0.2em] text-white/45 sm:text-xs sm:tracking-[0.28em]">Program Snapshot</p><h2 className="mt-1.5 text-lg font-black text-white sm:mt-2 sm:text-2xl">{school.fullName}</h2></div>{hasOfficialLinks && <span className="shrink-0 text-[8px] font-black uppercase tracking-[0.1em] text-white/30 sm:text-[9px] sm:tracking-[0.12em]">Official</span>}</div><div className="mt-3 grid grid-cols-2 gap-1.5 sm:mt-4 sm:gap-3">{school.headCoach && <SnapshotTile label="Head Coach" value={school.headCoach} />}<SnapshotTile label="Region" value={`Region ${school.uilRegion}`} /><SnapshotTile label="District" value={district?.name ?? "TBD"} />{school.stadium && <SnapshotTile label="Stadium" value={school.stadium} />}{school.stadiumCapacity && <SnapshotTile label="Capacity" value={school.stadiumCapacity.toLocaleString()} />}{school.stateTitles !== undefined && <SnapshotTile label="State Titles" value={school.stateTitles.toString()} />}</div>{hasOfficialLinks && <div className="mt-4 flex flex-wrap gap-1.5 sm:mt-5 sm:gap-2">{school.officialWebsite && <a href={school.officialWebsite} target="_blank" rel="noreferrer" className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5 text-[9px] font-black uppercase tracking-[0.1em] text-white/60 transition hover:bg-white/10 hover:text-white sm:rounded-xl sm:px-3 sm:py-2 sm:text-[10px] sm:tracking-[0.12em]">School Website</a>}{school.facebookUrl && <a href={school.facebookUrl} target="_blank" rel="noreferrer" className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5 text-[9px] font-black uppercase tracking-[0.1em] text-white/60 transition hover:bg-white/10 hover:text-white sm:rounded-xl sm:px-3 sm:py-2 sm:text-[10px] sm:tracking-[0.12em]">Facebook</a>}{school.instagramUrl && <a href={school.instagramUrl} target="_blank" rel="noreferrer" className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5 text-[9px] font-black uppercase tracking-[0.1em] text-white/60 transition hover:bg-white/10 hover:text-white sm:rounded-xl sm:px-3 sm:py-2 sm:text-[10px] sm:tracking-[0.12em]">Instagram</a>}{school.xUrl && <a href={school.xUrl} target="_blank" rel="noreferrer" className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5 text-[9px] font-black uppercase tracking-[0.1em] text-white/60 transition hover:bg-white/10 hover:text-white sm:rounded-xl sm:px-3 sm:py-2 sm:text-[10px] sm:tracking-[0.12em]">X / Twitter</a>}</div>}</section>
           <RivalryWatch schoolSlug={school.slug} />
         </div>
         <section className="mt-5 rounded-[1.35rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:mt-6 sm:rounded-[1.75rem] sm:p-6"><p className="text-[8px] font-black uppercase tracking-[0.2em] text-white/45 sm:text-xs sm:tracking-[0.28em]">Help Build the Hub</p><h2 className="mt-1.5 text-lg font-black text-white sm:mt-2 sm:text-2xl">Know something we should add or correct?</h2><p className="mt-2 max-w-3xl text-xs leading-5 text-white/55 sm:mt-3 sm:text-sm sm:leading-6">VarsityVue grows through verified schedules, results, rosters, stats, historical information, and local knowledge. Send us a correction, source, or program update and we&apos;ll review it.</p><Link href="/submit" className="mt-4 inline-flex rounded-lg border border-white/15 bg-white/10 px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.12em] text-white/75 transition hover:bg-white/15 hover:text-white sm:mt-5 sm:rounded-xl sm:px-5 sm:py-3 sm:text-xs sm:tracking-[0.16em]">Submit an Update →</Link></section>
       </div>
     </main>
   );
+}
+
+function BroadcastTypeIcon({ type }: { type: "radio" | "stream" | "article" }) {
+  if (type === "radio") return <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-white/65 sm:h-10 sm:w-10"><svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M8.5 16.5h7"/><path d="M10 16.5 8.5 21"/><path d="M14 16.5l1.5 4.5"/><circle cx="12" cy="10" r="2"/><path d="M7.8 5.8a6 6 0 0 0 0 8.4M16.2 5.8a6 6 0 0 1 0 8.4M4.9 2.9a10 10 0 0 0 0 14.2M19.1 2.9a10 10 0 0 1 0 14.2"/></svg></span>;
+  return <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-white/65 sm:h-10 sm:w-10"><svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="13" rx="2"/><path d="m10 9 5 2.5-5 2.5Z"/><path d="M9 21h6"/></svg></span>;
+}
+
+function ChevronRightIcon() {
+  return <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 text-white/35 transition group-hover:translate-x-0.5 group-hover:text-white/75" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>;
 }
 
 function SnapshotTile({ label, value }: { label: string; value: string }) {
