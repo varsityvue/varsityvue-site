@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+import { playerProfiles } from "@/data/player-profiles";
 import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
 
@@ -20,9 +21,10 @@ function rosterFields(formData: FormData) {
   const jerseyRaw = text(formData, "jersey_number");
   const position = text(formData, "position");
   const grade = text(formData, "grade");
+  const playerProfileId = text(formData, "player_profile_id") || null;
   const jerseyNumber = jerseyRaw === "" ? null : Number(jerseyRaw);
 
-  return { firstName, lastName, jerseyNumber, position, grade };
+  return { firstName, lastName, jerseyNumber, position, grade, playerProfileId };
 }
 
 function validateRosterFields(schoolSlug: string, fields: ReturnType<typeof rosterFields>) {
@@ -31,6 +33,10 @@ function validateRosterFields(schoolSlug: string, fields: ReturnType<typeof rost
     rosterRedirect(schoolSlug, "Jersey number must be 0-99.");
   }
   if (fields.grade && !["Fr", "So", "Jr", "Sr"].includes(fields.grade)) rosterRedirect(schoolSlug, "Choose a valid grade.");
+  if (fields.playerProfileId) {
+    const profile = playerProfiles.find((player) => player.playerId === fields.playerProfileId && player.season === 2026);
+    if (!profile) rosterRedirect(schoolSlug, "Choose a valid verified player profile.");
+  }
 }
 
 async function requireRosterAccess(schoolSlug: string) {
@@ -67,6 +73,19 @@ export async function addRosterPlayer(formData: FormData) {
 
   const { supabase, userId } = await requireRosterAccess(schoolSlug);
 
+  if (fields.playerProfileId) {
+    const { data: linkedProfile } = await supabase
+      .from("school_roster_players")
+      .select("id")
+      .eq("school_slug", schoolSlug)
+      .eq("season", 2026)
+      .eq("active", true)
+      .eq("player_profile_id", fields.playerProfileId)
+      .limit(1)
+      .maybeSingle();
+    if (linkedProfile) rosterRedirect(schoolSlug, "That verified player is already linked to this roster.");
+  }
+
   const { data: duplicate } = await supabase
     .from("school_roster_players")
     .select("id")
@@ -88,6 +107,7 @@ export async function addRosterPlayer(formData: FormData) {
     jersey_number: fields.jerseyNumber,
     position: fields.position || null,
     grade: fields.grade || null,
+    player_profile_id: fields.playerProfileId,
     created_by: userId,
   });
 
