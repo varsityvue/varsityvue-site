@@ -34,12 +34,14 @@ export default async function SiteHeader() {
             className="h-10 w-10 shrink-0 object-contain drop-shadow-[0_0_18px_rgba(139,16,32,0.42)] sm:h-16 sm:w-16 sm:drop-shadow-[0_0_22px_rgba(139,16,32,0.45)] lg:h-12 lg:w-12"
           />
 
-          <div className="min-w-0 leading-none">
+          <div className="min-w-0 text-center leading-none">
             <div className="truncate text-[21px] font-black tracking-tight text-white sm:text-[31px] lg:text-[24px]">
               VARSITY<span className="text-[var(--vv-accent)]">VUE</span>
             </div>
-            <div className="mt-1 hidden text-[10px] font-black uppercase tracking-[0.34em] text-white/45 sm:block lg:text-[8px] lg:tracking-[0.25em]">
-              Texas HS Football
+            <div className="mt-1 hidden items-center justify-center gap-1.5 text-[10px] font-black uppercase tracking-[0.22em] text-white/45 sm:flex lg:text-[8px] lg:tracking-[0.18em]">
+              <span className="h-px w-3 bg-white/25" aria-hidden="true" />
+              <span>Texas HS Football</span>
+              <span className="h-px w-3 bg-white/25" aria-hidden="true" />
             </div>
           </div>
         </Link>
