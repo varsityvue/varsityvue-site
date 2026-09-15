@@ -3,18 +3,14 @@ import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 
 const navItems = [
+  { href: "/scoreboard", label: "Scores" },
   { href: "/schools", label: "Schools" },
   { href: "/districts", label: "Districts" },
   { href: "/coverage", label: "Coverage" },
   { href: "/legacy", label: "Legacy" },
 ];
 
-const mobileNavItems = [
-  { href: "/scoreboard", label: "Scores" },
-  { href: "/schools", label: "Schools" },
-  { href: "/districts", label: "Districts" },
-  { href: "/coverage", label: "Coverage" },
-];
+const mobileNavItems = navItems.filter((item) => item.href !== "/legacy");
 
 export default async function SiteHeader() {
   const supabase = await createClient();
@@ -55,13 +51,6 @@ export default async function SiteHeader() {
         </nav>
 
         <div className="flex shrink-0 items-center gap-1.5 sm:gap-3 lg:gap-2">
-          <Link
-            href="/scoreboard"
-            className="hidden rounded-full border border-[color:var(--vv-accent)] bg-[var(--vv-primary)] px-5 py-3 text-xs font-black uppercase tracking-[0.16em] text-[var(--vv-accent-soft)] transition hover:bg-[var(--vv-primary-hover)] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 md:inline-flex lg:px-4 lg:py-2.5 lg:text-[10px] xl:px-5 xl:text-xs"
-          >
-            Scoreboard
-          </Link>
-
           {signedIn ? (
             <Link
               href="/account"
