@@ -42,6 +42,11 @@ function verifiedProfileForFields(schoolSlug: string, fields: ReturnType<typeof 
   });
 }
 
+function verifiedName(name: string) {
+  const parts = name.trim().split(/\s+/);
+  return { firstName: parts[0] ?? "", lastName: parts.slice(1).join(" ") };
+}
+
 function validateRosterFields(schoolSlug: string, fields: ReturnType<typeof rosterFields>) {
   if (!fields.firstName || !fields.lastName) rosterRedirect(schoolSlug, "First and last name are required.");
   if (fields.jerseyNumber !== null && (!Number.isInteger(fields.jerseyNumber) || fields.jerseyNumber < 0 || fields.jerseyNumber > 99)) {
@@ -89,9 +94,16 @@ export async function addRosterPlayer(formData: FormData) {
   if (!schoolSlug || !getSchoolBySlug(schoolSlug)) redirect("/manage-roster?message=Choose%20a%20valid%20school.");
 
   const fields = rosterFields(formData);
+  const verifiedProfile = fields.playerProfileId ? verifiedProfileForFields(schoolSlug, fields) : undefined;
+  if (fields.playerProfileId && !verifiedProfile) rosterRedirect(schoolSlug, "Choose a valid verified player profile for this school.");
+  if (verifiedProfile) {
+    const name = verifiedName(verifiedProfile.name);
+    fields.firstName = name.firstName;
+    fields.lastName = name.lastName;
+  }
   validateRosterFields(schoolSlug, fields);
-  const verifiedProfile = verifiedProfileForFields(schoolSlug, fields);
-  const playerProfileId = verifiedProfile?.playerId ?? null;
+  const matchedProfile = verifiedProfile ?? verifiedProfileForFields(schoolSlug, fields);
+  const playerProfileId = matchedProfile?.playerId ?? null;
 
   const { supabase, userId } = await requireRosterAccess(schoolSlug);
 
