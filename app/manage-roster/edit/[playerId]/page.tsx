@@ -87,9 +87,10 @@ export default async function EditRosterPlayerPage({ params }: EditRosterPlayerP
             <input type="hidden" name="school_slug" value={school.slug} />
             <input type="hidden" name="player_id" value={player.id} />
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <Field label="First name" name="first_name" required defaultValue={player.first_name} readOnly={Boolean(player.player_profile_id)} />
-              <Field label="Last name" name="last_name" required defaultValue={player.last_name} readOnly={Boolean(player.player_profile_id)} />
+              <Field label="First name" name="first_name" required defaultValue={player.first_name} disabled={Boolean(player.player_profile_id)} />
+              <Field label="Last name" name="last_name" required defaultValue={player.last_name} disabled={Boolean(player.player_profile_id)} />
             </div>
+            {player.player_profile_id && <><input type="hidden" name="first_name" value={player.first_name} /><input type="hidden" name="last_name" value={player.last_name} /></>}
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <Field label="Jersey #" name="jersey_number" type="number" min="0" max="99" defaultValue={player.jersey_number ?? undefined} />
               <Field label="Position" name="position" placeholder="QB, WR, LB..." defaultValue={player.position ?? undefined} />
@@ -132,7 +133,7 @@ function Field({
   max,
   placeholder,
   defaultValue,
-  readOnly = false,
+  disabled = false,
 }: {
   label: string;
   name: string;
@@ -142,7 +143,7 @@ function Field({
   max?: string;
   placeholder?: string;
   defaultValue?: string | number;
-  readOnly?: boolean;
+  disabled?: boolean;
 }) {
   return (
     <label className="block">
@@ -155,8 +156,8 @@ function Field({
         max={max}
         placeholder={placeholder}
         defaultValue={defaultValue}
-        readOnly={readOnly}
-        className={`mt-1.5 w-full rounded-xl border border-white/10 px-3 py-2.5 text-sm text-white outline-none placeholder:text-white/20 ${readOnly ? "cursor-not-allowed bg-white/[0.04] text-white/45" : "bg-black/40 focus:border-white/25"}`}
+        disabled={disabled}
+        className={`mt-1.5 w-full rounded-xl border border-white/10 px-3 py-2.5 text-sm text-white outline-none placeholder:text-white/20 ${disabled ? "cursor-not-allowed bg-white/[0.04] text-white/45" : "bg-black/40 focus:border-white/25"}`}
       />
     </label>
   );
