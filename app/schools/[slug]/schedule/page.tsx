@@ -3,16 +3,17 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { getGamesForSchool } from "@/lib/games";
+import { getDynamicGamesForSchool } from "@/lib/dynamic-games";
 import { getSchoolBySlug } from "@/lib/schools";
 import { getDistrictById } from "@/lib/districts";
 import { getSchoolRecord } from "@/lib/records";
 import { createClient } from "@/lib/supabase/server";
 import { getGameStatAvailability, getStatAvailabilityLabel } from "@/data/stat-availability";
+import type { Game } from "@/types/platform";
 import type { SchoolTheme } from "../../../../types/school-theme";
 import SchoolSubnav from "../../../../components/SchoolSubnav";
 
-type ScheduleGame = ReturnType<typeof getGamesForSchool>[number];
+type ScheduleGame = Game;
 const CENTRAL_TIME_ZONE = "America/Chicago";
 
 function parseGameDate(kickoff?: string) { if (!kickoff) return null; if (!kickoff.includes("T")) { const [year, month, day] = kickoff.split("-").map(Number); const parsed = new Date(Date.UTC(year, month - 1, day, 12)); return Number.isNaN(parsed.getTime()) ? null : parsed; } const parsed = new Date(kickoff); return Number.isNaN(parsed.getTime()) ? null : parsed; }
@@ -32,7 +33,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function SchoolSchedulePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params; const school = getSchoolBySlug(slug); if (!school) notFound();
   const district = getDistrictById(school.districtId); const districtSlug = district?.slug;
-  const allGames = getGamesForSchool(slug).sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b)); const todayKey = getCentralDateKey(new Date());
+  const allGames = (await getDynamicGamesForSchool(slug)).sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b)); const todayKey = getCentralDateKey(new Date());
   const games = allGames.filter((game) => { if (game.gameType !== "scrimmage") return true; const gameDateKey = getGameDateKey(game.kickoff); return !todayKey || !gameDateKey || gameDateKey >= todayKey; });
   const schoolRecord = getSchoolRecord(slug).record;
   const finalGames = games.filter((game) => game.status === "final" && game.gameType !== "bye" && game.gameType !== "scrimmage");
