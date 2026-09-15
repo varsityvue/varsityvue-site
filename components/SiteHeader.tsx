@@ -19,11 +19,11 @@ export default async function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-[var(--vv-bg)]/95 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-3.5 sm:h-24 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-3.5 sm:h-24 sm:px-6 lg:h-20 lg:px-8">
         <Link
           href="/"
           aria-label="VarsityVue home"
-          className="group flex min-w-0 items-center gap-2 transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:gap-4"
+          className="group flex min-w-0 shrink-0 items-center gap-2 transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:gap-4 lg:gap-3"
         >
           <Image
             src="/logos/varsityvue-logo.png"
@@ -31,44 +31,37 @@ export default async function SiteHeader() {
             width={82}
             height={82}
             priority
-            className="h-10 w-10 shrink-0 object-contain drop-shadow-[0_0_18px_rgba(139,16,32,0.42)] sm:h-16 sm:w-16 sm:drop-shadow-[0_0_22px_rgba(139,16,32,0.45)]"
+            className="h-10 w-10 shrink-0 object-contain drop-shadow-[0_0_18px_rgba(139,16,32,0.42)] sm:h-16 sm:w-16 sm:drop-shadow-[0_0_22px_rgba(139,16,32,0.45)] lg:h-12 lg:w-12"
           />
 
           <div className="min-w-0 leading-none">
-            <div className="truncate text-[21px] font-black tracking-tight text-white sm:text-[31px]">
+            <div className="truncate text-[21px] font-black tracking-tight text-white sm:text-[31px] lg:text-[24px]">
               VARSITY<span className="text-[var(--vv-accent)]">VUE</span>
             </div>
-            <div className="mt-1 hidden text-[10px] font-black uppercase tracking-[0.34em] text-white/45 sm:block">
+            <div className="mt-1 hidden text-[10px] font-black uppercase tracking-[0.34em] text-white/45 sm:block lg:text-[8px] lg:tracking-[0.25em]">
               Texas HS Football
             </div>
           </div>
         </Link>
 
-        <nav aria-label="Primary navigation" className="hidden items-center gap-1 lg:flex">
+        <nav aria-label="Primary navigation" className="hidden items-center gap-0 xl:flex">
           {navItems.map((item) => (
             <NavLink key={item.href} href={item.href} label={item.label} />
           ))}
         </nav>
 
-        <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-3 lg:gap-2">
           <Link
             href="/scoreboard"
-            className="hidden rounded-full border border-[color:var(--vv-accent)] bg-[var(--vv-primary)] px-5 py-3 text-xs font-black uppercase tracking-[0.16em] text-[var(--vv-accent-soft)] transition hover:bg-[var(--vv-primary-hover)] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 md:inline-flex"
+            className="hidden rounded-full border border-[color:var(--vv-accent)] bg-[var(--vv-primary)] px-5 py-3 text-xs font-black uppercase tracking-[0.16em] text-[var(--vv-accent-soft)] transition hover:bg-[var(--vv-primary-hover)] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 md:inline-flex lg:px-4 lg:py-2.5 lg:text-[10px] xl:px-5 xl:text-xs"
           >
             Scoreboard
-          </Link>
-
-          <Link
-            href="/schools"
-            className="hidden rounded-full border border-white/15 bg-white/[0.06] px-3 py-2 text-[8px] font-black uppercase tracking-[0.1em] text-white/75 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:inline-flex sm:px-5 sm:py-3 sm:text-xs sm:tracking-[0.16em]"
-          >
-            All Schools
           </Link>
 
           {signedIn ? (
             <Link
               href="/account"
-              className="rounded-full border border-white/15 bg-white/[0.06] px-3 py-2 text-[8px] font-black uppercase tracking-[0.08em] text-white/80 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:px-5 sm:py-3 sm:text-xs sm:tracking-[0.14em]"
+              className="rounded-full border border-white/15 bg-white/[0.06] px-3 py-2 text-[8px] font-black uppercase tracking-[0.08em] text-white/80 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:px-5 sm:py-3 sm:text-xs sm:tracking-[0.14em] lg:px-4 lg:py-2.5 lg:text-[10px] xl:px-5 xl:text-xs"
             >
               Account
             </Link>
@@ -76,13 +69,13 @@ export default async function SiteHeader() {
             <div className="flex items-center gap-1 sm:gap-2">
               <Link
                 href="/login"
-                className="rounded-full px-2 py-2 text-[8px] font-black uppercase tracking-[0.06em] text-white/65 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:border sm:border-white/15 sm:px-4 sm:py-3 sm:text-xs sm:tracking-[0.12em]"
+                className="rounded-full px-2 py-2 text-[8px] font-black uppercase tracking-[0.06em] text-white/65 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:border sm:border-white/15 sm:px-4 sm:py-3 sm:text-xs sm:tracking-[0.12em] lg:px-3 lg:py-2.5 lg:text-[10px] xl:px-4 xl:text-xs"
               >
                 Log In
               </Link>
               <Link
                 href="/login?mode=signup"
-                className="rounded-full border border-[color:var(--vv-accent)] bg-[var(--vv-primary)] px-2.5 py-2 text-[8px] font-black uppercase tracking-[0.06em] text-white transition hover:bg-[var(--vv-primary-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:px-4 sm:py-3 sm:text-xs sm:tracking-[0.12em]"
+                className="rounded-full border border-[color:var(--vv-accent)] bg-[var(--vv-primary)] px-2.5 py-2 text-[8px] font-black uppercase tracking-[0.06em] text-white transition hover:bg-[var(--vv-primary-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:px-4 sm:py-3 sm:text-xs sm:tracking-[0.12em] lg:px-3 lg:py-2.5 lg:text-[10px] xl:px-4 xl:text-xs"
               >
                 Register
               </Link>
@@ -91,7 +84,7 @@ export default async function SiteHeader() {
         </div>
       </div>
 
-      <nav aria-label="Mobile navigation" className="border-t border-white/10 lg:hidden">
+      <nav aria-label="Mobile navigation" className="border-t border-white/10 xl:hidden">
         <div className="mx-auto grid max-w-[1440px] grid-cols-4 px-1.5 py-1 sm:px-5 sm:py-1.5">
           {mobileNavItems.map((item) => (
             <Link
@@ -114,7 +107,7 @@ function NavLink({ href, label }: { href: string; label: string }) {
   return (
     <Link
       href={href}
-      className="rounded-full px-4 py-2 text-[12px] font-black uppercase tracking-[0.16em] text-white/60 transition hover:bg-white/[0.07] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+      className="rounded-full px-3 py-2 text-[11px] font-black uppercase tracking-[0.13em] text-white/60 transition hover:bg-white/[0.07] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 2xl:px-4 2xl:text-[12px] 2xl:tracking-[0.16em]"
     >
       {label}
     </Link>
