@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import type { UILClassification } from "@/types/platform";
+import type { Game, UILClassification } from "@/types/platform";
 
 import DistrictCoverage from "@/components/DistrictCoverage";
 import SchoolBadge from "@/components/SchoolBadge";
 import StandingsTable from "@/components/StandingsTable";
 import { getDistrictBySlug } from "@/lib/districts";
-import { getGamesForSchool } from "@/lib/games";
+import { getDynamicGames } from "@/lib/dynamic-games";
 import { getSchoolBySlug, getSchoolsByDistrictId } from "@/lib/schools";
 import { getStandingsForDistrictId } from "@/lib/standings";
 
@@ -15,7 +15,7 @@ type DistrictPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-type DistrictGame = ReturnType<typeof getGamesForSchool>[number];
+type DistrictGame = Game;
 
 function getGameTimestamp(kickoff?: string) {
   if (!kickoff) return Number.MAX_SAFE_INTEGER;
@@ -152,12 +152,14 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
   const districtSchools = getSchoolsByDistrictId(district.id);
   const districtStandings = getStandingsForDistrictId(district.id);
   const trackedDistrictTeams = districtStandings.length;
+  const districtSchoolSlugs = new Set(districtSchools.map((school) => school.slug));
+  const dynamicGames = await getDynamicGames();
 
-  const allDistrictGames = districtSchools
-    .flatMap((school) => getGamesForSchool(school.slug))
+  const allDistrictGames = dynamicGames
     .filter(
-      (game, index, self) =>
-        self.findIndex((item) => item.id === game.id) === index
+      (game) =>
+        (game.homeSchoolSlug && districtSchoolSlugs.has(game.homeSchoolSlug)) ||
+        (game.awaySchoolSlug && districtSchoolSlugs.has(game.awaySchoolSlug))
     )
     .filter((game) => game.districtGame)
     .sort((a, b) => getGameTimestamp(a.kickoff) - getGameTimestamp(b.kickoff));
