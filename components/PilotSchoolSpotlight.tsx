@@ -58,7 +58,7 @@ export default async function FeaturedSchoolSpotlight() {
                   game.gameType !== "bye" &&
                   game.gameType !== "scrimmage",
               )
-              .sort((a, b) => a.date.localeCompare(b.date))[0];
+              .sort((a, b) => (a.date ?? "").localeCompare(b.date ?? ""))[0];
 
             return (
               <Link
