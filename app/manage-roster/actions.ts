@@ -150,8 +150,19 @@ export async function updateRosterPlayer(formData: FormData) {
   if (!schoolSlug || !getSchoolBySlug(schoolSlug) || !playerId) redirect("/manage-roster?message=Missing%20roster%20player.");
 
   const fields = rosterFields(formData);
-  validateRosterFields(schoolSlug, fields);
   const { supabase } = await requireRosterAccess(schoolSlug);
+  const { data: existingPlayer } = await supabase
+    .from("school_roster_players")
+    .select("player_profile_id")
+    .eq("id", playerId)
+    .eq("school_slug", schoolSlug)
+    .eq("season", 2026)
+    .eq("active", true)
+    .maybeSingle();
+
+  if (!existingPlayer) rosterRedirect(schoolSlug, "That roster player is no longer available.");
+  fields.playerProfileId = existingPlayer.player_profile_id;
+  validateRosterFields(schoolSlug, fields);
 
   const { data: duplicate } = await supabase
     .from("school_roster_players")
