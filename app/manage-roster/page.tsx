@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+import { playerProfiles, type PlayerProfile } from "@/data/player-profiles";
 import { getSchoolBySlug, getSchools } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
 import { addRosterPlayer, removeRosterPlayer } from "./actions";
@@ -10,6 +11,7 @@ type ManageRosterPageProps = {
     school?: string;
     q?: string;
     player?: string;
+    profile?: string;
     message?: string;
     updated?: string;
   }>;
@@ -25,15 +27,82 @@ type RosterPlayer = {
   grade: string | null;
 };
 
+type SearchCandidate = {
+  key: string;
+  source: "profile" | "managed";
+  sourceId: string;
+  schoolSlug: string;
+  firstName: string;
+  lastName: string;
+  jerseyNumber: number | null;
+  position: string | null;
+  grade: string | null;
+  profileId?: string;
+};
+
 function normalized(value: string) {
   return value.trim().toLowerCase();
 }
 
-function playerMatchesQuery(player: RosterPlayer, query: string) {
+function splitName(name: string) {
+  const parts = name.trim().split(/\s+/);
+  return {
+    firstName: parts[0] ?? "",
+    lastName: parts.slice(1).join(" "),
+  };
+}
+
+function shortGrade(grade?: PlayerProfile["grade"] | null) {
+  if (grade === "Freshman") return "Fr";
+  if (grade === "Sophomore") return "So";
+  if (grade === "Junior") return "Jr";
+  if (grade === "Senior") return "Sr";
+  return null;
+}
+
+function profileCandidate(player: PlayerProfile): SearchCandidate {
+  const { firstName, lastName } = splitName(player.name);
+  const jersey = player.jerseyNumber === undefined ? null : Number(player.jerseyNumber);
+  return {
+    key: `profile:${player.playerId}`,
+    source: "profile",
+    sourceId: player.playerId,
+    profileId: player.playerId,
+    schoolSlug: player.schoolSlug,
+    firstName,
+    lastName,
+    jerseyNumber: Number.isFinite(jersey) ? jersey : null,
+    position: player.positions?.join(" / ") ?? null,
+    grade: shortGrade(player.grade),
+  };
+}
+
+function managedCandidate(player: RosterPlayer): SearchCandidate {
+  return {
+    key: `managed:${player.id}`,
+    source: "managed",
+    sourceId: player.id,
+    schoolSlug: player.school_slug,
+    firstName: player.first_name,
+    lastName: player.last_name,
+    jerseyNumber: player.jersey_number,
+    position: player.position,
+    grade: player.grade,
+  };
+}
+
+function candidateMatchesQuery(player: SearchCandidate, query: string) {
   const haystack = normalized(
-    `${player.first_name} ${player.last_name} ${player.jersey_number ?? ""} ${player.position ?? ""}`,
+    `${player.firstName} ${player.lastName} ${player.jerseyNumber ?? ""} ${player.position ?? ""}`,
   );
   return haystack.includes(query);
+}
+
+function samePlayer(a: SearchCandidate, b: SearchCandidate) {
+  const sameName = normalized(`${a.firstName} ${a.lastName}`) === normalized(`${b.firstName} ${b.lastName}`);
+  if (!sameName || a.schoolSlug !== b.schoolSlug) return false;
+  if (a.jerseyNumber === null || b.jerseyNumber === null) return true;
+  return a.jerseyNumber === b.jerseyNumber;
 }
 
 export default async function ManageRosterPage({ searchParams }: ManageRosterPageProps) {
@@ -83,7 +152,7 @@ export default async function ManageRosterPage({ searchParams }: ManageRosterPag
     : { data: [] };
 
   const searchQuery = normalized(params.q ?? "");
-  let searchResults: RosterPlayer[] = [];
+  let searchResults: SearchCandidate[] = [];
 
   if (searchQuery.length >= 2) {
     const { data: searchPool } = await supabase
@@ -93,19 +162,37 @@ export default async function ManageRosterPage({ searchParams }: ManageRosterPag
       .eq("active", true)
       .limit(500);
 
-    searchResults = ((searchPool ?? []) as RosterPlayer[])
-      .filter((player) => playerMatchesQuery(player, searchQuery))
+    const verifiedCandidates = playerProfiles
+      .filter((player) => player.season === 2026)
+      .map(profileCandidate);
+    const managedCandidates = ((searchPool ?? []) as RosterPlayer[]).map(managedCandidate);
+    const combined = [...verifiedCandidates, ...managedCandidates];
+    const deduped: SearchCandidate[] = [];
+
+    for (const candidate of combined) {
+      if (!candidateMatchesQuery(candidate, searchQuery)) continue;
+      if (deduped.some((existing) => samePlayer(existing, candidate))) continue;
+      deduped.push(candidate);
+    }
+
+    searchResults = deduped
       .sort((a, b) => {
-        const aSameSchool = a.school_slug === selectedSlug ? 0 : 1;
-        const bSameSchool = b.school_slug === selectedSlug ? 0 : 1;
+        const aSameSchool = a.schoolSlug === selectedSlug ? 0 : 1;
+        const bSameSchool = b.schoolSlug === selectedSlug ? 0 : 1;
         if (aSameSchool !== bSameSchool) return aSameSchool - bSameSchool;
-        return `${a.last_name} ${a.first_name}`.localeCompare(`${b.last_name} ${b.first_name}`);
+        const aVerified = a.source === "profile" ? 0 : 1;
+        const bVerified = b.source === "profile" ? 0 : 1;
+        if (aVerified !== bVerified) return aVerified - bVerified;
+        return `${a.lastName} ${a.firstName}`.localeCompare(`${b.lastName} ${b.firstName}`);
       })
-      .slice(0, 8);
+      .slice(0, 10);
   }
 
-  let selectedCandidate: RosterPlayer | null = null;
-  if (params.player) {
+  let selectedCandidate: SearchCandidate | null = null;
+  if (params.profile) {
+    const profile = playerProfiles.find((player) => player.playerId === params.profile && player.season === 2026);
+    selectedCandidate = profile ? profileCandidate(profile) : null;
+  } else if (params.player) {
     const { data } = await supabase
       .from("school_roster_players")
       .select("id, school_slug, first_name, last_name, jersey_number, position, grade")
@@ -113,10 +200,14 @@ export default async function ManageRosterPage({ searchParams }: ManageRosterPag
       .eq("season", 2026)
       .eq("active", true)
       .maybeSingle();
-    selectedCandidate = (data as RosterPlayer | null) ?? null;
+    selectedCandidate = data ? managedCandidate(data as RosterPlayer) : null;
   }
 
-  const selectedRosterIds = new Set((roster ?? []).map((player) => player.id));
+  const currentRoster = ((roster ?? []) as RosterPlayer[]).map(managedCandidate);
+  const isCandidateOnSelectedRoster = (candidate: SearchCandidate) => {
+    if (candidate.schoolSlug === selectedSchool?.slug && candidate.source === "profile") return true;
+    return currentRoster.some((entry) => samePlayer(entry, candidate));
+  };
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] px-4 py-8 text-white sm:px-6 sm:py-12 lg:px-8">
@@ -160,7 +251,7 @@ export default async function ManageRosterPage({ searchParams }: ManageRosterPag
                 <div>
                   <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">Player Search</p>
                   <h2 className="mt-1 text-xl font-black">Find an existing player</h2>
-                  <p className="mt-1 text-xs leading-5 text-white/40">Search existing 2026 VarsityVue roster records before creating a new player entry.</p>
+                  <p className="mt-1 text-xs leading-5 text-white/40">Search verified VarsityVue profiles and managed 2026 roster records before creating a new entry.</p>
                 </div>
                 {searchQuery ? (
                   <Link href={`/manage-roster?school=${encodeURIComponent(selectedSchool.slug)}`} className="text-xs font-black text-white/45 transition hover:text-white">Clear search</Link>
@@ -187,19 +278,25 @@ export default async function ManageRosterPage({ searchParams }: ManageRosterPag
               {searchQuery.length >= 2 ? (
                 <div className="mt-4 overflow-hidden rounded-xl border border-white/10 bg-black/25">
                   {searchResults.length ? searchResults.map((player) => {
-                    const playerSchool = getSchoolBySlug(player.school_slug);
-                    const isOnSelectedRoster = player.school_slug === selectedSchool.slug || selectedRosterIds.has(player.id);
-                    const useHref = `/manage-roster?school=${encodeURIComponent(selectedSchool.slug)}&q=${encodeURIComponent(params.q ?? "")}&player=${encodeURIComponent(player.id)}`;
+                    const playerSchool = getSchoolBySlug(player.schoolSlug);
+                    const isOnSelectedRoster = isCandidateOnSelectedRoster(player);
+                    const candidateParam = player.source === "profile"
+                      ? `profile=${encodeURIComponent(player.sourceId)}`
+                      : `player=${encodeURIComponent(player.sourceId)}`;
+                    const useHref = `/manage-roster?school=${encodeURIComponent(selectedSchool.slug)}&q=${encodeURIComponent(params.q ?? "")}&${candidateParam}`;
 
                     return (
-                      <div key={player.id} className="flex items-center gap-3 border-b border-white/10 px-3 py-3 last:border-b-0 sm:px-4">
+                      <div key={player.key} className="flex items-center gap-3 border-b border-white/10 px-3 py-3 last:border-b-0 sm:px-4">
                         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.05] text-xs font-black text-white/70">
-                          {player.jersey_number ?? "—"}
+                          {player.jerseyNumber ?? "—"}
                         </div>
                         <div className="min-w-0 flex-1">
-                          <p className="truncate text-sm font-black">{player.first_name} {player.last_name}</p>
+                          <div className="flex min-w-0 items-center gap-2">
+                            <p className="truncate text-sm font-black">{player.firstName} {player.lastName}</p>
+                            {player.source === "profile" ? <span className="shrink-0 rounded-full border border-sky-300/15 bg-sky-300/10 px-2 py-0.5 text-[8px] font-black uppercase tracking-[0.08em] text-sky-100/70">Profile</span> : null}
+                          </div>
                           <p className="mt-0.5 truncate text-[10px] font-bold uppercase tracking-[0.08em] text-white/35">
-                            {playerSchool?.name ?? player.school_slug}{player.position ? ` · ${player.position}` : ""}{player.grade ? ` · ${player.grade}` : ""}
+                            {playerSchool?.name ?? player.schoolSlug}{player.position ? ` · ${player.position}` : ""}{player.grade ? ` · ${player.grade}` : ""}
                           </p>
                         </div>
                         {isOnSelectedRoster ? (
@@ -209,7 +306,7 @@ export default async function ManageRosterPage({ searchParams }: ManageRosterPag
                         )}
                       </div>
                     );
-                  }) : <p className="p-4 text-sm text-white/45">No matching 2026 roster players found. Add a new player below.</p>}
+                  }) : <p className="p-4 text-sm text-white/45">No matching verified profiles or 2026 roster players found. Add a new player below.</p>}
                 </div>
               ) : null}
             </section>
@@ -221,7 +318,7 @@ export default async function ManageRosterPage({ searchParams }: ManageRosterPag
                     <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">Current Roster</p>
                     <h2 className="mt-1 text-2xl font-black">{selectedSchool.name}</h2>
                   </div>
-                  <span className="text-xs font-black text-white/35">{roster?.length ?? 0} players</span>
+                  <span className="text-xs font-black text-white/35">{roster?.length ?? 0} managed players</span>
                 </div>
 
                 <div className="mt-4 overflow-hidden rounded-xl border border-white/10 bg-black/25">
@@ -242,7 +339,7 @@ export default async function ManageRosterPage({ searchParams }: ManageRosterPag
                         <button className="rounded-full border border-red-300/15 px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.1em] text-red-100/65 transition hover:bg-red-400/10 hover:text-red-100" type="submit">Remove</button>
                       </form>
                     </div>
-                  )) : <p className="p-4 text-sm text-white/45">No active players have been added for 2026 yet.</p>}
+                  )) : <p className="p-4 text-sm text-white/45">No active managed players have been added for 2026 yet.</p>}
                 </div>
               </section>
 
@@ -258,18 +355,18 @@ export default async function ManageRosterPage({ searchParams }: ManageRosterPag
                 </div>
                 <p className="mt-2 text-xs leading-5 text-white/40">
                   {selectedCandidate
-                    ? `Details were copied from ${getSchoolBySlug(selectedCandidate.school_slug)?.name ?? selectedCandidate.school_slug}. Review the jersey number, position, and grade before adding.`
+                    ? `${selectedCandidate.source === "profile" ? "Verified profile" : "Roster details"} from ${getSchoolBySlug(selectedCandidate.schoolSlug)?.name ?? selectedCandidate.schoolSlug}. Review the jersey number, position, and grade before adding.`
                     : "Search first to avoid duplicate player records, or create a new roster entry here."}
                 </p>
 
                 <form action={addRosterPlayer} className="mt-4 space-y-3">
                   <input type="hidden" name="school_slug" value={selectedSchool.slug} />
                   <div className="grid grid-cols-2 gap-3">
-                    <Field label="First name" name="first_name" required defaultValue={selectedCandidate?.first_name} />
-                    <Field label="Last name" name="last_name" required defaultValue={selectedCandidate?.last_name} />
+                    <Field label="First name" name="first_name" required defaultValue={selectedCandidate?.firstName} />
+                    <Field label="Last name" name="last_name" required defaultValue={selectedCandidate?.lastName} />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
-                    <Field label="Jersey #" name="jersey_number" type="number" min="0" max="99" defaultValue={selectedCandidate?.jersey_number ?? undefined} />
+                    <Field label="Jersey #" name="jersey_number" type="number" min="0" max="99" defaultValue={selectedCandidate?.jerseyNumber ?? undefined} />
                     <Field label="Position" name="position" placeholder="QB, WR, LB..." defaultValue={selectedCandidate?.position ?? undefined} />
                   </div>
                   <label className="block">
