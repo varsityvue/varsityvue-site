@@ -1,6 +1,10 @@
 import Link from "next/link";
 import HomeMembershipCta from "@/components/HomeMembershipCta";
-import { getHomepageScoreboardGames } from "@/lib/scoreboard";
+import {
+  getHomepageScoreboardGames,
+  type DynamicScoreState,
+} from "@/lib/scoreboard";
+import { createClient } from "@/lib/supabase/server";
 
 function getScore(game: { awayScore?: number; homeScore?: number; score?: { away?: number; home?: number } }) {
   return {
@@ -17,8 +21,17 @@ function getTickerLabel(mode: "finals" | "upcoming", week?: number) {
   return week !== undefined ? `Week ${week} Games` : "Upcoming Games";
 }
 
-export default function ScoreStrip() {
-  const { mode, games } = getHomepageScoreboardGames(12);
+export default async function ScoreStrip() {
+  const supabase = await createClient();
+  const { data: dynamicRows } = await supabase
+    .from("game_state")
+    .select("game_id, status, home_score, away_score, period, clock, verified")
+    .eq("verified", true);
+
+  const dynamicState = new Map(
+    ((dynamicRows ?? []) as DynamicScoreState[]).map((state) => [state.game_id, state]),
+  );
+  const { mode, games } = getHomepageScoreboardGames(12, dynamicState);
 
   if (games.length === 0) return <HomeMembershipCta />;
 
