@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { getGames } from "@/lib/games";
+import { clearInheritedSchoolBroadcasts } from "@/data/school-broadcasts";
 import type { Game, GameStatus } from "@/types/platform";
 
 type GameStateRow = {
@@ -19,7 +20,7 @@ function applyGameState(game: Game, state?: GameStateRow): Game {
     typeof state.home_score === "number" &&
     typeof state.away_score === "number";
 
-  return {
+  const dynamicGame: Game = {
     ...game,
     status: state.status,
     sourceStatus: state.verified ? "verified" : game.sourceStatus,
@@ -33,6 +34,10 @@ function applyGameState(game: Game, state?: GameStateRow): Game {
         }
       : game.score,
   };
+
+  return state.status === "final"
+    ? clearInheritedSchoolBroadcasts(dynamicGame)
+    : dynamicGame;
 }
 
 export async function getDynamicGames(): Promise<Game[]> {
