@@ -2,12 +2,12 @@ import type { Game, MediaLink } from "@/types/platform";
 
 type BroadcastScope = "all" | "home";
 
-type SchoolBroadcastRule = MediaLink & {
+export type SchoolBroadcastLink = MediaLink & {
   schoolSlug: string;
   scope: BroadcastScope;
 };
 
-const schoolBroadcastRules: SchoolBroadcastRule[] = [
+const schoolBroadcastRules: SchoolBroadcastLink[] = [
   {
     schoolSlug: "de-leon",
     scope: "all",
@@ -24,7 +24,11 @@ const schoolBroadcastRules: SchoolBroadcastRule[] = [
   },
 ];
 
-function ruleAppliesToGame(rule: SchoolBroadcastRule, game: Game) {
+export function getSchoolBroadcastLinks(schoolSlug: string) {
+  return schoolBroadcastRules.filter((rule) => rule.schoolSlug === schoolSlug);
+}
+
+function ruleAppliesToGame(rule: SchoolBroadcastLink, game: Game) {
   const schoolIsHome = game.homeSchoolSlug === rule.schoolSlug;
   const schoolIsAway = game.awaySchoolSlug === rule.schoolSlug;
 
