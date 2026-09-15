@@ -2,8 +2,10 @@ import Link from "next/link";
 import {
   getGameOfTheWeek,
   getUpcomingScoreboardGames,
+  type DynamicScoreState,
 } from "@/lib/scoreboard";
 import { getSchoolBySlug } from "@/lib/schools";
+import { createClient } from "@/lib/supabase/server";
 import SchoolBadge from "./SchoolBadge";
 
 function parseGameDate(kickoff?: string) {
@@ -79,9 +81,17 @@ function BroadcastIcon({ type }: { type: string }) {
   return null;
 }
 
-export default function FeaturedMatchups() {
-  const gameOfTheWeek = getGameOfTheWeek();
-  const upcomingGames = getUpcomingScoreboardGames(8);
+export default async function FeaturedMatchups() {
+  const supabase = await createClient();
+  const { data: dynamicRows } = await supabase
+    .from("game_state")
+    .select("game_id, status, home_score, away_score, period, clock, verified")
+    .eq("verified", true);
+  const dynamicState = new Map(
+    ((dynamicRows ?? []) as DynamicScoreState[]).map((state) => [state.game_id, state]),
+  );
+  const gameOfTheWeek = getGameOfTheWeek(dynamicState);
+  const upcomingGames = getUpcomingScoreboardGames(8, dynamicState);
   const upcomingGameOfTheWeek =
     gameOfTheWeek?.status === "upcoming" ? gameOfTheWeek : undefined;
 
