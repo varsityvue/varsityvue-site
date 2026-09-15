@@ -81,15 +81,15 @@ export default async function EditRosterPlayerPage({ params }: EditRosterPlayerP
             </div>
           </div>
 
-          {player.player_profile_id && <div className="mt-4 rounded-xl border border-sky-300/15 bg-sky-300/[0.08] px-3 py-2.5"><p className="text-[9px] font-black uppercase tracking-[0.12em] text-sky-100/80">Connected player profile</p><p className="mt-1 text-xs leading-5 text-white/50">Roster changes update this team entry without creating a second player identity.</p></div>}
+          {player.player_profile_id && <div className="mt-4 rounded-xl border border-sky-300/15 bg-sky-300/[0.08] px-3 py-2.5"><p className="text-[9px] font-black uppercase tracking-[0.12em] text-sky-100/80">Connected player profile</p><p className="mt-1 text-xs leading-5 text-white/50">The verified player name is locked here. Jersey number, position, and grade can still be updated for this roster.</p></div>}
 
           <form action={updateRosterPlayer} className="mt-5 space-y-3">
             <input type="hidden" name="school_slug" value={school.slug} />
             <input type="hidden" name="player_id" value={player.id} />
             {player.player_profile_id && <input type="hidden" name="player_profile_id" value={player.player_profile_id} />}
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <Field label="First name" name="first_name" required defaultValue={player.first_name} />
-              <Field label="Last name" name="last_name" required defaultValue={player.last_name} />
+              <Field label="First name" name="first_name" required defaultValue={player.first_name} readOnly={Boolean(player.player_profile_id)} />
+              <Field label="Last name" name="last_name" required defaultValue={player.last_name} readOnly={Boolean(player.player_profile_id)} />
             </div>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <Field label="Jersey #" name="jersey_number" type="number" min="0" max="99" defaultValue={player.jersey_number ?? undefined} />
@@ -133,6 +133,7 @@ function Field({
   max,
   placeholder,
   defaultValue,
+  readOnly = false,
 }: {
   label: string;
   name: string;
@@ -142,6 +143,7 @@ function Field({
   max?: string;
   placeholder?: string;
   defaultValue?: string | number;
+  readOnly?: boolean;
 }) {
   return (
     <label className="block">
@@ -154,7 +156,8 @@ function Field({
         max={max}
         placeholder={placeholder}
         defaultValue={defaultValue}
-        className="mt-1.5 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2.5 text-sm text-white outline-none placeholder:text-white/20 focus:border-white/25"
+        readOnly={readOnly}
+        className={`mt-1.5 w-full rounded-xl border border-white/10 px-3 py-2.5 text-sm text-white outline-none placeholder:text-white/20 ${readOnly ? "cursor-not-allowed bg-white/[0.04] text-white/45" : "bg-black/40 focus:border-white/25"}`}
       />
     </label>
   );
