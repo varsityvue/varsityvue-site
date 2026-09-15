@@ -10,6 +10,29 @@ function text(formData: FormData, key: string) {
   return String(formData.get(key) ?? "").trim();
 }
 
+function rosterRedirect(schoolSlug: string, message: string): never {
+  redirect(`/manage-roster?school=${encodeURIComponent(schoolSlug)}&message=${encodeURIComponent(message)}`);
+}
+
+function rosterFields(formData: FormData) {
+  const firstName = text(formData, "first_name");
+  const lastName = text(formData, "last_name");
+  const jerseyRaw = text(formData, "jersey_number");
+  const position = text(formData, "position");
+  const grade = text(formData, "grade");
+  const jerseyNumber = jerseyRaw === "" ? null : Number(jerseyRaw);
+
+  return { firstName, lastName, jerseyNumber, position, grade };
+}
+
+function validateRosterFields(schoolSlug: string, fields: ReturnType<typeof rosterFields>) {
+  if (!fields.firstName || !fields.lastName) rosterRedirect(schoolSlug, "First and last name are required.");
+  if (fields.jerseyNumber !== null && (!Number.isInteger(fields.jerseyNumber) || fields.jerseyNumber < 0 || fields.jerseyNumber > 99)) {
+    rosterRedirect(schoolSlug, "Jersey number must be 0-99.");
+  }
+  if (fields.grade && !["Fr", "So", "Jr", "Sr"].includes(fields.grade)) rosterRedirect(schoolSlug, "Choose a valid grade.");
+}
+
 async function requireRosterAccess(schoolSlug: string) {
   const supabase = await createClient();
   const { data: claimsData } = await supabase.auth.getClaims();
@@ -37,43 +60,95 @@ async function requireRosterAccess(schoolSlug: string) {
 
 export async function addRosterPlayer(formData: FormData) {
   const schoolSlug = text(formData, "school_slug");
-  const firstName = text(formData, "first_name");
-  const lastName = text(formData, "last_name");
-  const jerseyRaw = text(formData, "jersey_number");
-  const position = text(formData, "position");
-  const grade = text(formData, "grade");
-
   if (!schoolSlug || !getSchoolBySlug(schoolSlug)) redirect("/manage-roster?message=Choose%20a%20valid%20school.");
-  if (!firstName || !lastName) redirect(`/manage-roster?school=${encodeURIComponent(schoolSlug)}&message=First%20and%20last%20name%20are%20required.`);
 
-  const jerseyNumber = jerseyRaw === "" ? null : Number(jerseyRaw);
-  if (jerseyNumber !== null && (!Number.isInteger(jerseyNumber) || jerseyNumber < 0 || jerseyNumber > 99)) {
-    redirect(`/manage-roster?school=${encodeURIComponent(schoolSlug)}&message=Jersey%20number%20must%20be%200-99.`);
-  }
-  if (grade && !["Fr", "So", "Jr", "Sr"].includes(grade)) {
-    redirect(`/manage-roster?school=${encodeURIComponent(schoolSlug)}&message=Choose%20a%20valid%20grade.`);
-  }
+  const fields = rosterFields(formData);
+  validateRosterFields(schoolSlug, fields);
 
   const { supabase, userId } = await requireRosterAccess(schoolSlug);
+
+  const { data: duplicate } = await supabase
+    .from("school_roster_players")
+    .select("id")
+    .eq("school_slug", schoolSlug)
+    .eq("season", 2026)
+    .eq("active", true)
+    .ilike("first_name", fields.firstName)
+    .ilike("last_name", fields.lastName)
+    .limit(1)
+    .maybeSingle();
+
+  if (duplicate) rosterRedirect(schoolSlug, `${fields.firstName} ${fields.lastName} is already on this roster.`);
+
   const { error } = await supabase.from("school_roster_players").insert({
     school_slug: schoolSlug,
     season: 2026,
-    first_name: firstName,
-    last_name: lastName,
-    jersey_number: jerseyNumber,
-    position: position || null,
-    grade: grade || null,
+    first_name: fields.firstName,
+    last_name: fields.lastName,
+    jersey_number: fields.jerseyNumber,
+    position: fields.position || null,
+    grade: fields.grade || null,
     created_by: userId,
   });
 
   if (error) {
     const message = error.code === "23505" ? "That jersey number is already assigned on this roster." : error.message;
-    redirect(`/manage-roster?school=${encodeURIComponent(schoolSlug)}&message=${encodeURIComponent(message)}`);
+    rosterRedirect(schoolSlug, message);
   }
 
   revalidatePath("/manage-roster");
   revalidatePath(`/schools/${schoolSlug}`);
+  revalidatePath(`/schools/${schoolSlug}/roster`);
   redirect(`/manage-roster?school=${encodeURIComponent(schoolSlug)}&updated=player-added`);
+}
+
+export async function updateRosterPlayer(formData: FormData) {
+  const schoolSlug = text(formData, "school_slug");
+  const playerId = text(formData, "player_id");
+  if (!schoolSlug || !getSchoolBySlug(schoolSlug) || !playerId) redirect("/manage-roster?message=Missing%20roster%20player.");
+
+  const fields = rosterFields(formData);
+  validateRosterFields(schoolSlug, fields);
+  const { supabase } = await requireRosterAccess(schoolSlug);
+
+  const { data: duplicate } = await supabase
+    .from("school_roster_players")
+    .select("id")
+    .eq("school_slug", schoolSlug)
+    .eq("season", 2026)
+    .eq("active", true)
+    .ilike("first_name", fields.firstName)
+    .ilike("last_name", fields.lastName)
+    .neq("id", playerId)
+    .limit(1)
+    .maybeSingle();
+
+  if (duplicate) rosterRedirect(schoolSlug, `${fields.firstName} ${fields.lastName} is already on this roster.`);
+
+  const { error } = await supabase
+    .from("school_roster_players")
+    .update({
+      first_name: fields.firstName,
+      last_name: fields.lastName,
+      jersey_number: fields.jerseyNumber,
+      position: fields.position || null,
+      grade: fields.grade || null,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", playerId)
+    .eq("school_slug", schoolSlug)
+    .eq("season", 2026)
+    .eq("active", true);
+
+  if (error) {
+    const message = error.code === "23505" ? "That jersey number is already assigned on this roster." : error.message;
+    rosterRedirect(schoolSlug, message);
+  }
+
+  revalidatePath("/manage-roster");
+  revalidatePath(`/schools/${schoolSlug}`);
+  revalidatePath(`/schools/${schoolSlug}/roster`);
+  redirect(`/manage-roster?school=${encodeURIComponent(schoolSlug)}&updated=player-edited`);
 }
 
 export async function removeRosterPlayer(formData: FormData) {
@@ -88,9 +163,10 @@ export async function removeRosterPlayer(formData: FormData) {
     .eq("id", playerId)
     .eq("school_slug", schoolSlug);
 
-  if (error) redirect(`/manage-roster?school=${encodeURIComponent(schoolSlug)}&message=${encodeURIComponent(error.message)}`);
+  if (error) rosterRedirect(schoolSlug, error.message);
 
   revalidatePath("/manage-roster");
   revalidatePath(`/schools/${schoolSlug}`);
+  revalidatePath(`/schools/${schoolSlug}/roster`);
   redirect(`/manage-roster?school=${encodeURIComponent(schoolSlug)}&updated=player-removed`);
 }
