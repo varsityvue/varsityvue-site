@@ -36,6 +36,24 @@ function ruleAppliesToGame(rule: SchoolBroadcastLink, game: Game) {
   return schoolIsHome || schoolIsAway;
 }
 
+export function clearInheritedSchoolBroadcasts(game: Game): Game {
+  if (!game.mediaLinks?.length) return game;
+
+  const inheritedRuleKeys = new Set(
+    schoolBroadcastRules
+      .filter((rule) => ruleAppliesToGame(rule, game))
+      .map((rule) => `${rule.type}:${rule.url}`),
+  );
+
+  const mediaLinks = game.mediaLinks.filter(
+    (link) => !inheritedRuleKeys.has(`${link.type}:${link.url}`),
+  );
+
+  return mediaLinks.length > 0
+    ? { ...game, mediaLinks }
+    : { ...game, mediaLinks: undefined };
+}
+
 export function applySchoolBroadcasts(game: Game): Game {
   const canInheritSchoolBroadcasts =
     game.status === "upcoming" || game.status === "live";
