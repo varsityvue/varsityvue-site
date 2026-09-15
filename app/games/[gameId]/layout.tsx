@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getGameById } from "@/lib/games";
+import { getDynamicGameById } from "@/lib/dynamic-games";
 import { getSchoolBySlug } from "@/lib/schools";
 import { getGameStatAvailability, getStatAvailabilityLabel } from "@/data/stat-availability";
 
@@ -11,7 +11,7 @@ type GameLayoutProps = {
 
 export async function generateMetadata({ params }: Omit<GameLayoutProps, "children">): Promise<Metadata> {
   const { gameId } = await params;
-  const game = getGameById(gameId);
+  const game = await getDynamicGameById(gameId);
 
   if (!game) {
     return {
@@ -92,7 +92,7 @@ export async function generateMetadata({ params }: Omit<GameLayoutProps, "childr
 
 export default async function GameLayout({ children, params }: GameLayoutProps) {
   const { gameId } = await params;
-  const game = getGameById(gameId);
+  const game = await getDynamicGameById(gameId);
   const statAvailability = getGameStatAvailability(gameId);
   const awayScore = game?.awayScore ?? game?.score?.away;
   const homeScore = game?.homeScore ?? game?.score?.home;
