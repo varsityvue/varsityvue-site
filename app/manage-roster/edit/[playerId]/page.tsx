@@ -90,7 +90,6 @@ export default async function EditRosterPlayerPage({ params }: EditRosterPlayerP
               <Field label="First name" name="first_name" required defaultValue={player.first_name} disabled={Boolean(player.player_profile_id)} />
               <Field label="Last name" name="last_name" required defaultValue={player.last_name} disabled={Boolean(player.player_profile_id)} />
             </div>
-            {player.player_profile_id && <><input type="hidden" name="first_name" value={player.first_name} /><input type="hidden" name="last_name" value={player.last_name} /></>}
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <Field label="Jersey #" name="jersey_number" type="number" min="0" max="99" defaultValue={player.jersey_number ?? undefined} />
               <Field label="Position" name="position" placeholder="QB, WR, LB..." defaultValue={player.position ?? undefined} />
