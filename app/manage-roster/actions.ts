@@ -207,7 +207,7 @@ export async function updateRosterPlayer(formData: FormData) {
 export async function removeRosterPlayer(formData: FormData) {
   const schoolSlug = text(formData, "school_slug");
   const playerId = text(formData, "player_id");
-  if (!schoolSlug || !playerId) redirect("/manage-roster?message=Missing%20roster%20player.");
+  if (!schoolSlug || !getSchoolBySlug(schoolSlug) || !playerId) redirect("/manage-roster?message=Missing%20roster%20player.");
 
   const { supabase } = await requireRosterAccess(schoolSlug);
   const { error } = await supabase
