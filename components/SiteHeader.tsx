@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { createClient } from "@/lib/supabase/server";
 
 const navItems = [
   { href: "/scoreboard", label: "Scores" },
@@ -11,7 +12,11 @@ const navItems = [
 
 const mobileNavItems = navItems.filter((item) => item.href !== "/legacy");
 
-export default function SiteHeader() {
+export default async function SiteHeader() {
+  const supabase = await createClient();
+  const { data: claimsData } = await supabase.auth.getClaims();
+  const signedIn = Boolean(claimsData?.claims?.sub);
+
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-[var(--vv-bg)]/95 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-3.5 sm:h-24 sm:px-6 lg:px-8">
@@ -45,7 +50,7 @@ export default function SiteHeader() {
           ))}
         </nav>
 
-        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
           <Link
             href="/scoreboard"
             className="hidden rounded-full border border-[color:var(--vv-accent)] bg-[var(--vv-primary)] px-5 py-3 text-xs font-black uppercase tracking-[0.16em] text-[var(--vv-accent-soft)] transition hover:bg-[var(--vv-primary-hover)] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 md:inline-flex"
@@ -55,9 +60,16 @@ export default function SiteHeader() {
 
           <Link
             href="/schools"
-            className="rounded-full border border-white/15 bg-white/[0.06] px-3 py-2 text-[8px] font-black uppercase tracking-[0.1em] text-white/75 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:px-5 sm:py-3 sm:text-xs sm:tracking-[0.16em]"
+            className="hidden rounded-full border border-white/15 bg-white/[0.06] px-3 py-2 text-[8px] font-black uppercase tracking-[0.1em] text-white/75 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:inline-flex sm:px-5 sm:py-3 sm:text-xs sm:tracking-[0.16em]"
           >
             All Schools
+          </Link>
+
+          <Link
+            href={signedIn ? "/account" : "/login?mode=signup"}
+            className="rounded-full border border-[color:var(--vv-accent)] bg-[var(--vv-primary)] px-3 py-2 text-[8px] font-black uppercase tracking-[0.08em] text-white transition hover:bg-[var(--vv-primary-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:px-5 sm:py-3 sm:text-xs sm:tracking-[0.14em]"
+          >
+            {signedIn ? "My Account" : "Join VarsityVue"}
           </Link>
         </div>
       </div>
