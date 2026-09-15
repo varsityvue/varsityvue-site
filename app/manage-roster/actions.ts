@@ -83,8 +83,8 @@ async function requireRosterAccess(schoolSlug: string) {
       .maybeSingle(),
   ]);
 
-  const isAdmin = roles?.some((row) => row.role === "admin") ?? false;
-  if (!isAdmin && !assignment) redirect("/account");
+  const canManageAllRosters = roles?.some((row) => row.role === "admin" || row.role === "moderator") ?? false;
+  if (!canManageAllRosters && !assignment) redirect("/account");
 
   return { supabase, userId };
 }
