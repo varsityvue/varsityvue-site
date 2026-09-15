@@ -190,3 +190,12 @@ export function getStandingForSchool(slug: string): Standing | undefined {
   }
   return buildStandaloneStanding(slug, staticGames);
 }
+
+export function getStandingForSchoolFromGames(slug: string, games: Game[]): Standing | undefined {
+  const school = getSchoolBySlug(slug);
+  if (school) {
+    const districtStanding = buildStandingsForDistrict(school.districtId, games).find((standing) => standing.schoolSlug === slug);
+    if (districtStanding) return districtStanding;
+  }
+  return buildStandaloneStanding(slug, games);
+}
