@@ -53,7 +53,7 @@ export default async function ManageRosterPage({ searchParams }: Props) {
   else if (params.player) { const { data } = await supabase.from("school_roster_players").select("id, school_slug, first_name, last_name, jersey_number, position, grade").eq("id", params.player).eq("season", 2026).eq("active", true).maybeSingle(); selected = data ? fromManaged(data as RosterPlayer) : null; }
 
   const current = roster.map(fromManaged);
-  const onRoster = (candidate: Candidate) => candidate.source === "profile" && candidate.schoolSlug === school?.slug || current.some((entry) => samePlayer(entry, candidate));
+  const onRoster = (candidate: Candidate) => current.some((entry) => samePlayer(entry, candidate));
 
   return <main className="min-h-screen bg-[var(--vv-bg)] px-4 py-8 text-white sm:px-6 sm:py-12 lg:px-8"><div className="mx-auto max-w-5xl">
     <div className="flex items-center justify-between gap-4"><Link href="/account" className="text-xs font-black uppercase tracking-[0.12em] text-white/45 hover:text-white">← Account</Link><span className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/45">2026 Roster</span></div>
