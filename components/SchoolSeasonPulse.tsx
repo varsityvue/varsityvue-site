@@ -1,8 +1,9 @@
 import Link from "next/link";
 
-import { getGamesForSchool, getUpcomingGamesForSchool } from "@/lib/games";
+import { getDynamicGamesForSchool } from "@/lib/dynamic-games";
 import { getSchoolBySlug } from "@/lib/schools";
 import { getStandingForSchool } from "@/lib/standings";
+import type { Game } from "@/types/platform";
 import type { SchoolTheme } from "@/types/school-theme";
 import SchoolBadge from "./SchoolBadge";
 
@@ -41,7 +42,12 @@ function formatTime(kickoff?: string) {
   }).format(date);
 }
 
-function getTeamScore(game: ReturnType<typeof getGamesForSchool>[number], schoolSlug: string) {
+function getGameTimestamp(game: Game) {
+  const date = parseGameDate(game.kickoff);
+  return date ? date.getTime() : Number.MAX_SAFE_INTEGER;
+}
+
+function getTeamScore(game: Game, schoolSlug: string) {
   const isHome = game.homeSchoolSlug === schoolSlug;
   return {
     team: isHome ? game.homeScore : game.awayScore,
@@ -49,7 +55,7 @@ function getTeamScore(game: ReturnType<typeof getGamesForSchool>[number], school
   };
 }
 
-function getOpponent(game: ReturnType<typeof getGamesForSchool>[number], schoolSlug: string) {
+function getOpponent(game: Game, schoolSlug: string) {
   const isHome = game.homeSchoolSlug === schoolSlug;
   return {
     slug: isHome ? game.awaySchoolSlug : game.homeSchoolSlug,
@@ -58,14 +64,14 @@ function getOpponent(game: ReturnType<typeof getGamesForSchool>[number], schoolS
   };
 }
 
-export default function SchoolSeasonPulse({
+export default async function SchoolSeasonPulse({
   schoolSlug,
   theme,
 }: {
   schoolSlug: string;
   theme: SchoolTheme;
 }) {
-  const games = getGamesForSchool(schoolSlug);
+  const games = await getDynamicGamesForSchool(schoolSlug);
   const finals = games.filter(
     (game) =>
       game.status === "final" &&
@@ -75,7 +81,10 @@ export default function SchoolSeasonPulse({
       game.awayScore !== undefined
   );
   const liveGame = games.find((game) => game.status === "live");
-  const featuredGame = liveGame ?? getUpcomingGamesForSchool(schoolSlug)[0];
+  const nextUpcomingGame = games
+    .filter((game) => game.status === "upcoming" && game.gameType !== "bye")
+    .sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b))[0];
+  const featuredGame = liveGame ?? nextUpcomingGame;
   const verifiedStanding = getStandingForSchool(schoolSlug);
 
   let calculatedWins = 0;
@@ -109,140 +118,18 @@ export default function SchoolSeasonPulse({
 
   return (
     <section className="grid gap-3 sm:gap-4 lg:grid-cols-[0.95fr_1.35fr]">
-      <div
-        className="overflow-hidden rounded-[1.5rem] border p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6"
-        style={{
-          borderColor: `${theme.primary}55`,
-          background: `linear-gradient(145deg, ${theme.primary}24, rgba(255,255,255,0.035) 42%, rgba(0,0,0,0.98) 78%)`,
-          boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.4)`,
-        }}
-      >
-        <div className="flex items-end justify-between gap-4">
-          <div>
-            <p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/45 sm:text-[10px] sm:tracking-[0.24em]">Season Overview</p>
-            <p className="mt-1.5 text-4xl font-black tracking-tight text-white sm:mt-3 sm:text-5xl">{wins}-{losses}</p>
-          </div>
-          {recentResults.length > 0 && (
-            <div className="text-right">
-              <p className="text-[8px] font-black uppercase tracking-[0.14em] text-white/30 sm:text-[10px] sm:tracking-[0.18em]">Last 5</p>
-              <div className="mt-1.5 flex justify-end gap-1.5 sm:mt-3 sm:gap-2">
-                {recentResults.slice(-5).map((result, index) => (
-                  <span
-                    key={`${result}-${index}`}
-                    className={`flex h-7 w-7 items-center justify-center rounded-full border text-[10px] font-black sm:h-8 sm:w-8 sm:text-xs ${
-                      result === "W"
-                        ? "border-green-400/30 bg-green-500/15 text-green-300"
-                        : result === "L"
-                          ? "border-red-400/30 bg-red-500/15 text-red-300"
-                          : "border-yellow-400/30 bg-yellow-500/15 text-yellow-200"
-                    }`}
-                  >
-                    {result}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-
-        <div className="mt-3 grid grid-cols-3 gap-2 sm:mt-5">
-          <PulseStat label="PF" value={hasScoringData ? pointsFor.toString() : "—"} />
-          <PulseStat label="PA" value={hasScoringData ? pointsAgainst.toString() : "—"} />
-          <PulseStat
-            label="Diff"
-            value={
-              hasScoringData
-                ? `${pointsFor - pointsAgainst > 0 ? "+" : ""}${pointsFor - pointsAgainst}`
-                : "—"
-            }
-          />
-        </div>
+      <div className="overflow-hidden rounded-[1.5rem] border p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6" style={{ borderColor: `${theme.primary}55`, background: `linear-gradient(145deg, ${theme.primary}24, rgba(255,255,255,0.035) 42%, rgba(0,0,0,0.98) 78%)`, boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.4)` }}>
+        <div className="flex items-end justify-between gap-4"><div><p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/45 sm:text-[10px] sm:tracking-[0.24em]">Season Overview</p><p className="mt-1.5 text-4xl font-black tracking-tight text-white sm:mt-3 sm:text-5xl">{wins}-{losses}</p></div>{recentResults.length > 0 && <div className="text-right"><p className="text-[8px] font-black uppercase tracking-[0.14em] text-white/30 sm:text-[10px] sm:tracking-[0.18em]">Last 5</p><div className="mt-1.5 flex justify-end gap-1.5 sm:mt-3 sm:gap-2">{recentResults.slice(-5).map((result, index) => <span key={`${result}-${index}`} className={`flex h-7 w-7 items-center justify-center rounded-full border text-[10px] font-black sm:h-8 sm:w-8 sm:text-xs ${result === "W" ? "border-green-400/30 bg-green-500/15 text-green-300" : result === "L" ? "border-red-400/30 bg-red-500/15 text-red-300" : "border-yellow-400/30 bg-yellow-500/15 text-yellow-200"}`}>{result}</span>)}</div></div>}</div>
+        <div className="mt-3 grid grid-cols-3 gap-2 sm:mt-5"><PulseStat label="PF" value={hasScoringData ? pointsFor.toString() : "—"} /><PulseStat label="PA" value={hasScoringData ? pointsAgainst.toString() : "—"} /><PulseStat label="Diff" value={hasScoringData ? `${pointsFor - pointsAgainst > 0 ? "+" : ""}${pointsFor - pointsAgainst}` : "—"} /></div>
       </div>
 
-      <div
-        className="relative overflow-hidden rounded-[1.5rem] border p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6"
-        style={{
-          borderColor: featuredGame?.status === "live" ? `${theme.primary}88` : `${theme.secondary}33`,
-          background: featuredGame?.status === "live"
-            ? `linear-gradient(135deg, ${theme.primary}2e, rgba(255,255,255,0.055), rgba(0,0,0,0.96) 66%)`
-            : "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.96) 62%)",
-          boxShadow: `0 18px 50px ${theme.primary}18`,
-        }}
-      >
-        <div
-          className="pointer-events-none absolute inset-0 opacity-20"
-          style={{ background: `radial-gradient(circle at top right, ${theme.primary}, transparent 55%)` }}
-        />
-        <div className="relative">
-          <div className="flex items-center justify-between gap-3">
-            <p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/45 sm:text-[10px] sm:tracking-[0.24em]">
-              {featuredGame?.status === "live" ? "Live Now" : "Next Game"}
-            </p>
-            <div className="flex items-center gap-2">
-              {featuredGame?.status === "live" && (
-                <span className="rounded-full border border-red-400/30 bg-red-500/15 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-red-200 sm:px-3 sm:py-1.5 sm:text-[10px] sm:tracking-[0.14em]">Live</span>
-              )}
-              {featuredGame?.districtGame && (
-                <span className="rounded-full border border-white/10 bg-white/10 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/60 sm:px-3 sm:py-1.5 sm:text-[10px] sm:tracking-[0.14em]">District</span>
-              )}
-            </div>
-          </div>
-
-          {featuredGame && featuredOpponent ? (
-            <>
-              <div className="mt-3 flex items-center gap-3 sm:mt-5 sm:gap-4">
-                {featuredOpponentSchool ? <SchoolBadge school={featuredOpponentSchool} size="xs" /> : null}
-                <div className="min-w-0 flex-1">
-                  <h2 className="break-words text-xl font-black leading-tight text-white sm:text-2xl">{featuredOpponent.name}</h2>
-                  <p className="mt-1 text-[9px] font-black uppercase tracking-[0.14em] text-white/35 sm:text-[10px] sm:tracking-[0.16em]">{featuredOpponent.location} · Week {featuredGame.week ?? "TBD"}</p>
-                </div>
-              </div>
-
-              {hasLiveScore && featuredScore ? (
-                <div className="mt-3 rounded-2xl border border-white/10 bg-black/35 p-4 sm:mt-5">
-                  <p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/35">Current Score</p>
-                  <div className="mt-2 flex items-end justify-between gap-4">
-                    <p className="text-3xl font-black tracking-tight text-white sm:text-4xl">
-                      {featuredScore.team} <span className="mx-1 text-white/25">—</span> {featuredScore.opponent}
-                    </p>
-                    <p className="pb-1 text-xs font-black uppercase tracking-[0.14em] text-red-200">
-                      {featuredGame.score?.period ?? "Live"}
-                    </p>
-                  </div>
-                </div>
-              ) : (
-                <div className="mt-3 grid grid-cols-2 gap-2 sm:mt-5">
-                  <InfoStat label="Date" value={formatDate(featuredGame.kickoff)} />
-                  <InfoStat label="Kickoff" value={formatTime(featuredGame.kickoff)} />
-                </div>
-              )}
-
-              <div className="mt-2 flex items-center gap-2 rounded-xl border border-white/10 bg-black/20 px-3 py-2.5 sm:mt-3 sm:rounded-2xl sm:px-4 sm:py-3">
-                <span className="text-[8px] font-black uppercase tracking-[0.14em] text-white/25 sm:text-[9px]">Venue</span>
-                <span className="min-w-0 break-words text-[11px] font-black text-white/60 sm:text-xs">{featuredGame.venue ?? "TBD"}</span>
-              </div>
-
-              <div className="mt-3 flex gap-2 sm:mt-5">
-                <Link
-                  href={`/games/${featuredGame.id}`}
-                  className="rounded-full px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.1em] transition hover:opacity-90 sm:text-xs sm:tracking-[0.12em]"
-                  style={{ backgroundColor: theme.secondary, color: theme.primary }}
-                >
-                  {featuredGame.status === "live" ? "Follow Live →" : "Game Center →"}
-                </Link>
-                <Link
-                  href={`/schools/${schoolSlug}/schedule`}
-                  className="rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.1em] text-white/60 transition hover:bg-white/10 hover:text-white sm:text-xs sm:tracking-[0.12em]"
-                >
-                  Schedule
-                </Link>
-              </div>
-            </>
-          ) : (
-            <div className="mt-4 rounded-xl border border-white/10 bg-black/30 p-4 text-xs text-white/45 sm:mt-5 sm:rounded-2xl sm:p-5 sm:text-sm">
-              No upcoming game is currently listed.
-            </div>
-          )}
+      <div className="relative overflow-hidden rounded-[1.5rem] border p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6" style={{ borderColor: featuredGame?.status === "live" ? `${theme.primary}88` : `${theme.secondary}33`, background: featuredGame?.status === "live" ? `linear-gradient(135deg, ${theme.primary}2e, rgba(255,255,255,0.055), rgba(0,0,0,0.96) 66%)` : "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.96) 62%)", boxShadow: `0 18px 50px ${theme.primary}18` }}>
+        <div className="pointer-events-none absolute inset-0 opacity-20" style={{ background: `radial-gradient(circle at top right, ${theme.primary}, transparent 55%)` }} />
+        <div className="relative"><div className="flex items-center justify-between gap-3"><p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/45 sm:text-[10px] sm:tracking-[0.24em]">{featuredGame?.status === "live" ? "Live Now" : "Next Game"}</p><div className="flex items-center gap-2">{featuredGame?.status === "live" && <span className="rounded-full border border-red-400/30 bg-red-500/15 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-red-200 sm:px-3 sm:py-1.5 sm:text-[10px] sm:tracking-[0.14em]">Live</span>}{featuredGame?.districtGame && <span className="rounded-full border border-white/10 bg-white/10 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/60 sm:px-3 sm:py-1.5 sm:text-[10px] sm:tracking-[0.14em]">District</span>}</div></div>
+          {featuredGame && featuredOpponent ? <><div className="mt-3 flex items-center gap-3 sm:mt-5 sm:gap-4">{featuredOpponentSchool ? <SchoolBadge school={featuredOpponentSchool} size="xs" /> : null}<div className="min-w-0 flex-1"><h2 className="break-words text-xl font-black leading-tight text-white sm:text-2xl">{featuredOpponent.name}</h2><p className="mt-1 text-[9px] font-black uppercase tracking-[0.14em] text-white/35 sm:text-[10px] sm:tracking-[0.16em]">{featuredOpponent.location} · Week {featuredGame.week ?? "TBD"}</p></div></div>
+            {hasLiveScore && featuredScore ? <div className="mt-3 rounded-2xl border border-white/10 bg-black/35 p-4 sm:mt-5"><p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/35">Current Score</p><div className="mt-2 flex items-end justify-between gap-4"><p className="text-3xl font-black tracking-tight text-white sm:text-4xl">{featuredScore.team} <span className="mx-1 text-white/25">—</span> {featuredScore.opponent}</p><p className="pb-1 text-xs font-black uppercase tracking-[0.14em] text-red-200">{featuredGame.score?.period ?? "Live"}</p></div></div> : <div className="mt-3 grid grid-cols-2 gap-2 sm:mt-5"><InfoStat label="Date" value={formatDate(featuredGame.kickoff)} /><InfoStat label="Kickoff" value={formatTime(featuredGame.kickoff)} /></div>}
+            <div className="mt-2 flex items-center gap-2 rounded-xl border border-white/10 bg-black/20 px-3 py-2.5 sm:mt-3 sm:rounded-2xl sm:px-4 sm:py-3"><span className="text-[8px] font-black uppercase tracking-[0.14em] text-white/25 sm:text-[9px]">Venue</span><span className="min-w-0 break-words text-[11px] font-black text-white/60 sm:text-xs">{featuredGame.venue ?? "TBD"}</span></div>
+            <div className="mt-3 flex gap-2 sm:mt-5"><Link href={`/games/${featuredGame.id}`} className="rounded-full px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.1em] transition hover:opacity-90 sm:text-xs sm:tracking-[0.12em]" style={{ backgroundColor: theme.secondary, color: theme.primary }}>{featuredGame.status === "live" ? "Follow Live →" : "Game Center →"}</Link><Link href={`/schools/${schoolSlug}/schedule`} className="rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.1em] text-white/60 transition hover:bg-white/10 hover:text-white sm:text-xs sm:tracking-[0.12em]">Schedule</Link></div></> : <div className="mt-4 rounded-xl border border-white/10 bg-black/30 p-4 text-xs text-white/45 sm:mt-5 sm:rounded-2xl sm:p-5 sm:text-sm">No upcoming game is currently listed.</div>}
         </div>
       </div>
     </section>
@@ -250,19 +137,9 @@ export default function SchoolSeasonPulse({
 }
 
 function PulseStat({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-xl border border-white/10 bg-black/30 p-2.5 sm:rounded-2xl sm:p-3">
-      <p className="text-base font-black text-white sm:text-lg">{value}</p>
-      <p className="mt-0.5 text-[8px] font-black uppercase tracking-[0.14em] text-white/30 sm:mt-1 sm:text-[9px] sm:tracking-[0.16em]">{label}</p>
-    </div>
-  );
+  return <div className="rounded-xl border border-white/10 bg-black/30 p-2.5 sm:rounded-2xl sm:p-3"><p className="text-base font-black text-white sm:text-lg">{value}</p><p className="mt-0.5 text-[8px] font-black uppercase tracking-[0.14em] text-white/30 sm:mt-1 sm:text-[9px] sm:tracking-[0.16em]">{label}</p></div>;
 }
 
 function InfoStat({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-xl border border-white/10 bg-black/30 p-2.5 sm:rounded-2xl sm:p-3">
-      <p className="text-[8px] font-black uppercase tracking-[0.14em] text-white/30 sm:text-[9px] sm:tracking-[0.16em]">{label}</p>
-      <p className="mt-1 break-words text-xs font-black leading-4 text-white/75 sm:text-sm">{value}</p>
-    </div>
-  );
+  return <div className="rounded-xl border border-white/10 bg-black/30 p-2.5 sm:rounded-2xl sm:p-3"><p className="text-[8px] font-black uppercase tracking-[0.14em] text-white/30 sm:text-[9px] sm:tracking-[0.16em]">{label}</p><p className="mt-1 break-words text-xs font-black leading-4 text-white/75 sm:text-sm">{value}</p></div>;
 }
