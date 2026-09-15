@@ -98,15 +98,31 @@ export default async function SchoolRosterPage({ params }: Props) {
     positions: player.positions ?? [],
   }));
 
-  const staticProfileIds = new Set(roster.map((player) => player.playerId).filter(Boolean));
+  const staticProfileIndexes = new Map(
+    roster.flatMap((player, index) => (player.playerId ? [[player.playerId, index] as const] : [])),
+  );
   const staticNames = new Set(roster.map((player) => normalizeName(player.name)));
   const staticNumbers = new Set(roster.map((player) => player.jerseyNumber).filter(Boolean));
 
   for (const player of managedRoster ?? []) {
-    if (player.player_profile_id && staticProfileIds.has(player.player_profile_id)) continue;
-
     const name = `${player.first_name} ${player.last_name}`.trim();
     const jerseyNumber = player.jersey_number === null ? undefined : String(player.jersey_number);
+
+    if (player.player_profile_id) {
+      const staticIndex = staticProfileIndexes.get(player.player_profile_id);
+      if (staticIndex !== undefined) {
+        const existing = roster[staticIndex];
+        roster[staticIndex] = {
+          ...existing,
+          name,
+          jerseyNumber,
+          grade: gradeLabel(player.grade),
+          positions: player.position ? [player.position] : [],
+        };
+        continue;
+      }
+    }
+
     const matchesStaticName = staticNames.has(normalizeName(name));
     const matchesStaticNumber = Boolean(jerseyNumber && staticNumbers.has(jerseyNumber));
     if (matchesStaticName || matchesStaticNumber) continue;
