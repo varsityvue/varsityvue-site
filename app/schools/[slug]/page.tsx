@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import type { SchoolTheme } from "../../../types/school-theme";
 import type { MediaLinkType } from "@/types/platform";
 import { getSchoolBySlug } from "@/lib/schools";
-import { getRecentScoresForSchool } from "@/lib/games";
+import { getDynamicGames } from "@/lib/dynamic-games";
 import { getDistrictById } from "@/lib/districts";
 import { getStandingsForSchool } from "@/lib/standings";
 import { createClient } from "@/lib/supabase/server";
@@ -34,7 +34,11 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
   const district = getDistrictById(school.districtId);
   const districtSlug = district?.slug ?? school.districtId;
   const theme: SchoolTheme = { primary: school.colors.primary, secondary: school.colors.secondary, accent: school.colors.accent };
-  const recentScores = getRecentScoresForSchool(slug);
+  const dynamicGames = await getDynamicGames();
+  const recentScores = dynamicGames
+    .filter((game) => game.status === "final" && (game.homeSchoolSlug === slug || game.awaySchoolSlug === slug))
+    .sort((a, b) => (b.kickoff ?? "").localeCompare(a.kickoff ?? ""))
+    .slice(0, 3);
   const standings = getStandingsForSchool(slug);
   const broadcastLinks = getSchoolBroadcastLinks(school.slug);
   const hasOfficialLinks = Boolean(school.officialWebsite || school.facebookUrl || school.instagramUrl || school.xUrl);
