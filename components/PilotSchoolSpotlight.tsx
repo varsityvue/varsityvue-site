@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getFeaturedSchools } from "@/lib/schools";
 import { getDistrictById } from "@/lib/districts";
-import { getUpcomingGamesForSchool } from "@/lib/games";
+import { getDynamicGames } from "@/lib/dynamic-games";
 import ProgramLogo from "./ProgramLogo";
 
 function formatClassification(conference: string, division?: string | null) {
@@ -15,8 +15,9 @@ function formatClassification(conference: string, division?: string | null) {
   return `${conference}${divisionLabel ? ` ${divisionLabel}` : ""}`;
 }
 
-export default function FeaturedSchoolSpotlight() {
+export default async function FeaturedSchoolSpotlight() {
   const schools = [...getFeaturedSchools()].sort((a, b) => a.name.localeCompare(b.name));
+  const games = await getDynamicGames();
 
   if (schools.length === 0) return null;
 
@@ -49,7 +50,15 @@ export default function FeaturedSchoolSpotlight() {
         <div className="grid gap-2.5 sm:gap-4 md:grid-cols-2 xl:grid-cols-3">
           {schools.map((school) => {
             const district = getDistrictById(school.districtId);
-            const nextGame = getUpcomingGamesForSchool(school.slug)[0];
+            const nextGame = games
+              .filter(
+                (game) =>
+                  (game.homeSchoolSlug === school.slug || game.awaySchoolSlug === school.slug) &&
+                  ["upcoming", "scheduled"].includes(game.status) &&
+                  game.gameType !== "bye" &&
+                  game.gameType !== "scrimmage",
+              )
+              .sort((a, b) => a.date.localeCompare(b.date))[0];
 
             return (
               <Link
