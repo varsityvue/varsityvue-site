@@ -315,8 +315,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   {relatedGames.map((game) => {
                     const awaySchool = game.awaySchoolSlug ? getSchoolBySlug(game.awaySchoolSlug) : undefined;
                     const homeSchool = game.homeSchoolSlug ? getSchoolBySlug(game.homeSchoolSlug) : undefined;
-                    const awayScore = game.awayScore ?? game.score?.away;
-                    const homeScore = game.homeScore ?? game.score?.home;
+                    const showScore = game.status === "live" || game.status === "final";
+                    const awayScore = showScore ? game.awayScore ?? game.score?.away : undefined;
+                    const homeScore = showScore ? game.homeScore ?? game.score?.home : undefined;
                     return (
                       <Link key={game.id} href={`/games/${game.id}`} className="block rounded-xl border border-white/10 bg-black/35 p-3 transition hover:bg-white/10 sm:rounded-2xl sm:p-4">
                         <p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/40 sm:text-[10px] sm:tracking-[0.18em]">Week {game.week ?? "TBD"}</p>
