@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { hasCompleteScoreboardTeamIdentity } from "@/data/scoreboard-team-identities";
+import { getDynamicGameById } from "@/lib/dynamic-games";
 import { getGameById } from "@/lib/games";
 import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
@@ -76,6 +77,15 @@ export async function approveScoreSubmission(formData: FormData) {
 
   if (!submission) {
     redirect(`/internal/score-review?message=${encodeURIComponent("Pending score submission not found.")}`);
+  }
+
+  const currentGame = await getDynamicGameById(submission.game_id);
+  if (currentGame && ["final", "cancelled", "postponed"].includes(currentGame.status)) {
+    redirect(
+      `/internal/score-review?message=${encodeURIComponent(
+        `Approval blocked. This game is already verified as ${currentGame.status} and cannot be changed by an older pending report.`,
+      )}`,
+    );
   }
 
   const missingIdentity = missingGameIdentity(submission.game_id);

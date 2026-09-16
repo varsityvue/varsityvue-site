@@ -5,6 +5,7 @@ import {
   getCanonicalScoreboardTeamName,
   hasCompleteScoreboardTeamIdentity,
 } from "@/data/scoreboard-team-identities";
+import { getDynamicGames } from "@/lib/dynamic-games";
 import { getGameById } from "@/lib/games";
 import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
@@ -59,11 +60,15 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
   if (!canModerate) redirect("/account");
 
   const params = await searchParams;
-  const { data: submissions } = await supabase
-    .from("score_submissions")
-    .select("id, game_id, submitted_by, home_score, away_score, game_status, period, clock, source_note, status, created_at")
-    .eq("status", "pending")
-    .order("created_at", { ascending: true });
+  const [{ data: submissions }, dynamicGames] = await Promise.all([
+    supabase
+      .from("score_submissions")
+      .select("id, game_id, submitted_by, home_score, away_score, game_status, period, clock, source_note, status, created_at")
+      .eq("status", "pending")
+      .order("created_at", { ascending: true }),
+    getDynamicGames(),
+  ]);
+  const dynamicGamesById = new Map(dynamicGames.map((game) => [game.id, game]));
 
   const submitterIds = Array.from(new Set((submissions ?? []).map((item) => item.submitted_by)));
   const [{ data: profiles }, { data: contributorAssignments }] = submitterIds.length
@@ -131,7 +136,10 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
             <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-sm text-white/55">No pending score reports.</div>
           ) : (
             groupedSubmissions.map(({ gameId, reports }) => {
-              const game = getGameById(gameId);
+              const game = dynamicGamesById.get(gameId) ?? getGameById(gameId);
+              const approvalBlocked = Boolean(
+                game && ["final", "cancelled", "postponed"].includes(game.status),
+              );
               const awayReady = game ? hasCompleteSchoolIdentity(game.awaySchoolSlug, game.awayTeam) : false;
               const homeReady = game ? hasCompleteSchoolIdentity(game.homeSchoolSlug, game.homeTeam) : false;
               const identityReady = Boolean(game && awayReady && homeReady);
@@ -218,7 +226,11 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
                       </div>
                     </div>
 
-                    {!identityReady ? (
+                    {approvalBlocked ? (
+                      <p className="mt-3 rounded-xl border border-amber-300/20 bg-amber-300/[0.08] p-3 text-xs font-semibold text-amber-100/80">
+                        Approval blocked because this game is already verified as {game?.status}. Reject the stale report to clear it from the queue.
+                      </p>
+                    ) : !identityReady ? (
                       <p className="mt-3 rounded-xl border border-red-400/15 bg-red-500/[0.07] p-3 text-xs font-semibold text-red-100/80">
                         Approval blocked until complete identity data is added for {missingIdentityTeams.join(" and ")}.
                       </p>
@@ -321,8 +333,8 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
                             <div className="grid grid-cols-2 gap-3">
                               <button
                                 formAction={approveScoreSubmission}
-                                disabled={!identityReady}
-                                title={identityReady ? "Approve this score submission" : "Complete team identity data before approval"}
+                                disabled={!identityReady || approvalBlocked}
+                                title={approvalBlocked ? "Verified terminal game state cannot be replaced by a stale report" : identityReady ? "Approve this score submission" : "Complete team identity data before approval"}
                                 className="rounded-full bg-emerald-600 px-4 py-2.5 text-sm font-black transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/30 disabled:hover:bg-white/10"
                               >Approve</button>
                               <button formAction={rejectScoreSubmission} className="rounded-full border border-red-400/25 bg-red-500/10 px-4 py-2.5 text-sm font-black text-red-100 transition hover:bg-red-500/20">Reject</button>
