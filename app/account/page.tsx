@@ -3,7 +3,6 @@ import { redirect } from "next/navigation";
 
 import { getCanonicalScoreboardTeamName, hasCompleteScoreboardTeamIdentity } from "@/data/scoreboard-team-identities";
 import { getDynamicGames } from "@/lib/dynamic-games";
-import { getUpcomingGamesForSchool } from "@/lib/games";
 import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
 
@@ -112,24 +111,29 @@ export default async function AccountPage() {
       ? `/manage-roster?school=${encodeURIComponent(coachPrograms[0].slug)}`
       : "/manage-roster";
   const dynamicGames = isScorekeeper && !canModerate ? await getDynamicGames() : [];
-  const dynamicGamesById = new Map(dynamicGames.map((game) => [game.id, game]));
+  const assignedSchoolSlugs = new Set(assignedPrograms.map((program) => program.slug));
 
-  const upcomingAssignedGames = isScorekeeper && !canModerate
-    ? Array.from(
-        new Map(
-          assignedPrograms
-            .flatMap((program) => getUpcomingGamesForSchool(program.slug))
-            .map((game) => dynamicGamesById.get(game.id) ?? game)
-            .filter(
-              (game) =>
-                game.status === "upcoming" &&
-                game.gameType !== "scrimmage" &&
-                teamHasCompleteIdentity(game.awaySchoolSlug, game.awayTeam) &&
-                teamHasCompleteIdentity(game.homeSchoolSlug, game.homeTeam),
-            )
-            .map((game) => [game.id, game]),
-        ).values(),
-      ).slice(0, 6)
+  const scoreReadyAssignedGames = isScorekeeper && !canModerate
+    ? dynamicGames
+        .filter(
+          (game) =>
+            game.season === 2026 &&
+            game.week !== undefined &&
+            game.week >= 3 &&
+            game.week <= 6 &&
+            game.gameType !== "bye" &&
+            game.gameType !== "scrimmage" &&
+            ["live", "scheduled"].includes(game.status) &&
+            ((game.awaySchoolSlug && assignedSchoolSlugs.has(game.awaySchoolSlug)) ||
+              (game.homeSchoolSlug && assignedSchoolSlugs.has(game.homeSchoolSlug))) &&
+            teamHasCompleteIdentity(game.awaySchoolSlug, game.awayTeam) &&
+            teamHasCompleteIdentity(game.homeSchoolSlug, game.homeTeam),
+        )
+        .sort((a, b) => {
+          if (a.status !== b.status) return a.status === "live" ? -1 : 1;
+          return (b.kickoff ?? "").localeCompare(a.kickoff ?? "");
+        })
+        .slice(0, 6)
     : [];
 
   return (
@@ -220,18 +224,18 @@ export default async function AccountPage() {
               <div className="mt-5">
                 <div className="flex items-end justify-between gap-4">
                   <div>
-                    <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">Upcoming Assigned Games</p>
-                    <p className="mt-1 text-xs text-white/40">Identity-ready matchups for your programs.</p>
+                    <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">Score-Ready Assigned Games</p>
+                    <p className="mt-1 text-xs text-white/40">Live games and past matchups awaiting a result.</p>
                   </div>
                 </div>
 
-                {upcomingAssignedGames.length ? (
+                {scoreReadyAssignedGames.length ? (
                   <div className="mt-3 grid gap-3">
-                    {upcomingAssignedGames.map((game) => (
+                    {scoreReadyAssignedGames.map((game) => (
                       <div key={game.id} className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-black/20 p-4 sm:flex-row sm:items-center sm:justify-between">
                         <div className="min-w-0">
                           <p className="text-[10px] font-black uppercase tracking-[0.14em] text-white/35">
-                            Week {game.week ?? "—"} · {formatKickoff(game.kickoff)}
+                            {game.status === "live" ? "Live" : "Result Pending"} · Week {game.week ?? "—"} · {formatKickoff(game.kickoff)}
                           </p>
                           <p className="mt-1 truncate text-sm font-black text-white">
                             {displayTeamName(game.awayTeam, game.awaySchoolSlug)} at {displayTeamName(game.homeTeam, game.homeSchoolSlug)}
@@ -248,7 +252,7 @@ export default async function AccountPage() {
                   </div>
                 ) : (
                   <div className="mt-3 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-white/45">
-                    No upcoming identity-ready games are currently available for your assigned programs.
+                    No assigned games are currently live or awaiting a result.
                   </div>
                 )}
               </div>

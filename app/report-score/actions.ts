@@ -62,8 +62,13 @@ export async function submitScore(formData: FormData) {
     reportRedirect(gameId, "This game is already final and is no longer open for score reports.");
   }
 
-  if (game.status === "cancelled" || game.status === "postponed") {
-    reportRedirect(gameId, "This game is not currently open for score reports.");
+  if (game.status !== "live" && game.status !== "scheduled") {
+    reportRedirect(
+      gameId,
+      game.status === "upcoming"
+        ? "Score reporting opens when this game is live or awaiting a result."
+        : "This game is not currently open for score reports.",
+    );
   }
 
   const awayReady = teamHasCompleteIdentity(game.awaySchoolSlug, game.awayTeam);

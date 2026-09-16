@@ -134,9 +134,7 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
     if (
       (game.week ?? 0) < 3 ||
       (game.week ?? 0) > 6 ||
-      game.status === "final" ||
-      game.status === "cancelled" ||
-      game.status === "postponed" ||
+      !["live", "scheduled"].includes(game.status) ||
       !gameIsIdentityReady(game)
     ) return false;
     if (!isRestrictedScorekeeper) return true;
