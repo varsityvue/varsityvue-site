@@ -3,8 +3,10 @@ import { redirect } from "next/navigation";
 
 import { getCanonicalScoreboardTeamName, hasCompleteScoreboardTeamIdentity } from "@/data/scoreboard-team-identities";
 import { getDynamicGames } from "@/lib/dynamic-games";
+import { resolveAccountFollows } from "@/lib/account-follows";
 import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
+import AccountFollowList from "@/components/AccountFollowList";
 
 function schoolHasCompleteIdentity(slug?: string) {
   if (!slug) return false;
@@ -48,6 +50,13 @@ function formatKickoff(kickoff?: string) {
   });
 }
 
+function formatMemberSince(createdAt?: string) {
+  if (!createdAt) return "Member date unavailable";
+  const date = new Date(createdAt);
+  if (Number.isNaN(date.getTime())) return "Member date unavailable";
+  return `Member since ${date.toLocaleDateString("en-US", { month: "long", year: "numeric" })}`;
+}
+
 export default async function AccountPage() {
   const supabase = await createClient();
   const { data: claimsData } = await supabase.auth.getClaims();
@@ -57,10 +66,10 @@ export default async function AccountPage() {
     redirect("/login");
   }
 
-  const [{ data: profile }, { data: roles }, { data: assignments }] = await Promise.all([
+  const [{ data: profile }, { data: roles }, { data: assignments }, { data: followRows }] = await Promise.all([
     supabase
       .from("profiles")
-      .select("display_name, username, favorite_school_slug, created_at")
+      .select("display_name, username, created_at")
       .eq("id", claims.sub)
       .maybeSingle(),
     supabase.from("user_roles").select("role").eq("user_id", claims.sub),
@@ -70,7 +79,14 @@ export default async function AccountPage() {
       .eq("user_id", claims.sub)
       .eq("active", true)
       .order("school_slug", { ascending: true }),
+    supabase
+      .from("school_follows")
+      .select("school_slug, created_at")
+      .eq("user_id", claims.sub)
+      .order("created_at", { ascending: true }),
   ]);
+
+  const { follows: followedSchools, staleFollowCount } = resolveAccountFollows(followRows ?? []);
 
   const roleSet = new Set((roles ?? []).map((row) => row.role));
   const isAdmin = roleSet.has("admin");
@@ -168,13 +184,13 @@ export default async function AccountPage() {
           </div>
 
           <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
-            <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/40">Following</p>
-            <p className="mt-2 text-sm text-white/75">
-              {profile?.favorite_school_slug || "No favorite school selected yet."}
-            </p>
-            <p className="mt-1 text-xs text-white/40">School follows and notification controls are on the roadmap.</p>
+            <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/40">Membership</p>
+            <p className="mt-2 text-sm text-white/75">{formatMemberSince(profile?.created_at)}</p>
+            <p className="mt-1 text-xs text-white/40">Your member tools and followed schools live here.</p>
           </div>
         </section>
+
+        <AccountFollowList initialFollows={followedSchools} staleFollowCount={staleFollowCount} />
 
         {isContributor ? (
           <section className="mt-6 rounded-[1.5rem] border border-[var(--vv-primary)]/40 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.24),transparent_45%),rgba(255,255,255,0.035)] p-5 sm:p-7">

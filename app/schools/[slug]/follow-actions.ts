@@ -59,6 +59,7 @@ export async function followSchool(
   }
 
   revalidatePath(`/schools/${context.slug}`);
+  revalidatePath("/account");
   return {
     following: true,
     status: "success",
@@ -93,6 +94,7 @@ export async function unfollowSchool(
   }
 
   revalidatePath(`/schools/${context.slug}`);
+  revalidatePath("/account");
   return {
     following: false,
     status: "success",
