@@ -4,11 +4,12 @@ import {
   getFinalScoreboardGames,
   getGameOfTheWeek,
   getLiveGames,
+  getScoreboardGames,
   getUpcomingScoreboardGames,
   type DynamicScoreState,
 } from "@/lib/scoreboard";
 import { getSchoolBySlug } from "@/lib/schools";
-import { getStandingForSchool } from "@/lib/standings";
+import { getStandingForSchoolFromGames } from "@/lib/standings";
 import { createClient } from "@/lib/supabase/server";
 import { getGameStatAvailability, getStatAvailabilityLabel } from "@/data/stat-availability";
 import { getCanonicalScoreboardTeamName, getScoreboardTeamIdentity } from "@/data/scoreboard-team-identities";
@@ -113,6 +114,7 @@ export default async function ScoreboardPage() {
   );
 
   const featuredGame = getGameOfTheWeek(dynamicState);
+  const scoreboardGames = getScoreboardGames(dynamicState);
   const liveGames = getLiveGames(dynamicState);
   const upcomingGames = getUpcomingScoreboardGames(8, dynamicState);
   const finalGames = getFinalScoreboardGames(500, dynamicState);
@@ -120,7 +122,7 @@ export default async function ScoreboardPage() {
   return <main className="min-h-screen bg-[var(--vv-bg)] text-white">
     <PageHero eyebrow="VarsityVue Scoreboard · 2026 Football" title="Texas High School Football Scores" description="Verified final scores, featured matchups, and upcoming kickoffs from programs currently tracked by VarsityVue." aside={<div className="rounded-2xl border border-white/10 bg-black/25 px-5 py-4 lg:max-w-sm"><p className="text-xs font-black uppercase tracking-[0.2em] text-white/45">Latest Results</p><p className="mt-1 text-lg font-black text-white">Verified finals stay easy to find.</p><p className="mt-1 text-sm leading-5 text-white/50">The scoreboard updates as new results and approved community reports are verified.</p></div>} />
     <div className="mx-auto max-w-[1440px] px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
-      {featuredGame && <FeaturedScoreboardGame game={featuredGame} hasPendingReport={pendingGameIds.has(featuredGame.id)} />}
+      {featuredGame && <FeaturedScoreboardGame game={featuredGame} games={scoreboardGames} hasPendingReport={pendingGameIds.has(featuredGame.id)} />}
       <section className="mt-5 grid items-start gap-3 sm:mt-8 sm:gap-6 lg:grid-cols-3">
         <ScoreboardColumn id="live-now" title="Live Now" description="Games currently marked in progress." games={liveGames} emptyText="No games are currently marked live." collapsibleWhenEmpty pendingGameIds={pendingGameIds} />
         <ScoreboardColumn id="final-scores" title="Final Scores" description="Latest verified results from across the coverage area." games={finalGames} emptyText="No final scores posted yet." mobileLimit={10} pendingGameIds={pendingGameIds} />
@@ -130,9 +132,9 @@ export default async function ScoreboardPage() {
   </main>;
 }
 
-function FeaturedScoreboardGame({ game, hasPendingReport }: { game: ScoreboardGame; hasPendingReport: boolean }) {
-  const awayStanding = game.awaySchoolSlug ? getStandingForSchool(game.awaySchoolSlug) : undefined;
-  const homeStanding = game.homeSchoolSlug ? getStandingForSchool(game.homeSchoolSlug) : undefined;
+function FeaturedScoreboardGame({ game, games, hasPendingReport }: { game: ScoreboardGame; games: ScoreboardGame[]; hasPendingReport: boolean }) {
+  const awayStanding = game.awaySchoolSlug ? getStandingForSchoolFromGames(game.awaySchoolSlug, games) : undefined;
+  const homeStanding = game.homeSchoolSlug ? getStandingForSchoolFromGames(game.homeSchoolSlug, games) : undefined;
   const awayScore = game.awayScore ?? game.score?.away;
   const homeScore = game.homeScore ?? game.score?.home;
   const isFinal = game.status === "final";
@@ -150,7 +152,7 @@ function FeaturedScoreboardGame({ game, hasPendingReport }: { game: ScoreboardGa
   </section>;
 }
 
-function TeamResult({ team, standing }: { team: string; standing?: ReturnType<typeof getStandingForSchool> }) {
+function TeamResult({ team, standing }: { team: string; standing?: ReturnType<typeof getStandingForSchoolFromGames> }) {
   const hasOverallResult = !!standing && (standing.overallWins > 0 || standing.overallLosses > 0);
   const districtRecord = standing && standing.districtWins + standing.districtLosses > 0 ? ` · ${standing.districtWins}-${standing.districtLosses} District` : "";
   return <div className="min-w-0 text-center"><h2 className="break-words text-base font-black leading-[1.05] text-white sm:text-3xl md:text-4xl">{team}</h2><p className="mt-1 text-[8px] font-black uppercase tracking-[0.08em] text-white/40 sm:mt-2 sm:text-sm sm:tracking-[0.16em]">{hasOverallResult ? `${standing!.overallWins}-${standing!.overallLosses} Overall${districtRecord}` : "Overall —"}</p></div>;
