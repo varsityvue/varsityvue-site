@@ -54,7 +54,7 @@ export default async function FeaturedSchoolSpotlight() {
               .filter(
                 (game) =>
                   (game.homeSchoolSlug === school.slug || game.awaySchoolSlug === school.slug) &&
-                  ["upcoming", "scheduled"].includes(game.status) &&
+                  game.status === "upcoming" &&
                   game.gameType !== "bye" &&
                   game.gameType !== "scrimmage",
               )
