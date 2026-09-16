@@ -8,8 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "validate:stats": "node --import tsx scripts/validate-stat-reconciliation.ts",
-    "validate:touchdowns": "node --import tsx scripts/validate-touchdown-semantics.ts",
-    "validate:public-completeness": "node --import tsx scripts/validate-public-stat-completeness.ts"
+    "validate:public-stats": "node --import tsx scripts/validate-public-stat-completeness.ts",
+    "validate:touchdowns": "node --import tsx scripts/validate-touchdown-semantics.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

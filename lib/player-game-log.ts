@@ -1,6 +1,9 @@
 import { gameStats } from "@/lib/all-game-stats";
 import { getDynamicGames } from "@/lib/dynamic-games";
 import { getPlayerId } from "@/lib/player-identity";
+import { getGameCategoryCompleteness } from "@/lib/stat-completeness";
+import type { StatCompletenessDetail } from "@/data/game-stats";
+import type { Game } from "@/types/platform";
 
 export type PlayerGameLogEntry = {
   gameId: string;
@@ -26,6 +29,11 @@ export type PlayerGameLogEntry = {
     yards: number;
     touchdowns?: number;
   };
+  completeness: {
+    rushing: StatCompletenessDetail;
+    passing: StatCompletenessDetail;
+    receiving: StatCompletenessDetail;
+  };
 };
 
 function round(value: number, decimals = 1) {
@@ -41,8 +49,8 @@ function lineMatchesPlayer(
   return (line.playerId ?? getPlayerId(line.schoolSlug, line.player, season)) === playerId;
 }
 
-export async function getPlayerGameLog(playerId: string, season = 2026): Promise<PlayerGameLogEntry[]> {
-  const dynamicGames = await getDynamicGames();
+export async function getPlayerGameLog(playerId: string, season = 2026, games?: Game[]): Promise<PlayerGameLogEntry[]> {
+  const dynamicGames = games ?? await getDynamicGames();
   const entries: PlayerGameLogEntry[] = [];
 
   for (const stats of gameStats) {
@@ -74,6 +82,11 @@ export async function getPlayerGameLog(playerId: string, season = 2026): Promise
       week: game?.week,
       kickoff: game?.kickoff,
       result,
+      completeness: {
+        rushing: getGameCategoryCompleteness(stats, schoolSlug, "rushing"),
+        passing: getGameCategoryCompleteness(stats, schoolSlug, "passing"),
+        receiving: getGameCategoryCompleteness(stats, schoolSlug, "receiving"),
+      },
       rushing: rushing
         ? {
             attempts: rushing.attempts,
