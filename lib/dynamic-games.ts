@@ -35,9 +35,9 @@ function applyGameState(game: Game, state?: GameStateRow): Game {
       : game.score,
   };
 
-  return state.status === "final"
-    ? clearInheritedSchoolBroadcasts(dynamicGame)
-    : dynamicGame;
+  return state.status === "upcoming" || state.status === "live"
+    ? dynamicGame
+    : clearInheritedSchoolBroadcasts(dynamicGame);
 }
 
 export async function getDynamicGames(): Promise<Game[]> {
