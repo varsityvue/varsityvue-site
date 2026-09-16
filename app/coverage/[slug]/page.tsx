@@ -8,7 +8,7 @@ import { getSchoolBySlug } from "@/lib/schools";
 import type { Article } from "@/types/platform";
 import ArticleShare from "@/components/ArticleShare";
 import SchoolBadge from "@/components/SchoolBadge";
-import { getScoreboardGames } from "@/lib/scoreboard";
+import { getDynamicGames } from "@/lib/dynamic-games";
 import { getDistrictById } from "@/lib/districts";
 
 type ArticlePageProps = {
@@ -129,7 +129,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     })
     .slice(0, 3);
 
-  const scoreboardGames = getScoreboardGames();
+  const scoreboardGames = (await getDynamicGames())
+    .filter((game) => game.gameType !== "bye" && game.gameType !== "scrimmage")
+    .sort(
+      (a, b) =>
+        (parseArticleDate(a.kickoff)?.getTime() ?? Number.MAX_SAFE_INTEGER) -
+        (parseArticleDate(b.kickoff)?.getTime() ?? Number.MAX_SAFE_INTEGER),
+    );
   const relatedGames = scoreboardGames
     .filter((game) => article.schoolIds?.some((schoolSlug) => game.homeSchoolSlug === schoolSlug || game.awaySchoolSlug === schoolSlug))
     .filter((game) => game.gameType !== "scrimmage" && game.gameType !== "bye")
