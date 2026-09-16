@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "validate:stats": "node --import tsx scripts/validate-stat-reconciliation.ts"
+    "validate:stats": "node --import tsx scripts/validate-stat-reconciliation.ts",
+    "validate:touchdowns": "node --import tsx scripts/validate-touchdown-semantics.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

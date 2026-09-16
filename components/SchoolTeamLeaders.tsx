@@ -4,14 +4,15 @@ import { gameStats } from "@/lib/all-game-stats";
 import { getDynamicGamesForSchool } from "@/lib/dynamic-games";
 import { getPassingLeaders, getReceivingLeaders, getRushingLeaders } from "@/lib/player-stats";
 import { getPlayerProfile } from "@/lib/player-profiles";
+import { formatTouchdownDetail } from "@/lib/stat-values";
 
 type SchoolTeamLeadersProps = { schoolSlug: string; season?: number; primaryColor?: string; secondaryColor?: string; };
 type Leader = { id: string; name: string; href?: string; primary: string; secondary: string };
 
 export default async function SchoolTeamLeaders({ schoolSlug, season = 2026, primaryColor = "#8B1020", secondaryColor = "#F4EBDD" }: SchoolTeamLeadersProps) {
-  const rushing = getRushingLeaders({ season, schoolSlug, minAttempts: 1 }).slice(0, 3).map((entry) => ({ id: entry.playerId, name: entry.player, href: getPlayerProfile(entry.playerId, season) ? `/players/${entry.playerId}` : undefined, primary: `${entry.rushing.yards.toLocaleString()} YDS`, secondary: `${entry.rushing.attempts} CAR · ${entry.rushing.touchdowns} TD · ${entry.rushing.yardsPerCarry} YPC · ${entry.gamesRecorded} G` }));
-  const passing = getPassingLeaders({ season, schoolSlug, minAttempts: 1 }).slice(0, 3).map((entry) => ({ id: entry.playerId, name: entry.player, href: getPlayerProfile(entry.playerId, season) ? `/players/${entry.playerId}` : undefined, primary: `${entry.passing.yards.toLocaleString()} YDS`, secondary: `${entry.passing.completions}/${entry.passing.attempts} · ${entry.passing.touchdowns} TD · ${entry.passing.interceptions} INT · ${entry.gamesRecorded} G` }));
-  const receiving = getReceivingLeaders({ season, schoolSlug, minReceptions: 1 }).slice(0, 3).map((entry) => ({ id: entry.playerId, name: entry.player, href: getPlayerProfile(entry.playerId, season) ? `/players/${entry.playerId}` : undefined, primary: `${entry.receiving.yards.toLocaleString()} YDS`, secondary: `${entry.receiving.receptions} REC · ${entry.receiving.touchdowns} TD · ${entry.receiving.yardsPerReception} YPR · ${entry.gamesRecorded} G` }));
+  const rushing = getRushingLeaders({ season, schoolSlug, minAttempts: 1 }).slice(0, 3).map((entry) => ({ id: entry.playerId, name: entry.player, href: getPlayerProfile(entry.playerId, season) ? `/players/${entry.playerId}` : undefined, primary: `${entry.rushing.yards.toLocaleString()} YDS`, secondary: `${entry.rushing.attempts} CAR · ${formatTouchdownDetail(entry.rushing.touchdowns)} · ${entry.rushing.yardsPerCarry} YPC · ${entry.gamesRecorded} G` }));
+  const passing = getPassingLeaders({ season, schoolSlug, minAttempts: 1 }).slice(0, 3).map((entry) => ({ id: entry.playerId, name: entry.player, href: getPlayerProfile(entry.playerId, season) ? `/players/${entry.playerId}` : undefined, primary: `${entry.passing.yards.toLocaleString()} YDS`, secondary: `${entry.passing.completions}/${entry.passing.attempts} · ${formatTouchdownDetail(entry.passing.touchdowns)} · ${entry.passing.interceptions} INT · ${entry.gamesRecorded} G` }));
+  const receiving = getReceivingLeaders({ season, schoolSlug, minReceptions: 1 }).slice(0, 3).map((entry) => ({ id: entry.playerId, name: entry.player, href: getPlayerProfile(entry.playerId, season) ? `/players/${entry.playerId}` : undefined, primary: `${entry.receiving.yards.toLocaleString()} YDS`, secondary: `${entry.receiving.receptions} REC · ${formatTouchdownDetail(entry.receiving.touchdowns)} · ${entry.receiving.yardsPerReception} YPR · ${entry.gamesRecorded} G` }));
   const hasLeaders = rushing.length > 0 || passing.length > 0 || receiving.length > 0;
   const verifiedGames = gameStats.filter(
     (game) =>

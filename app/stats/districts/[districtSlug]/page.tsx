@@ -8,6 +8,7 @@ import { gameStats as allGameStats } from "@/lib/all-game-stats";
 import { getPassingLeaders, getPlayerSeasonStats, getReceivingLeaders, getRushingLeaders } from "@/lib/player-stats";
 import { getPlayerProfile } from "@/lib/player-profiles";
 import { getSchoolBySlug } from "@/lib/schools";
+import { formatTouchdownCount } from "@/lib/stat-values";
 
 const SEASON = 2026;
 type Props = { params: Promise<{ districtSlug: string }> };
@@ -83,9 +84,9 @@ export default async function DistrictStatsPage({ params }: Props) {
       </section>
 
       <section className="px-4 py-5 sm:px-6 sm:py-8 lg:px-8"><div className="mx-auto max-w-7xl space-y-5 sm:space-y-8">
-        <LeaderboardSection id="rushing" title="Rushing yards" note="Minimum 1 carry · Verified stats on file" headers={["RK", "Player", "School", "G", "CAR", "YDS", "TD", "YPC"]} rows={rushing.map((entry, index) => [index + 1, playerLink(entry.playerId, entry.player), schoolLink(entry.schoolSlug), entry.gamesRecorded, entry.rushing.attempts, entry.rushing.yards, entry.rushing.touchdowns, entry.rushing.yardsPerCarry])} />
-        <LeaderboardSection id="passing" title="Passing yards" note="Minimum 1 attempt · Verified stats on file" headers={["RK", "Player", "School", "G", "CMP/ATT", "YDS", "TD", "INT", "CMP%"]} rows={passing.map((entry, index) => [index + 1, playerLink(entry.playerId, entry.player), schoolLink(entry.schoolSlug), entry.gamesRecorded, `${entry.passing.completions}/${entry.passing.attempts}`, entry.passing.yards, entry.passing.touchdowns, entry.passing.interceptions, `${entry.passing.completionPercentage}%`])} />
-        <LeaderboardSection id="receiving" title="Receiving yards" note="Minimum 1 reception · Verified stats on file" headers={["RK", "Player", "School", "G", "REC", "YDS", "TD", "YPR"]} rows={receiving.map((entry, index) => [index + 1, playerLink(entry.playerId, entry.player), schoolLink(entry.schoolSlug), entry.gamesRecorded, entry.receiving.receptions, entry.receiving.yards, entry.receiving.touchdowns, entry.receiving.yardsPerReception])} />
+        <LeaderboardSection id="rushing" title="Rushing yards" note="Minimum 1 carry · Verified stats on file" headers={["RK", "Player", "School", "G", "CAR", "YDS", "TD", "YPC"]} rows={rushing.map((entry, index) => [index + 1, playerLink(entry.playerId, entry.player), schoolLink(entry.schoolSlug), entry.gamesRecorded, entry.rushing.attempts, entry.rushing.yards, formatTouchdownCount(entry.rushing.touchdowns), entry.rushing.yardsPerCarry])} />
+        <LeaderboardSection id="passing" title="Passing yards" note="Minimum 1 attempt · Verified stats on file" headers={["RK", "Player", "School", "G", "CMP/ATT", "YDS", "TD", "INT", "CMP%"]} rows={passing.map((entry, index) => [index + 1, playerLink(entry.playerId, entry.player), schoolLink(entry.schoolSlug), entry.gamesRecorded, `${entry.passing.completions}/${entry.passing.attempts}`, entry.passing.yards, formatTouchdownCount(entry.passing.touchdowns), entry.passing.interceptions, `${entry.passing.completionPercentage}%`])} />
+        <LeaderboardSection id="receiving" title="Receiving yards" note="Minimum 1 reception · Verified stats on file" headers={["RK", "Player", "School", "G", "REC", "YDS", "TD", "YPR"]} rows={receiving.map((entry, index) => [index + 1, playerLink(entry.playerId, entry.player), schoolLink(entry.schoolSlug), entry.gamesRecorded, entry.receiving.receptions, entry.receiving.yards, formatTouchdownCount(entry.receiving.touchdowns), entry.receiving.yardsPerReception])} />
         <LeaderboardSection id="ypc" title="Yards per carry" note="Minimum 5 carries · Verified stats on file" headers={["RK", "Player", "School", "G", "CAR", "YDS", "YPC"]} rows={ypc.map((entry, index) => [index + 1, playerLink(entry.playerId, entry.player), schoolLink(entry.schoolSlug), entry.gamesRecorded, entry.rushing.attempts, entry.rushing.yards, entry.rushing.yardsPerCarry])} />
       </div></section>
     </main>

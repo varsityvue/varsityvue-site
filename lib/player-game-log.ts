@@ -11,20 +11,20 @@ export type PlayerGameLogEntry = {
   rushing?: {
     attempts: number;
     yards: number;
-    touchdowns: number;
+    touchdowns?: number;
     yardsPerCarry: number;
   };
   passing?: {
     completions: number;
     attempts: number;
     yards: number;
-    touchdowns: number;
+    touchdowns?: number;
     interceptions: number;
   };
   receiving?: {
     receptions: number;
     yards: number;
-    touchdowns: number;
+    touchdowns?: number;
   };
 };
 
@@ -78,7 +78,7 @@ export async function getPlayerGameLog(playerId: string, season = 2026): Promise
         ? {
             attempts: rushing.attempts,
             yards: rushing.yards,
-            touchdowns: rushing.touchdowns ?? 0,
+            touchdowns: rushing.touchdowns,
             yardsPerCarry: rushing.attempts ? round(rushing.yards / rushing.attempts) : 0,
           }
         : undefined,
@@ -87,7 +87,7 @@ export async function getPlayerGameLog(playerId: string, season = 2026): Promise
             completions: passing.completions,
             attempts: passing.attempts,
             yards: passing.yards,
-            touchdowns: passing.touchdowns ?? 0,
+            touchdowns: passing.touchdowns,
             interceptions: passing.interceptions,
           }
         : undefined,
@@ -95,7 +95,7 @@ export async function getPlayerGameLog(playerId: string, season = 2026): Promise
         ? {
             receptions: receiving.receptions,
             yards: receiving.yards,
-            touchdowns: receiving.touchdowns ?? 0,
+            touchdowns: receiving.touchdowns,
           }
         : undefined,
     });

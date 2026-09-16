@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { getPlayerSeasonStats } from "@/lib/player-stats";
 import { getFeaturedSchools } from "@/lib/schools";
+import { compareOptionalStatsDescending, formatTouchdownDetail, sumOptionalStats } from "@/lib/stat-values";
 
 type LeaderRow = {
   playerId: string;
@@ -24,9 +25,9 @@ function number(value: number) {
 
 function touchdownDetail(player: ReturnType<typeof getPlayerSeasonStats>[number]) {
   const parts: string[] = [];
-  if (player.passing.touchdowns > 0) parts.push(`${player.passing.touchdowns} PASS`);
-  if (player.rushing.touchdowns > 0) parts.push(`${player.rushing.touchdowns} RUSH`);
-  if (player.receiving.touchdowns > 0) parts.push(`${player.receiving.touchdowns} REC`);
+  if (player.passing.touchdowns !== undefined && player.passing.touchdowns > 0) parts.push(`${player.passing.touchdowns} PASS`);
+  if (player.rushing.touchdowns !== undefined && player.rushing.touchdowns > 0) parts.push(`${player.rushing.touchdowns} RUSH`);
+  if (player.receiving.touchdowns !== undefined && player.receiving.touchdowns > 0) parts.push(`${player.receiving.touchdowns} REC`);
   return parts.join(" · ");
 }
 
@@ -38,7 +39,7 @@ export default function AreaLeaders() {
 
   const passing: LeaderRow[] = players
     .filter((player) => player.passing.attempts > 0)
-    .sort((a, b) => b.passing.yards - a.passing.yards || b.passing.touchdowns - a.passing.touchdowns)
+    .sort((a, b) => b.passing.yards - a.passing.yards || compareOptionalStatsDescending(a.passing.touchdowns, b.passing.touchdowns))
     .slice(0, 3)
     .map((player) => ({
       playerId: player.playerId,
@@ -46,12 +47,12 @@ export default function AreaLeaders() {
       schoolSlug: player.schoolSlug,
       gamesRecorded: player.gamesRecorded,
       value: player.passing.yards,
-      detail: `${player.passing.completions}/${player.passing.attempts} · ${player.passing.touchdowns} TD · ${player.passing.interceptions} INT`,
+      detail: `${player.passing.completions}/${player.passing.attempts} · ${formatTouchdownDetail(player.passing.touchdowns)} · ${player.passing.interceptions} INT`,
     }));
 
   const rushing: LeaderRow[] = players
     .filter((player) => player.rushing.attempts > 0)
-    .sort((a, b) => b.rushing.yards - a.rushing.yards || b.rushing.touchdowns - a.rushing.touchdowns)
+    .sort((a, b) => b.rushing.yards - a.rushing.yards || compareOptionalStatsDescending(a.rushing.touchdowns, b.rushing.touchdowns))
     .slice(0, 3)
     .map((player) => ({
       playerId: player.playerId,
@@ -59,12 +60,12 @@ export default function AreaLeaders() {
       schoolSlug: player.schoolSlug,
       gamesRecorded: player.gamesRecorded,
       value: player.rushing.yards,
-      detail: `${player.rushing.attempts} CAR · ${player.rushing.touchdowns} TD`,
+      detail: `${player.rushing.attempts} CAR · ${formatTouchdownDetail(player.rushing.touchdowns)}`,
     }));
 
   const receiving: LeaderRow[] = players
     .filter((player) => player.receiving.receptions > 0)
-    .sort((a, b) => b.receiving.yards - a.receiving.yards || b.receiving.touchdowns - a.receiving.touchdowns)
+    .sort((a, b) => b.receiving.yards - a.receiving.yards || compareOptionalStatsDescending(a.receiving.touchdowns, b.receiving.touchdowns))
     .slice(0, 3)
     .map((player) => ({
       playerId: player.playerId,
@@ -72,7 +73,7 @@ export default function AreaLeaders() {
       schoolSlug: player.schoolSlug,
       gamesRecorded: player.gamesRecorded,
       value: player.receiving.yards,
-      detail: `${player.receiving.receptions} REC · ${player.receiving.touchdowns} TD`,
+      detail: `${player.receiving.receptions} REC · ${formatTouchdownDetail(player.receiving.touchdowns)}`,
     }));
 
   const allPurpose: LeaderRow[] = players
@@ -95,10 +96,13 @@ export default function AreaLeaders() {
   const totalTouchdowns: LeaderRow[] = players
     .map((player) => ({
       player,
-      touchdowns:
-        player.passing.touchdowns + player.rushing.touchdowns + player.receiving.touchdowns,
+      touchdowns: sumOptionalStats([
+        player.passing.touchdowns,
+        player.rushing.touchdowns,
+        player.receiving.touchdowns,
+      ]),
     }))
-    .filter(({ touchdowns }) => touchdowns > 0)
+    .filter((entry): entry is typeof entry & { touchdowns: number } => entry.touchdowns !== undefined && entry.touchdowns > 0)
     .sort(
       (a, b) =>
         b.touchdowns - a.touchdowns ||
@@ -185,7 +189,7 @@ export default function AreaLeaders() {
         </div>
 
         <p className="mt-3 text-[9px] leading-4 text-white/35 sm:mt-5 sm:text-[11px] sm:leading-5">
-          All-purpose yards currently include rushing plus receiving yards from verified game statistics; return yardage is not yet tracked. Total TDs include passing, rushing, and receiving touchdowns. Statistical coverage varies by program and game based on verified data available to VarsityVue.
+          All-purpose yards currently include rushing plus receiving yards from verified game statistics; return yardage is not yet tracked. Total TD leaders include only players whose passing, rushing, and receiving touchdown attribution is complete across their recorded lines. Statistical coverage varies by program and game based on verified data available to VarsityVue.
         </p>
       </div>
     </section>
