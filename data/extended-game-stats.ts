@@ -9,7 +9,7 @@ export const extendedGameStats: ExtendedGameStats[] = [
     sourceLabel: "Goldthwaite coaching staff via PressBox Stats",
     sourceUrl: "https://pressboxstats.com/gamecast/15729",
     teamMetrics: [
-      { label: "3rd Down", away: "2-10", home: "3-10" }, { label: "4th Down", away: "1-3", home: "1-1" }, { label: "Yards / Rush", away: "3.6", home: "7.4" }, { label: "Yards / Pass", away: "6.5", home: "10.4" }, { label: "Turnovers", away: 3, home: 2 }, { label: "Possession", away: "19:20", home: "28:40" },
+      { label: "3rd Down", away: "2-10", home: "3-10" }, { label: "4th Down", away: "1-3", home: "1-1" }, { label: "Yards / Rush", away: "3.6", home: "7.4" }, { label: "Yards / Pass", away: "6.5", home: "10.4" }, { label: "Turnovers", away: 3, home: 1 }, { label: "Possession", away: "19:20", home: "28:40" },
     ],
     tables: [
       { title: "Kicking", headers: ["Player", "FG", "FGA", "XP", "XPA", "Long"], rows: [ { player: "Koda Bierschwale", schoolSlug: "junction", values: [0, 0, 2, 3, 0] }, { player: "Blake Howard", schoolSlug: "goldthwaite", values: [0, 0, 3, 7, 0] } ] },
@@ -18,7 +18,7 @@ export const extendedGameStats: ExtendedGameStats[] = [
       { title: "Punt Returns", headers: ["Player", "PR", "Yds", "Avg", "Long", "TD"], rows: [ { player: "Aidyn Lee", schoolSlug: "goldthwaite", values: [2, 31, "15.5", 16, 0] }, { player: "Blaine Hall", schoolSlug: "goldthwaite", values: [1, -2, "-2.0", 0, 0] } ] },
       { title: "Defense", headers: ["Player", "Tack", "Ast", "TFL", "Sck", "INT", "FR", "PD"], rows: [ { player: "Hunter Dale", schoolSlug: "junction", values: [0, 0, 0, 0, 0, 1, 0] }, { player: "Blaine Hall", schoolSlug: "goldthwaite", values: [0, 0, 0, 0, 1, 0, 0] }, { player: "Landry Sanderson", schoolSlug: "goldthwaite", values: [0, 0, 0, 0, 0, 1, 0] }, { player: "Greenway Hagen", schoolSlug: "goldthwaite", values: [0, 0, 0, 0, 1, 0, 0] } ] },
     ],
-    notes: [ "Goldthwaite piled up 502 yards, including 283 rushing yards, in the 59-27 win.", "Landry Sanderson accounted for five touchdowns: four rushing and one receiving.", "Hayes Greenway threw for 219 yards and three touchdowns and added 72 yards and a rushing score.", "Goldthwaite intercepted two Junction passes, with Blaine Hall and Greenway Hagen recording the interceptions." ],
+    notes: [ "Goldthwaite piled up 502 yards, including 283 rushing yards, in the 59-27 win.", "Landry Sanderson accounted for five touchdowns: four rushing and one receiving.", "Hayes Greenway threw for 219 yards and three touchdowns and added 72 yards and a rushing score.", "Goldthwaite intercepted two Junction passes, with Blaine Hall and Greenway Hagen recording the interceptions.", "Goldthwaite's turnover total is reconciled from the retained PressBox play-by-play: one fourth-quarter lost fumble, recovered by Junction's Hunter Dale." ],
   },
   {
     gameId: "goldthwaite-at-granger-2026-week-2", sourceLabel: "Goldthwaite coaching staff via PressBox Stats", sourceUrl: "https://pressboxstats.com/gamecast/16925",
