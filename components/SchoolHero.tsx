@@ -5,6 +5,7 @@ import { getSchoolBySlug } from "@/lib/schools";
 import { getStandingForSchoolFromGames } from "@/lib/standings";
 import SchoolBadge from "./SchoolBadge";
 import ProgramLogo from "./ProgramLogo";
+import SchoolFollowControl from "./SchoolFollowControl";
 
 function formatClassification(classification: UILClassification) {
   if (!classification.division) return classification.conference;
@@ -34,7 +35,7 @@ function getGameMapUrl(game: { venue?: string; venueAddress?: string; homeTeam?:
   return query ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}` : undefined;
 }
 
-export default function SchoolHero({ school, games }: { school: School; games: Game[] }) {
+export default function SchoolHero({ school, games, isAuthenticated, isFollowing }: { school: School; games: Game[]; isAuthenticated: boolean; isFollowing: boolean }) {
   const now = new Date(); const todayKey = getCentralDateKey(now);
   const upcomingGames = games
     .filter((game) => game.homeSchoolSlug === school.slug || game.awaySchoolSlug === school.slug)
@@ -68,6 +69,7 @@ export default function SchoolHero({ school, games }: { school: School; games: G
                 {school.stadium && stadiumMapUrl ? <a href={stadiumMapUrl} target="_blank" rel="noopener noreferrer" title={`Open ${school.stadium} in Google Maps`} className="rounded-full border border-white/12 bg-black/35 px-2.5 py-1.5 text-[8px] font-black uppercase tracking-[0.1em] text-white/65 backdrop-blur-sm transition hover:border-white/25 hover:bg-white/10 hover:text-white sm:px-3.5 sm:py-2 sm:text-[10px] sm:tracking-[0.12em]">{school.stadium}</a> : school.stadium ? <IdentityPill label={school.stadium} /> : null}
               </div>
               {school.athleticDirector && school.athleticDirector !== school.headCoach && <p className="mt-1.5 text-[9px] font-black uppercase tracking-[0.1em] text-white/40 sm:mt-2 sm:text-xs sm:tracking-[0.12em]">Athletic Director · {school.athleticDirector}</p>}
+              <div className="mt-3 sm:mt-4"><SchoolFollowControl schoolName={school.name} schoolSlug={school.slug} isAuthenticated={isAuthenticated} isFollowing={isFollowing} /></div>
             </div>
           </div>
           <p className="mt-4 max-w-3xl text-xs leading-5 text-white/62 sm:mt-7 sm:text-base sm:leading-7">{programDescription}</p>
