@@ -9,7 +9,7 @@ import StandingsTable from "@/components/StandingsTable";
 import { getDistrictBySlug } from "@/lib/districts";
 import { getDynamicGames } from "@/lib/dynamic-games";
 import { getSchoolBySlug, getSchoolsByDistrictId } from "@/lib/schools";
-import { getStandingsForDistrictId } from "@/lib/standings";
+import { getStandingsForDistrictIdFromGames } from "@/lib/standings";
 
 type DistrictPageProps = {
   params: Promise<{ slug: string }>;
@@ -150,10 +150,10 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
   if (!district) notFound();
 
   const districtSchools = getSchoolsByDistrictId(district.id);
-  const districtStandings = getStandingsForDistrictId(district.id);
+  const dynamicGames = await getDynamicGames();
+  const districtStandings = getStandingsForDistrictIdFromGames(district.id, dynamicGames);
   const trackedDistrictTeams = districtStandings.length;
   const districtSchoolSlugs = new Set(districtSchools.map((school) => school.slug));
-  const dynamicGames = await getDynamicGames();
 
   const allDistrictGames = dynamicGames
     .filter(
