@@ -98,7 +98,10 @@ function suspiciousIdentityCandidate(name: string, candidates: string[]) {
   return candidates.find((candidate) => {
     const candidateTokens = normalizePlayerName(candidate).split("-").filter(Boolean);
     if (candidateTokens.length !== 2 || normalizePlayerName(candidate) === normalizePlayerName(name)) return false;
-    const shared = tokens.find((token) => candidateTokens.includes(token));
+    const shared = tokens.find((token, index) => {
+      const candidateIndex = candidateTokens.indexOf(token);
+      return candidateIndex !== -1 && candidateIndex !== index;
+    });
     if (!shared) return false;
     const unmatched = tokens.find((token) => token !== shared);
     const candidateUnmatched = candidateTokens.find((token) => token !== shared);
