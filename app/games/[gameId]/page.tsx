@@ -3,12 +3,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { getGameById } from "@/lib/games";
-import { getDynamicGameById } from "@/lib/dynamic-games";
+import { getDynamicGameById, getDynamicGames } from "@/lib/dynamic-games";
 import { getGameStats } from "@/lib/game-stats";
 import { getSchoolBySlug } from "@/lib/schools";
 import { getDistrictById } from "@/lib/districts";
-import { getStandingForSchool } from "@/lib/standings";
+import { getStandingForSchoolFromGames } from "@/lib/standings";
 import { getPlayerId } from "@/lib/player-identity";
 import { getPlayerProfile } from "@/lib/player-profiles";
 import { createClient } from "@/lib/supabase/server";
@@ -31,12 +30,12 @@ function getGameTypeLabel(gameType: string, week?: number) { if (gameType === "s
 function getSchemaEventStatus(status: string) { if (status === "final") return "https://schema.org/EventCompleted"; if (status === "cancelled") return "https://schema.org/EventCancelled"; if (status === "postponed") return "https://schema.org/EventPostponed"; return "https://schema.org/EventScheduled"; }
 function getMapUrl(game: { venue: string; venueAddress?: string; homeTeam: string }) { const query = game.venueAddress?.trim() || `${game.venue} ${game.homeTeam} Texas`; return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`; }
 
-export async function generateMetadata({ params }: GamePageProps): Promise<Metadata> { const { gameId } = await params; const game = getGameById(gameId); if (!game) return { title: "Game Not Found | VarsityVue" }; const homeTeamName = game.homeTeam ?? "Home Team"; const awayTeamName = game.awayTeam ?? "Away Team"; const stats = getGameStats(game.id); const preview = getGamePreview(game.id); const description = preview?.excerpt ?? (stats ? `${awayTeamName} at ${homeTeamName} game center with final score, verified statistics, venue information, and VarsityVue coverage.` : `${awayTeamName} at ${homeTeamName} game center with score, schedule, venue information, and VarsityVue coverage.`); return { title: `${awayTeamName} at ${homeTeamName} | VarsityVue`, description }; }
+export async function generateMetadata({ params }: GamePageProps): Promise<Metadata> { const { gameId } = await params; const game = await getDynamicGameById(gameId); if (!game) return { title: "Game Not Found | VarsityVue" }; const homeTeamName = game.homeTeam ?? "Home Team"; const awayTeamName = game.awayTeam ?? "Away Team"; const stats = getGameStats(game.id); const preview = getGamePreview(game.id); const description = preview?.excerpt ?? (stats ? `${awayTeamName} at ${homeTeamName} game center with final score, verified statistics, venue information, and VarsityVue coverage.` : `${awayTeamName} at ${homeTeamName} game center with score, schedule, venue information, and VarsityVue coverage.`); return { title: `${awayTeamName} at ${homeTeamName} | VarsityVue`, description }; }
 
 export default async function GamePage({ params }: GamePageProps) {
-  const { gameId } = await params; const game = await getDynamicGameById(gameId); if (!game) notFound();
+  const { gameId } = await params; const dynamicGames = await getDynamicGames(); const game = dynamicGames.find((candidate) => candidate.id === gameId); if (!game) notFound();
   const stats = getGameStats(game.id); const preview = getGamePreview(game.id); const statAvailability = game.status === "final" ? getGameStatAvailability(game.id) : undefined; const missingStatsState = !stats && statAvailability && statAvailability.status !== "verified" ? statAvailability : undefined; const homeTeamName = game.homeTeam ?? "Home Team"; const awayTeamName = game.awayTeam ?? "Away Team"; const kickoffValue = game.kickoff ?? ""; const hasVenue = Boolean(game.venue?.trim()); const venueName = hasVenue ? game.venue!.trim() : "Venue TBD";
-  const homeSchool = getSchoolBySlug(game.homeSchoolSlug ?? ""); const awaySchool = getSchoolBySlug(game.awaySchoolSlug ?? ""); const homeDistrict = homeSchool ? getDistrictById(homeSchool.districtId) : undefined; const awayDistrict = awaySchool ? getDistrictById(awaySchool.districtId) : undefined; const homeStanding = homeSchool ? getStandingForSchool(homeSchool.slug) : undefined; const awayStanding = awaySchool ? getStandingForSchool(awaySchool.slug) : undefined;
+  const homeSchool = getSchoolBySlug(game.homeSchoolSlug ?? ""); const awaySchool = getSchoolBySlug(game.awaySchoolSlug ?? ""); const homeDistrict = homeSchool ? getDistrictById(homeSchool.districtId) : undefined; const awayDistrict = awaySchool ? getDistrictById(awaySchool.districtId) : undefined; const homeStanding = homeSchool ? getStandingForSchoolFromGames(homeSchool.slug, dynamicGames) : undefined; const awayStanding = awaySchool ? getStandingForSchoolFromGames(awaySchool.slug, dynamicGames) : undefined;
   const primaryColor = homeSchool?.colors.primary ?? awaySchool?.colors.primary ?? VARSITYVUE_PRIMARY; const secondaryColor = awaySchool?.colors.primary ?? homeSchool?.colors.secondary ?? VARSITYVUE_ACCENT; const hasFinalScore = game.status === "final" && game.homeScore !== undefined && game.awayScore !== undefined;
   const showReportScore = game.season === 2026 && game.week !== undefined && game.week >= 3 && game.week <= 6 && game.gameType !== "scrimmage" && game.gameType !== "bye" && ["upcoming", "live", "scheduled"].includes(game.status);
   const sportsEventSchema = { "@context": "https://schema.org", "@type": "SportsEvent", name: `${awayTeamName} at ${homeTeamName}`, startDate: kickoffValue || undefined, eventStatus: getSchemaEventStatus(game.status), eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode", url: `https://varsityvue.com/games/${game.id}`, location: hasVenue ? { "@type": "Place", name: venueName, address: game.venueAddress || undefined } : undefined, competitor: [{ "@type": "SportsTeam", name: awayTeamName }, { "@type": "SportsTeam", name: homeTeamName }] };
