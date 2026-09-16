@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 
 import { hasCompleteScoreboardTeamIdentity } from "@/data/scoreboard-team-identities";
-import { getGameById } from "@/lib/games";
+import { getDynamicGameById } from "@/lib/dynamic-games";
 import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
 
@@ -48,7 +48,7 @@ export async function submitScore(formData: FormData) {
   }
 
   const gameId = text(formData, "game_id");
-  const game = getGameById(gameId);
+  const game = await getDynamicGameById(gameId);
   const homeScore = score(formData, "home_score");
   const awayScore = score(formData, "away_score");
   const gameStatus = text(formData, "game_status");
@@ -56,6 +56,14 @@ export async function submitScore(formData: FormData) {
 
   if (!game || game.gameType === "bye" || game.gameType === "scrimmage") {
     reportRedirect(gameId, "Choose a valid game.");
+  }
+
+  if (game.status === "final") {
+    reportRedirect(gameId, "This game is already final and is no longer open for score reports.");
+  }
+
+  if (game.status === "cancelled" || game.status === "postponed") {
+    reportRedirect(gameId, "This game is not currently open for score reports.");
   }
 
   const awayReady = teamHasCompleteIdentity(game.awaySchoolSlug, game.awayTeam);

@@ -8,9 +8,10 @@ import {
   hasCompleteScoreboardTeamIdentity,
 } from "@/data/scoreboard-team-identities";
 import { getProgramLogoPath } from "@/components/SchoolBadge";
-import { getGames } from "@/lib/games";
+import { getDynamicGames } from "@/lib/dynamic-games";
 import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
+import type { Game } from "@/types/platform";
 import ScoreReportForm from "./ScoreReportForm";
 
 export const metadata: Metadata = {
@@ -39,7 +40,7 @@ function teamHasCompleteIdentity(slug: string | undefined, team: string | undefi
   return team ? hasCompleteScoreboardTeamIdentity(team) : false;
 }
 
-function gameIsIdentityReady(game: ReturnType<typeof getGames>[number]) {
+function gameIsIdentityReady(game: Game) {
   return (
     teamHasCompleteIdentity(game.awaySchoolSlug, game.awayTeam) &&
     teamHasCompleteIdentity(game.homeSchoolSlug, game.homeTeam)
@@ -119,7 +120,7 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
   const isRestrictedScorekeeper = roleSet.has("scorekeeper") && !canModerate;
   const assignedSchoolSlugs = new Set((assignments ?? []).map((assignment) => assignment.school_slug));
 
-  const games = getGames()
+  const games = (await getDynamicGames())
     .filter(
       (game) =>
         game.season === 2026 &&
@@ -130,7 +131,14 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
     .sort((a, b) => (b.week ?? 0) - (a.week ?? 0));
 
   const relevantGames = games.filter((game) => {
-    if ((game.week ?? 0) < 3 || (game.week ?? 0) > 6 || !gameIsIdentityReady(game)) return false;
+    if (
+      (game.week ?? 0) < 3 ||
+      (game.week ?? 0) > 6 ||
+      game.status === "final" ||
+      game.status === "cancelled" ||
+      game.status === "postponed" ||
+      !gameIsIdentityReady(game)
+    ) return false;
     if (!isRestrictedScorekeeper) return true;
     return Boolean(
       (game.awaySchoolSlug && assignedSchoolSlugs.has(game.awaySchoolSlug)) ||
