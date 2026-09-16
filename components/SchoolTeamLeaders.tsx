@@ -1,96 +1,24 @@
 import Link from "next/link";
-
-import { gameStats } from "@/lib/all-game-stats";
-import { getDynamicGamesForSchool } from "@/lib/dynamic-games";
 import { getPassingLeaders, getReceivingLeaders, getRushingLeaders } from "@/lib/player-stats";
 import { getPlayerProfile } from "@/lib/player-profiles";
 import { formatTouchdownDetail } from "@/lib/stat-values";
+import { getPublicCompletenessLabel, isDefinitiveRanking, type PublicCompleteness } from "@/lib/stat-completeness-public";
 
 type SchoolTeamLeadersProps = { schoolSlug: string; season?: number; primaryColor?: string; secondaryColor?: string; };
-type Leader = { id: string; name: string; href?: string; primary: string; secondary: string };
+type Leader = { id: string; name: string; href?: string; primary: string; secondary: string; coverage: PublicCompleteness };
 
 export default async function SchoolTeamLeaders({ schoolSlug, season = 2026, primaryColor = "#8B1020", secondaryColor = "#F4EBDD" }: SchoolTeamLeadersProps) {
-  const rushing = getRushingLeaders({ season, schoolSlug, minAttempts: 1 }).slice(0, 3).map((entry) => ({ id: entry.playerId, name: entry.player, href: getPlayerProfile(entry.playerId, season) ? `/players/${entry.playerId}` : undefined, primary: `${entry.rushing.yards.toLocaleString()} YDS`, secondary: `${entry.rushing.attempts} CAR · ${formatTouchdownDetail(entry.rushing.touchdowns)} · ${entry.rushing.yardsPerCarry} YPC · ${entry.gamesRecorded} G` }));
-  const passing = getPassingLeaders({ season, schoolSlug, minAttempts: 1 }).slice(0, 3).map((entry) => ({ id: entry.playerId, name: entry.player, href: getPlayerProfile(entry.playerId, season) ? `/players/${entry.playerId}` : undefined, primary: `${entry.passing.yards.toLocaleString()} YDS`, secondary: `${entry.passing.completions}/${entry.passing.attempts} · ${formatTouchdownDetail(entry.passing.touchdowns)} · ${entry.passing.interceptions} INT · ${entry.gamesRecorded} G` }));
-  const receiving = getReceivingLeaders({ season, schoolSlug, minReceptions: 1 }).slice(0, 3).map((entry) => ({ id: entry.playerId, name: entry.player, href: getPlayerProfile(entry.playerId, season) ? `/players/${entry.playerId}` : undefined, primary: `${entry.receiving.yards.toLocaleString()} YDS`, secondary: `${entry.receiving.receptions} REC · ${formatTouchdownDetail(entry.receiving.touchdowns)} · ${entry.receiving.yardsPerReception} YPR · ${entry.gamesRecorded} G` }));
-  const hasLeaders = rushing.length > 0 || passing.length > 0 || receiving.length > 0;
-  const verifiedGames = gameStats.filter(
-    (game) =>
-      game.season === season &&
-      (game.rushing.some((line) => line.schoolSlug === schoolSlug) ||
-        game.passing.some((line) => line.schoolSlug === schoolSlug) ||
-        game.receiving.some((line) => line.schoolSlug === schoolSlug))
-  ).length;
-  const finalGames = (await getDynamicGamesForSchool(schoolSlug)).filter((game) => game.status === "final" && game.gameType !== "bye" && game.gameType !== "scrimmage").length;
-  const coverageComplete = finalGames > 0 && verifiedGames >= finalGames;
-  const coverageLabel = finalGames > 0 ? `${verifiedGames} of ${finalGames} finals with stats` : `${verifiedGames} verified ${verifiedGames === 1 ? "game" : "games"} on file`;
-
-  return (
-    <section className="min-w-0 overflow-hidden rounded-[1.5rem] border shadow-2xl sm:rounded-[1.75rem]" style={{ borderColor: `${primaryColor}55`, background: "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 48%, rgba(0,0,0,1))", boxShadow: `inset 4px 0 0 ${primaryColor}, 0 18px 50px rgba(0,0,0,0.45)` }}>
-      <div className="p-4 sm:p-6 md:p-7">
-        <div className="flex items-end justify-between gap-3">
-          <div>
-            <p className="text-[9px] font-black uppercase tracking-[0.2em] text-white/45 sm:text-xs sm:tracking-[0.28em]">{season} Offensive Leaders</p>
-            <h2 className="mt-1.5 text-2xl font-black text-white sm:mt-3 sm:text-3xl">Team Leaders</h2>
-          </div>
-          <p className="hidden text-xs text-white/35 sm:block">{coverageLabel}</p>
-        </div>
-
-        {hasLeaders ? (
-          <>
-            <div className="mt-2 flex flex-wrap items-center gap-2 sm:mt-3">
-              <p className="max-w-3xl text-[10px] leading-4 text-white/35 sm:text-xs sm:leading-5">Season totals reflect {verifiedGames} verified {verifiedGames === 1 ? "game" : "games"} currently on file and update as additional statistics are received.</p>
-              {finalGames > 0 && <span className={`rounded-full border px-2 py-1 text-[8px] font-black uppercase tracking-[0.1em] sm:px-2.5 sm:text-[9px] ${coverageComplete ? "border-white/10 bg-white/5 text-white/40" : "border-amber-300/20 bg-amber-300/10 text-amber-100/70"}`}>{coverageComplete ? "Full current coverage" : `${verifiedGames}/${finalGames} finals covered`}</span>}
-            </div>
-            <div className="mt-4 grid gap-3 sm:mt-5 sm:gap-4 lg:grid-cols-[repeat(3,minmax(0,1fr))]">
-              <CategoryCard label="Rushing" leaders={rushing} primaryColor={primaryColor} secondaryColor={secondaryColor} />
-              <CategoryCard label="Passing" leaders={passing} primaryColor={primaryColor} secondaryColor={secondaryColor} />
-              <CategoryCard label="Receiving" leaders={receiving} primaryColor={primaryColor} secondaryColor={secondaryColor} />
-            </div>
-          </>
-        ) : (
-          <div className="mt-4 rounded-xl border border-white/10 bg-black/35 p-4 sm:mt-5 sm:rounded-2xl sm:p-5">
-            <p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/40 sm:text-[10px] sm:tracking-[0.2em]">Stats Pending</p>
-            <p className="mt-2 max-w-3xl text-xs leading-5 text-white/55 sm:text-sm sm:leading-6">Verified individual statistics are not currently on file for this program. VarsityVue adds season statistics as reliable data is received.</p>
-            {finalGames > 0 && <p className="mt-2 text-[10px] font-bold text-white/35 sm:text-xs">0 of {finalGames} final {finalGames === 1 ? "game has" : "games have"} verified player statistics on file.</p>}
-            <Link href="/submit" className="mt-3 inline-flex text-[9px] font-black uppercase tracking-[0.12em] text-white/55 transition hover:text-white sm:mt-4 sm:text-[10px] sm:tracking-[0.14em]">Submit stats →</Link>
-          </div>
-        )}
-      </div>
-    </section>
-  );
+  const rushing = getRushingLeaders({ season, schoolSlug, minAttempts: 1 }).slice(0,3).map((entry)=>({id:entry.playerId,name:entry.player,href:getPlayerProfile(entry.playerId,season)?`/players/${entry.playerId}`:undefined,primary:`${entry.rushing.yards.toLocaleString()} YDS`,secondary:`${entry.rushing.attempts} CAR · ${formatTouchdownDetail(entry.rushing.touchdowns)} · ${entry.rushing.yardsPerCarry} YPC · ${entry.gamesRecorded} G`,coverage:entry.coverage.rushing}));
+  const passing = getPassingLeaders({ season, schoolSlug, minAttempts: 1 }).slice(0,3).map((entry)=>({id:entry.playerId,name:entry.player,href:getPlayerProfile(entry.playerId,season)?`/players/${entry.playerId}`:undefined,primary:`${entry.passing.yards.toLocaleString()} YDS`,secondary:`${entry.passing.completions}/${entry.passing.attempts} · ${formatTouchdownDetail(entry.passing.touchdowns)} · ${entry.passing.interceptions} INT · ${entry.gamesRecorded} G`,coverage:entry.coverage.passing}));
+  const receiving = getReceivingLeaders({ season, schoolSlug, minReceptions: 1 }).slice(0,3).map((entry)=>({id:entry.playerId,name:entry.player,href:getPlayerProfile(entry.playerId,season)?`/players/${entry.playerId}`:undefined,primary:`${entry.receiving.yards.toLocaleString()} YDS`,secondary:`${entry.receiving.receptions} REC · ${formatTouchdownDetail(entry.receiving.touchdowns)} · ${entry.receiving.yardsPerReception} YPR · ${entry.gamesRecorded} G`,coverage:entry.coverage.receiving}));
+  const hasLeaders = rushing.length>0||passing.length>0||receiving.length>0;
+  return <section className="min-w-0 overflow-hidden rounded-[1.5rem] border shadow-2xl sm:rounded-[1.75rem]" style={{borderColor:`${primaryColor}55`,background:"linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.94) 48%, rgba(0,0,0,1))",boxShadow:`inset 4px 0 0 ${primaryColor}, 0 18px 50px rgba(0,0,0,0.45)`}}><div className="p-4 sm:p-6 md:p-7">
+    <div className="flex items-end justify-between gap-3"><div><p className="text-[9px] font-black uppercase tracking-[0.2em] text-white/45 sm:text-xs sm:tracking-[0.28em]">{season} Offensive Leaders</p><h2 className="mt-1.5 text-2xl font-black text-white sm:mt-3 sm:text-3xl">Team Leaders</h2></div></div>
+    {hasLeaders?<><p className="mt-2 max-w-3xl text-[10px] leading-4 text-white/35 sm:mt-3 sm:text-xs sm:leading-5">Verified season totals currently on file. Category coverage is shown separately because a verified value does not establish a complete dataset.</p><div className="mt-4 grid gap-3 sm:mt-5 sm:gap-4 lg:grid-cols-[repeat(3,minmax(0,1fr))]"><CategoryCard label="Rushing" leaders={rushing} primaryColor={primaryColor} secondaryColor={secondaryColor}/><CategoryCard label="Passing" leaders={passing} primaryColor={primaryColor} secondaryColor={secondaryColor}/><CategoryCard label="Receiving" leaders={receiving} primaryColor={primaryColor} secondaryColor={secondaryColor}/></div></>:<div className="mt-4 rounded-xl border border-white/10 bg-black/35 p-4 sm:mt-5 sm:rounded-2xl sm:p-5"><p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/40 sm:text-[10px]">Stats Pending</p><p className="mt-2 max-w-3xl text-xs leading-5 text-white/55 sm:text-sm sm:leading-6">Verified individual statistics are not currently on file for this program. Missing statistics are not treated as zero.</p><Link href="/submit" className="mt-3 inline-flex text-[9px] font-black uppercase tracking-[0.12em] text-white/55 transition hover:text-white sm:mt-4 sm:text-[10px]">Submit stats →</Link></div>}
+  </div></section>;
 }
 
-function CategoryCard({ label, leaders, primaryColor, secondaryColor }: { label: string; leaders: Leader[]; primaryColor: string; secondaryColor: string }) {
-  if (!leaders.length) return null;
-  const [leader, ...others] = leaders;
-  const leaderNameClass = leader.name.length >= 13 ? "text-base sm:text-xl xl:text-[1.35rem]" : "text-lg sm:text-2xl";
-  return (
-    <div className="w-full min-w-0 max-w-full overflow-hidden rounded-xl border border-white/10 bg-black/40 sm:rounded-2xl">
-      <div className="relative overflow-hidden border-b border-white/10 p-4 sm:p-5" style={{ background: `radial-gradient(circle at 100% 0%, ${primaryColor}35, transparent 55%), linear-gradient(135deg, rgba(255,255,255,.055), rgba(0,0,0,.82))` }}>
-        <div className="absolute inset-x-0 top-0 h-1" style={{ background: `linear-gradient(90deg, ${primaryColor}, ${secondaryColor})` }} />
-        <div className="flex items-center justify-between gap-3">
-          <p className="text-[9px] font-black uppercase tracking-[0.18em] text-white/45 sm:text-[10px] sm:tracking-[0.22em]">{label}</p>
-          <p className="text-[9px] font-black uppercase tracking-[0.12em] text-white/25">Leader</p>
-        </div>
-        <div className="mt-2.5 grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-end gap-2 sm:mt-4 sm:gap-3">
-          <div className="min-w-0 overflow-hidden">
-            {leader.href ? <Link href={leader.href} className={`block truncate font-black leading-tight text-white transition hover:text-white/75 ${leaderNameClass}`}>{leader.name}</Link> : <p className={`truncate font-black leading-tight text-white ${leaderNameClass}`}>{leader.name}</p>}
-          </div>
-          <p className="shrink-0 whitespace-nowrap text-right text-xl font-black tracking-tight text-white sm:text-3xl">{leader.primary}</p>
-        </div>
-        <p className="mt-2 text-[9px] font-bold uppercase leading-4 tracking-[0.04em] text-white/40 sm:mt-3 sm:text-[11px] sm:tracking-[0.06em]">{leader.secondary}</p>
-      </div>
-      {others.length > 0 && <div className="divide-y divide-white/[0.07]">{others.map((player, index) => (
-        <div key={player.id} className="grid min-w-0 grid-cols-[1.25rem_minmax(0,1fr)_auto] items-center gap-2.5 px-3.5 py-2.5 transition hover:bg-white/[0.03] sm:grid-cols-[1.5rem_minmax(0,1fr)_auto] sm:gap-3 sm:px-4 sm:py-3.5">
-          <span className="text-xs font-black text-white/25 sm:text-sm">{index + 2}</span>
-          <div className="min-w-0">
-            {player.href ? <Link href={player.href} className="block truncate text-xs font-black leading-4 text-white/85 hover:text-white sm:text-sm">{player.name}</Link> : <p className="truncate text-xs font-black leading-4 text-white/85 sm:text-sm">{player.name}</p>}
-            <p className="mt-0.5 hidden truncate text-[10px] text-white/35 sm:block">{player.secondary}</p>
-          </div>
-          <span className="whitespace-nowrap text-[11px] font-black text-white/60 sm:text-xs">{player.primary}</span>
-        </div>
-      ))}</div>}
-    </div>
-  );
+function CategoryCard({label,leaders,primaryColor,secondaryColor}:{label:string;leaders:Leader[];primaryColor:string;secondaryColor:string}) {
+  if(!leaders.length)return null; const definitive=isDefinitiveRanking(leaders.map((leader)=>leader.coverage)); const [leader,...others]=leaders; const leaderNameClass=leader.name.length>=13?"text-base sm:text-xl xl:text-[1.35rem]":"text-lg sm:text-2xl";
+  return <div className="w-full min-w-0 max-w-full overflow-hidden rounded-xl border border-white/10 bg-black/40 sm:rounded-2xl"><div className="relative overflow-hidden border-b border-white/10 p-4 sm:p-5" style={{background:`radial-gradient(circle at 100% 0%, ${primaryColor}35, transparent 55%), linear-gradient(135deg, rgba(255,255,255,.055), rgba(0,0,0,.82))`}}><div className="absolute inset-x-0 top-0 h-1" style={{background:`linear-gradient(90deg, ${primaryColor}, ${secondaryColor})`}}/><div className="flex items-center justify-between gap-3"><p className="text-[9px] font-black uppercase tracking-[0.18em] text-white/45 sm:text-[10px]">{label}</p><p className="text-[9px] font-black uppercase tracking-[0.12em] text-white/25">{definitive?"Leader":"Verified total"}</p></div><div className="mt-2.5 grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-end gap-2 sm:mt-4 sm:gap-3"><div className="min-w-0 overflow-hidden">{leader.href?<Link href={leader.href} className={`block truncate font-black leading-tight text-white transition hover:text-white/75 ${leaderNameClass}`}>{leader.name}</Link>:<p className={`truncate font-black leading-tight text-white ${leaderNameClass}`}>{leader.name}</p>}</div><p className="shrink-0 whitespace-nowrap text-right text-xl font-black tracking-tight text-white sm:text-3xl">{leader.primary}</p></div><p className="mt-2 text-[9px] font-bold uppercase leading-4 tracking-[0.04em] text-white/40 sm:mt-3 sm:text-[11px]">{leader.secondary}</p>{leader.coverage!=="complete"&&<p className="mt-1 text-[8px] font-black uppercase tracking-[0.1em] text-amber-100/65">{getPublicCompletenessLabel(leader.coverage)}</p>}</div>{others.length>0&&<div className="divide-y divide-white/[0.07]">{others.map((player,index)=><div key={player.id} className="grid min-w-0 grid-cols-[1.25rem_minmax(0,1fr)_auto] items-center gap-2.5 px-3.5 py-2.5 sm:grid-cols-[1.5rem_minmax(0,1fr)_auto] sm:gap-3 sm:px-4 sm:py-3.5"><span className="text-xs font-black text-white/25 sm:text-sm">{definitive?index+2:"•"}</span><div className="min-w-0">{player.href?<Link href={player.href} className="block truncate text-xs font-black leading-4 text-white/85 hover:text-white sm:text-sm">{player.name}</Link>:<p className="truncate text-xs font-black leading-4 text-white/85 sm:text-sm">{player.name}</p>}<p className="mt-0.5 hidden truncate text-[10px] text-white/35 sm:block">{player.secondary}</p>{player.coverage!=="complete"&&<p className="mt-0.5 text-[8px] font-black uppercase tracking-[0.08em] text-amber-100/55">{getPublicCompletenessLabel(player.coverage)}</p>}</div><span className="whitespace-nowrap text-[11px] font-black text-white/60 sm:text-xs">{player.primary}</span></div>)}</div>}</div>;
 }

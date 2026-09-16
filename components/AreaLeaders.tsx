@@ -3,195 +3,25 @@ import Link from "next/link";
 import { getPlayerSeasonStats } from "@/lib/player-stats";
 import { getFeaturedSchools } from "@/lib/schools";
 import { compareOptionalStatsDescending, formatTouchdownDetail, sumOptionalStats } from "@/lib/stat-values";
+import { getPublicCompletenessLabel, isDefinitiveRanking, type PublicCompleteness } from "@/lib/stat-completeness-public";
 
-type LeaderRow = {
-  playerId: string;
-  player: string;
-  schoolSlug: string;
-  gamesRecorded: number;
-  value: number;
-  detail: string;
-};
-
-type LeaderCard = {
-  title: string;
-  statLabel: string;
-  rows: LeaderRow[];
-};
-
-function number(value: number) {
-  return new Intl.NumberFormat("en-US").format(value);
-}
-
-function touchdownDetail(player: ReturnType<typeof getPlayerSeasonStats>[number]) {
-  const parts: string[] = [];
-  if (player.passing.touchdowns !== undefined && player.passing.touchdowns > 0) parts.push(`${player.passing.touchdowns} PASS`);
-  if (player.rushing.touchdowns !== undefined && player.rushing.touchdowns > 0) parts.push(`${player.rushing.touchdowns} RUSH`);
-  if (player.receiving.touchdowns !== undefined && player.receiving.touchdowns > 0) parts.push(`${player.receiving.touchdowns} REC`);
-  return parts.join(" · ");
-}
+type LeaderRow = { playerId: string; player: string; schoolSlug: string; gamesRecorded: number; value: number; detail: string; coverage: PublicCompleteness; };
+type LeaderCard = { title: string; statLabel: string; rows: LeaderRow[]; };
+function number(value: number) { return new Intl.NumberFormat("en-US").format(value); }
+function touchdownDetail(player: ReturnType<typeof getPlayerSeasonStats>[number]) { const parts: string[] = []; if (player.passing.touchdowns !== undefined && player.passing.touchdowns > 0) parts.push(`${player.passing.touchdowns} PASS`); if (player.rushing.touchdowns !== undefined && player.rushing.touchdowns > 0) parts.push(`${player.rushing.touchdowns} RUSH`); if (player.receiving.touchdowns !== undefined && player.receiving.touchdowns > 0) parts.push(`${player.receiving.touchdowns} REC`); return parts.join(" · "); }
 
 export default function AreaLeaders() {
-  const featuredSchools = getFeaturedSchools();
-  const featuredSlugs = new Set(featuredSchools.map((school) => school.slug));
-  const schoolNames = new Map(featuredSchools.map((school) => [school.slug, school.name]));
+  const featuredSchools = getFeaturedSchools(); const featuredSlugs = new Set(featuredSchools.map((school) => school.slug)); const schoolNames = new Map(featuredSchools.map((school) => [school.slug, school.name]));
   const players = getPlayerSeasonStats(2026).filter((player) => featuredSlugs.has(player.schoolSlug));
-
-  const passing: LeaderRow[] = players
-    .filter((player) => player.passing.attempts > 0)
-    .sort((a, b) => b.passing.yards - a.passing.yards || compareOptionalStatsDescending(a.passing.touchdowns, b.passing.touchdowns))
-    .slice(0, 3)
-    .map((player) => ({
-      playerId: player.playerId,
-      player: player.player,
-      schoolSlug: player.schoolSlug,
-      gamesRecorded: player.gamesRecorded,
-      value: player.passing.yards,
-      detail: `${player.passing.completions}/${player.passing.attempts} · ${formatTouchdownDetail(player.passing.touchdowns)} · ${player.passing.interceptions} INT`,
-    }));
-
-  const rushing: LeaderRow[] = players
-    .filter((player) => player.rushing.attempts > 0)
-    .sort((a, b) => b.rushing.yards - a.rushing.yards || compareOptionalStatsDescending(a.rushing.touchdowns, b.rushing.touchdowns))
-    .slice(0, 3)
-    .map((player) => ({
-      playerId: player.playerId,
-      player: player.player,
-      schoolSlug: player.schoolSlug,
-      gamesRecorded: player.gamesRecorded,
-      value: player.rushing.yards,
-      detail: `${player.rushing.attempts} CAR · ${formatTouchdownDetail(player.rushing.touchdowns)}`,
-    }));
-
-  const receiving: LeaderRow[] = players
-    .filter((player) => player.receiving.receptions > 0)
-    .sort((a, b) => b.receiving.yards - a.receiving.yards || compareOptionalStatsDescending(a.receiving.touchdowns, b.receiving.touchdowns))
-    .slice(0, 3)
-    .map((player) => ({
-      playerId: player.playerId,
-      player: player.player,
-      schoolSlug: player.schoolSlug,
-      gamesRecorded: player.gamesRecorded,
-      value: player.receiving.yards,
-      detail: `${player.receiving.receptions} REC · ${formatTouchdownDetail(player.receiving.touchdowns)}`,
-    }));
-
-  const allPurpose: LeaderRow[] = players
-    .map((player) => ({
-      player,
-      yards: player.rushing.yards + player.receiving.yards,
-    }))
-    .filter(({ yards }) => yards > 0)
-    .sort((a, b) => b.yards - a.yards || b.player.rushing.yards - a.player.rushing.yards)
-    .slice(0, 3)
-    .map(({ player, yards }) => ({
-      playerId: player.playerId,
-      player: player.player,
-      schoolSlug: player.schoolSlug,
-      gamesRecorded: player.gamesRecorded,
-      value: yards,
-      detail: `${number(player.rushing.yards)} RUSH · ${number(player.receiving.yards)} REC`,
-    }));
-
-  const totalTouchdowns: LeaderRow[] = players
-    .map((player) => ({
-      player,
-      touchdowns: sumOptionalStats([
-        player.passing.touchdowns,
-        player.rushing.touchdowns,
-        player.receiving.touchdowns,
-      ]),
-    }))
-    .filter((entry): entry is typeof entry & { touchdowns: number } => entry.touchdowns !== undefined && entry.touchdowns > 0)
-    .sort(
-      (a, b) =>
-        b.touchdowns - a.touchdowns ||
-        b.player.passing.yards + b.player.rushing.yards + b.player.receiving.yards -
-          (a.player.passing.yards + a.player.rushing.yards + a.player.receiving.yards)
-    )
-    .slice(0, 3)
-    .map(({ player, touchdowns }) => ({
-      playerId: player.playerId,
-      player: player.player,
-      schoolSlug: player.schoolSlug,
-      gamesRecorded: player.gamesRecorded,
-      value: touchdowns,
-      detail: touchdownDetail(player),
-    }));
-
-  const cards: LeaderCard[] = [
-    { title: "Passing", statLabel: "YDS", rows: passing },
-    { title: "Receiving", statLabel: "YDS", rows: receiving },
-    { title: "Rushing", statLabel: "YDS", rows: rushing },
-    { title: "All-Purpose", statLabel: "YDS", rows: allPurpose },
-    { title: "Total TDs", statLabel: "TD", rows: totalTouchdowns },
-  ];
-
-  return (
-    <section className="px-4 py-4 sm:px-6 sm:py-5 lg:px-8">
-      <div className="mx-auto max-w-[1440px] rounded-[1.4rem] border border-white/10 bg-white/[0.04] p-3.5 shadow-2xl sm:rounded-[2rem] sm:p-6 md:p-8">
-        <div className="flex flex-col gap-2.5 sm:gap-3 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/45 sm:text-xs sm:tracking-[0.3em]">
-              2026 Stat Leaders
-            </p>
-            <h2 className="mt-1.5 text-[1.65rem] font-black leading-[1.05] text-white sm:mt-2 sm:text-3xl md:text-4xl">
-              Area Leaders
-            </h2>
-            <p className="mt-1.5 max-w-3xl text-xs leading-5 text-white/50 sm:mt-2 sm:text-sm sm:leading-6">
-              Top performers from VarsityVue featured programs based on verified statistics currently on file. Rankings update as additional game stats are received and may not represent every program equally.
-            </p>
-          </div>
-          <Link href="/stats" className="w-fit rounded-full border border-white/10 bg-black/35 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/45 transition hover:bg-white/10 hover:text-white sm:px-3 sm:py-1.5 sm:text-xs sm:tracking-[0.16em]">
-            View Full Leaders →
-          </Link>
-        </div>
-
-        <div className="mt-4 grid gap-2.5 sm:mt-6 sm:grid-cols-2 sm:gap-4 xl:grid-cols-5">
-          {cards.map((card) => (
-            <div key={card.title} className="overflow-hidden rounded-[1.15rem] border border-white/10 bg-black/35 sm:rounded-[1.5rem]">
-              <div className="border-b border-white/10 bg-[linear-gradient(135deg,rgba(139,16,32,0.24),rgba(255,255,255,0.03))] px-3.5 py-2.5 sm:px-5 sm:py-4">
-                <p className="text-[8px] font-black uppercase tracking-[0.15em] text-white/35 sm:text-[10px] sm:tracking-[0.2em]">
-                  Top 3
-                </p>
-                <h3 className="mt-0.5 text-sm font-black uppercase tracking-tight text-white sm:mt-1 sm:text-lg">
-                  {card.title}
-                </h3>
-              </div>
-
-              <div className="divide-y divide-white/10">
-                {card.rows.map((row, index) => (
-                  <div key={`${card.title}-${row.playerId}`} className="grid grid-cols-[22px_1fr_auto] items-center gap-2 px-3 py-2.5 sm:grid-cols-[28px_1fr_auto] sm:gap-3 sm:px-4 sm:py-4">
-                    <span className="text-sm font-black text-white/25 sm:text-lg">{index + 1}</span>
-                    <div className="min-w-0">
-                      <p className="truncate text-xs font-black text-white sm:text-sm">{row.player}</p>
-                      <Link
-                        href={`/schools/${row.schoolSlug}`}
-                        className="mt-0.5 block truncate text-[8px] font-black uppercase tracking-[0.1em] text-white/40 transition hover:text-white/70 sm:text-[10px] sm:tracking-[0.14em]"
-                      >
-                        {schoolNames.get(row.schoolSlug) ?? row.schoolSlug} · {row.gamesRecorded} G
-                      </Link>
-                      <p className="mt-0.5 truncate text-[8px] font-semibold uppercase tracking-[0.05em] text-white/30 sm:mt-1 sm:text-[10px] sm:tracking-[0.08em]">
-                        {row.detail}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-base font-black text-white sm:text-xl">{number(row.value)}</p>
-                      <p className="text-[7px] font-black uppercase tracking-[0.12em] text-white/30 sm:text-[9px] sm:tracking-[0.16em]">
-                        {card.statLabel}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <p className="mt-3 text-[9px] leading-4 text-white/35 sm:mt-5 sm:text-[11px] sm:leading-5">
-          All-purpose yards currently include rushing plus receiving yards from verified game statistics; return yardage is not yet tracked. Total TD leaders include only players whose passing, rushing, and receiving touchdown attribution is complete across their recorded lines. Statistical coverage varies by program and game based on verified data available to VarsityVue.
-        </p>
-      </div>
-    </section>
-  );
+  const passing: LeaderRow[] = players.filter((p) => p.passing.attempts > 0).sort((a,b) => b.passing.yards-a.passing.yards || compareOptionalStatsDescending(a.passing.touchdowns,b.passing.touchdowns)).slice(0,3).map((p)=>({playerId:p.playerId,player:p.player,schoolSlug:p.schoolSlug,gamesRecorded:p.gamesRecorded,value:p.passing.yards,detail:`${p.passing.completions}/${p.passing.attempts} · ${formatTouchdownDetail(p.passing.touchdowns)} · ${p.passing.interceptions} INT`,coverage:p.coverage.passing}));
+  const rushing: LeaderRow[] = players.filter((p) => p.rushing.attempts > 0).sort((a,b) => b.rushing.yards-a.rushing.yards || compareOptionalStatsDescending(a.rushing.touchdowns,b.rushing.touchdowns)).slice(0,3).map((p)=>({playerId:p.playerId,player:p.player,schoolSlug:p.schoolSlug,gamesRecorded:p.gamesRecorded,value:p.rushing.yards,detail:`${p.rushing.attempts} CAR · ${formatTouchdownDetail(p.rushing.touchdowns)}`,coverage:p.coverage.rushing}));
+  const receiving: LeaderRow[] = players.filter((p) => p.receiving.receptions > 0).sort((a,b) => b.receiving.yards-a.receiving.yards || compareOptionalStatsDescending(a.receiving.touchdowns,b.receiving.touchdowns)).slice(0,3).map((p)=>({playerId:p.playerId,player:p.player,schoolSlug:p.schoolSlug,gamesRecorded:p.gamesRecorded,value:p.receiving.yards,detail:`${p.receiving.receptions} REC · ${formatTouchdownDetail(p.receiving.touchdowns)}`,coverage:p.coverage.receiving}));
+  const allPurpose: LeaderRow[] = players.map((player)=>({player,yards:player.rushing.yards+player.receiving.yards})).filter(({yards})=>yards>0).sort((a,b)=>b.yards-a.yards||b.player.rushing.yards-a.player.rushing.yards).slice(0,3).map(({player,yards})=>({playerId:player.playerId,player:player.player,schoolSlug:player.schoolSlug,gamesRecorded:player.gamesRecorded,value:yards,detail:`${number(player.rushing.yards)} RUSH · ${number(player.receiving.yards)} REC`,coverage: player.coverage.rushing === "complete" && player.coverage.receiving === "complete" ? "complete" : player.coverage.rushing === "partial" || player.coverage.receiving === "partial" ? "partial" : "unknown"}));
+  const totalTouchdowns: LeaderRow[] = players.map((player)=>({player,touchdowns:sumOptionalStats([player.passing.touchdowns,player.rushing.touchdowns,player.receiving.touchdowns])})).filter((entry): entry is typeof entry & {touchdowns:number}=>entry.touchdowns!==undefined&&entry.touchdowns>0).sort((a,b)=>b.touchdowns-a.touchdowns).slice(0,3).map(({player,touchdowns})=>({playerId:player.playerId,player:player.player,schoolSlug:player.schoolSlug,gamesRecorded:player.gamesRecorded,value:touchdowns,detail:touchdownDetail(player),coverage:player.coverage.totalTouchdowns}));
+  const cards: LeaderCard[] = [{title:"Passing",statLabel:"YDS",rows:passing},{title:"Receiving",statLabel:"YDS",rows:receiving},{title:"Rushing",statLabel:"YDS",rows:rushing},{title:"All-Purpose",statLabel:"YDS",rows:allPurpose},{title:"Total TDs",statLabel:"TD",rows:totalTouchdowns}];
+  return <section className="px-4 py-4 sm:px-6 sm:py-5 lg:px-8"><div className="mx-auto max-w-[1440px] rounded-[1.4rem] border border-white/10 bg-white/[0.04] p-3.5 shadow-2xl sm:rounded-[2rem] sm:p-6 md:p-8">
+    <div className="flex flex-col gap-2.5 sm:gap-3 md:flex-row md:items-end md:justify-between"><div><p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/45 sm:text-xs sm:tracking-[0.3em]">2026 Stat Leaders</p><h2 className="mt-1.5 text-[1.65rem] font-black leading-[1.05] text-white sm:mt-2 sm:text-3xl md:text-4xl">Area Leaders</h2><p className="mt-1.5 max-w-3xl text-xs leading-5 text-white/50 sm:mt-2 sm:text-sm sm:leading-6">Ordered verified statistics currently on file. Partial or unclassified coverage stays visible, but the order is not a definitive ranking unless every displayed total is complete.</p></div><Link href="/stats" className="w-fit rounded-full border border-white/10 bg-black/35 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/45 transition hover:bg-white/10 hover:text-white sm:px-3 sm:py-1.5 sm:text-xs sm:tracking-[0.16em]">View Full Leaders →</Link></div>
+    <div className="mt-4 grid gap-2.5 sm:mt-6 sm:grid-cols-2 sm:gap-4 xl:grid-cols-5">{cards.map((card)=>{const definitive=isDefinitiveRanking(card.rows.map((row)=>row.coverage));return <div key={card.title} className="overflow-hidden rounded-[1.15rem] border border-white/10 bg-black/35 sm:rounded-[1.5rem]"><div className="border-b border-white/10 bg-[linear-gradient(135deg,rgba(139,16,32,0.24),rgba(255,255,255,0.03))] px-3.5 py-2.5 sm:px-5 sm:py-4"><p className="text-[8px] font-black uppercase tracking-[0.15em] text-white/35 sm:text-[10px] sm:tracking-[0.2em]">{definitive?"Top 3":"Verified totals on file"}</p><h3 className="mt-0.5 text-sm font-black uppercase tracking-tight text-white sm:mt-1 sm:text-lg">{card.title}</h3></div><div className="divide-y divide-white/10">{card.rows.map((row,index)=><div key={`${card.title}-${row.playerId}`} className="grid grid-cols-[22px_1fr_auto] items-center gap-2 px-3 py-2.5 sm:grid-cols-[28px_1fr_auto] sm:gap-3 sm:px-4 sm:py-4"><span className="text-sm font-black text-white/25 sm:text-lg">{definitive?index+1:"•"}</span><div className="min-w-0"><p className="truncate text-xs font-black text-white sm:text-sm">{row.player}</p><Link href={`/schools/${row.schoolSlug}`} className="mt-0.5 block truncate text-[8px] font-black uppercase tracking-[0.1em] text-white/40 transition hover:text-white/70 sm:text-[10px]">{schoolNames.get(row.schoolSlug)??row.schoolSlug} · {row.gamesRecorded} G</Link><p className="mt-0.5 truncate text-[8px] font-semibold uppercase tracking-[0.05em] text-white/30 sm:mt-1 sm:text-[10px]">{row.detail}</p>{row.coverage!=="complete"&&<p className="mt-1 text-[8px] font-black uppercase tracking-[0.08em] text-amber-100/60">{getPublicCompletenessLabel(row.coverage)}</p>}</div><div className="text-right"><p className="text-base font-black text-white sm:text-xl">{number(row.value)}</p><p className="text-[7px] font-black uppercase tracking-[0.12em] text-white/30 sm:text-[9px]">{card.statLabel}</p></div></div>)}</div></div>})}</div>
+    <p className="mt-3 text-[9px] leading-4 text-white/35 sm:mt-5 sm:text-[11px] sm:leading-5">Verified value does not necessarily mean complete category coverage. Undefined touchdown totals remain excluded from touchdown ordering; missing statistics are never converted to zero.</p>
+  </div></section>;
 }
