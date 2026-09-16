@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useState, useTransition } from "react";
 import {
+  beginSignedOutSchoolFollow,
   followSchool,
   unfollowSchool,
   type SchoolFollowActionState,
@@ -13,6 +13,8 @@ type SchoolFollowControlProps = {
   schoolSlug: string;
   isAuthenticated: boolean;
   isFollowing: boolean;
+  finishFollowing?: boolean;
+  initialMessage?: string;
 };
 
 const buttonClass =
@@ -23,11 +25,13 @@ export default function SchoolFollowControl({
   schoolSlug,
   isAuthenticated,
   isFollowing,
+  finishFollowing = false,
+  initialMessage = "",
 }: SchoolFollowControlProps) {
   const [state, setState] = useState<SchoolFollowActionState>({
     following: isFollowing,
     status: "idle",
-    message: "",
+    message: initialMessage,
   });
   const [pending, startTransition] = useTransition();
 
@@ -41,12 +45,14 @@ export default function SchoolFollowControl({
 
   if (!isAuthenticated) {
     return (
-      <Link
-        href={`/login?next=${encodeURIComponent(`/schools/${schoolSlug}`)}`}
-        className={`${buttonClass} border-white/20 bg-white/10 text-white hover:bg-white/15`}
-      >
-        Follow {schoolName}
-      </Link>
+      <form action={() => beginSignedOutSchoolFollow(schoolSlug)}>
+        <button
+          type="submit"
+          className={`${buttonClass} border-white/20 bg-white/10 text-white hover:bg-white/15`}
+        >
+          Follow {schoolName}
+        </button>
+      </form>
     );
   }
 
@@ -78,7 +84,11 @@ export default function SchoolFollowControl({
             disabled={pending}
             className={`${buttonClass} border-white/20 bg-white/10 text-white hover:bg-white/15`}
           >
-            {pending ? "Following…" : `Follow ${schoolName}`}
+            {pending
+              ? "Following…"
+              : finishFollowing
+                ? `Finish Following ${schoolName}`
+                : `Follow ${schoolName}`}
           </button>
         </form>
       )}

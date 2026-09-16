@@ -14,10 +14,17 @@ function safeNext(value?: string) {
   return value;
 }
 
+function intendedSchoolSlug(returnTo: string) {
+  if (!returnTo.startsWith("/follow/complete?")) return undefined;
+  const params = new URLSearchParams(returnTo.split("?")[1] ?? "");
+  return params.get("school") ?? undefined;
+}
+
 export default async function LoginPage({ searchParams }: LoginPageProps) {
   const { message, mode, next } = await searchParams;
   const signupMode = mode === "signup";
   const returnTo = safeNext(next);
+  const followSchoolSlug = intendedSchoolSlug(returnTo);
   const toggleParams = new URLSearchParams();
   if (!signupMode) toggleParams.set("mode", "signup");
   if (returnTo !== "/account") toggleParams.set("next", returnTo);
@@ -40,6 +47,12 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           {returnTo.startsWith("/report-score") ? (
             <div className="mt-5 rounded-2xl border border-[var(--vv-accent)]/15 bg-white/[0.04] px-4 py-3 text-xs leading-5 text-white/55">
               Sign in or create an account and we’ll return you directly to the score report you selected.
+            </div>
+          ) : null}
+
+          {followSchoolSlug ? (
+            <div className="mt-5 rounded-2xl border border-[var(--vv-accent)]/15 bg-white/[0.04] px-4 py-3 text-xs leading-5 text-white/55">
+              Sign in or create an account to finish following your selected school.
             </div>
           ) : null}
 

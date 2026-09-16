@@ -1,6 +1,15 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import {
+  createFollowIntent,
+  FOLLOW_INTENT_COOKIE,
+  followCompletionPath,
+  followIntentCookieOptions,
+} from "@/lib/follow-intent";
+import { followSchoolForCurrentUser } from "@/lib/school-follow-mutations";
 import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
 
@@ -32,39 +41,21 @@ async function authenticatedFollowContext(schoolSlug: string) {
 export async function followSchool(
   schoolSlug: string,
 ): Promise<SchoolFollowActionState> {
-  const context = await authenticatedFollowContext(schoolSlug);
-  if (!context.ok) {
-    return { following: false, status: "error", message: context.error };
-  }
+  return followSchoolForCurrentUser(schoolSlug);
+}
 
-  const { error } = await context.supabase.from("school_follows").upsert(
-    {
-      user_id: context.userId,
-      school_slug: context.slug,
-      source_surface: "school_hub",
-    },
-    { onConflict: "user_id,school_slug", ignoreDuplicates: true },
+export async function beginSignedOutSchoolFollow(schoolSlug: string) {
+  const school = getSchoolBySlug(schoolSlug.trim());
+  if (!school) redirect("/schools");
+
+  const cookieStore = await cookies();
+  cookieStore.set(
+    FOLLOW_INTENT_COOKIE,
+    createFollowIntent(school.slug),
+    followIntentCookieOptions(),
   );
 
-  if (error) {
-    console.error("Unable to follow school.", {
-      code: error.code,
-      schoolSlug: context.slug,
-    });
-    return {
-      following: false,
-      status: "error",
-      message: "We could not save this follow. Please try again.",
-    };
-  }
-
-  revalidatePath(`/schools/${context.slug}`);
-  revalidatePath("/account");
-  return {
-    following: true,
-    status: "success",
-    message: `You are now following ${context.school.name}.`,
-  };
+  redirect(`/login?next=${encodeURIComponent(followCompletionPath(school.slug))}`);
 }
 
 export async function unfollowSchool(

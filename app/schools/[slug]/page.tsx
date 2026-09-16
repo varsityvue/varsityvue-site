@@ -27,8 +27,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return { title: `${school.fullName} Football Hub`, description: `${school.fullName} schedules, scores, standings, roster, player statistics, district information, game coverage, and football updates on VarsityVue.`, alternates: { canonical: `/schools/${school.slug}` }, robots: school.status === "pilot" ? { index: true, follow: true } : { index: false, follow: true } };
 }
 
-export default async function SchoolPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function SchoolPage({ params, searchParams }: { params: Promise<{ slug: string }>; searchParams: Promise<{ followed?: string; finishFollow?: string; followError?: string }> }) {
   const { slug } = await params;
+  const followParams = await searchParams;
   const school = getSchoolBySlug(slug);
   if (!school) notFound();
   const district = getDistrictById(school.districtId);
@@ -71,7 +72,7 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] text-white">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schoolSchema) }} />
-      <SchoolHero school={school} games={dynamicGames} isAuthenticated={Boolean(userId)} isFollowing={isFollowing} />
+      <SchoolHero school={school} games={dynamicGames} isAuthenticated={Boolean(userId)} isFollowing={isFollowing} finishFollowing={Boolean(userId) && !isFollowing && followParams.finishFollow === school.slug} followMessage={isFollowing && followParams.followed === school.slug ? `You’re now following ${school.name}.` : Boolean(userId) && !isFollowing && followParams.finishFollow === school.slug ? followParams.followError === "1" ? "Authentication succeeded, but the follow still needs your confirmation." : `Authentication succeeded. Select Finish Following to follow ${school.name}.` : ""} />
       <SchoolSubnav schoolSlug={school.slug} districtSlug={districtSlug} theme={theme} />
       {canManageRoster ? <div className="mx-auto w-full max-w-6xl px-4 pt-4 sm:px-6 lg:px-8"><div className="flex items-center justify-between gap-3 rounded-xl border border-amber-300/15 bg-amber-300/[0.07] px-3 py-2.5 sm:px-4"><div className="min-w-0"><p className="text-[8px] font-black uppercase tracking-[0.14em] text-amber-100/45">Team Management</p><p className="mt-0.5 truncate text-xs font-black text-amber-50 sm:text-sm">You can manage {school.name}&apos;s 2026 roster.</p></div><Link href={`/manage-roster?school=${encodeURIComponent(school.slug)}`} className="shrink-0 rounded-lg border border-amber-200/15 bg-amber-200/10 px-3 py-2 text-[9px] font-black uppercase tracking-[0.1em] text-amber-50 transition hover:bg-amber-200/15 sm:text-[10px]">Manage Roster →</Link></div></div> : null}
       <div className="mx-auto w-full max-w-6xl px-4 pt-5 sm:px-6 sm:pt-6 lg:px-8"><SchoolSeasonPulse schoolSlug={school.slug} theme={theme} /></div>
