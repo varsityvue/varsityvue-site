@@ -1,14 +1,14 @@
 import type { MetadataRoute } from "next";
 import { districts } from "../data/districts";
 import { getSchools } from "../lib/schools";
-import { getGames } from "../lib/games";
+import { getDynamicGames } from "../lib/dynamic-games";
 import { getArticles } from "../lib/articles";
 import { getPlayerSeasonStats } from "../lib/player-stats";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://varsityvue.com";
   const schools = getSchools();
-  const games = getGames();
+  const games = await getDynamicGames();
   const articles = getArticles();
 
   const featuredSchools = schools.filter((school) => school.status === "pilot");
