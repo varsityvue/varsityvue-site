@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { getDynamicGamesForSchool } from "@/lib/dynamic-games";
 import { getSchoolBySlug } from "@/lib/schools";
-import { getStandingForSchool } from "@/lib/standings";
+import { getStandingForSchoolFromGames } from "@/lib/standings";
 import type { Game } from "@/types/platform";
 import type { SchoolTheme } from "@/types/school-theme";
 import SchoolBadge from "./SchoolBadge";
@@ -85,27 +85,32 @@ export default async function SchoolSeasonPulse({
     .filter((game) => game.status === "upcoming" && game.gameType !== "bye")
     .sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b))[0];
   const featuredGame = liveGame ?? nextUpcomingGame;
-  const verifiedStanding = getStandingForSchool(schoolSlug);
+  const verifiedStanding = getStandingForSchoolFromGames(schoolSlug, games);
 
-  let calculatedWins = 0;
-  let calculatedLosses = 0;
-  let pointsFor = 0;
-  let pointsAgainst = 0;
-
-  const recentResults = finals
-    .map((game) => {
+  const summary = finals.reduce<{
+    calculatedWins: number;
+    calculatedLosses: number;
+    pointsFor: number;
+    pointsAgainst: number;
+    recentResults: ("W" | "L" | "T")[];
+  }>(
+    (current, game) => {
       const score = getTeamScore(game, schoolSlug);
-      if (score.team === undefined || score.opponent === undefined) return null;
-      pointsFor += score.team;
-      pointsAgainst += score.opponent;
-      if (score.team > score.opponent) calculatedWins += 1;
-      if (score.team < score.opponent) calculatedLosses += 1;
-      return score.team > score.opponent ? "W" : score.team < score.opponent ? "L" : "T";
-    })
-    .filter((result): result is "W" | "L" | "T" => Boolean(result));
+      if (score.team === undefined || score.opponent === undefined) return current;
+      const result = score.team > score.opponent ? "W" : score.team < score.opponent ? "L" : "T";
+      return {
+        calculatedWins: current.calculatedWins + (result === "W" ? 1 : 0),
+        calculatedLosses: current.calculatedLosses + (result === "L" ? 1 : 0),
+        pointsFor: current.pointsFor + score.team,
+        pointsAgainst: current.pointsAgainst + score.opponent,
+        recentResults: [...current.recentResults, result],
+      };
+    },
+    { calculatedWins: 0, calculatedLosses: 0, pointsFor: 0, pointsAgainst: 0, recentResults: [] }
+  );
 
-  const wins = verifiedStanding?.overallWins ?? calculatedWins;
-  const losses = verifiedStanding?.overallLosses ?? calculatedLosses;
+  const wins = verifiedStanding?.overallWins ?? summary.calculatedWins;
+  const losses = verifiedStanding?.overallLosses ?? summary.calculatedLosses;
   const hasScoringData = finals.length > 0;
 
   const featuredOpponent = featuredGame ? getOpponent(featuredGame, schoolSlug) : null;
@@ -119,8 +124,8 @@ export default async function SchoolSeasonPulse({
   return (
     <section className="grid gap-3 sm:gap-4 lg:grid-cols-[0.95fr_1.35fr]">
       <div className="overflow-hidden rounded-[1.5rem] border p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6" style={{ borderColor: `${theme.primary}55`, background: `linear-gradient(145deg, ${theme.primary}24, rgba(255,255,255,0.035) 42%, rgba(0,0,0,0.98) 78%)`, boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.4)` }}>
-        <div className="flex items-end justify-between gap-4"><div><p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/45 sm:text-[10px] sm:tracking-[0.24em]">Season Overview</p><p className="mt-1.5 text-4xl font-black tracking-tight text-white sm:mt-3 sm:text-5xl">{wins}-{losses}</p></div>{recentResults.length > 0 && <div className="text-right"><p className="text-[8px] font-black uppercase tracking-[0.14em] text-white/30 sm:text-[10px] sm:tracking-[0.18em]">Last 5</p><div className="mt-1.5 flex justify-end gap-1.5 sm:mt-3 sm:gap-2">{recentResults.slice(-5).map((result, index) => <span key={`${result}-${index}`} className={`flex h-7 w-7 items-center justify-center rounded-full border text-[10px] font-black sm:h-8 sm:w-8 sm:text-xs ${result === "W" ? "border-green-400/30 bg-green-500/15 text-green-300" : result === "L" ? "border-red-400/30 bg-red-500/15 text-red-300" : "border-yellow-400/30 bg-yellow-500/15 text-yellow-200"}`}>{result}</span>)}</div></div>}</div>
-        <div className="mt-3 grid grid-cols-3 gap-2 sm:mt-5"><PulseStat label="PF" value={hasScoringData ? pointsFor.toString() : "—"} /><PulseStat label="PA" value={hasScoringData ? pointsAgainst.toString() : "—"} /><PulseStat label="Diff" value={hasScoringData ? `${pointsFor - pointsAgainst > 0 ? "+" : ""}${pointsFor - pointsAgainst}` : "—"} /></div>
+        <div className="flex items-end justify-between gap-4"><div><p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/45 sm:text-[10px] sm:tracking-[0.24em]">Season Overview</p><p className="mt-1.5 text-4xl font-black tracking-tight text-white sm:mt-3 sm:text-5xl">{wins}-{losses}</p></div>{summary.recentResults.length > 0 && <div className="text-right"><p className="text-[8px] font-black uppercase tracking-[0.14em] text-white/30 sm:text-[10px] sm:tracking-[0.18em]">Last 5</p><div className="mt-1.5 flex justify-end gap-1.5 sm:mt-3 sm:gap-2">{summary.recentResults.slice(-5).map((result, index) => <span key={`${result}-${index}`} className={`flex h-7 w-7 items-center justify-center rounded-full border text-[10px] font-black sm:h-8 sm:w-8 sm:text-xs ${result === "W" ? "border-green-400/30 bg-green-500/15 text-green-300" : result === "L" ? "border-red-400/30 bg-red-500/15 text-red-300" : "border-yellow-400/30 bg-yellow-500/15 text-yellow-200"}`}>{result}</span>)}</div></div>}</div>
+        <div className="mt-3 grid grid-cols-3 gap-2 sm:mt-5"><PulseStat label="PF" value={hasScoringData ? summary.pointsFor.toString() : "—"} /><PulseStat label="PA" value={hasScoringData ? summary.pointsAgainst.toString() : "—"} /><PulseStat label="Diff" value={hasScoringData ? `${summary.pointsFor - summary.pointsAgainst > 0 ? "+" : ""}${summary.pointsFor - summary.pointsAgainst}` : "—"} /></div>
       </div>
 
       <div className="relative overflow-hidden rounded-[1.5rem] border p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6" style={{ borderColor: featuredGame?.status === "live" ? `${theme.primary}88` : `${theme.secondary}33`, background: featuredGame?.status === "live" ? `linear-gradient(135deg, ${theme.primary}2e, rgba(255,255,255,0.055), rgba(0,0,0,0.96) 66%)` : "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.96) 62%)", boxShadow: `0 18px 50px ${theme.primary}18` }}>
