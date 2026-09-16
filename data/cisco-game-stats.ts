@@ -2,7 +2,7 @@ import type { GameStats } from "@/data/game-stats";
 
 export const ciscoGameStats: GameStats[] = [
   {
-    gameId: "clyde-at-cisco-2026-week-1",
+    gameId: "cisco-at-clyde-2026-week-1",
     season: 2026,
     sourceStatus: "verified",
     sourceLabel: "VarsityVue Verified Stats",

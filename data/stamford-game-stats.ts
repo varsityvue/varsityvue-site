@@ -5,7 +5,7 @@ import type { GameStats } from "@/data/game-stats";
 // omitted rather than inferred from another source.
 export const stamfordGameStats: GameStats[] = [
   {
-    gameId: "haskell-at-stamford-2026-week-1",
+    gameId: "stamford-at-haskell-2026-week-1",
     season: 2026,
     sourceStatus: "verified",
     sourceLabel: "VarsityVue Verified Stats",
