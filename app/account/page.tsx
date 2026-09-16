@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { getCanonicalScoreboardTeamName, hasCompleteScoreboardTeamIdentity } from "@/data/scoreboard-team-identities";
+import { getDynamicGames } from "@/lib/dynamic-games";
 import { getUpcomingGamesForSchool } from "@/lib/games";
 import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
@@ -110,14 +111,18 @@ export default async function AccountPage() {
     : coachPrograms[0]
       ? `/manage-roster?school=${encodeURIComponent(coachPrograms[0].slug)}`
       : "/manage-roster";
+  const dynamicGames = isScorekeeper && !canModerate ? await getDynamicGames() : [];
+  const dynamicGamesById = new Map(dynamicGames.map((game) => [game.id, game]));
 
   const upcomingAssignedGames = isScorekeeper && !canModerate
     ? Array.from(
         new Map(
           assignedPrograms
             .flatMap((program) => getUpcomingGamesForSchool(program.slug))
+            .map((game) => dynamicGamesById.get(game.id) ?? game)
             .filter(
               (game) =>
+                game.status === "upcoming" &&
                 game.gameType !== "scrimmage" &&
                 teamHasCompleteIdentity(game.awaySchoolSlug, game.awayTeam) &&
                 teamHasCompleteIdentity(game.homeSchoolSlug, game.homeTeam),
