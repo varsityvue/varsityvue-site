@@ -3,9 +3,9 @@ import Link from "next/link";
 
 import { getSchools, getSchoolBySlug } from "@/lib/schools";
 import { getGameOfTheWeek, type DynamicScoreState } from "@/lib/scoreboard";
-import { createClient } from "@/lib/supabase/server";
+import { getDynamicGames } from "@/lib/dynamic-games";
 import { getGamePreview } from "@/data/game-previews";
-import { getStandingForSchool } from "@/lib/standings";
+import { getStandingForSchoolFromGames } from "@/lib/standings";
 import DistrictSpotlight from "@/components/DistrictSpotlight";
 import ScoreStrip from "@/components/ScoreStrip";
 import SchoolSearch from "../components/SchoolSearch";
@@ -85,13 +85,17 @@ function formatGameDateTime(kickoff?: string) {
 
 export default async function Home() {
   const schools = getSchools();
-  const supabase = await createClient();
-  const { data: dynamicRows } = await supabase
-    .from("game_state")
-    .select("game_id, status, home_score, away_score, period, clock, verified")
-    .eq("verified", true);
+  const dynamicGames = await getDynamicGames();
   const dynamicState = new Map(
-    ((dynamicRows ?? []) as DynamicScoreState[]).map((state) => [state.game_id, state]),
+    dynamicGames.map((game): [string, DynamicScoreState] => [game.id, {
+      game_id: game.id,
+      status: game.status,
+      home_score: game.homeScore ?? null,
+      away_score: game.awayScore ?? null,
+      period: game.score?.period ?? null,
+      clock: null,
+      verified: true,
+    }]),
   );
   const featuredGame = getGameOfTheWeek(dynamicState);
   const featuredPreview = featuredGame ? getGamePreview(featuredGame.id) : undefined;
@@ -103,10 +107,10 @@ export default async function Home() {
     ? getSchoolBySlug(featuredGame.awaySchoolSlug)
     : undefined;
   const featuredHomeStanding = featuredGame?.homeSchoolSlug
-    ? getStandingForSchool(featuredGame.homeSchoolSlug)
+    ? getStandingForSchoolFromGames(featuredGame.homeSchoolSlug, dynamicGames)
     : undefined;
   const featuredAwayStanding = featuredGame?.awaySchoolSlug
-    ? getStandingForSchool(featuredGame.awaySchoolSlug)
+    ? getStandingForSchoolFromGames(featuredGame.awaySchoolSlug, dynamicGames)
     : undefined;
 
   const awayScore = featuredGame?.awayScore ?? featuredGame?.score?.away;
@@ -243,7 +247,7 @@ function HomePathCard({ eyebrow, title, description, href, action }: {
 function HeroTeam({ school, team, standing, align, result }: {
   school?: ReturnType<typeof getSchoolBySlug>;
   team: string;
-  standing?: ReturnType<typeof getStandingForSchool>;
+  standing?: ReturnType<typeof getStandingForSchoolFromGames>;
   align: "left" | "right";
   result?: "W" | "L";
 }) {
