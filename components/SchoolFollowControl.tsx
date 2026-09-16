@@ -33,9 +33,11 @@ export default function SchoolFollowControl({
     message: initialMessage,
   };
   const manageFollow = manageSchoolFollow.bind(null, schoolSlug);
+  const schoolHubPermalink = `/schools/${encodeURIComponent(schoolSlug)}`;
   const [state, formAction, pending] = useActionState(
     manageFollow,
     initialState,
+    schoolHubPermalink,
   );
 
   if (!isAuthenticated) {

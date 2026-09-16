@@ -81,9 +81,8 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
                 Continue by signing in.
               </h2>
               <p className="mt-2 text-sm leading-6 text-emerald-50/75">
-                The email link was opened in a different browser or device, so
-                this browser could not finish signing you in. Your account may
-                already be confirmed. Sign in to continue
+                We couldn’t finish signing you in from this confirmation link.
+                Your account may already be confirmed. Sign in to continue
                 {followSchool
                   ? ` and return to ${followSchool.name} to finish following with one click.`
                   : "."}
