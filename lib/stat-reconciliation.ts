@@ -1,6 +1,7 @@
-import type { GameStats } from "@/data/game-stats";
+import { CORE_STAT_CATEGORIES, type CoreStatCategory, type GameStats } from "@/data/game-stats";
 import type { ExtendedGameStats } from "@/data/extended-game-stats";
 import type { PlayerProfile } from "@/data/player-profiles";
+import { getCategoryCompleteness } from "@/data/stat-completeness";
 import { normalizePlayerName } from "@/lib/player-identity";
 import type { Game } from "@/types/platform";
 
@@ -10,6 +11,7 @@ export type StatReconciliationIssueKind =
   | "reconciliation"
   | "partial"
   | "unavailable"
+  | "unclassified"
   | "identity"
   | "contradiction"
   | "provenance";
@@ -33,6 +35,7 @@ export type StatReconciliationReport = {
     hardReconciliationFailures: number;
     partialWarnings: number;
     unavailableWarnings: number;
+    unclassifiedWarnings: number;
     identityWarnings: number;
     coreExtendedContradictions: number;
     provenanceFailures: number;
@@ -127,11 +130,6 @@ export function reconcileStatCatalogs({ coreStats, extendedStats, canonicalGames
   add({
     severity: "warning",
     kind: "unavailable",
-    message: "Core GameStats records do not yet declare category-level attribution completeness; player/team mismatches are reported as partial warnings rather than blocking failures.",
-  });
-  add({
-    severity: "warning",
-    kind: "unavailable",
     message: "TeamStatLine does not store passing or rushing touchdown totals; team/category touchdown reconciliation is deferred except when complete receiving and passing attribution can be compared directly.",
   });
 
@@ -169,11 +167,59 @@ export function reconcileStatCatalogs({ coreStats, extendedStats, canonicalGames
       }
     }
 
+    const completenessSchools = new Set<string>();
+    for (const entry of stats.completeness ?? []) {
+      if (completenessSchools.has(entry.schoolSlug)) {
+        add({ severity: "error", kind: "duplicate", gameId: stats.gameId, message: `${entry.schoolSlug} has duplicate completeness metadata.` });
+      }
+      completenessSchools.add(entry.schoolSlug);
+      if (!gameParticipants.has(entry.schoolSlug)) {
+        add({ severity: "error", kind: "canonical", gameId: stats.gameId, message: `${entry.schoolSlug} has completeness metadata but is not a canonical participant.` });
+      }
+      for (const [category, completeness] of Object.entries(entry.categories)) {
+        if (!CORE_STAT_CATEGORIES.includes(category as CoreStatCategory)) {
+          add({ severity: "error", kind: "provenance", gameId: stats.gameId, message: `${entry.schoolSlug} uses unsupported completeness category ${category}.` });
+          continue;
+        }
+        if (!completeness || !["complete", "partial", "unavailable", "unknown"].includes(completeness.status)) {
+          add({ severity: "error", kind: "provenance", gameId: stats.gameId, message: `${entry.schoolSlug} ${category} has an invalid completeness status.` });
+        }
+      }
+    }
+
+    for (const schoolSlug of gameParticipants) {
+      const unknownCategories = CORE_STAT_CATEGORIES.filter(
+        (category) => getCategoryCompleteness(stats, schoolSlug, category).status === "unknown"
+      );
+      if (unknownCategories.length > 0) {
+        add({
+          severity: "warning",
+          kind: "unclassified",
+          gameId: stats.gameId,
+          message: `${schoolSlug} completeness remains unclassified for: ${unknownCategories.join(", ")}. No complete claim is inferred.`,
+        });
+      }
+      for (const category of CORE_STAT_CATEGORIES) {
+        const completeness = getCategoryCompleteness(stats, schoolSlug, category);
+        if (completeness.status === "partial") {
+          add({ severity: "warning", kind: "partial", gameId: stats.gameId, message: `${schoolSlug} ${category} is explicitly partial.${completeness.note ? ` ${completeness.note}` : ""}` });
+        } else if (completeness.status === "unavailable") {
+          add({ severity: "warning", kind: "unavailable", gameId: stats.gameId, message: `${schoolSlug} ${category} is unavailable.${completeness.note ? ` ${completeness.note}` : ""}` });
+        }
+      }
+    }
+
     const quarterBySchool = new Map(stats.quarterScores.map((line) => [line.schoolSlug, line]));
     for (const schoolSlug of gameParticipants) {
       const line = quarterBySchool.get(schoolSlug);
+      const completeness = getCategoryCompleteness(stats, schoolSlug, "quarterScoring");
       if (!line) {
-        add({ severity: "warning", kind: "unavailable", gameId: stats.gameId, message: `${schoolSlug} has no quarter-scoring record; missing scoring is not treated as zero.` });
+        add({
+          severity: completeness.status === "complete" ? "error" : "warning",
+          kind: completeness.status === "complete" ? "reconciliation" : "unavailable",
+          gameId: stats.gameId,
+          message: `${schoolSlug} has no quarter-scoring record; missing scoring is not treated as zero${completeness.status === "complete" ? ", so the complete claim is false" : ""}.`,
+        });
         continue;
       }
 
@@ -183,14 +229,32 @@ export function reconcileStatCatalogs({ coreStats, extendedStats, canonicalGames
       }
 
       if (line.quarters.length === 0) {
-        add({ severity: "warning", kind: "unavailable", gameId: stats.gameId, message: `${schoolSlug} quarter splits are unavailable; verified final ${line.total} is preserved.` });
+        if (completeness.status === "complete") {
+          add({ severity: "error", kind: "reconciliation", gameId: stats.gameId, message: `${schoolSlug} quarter scoring claims complete, but quarter splits are unavailable.` });
+        }
       } else if (line.quarters.length < 4) {
-        add({ severity: "warning", kind: "partial", gameId: stats.gameId, message: `${schoolSlug} has ${line.quarters.length} quarter splits; the incomplete array is not padded with zeroes.` });
+        if (completeness.status === "complete") {
+          add({ severity: "error", kind: "reconciliation", gameId: stats.gameId, message: `${schoolSlug} quarter scoring claims complete, but only ${line.quarters.length} quarter splits are stored.` });
+        } else if (completeness.status !== "partial") {
+          add({ severity: "warning", kind: "partial", gameId: stats.gameId, message: `${schoolSlug} has ${line.quarters.length} quarter splits; the incomplete array is not padded with zeroes.` });
+        }
       } else {
         const quarterTotal = line.quarters.reduce((total, value) => total + value, 0);
         if (quarterTotal !== line.total) {
           add({ severity: "error", kind: "reconciliation", gameId: stats.gameId, message: `${schoolSlug} complete quarter splits sum to ${quarterTotal}, but the stat final is ${line.total}.` });
         }
+      }
+    }
+
+    for (const schoolSlug of gameParticipants) {
+      const scoringCompleteness = getCategoryCompleteness(stats, schoolSlug, "scoringPlays");
+      const scoringPlays = stats.scoringPlays.filter((play) => play.schoolSlug === schoolSlug);
+      const canonicalFinal = finalScoreForSchool(game, schoolSlug);
+      if (scoringCompleteness.status === "complete" && (canonicalFinal ?? 0) > 0 && scoringPlays.length === 0) {
+        add({ severity: "error", kind: "reconciliation", gameId: stats.gameId, message: `${schoolSlug} scoring plays claim complete, but no scoring plays are stored for a nonzero final.` });
+      }
+      if (scoringCompleteness.status === "unavailable" && scoringPlays.length > 0) {
+        add({ severity: "error", kind: "reconciliation", gameId: stats.gameId, message: `${schoolSlug} scoring plays are marked unavailable, but ${scoringPlays.length} scoring plays are stored.` });
       }
     }
 
@@ -226,37 +290,51 @@ export function reconcileStatCatalogs({ coreStats, extendedStats, canonicalGames
       const rushing = stats.rushing.filter((line) => line.schoolSlug === schoolSlug);
       const passing = stats.passing.filter((line) => line.schoolSlug === schoolSlug);
       const receiving = stats.receiving.filter((line) => line.schoolSlug === schoolSlug);
+      const teamCompleteness = getCategoryCompleteness(stats, schoolSlug, "teamStats");
 
       if (!team) {
-        add({ severity: "warning", kind: "unavailable", gameId: stats.gameId, message: `${schoolSlug} team totals are unavailable; player attribution cannot be reconciled.` });
-        continue;
+        if (teamCompleteness.status === "complete") {
+          add({ severity: "error", kind: "reconciliation", gameId: stats.gameId, message: `${schoolSlug} team statistics claim complete, but no team-stat line is stored.` });
+        } else if (teamCompleteness.status === "unknown") {
+          add({ severity: "warning", kind: "unavailable", gameId: stats.gameId, message: `${schoolSlug} team totals are unavailable; player attribution cannot be reconciled.` });
+        }
+      } else if (teamCompleteness.status === "unavailable") {
+        add({ severity: "error", kind: "reconciliation", gameId: stats.gameId, message: `${schoolSlug} team statistics are marked unavailable, but a team-stat line is stored.` });
       }
 
-      const rushingExpected = team.rushingAttempts !== undefined && team.rushingYards !== undefined
+      const rushingExpected = team?.rushingAttempts !== undefined && team.rushingYards !== undefined
         ? { attempts: team.rushingAttempts, yards: team.rushingYards }
         : undefined;
+      const rushingCompleteness = getCategoryCompleteness(stats, schoolSlug, "rushing");
+      if (rushingCompleteness.status === "unavailable" && rushing.length > 0) {
+        add({ severity: "error", kind: "reconciliation", gameId: stats.gameId, message: `${schoolSlug} rushing is marked unavailable, but ${rushing.length} player lines are stored.` });
+      }
       if (rushingExpected) {
         const rushingActual = sumBy(rushing, { attempts: (line) => line.attempts, yards: (line) => line.yards });
-        if (!sameTotals(rushingExpected, rushingActual)) add({ severity: "warning", kind: "partial", gameId: stats.gameId, message: `${schoolSlug} rushing attribution is incomplete or inconsistent (team ${formatTotals(rushingExpected)}; players ${formatTotals(rushingActual)}).` });
-      } else if (rushing.length > 0) {
+        if (!sameTotals(rushingExpected, rushingActual) && rushingCompleteness.status !== "partial") add({ severity: rushingCompleteness.status === "complete" ? "error" : "warning", kind: rushingCompleteness.status === "complete" ? "reconciliation" : "partial", gameId: stats.gameId, message: `${schoolSlug} rushing attribution is incomplete or inconsistent (team ${formatTotals(rushingExpected)}; players ${formatTotals(rushingActual)})${rushingCompleteness.status === "complete" ? "; this contradicts the complete claim" : ""}.` });
+      } else if (rushing.length > 0 && rushingCompleteness.status !== "partial") {
         add({ severity: "warning", kind: "unavailable", gameId: stats.gameId, message: `${schoolSlug} has player rushing lines without comparable team rushing totals.` });
       }
 
-      const passingExpected = team.completions !== undefined && team.passAttempts !== undefined && team.passingYards !== undefined && team.interceptionsThrown !== undefined
+      const passingExpected = team?.completions !== undefined && team.passAttempts !== undefined && team.passingYards !== undefined && team.interceptionsThrown !== undefined
         ? { completions: team.completions, attempts: team.passAttempts, yards: team.passingYards, interceptions: team.interceptionsThrown }
         : undefined;
       const passingActual = sumBy(passing, { completions: (line) => line.completions, attempts: (line) => line.attempts, yards: (line) => line.yards, interceptions: (line) => line.interceptions });
       const passingComplete = Boolean(passingExpected && sameTotals(passingExpected, passingActual));
-      if (passingExpected && !passingComplete) add({ severity: "warning", kind: "partial", gameId: stats.gameId, message: `${schoolSlug} passing attribution is incomplete or inconsistent (team ${formatTotals(passingExpected)}; players ${formatTotals(passingActual)}).` });
-      if (!passingExpected && passing.length > 0) add({ severity: "warning", kind: "unavailable", gameId: stats.gameId, message: `${schoolSlug} has player passing lines without comparable team passing totals.` });
+      const passingCompleteness = getCategoryCompleteness(stats, schoolSlug, "passing");
+      if (passingCompleteness.status === "unavailable" && passing.length > 0) add({ severity: "error", kind: "reconciliation", gameId: stats.gameId, message: `${schoolSlug} passing is marked unavailable, but ${passing.length} player lines are stored.` });
+      if (passingExpected && !passingComplete && passingCompleteness.status !== "partial") add({ severity: passingCompleteness.status === "complete" ? "error" : "warning", kind: passingCompleteness.status === "complete" ? "reconciliation" : "partial", gameId: stats.gameId, message: `${schoolSlug} passing attribution is incomplete or inconsistent (team ${formatTotals(passingExpected)}; players ${formatTotals(passingActual)})${passingCompleteness.status === "complete" ? "; this contradicts the complete claim" : ""}.` });
+      if (!passingExpected && passing.length > 0 && passingCompleteness.status !== "partial") add({ severity: "warning", kind: "unavailable", gameId: stats.gameId, message: `${schoolSlug} has player passing lines without comparable team passing totals.` });
 
-      const receivingExpected = team.completions !== undefined && team.passingYards !== undefined
+      const receivingExpected = team?.completions !== undefined && team.passingYards !== undefined
         ? { receptions: team.completions, yards: team.passingYards }
         : undefined;
       const receivingActual = sumBy(receiving, { receptions: (line) => line.receptions, yards: (line) => line.yards });
       const receivingComplete = Boolean(receivingExpected && sameTotals(receivingExpected, receivingActual));
-      if (receivingExpected && !receivingComplete) add({ severity: "warning", kind: "partial", gameId: stats.gameId, message: `${schoolSlug} receiving attribution is incomplete or inconsistent (team ${formatTotals(receivingExpected)}; players ${formatTotals(receivingActual)}).` });
-      if (!receivingExpected && receiving.length > 0) add({ severity: "warning", kind: "unavailable", gameId: stats.gameId, message: `${schoolSlug} has player receiving lines without comparable team passing totals.` });
+      const receivingCompleteness = getCategoryCompleteness(stats, schoolSlug, "receiving");
+      if (receivingCompleteness.status === "unavailable" && receiving.length > 0) add({ severity: "error", kind: "reconciliation", gameId: stats.gameId, message: `${schoolSlug} receiving is marked unavailable, but ${receiving.length} player lines are stored.` });
+      if (receivingExpected && !receivingComplete && receivingCompleteness.status !== "partial") add({ severity: receivingCompleteness.status === "complete" ? "error" : "warning", kind: receivingCompleteness.status === "complete" ? "reconciliation" : "partial", gameId: stats.gameId, message: `${schoolSlug} receiving attribution is incomplete or inconsistent (team ${formatTotals(receivingExpected)}; players ${formatTotals(receivingActual)})${receivingCompleteness.status === "complete" ? "; this contradicts the complete claim" : ""}.` });
+      if (!receivingExpected && receiving.length > 0 && receivingCompleteness.status !== "partial") add({ severity: "warning", kind: "unavailable", gameId: stats.gameId, message: `${schoolSlug} has player receiving lines without comparable team passing totals.` });
 
       if (passingComplete && receivingComplete) {
         const hasPassingTouchdowns = passing.every((line) => line.touchdowns !== undefined);
@@ -265,7 +343,9 @@ export function reconcileStatCatalogs({ coreStats, extendedStats, canonicalGames
           const passingTouchdowns = passing.reduce((total, line) => total + line.touchdowns!, 0);
           const receivingTouchdowns = receiving.reduce((total, line) => total + line.touchdowns!, 0);
           if (passingTouchdowns !== receivingTouchdowns) add({ severity: "error", kind: "reconciliation", gameId: stats.gameId, message: `${schoolSlug} complete passing/receiving attribution disagrees on touchdowns (${passingTouchdowns} passing; ${receivingTouchdowns} receiving).` });
-        } else {
+        } else if (passingCompleteness.status === "complete" || receivingCompleteness.status === "complete") {
+          add({ severity: "error", kind: "reconciliation", gameId: stats.gameId, message: `${schoolSlug} passing or receiving claims complete, but at least one attributed line omits touchdown data.` });
+        } else if (passingCompleteness.status !== "partial" && receivingCompleteness.status !== "partial") {
           add({ severity: "warning", kind: "unavailable", gameId: stats.gameId, message: `${schoolSlug} passing/receiving touchdowns cannot be reconciled because at least one attributed line omits touchdown data; omitted values are not treated as zero.` });
         }
       }
@@ -298,6 +378,19 @@ export function reconcileStatCatalogs({ coreStats, extendedStats, canonicalGames
 
     for (const table of extended.tables) {
       const seen = new Set<string>();
+      const unclassifiedSchools = Array.from(gameParticipants).filter((schoolSlug) => !table.completeness?.[schoolSlug]);
+      if (unclassifiedSchools.length > 0) {
+        add({ severity: "warning", kind: "unclassified", gameId: extended.gameId, message: `${table.title} extended-table completeness remains unclassified for: ${unclassifiedSchools.join(", ")}.` });
+      }
+      for (const [schoolSlug, completeness] of Object.entries(table.completeness ?? {})) {
+        if (!gameParticipants.has(schoolSlug)) add({ severity: "error", kind: "canonical", gameId: extended.gameId, message: `${table.title} has completeness metadata for nonparticipant ${schoolSlug}.` });
+        if (!["complete", "partial", "unavailable", "unknown"].includes(completeness.status)) add({ severity: "error", kind: "provenance", gameId: extended.gameId, message: `${table.title} ${schoolSlug} has an invalid completeness status.` });
+        if (completeness.status === "partial") add({ severity: "warning", kind: "partial", gameId: extended.gameId, message: `${table.title} for ${schoolSlug} is explicitly partial.${completeness.note ? ` ${completeness.note}` : ""}` });
+        if (completeness.status === "unavailable") {
+          add({ severity: "warning", kind: "unavailable", gameId: extended.gameId, message: `${table.title} for ${schoolSlug} is unavailable.${completeness.note ? ` ${completeness.note}` : ""}` });
+          if (table.rows.some((row) => row.schoolSlug === schoolSlug)) add({ severity: "error", kind: "reconciliation", gameId: extended.gameId, message: `${table.title} for ${schoolSlug} is marked unavailable but contains player rows.` });
+        }
+      }
       for (const row of table.rows) {
         if (!gameParticipants.has(row.schoolSlug)) add({ severity: "error", kind: "canonical", gameId: extended.gameId, message: `${table.title} row for ${row.player} uses nonparticipant ${row.schoolSlug}.` });
         if (row.values.length !== table.headers.length - 1) add({ severity: "error", kind: "reconciliation", gameId: extended.gameId, message: `${table.title} row for ${row.player} has ${row.values.length} values for ${table.headers.length - 1} stat columns.` });
@@ -338,6 +431,7 @@ export function reconcileStatCatalogs({ coreStats, extendedStats, canonicalGames
       hardReconciliationFailures: errors.filter((issue) => issue.kind === "reconciliation").length,
       partialWarnings: warnings.filter((issue) => issue.kind === "partial").length,
       unavailableWarnings: warnings.filter((issue) => issue.kind === "unavailable").length,
+      unclassifiedWarnings: warnings.filter((issue) => issue.kind === "unclassified").length,
       identityWarnings: warnings.filter((issue) => issue.kind === "identity").length,
       coreExtendedContradictions: errors.filter((issue) => issue.kind === "contradiction").length,
       provenanceFailures: errors.filter((issue) => issue.kind === "provenance").length,

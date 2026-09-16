@@ -1,5 +1,7 @@
+import type { StatCompletenessDetail } from "@/data/game-stats";
+
 export type ExtendedStatRow = { player: string; schoolSlug: string; values: (string | number)[]; };
-export type ExtendedStatTable = { title: string; headers: string[]; rows: ExtendedStatRow[]; };
+export type ExtendedStatTable = { title: string; headers: string[]; rows: ExtendedStatRow[]; completeness?: Record<string, StatCompletenessDetail>; };
 export type ExtendedTeamMetric = { label: string; away: string | number; home: string | number; };
 export type ExtendedGameStats = { gameId: string; sourceLabel: string; sourceUrl?: string; teamMetrics: ExtendedTeamMetric[]; tables: ExtendedStatTable[]; notes?: string[]; };
 

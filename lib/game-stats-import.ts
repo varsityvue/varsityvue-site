@@ -1,4 +1,4 @@
-import type { GameStats } from "@/data/game-stats";
+import { CORE_STAT_CATEGORIES, type GameStats } from "@/data/game-stats";
 import { getPlayerId } from "@/lib/player-identity";
 import { getSchoolPlayerProfiles } from "@/lib/player-profiles";
 
@@ -29,6 +29,26 @@ export function parseGameStatsDraft(input: string): GameStatsImportResult {
 
   const arrayFields = ["quarterScores", "scoringPlays", "teamStats", "rushing", "passing", "receiving"] as const;
   for (const key of arrayFields) if (!isArray(parsed[key])) errors.push(`${key} must be an array.`);
+  if (parsed.completeness !== undefined) {
+    if (!isArray(parsed.completeness)) {
+      errors.push("completeness must be an array when provided.");
+    } else {
+      for (const [index, entry] of parsed.completeness.entries()) {
+        if (!isRecord(entry) || typeof entry.schoolSlug !== "string" || !entry.schoolSlug.trim() || !isRecord(entry.categories)) {
+          errors.push(`completeness[${index}] must include schoolSlug and a categories object.`);
+          continue;
+        }
+        for (const [category, detail] of Object.entries(entry.categories)) {
+          if (!CORE_STAT_CATEGORIES.includes(category as (typeof CORE_STAT_CATEGORIES)[number])) {
+            errors.push(`completeness[${index}] uses unsupported category ${category}.`);
+          }
+          if (!isRecord(detail) || !["complete", "partial", "unavailable", "unknown"].includes(String(detail.status))) {
+            errors.push(`completeness[${index}].categories.${category} must use complete, partial, unavailable, or unknown.`);
+          }
+        }
+      }
+    }
+  }
   if (errors.length > 0) return { ok: false, errors };
   return { ok: true, stats: parsed as GameStats, notices: [] };
 }

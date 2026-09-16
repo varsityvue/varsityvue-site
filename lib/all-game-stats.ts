@@ -10,6 +10,7 @@ import { santoGameStats } from "@/data/santo-game-stats";
 import { deLeonWeek3GameStats } from "@/data/de-leon-week3-game-stats";
 import { goldthwaiteSanSabaGameStats } from "@/data/goldthwaite-san-saba-game-stats";
 import { applyDeLeonStatCorrections } from "@/data/de-leon-stat-corrections";
+import { applyStatCompleteness } from "@/data/stat-completeness";
 
 const combinedGameStats = [
   ...baseGameStats,
@@ -54,7 +55,7 @@ const uniqueGameStats = Array.from(
 );
 
 export const gameStats = uniqueGameStats.map((game) => {
-  const correctedGame = applyDeLeonStatCorrections(game);
+  const correctedGame = applyStatCompleteness(applyDeLeonStatCorrections(game));
 
   if (correctedGame.gameId !== "hawley-at-albany-2026-week-1") return correctedGame;
 

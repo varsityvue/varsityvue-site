@@ -35,6 +35,7 @@ const starter = `{
   "season": 2026,
   "sourceStatus": "verified",
   "sourceLabel": "Statistics provided by the coaching staff",
+  "completeness": [],
   "quarterScores": [],
   "scoringPlays": [],
   "teamStats": [],
@@ -82,6 +83,7 @@ export default function GameStatsReviewTool({
       ...stats.rushing.map((line) => line.schoolSlug),
       ...stats.passing.map((line) => line.schoolSlug),
       ...stats.receiving.map((line) => line.schoolSlug),
+      ...(stats.completeness ?? []).map((entry) => entry.schoolSlug),
     ])).filter(Boolean);
   }, [stats]);
 
@@ -421,6 +423,7 @@ export default function GameStatsReviewTool({
                 <PreviewCard label="Rushing lines" value={stats.rushing.length} />
                 <PreviewCard label="Passing lines" value={stats.passing.length} />
                 <PreviewCard label="Receiving lines" value={stats.receiving.length} />
+                <PreviewCard label="Completeness teams" value={stats.completeness?.length ?? 0} />
               </div>
             </section>
           )}
@@ -463,6 +466,7 @@ function getChangeSummary(before: GameStats, after: GameStats) {
   const changes: string[] = [];
   const sections: { key: keyof GameStats; label: string }[] = [
     { key: "sourceLabel", label: "Source label" },
+    { key: "completeness", label: "Category completeness" },
     { key: "quarterScores", label: "Quarter scores" },
     { key: "scoringPlays", label: "Scoring plays" },
     { key: "teamStats", label: "Team stats" },
@@ -497,6 +501,7 @@ function getCanonicalProblems(stats: GameStats | null, game?: CanonicalGame) {
     ...stats.rushing.map((line) => line.schoolSlug),
     ...stats.passing.map((line) => line.schoolSlug),
     ...stats.receiving.map((line) => line.schoolSlug),
+    ...(stats.completeness ?? []).map((entry) => entry.schoolSlug),
   ])).filter(Boolean);
   const outsiders = statTeams.filter((slug) => !canonicalTeams.includes(slug));
   if (outsiders.length) problems.push(`Stat data contains school(s) not in the canonical matchup: ${outsiders.join(", ")}.`);

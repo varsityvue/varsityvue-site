@@ -58,11 +58,32 @@ export type QuarterScore = {
   total: number;
 };
 
+export const CORE_STAT_CATEGORIES = [
+  "quarterScoring",
+  "scoringPlays",
+  "teamStats",
+  "rushing",
+  "passing",
+  "receiving",
+] as const;
+
+export type CoreStatCategory = (typeof CORE_STAT_CATEGORIES)[number];
+export type StatCompletenessStatus = "complete" | "partial" | "unavailable" | "unknown";
+export type StatCompletenessDetail = {
+  status: StatCompletenessStatus;
+  note?: string;
+};
+export type TeamStatCompleteness = {
+  schoolSlug: string;
+  categories: Partial<Record<CoreStatCategory, StatCompletenessDetail>>;
+};
+
 export type GameStats = {
   gameId: string;
   season: number;
   sourceStatus: "verified";
   sourceLabel: string;
+  completeness?: TeamStatCompleteness[];
   quarterScores: QuarterScore[];
   scoringPlays: ScoringPlay[];
   teamStats: TeamStatLine[];

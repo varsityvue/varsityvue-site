@@ -1,4 +1,4 @@
-import type { GameStats } from "@/data/game-stats";
+import { CORE_STAT_CATEGORIES, type GameStats } from "@/data/game-stats";
 
 export type GameStatsValidationIssue = {
   level: "error" | "warning";
@@ -14,6 +14,22 @@ export function validateGameStats(stats: GameStats): GameStatsValidationIssue[] 
 
   if (!Number.isInteger(stats.season) || stats.season < 2000) {
     issues.push({ level: "error", message: "season must be a valid four-digit year." });
+  }
+
+  const completenessSchools = new Set<string>();
+  for (const entry of stats.completeness ?? []) {
+    if (completenessSchools.has(entry.schoolSlug)) {
+      issues.push({ level: "error", message: `${entry.schoolSlug} has duplicate completeness metadata.` });
+    }
+    completenessSchools.add(entry.schoolSlug);
+    for (const [category, detail] of Object.entries(entry.categories)) {
+      if (!CORE_STAT_CATEGORIES.includes(category as (typeof CORE_STAT_CATEGORIES)[number])) {
+        issues.push({ level: "error", message: `${entry.schoolSlug} uses unsupported completeness category ${category}.` });
+      }
+      if (!detail || !["complete", "partial", "unavailable", "unknown"].includes(detail.status)) {
+        issues.push({ level: "error", message: `${entry.schoolSlug} ${category} has an invalid completeness status.` });
+      }
+    }
   }
 
   const quarterSchools = new Set(stats.quarterScores.map((line) => line.schoolSlug));

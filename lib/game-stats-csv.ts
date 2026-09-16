@@ -1,4 +1,5 @@
 import type {
+  CoreStatCategory,
   GameStats,
   PassingStatLine,
   QuarterScore,
@@ -6,7 +7,9 @@ import type {
   RushingStatLine,
   ScoringPlay,
   TeamStatLine,
+  TeamStatCompleteness,
 } from "@/data/game-stats";
+import { CORE_STAT_CATEGORIES } from "@/data/game-stats";
 
 export type GameStatsCsvResult =
   | { ok: true; stats: GameStats; notices: string[] }
@@ -20,6 +23,9 @@ const TEMPLATE_HEADERS = [
   "season",
   "sourceLabel",
   "schoolSlug",
+  "completenessCategory",
+  "completenessStatus",
+  "completenessNote",
   "player",
   "playerId",
   "quarter",
@@ -52,9 +58,10 @@ export function getGameStatsCsvTemplate() {
   const rows = [
     TEMPLATE_HEADERS,
     ["meta", "example-game-id", "2026", "Statistics provided by the coaching staff"],
-    ["quarterScore", "", "", "", "home-school", "", "", "", "", "", "7|7|0|7", "21"],
-    ["quarterScore", "", "", "", "away-school", "", "", "", "", "", "0|7|7|0", "14"],
-    ["rushing", "", "", "", "home-school", "Player Name", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "15", "120", "2"],
+    ["completeness", "", "", "", "home-school", "rushing", "complete", "Complete player attribution supplied by the retained source"],
+    ["quarterScore", "", "", "", "home-school", "", "", "", "", "", "", "", "", "7|7|0|7", "21"],
+    ["quarterScore", "", "", "", "away-school", "", "", "", "", "", "", "", "", "0|7|7|0", "14"],
+    ["rushing", "", "", "", "home-school", "", "", "", "Player Name", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "15", "120", "2"],
   ];
 
   return rows.map((row) => row.map(escapeCsvCell).join(",")).join("\n");
@@ -97,11 +104,27 @@ export function parseGameStatsCsv(input: string): GameStatsCsvResult {
   const rushing: RushingStatLine[] = [];
   const passing: PassingStatLine[] = [];
   const receiving: ReceivingStatLine[] = [];
+  const completenessBySchool = new Map<string, TeamStatCompleteness>();
 
   rows.forEach((row, index) => {
     const lineNumber = index + 2;
     const section = normalizeSection(row.section);
     if (!section || section === "meta") return;
+
+    if (section === "completeness") {
+      const schoolSlug = requiredText(row.schoolSlug, `row ${lineNumber} schoolSlug`, errors);
+      const category = row.completenessCategory as CoreStatCategory;
+      const status = row.completenessStatus;
+      if (!CORE_STAT_CATEGORIES.includes(category)) errors.push(`row ${lineNumber} completenessCategory must be one of ${CORE_STAT_CATEGORIES.join(", ")}.`);
+      if (!["complete", "partial", "unavailable", "unknown"].includes(status)) errors.push(`row ${lineNumber} completenessStatus must be complete, partial, unavailable, or unknown.`);
+      if (schoolSlug && CORE_STAT_CATEGORIES.includes(category) && ["complete", "partial", "unavailable", "unknown"].includes(status)) {
+        const current = completenessBySchool.get(schoolSlug) ?? { schoolSlug, categories: {} };
+        if (current.categories[category]) errors.push(`row ${lineNumber} duplicates ${schoolSlug} ${category} completeness metadata.`);
+        current.categories[category] = { status: status as "complete" | "partial" | "unavailable" | "unknown", note: row.completenessNote || undefined };
+        completenessBySchool.set(schoolSlug, current);
+      }
+      return;
+    }
 
     if (section === "quarterscore") {
       const schoolSlug = requiredText(row.schoolSlug, `row ${lineNumber} schoolSlug`, errors);
@@ -195,6 +218,7 @@ export function parseGameStatsCsv(input: string): GameStatsCsvResult {
       season,
       sourceStatus: "verified",
       sourceLabel,
+      completeness: Array.from(completenessBySchool.values()),
       quarterScores,
       scoringPlays,
       teamStats,
