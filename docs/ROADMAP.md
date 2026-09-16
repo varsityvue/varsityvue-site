@@ -1,8 +1,10 @@
 # VarsityVue Product Roadmap
 
-_Last updated: September 13, 2026_
+_Last updated: September 16, 2026_
 
 This document is the permanent product direction for VarsityVue. It exists so short-term development work does not obscure the larger goal.
+
+VarsityVue has soft launched. The immediate challenge is no longer building a participation backend from scratch; it is earning trust, converting useful public traffic into an identifiable local audience, and creating repeat Friday-night behavior.
 
 ## North Star
 
@@ -34,7 +36,7 @@ The long-term advantage is not merely software. It is a network of reliable loca
 
 Basic scores, schedules, school hubs, and coverage should remain useful without an account. Membership should be earned by offering features people want rather than by putting the core product behind a login.
 
-A single VarsityVue identity should eventually support Pick 'Ems, favorite schools, notification preferences, score submissions, contributor reputation, verified roles, Legacy contributions, rewards, and other participation features.
+A single VarsityVue identity should eventually support Pick 'Ems, followed schools, notification preferences, score submissions, contributor reputation, verified roles, Legacy contributions, rewards, and other participation features.
 
 ### 4. Living Legacy
 
@@ -48,39 +50,136 @@ The historical database should compound every season until a competitor is not s
 
 # Product Roadmap
 
-## NOW — Foundation for a Self-Operating VarsityVue
+## CURRENT — Trust & Reliability
 
-### Unified Backend and Data Model
+VarsityVue's soft launch establishes the operating foundation: accounts, roles, moderated score submissions, verified canonical game state, audit history, public scoreboards, school and district hubs, and reusable game surfaces. The current priority is making those systems consistently trustworthy before pushing harder on acquisition.
 
-Build the persistent backend required for participation features. Before choosing or implementing database/auth technology, audit the current repository and deployment architecture.
+### Launch-Readiness Audits
 
-The data model should be designed around existing game IDs and reusable entities. It should support users, permissions, submissions, moderation, audit history, Pick 'Ems, follows, notifications, contributor reputation, and future Legacy relationships without requiring separate identity systems later.
+- Finish the verified game-state launch-readiness audit already underway across public displays and public interactions.
+- Complete a systematic statistics reconciliation audit across every featured program with verified statistics on file.
+- Preserve the distinction between a verified final score and verified detailed statistics.
+- Preserve source/provenance, verification state, and correction history wherever practical.
+- Never treat missing statistics as zero production.
+- Continue using clear states such as verified, partial, pending, and unavailable. Rankings and leaderboards must describe the verified data actually on file rather than imply universal coverage.
 
-### Community Game-Night Score Submission
+Statistics remain structurally difficult: programs submit inconsistently, selective reporting can distort comparisons, and source material can contain errors. Reliability language and provenance are product requirements, not footnotes.
 
-Reduce the need to manually hunt scores every Friday night.
+---
 
-Initial workflow:
+## NEXT — Growth Phase 1: Follow + Notifications
 
-1. A member selects an existing game.
-2. The member submits a score update, game status/quarter, and timestamped information.
-3. The submission enters a moderation/verification workflow.
-4. VarsityVue or an authorized reviewer approves the update before it becomes official.
-5. The system retains an audit trail rather than silently overwriting prior information.
+### Follow Schools
 
-The audit trail should preserve the submitting user, game, submitted score, game state, timestamp, prior value, moderation status, reviewer/verification action, and correction history as appropriate.
+- Members can follow one or more schools.
+- Make **Follow School** prominent across school hubs and relevant game surfaces.
+- Following becomes the foundation of personalization rather than a cosmetic bookmark.
+- Preserve useful public scores, schedules, coverage, school hubs, and game pages without requiring an account.
 
-A **verified final score** and **verified detailed statistics** remain separate concepts. A game may have a trusted final while its individual statistics are incomplete or unavailable.
+### Notification Preferences
 
-### Trusted and Verified Scorekeepers
+Build explicit opt-in preferences for meaningful events involving followed schools:
 
-Accurate contributors should be able to earn trust over time. Eventually, verified scorekeepers may submit with reduced moderation or publish eligible updates directly within defined safeguards.
+- kickoff reminders;
+- live or important score updates where appropriate;
+- final scores;
+- new VarsityVue coverage;
+- selected program updates.
 
-Contributor reputation should be reusable across VarsityVue rather than creating an isolated scorekeeper identity system.
+Verified information should trigger downstream notifications automatically rather than requiring duplicate publishing. One approved update should be reusable by the scoreboard, Game Center, records, standings, notifications, and future historical systems.
 
-### VarsityVue Pick 'Ems
+Optimize the conversion path:
 
-Create a weekly Pick 'Em experience centered on roughly 10 selected games.
+**Visitor → Useful school/game content → Follow → Account → Notification → Return visit**
+
+### Mobile Installation and Return Access
+
+VarsityVue should increasingly feel like an app without requiring an App Store download. Build on the existing PWA foundation with platform-appropriate, well-timed home-screen education. Installation, follows, and notifications should reinforce one another without becoming intrusive.
+
+---
+
+## NEXT — Growth Phase 2: Friday Night Experience
+
+Treat Friday night as a distinct, high-intent product experience rather than an ordinary site visit.
+
+- Prioritize **Live**, **Finals**, **Tonight**, and followed schools.
+- Make the mobile scoreboard exceptionally fast and easy to scan.
+- Expand **Watch Now** and **Listen Now** discovery.
+- Make Game Center, broadcast links, and verified scores easy to reach from one place.
+- Store broadcast information once and inherit it where appropriate instead of recreating links manually.
+- Consider a personalized Friday-night view for signed-in members without weakening the public scoreboard.
+
+The product should reduce the distance between a fan's question and a useful answer: What is happening, what just finished, where can I follow it, and what matters to my schools?
+
+---
+
+## NEXT — Growth Phase 3: Contributor Acquisition
+
+- Recruit trusted local contributors program-by-program.
+- Build toward a network that can supply scores, roster information, broadcast links, corrections, and eventually other verified information.
+- Preserve moderation, audit history, and role-based permissions.
+- Let contributor reputation compound over time and remain reusable across VarsityVue rather than creating isolated identity systems.
+- Consider reduced moderation or defined direct-publishing privileges only after contributors establish accuracy within clear safeguards.
+
+A member may progress naturally through roles such as:
+
+**Visitor → Member → Follower → Contributor → Trusted Contributor**
+
+The strategic loop is:
+
+**More contributors → Better/faster information → More useful VarsityVue → More members → Easier contributor recruitment**
+
+---
+
+## 2026 TRACTION TARGET
+
+**Reach 500 registered VarsityVue members by the end of the 2026 football season, while demonstrating meaningful follow/notification adoption and repeat Friday-night engagement.**
+
+This is a traction milestone, not a vanity total. Its purpose is to establish a measurable local audience that can support local sponsorship sales for the 2027 football season.
+
+Track:
+
+- registered-member growth;
+- school follows per member and by program;
+- notification opt-ins and preference mix;
+- Friday-night active usage;
+- Friday-night returning usage and retention;
+- contributor coverage across tracked programs.
+
+Do not optimize solely for raw pageviews. A smaller identifiable audience that follows schools, opts into useful updates, and returns on Friday night is more commercially meaningful than undifferentiated traffic.
+
+---
+
+## 2027 MONETIZATION — Local Sponsorships
+
+Use demonstrated 2026 audience traction to approach local businesses for the 2027 season.
+
+Potential inventory includes:
+
+- presenting sponsorship of the Friday Night Scoreboard;
+- Game of the Week;
+- school hubs;
+- district coverage;
+- Watch & Listen;
+- other tasteful, contextually valuable placements.
+
+Prefer valuable local sponsorships over cluttering the product with low-value generic display advertising. Sponsorship must never compromise editorial or statistical independence.
+
+---
+
+## EXPANSION STRATEGY
+
+Expand district/geography-first rather than adding random isolated schools.
+
+Favor additions that improve existing schedules, matchups, standings, rivalries, contributor coverage, and scoreboard usefulness simultaneously. Deep local usefulness should precede indiscriminate statewide breadth.
+
+---
+
+## FOLLOWING THE IMMEDIATE GROWTH WORK — VarsityVue Pick 'Ems
+
+Pick 'Em remains an important recurring-engagement feature, but it follows the immediate Follow/Notifications and Friday-night experience work rather than displacing them.
+
+Build a weekly Pick 'Em experience centered on roughly 10 selected games.
 
 Core requirements:
 
@@ -92,76 +191,13 @@ Core requirements:
 - Users can view their own record/history.
 - The system should be designed so points can have additional utility later.
 
-Pick 'Ems should create a recurring weekly habit and provide the first strong reason for casual visitors to become VarsityVue members.
-
-### Watch Now / Listen Now
-
-Continue attaching known broadcast sources to games and schools. Surface **Watch Now** and **Listen Now** actions on relevant game cards and Game Center pages when a reliable stream or radio source is available.
-
-Broadcast data should be stored once and inherited where appropriate rather than manually recreated on individual pages.
-
-### Statistics Reliability and Provenance
-
-VarsityVue cannot assume statistics are complete simply because a season is underway or because a source submitted data.
-
-Known problems include:
-
-- Some coaches/programs do not submit statistics consistently.
-- Some submit only after favorable performances.
-- Submitted statistics can contain errors or internal discrepancies.
-- Missing statistics must never be interpreted as zero production.
-
-Continue using clear states such as verified, partial, pending, and unavailable. Rankings and leaderboards must explain that they reflect verified statistics on file rather than pretending to represent every player or program.
-
-As the backend develops, statistics should retain source/provenance, verification state, and correction history wherever practical. Corrections should not require losing the audit trail.
-
----
-
-## NEXT — Turn Visitors Into Members and Followers
-
-### Favorite / Follow Schools
-
-Allow members to follow one or more schools. Following should become the foundation for a personalized VarsityVue experience rather than a cosmetic bookmark.
-
-Future uses include kickoff reminders, score updates, finals, new coverage, and other selected program updates.
-
-### Push Notifications
-
-Build opt-in notification preferences around followed schools and meaningful events.
-
-Potential notification categories include:
-
-- kickoff reminders;
-- important live score updates;
-- final scores;
-- new VarsityVue coverage;
-- selected program updates.
-
-A verified score update should eventually be capable of flowing through the scoreboard and automatically triggering appropriate notifications without a second manual publishing workflow.
-
-### Add VarsityVue to Home Screen / PWA Education
-
-VarsityVue should increasingly feel like an app without requiring an App Store download.
-
-The site already has PWA foundations. Add a clear mobile experience showing users how to add VarsityVue to their home screen, including platform-appropriate instructions and a well-timed prompt rather than an intrusive interruption.
-
-Home-screen installation and notifications should reinforce each other: install VarsityVue, follow your schools, and receive the updates you choose.
-
-### Member Profiles and Contributor Reputation
-
-Develop the member identity beyond login credentials.
-
-A member may progress naturally through roles such as:
-
-**Visitor → Member → Picker → Follower → Contributor → Trusted Contributor**
-
-Profiles/reputation may eventually reflect accurate score contributions, historical contributions, photography/media contributions, and other trusted participation. Roles and permissions should remain controlled by VarsityVue rather than creating open wiki-style editing.
+Pick 'Em should create a recurring weekly habit, strengthen member identity, and feed the broader rewards and data flywheel. Moving it behind the immediate growth phases is sequencing, not abandonment.
 
 ---
 
 ## PARALLEL MOAT — Start Accumulating Legacy Now
 
-Do not postpone Legacy until every current-season feature is complete, but also do not derail the current product by manually researching complete historical databases before launch.
+Do not postpone Legacy until every current-season feature is complete, but also do not derail the soft-launched product by manually researching complete historical databases before reliability and near-term growth work are secure.
 
 ### 2026: Establish the Permanent Structure
 
@@ -228,7 +264,7 @@ The platform should increasingly operate as one connected system:
 
 Likewise:
 
-**Visitor → Useful Content → Membership → Pick 'Ems / Follows → Contribution → Reputation → Trusted Contributor → Better Data → More Useful VarsityVue**
+**Visitor → Useful Content → Membership → Follows / Notifications / Pick 'Ems → Contribution → Reputation → Trusted Contributor → Better Data → More Useful VarsityVue**
 
 This is the compounding loop the product should protect.
 
@@ -267,15 +303,20 @@ Work that meaningfully advances those goals should generally outrank microscopic
 - Community contributions require appropriate verification and accountability.
 - Avoid uncontrolled public/wiki-style editing of authoritative information.
 - Build one identity/reputation system that can serve multiple participation features.
-- Preserve source/provenance and correction history as the backend matures.
+- Preserve source/provenance and correction history as the platform evolves.
 - Build current-season data to survive into Legacy.
 - Prefer entering verified information once and propagating it automatically.
 - Protect owner time: VarsityVue should become easier—not harder—to operate as coverage expands.
 
 # Immediate Development Direction
 
-The next major engineering phase should move away from generic visual plumbing and toward the **backend foundation for participation**.
+The immediate sequence is:
 
-Before selecting technology, audit the current repository for existing database, authentication, API-route, form, environment, and deployment capabilities. Then design the smallest durable foundation that can support both **community score submissions** and **Pick 'Ems**, with future hooks for follows, notifications, reputation, rewards, and Legacy provenance.
+1. Finish the current reliability audits.
+2. Execute Follow + Notifications.
+3. Improve the Friday-night scoreboard and broadcast experience.
+4. Build the contributor network.
+5. Pursue the 500-member season-end traction target.
+6. Use that traction to prepare 2027 local sponsorship sales.
 
-Legacy should begin accumulating in parallel, but the initial goal is durable structure and contribution pathways—not a complete century of manually researched history before the core participation system exists.
+Pick 'Em remains the next major recurring-engagement feature after the immediate Follow/Notifications and Friday-night work. Legacy should continue accumulating in parallel as the long-term compounding moat and a major offseason opportunity. Neither should distract from reliability, measurable audience growth, or the local contributor network required to make VarsityVue more useful every week.
