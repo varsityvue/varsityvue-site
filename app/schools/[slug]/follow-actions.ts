@@ -1,6 +1,5 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import {
@@ -52,11 +51,23 @@ export async function manageSchoolFollow(
   const operation = String(formData.get("operation") ?? "");
 
   if (operation === "follow") {
-    return followSchoolForCurrentUser(schoolSlug);
+    const result = await followSchoolForCurrentUser(schoolSlug);
+    if (result.status === "success") {
+      redirect(
+        `/schools/${encodeURIComponent(schoolSlug)}?followed=${encodeURIComponent(schoolSlug)}`,
+      );
+    }
+    return result;
   }
 
   if (operation === "unfollow") {
-    return unfollowSchool(schoolSlug);
+    const result = await unfollowSchool(schoolSlug);
+    if (result.status === "success") {
+      redirect(
+        `/schools/${encodeURIComponent(schoolSlug)}?unfollowed=${encodeURIComponent(schoolSlug)}`,
+      );
+    }
+    return result;
   }
 
   return {
@@ -110,8 +121,6 @@ export async function unfollowSchool(
     };
   }
 
-  revalidatePath(`/schools/${context.slug}`);
-  revalidatePath("/account");
   return {
     following: false,
     status: "success",

@@ -1,6 +1,5 @@
 import "server-only";
 
-import { revalidatePath } from "next/cache";
 import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
 
@@ -55,8 +54,6 @@ export async function followSchoolForCurrentUser(
     };
   }
 
-  revalidatePath(`/schools/${school.slug}`);
-  revalidatePath("/account");
   return {
     following: true,
     status: "success",
