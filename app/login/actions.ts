@@ -3,6 +3,7 @@
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { deliverNextMemberNotification } from "@/lib/member-notifications";
 import { createClient } from "@/lib/supabase/server";
 
 function value(formData: FormData, key: string) {
@@ -19,51 +20,6 @@ function loginUrl(message: string, next: string, mode?: "signup") {
   if (next !== "/account") params.set("next", next);
   if (mode) params.set("mode", mode);
   return `/login?${params.toString()}`;
-}
-
-async function notifyAdminOfNewMember({
-  userId,
-  displayName,
-  email,
-}: {
-  userId: string;
-  displayName: string;
-  email: string;
-}) {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    console.error("New-member notification skipped: RESEND_API_KEY is not configured.");
-    return;
-  }
-
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-      "Idempotency-Key": `varsityvue-new-member/${userId}`,
-    },
-    body: JSON.stringify({
-      from: "VarsityVue <notifications@varsityvue.com>",
-      to: ["info@varsityvue.com"],
-      subject: `New VarsityVue member: ${displayName}`,
-      html: `<div style="font-family:Arial,sans-serif;line-height:1.5;color:#111"><h2 style="margin-bottom:12px">New VarsityVue member</h2><p>A new account was just created.</p><p><strong>Name:</strong> ${escapeHtml(displayName)}<br><strong>Email:</strong> ${escapeHtml(email)}</p><p style="color:#666;font-size:13px">User ID: ${escapeHtml(userId)}</p></div>`,
-    }),
-  });
-
-  if (!response.ok) {
-    const detail = await response.text();
-    throw new Error(`Resend new-member notification failed (${response.status}): ${detail}`);
-  }
-}
-
-function escapeHtml(value: string) {
-  return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
 }
 
 export async function login(formData: FormData) {
@@ -123,15 +79,13 @@ export async function signup(formData: FormData) {
     redirect(loginUrl(error.message, next, "signup"));
   }
 
-  // Supabase returns an empty identities array when signup is attempted for an
-  // existing confirmed account. Only alert for a genuinely new auth identity.
+  // The auth.users trigger owns durable new-member detection. This immediate
+  // attempt only reduces delivery latency; scheduled retries recover failures.
   if (data.user && (data.user.identities?.length ?? 0) > 0) {
     try {
-      await notifyAdminOfNewMember({ userId: data.user.id, displayName, email });
+      await deliverNextMemberNotification();
     } catch (notificationError) {
-      // Account creation must not fail just because the admin alert provider is
-      // temporarily unavailable. The failure remains visible in Vercel logs.
-      console.error("Failed to send new-member notification.", notificationError);
+      console.error("Immediate member-notification attempt failed.", notificationError);
     }
   }
 
