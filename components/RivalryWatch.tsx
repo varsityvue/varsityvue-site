@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getGamesForSchool } from "@/lib/games";
+import { getDynamicGamesForSchool } from "@/lib/dynamic-games";
 import { getSchoolBySlug } from "@/lib/schools";
 
 type Props = {
@@ -14,15 +14,6 @@ function isExplicitRivalryGame(specialEvent?: string) {
   return RIVALRY_TERMS.some((term) => normalized.includes(term));
 }
 
-function getUpcomingRivalryGame(schoolSlug: string) {
-  return getGamesForSchool(schoolSlug).find(
-    (game) =>
-      game.status === "upcoming" &&
-      game.gameType !== "bye" &&
-      isExplicitRivalryGame(game.specialEvent)
-  );
-}
-
 function formatDate(date?: string) {
   if (!date) return null;
   const parsed = new Date(`${date}T12:00:00`);
@@ -30,9 +21,14 @@ function formatDate(date?: string) {
   return parsed.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
-export default function RivalryWatch({ schoolSlug }: Props) {
+export default async function RivalryWatch({ schoolSlug }: Props) {
   const school = getSchoolBySlug(schoolSlug);
-  const rivalryGame = getUpcomingRivalryGame(schoolSlug);
+  const rivalryGame = (await getDynamicGamesForSchool(schoolSlug)).find(
+    (game) =>
+      game.status === "upcoming" &&
+      game.gameType !== "bye" &&
+      isExplicitRivalryGame(game.specialEvent)
+  );
 
   if (!school || !rivalryGame) return null;
 
