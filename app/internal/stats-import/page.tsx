@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import GameStatsReviewTool from "@/components/internal/GameStatsReviewTool";
-import { gameStats } from "@/data/game-stats";
+import { getAllGameStats } from "@/lib/game-stats";
 import { getGames } from "@/lib/games";
 
 export const metadata: Metadata = {
@@ -19,7 +19,8 @@ export default function InternalStatsImportPage() {
     notFound();
   }
 
-  const gamesWithStats = new Set(gameStats.map((stats) => stats.gameId));
+  const existingStats = getAllGameStats();
+  const gamesWithStats = new Set(existingStats.map((stats) => stats.gameId));
   const canonicalGames = getGames()
     .filter((game) => game.gameType !== "bye")
     .map((game) => ({
@@ -52,7 +53,7 @@ export default function InternalStatsImportPage() {
           </div>
         </div>
 
-        <GameStatsReviewTool canonicalGames={canonicalGames} existingStats={gameStats} />
+        <GameStatsReviewTool canonicalGames={canonicalGames} existingStats={existingStats} />
       </div>
     </main>
   );
