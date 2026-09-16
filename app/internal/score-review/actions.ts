@@ -80,10 +80,26 @@ export async function approveScoreSubmission(formData: FormData) {
   }
 
   const currentGame = await getDynamicGameById(submission.game_id);
-  if (currentGame && ["final", "cancelled", "postponed"].includes(currentGame.status)) {
+  if (!currentGame) {
+    redirect(
+      `/internal/score-review?message=${encodeURIComponent(
+        "Approval blocked. This report does not match a known VarsityVue game.",
+      )}`,
+    );
+  }
+
+  if (["final", "cancelled", "postponed"].includes(currentGame.status)) {
     redirect(
       `/internal/score-review?message=${encodeURIComponent(
         `Approval blocked. This game is already verified as ${currentGame.status} and cannot be changed by an older pending report.`,
+      )}`,
+    );
+  }
+
+  if (currentGame.status !== "live" && currentGame.status !== "scheduled") {
+    redirect(
+      `/internal/score-review?message=${encodeURIComponent(
+        "Approval blocked. Score reports can be approved only while a game is live or awaiting a result.",
       )}`,
     );
   }
