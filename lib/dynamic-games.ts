@@ -14,7 +14,7 @@ type GameStateRow = {
 };
 
 function applyGameState(game: Game, state?: GameStateRow): Game {
-  if (!state) return game;
+  if (!state?.verified) return game;
 
   const hasScore =
     typeof state.home_score === "number" &&
@@ -45,7 +45,8 @@ export async function getDynamicGames(): Promise<Game[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("game_state")
-    .select("game_id,status,home_score,away_score,period,clock,verified");
+    .select("game_id,status,home_score,away_score,period,clock,verified")
+    .eq("verified", true);
 
   if (error || !data?.length) return baseGames;
 
