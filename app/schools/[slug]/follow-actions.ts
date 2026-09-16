@@ -44,7 +44,33 @@ export async function followSchool(
   return followSchoolForCurrentUser(schoolSlug);
 }
 
-export async function beginSignedOutSchoolFollow(schoolSlug: string) {
+export async function manageSchoolFollow(
+  schoolSlug: string,
+  previousState: SchoolFollowActionState,
+  formData: FormData,
+): Promise<SchoolFollowActionState> {
+  const operation = String(formData.get("operation") ?? "");
+
+  if (operation === "follow") {
+    return followSchoolForCurrentUser(schoolSlug);
+  }
+
+  if (operation === "unfollow") {
+    return unfollowSchool(schoolSlug);
+  }
+
+  return {
+    following: previousState.following,
+    status: "error",
+    message: "That follow action is not available.",
+  };
+}
+
+export async function beginSignedOutSchoolFollow(
+  schoolSlug: string,
+  formData: FormData,
+) {
+  void formData;
   const school = getSchoolBySlug(schoolSlug.trim());
   if (!school) redirect("/schools");
 

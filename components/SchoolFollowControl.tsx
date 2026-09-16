@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useActionState } from "react";
 import {
   beginSignedOutSchoolFollow,
-  followSchool,
-  unfollowSchool,
+  manageSchoolFollow,
   type SchoolFollowActionState,
 } from "@/app/schools/[slug]/follow-actions";
 
@@ -28,24 +27,21 @@ export default function SchoolFollowControl({
   finishFollowing = false,
   initialMessage = "",
 }: SchoolFollowControlProps) {
-  const [state, setState] = useState<SchoolFollowActionState>({
+  const initialState: SchoolFollowActionState = {
     following: isFollowing,
     status: "idle",
     message: initialMessage,
-  });
-  const [pending, startTransition] = useTransition();
-
-  function follow() {
-    startTransition(async () => setState(await followSchool(schoolSlug)));
-  }
-
-  function unfollow() {
-    startTransition(async () => setState(await unfollowSchool(schoolSlug)));
-  }
+  };
+  const manageFollow = manageSchoolFollow.bind(null, schoolSlug);
+  const [state, formAction, pending] = useActionState(
+    manageFollow,
+    initialState,
+  );
 
   if (!isAuthenticated) {
+    const beginFollow = beginSignedOutSchoolFollow.bind(null, schoolSlug);
     return (
-      <form action={() => beginSignedOutSchoolFollow(schoolSlug)}>
+      <form action={beginFollow}>
         <button
           type="submit"
           className={`${buttonClass} border-white/20 bg-white/10 text-white hover:bg-white/15`}
@@ -66,7 +62,8 @@ export default function SchoolFollowControl({
           >
             <span aria-hidden="true">✓&nbsp;</span> Following
           </span>
-          <form action={unfollow}>
+          <form action={formAction}>
+            <input type="hidden" name="operation" value="unfollow" />
             <button
               type="submit"
               disabled={pending}
@@ -78,7 +75,8 @@ export default function SchoolFollowControl({
           </form>
         </div>
       ) : (
-        <form action={follow}>
+        <form action={formAction}>
+          <input type="hidden" name="operation" value="follow" />
           <button
             type="submit"
             disabled={pending}

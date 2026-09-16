@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { safeNextPath } from "@/lib/safe-next-path";
+import { getSchoolBySlug } from "@/lib/schools";
 import { login, signup } from "./actions";
 
 type LoginPageProps = {
@@ -6,13 +8,9 @@ type LoginPageProps = {
     message?: string;
     mode?: string;
     next?: string;
+    status?: string;
   }>;
 };
-
-function safeNext(value?: string) {
-  if (!value || !value.startsWith("/") || value.startsWith("//")) return "/account";
-  return value;
-}
 
 function intendedSchoolSlug(returnTo: string) {
   if (!returnTo.startsWith("/follow/complete?")) return undefined;
@@ -21,10 +19,15 @@ function intendedSchoolSlug(returnTo: string) {
 }
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
-  const { message, mode, next } = await searchParams;
+  const { message, mode, next, status } = await searchParams;
   const signupMode = mode === "signup";
-  const returnTo = safeNext(next);
+  const returnTo = safeNextPath(next);
   const followSchoolSlug = intendedSchoolSlug(returnTo);
+  const followSchool = followSchoolSlug
+    ? getSchoolBySlug(followSchoolSlug)
+    : undefined;
+  const confirmationPending = status === "confirmation-pending";
+  const crossDeviceConfirmation = status === "confirmation-cross-device";
   const toggleParams = new URLSearchParams();
   if (!signupMode) toggleParams.set("mode", "signup");
   if (returnTo !== "/account") toggleParams.set("next", returnTo);
@@ -44,13 +47,57 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
             Sign in to make picks, follow your teams, and contribute to VarsityVue.
           </p>
 
+          {confirmationPending ? (
+            <div
+              role="status"
+              aria-live="polite"
+              className="mt-6 rounded-2xl border border-emerald-300/35 bg-emerald-300/10 p-5 shadow-[0_0_0_1px_rgba(110,231,183,0.05)]"
+            >
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-emerald-200">
+                Account created
+              </p>
+              <h2 className="mt-2 text-xl font-black text-white">
+                Check your email to confirm your account.
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-emerald-50/75">
+                Open the message from VarsityVue and select the confirmation link.
+                {followSchool
+                  ? ` After confirmation, we’ll return you to finish following ${followSchool.name}.`
+                  : " After confirmation, you can sign in to VarsityVue."}
+              </p>
+            </div>
+          ) : null}
+
+          {crossDeviceConfirmation ? (
+            <div
+              role="status"
+              aria-live="polite"
+              className="mt-6 rounded-2xl border border-emerald-300/35 bg-emerald-300/10 p-5"
+            >
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-emerald-200">
+                Confirmation link opened
+              </p>
+              <h2 className="mt-2 text-xl font-black text-white">
+                Continue by signing in.
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-emerald-50/75">
+                The email link was opened in a different browser or device, so
+                this browser could not finish signing you in. Your account may
+                already be confirmed. Sign in to continue
+                {followSchool
+                  ? ` and return to ${followSchool.name} to finish following with one click.`
+                  : "."}
+              </p>
+            </div>
+          ) : null}
+
           {returnTo.startsWith("/report-score") ? (
             <div className="mt-5 rounded-2xl border border-[var(--vv-accent)]/15 bg-white/[0.04] px-4 py-3 text-xs leading-5 text-white/55">
               Sign in or create an account and we’ll return you directly to the score report you selected.
             </div>
           ) : null}
 
-          {followSchoolSlug ? (
+          {followSchoolSlug && !confirmationPending && !crossDeviceConfirmation ? (
             <div className="mt-5 rounded-2xl border border-[var(--vv-accent)]/15 bg-white/[0.04] px-4 py-3 text-xs leading-5 text-white/55">
               Sign in or create an account to finish following your selected school.
             </div>
