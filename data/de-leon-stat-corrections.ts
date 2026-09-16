@@ -27,16 +27,16 @@ export function applyDeLeonStatCorrections(game: GameStats): GameStats {
         { player: "Ed Garcia", schoolSlug: "de-leon", attempts: 2, yards: 15 },
       ],
       passing: [
-        { player: "Jason Everett", schoolSlug: "san-saba", completions: 0, attempts: 1, yards: 0, interceptions: 0 },
-        { player: "JJ Romero", schoolSlug: "san-saba", completions: 0, attempts: 3, yards: 0, interceptions: 0 },
+        { player: "Jason Everett", schoolSlug: "san-saba", completions: 0, attempts: 1, yards: 0, interceptions: 0, touchdowns: 0 },
+        { player: "JJ Romero", schoolSlug: "san-saba", completions: 0, attempts: 3, yards: 0, interceptions: 0, touchdowns: 0 },
         { player: "Hud Price", schoolSlug: "de-leon", completions: 8, attempts: 11, yards: 60, interceptions: 0, touchdowns: 1 },
-        { player: "Beau Morris", schoolSlug: "de-leon", completions: 1, attempts: 1, yards: 4, interceptions: 0 },
+        { player: "Beau Morris", schoolSlug: "de-leon", completions: 1, attempts: 1, yards: 4, interceptions: 0, touchdowns: 0 },
       ],
       receiving: [
-        { player: "Lane Couch", schoolSlug: "de-leon", receptions: 1, yards: -4 },
-        { player: "Trenton Zmeskal", schoolSlug: "de-leon", receptions: 1, yards: 10 },
+        { player: "Lane Couch", schoolSlug: "de-leon", receptions: 1, yards: -4, touchdowns: 0 },
+        { player: "Trenton Zmeskal", schoolSlug: "de-leon", receptions: 1, yards: 10, touchdowns: 0 },
         { player: "Bryce Burkeen", schoolSlug: "de-leon", receptions: 6, yards: 54, touchdowns: 1 },
-        { player: "Alex Reyna", schoolSlug: "de-leon", receptions: 1, yards: 4 },
+        { player: "Alex Reyna", schoolSlug: "de-leon", receptions: 1, yards: 4, touchdowns: 0 },
       ],
     };
   }
@@ -67,7 +67,7 @@ export function applyDeLeonStatCorrections(game: GameStats): GameStats {
       passing: [
         { player: "Miles Follis", schoolSlug: "stamford", completions: 21, attempts: 27, yards: 271, interceptions: 3, touchdowns: 1 },
         { player: "Hud Price", schoolSlug: "de-leon", completions: 9, attempts: 14, yards: 101, interceptions: 0, touchdowns: 3 },
-        { player: "Beau Morris", schoolSlug: "de-leon", completions: 0, attempts: 2, yards: 0, interceptions: 0 },
+        { player: "Beau Morris", schoolSlug: "de-leon", completions: 0, attempts: 2, yards: 0, interceptions: 0, touchdowns: 0 },
       ],
       receiving: [
         { player: "Karsten Hall", schoolSlug: "stamford", receptions: 3, yards: 36 },
