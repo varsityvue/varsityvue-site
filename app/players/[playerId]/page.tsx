@@ -40,7 +40,7 @@ export default async function PlayerPage({ params }: Props) {
   const school = getSchoolBySlug(player.schoolSlug);
   const district = school ? getDistrictById(school.districtId) : undefined;
   const profile = getPlayerProfile(playerId, SEASON);
-  const gameLog = getPlayerGameLog(playerId, SEASON);
+  const gameLog = await getPlayerGameLog(playerId, SEASON);
 
   const rushingRank = rankOf(getRushingLeaders({ season: SEASON, minAttempts: 1 }), playerId);
   const districtRushingRank = district ? rankOf(getRushingLeaders({ season: SEASON, districtId: district.id, minAttempts: 1 }), playerId) : undefined;

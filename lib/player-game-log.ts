@@ -1,5 +1,5 @@
 import { gameStats } from "@/lib/all-game-stats";
-import { getGameById } from "@/lib/games";
+import { getDynamicGames } from "@/lib/dynamic-games";
 import { getPlayerId } from "@/lib/player-identity";
 
 export type PlayerGameLogEntry = {
@@ -41,7 +41,8 @@ function lineMatchesPlayer(
   return (line.playerId ?? getPlayerId(line.schoolSlug, line.player, season)) === playerId;
 }
 
-export function getPlayerGameLog(playerId: string, season = 2026): PlayerGameLogEntry[] {
+export async function getPlayerGameLog(playerId: string, season = 2026): Promise<PlayerGameLogEntry[]> {
+  const dynamicGames = await getDynamicGames();
   const entries: PlayerGameLogEntry[] = [];
 
   for (const stats of gameStats) {
@@ -52,7 +53,7 @@ export function getPlayerGameLog(playerId: string, season = 2026): PlayerGameLog
     if (!identity) continue;
 
     const schoolSlug = identity.schoolSlug;
-    const game = getGameById(stats.gameId);
+    const game = dynamicGames.find((candidate) => candidate.id === stats.gameId);
     const isHome = game?.homeSchoolSlug === schoolSlug;
     const opponent = isHome ? game?.awayTeam : game?.homeTeam;
 
