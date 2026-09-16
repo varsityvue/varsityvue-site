@@ -7,7 +7,7 @@ import type { MediaLinkType } from "@/types/platform";
 import { getSchoolBySlug } from "@/lib/schools";
 import { getDynamicGames } from "@/lib/dynamic-games";
 import { getDistrictById } from "@/lib/districts";
-import { getStandingsForSchool } from "@/lib/standings";
+import { getStandingsForDistrictIdFromGames } from "@/lib/standings";
 import { createClient } from "@/lib/supabase/server";
 import { getSchoolBroadcastLinks } from "@/data/school-broadcasts";
 import SchoolHero from "../../../components/SchoolHero";
@@ -39,7 +39,7 @@ export default async function SchoolPage({ params }: { params: Promise<{ slug: s
     .filter((game) => game.status === "final" && (game.homeSchoolSlug === slug || game.awaySchoolSlug === slug))
     .sort((a, b) => (b.kickoff ?? "").localeCompare(a.kickoff ?? ""))
     .slice(0, 3);
-  const standings = getStandingsForSchool(slug);
+  const standings = getStandingsForDistrictIdFromGames(school.districtId, dynamicGames);
   const broadcastLinks = getSchoolBroadcastLinks(school.slug);
   const hasOfficialLinks = Boolean(school.officialWebsite || school.facebookUrl || school.instagramUrl || school.xUrl);
   const officialProfiles = [school.officialWebsite, school.facebookUrl, school.instagramUrl, school.xUrl].filter((url): url is string => Boolean(url));
