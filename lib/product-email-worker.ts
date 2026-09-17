@@ -14,6 +14,7 @@ type ClaimedDelivery = {
   recipient_email: string;
   attempt_count: number;
   relevant_school_slugs: string[];
+  matched_school_slugs: string[];
   content_snapshot: ProductEmailContentSnapshot;
   occurred_at: string;
   test_only: boolean;
@@ -75,7 +76,7 @@ export async function deliverNextProductEmail() {
   }
 
   const client = workerClient();
-  const { data, error } = await client.rpc("claim_product_email_delivery", {
+  const { data, error } = await client.rpc("claim_product_email_delivery_v2", {
     worker_secret: workerSecret,
   });
   if (error) {
@@ -90,6 +91,7 @@ export async function deliverNextProductEmail() {
     category: delivery.category,
     userId: delivery.recipient_user_id,
     schoolSlugs: delivery.relevant_school_slugs,
+    matchedSchoolSlugs: delivery.matched_school_slugs,
     snapshot: delivery.content_snapshot,
     testOnly: delivery.test_only,
   });
