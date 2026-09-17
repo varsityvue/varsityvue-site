@@ -27,21 +27,21 @@ body {
 }
 
 /* Keep both Game of the Week team names visually equal at every breakpoint. */
-[data-side="left"] > h2,
-[data-side="right"] > h2 {
+[data-side="left"] h2,
+[data-side="right"] h2 {
   font-size: 2.25rem !important;
 }
 
 @media (min-width: 768px) {
-  [data-side="left"] > h2,
-  [data-side="right"] > h2 {
+  [data-side="left"] h2,
+  [data-side="right"] h2 {
     font-size: 2.5rem !important;
   }
 }
 
 @media (min-width: 1280px) {
-  [data-side="left"] > h2,
-  [data-side="right"] > h2 {
+  [data-side="left"] h2,
+  [data-side="right"] h2 {
     font-size: 3rem !important;
   }
 }

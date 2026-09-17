@@ -256,9 +256,8 @@ function HeroTeam({ school, team, standing, align, result }: {
     : team.length >= 8
       ? "text-lg sm:text-3xl lg:text-4xl xl:text-4xl"
       : "text-xl sm:text-4xl lg:text-5xl xl:text-6xl";
-
-  return (
-    <div data-side={align} className="min-w-0 text-center">
+  const identity = (
+    <>
       {school && <div className="mb-1.5 flex justify-center sm:mb-4"><ProgramLogo school={school} size="sm" /></div>}
       <div className="flex items-center justify-center gap-1.5 sm:gap-3">
         <h2 className={`${teamNameSize} min-w-0 break-words font-black uppercase leading-[0.95] tracking-tight text-white`}>{team}</h2>
@@ -267,6 +266,20 @@ function HeroTeam({ school, team, standing, align, result }: {
         )}
       </div>
       {school?.mascot && <p className="mt-1 truncate text-[8px] font-black uppercase tracking-[0.12em] text-white/45 sm:mt-2 sm:text-sm sm:tracking-[0.22em]">{school.mascot}</p>}
+    </>
+  );
+
+  return (
+    <div data-side={align} className="min-w-0 text-center">
+      {school ? (
+        <Link
+          href={`/schools/${school.slug}`}
+          aria-label={`View ${school.fullName} school hub`}
+          className="group/team block min-h-24 rounded-2xl px-1 py-1 outline-none transition hover:bg-white/[0.04] focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+        >
+          {identity}
+        </Link>
+      ) : identity}
       <RecordLine overallWins={standing?.overallWins} overallLosses={standing?.overallLosses} districtWins={standing?.districtWins} districtLosses={standing?.districtLosses} />
     </div>
   );

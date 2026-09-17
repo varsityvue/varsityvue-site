@@ -11,6 +11,10 @@ function formatShortClassification(classification: UILClassification) {
   if (!classification.division) return classification.conference;
   return `${classification.conference} ${classification.division === "D1" ? "DI" : "DII"}`;
 }
+function formatFullClassification(classification: UILClassification) {
+  if (!classification.division) return classification.conference;
+  return `${classification.conference} Division ${classification.division === "D1" ? "I" : "II"}`;
+}
 function formatShortDistrict(districtName: string) {
   return districtName.match(/District\s+\d+$/)?.[0] ?? districtName;
 }
@@ -43,6 +47,7 @@ export default function SchoolHero({ school, games, isAuthenticated, isFollowing
   const primary = school.colors.primary; const secondary = school.colors.secondary;
   const longSchoolName = school.name.length > 10;
   const programDescription = school.description ?? "Schedules, scores, standings, matchup coverage, player statistics, and program updates in one place.";
+  const mobileProgramSummary = `UIL ${formatFullClassification(school.classification)} football program.`;
   const stadiumMapUrl = getStadiumMapUrl(school);
   const nextGameMapUrl = nextGame ? getGameMapUrl(nextGame) : undefined;
   return (
@@ -68,7 +73,8 @@ export default function SchoolHero({ school, games, isAuthenticated, isFollowing
               {school.athleticDirector && school.athleticDirector !== school.headCoach && <p className="mt-1.5 text-[9px] font-bold uppercase tracking-[0.1em] text-white/35 sm:text-[11px] sm:tracking-[0.12em]">Athletic Director · {school.athleticDirector}</p>}
             </div>
           </div>
-          <p className="mt-4 max-w-3xl text-xs leading-5 text-white/62 sm:mt-6 sm:text-base sm:leading-7">{programDescription}</p>
+          <p className="mt-4 max-w-3xl text-xs leading-5 text-white/62 sm:hidden">{mobileProgramSummary}</p>
+          <p className="mt-6 hidden max-w-3xl text-base leading-7 text-white/62 sm:block">{programDescription}</p>
           {school.officialWebsite && <a href={school.officialWebsite} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex text-[9px] font-black uppercase tracking-[0.12em] text-white/45 underline decoration-white/15 underline-offset-4 transition hover:text-white hover:decoration-white/60 sm:mt-3 sm:text-xs">Official Website ↗</a>}
         </div><div className="mt-4 grid grid-cols-2 gap-1.5 sm:mt-10 sm:gap-3 lg:grid-cols-4"><Stat value={seasonRecord} label="2026 Record" /><Stat value={formatShortClassification(school.classification)} label="Class" /><Stat value={formatShortDistrict(districtName)} label="District" /><Stat value={upcomingGames.length.toString()} label="Upcoming" /></div></div>
         <div className="hidden items-end lg:flex"><div className="w-full rounded-[1.75rem] border p-6 shadow-2xl backdrop-blur-sm" style={{ borderColor: `${primary}55`, background: "linear-gradient(135deg, rgba(255,255,255,0.06), rgba(0,0,0,0.94))", boxShadow: `inset 4px 0 0 ${primary}, 0 24px 70px rgba(0,0,0,0.45)` }}><p className="inline-flex rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-white/80">Next Matchup</p>{nextGame ? <><h2 className="mt-4 text-3xl font-black leading-tight tracking-tight sm:text-4xl">{nextGame.awayTeam} at {nextGame.homeTeam}</h2><div className="mt-7 grid grid-cols-3 items-center gap-4 text-center"><div className="flex justify-center">{nextAwaySchool ? <SchoolBadge school={nextAwaySchool} size="sm" /> : <FallbackTeamBadge team={nextGame.awayTeam ?? "Away"} />}</div><div className="text-2xl font-black text-white/30">VS</div><div className="flex justify-center">{nextHomeSchool ? <SchoolBadge school={nextHomeSchool} size="sm" /> : <FallbackTeamBadge team={nextGame.homeTeam ?? "Home"} />}</div></div><div className="mt-7 grid gap-3 sm:grid-cols-2"><InfoCard label="Date" value={formatGameDate(nextGame.kickoff)} /><InfoCard label="Kickoff" value={formatGameTime(nextGame.kickoff)} />{nextGame.venue && nextGameMapUrl ? <a href={nextGameMapUrl} target="_blank" rel="noopener noreferrer" title={`Open ${nextGame.venue} in Google Maps`}><InfoCard label="Venue" value={`${nextGame.venue} →`} /></a> : <InfoCard label="Venue" value={nextGame.venue ?? "Venue TBD"} />}<InfoCard label="Game" value={getWeekLabel(nextGame.gameType, nextGame.week)} /></div><Link href={`/games/${nextGame.id}`} className="mt-6 block rounded-xl border px-5 py-4 text-center text-sm font-black uppercase tracking-[0.14em] text-white transition hover:bg-white/15" style={{ borderColor: `${secondary}44`, backgroundColor: "rgba(255,255,255,0.08)" }}>View Matchup →</Link></> : <div className="mt-5 rounded-2xl border border-white/10 bg-white/5 p-6 text-white/55">No upcoming game is currently listed.</div>}</div></div>

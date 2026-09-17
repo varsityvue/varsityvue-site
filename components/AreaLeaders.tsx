@@ -4,7 +4,6 @@ import { getPlayerSeasonStats } from "@/lib/player-stats";
 import { getFeaturedSchools } from "@/lib/schools";
 import { compareOptionalStatsDescending, formatTouchdownDetail, sumOptionalStats } from "@/lib/stat-values";
 import { combineCategoryStates, isDefinitiveRanking } from "@/lib/stat-completeness";
-import StatCompletenessBadge from "@/components/StatCompletenessBadge";
 import type { StatCompletenessDetail } from "@/data/game-stats";
 
 type LeaderRow = {
@@ -33,6 +32,14 @@ function touchdownDetail(player: ReturnType<typeof getPlayerSeasonStats>[number]
   if (player.rushing.touchdowns !== undefined && player.rushing.touchdowns > 0) parts.push(`${player.rushing.touchdowns} RUSH`);
   if (player.receiving.touchdowns !== undefined && player.receiving.touchdowns > 0) parts.push(`${player.receiving.touchdowns} REC`);
   return parts.join(" · ");
+}
+
+function coverageSummary(rows: LeaderRow[]) {
+  const status = combineCategoryStates(rows.map((row) => row.completeness)).status;
+  if (status === "complete") return "Verified stats on file · Complete category coverage";
+  if (status === "partial") return "Verified stats on file · Partial category coverage";
+  if (status === "unavailable") return "Verified stats on file · Category coverage unavailable";
+  return "Verified stats on file · Coverage completeness unknown";
 }
 
 export default function AreaLeaders() {
@@ -159,15 +166,16 @@ export default function AreaLeaders() {
         <div className="mt-4 grid gap-2.5 sm:mt-6 sm:grid-cols-2 sm:gap-4 xl:grid-cols-5">
           {cards.map((card) => {
             const definitiveRanking = isDefinitiveRanking(card.rows);
+            const coverage = coverageSummary(card.rows);
             return (
             <div key={card.title} className="overflow-hidden rounded-[1.15rem] border border-white/10 bg-black/35 sm:rounded-[1.5rem]">
               <div className="border-b border-white/10 bg-[linear-gradient(135deg,rgba(139,16,32,0.24),rgba(255,255,255,0.03))] px-3.5 py-2.5 sm:px-5 sm:py-4">
-                <p className="text-[8px] font-black uppercase tracking-[0.15em] text-white/35 sm:text-[10px] sm:tracking-[0.2em]">
-                  Verified stats on file
-                </p>
-                <h3 className="mt-0.5 text-sm font-black uppercase tracking-tight text-white sm:mt-1 sm:text-lg">
+                <h3 className="text-sm font-black uppercase tracking-tight text-white sm:text-lg">
                   {card.title}
                 </h3>
+                <p className="mt-1 text-[8px] font-bold leading-3 text-white/40 sm:text-[10px] sm:leading-4">
+                  {coverage}
+                </p>
               </div>
 
               <div className="divide-y divide-white/10">
@@ -185,7 +193,6 @@ export default function AreaLeaders() {
                       <p className="mt-0.5 truncate text-[8px] font-semibold uppercase tracking-[0.05em] text-white/30 sm:mt-1 sm:text-[10px] sm:tracking-[0.08em]">
                         {row.detail}
                       </p>
-                      <div className="mt-1"><StatCompletenessBadge completeness={row.completeness} compact /></div>
                     </div>
                     <div className="text-right">
                       <p className="text-base font-black text-white sm:text-xl">{number(row.value)}</p>
