@@ -6,6 +6,7 @@ import { resolveAccountFollows } from "@/lib/account-follows";
 import { requireActiveMember } from "@/lib/member-access";
 import { getSchoolBySlug } from "@/lib/schools";
 import AccountFollowList from "@/components/AccountFollowList";
+import NotificationPreferences from "@/components/NotificationPreferences";
 
 function schoolHasCompleteIdentity(slug?: string) {
   if (!slug) return false;
@@ -59,7 +60,13 @@ function formatMemberSince(createdAt?: string) {
 export default async function AccountPage() {
   const { supabase, userId, claims } = await requireActiveMember();
 
-  const [{ data: profile }, { data: roles }, { data: assignments }, { data: followRows }] = await Promise.all([
+  const [
+    { data: profile },
+    { data: roles },
+    { data: assignments },
+    { data: followRows },
+    { data: notificationPreferences },
+  ] = await Promise.all([
     supabase
       .from("profiles")
       .select("display_name, username, created_at")
@@ -77,6 +84,11 @@ export default async function AccountPage() {
       .select("school_slug, created_at")
       .eq("user_id", userId)
       .order("created_at", { ascending: true }),
+    supabase
+      .from("member_notification_preferences")
+      .select("final_score_email, new_coverage_email")
+      .eq("user_id", userId)
+      .maybeSingle(),
   ]);
 
   const { follows: followedSchools, staleFollowCount } = resolveAccountFollows(followRows ?? []);
@@ -184,6 +196,12 @@ export default async function AccountPage() {
         </section>
 
         <AccountFollowList initialFollows={followedSchools} staleFollowCount={staleFollowCount} />
+
+        <NotificationPreferences
+          finalScoreEmail={notificationPreferences?.final_score_email === true}
+          newCoverageEmail={notificationPreferences?.new_coverage_email === true}
+          followCount={followedSchools.length}
+        />
 
         {isContributor ? (
           <section className="mt-6 rounded-[1.5rem] border border-[var(--vv-primary)]/40 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.24),transparent_45%),rgba(255,255,255,0.035)] p-5 sm:p-7">
