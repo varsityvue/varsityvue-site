@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CaptchaSubmit } from "@/components/auth/captcha-submit";
 import { safeNextPath } from "@/lib/safe-next-path";
 import { getSchoolBySlug } from "@/lib/schools";
 import { login, signup } from "./actions";
@@ -32,6 +33,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   if (!signupMode) toggleParams.set("mode", "signup");
   if (returnTo !== "/account") toggleParams.set("next", returnTo);
   const toggleHref = toggleParams.size ? `/login?${toggleParams.toString()}` : "/login";
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] px-4 py-10 text-white sm:px-6 sm:py-16 lg:px-8">
@@ -108,7 +110,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
             </div>
           ) : null}
 
-          <form className="mt-6 space-y-4">
+          <form action={signupMode ? signup : login} className="mt-6 space-y-4">
             <input type="hidden" name="next" value={returnTo} />
             {signupMode ? (
               <div>
@@ -158,12 +160,11 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
               />
             </div>
 
-            <button
-              formAction={signupMode ? signup : login}
-              className="w-full rounded-full bg-[var(--vv-primary)] px-6 py-3.5 text-sm font-black transition hover:bg-[#93142a]"
-            >
-              {signupMode ? "Create VarsityVue Account" : "Sign In"}
-            </button>
+            <CaptchaSubmit
+              action={signupMode ? "signup" : "signin"}
+              label={signupMode ? "Create VarsityVue Account" : "Sign In"}
+              siteKey={turnstileSiteKey}
+            />
           </form>
 
           <div className="mt-5 text-center text-sm text-white/50">

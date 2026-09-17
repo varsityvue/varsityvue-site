@@ -12,6 +12,7 @@
     "validate:touchdowns": "node --import tsx scripts/validate-touchdown-semantics.ts"
   },
   "dependencies": {
+    "@marsidev/react-turnstile": "1.6.1",
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.116.0",
     "@vercel/analytics": "^2.0.1",

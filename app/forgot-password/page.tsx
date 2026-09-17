@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CaptchaSubmit } from "@/components/auth/captcha-submit";
 import { requestPasswordReset } from "./actions";
 
 type ForgotPasswordPageProps = {
@@ -13,6 +14,7 @@ export default async function ForgotPasswordPage({
 }: ForgotPasswordPageProps) {
   const { error, status } = await searchParams;
   const sent = status === "sent";
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] px-4 py-10 text-white sm:px-6 sm:py-16 lg:px-8">
@@ -70,12 +72,17 @@ export default async function ForgotPasswordPage({
                 ) : null}
               </div>
 
-              <button
-                type="submit"
-                className="w-full rounded-full bg-[var(--vv-primary)] px-6 py-3.5 text-sm font-black transition hover:bg-[#93142a]"
-              >
-                Send reset link
-              </button>
+              {error === "security-check" ? (
+                <p role="alert" className="text-sm leading-6 text-amber-100">
+                  Please complete the security check and try again.
+                </p>
+              ) : null}
+
+              <CaptchaSubmit
+                action="password_reset"
+                label="Send reset link"
+                siteKey={turnstileSiteKey}
+              />
             </form>
           )}
 

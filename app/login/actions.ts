@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { deliverNextMemberNotification } from "@/lib/member-notifications";
+import { captchaMessage, captchaToken, isCaptchaError } from "@/lib/auth-captcha";
 import { memberAccountStatus } from "@/lib/member-access";
 import { safeNextPath } from "@/lib/safe-next-path";
 import { createClient } from "@/lib/supabase/server";
@@ -29,16 +30,30 @@ export async function login(formData: FormData) {
   const email = value(formData, "email");
   const password = value(formData, "password");
   const next = safeNextPath(value(formData, "next"));
+  const token = captchaToken(formData);
 
   if (!email || !password) {
     redirect(loginUrl("Enter your email and password.", next));
   }
 
+  if (!token) {
+    redirect(loginUrl(captchaMessage, next));
+  }
+
   const supabase = await createClient();
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+    options: { captchaToken: token },
+  });
 
   if (error) {
-    redirect(loginUrl(error.message, next));
+    redirect(
+      loginUrl(
+        isCaptchaError(error) ? captchaMessage : "The email or password is incorrect.",
+        next,
+      ),
+    );
   }
 
   if (data.user) {
@@ -58,6 +73,7 @@ export async function signup(formData: FormData) {
   const email = value(formData, "email");
   const password = value(formData, "password");
   const next = safeNextPath(value(formData, "next"));
+  const token = captchaToken(formData);
 
   if (!displayName || !email || password.length < 8) {
     redirect(
@@ -67,6 +83,10 @@ export async function signup(formData: FormData) {
         "signup",
       ),
     );
+  }
+
+  if (!token) {
+    redirect(loginUrl(captchaMessage, next, "signup"));
   }
 
   const requestHeaders = await headers();
@@ -79,6 +99,7 @@ export async function signup(formData: FormData) {
     email,
     password,
     options: {
+      captchaToken: token,
       emailRedirectTo: confirmUrl.toString(),
       data: {
         display_name: displayName,
@@ -87,7 +108,15 @@ export async function signup(formData: FormData) {
   });
 
   if (error) {
-    redirect(loginUrl(error.message, next, "signup"));
+    redirect(
+      loginUrl(
+        isCaptchaError(error)
+          ? captchaMessage
+          : "We couldn't create that account. Check your details and try again.",
+        next,
+        "signup",
+      ),
+    );
   }
 
   // The auth.users trigger owns durable new-member detection. This immediate
