@@ -46,9 +46,10 @@ export default function SchoolFollowControl({
       <form action={beginFollow}>
         <button
           type="submit"
+          aria-label={`Follow ${schoolName}`}
           className={`${buttonClass} border-white/20 bg-white/10 text-white hover:bg-white/15`}
         >
-          Follow {schoolName}
+          Follow Team
         </button>
       </form>
     );
@@ -82,13 +83,14 @@ export default function SchoolFollowControl({
           <button
             type="submit"
             disabled={pending}
+            aria-label={finishFollowing ? `Finish following ${schoolName}` : `Follow ${schoolName}`}
             className={`${buttonClass} border-white/20 bg-white/10 text-white hover:bg-white/15`}
           >
             {pending
               ? "Following…"
               : finishFollowing
                 ? `Finish Following ${schoolName}`
-                : `Follow ${schoolName}`}
+                : "Follow Team"}
           </button>
         </form>
       )}

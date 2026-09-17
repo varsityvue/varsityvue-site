@@ -36,9 +36,9 @@ function touchdownDetail(player: ReturnType<typeof getPlayerSeasonStats>[number]
 
 function coverageSummary(rows: LeaderRow[]) {
   const status = combineCategoryStates(rows.map((row) => row.completeness)).status;
-  if (status === "complete") return "Verified stats on file · Complete category coverage";
-  if (status === "partial") return "Verified stats on file · Partial category coverage";
-  if (status === "unavailable") return "Verified stats on file · Category coverage unavailable";
+  if (status === "complete") return "Verified stats on file";
+  if (status === "partial") return "Verified stats on file · Partial coverage";
+  if (status === "unavailable") return "Verified stats on file · Coverage unavailable";
   return "Verified stats on file · Coverage completeness unknown";
 }
 
@@ -206,10 +206,6 @@ export default function AreaLeaders() {
             </div>
           )})}
         </div>
-
-        <p className="mt-3 text-[9px] leading-4 text-white/35 sm:mt-5 sm:text-[11px] sm:leading-5">
-          Values are ordered for discovery from verified statistics on file. Ordinal ranks are omitted when any listed season category is partial or its coverage is unknown. All-purpose yards include rushing plus receiving yards only; return yardage is not yet tracked. Total TD entries still require numeric touchdown attribution in every contributing category.
-        </p>
       </div>
     </section>
   );

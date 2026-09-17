@@ -26,26 +26,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Keep both Game of the Week team names visually equal at every breakpoint. */
-[data-side="left"] h2,
-[data-side="right"] h2 {
-  font-size: 2.25rem !important;
-}
-
-@media (min-width: 768px) {
-  [data-side="left"] h2,
-  [data-side="right"] h2 {
-    font-size: 2.5rem !important;
-  }
-}
-
-@media (min-width: 1280px) {
-  [data-side="left"] h2,
-  [data-side="right"] h2 {
-    font-size: 3rem !important;
-  }
-}
-
 /* The preview headline already explains the matchup; the kicker above it is redundant. */
 div[class~="rounded-[1.5rem]"][class~="bg-black/30"] > p[class~="tracking-[0.24em]"] {
   display: none;

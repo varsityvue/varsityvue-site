@@ -251,16 +251,18 @@ function HeroTeam({ school, team, standing, align, result }: {
   align: "left" | "right";
   result?: "W" | "L";
 }) {
-  const teamNameSize = team.length >= 11
-    ? "text-[0.95rem] sm:text-3xl lg:text-3xl xl:text-4xl"
-    : team.length >= 8
-      ? "text-lg sm:text-3xl lg:text-4xl xl:text-4xl"
-      : "text-xl sm:text-4xl lg:text-5xl xl:text-6xl";
+  const teamNameSize = team.length >= 16
+    ? "text-xs sm:text-2xl lg:text-3xl xl:text-4xl"
+    : team.length >= 11
+      ? "text-sm sm:text-3xl lg:text-3xl xl:text-4xl"
+      : team.length >= 8
+        ? "text-base sm:text-3xl lg:text-4xl xl:text-4xl"
+        : "text-lg sm:text-4xl lg:text-5xl xl:text-6xl";
   const identity = (
     <>
       {school && <div className="mb-1.5 flex justify-center sm:mb-4"><ProgramLogo school={school} size="sm" /></div>}
       <div className="flex items-center justify-center gap-1.5 sm:gap-3">
-        <h2 className={`${teamNameSize} min-w-0 break-words font-black uppercase leading-[0.95] tracking-tight text-white`}>{team}</h2>
+        <h2 className={`${teamNameSize} min-w-0 text-balance break-normal font-black uppercase leading-[0.95] tracking-tight text-white [hyphens:none]`}>{team}</h2>
         {result && (
           <span className={`hidden h-7 min-w-7 items-center justify-center rounded-full border px-2 text-xs font-black sm:inline-flex ${result === "W" ? "border-emerald-400/35 bg-emerald-400/15 text-emerald-300" : "border-white/15 bg-white/[0.06] text-white/55"}`}>{result}</span>
         )}
