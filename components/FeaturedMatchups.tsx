@@ -107,11 +107,7 @@ export default async function FeaturedMatchups() {
       <div className="mx-auto max-w-[1440px] rounded-[1.4rem] border border-white/10 bg-white/[0.04] p-3.5 shadow-2xl sm:rounded-[2rem] sm:p-6 md:p-8">
         <div className="mb-4 flex flex-col gap-2.5 sm:mb-6 sm:gap-3 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/45 sm:text-xs sm:tracking-[0.3em]">
-              Upcoming Matchups
-            </p>
-
-            <h2 className="mt-1.5 text-[1.65rem] font-black leading-[1.05] text-white sm:mt-2 sm:text-3xl md:text-4xl">
+            <h2 className="text-[1.65rem] font-black leading-[1.05] text-white sm:text-3xl md:text-4xl">
               Next games on the VarsityVue schedule
             </h2>
             <p className="mt-1.5 max-w-3xl text-xs leading-5 text-white/50 sm:mt-3 sm:text-sm sm:leading-6">
