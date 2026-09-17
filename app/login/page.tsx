@@ -143,19 +143,9 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
             </div>
 
             <div>
-              <div className="mb-2 flex items-center justify-between gap-4">
-                <label htmlFor="password" className="block text-xs font-bold uppercase tracking-[0.14em] text-white/55">
-                  Password
-                </label>
-                {!signupMode ? (
-                  <Link
-                    href="/forgot-password"
-                    className="text-xs font-bold text-white/70 underline decoration-white/25 underline-offset-4 transition hover:text-white hover:decoration-white"
-                  >
-                    Forgot password?
-                  </Link>
-                ) : null}
-              </div>
+              <label htmlFor="password" className="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-white/55">
+                Password
+              </label>
               <input
                 id="password"
                 name="password"
@@ -185,6 +175,16 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
               {signupMode ? "Sign in" : "Create one"}
             </Link>
           </div>
+          {!signupMode ? (
+            <div className="mt-3 text-center text-sm">
+              <Link
+                href="/forgot-password"
+                className="font-bold text-white/65 underline decoration-white/25 underline-offset-4 transition hover:text-white hover:decoration-white"
+              >
+                Forgot your password?
+              </Link>
+            </div>
+          ) : null}
         </section>
       </div>
     </main>

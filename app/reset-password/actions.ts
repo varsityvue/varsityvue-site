@@ -43,7 +43,7 @@ export async function updatePassword(formData: FormData) {
       code: updateError.code,
       status: updateError.status,
     });
-    redirect(resetUrl("update-failed"));
+    redirect(resetUrl(updateError.code === "same_password" ? "same-password" : "update-failed"));
   }
 
   cookieStore.delete(recoveryCookie);

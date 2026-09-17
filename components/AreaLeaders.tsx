@@ -201,7 +201,7 @@ export default function AreaLeaders() {
         </div>
 
         <p className="mt-3 text-[9px] leading-4 text-white/35 sm:mt-5 sm:text-[11px] sm:leading-5">
-          Values are ordered for discovery from verified statistics on file. Ordinal ranks are omitted when any listed season category is partial or unclassified. All-purpose yards include rushing plus receiving yards only; return yardage is not yet tracked. Total TD entries still require numeric touchdown attribution in every contributing category.
+          Values are ordered for discovery from verified statistics on file. Ordinal ranks are omitted when any listed season category is partial or its coverage is unknown. All-purpose yards include rushing plus receiving yards only; return yardage is not yet tracked. Total TD entries still require numeric touchdown attribution in every contributing category.
         </p>
       </div>
     </section>

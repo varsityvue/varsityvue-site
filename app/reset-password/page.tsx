@@ -16,7 +16,8 @@ type ResetPasswordPageProps = {
 const errorMessages: Record<string, string> = {
   "too-short": "Use a password with at least 8 characters.",
   mismatch: "The two passwords do not match.",
-  "update-failed": "We could not update your password. Request a new reset link and try again.",
+  "same-password": "Choose a different password. Your new password must be different from your current password.",
+  "update-failed": "We could not update your password. Try again, or request a new reset link if the problem continues.",
 };
 
 export default async function ResetPasswordPage({

@@ -231,27 +231,42 @@ function TeamBlock({
   school?: ReturnType<typeof getSchoolBySlug>;
   align: "left" | "right";
 }) {
+  if (school) {
+    return (
+      <Link
+        href={`/schools/${school.slug}`}
+        aria-label={`View ${school.fullName} school hub`}
+        className={`group/team block min-h-24 min-w-0 rounded-xl px-1 py-1 outline-none transition hover:bg-white/[0.04] focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-black ${align === "right" ? "text-right" : "text-left"}`}
+      >
+        <div className={`flex ${align === "right" ? "justify-end" : "justify-start"}`}>
+          <SchoolBadge school={school} size="xs" />
+        </div>
+
+        <p className="mt-2 line-clamp-2 text-xs font-black leading-tight text-white transition group-hover/team:text-white/80 sm:mt-3 sm:text-sm">
+          {name}
+        </p>
+
+        {school.mascot && (
+          <p className="mt-0.5 line-clamp-1 text-[9px] font-black uppercase tracking-[0.1em] text-white/35 sm:mt-1 sm:text-[10px] sm:tracking-[0.12em]">
+            {school.mascot}
+          </p>
+        )}
+      </Link>
+    );
+  }
+
   return (
     <div
       className={`min-w-0 ${align === "right" ? "text-right" : "text-left"}`}
     >
       <div className={`flex ${align === "right" ? "justify-end" : "justify-start"}`}>
-        {school ? (
-          <SchoolBadge school={school} size="xs" />
-        ) : (
-          <MiniBadge label={name} />
-        )}
+        <MiniBadge label={name} />
       </div>
 
       <p className="mt-2 line-clamp-2 text-xs font-black leading-tight text-white sm:mt-3 sm:text-sm">
         {name}
       </p>
 
-      {school?.mascot && (
-        <p className="mt-0.5 line-clamp-1 text-[9px] font-black uppercase tracking-[0.1em] text-white/35 sm:mt-1 sm:text-[10px] sm:tracking-[0.12em]">
-          {school.mascot}
-        </p>
-      )}
     </div>
   );
 }
