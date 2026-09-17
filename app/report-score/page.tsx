@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 import {
   getCanonicalScoreboardTeamName,
@@ -9,8 +8,8 @@ import {
 } from "@/data/scoreboard-team-identities";
 import { getProgramLogoPath } from "@/components/SchoolBadge";
 import { getDynamicGames } from "@/lib/dynamic-games";
+import { requireActiveMember } from "@/lib/member-access";
 import { getSchoolBySlug } from "@/lib/schools";
-import { createClient } from "@/lib/supabase/server";
 import type { Game } from "@/types/platform";
 import ScoreReportForm from "./ScoreReportForm";
 
@@ -93,25 +92,16 @@ function submissionStatusLabel(status: string) {
 
 export default async function ReportScorePage({ searchParams }: PageProps) {
   const params = await searchParams;
-  const supabase = await createClient();
-  const { data: claimsData } = await supabase.auth.getClaims();
-  const claims = claimsData?.claims;
-
-  if (!claims?.sub) {
-    const next = params.game ? `/report-score?game=${encodeURIComponent(params.game)}` : "/report-score";
-    const loginParams = new URLSearchParams({
-      message: "Sign in to report a score.",
-      next,
-    });
-    redirect(`/login?${loginParams.toString()}`);
-  }
+  const next = params.game ? `/report-score?game=${encodeURIComponent(params.game)}` : "/report-score";
+  const loginParams = new URLSearchParams({ message: "Sign in to report a score.", next });
+  const { supabase, userId } = await requireActiveMember({ loginPath: `/login?${loginParams.toString()}` });
 
   const [{ data: roles }, { data: assignments }] = await Promise.all([
-    supabase.from("user_roles").select("role").eq("user_id", claims.sub),
+    supabase.from("user_roles").select("role").eq("user_id", userId),
     supabase
       .from("contributor_school_assignments")
       .select("school_slug, active")
-      .eq("user_id", claims.sub)
+      .eq("user_id", userId)
       .eq("active", true),
   ]);
 
@@ -153,13 +143,13 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
     supabase
       .from("score_submissions")
       .select("id, game_id, home_score, away_score, game_status, period, status, created_at")
-      .eq("submitted_by", claims.sub)
+      .eq("submitted_by", userId)
       .order("created_at", { ascending: false })
       .limit(5),
     supabase
       .from("score_submissions")
       .select("game_id, home_score, away_score, game_status, period, clock, created_at")
-      .eq("submitted_by", claims.sub)
+      .eq("submitted_by", userId)
       .eq("status", "pending")
       .order("created_at", { ascending: false }),
   ]);

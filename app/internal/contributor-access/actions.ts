@@ -3,18 +3,14 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-import { createClient } from "@/lib/supabase/server";
+import { requireActiveMember } from "@/lib/member-access";
 
 function text(formData: FormData, key: string) {
   return String(formData.get(key) ?? "").trim();
 }
 
 async function requireAdmin() {
-  const supabase = await createClient();
-  const { data: claimsData } = await supabase.auth.getClaims();
-  const userId = claimsData?.claims?.sub;
-
-  if (!userId) redirect("/login");
+  const { supabase, userId } = await requireActiveMember();
 
   const { data: roles } = await supabase
     .from("user_roles")

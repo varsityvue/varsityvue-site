@@ -7,8 +7,8 @@ import {
 } from "@/data/scoreboard-team-identities";
 import { getDynamicGames } from "@/lib/dynamic-games";
 import { getGameById } from "@/lib/games";
+import { requireActiveMember } from "@/lib/member-access";
 import { getSchoolBySlug } from "@/lib/schools";
-import { createClient } from "@/lib/supabase/server";
 import { approveScoreSubmission, rejectScoreSubmission } from "./actions";
 
 export const metadata: Metadata = {
@@ -45,11 +45,7 @@ function scoreKey(report: { away_score: number; home_score: number }) {
 }
 
 export default async function ScoreReviewPage({ searchParams }: PageProps) {
-  const supabase = await createClient();
-  const { data: claimsData } = await supabase.auth.getClaims();
-  const userId = claimsData?.claims?.sub;
-
-  if (!userId) redirect("/login");
+  const { supabase, userId } = await requireActiveMember();
 
   const { data: roles } = await supabase
     .from("user_roles")
@@ -70,7 +66,7 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
   ]);
   const dynamicGamesById = new Map(dynamicGames.map((game) => [game.id, game]));
 
-  const submitterIds = Array.from(new Set((submissions ?? []).map((item) => item.submitted_by)));
+  const submitterIds = Array.from(new Set((submissions ?? []).map((item) => item.submitted_by).filter(Boolean) as string[]));
   const [{ data: profiles }, { data: contributorAssignments }] = submitterIds.length
     ? await Promise.all([
         supabase.from("profiles").select("id, display_name, username").in("id", submitterIds),
@@ -159,7 +155,7 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
               );
               const reportsAgree = scoresAgree && stateAgrees;
 
-              const assignmentForReport = (submittedBy: string) => game
+              const assignmentForReport = (submittedBy: string | null) => game && submittedBy
                 ? (assignmentsByUser.get(submittedBy) ?? []).find(
                     (assignment) => assignment.school_slug === game.awaySchoolSlug || assignment.school_slug === game.homeSchoolSlug,
                   )
@@ -316,7 +312,7 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
                           ) : null}
 
                           <div className="mt-3 text-xs leading-5 text-white/35">
-                            <p>Submitted by <strong className="font-bold text-white/55">{submitter?.display_name || submitter?.username || submission.submitted_by}</strong></p>
+                            <p>Submitted by <strong className="font-bold text-white/55">{submitter?.display_name || submitter?.username || submission.submitted_by || "Deleted member"}</strong></p>
                             <p>{new Date(submission.created_at).toLocaleString("en-US", { timeZone: "America/Chicago", dateStyle: "medium", timeStyle: "short" })} CT</p>
                           </div>
 

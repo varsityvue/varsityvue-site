@@ -4,8 +4,8 @@ import { redirect } from "next/navigation";
 
 import { hasCompleteScoreboardTeamIdentity } from "@/data/scoreboard-team-identities";
 import { getDynamicGameById } from "@/lib/dynamic-games";
+import { requireActiveMember } from "@/lib/member-access";
 import { getSchoolBySlug } from "@/lib/schools";
-import { createClient } from "@/lib/supabase/server";
 
 function text(formData: FormData, key: string) {
   return String(formData.get(key) ?? "").trim();
@@ -39,13 +39,9 @@ function reportRedirect(gameId: string, message: string): never {
 }
 
 export async function submitScore(formData: FormData) {
-  const supabase = await createClient();
-  const { data: claimsData } = await supabase.auth.getClaims();
-  const userId = claimsData?.claims?.sub;
-
-  if (!userId) {
-    redirect("/login?message=Sign%20in%20to%20submit%20a%20score.");
-  }
+  const { supabase, userId } = await requireActiveMember({
+    loginPath: "/login?message=Sign%20in%20to%20submit%20a%20score.",
+  });
 
   const gameId = text(formData, "game_id");
   const game = await getDynamicGameById(gameId);

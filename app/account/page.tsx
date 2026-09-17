@@ -1,11 +1,10 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 import { getCanonicalScoreboardTeamName, hasCompleteScoreboardTeamIdentity } from "@/data/scoreboard-team-identities";
 import { getDynamicGames } from "@/lib/dynamic-games";
 import { resolveAccountFollows } from "@/lib/account-follows";
+import { requireActiveMember } from "@/lib/member-access";
 import { getSchoolBySlug } from "@/lib/schools";
-import { createClient } from "@/lib/supabase/server";
 import AccountFollowList from "@/components/AccountFollowList";
 
 function schoolHasCompleteIdentity(slug?: string) {
@@ -58,31 +57,25 @@ function formatMemberSince(createdAt?: string) {
 }
 
 export default async function AccountPage() {
-  const supabase = await createClient();
-  const { data: claimsData } = await supabase.auth.getClaims();
-  const claims = claimsData?.claims;
-
-  if (!claims?.sub) {
-    redirect("/login");
-  }
+  const { supabase, userId, claims } = await requireActiveMember();
 
   const [{ data: profile }, { data: roles }, { data: assignments }, { data: followRows }] = await Promise.all([
     supabase
       .from("profiles")
       .select("display_name, username, created_at")
-      .eq("id", claims.sub)
+      .eq("id", userId)
       .maybeSingle(),
-    supabase.from("user_roles").select("role").eq("user_id", claims.sub),
+    supabase.from("user_roles").select("role").eq("user_id", userId),
     supabase
       .from("contributor_school_assignments")
       .select("school_slug, assignment_role, active")
-      .eq("user_id", claims.sub)
+      .eq("user_id", userId)
       .eq("active", true)
       .order("school_slug", { ascending: true }),
     supabase
       .from("school_follows")
       .select("school_slug, created_at")
-      .eq("user_id", claims.sub)
+      .eq("user_id", userId)
       .order("created_at", { ascending: true }),
   ]);
 

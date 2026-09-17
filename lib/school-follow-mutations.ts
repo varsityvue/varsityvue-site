@@ -1,11 +1,12 @@
 import "server-only";
 
+import { memberAccountStatus } from "@/lib/member-access";
 import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
 
 export type SchoolFollowMutationResult = {
   following: boolean;
-  status: "success" | "error";
+  status: "success" | "error" | "suspended";
   message: string;
 };
 
@@ -30,6 +31,14 @@ export async function followSchoolForCurrentUser(
       following: false,
       status: "error",
       message: "Sign in to manage school follows.",
+    };
+  }
+
+  if (await memberAccountStatus(supabase, userId) !== "active") {
+    return {
+      following: false,
+      status: "suspended",
+      message: "Account suspended.",
     };
   }
 

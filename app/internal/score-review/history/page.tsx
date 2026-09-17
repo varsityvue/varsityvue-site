@@ -4,8 +4,8 @@ import { redirect } from "next/navigation";
 
 import { getCanonicalScoreboardTeamName } from "@/data/scoreboard-team-identities";
 import { getGameById } from "@/lib/games";
+import { requireActiveMember } from "@/lib/member-access";
 import { getSchoolBySlug } from "@/lib/schools";
-import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
   title: "Score Review History | VarsityVue",
@@ -51,11 +51,7 @@ function filterHref(filter: HistoryFilter, query: string) {
 }
 
 export default async function ScoreReviewHistoryPage({ searchParams }: PageProps) {
-  const supabase = await createClient();
-  const { data: claimsData } = await supabase.auth.getClaims();
-  const userId = claimsData?.claims?.sub;
-
-  if (!userId) redirect("/login");
+  const { supabase, userId } = await requireActiveMember();
 
   const { data: roles } = await supabase
     .from("user_roles")
@@ -233,7 +229,7 @@ export default async function ScoreReviewHistoryPage({ searchParams }: PageProps
                       </div>
 
                       <div className="mt-4 text-xs leading-5 text-white/35">
-                        <p>Submitted by <strong className="font-bold text-white/55">{submitter?.display_name || submitter?.username || submission.submitted_by}</strong></p>
+                        <p>Submitted by <strong className="font-bold text-white/55">{submitter?.display_name || submitter?.username || submission.submitted_by || "Deleted member"}</strong></p>
                         <p>Reviewed by <strong className="font-bold text-white/55">{reviewer?.display_name || reviewer?.username || submission.reviewed_by || "System"}</strong></p>
                       </div>
 

@@ -6,8 +6,8 @@ import { redirect } from "next/navigation";
 import { hasCompleteScoreboardTeamIdentity } from "@/data/scoreboard-team-identities";
 import { getDynamicGameById } from "@/lib/dynamic-games";
 import { getGameById } from "@/lib/games";
+import { requireActiveMember } from "@/lib/member-access";
 import { getSchoolBySlug } from "@/lib/schools";
-import { createClient } from "@/lib/supabase/server";
 
 function text(formData: FormData, key: string) {
   return String(formData.get(key) ?? "").trim();
@@ -42,11 +42,7 @@ function missingGameIdentity(gameId: string) {
 }
 
 async function requireModerator() {
-  const supabase = await createClient();
-  const { data: claimsData } = await supabase.auth.getClaims();
-  const userId = claimsData?.claims?.sub;
-
-  if (!userId) redirect("/login");
+  const { supabase, userId } = await requireActiveMember();
 
   const { data: roles } = await supabase
     .from("user_roles")

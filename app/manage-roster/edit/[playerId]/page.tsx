@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
+import { requireActiveMember } from "@/lib/member-access";
 import { getSchoolBySlug } from "@/lib/schools";
-import { createClient } from "@/lib/supabase/server";
 import { updateRosterPlayer } from "../../actions";
 
 type EditRosterPlayerPageProps = {
@@ -11,11 +11,9 @@ type EditRosterPlayerPageProps = {
 
 export default async function EditRosterPlayerPage({ params }: EditRosterPlayerPageProps) {
   const { playerId } = await params;
-  const supabase = await createClient();
-  const { data: claimsData } = await supabase.auth.getClaims();
-  const userId = claimsData?.claims?.sub;
-
-  if (!userId) redirect(`/login?next=${encodeURIComponent(`/manage-roster/edit/${playerId}`)}`);
+  const { supabase, userId } = await requireActiveMember({
+    loginPath: `/login?next=${encodeURIComponent(`/manage-roster/edit/${playerId}`)}`,
+  });
 
   const { data: player } = await supabase
     .from("school_roster_players")

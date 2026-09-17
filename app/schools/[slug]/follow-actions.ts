@@ -8,13 +8,14 @@ import {
   followCompletionPath,
   followIntentCookieOptions,
 } from "@/lib/follow-intent";
+import { memberAccountStatus } from "@/lib/member-access";
 import { followSchoolForCurrentUser } from "@/lib/school-follow-mutations";
 import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
 
 export type SchoolFollowActionState = {
   following: boolean;
-  status: "idle" | "success" | "error";
+  status: "idle" | "success" | "error" | "suspended";
   message: string;
 };
 
@@ -32,6 +33,10 @@ async function authenticatedFollowContext(schoolSlug: string) {
 
   if (claimsError || !userId) {
     return { ok: false, error: "Sign in to manage school follows." } as const;
+  }
+
+  if (await memberAccountStatus(supabase, userId) !== "active") {
+    return { ok: false, suspended: true, error: "Account suspended." } as const;
   }
 
   return { ok: true, school, slug, supabase, userId } as const;
@@ -52,6 +57,7 @@ export async function manageSchoolFollow(
 
   if (operation === "follow") {
     const result = await followSchoolForCurrentUser(schoolSlug);
+    if (result.status === "suspended") redirect("/account-suspended");
     if (result.status === "success") {
       redirect(
         `/schools/${encodeURIComponent(schoolSlug)}?followed=${encodeURIComponent(schoolSlug)}`,
@@ -62,6 +68,7 @@ export async function manageSchoolFollow(
 
   if (operation === "unfollow") {
     const result = await unfollowSchool(schoolSlug);
+    if (result.status === "suspended") redirect("/account-suspended");
     if (result.status === "success") {
       redirect(
         `/schools/${encodeURIComponent(schoolSlug)}?unfollowed=${encodeURIComponent(schoolSlug)}`,
@@ -100,7 +107,11 @@ export async function unfollowSchool(
 ): Promise<SchoolFollowActionState> {
   const context = await authenticatedFollowContext(schoolSlug);
   if (!context.ok) {
-    return { following: true, status: "error", message: context.error };
+    return {
+      following: true,
+      status: "suspended" in context && context.suspended ? "suspended" : "error",
+      message: context.error,
+    };
   }
 
   const { error } = await context.supabase

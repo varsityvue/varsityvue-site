@@ -4,8 +4,8 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { playerProfiles } from "@/data/player-profiles";
+import { requireActiveMember } from "@/lib/member-access";
 import { getSchoolBySlug } from "@/lib/schools";
-import { createClient } from "@/lib/supabase/server";
 
 function text(formData: FormData, key: string) {
   return String(formData.get(key) ?? "").trim();
@@ -65,11 +65,9 @@ function validateRosterFields(schoolSlug: string, fields: ReturnType<typeof rost
 }
 
 async function requireRosterAccess(schoolSlug: string) {
-  const supabase = await createClient();
-  const { data: claimsData } = await supabase.auth.getClaims();
-  const userId = claimsData?.claims?.sub;
-
-  if (!userId) redirect(`/login?next=${encodeURIComponent(`/manage-roster?school=${schoolSlug}`)}`);
+  const { supabase, userId } = await requireActiveMember({
+    loginPath: `/login?next=${encodeURIComponent(`/manage-roster?school=${schoolSlug}`)}`,
+  });
 
   const [{ data: roles }, { data: assignment }] = await Promise.all([
     supabase.from("user_roles").select("role").eq("user_id", userId),

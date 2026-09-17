@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { deliverNextMemberNotification } from "@/lib/member-notifications";
+import { memberAccountStatus } from "@/lib/member-access";
 import { safeNextPath } from "@/lib/safe-next-path";
 import { createClient } from "@/lib/supabase/server";
 
@@ -34,10 +35,18 @@ export async function login(formData: FormData) {
   }
 
   const supabase = await createClient();
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
     redirect(loginUrl(error.message, next));
+  }
+
+  if (data.user) {
+    const status = await memberAccountStatus(supabase, data.user.id);
+    if (status !== "active") {
+      await supabase.auth.signOut({ scope: "global" });
+      redirect(loginUrl("Account suspended. Contact VarsityVue for account assistance.", "/account"));
+    }
   }
 
   revalidatePath("/", "layout");

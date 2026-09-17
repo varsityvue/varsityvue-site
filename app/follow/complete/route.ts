@@ -52,6 +52,9 @@ export async function GET(request: NextRequest) {
   }
 
   const result = await followSchoolForCurrentUser(school.slug);
+  if (result.status === "suspended") {
+    return clearIntent(NextResponse.redirect(new URL("/account-suspended", request.url)));
+  }
   if (result.status === "success" && result.following) {
     destination.searchParams.set("followed", school.slug);
   } else {

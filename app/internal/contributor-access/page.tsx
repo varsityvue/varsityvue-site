@@ -3,7 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { getSchools } from "@/lib/schools";
-import { createClient } from "@/lib/supabase/server";
+import { requireActiveMember } from "@/lib/member-access";
 import { assignContributorSchool, removeContributorSchool } from "./actions";
 
 export const metadata: Metadata = {
@@ -16,11 +16,7 @@ type PageProps = {
 };
 
 export default async function ContributorAccessPage({ searchParams }: PageProps) {
-  const supabase = await createClient();
-  const { data: claimsData } = await supabase.auth.getClaims();
-  const userId = claimsData?.claims?.sub;
-
-  if (!userId) redirect("/login");
+  const { supabase, userId } = await requireActiveMember();
 
   const { data: roles } = await supabase
     .from("user_roles")

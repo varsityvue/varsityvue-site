@@ -2,8 +2,8 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { playerProfiles, type PlayerProfile } from "@/data/player-profiles";
+import { requireActiveMember } from "@/lib/member-access";
 import { getSchoolBySlug, getSchools } from "@/lib/schools";
-import { createClient } from "@/lib/supabase/server";
 import { addRosterPlayer, removeRosterPlayer } from "./actions";
 
 type Props = { searchParams: Promise<{ school?: string; q?: string; player?: string; profile?: string; message?: string; updated?: string }> };
@@ -20,10 +20,9 @@ function matches(player: Candidate, query: string) { return norm(`${player.first
 
 export default async function ManageRosterPage({ searchParams }: Props) {
   const params = await searchParams;
-  const supabase = await createClient();
-  const { data: claims } = await supabase.auth.getClaims();
-  const userId = claims?.claims?.sub;
-  if (!userId) redirect(`/login?next=${encodeURIComponent(params.school ? `/manage-roster?school=${params.school}` : "/manage-roster")}`);
+  const { supabase, userId } = await requireActiveMember({
+    loginPath: `/login?next=${encodeURIComponent(params.school ? `/manage-roster?school=${params.school}` : "/manage-roster")}`,
+  });
 
   const [{ data: roles }, { data: assignments }] = await Promise.all([
     supabase.from("user_roles").select("role").eq("user_id", userId),
