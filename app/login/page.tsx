@@ -143,9 +143,19 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
             </div>
 
             <div>
-              <label htmlFor="password" className="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-white/55">
-                Password
-              </label>
+              <div className="mb-2 flex items-center justify-between gap-4">
+                <label htmlFor="password" className="block text-xs font-bold uppercase tracking-[0.14em] text-white/55">
+                  Password
+                </label>
+                {!signupMode ? (
+                  <Link
+                    href="/forgot-password"
+                    className="text-xs font-bold text-white/70 underline decoration-white/25 underline-offset-4 transition hover:text-white hover:decoration-white"
+                  >
+                    Forgot password?
+                  </Link>
+                ) : null}
+              </div>
               <input
                 id="password"
                 name="password"
