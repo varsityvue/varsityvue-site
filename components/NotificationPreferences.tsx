@@ -72,7 +72,7 @@ export default function NotificationPreferences({
   const preferences = state.preferences;
 
   return (
-    <section className="mt-6 rounded-[1.5rem] border border-white/10 bg-white/[0.035] p-5 sm:p-7">
+    <section id="email-preferences" className="mt-6 scroll-mt-24 rounded-[1.5rem] border border-white/10 bg-white/[0.035] p-5 sm:p-7">
       <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--vv-accent)]">
         Notifications
       </p>
