@@ -83,6 +83,15 @@ function formatGameDateTime(kickoff?: string) {
   return `${date} · ${time}`;
 }
 
+function getMatchupTeamNameSize(teamNames: string[]) {
+  const longestNameLength = Math.max(...teamNames.map((teamName) => teamName.length));
+
+  if (longestNameLength >= 16) return "text-xs sm:text-2xl lg:text-3xl xl:text-4xl";
+  if (longestNameLength >= 11) return "text-sm sm:text-3xl lg:text-3xl xl:text-4xl";
+  if (longestNameLength >= 8) return "text-base sm:text-3xl lg:text-4xl xl:text-4xl";
+  return "text-lg sm:text-4xl lg:text-5xl xl:text-6xl";
+}
+
 export default async function Home() {
   const schools = getSchools();
   const dynamicGames = await getDynamicGames();
@@ -123,6 +132,12 @@ export default async function Home() {
   const homeResult = hasFeaturedFinalScore
     ? homeScore > awayScore ? "W" : homeScore < awayScore ? "L" : undefined
     : undefined;
+  const featuredTeamNameSize = featuredGame
+    ? getMatchupTeamNameSize([
+        featuredGame.awayTeam ?? "Away",
+        featuredGame.homeTeam ?? "Home",
+      ])
+    : "";
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] text-white">
@@ -140,7 +155,7 @@ export default async function Home() {
               {featuredGame ? (
                 <>
                   <div className="mt-4 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 sm:mt-6 sm:gap-4">
-                    <HeroTeam school={featuredAwaySchool} team={featuredGame.awayTeam ?? "Away"} standing={featuredAwayStanding} align="left" result={awayResult} />
+                    <HeroTeam school={featuredAwaySchool} team={featuredGame.awayTeam ?? "Away"} standing={featuredAwayStanding} align="left" result={awayResult} teamNameSize={featuredTeamNameSize} />
                     <div className="flex min-w-[54px] flex-col items-center justify-center py-1 sm:min-w-[90px] sm:py-2 md:px-4">
                       {featuredGameFinal && awayScore !== undefined && homeScore !== undefined ? (
                         <>
@@ -155,7 +170,7 @@ export default async function Home() {
                         <p className="text-[11px] font-black uppercase tracking-[0.2em] text-white/35 sm:text-sm sm:tracking-[0.3em]">VS</p>
                       )}
                     </div>
-                    <HeroTeam school={featuredHomeSchool} team={featuredGame.homeTeam ?? "Home"} standing={featuredHomeStanding} align="right" result={homeResult} />
+                    <HeroTeam school={featuredHomeSchool} team={featuredGame.homeTeam ?? "Home"} standing={featuredHomeStanding} align="right" result={homeResult} teamNameSize={featuredTeamNameSize} />
                   </div>
 
                   <div className="mt-4 text-center sm:mt-6">
@@ -244,20 +259,14 @@ function HomePathCard({ eyebrow, title, description, href, action }: {
   );
 }
 
-function HeroTeam({ school, team, standing, align, result }: {
+function HeroTeam({ school, team, standing, align, result, teamNameSize }: {
   school?: ReturnType<typeof getSchoolBySlug>;
   team: string;
   standing?: ReturnType<typeof getStandingForSchoolFromGames>;
   align: "left" | "right";
   result?: "W" | "L";
+  teamNameSize: string;
 }) {
-  const teamNameSize = team.length >= 16
-    ? "text-xs sm:text-2xl lg:text-3xl xl:text-4xl"
-    : team.length >= 11
-      ? "text-sm sm:text-3xl lg:text-3xl xl:text-4xl"
-      : team.length >= 8
-        ? "text-base sm:text-3xl lg:text-4xl xl:text-4xl"
-        : "text-lg sm:text-4xl lg:text-5xl xl:text-6xl";
   const identity = (
     <>
       {school && <div className="mb-1.5 flex justify-center sm:mb-4"><ProgramLogo school={school} size="sm" /></div>}

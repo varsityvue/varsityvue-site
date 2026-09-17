@@ -19,7 +19,7 @@ export default function FeaturedCoverage() {
           <div className="mx-auto max-w-[1440px] overflow-hidden rounded-[1.4rem] border border-white/10 bg-white/[0.04] p-3.5 shadow-2xl sm:rounded-[2rem] sm:p-6 md:p-8">
             <div className="rounded-[1.2rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.42),transparent_38%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(0,0,0,0.94))] p-4 sm:rounded-[1.75rem] sm:p-7 md:p-10">
               <p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/45 sm:text-xs sm:tracking-[0.3em]">
-                Featured Coverage
+                Latest Coverage
               </p>
 
               <h2 className="mt-2 text-[1.7rem] font-black leading-tight text-white sm:mt-4 sm:text-4xl md:text-5xl">
@@ -40,12 +40,6 @@ export default function FeaturedCoverage() {
                 >
                   Explore Coverage →
                 </Link>
-                <Link
-                  href="/submit"
-                  className="inline-flex rounded-xl border border-white/10 bg-black/35 px-4 py-2 text-[10px] font-black uppercase tracking-[0.12em] text-white/60 transition hover:bg-white/10 hover:text-white sm:px-5 sm:py-3 sm:text-xs sm:tracking-[0.16em]"
-                >
-                  Submit a Story Tip →
-                </Link>
               </div>
             </div>
           </div>
@@ -62,7 +56,7 @@ export default function FeaturedCoverage() {
           <div className="mb-4 flex flex-col gap-2.5 sm:mb-6 sm:gap-3 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/45 sm:text-xs sm:tracking-[0.3em]">
-                Featured Coverage
+                Latest Coverage
               </p>
 
               <h2 className="mt-1.5 text-[1.65rem] font-black leading-[1.05] text-white sm:mt-2 sm:text-3xl md:text-4xl">
@@ -71,12 +65,6 @@ export default function FeaturedCoverage() {
             </div>
 
             <div className="flex flex-wrap gap-1.5 sm:gap-2">
-              <Link
-                href="/submit"
-                className="inline-flex rounded-full border border-white/10 bg-black/35 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-[0.12em] text-white/60 transition hover:bg-white/10 hover:text-white sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.16em]"
-              >
-                Submit a Story Tip →
-              </Link>
               <Link
                 href="/coverage"
                 className="inline-flex rounded-full border border-white/10 bg-black/35 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-[0.12em] text-white/60 transition hover:bg-white/10 hover:text-white sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.16em]"

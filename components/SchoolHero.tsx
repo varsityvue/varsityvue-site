@@ -70,7 +70,7 @@ export default function SchoolHero({ school, games, isAuthenticated, isFollowing
               {(school.stadium || school.officialWebsite) && <p className="flex flex-wrap items-center gap-x-1.5">
                 {school.stadium && stadiumMapUrl ? <a href={stadiumMapUrl} target="_blank" rel="noopener noreferrer" title={`Open ${school.stadium} in Google Maps`} className="underline decoration-white/20 underline-offset-4 transition hover:text-white hover:decoration-white/60">{school.stadium}</a> : school.stadium ? <span>{school.stadium}</span> : null}
                 {school.stadium && school.officialWebsite && <span aria-hidden="true" className="text-white/25">·</span>}
-                {school.officialWebsite && <a href={school.officialWebsite} target="_blank" rel="noopener noreferrer" className="font-bold text-white/60 underline decoration-white/20 underline-offset-4 transition hover:text-white hover:decoration-white/60">Official Site ↗</a>}
+                {school.officialWebsite && <a href={school.officialWebsite} target="_blank" rel="noopener noreferrer" className="font-bold text-white/60 underline decoration-white/20 underline-offset-4 transition hover:text-white hover:decoration-white/60">Official Site <span aria-hidden="true">{"↗\uFE0E"}</span><span className="sr-only"> (opens in a new tab)</span></a>}
               </p>}
               {school.athleticDirector && school.athleticDirector !== school.headCoach && <p className="text-white/35">Athletic Director · {school.athleticDirector}</p>}
             </div>
