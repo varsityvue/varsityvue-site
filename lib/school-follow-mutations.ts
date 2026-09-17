@@ -3,6 +3,7 @@ import "server-only";
 import { memberAccountStatus } from "@/lib/member-access";
 import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
+import type { FollowSourceSurface } from "@/lib/follow-context";
 
 export type SchoolFollowMutationResult = {
   following: boolean;
@@ -12,6 +13,7 @@ export type SchoolFollowMutationResult = {
 
 export async function followSchoolForCurrentUser(
   schoolSlug: string,
+  sourceSurface: FollowSourceSurface = "school_hub",
 ): Promise<SchoolFollowMutationResult> {
   const slug = schoolSlug.trim();
   const school = getSchoolBySlug(slug);
@@ -46,7 +48,7 @@ export async function followSchoolForCurrentUser(
     {
       user_id: userId,
       school_slug: school.slug,
-      source_surface: "school_hub",
+      source_surface: sourceSurface,
     },
     { onConflict: "user_id,school_slug", ignoreDuplicates: true },
   );

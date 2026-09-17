@@ -8,11 +8,19 @@ import { getSchoolBySlug } from "@/lib/schools";
 import type { Article } from "@/types/platform";
 import ArticleShare from "@/components/ArticleShare";
 import SchoolBadge from "@/components/SchoolBadge";
+import SchoolFollowControl from "@/components/SchoolFollowControl";
 import { getDynamicGames } from "@/lib/dynamic-games";
 import { getDistrictById } from "@/lib/districts";
+import { createClient } from "@/lib/supabase/server";
 
 type ArticlePageProps = {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{
+    followed?: string;
+    unfollowed?: string;
+    finishFollow?: string;
+    followError?: string;
+  }>;
 };
 
 function parseArticleDate(publishedAt?: string) {
@@ -112,12 +120,27 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
   };
 }
 
-export default async function ArticlePage({ params }: ArticlePageProps) {
-  const { slug } = await params;
+export default async function ArticlePage({ params, searchParams }: ArticlePageProps) {
+  const [{ slug }, followParams, followSupabase] = await Promise.all([params, searchParams, createClient()]);
   const article = getArticleBySlug(slug);
   if (!article) notFound();
 
-  const relatedSchools = article.schoolIds?.map((schoolSlug) => getSchoolBySlug(schoolSlug)).filter(Boolean) ?? [];
+  const relatedSchools = article.schoolIds?.map((schoolSlug) => getSchoolBySlug(schoolSlug)).filter((school): school is NonNullable<typeof school> => Boolean(school)) ?? [];
+  const articleFollowSchools = relatedSchools.length <= 2 ? relatedSchools : [];
+  const [{ data: followClaims }, scoreboardGamesResult] = await Promise.all([
+    followSupabase.auth.getClaims(),
+    getDynamicGames(),
+  ]);
+  const followUserId = followClaims?.claims?.sub;
+  const followedSchoolSlugs = new Set<string>();
+  if (followUserId && articleFollowSchools.length > 0) {
+    const { data: followRows } = await followSupabase
+      .from("school_follows")
+      .select("school_slug")
+      .eq("user_id", followUserId)
+      .in("school_slug", articleFollowSchools.map((school) => school.slug));
+    for (const row of followRows ?? []) followedSchoolSlugs.add(row.school_slug);
+  }
   const relatedDistricts = article.districtIds?.map((districtId) => getDistrictById(districtId)).filter(Boolean) ?? [];
   const relatedArticles = getArticles()
     .filter((item) => item.slug !== article.slug)
@@ -129,7 +152,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     })
     .slice(0, 3);
 
-  const scoreboardGames = (await getDynamicGames())
+  const scoreboardGames = scoreboardGamesResult
     .filter((game) => game.gameType !== "bye" && game.gameType !== "scrimmage")
     .sort(
       (a, b) =>
@@ -232,6 +255,21 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   )}
               </div>
             </div>
+
+            {articleFollowSchools.length > 0 && (
+              <section aria-label="Follow programs featured in this story" className="mt-6 rounded-[1.2rem] border border-white/10 bg-white/[0.045] p-3.5 shadow-xl sm:mt-10 sm:rounded-[1.5rem] sm:p-5">
+                <p className="text-[8px] font-black uppercase tracking-[0.18em] text-[var(--vv-accent)] sm:text-[10px] sm:tracking-[0.2em]">Follow {articleFollowSchools.length === 1 ? "This Program" : "These Programs"}</p>
+                <p className="mt-1.5 text-xs leading-5 text-white/50 sm:text-sm">Keep up with {articleFollowSchools.map((school) => school.name).join(" and ")} on VarsityVue.</p>
+                <div className={`mt-3 grid gap-2 ${articleFollowSchools.length > 1 ? "grid-cols-2" : "grid-cols-1"}`}>
+                  {articleFollowSchools.map((school) => {
+                    const isFollowing = followedSchoolSlugs.has(school.slug);
+                    const finishFollowing = Boolean(followUserId) && !isFollowing && followParams.finishFollow === school.slug;
+                    const message = isFollowing && followParams.followed === school.slug ? `You’re now following ${school.name}.` : !isFollowing && followParams.unfollowed === school.slug ? `You are no longer following ${school.name}.` : finishFollowing ? followParams.followError === "1" ? "Authentication succeeded, but the follow still needs your confirmation." : `Authentication succeeded. Select Finish Following to follow ${school.name}.` : "";
+                    return <div key={school.slug} className="min-w-0 rounded-xl border border-white/10 bg-black/25 p-2.5 text-center sm:p-3"><p className="mb-2 truncate text-[10px] font-black text-white/65 sm:text-xs">{school.name}</p><SchoolFollowControl schoolName={school.name} schoolSlug={school.slug} isAuthenticated={Boolean(followUserId)} isFollowing={isFollowing} finishFollowing={finishFollowing} initialMessage={message} sourceSurface="article" sourceId={article.slug} compact /></div>;
+                  })}
+                </div>
+              </section>
+            )}
 
             {(primarySchool || nextPrimaryGame) && (
               <section className="mt-6 overflow-hidden rounded-[1.2rem] border border-[color:var(--vv-accent)]/25 bg-white/[0.055] shadow-xl sm:mt-12 sm:rounded-[1.75rem]">

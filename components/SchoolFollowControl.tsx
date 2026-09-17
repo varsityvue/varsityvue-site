@@ -6,6 +6,7 @@ import {
   manageSchoolFollow,
   type SchoolFollowActionState,
 } from "@/app/schools/[slug]/follow-actions";
+import type { FollowSourceSurface } from "@/lib/follow-context";
 
 type SchoolFollowControlProps = {
   schoolName: string;
@@ -14,6 +15,9 @@ type SchoolFollowControlProps = {
   isFollowing: boolean;
   finishFollowing?: boolean;
   initialMessage?: string;
+  sourceSurface?: FollowSourceSurface;
+  sourceId?: string;
+  compact?: boolean;
 };
 
 const buttonClass =
@@ -26,28 +30,46 @@ export default function SchoolFollowControl({
   isFollowing,
   finishFollowing = false,
   initialMessage = "",
+  sourceSurface = "school_hub",
+  sourceId,
+  compact = false,
 }: SchoolFollowControlProps) {
   const initialState: SchoolFollowActionState = {
     following: isFollowing,
     status: "idle",
     message: initialMessage,
   };
-  const manageFollow = manageSchoolFollow.bind(null, schoolSlug);
-  const schoolHubPermalink = `/schools/${encodeURIComponent(schoolSlug)}`;
+  const manageFollow = manageSchoolFollow.bind(
+    null,
+    schoolSlug,
+    sourceSurface,
+    sourceId,
+  );
+  const permalink =
+    sourceSurface === "game_center" && sourceId
+      ? `/games/${encodeURIComponent(sourceId)}`
+      : sourceSurface === "article" && sourceId
+        ? `/coverage/${encodeURIComponent(sourceId)}`
+        : `/schools/${encodeURIComponent(schoolSlug)}`;
   const [state, formAction, pending] = useActionState(
     manageFollow,
     initialState,
-    schoolHubPermalink,
+    permalink,
   );
 
   if (!isAuthenticated) {
-    const beginFollow = beginSignedOutSchoolFollow.bind(null, schoolSlug);
+    const beginFollow = beginSignedOutSchoolFollow.bind(
+      null,
+      schoolSlug,
+      sourceSurface,
+      sourceId,
+    );
     return (
       <form action={beginFollow}>
         <button
           type="submit"
           aria-label={`Follow ${schoolName}`}
-          className={`${buttonClass} border-white/20 bg-white/10 text-white hover:bg-white/15`}
+          className={`${buttonClass} ${compact ? "w-full px-3 sm:px-4" : ""} border-white/20 bg-white/10 text-white hover:bg-white/15`}
         >
           Follow Team
         </button>
@@ -56,12 +78,12 @@ export default function SchoolFollowControl({
   }
 
   return (
-    <div className="flex min-w-0 flex-col items-start gap-1.5">
+    <div className={`flex min-w-0 flex-col gap-1.5 ${compact ? "items-stretch" : "items-start"}`}>
       {state.following ? (
-        <div className="flex flex-wrap items-center gap-2">
+        <div className={`flex flex-wrap items-center gap-2 ${compact ? "justify-center" : ""}`}>
           <span
             role="status"
-            className={`${buttonClass} border-emerald-300/25 bg-emerald-300/10 text-emerald-50`}
+            className={`${buttonClass} ${compact ? "px-3 sm:px-4" : ""} border-emerald-300/25 bg-emerald-300/10 text-emerald-50`}
           >
             <span aria-hidden="true">✓&nbsp;</span> Following
           </span>
@@ -84,7 +106,7 @@ export default function SchoolFollowControl({
             type="submit"
             disabled={pending}
             aria-label={finishFollowing ? `Finish following ${schoolName}` : `Follow ${schoolName}`}
-            className={`${buttonClass} border-white/20 bg-white/10 text-white hover:bg-white/15`}
+            className={`${buttonClass} ${compact ? "w-full px-3 sm:px-4" : ""} border-white/20 bg-white/10 text-white hover:bg-white/15`}
           >
             {pending
               ? "Following…"

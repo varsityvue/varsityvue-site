@@ -5,9 +5,14 @@ import { redirect } from "next/navigation";
 import {
   createFollowIntent,
   FOLLOW_INTENT_COOKIE,
-  followCompletionPath,
+  contextualFollowCompletionPath,
   followIntentCookieOptions,
 } from "@/lib/follow-intent";
+import {
+  createFollowContext,
+  type FollowSourceSurface,
+} from "@/lib/follow-context";
+import { resolveFollowDestination } from "@/lib/follow-destinations";
 import { memberAccountStatus } from "@/lib/member-access";
 import { followSchoolForCurrentUser } from "@/lib/school-follow-mutations";
 import { getSchoolBySlug } from "@/lib/schools";
@@ -50,18 +55,30 @@ export async function followSchool(
 
 export async function manageSchoolFollow(
   schoolSlug: string,
+  sourceSurface: FollowSourceSurface,
+  sourceId: string | undefined,
   previousState: SchoolFollowActionState,
   formData: FormData,
 ): Promise<SchoolFollowActionState> {
+  const context = createFollowContext(sourceSurface, sourceId);
+  const destination = context
+    ? await resolveFollowDestination(schoolSlug, context)
+    : null;
+  if (!context || !destination) {
+    return {
+      following: previousState.following,
+      status: "error",
+      message: "That follow destination is not available.",
+    };
+  }
   const operation = String(formData.get("operation") ?? "");
 
   if (operation === "follow") {
-    const result = await followSchoolForCurrentUser(schoolSlug);
+    const result = await followSchoolForCurrentUser(schoolSlug, context.sourceSurface);
     if (result.status === "suspended") redirect("/account-suspended");
     if (result.status === "success") {
-      redirect(
-        `/schools/${encodeURIComponent(schoolSlug)}?followed=${encodeURIComponent(schoolSlug)}`,
-      );
+      const params = new URLSearchParams({ followed: schoolSlug });
+      redirect(`${destination}?${params.toString()}`);
     }
     return result;
   }
@@ -70,9 +87,8 @@ export async function manageSchoolFollow(
     const result = await unfollowSchool(schoolSlug);
     if (result.status === "suspended") redirect("/account-suspended");
     if (result.status === "success") {
-      redirect(
-        `/schools/${encodeURIComponent(schoolSlug)}?unfollowed=${encodeURIComponent(schoolSlug)}`,
-      );
+      const params = new URLSearchParams({ unfollowed: schoolSlug });
+      redirect(`${destination}?${params.toString()}`);
     }
     return result;
   }
@@ -86,20 +102,29 @@ export async function manageSchoolFollow(
 
 export async function beginSignedOutSchoolFollow(
   schoolSlug: string,
+  sourceSurface: FollowSourceSurface,
+  sourceId: string | undefined,
   formData: FormData,
 ) {
   void formData;
   const school = getSchoolBySlug(schoolSlug.trim());
   if (!school) redirect("/schools");
+  const context = createFollowContext(sourceSurface, sourceId);
+  const destination = context
+    ? await resolveFollowDestination(school.slug, context)
+    : null;
+  if (!context || !destination) redirect(`/schools/${school.slug}`);
 
   const cookieStore = await cookies();
   cookieStore.set(
     FOLLOW_INTENT_COOKIE,
-    createFollowIntent(school.slug),
+    createFollowIntent(school.slug, context),
     followIntentCookieOptions(),
   );
 
-  redirect(`/login?next=${encodeURIComponent(followCompletionPath(school.slug))}`);
+  redirect(
+    `/login?next=${encodeURIComponent(contextualFollowCompletionPath(school.slug, context))}`,
+  );
 }
 
 export async function unfollowSchool(
