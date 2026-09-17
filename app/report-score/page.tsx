@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 };
 
 type PageProps = {
-  searchParams: Promise<{ message?: string; submitted?: string; game?: string }>;
+  searchParams: Promise<{ message?: string; submitted?: "approved" | "pending"; game?: string }>;
 };
 
 function schoolHasCompleteIdentity(slug?: string) {
@@ -190,15 +190,21 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
           </p>
           <h1 className="mt-3 text-3xl font-black sm:text-5xl">Help keep Friday night current.</h1>
           <p className="mt-4 max-w-2xl text-sm leading-6 text-white/60 sm:text-base sm:leading-7">
-            {isRestrictedScorekeeper
+            {canModerate
+              ? "Submit a score you can verify. Your trusted update is recorded, approved, and published immediately through VarsityVue's normal score history."
+              : isRestrictedScorekeeper
               ? "Your contributor account can submit scores only for games involving programs assigned to you. Reports are still reviewed before becoming an official VarsityVue update."
               : "Submit a live or final score you can verify. Reports are saved with your account and reviewed before becoming an official VarsityVue update."}
           </p>
         </section>
 
-        {params.submitted === "1" ? (
+        {params.submitted ? (
           <div className="mt-5 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-sm text-emerald-50">
-            <p>Score report received. It is now in the VarsityVue review queue.</p>
+            <p>
+              {params.submitted === "approved"
+                ? "Score updated. The trusted result is now published."
+                : "Score report received. It is now in the VarsityVue review queue."}
+            </p>
             {selectedGameHref ? (
               <Link href={selectedGameHref} className="shrink-0 rounded-full border border-emerald-200/20 bg-black/20 px-3.5 py-2 text-[10px] font-black uppercase tracking-[0.12em] text-emerald-50 transition hover:bg-black/35">
                 Back to Game Center →

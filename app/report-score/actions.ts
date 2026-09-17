@@ -128,20 +128,24 @@ export async function submitScore(formData: FormData) {
     reportRedirect(gameId, "That exact score update is already pending review. Send another report only if the score or game status has changed.");
   }
 
-  const { error } = await supabase.from("score_submissions").insert({
-    game_id: gameId,
-    submitted_by: userId,
-    home_score: homeScore,
-    away_score: awayScore,
-    game_status: gameStatus,
-    period,
-    clock,
-    source_note: sourceNote,
+  const { data, error } = await supabase.rpc("submit_score_submission", {
+    p_game_id: gameId,
+    p_home_score: homeScore,
+    p_away_score: awayScore,
+    p_game_status: gameStatus,
+    p_period: period,
+    p_clock: clock,
+    p_source_note: sourceNote,
   });
 
   if (error) {
-    reportRedirect(gameId, error.message);
+    const message = error.message.includes("verified terminal state")
+      ? "This game already has a verified final result and cannot be changed from score reporting."
+      : "The score could not be saved. Check the game state and try again.";
+    reportRedirect(gameId, message);
   }
 
-  redirect(`/report-score?submitted=1&game=${encodeURIComponent(gameId)}`);
+  const submission = Array.isArray(data) ? data[0] : data;
+  const outcome = submission?.submission_status === "approved" ? "approved" : "pending";
+  redirect(`/report-score?submitted=${outcome}&game=${encodeURIComponent(gameId)}`);
 }
