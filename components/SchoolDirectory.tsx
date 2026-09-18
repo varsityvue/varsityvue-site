@@ -107,7 +107,7 @@ export default function SchoolDirectory({ schools }: { schools: DirectorySchool[
         <div className="grid gap-2.5 sm:gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
             <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/70 sm:text-xs sm:tracking-[0.28em]">
-              School Search
+              Live School Hubs
             </p>
 
             <h2 className="mt-1.5 text-2xl font-black text-white sm:mt-2 sm:text-3xl">
@@ -192,7 +192,7 @@ export default function SchoolDirectory({ schools }: { schools: DirectorySchool[
                 />
 
                 <div className="relative">
-                  <div className="mb-4 flex items-start justify-between gap-3 sm:mb-6 sm:gap-4">
+                  <div className="mb-3 flex items-start justify-between gap-3 sm:mb-6 sm:gap-4">
                     {programLogo ? (
                       <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-black/35 p-1.5 shadow-lg sm:h-16 sm:w-16 sm:rounded-2xl">
                         <img
@@ -230,14 +230,12 @@ export default function SchoolDirectory({ schools }: { schools: DirectorySchool[
                     {school.mascot}
                   </p>
 
-                  <div className="mt-4 flex flex-wrap gap-1.5 sm:mt-6 sm:gap-2">
+                  <div className="mt-3 flex flex-wrap gap-1.5 sm:mt-6 sm:gap-2">
                     <MiniPill label={classification} />
                     <MiniPill label={district} />
                   </div>
 
-                  <div className="mt-4 space-y-2 rounded-xl border border-white/10 bg-black/40 p-3 sm:mt-5 sm:space-y-3 sm:rounded-2xl sm:p-4">
-                    <SchoolMeta label="Class" value={classification} />
-                    <SchoolMeta label="District" value={district} />
+                  <div className="mt-3 space-y-2 rounded-xl border border-white/10 bg-black/40 p-3 sm:mt-5 sm:space-y-3 sm:rounded-2xl sm:p-4">
                     <SchoolMeta label="Stadium" value={school.stadium ?? "TBD"} />
 
                     {school.stateTitles !== undefined && (
@@ -255,7 +253,7 @@ export default function SchoolDirectory({ schools }: { schools: DirectorySchool[
                     )}
                   </div>
 
-                  <div className="mt-4 flex items-center justify-between gap-3 sm:mt-6 sm:gap-4">
+                  <div className="mt-3 flex items-center justify-between gap-3 sm:mt-6 sm:gap-4">
                     <p className="text-[11px] font-black uppercase tracking-[0.12em] text-white/70 transition group-hover:text-white sm:text-sm sm:tracking-[0.14em]">
                       View school hub
                     </p>
