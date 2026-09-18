@@ -1,1 +1,5 @@
-export { size, contentType, runtime, default } from "./opengraph-image";
+import GameOpenGraphImage, { contentType, size } from "./opengraph-image";
+
+export { contentType, size };
+
+export default GameOpenGraphImage;
