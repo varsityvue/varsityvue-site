@@ -7,12 +7,12 @@ import { requireActiveMember } from "@/lib/member-access";
 import { assignContributorSchool, removeContributorSchool } from "./actions";
 
 export const metadata: Metadata = {
-  title: "Contributor Access | VarsityVue",
+  title: "Contributor Access",
   robots: { index: false, follow: false, nocache: true },
 };
 
 type PageProps = {
-  searchParams: Promise<{ message?: string; updated?: string }>;
+  searchParams: Promise<{ message?: string; updated?: string; q?: string }>;
 };
 
 export default async function ContributorAccessPage({ searchParams }: PageProps) {
@@ -29,7 +29,7 @@ export default async function ContributorAccessPage({ searchParams }: PageProps)
   const [{ data: profiles }, { data: assignments }] = await Promise.all([
     supabase
       .from("profiles")
-      .select("id, display_name, username")
+      .select("id, display_name, username, email")
       .order("display_name", { ascending: true, nullsFirst: false }),
     supabase
       .from("contributor_school_assignments")
@@ -51,6 +51,13 @@ export default async function ContributorAccessPage({ searchParams }: PageProps)
     assignmentsByUser.set(assignment.user_id, current);
   }
 
+  const query = params.q?.trim().toLowerCase() ?? "";
+  const visibleProfiles = query
+    ? (profiles ?? []).filter((profile) =>
+        `${profile.display_name ?? ""} ${profile.username ?? ""} ${profile.email ?? ""}`.toLowerCase().includes(query),
+      )
+    : (profiles ?? []);
+
   const contributorProfiles = (profiles ?? [])
     .filter((profile) => (assignmentsByUser.get(profile.id)?.length ?? 0) > 0)
     .sort((a, b) => {
@@ -66,7 +73,7 @@ export default async function ContributorAccessPage({ searchParams }: PageProps)
           <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">Internal Tool</p>
           <h1 className="mt-3 text-4xl font-black sm:text-5xl">Contributor access</h1>
           <p className="mt-4 text-base leading-7 text-white/50">
-            Assign scorekeepers or coaches to programs. Contributors only see identity-ready games involving schools they are authorized to cover.
+            Assign school-specific scorekeeper or coach access. This is separate from platform roles such as Moderator or Admin.
           </p>
         </section>
 
@@ -88,14 +95,17 @@ export default async function ContributorAccessPage({ searchParams }: PageProps)
             <p className="text-xs text-white/35">Adding another school keeps any existing assignments intact.</p>
           </div>
 
-          <form action={assignContributorSchool} className="mt-5 grid gap-4 lg:grid-cols-[1.2fr_1.2fr_0.8fr_auto] lg:items-end">
+          <form method="get" className="mt-5 flex gap-2"><input type="search" name="q" defaultValue={params.q ?? ""} placeholder="Find member by name, username, or email" className="min-w-0 flex-1 rounded-xl border border-white/10 bg-black/35 px-4 py-3 text-sm outline-none placeholder:text-white/25"/><button className="rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3 text-xs font-black">Find Member</button>{query ? <Link href="/internal/contributor-access" className="rounded-xl border border-white/10 px-4 py-3 text-xs font-black text-white/45">Clear</Link> : null}</form>
+          {query && visibleProfiles.length === 0 ? <p className="mt-3 text-sm text-amber-100/70">No members match “{params.q}”.</p> : null}
+
+          <form action={assignContributorSchool} className="mt-4 grid gap-4 lg:grid-cols-[1.2fr_1.2fr_0.8fr_auto] lg:items-end">
             <div>
               <label htmlFor="user_id" className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-white/40">Member</label>
               <select id="user_id" name="user_id" required defaultValue="" className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white focus:border-[var(--vv-accent)] focus:outline-none">
                 <option value="" disabled>Select member</option>
-                {(profiles ?? []).map((profile) => (
+                {visibleProfiles.map((profile) => (
                   <option key={profile.id} value={profile.id}>
-                    {profile.display_name || profile.username || profile.id}{profile.username ? ` (@${profile.username})` : ""}
+                    {profile.display_name || profile.username || profile.email || profile.id}{profile.username ? ` (@${profile.username})` : ""}{profile.email ? ` · ${profile.email}` : ""}
                   </option>
                 ))}
               </select>
@@ -208,6 +218,7 @@ export default async function ContributorAccessPage({ searchParams }: PageProps)
         </section>
 
         <div className="mt-8 flex flex-wrap gap-3 border-t border-white/10 pt-6">
+          <Link href="/internal/members" className="text-sm font-bold text-white/55 transition hover:text-white">← Members & Roles</Link>
           <Link href="/account" className="text-sm font-bold text-white/55 transition hover:text-white">← Back to account</Link>
           <Link href="/internal/score-review" className="text-sm font-bold text-white/55 transition hover:text-white">Score review →</Link>
         </div>
