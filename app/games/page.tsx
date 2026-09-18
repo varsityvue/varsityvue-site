@@ -102,7 +102,10 @@ function getScoreReportLabel(game: { status: string; gameType: string }) {
   return null;
 }
 
-export default async function GamesPage() {
+export default async function GamesPage({ searchParams }: { searchParams: Promise<{ q?: string; status?: string }> }) {
+  const { q = "", status = "all" } = await searchParams;
+  const matchupQuery = q.trim().toLowerCase();
+  const matchupStatus = ["all", "upcoming", "final", "district"].includes(status) ? status : "all";
   const regularGames = [...(await getDynamicGames())]
     .filter((game) => game.gameType !== "bye")
     .sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b));
@@ -147,27 +150,60 @@ export default async function GamesPage() {
   const hasLiveGames = liveGames.length > 0;
   const hasFinalGames = finalGames.length > 0;
 
-  const displayGames = [...regularGames].sort((a, b) => {
-    const statusPriority: Record<string, number> = {
-      live: 0,
-      final: 1,
-      upcoming: 2,
-      scheduled: 3,
-    };
+  const displayGames = [...regularGames]
+    .filter((game) => {
+      if (matchupStatus === "upcoming" && !["upcoming", "scheduled", "live"].includes(game.status)) return false;
+      if (matchupStatus === "final" && game.status !== "final") return false;
+      if (matchupStatus === "district" && !game.districtGame) return false;
+      if (!matchupQuery) return true;
 
-    const priorityDifference =
-      (statusPriority[a.status] ?? 4) - (statusPriority[b.status] ?? 4);
-    if (priorityDifference !== 0) return priorityDifference;
+      const haystack = [
+        getAwayTeam(game),
+        getHomeTeam(game),
+        getVenue(game),
+        game.specialEvent,
+        game.week !== undefined ? `week ${game.week}` : "",
+      ].filter(Boolean).join(" ").toLowerCase();
 
-    const aTime = getGameTimestamp(a);
-    const bTime = getGameTimestamp(b);
+      return haystack.includes(matchupQuery);
+    })
+    .sort((a, b) => {
+      const statusPriority: Record<string, number> = {
+        live: 0,
+        upcoming: 1,
+        scheduled: 2,
+        final: 3,
+      };
 
-    if (aTime === Number.MAX_SAFE_INTEGER && bTime === Number.MAX_SAFE_INTEGER) return 0;
-    if (aTime === Number.MAX_SAFE_INTEGER) return 1;
-    if (bTime === Number.MAX_SAFE_INTEGER) return -1;
+      const priorityDifference =
+        (statusPriority[a.status] ?? 4) - (statusPriority[b.status] ?? 4);
+      if (priorityDifference !== 0) return priorityDifference;
 
-    return a.status === "final" ? bTime - aTime : aTime - bTime;
-  });
+      const aTime = getGameTimestamp(a);
+      const bTime = getGameTimestamp(b);
+
+      if (aTime === Number.MAX_SAFE_INTEGER && bTime === Number.MAX_SAFE_INTEGER) return 0;
+      if (aTime === Number.MAX_SAFE_INTEGER) return 1;
+      if (bTime === Number.MAX_SAFE_INTEGER) return -1;
+
+      return a.status === "final" ? bTime - aTime : aTime - bTime;
+    });
+
+  const matchupGroups = new Map<string, typeof displayGames>();
+  for (const game of displayGames) {
+    const groupLabel = game.gameType === "scrimmage"
+      ? "Scrimmages"
+      : game.gameType === "playoff"
+        ? "Playoffs"
+        : game.week !== undefined
+          ? `Week ${game.week}`
+          : "Other Games";
+    const existing = matchupGroups.get(groupLabel) ?? [];
+    existing.push(game);
+    matchupGroups.set(groupLabel, existing);
+  }
+
+  const currentWeek = featuredGame?.week;
 
   const stripGames = hasLiveGames
     ? liveGames
@@ -317,63 +353,72 @@ export default async function GamesPage() {
           <section id="all-matchups" className="mt-7 scroll-mt-24 sm:mt-10">
             <div className="mb-4 sm:mb-6">
               <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.28em]">
-                Schedule Board
+                Schedule + Archive
               </p>
-              <h2 className="mt-1.5 text-2xl font-black text-white sm:mt-2 sm:text-3xl">All Matchups</h2>
+              <div className="mt-1.5 flex items-end justify-between gap-3 sm:mt-2">
+                <h2 className="text-2xl font-black text-white sm:text-3xl">Find a Matchup</h2>
+                <span className="text-[10px] font-black uppercase tracking-[0.12em] text-white/35">{displayGames.length} games</span>
+              </div>
             </div>
 
+            <form action="/games#all-matchups" method="get" className="mb-4 rounded-[1.35rem] border border-white/10 bg-white/[0.045] p-3 sm:mb-6 sm:rounded-[1.75rem] sm:p-4">
+              <label htmlFor="matchup-search" className="sr-only">Search matchups</label>
+              <input id="matchup-search" name="q" type="search" defaultValue={q} placeholder="Search team, venue, or week…" className="w-full rounded-xl border border-white/10 bg-black/35 px-3.5 py-3 text-sm font-semibold text-white outline-none placeholder:text-white/30 focus:border-white/25 sm:rounded-2xl" />
+              <div className="mt-2.5 grid grid-cols-[1fr_auto] gap-2">
+                <label htmlFor="matchup-status" className="sr-only">Filter matchups</label>
+                <select id="matchup-status" name="status" defaultValue={matchupStatus} className="min-w-0 rounded-xl border border-white/10 bg-black/35 px-3.5 py-3 text-xs font-black uppercase tracking-[0.1em] text-white/75 outline-none focus:border-white/25 sm:rounded-2xl">
+                  <option value="all">All games</option>
+                  <option value="upcoming">Upcoming</option>
+                  <option value="final">Finals</option>
+                  <option value="district">District</option>
+                </select>
+                <button type="submit" className="rounded-xl border border-white/15 bg-white/[0.08] px-4 text-[10px] font-black uppercase tracking-[0.12em] text-white transition hover:bg-white/12 sm:rounded-2xl">Apply</button>
+              </div>
+              {(matchupQuery || matchupStatus !== "all") && <div className="mt-2.5 flex items-center justify-between gap-3"><p className="text-[10px] font-semibold text-white/40">{displayGames.length} matching game{displayGames.length === 1 ? "" : "s"}</p><Link href="/games#all-matchups" className="text-[9px] font-black uppercase tracking-[0.12em] text-white/55 hover:text-white">Clear filters</Link></div>}
+            </form>
+
             {displayGames.length > 0 ? (
-              <div className="grid gap-3 sm:gap-5 md:grid-cols-2 xl:grid-cols-3">
-                {displayGames.map((game) => (
-                  <div
-                    key={game.id}
-                    className="group relative overflow-hidden rounded-[1.35rem] border border-white/10 bg-white/[0.045] p-4 shadow-xl transition hover:-translate-y-1 hover:border-[color:var(--vv-accent)]/40 hover:bg-white/[0.075] sm:rounded-[1.75rem] sm:p-5"
-                  >
-                    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(139,16,32,0.38),transparent_55%)] opacity-45 transition group-hover:opacity-70" />
-                    <div className="relative">
-                      <Link href={`/games/${game.id}`} className="block">
-                        <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                          <Badge label={getGameTypeLabel(game.gameType, game.week)} />
-                          <Badge label={formatStatus(game.status, game.gameType)} />
-                          {game.districtGame && <Badge label="District" />}
-                          {game.specialEvent && <Badge label={game.specialEvent} />}
+              <div className="space-y-3 sm:space-y-4">
+                {[...matchupGroups.entries()].map(([groupLabel, games]) => {
+                  const groupWeek = groupLabel.startsWith("Week ") ? Number(groupLabel.replace("Week ", "")) : undefined;
+                  const shouldOpen = Boolean(matchupQuery) || matchupStatus !== "all" || groupWeek === currentWeek;
+                  return <details key={groupLabel} open={shouldOpen} className="group rounded-[1.35rem] border border-white/10 bg-white/[0.035] p-3.5 sm:rounded-[1.75rem] sm:p-5">
+                    <summary className="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                      <div className="flex items-center justify-between gap-3">
+                        <div><h3 className="text-lg font-black text-white sm:text-xl">{groupLabel}</h3><p className="mt-0.5 text-[9px] font-black uppercase tracking-[0.12em] text-white/35">{games.length} matchup{games.length === 1 ? "" : "s"}</p></div>
+                        <span className="text-sm font-black text-white/45 transition group-open:rotate-180">⌄</span>
+                      </div>
+                    </summary>
+                    <div className="mt-3 grid gap-3 border-t border-white/10 pt-3 sm:mt-5 sm:gap-5 sm:pt-5 md:grid-cols-2 xl:grid-cols-3">
+                      {games.map((game) => (
+                        <div key={game.id} className="group/card relative overflow-hidden rounded-[1.35rem] border border-white/10 bg-white/[0.045] p-4 shadow-xl transition hover:-translate-y-1 hover:border-[color:var(--vv-accent)]/40 hover:bg-white/[0.075] sm:rounded-[1.75rem] sm:p-5">
+                          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(139,16,32,0.38),transparent_55%)] opacity-45 transition group-hover/card:opacity-70" />
+                          <div className="relative">
+                            <Link href={`/games/${game.id}`} className="block">
+                              <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                                <Badge label={getGameTypeLabel(game.gameType, game.week)} />
+                                <Badge label={formatStatus(game.status, game.gameType)} />
+                                {game.districtGame && <Badge label="District" />}
+                                {game.specialEvent && <Badge label={game.specialEvent} />}
+                              </div>
+                              <h3 className="mt-3 text-xl font-black leading-[1.08] text-white sm:mt-5 sm:text-2xl sm:leading-tight">{getAwayTeam(game)}<span className="block text-white/35">at</span>{getHomeTeam(game)}</h3>
+                              <div className="mt-3 grid grid-cols-2 gap-2 sm:mt-6 sm:gap-3"><InfoCard label="Date" value={formatGameDate(game.kickoff)} /><InfoCard label="Kickoff" value={formatGameTime(game.kickoff)} /></div>
+                              <div className="mt-2 rounded-xl border border-white/10 bg-black/35 p-3 sm:mt-3 sm:rounded-2xl sm:p-4"><p className="text-[9px] font-black uppercase tracking-[0.15em] text-white/35 sm:text-[10px] sm:tracking-[0.18em]">Venue</p><p className="mt-1 text-sm font-black leading-5 text-white sm:mt-2 sm:text-base">{getVenue(game)}</p></div>
+                              {game.status === "final" && game.homeScore !== undefined && game.awayScore !== undefined && <p className="mt-3 text-base font-black text-white sm:mt-4 sm:text-lg">Final: {game.awayScore}-{game.homeScore}</p>}
+                              <p className="mt-4 text-[11px] font-black uppercase tracking-[0.11em] text-[var(--vv-accent)] sm:mt-6 sm:text-sm sm:tracking-[0.14em]">Matchup Center →</p>
+                            </Link>
+                            <BroadcastButtons links={game.mediaLinks} />
+                            <ScoreReportLink game={game} hasPendingReport={pendingGameIds.has(game.id)} />
+                          </div>
                         </div>
-
-                        <h3 className="mt-3 text-xl font-black leading-[1.08] text-white sm:mt-5 sm:text-2xl sm:leading-tight">
-                          {getAwayTeam(game)}
-                          <span className="block text-white/35">at</span>
-                          {getHomeTeam(game)}
-                        </h3>
-
-                        <div className="mt-3 grid grid-cols-2 gap-2 sm:mt-6 sm:gap-3">
-                          <InfoCard label="Date" value={formatGameDate(game.kickoff)} />
-                          <InfoCard label="Kickoff" value={formatGameTime(game.kickoff)} />
-                        </div>
-
-                        <div className="mt-2 rounded-xl border border-white/10 bg-black/35 p-3 sm:mt-3 sm:rounded-2xl sm:p-4">
-                          <p className="text-[9px] font-black uppercase tracking-[0.15em] text-white/35 sm:text-[10px] sm:tracking-[0.18em]">Venue</p>
-                          <p className="mt-1 text-sm font-black leading-5 text-white sm:mt-2 sm:text-base">{getVenue(game)}</p>
-                        </div>
-
-                        {game.status === "final" && game.homeScore !== undefined && game.awayScore !== undefined && (
-                          <p className="mt-3 text-base font-black text-white sm:mt-4 sm:text-lg">
-                            Final: {game.awayScore}-{game.homeScore}
-                          </p>
-                        )}
-
-                        <p className="mt-4 text-[11px] font-black uppercase tracking-[0.11em] text-[var(--vv-accent)] sm:mt-6 sm:text-sm sm:tracking-[0.14em]">
-                          Matchup Center →
-                        </p>
-                      </Link>
-                      <BroadcastButtons links={game.mediaLinks} />
-                      <ScoreReportLink game={game} hasPendingReport={pendingGameIds.has(game.id)} />
+                      ))}
                     </div>
-                  </div>
-                ))}
+                  </details>;
+                })}
               </div>
             ) : (
               <div className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 text-white/55">
-                No games are currently available.
+                No matchups match those filters.
               </div>
             )}
           </section>
