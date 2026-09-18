@@ -1,8 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { CaptchaSubmit } from "@/components/auth/captcha-submit";
 import { safeNextPath } from "@/lib/safe-next-path";
 import { getSchoolBySlug } from "@/lib/schools";
 import { login, signup } from "./actions";
+
+export const metadata: Metadata = { title: "Log In", robots: { index: false, follow: false, nocache: true } };
 
 type LoginPageProps = {
   searchParams: Promise<{
