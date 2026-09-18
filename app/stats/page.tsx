@@ -52,20 +52,6 @@ export default function StatsPage() {
         </div>
       </section>
 
-      <section className="border-b border-white/10 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="rounded-xl border border-white/10 bg-white/[0.035] p-3.5 sm:rounded-2xl sm:p-5">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div className="max-w-4xl">
-                <p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/40 sm:text-[10px] sm:tracking-[0.2em]">Stat Availability</p>
-                <p className="mt-1.5 text-xs leading-5 text-white/50 sm:text-sm sm:leading-6">Statistics are added as verified data is received and availability can vary by program and game. Players are ranked by the verified totals currently on file, so these leaderboards may not reflect complete season statistics for every program.</p>
-              </div>
-              <Link href="/submit" className="shrink-0 text-[9px] font-black uppercase tracking-[0.1em] text-white/55 transition hover:text-white sm:text-xs sm:tracking-[0.14em]">Submit stats →</Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section className="border-b border-white/10 px-4 py-4 sm:px-6 sm:py-6 lg:px-8"><div className="mx-auto max-w-7xl"><div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4"><div><p className="text-[9px] font-black uppercase tracking-[0.18em] text-white/35 sm:text-xs sm:tracking-[0.22em]">District Views</p><p className="mt-1.5 text-xs text-white/50 sm:mt-2 sm:text-sm">Compare available verified leaders within a specific UIL district.</p></div><div className="flex flex-wrap gap-1.5 sm:gap-2">{districtsWithStats.length > 0 ? districtsWithStats.map((district) => <Link key={district.id} href={`/stats/districts/${district.slug}`} className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-[9px] font-black uppercase tracking-[0.1em] text-white/65 transition hover:bg-white/10 hover:text-white sm:rounded-xl sm:px-4 sm:py-3 sm:text-xs sm:tracking-[0.12em]">{district.name}</Link>) : <span className="text-xs text-white/35 sm:text-sm">District views will appear as verified stats are added.</span>}</div></div></div></section>
 
       <section className="px-4 py-5 sm:px-6 sm:py-8 lg:px-8"><div className="mx-auto max-w-7xl space-y-5 sm:space-y-8">
