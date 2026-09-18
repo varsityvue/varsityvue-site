@@ -200,7 +200,7 @@ export default async function AccountPage() {
           followCount={followedSchools.length}
         />
 
-        {true ? (
+        {isScorekeeper && !canModerate ? (
           <section className="mt-6 rounded-[1.5rem] border border-[var(--vv-primary)]/40 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.24),transparent_45%),rgba(255,255,255,0.035)] p-5 sm:p-7">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
@@ -215,42 +215,31 @@ export default async function AccountPage() {
               </span>
             </div>
 
-            {true ? (
-              <div className="mt-5 rounded-2xl border border-white/10 bg-black/20 p-4">
-                <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">Assigned Programs</p>
-                {assignedPrograms.length ? (
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {assignedPrograms.map((program) =>
-                      program.role === "Coach" ? (
-                        <Link
-                          key={program.slug}
-                          href={`/manage-roster?school=${encodeURIComponent(program.slug)}`}
-                          className="rounded-full border border-amber-300/20 bg-amber-300/10 px-3 py-1.5 text-xs font-bold text-amber-100 transition hover:bg-amber-300/15"
-                        >
-                          {program.name} · Coach · Manage Roster →
-                        </Link>
-                      ) : (
-                        <span key={program.slug} className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 text-xs font-bold text-white/75">
-                          {program.name} · {program.role}
-                        </span>
-                      ),
-                    )}
-                  </div>
-                ) : (
-                  <p className="mt-2 text-sm text-amber-100/75">No programs are assigned yet. Score entry will stay unavailable until an assignment is added.</p>
-                )}
-              </div>
-            ) : null}
+            <div className="mt-5 rounded-2xl border border-white/10 bg-black/20 p-4">
+              <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">Assigned Programs</p>
+              {assignedPrograms.length ? (
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {assignedPrograms.map((program) =>
+                    program.role === "Coach" ? (
+                      <Link key={program.slug} href={`/manage-roster?school=${encodeURIComponent(program.slug)}`} className="rounded-full border border-amber-300/20 bg-amber-300/10 px-3 py-1.5 text-xs font-bold text-amber-100 transition hover:bg-amber-300/15">
+                        {program.name} · Coach · Manage Roster →
+                      </Link>
+                    ) : (
+                      <span key={program.slug} className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 text-xs font-bold text-white/75">
+                        {program.name} · {program.role}
+                      </span>
+                    ),
+                  )}
+                </div>
+              ) : (
+                <p className="mt-2 text-sm text-amber-100/75">No programs are assigned yet. Score entry will stay unavailable until an assignment is added.</p>
+              )}
+            </div>
 
             {assignedPrograms.length > 0 ? (
               <div className="mt-5">
-                <div className="flex items-end justify-between gap-4">
-                  <div>
-                    <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">Score-Ready Assigned Games</p>
-                    <p className="mt-1 text-xs text-white/40">Live games and past matchups awaiting a result.</p>
-                  </div>
-                </div>
-
+                <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">Score-Ready Assigned Games</p>
+                <p className="mt-1 text-xs text-white/40">Live games and past matchups awaiting a result.</p>
                 {scoreReadyAssignedGames.length ? (
                   <div className="mt-3 grid gap-3">
                     {scoreReadyAssignedGames.map((game) => (
@@ -263,10 +252,7 @@ export default async function AccountPage() {
                             {displayTeamName(game.awayTeam, game.awaySchoolSlug)} at {displayTeamName(game.homeTeam, game.homeSchoolSlug)}
                           </p>
                         </div>
-                        <Link
-                          href={`/report-score?game=${encodeURIComponent(game.id)}`}
-                          className="shrink-0 rounded-full bg-[var(--vv-primary)] px-4 py-2 text-center text-xs font-black transition hover:bg-[#93142a]"
-                        >
+                        <Link href={`/report-score?game=${encodeURIComponent(game.id)}`} className="shrink-0 rounded-full bg-[var(--vv-primary)] px-4 py-2 text-center text-xs font-black transition hover:bg-[#93142a]">
                           Enter Score
                         </Link>
                       </div>
@@ -281,23 +267,51 @@ export default async function AccountPage() {
             ) : null}
 
             <div className="mt-5 flex flex-wrap gap-3">
-              {(!isScorekeeper || canModerate || assignedPrograms.length > 0) ? (
-                <Link href="/report-score" className="rounded-full bg-[var(--vv-primary)] px-5 py-2.5 text-sm font-black transition hover:bg-[#93142a]">
-                  Enter Score
-                </Link>
+              {assignedPrograms.length > 0 ? (
+                <Link href="/report-score" className="rounded-full bg-[var(--vv-primary)] px-5 py-2.5 text-sm font-black transition hover:bg-[#93142a]">Enter Score</Link>
               ) : (
-                <span className="rounded-full border border-white/10 bg-white/[0.04] px-5 py-2.5 text-sm font-black text-white/30">
-                  Enter Score
-                </span>
+                <span className="rounded-full border border-white/10 bg-white/[0.04] px-5 py-2.5 text-sm font-black text-white/30">Enter Score</span>
               )}
               {canManageRoster ? (
-                <Link href={manageRosterHref} className="rounded-full border border-amber-300/25 bg-amber-300/10 px-5 py-2.5 text-sm font-black text-amber-100 transition hover:bg-amber-300/15">
-                  Manage Roster
-                </Link>
+                <Link href={manageRosterHref} className="rounded-full border border-amber-300/25 bg-amber-300/10 px-5 py-2.5 text-sm font-black text-amber-100 transition hover:bg-amber-300/15">Manage Roster</Link>
               ) : null}
-              <Link href="/scoreboard" className="rounded-full border border-white/15 px-5 py-2.5 text-sm font-bold text-white/80 transition hover:border-white/30 hover:text-white">
-                View Scoreboard
-              </Link>
+              <Link href="/scoreboard" className="rounded-full border border-white/15 px-5 py-2.5 text-sm font-bold text-white/80 transition hover:border-white/30 hover:text-white">View Scoreboard</Link>
+            </div>
+          </section>
+        ) : canModerate ? (
+          <section className="mt-6 rounded-[1.5rem] border border-[var(--vv-primary)]/35 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.2),transparent_45%),rgba(255,255,255,0.035)] p-5 sm:p-7">
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--vv-accent)]">{isAdmin ? "Admin Tools" : "Moderator Tools"}</p>
+            <h2 className="mt-2 text-2xl font-black">Platform operations</h2>
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-white/55">
+              Review game reports, maintain program data, and manage the access required to keep VarsityVue current.
+            </p>
+
+            <div className="mt-5 grid gap-3 sm:grid-cols-3">
+              <div className="rounded-2xl border border-white/10 bg-black/25 p-4">
+                <p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/35">Scoreboard</p>
+                <div className="mt-3 flex flex-col gap-2.5">
+                  <Link href="/report-score" className="text-sm font-black text-white transition hover:text-[var(--vv-accent)]">Enter Score →</Link>
+                  <Link href="/internal/score-review" className="text-sm font-black text-white transition hover:text-[var(--vv-accent)]">Review Score Reports →</Link>
+                  <Link href="/scoreboard" className="text-sm font-bold text-white/65 transition hover:text-white">View Scoreboard →</Link>
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-black/25 p-4">
+                <p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/35">Program Data</p>
+                <div className="mt-3 flex flex-col gap-2.5">
+                  <Link href={manageRosterHref} className="text-sm font-black text-white transition hover:text-[var(--vv-accent)]">Manage Rosters →</Link>
+                </div>
+              </div>
+
+              {isAdmin ? (
+                <div className="rounded-2xl border border-white/10 bg-black/25 p-4">
+                  <p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/35">Members & Access</p>
+                  <div className="mt-3 flex flex-col gap-2.5">
+                    <Link href="/internal/members" className="text-sm font-black text-white transition hover:text-[var(--vv-accent)]">Manage Members & Roles →</Link>
+                    <Link href="/internal/contributor-access" className="text-sm font-bold text-white/65 transition hover:text-white">Manage Contributor Access →</Link>
+                  </div>
+                </div>
+              ) : null}
             </div>
           </section>
         ) : (
@@ -308,57 +322,11 @@ export default async function AccountPage() {
               Members can send score reports for review. Verified contributor and moderation tools stay separate from the standard member account.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
-              <Link href="/report-score" className="rounded-full border border-white/15 px-5 py-2.5 text-sm font-bold text-white/80 transition hover:border-white/30 hover:text-white">
-                Report a Score
-              </Link>
-              <Link href="/scoreboard" className="rounded-full border border-white/15 px-5 py-2.5 text-sm font-bold text-white/80 transition hover:border-white/30 hover:text-white">
-                View Scoreboard
-              </Link>
+              <Link href="/report-score" className="rounded-full border border-white/15 px-5 py-2.5 text-sm font-bold text-white/80 transition hover:border-white/30 hover:text-white">Report a Score</Link>
+              <Link href="/scoreboard" className="rounded-full border border-white/15 px-5 py-2.5 text-sm font-bold text-white/80 transition hover:border-white/30 hover:text-white">View Scoreboard</Link>
             </div>
           </section>
         )}
-
-        {canModerate ? (
-          <section className="mt-6 rounded-[1.5rem] border border-[var(--vv-primary)]/35 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.2),transparent_45%),rgba(255,255,255,0.035)] p-5 sm:p-7">
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--vv-accent)]">{isAdmin ? "Admin Tools" : "Moderator Tools"}</p>
-            <h2 className="mt-2 text-2xl font-black">Platform operations</h2>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-white/55">
-              Review game reports, maintain program data, and manage the access required to keep VarsityVue current.
-            </p>
-
-            <div className="mt-5 grid gap-3 sm:grid-cols-3">
-              <AdminToolGroup label="Scoreboard">
-                <Link href="/report-score" className="text-sm font-black text-white transition hover:text-[var(--vv-accent)]">Enter Score →</Link>
-                <Link href="/internal/score-review" className="text-sm font-black text-white transition hover:text-[var(--vv-accent)]">Review Score Reports →</Link>
-                <Link href="/scoreboard" className="text-sm font-bold text-white/65 transition hover:text-white">View Scoreboard →</Link>
-              </AdminToolGroup>
-
-              <AdminToolGroup label="Program Data">
-                <Link href={manageRosterHref} className="text-sm font-black text-white transition hover:text-[var(--vv-accent)]">Manage Rosters →</Link>
-              </AdminToolGroup>
-
-              {isAdmin ? (
-                <AdminToolGroup label="Members & Access">
-                  <Link href="/internal/members" className="text-sm font-black text-white transition hover:text-[var(--vv-accent)]">Manage Members & Roles →</Link>
-                  <Link href="/internal/contributor-access" className="text-sm font-bold text-white/65 transition hover:text-white">Manage Contributor Access →</Link>
-                </AdminToolGroup>
-              ) : null}
-            </div>
-          </section>
-        ) : null}
-              {isAdmin ? (
-                <>
-                  <Link href="/internal/members" className="inline-flex rounded-full border border-[var(--vv-accent)]/30 bg-[var(--vv-primary)]/15 px-5 py-2.5 text-sm font-black text-red-50 transition hover:bg-[var(--vv-primary)]/25">
-                    Manage Members & Roles
-                  </Link>
-                  <Link href="/internal/contributor-access" className="inline-flex rounded-full border border-white/15 bg-white/[0.04] px-5 py-2.5 text-sm font-black text-white/80 transition hover:border-white/30 hover:text-white">
-                    Manage Contributor Access
-                  </Link>
-                </>
-              ) : null}
-            </div>
-          </section>
-        ) : null}
 
         <div className="mt-6 flex items-center justify-between gap-4 border-t border-white/10 pt-6">
           <Link href="/scoreboard" className="text-sm font-bold text-white/50 transition hover:text-white">← Back to scoreboard</Link>
@@ -370,13 +338,5 @@ export default async function AccountPage() {
         </div>
       </div>
     </main>
-  );
-}
-function AdminToolGroup({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-black/25 p-4">
-      <p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/35">{label}</p>
-      <div className="mt-3 flex flex-col gap-2.5">{children}</div>
-    </div>
   );
 }
