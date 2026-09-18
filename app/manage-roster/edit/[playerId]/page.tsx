@@ -1,5 +1,8 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
+
+export const metadata: Metadata = { title: "Edit Roster Player", robots: { index: false, follow: false, nocache: true } };
 
 import { requireActiveMember } from "@/lib/member-access";
 import { getSchoolBySlug } from "@/lib/schools";
