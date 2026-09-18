@@ -89,35 +89,32 @@ export default async function SchoolRosterPage({ params }: Props) {
     .order("jersey_number", { ascending: true, nullsFirst: false })
     .order("last_name", { ascending: true });
 
-  const staticProfiles = new Map(staticRoster.map((player) => [player.playerId, player]));
-  const roster: DisplayRosterPlayer[] = (managedRoster ?? []).map((player) => {
-    const profile = player.player_profile_id ? staticProfiles.get(player.player_profile_id) : undefined;
-    const name = `${player.first_name} ${player.last_name}`.trim();
+  const managedPlayers = managedRoster ?? [];
+  const roster: DisplayRosterPlayer[] = managedPlayers.length > 0
+    ? managedPlayers.map((player) => {
+        const profile = player.player_profile_id
+          ? staticRoster.find((candidate) => candidate.playerId === player.player_profile_id)
+          : undefined;
 
-    return {
-      key: `managed:${player.id}`,
-      playerId: profile?.playerId ?? player.player_profile_id ?? undefined,
-      name,
-      jerseyNumber: player.jersey_number === null ? undefined : String(player.jersey_number),
-      grade: gradeLabel(player.grade) ?? profile?.grade,
-      positions: player.position ? player.position.split("/").map((value) => value.trim()).filter(Boolean) : profile?.positions ?? [],
-    };
-  });
-
-  // Temporary compatibility fallback for programs not yet normalized into the
-  // managed roster table. Once a school has managed rows, those rows are the
-  // authoritative membership source so an inactive player cannot reappear from
-  // the legacy static profile registry.
-  if (roster.length === 0) {
-    roster.push(...staticRoster.map((player) => ({
-      key: `profile:${player.playerId}`,
-      playerId: player.playerId,
-      name: player.name,
-      jerseyNumber: player.jerseyNumber,
-      grade: player.grade,
-      positions: player.positions ?? [],
-    })));
-  }
+        return {
+          key: `managed:${player.id}`,
+          playerId: profile?.playerId ?? player.player_profile_id ?? undefined,
+          name: `${player.first_name} ${player.last_name}`.trim(),
+          jerseyNumber: player.jersey_number === null ? undefined : String(player.jersey_number),
+          grade: gradeLabel(player.grade) ?? profile?.grade,
+          positions: player.position
+            ? player.position.split("/").map((value: string) => value.trim()).filter(Boolean)
+            : [...(profile?.positions ?? [])],
+        };
+      })
+    : staticRoster.map((player) => ({
+        key: `profile:${player.playerId}`,
+        playerId: player.playerId,
+        name: player.name,
+        jerseyNumber: player.jerseyNumber,
+        grade: player.grade,
+        positions: [...(player.positions ?? [])],
+      }));
 
   roster.sort(sortRoster);
 
