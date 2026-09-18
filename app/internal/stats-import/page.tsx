@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import Link from "next/link";
+import { notFound, redirect } from "next/navigation";
 
 import GameStatsReviewTool from "@/components/internal/GameStatsReviewTool";
 import { getAllGameStats } from "@/lib/game-stats";
-import { getGames } from "@/lib/games";
+import { getDynamicGames } from "@/lib/dynamic-games";
+import { requireActiveMember } from "@/lib/member-access";
 
 export const metadata: Metadata = {
   title: "Stat Import Review",
@@ -14,14 +16,18 @@ export const metadata: Metadata = {
   },
 };
 
-export default function InternalStatsImportPage() {
+export default async function InternalStatsImportPage() {
   if (process.env.ENABLE_INTERNAL_TOOLS !== "true") {
     notFound();
   }
 
+  const { supabase, userId } = await requireActiveMember();
+  const { data: roles } = await supabase.from("user_roles").select("role").eq("user_id", userId);
+  if (!roles?.some((row) => row.role === "admin")) redirect("/account");
+
   const existingStats = getAllGameStats();
   const gamesWithStats = new Set(existingStats.map((stats) => stats.gameId));
-  const canonicalGames = getGames()
+  const canonicalGames = (await getDynamicGames())
     .filter((game) => game.gameType !== "bye")
     .map((game) => ({
       id: game.id,
@@ -49,7 +55,11 @@ export default function InternalStatsImportPage() {
             Review new game statistics or load an existing verified box score for a controlled correction. Match data to the canonical VarsityVue schedule, resolve player identities, run validation checks, and generate an approved production object.
           </p>
           <div className="mt-5 rounded-2xl border border-amber-300/15 bg-amber-300/5 p-4 text-sm leading-6 text-amber-50/75">
-            This route is intentionally disabled unless <code className="font-mono text-amber-50">ENABLE_INTERNAL_TOOLS=true</code> is set in the environment. It does not write to GitHub or publish data automatically.
+            Review only. This tool validates and prepares production data but does not write to GitHub or publish statistics automatically.
+          </div>
+          <div className="mt-4 flex flex-wrap gap-4 text-sm font-bold text-white/45">
+            <Link href="/account" className="transition hover:text-white">← Account</Link>
+            <Link href="/manage-roster" className="transition hover:text-white">Manage Rosters →</Link>
           </div>
         </div>
 
