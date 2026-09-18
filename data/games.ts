@@ -1691,6 +1691,13 @@ export const games: Game[] = [
     status: "upcoming",
     districtGame: false,
     coverageStatus: "planned",
+    mediaLinks: [
+      {
+        label: "KOXE Live Video",
+        url: "https://www.koxe.com/live-streaming-video-goldthwaite/",
+        type: "stream",
+      },
+    ],
     sourceStatus: "uploaded-schedule",
     sourceLabel: "Goldthwaite Football 2026 Schedule",
   },
