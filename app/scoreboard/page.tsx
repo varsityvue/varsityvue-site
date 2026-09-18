@@ -135,8 +135,8 @@ export default async function ScoreboardPage() {
       {featuredGame && <FeaturedScoreboardGame game={featuredGame} games={scoreboardGames} hasPendingReport={pendingGameIds.has(featuredGame.id)} />}
       <section className="mt-5 grid items-start gap-3 sm:mt-8 sm:gap-6 lg:grid-cols-3">
         <ScoreboardColumn id="live-now" title="Live Now" description="Games currently marked in progress." games={liveGames} emptyText="No games are currently marked live." collapsibleWhenEmpty pendingGameIds={pendingGameIds} />
-        <ScoreboardColumn id="final-scores" title="Latest Finals" description={latestFinalWeek === undefined ? "The latest confirmed results." : `The latest confirmed results from Week ${latestFinalWeek}.`} games={finalGames} emptyText="No final scores posted yet." footerHref="/games?status=final#all-matchups" footerLabel="Browse Final Score Archive" pendingGameIds={pendingGameIds} />
-        <ScoreboardColumn id="upcoming" title="Upcoming" description={nextWeek === undefined ? "The next scheduled kickoffs currently on file." : `The next scheduled kickoffs from Week ${nextWeek}.`} games={upcomingGames} emptyText="No upcoming games listed." footerHref="/games?status=upcoming#all-matchups" footerLabel="View Full Schedule" pendingGameIds={pendingGameIds} />
+        <ScoreboardColumn id="final-scores" title="Latest Finals" description="The latest confirmed results." games={finalGames} emptyText="No final scores posted yet." footerHref="/games?status=final#all-matchups" footerLabel="Browse Final Score Archive" pendingGameIds={pendingGameIds} />
+        <ScoreboardColumn id="upcoming" title="Upcoming" description="The next scheduled kickoffs currently on file." games={upcomingGames} emptyText="No upcoming games listed." footerHref="/games?status=upcoming#all-matchups" footerLabel="View Full Schedule" pendingGameIds={pendingGameIds} />
       </section>
     </div>
   </main>;
