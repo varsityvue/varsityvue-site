@@ -9,7 +9,7 @@ import { getDynamicGames } from "@/lib/dynamic-games";
 import { getGameById } from "@/lib/games";
 import { requireActiveMember } from "@/lib/member-access";
 import { getSchoolBySlug } from "@/lib/schools";
-import { approveScoreSubmission, rejectScoreSubmission } from "./actions";
+import { approveScoreSubmission, rejectScoreSubmission, updateGameAvailability } from "./actions";
 
 export const metadata: Metadata = {
   title: "Score Review",
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 };
 
 type PageProps = {
-  searchParams: Promise<{ message?: string; reviewed?: string }>;
+  searchParams: Promise<{ message?: string; reviewed?: string; "game-status"?: string }>;
 };
 
 function hasCompleteSchoolIdentity(slug?: string, teamName?: string) {
@@ -121,6 +121,11 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
           </a>
         </div>
 
+        {params["game-status"] ? (
+          <div className="mt-6 rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-sm text-emerald-50">
+            Game marked {params["game-status"]}.
+          </div>
+        ) : null}
         {params.reviewed ? (
           <div className="mt-6 rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-sm text-emerald-50">
             Submission {params.reviewed}.
@@ -129,6 +134,31 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
         {params.message ? (
           <div className="mt-6 rounded-2xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm text-amber-50">{params.message}</div>
         ) : null}
+
+        <section className="mt-8 rounded-2xl border border-white/10 bg-white/[0.035] p-5 sm:p-6">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-2xl">
+              <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">Game Availability</p>
+              <h2 className="mt-1 text-xl font-black">Postponed or cancelled game</h2>
+              <p className="mt-2 text-xs leading-5 text-white/45">Use this only for verified schedule changes. Final games cannot be reopened here. Restoring Upcoming uses the existing canonical kickoff, so rescheduled dates must be updated separately before restoration.</p>
+            </div>
+            <form action={updateGameAvailability} className="grid gap-2 sm:grid-cols-[minmax(220px,1fr)_auto_auto]">
+              <select name="game_id" required defaultValue="" className="rounded-xl border border-white/10 bg-black/40 px-3 py-2.5 text-xs text-white outline-none">
+                <option value="" disabled>Select game…</option>
+                {dynamicGames.filter((game) => game.status !== "final" && game.gameType !== "bye" && game.gameType !== "scrimmage").map((game) => (
+                  <option key={game.id} value={game.id}>Week {game.week ?? "—"} · {displayTeamName(game.awayTeam, game.awaySchoolSlug)} at {displayTeamName(game.homeTeam, game.homeSchoolSlug)} · {game.status}</option>
+                ))}
+              </select>
+              <select name="game_status" required defaultValue="" className="rounded-xl border border-white/10 bg-black/40 px-3 py-2.5 text-xs text-white outline-none">
+                <option value="" disabled>Set status…</option>
+                <option value="postponed">Postponed</option>
+                <option value="cancelled">Cancelled</option>
+                <option value="upcoming">Restore Upcoming</option>
+              </select>
+              <button type="submit" className="rounded-xl border border-amber-300/20 bg-amber-300/10 px-4 py-2.5 text-xs font-black text-amber-50 transition hover:bg-amber-300/15">Update Status</button>
+            </form>
+          </div>
+        </section>
 
         <section className="mt-8 space-y-6">
           {groupedSubmissions.length === 0 ? (
