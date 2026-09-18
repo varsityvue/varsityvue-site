@@ -6,6 +6,7 @@ import { getSchoolBySlug } from "@/lib/schools";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 function formatKickoff(kickoff?: string) {
   if (!kickoff?.includes("T")) return "TIME TBD";
@@ -25,8 +26,21 @@ export default async function GameOpenGraphImage({ params }: { params: Promise<{
   const awaySchool = getSchoolBySlug(game?.awaySchoolSlug ?? "");
   const homeSchool = getSchoolBySlug(game?.homeSchoolSlug ?? "");
   const origin = process.env.NEXT_PUBLIC_SITE_URL ?? "https://varsityvue.com";
-  const awayLogo = game?.awaySchoolSlug ? `${origin}/logos/schools/${game.awaySchoolSlug}.png?v=2` : null;
-  const homeLogo = game?.homeSchoolSlug ? `${origin}/logos/schools/${game.homeSchoolSlug}.png?v=2` : null;
+  const toDataUrl = async (slug?: string) => {
+    if (!slug) return null;
+    try {
+      const response = await fetch(`${origin}/logos/schools/${slug}.png?v=3`, { cache: "no-store" });
+      if (!response.ok) return null;
+      const bytes = Buffer.from(await response.arrayBuffer());
+      return `data:image/png;base64,${bytes.toString("base64")}`;
+    } catch {
+      return null;
+    }
+  };
+  const [awayLogo, homeLogo] = await Promise.all([
+    toDataUrl(game?.awaySchoolSlug),
+    toDataUrl(game?.homeSchoolSlug),
+  ]);
   const awayColor = awaySchool?.colors.primary ?? "#8B1020";
   const homeColor = homeSchool?.colors.primary ?? "#8B1020";
   const feature = game?.featured ? "GAME OF THE WEEK" : game?.status === "live" ? "LIVE GAME CENTER" : game?.status === "final" ? "FINAL" : "MATCHUP CENTER";
