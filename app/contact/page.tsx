@@ -32,22 +32,28 @@ export const metadata: Metadata = {
 
 const contactOptions = [
   {
-    title: "Corrections, Stats & Community Submissions",
-    text: "Found an incorrect score or have stats, photos, videos, records, or program information to share? Use the submission form so we have the details needed to review it.",
+    title: "Corrections, Stats & Submissions",
+    text: "Found an incorrect score or have verified stats, photos, videos, records, or program information to share? Send it through the submission form for review.",
     href: "/submit",
     label: "Submit to VarsityVue →",
+  },
+  {
+    title: "Request a School",
+    text: "Want to see another Texas high school football program on VarsityVue? Send us the school and program details.",
+    href: "/school-request",
+    label: "Request a School →",
+  },
+  {
+    title: "Partnerships",
+    text: "Interested in reaching Texas high school football communities through VarsityVue? Tell us about your business or organization.",
+    href: "/sponsor-inquiry",
+    label: "Partner With VarsityVue →",
   },
   {
     title: "General Questions",
     text: "Questions about VarsityVue, coverage, or information on the platform are welcome by email.",
     href: "mailto:info@varsityvue.com",
     label: "Email VarsityVue →",
-  },
-  {
-    title: "Partnerships",
-    text: "Businesses interested in future VarsityVue partnership opportunities can share their interest without any purchase or commitment.",
-    href: "/sponsor-inquiry",
-    label: "Partner With VarsityVue →",
   },
 ];
 
@@ -65,7 +71,7 @@ export default function ContactPage() {
           Whether you have information to share, a general question, or an interest in working with VarsityVue, choose the path below that best fits what you need.
         </p>
 
-        <div className="mt-8 grid gap-3 sm:mt-12 sm:gap-5 md:grid-cols-3">
+        <div className="mt-8 grid gap-3 sm:mt-12 sm:gap-5 md:grid-cols-2">
           {contactOptions.map((option) => (
             <section
               key={option.title}
@@ -85,30 +91,6 @@ export default function ContactPage() {
           ))}
         </div>
 
-        <section className="mt-6 rounded-[1.35rem] border border-white/10 bg-white/5 p-4 sm:mt-10 sm:rounded-3xl sm:p-7 md:p-9">
-          <h2 className="text-xl font-black sm:text-2xl">General contact</h2>
-          <p className="mt-2.5 text-sm leading-6 text-white/60 sm:mt-3 sm:leading-7">
-            For questions that do not fit one of the options above, email VarsityVue directly.
-          </p>
-          <a
-            href="mailto:info@varsityvue.com"
-            className="mt-4 inline-block break-all text-base font-bold text-[var(--vv-accent)] hover:text-white sm:mt-5 sm:text-lg"
-          >
-            info@varsityvue.com
-          </a>
-
-          <div className="mt-5 border-t border-white/10 pt-5 sm:mt-7 sm:pt-7">
-            <p className="text-xs leading-5 text-white/50 sm:text-sm sm:leading-6">
-              Want to see another Texas high school football program on VarsityVue?
-            </p>
-            <Link
-              href="/school-request"
-              className="mt-3 inline-flex min-h-10 w-full items-center justify-center rounded-xl border border-white/10 bg-black/20 px-4 text-xs font-bold text-white transition hover:bg-white/10 hover:text-[var(--vv-accent)] sm:min-h-0 sm:w-auto sm:justify-start sm:rounded-none sm:border-0 sm:bg-transparent sm:px-0 sm:text-sm"
-            >
-              Request a school →
-            </Link>
-          </div>
-        </section>
       </div>
     </main>
   );
