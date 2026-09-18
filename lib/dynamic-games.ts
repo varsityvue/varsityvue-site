@@ -11,6 +11,7 @@ type GameStateRow = {
   period: string | null;
   clock: string | null;
   verified: boolean;
+  kickoff_override: string | null;
 };
 
 function applyGameState(game: Game, state?: GameStateRow): Game {
@@ -23,6 +24,8 @@ function applyGameState(game: Game, state?: GameStateRow): Game {
   const dynamicGame: Game = {
     ...game,
     status: state.status,
+    kickoff: state.kickoff_override ?? game.kickoff,
+    date: state.kickoff_override ? state.kickoff_override.slice(0, 10) : game.date,
     sourceStatus: state.verified ? "verified" : game.sourceStatus,
     homeScore: state.home_score ?? game.homeScore,
     awayScore: state.away_score ?? game.awayScore,
@@ -45,7 +48,7 @@ export async function getDynamicGames(): Promise<Game[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("game_state")
-    .select("game_id,status,home_score,away_score,period,clock,verified")
+    .select("game_id,status,home_score,away_score,period,clock,verified,kickoff_override")
     .eq("verified", true);
 
   if (error || !data?.length) return baseGames;
