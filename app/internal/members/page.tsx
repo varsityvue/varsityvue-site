@@ -11,7 +11,7 @@ import {
 } from "./actions";
 
 export const metadata: Metadata = {
-  title: "Members & Roles | VarsityVue",
+  title: "Members & Roles",
   robots: { index: false, follow: false, nocache: true },
 };
 
@@ -159,7 +159,7 @@ export default async function MembersPage({ searchParams }: PageProps) {
             {query ? <Link href={memberHref(activeFilter, "")} className="rounded-xl border border-white/10 px-5 py-3 text-center text-sm font-black text-white/55 transition hover:text-white">Clear</Link> : null}
           </form>
           <p className="mt-3 text-xs text-white/35">
-            General Members have no scorekeeper, moderator, or admin role. Suspended is an independent account status; role assignments remain intact.
+            Roles control platform-level permissions. School-specific contributor access is managed separately. Suspended is an independent account status; role assignments remain intact.
           </p>
         </section>
 
@@ -258,7 +258,7 @@ export default async function MembersPage({ searchParams }: PageProps) {
 
         <div className="mt-8 flex flex-wrap gap-x-5 gap-y-3 border-t border-white/10 pt-6 text-sm font-bold text-white/55">
           <Link href="/account" className="transition hover:text-white">← Back to account</Link>
-          <Link href="/internal/contributor-access" className="transition hover:text-white">Contributor access →</Link>
+          <Link href="/internal/contributor-access" className="transition hover:text-white">School assignments →</Link>
           <Link href="/internal/score-review" className="transition hover:text-white">Score review →</Link>
         </div>
       </div>
