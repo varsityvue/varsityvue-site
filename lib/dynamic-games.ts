@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import { getGames } from "@/lib/games";
+import { getGames, normalizeGameStatus } from "@/lib/games";
 import { clearInheritedSchoolBroadcasts } from "@/data/school-broadcasts";
 import type { Game, GameStatus } from "@/types/platform";
 
@@ -38,9 +38,11 @@ function applyGameState(game: Game, state?: GameStateRow): Game {
       : game.score,
   };
 
-  return state.status === "upcoming" || state.status === "live"
-    ? dynamicGame
-    : clearInheritedSchoolBroadcasts(dynamicGame);
+  const normalizedGame = normalizeGameStatus(dynamicGame);
+
+  return normalizedGame.status === "upcoming" || normalizedGame.status === "live"
+    ? normalizedGame
+    : clearInheritedSchoolBroadcasts(normalizedGame);
 }
 
 export async function getDynamicGames(): Promise<Game[]> {

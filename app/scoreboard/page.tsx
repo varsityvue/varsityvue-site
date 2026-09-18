@@ -93,7 +93,7 @@ export default async function ScoreboardPage() {
   const [{ data: dynamicRows }, { data: claimsData }] = await Promise.all([
     supabase
       .from("game_state")
-      .select("game_id, status, home_score, away_score, period, clock, verified")
+      .select("game_id, status, home_score, away_score, period, clock, verified, kickoff_override")
       .eq("verified", true),
     supabase.auth.getClaims(),
   ]);

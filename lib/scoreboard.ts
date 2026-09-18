@@ -1,4 +1,4 @@
-import { getGames } from "@/lib/games";
+import { getGames, normalizeGameStatus } from "@/lib/games";
 import type { Game } from "@/types/platform";
 
 const CENTRAL_TIME_ZONE = "America/Chicago";
@@ -16,6 +16,7 @@ export type DynamicScoreState = {
   period: string | null;
   clock: string | null;
   verified: boolean;
+  kickoff_override?: string | null;
 };
 
 type DynamicScoreStateMap = Map<string, DynamicScoreState>;
@@ -144,9 +145,10 @@ function applyDynamicScoreState(game: Game, states?: DynamicScoreStateMap): Game
     ? (state.status as Game["status"])
     : game.status;
 
-  return {
+  return normalizeGameStatus({
     ...game,
     status,
+    kickoff: state.kickoff_override ?? game.kickoff,
     homeScore: state.home_score ?? game.homeScore,
     awayScore: state.away_score ?? game.awayScore,
     score:
@@ -157,7 +159,7 @@ function applyDynamicScoreState(game: Game, states?: DynamicScoreStateMap): Game
             period: state.period ?? undefined,
           }
         : game.score,
-  };
+  });
 }
 
 export function getScoreboardGames(states?: DynamicScoreStateMap): ScoreboardGame[] {

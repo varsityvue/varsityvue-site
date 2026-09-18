@@ -6,7 +6,7 @@ import { liveGameAdditions } from "@/data/live-game-additions";
 import { lateWeek3Results } from "@/data/late-week3-results";
 import { followedDistrictResults } from "@/data/followed-district-results";
 import { followedDistrictResultsPhase2 } from "@/data/followed-district-results-phase2";
-import { applySchoolBroadcasts } from "@/data/school-broadcasts";
+import { applySchoolBroadcasts, clearInheritedSchoolBroadcasts } from "@/data/school-broadcasts";
 import { getSchoolBySlug } from "@/lib/schools";
 import type { Game } from "@/types/platform";
 
@@ -82,21 +82,21 @@ function getCentralDateKey(date: Date) {
 }
 
 function markPastUnverifiedGame(game: Game): Game {
-  return {
+  return clearInheritedSchoolBroadcasts({
     ...game,
     status: "scheduled",
     featured: false,
     specialEvent: undefined,
-  };
+  });
 }
 
-function normalizeGameStatus(game: Game, now = new Date()): Game {
-  if (game.status !== "upcoming" || !game.kickoff) return game;
+export function normalizeGameStatus(game: Game, now = new Date()): Game {
+  if (!["upcoming", "live"].includes(game.status) || !game.kickoff) return game;
 
   const todayKey = getCentralDateKey(now);
 
   if (!game.kickoff.includes("T")) {
-    if (todayKey && game.kickoff < todayKey) return markPastUnverifiedGame(game);
+    if (game.status === "upcoming" && todayKey && game.kickoff < todayKey) return markPastUnverifiedGame(game);
     return game;
   }
 
@@ -121,8 +121,8 @@ function normalizeGameStatus(game: Game, now = new Date()): Game {
 
 function getNormalizedGames(now = new Date()) {
   return rawGames
-    .map((game) => normalizeGameStatus(game, now))
-    .map(applySchoolBroadcasts);
+    .map(applySchoolBroadcasts)
+    .map((game) => normalizeGameStatus(game, now));
 }
 
 function assertNoDuplicateGameIds() {

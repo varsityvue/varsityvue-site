@@ -25,7 +25,7 @@ export default async function ScoreStrip() {
   const supabase = await createClient();
   const { data: dynamicRows } = await supabase
     .from("game_state")
-    .select("game_id, status, home_score, away_score, period, clock, verified")
+    .select("game_id, status, home_score, away_score, period, clock, verified, kickoff_override")
     .eq("verified", true);
 
   const dynamicState = new Map(

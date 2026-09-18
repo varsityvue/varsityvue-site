@@ -104,6 +104,7 @@ export default async function Home() {
       period: game.score?.period ?? null,
       clock: null,
       verified: true,
+      kickoff_override: game.kickoff ?? null,
     }]),
   );
   const featuredGame = getGameOfTheWeek(dynamicState);
