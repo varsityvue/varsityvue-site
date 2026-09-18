@@ -25,61 +25,57 @@ export default async function GameOpenGraphImage({ params }: { params: Promise<{
   const home = game?.homeTeam ?? "Home";
   const awaySchool = getSchoolBySlug(game?.awaySchoolSlug ?? "");
   const homeSchool = getSchoolBySlug(game?.homeSchoolSlug ?? "");
-  const origin = process.env.NEXT_PUBLIC_SITE_URL ?? "https://varsityvue.com";
-  const toDataUrl = async (slug?: string) => {
-    if (!slug) return null;
-    try {
-      const response = await fetch(`${origin}/logos/schools/${slug}.png?v=3`, { cache: "no-store" });
-      if (!response.ok) return null;
-      const bytes = Buffer.from(await response.arrayBuffer());
-      return `data:image/png;base64,${bytes.toString("base64")}`;
-    } catch {
-      return null;
-    }
-  };
-  const [awayLogo, homeLogo] = await Promise.all([
-    toDataUrl(game?.awaySchoolSlug),
-    toDataUrl(game?.homeSchoolSlug),
-  ]);
-  const awayColor = awaySchool?.colors.primary ?? "#8B1020";
+   const awayColor = awaySchool?.colors.primary ?? "#8B1020";
   const homeColor = homeSchool?.colors.primary ?? "#8B1020";
   const feature = game?.featured ? "GAME OF THE WEEK" : game?.status === "live" ? "LIVE GAME CENTER" : game?.status === "final" ? "FINAL" : "MATCHUP CENTER";
 
   return new ImageResponse(
-    <div style={{ width:"100%", height:"100%", display:"flex", flexDirection:"column", position:"relative", overflow:"hidden", background:"#050505", color:"#fff", padding:"46px 58px", borderTop:"10px solid #8B1020", fontFamily:"Arial, sans-serif" }}>
-      <div style={{ position:"absolute", inset:0, display:"flex", background:`radial-gradient(circle at 15% 45%, ${awayColor}44 0%, transparent 35%), radial-gradient(circle at 85% 45%, ${homeColor}44 0%, transparent 35%), linear-gradient(135deg,#090909 0%,#020202 55%,#090909 100%)` }} />
-      <div style={{ position:"absolute", left:0, right:0, bottom:0, height:"5px", display:"flex", background:`linear-gradient(90deg,${awayColor} 0%,${awayColor} 48%,#8B1020 48%,#8B1020 52%,${homeColor} 52%,${homeColor} 100%)` }} />
-      <div style={{ position:"relative", width:"100%", height:"100%", display:"flex", flexDirection:"column" }}>
-      <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-        <div style={{ display:"flex", alignItems:"center", gap:"18px" }}>
-          <img src={`${origin}/logos/varsityvue-logo.png`} width="58" height="58" style={{ objectFit:"contain" }} />
-          <div style={{ display:"flex", fontSize:"32px", fontWeight:900, letterSpacing:"-1px" }}>VARSITY<span style={{color:"#8B1020"}}>VUE</span></div>
-        </div>
-        <div style={{ display:"flex", color:"#C8102E", fontSize:"20px", fontWeight:900, letterSpacing:"3px" }}>{feature}</div>
-      </div>
+    <div style={{ width:"100%", height:"100%", display:"flex", position:"relative", overflow:"hidden", background:"#050505", color:"#fff", fontFamily:"Arial, sans-serif" }}>
+      <div style={{ position:"absolute", inset:0, display:"flex", background:`radial-gradient(circle at 8% 54%, ${awayColor}55 0%, transparent 34%), radial-gradient(circle at 92% 54%, ${homeColor}55 0%, transparent 34%), linear-gradient(120deg,#0b0b0d 0%,#030303 48%,#090909 100%)` }} />
+      <div style={{ position:"absolute", top:0, left:0, width:"50%", height:"8px", display:"flex", background:awayColor }} />
+      <div style={{ position:"absolute", top:0, right:0, width:"50%", height:"8px", display:"flex", background:homeColor }} />
 
-      <div style={{ display:"flex", flex:1, alignItems:"center", marginTop:"18px" }}>
-        <div style={{ display:"flex", flex:1, flexDirection:"column", alignItems:"center", justifyContent:"center", borderRight:"1px solid rgba(255,255,255,.12)", padding:"20px 42px" }}>
-          <div style={{ display:"flex", width:"72%", height:"5px", background:awayColor, marginBottom:"18px" }} />
-          {awayLogo ? <div style={{ display:"flex", width:"126px", height:"126px", alignItems:"center", justifyContent:"center", borderRadius:"28px", background:"rgba(0,0,0,.34)", border:"1px solid rgba(255,255,255,.10)", marginBottom:"16px" }}><img src={awayLogo} width="106" height="106" style={{ objectFit:"contain" }} /></div> : null}
-          <div style={{ display:"flex", fontSize:"48px", lineHeight:1, fontWeight:900, textAlign:"center" }}>{away}</div>
-          {awaySchool?.mascot ? <div style={{ display:"flex", marginTop:"10px", fontSize:"19px", fontWeight:800, letterSpacing:"3px", color:"rgba(255,255,255,.5)" }}>{awaySchool.mascot.toUpperCase()}</div> : null}
+      <div style={{ position:"relative", width:"100%", height:"100%", padding:"46px 62px 42px", display:"flex", flexDirection:"column" }}>
+        <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", borderBottom:"1px solid rgba(255,255,255,.10)", paddingBottom:"24px" }}>
+          <div style={{ display:"flex", alignItems:"baseline", gap:"13px" }}>
+            <div style={{ display:"flex", fontSize:"30px", fontWeight:900, letterSpacing:"-1px" }}>VARSITY<span style={{color:"#B31B34"}}>VUE</span></div>
+            <div style={{ display:"flex", fontSize:"13px", fontWeight:800, letterSpacing:"3px", color:"rgba(255,255,255,.38)" }}>TEXAS HS FOOTBALL</div>
+          </div>
+          <div style={{ display:"flex", alignItems:"center", gap:"12px" }}>
+            <div style={{ display:"flex", width:"28px", height:"3px", background:"#B31B34" }} />
+            <div style={{ display:"flex", color:"#fff", fontSize:"16px", fontWeight:900, letterSpacing:"3px" }}>{feature}</div>
+          </div>
         </div>
 
-        <div style={{ display:"flex", width:"120px", alignItems:"center", justifyContent:"center", fontSize:"28px", fontWeight:900, color:"rgba(255,255,255,.35)" }}>AT</div>
+        <div style={{ display:"flex", flex:1, alignItems:"stretch", padding:"34px 0 28px" }}>
+          <div style={{ display:"flex", flex:1, flexDirection:"column", justifyContent:"center", paddingRight:"40px" }}>
+            <div style={{ display:"flex", fontSize:"14px", fontWeight:900, letterSpacing:"4px", color:awayColor }}>AWAY · {awaySchool?.mascot?.toUpperCase() ?? "TEAM"}</div>
+            <div style={{ display:"flex", marginTop:"14px", fontSize:away.length > 12 ? "58px" : "70px", lineHeight:.92, fontWeight:900, letterSpacing:"-3px", textTransform:"uppercase" }}>{away}</div>
+            <div style={{ display:"flex", width:"170px", height:"6px", marginTop:"24px", background:awayColor }} />
+          </div>
 
-        <div style={{ display:"flex", flex:1, flexDirection:"column", alignItems:"center", justifyContent:"center", borderLeft:"1px solid rgba(255,255,255,.12)", padding:"20px 42px" }}>
-          <div style={{ display:"flex", width:"72%", height:"5px", background:homeColor, marginBottom:"18px" }} />
-          {homeLogo ? <div style={{ display:"flex", width:"126px", height:"126px", alignItems:"center", justifyContent:"center", borderRadius:"28px", background:"rgba(0,0,0,.34)", border:"1px solid rgba(255,255,255,.10)", marginBottom:"16px" }}><img src={homeLogo} width="106" height="106" style={{ objectFit:"contain" }} /></div> : null}
-          <div style={{ display:"flex", fontSize:"48px", lineHeight:1, fontWeight:900, textAlign:"center" }}>{home}</div>
-          {homeSchool?.mascot ? <div style={{ display:"flex", marginTop:"10px", fontSize:"19px", fontWeight:800, letterSpacing:"3px", color:"rgba(255,255,255,.5)" }}>{homeSchool.mascot.toUpperCase()}</div> : null}
+          <div style={{ display:"flex", width:"110px", flexDirection:"column", alignItems:"center", justifyContent:"center" }}>
+            <div style={{ display:"flex", width:"1px", height:"72px", background:"rgba(255,255,255,.14)" }} />
+            <div style={{ display:"flex", margin:"15px 0", fontSize:"22px", fontWeight:900, letterSpacing:"3px", color:"rgba(255,255,255,.55)" }}>AT</div>
+            <div style={{ display:"flex", width:"1px", height:"72px", background:"rgba(255,255,255,.14)" }} />
+          </div>
+
+          <div style={{ display:"flex", flex:1, flexDirection:"column", justifyContent:"center", alignItems:"flex-end", paddingLeft:"40px", textAlign:"right" }}>
+            <div style={{ display:"flex", fontSize:"14px", fontWeight:900, letterSpacing:"4px", color:homeColor }}>HOME · {homeSchool?.mascot?.toUpperCase() ?? "TEAM"}</div>
+            <div style={{ display:"flex", marginTop:"14px", fontSize:home.length > 12 ? "58px" : "70px", lineHeight:.92, fontWeight:900, letterSpacing:"-3px", textTransform:"uppercase" }}>{home}</div>
+            <div style={{ display:"flex", width:"170px", height:"6px", marginTop:"24px", background:homeColor }} />
+          </div>
         </div>
-      </div>
 
-      <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", borderTop:"1px solid rgba(255,255,255,.12)", paddingTop:"22px" }}>
-        <div style={{ display:"flex", fontSize:"22px", fontWeight:900 }}>{formatKickoff(game?.kickoff)}</div>
-        <div style={{ display:"flex", fontSize:"18px", fontWeight:800, letterSpacing:"2px", color:"rgba(255,255,255,.5)" }}>GAME CENTER · LISTEN LIVE · SCORES</div>
-      </div>
+        <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", borderTop:"1px solid rgba(255,255,255,.12)", paddingTop:"23px" }}>
+          <div style={{ display:"flex", flexDirection:"column", gap:"6px" }}>
+            <div style={{ display:"flex", fontSize:"11px", fontWeight:900, letterSpacing:"3px", color:"rgba(255,255,255,.35)" }}>KICKOFF</div>
+            <div style={{ display:"flex", fontSize:"24px", fontWeight:900, letterSpacing:"-.5px" }}>{formatKickoff(game?.kickoff)}</div>
+          </div>
+          <div style={{ display:"flex", alignItems:"center", gap:"13px", fontSize:"15px", fontWeight:900, letterSpacing:"2px", color:"rgba(255,255,255,.58)" }}>
+            <span>GAME CENTER</span><span style={{color:"#B31B34"}}>•</span><span>LISTEN LIVE</span><span style={{color:"#B31B34"}}>•</span><span>SCORES</span>
+          </div>
+        </div>
       </div>
     </div>,
     size,
