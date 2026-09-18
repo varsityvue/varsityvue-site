@@ -151,3 +151,62 @@ export async function rejectScoreSubmission(formData: FormData) {
   revalidatePath("/internal/score-review");
   redirect("/internal/score-review?reviewed=rejected");
 }
+
+
+export async function updateGameAvailability(formData: FormData) {
+  const gameId = text(formData, "game_id");
+  const nextStatus = text(formData, "game_status");
+  const { supabase, userId } = await requireModerator();
+
+  if (!gameId || !["upcoming", "postponed", "cancelled"].includes(nextStatus)) {
+    redirect("/internal/score-review?message=Choose%20a%20valid%20game%20status.");
+  }
+
+  const currentGame = await getDynamicGameById(gameId);
+  if (!currentGame) {
+    redirect("/internal/score-review?message=Game%20not%20found.");
+  }
+  if (currentGame.status === "final") {
+    redirect("/internal/score-review?message=Final%20games%20cannot%20be%20reopened%20from%20game%20status%20controls.");
+  }
+
+  const { error } = await supabase.from("game_state").upsert(
+    {
+      game_id: gameId,
+      status: nextStatus,
+      home_score: null,
+      away_score: null,
+      period: null,
+      clock: null,
+      source_submission_id: null,
+      verified: true,
+      verified_at: new Date().toISOString(),
+      updated_by: userId,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "game_id" },
+  );
+
+  if (error) {
+    redirect(`/internal/score-review?message=${encodeURIComponent(error.message)}`);
+  }
+
+  if (nextStatus === "postponed" || nextStatus === "cancelled") {
+    await supabase
+      .from("score_submissions")
+      .update({
+        status: "superseded",
+        reviewed_by: userId,
+        reviewed_at: new Date().toISOString(),
+        review_note: `Superseded when game was marked ${nextStatus}.`,
+      })
+      .eq("game_id", gameId)
+      .eq("status", "pending");
+  }
+
+  revalidatePath("/internal/score-review");
+  revalidatePath("/games");
+  revalidatePath("/scoreboard");
+  revalidatePath(`/games/${gameId}`);
+  redirect(`/internal/score-review?game-status=${encodeURIComponent(nextStatus)}`);
+}
