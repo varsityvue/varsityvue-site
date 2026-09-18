@@ -91,24 +91,8 @@ export default function SchoolsPage() {
         }
       />
 
-      <section className="px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+      <section className="px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
         <div className="mx-auto max-w-[1440px]">
-          <div className="mb-4 flex flex-col gap-2.5 sm:mb-6 sm:flex-row sm:items-end sm:justify-between sm:gap-3">
-            <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.28em]">
-                Live School Hubs
-              </p>
-
-              <h2 className="mt-1.5 text-2xl font-black text-white sm:mt-2 sm:text-3xl">
-                Browse programs
-              </h2>
-            </div>
-
-            <p className="max-w-xl text-xs font-bold leading-5 text-white/45 sm:text-right sm:text-sm sm:leading-6">
-              VarsityVue is publishing verified football hubs in stages. If your school is not live yet, send a request and we&apos;ll use that interest to help prioritize future coverage.
-            </p>
-          </div>
-
           <SchoolDirectory schools={directorySchools} />
         </div>
       </section>
