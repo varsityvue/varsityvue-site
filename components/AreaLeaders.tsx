@@ -163,12 +163,12 @@ export default function AreaLeaders() {
           </Link>
         </div>
 
-        <div className="mt-4 grid gap-2.5 sm:mt-6 sm:grid-cols-2 sm:gap-4 xl:grid-cols-5">
+        <div className="mt-4 flex snap-x snap-mandatory gap-2.5 overflow-x-auto pb-2 pr-4 sm:mt-6 sm:gap-4 xl:grid xl:grid-cols-5 xl:overflow-visible xl:pb-0 xl:pr-0">
           {cards.map((card) => {
             const definitiveRanking = isDefinitiveRanking(card.rows);
             const coverage = coverageSummary(card.rows);
             return (
-            <div key={card.title} className="overflow-hidden rounded-[1.15rem] border border-white/10 bg-black/35 sm:rounded-[1.5rem]">
+            <div key={card.title} className="min-w-[82%] snap-start overflow-hidden rounded-[1.15rem] border border-white/10 bg-black/35 sm:min-w-[46%] sm:rounded-[1.5rem] xl:min-w-0">
               <div className="border-b border-white/10 bg-[linear-gradient(135deg,rgba(139,16,32,0.24),rgba(255,255,255,0.03))] px-3.5 py-2.5 sm:px-5 sm:py-4">
                 <h3 className="text-sm font-black uppercase tracking-tight text-white sm:text-lg">
                   {card.title}
