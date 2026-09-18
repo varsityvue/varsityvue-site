@@ -14,7 +14,7 @@ import type { Game } from "@/types/platform";
 import ScoreReportForm from "./ScoreReportForm";
 
 export const metadata: Metadata = {
-  title: "Report a Score | VarsityVue",
+  title: "Report a Score",
   description: "Submit a live or final Texas high school football score to VarsityVue for review.",
   robots: { index: false, follow: false },
 };
@@ -122,8 +122,6 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
 
   const relevantGames = games.filter((game) => {
     if (
-      (game.week ?? 0) < 3 ||
-      (game.week ?? 0) > 6 ||
       !["live", "scheduled"].includes(game.status) ||
       !gameIsIdentityReady(game)
     ) return false;
@@ -137,7 +135,9 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
   const selectedGameId = params.game && relevantGames.some((game) => game.id === params.game)
     ? params.game
     : "";
-  const selectedGameHref = selectedGameId ? `/games/${encodeURIComponent(selectedGameId)}` : null;
+  const selectedGameHref = params.game && games.some((game) => game.id === params.game)
+    ? `/games/${encodeURIComponent(params.game)}`
+    : null;
 
   const [{ data: recentSubmissions }, { data: pendingSubmissions }] = await Promise.all([
     supabase
@@ -168,6 +168,7 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
       homeName: displayTeamName(game.homeTeam, game.homeSchoolSlug),
       awayIdentity: teamVisualIdentity(game.awaySchoolSlug, game.awayTeam),
       homeIdentity: teamVisualIdentity(game.homeSchoolSlug, game.homeTeam),
+      status: game.status as "live" | "scheduled",
       pendingReport: pending
         ? {
             awayScore: pending.away_score,
@@ -186,7 +187,7 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
       <div className="mx-auto max-w-4xl">
         <section className="rounded-[1.5rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.42),transparent_36%),linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-5 sm:rounded-[2rem] sm:p-8">
           <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.3em]">
-            {isRestrictedScorekeeper ? "Contributor Score Entry" : "Community Score Report"}
+            {canModerate ? "Trusted Score Entry" : isRestrictedScorekeeper ? "Contributor Score Entry" : "Community Score Report"}
           </p>
           <h1 className="mt-3 text-3xl font-black sm:text-5xl">Help keep Friday night current.</h1>
           <p className="mt-4 max-w-2xl text-sm leading-6 text-white/60 sm:text-base sm:leading-7">
