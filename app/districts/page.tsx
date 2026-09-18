@@ -42,11 +42,6 @@ const featuredSchools = schools.filter(
   (school) => school.status === "pilot" && featuredDistrictIds.has(school.districtId)
 );
 
-function getDistrictClassificationLabel(district: (typeof districts)[number]) {
-  const division = district.classification.division ? ` ${district.classification.division}` : "";
-  return `${district.classification.conference}${division}`;
-}
-
 function getDistrictSchoolCount(districtId: string) {
   return featuredSchools.filter((school) => school.districtId === districtId).length;
 }
@@ -84,10 +79,6 @@ export default function DistrictsPage() {
 
       <section className="px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
         <div className="mx-auto max-w-[1440px] space-y-4 sm:space-y-8">
-          <div className="rounded-[1.2rem] border border-white/10 bg-white/[0.035] p-4 text-xs leading-5 text-white/50 sm:rounded-[1.5rem] sm:p-5 sm:text-sm sm:leading-6">
-            VarsityVue publishes district hubs as schedules, results, standings, and school information are verified. Additional districts will appear here as they become ready for public coverage.
-          </div>
-
           {groupedDistricts.map((group) => (
             <section key={group.classification} className="rounded-[1.4rem] border border-white/10 bg-white/[0.035] p-3.5 shadow-2xl sm:rounded-[2rem] sm:p-5 md:p-6">
               <div className="mb-3 flex items-end justify-between gap-3 sm:mb-5">
@@ -112,11 +103,9 @@ export default function DistrictsPage() {
                           <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[8px] font-black uppercase tracking-[0.14em] text-white/65 sm:px-3 sm:text-[10px] sm:tracking-[0.16em]">Region {district.uilRegion}</p>
                         </div>
                         <h3 className="mt-3 text-2xl font-black leading-tight text-white sm:mt-4 sm:text-3xl">{district.name}</h3>
-                        <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.12em] text-white/45 sm:mt-3 sm:text-sm sm:tracking-[0.14em]">{getDistrictClassificationLabel(district)}</p>
-                        <div className="mt-3 grid grid-cols-2 gap-2 sm:mt-5 sm:gap-3">
-                          <MiniStat label="Featured Programs" value={schoolCount.toString()} />
-                          <MiniStat label="Region" value={`Region ${district.uilRegion}`} />
-                        </div>
+                        <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.12em] text-white/45 sm:mt-3 sm:text-sm sm:tracking-[0.14em]">
+                          {schoolCount > 0 ? `${schoolCount} VarsityVue program${schoolCount === 1 ? "" : "s"}` : "District coverage"}
+                        </p>
                         <p className="mt-4 text-[10px] font-black uppercase tracking-[0.12em] text-white/70 transition group-hover:text-white sm:mt-6 sm:text-sm sm:tracking-[0.14em]">Open district hub →</p>
                       </div>
                     </Link>
@@ -140,11 +129,3 @@ function StatCard({ label, value }: { label: string; value: string }) {
   );
 }
 
-function MiniStat({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-xl border border-white/10 bg-black/35 p-2.5 sm:rounded-2xl sm:p-4">
-      <p className="text-[8px] font-black uppercase tracking-[0.14em] text-white/35 sm:text-[10px] sm:tracking-[0.18em]">{label}</p>
-      <p className="mt-1 text-xs font-black text-white sm:mt-2 sm:text-sm">{value}</p>
-    </div>
-  );
-}
