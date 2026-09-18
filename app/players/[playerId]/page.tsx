@@ -53,6 +53,9 @@ export default async function PlayerPage({ params }: Props) {
   const passingRank = rankOf(getPassingLeaders({ season: SEASON, minAttempts: 1 }), playerId);
   const receivingRank = rankOf(getReceivingLeaders({ season: SEASON, minReceptions: 1 }), playerId);
   const hasStats = player.gamesRecorded > 0;
+  const hasRushing = player.rushing.attempts > 0;
+  const hasPassing = player.passing.attempts > 0;
+  const hasReceiving = player.receiving.receptions > 0;
 
   const primary = school?.colors.primary ?? "#8B1020";
   const secondary = school?.colors.secondary ?? "#F4EBDD";
