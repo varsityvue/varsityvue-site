@@ -74,9 +74,9 @@ export default function NotificationPreferences({
   return (
     <section id="email-preferences" className="mt-6 scroll-mt-24 rounded-[1.5rem] border border-white/10 bg-white/[0.035] p-5 sm:p-7">
       <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--vv-accent)]">
-        Notifications
+        Email Notifications
       </p>
-      <h2 className="mt-2 text-2xl font-black">Email preferences</h2>
+      <h2 className="mt-2 text-2xl font-black">Choose your alerts</h2>
       <p className="mt-2 max-w-2xl text-sm leading-6 text-white/55">
         Choose which email updates you want for schools you follow. Following a school does not turn these on.
       </p>
