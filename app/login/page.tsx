@@ -49,7 +49,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
             {signupMode ? "Create your account." : "Welcome back."}
           </h1>
           <p className="mt-4 text-sm leading-6 text-white/60 sm:text-base sm:leading-7">
-            Sign in to make picks, follow your teams, and contribute to VarsityVue.
+            Sign in to make picks, follow your teams, and share scores and local football information.
           </p>
 
           {confirmationPending ? (
