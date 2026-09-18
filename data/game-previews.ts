@@ -4,9 +4,29 @@ export type GamePreview = {
   title: string;
   excerpt: string;
   paragraphs: string[];
+  quickFacts?: { label: string; value: string }[];
+  coverageHref?: string;
+  coverageLabel?: string;
 };
 
 export const gamePreviews: GamePreview[] = [
+  {
+    gameId: "de-leon-at-goldthwaite-2026-week-4",
+    eyebrow: "Week 4 Game of the Week",
+    title: "De Leon at Goldthwaite",
+    excerpt:
+      "Two undefeated teams renew an old rivalry Friday night in Goldthwaite. No. 9 Goldthwaite enters averaging 47.3 points per game, while De Leon has allowed exactly seven points in each of its first three games.",
+    quickFacts: [
+      { label: "Records", value: "De Leon 3-0 · Goldthwaite 3-0" },
+      { label: "Scoring", value: "De Leon 139 PF / 21 PA · Goldthwaite 142 PF / 44 PA" },
+      { label: "Strength vs. Strength", value: "De Leon: 7.0 PPG allowed · Goldthwaite: 47.3 PPG scored" },
+      { label: "Series History", value: "47th recorded meeting · De Leon leads 25-21" },
+      { label: "Common Opponent", value: "De Leon 40-7 San Saba · Goldthwaite 35-17 San Saba" },
+    ],
+    paragraphs: [],
+    coverageHref: "/coverage/de-leon-goldthwaite-week-4-seven-meets-47",
+    coverageLabel: "Read Game of the Week Preview →",
+  },
   {
     gameId: "stamford-at-hawley-2026-week-3",
     eyebrow: "Week 3 Game of the Week",
