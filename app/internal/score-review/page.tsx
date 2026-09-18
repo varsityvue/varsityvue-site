@@ -9,7 +9,7 @@ import { getDynamicGames } from "@/lib/dynamic-games";
 import { getGameById } from "@/lib/games";
 import { requireActiveMember } from "@/lib/member-access";
 import { getSchoolBySlug } from "@/lib/schools";
-import { approveScoreSubmission, rejectScoreSubmission, updateGameAvailability } from "./actions";
+import { approveScoreSubmission, rejectScoreSubmission, updateGameAvailability, rescheduleGame } from "./actions";
 
 export const metadata: Metadata = {
   title: "Score Review",
@@ -156,6 +156,26 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
                 <option value="upcoming">Restore Upcoming</option>
               </select>
               <button type="submit" className="rounded-xl border border-amber-300/20 bg-amber-300/10 px-4 py-2.5 text-xs font-black text-amber-50 transition hover:bg-amber-300/15">Update Status</button>
+            </form>
+          </div>
+        </section>
+
+        <section className="mt-4 rounded-2xl border border-white/10 bg-white/[0.035] p-5 sm:p-6">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-2xl">
+              <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">Reschedule</p>
+              <h2 className="mt-1 text-xl font-black">Set a new kickoff</h2>
+              <p className="mt-2 text-xs leading-5 text-white/45">Enter the verified new kickoff in Central Time. Saving it restores the game to Upcoming and supersedes stale pending score reports.</p>
+            </div>
+            <form action={rescheduleGame} className="grid gap-2 sm:grid-cols-[minmax(220px,1fr)_minmax(190px,auto)_auto]">
+              <select name="game_id" required defaultValue="" className="rounded-xl border border-white/10 bg-black/40 px-3 py-2.5 text-xs text-white outline-none">
+                <option value="" disabled>Select game…</option>
+                {dynamicGames.filter((game) => ["upcoming", "postponed", "scheduled"].includes(game.status) && game.gameType !== "bye" && game.gameType !== "scrimmage").map((game) => (
+                  <option key={game.id} value={game.id}>Week {game.week ?? "—"} · {displayTeamName(game.awayTeam, game.awaySchoolSlug)} at {displayTeamName(game.homeTeam, game.homeSchoolSlug)} · {game.status}</option>
+                ))}
+              </select>
+              <input type="datetime-local" name="kickoff_local" required aria-label="New kickoff in Central Time" className="rounded-xl border border-white/10 bg-black/40 px-3 py-2.5 text-xs text-white outline-none"/>
+              <button type="submit" className="rounded-xl border border-sky-300/20 bg-sky-300/10 px-4 py-2.5 text-xs font-black text-sky-50 transition hover:bg-sky-300/15">Save Kickoff</button>
             </form>
           </div>
         </section>
