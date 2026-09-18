@@ -34,9 +34,7 @@ export default async function GameOpenGraphImage({ params }: { params: Promise<{
       <div style={{ position:"absolute", inset:0, display:"flex", background:`linear-gradient(118deg,${awayColor}2b 0%,transparent 34%,transparent 66%,${homeColor}2b 100%)` }} />
       <div style={{ position:"absolute", top:0, left:0, width:"50%", height:"9px", display:"flex", background:awayColor }} />
       <div style={{ position:"absolute", top:0, right:0, width:"50%", height:"9px", display:"flex", background:homeColor }} />
-      <div style={{ position:"absolute", left:"58px", top:"168px", width:"10px", height:"270px", display:"flex", background:awayColor, opacity:.75 }} />
-      <div style={{ position:"absolute", right:"58px", top:"168px", width:"10px", height:"270px", display:"flex", background:homeColor, opacity:.75 }} />
-
+ 
       <div style={{ position:"relative", width:"100%", height:"100%", padding:"40px 74px 38px", display:"flex", flexDirection:"column" }}>
         <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between" }}>
           <div style={{ display:"flex", flexDirection:"column" }}>
@@ -55,10 +53,10 @@ export default async function GameOpenGraphImage({ params }: { params: Promise<{
             <div style={{ display:"flex", flex:1, alignItems:"center" }}>
               <div style={{ display:"flex", fontSize:away.length > 11 ? "78px" : "90px", lineHeight:.88, fontWeight:900, letterSpacing:"-4px", textTransform:"uppercase", textShadow:`0 0 34px ${awayColor}66` }}>{away}</div>
             </div>
-            <div style={{ display:"flex", width:"90px", flexDirection:"column", alignItems:"center", gap:"8px" }}>
-              <div style={{ display:"flex", width:"46px", height:"2px", background:"rgba(255,255,255,.26)" }} />
+            <div style={{ display:"flex", width:"54px", marginLeft:"-6px", flexDirection:"column", alignItems:"center", gap:"6px" }}>
+              <div style={{ display:"flex", width:"30px", height:"2px", background:"rgba(255,255,255,.26)" }} />
               <div style={{ display:"flex", fontSize:"21px", fontWeight:900, color:"rgba(255,255,255,.55)" }}>AT</div>
-              <div style={{ display:"flex", width:"46px", height:"2px", background:"rgba(255,255,255,.26)" }} />
+              <div style={{ display:"flex", width:"30px", height:"2px", background:"rgba(255,255,255,.26)" }} />
             </div>
           </div>
           <div style={{ display:"flex", marginTop:"13px", fontSize:home.length > 11 ? "78px" : "90px", lineHeight:.88, fontWeight:900, letterSpacing:"-4px", textTransform:"uppercase", textShadow:`0 0 34px ${homeColor}66` }}>{home}</div>
