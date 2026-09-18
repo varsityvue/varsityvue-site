@@ -1,5 +1,8 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = { title: "Manage Roster", robots: { index: false, follow: false, nocache: true } };
 
 import { playerProfiles, type PlayerProfile } from "@/data/player-profiles";
 import { requireActiveMember } from "@/lib/member-access";
