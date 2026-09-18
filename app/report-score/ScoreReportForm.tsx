@@ -129,7 +129,7 @@ export default function ScoreReportForm({ games, selectedGameId, disabled, restr
           <option value="" disabled>Select a game</option>
           {games.map((game) => (
             <option key={game.id} value={game.id}>
-              Week {game.week}: {game.awayName} at {game.homeName} · ${game.status === "live" ? "Live" : "Awaiting result"}${game.pendingReport ? " · Pending report" : ""}
+              Week {game.week}: {game.awayName} at {game.homeName} · {game.status === "live" ? "Live" : "Awaiting result"}{game.pendingReport ? " · Pending report" : ""}
             </option>
           ))}
         </select>
