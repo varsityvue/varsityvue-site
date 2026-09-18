@@ -3,12 +3,13 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { getCanonicalScoreboardTeamName } from "@/data/scoreboard-team-identities";
+import { getDynamicGames } from "@/lib/dynamic-games";
 import { getGameById } from "@/lib/games";
 import { requireActiveMember } from "@/lib/member-access";
 import { getSchoolBySlug } from "@/lib/schools";
 
 export const metadata: Metadata = {
-  title: "Score Review History | VarsityVue",
+  title: "Score Review History",
   robots: { index: false, follow: false, nocache: true },
 };
 
@@ -66,12 +67,16 @@ export default async function ScoreReviewHistoryPage({ searchParams }: PageProps
   const searchQuery = params.q?.trim() ?? "";
   const normalizedQuery = searchQuery.toLowerCase();
 
-  const { data: submissions } = await supabase
+  const [{ data: submissions }, dynamicGames] = await Promise.all([
+    supabase
     .from("score_submissions")
     .select("id, game_id, submitted_by, reviewed_by, home_score, away_score, game_status, period, clock, source_note, status, created_at, reviewed_at, review_note")
     .in("status", ["approved", "rejected", "superseded"])
     .order("reviewed_at", { ascending: false, nullsFirst: false })
-    .limit(50);
+    .limit(50),
+    getDynamicGames(),
+  ]);
+  const dynamicGamesById = new Map(dynamicGames.map((game) => [game.id, game]));
 
   const allSubmissions = submissions ?? [];
   const statusFilteredSubmissions = activeFilter === "all"
@@ -80,7 +85,7 @@ export default async function ScoreReviewHistoryPage({ searchParams }: PageProps
 
   const filteredSubmissions = normalizedQuery
     ? statusFilteredSubmissions.filter((item) => {
-        const game = getGameById(item.game_id);
+        const game = dynamicGamesById.get(item.game_id) ?? getGameById(item.game_id);
         const awayName = game ? displayTeamName(game.awayTeam, game.awaySchoolSlug) : "";
         const homeName = game ? displayTeamName(game.homeTeam, game.homeSchoolSlug) : "";
         return `${awayName} ${homeName} ${item.game_id}`.toLowerCase().includes(normalizedQuery);
@@ -162,14 +167,7 @@ export default async function ScoreReviewHistoryPage({ searchParams }: PageProps
           })}
         </div>
 
-        <div className="mt-4 flex flex-wrap gap-3 text-[10px] font-black uppercase tracking-[0.14em] text-white/30">
-          <span>{approvedCount} Approved</span>
-          <span>·</span>
-          <span>{rejectedCount} Rejected</span>
-          <span>·</span>
-          <span>{supersededCount} Superseded</span>
-          {searchQuery ? <><span>·</span><span>{filteredSubmissions.length} Search Results</span></> : null}
-        </div>
+        {searchQuery ? <p className="mt-4 text-[10px] font-black uppercase tracking-[0.14em] text-white/30">{filteredSubmissions.length} Search Results</p> : null}
 
         <section className="mt-8 space-y-4">
           {filteredSubmissions.length === 0 ? (
@@ -182,7 +180,7 @@ export default async function ScoreReviewHistoryPage({ searchParams }: PageProps
             </div>
           ) : (
             filteredSubmissions.map((submission) => {
-              const game = getGameById(submission.game_id);
+              const game = dynamicGamesById.get(submission.game_id) ?? getGameById(submission.game_id);
               const awayName = game ? displayTeamName(game.awayTeam, game.awaySchoolSlug) : "Away";
               const homeName = game ? displayTeamName(game.homeTeam, game.homeSchoolSlug) : "Home";
               const submitter = profileMap.get(submission.submitted_by);
