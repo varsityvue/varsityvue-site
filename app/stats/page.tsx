@@ -8,6 +8,7 @@ import { getPassingLeaders, getPlayerSeasonStats, getReceivingLeaders, getRushin
 import { getPlayerProfile } from "@/lib/player-profiles";
 import { getSchoolBySlug } from "@/lib/schools";
 import { formatTouchdownCount } from "@/lib/stat-values";
+import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
   title: "2026 Football Stat Leaders | VarsityVue",
@@ -17,8 +18,27 @@ export const metadata: Metadata = {
 
 const SEASON = 2026;
 
-export default function StatsPage() {
+export default async function StatsPage() {
   const allPlayers = getPlayerSeasonStats(SEASON);
+  const supabase = await createClient();
+  const { data: managedRoster } = await supabase
+    .from("school_roster_players")
+    .select("school_slug, first_name, last_name, grade")
+    .eq("season", SEASON)
+    .eq("active", true);
+
+  const managedGrades = new Map(
+    (managedRoster ?? []).map((player) => [
+      `${player.school_slug}:${normalizePlayerName(`${player.first_name} ${player.last_name}`)}`,
+      player.grade as string | null,
+    ]),
+  );
+
+  const playerClass = (playerId: string, player: string, schoolSlug: string) => {
+    const staticGrade = getPlayerProfile(playerId, SEASON)?.grade;
+    if (staticGrade) return shortGrade(staticGrade);
+    return managedGrades.get(`${schoolSlug}:${normalizePlayerName(player)}`) ?? "—";
+  };
   const rushing = getRushingLeaders({ season: SEASON, minAttempts: 1 }).slice(0, 25);
   const passing = getPassingLeaders({ season: SEASON, minAttempts: 1 }).slice(0, 25);
   const receiving = getReceivingLeaders({ season: SEASON, minReceptions: 1 }).slice(0, 25);
@@ -54,13 +74,25 @@ export default function StatsPage() {
       <section className="border-b border-white/10 px-4 py-4 sm:px-6 sm:py-6 lg:px-8"><div className="mx-auto max-w-7xl"><div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4"><div><p className="text-[9px] font-black uppercase tracking-[0.18em] text-white/35 sm:text-xs sm:tracking-[0.22em]">District Views</p><p className="mt-1.5 text-xs text-white/50 sm:mt-2 sm:text-sm">Compare available verified leaders within a specific UIL district.</p></div><div className="flex flex-wrap gap-1.5 sm:gap-2">{districtsWithStats.length > 0 ? districtsWithStats.map((district) => <Link key={district.id} href={`/stats/districts/${district.slug}`} className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-[9px] font-black uppercase tracking-[0.1em] text-white/65 transition hover:bg-white/10 hover:text-white sm:rounded-xl sm:px-4 sm:py-3 sm:text-xs sm:tracking-[0.12em]">{district.name}</Link>) : <span className="text-xs text-white/35 sm:text-sm">District views will appear as verified stats are added.</span>}</div></div></div></section>
 
       <section className="px-4 py-5 sm:px-6 sm:py-8 lg:px-8"><div className="mx-auto max-w-7xl space-y-5 sm:space-y-8">
-        <LeaderboardSection id="rushing" eyebrow="Rushing Leaders" title="Rushing yards" note="Minimum 1 carry · Ordered by verified values on file" headers={["RK", "Player", "School", "G", "CAR", "YDS", "TD", "YPC"]} rows={rushing.map((entry, index) => [index + 1, playerLink(entry.playerId, entry.player), schoolLink(entry.schoolSlug), entry.gamesRecorded, entry.rushing.attempts, entry.rushing.yards, formatTouchdownCount(entry.rushing.touchdowns), entry.rushing.yardsPerCarry])} />
-        <LeaderboardSection id="passing" eyebrow="Passing Leaders" title="Passing yards" note="Minimum 1 attempt · Ordered by verified values on file" headers={["RK", "Player", "School", "G", "CMP/ATT", "YDS", "TD", "INT", "CMP%"]} rows={passing.map((entry, index) => [index + 1, playerLink(entry.playerId, entry.player), schoolLink(entry.schoolSlug), entry.gamesRecorded, `${entry.passing.completions}/${entry.passing.attempts}`, entry.passing.yards, formatTouchdownCount(entry.passing.touchdowns), entry.passing.interceptions, `${entry.passing.completionPercentage}%`])} />
-        <LeaderboardSection id="receiving" eyebrow="Receiving Leaders" title="Receiving yards" note="Minimum 1 reception · Ordered by verified values on file" headers={["RK", "Player", "School", "G", "REC", "YDS", "TD", "YPR"]} rows={receiving.map((entry, index) => [index + 1, playerLink(entry.playerId, entry.player), schoolLink(entry.schoolSlug), entry.gamesRecorded, entry.receiving.receptions, entry.receiving.yards, formatTouchdownCount(entry.receiving.touchdowns), entry.receiving.yardsPerReception])} />
-        <LeaderboardSection id="ypc" eyebrow="Efficiency Leaders" title="Yards per carry" note="Minimum 5 carries · Ordered by verified values on file" headers={["RK", "Player", "School", "G", "CAR", "YDS", "YPC"]} rows={ypc.map((entry, index) => [index + 1, playerLink(entry.playerId, entry.player), schoolLink(entry.schoolSlug), entry.gamesRecorded, entry.rushing.attempts, entry.rushing.yards, entry.rushing.yardsPerCarry])} />
+        <LeaderboardSection id="rushing" eyebrow="Rushing Leaders" title="Rushing yards" note="Minimum 1 carry · Ordered by verified values on file" headers={["RK", "Player", "School", "G", "CAR", "YDS", "TD", "YPC", "Class"]} rows={rushing.map((entry, index) => [index + 1, playerLink(entry.playerId, entry.player), schoolLink(entry.schoolSlug), entry.gamesRecorded, entry.rushing.attempts, entry.rushing.yards, formatTouchdownCount(entry.rushing.touchdowns), entry.rushing.yardsPerCarry, playerClass(entry.playerId, entry.player, entry.schoolSlug)])} />
+        <LeaderboardSection id="passing" eyebrow="Passing Leaders" title="Passing yards" note="Minimum 1 attempt · Ordered by verified values on file" headers={["RK", "Player", "School", "G", "CMP/ATT", "YDS", "TD", "INT", "CMP%", "Class"]} rows={passing.map((entry, index) => [index + 1, playerLink(entry.playerId, entry.player), schoolLink(entry.schoolSlug), entry.gamesRecorded, `${entry.passing.completions}/${entry.passing.attempts}`, entry.passing.yards, formatTouchdownCount(entry.passing.touchdowns), entry.passing.interceptions, `${entry.passing.completionPercentage}%`, playerClass(entry.playerId, entry.player, entry.schoolSlug)])} />
+        <LeaderboardSection id="receiving" eyebrow="Receiving Leaders" title="Receiving yards" note="Minimum 1 reception · Ordered by verified values on file" headers={["RK", "Player", "School", "G", "REC", "YDS", "TD", "YPR", "Class"]} rows={receiving.map((entry, index) => [index + 1, playerLink(entry.playerId, entry.player), schoolLink(entry.schoolSlug), entry.gamesRecorded, entry.receiving.receptions, entry.receiving.yards, formatTouchdownCount(entry.receiving.touchdowns), entry.receiving.yardsPerReception, playerClass(entry.playerId, entry.player, entry.schoolSlug)])} />
+        <LeaderboardSection id="ypc" eyebrow="Efficiency Leaders" title="Yards per carry" note="Minimum 5 carries · Ordered by verified values on file" headers={["RK", "Player", "School", "G", "CAR", "YDS", "YPC", "Class"]} rows={ypc.map((entry, index) => [index + 1, playerLink(entry.playerId, entry.player), schoolLink(entry.schoolSlug), entry.gamesRecorded, entry.rushing.attempts, entry.rushing.yards, entry.rushing.yardsPerCarry, playerClass(entry.playerId, entry.player, entry.schoolSlug)])} />
       </div></section>
     </main>
   );
+}
+
+function normalizePlayerName(value: string) {
+  return value.trim().toLowerCase().replace(/\s+/g, " ");
+}
+
+function shortGrade(value: string) {
+  if (value === "Freshman") return "Fr";
+  if (value === "Sophomore") return "So";
+  if (value === "Junior") return "Jr";
+  if (value === "Senior") return "Sr";
+  return value;
 }
 
 function SummaryStat({ value, label }: { value: string; label: string }) { return <div className="min-w-0 rounded-xl border border-white/10 bg-black/30 px-2.5 py-3 sm:rounded-2xl sm:px-4 sm:py-4"><p className="text-xl font-black text-white sm:text-2xl">{value}</p><p className="mt-1 break-words text-[8px] font-black uppercase leading-3 tracking-[0.1em] text-white/35 sm:text-[10px] sm:tracking-[0.16em]">{label}</p></div>; }
