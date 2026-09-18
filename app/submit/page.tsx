@@ -33,10 +33,9 @@ export const metadata: Metadata = {
 const submissionTypes = [
   "Player or game statistics",
   "Score or data correction",
-  "Photo",
-  "Video or video link",
-  "Historical record or interesting fact",
-  "Roster or schedule information",
+  "Photo or video",
+  "Program history or records",
+  "Roster or schedule",
   "Story, article, or news tip",
   "Other",
 ];
@@ -72,14 +71,7 @@ export default function SubmitPage() {
           </p>
         </section>
 
-        <section className="mt-4 rounded-[1.25rem] border border-white/10 bg-white/[0.04] p-4 sm:mt-6 sm:rounded-2xl sm:p-5">
-          <p className="text-[9px] font-black uppercase tracking-[0.16em] text-[var(--vv-accent)] sm:text-[11px] sm:tracking-[0.2em]">Submitting game stats?</p>
-          <p className="mt-1.5 max-w-4xl text-xs leading-5 text-white/55 sm:mt-2 sm:text-sm sm:leading-6">
-            You do not need to retype an entire stat sheet. Send the school, opponent, game date, and a reliable stat-sheet screenshot or source link when possible. VarsityVue will review and enter verified statistics as they are received.
-          </p>
-        </section>
-
-        <section className="mt-6 rounded-[1.5rem] border border-white/10 bg-white/5 p-4 sm:mt-10 sm:rounded-3xl sm:p-6 md:p-8">
+        <section className="mt-5 rounded-[1.5rem] border border-white/10 bg-white/5 p-4 sm:mt-8 sm:rounded-3xl sm:p-6 md:p-8">
           <form action="https://formspree.io/f/mpqnjqen" method="POST" className="space-y-4 sm:space-y-5">
             <input type="hidden" name="_subject" value="New VarsityVue Community Submission" />
             <input type="hidden" name="_template" value="table" />
@@ -119,8 +111,9 @@ export default function SubmitPage() {
             <textarea name="submission_details" rows={7} placeholder="Tell us what you are submitting. Include names, dates, opponents, stats, records, context, and where the information came from when possible. *" aria-label="Submission details" required className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm leading-5 text-white placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:outline-none sm:rounded-2xl sm:px-5 sm:py-4 sm:text-base sm:leading-6" />
 
             <div>
-              <input type="url" name="media_or_source_link" placeholder="Stat sheet, photo, video, article, Google Drive, Dropbox, or source link" aria-label="Media or source link" className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:outline-none sm:rounded-2xl sm:px-5 sm:py-4 sm:text-base" />
-              <p className="mt-1.5 text-[11px] leading-4 text-white/40 sm:mt-2 sm:text-xs sm:leading-5">For stat sheets, photos, or videos, share a public or viewable link when available. You can also email screenshots or files directly to info@varsityvue.com after submitting.</p>
+              <label htmlFor="media-or-source-link" className="mb-2 block text-[9px] font-black uppercase tracking-[0.16em] text-white/40 sm:text-[11px] sm:tracking-[0.2em]">Source or media link · optional</label>
+              <input id="media-or-source-link" type="url" name="media_or_source_link" placeholder="Paste a link" aria-label="Media or source link" className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white placeholder:text-white/35 focus:border-[color:var(--vv-accent)] focus:outline-none sm:rounded-2xl sm:px-5 sm:py-4 sm:text-base" />
+              <p className="mt-1.5 text-[11px] leading-4 text-white/40 sm:mt-2 sm:text-xs sm:leading-5"><span className="font-bold text-white/55">Submitting stats?</span> A screenshot or link to the original stat sheet is enough; you do not need to retype it. Screenshots or files can also be emailed to info@varsityvue.com after submitting.</p>
             </div>
 
             <label className="flex items-start gap-2.5 rounded-xl border border-white/10 bg-black/30 p-3.5 text-xs leading-5 text-white/60 sm:gap-3 sm:rounded-2xl sm:p-4 sm:text-sm sm:leading-6">
