@@ -28,6 +28,21 @@ function getReportScoreLabel(game: ScheduleGame, todayKey: string | null) { if (
 function getMapUrl(game: Pick<ScheduleGame, "venue" | "venueAddress">) { const query = game.venueAddress ?? game.venue; return query ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}` : null; }
 function getResult(game: ScheduleGame, schoolSlug: string) { if (game.gameType === "bye" || game.gameType === "scrimmage" || game.status !== "final" || game.homeScore === undefined || game.awayScore === undefined) return null; const isHome = game.homeSchoolSlug === schoolSlug; const schoolScore = isHome ? game.homeScore : game.awayScore; const opponentScore = isHome ? game.awayScore : game.homeScore; if (schoolScore === opponentScore) return "T"; return schoolScore > opponentScore ? "W" : "L"; }
 function getRecord(slug: string, games: Game[]) { const standing = getStandingForSchoolFromGames(slug, games); return `${standing?.overallWins ?? 0}-${standing?.overallLosses ?? 0}`; }
+function getDistrictRecord(slug: string, games: Game[]) { const standing = getStandingForSchoolFromGames(slug, games); return `${standing?.districtWins ?? 0}-${standing?.districtLosses ?? 0}`; }
+function getCurrentStreak(slug: string, games: Game[]) {
+  const finals = games
+    .filter((game) => (game.homeSchoolSlug === slug || game.awaySchoolSlug === slug) && game.status === "final" && game.gameType !== "bye" && game.gameType !== "scrimmage" && typeof game.homeScore === "number" && typeof game.awayScore === "number")
+    .sort((a, b) => getGameTimestamp(b) - getGameTimestamp(a));
+  if (!finals.length) return "—";
+  const latest = getResult(finals[0], slug);
+  if (!latest) return "—";
+  let count = 0;
+  for (const game of finals) {
+    if (getResult(game, slug) !== latest) break;
+    count += 1;
+  }
+  return `${latest}${count}`;
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> { const { slug } = await params; const school = getSchoolBySlug(slug); if (!school) return { title: "Schedule Not Found" }; return { title: `${school.fullName} Football Schedule`, description: `${school.fullName} 2026 football schedule, verified scores, opponents, kickoff times, venues, and matchup coverage on VarsityVue.`, alternates: { canonical: `/schools/${school.slug}/schedule` } }; }
 
@@ -38,8 +53,8 @@ export default async function SchoolSchedulePage({ params }: { params: Promise<{
   const allGames = dynamicGames.filter((game) => game.homeSchoolSlug === slug || game.awaySchoolSlug === slug).sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b)); const todayKey = getCentralDateKey(new Date());
   const games = allGames.filter((game) => { if (game.gameType !== "scrimmage") return true; const gameDateKey = getGameDateKey(game.kickoff); return !todayKey || !gameDateKey || gameDateKey >= todayKey; });
   const schoolRecord = getRecord(slug, dynamicGames);
-  const finalGames = games.filter((game) => game.status === "final" && game.gameType !== "bye" && game.gameType !== "scrimmage");
-  const upcomingGames = games.filter((game) => { if (game.status !== "upcoming" || game.gameType === "bye" || game.gameType === "scrimmage") return false; const gameDateKey = getGameDateKey(game.kickoff); return !todayKey || !gameDateKey || gameDateKey >= todayKey; });
+  const districtRecord = getDistrictRecord(slug, dynamicGames);
+  const currentStreak = getCurrentStreak(slug, dynamicGames);
   const theme: SchoolTheme = { primary: school.colors.primary, secondary: school.colors.secondary, accent: school.colors.accent || school.colors.secondary };
 
   const supabase = await createClient();
@@ -69,7 +84,7 @@ export default async function SchoolSchedulePage({ params }: { params: Promise<{
             {districtSlug && <Link href={`/districts/${districtSlug}`} className="hidden shrink-0 rounded-xl border border-white/10 bg-black/25 px-5 py-3 text-xs font-black uppercase tracking-[0.14em] text-white/70 transition hover:bg-white/10 hover:text-white sm:inline-flex">District Hub →</Link>}
           </div>
           <div className="mt-3 grid grid-cols-3 divide-x divide-white/10 rounded-lg border border-white/10 bg-black/30 sm:mt-6 sm:max-w-xl sm:rounded-2xl">
-            <SummaryStat label="Record" value={schoolRecord} /><SummaryStat label="Finals" value={finalGames.length.toString()} /><SummaryStat label="Upcoming" value={upcomingGames.length.toString()} />
+            <SummaryStat label="Record" value={schoolRecord} /><SummaryStat label="District" value={districtRecord} /><SummaryStat label="Streak" value={currentStreak} />
           </div>
         </div>
       </div>
