@@ -210,3 +210,57 @@ export async function updateGameAvailability(formData: FormData) {
   revalidatePath(`/games/${gameId}`);
   redirect(`/internal/score-review?game-status=${encodeURIComponent(nextStatus)}`);
 }
+
+
+export async function rescheduleGame(formData: FormData) {
+  const gameId = text(formData, "game_id");
+  const kickoffLocal = text(formData, "kickoff_local");
+  const { supabase, userId } = await requireModerator();
+
+  if (!gameId || !kickoffLocal) {
+    redirect("/internal/score-review?message=Choose%20a%20game%20and%20new%20kickoff.");
+  }
+
+  const currentGame = await getDynamicGameById(gameId);
+  if (!currentGame) redirect("/internal/score-review?message=Game%20not%20found.");
+  if (currentGame.status === "final" || currentGame.status === "cancelled") {
+    redirect("/internal/score-review?message=Final%20or%20cancelled%20games%20cannot%20be%20rescheduled.");
+  }
+
+  const parsed = new Date(`${kickoffLocal}:00-05:00`);
+  if (Number.isNaN(parsed.getTime())) {
+    redirect("/internal/score-review?message=Enter%20a%20valid%20Central%20Time%20kickoff.");
+  }
+
+  const { error } = await supabase.from("game_state").upsert(
+    {
+      game_id: gameId,
+      status: "upcoming",
+      kickoff_override: parsed.toISOString(),
+      home_score: null,
+      away_score: null,
+      period: null,
+      clock: null,
+      source_submission_id: null,
+      verified: true,
+      verified_at: new Date().toISOString(),
+      updated_by: userId,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "game_id" },
+  );
+  if (error) redirect(`/internal/score-review?message=${encodeURIComponent(error.message)}`);
+
+  await supabase.from("score_submissions").update({
+    status: "superseded",
+    reviewed_by: userId,
+    reviewed_at: new Date().toISOString(),
+    review_note: "Superseded when game kickoff was rescheduled.",
+  }).eq("game_id", gameId).eq("status", "pending");
+
+  revalidatePath("/internal/score-review");
+  revalidatePath("/games");
+  revalidatePath("/scoreboard");
+  revalidatePath(`/games/${gameId}`);
+  redirect("/internal/score-review?game-status=rescheduled");
+}
