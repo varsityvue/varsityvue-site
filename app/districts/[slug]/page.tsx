@@ -241,34 +241,21 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
 
           <section className="mt-3 grid grid-cols-2 gap-2 sm:mt-6 sm:gap-4 lg:grid-cols-4">
             <DistrictStat label="Teams" value={trackedDistrictTeams.toString()} />
-            <DistrictStat label="Tracked Games" value={allDistrictGames.length.toString()} />
-            <DistrictStat label="Verified Results" value={districtResults.toString()} />
-            <DistrictStat label="Region" value={region.replace("Region ", "")} />
+            <DistrictStat label="District Games" value={allDistrictGames.length.toString()} />
+            <DistrictStat label="District Finals" value={districtResults.toString()} />
+            <DistrictStat label="District Play" value={districtPlayStarted ? "Underway" : "Not Started"} compact />
           </section>
-        </div>
-      </section>
-
-      <section className="border-b border-white/10 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
-        <div className="mx-auto max-w-[1440px] rounded-[1.35rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6">
-          <p className="text-[9px] font-black uppercase tracking-[0.2em] text-white/70 sm:text-xs sm:tracking-[0.28em]">
-            District Snapshot
-          </p>
-
-          <h2 className="mt-1.5 text-xl font-black text-white sm:mt-2 sm:text-3xl">
-            {trackedDistrictTeams} teams tracked in {classification}
-          </h2>
-
-          <p className="mt-2.5 max-w-4xl text-xs leading-5 text-white/60 sm:mt-4 sm:text-base sm:leading-7">
-            {districtPlayStarted
-              ? "Verified district results are now shaping the standings. Follow the race here as additional finals are added throughout district play."
-              : "District play has not produced a verified result in VarsityVue yet. Overall records may already be available, while the district table remains unranked until district games begin."}
-          </p>
         </div>
       </section>
 
       <section className="px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
         <div className="mx-auto grid max-w-[1440px] gap-4 sm:gap-6 lg:grid-cols-[1.4fr_0.8fr]">
           <div className="space-y-4 sm:space-y-6">
+            {!districtPlayStarted ? (
+              <p className="px-1 text-xs leading-5 text-white/40 sm:text-sm sm:leading-6">
+                District standings will begin once verified district results are on file. Overall records are shown for context in the meantime.
+              </p>
+            ) : null}
             <StandingsTable standings={districtStandings} theme={districtTheme} />
 
             <DistrictCoverage districtId={district.id} />
@@ -383,13 +370,6 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
               </div>
             </section>
 
-            <section className="rounded-[1.4rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6">
-              <p className="text-[9px] font-black uppercase tracking-[0.2em] text-white/70 sm:text-xs sm:tracking-[0.28em]">Legacy</p>
-              <h2 className="mt-1.5 text-2xl font-black text-white sm:mt-3 sm:text-3xl">Coming Soon</h2>
-              <p className="mt-2.5 text-xs leading-5 text-white/60 sm:mt-4 sm:text-base sm:leading-7">
-                Rivalry records, playoff history, notable teams, and community-submitted historical notes will live here.
-              </p>
-            </section>
           </aside>
         </div>
       </section>
@@ -397,11 +377,11 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
   );
 }
 
-function DistrictStat({ label, value }: { label: string; value: string }) {
+function DistrictStat({ label, value, compact = false }: { label: string; value: string; compact?: boolean }) {
   return (
     <div className="rounded-[1.15rem] border border-white/10 bg-white/[0.045] p-3.5 shadow-xl sm:rounded-[1.5rem] sm:p-5">
       <p className="text-[9px] font-black uppercase tracking-[0.14em] text-white/40 sm:text-xs sm:tracking-[0.22em]">{label}</p>
-      <p className="mt-1.5 text-2xl font-black text-white sm:mt-3 sm:text-4xl">{value}</p>
+      <p className={`mt-1.5 font-black text-white sm:mt-3 ${compact ? "text-base sm:text-2xl" : "text-2xl sm:text-4xl"}`}>{value}</p>
     </div>
   );
 }
