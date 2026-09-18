@@ -67,7 +67,7 @@ export default async function GamePage({ params, searchParams }: GamePageProps) 
     for (const row of followRows ?? []) followedSchoolSlugs.add(row.school_slug);
   }
   const awayColor = awaySchool?.colors.primary ?? VARSITYVUE_PRIMARY; const homeColor = homeSchool?.colors.primary ?? VARSITYVUE_ACCENT; const hasScore = ["live", "final"].includes(game.status) && game.homeScore !== undefined && game.awayScore !== undefined;
-  const showReportScore = game.season === 2026 && game.week !== undefined && game.week >= 3 && game.week <= 6 && game.gameType !== "scrimmage" && game.gameType !== "bye" && ["live", "scheduled"].includes(game.status);
+  const showReportScore = game.season === 2026 && game.week !== undefined && game.gameType !== "scrimmage" && game.gameType !== "bye" && ["live", "scheduled"].includes(game.status);
   const sportsEventSchema = { "@context": "https://schema.org", "@type": "SportsEvent", name: `${awayTeamName} at ${homeTeamName}`, startDate: kickoffValue || undefined, eventStatus: getSchemaEventStatus(game.status), eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode", url: `https://varsityvue.com/games/${game.id}`, location: hasVenue ? { "@type": "Place", name: venueName, address: game.venueAddress || undefined } : undefined, competitor: [{ "@type": "SportsTeam", name: awayTeamName }, { "@type": "SportsTeam", name: homeTeamName }] };
   return <main className="min-h-screen bg-[var(--vv-bg)] text-white" style={{ "--vv-primary": VARSITYVUE_PRIMARY, "--vv-away": awayColor, "--vv-home": homeColor, "--vv-accent": VARSITYVUE_ACCENT, "--vv-bg": VARSITYVUE_BG } as CSSProperties}>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sportsEventSchema) }} />
