@@ -88,7 +88,9 @@ function StatStatusBadge({ gameId }: { gameId: string }) {
   return <span className="rounded-full border border-amber-300/20 bg-amber-300/10 px-2 py-0.5 text-[8px] font-black uppercase tracking-[0.1em] text-amber-100/75 sm:px-2.5 sm:py-1 sm:text-[9px]">{getStatAvailabilityLabel(availability.status)}</span>;
 }
 
-export default async function ScoreboardPage() {
+export default async function ScoreboardPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
+  const { q = "" } = await searchParams;
+  const finalSearchQuery = q.trim().toLowerCase();
   const supabase = await createClient();
   const [{ data: dynamicRows }, { data: claimsData }] = await Promise.all([
     supabase
@@ -125,7 +127,7 @@ export default async function ScoreboardPage() {
       {featuredGame && <FeaturedScoreboardGame game={featuredGame} games={scoreboardGames} hasPendingReport={pendingGameIds.has(featuredGame.id)} />}
       <section className="mt-5 grid items-start gap-3 sm:mt-8 sm:gap-6 lg:grid-cols-3">
         <ScoreboardColumn id="live-now" title="Live Now" description="Games currently marked in progress." games={liveGames} emptyText="No games are currently marked live." collapsibleWhenEmpty pendingGameIds={pendingGameIds} />
-        <ScoreboardColumn id="final-scores" title="Final Scores" description="Latest verified results from across the coverage area." games={finalGames} emptyText="No final scores posted yet." mobileLimit={10} collapsible pendingGameIds={pendingGameIds} />
+        <FinalScoresArchive games={finalGames} pendingGameIds={pendingGameIds} searchQuery={finalSearchQuery} />
         <ScoreboardColumn id="upcoming" title="Upcoming" description="The next scheduled kickoffs currently on file." games={upcomingGames} emptyText="No upcoming games listed." pendingGameIds={pendingGameIds} />
       </section>
     </div>
@@ -156,6 +158,69 @@ function TeamResult({ team, standing }: { team: string; standing?: ReturnType<ty
   const hasOverallResult = !!standing && (standing.overallWins > 0 || standing.overallLosses > 0);
   const districtRecord = standing && standing.districtWins + standing.districtLosses > 0 ? ` · ${standing.districtWins}-${standing.districtLosses} District` : "";
   return <div className="min-w-0 text-center"><h2 className="break-words text-base font-black leading-[1.05] text-white sm:text-3xl md:text-4xl">{team}</h2><p className="mt-1 text-[8px] font-black uppercase tracking-[0.08em] text-white/40 sm:mt-2 sm:text-sm sm:tracking-[0.16em]">{hasOverallResult ? `${standing!.overallWins}-${standing!.overallLosses} Overall${districtRecord}` : "Overall —"}</p></div>;
+}
+
+function FinalScoresArchive({ games, pendingGameIds, searchQuery }: { games: ScoreboardGame[]; pendingGameIds: Set<string>; searchQuery: string }) {
+  const filteredGames = searchQuery
+    ? games.filter((game) => {
+        const haystack = [
+          game.awayTeam,
+          game.homeTeam,
+          game.venue,
+          game.week !== undefined ? `week ${game.week}` : "",
+        ].filter(Boolean).join(" ").toLowerCase();
+        return haystack.includes(searchQuery);
+      })
+    : games;
+
+  const grouped = new Map<number | "other", ScoreboardGame[]>();
+  for (const game of filteredGames) {
+    const key = game.week ?? "other";
+    const existing = grouped.get(key) ?? [];
+    existing.push(game);
+    grouped.set(key, existing);
+  }
+
+  const groups = [...grouped.entries()].sort(([a], [b]) => {
+    if (a === "other") return 1;
+    if (b === "other") return -1;
+    return b - a;
+  });
+  const latestWeek = groups[0]?.[0];
+
+  return <section id="final-scores" className="scroll-mt-24 rounded-[1.4rem] border border-white/10 bg-white/[0.04] p-3.5 sm:rounded-3xl sm:p-5">
+    <div className="flex items-start justify-between gap-3">
+      <div><h2 className="text-2xl font-black sm:text-3xl">Final Scores</h2><p className="mt-1 text-xs text-white/50 sm:mt-2 sm:text-sm">Verified results organized by week.</p></div>
+      <span className="mt-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/35 sm:text-[10px]">{games.length} finals</span>
+    </div>
+
+    <form action="/scoreboard" method="get" className="mt-4 sm:mt-5">
+      <label htmlFor="final-search" className="sr-only">Search final scores by team, venue, or week</label>
+      <div className="flex gap-2">
+        <input id="final-search" name="q" type="search" defaultValue={searchQuery} placeholder="Search team, venue, or week…" className="min-w-0 flex-1 rounded-xl border border-white/10 bg-black/35 px-3.5 py-3 text-sm font-semibold text-white outline-none placeholder:text-white/30 focus:border-white/25 sm:rounded-2xl" />
+        <button type="submit" className="rounded-xl border border-white/15 bg-white/[0.07] px-4 text-[9px] font-black uppercase tracking-[0.12em] text-white/75 transition hover:bg-white/10 sm:rounded-2xl sm:text-[10px]">Search</button>
+      </div>
+      {searchQuery && <div className="mt-2 flex items-center justify-between gap-3"><p className="text-[10px] font-semibold text-white/40">{filteredGames.length} result{filteredGames.length === 1 ? "" : "s"} for “{searchQuery}”</p><Link href="/scoreboard#final-scores" className="text-[9px] font-black uppercase tracking-[0.12em] text-white/55 hover:text-white">Clear</Link></div>}
+    </form>
+
+    <div className="mt-4 space-y-2.5 sm:mt-5 sm:space-y-3">
+      {groups.length === 0 ? <p className="rounded-xl border border-white/10 bg-black/30 p-3 text-xs text-white/50 sm:rounded-2xl sm:p-4 sm:text-sm">{searchQuery ? "No final scores match that search." : "No final scores posted yet."}</p> : groups.map(([week, weekGames]) => {
+        const label = week === "other" ? "Other Finals" : `Week ${week}`;
+        const shouldOpen = Boolean(searchQuery) || week === latestWeek;
+        return <details key={String(week)} open={shouldOpen} className="group rounded-xl border border-white/10 bg-black/25 p-3 sm:rounded-2xl sm:p-4">
+          <summary className="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <div className="flex items-center justify-between gap-3">
+              <div><p className="text-sm font-black text-white sm:text-base">{label}</p><p className="mt-0.5 text-[9px] font-black uppercase tracking-[0.12em] text-white/35">{weekGames.length} final{weekGames.length === 1 ? "" : "s"}</p></div>
+              <span className="text-sm font-black text-white/45 transition group-open:rotate-180">⌄</span>
+            </div>
+          </summary>
+          <div className="mt-3 space-y-2.5 border-t border-white/10 pt-3 sm:mt-4 sm:space-y-3 sm:pt-4">
+            {weekGames.map((game) => <ScoreboardGameCard key={game.id} game={game} hasPendingReport={pendingGameIds.has(game.id)} />)}
+          </div>
+        </details>;
+      })}
+    </div>
+  </section>;
 }
 
 function ScoreboardColumn({ id, title, description, games, emptyText, collapsibleWhenEmpty = false, collapsible = false, mobileLimit, pendingGameIds }: { id: string; title: string; description: string; games: ScoreboardGame[]; emptyText: string; collapsibleWhenEmpty?: boolean; collapsible?: boolean; mobileLimit?: number; pendingGameIds: Set<string> }) {
