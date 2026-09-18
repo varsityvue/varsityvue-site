@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   },
 };
 
-const featuredSchools = getFeaturedSchools().slice(0, 8);
+const featuredSchools = getFeaturedSchools();
 const titlePrograms = featuredSchools.filter((school) => (school.stateTitles ?? 0) > 0);
 const recentPlayoffPrograms = featuredSchools.filter((school) => school.lastPlayoffAppearance);
 
@@ -71,7 +71,7 @@ export default function LegacyPage() {
         </section>
 
         <section className="mt-6 grid grid-cols-3 gap-2 sm:mt-10 sm:gap-4">
-          <LegacyStat value={String(featuredSchools.length)} label="Featured programs" />
+          <LegacyStat value={String(featuredSchools.length)} label="Program archives" />
           <LegacyStat value={String(titlePrograms.length)} label="Programs with verified state titles" />
           <LegacyStat value={String(recentPlayoffPrograms.length)} label="Programs with playoff history on file" />
         </section>
@@ -125,64 +125,25 @@ export default function LegacyPage() {
           </div>
         </section>
 
-        {titlePrograms.length > 0 && (
-          <section className="mt-8 rounded-[1.5rem] border border-[color:var(--vv-accent)]/30 bg-[var(--vv-primary)]/10 p-5 sm:mt-10 sm:rounded-3xl sm:p-6 md:p-10">
-            <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.3em]">
-              Championship Programs
-            </p>
-            <h2 className="mt-2 text-2xl font-black leading-tight sm:mt-3 sm:text-3xl md:text-4xl">
-              State championship history already on file
-            </h2>
-            <div className="mt-5 grid gap-3 sm:mt-7 sm:gap-4 md:grid-cols-2">
-              {titlePrograms.map((school) => (
-                <Link
-                  key={school.id}
-                  href={`/schools/${school.slug}`}
-                  className="rounded-[1.1rem] border border-white/10 bg-black/30 p-4 transition hover:border-[color:var(--vv-accent)]/40 sm:rounded-2xl sm:p-5"
-                >
-                  <p className="text-xl font-black sm:text-2xl">{school.fullName}</p>
-                  <p className="mt-1.5 text-xs font-bold leading-5 text-white/55 sm:mt-2 sm:text-sm">
-                    {school.stateTitles} verified state {school.stateTitles === 1 ? "championship" : "championships"} on file
-                  </p>
-                </Link>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <section className="mt-8 grid gap-3 sm:mt-10 sm:gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-          <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-5 sm:rounded-3xl sm:p-6 md:p-10">
-            <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.3em]">
-              Friday Night Memories
-            </p>
-            <h2 className="mt-2 text-2xl font-black leading-tight sm:mt-3 sm:text-3xl md:text-4xl">
-              The next layer of Legacy comes from the communities that lived it.
-            </h2>
-            <p className="mt-3 max-w-3xl text-sm leading-6 text-white/65 sm:mt-4 sm:text-base sm:leading-7">
-              Old stat sheets, newspaper clippings, schedules, playoff records,
-              photographs, rivalry results, and championship material can help fill
-              gaps that never made it into a modern database. Submissions are reviewed
-              before historical claims are added to VarsityVue.
-            </p>
-            <Link
-              href="/submit"
-              className="mt-5 inline-flex rounded-full bg-[var(--vv-primary)] px-5 py-3 text-sm font-black transition hover:bg-[var(--vv-primary-hover)] sm:mt-6 sm:px-7 sm:py-4 sm:text-base"
-            >
-              Submit History or Records
-            </Link>
-          </div>
-
-          <div className="rounded-[1.5rem] border border-white/10 bg-black/30 p-5 sm:rounded-3xl sm:p-6 md:p-10">
-            <p className="text-[10px] font-black uppercase tracking-[0.24em] text-white/40 sm:text-xs sm:tracking-[0.3em]">
-              Archive Standard
-            </p>
-            <h2 className="mt-2 text-xl font-black sm:mt-3 sm:text-2xl">Verified before permanent.</h2>
-            <p className="mt-3 text-sm leading-6 text-white/60 sm:mt-4 sm:text-base sm:leading-7">
-              Legacy is intentionally conservative. A missing record is better than an
-              invented one. Historical details stay off the archive until VarsityVue
-              has enough source material to present them responsibly.
-            </p>
-          </div>
+        <section className="mt-8 rounded-[1.5rem] border border-white/10 bg-white/5 p-5 sm:mt-10 sm:rounded-3xl sm:p-6 md:p-10">
+          <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.3em]">
+            Friday Night Memories
+          </p>
+          <h2 className="mt-2 max-w-4xl text-2xl font-black leading-tight sm:mt-3 sm:text-3xl md:text-4xl">
+            The next layer of Legacy comes from the communities that lived it.
+          </h2>
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-white/65 sm:mt-4 sm:text-base sm:leading-7">
+            Old stat sheets, newspaper clippings, schedules, playoff records,
+            photographs, rivalry results, and championship material can help fill
+            gaps that never made it into a modern database. Submissions are reviewed
+            before historical claims are added to VarsityVue.
+          </p>
+          <Link
+            href="/submit"
+            className="mt-5 inline-flex rounded-full bg-[var(--vv-primary)] px-5 py-3 text-sm font-black transition hover:bg-[var(--vv-primary-hover)] sm:mt-6 sm:px-7 sm:py-4 sm:text-base"
+          >
+            Submit History or Records
+          </Link>
         </section>
       </div>
     </main>
