@@ -12,7 +12,7 @@ import { getSchoolBySlug } from "@/lib/schools";
 import { approveScoreSubmission, rejectScoreSubmission } from "./actions";
 
 export const metadata: Metadata = {
-  title: "Score Review | VarsityVue",
+  title: "Score Review",
   robots: { index: false, follow: false, nocache: true },
 };
 
@@ -116,6 +116,9 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
           <span className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-white/50">
             {groupedSubmissions.length} Games
           </span>
+          <a href="/internal/score-review/history" className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-white/50 transition hover:border-white/20 hover:text-white">
+            Review History →
+          </a>
         </div>
 
         {params.reviewed ? (
