@@ -192,7 +192,27 @@ export default async function AccountPage() {
           </div>
         </section>
 
-        <AccountFollowList initialFollows={followedSchools} staleFollowCount={staleFollowCount} />
+        <nav aria-label="Account sections" className="mt-4 flex gap-2 overflow-x-auto pb-1">
+          <a href="#followed-schools" className="shrink-0 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-[10px] font-black uppercase tracking-[0.12em] text-white/65 transition hover:border-white/25 hover:text-white">
+            Followed Schools
+          </a>
+          <a href="#email-preferences" className="shrink-0 rounded-full border border-[var(--vv-primary)]/35 bg-[var(--vv-primary)]/10 px-4 py-2 text-[10px] font-black uppercase tracking-[0.12em] text-red-50 transition hover:bg-[var(--vv-primary)]/20">
+            Email Notifications
+          </a>
+          {canModerate ? (
+            <a href="#platform-tools" className="shrink-0 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-[10px] font-black uppercase tracking-[0.12em] text-white/65 transition hover:border-white/25 hover:text-white">
+              {isAdmin ? "Admin Tools" : "Moderator Tools"}
+            </a>
+          ) : isScorekeeper ? (
+            <a href="#platform-tools" className="shrink-0 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-[10px] font-black uppercase tracking-[0.12em] text-white/65 transition hover:border-white/25 hover:text-white">
+              Game-Night Tools
+            </a>
+          ) : null}
+        </nav>
+
+        <div id="followed-schools" className="scroll-mt-24">
+          <AccountFollowList initialFollows={followedSchools} staleFollowCount={staleFollowCount} />
+        </div>
 
         <NotificationPreferences
           finalScoreEmail={notificationPreferences?.final_score_email === true}
@@ -201,7 +221,7 @@ export default async function AccountPage() {
         />
 
         {isScorekeeper && !canModerate ? (
-          <section className="mt-6 rounded-[1.5rem] border border-[var(--vv-primary)]/40 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.24),transparent_45%),rgba(255,255,255,0.035)] p-5 sm:p-7">
+          <section id="platform-tools" className="mt-6 scroll-mt-24 rounded-[1.5rem] border border-[var(--vv-primary)]/40 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.24),transparent_45%),rgba(255,255,255,0.035)] p-5 sm:p-7">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--vv-accent)]">Contributor Dashboard</p>
@@ -279,7 +299,7 @@ export default async function AccountPage() {
             </div>
           </section>
         ) : canModerate ? (
-          <section className="mt-6 rounded-[1.5rem] border border-[var(--vv-primary)]/35 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.2),transparent_45%),rgba(255,255,255,0.035)] p-5 sm:p-7">
+          <section id="platform-tools" className="mt-6 scroll-mt-24 rounded-[1.5rem] border border-[var(--vv-primary)]/35 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.2),transparent_45%),rgba(255,255,255,0.035)] p-5 sm:p-7">
             <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--vv-accent)]">{isAdmin ? "Admin Tools" : "Moderator Tools"}</p>
             <h2 className="mt-2 text-2xl font-black">Platform operations</h2>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-white/55">
