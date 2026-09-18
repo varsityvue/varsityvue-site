@@ -30,44 +30,55 @@ export default async function GameOpenGraphImage({ params }: { params: Promise<{
   const feature = game?.featured ? "GAME OF THE WEEK" : game?.status === "live" ? "LIVE GAME CENTER" : game?.status === "final" ? "FINAL" : "MATCHUP CENTER";
 
   return new ImageResponse(
-    <div style={{ width:"100%", height:"100%", display:"flex", position:"relative", overflow:"hidden", background:"#070708", color:"#fff", fontFamily:"Arial, sans-serif" }}>
-      <div style={{ position:"absolute", inset:0, display:"flex", background:`linear-gradient(112deg,${awayColor}38 0%,transparent 38%,transparent 62%,${homeColor}38 100%)` }} />
-       <div style={{ position:"absolute", top:0, left:0, width:"50%", height:"9px", display:"flex", background:awayColor }} />
+    <div style={{ width:"100%", height:"100%", display:"flex", position:"relative", overflow:"hidden", background:"#050506", color:"#fff", fontFamily:"Arial, sans-serif" }}>
+      <div style={{ position:"absolute", inset:0, display:"flex", background:`linear-gradient(118deg,${awayColor}2b 0%,transparent 34%,transparent 66%,${homeColor}2b 100%)` }} />
+      <div style={{ position:"absolute", top:0, left:0, width:"50%", height:"9px", display:"flex", background:awayColor }} />
       <div style={{ position:"absolute", top:0, right:0, width:"50%", height:"9px", display:"flex", background:homeColor }} />
+      <div style={{ position:"absolute", left:"58px", top:"168px", width:"10px", height:"270px", display:"flex", background:awayColor, opacity:.75 }} />
+      <div style={{ position:"absolute", right:"58px", top:"168px", width:"10px", height:"270px", display:"flex", background:homeColor, opacity:.75 }} />
 
-      <div style={{ position:"relative", width:"100%", height:"100%", padding:"42px 58px", display:"flex", flexDirection:"column" }}>
+      <div style={{ position:"relative", width:"100%", height:"100%", padding:"40px 74px 38px", display:"flex", flexDirection:"column" }}>
         <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-          <div style={{ display:"flex", fontSize:"31px", fontWeight:900, letterSpacing:"-1px" }}>VARSITY<span style={{color:"#B31B34"}}>VUE</span></div>
-          <div style={{ display:"flex", alignItems:"center", gap:"12px", padding:"10px 16px", border:"1px solid rgba(255,255,255,.14)", borderRadius:"999px", background:"rgba(0,0,0,.28)", fontSize:"14px", fontWeight:900, letterSpacing:"2.5px" }}>
-            <span style={{color:"#B31B34"}}>●</span>{feature}
+          <div style={{ display:"flex", flexDirection:"column" }}>
+            <div style={{ display:"flex", fontSize:"29px", fontWeight:900, letterSpacing:"-1px" }}>VARSITY<span style={{color:"#B31B34"}}>VUE</span></div>
+            <div style={{ display:"flex", marginTop:"5px", fontSize:"10px", fontWeight:800, letterSpacing:"4px", color:"rgba(255,255,255,.36)" }}>TEXAS HIGH SCHOOL FOOTBALL</div>
+          </div>
+          <div style={{ display:"flex", alignItems:"center", gap:"11px", padding:"10px 17px", border:"1px solid rgba(255,255,255,.16)", borderRadius:"999px", background:"rgba(0,0,0,.34)", fontSize:"13px", fontWeight:900, letterSpacing:"2.6px" }}>
+            <span style={{color:"#C8102E"}}>●</span>{feature}
           </div>
         </div>
 
-        <div style={{ display:"flex", marginTop:"34px", fontSize:"13px", fontWeight:900, letterSpacing:"4px", color:"rgba(255,255,255,.42)" }}>FRIDAY NIGHT · WEEK {game?.week ?? "—"}</div>
+        <div style={{ display:"flex", marginTop:"34px", fontSize:"12px", fontWeight:900, letterSpacing:"4px", color:"rgba(255,255,255,.42)" }}>FRIDAY NIGHT · WEEK {game?.week ?? "—"}</div>
 
-        <div style={{ display:"flex", flex:1, flexDirection:"column", justifyContent:"center" }}>
-          <div style={{ display:"flex", alignItems:"flex-end", gap:"22px" }}>
-            <div style={{ display:"flex", fontSize:away.length > 11 ? "72px" : "84px", lineHeight:.9, fontWeight:900, letterSpacing:"-4px", textTransform:"uppercase" }}>{away}</div>
-            <div style={{ display:"flex", paddingBottom:"8px", fontSize:"20px", fontWeight:900, letterSpacing:"3px", color:"rgba(255,255,255,.35)" }}>AT</div>
+        <div style={{ display:"flex", flex:1, flexDirection:"column", justifyContent:"center", padding:"0 24px" }}>
+          <div style={{ display:"flex", alignItems:"center", width:"100%" }}>
+            <div style={{ display:"flex", flex:1, alignItems:"center" }}>
+              <div style={{ display:"flex", fontSize:away.length > 11 ? "78px" : "90px", lineHeight:.88, fontWeight:900, letterSpacing:"-4px", textTransform:"uppercase", textShadow:`0 0 34px ${awayColor}66` }}>{away}</div>
+            </div>
+            <div style={{ display:"flex", width:"90px", flexDirection:"column", alignItems:"center", gap:"8px" }}>
+              <div style={{ display:"flex", width:"46px", height:"2px", background:"rgba(255,255,255,.26)" }} />
+              <div style={{ display:"flex", fontSize:"21px", fontWeight:900, color:"rgba(255,255,255,.55)" }}>AT</div>
+              <div style={{ display:"flex", width:"46px", height:"2px", background:"rgba(255,255,255,.26)" }} />
+            </div>
           </div>
-          <div style={{ display:"flex", marginTop:"15px", fontSize:home.length > 11 ? "72px" : "84px", lineHeight:.9, fontWeight:900, letterSpacing:"-4px", textTransform:"uppercase" }}>{home}</div>
+          <div style={{ display:"flex", marginTop:"13px", fontSize:home.length > 11 ? "78px" : "90px", lineHeight:.88, fontWeight:900, letterSpacing:"-4px", textTransform:"uppercase", textShadow:`0 0 34px ${homeColor}66` }}>{home}</div>
 
-          <div style={{ display:"flex", alignItems:"center", gap:"14px", marginTop:"27px" }}>
-            <div style={{ display:"flex", width:"62px", height:"5px", background:awayColor }} />
-            <div style={{ display:"flex", fontSize:"15px", fontWeight:900, letterSpacing:"3px", color:"rgba(255,255,255,.62)" }}>{awaySchool?.mascot?.toUpperCase() ?? "AWAY"}</div>
-            <div style={{ display:"flex", fontSize:"14px", color:"rgba(255,255,255,.20)" }}>×</div>
-            <div style={{ display:"flex", fontSize:"15px", fontWeight:900, letterSpacing:"3px", color:"rgba(255,255,255,.62)" }}>{homeSchool?.mascot?.toUpperCase() ?? "HOME"}</div>
-            <div style={{ display:"flex", width:"62px", height:"5px", background:homeColor }} />
+          <div style={{ display:"flex", alignItems:"center", gap:"16px", marginTop:"25px" }}>
+            <div style={{ display:"flex", width:"96px", height:"5px", background:awayColor }} />
+            <div style={{ display:"flex", fontSize:"14px", fontWeight:900, letterSpacing:"4px", color:"rgba(255,255,255,.68)" }}>{awaySchool?.mascot?.toUpperCase() ?? "AWAY"}</div>
+            <div style={{ display:"flex", fontSize:"12px", color:"rgba(255,255,255,.22)" }}>×</div>
+            <div style={{ display:"flex", fontSize:"14px", fontWeight:900, letterSpacing:"4px", color:"rgba(255,255,255,.68)" }}>{homeSchool?.mascot?.toUpperCase() ?? "HOME"}</div>
+            <div style={{ display:"flex", width:"96px", height:"5px", background:homeColor }} />
           </div>
         </div>
 
-        <div style={{ display:"flex", alignItems:"stretch", borderTop:"1px solid rgba(255,255,255,.14)", paddingTop:"20px" }}>
-          <div style={{ display:"flex", flexDirection:"column", width:"42%" }}>
-            <div style={{ display:"flex", fontSize:"11px", fontWeight:900, letterSpacing:"3px", color:"rgba(255,255,255,.35)" }}>KICKOFF</div>
+        <div style={{ display:"flex", alignItems:"stretch", borderTop:"1px solid rgba(255,255,255,.16)", paddingTop:"19px" }}>
+          <div style={{ display:"flex", flexDirection:"column", width:"46%" }}>
+            <div style={{ display:"flex", fontSize:"10px", fontWeight:900, letterSpacing:"3.5px", color:"rgba(255,255,255,.35)" }}>KICKOFF</div>
             <div style={{ display:"flex", marginTop:"5px", fontSize:"25px", fontWeight:900 }}>{formatKickoff(game?.kickoff)}</div>
           </div>
-          <div style={{ display:"flex", flex:1, alignItems:"center", justifyContent:"flex-end", gap:"10px", fontSize:"14px", fontWeight:900, letterSpacing:"1.8px", color:"rgba(255,255,255,.62)" }}>
-            <span>GAME CENTER</span><span style={{color:"#B31B34"}}>•</span><span>LISTEN LIVE</span><span style={{color:"#B31B34"}}>•</span><span>SCORES</span>
+          <div style={{ display:"flex", flex:1, alignItems:"center", justifyContent:"flex-end", gap:"11px", fontSize:"14px", fontWeight:900, letterSpacing:"2px", color:"rgba(255,255,255,.66)" }}>
+            <span>GAME CENTER</span><span style={{color:"#C8102E"}}>•</span><span>LISTEN LIVE</span><span style={{color:"#C8102E"}}>•</span><span>SCORES</span>
           </div>
         </div>
       </div>
