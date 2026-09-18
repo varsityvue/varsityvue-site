@@ -1,6 +1,9 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { CaptchaSubmit } from "@/components/auth/captcha-submit";
 import { requestPasswordReset } from "./actions";
+
+export const metadata: Metadata = { title: "Reset Password Request", robots: { index: false, follow: false, nocache: true } };
 
 type ForgotPasswordPageProps = {
   searchParams: Promise<{
