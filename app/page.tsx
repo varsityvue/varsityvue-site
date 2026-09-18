@@ -218,10 +218,9 @@ export default async function Home() {
             </div>
           </div>
 
-          <section className="mt-3 grid gap-2 sm:mt-4 sm:gap-3 md:grid-cols-3" aria-label="Scores and schedule navigation">
-            <HomePathCard eyebrow="What just happened?" title="Latest Finals" description="Jump straight to the newest verified results from around the coverage area." href="/scoreboard#final-scores" action="See Latest Finals" />
-            <HomePathCard eyebrow="What’s next?" title="Upcoming Games" description="See the next scheduled kickoffs, live games, and featured matchups." href="/scoreboard#upcoming" action="Open Scoreboard" />
-            <HomePathCard eyebrow="Earlier weeks" title="Schedule + Archive" description="Browse the full season board when you need a result or matchup from a prior week." href="/games#all-matchups" action="Browse All Weeks" />
+          <section className="mt-3 grid gap-2 sm:mt-4 sm:gap-3 md:grid-cols-2" aria-label="Scores and schedule navigation">
+            <HomePathCard eyebrow="Game Night" title="Scoreboard" description="Live scores, latest finals, and upcoming kickoffs." href="/scoreboard" action="Open Scoreboard" />
+            <HomePathCard eyebrow="Full Season" title="Schedule + Archive" description="Search matchups and browse the season by week." href="/games#all-matchups" action="Browse Schedule" />
           </section>
 
           <div className="mt-3 sm:mt-4"><SchoolSearch schools={schools} /></div>
