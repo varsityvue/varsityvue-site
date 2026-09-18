@@ -1,7 +1,10 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { updatePassword } from "./actions";
+
+export const metadata: Metadata = { title: "Reset Password", robots: { index: false, follow: false, nocache: true } };
 
 const recoveryCookie = "vv_password_recovery";
 const updatedCookie = "vv_password_updated";
