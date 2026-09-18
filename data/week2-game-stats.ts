@@ -16,7 +16,7 @@ export const week2GameStats: GameStats[] = [
       { quarter: 2, clock: "5:39", schoolSlug: "de-leon", description: "Lane Couch 27-yard run (Trenton Zmeskal kick)" },
       { quarter: 2, clock: "3:35", schoolSlug: "de-leon", description: "Trenton Zmeskal 24-yard pass from Hud Price (kick failed)" },
       { quarter: 2, clock: "1:51", schoolSlug: "de-leon", description: "Hud Price 14-yard run (Trenton Zmeskal kick)" },
-      { quarter: 2, clock: "1:46", schoolSlug: "de-leon", description: "Safety, Chris McCann tackled in end zone" },
+      { quarter: 2, clock: "1:46", schoolSlug: "de-leon", description: "Safety, Christopher McCann tackled in end zone" },
       { quarter: 2, clock: "0:13", schoolSlug: "de-leon", description: "Trenton Zmeskal 6-yard pass from Hud Price (Trenton Zmeskal kick)" },
       { quarter: 3, clock: "8:57", schoolSlug: "de-leon", description: "Hud Price 3-yard run (Trenton Zmeskal kick)" },
       { quarter: 3, clock: "5:02", schoolSlug: "de-leon", description: "Lane Couch 3-yard run (Luke Stokes kick)" },
@@ -28,7 +28,7 @@ export const week2GameStats: GameStats[] = [
     ],
     rushing: [
       { player: "Lane Couch", schoolSlug: "de-leon", attempts: 21, yards: 209, touchdowns: 2 }, { player: "Hud Price", schoolSlug: "de-leon", attempts: 5, yards: 50, touchdowns: 2 }, { player: "Beau Morris", schoolSlug: "de-leon", attempts: 6, yards: 49 }, { player: "Ed Garcia", schoolSlug: "de-leon", attempts: 12, yards: 43 }, { player: "Bryce Burkeen", schoolSlug: "de-leon", attempts: 1, yards: 26 },
-      { player: "Miles Follis", schoolSlug: "stamford", attempts: 7, yards: 18 }, { player: "Brenham Walker", schoolSlug: "stamford", attempts: 6, yards: 9 }, { player: "Slayden Young", schoolSlug: "stamford", attempts: 2, yards: 6 }, { player: "Chris McCann", schoolSlug: "stamford", attempts: 2, yards: 2 }, { player: "Josh Andruch", schoolSlug: "stamford", attempts: 2, yards: -1 },
+      { player: "Miles Follis", schoolSlug: "stamford", attempts: 7, yards: 18 }, { player: "Brenham Walker", schoolSlug: "stamford", attempts: 6, yards: 9 }, { player: "Slayden Young", schoolSlug: "stamford", attempts: 2, yards: 6 }, { player: "Christopher McCann", schoolSlug: "stamford", attempts: 2, yards: 2 }, { player: "Josh Andruch", schoolSlug: "stamford", attempts: 2, yards: -1 },
     ],
     passing: [
       { player: "Hud Price", schoolSlug: "de-leon", completions: 10, attempts: 17, yards: 99, interceptions: 0, touchdowns: 3 }, { player: "Beau Morris", schoolSlug: "de-leon", completions: 0, attempts: 2, yards: 0, interceptions: 0 }, { player: "Miles Follis", schoolSlug: "stamford", completions: 19, attempts: 36, yards: 283, interceptions: 3 },
