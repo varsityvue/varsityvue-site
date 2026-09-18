@@ -97,9 +97,9 @@ export default async function CoveragePage({ searchParams }: { searchParams: Pro
             </section>
           ) : (
             <>
-              <section className="grid gap-3 sm:gap-6 lg:grid-cols-[1.4fr_0.8fr]">
+              <section>
                 {featuredArticle && (
-                  <Link href={`/coverage/${featuredArticle.slug}`} className="group relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl transition hover:-translate-y-1 hover:border-[color:var(--vv-accent)]/40 hover:bg-white/[0.075] sm:rounded-[2rem] sm:p-6 md:p-8">
+                  <Link href={`/coverage/${featuredArticle.slug}`} className="group relative block overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl transition hover:-translate-y-1 hover:border-[color:var(--vv-accent)]/40 hover:bg-white/[0.075] sm:rounded-[2rem] sm:p-6 md:p-8">
                     <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(122,16,34,0.48),transparent_55%)] opacity-55 transition group-hover:opacity-75" />
                     <div className="relative">
                       <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.32em]">Featured Story</p>
@@ -110,22 +110,19 @@ export default async function CoveragePage({ searchParams }: { searchParams: Pro
                     </div>
                   </Link>
                 )}
-                <aside className="rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:rounded-[2rem] sm:p-6 md:p-8">
-                  <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/45 sm:text-xs sm:tracking-[0.28em]">VarsityVue Coverage</p>
-                  <h3 className="mt-2.5 text-2xl font-black text-white sm:mt-4 sm:text-3xl">Stories connected to the games and programs.</h3>
-                  <p className="mt-2.5 text-xs leading-5 text-white/55 sm:mt-4 sm:text-sm sm:leading-6">Coverage grows from verified results, matchup information, and program details already connected across VarsityVue.</p>
-                  <Link href="/submit" className="mt-4 inline-flex rounded-full border border-white/10 bg-black/35 px-3.5 py-2 text-[10px] font-black uppercase tracking-[0.14em] text-white/60 transition hover:bg-white/10 hover:text-white sm:mt-6 sm:px-4 sm:text-xs sm:tracking-[0.16em]">Send a Story Tip →</Link>
-                </aside>
               </section>
 
               <section className="mt-5 rounded-[1.4rem] border border-white/10 bg-white/[0.045] p-3 shadow-2xl sm:mt-8 sm:rounded-[1.75rem] sm:p-5">
-                <div className="flex flex-wrap gap-2 sm:gap-2.5">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex flex-wrap gap-2 sm:gap-2.5">
                   <FilterPill href="/coverage" label="All Coverage" active={!activeType} />
                   <FilterPill href="/coverage?type=preview" label="Previews" active={activeType === "preview"} />
                   <FilterPill href="/coverage?type=recap" label="Recaps" active={activeType === "recap"} />
                   <FilterPill href="/coverage?type=news" label="News" active={activeType === "news"} />
                   <FilterPill href="/coverage?type=feature" label="Features" active={activeType === "feature"} />
-                  <FilterPill href="/coverage?type=legacy" label="Legacy" active={activeType === "legacy"} />
+                    <FilterPill href="/coverage?type=legacy" label="Legacy" active={activeType === "legacy"} />
+                  </div>
+                  <Link href="/submit" className="shrink-0 rounded-full border border-white/10 bg-black/35 px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.11em] text-white/60 transition hover:bg-white/10 hover:text-white sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.14em]">Story Tip →</Link>
                 </div>
               </section>
 
