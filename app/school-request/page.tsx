@@ -55,7 +55,7 @@ export default function SchoolRequestPage() {
           </p>
         </section>
 
-        <section className="mt-6 grid gap-4 sm:mt-10 sm:gap-8 lg:grid-cols-[1.35fr_0.65fr]">
+        <section className="mt-6 grid gap-4 sm:mt-10 sm:gap-6">
           <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4 sm:rounded-3xl sm:p-6 md:p-8">
             <form
               action="https://formspree.io/f/mpqnjqen"
@@ -164,28 +164,14 @@ export default function SchoolRequestPage() {
             </form>
           </div>
 
-          <aside className="rounded-[1.5rem] border border-white/10 bg-white/5 p-5 sm:rounded-3xl sm:p-6 md:p-8">
-            <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.3em]">
-              What happens next
+          <div className="px-1 pb-1 sm:px-0">
+            <p className="text-xs leading-5 text-white/45 sm:text-sm sm:leading-6">
+              Requests help guide future coverage but do not guarantee that a program will be added immediately.
             </p>
-
-            <h2 className="mt-3 text-xl font-black text-white sm:mt-4 sm:text-2xl">
-              Requests guide future coverage.
-            </h2>
-
-            <p className="mt-3 text-sm leading-6 text-white/60 sm:mt-4 sm:text-base sm:leading-7">
-              A request does not guarantee immediate coverage, but it helps us
-              prioritize schools as VarsityVue expands schedules, results,
-              rosters, statistics, and school hubs.
-            </p>
-
-            <Link
-              href="/schools"
-              className="mt-5 flex w-full items-center justify-center rounded-xl border border-white/15 bg-white/10 px-4 py-3 text-[10px] font-black uppercase tracking-[0.14em] text-white/75 transition hover:bg-white/15 hover:text-white sm:mt-7 sm:inline-flex sm:w-auto sm:px-5 sm:text-xs sm:tracking-[0.16em]"
-            >
+            <Link href="/schools" className="mt-3 inline-flex text-[10px] font-black uppercase tracking-[0.14em] text-white/55 transition hover:text-white sm:text-xs sm:tracking-[0.16em]">
               Back to Schools →
             </Link>
-          </aside>
+          </div>
         </section>
       </div>
     </main>
