@@ -98,7 +98,7 @@ export default async function FeaturedMatchups() {
   const games = [
     ...(upcomingGameOfTheWeek ? [upcomingGameOfTheWeek] : []),
     ...upcomingGames.filter((game) => game.id !== upcomingGameOfTheWeek?.id),
-  ].slice(0, 4);
+  ].slice(0, 3);
 
   if (games.length === 0) return null;
 
@@ -123,7 +123,7 @@ export default async function FeaturedMatchups() {
           </Link>
         </div>
 
-        <div className="grid gap-2.5 sm:gap-4 lg:grid-cols-4">
+        <div className="flex snap-x snap-mandatory gap-2.5 overflow-x-auto pb-2 pr-4 sm:gap-4 lg:grid lg:grid-cols-3 lg:overflow-visible lg:pb-0 lg:pr-0">
           {games.map((game) => {
             const awaySchool = game.awaySchoolSlug
               ? getSchoolBySlug(game.awaySchoolSlug)
@@ -141,7 +141,7 @@ export default async function FeaturedMatchups() {
             return (
               <article
                 key={game.id}
-                className="group overflow-hidden rounded-[1.15rem] border border-white/10 border-t-[3px] border-t-[var(--vv-primary)] bg-black/35 transition hover:-translate-y-1 hover:bg-white/[0.07] sm:rounded-[1.5rem] sm:border-t-4"
+                className="group min-w-[82%] snap-start overflow-hidden rounded-[1.15rem] border border-white/10 border-t-[3px] border-t-[var(--vv-primary)] bg-black/35 transition hover:-translate-y-1 hover:bg-white/[0.07] sm:min-w-[48%] sm:rounded-[1.5rem] sm:border-t-4 lg:min-w-0"
               >
                 <div className="p-3.5 sm:p-5">
                   <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-3">
