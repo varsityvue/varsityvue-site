@@ -56,7 +56,7 @@ export function applyDeLeonStatCorrections(game: GameStats): GameStats {
         { player: "Miles Follis", schoolSlug: "stamford", attempts: 6, yards: 24 },
         { player: "Josh Andruch", schoolSlug: "stamford", attempts: 1, yards: 0 },
         { player: "Slayden Young", schoolSlug: "stamford", attempts: 2, yards: 4 },
-        { player: "Chris McCann", schoolSlug: "stamford", attempts: 2, yards: 0 },
+        { player: "Christopher McCann", schoolSlug: "stamford", attempts: 2, yards: 0 },
         { player: "Brenham Walker", schoolSlug: "stamford", attempts: 6, yards: 10 },
         { player: "Lane Couch", schoolSlug: "de-leon", attempts: 19, yards: 205, touchdowns: 2 },
         { player: "Bryce Burkeen", schoolSlug: "de-leon", attempts: 1, yards: 26 },
