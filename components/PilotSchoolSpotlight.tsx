@@ -16,7 +16,7 @@ function formatClassification(conference: string, division?: string | null) {
 }
 
 export default async function FeaturedSchoolSpotlight() {
-  const schools = [...getFeaturedSchools()].sort((a, b) => a.name.localeCompare(b.name));
+  const schools = [...getFeaturedSchools()].sort((a, b) => a.name.localeCompare(b.name)).slice(0, 6);
   const games = await getDynamicGames();
 
   if (schools.length === 0) return null;
@@ -47,7 +47,7 @@ export default async function FeaturedSchoolSpotlight() {
           </Link>
         </div>
 
-        <div className="grid gap-2.5 sm:gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div className="flex snap-x snap-mandatory gap-2.5 overflow-x-auto pb-2 pr-4 sm:gap-4 md:grid md:grid-cols-2 md:overflow-visible md:pb-0 md:pr-0 xl:grid-cols-3">
           {schools.map((school) => {
             const district = getDistrictById(school.districtId);
             const nextGame = games
@@ -64,7 +64,7 @@ export default async function FeaturedSchoolSpotlight() {
               <Link
                 key={school.id}
                 href={`/schools/${school.slug}`}
-                className="group overflow-hidden rounded-[1.2rem] border border-white/10 bg-black/35 transition hover:-translate-y-1 hover:bg-white/[0.07] sm:rounded-[1.5rem]"
+                className="group min-w-[78%] snap-start overflow-hidden rounded-[1.2rem] border border-white/10 bg-black/35 transition hover:-translate-y-1 hover:bg-white/[0.07] sm:min-w-[46%] sm:rounded-[1.5rem] md:min-w-0"
               >
                 <div
                   className="h-1.5 sm:h-2"
