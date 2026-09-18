@@ -22,7 +22,7 @@ export const stamfordGameStats: GameStats[] = [
       { player: "Baylor Flow", schoolSlug: "stamford", attempts: 1, yards: 8 },
       { player: "Josh Andruch", schoolSlug: "stamford", attempts: 5, yards: 38 },
       { player: "Slayden Young", schoolSlug: "stamford", attempts: 2, yards: 54 },
-      { player: "Chris McCann", schoolSlug: "stamford", attempts: 8, yards: 112 },
+      { player: "Christopher McCann", schoolSlug: "stamford", attempts: 8, yards: 112 },
       { player: "Brenham Walker", schoolSlug: "stamford", attempts: 8, yards: 146 },
     ],
     passing: [
@@ -35,6 +35,35 @@ export const stamfordGameStats: GameStats[] = [
       { player: "Slayden Young", schoolSlug: "stamford", receptions: 9, yards: 215 },
       { player: "Levi Vahlenkamp", schoolSlug: "stamford", receptions: 2, yards: 29 },
       { player: "Ace Martinez", schoolSlug: "stamford", receptions: 1, yards: 30 },
+    ],
+  },
+  {
+    gameId: "stamford-at-hawley-2026-week-3",
+    season: 2026,
+    sourceStatus: "verified",
+    sourceLabel: "Published Stamford Week 3 game statistics",
+    quarterScores: [
+      { schoolSlug: "stamford", quarters: [], total: 42 },
+      { schoolSlug: "hawley", quarters: [], total: 43 },
+    ],
+    scoringPlays: [],
+    teamStats: [
+      { schoolSlug: "stamford", rushingAttempts: 13, rushingYards: 55, passingYards: 350, totalYards: 405, completions: 24, passAttempts: 35, interceptionsThrown: 1 },
+    ],
+    rushing: [
+      { player: "Miles Follis", schoolSlug: "stamford", attempts: 5, yards: 17 },
+      { player: "Christopher McCann", schoolSlug: "stamford", attempts: 3, yards: 21 },
+      { player: "Brenham Walker", schoolSlug: "stamford", attempts: 5, yards: 17 },
+    ],
+    passing: [
+      { player: "Miles Follis", schoolSlug: "stamford", completions: 24, attempts: 35, yards: 350, interceptions: 1, touchdowns: 5 },
+    ],
+    receiving: [
+      { player: "Brennan Armstrong", schoolSlug: "stamford", receptions: 2, yards: 48 },
+      { player: "Slayden Young", schoolSlug: "stamford", receptions: 8, yards: 79 },
+      { player: "Levi Vahlenkamp", schoolSlug: "stamford", receptions: 10, yards: 172 },
+      { player: "Ace Martinez", schoolSlug: "stamford", receptions: 2, yards: 36 },
+      { player: "Christopher McCann", schoolSlug: "stamford", receptions: 1, yards: 15 },
     ],
   },
 ];
