@@ -28,6 +28,7 @@ type ScoreGameOption = {
   homeName: string;
   awayIdentity: TeamVisualIdentity;
   homeIdentity: TeamVisualIdentity;
+  status: "live" | "scheduled";
   pendingReport: PendingReport;
 };
 
@@ -73,8 +74,9 @@ function formatPendingContext(report: NonNullable<PendingReport>) {
 }
 
 export default function ScoreReportForm({ games, selectedGameId, disabled, restricted }: Props) {
+  const initialGame = games.find((game) => game.id === selectedGameId);
   const [gameId, setGameId] = useState(selectedGameId);
-  const [gameStatus, setGameStatus] = useState<"live" | "final">("live");
+  const [gameStatus, setGameStatus] = useState<"live" | "final">(initialGame?.status === "scheduled" ? "final" : "live");
   const [period, setPeriod] = useState("");
   const [clock, setClock] = useState("");
   const selectedGame = useMemo(() => games.find((game) => game.id === gameId), [games, gameId]);
@@ -82,12 +84,31 @@ export default function ScoreReportForm({ games, selectedGameId, disabled, restr
   const awayLabel = selectedGame ? `${selectedGame.awayName} score` : "Away score";
   const homeLabel = selectedGame ? `${selectedGame.homeName} score` : "Home score";
 
+  function handleGameChange(value: string) {
+    setGameId(value);
+    const nextGame = games.find((game) => game.id === value);
+    setGameStatus(nextGame?.status === "scheduled" ? "final" : "live");
+    setPeriod("");
+    setClock("");
+  }
+
   function handleStatusChange(value: "live" | "final") {
     setGameStatus(value);
     if (value === "final") {
       setPeriod("");
       setClock("");
     }
+  }
+
+  if (games.length === 0) {
+    return (
+      <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
+        <p className="text-sm font-black text-white">No games are open for score reporting right now.</p>
+        <p className="mt-2 text-xs leading-5 text-white/45">
+          Games open automatically at kickoff and remain available after the live window when a verified final is still needed.
+        </p>
+      </div>
+    );
   }
 
   return (
@@ -101,14 +122,14 @@ export default function ScoreReportForm({ games, selectedGameId, disabled, restr
           name="game_id"
           required
           value={gameId}
-          onChange={(event) => setGameId(event.target.value)}
+          onChange={(event) => handleGameChange(event.target.value)}
           disabled={disabled}
           className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white focus:border-[var(--vv-accent)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-40"
         >
           <option value="" disabled>Select a game</option>
           {games.map((game) => (
             <option key={game.id} value={game.id}>
-              Week {game.week}: {game.awayName} at {game.homeName}{game.pendingReport ? " · Pending report" : ""}
+              Week {game.week}: {game.awayName} at {game.homeName} · ${game.status === "live" ? "Live" : "Awaiting result"}${game.pendingReport ? " · Pending report" : ""}
             </option>
           ))}
         </select>
