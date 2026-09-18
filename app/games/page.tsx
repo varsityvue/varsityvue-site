@@ -316,7 +316,7 @@ export default async function GamesPage({ searchParams }: { searchParams: Promis
                 {hasLiveGames
                   ? `${liveGames.length} live`
                   : hasFinalGames
-                    ? `${finalGames.length} final`
+                    ? `${finalGames.length} finals`
                     : upcomingGames.length > 0
                       ? `${upcomingGames.length} upcoming`
                       : "No games listed"}
@@ -334,6 +334,13 @@ export default async function GamesPage({ searchParams }: { searchParams: Promis
                       <h3 className="mt-1.5 text-sm font-black leading-5 text-white sm:mt-2 sm:text-lg">
                         {getAwayTeam(game)} at {getHomeTeam(game)}
                       </h3>
+                      {game.status === "final" && game.awayScore !== undefined && game.homeScore !== undefined && (
+                        <p className="mt-2 text-lg font-black leading-none text-white sm:text-xl">
+                          {getAwayTeam(game)} {game.awayScore}
+                          <span className="mx-1.5 text-white/30">—</span>
+                          {getHomeTeam(game)} {game.homeScore}
+                        </p>
+                      )}
                       <p className="mt-1.5 text-xs text-white/45 sm:mt-2 sm:text-sm">
                         {formatGameDate(game.kickoff)} · {formatGameTime(game.kickoff)}
                       </p>
