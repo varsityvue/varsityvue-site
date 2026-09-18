@@ -43,31 +43,39 @@ export default function AboutPage() {
           VarsityVue brings scores, schedules, district standings, school hubs, matchup pages, verified statistics, legacy information, and local coverage together in one place built around Texas high school football communities.
         </p>
 
-        <div className="mt-7 grid gap-3 sm:mt-10 sm:gap-5 md:grid-cols-2 lg:mt-12 lg:gap-6">
-          <section className="rounded-[1.35rem] border border-white/10 bg-white/5 p-4 sm:rounded-3xl sm:p-6 lg:p-7">
-            <h2 className="text-xl font-black sm:text-2xl">What we&apos;re building</h2>
-            <p className="mt-2.5 text-sm leading-6 text-white/60 sm:mt-4 sm:leading-7">
-              The goal is a useful, easy-to-navigate resource where fans can follow a program from its school hub to its schedule, district, games, statistics, and stories without piecing information together across multiple places.
+        <section className="mt-7 rounded-[1.35rem] border border-white/10 bg-white/5 p-4 sm:mt-10 sm:rounded-3xl sm:p-7 md:p-9 lg:mt-12">
+          <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.28em]">Why VarsityVue</p>
+          <h2 className="mt-2.5 text-2xl font-black sm:mt-3 sm:text-3xl">The information is out there. The problem is finding all of it.</h2>
+          <div className="mt-3 max-w-4xl space-y-3 text-sm leading-6 text-white/60 sm:mt-4 sm:space-y-4 sm:text-base sm:leading-7">
+            <p>
+              Texas high school football information is spread across school websites, social media, score apps, stat platforms, broadcasts, and local news. VarsityVue is being built to connect those pieces around the programs and communities they belong to.
             </p>
-          </section>
-          <section className="rounded-[1.35rem] border border-white/10 bg-white/5 p-4 sm:rounded-3xl sm:p-6 lg:p-7">
-            <h2 className="text-xl font-black sm:text-2xl">Coverage that grows with the data</h2>
-            <p className="mt-2.5 text-sm leading-6 text-white/60 sm:mt-4 sm:leading-7">
-              VarsityVue is expanding program by program. Featured programs have deeper coverage today, while additional schools, verified results, statistics, and historical information are added as reliable data becomes available.
+            <p>
+              Follow a school from Friday night&apos;s matchup to its schedule, district race, player statistics, stories, and history without starting over on a different platform every time.
             </p>
-          </section>
-        </div>
+          </div>
+        </section>
 
-        <section className="mt-6 rounded-[1.35rem] border border-white/10 bg-white/5 p-4 sm:mt-8 sm:rounded-3xl sm:p-7 md:p-9 lg:mt-10">
-          <h2 className="text-xl font-black sm:text-2xl">Help make the platform better</h2>
+        <section className="mt-3 rounded-[1.35rem] border border-white/10 bg-black/30 p-4 sm:mt-5 sm:rounded-3xl sm:p-7 md:p-9">
+          <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/40 sm:text-xs sm:tracking-[0.28em]">How we&apos;re building it</p>
+          <h2 className="mt-2.5 text-xl font-black sm:mt-3 sm:text-2xl">Program by program. Verified before published.</h2>
+          <p className="mt-3 max-w-4xl text-sm leading-6 text-white/60 sm:mt-4 sm:text-base sm:leading-7">
+            VarsityVue grows as reliable schedules, results, rosters, statistics, and historical records become available. When information can&apos;t be verified, we&apos;d rather leave a gap than fill it with a guess.
+          </p>
+        </section>
+
+        <section className="mt-3 rounded-[1.35rem] border border-white/10 bg-white/5 p-4 sm:mt-5 sm:rounded-3xl sm:p-7 md:p-9">
+          <h2 className="text-xl font-black sm:text-2xl">Help build the coverage</h2>
           <p className="mt-2.5 max-w-3xl text-sm leading-6 text-white/60 sm:mt-4 sm:leading-7">
-            Know a school that should be added, have stats or program history to share, found something that needs correcting, or want to get in touch? VarsityVue welcomes useful local input as coverage expands.
+            Know a school that should be added, or have verified stats, records, photos, or program history to share? Local contributions help VarsityVue grow.
           </p>
           <div className="mt-4 grid gap-2 sm:mt-6 sm:flex sm:flex-wrap sm:gap-3">
             <Link href="/school-request" className="rounded-full bg-[var(--vv-primary)] px-5 py-2.5 text-center text-xs font-bold transition hover:bg-[#93142a] sm:px-6 sm:py-3 sm:text-sm">Request a School</Link>
             <Link href="/submit" className="rounded-full border border-[color:var(--vv-accent)]/40 bg-white/5 px-5 py-2.5 text-center text-xs font-bold text-white transition hover:bg-white/10 sm:px-6 sm:py-3 sm:text-sm">Submit to VarsityVue</Link>
-            <Link href="/contact" className="rounded-full border border-white/15 px-5 py-2.5 text-center text-xs font-bold text-white/80 transition hover:border-white/30 hover:text-white sm:px-6 sm:py-3 sm:text-sm">Contact VarsityVue</Link>
           </div>
+          <p className="mt-4 text-xs text-white/45 sm:mt-5 sm:text-sm">
+            Need something else? <Link href="/contact" className="font-bold text-white/70 underline decoration-white/20 underline-offset-4 transition hover:text-white">Contact VarsityVue.</Link>
+          </p>
         </section>
       </div>
     </main>
