@@ -117,12 +117,17 @@ export default async function ScoreboardPage() {
   const scoreboardGames = getScoreboardGames(dynamicState);
   const liveGames = getLiveGames(dynamicState);
   const upcomingPool = getUpcomingScoreboardGames(50, dynamicState);
-  const nextWeek = upcomingPool.map((game) => game.week).filter((week): week is number => typeof week === "number").sort((a, b) => a - b)[0];
-  const upcomingGames = (nextWeek === undefined ? upcomingPool : upcomingPool.filter((game) => game.week === nextWeek)).slice(0, 6);
+  const upcomingGames = upcomingPool.slice(0, 6);
 
   const finalPool = getFinalScoreboardGames(500, dynamicState);
-  const latestFinalWeek = finalPool.map((game) => game.week).filter((week): week is number => typeof week === "number").sort((a, b) => b - a)[0];
-  const finalGames = (latestFinalWeek === undefined ? finalPool : finalPool.filter((game) => game.week === latestFinalWeek)).slice(0, 6);
+  const latestFinalDate = finalPool
+    .map((game) => game.kickoff?.slice(0, 10))
+    .filter((date): date is string => Boolean(date))
+    .sort((a, b) => b.localeCompare(a))[0];
+  const finalGames = (latestFinalDate
+    ? finalPool.filter((game) => game.kickoff?.slice(0, 10) === latestFinalDate)
+    : finalPool
+  ).slice(0, 6);
 
   return <main className="min-h-screen bg-[var(--vv-bg)] text-white">
     <PageHero eyebrow="VarsityVue Scoreboard · 2026 Football" title="Texas High School Football Scores" description="Verified final scores, featured matchups, and upcoming kickoffs from programs currently tracked by VarsityVue." aside={<div className="rounded-2xl border border-white/10 bg-black/25 px-5 py-4 lg:max-w-sm"><p className="text-xs font-black uppercase tracking-[0.2em] text-white/45">Latest Results</p><p className="mt-1 text-lg font-black text-white">Scores organized for game night.</p><p className="mt-1 text-sm leading-5 text-white/50">New results and approved community reports appear here as they are confirmed.</p></div>} />
