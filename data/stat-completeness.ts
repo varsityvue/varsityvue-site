@@ -76,6 +76,18 @@ export const statCompletenessByGame: Record<string, TeamStatCompleteness[]> = {
       },
     },
   ],
+  "stamford-at-hawley-2026-week-3": [
+    noBoxScore("hawley", true),
+    {
+      schoolSlug: "stamford",
+      categories: {
+        quarterScoring: missingQuarterSplits,
+        scoringPlays: missingScoringPlays,
+        rushing: partial("Rushing attempts and yards are complete in the supplied box score, but rushing touchdown attribution is not visible in the retained source."),
+        receiving: partial("The supplied receiving table accounts for 23 receptions and all 350 receiving yards, while the passing table records 24 completions. Receiving touchdown attribution is not visible in the retained source."),
+      },
+    },
+  ],
   "breckenridge-at-cisco-2026-week-3": [
     noBoxScore("breckenridge"),
     scoringUnavailable("cisco"),
