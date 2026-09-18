@@ -49,14 +49,12 @@ export default async function GameOpenGraphImage({ params }: { params: Promise<{
         <div style={{ display:"flex", marginTop:"34px", fontSize:"12px", fontWeight:900, letterSpacing:"4px", color:"rgba(255,255,255,.42)" }}>FRIDAY NIGHT · WEEK {game?.week ?? "—"}</div>
 
         <div style={{ display:"flex", flex:1, flexDirection:"column", justifyContent:"center", padding:"0 24px" }}>
-          <div style={{ display:"flex", alignItems:"center", width:"100%" }}>
-            <div style={{ display:"flex", flex:1, alignItems:"center" }}>
-              <div style={{ display:"flex", fontSize:away.length > 11 ? "78px" : "90px", lineHeight:.88, fontWeight:900, letterSpacing:"-4px", textTransform:"uppercase", textShadow:`0 0 34px ${awayColor}66` }}>{away}</div>
-            </div>
-            <div style={{ display:"flex", width:"54px", marginLeft:"-6px", flexDirection:"column", alignItems:"center", gap:"6px" }}>
-              <div style={{ display:"flex", width:"30px", height:"2px", background:"rgba(255,255,255,.26)" }} />
-              <div style={{ display:"flex", fontSize:"21px", fontWeight:900, color:"rgba(255,255,255,.55)" }}>AT</div>
-              <div style={{ display:"flex", width:"30px", height:"2px", background:"rgba(255,255,255,.26)" }} />
+          <div style={{ display:"flex", alignItems:"flex-end" }}>
+            <div style={{ display:"flex", fontSize:away.length > 11 ? "78px" : "90px", lineHeight:.88, fontWeight:900, letterSpacing:"-4px", textTransform:"uppercase", textShadow:`0 0 34px ${awayColor}66` }}>{away}</div>
+            <div style={{ display:"flex", width:"44px", marginLeft:"10px", marginBottom:"5px", flexDirection:"column", alignItems:"center", gap:"4px" }}>
+              <div style={{ display:"flex", width:"24px", height:"2px", background:"rgba(255,255,255,.26)" }} />
+              <div style={{ display:"flex", fontSize:"18px", fontWeight:900, color:"rgba(255,255,255,.55)" }}>AT</div>
+              <div style={{ display:"flex", width:"24px", height:"2px", background:"rgba(255,255,255,.26)" }} />
             </div>
           </div>
           <div style={{ display:"flex", marginTop:"13px", fontSize:home.length > 11 ? "78px" : "90px", lineHeight:.88, fontWeight:900, letterSpacing:"-4px", textTransform:"uppercase", textShadow:`0 0 34px ${homeColor}66` }}>{home}</div>
