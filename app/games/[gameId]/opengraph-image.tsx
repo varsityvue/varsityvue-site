@@ -32,9 +32,7 @@ export default async function GameOpenGraphImage({ params }: { params: Promise<{
   return new ImageResponse(
     <div style={{ width:"100%", height:"100%", display:"flex", position:"relative", overflow:"hidden", background:"#070708", color:"#fff", fontFamily:"Arial, sans-serif" }}>
       <div style={{ position:"absolute", inset:0, display:"flex", background:`linear-gradient(112deg,${awayColor}38 0%,transparent 38%,transparent 62%,${homeColor}38 100%)` }} />
-      <div style={{ position:"absolute", top:"-170px", left:"-90px", width:"520px", height:"520px", borderRadius:"260px", display:"flex", background:awayColor, opacity:.12 }} />
-      <div style={{ position:"absolute", bottom:"-210px", right:"-100px", width:"580px", height:"580px", borderRadius:"290px", display:"flex", background:homeColor, opacity:.12 }} />
-      <div style={{ position:"absolute", top:0, left:0, width:"50%", height:"9px", display:"flex", background:awayColor }} />
+       <div style={{ position:"absolute", top:0, left:0, width:"50%", height:"9px", display:"flex", background:awayColor }} />
       <div style={{ position:"absolute", top:0, right:0, width:"50%", height:"9px", display:"flex", background:homeColor }} />
 
       <div style={{ position:"relative", width:"100%", height:"100%", padding:"42px 58px", display:"flex", flexDirection:"column" }}>
