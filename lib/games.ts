@@ -85,8 +85,6 @@ function markPastUnverifiedGame(game: Game): Game {
   return clearInheritedSchoolBroadcasts({
     ...game,
     status: "scheduled",
-    featured: false,
-    specialEvent: undefined,
   });
 }
 
