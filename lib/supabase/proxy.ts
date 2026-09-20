@@ -1,6 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { getSupabaseConfig } from "@/lib/supabase/config";
+import { ATTRIBUTION_COOKIE, normalizedAttribution, serializeAttribution } from "@/lib/campaign-attribution";
 
 export async function updateSession(request: NextRequest) {
   const { url, publishableKey } = getSupabaseConfig();
@@ -28,6 +29,23 @@ export async function updateSession(request: NextRequest) {
   });
 
   await supabase.auth.getClaims();
+
+  if (!request.cookies.has(ATTRIBUTION_COOKIE)) {
+    const attribution = normalizedAttribution({
+      source: request.nextUrl.searchParams.get("utm_source") ?? undefined,
+      campaign: request.nextUrl.searchParams.get("utm_campaign") ?? undefined,
+      landing: `${request.nextUrl.pathname}${request.nextUrl.search}`,
+    });
+    if (attribution) {
+      supabaseResponse.cookies.set(ATTRIBUTION_COOKIE, serializeAttribution(attribution), {
+        httpOnly: true,
+        maxAge: 60 * 60 * 24 * 30,
+        path: "/",
+        sameSite: "lax",
+        secure: true,
+      });
+    }
+  }
 
   return supabaseResponse;
 }

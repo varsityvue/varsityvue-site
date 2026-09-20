@@ -82,9 +82,15 @@ export async function signup(formData: FormData) {
   const password = value(formData, "password");
   const next = safeNextPath(value(formData, "next"));
   const submittedSource = value(formData, "signup_source");
-  const signupSource = submittedSource === "home" || submittedSource === "scoreboard"
+  const signupSource = ["home", "scoreboard", "facebook", "member_share"].includes(submittedSource)
     ? submittedSource
     : "direct_or_other";
+  const submittedCampaign = value(formData, "signup_campaign").toLowerCase();
+  const signupCampaign = /^[a-z0-9][a-z0-9_-]{0,79}$/.test(submittedCampaign) ? submittedCampaign : "untagged";
+  const submittedLanding = value(formData, "signup_landing");
+  const signupLanding = submittedLanding.startsWith("/") && !submittedLanding.startsWith("//")
+    ? submittedLanding.slice(0, 200)
+    : "unknown";
   const token = captchaToken(formData);
 
   if (!displayName || !email || password.length < 8) {
@@ -117,6 +123,8 @@ export async function signup(formData: FormData) {
         display_name: displayName,
         signup_intent: signupIntent(next),
         signup_source: signupSource,
+        signup_campaign: signupCampaign,
+        signup_landing: signupLanding,
       },
     },
   });

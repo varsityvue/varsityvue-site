@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { cookies } from "next/headers";
 import ConversionViewEvent from "@/components/ConversionViewEvent";
 import { CaptchaSubmit } from "@/components/auth/captcha-submit";
 import { safeNextPath } from "@/lib/safe-next-path";
+import { ATTRIBUTION_COOKIE, parseAttribution } from "@/lib/campaign-attribution";
 import { getSchoolBySlug } from "@/lib/schools";
 import { login, signup } from "./actions";
 
@@ -26,6 +28,7 @@ function intendedSchoolSlug(returnTo: string) {
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
   const { message, mode, next, source, status } = await searchParams;
+  const attribution = parseAttribution((await cookies()).get(ATTRIBUTION_COOKIE)?.value);
   const signupMode = mode === "signup";
   const returnTo = safeNextPath(next);
   const followSchoolSlug = intendedSchoolSlug(returnTo);
@@ -47,7 +50,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
     : returnTo.startsWith("/report-score")
       ? "score_report"
       : "account";
-  const signupSource = source === "home" || source === "scoreboard" ? source : "direct_or_other";
+  const signupSource = source === "home" || source === "scoreboard" ? source : attribution?.source ?? "direct_or_other";
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] px-4 py-10 text-white sm:px-6 sm:py-16 lg:px-8">
@@ -139,6 +142,8 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           <form action={signupMode ? signup : login} className="mt-6 space-y-4">
             <input type="hidden" name="next" value={returnTo} />
             {signupMode ? <input type="hidden" name="signup_source" value={signupSource} /> : null}
+            {signupMode && attribution ? <input type="hidden" name="signup_campaign" value={attribution.campaign} /> : null}
+            {signupMode && attribution ? <input type="hidden" name="signup_landing" value={attribution.landing} /> : null}
             {signupMode ? (
               <div>
                 <label htmlFor="display_name" className="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-white/55">

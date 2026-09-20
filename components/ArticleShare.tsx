@@ -11,9 +11,14 @@ export default function ArticleShare({ title, url }: ArticleShareProps) {
   const [copied, setCopied] = useState(false);
 
   async function handleShare() {
+    const trackedUrl = new URL(url);
+    trackedUrl.searchParams.set("utm_source", "member_share");
+    trackedUrl.searchParams.set("utm_medium", "social");
+    trackedUrl.searchParams.set("utm_campaign", `coverage-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 70)}`);
+    const shareUrl = trackedUrl.toString();
     if (navigator.share) {
       try {
-        await navigator.share({ title, url });
+        await navigator.share({ title, url: shareUrl });
         return;
       } catch (error) {
         if (error instanceof DOMException && error.name === "AbortError") return;
@@ -21,11 +26,11 @@ export default function ArticleShare({ title, url }: ArticleShareProps) {
     }
 
     try {
-      await navigator.clipboard.writeText(url);
+      await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
       window.setTimeout(() => setCopied(false), 1800);
     } catch {
-      window.location.href = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`;
+      window.location.href = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(shareUrl)}`;
     }
   }
 

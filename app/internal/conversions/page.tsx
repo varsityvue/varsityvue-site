@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { requireActiveMember } from "@/lib/member-access";
+import CampaignLinkBuilder from "@/components/internal/CampaignLinkBuilder";
 
 export const metadata: Metadata = {
   title: "Conversion Dashboard",
@@ -24,6 +25,7 @@ type DashboardData = {
   };
   intent_breakdown: BreakdownRow[];
   source_breakdown: BreakdownRow[];
+  campaign_breakdown: Array<{ campaign: string; accounts: number; confirmed: number; pickem_participants: number }>;
   daily_accounts: DailyRow[];
   pickem: { participants: number; saved_picks: number; complete_slates: number };
 };
@@ -75,6 +77,8 @@ export default async function ConversionDashboardPage({ searchParams }: PageProp
           {[7, 30, 90].map((option) => <Link key={option} href={`/internal/conversions?days=${option}`} className={`rounded-full border px-4 py-2 text-xs font-black ${days === option ? "border-[var(--vv-primary)] bg-[var(--vv-primary)]" : "border-white/10 bg-white/[0.04] text-white/55"}`}>{option} days</Link>)}
         </nav>
 
+        <CampaignLinkBuilder />
+
         {error || !dashboard || !summary ? (
           <div role="alert" className="mt-6 rounded-2xl border border-red-300/20 bg-red-500/10 p-5 text-sm text-red-50">Conversion data is temporarily unavailable.</div>
         ) : (
@@ -115,6 +119,13 @@ export default async function ConversionDashboardPage({ searchParams }: PageProp
             <section className="mt-6 grid gap-6 lg:grid-cols-2">
               <Breakdown title="Signup Intent" rows={dashboard.intent_breakdown} keyName="intent" showPickem />
               <Breakdown title="Entry Source" rows={dashboard.source_breakdown} keyName="source" />
+            </section>
+
+            <section className="mt-6 rounded-2xl border border-white/10 bg-white/[0.035] p-5 sm:p-6">
+              <h2 className="text-xl font-black">Facebook campaigns</h2>
+              <div className="mt-4 divide-y divide-white/10">
+                {dashboard.campaign_breakdown.length ? dashboard.campaign_breakdown.map((row) => <div key={row.campaign} className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-4 py-3 text-sm"><span className="min-w-0 truncate font-bold text-white/70">{label(row.campaign)}</span><span className="text-right"><strong>{row.accounts}</strong><small className="block text-[9px] uppercase text-white/30">Accounts</small></span><span className="text-right"><strong>{row.confirmed}</strong><small className="block text-[9px] uppercase text-white/30">Confirmed</small></span><span className="text-right"><strong>{row.pickem_participants}</strong><small className="block text-[9px] uppercase text-white/30">Players</small></span></div>) : <p className="py-5 text-sm text-white/40">No tagged Facebook account conversions yet.</p>}
+              </div>
             </section>
 
             <p className="mt-5 text-xs leading-5 text-white/30">Intent and source attribution begins with accounts created after this release. Older accounts and untagged links appear as Unknown or Direct/Other instead of being guessed.</p>
