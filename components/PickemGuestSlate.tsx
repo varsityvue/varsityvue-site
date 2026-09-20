@@ -32,8 +32,8 @@ export default function PickemGuestSlate({ games }: { games: PickemSlateGame[] }
   return (
     <section className="mt-5 rounded-[1.5rem] border border-[var(--vv-accent)]/25 bg-white/[0.045] p-4 shadow-xl sm:mt-7 sm:p-7">
       <div className="text-center">
-        <h2 className="text-xl font-black sm:text-2xl">Pick first. Create an account only to save.</h2>
-        <p className="mx-auto mt-2 max-w-2xl text-sm leading-6 text-white/50">Choose every winner now. We’ll carry your selections through registration and return you here without starting over.</p>
+        <h2 className="text-xl font-black sm:text-2xl">Choose Your Winners</h2>
+        <p className="mx-auto mt-2 max-w-2xl text-sm leading-6 text-white/50">Make all {unlockedCount} picks now. Create a free account when you’re ready to save them.</p>
       </div>
 
       <div className="mt-5 grid gap-3 lg:grid-cols-2">
