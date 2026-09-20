@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { requireActiveMember } from "@/lib/member-access";
+import { getSchoolBySlug } from "@/lib/schools";
 
 function text(formData: FormData, key: string) {
   return String(formData.get(key) ?? "").trim();
@@ -100,4 +101,44 @@ export async function removeContributorSchool(formData: FormData) {
   revalidatePath("/account");
   revalidatePath("/report-score");
   redirect("/internal/contributor-access?updated=removed");
+}
+
+const recruitmentStatuses = ["uncovered", "researching", "contacted", "interested", "onboarding", "paused"] as const;
+
+export async function updateContributorRecruitment(formData: FormData) {
+  const schoolSlug = text(formData, "school_slug");
+  const recruitmentStatus = text(formData, "recruitment_status");
+  const candidateName = text(formData, "candidate_name").slice(0, 120) || null;
+  const candidateContact = text(formData, "candidate_contact").slice(0, 240) || null;
+  const recruitmentNote = text(formData, "recruitment_note").slice(0, 1000) || null;
+  const { supabase, userId } = await requireAdmin();
+
+  if (!getSchoolBySlug(schoolSlug) || !recruitmentStatuses.includes(recruitmentStatus as (typeof recruitmentStatuses)[number])) {
+    redirect("/internal/contributor-access?message=Choose%20a%20valid%20program%20and%20recruitment%20stage.");
+  }
+
+  const { error } = await supabase.from("contributor_recruitment_pipeline").upsert({
+    school_slug: schoolSlug,
+    recruitment_status: recruitmentStatus,
+    candidate_name: candidateName,
+    candidate_contact: candidateContact,
+    recruitment_note: recruitmentNote,
+    updated_by: userId,
+    updated_at: new Date().toISOString(),
+  }, { onConflict: "school_slug" });
+
+  if (error) redirect(`/internal/contributor-access?message=${encodeURIComponent(error.message)}`);
+  revalidatePath("/internal/contributor-access");
+  redirect("/internal/contributor-access?updated=recruitment-saved");
+}
+
+export async function clearContributorRecruitment(formData: FormData) {
+  const schoolSlug = text(formData, "school_slug");
+  const { supabase } = await requireAdmin();
+  if (!getSchoolBySlug(schoolSlug)) redirect("/internal/contributor-access?message=Unknown%20program.");
+
+  const { error } = await supabase.from("contributor_recruitment_pipeline").delete().eq("school_slug", schoolSlug);
+  if (error) redirect(`/internal/contributor-access?message=${encodeURIComponent(error.message)}`);
+  revalidatePath("/internal/contributor-access");
+  redirect("/internal/contributor-access?updated=recruitment-cleared");
 }

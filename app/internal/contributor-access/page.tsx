@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 
 import { getSchools } from "@/lib/schools";
 import { requireActiveMember } from "@/lib/member-access";
-import { assignContributorSchool, removeContributorSchool } from "./actions";
+import { assignContributorSchool, clearContributorRecruitment, removeContributorSchool, updateContributorRecruitment } from "./actions";
 
 export const metadata: Metadata = {
   title: "Contributor Access",
@@ -13,6 +13,15 @@ export const metadata: Metadata = {
 
 type PageProps = {
   searchParams: Promise<{ message?: string; updated?: string; q?: string }>;
+};
+
+const recruitmentLabels: Record<string, string> = {
+  uncovered: "Uncovered",
+  researching: "Researching",
+  contacted: "Contacted",
+  interested: "Interested",
+  onboarding: "Onboarding",
+  paused: "Paused",
 };
 
 export default async function ContributorAccessPage({ searchParams }: PageProps) {
@@ -26,7 +35,7 @@ export default async function ContributorAccessPage({ searchParams }: PageProps)
   if (!roles?.some((row) => row.role === "admin")) redirect("/account");
 
   const params = await searchParams;
-  const [{ data: profiles }, { data: assignments }] = await Promise.all([
+  const [{ data: profiles }, { data: assignments }, { data: recruitmentRows }] = await Promise.all([
     supabase
       .from("profiles")
       .select("id, display_name, username, email")
@@ -36,6 +45,10 @@ export default async function ContributorAccessPage({ searchParams }: PageProps)
       .select("user_id, school_slug, assignment_role, active, created_at")
       .eq("active", true)
       .order("created_at", { ascending: true }),
+    supabase
+      .from("contributor_recruitment_pipeline")
+      .select("school_slug, recruitment_status, candidate_name, candidate_contact, recruitment_note, updated_at")
+      .order("updated_at", { ascending: false }),
   ]);
 
   const schools = getSchools()
@@ -44,12 +57,24 @@ export default async function ContributorAccessPage({ searchParams }: PageProps)
 
   const schoolMap = new Map(schools.map((school) => [school.slug, school]));
   const assignmentsByUser = new Map<string, typeof assignments>();
+  const assignmentsBySchool = new Map<string, NonNullable<typeof assignments>>();
+  const recruitmentBySchool = new Map((recruitmentRows ?? []).map((row) => [row.school_slug, row]));
 
   for (const assignment of assignments ?? []) {
     const current = assignmentsByUser.get(assignment.user_id) ?? [];
     current.push(assignment);
     assignmentsByUser.set(assignment.user_id, current);
+    const schoolAssignments = assignmentsBySchool.get(assignment.school_slug) ?? [];
+    schoolAssignments.push(assignment);
+    assignmentsBySchool.set(assignment.school_slug, schoolAssignments);
   }
+
+  const coverageSchools = schools.filter((school) => school.districtId !== "opponent");
+  const coveredPrograms = coverageSchools.filter((school) => (assignmentsBySchool.get(school.slug)?.length ?? 0) > 0).length;
+  const activeProspects = coverageSchools.filter((school) => {
+    const status = recruitmentBySchool.get(school.slug)?.recruitment_status;
+    return !assignmentsBySchool.has(school.slug) && status && !["uncovered", "paused"].includes(status);
+  }).length;
 
   const query = params.q?.trim().toLowerCase() ?? "";
   const visibleProfiles = query
@@ -85,6 +110,30 @@ export default async function ContributorAccessPage({ searchParams }: PageProps)
         {params.message ? (
           <div className="mt-6 rounded-2xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm text-amber-50">{params.message}</div>
         ) : null}
+
+        <section className="mt-8">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div><p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">Coverage Pipeline</p><h2 className="mt-1 text-xl font-black">Programs</h2></div>
+            <p className="text-xs text-white/35">Active assignments override recruitment stage and count as covered.</p>
+          </div>
+          <div className="mt-4 grid gap-3 sm:grid-cols-3">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4"><p className="text-3xl font-black">{coveredPrograms}</p><p className="mt-1 text-[10px] font-black uppercase tracking-[0.14em] text-emerald-100/60">Covered</p></div>
+            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4"><p className="text-3xl font-black">{activeProspects}</p><p className="mt-1 text-[10px] font-black uppercase tracking-[0.14em] text-sky-100/60">Active prospects</p></div>
+            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4"><p className="text-3xl font-black">{coverageSchools.length - coveredPrograms}</p><p className="mt-1 text-[10px] font-black uppercase tracking-[0.14em] text-amber-100/60">Coverage gaps</p></div>
+          </div>
+          <div className="mt-4 grid gap-4 lg:grid-cols-2">{coverageSchools.map((school) => {
+            const schoolAssignments = assignmentsBySchool.get(school.slug) ?? [];
+            const recruitment = recruitmentBySchool.get(school.slug);
+            const isCovered = schoolAssignments.length > 0;
+            const status = recruitment?.recruitment_status ?? "uncovered";
+            return <article key={school.slug} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+              <div className="flex flex-wrap items-start justify-between gap-3"><div><p className="text-base font-black">{school.name} {school.mascot}</p><p className="mt-1 text-[10px] font-black uppercase tracking-[0.14em] text-white/35">{school.classification.conference} {school.classification.division} · {school.districtId.replaceAll("-", " ")}</p></div><span className={`rounded-full border px-3 py-1 text-[9px] font-black uppercase tracking-[0.12em] ${isCovered ? "border-emerald-300/20 bg-emerald-300/10 text-emerald-100" : status === "paused" ? "border-white/10 text-white/35" : "border-amber-300/20 bg-amber-300/10 text-amber-100"}`}>{isCovered ? `Covered · ${schoolAssignments.length}` : recruitmentLabels[status] ?? status}</span></div>
+              {isCovered ? <p className="mt-3 text-xs text-white/45">{schoolAssignments.map((assignment) => { const profile = (profiles ?? []).find((item) => item.id === assignment.user_id); return `${profile?.display_name || profile?.username || "Contributor"} (${assignment.assignment_role})`; }).join(" · ")}</p> : null}
+              <form action={updateContributorRecruitment} className="mt-4 grid gap-2 sm:grid-cols-2"><input type="hidden" name="school_slug" value={school.slug}/><select name="recruitment_status" defaultValue={status} aria-label={`Recruitment status for ${school.name}`} className="rounded-xl border border-white/10 bg-black/35 px-3 py-2.5 text-xs"><option value="uncovered">Uncovered</option><option value="researching">Researching</option><option value="contacted">Contacted</option><option value="interested">Interested</option><option value="onboarding">Onboarding</option><option value="paused">Paused</option></select><input name="candidate_name" defaultValue={recruitment?.candidate_name ?? ""} maxLength={120} placeholder="Candidate name" className="rounded-xl border border-white/10 bg-black/35 px-3 py-2.5 text-xs"/><input name="candidate_contact" defaultValue={recruitment?.candidate_contact ?? ""} maxLength={240} placeholder="Email, phone, or social profile" className="rounded-xl border border-white/10 bg-black/35 px-3 py-2.5 text-xs sm:col-span-2"/><textarea name="recruitment_note" defaultValue={recruitment?.recruitment_note ?? ""} maxLength={1000} rows={2} placeholder="Recruitment notes and next step" className="rounded-xl border border-white/10 bg-black/35 px-3 py-2.5 text-xs sm:col-span-2"/><div className="flex flex-wrap gap-2 sm:col-span-2"><button className="rounded-full border border-sky-300/20 bg-sky-300/10 px-4 py-2 text-[10px] font-black text-sky-50">Save Pipeline</button></div></form>
+              {recruitment ? <form action={clearContributorRecruitment} className="mt-2"><input type="hidden" name="school_slug" value={school.slug}/><button className="text-[10px] font-bold text-white/30 hover:text-white/60">Clear pipeline details</button></form> : null}
+            </article>;
+          })}</div>
+        </section>
 
         <section className="mt-8 rounded-2xl border border-white/10 bg-white/[0.04] p-5 sm:p-6">
           <div className="flex flex-wrap items-end justify-between gap-3">
