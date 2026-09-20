@@ -1,6 +1,6 @@
 # VarsityVue Product Roadmap
 
-_Last updated: September 20, 2026_
+_Reassessed: September 20, 2026 after the Week 5 growth and engagement review_
 
 This document is the permanent product direction for VarsityVue. It exists so short-term development work does not obscure the larger goal.
 
@@ -50,7 +50,88 @@ The historical database should compound every season until a competitor is not s
 
 # Product Roadmap
 
-## CURRENT — Trust & Reliability
+## Authoritative 2026 Execution Plan
+
+This section supersedes older phase sequencing wherever a conflict exists. VarsityVue is no longer deciding whether to build Follow, notifications, Pick 'Em, Score Scout, or contributor tooling. Their production foundations exist. The immediate job is to operate them reliably, complete the school identity layer around them, measure whether they create repeat users, and prepare the next growth systems without exposing unfinished prize or push features.
+
+### Production State
+
+Live production foundations include:
+
+- public scores, schedules, Game Center, school hubs, district pages, standings, coverage, broadcast links, and responsive mobile navigation;
+- member accounts, email confirmation, suspension enforcement, role-based administration, Turnstile protection, password recovery, and secure member management;
+- school follows, contextual signed-out follow conversion, member notification preferences, verified-final email delivery, Pick 'Em reminder email delivery, unsubscribe controls, retries, and audit history;
+- weekly Pick 'Em selection, per-game locking, saved/editable pick states, automatic grading from verified finals, member history, and season standings;
+- conversion attribution by source, campaign, signup intent, school, first-value activation, Pick 'Em participation, complete slate, and notification opt-in;
+- moderated score reporting, moderator trusted submission, canonical game-state propagation, score review history, and statistics completeness states;
+- Score Scout missing-final queue, scheduled discovery foundation, evidence confidence, moderator review, and verified-result publication path; and
+- contributor recruitment, applications, school assignments, and role progression foundations.
+
+This inventory is not a declaration that every system is mature. It identifies what should now be improved and operated rather than rebuilt.
+
+### Week 5 Launch Gate
+
+Work required before promoting Week 5 heavily:
+
+1. Keep the live Pick 'Em slate stable: saved picks must remain clear, editable until kickoff, individually locked, auditable, and automatically graded only from verified finals.
+2. Complete the identity layer for all 18 Week 5 Pick 'Em schools. All 18 have structured school records; official program logos are still needed for Jacksboro, Canyon West Plains, Tolar, Early, Florence, Post, Miles, Winters, and Crawford.
+3. Verify each Week 5 game time, venue where available, school identity, and final-score ingestion path before the slate is promoted.
+4. Confirm the conversion dashboard can distinguish acquisition, registration, activation, school attribution, Pick 'Em participation, and notification opt-in without changing user consent.
+5. Preserve a clean no-prize public experience until contest rules, eligibility, abuse controls, funding, and sponsor commitments are complete.
+
+### Next Three Development Steps
+
+1. **Week 5 school identity completion:** source, document, optimize, and integrate the nine missing official program logos; verify colors, mascots, official athletics links, stadium information, and broadcast links where available.
+2. **Retention measurement:** measure complete-slate rate, week-over-week Pick 'Em return, post-grading leaderboard return, follow activation, and notification opt-in. Raw registrations without return behavior are not a sufficient success metric.
+3. **PWA installation foundation:** add restrained, platform-aware Home Screen education for engaged members. Measure installation intent before building the first web-push subscription and device-management release.
+
+### Background-Only Build Track — Sponsored Pick 'Em
+
+Prize readiness may be developed behind a disabled feature flag, but no prize language, eligibility claim, or payout workflow should be public before sponsor funding and rule review are complete.
+
+Background requirements:
+
+- predicted Game of the Week score or another deterministic tie-breaker;
+- sponsor, prize, eligibility-period, and official-rules configuration;
+- one prize-eligible entry per verified mobile number while preserving ordinary non-prize participation;
+- verification deadlines before the first relevant kickoff;
+- CAPTCHA, signup throttling, duplicate-account signals, and manual fraud review without automatically penalizing households on shared networks;
+- minimum age, geographic eligibility, identity confirmation, claim deadline, tax responsibility, and winner-publicity terms;
+- auditable winner calculation, tie resolution, disqualification, claim, and payout history; and
+- an immediate off switch that does not affect ordinary Pick 'Em records or standings.
+
+The preferred first test is a sponsor-funded, free-to-enter weekly prize of modest value. Prize traffic should be evaluated by retained members, not registrations alone.
+
+### Web Push Sequence
+
+VarsityVue does not need a native application to send phone push notifications. Standards-based web push can build on the existing PWA, but iPhone and iPad users must first add VarsityVue to the Home Screen and grant permission through a direct interaction.
+
+Sequence web push as follows:
+
+1. measure and improve Home Screen installation education;
+2. add member-owned device subscriptions, revocation, and notification-channel preferences;
+3. pilot verified-final push for followed schools;
+4. add kickoff and Pick 'Em lock reminders after opt-in behavior is understood; and
+5. consider selective live alerts only after live-score timeliness and correction safeguards are proven.
+
+Do not notify on every score change. Push must be useful enough to retain permission and reliable enough to protect trust.
+
+### Intentionally Deferred
+
+- Native iOS or Android applications until PWA installation and push adoption demonstrate demand.
+- Public cash-prize promotion until a sponsor is contracted, funding is committed, rules are reviewed, and anti-abuse controls are production-ready.
+- Automatic publication of discovered finals without moderator review until Score Scout accuracy has been measured across meaningful volume.
+- Indiscriminate statewide school expansion. Complete connected districts and Pick 'Em identities first.
+- Full historical research at the expense of current-season reliability; preserve 2026 data for Legacy and deepen the archive primarily in the offseason.
+- Generic display-ad clutter or premature commerce that weakens the core product.
+
+### Cost and Operating Constraints
+
+- Email remains the broadest notification channel because it requires no installation. Web push adds storage, service-worker, subscription, and delivery operations but does not require a native app or Apple Developer membership.
+- Prize eligibility likely adds SMS verification cost, fraud review, winner administration, and legal/rules review. These costs must be included in sponsor pricing rather than absorbed invisibly.
+- Every additional fully covered school creates recurring schedule, score, broadcast, identity, and contributor work. Expansion must improve a connected district or slate rather than create isolated maintenance.
+
+## CURRENT FOUNDATION — Trust & Reliability
 
 VarsityVue's soft launch establishes the operating foundation: accounts, roles, moderated score submissions, verified canonical game state, audit history, public scoreboards, school and district hubs, and reusable game surfaces. The current priority is making those systems consistently trustworthy before pushing harder on acquisition.
 
@@ -67,7 +148,7 @@ Statistics remain structurally difficult: programs submit inconsistently, select
 
 ### Automated Missing-Final Discovery — VarsityVue Score Scout
 
-Build a scheduled score-discovery system that looks for missing final scores after a reasonable post-kickoff grace period on Friday night and again Saturday morning. This should not depend on a moderator opening an individual game and clicking a search button.
+The scheduled queue, evidence model, confidence scoring, discovery runner, moderator review, and canonical publication path are established. The next objective is controlled production operation: run Score Scout after a reasonable post-kickoff grace period on Friday night and again Saturday morning, measure source accuracy, and reduce manual score hunting without weakening verification.
 
 For every tracked game that still lacks a verified final, Score Scout should:
 
@@ -86,7 +167,7 @@ Score Scout should reduce Saturday-morning score hunting and allow VarsityVue to
 
 ---
 
-## NEXT — Growth Phase 1: Follow + Notifications
+## LIVE FOUNDATION / NEXT CHANNEL — Follow + Notifications
 
 ### Follow Schools
 
@@ -114,6 +195,8 @@ Optimize the conversion path:
 ### Mobile Installation and Return Access
 
 VarsityVue should increasingly feel like an app without requiring an App Store download. Build on the existing PWA foundation with platform-appropriate, well-timed home-screen education. Installation, follows, and notifications should reinforce one another without becoming intrusive.
+
+Email was correctly used as the first broad notification channel because it works without installation and established consent, delivery, retry, unsubscribe, and audit infrastructure. The next channel is web push, sequenced behind installation education and device-subscription management. A native app is not a prerequisite.
 
 ### Viewer-to-Member Conversion
 
@@ -215,13 +298,13 @@ Favor additions that improve existing schedules, matchups, standings, rivalries,
 
 ---
 
-## FOLLOWING THE IMMEDIATE GROWTH WORK — VarsityVue Pick 'Ems
+## LIVE GROWTH PRODUCT — VarsityVue Pick 'Ems
 
-Pick 'Em is the clearest near-term reason for a casual viewer to create an account and return every week. It remains sequenced after the immediate Follow/Notifications and Friday-night reliability work, but it should be designed and measured as a primary member-acquisition, activation, and retention system rather than as an isolated game.
+Pick 'Em is live as the clearest near-term reason for a casual viewer to create an account and return every week. The foundation now requires operational hardening, retention measurement, school identity completion, and disciplined promotion rather than another ground-up build.
 
-Build a weekly Pick 'Em experience centered on roughly 10 selected games.
+Operate a weekly Pick 'Em experience centered on roughly 10 selected games.
 
-Core requirements:
+Live core requirements that must remain protected:
 
 - VarsityVue account required to participate.
 - Picks lock at the appropriate game kickoff.
@@ -235,7 +318,9 @@ Core requirements:
 - Weekly results and leaderboard movement should create shareable reasons to return after games finish.
 - The system should be designed so points can have additional utility later.
 
-Pick 'Em should create a recurring weekly habit, strengthen member identity, and feed the broader rewards and data flywheel. Moving it behind the immediate growth phases is sequencing, not abandonment.
+Near-term additions are retention measurement, school identity completeness, and a deterministic tie-breaker that can support a future sponsored prize. Prize eligibility, phone verification, fraud review, and payout administration remain background-only until separately approved for launch.
+
+Pick 'Em should create a recurring weekly habit, strengthen member identity, and feed the broader rewards and data flywheel. Near-term decisions should now be judged by whether they improve slate completion, grading trust, weekly return, or sustainable acquisition.
 
 Measure:
 
@@ -364,15 +449,17 @@ Work that meaningfully advances those goals should generally outrank microscopic
 
 # Immediate Development Direction
 
-The immediate sequence is:
+The immediate sequence is now:
 
-1. Finish the current reliability audits.
-2. Audit and instrument the viewer-to-member funnel so account growth can be diagnosed rather than guessed at.
-3. Tighten contextual follow, notification, and registration calls to action on the highest-traffic school, game, scoreboard, and coverage surfaces.
-4. Improve the Friday-night scoreboard and broadcast experience while expanding coverage district-by-district.
-5. Build VarsityVue Pick 'Ems as the primary weekly account-conversion and repeat-engagement feature.
-6. Build the contributor network and scheduled Score Scout review workflow so wider coverage does not create unsustainable manual work.
-7. Pursue the 500-member season-end traction target using measured conversion and retention data.
-8. Use that traction to prepare 2027 local sponsorship sales.
+1. Complete Week 5 school identity and logo readiness for the active Pick 'Em slate.
+2. Verify the Week 5 slate, locking, grading, and final-score operating path before promotion.
+3. Measure complete-slate conversion and week-over-week member retention instead of continuing to add signup instrumentation indefinitely.
+4. Add restrained PWA installation education and measure adoption.
+5. Build verified-final web push as the first push pilot after device subscriptions and explicit channel preferences are ready.
+6. Prepare sponsored Pick 'Em tie-breaker, eligibility, phone verification, fraud review, official rules, and payout auditability behind a disabled feature flag.
+7. Improve the Friday-night scoreboard and broadcast experience while expanding connected district coverage.
+8. Operate Score Scout and contributor workflows to prevent coverage growth from becoming linear owner workload.
+9. Pursue the 500-member target using retained and activated members as the commercially meaningful measure.
+10. Use measured 2026 traction to prepare 2027 local sponsorship sales.
 
-Pick 'Em remains the next major recurring-engagement feature after the immediate funnel, Follow/Notifications, and Friday-night work. Legacy should continue accumulating in parallel as the long-term compounding moat and a major offseason opportunity. Neither should distract from reliability, measurable audience growth, or the local contributor network required to make VarsityVue more useful every week.
+The default next task is Step 1. Do not resume open-ended feature expansion merely because another feature is technically possible.
