@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
+import TrackedSignupLink from "@/components/TrackedSignupLink";
 
 const navItems = [
   { href: "/scoreboard", label: "Scores" },
@@ -67,12 +68,12 @@ export default async function SiteHeader() {
               >
                 Log In
               </Link>
-              <Link
-                href="/login?mode=signup"
+              <TrackedSignupLink
+                surface="header"
                 className="rounded-full border border-[color:var(--vv-accent)] bg-[var(--vv-primary)] px-2.5 py-2 text-[8px] font-black uppercase tracking-[0.06em] text-white transition hover:bg-[var(--vv-primary-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:px-4 sm:py-3 sm:text-xs sm:tracking-[0.12em] lg:px-3 lg:py-2.5 lg:text-[10px] xl:px-4 xl:text-xs"
               >
                 Register
-              </Link>
+              </TrackedSignupLink>
             </div>
           )}
         </div>

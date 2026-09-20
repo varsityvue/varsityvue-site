@@ -9,7 +9,7 @@ export default function TrackedSignupLink({
   className,
   children,
 }: {
-  surface: "home" | "scoreboard";
+  surface: "home" | "scoreboard" | "header";
   className: string;
   children: ReactNode;
 }) {

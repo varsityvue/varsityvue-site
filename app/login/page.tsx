@@ -40,7 +40,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   const toggleParams = new URLSearchParams();
   if (!signupMode) toggleParams.set("mode", "signup");
   if (returnTo !== "/account") toggleParams.set("next", returnTo);
-  if (source === "home" || source === "scoreboard") toggleParams.set("source", source);
+  if (source === "home" || source === "scoreboard" || source === "header") toggleParams.set("source", source);
   const toggleHref = toggleParams.size ? `/login?${toggleParams.toString()}` : "/login";
   const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
   const sourceIntent = followSchool
@@ -50,7 +50,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
     : returnTo.startsWith("/report-score")
       ? "score_report"
       : "account";
-  const signupSource = source === "home" || source === "scoreboard" ? source : attribution?.source ?? "direct_or_other";
+  const signupSource = source === "home" || source === "scoreboard" || source === "header" ? source : attribution?.source ?? "direct_or_other";
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] px-4 py-10 text-white sm:px-6 sm:py-16 lg:px-8">
