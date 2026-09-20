@@ -4,14 +4,12 @@ import { createClient } from "@/lib/supabase/server";
 
 const navItems = [
   { href: "/scoreboard", label: "Scores" },
-  { href: "/pickem", label: "Pick ’Em" },
   { href: "/schools", label: "Schools" },
-  { href: "/districts", label: "Districts" },
   { href: "/coverage", label: "Coverage" },
-  { href: "/legacy", label: "Legacy" },
+  { href: "/pickem", label: "Pick ’Em" },
 ];
 
-const mobileNavItems = navItems.filter((item) => !["/legacy", "/coverage"].includes(item.href));
+const mobileNavItems = navItems;
 
 export default async function SiteHeader() {
   const supabase = await createClient();
