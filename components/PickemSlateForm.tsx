@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useActionState } from "react";
+import { useState, useTransition } from "react";
 
 import { savePickemSlate, type PickemActionState } from "@/app/pickem/actions";
 
@@ -13,13 +13,16 @@ export type PickemSlateGame = {
   awayMark: string;
   awayColor: string;
   awayLogoUrl?: string;
+  awayLogoScale: number;
   homeName: string;
   homeSlug: string;
   homeMark: string;
   homeColor: string;
   homeLogoUrl?: string;
+  homeLogoScale: number;
   kickoffLabel: string;
   locked: boolean;
+  savedSlug?: string;
   selectedSlug?: string;
 };
 
@@ -34,7 +37,26 @@ export default function PickemSlateForm({
   games: PickemSlateGame[];
   savedPickCount: number;
 }) {
-  const [state, action, pending] = useActionState(savePickemSlate, initialState);
+  const [state, setState] = useState<PickemActionState>(initialState);
+  const [pending, startTransition] = useTransition();
+  const [selections, setSelections] = useState<Record<string, string>>(() =>
+    Object.fromEntries(games.flatMap((game) => game.selectedSlug ? [[game.id, game.selectedSlug]] : [])),
+  );
+  const [savedSelections, setSavedSelections] = useState<Record<string, string>>(() =>
+    Object.fromEntries(games.flatMap((game) => game.savedSlug ? [[game.id, game.savedSlug]] : [])),
+  );
+  const hasUnsavedChanges = games.some(
+    (game) => !game.locked && selections[game.id] !== savedSelections[game.id],
+  );
+  const action = (formData: FormData) => {
+    startTransition(async () => {
+      const nextState = await savePickemSlate(state, formData);
+      setState(nextState);
+      if (nextState.status === "success") {
+        setSavedSelections(selections);
+      }
+    });
+  };
 
   return (
     <form action={action} className="mt-5 sm:mt-7">
@@ -48,8 +70,8 @@ export default function PickemSlateForm({
               <p className="text-[9px] font-black uppercase tracking-[0.12em] text-white/45">{game.locked ? "Locked" : game.kickoffLabel}</p>
             </div>
             <div className="mt-3 grid grid-cols-2 gap-2">
-              <PickChoice name={`pick_${game.id}`} slug={game.awaySlug} team={game.awayName} label="Away" mark={game.awayMark} color={game.awayColor} logoUrl={game.awayLogoUrl} defaultChecked={game.selectedSlug === game.awaySlug} />
-              <PickChoice name={`pick_${game.id}`} slug={game.homeSlug} team={game.homeName} label="Home" mark={game.homeMark} color={game.homeColor} logoUrl={game.homeLogoUrl} defaultChecked={game.selectedSlug === game.homeSlug} />
+              <PickChoice name={`pick_${game.id}`} slug={game.awaySlug} team={game.awayName} label="Away" mark={game.awayMark} color={game.awayColor} logoUrl={game.awayLogoUrl} logoScale={game.awayLogoScale} checked={selections[game.id] === game.awaySlug} onSelect={() => setSelections((current) => ({ ...current, [game.id]: game.awaySlug }))} />
+              <PickChoice name={`pick_${game.id}`} slug={game.homeSlug} team={game.homeName} label="Home" mark={game.homeMark} color={game.homeColor} logoUrl={game.homeLogoUrl} logoScale={game.homeLogoScale} checked={selections[game.id] === game.homeSlug} onSelect={() => setSelections((current) => ({ ...current, [game.id]: game.homeSlug }))} />
             </div>
           </fieldset>
         ))}
@@ -61,26 +83,26 @@ export default function PickemSlateForm({
             ? `${savedPickCount} pick${savedPickCount === 1 ? " is" : "s are"} saved. Change any unlocked pick and save again before kickoff.`
             : "Selections remain editable until each game’s kickoff.")}
         </p>
-        <button type="submit" disabled={pending || games.every((game) => game.locked)} className="mt-3 w-full rounded-xl bg-white px-5 py-3 text-xs font-black uppercase tracking-[0.12em] text-black transition hover:bg-white/85 disabled:cursor-not-allowed disabled:opacity-50 sm:mt-0 sm:w-auto sm:shrink-0">
-          {pending ? "Saving…" : savedPickCount > 0 ? "Save Changes" : "Save My Picks"}
+        <button type="submit" disabled={pending || !hasUnsavedChanges || games.every((game) => game.locked)} className="mt-3 w-full rounded-xl bg-white px-5 py-3 text-xs font-black uppercase tracking-[0.12em] text-black transition hover:bg-white/85 disabled:cursor-not-allowed disabled:opacity-50 sm:mt-0 sm:w-auto sm:shrink-0">
+          {pending ? "Saving…" : !hasUnsavedChanges ? "Picks Saved" : savedPickCount > 0 ? "Save Changes" : "Save My Picks"}
         </button>
       </div>
     </form>
   );
 }
 
-function PickChoice({ name, slug, team, label, mark, color, logoUrl, defaultChecked }: { name: string; slug: string; team: string; label: string; mark: string; color: string; logoUrl?: string; defaultChecked: boolean }) {
+function PickChoice({ name, slug, team, label, mark, color, logoUrl, logoScale, checked, onSelect }: { name: string; slug: string; team: string; label: string; mark: string; color: string; logoUrl?: string; logoScale: number; checked: boolean; onSelect: () => void }) {
   return (
     <label className="group relative cursor-pointer">
-      <input type="radio" name={name} value={slug} defaultChecked={defaultChecked} className="peer sr-only" />
+      <input type="radio" name={name} value={slug} checked={checked} onChange={onSelect} className="peer sr-only" />
       <span className="flex min-h-24 flex-col items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] px-2 py-3 text-center transition group-hover:bg-white/[0.08] peer-checked:border-[var(--vv-accent)] peer-checked:bg-[var(--vv-primary)]/35 peer-checked:shadow-[inset_0_0_0_1px_rgba(242,184,75,0.16)] peer-focus-visible:ring-2 peer-focus-visible:ring-white/70">
-        <TeamMark mark={mark} color={color} logoUrl={logoUrl}/><span className="mt-2 text-[8px] font-black uppercase tracking-[0.14em] text-white/35">{label}</span>
+        <TeamMark mark={mark} color={color} logoUrl={logoUrl} logoScale={logoScale}/><span className="mt-2 text-[8px] font-black uppercase tracking-[0.14em] text-white/35">{label}</span>
         <span className="mt-0.5 text-sm font-black leading-tight text-white sm:text-base">{team}</span>
       </span>
     </label>
   );
 }
 
-function TeamMark({ mark, color, logoUrl }: { mark: string; color: string; logoUrl?: string }) {
-  return logoUrl ? <span className="relative h-9 w-9"><Image src={logoUrl} alt="" fill sizes="36px" className="object-contain"/></span> : <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-[9px] font-black text-white shadow-lg" style={{ backgroundColor: color }}>{mark.slice(0, 4)}</span>;
+function TeamMark({ mark, color, logoUrl, logoScale }: { mark: string; color: string; logoUrl?: string; logoScale: number }) {
+  return logoUrl ? <span className="relative h-9 w-9"><Image src={logoUrl} alt="" fill sizes="36px" className="object-contain" style={{ transform: `scale(${logoScale})` }}/></span> : <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-[9px] font-black text-white shadow-lg" style={{ backgroundColor: color }}>{mark.slice(0, 4)}</span>;
 }
