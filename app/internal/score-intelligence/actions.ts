@@ -78,3 +78,29 @@ export async function updateIntelligenceStatus(formData: FormData) {
   revalidatePath("/internal/score-intelligence");
   redirect(`/internal/score-intelligence?updated=${encodeURIComponent(status)}`);
 }
+
+export async function reviewScoreEvidence(formData: FormData) {
+  const evidenceId = value(formData, "evidence_id");
+  const gameId = value(formData, "game_id");
+  const decision = value(formData, "decision");
+  const reviewNote = value(formData, "review_note").slice(0, 1000) || null;
+  const { supabase } = await requireModerator();
+
+  if (!evidenceId || !["approve", "reject", "defer"].includes(decision)) {
+    redirect("/internal/score-intelligence?message=Invalid%20evidence%20decision.");
+  }
+
+  const { error } = await supabase.rpc("review_missing_score_evidence", {
+    target_evidence_id: evidenceId,
+    decision,
+    note: reviewNote,
+  });
+  if (error) redirect(`/internal/score-intelligence?message=${encodeURIComponent(error.message)}`);
+
+  revalidatePath("/internal/score-intelligence");
+  revalidatePath("/internal/score-review");
+  revalidatePath("/scoreboard");
+  revalidatePath("/games");
+  if (gameId) revalidatePath(`/games/${gameId}`);
+  redirect(`/internal/score-intelligence?updated=${encodeURIComponent(`evidence-${decision}d`)}`);
+}
