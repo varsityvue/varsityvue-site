@@ -74,7 +74,7 @@ This inventory is not a declaration that every system is mature. It identifies w
 Work required before promoting Week 5 heavily:
 
 1. Keep the live Pick 'Em slate stable: saved picks must remain clear, editable until kickoff, individually locked, auditable, and automatically graded only from verified finals.
-2. Complete the identity layer for all 18 Week 5 Pick 'Em schools. All 18 have structured school records; official program logos are still needed for Jacksboro, Canyon West Plains, Tolar, Early, Florence, Post, Miles, Winters, and Crawford.
+2. Complete the identity layer for all 18 Week 5 Pick 'Em schools. All 18 have structured school records. Eight of the nine previously missing official program logos are integrated; Post still needs a transparent production asset.
 3. Verify each Week 5 game time, venue where available, school identity, and final-score ingestion path before the slate is promoted.
 4. Confirm the conversion dashboard can distinguish acquisition, registration, activation, school attribution, Pick 'Em participation, and notification opt-in without changing user consent.
 5. Preserve a clean no-prize public experience until contest rules, eligibility, abuse controls, funding, and sponsor commitments are complete.
