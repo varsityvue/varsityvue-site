@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { requireActiveMember } from "@/lib/member-access";
+import { evidenceSourceTypes, type EvidenceSourceType } from "@/lib/score-evidence-confidence";
 
 function value(formData: FormData, key: string) {
   return String(formData.get(key) ?? "").trim();
@@ -19,6 +20,7 @@ async function requireModerator() {
 export async function addScoreEvidence(formData: FormData) {
   const intelligenceId = value(formData, "intelligence_id");
   const sourceName = value(formData, "source_name").slice(0, 100);
+  const sourceType = value(formData, "source_type") as EvidenceSourceType;
   const rawSourceUrl = value(formData, "source_url").slice(0, 500);
   let sourceUrl: string | null = null;
   if (rawSourceUrl) {
@@ -40,11 +42,13 @@ export async function addScoreEvidence(formData: FormData) {
   const scoresValid = (awayScore === null && homeScore === null) || (
     Number.isInteger(awayScore) && Number.isInteger(homeScore) && awayScore! >= 0 && awayScore! <= 150 && homeScore! >= 0 && homeScore! <= 150
   );
-  if (!intelligenceId || !sourceName || !scoresValid) redirect("/internal/score-intelligence?message=Check%20the%20evidence%20details.");
+  if (!intelligenceId || !sourceName || !evidenceSourceTypes.includes(sourceType) || !scoresValid) redirect("/internal/score-intelligence?message=Check%20the%20evidence%20details.");
 
   const { error } = await supabase.from("missing_score_evidence").insert({
     intelligence_id: intelligenceId,
     source_name: sourceName,
+    source_type: sourceType,
+    ingestion_method: "moderator",
     source_url: sourceUrl,
     away_score: awayScore,
     home_score: homeScore,
