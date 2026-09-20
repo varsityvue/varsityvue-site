@@ -64,6 +64,7 @@ export default function SchoolHero({ school, games, isAuthenticated, isFollowing
             </div>
             <div className="col-span-2 mt-1 sm:col-span-1 sm:col-start-2 sm:mt-0">
               <SchoolFollowControl schoolName={school.name} schoolSlug={school.slug} isAuthenticated={isAuthenticated} isFollowing={isFollowing} finishFollowing={finishFollowing} initialMessage={followMessage} />
+              {!isFollowing && <p className="mt-1.5 max-w-sm text-[9px] leading-4 text-white/40 sm:text-[10px]">Save {school.name} to your account, then choose verified final-score alerts.</p>}
             </div>
             <div className="col-span-2 mt-1 text-[10px] font-semibold leading-5 text-white/50 sm:col-span-1 sm:col-start-2 sm:mt-0 sm:text-xs sm:leading-6">
               {school.headCoach && <p><span className="text-white/35">Coach</span> {school.headCoach}</p>}

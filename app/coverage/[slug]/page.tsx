@@ -259,7 +259,7 @@ export default async function ArticlePage({ params, searchParams }: ArticlePageP
             {articleFollowSchools.length > 0 && (
               <section aria-label="Follow programs featured in this story" className="mt-6 rounded-[1.2rem] border border-white/10 bg-white/[0.045] p-3.5 shadow-xl sm:mt-10 sm:rounded-[1.5rem] sm:p-5">
                 <p className="text-[8px] font-black uppercase tracking-[0.18em] text-[var(--vv-accent)] sm:text-[10px] sm:tracking-[0.2em]">Follow {articleFollowSchools.length === 1 ? "This Program" : "These Programs"}</p>
-                <p className="mt-1.5 text-xs leading-5 text-white/50 sm:text-sm">Keep up with {articleFollowSchools.map((school) => school.name).join(" and ")} on VarsityVue.</p>
+                <p className="mt-1.5 text-xs leading-5 text-white/50 sm:text-sm">Save {articleFollowSchools.map((school) => school.name).join(" and ")} to your account, then choose verified final-score alerts.</p>
                 <div className={`mt-3 grid gap-2 ${articleFollowSchools.length > 1 ? "grid-cols-2" : "grid-cols-1"}`}>
                   {articleFollowSchools.map((school) => {
                     const isFollowing = followedSchoolSlugs.has(school.slug);
