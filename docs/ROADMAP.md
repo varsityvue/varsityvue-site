@@ -115,6 +115,27 @@ Optimize the conversion path:
 
 VarsityVue should increasingly feel like an app without requiring an App Store download. Build on the existing PWA foundation with platform-appropriate, well-timed home-screen education. Installation, follows, and notifications should reinforce one another without becoming intrusive.
 
+### Viewer-to-Member Conversion
+
+Treat conversion as a product system rather than assuming traffic will naturally create accounts. Public scores, schedules, Game Center pages, school hubs, broadcast links, and coverage should remain useful without registration, but each high-intent surface should offer a clear next benefit that requires identity.
+
+Prioritize conversion moments such as:
+
+- follow this school and receive its verified final score;
+- save notification preferences for followed programs;
+- make weekly Pick 'Em selections before kickoff;
+- preserve season Pick 'Em points, rank, and history;
+- contribute a score or correction with an accountable identity; and
+- return to a personalized Friday-night experience centered on followed schools and active picks.
+
+Use context-specific calls to action rather than generic account promotion. A visitor reading a final should be invited to follow that program or receive its next result. A visitor viewing a weekly matchup should be invited to make a pick. A returning Facebook visitor should immediately understand what membership adds beyond the public information already available.
+
+Instrument the complete funnel by source and school where practical:
+
+**Facebook / Search / Direct → Landing Surface → Follow or Pick Intent → Registration Started → Registration Completed → First Follow / Pick → Notification Opt-In → Friday-Night Return**
+
+Track conversion rate by landing surface, school, acquisition source, and call-to-action placement. Also track registration completion, first-value activation, and subsequent Friday-night return. Do not increase registration friction or hide basic public information merely to inflate signup totals.
+
 ---
 
 ## NEXT — Growth Phase 2: Friday Night Experience
@@ -196,7 +217,7 @@ Favor additions that improve existing schedules, matchups, standings, rivalries,
 
 ## FOLLOWING THE IMMEDIATE GROWTH WORK — VarsityVue Pick 'Ems
 
-Pick 'Em remains an important recurring-engagement feature, but it follows the immediate Follow/Notifications and Friday-night experience work rather than displacing them.
+Pick 'Em is the clearest near-term reason for a casual viewer to create an account and return every week. It remains sequenced after the immediate Follow/Notifications and Friday-night reliability work, but it should be designed and measured as a primary member-acquisition, activation, and retention system rather than as an isolated game.
 
 Build a weekly Pick 'Em experience centered on roughly 10 selected games.
 
@@ -208,9 +229,23 @@ Core requirements:
 - Correct picks and/or season points persist across the season.
 - A live season leaderboard prominently shows approximately the top 5–10 pickers.
 - Users can view their own record/history.
+- A completed registration should return the user to the picks they intended to make rather than losing their progress or context.
+- Weekly matchup, scoreboard, school-hub, coverage, and Facebook promotion should route visitors directly into the relevant Pick 'Em slate.
+- Pick reminders should be useful and opt-in, with clear lock times and no notification spam.
+- Weekly results and leaderboard movement should create shareable reasons to return after games finish.
 - The system should be designed so points can have additional utility later.
 
 Pick 'Em should create a recurring weekly habit, strengthen member identity, and feed the broader rewards and data flywheel. Moving it behind the immediate growth phases is sequencing, not abandonment.
+
+Measure:
+
+- visitors who open a weekly Pick 'Em slate;
+- registration starts and completions originating from Pick 'Em;
+- first-time participants who submit a complete slate;
+- weekly active pickers and week-over-week retention;
+- picks submitted before lock and successfully graded from verified finals;
+- leaderboard views and return visits after grading; and
+- the percentage of Pick 'Em members who also follow a school or enable notifications.
 
 ---
 
@@ -332,10 +367,12 @@ Work that meaningfully advances those goals should generally outrank microscopic
 The immediate sequence is:
 
 1. Finish the current reliability audits.
-2. Execute Follow + Notifications.
-3. Improve the Friday-night scoreboard and broadcast experience.
-4. Build the contributor network.
-5. Pursue the 500-member season-end traction target.
-6. Use that traction to prepare 2027 local sponsorship sales.
+2. Audit and instrument the viewer-to-member funnel so account growth can be diagnosed rather than guessed at.
+3. Tighten contextual follow, notification, and registration calls to action on the highest-traffic school, game, scoreboard, and coverage surfaces.
+4. Improve the Friday-night scoreboard and broadcast experience while expanding coverage district-by-district.
+5. Build VarsityVue Pick 'Ems as the primary weekly account-conversion and repeat-engagement feature.
+6. Build the contributor network and scheduled Score Scout review workflow so wider coverage does not create unsustainable manual work.
+7. Pursue the 500-member season-end traction target using measured conversion and retention data.
+8. Use that traction to prepare 2027 local sponsorship sales.
 
-Pick 'Em remains the next major recurring-engagement feature after the immediate Follow/Notifications and Friday-night work. Legacy should continue accumulating in parallel as the long-term compounding moat and a major offseason opportunity. Neither should distract from reliability, measurable audience growth, or the local contributor network required to make VarsityVue more useful every week.
+Pick 'Em remains the next major recurring-engagement feature after the immediate funnel, Follow/Notifications, and Friday-night work. Legacy should continue accumulating in parallel as the long-term compounding moat and a major offseason opportunity. Neither should distract from reliability, measurable audience growth, or the local contributor network required to make VarsityVue more useful every week.
