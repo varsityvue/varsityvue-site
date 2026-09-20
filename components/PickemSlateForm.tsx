@@ -13,12 +13,14 @@ export type PickemSlateGame = {
   awayMark: string;
   awayColor: string;
   awayLogoUrl?: string;
+  awayLogoFilter?: string;
   awayLogoScale: number;
   homeName: string;
   homeSlug: string;
   homeMark: string;
   homeColor: string;
   homeLogoUrl?: string;
+  homeLogoFilter?: string;
   homeLogoScale: number;
   kickoffLabel: string;
   locked: boolean;
@@ -70,8 +72,8 @@ export default function PickemSlateForm({
               <p className="text-[9px] font-black uppercase tracking-[0.12em] text-white/45">{game.locked ? "Locked" : game.kickoffLabel}</p>
             </div>
             <div className="mt-3 grid grid-cols-2 gap-2">
-              <PickChoice name={`pick_${game.id}`} slug={game.awaySlug} team={game.awayName} label="Away" mark={game.awayMark} color={game.awayColor} logoUrl={game.awayLogoUrl} logoScale={game.awayLogoScale} checked={selections[game.id] === game.awaySlug} onSelect={() => setSelections((current) => ({ ...current, [game.id]: game.awaySlug }))} />
-              <PickChoice name={`pick_${game.id}`} slug={game.homeSlug} team={game.homeName} label="Home" mark={game.homeMark} color={game.homeColor} logoUrl={game.homeLogoUrl} logoScale={game.homeLogoScale} checked={selections[game.id] === game.homeSlug} onSelect={() => setSelections((current) => ({ ...current, [game.id]: game.homeSlug }))} />
+              <PickChoice name={`pick_${game.id}`} slug={game.awaySlug} team={game.awayName} label="Away" mark={game.awayMark} color={game.awayColor} logoUrl={game.awayLogoUrl} logoFilter={game.awayLogoFilter} logoScale={game.awayLogoScale} checked={selections[game.id] === game.awaySlug} onSelect={() => setSelections((current) => ({ ...current, [game.id]: game.awaySlug }))} />
+              <PickChoice name={`pick_${game.id}`} slug={game.homeSlug} team={game.homeName} label="Home" mark={game.homeMark} color={game.homeColor} logoUrl={game.homeLogoUrl} logoFilter={game.homeLogoFilter} logoScale={game.homeLogoScale} checked={selections[game.id] === game.homeSlug} onSelect={() => setSelections((current) => ({ ...current, [game.id]: game.homeSlug }))} />
             </div>
           </fieldset>
         ))}
@@ -91,18 +93,18 @@ export default function PickemSlateForm({
   );
 }
 
-function PickChoice({ name, slug, team, label, mark, color, logoUrl, logoScale, checked, onSelect }: { name: string; slug: string; team: string; label: string; mark: string; color: string; logoUrl?: string; logoScale: number; checked: boolean; onSelect: () => void }) {
+function PickChoice({ name, slug, team, label, mark, color, logoUrl, logoFilter, logoScale, checked, onSelect }: { name: string; slug: string; team: string; label: string; mark: string; color: string; logoUrl?: string; logoFilter?: string; logoScale: number; checked: boolean; onSelect: () => void }) {
   return (
     <label className="group relative cursor-pointer">
       <input type="radio" name={name} value={slug} checked={checked} onChange={onSelect} className="peer sr-only" />
       <span className="flex min-h-24 flex-col items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] px-2 py-3 text-center transition group-hover:bg-white/[0.08] peer-checked:border-[var(--vv-accent)] peer-checked:bg-[var(--vv-primary)]/35 peer-checked:shadow-[inset_0_0_0_1px_rgba(242,184,75,0.16)] peer-focus-visible:ring-2 peer-focus-visible:ring-white/70">
-        <TeamMark mark={mark} color={color} logoUrl={logoUrl} logoScale={logoScale}/><span className="mt-2 text-[8px] font-black uppercase tracking-[0.14em] text-white/35">{label}</span>
+        <TeamMark mark={mark} color={color} logoUrl={logoUrl} logoFilter={logoFilter} logoScale={logoScale}/><span className="mt-2 text-[8px] font-black uppercase tracking-[0.14em] text-white/35">{label}</span>
         <span className="mt-0.5 text-sm font-black leading-tight text-white sm:text-base">{team}</span>
       </span>
     </label>
   );
 }
 
-function TeamMark({ mark, color, logoUrl, logoScale }: { mark: string; color: string; logoUrl?: string; logoScale: number }) {
-  return logoUrl ? <span className="relative h-9 w-9"><Image src={logoUrl} alt="" fill sizes="36px" className="object-contain" style={{ transform: `scale(${logoScale})` }}/></span> : <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-[9px] font-black text-white shadow-lg" style={{ backgroundColor: color }}>{mark.slice(0, 4)}</span>;
+function TeamMark({ mark, color, logoUrl, logoFilter, logoScale }: { mark: string; color: string; logoUrl?: string; logoFilter?: string; logoScale: number }) {
+  return logoUrl ? <span className="relative h-9 w-9"><Image src={logoUrl} alt="" fill sizes="36px" className="object-contain" style={{ filter: logoFilter, transform: `scale(${logoScale})` }}/></span> : <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-[9px] font-black text-white shadow-lg" style={{ backgroundColor: color }}>{mark.slice(0, 4)}</span>;
 }

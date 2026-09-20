@@ -1,5 +1,6 @@
 type SchoolLogo = {
   path: string;
+  pickemFilter?: string;
   pickemScale?: number;
 };
 
@@ -8,12 +9,12 @@ const schoolLogoBySlug: Record<string, SchoolLogo> = {
   "canyon-west-plains": { path: "/logos/schools/canyon-west-plains.png", pickemScale: 1.15 },
   cisco: { path: "/logos/schools/cisco.png" },
   comanche: { path: "/logos/schools/comanche.png" },
-  crawford: { path: "/logos/schools/crawford.png", pickemScale: 1.18 },
+  crawford: { path: "/logos/schools/crawford.png", pickemScale: 1.3 },
   "de-leon": { path: "/logos/schools/de-leon.png" },
   early: { path: "/logos/schools/early.png", pickemScale: 1.22 },
   florence: { path: "/logos/schools/florence.png", pickemScale: 1.2 },
   goldthwaite: { path: "/logos/schools/goldthwaite.png" },
-  hawley: { path: "/logos/schools/hawley.png" },
+  hawley: { path: "/logos/schools/hawley.png", pickemFilter: "brightness(1.9) contrast(1.08)" },
   hico: { path: "/logos/schools/hico.png", pickemScale: 1.25 },
   jacksboro: { path: "/logos/schools/jacksboro.png" },
   miles: { path: "/logos/schools/miles.png" },
@@ -31,4 +32,8 @@ export function getSchoolLogoPath(schoolSlug: string) {
 
 export function getPickemLogoScale(schoolSlug: string) {
   return schoolLogoBySlug[schoolSlug]?.pickemScale ?? 1;
+}
+
+export function getPickemLogoFilter(schoolSlug: string) {
+  return schoolLogoBySlug[schoolSlug]?.pickemFilter;
 }
