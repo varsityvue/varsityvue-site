@@ -1,4 +1,5 @@
 import { drainPickemEmailReminders, drainProductEmails, enqueuePickemEmailReminders } from "@/lib/product-email-worker";
+import { syncMissingScoreIntelligence } from "@/lib/missing-score-intelligence";
 
 export const runtime = "nodejs";
 
@@ -8,10 +9,13 @@ export async function GET(request: Request) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const pickemEnqueue = await enqueuePickemEmailReminders();
+  const [pickemEnqueue, scoreIntelligence] = await Promise.all([
+    enqueuePickemEmailReminders(),
+    syncMissingScoreIntelligence(),
+  ]);
   const [outcomes, pickemOutcomes] = await Promise.all([
     drainProductEmails(5),
     drainPickemEmailReminders(3),
   ]);
-  return Response.json({ outcomes, pickemEnqueue, pickemOutcomes });
+  return Response.json({ outcomes, pickemEnqueue, pickemOutcomes, scoreIntelligence });
 }

@@ -313,6 +313,7 @@ export default async function AccountPage() {
                 <div className="mt-3 flex flex-col gap-2.5">
                   <Link href="/report-score" className="text-sm font-black text-white transition hover:text-[var(--vv-accent)]">Enter Score →</Link>
                   <Link href="/internal/score-review" className="text-sm font-black text-white transition hover:text-[var(--vv-accent)]">Review Score Reports →</Link>
+                  <Link href="/internal/score-intelligence" className="text-sm font-bold text-white/65 transition hover:text-white">Missing Score Intelligence →</Link>
                   <Link href="/internal/pickem" className="text-sm font-black text-white transition hover:text-[var(--vv-accent)]">Manage Pick ’Em →</Link>
                   <Link href="/scoreboard" className="text-sm font-bold text-white/65 transition hover:text-white">View Scoreboard →</Link>
                 </div>

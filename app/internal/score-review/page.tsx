@@ -119,6 +119,7 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
           <a href="/internal/score-review/history" className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-white/50 transition hover:border-white/20 hover:text-white">
             Review History →
           </a>
+          <a href="/internal/score-intelligence" className="rounded-full border border-sky-300/20 bg-sky-300/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-sky-100 transition hover:bg-sky-300/15">Missing Scores →</a>
         </div>
 
         {params["game-status"] ? (
