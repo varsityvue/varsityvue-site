@@ -18,6 +18,7 @@ import ExtendedGameStatsPanel from "@/components/ExtendedGameStatsPanel";
 import StatCompletenessBadge from "@/components/StatCompletenessBadge";
 import SchoolBadge, { getProgramLogoPath } from "@/components/SchoolBadge";
 import SchoolFollowControl from "@/components/SchoolFollowControl";
+import TrackedPickemLink from "@/components/TrackedPickemLink";
 import type { TeamStatLine } from "@/data/game-stats";
 import { combineCategoryStates, getGameCategoryCompleteness } from "@/lib/stat-completeness";
 import type { MediaLink, UILClassification } from "@/types/platform";
@@ -88,6 +89,7 @@ export default async function GamePage({ params, searchParams }: GamePageProps) 
           </div>
           <div className="hidden gap-8 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:items-center"><TeamBlock align="left" label="Away" team={awayTeamName} school={awaySchool} districtName={awayDistrict?.name} record={awayStanding ? `${awayStanding.overallWins}-${awayStanding.overallLosses}` : undefined} score={hasScore ? game.awayScore : undefined} /><div className="flex flex-col items-center justify-center gap-3"><div className="rounded-full border border-white/15 bg-white/[0.08] px-8 py-5 text-2xl font-black text-white/85 shadow-xl">{gameStateLabel.toUpperCase()}</div><p className="text-center text-xs font-black uppercase tracking-[0.18em] text-white/40">{formatGameDate(kickoffValue)}</p></div><TeamBlock align="right" label="Home" team={homeTeamName} school={homeSchool} districtName={homeDistrict?.name} record={homeStanding ? `${homeStanding.overallWins}-${homeStanding.overallLosses}` : undefined} score={hasScore ? game.homeScore : undefined} /></div>
           <GameCenterActions links={game.mediaLinks} gameId={game.id} gameStatus={game.status} showReportScore={showReportScore} />
+          <GamePickemAction gameId={game.id} />
           {followSchools.length > 0 && <GameFollowPrompt schools={followSchools} gameId={game.id} isAuthenticated={Boolean(followUserId)} followedSchoolSlugs={followedSchoolSlugs} followParams={followParams} />}
           <div className="mt-8 hidden gap-3 lg:grid lg:grid-cols-4"><InfoCard label="Date" value={formatGameDate(kickoffValue)} /><InfoCard label="Kickoff" value={formatGameTime(kickoffValue)} />{hasVenue ? <a href={getMapUrl({ venue: venueName, venueAddress: game.venueAddress, homeTeam: homeTeamName })} target="_blank" rel="noopener noreferrer"><InfoCard label="Venue" value={`${venueName} →`} /></a> : <InfoCard label="Venue" value={venueName} />}<InfoCard label="Coverage" value={stats ? "Verified Postgame" : missingStatsState ? getStatAvailabilityLabel(missingStatsState.status) : preview ? "Preview Published" : game.status === "final" ? "Postgame" : game.status === "live" ? "Live Updates" : "Game Center"} /></div>
         </div>
@@ -100,6 +102,21 @@ export default async function GamePage({ params, searchParams }: GamePageProps) 
 
 function GameFollowPrompt({ schools, gameId, isAuthenticated, followedSchoolSlugs, followParams }: { schools: NonNullable<ReturnType<typeof getSchoolBySlug>>[]; gameId: string; isAuthenticated: boolean; followedSchoolSlugs: Set<string>; followParams: FollowSearchParams }) {
   return <section aria-label="Follow teams in this game" className="mt-3 border-t border-white/10 pt-3 sm:mt-5 sm:pt-5"><p className="text-center text-[8px] font-black uppercase tracking-[0.16em] text-white/30 sm:text-[9px] sm:tracking-[0.18em]">Follow These Programs</p><p className="mx-auto mt-1 max-w-xl text-center text-[9px] leading-4 text-white/40 sm:text-[10px]">Save a team to your account, then choose verified final-score alerts.</p><div className={`mt-2 grid gap-2 sm:mt-3 ${schools.length > 1 ? "grid-cols-2" : "grid-cols-1"}`}>{schools.map((school) => { const isFollowing = followedSchoolSlugs.has(school.slug); const finishFollowing = isAuthenticated && !isFollowing && followParams.finishFollow === school.slug; const message = isFollowing && followParams.followed === school.slug ? `You’re now following ${school.name}.` : !isFollowing && followParams.unfollowed === school.slug ? `You are no longer following ${school.name}.` : finishFollowing ? followParams.followError === "1" ? "Authentication succeeded, but the follow still needs your confirmation." : `Authentication succeeded. Select Finish Following to follow ${school.name}.` : ""; return <div key={school.slug} className="min-w-0 rounded-xl border border-white/10 bg-black/20 p-2.5 text-center sm:p-3"><p className="mb-2 truncate text-[10px] font-black text-white/65 sm:text-xs">{school.name}</p><SchoolFollowControl schoolName={school.name} schoolSlug={school.slug} isAuthenticated={isAuthenticated} isFollowing={isFollowing} finishFollowing={finishFollowing} initialMessage={message} sourceSurface="game_center" sourceId={gameId} compact /></div>; })}</div></section>;
+}
+
+async function GamePickemAction({ gameId }: { gameId: string }) {
+  const supabase = await createClient();
+  const { data: pickemGame } = await supabase
+    .from("pickem_game_cards")
+    .select("id")
+    .eq("game_id", gameId)
+    .eq("is_locked", false)
+    .limit(1)
+    .maybeSingle();
+
+  if (!pickemGame) return null;
+
+  return <div className="mt-2"><TrackedPickemLink surface="game_center" gameId={gameId} className="inline-flex rounded-lg border border-[var(--vv-accent)]/30 bg-[var(--vv-primary)]/30 px-3 py-2.5 text-[10px] font-black uppercase tracking-[0.1em] text-white transition hover:bg-[var(--vv-primary)]/50 sm:rounded-xl sm:px-4 sm:py-3 sm:text-xs sm:tracking-[0.14em]">Make Your Pick →</TrackedPickemLink></div>;
 }
 
 function VerifiedStatsSection({ stats, homeTeamName, awayTeamName, homeSchoolSlug, awaySchoolSlug }: { stats: NonNullable<ReturnType<typeof getGameStats>>; homeTeamName: string; awayTeamName: string; homeSchoolSlug: string; awaySchoolSlug: string }) {
