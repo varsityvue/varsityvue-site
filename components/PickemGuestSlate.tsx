@@ -18,8 +18,8 @@ export default function PickemGuestSlate({ games }: { games: PickemSlateGame[] }
     .map((game) => `${game.gameId}~${selections[game.gameId]}`)
     .join("|");
   const returnPath = intent ? `/pickem?intent=${encodeURIComponent(intent)}` : "/pickem";
-  const loginHref = `/login?next=${encodeURIComponent(returnPath)}`;
-  const signupHref = `/login?mode=signup&next=${encodeURIComponent(returnPath)}`;
+  const loginHref = `/login?next=${encodeURIComponent(returnPath)}&source=pickem`;
+  const signupHref = `/login?mode=signup&next=${encodeURIComponent(returnPath)}&source=pickem`;
 
   const trackRegistrationIntent = (mode: "login" | "signup") => {
     track("Pick Registration Intent", {
