@@ -86,7 +86,7 @@ export default async function AccountPage() {
       .order("created_at", { ascending: true }),
     supabase
       .from("member_notification_preferences")
-      .select("final_score_email, new_coverage_email")
+      .select("final_score_email, new_coverage_email, pickem_reminder_email")
       .eq("user_id", userId)
       .maybeSingle(),
   ]);
@@ -217,6 +217,7 @@ export default async function AccountPage() {
         <NotificationPreferences
           finalScoreEmail={notificationPreferences?.final_score_email === true}
           newCoverageEmail={notificationPreferences?.new_coverage_email === true}
+          pickemReminderEmail={notificationPreferences?.pickem_reminder_email === true}
           followCount={followedSchools.length}
         />
 

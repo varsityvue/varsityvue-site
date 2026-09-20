@@ -8,7 +8,7 @@ import {
   updateNotificationPreference,
 } from "@/app/account/notification-actions";
 
-type PreferenceCategory = "final_score" | "new_coverage";
+type PreferenceCategory = "final_score" | "new_coverage" | "pickem_reminder";
 
 type PreferenceRowProps = {
   category: PreferenceCategory;
@@ -57,16 +57,18 @@ function PreferenceRow({ category, description, enabled, formAction, label, pend
 export default function NotificationPreferences({
   finalScoreEmail,
   newCoverageEmail,
+  pickemReminderEmail,
   followCount,
 }: {
   finalScoreEmail: boolean;
   newCoverageEmail: boolean;
+  pickemReminderEmail: boolean;
   followCount: number;
 }) {
   const initialState: NotificationPreferenceState = {
     status: "idle",
     message: "",
-    preferences: { finalScoreEmail, newCoverageEmail },
+    preferences: { finalScoreEmail, newCoverageEmail, pickemReminderEmail },
   };
   const [state, formAction, pending] = useActionState(updateNotificationPreference, initialState);
   const preferences = state.preferences;
@@ -97,6 +99,14 @@ export default function NotificationPreferences({
           label="Final Score Email"
           description="Get an email when a followed school's game reaches a verified final."
           enabled={preferences.finalScoreEmail}
+          formAction={formAction}
+          pending={pending}
+        />
+        <PreferenceRow
+          category="pickem_reminder"
+          label="Pick ’Em Reminder"
+          description="Get one email before an open weekly slate locks when you still have picks left to make."
+          enabled={preferences.pickemReminderEmail}
           formAction={formAction}
           pending={pending}
         />

@@ -2,7 +2,7 @@ import "server-only";
 
 import { createHmac, timingSafeEqual } from "node:crypto";
 
-export type ProductEmailCategory = "final_score" | "new_coverage";
+export type ProductEmailCategory = "final_score" | "new_coverage" | "pickem_reminder";
 export type UnsubscribeCategory = ProductEmailCategory | "all";
 
 type UnsubscribePayload = {
@@ -55,7 +55,7 @@ export function verifyProductEmailUnsubscribeToken(token?: string | null) {
     const payload = JSON.parse(
       Buffer.from(encodedPayload, "base64url").toString("utf8"),
     ) as Partial<UnsubscribePayload>;
-    const categories: UnsubscribeCategory[] = ["final_score", "new_coverage", "all"];
+    const categories: UnsubscribeCategory[] = ["final_score", "new_coverage", "pickem_reminder", "all"];
     if (
       payload.version !== 1 ||
       typeof payload.userId !== "string" ||
@@ -75,5 +75,6 @@ export function verifyProductEmailUnsubscribeToken(token?: string | null) {
 export function productEmailCategoryLabel(category: UnsubscribeCategory) {
   if (category === "final_score") return "Final Score Email";
   if (category === "new_coverage") return "New Coverage Email";
+  if (category === "pickem_reminder") return "Pick ’Em Reminder";
   return "all VarsityVue product email";
 }

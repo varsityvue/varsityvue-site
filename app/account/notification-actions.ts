@@ -10,6 +10,7 @@ export type NotificationPreferenceState = {
   preferences: {
     finalScoreEmail: boolean;
     newCoverageEmail: boolean;
+    pickemReminderEmail: boolean;
   };
 };
 
@@ -21,7 +22,7 @@ export async function updateNotificationPreference(
   const enabledValue = formData.get("enabled");
 
   if (
-    (category !== "final_score" && category !== "new_coverage") ||
+    (category !== "final_score" && category !== "new_coverage" && category !== "pickem_reminder") ||
     (enabledValue !== "true" && enabledValue !== "false")
   ) {
     return {
@@ -54,10 +55,11 @@ export async function updateNotificationPreference(
 
   return {
     status: "success",
-    message: `${category === "final_score" ? "Final Score Email" : "New Coverage Email"} turned ${enabledValue === "true" ? "on" : "off"}.`,
+    message: `${category === "final_score" ? "Final Score Email" : category === "pickem_reminder" ? "Pick ’Em Reminder" : "New Coverage Email"} turned ${enabledValue === "true" ? "on" : "off"}.`,
     preferences: {
       finalScoreEmail: persisted.final_score_email,
       newCoverageEmail: persisted.new_coverage_email,
+      pickemReminderEmail: persisted.pickem_reminder_email,
     },
   };
 }

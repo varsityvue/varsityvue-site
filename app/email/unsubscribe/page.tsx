@@ -16,7 +16,7 @@ type PageProps = {
 export default async function ProductEmailUnsubscribePage({ searchParams }: PageProps) {
   const params = await searchParams;
   const payload = verifyProductEmailUnsubscribeToken(params.token);
-  const completedCategory = params.category === "final_score" || params.category === "new_coverage" || params.category === "all"
+  const completedCategory = params.category === "final_score" || params.category === "new_coverage" || params.category === "pickem_reminder" || params.category === "all"
     ? params.category
     : null;
 
