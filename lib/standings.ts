@@ -92,10 +92,6 @@ function applyVerifiedStandingOverride(standing: Standing, games: StandingGame[]
   if (!override) return;
   standing.overallRecordKnown = true;
 
-  const derivedGames = standing.overallWins + standing.overallLosses;
-  const overrideGames = override.overallWins + override.overallLosses;
-  if (derivedGames >= overrideGames) return;
-
   const throughWeek = override.throughWeek;
   if (typeof override.pointsFor === "number" && typeof override.pointsAgainst === "number" && typeof throughWeek === "number") {
     standing.overallWins = override.overallWins;
@@ -109,6 +105,10 @@ function applyVerifiedStandingOverride(standing: Standing, games: StandingGame[]
     }
     return;
   }
+
+  const derivedGames = standing.overallWins + standing.overallLosses;
+  const overrideGames = override.overallWins + override.overallLosses;
+  if (derivedGames >= overrideGames) return;
 
   standing.overallWins = override.overallWins;
   standing.overallLosses = override.overallLosses;
