@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 
 import { getSchools } from "@/lib/schools";
 import { requireActiveMember } from "@/lib/member-access";
-import { assignContributorSchool, clearContributorRecruitment, removeContributorSchool, updateContributorRecruitment } from "./actions";
+import { assignContributorSchool, clearContributorRecruitment, removeContributorSchool, reviewContributorApplication, updateContributorRecruitment } from "./actions";
 
 export const metadata: Metadata = {
   title: "Contributor Access",
@@ -35,7 +35,7 @@ export default async function ContributorAccessPage({ searchParams }: PageProps)
   if (!roles?.some((row) => row.role === "admin")) redirect("/account");
 
   const params = await searchParams;
-  const [{ data: profiles }, { data: assignments }, { data: recruitmentRows }] = await Promise.all([
+  const [{ data: profiles }, { data: assignments }, { data: recruitmentRows }, { data: applications }] = await Promise.all([
     supabase
       .from("profiles")
       .select("id, display_name, username, email")
@@ -49,6 +49,11 @@ export default async function ContributorAccessPage({ searchParams }: PageProps)
       .from("contributor_recruitment_pipeline")
       .select("school_slug, recruitment_status, candidate_name, candidate_contact, recruitment_note, updated_at")
       .order("updated_at", { ascending: false }),
+    supabase
+      .from("contributor_applications")
+      .select("id, applicant_id, school_slug, requested_role, affiliation, contact_detail, experience_note, status, submitted_at, review_note")
+      .in("status", ["pending", "deferred"])
+      .order("submitted_at", { ascending: true }),
   ]);
 
   const schools = getSchools()
@@ -110,6 +115,8 @@ export default async function ContributorAccessPage({ searchParams }: PageProps)
         {params.message ? (
           <div className="mt-6 rounded-2xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm text-amber-50">{params.message}</div>
         ) : null}
+
+        <section className="mt-8 rounded-2xl border border-white/10 bg-white/[0.04] p-5 sm:p-6"><div className="flex items-end justify-between gap-3"><div><p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">Application Queue</p><h2 className="mt-1 text-xl font-black">Contributor applicants</h2></div><span className="rounded-full border border-white/10 px-3 py-1 text-[10px] font-black text-white/45">{applications?.length ?? 0} open</span></div><div className="mt-4 space-y-4">{applications?.length ? applications.map((application) => { const profile = (profiles ?? []).find((item) => item.id === application.applicant_id); const school = schoolMap.get(application.school_slug); return <article key={application.id} className="rounded-2xl border border-white/10 bg-black/20 p-4 sm:p-5"><div className="flex flex-wrap items-start justify-between gap-3"><div><p className="font-black">{profile?.display_name || profile?.username || profile?.email || "Member"}</p><p className="mt-1 text-xs text-white/40">{school ? `${school.name} ${school.mascot}` : application.school_slug} · {application.requested_role}</p></div><span className="rounded-full border border-amber-300/15 bg-amber-300/10 px-2.5 py-1 text-[9px] font-black uppercase text-amber-100">{application.status}</span></div><dl className="mt-4 grid gap-3 text-xs sm:grid-cols-2"><div><dt className="font-black uppercase tracking-[0.1em] text-white/30">Affiliation</dt><dd className="mt-1 text-white/65">{application.affiliation}</dd></div><div><dt className="font-black uppercase tracking-[0.1em] text-white/30">Contact</dt><dd className="mt-1 text-white/65">{application.contact_detail}</dd></div></dl><p className="mt-3 text-xs leading-5 text-white/55">{application.experience_note}</p><form action={reviewContributorApplication} className="mt-4 flex flex-col gap-2 sm:flex-row"><input type="hidden" name="application_id" value={application.id}/><input name="review_note" defaultValue={application.review_note ?? ""} maxLength={1000} placeholder="Decision note (optional)" className="min-w-0 flex-1 rounded-xl border border-white/10 bg-black/35 px-3 py-2.5 text-xs"/><button name="decision" value="approve" className="rounded-xl bg-emerald-400/15 px-4 py-2.5 text-xs font-black text-emerald-100">Approve &amp; Assign</button><button name="decision" value="defer" className="rounded-xl border border-amber-300/15 px-4 py-2.5 text-xs font-black text-amber-100/70">Defer</button><button name="decision" value="decline" className="rounded-xl border border-red-300/15 px-4 py-2.5 text-xs font-black text-red-100/70">Decline</button></form></article>; }) : <p className="rounded-xl border border-white/10 bg-black/20 p-5 text-sm text-white/40">No contributor applications are waiting for review.</p>}</div></section>
 
         <section className="mt-8">
           <div className="flex flex-wrap items-end justify-between gap-3">

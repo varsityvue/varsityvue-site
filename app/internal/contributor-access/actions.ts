@@ -142,3 +142,23 @@ export async function clearContributorRecruitment(formData: FormData) {
   revalidatePath("/internal/contributor-access");
   redirect("/internal/contributor-access?updated=recruitment-cleared");
 }
+
+export async function reviewContributorApplication(formData: FormData) {
+  const applicationId = text(formData, "application_id");
+  const decision = text(formData, "decision");
+  const reviewNote = text(formData, "review_note").slice(0, 1000) || null;
+  const { supabase } = await requireAdmin();
+  if (!applicationId || !["approve", "decline", "defer"].includes(decision)) redirect("/internal/contributor-access?message=Invalid%20application%20decision.");
+
+  const { error } = await supabase.rpc("review_contributor_application", {
+    target_application_id: applicationId,
+    decision,
+    note: reviewNote,
+  });
+  if (error) redirect(`/internal/contributor-access?message=${encodeURIComponent(error.message)}`);
+  revalidatePath("/internal/contributor-access");
+  revalidatePath("/contributors");
+  revalidatePath("/account");
+  revalidatePath("/report-score");
+  redirect(`/internal/contributor-access?updated=application-${encodeURIComponent(decision)}d`);
+}
