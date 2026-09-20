@@ -231,20 +231,26 @@ export default async function PickemPage({ searchParams }: PageProps) {
               <p className="text-[10px] text-white/35">Only you can see your picks</p>
             </div>
 
-            <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
-              {[
-                ["Correct", String(correctPicks)],
-                ["Record", `${correctPicks}-${incorrectPicks}`],
-                ["Accuracy", gradedPicks > 0 ? `${accuracy}%` : "—"],
-                ["Season Rank", seasonRank ? `#${seasonRank}` : "—"],
-              ].map(([label, value]) => (
-                <div key={label} className="rounded-xl border border-white/10 bg-black/25 p-3">
-                  <p className="text-[9px] font-black uppercase tracking-[0.12em] text-white/35">{label}</p>
-                  <p className="mt-1 text-xl font-black">{value}</p>
+            {gradedPicks > 0 ? (
+              <>
+                <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                  {[
+                    ["Correct", String(correctPicks)],
+                    ["Record", `${correctPicks}-${incorrectPicks}`],
+                    ["Accuracy", `${accuracy}%`],
+                    ["Season Rank", seasonRank ? `#${seasonRank}` : "—"],
+                  ].map(([label, value]) => (
+                    <div key={label} className="rounded-xl border border-white/10 bg-black/25 p-3">
+                      <p className="text-[9px] font-black uppercase tracking-[0.12em] text-white/35">{label}</p>
+                      <p className="mt-1 text-xl font-black">{value}</p>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-            <p className="mt-2 text-[10px] text-white/30">Season rank is based on correct picks; tied scores share the same position.</p>
+                <p className="mt-2 text-[10px] text-white/30">Season rank is based on correct picks; tied scores share the same position.</p>
+              </>
+            ) : (
+              <p className="mt-4 rounded-xl border border-white/10 bg-black/25 p-4 text-sm text-white/45">Season results will appear after the first verified final grades your picks.</p>
+            )}
 
             {memberHistory.length > 0 ? (
               <div className="mt-5 space-y-3">
