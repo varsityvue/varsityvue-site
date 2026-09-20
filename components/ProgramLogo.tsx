@@ -1,23 +1,11 @@
 import type { School } from "@/types/platform";
+import { getSchoolLogoPath } from "@/data/school-logos";
 import SchoolBadge from "./SchoolBadge";
 
 type ProgramLogoProps = {
   school: School;
   size?: "xs" | "sm" | "md" | "lg";
   className?: string;
-};
-
-const logoBySlug: Record<string, string> = {
-  "de-leon": "/logos/schools/de-leon.png",
-  cisco: "/logos/schools/cisco.png",
-  hico: "/logos/schools/hico.png",
-  comanche: "/logos/schools/comanche.png",
-  goldthwaite: "/logos/schools/goldthwaite.png",
-  albany: "/logos/schools/albany.png",
-  stamford: "/logos/schools/stamford.png",
-  hawley: "/logos/schools/hawley.png",
-  stephenville: "/logos/schools/stephenville.png",
-  santo: "/logos/schools/santo-final.webp",
 };
 
 const dimensions = {
@@ -28,11 +16,11 @@ const dimensions = {
 } as const;
 
 export function hasProgramLogo(school: School) {
-  return Boolean(logoBySlug[school.slug]);
+  return Boolean(getSchoolLogoPath(school.slug));
 }
 
 export default function ProgramLogo({ school, size = "md", className = "" }: ProgramLogoProps) {
-  const src = logoBySlug[school.slug];
+  const src = getSchoolLogoPath(school.slug);
 
   if (!src) return <SchoolBadge school={school} size={size} />;
 

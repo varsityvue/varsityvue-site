@@ -230,7 +230,7 @@ export const districtSchoolAdditions: School[] = [
     districtId: "2a-d2-district-8",
     uilRegion: 2,
     coverageMarket: "VarsityVue Coverage Area",
-    colors: { primary: "#000000", secondary: "#D4AF37", accent: "#FFFFFF" },
+    colors: { primary: "#B47609", secondary: "#000000", accent: "#FFFFFF" },
     sports: ["football"],
     status: "watchlist",
   },

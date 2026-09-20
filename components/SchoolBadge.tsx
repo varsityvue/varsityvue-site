@@ -1,25 +1,13 @@
 import type { School } from "@/types/platform";
+import { getSchoolLogoPath } from "@/data/school-logos";
 
 type SchoolBadgeProps = {
   school: School;
   size?: "xs" | "sm" | "md" | "lg";
 };
 
-const programLogoBySlug: Record<string, string> = {
-  "de-leon": "/logos/schools/de-leon.png",
-  cisco: "/logos/schools/cisco.png",
-  hico: "/logos/schools/hico.png",
-  comanche: "/logos/schools/comanche.png",
-  goldthwaite: "/logos/schools/goldthwaite.png",
-  albany: "/logos/schools/albany.png",
-  stamford: "/logos/schools/stamford.png",
-  stephenville: "/logos/schools/stephenville.png",
-  santo: "/logos/schools/santo-final.webp",
-};
-
-export function getProgramLogoPath(schoolSlug: string) {
-  return programLogoBySlug[schoolSlug];
-}
+// Retain the existing export while all logo consumers migrate to the shared registry.
+export const getProgramLogoPath = getSchoolLogoPath;
 
 const largeLogoClasses = {
   md: "h-28 w-28 sm:h-36 sm:w-36",
