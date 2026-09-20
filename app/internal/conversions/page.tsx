@@ -12,6 +12,7 @@ export const metadata: Metadata = {
 
 type BreakdownRow = { intent?: string; source?: string; accounts: number; confirmed: number; followers?: number; pickem_participants?: number; activated?: number };
 type DailyRow = { date: string; accounts: number };
+type SchoolRow = { school: string; accounts: number; confirmed: number; activated: number };
 type DashboardData = {
   generated_at: string;
   range_days: number;
@@ -26,6 +27,7 @@ type DashboardData = {
   };
   intent_breakdown: BreakdownRow[];
   source_breakdown: BreakdownRow[];
+  school_breakdown: SchoolRow[];
   campaign_breakdown: Array<{ campaign: string; accounts: number; confirmed: number; pickem_participants: number }>;
   daily_accounts: DailyRow[];
   pickem: { participants: number; saved_picks: number; complete_slates: number };
@@ -120,6 +122,13 @@ export default async function ConversionDashboardPage({ searchParams }: PageProp
             <section className="mt-6 grid gap-6 lg:grid-cols-2">
               <Breakdown title="Signup Intent" rows={dashboard.intent_breakdown} keyName="intent" showPickem />
               <Breakdown title="Entry Source" rows={dashboard.source_breakdown} keyName="source" showActivation />
+            </section>
+
+            <section className="mt-6 rounded-2xl border border-white/10 bg-white/[0.035] p-5 sm:p-6">
+              <div className="flex flex-wrap items-end justify-between gap-3"><div><p className="text-[10px] font-black uppercase tracking-[0.18em] text-[var(--vv-accent)]">Program Attribution</p><h2 className="mt-1 text-xl font-black">Schools driving membership</h2></div><p className="text-[10px] text-white/30">Follow-driven signups</p></div>
+              <div className="mt-4 divide-y divide-white/10">
+                {dashboard.school_breakdown.length ? dashboard.school_breakdown.map((row) => <div key={row.school} className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-3 py-3 text-sm"><span className="min-w-0 font-bold text-white/70">{label(row.school)}</span><span className="text-right"><strong>{row.accounts}</strong><small className="block text-[9px] uppercase text-white/30">Accounts</small></span><span className="text-right"><strong>{row.confirmed}</strong><small className="block text-[9px] uppercase text-white/30">Confirmed</small></span><span className="text-right"><strong>{row.activated}</strong><small className="block text-[9px] uppercase text-white/30">Activated</small><small className="block text-[9px] text-white/25">{percent(row.activated, row.accounts)}</small></span></div>) : <p className="py-5 text-sm text-white/40">School attribution begins with new follow-driven registrations after this release.</p>}
+              </div>
             </section>
 
             <section className="mt-6 rounded-2xl border border-white/10 bg-white/[0.035] p-5 sm:p-6">

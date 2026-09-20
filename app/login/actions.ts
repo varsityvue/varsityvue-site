@@ -8,6 +8,7 @@ import { captchaMessage, captchaToken, isCaptchaError } from "@/lib/auth-captcha
 import { trackConversion } from "@/lib/conversion-analytics";
 import { memberAccountStatus } from "@/lib/member-access";
 import { safeNextPath } from "@/lib/safe-next-path";
+import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
 
 function value(formData: FormData, key: string) {
@@ -32,6 +33,13 @@ function signupIntent(next: string) {
   if (next.startsWith("/pickem")) return "pickem";
   if (next.startsWith("/report-score")) return "score_report";
   return "account";
+}
+
+function signupSchoolSlug(next: string) {
+  if (!next.startsWith("/follow/complete?")) return "unknown";
+  const params = new URLSearchParams(next.split("?")[1] ?? "");
+  const school = getSchoolBySlug(params.get("school") ?? "");
+  return school?.slug ?? "unknown";
 }
 
 export async function login(formData: FormData) {
@@ -125,6 +133,7 @@ export async function signup(formData: FormData) {
         signup_source: signupSource,
         signup_campaign: signupCampaign,
         signup_landing: signupLanding,
+        signup_school_slug: signupSchoolSlug(next),
       },
     },
   });
