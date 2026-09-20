@@ -123,7 +123,7 @@ export async function beginSignedOutSchoolFollow(
   );
 
   redirect(
-    `/login?next=${encodeURIComponent(contextualFollowCompletionPath(school.slug, context))}`,
+    `/login?next=${encodeURIComponent(contextualFollowCompletionPath(school.slug, context))}&source=follow_${context.sourceSurface}`,
   );
 }
 

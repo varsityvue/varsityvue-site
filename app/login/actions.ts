@@ -82,7 +82,7 @@ export async function signup(formData: FormData) {
   const password = value(formData, "password");
   const next = safeNextPath(value(formData, "next"));
   const submittedSource = value(formData, "signup_source");
-  const signupSource = ["home", "scoreboard", "header", "pickem", "facebook", "member_share"].includes(submittedSource)
+  const signupSource = ["home", "scoreboard", "header", "pickem", "follow_school_hub", "follow_game_center", "follow_article", "facebook", "member_share"].includes(submittedSource)
     ? submittedSource
     : "direct_or_other";
   const submittedCampaign = value(formData, "signup_campaign").toLowerCase();
