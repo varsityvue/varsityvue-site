@@ -17,6 +17,7 @@ const schoolLogoBySlug: Record<string, SchoolLogo> = {
   hico: { path: "/logos/schools/hico.png", pickemScale: 1.25 },
   jacksboro: { path: "/logos/schools/jacksboro.png" },
   miles: { path: "/logos/schools/miles.png" },
+  post: { path: "/logos/schools/post.png", pickemScale: 1.2 },
   santo: { path: "/logos/schools/santo-final.webp" },
   stamford: { path: "/logos/schools/stamford.png" },
   stephenville: { path: "/logos/schools/stephenville.png" },
