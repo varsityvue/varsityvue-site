@@ -29,6 +29,7 @@ function confirmationPendingUrl(next: string) {
 
 function signupIntent(next: string) {
   if (next.startsWith("/follow/complete?")) return "follow";
+  if (next.startsWith("/pickem")) return "pickem";
   if (next.startsWith("/report-score")) return "score_report";
   return "account";
 }

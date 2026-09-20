@@ -44,6 +44,7 @@ export default function Footer() {
               title="Platform"
               links={[
                 { href: "/scoreboard", label: "Scoreboard" },
+                { href: "/pickem", label: "Pick ’Em" },
                 { href: "/schools", label: "Schools" },
                 { href: "/districts", label: "Districts" },
                 { href: "/coverage", label: "Coverage" },

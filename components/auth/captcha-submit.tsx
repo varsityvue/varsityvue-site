@@ -10,7 +10,7 @@ type CaptchaSubmitProps = {
   label: string;
   siteKey?: string;
   schoolSlug?: string;
-  sourceIntent?: "account" | "follow" | "score_report";
+  sourceIntent?: "account" | "follow" | "score_report" | "pickem";
 };
 
 export function CaptchaSubmit({ action, label, siteKey, schoolSlug, sourceIntent }: CaptchaSubmitProps) {

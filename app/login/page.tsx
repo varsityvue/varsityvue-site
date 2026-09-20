@@ -40,6 +40,8 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
   const sourceIntent = followSchool
     ? "follow"
+    : returnTo.startsWith("/pickem")
+      ? "pickem"
     : returnTo.startsWith("/report-score")
       ? "score_report"
       : "account";
@@ -110,6 +112,12 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           {returnTo.startsWith("/report-score") ? (
             <div className="mt-5 rounded-2xl border border-[var(--vv-accent)]/15 bg-white/[0.04] px-4 py-3 text-xs leading-5 text-white/55">
               Sign in or create an account and we’ll return you directly to the score report you selected.
+            </div>
+          ) : null}
+
+          {returnTo.startsWith("/pickem") ? (
+            <div className="mt-5 rounded-2xl border border-[var(--vv-accent)]/15 bg-white/[0.04] px-4 py-3 text-xs leading-5 text-white/55">
+              Sign in or create an account and we’ll return you directly to the current Pick ’Em slate.
             </div>
           ) : null}
 
