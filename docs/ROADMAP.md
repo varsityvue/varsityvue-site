@@ -1,6 +1,6 @@
 # VarsityVue Product Roadmap
 
-_Last updated: September 16, 2026_
+_Last updated: September 20, 2026_
 
 This document is the permanent product direction for VarsityVue. It exists so short-term development work does not obscure the larger goal.
 
@@ -64,6 +64,25 @@ VarsityVue's soft launch establishes the operating foundation: accounts, roles, 
 - Continue using clear states such as verified, partial, pending, and unavailable. Rankings and leaderboards must describe the verified data actually on file rather than imply universal coverage.
 
 Statistics remain structurally difficult: programs submit inconsistently, selective reporting can distort comparisons, and source material can contain errors. Reliability language and provenance are product requirements, not footnotes.
+
+### Automated Missing-Final Discovery — VarsityVue Score Scout
+
+Build a scheduled score-discovery system that looks for missing final scores after a reasonable post-kickoff grace period on Friday night and again Saturday morning. This should not depend on a moderator opening an individual game and clicking a search button.
+
+For every tracked game that still lacks a verified final, Score Scout should:
+
+- search only approved public sources, such as official school or athletic-department posts, coach or trusted-contributor submissions, local media and radio reports, UIL or licensed data feeds when available, and other specifically approved providers;
+- match each discovered result to the canonical VarsityVue game rather than creating duplicate or loosely identified matchups;
+- retain the source URL, source name, retrieval time, reported teams and score, and the evidence used to make the match;
+- compare multiple sources when available and identify agreement, uncertainty, or conflict;
+- assign a clear confidence state such as official-source match, corroborated, single secondary source, conflicting sources, or no credible result found;
+- compile the resulting intelligence into a dedicated moderator review queue for efficient batch review;
+- let a moderator approve, correct, reject, or defer a candidate while preserving the review decision and source provenance; and
+- send an approved final through the existing canonical verification pipeline so the scoreboard, Game Center, records, standings, Pick 'Em grading, notifications, season archive, and future Legacy data update from one decision.
+
+Initial releases must remain moderator-gated. Finding a score online is not equivalent to verifying it. Automatic publication may be considered later only for narrowly defined high-confidence cases—such as an official source or multiple independent approved sources agreeing—after production accuracy has been measured and conflict safeguards have been proven.
+
+Score Scout should reduce Saturday-morning score hunting and allow VarsityVue to expand coverage without owner workload growing linearly.
 
 ---
 
