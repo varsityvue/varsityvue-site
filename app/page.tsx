@@ -219,11 +219,6 @@ export default async function Home() {
             </div>
           </div>
 
-          <section className="mt-3 grid gap-2 sm:mt-4 sm:gap-3 md:grid-cols-2" aria-label="Scores and schedule navigation">
-            <HomePathCard eyebrow="Game Night" title="Scoreboard" description="Live scores, latest finals, and upcoming kickoffs." href="/scoreboard" action="Open Scoreboard" />
-            <HomePathCard eyebrow="Full Season" title="Schedule + Archive" description="Search matchups and browse the season by week." href="/games#all-matchups" action="Browse Schedule" />
-          </section>
-
           <div className="mt-3 sm:mt-4"><SchoolSearch schools={schools} /></div>
         </div>
       </section>
@@ -234,28 +229,6 @@ export default async function Home() {
       <FeaturedMatchups />
       <FeaturedCoverage />
     </main>
-  );
-}
-
-function HomePathCard({ eyebrow, title, description, href, action }: {
-  eyebrow: string;
-  title: string;
-  description: string;
-  href: string;
-  action: string;
-}) {
-  return (
-    <Link href={href} className="group flex items-center justify-between gap-3 rounded-[1rem] border border-white/10 bg-white/[0.045] p-3 transition hover:border-white/20 hover:bg-white/[0.075] sm:block sm:rounded-2xl sm:p-4">
-      <div className="min-w-0">
-        <p className="text-[8px] font-black uppercase tracking-[0.16em] text-white/40 sm:text-[10px] sm:tracking-[0.2em]">{eyebrow}</p>
-        <h2 className="mt-1 truncate text-base font-black text-white sm:mt-2 sm:text-xl">{title}</h2>
-        <p className="mt-2 hidden text-sm leading-5 text-white/50 sm:block">{description}</p>
-      </div>
-      <p className="shrink-0 text-[10px] font-black uppercase tracking-[0.1em] text-white/70 transition group-hover:text-white sm:mt-4 sm:text-xs sm:tracking-[0.14em]">
-        <span className="sm:hidden">Open →</span>
-        <span className="hidden sm:inline">{action} →</span>
-      </p>
-    </Link>
   );
 }
 
