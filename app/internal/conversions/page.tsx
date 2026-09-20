@@ -10,9 +10,9 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false, nocache: true },
 };
 
-type BreakdownRow = { intent?: string; source?: string; accounts: number; confirmed: number; followers?: number; pickem_participants?: number; activated?: number };
+type BreakdownRow = { intent?: string; source?: string; accounts: number; confirmed: number; followers?: number; pickem_participants?: number; activated?: number; notifications?: number };
 type DailyRow = { date: string; accounts: number };
-type SchoolRow = { school: string; accounts: number; confirmed: number; activated: number };
+type SchoolRow = { school: string; accounts: number; confirmed: number; activated: number; notifications: number };
 type DashboardData = {
   generated_at: string;
   range_days: number;
@@ -22,6 +22,7 @@ type DashboardData = {
     confirmed_accounts: number;
     active_accounts: number;
     activated_accounts: number;
+    notification_opt_ins: number;
     pickem_participants: number;
     complete_slate_members: number;
   };
@@ -61,6 +62,7 @@ export default async function ConversionDashboardPage({ searchParams }: PageProp
     ["Accounts created", summary.new_accounts],
     ["Email confirmed", summary.confirmed_accounts],
     ["Followed a school or made a pick", summary.activated_accounts],
+    ["Enabled an email alert", summary.notification_opt_ins],
     ["Completed a slate", summary.complete_slate_members],
   ] as const : [];
 
@@ -127,7 +129,7 @@ export default async function ConversionDashboardPage({ searchParams }: PageProp
             <section className="mt-6 rounded-2xl border border-white/10 bg-white/[0.035] p-5 sm:p-6">
               <div className="flex flex-wrap items-end justify-between gap-3"><div><p className="text-[10px] font-black uppercase tracking-[0.18em] text-[var(--vv-accent)]">Program Attribution</p><h2 className="mt-1 text-xl font-black">Schools driving membership</h2></div><p className="text-[10px] text-white/30">Follow-driven signups</p></div>
               <div className="mt-4 divide-y divide-white/10">
-                {dashboard.school_breakdown.length ? dashboard.school_breakdown.map((row) => <div key={row.school} className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-3 py-3 text-sm"><span className="min-w-0 font-bold text-white/70">{label(row.school)}</span><span className="text-right"><strong>{row.accounts}</strong><small className="block text-[9px] uppercase text-white/30">Accounts</small></span><span className="text-right"><strong>{row.confirmed}</strong><small className="block text-[9px] uppercase text-white/30">Confirmed</small></span><span className="text-right"><strong>{row.activated}</strong><small className="block text-[9px] uppercase text-white/30">Activated</small><small className="block text-[9px] text-white/25">{percent(row.activated, row.accounts)}</small></span></div>) : <p className="py-5 text-sm text-white/40">School attribution begins with new follow-driven registrations after this release.</p>}
+                {dashboard.school_breakdown.length ? dashboard.school_breakdown.map((row) => <div key={row.school} className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-3 py-3 text-sm"><span className="min-w-0 font-bold text-white/70">{label(row.school)}</span><span className="text-right"><strong>{row.accounts}</strong><small className="block text-[9px] uppercase text-white/30">Accounts</small></span><span className="text-right"><strong>{row.confirmed}</strong><small className="block text-[9px] uppercase text-white/30">Confirmed</small></span><span className="text-right"><strong>{row.activated}</strong><small className="block text-[9px] uppercase text-white/30">Activated</small><small className="block text-[9px] text-white/25">{percent(row.activated, row.accounts)} · {row.notifications} alerts</small></span></div>) : <p className="py-5 text-sm text-white/40">School attribution begins with new follow-driven registrations after this release.</p>}
               </div>
             </section>
 
@@ -147,5 +149,5 @@ export default async function ConversionDashboardPage({ searchParams }: PageProp
 }
 
 function Breakdown({ title, rows, keyName, showPickem = false, showActivation = false }: { title: string; rows: BreakdownRow[]; keyName: "intent" | "source"; showPickem?: boolean; showActivation?: boolean }) {
-  return <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-5 sm:p-6"><h2 className="text-xl font-black">{title}</h2><div className="mt-4 divide-y divide-white/10">{rows.length ? rows.map((row) => { const key = row[keyName] ?? "unknown"; return <div key={key} className={`grid ${showPickem || showActivation ? "grid-cols-[1fr_auto_auto_auto]" : "grid-cols-[1fr_auto_auto]"} items-center gap-3 py-3 text-sm`}><span className="min-w-0 font-bold text-white/70">{label(key)}</span><span className="text-right"><strong>{row.accounts}</strong><small className="block text-[9px] uppercase text-white/30">Accounts</small></span><span className="text-right"><strong>{row.confirmed}</strong><small className="block text-[9px] uppercase text-white/30">Confirmed</small></span>{showPickem ? <span className="text-right"><strong>{row.pickem_participants ?? 0}</strong><small className="block text-[9px] uppercase text-white/30">Players</small></span> : null}{showActivation ? <span className="text-right"><strong>{row.activated ?? 0}</strong><small className="block text-[9px] uppercase text-white/30">Activated</small><small className="block text-[9px] text-white/25">{percent(row.activated ?? 0, row.accounts)}</small></span> : null}</div>; }) : <p className="py-5 text-sm text-white/40">No accounts in this period.</p>}</div>{showActivation ? <p className="mt-3 border-t border-white/10 pt-3 text-[10px] leading-4 text-white/30">Activated means the member followed a school or saved at least one Pick ’Em selection.</p> : null}</div>;
+  return <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-5 sm:p-6"><h2 className="text-xl font-black">{title}</h2><div className="mt-4 divide-y divide-white/10">{rows.length ? rows.map((row) => { const key = row[keyName] ?? "unknown"; return <div key={key} className={`grid ${showPickem || showActivation ? "grid-cols-[1fr_auto_auto_auto]" : "grid-cols-[1fr_auto_auto]"} items-center gap-3 py-3 text-sm`}><span className="min-w-0 font-bold text-white/70">{label(key)}</span><span className="text-right"><strong>{row.accounts}</strong><small className="block text-[9px] uppercase text-white/30">Accounts</small></span><span className="text-right"><strong>{row.confirmed}</strong><small className="block text-[9px] uppercase text-white/30">Confirmed</small></span>{showPickem ? <span className="text-right"><strong>{row.pickem_participants ?? 0}</strong><small className="block text-[9px] uppercase text-white/30">Players</small></span> : null}{showActivation ? <span className="text-right"><strong>{row.activated ?? 0}</strong><small className="block text-[9px] uppercase text-white/30">Activated</small><small className="block text-[9px] text-white/25">{percent(row.activated ?? 0, row.accounts)} · {row.notifications ?? 0} alerts</small></span> : null}</div>; }) : <p className="py-5 text-sm text-white/40">No accounts in this period.</p>}</div>{showActivation ? <p className="mt-3 border-t border-white/10 pt-3 text-[10px] leading-4 text-white/30">Activated means the member followed a school or saved at least one Pick ’Em selection. Alerts counts members with at least one email notification enabled.</p> : null}</div>;
 }

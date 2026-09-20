@@ -1,0 +1,63 @@
+create or replace function public.admin_conversion_dashboard(range_days integer default 30)
+returns jsonb language plpgsql stable security definer set search_path = '' as $$
+declare
+  bounded_days integer := greatest(7, least(coalesce(range_days, 30), 90));
+  result jsonb;
+begin
+  if auth.uid() is null or not private.has_role('admin'::public.user_role) then raise exception 'Admin access required'; end if;
+
+  with cohort as (
+    select auth_user.id, auth_user.created_at, auth_user.email_confirmed_at,
+      case when auth_user.raw_user_meta_data ->> 'signup_intent' in ('account', 'follow', 'score_report', 'pickem') then auth_user.raw_user_meta_data ->> 'signup_intent' else 'unknown' end signup_intent,
+      case when auth_user.raw_user_meta_data ->> 'signup_source' in ('home', 'scoreboard', 'header', 'pickem', 'follow_school_hub', 'follow_game_center', 'follow_article', 'facebook', 'member_share') then auth_user.raw_user_meta_data ->> 'signup_source' else 'direct_or_other' end signup_source,
+      case when char_length(auth_user.raw_user_meta_data ->> 'signup_campaign') between 1 and 80 then auth_user.raw_user_meta_data ->> 'signup_campaign' else 'untagged' end signup_campaign,
+      case when auth_user.raw_user_meta_data ->> 'signup_school_slug' ~ '^[a-z0-9]+(-[a-z0-9]+)*$' then auth_user.raw_user_meta_data ->> 'signup_school_slug' else 'unknown' end signup_school_slug,
+      exists(select 1 from public.member_account_status status where status.user_id = auth_user.id and status.status = 'active') is_active,
+      exists(select 1 from public.pickem_picks pick where pick.user_id = auth_user.id) has_pick,
+      exists(select 1 from public.school_follows follow where follow.user_id = auth_user.id) has_follow,
+      exists(select 1 from public.member_notification_preferences preferences where preferences.user_id = auth_user.id and (preferences.final_score_email or preferences.new_coverage_email or preferences.pickem_reminder_email)) has_notification
+    from auth.users auth_user
+    where auth_user.created_at >= now() - make_interval(days => bounded_days)
+  ),
+  summary as (
+    select jsonb_build_object(
+      'total_members', (select count(*) from auth.users), 'new_accounts', count(*),
+      'confirmed_accounts', count(*) filter (where email_confirmed_at is not null),
+      'active_accounts', count(*) filter (where is_active),
+      'activated_accounts', count(*) filter (where has_pick or has_follow),
+      'notification_opt_ins', count(*) filter (where has_notification),
+      'pickem_participants', count(*) filter (where has_pick),
+      'complete_slate_members', (select count(*) from cohort member where exists (select 1 from public.pickem_picks pick join public.pickem_games game on game.id = pick.pickem_game_id where pick.user_id = member.id group by game.week_id having count(*) = (select count(*) from public.pickem_games all_game where all_game.week_id = game.week_id)))
+    ) value from cohort
+  ),
+  intents as (
+    select coalesce(jsonb_agg(jsonb_build_object('intent', signup_intent, 'accounts', accounts, 'confirmed', confirmed, 'pickem_participants', participants) order by accounts desc), '[]'::jsonb) value
+    from (select signup_intent, count(*) accounts, count(*) filter(where email_confirmed_at is not null) confirmed, count(*) filter(where has_pick) participants from cohort group by signup_intent) grouped
+  ),
+  sources as (
+    select coalesce(jsonb_agg(jsonb_build_object('source', signup_source, 'accounts', accounts, 'confirmed', confirmed, 'followers', followers, 'pickem_participants', participants, 'activated', activated, 'notifications', notifications) order by accounts desc), '[]'::jsonb) value
+    from (select signup_source, count(*) accounts, count(*) filter(where email_confirmed_at is not null) confirmed, count(*) filter(where has_follow) followers, count(*) filter(where has_pick) participants, count(*) filter(where has_follow or has_pick) activated, count(*) filter(where has_notification) notifications from cohort group by signup_source) grouped
+  ),
+  schools as (
+    select coalesce(jsonb_agg(jsonb_build_object('school', signup_school_slug, 'accounts', accounts, 'confirmed', confirmed, 'activated', activated, 'notifications', notifications) order by accounts desc, signup_school_slug), '[]'::jsonb) value
+    from (select signup_school_slug, count(*) accounts, count(*) filter(where email_confirmed_at is not null) confirmed, count(*) filter(where has_follow or has_pick) activated, count(*) filter(where has_notification) notifications from cohort where signup_school_slug <> 'unknown' group by signup_school_slug) grouped
+  ),
+  campaigns as (
+    select coalesce(jsonb_agg(jsonb_build_object('campaign', signup_campaign, 'accounts', accounts, 'confirmed', confirmed, 'pickem_participants', participants) order by accounts desc), '[]'::jsonb) value
+    from (select signup_campaign, count(*) accounts, count(*) filter(where email_confirmed_at is not null) confirmed, count(*) filter(where has_pick) participants from cohort where signup_source = 'facebook' group by signup_campaign) grouped
+  ),
+  daily as (
+    select jsonb_agg(jsonb_build_object('date', series.day::date, 'accounts', coalesce(created.accounts, 0)) order by series.day) value from generate_series(current_date - (bounded_days - 1), current_date, interval '1 day') series(day)
+    left join (select created_at::date account_day, count(*) accounts from cohort group by created_at::date) created on created.account_day = series.day::date
+  ),
+  pickem as (
+    select jsonb_build_object('participants', count(distinct pick.user_id), 'saved_picks', count(pick.id), 'complete_slates', (select count(*) from (select game.week_id, pick2.user_id from public.pickem_picks pick2 join public.pickem_games game on game.id = pick2.pickem_game_id group by game.week_id, pick2.user_id having count(*) = (select count(*) from public.pickem_games all_game where all_game.week_id = game.week_id)) completed)) value from public.pickem_picks pick
+  )
+  select jsonb_build_object('generated_at', now(), 'range_days', bounded_days, 'summary', summary.value, 'intent_breakdown', intents.value, 'source_breakdown', sources.value, 'school_breakdown', schools.value, 'campaign_breakdown', campaigns.value, 'daily_accounts', daily.value, 'pickem', pickem.value)
+  into result from summary, intents, sources, schools, campaigns, daily, pickem;
+  return result;
+end;
+$$;
+
+revoke all on function public.admin_conversion_dashboard(integer) from public, anon;
+grant execute on function public.admin_conversion_dashboard(integer) to authenticated;
