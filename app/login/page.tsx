@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import ConversionViewEvent from "@/components/ConversionViewEvent";
 import { CaptchaSubmit } from "@/components/auth/captcha-submit";
 import { safeNextPath } from "@/lib/safe-next-path";
 import { getSchoolBySlug } from "@/lib/schools";
@@ -37,9 +38,20 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   if (returnTo !== "/account") toggleParams.set("next", returnTo);
   const toggleHref = toggleParams.size ? `/login?${toggleParams.toString()}` : "/login";
   const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+  const sourceIntent = followSchool
+    ? "follow"
+    : returnTo.startsWith("/report-score")
+      ? "score_report"
+      : "account";
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] px-4 py-10 text-white sm:px-6 sm:py-16 lg:px-8">
+      {signupMode ? (
+        <ConversionViewEvent
+          name="Signup Viewed"
+          properties={{ intent: sourceIntent, school: followSchool?.slug }}
+        />
+      ) : null}
       <div className="mx-auto max-w-xl">
         <section className="rounded-[1.5rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.42),transparent_36%),linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-5 sm:rounded-[2rem] sm:p-8">
           <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.3em]">
@@ -167,6 +179,8 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
               action={signupMode ? "signup" : "signin"}
               label={signupMode ? "Create VarsityVue Account" : "Sign In"}
               siteKey={turnstileSiteKey}
+              schoolSlug={followSchool?.slug}
+              sourceIntent={sourceIntent}
             />
           </form>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
+import { track } from "@vercel/analytics";
 import { useEffect, useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
 
@@ -8,9 +9,11 @@ type CaptchaSubmitProps = {
   action: "signin" | "signup" | "password_reset";
   label: string;
   siteKey?: string;
+  schoolSlug?: string;
+  sourceIntent?: "account" | "follow" | "score_report";
 };
 
-export function CaptchaSubmit({ action, label, siteKey }: CaptchaSubmitProps) {
+export function CaptchaSubmit({ action, label, siteKey, schoolSlug, sourceIntent }: CaptchaSubmitProps) {
   const { pending } = useFormStatus();
   const turnstile = useRef<TurnstileInstance | null>(null);
   const wasPending = useRef(false);
@@ -89,6 +92,14 @@ export function CaptchaSubmit({ action, label, siteKey }: CaptchaSubmitProps) {
         type="submit"
         disabled={!verified || pending || unavailable}
         aria-disabled={!verified || pending || unavailable}
+        onClick={() => {
+          if (action === "signup") {
+            track("Signup Submitted", {
+              intent: sourceIntent ?? "account",
+              school: schoolSlug,
+            });
+          }
+        }}
         className="w-full rounded-full bg-[var(--vv-primary)] px-6 py-3.5 text-sm font-black transition hover:bg-[#93142a] disabled:cursor-not-allowed disabled:opacity-55 disabled:hover:bg-[var(--vv-primary)]"
       >
         {pending ? "Please wait…" : label}

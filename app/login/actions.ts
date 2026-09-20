@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { deliverNextMemberNotification } from "@/lib/member-notifications";
 import { captchaMessage, captchaToken, isCaptchaError } from "@/lib/auth-captcha";
+import { trackConversion } from "@/lib/conversion-analytics";
 import { memberAccountStatus } from "@/lib/member-access";
 import { safeNextPath } from "@/lib/safe-next-path";
 import { createClient } from "@/lib/supabase/server";
@@ -24,6 +25,12 @@ function confirmationPendingUrl(next: string) {
   const params = new URLSearchParams({ status: "confirmation-pending" });
   if (next !== "/account") params.set("next", next);
   return `/login?${params.toString()}`;
+}
+
+function signupIntent(next: string) {
+  if (next.startsWith("/follow/complete?")) return "follow";
+  if (next.startsWith("/report-score")) return "score_report";
+  return "account";
 }
 
 export async function login(formData: FormData) {
@@ -122,6 +129,7 @@ export async function signup(formData: FormData) {
   // The auth.users trigger owns durable new-member detection. This immediate
   // attempt only reduces delivery latency; scheduled retries recover failures.
   if (data.user && (data.user.identities?.length ?? 0) > 0) {
+    trackConversion("Account Created", { intent: signupIntent(next) });
     try {
       await deliverNextMemberNotification();
     } catch (notificationError) {

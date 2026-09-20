@@ -3,6 +3,7 @@ import {
   type EmailOtpType,
 } from "@supabase/supabase-js";
 import { type NextRequest, NextResponse } from "next/server";
+import { trackConversion } from "@/lib/conversion-analytics";
 import { safeNextPath } from "@/lib/safe-next-path";
 import { createClient } from "@/lib/supabase/server";
 
@@ -25,6 +26,13 @@ export async function GET(request: NextRequest) {
     );
 
     if (!error) {
+      trackConversion("Account Confirmed", {
+        intent: next.startsWith("/follow/complete?")
+          ? "follow"
+          : next.startsWith("/report-score")
+            ? "score_report"
+            : "account",
+      });
       const destination = new URL(next, request.url);
       destination.searchParams.set("confirmed", "1");
       return NextResponse.redirect(destination);
@@ -46,6 +54,13 @@ export async function GET(request: NextRequest) {
     });
 
     if (!error) {
+      trackConversion("Account Confirmed", {
+        intent: next.startsWith("/follow/complete?")
+          ? "follow"
+          : next.startsWith("/report-score")
+            ? "score_report"
+            : "account",
+      });
       const destination = new URL(next, request.url);
       destination.searchParams.set("confirmed", "1");
       return NextResponse.redirect(destination);

@@ -1,5 +1,6 @@
 "use client";
 
+import { track } from "@vercel/analytics";
 import { useActionState } from "react";
 import {
   beginSignedOutSchoolFollow,
@@ -56,6 +57,13 @@ export default function SchoolFollowControl({
     initialState,
     permalink,
   );
+  const trackFollowIntent = () => {
+    track("Follow Intent", {
+      school: schoolSlug,
+      surface: sourceSurface,
+      authenticated: isAuthenticated,
+    });
+  };
 
   if (!isAuthenticated) {
     const beginFollow = beginSignedOutSchoolFollow.bind(
@@ -69,6 +77,7 @@ export default function SchoolFollowControl({
         <button
           type="submit"
           aria-label={`Follow ${schoolName}`}
+          onClick={trackFollowIntent}
           className={`${buttonClass} ${compact ? "w-full px-3 sm:px-4" : ""} border-white/20 bg-white/10 text-white hover:bg-white/15`}
         >
           Follow Team
@@ -106,6 +115,7 @@ export default function SchoolFollowControl({
             type="submit"
             disabled={pending}
             aria-label={finishFollowing ? `Finish following ${schoolName}` : `Follow ${schoolName}`}
+            onClick={trackFollowIntent}
             className={`${buttonClass} ${compact ? "w-full px-3 sm:px-4" : ""} border-white/20 bg-white/10 text-white hover:bg-white/15`}
           >
             {pending

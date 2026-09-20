@@ -1,5 +1,6 @@
 import "server-only";
 
+import { trackConversion } from "@/lib/conversion-analytics";
 import { memberAccountStatus } from "@/lib/member-access";
 import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
@@ -64,6 +65,11 @@ export async function followSchoolForCurrentUser(
       message: "We could not save this follow. Please try again.",
     };
   }
+
+  trackConversion("Follow Completed", {
+    school: school.slug,
+    surface: sourceSurface,
+  });
 
   return {
     following: true,
