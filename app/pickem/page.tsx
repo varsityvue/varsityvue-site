@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-
+import PickemGuestSlate from "@/components/PickemGuestSlate";
 import PickemSlateForm, { type PickemSlateGame } from "@/components/PickemSlateForm";
 import { getGameById } from "@/lib/games";
 import { memberAccountStatus } from "@/lib/member-access";
@@ -11,6 +10,19 @@ export const metadata: Metadata = {
   description: "Make weekly Texas high school football picks and follow the VarsityVue season leaderboard.",
   alternates: { canonical: "/pickem" },
 };
+
+type PageProps = { searchParams: Promise<{ intent?: string }> };
+
+function parsePickIntent(value?: string) {
+  const picks = new Map<string, string>();
+  for (const entry of (value ?? "").split("|").slice(0, 12)) {
+    const [gameId, schoolSlug] = entry.split("~");
+    if (/^[a-z0-9-]+$/.test(gameId ?? "") && /^[a-z0-9-]+$/.test(schoolSlug ?? "")) {
+      picks.set(gameId, schoolSlug);
+    }
+  }
+  return picks;
+}
 
 function kickoffLabel(value: string) {
   const date = new Date(value);
@@ -23,7 +35,9 @@ function kickoffLabel(value: string) {
   });
 }
 
-export default async function PickemPage() {
+export default async function PickemPage({ searchParams }: PageProps) {
+  const params = await searchParams;
+  const intendedPicks = parsePickIntent(params.intent);
   const supabase = await createClient();
   const { data: claimsData } = await supabase.auth.getClaims();
   const userId = claimsData?.claims?.sub;
@@ -78,7 +92,11 @@ export default async function PickemPage() {
       homeSlug: row.home_school_slug,
       kickoffLabel: kickoffLabel(row.lock_at),
       locked: row.is_locked === true,
-      selectedSlug: selections.get(row.id),
+      selectedSlug: selections.get(row.id) ?? (
+        [row.away_school_slug, row.home_school_slug].includes(intendedPicks.get(row.game_id) ?? "")
+          ? intendedPicks.get(row.game_id)
+          : undefined
+      ),
     }];
   });
 
@@ -99,19 +117,12 @@ export default async function PickemPage() {
         {!week || games.length === 0 ? (
           <section className="mt-5 rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-center text-white/55">The next Pick ’Em slate is not open yet.</section>
         ) : isActiveMember ? (
-          <PickemSlateForm weekId={week.id} games={games} />
+          <>
+            {intendedPicks.size > 0 ? <div className="mt-5 rounded-2xl border border-emerald-300/20 bg-emerald-300/10 p-4 text-sm text-emerald-50">Your pre-registration picks were restored. Select <strong>Save My Picks</strong> below to add them to your account.</div> : null}
+            <PickemSlateForm weekId={week.id} games={games} />
+          </>
         ) : (
-          <section className="mt-5 rounded-[1.5rem] border border-[var(--vv-accent)]/25 bg-white/[0.045] p-5 text-center shadow-xl sm:mt-7 sm:p-7">
-            <h2 className="text-xl font-black sm:text-2xl">Sign in to make your picks.</h2>
-            <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-white/50">The slate is public. Saving picks, building a season record, and appearing on the leaderboard require a free VarsityVue account.</p>
-            <div className="mt-4 flex flex-wrap justify-center gap-2">
-              <Link href="/login?next=%2Fpickem" className="rounded-full border border-white/15 px-5 py-3 text-xs font-black uppercase tracking-[0.12em] text-white/75 transition hover:bg-white/10 hover:text-white">Log In</Link>
-              <Link href="/login?mode=signup&next=%2Fpickem" className="rounded-full bg-white px-5 py-3 text-xs font-black uppercase tracking-[0.12em] text-black transition hover:bg-white/85">Create Free Account</Link>
-            </div>
-            <div className="mt-6 grid gap-3 text-left sm:grid-cols-2">
-              {games.map((game, index) => <div key={game.id} className="rounded-xl border border-white/10 bg-black/25 p-4"><p className="text-[9px] font-black uppercase tracking-[0.14em] text-white/35">Game {index + 1} · {game.kickoffLabel}</p><p className="mt-2 font-black text-white/80">{game.awayName} at {game.homeName}</p></div>)}
-            </div>
-          </section>
+          <PickemGuestSlate games={games} />
         )}
 
         <section className="mt-5 rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-5 sm:mt-7 sm:p-7">

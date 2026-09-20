@@ -40,6 +40,13 @@ export async function savePickemSlate(
     return { status: "error", message: "The slate could not be loaded. Try again." };
   }
 
+  const { data: existingPicks } = await supabase
+    .from("pickem_picks")
+    .select("pickem_game_id")
+    .eq("user_id", userId)
+    .in("pickem_game_id", games.map((game) => game.id));
+  const existingGameIds = new Set((existingPicks ?? []).map((pick) => pick.pickem_game_id));
+
   const now = Date.now();
   const rows = games.flatMap((game) => {
     const pickedSchoolSlug = String(formData.get(`pick_${game.id}`) ?? "").trim();
@@ -76,10 +83,28 @@ export async function savePickemSlate(
     week: week.week,
     picks: rows.length,
   });
+  const savedGameIds = new Set([...existingGameIds, ...rows.map((row) => row.pickem_game_id)]);
+  const complete = savedGameIds.size === games.length;
+  trackConversion("Pick Slate Saved", {
+    season: week.season,
+    week: week.week,
+    selected: savedGameIds.size,
+    games: games.length,
+    complete,
+  });
+  if (existingGameIds.size === 0) {
+    trackConversion("First Pick Completed", {
+      season: week.season,
+      week: week.week,
+      complete,
+    });
+  }
   revalidatePath("/pickem");
 
   return {
     status: "success",
-    message: `${rows.length} pick${rows.length === 1 ? "" : "s"} saved. You can change unlocked picks until kickoff.`,
+    message: complete
+      ? `Complete slate saved — ${savedGameIds.size} of ${games.length} picks. You can change unlocked picks until kickoff.`
+      : `${savedGameIds.size} of ${games.length} picks saved. You can return and finish the slate before kickoff.`,
   };
 }
