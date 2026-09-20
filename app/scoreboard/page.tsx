@@ -132,13 +132,13 @@ export default async function ScoreboardPage() {
   ).slice(0, 6);
 
   return <main className="min-h-screen bg-[var(--vv-bg)] text-white">
-    <PageHero eyebrow="VarsityVue Scoreboard · 2026 Football" title="Texas High School Football Scores" description="Verified final scores, featured matchups, and upcoming kickoffs from programs currently tracked by VarsityVue." aside={<div className="rounded-2xl border border-white/10 bg-black/25 px-5 py-4 lg:max-w-sm"><p className="text-xs font-black uppercase tracking-[0.2em] text-white/45">Latest Results</p><p className="mt-1 text-lg font-black text-white">Scores organized for game night.</p><p className="mt-1 text-sm leading-5 text-white/50">New results and approved community reports appear here as they are confirmed.</p></div>} />
+    <PageHero eyebrow="VarsityVue Scoreboard · 2026 Football" title="Texas High School Football Scores" description="Verified final scores, featured matchups, and upcoming kickoffs from programs currently tracked by VarsityVue." />
     <HomeMembershipCta surface="scoreboard" />
     <PickemPromo />
     <div className="mx-auto max-w-[1440px] px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
       {featuredGame && <FeaturedScoreboardGame game={featuredGame} games={scoreboardGames} hasPendingReport={pendingGameIds.has(featuredGame.id)} />}
-      <section className="mt-5 grid items-start gap-3 sm:mt-8 sm:gap-6 lg:grid-cols-3">
-        <ScoreboardColumn id="live-now" title="Live Now" description="Games currently marked in progress." games={liveGames} emptyText="No games are currently marked live." collapsibleWhenEmpty pendingGameIds={pendingGameIds} />
+      <section className={`mt-5 grid items-start gap-3 sm:mt-8 sm:gap-6 ${liveGames.length > 0 ? "lg:grid-cols-3" : "lg:grid-cols-2"}`}>
+        {liveGames.length > 0 && <ScoreboardColumn id="live-now" title="Live Now" description="Games currently marked in progress." games={liveGames} emptyText="No games are currently marked live." pendingGameIds={pendingGameIds} />}
         <ScoreboardColumn id="final-scores" title="Latest Finals" description="The latest confirmed results." games={finalGames} emptyText="No final scores posted yet." footerHref="/games?status=final#all-matchups" footerLabel="Browse Final Score Archive" pendingGameIds={pendingGameIds} />
         <ScoreboardColumn id="upcoming" title="Upcoming" description="The next scheduled kickoffs currently on file." games={upcomingGames} emptyText="No upcoming games listed." footerHref="/games?status=upcoming#all-matchups" footerLabel="View Full Schedule" pendingGameIds={pendingGameIds} />
       </section>
@@ -223,18 +223,18 @@ function ScoreboardGameCard({ game, hasPendingReport }: { game: ScoreboardGame; 
   const actionLabel = hasPendingReport && reportScoreLabel ? "Pending Review" : reportScoreLabel;
   const showScore = (isFinal || game.status === "live") && awayScore !== undefined && homeScore !== undefined;
 
-  return <div className={`rounded-xl p-3 transition hover:bg-white/10 sm:rounded-2xl sm:p-4 ${game.status === "live" ? "border border-white/30 bg-black/45 shadow-[0_0_28px_rgba(255,255,255,0.10)]" : "border border-white/10 bg-black/35"}`}>
+  return <div className={`rounded-xl p-2.5 transition hover:bg-white/10 sm:rounded-2xl sm:p-4 ${game.status === "live" ? "border border-white/30 bg-black/45 shadow-[0_0_28px_rgba(255,255,255,0.10)]" : "border border-white/10 bg-black/35"}`}>
     <Link href={`/games/${game.id}`} className="block">
       <div className="flex items-center justify-between gap-2 sm:gap-3"><div className="flex flex-wrap items-center gap-1.5"><span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[9px] font-black uppercase tracking-[0.12em] text-white/55 sm:px-3 sm:py-1 sm:text-[10px] sm:tracking-[0.16em]">{game.displayStatus}</span>{isFinal && <StatStatusBadge gameId={game.id} />}</div><span className="text-[9px] font-black uppercase tracking-[0.12em] text-white/35 sm:text-[10px] sm:tracking-[0.16em]">{getWeekLabel(game.week)}</span></div>
-      <div className="mt-3 space-y-2.5 sm:mt-5 sm:space-y-4"><CompactTeamRow school={awaySchool} team={getTeamName(game.awayTeam, "Away")} score={showScore ? awayScore : undefined} /><CompactTeamRow school={homeSchool} team={getTeamName(game.homeTeam, "Home")} score={showScore ? homeScore : undefined} /></div>
-      <div className="mt-3 border-t border-white/10 pt-3 sm:mt-5 sm:pt-4"><p className="text-[11px] font-semibold text-white/45 sm:text-xs">{formatKickoff(game.kickoff)}</p><p className="mt-1.5 text-[9px] font-black uppercase tracking-[0.12em] text-white/60 sm:mt-2 sm:text-[10px] sm:tracking-[0.16em]">{isFinal ? "View Final →" : "View Matchup →"}</p></div>
+      <div className="mt-2.5 space-y-1.5 sm:mt-5 sm:space-y-4"><CompactTeamRow school={awaySchool} team={getTeamName(game.awayTeam, "Away")} score={showScore ? awayScore : undefined} /><CompactTeamRow school={homeSchool} team={getTeamName(game.homeTeam, "Home")} score={showScore ? homeScore : undefined} /></div>
+      <div className="mt-2.5 flex items-center justify-between gap-3 border-t border-white/10 pt-2.5 sm:mt-5 sm:block sm:pt-4"><p className="text-[10px] font-semibold text-white/45 sm:text-xs">{formatKickoff(game.kickoff)}</p><p className="shrink-0 text-[8px] font-black uppercase tracking-[0.1em] text-white/60 sm:mt-2 sm:text-[10px] sm:tracking-[0.16em]">{isFinal ? "View Final →" : "View Matchup →"}</p></div>
     </Link>
     {actionLabel && <Link href={`/report-score?game=${encodeURIComponent(game.id)}`} className={`mt-3 block rounded-lg border px-3 py-2 text-center text-[9px] font-black uppercase tracking-[0.12em] transition sm:mt-4 sm:rounded-xl sm:text-[10px] ${hasPendingReport ? "border-amber-300/30 bg-amber-300/10 text-amber-100 hover:bg-amber-300/15" : "border-[var(--vv-accent)]/20 bg-[var(--vv-primary)]/35 text-white hover:bg-[var(--vv-primary)]/55"}`}>{actionLabel} →</Link>}
   </div>;
 }
 
 function CompactTeamRow({ school, team, score }: { school?: ReturnType<typeof getSchoolBySlug>; team: string; score?: number }) {
-  return <div className="grid grid-cols-[auto_1fr_auto] items-center gap-2.5 sm:gap-3">{school ? <SchoolBadge school={school} size="xs" /> : <FallbackBadge label={team} />}<p className="min-w-0 truncate text-sm font-black text-white sm:text-base">{team}</p>{score !== undefined && <p className="text-xl font-black leading-none text-white sm:text-2xl">{score}</p>}</div>;
+  return <div className="grid grid-cols-[auto_1fr_auto] items-center gap-2 sm:gap-3">{school ? <SchoolBadge school={school} size="sm" /> : <FallbackBadge label={team} />}<p className="min-w-0 truncate text-sm font-black text-white sm:text-base">{team}</p>{score !== undefined && <p className="text-xl font-black leading-none text-white sm:text-2xl">{score}</p>}</div>;
 }
 
 function getFallbackInitials(label: string) {
@@ -251,7 +251,7 @@ function FallbackBadge({ label }: { label: string }) {
   const strokeColor = identity?.secondary === "#000000" ? identity.accent : (identity?.secondary ?? "#FFFFFF");
   const footerColor = identity?.secondary === "#000000" ? identity.accent : (identity?.secondary ?? "#FFFFFF");
 
-  return <div className="w-20 shrink-0 drop-shadow-2xl">
+  return <div className="w-16 shrink-0 drop-shadow-2xl sm:w-20">
     <div className="relative overflow-hidden rounded-t-3xl border-[3px] border-black bg-[linear-gradient(180deg,#151515_0%,#050505_100%)] px-2 py-2">
       <div className="absolute inset-0 opacity-[0.08] [background-image:repeating-linear-gradient(45deg,rgba(255,255,255,0.6),rgba(255,255,255,0.6)_1px,transparent_1px,transparent_4px)]" />
       <div className="relative text-center text-xl font-black uppercase leading-none tracking-[-0.04em] [text-shadow:2px_2px_0_#000,-1px_-1px_0_#000,0_8px_14px_rgba(0,0,0,0.75)]" style={{ color: textColor, WebkitTextStroke: `1px ${strokeColor}` }}>{initials}</div>
