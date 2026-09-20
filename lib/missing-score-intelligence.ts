@@ -3,6 +3,7 @@ import "server-only";
 import { createClient } from "@supabase/supabase-js";
 import { getGames } from "@/lib/games";
 import { getSupabaseConfig } from "@/lib/supabase/config";
+import { discoverMissingScoreEvidence } from "@/lib/score-evidence-discovery";
 
 function scheduledTime(value?: string) {
   if (!value) return null;
@@ -69,5 +70,6 @@ export async function syncMissingScoreIntelligence() {
     console.error("Missing-score intelligence sync failed.", { code: error.code });
     return { outcome: "sync_failed" as const };
   }
-  return { outcome: "synced" as const, result: data, candidates: candidates.length };
+  const discovery = await discoverMissingScoreEvidence(client, workerSecret, candidates.map((candidate) => candidate.game_id));
+  return { outcome: "synced" as const, result: data, candidates: candidates.length, discovery };
 }
