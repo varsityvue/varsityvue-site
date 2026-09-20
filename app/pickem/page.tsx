@@ -37,10 +37,10 @@ function kickoffLabel(value: string) {
   });
 }
 
-function pickResultLabel(isCorrect: boolean | null) {
+function pickResultLabel(isCorrect: boolean | null, editable: boolean) {
   if (isCorrect === true) return "Correct";
   if (isCorrect === false) return "Incorrect";
-  return "Pending";
+  return editable ? "Saved · Editable" : "Saved · Locked";
 }
 
 export default async function PickemPage({ searchParams }: PageProps) {
@@ -155,12 +155,13 @@ export default async function PickemPage({ searchParams }: PageProps) {
 
   const memberGamesById = new Map((memberGameRows ?? []).map((game) => [game.id, game]));
   const memberWeeksById = new Map((memberWeekRows ?? []).map((pickemWeek) => [pickemWeek.id, pickemWeek]));
+  const editableGameIds = new Set(games.filter((game) => !game.locked).map((game) => game.id));
   const historyByWeek = new Map<string, {
     id: string;
     season: number;
     week: number;
     title: string;
-    picks: Array<{ id: string; matchup: string; pickedTeam: string; isCorrect: boolean | null }>;
+    picks: Array<{ id: string; matchup: string; pickedTeam: string; isCorrect: boolean | null; editable: boolean }>;
   }>();
 
   for (const pick of memberPickRows ?? []) {
@@ -179,7 +180,7 @@ export default async function PickemPage({ searchParams }: PageProps) {
       season: number;
       week: number;
       title: string;
-      picks: Array<{ id: string; matchup: string; pickedTeam: string; isCorrect: boolean | null }>;
+      picks: Array<{ id: string; matchup: string; pickedTeam: string; isCorrect: boolean | null; editable: boolean }>;
     } = historyByWeek.get(pickemWeek.id) ?? {
       id: pickemWeek.id,
       season: pickemWeek.season,
@@ -192,6 +193,9 @@ export default async function PickemPage({ searchParams }: PageProps) {
       matchup: `${canonicalGame.awayTeam} at ${canonicalGame.homeTeam}`,
       pickedTeam,
       isCorrect: pick.is_correct,
+      editable: pick.is_correct === null
+        && pickemWeek.status === "open"
+        && editableGameIds.has(pickemGame.id),
     });
     historyByWeek.set(pickemWeek.id, existing);
   }
@@ -215,7 +219,7 @@ export default async function PickemPage({ searchParams }: PageProps) {
         ) : isActiveMember ? (
           <>
             {intendedPicks.size > 0 ? <div className="mt-5 rounded-2xl border border-emerald-300/20 bg-emerald-300/10 p-4 text-sm text-emerald-50">Your pre-registration picks were restored. Select <strong>Save My Picks</strong> below to add them to your account.</div> : null}
-            <PickemSlateForm weekId={week.id} games={games} />
+            <PickemSlateForm weekId={week.id} games={games} savedPickCount={(memberPickRows ?? []).filter((pick) => games.some((game) => game.id === pick.pickem_game_id)).length} />
           </>
         ) : (
           <PickemGuestSlate games={games} />
@@ -270,8 +274,8 @@ export default async function PickemPage({ searchParams }: PageProps) {
                             <p className="truncate text-xs font-bold text-white/60">{pick.matchup}</p>
                             <p className="mt-1 text-sm font-black">Picked {pick.pickedTeam}</p>
                           </div>
-                          <span className={`shrink-0 rounded-full border px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.1em] ${pick.isCorrect === true ? "border-emerald-300/20 bg-emerald-300/10 text-emerald-100" : pick.isCorrect === false ? "border-red-300/20 bg-red-300/10 text-red-100" : "border-white/10 bg-white/[0.04] text-white/40"}`}>
-                            {pickResultLabel(pick.isCorrect)}
+                          <span className={`shrink-0 rounded-full border px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.1em] ${pick.isCorrect === true ? "border-emerald-300/20 bg-emerald-300/10 text-emerald-100" : pick.isCorrect === false ? "border-red-300/20 bg-red-300/10 text-red-100" : pick.editable ? "border-sky-300/20 bg-sky-300/10 text-sky-100" : "border-white/10 bg-white/[0.04] text-white/45"}`}>
+                            {pickResultLabel(pick.isCorrect, pick.editable)}
                           </span>
                         </div>
                       ))}

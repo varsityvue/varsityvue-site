@@ -28,9 +28,11 @@ const initialState: PickemActionState = { status: "idle", message: "" };
 export default function PickemSlateForm({
   weekId,
   games,
+  savedPickCount,
 }: {
   weekId: string;
   games: PickemSlateGame[];
+  savedPickCount: number;
 }) {
   const [state, action, pending] = useActionState(savePickemSlate, initialState);
 
@@ -55,10 +57,12 @@ export default function PickemSlateForm({
 
       <div className="sticky bottom-3 z-20 mt-4 rounded-2xl border border-white/15 bg-[#080808]/95 p-3 shadow-2xl backdrop-blur-xl sm:mt-6 sm:flex sm:items-center sm:justify-between sm:gap-4 sm:p-4">
         <p role={state.status === "error" ? "alert" : "status"} aria-live="polite" className={`text-xs leading-5 ${state.status === "error" ? "text-red-200" : state.status === "success" ? "text-emerald-200" : "text-white/45"}`}>
-          {state.message || "Selections remain editable until each game’s kickoff."}
+          {state.message || (savedPickCount > 0
+            ? `${savedPickCount} pick${savedPickCount === 1 ? " is" : "s are"} saved. Change any unlocked pick and save again before kickoff.`
+            : "Selections remain editable until each game’s kickoff.")}
         </p>
         <button type="submit" disabled={pending || games.every((game) => game.locked)} className="mt-3 w-full rounded-xl bg-white px-5 py-3 text-xs font-black uppercase tracking-[0.12em] text-black transition hover:bg-white/85 disabled:cursor-not-allowed disabled:opacity-50 sm:mt-0 sm:w-auto sm:shrink-0">
-          {pending ? "Saving…" : "Save My Picks"}
+          {pending ? "Saving…" : savedPickCount > 0 ? "Save Changes" : "Save My Picks"}
         </button>
       </div>
     </form>
