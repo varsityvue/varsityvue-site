@@ -104,23 +104,7 @@ export default function SchoolDirectory({ schools }: { schools: DirectorySchool[
   return (
     <>
       <section className="mb-5 rounded-[1.3rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:mb-8 sm:rounded-[1.75rem] sm:p-6">
-        <div className="grid gap-2.5 sm:gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
-          <div>
-            <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/70 sm:text-xs sm:tracking-[0.28em]">
-              Live School Hubs
-            </p>
-
-            <h2 className="mt-1.5 text-2xl font-black text-white sm:mt-2 sm:text-3xl">
-              Find a School Hub
-            </h2>
-          </div>
-
-          <p className="text-xs font-bold text-white/45 sm:text-sm" aria-live="polite">
-            {filteredSchools.length} of {schools.length} schools shown
-          </p>
-        </div>
-
-        <div className="mt-3.5 sm:mt-5">
+        <div>
           <label htmlFor="school-directory-search" className="sr-only">
             Search school hubs by school, mascot, district, classification, or stadium
           </label>
@@ -152,6 +136,10 @@ export default function SchoolDirectory({ schools }: { schools: DirectorySchool[
             ))}
           </div>
         </fieldset>
+
+        <p className="mt-3 text-right text-[10px] font-bold text-white/40 sm:mt-4 sm:text-xs" aria-live="polite">
+          {filteredSchools.length} of {schools.length} schools shown
+        </p>
       </section>
 
       {filteredSchools.length === 0 ? (
