@@ -113,14 +113,16 @@ export default async function CoveragePage({ searchParams }: { searchParams: Pro
               </section>
 
               <section className="mt-5 rounded-[1.4rem] border border-white/10 bg-white/[0.045] p-3 shadow-2xl sm:mt-8 sm:rounded-[1.75rem] sm:p-5">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex flex-wrap gap-2 sm:gap-2.5">
-                  <FilterPill href="/coverage" label="All Coverage" active={!activeType} />
-                  <FilterPill href="/coverage?type=preview" label="Previews" active={activeType === "preview"} />
-                  <FilterPill href="/coverage?type=recap" label="Recaps" active={activeType === "recap"} />
-                  <FilterPill href="/coverage?type=news" label="News" active={activeType === "news"} />
-                  <FilterPill href="/coverage?type=feature" label="Features" active={activeType === "feature"} />
-                    <FilterPill href="/coverage?type=legacy" label="Legacy" active={activeType === "legacy"} />
+                <div className="flex items-center justify-between gap-2 sm:gap-3">
+                  <div className="min-w-0 flex-1 overflow-x-auto pb-1 sm:pb-0">
+                    <div className="flex w-max gap-2 sm:gap-2.5">
+                      <FilterPill href="/coverage" label="All Coverage" active={!activeType} />
+                      <FilterPill href="/coverage?type=preview" label="Previews" active={activeType === "preview"} />
+                      <FilterPill href="/coverage?type=recap" label="Recaps" active={activeType === "recap"} />
+                      <FilterPill href="/coverage?type=news" label="News" active={activeType === "news"} />
+                      <FilterPill href="/coverage?type=feature" label="Features" active={activeType === "feature"} />
+                      <FilterPill href="/coverage?type=legacy" label="Legacy" active={activeType === "legacy"} />
+                    </div>
                   </div>
                   <Link href="/submit" className="shrink-0 rounded-full border border-white/10 bg-black/35 px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.11em] text-white/60 transition hover:bg-white/10 hover:text-white sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.14em]">Story Tip →</Link>
                 </div>
