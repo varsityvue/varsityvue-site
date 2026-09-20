@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false, nocache: true },
 };
 
-type BreakdownRow = { intent?: string; source?: string; accounts: number; confirmed: number; pickem_participants?: number };
+type BreakdownRow = { intent?: string; source?: string; accounts: number; confirmed: number; followers?: number; pickem_participants?: number; activated?: number };
 type DailyRow = { date: string; accounts: number };
 type DashboardData = {
   generated_at: string;
@@ -20,6 +20,7 @@ type DashboardData = {
     new_accounts: number;
     confirmed_accounts: number;
     active_accounts: number;
+    activated_accounts: number;
     pickem_participants: number;
     complete_slate_members: number;
   };
@@ -57,7 +58,7 @@ export default async function ConversionDashboardPage({ searchParams }: PageProp
   const funnel = summary ? [
     ["Accounts created", summary.new_accounts],
     ["Email confirmed", summary.confirmed_accounts],
-    ["Made a Pick ’Em pick", summary.pickem_participants],
+    ["Followed a school or made a pick", summary.activated_accounts],
     ["Completed a slate", summary.complete_slate_members],
   ] as const : [];
 
@@ -118,7 +119,7 @@ export default async function ConversionDashboardPage({ searchParams }: PageProp
 
             <section className="mt-6 grid gap-6 lg:grid-cols-2">
               <Breakdown title="Signup Intent" rows={dashboard.intent_breakdown} keyName="intent" showPickem />
-              <Breakdown title="Entry Source" rows={dashboard.source_breakdown} keyName="source" />
+              <Breakdown title="Entry Source" rows={dashboard.source_breakdown} keyName="source" showActivation />
             </section>
 
             <section className="mt-6 rounded-2xl border border-white/10 bg-white/[0.035] p-5 sm:p-6">
@@ -136,6 +137,6 @@ export default async function ConversionDashboardPage({ searchParams }: PageProp
   );
 }
 
-function Breakdown({ title, rows, keyName, showPickem = false }: { title: string; rows: BreakdownRow[]; keyName: "intent" | "source"; showPickem?: boolean }) {
-  return <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-5 sm:p-6"><h2 className="text-xl font-black">{title}</h2><div className="mt-4 divide-y divide-white/10">{rows.length ? rows.map((row) => { const key = row[keyName] ?? "unknown"; return <div key={key} className={`grid ${showPickem ? "grid-cols-[1fr_auto_auto_auto]" : "grid-cols-[1fr_auto_auto]"} items-center gap-4 py-3 text-sm`}><span className="font-bold text-white/70">{label(key)}</span><span className="text-right"><strong>{row.accounts}</strong><small className="block text-[9px] uppercase text-white/30">Accounts</small></span><span className="text-right"><strong>{row.confirmed}</strong><small className="block text-[9px] uppercase text-white/30">Confirmed</small></span>{showPickem ? <span className="text-right"><strong>{row.pickem_participants ?? 0}</strong><small className="block text-[9px] uppercase text-white/30">Players</small></span> : null}</div>; }) : <p className="py-5 text-sm text-white/40">No accounts in this period.</p>}</div></div>;
+function Breakdown({ title, rows, keyName, showPickem = false, showActivation = false }: { title: string; rows: BreakdownRow[]; keyName: "intent" | "source"; showPickem?: boolean; showActivation?: boolean }) {
+  return <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-5 sm:p-6"><h2 className="text-xl font-black">{title}</h2><div className="mt-4 divide-y divide-white/10">{rows.length ? rows.map((row) => { const key = row[keyName] ?? "unknown"; return <div key={key} className={`grid ${showPickem || showActivation ? "grid-cols-[1fr_auto_auto_auto]" : "grid-cols-[1fr_auto_auto]"} items-center gap-3 py-3 text-sm`}><span className="min-w-0 font-bold text-white/70">{label(key)}</span><span className="text-right"><strong>{row.accounts}</strong><small className="block text-[9px] uppercase text-white/30">Accounts</small></span><span className="text-right"><strong>{row.confirmed}</strong><small className="block text-[9px] uppercase text-white/30">Confirmed</small></span>{showPickem ? <span className="text-right"><strong>{row.pickem_participants ?? 0}</strong><small className="block text-[9px] uppercase text-white/30">Players</small></span> : null}{showActivation ? <span className="text-right"><strong>{row.activated ?? 0}</strong><small className="block text-[9px] uppercase text-white/30">Activated</small><small className="block text-[9px] text-white/25">{percent(row.activated ?? 0, row.accounts)}</small></span> : null}</div>; }) : <p className="py-5 text-sm text-white/40">No accounts in this period.</p>}</div>{showActivation ? <p className="mt-3 border-t border-white/10 pt-3 text-[10px] leading-4 text-white/30">Activated means the member followed a school or saved at least one Pick ’Em selection.</p> : null}</div>;
 }
