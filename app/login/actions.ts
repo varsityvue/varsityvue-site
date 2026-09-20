@@ -81,6 +81,10 @@ export async function signup(formData: FormData) {
   const email = value(formData, "email");
   const password = value(formData, "password");
   const next = safeNextPath(value(formData, "next"));
+  const submittedSource = value(formData, "signup_source");
+  const signupSource = submittedSource === "home" || submittedSource === "scoreboard"
+    ? submittedSource
+    : "direct_or_other";
   const token = captchaToken(formData);
 
   if (!displayName || !email || password.length < 8) {
@@ -111,6 +115,8 @@ export async function signup(formData: FormData) {
       emailRedirectTo: confirmUrl.toString(),
       data: {
         display_name: displayName,
+        signup_intent: signupIntent(next),
+        signup_source: signupSource,
       },
     },
   });

@@ -31,7 +31,9 @@ export async function GET(request: NextRequest) {
           ? "follow"
           : next.startsWith("/report-score")
             ? "score_report"
-            : "account",
+            : next.startsWith("/pickem")
+              ? "pickem"
+              : "account",
       });
       const destination = new URL(next, request.url);
       destination.searchParams.set("confirmed", "1");
@@ -59,7 +61,9 @@ export async function GET(request: NextRequest) {
           ? "follow"
           : next.startsWith("/report-score")
             ? "score_report"
-            : "account",
+            : next.startsWith("/pickem")
+              ? "pickem"
+              : "account",
       });
       const destination = new URL(next, request.url);
       destination.searchParams.set("confirmed", "1");

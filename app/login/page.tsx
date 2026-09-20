@@ -13,6 +13,7 @@ type LoginPageProps = {
     message?: string;
     mode?: string;
     next?: string;
+    source?: string;
     status?: string;
   }>;
 };
@@ -24,7 +25,7 @@ function intendedSchoolSlug(returnTo: string) {
 }
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
-  const { message, mode, next, status } = await searchParams;
+  const { message, mode, next, source, status } = await searchParams;
   const signupMode = mode === "signup";
   const returnTo = safeNextPath(next);
   const followSchoolSlug = intendedSchoolSlug(returnTo);
@@ -36,6 +37,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   const toggleParams = new URLSearchParams();
   if (!signupMode) toggleParams.set("mode", "signup");
   if (returnTo !== "/account") toggleParams.set("next", returnTo);
+  if (source === "home" || source === "scoreboard") toggleParams.set("source", source);
   const toggleHref = toggleParams.size ? `/login?${toggleParams.toString()}` : "/login";
   const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
   const sourceIntent = followSchool
@@ -45,6 +47,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
     : returnTo.startsWith("/report-score")
       ? "score_report"
       : "account";
+  const signupSource = source === "home" || source === "scoreboard" ? source : "direct_or_other";
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] px-4 py-10 text-white sm:px-6 sm:py-16 lg:px-8">
@@ -135,6 +138,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
 
           <form action={signupMode ? signup : login} className="mt-6 space-y-4">
             <input type="hidden" name="next" value={returnTo} />
+            {signupMode ? <input type="hidden" name="signup_source" value={signupSource} /> : null}
             {signupMode ? (
               <div>
                 <label htmlFor="display_name" className="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-white/55">

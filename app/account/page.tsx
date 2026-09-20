@@ -330,6 +330,7 @@ export default async function AccountPage() {
                   <p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/35">Members & Access</p>
                   <div className="mt-3 flex flex-col gap-2.5">
                     <Link href="/internal/members" className="text-sm font-black text-white transition hover:text-[var(--vv-accent)]">Manage Members & Roles →</Link>
+                    <Link href="/internal/conversions" className="text-sm font-bold text-white/65 transition hover:text-white">View Conversion Dashboard →</Link>
                     <Link href="/internal/contributor-access" className="text-sm font-bold text-white/65 transition hover:text-white">Manage Contributor Access →</Link>
                   </div>
                 </div>
