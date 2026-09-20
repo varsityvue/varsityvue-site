@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import PickemGuestSlate from "@/components/PickemGuestSlate";
 import PickemSlateForm, { type PickemSlateGame } from "@/components/PickemSlateForm";
+import { getProgramLogoPath } from "@/components/SchoolBadge";
 import { getGameById } from "@/lib/games";
 import { memberAccountStatus } from "@/lib/member-access";
+import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
@@ -126,13 +128,21 @@ export default async function PickemPage({ searchParams }: PageProps) {
   const games: PickemSlateGame[] = (slateRows ?? []).flatMap((row) => {
     const game = getGameById(row.game_id);
     if (!game || !row.away_school_slug || !row.home_school_slug) return [];
+    const awaySchool = getSchoolBySlug(row.away_school_slug);
+    const homeSchool = getSchoolBySlug(row.home_school_slug);
     return [{
       id: row.id,
       gameId: row.game_id,
       awayName: game.awayTeam ?? "Away Team",
       awaySlug: row.away_school_slug,
+      awayMark: awaySchool?.abbreviation ?? game.awayTeam?.slice(0, 3).toUpperCase() ?? "AWY",
+      awayColor: awaySchool?.colors.primary ?? "#7a1022",
+      awayLogoUrl: awaySchool ? getProgramLogoPath(awaySchool.slug) : undefined,
       homeName: game.homeTeam ?? "Home Team",
       homeSlug: row.home_school_slug,
+      homeMark: homeSchool?.abbreviation ?? game.homeTeam?.slice(0, 3).toUpperCase() ?? "HME",
+      homeColor: homeSchool?.colors.primary ?? "#7a1022",
+      homeLogoUrl: homeSchool ? getProgramLogoPath(homeSchool.slug) : undefined,
       kickoffLabel: kickoffLabel(row.lock_at),
       locked: row.is_locked === true,
       selectedSlug: selections.get(row.id) ?? (
@@ -194,14 +204,10 @@ export default async function PickemPage({ searchParams }: PageProps) {
     <main className="min-h-screen bg-[var(--vv-bg)] px-4 py-7 text-white sm:px-6 sm:py-12 lg:px-8">
       <div className="mx-auto max-w-[1200px]">
         <section className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.42),transparent_40%),linear-gradient(135deg,rgba(255,255,255,0.07),rgba(255,255,255,0.025))] p-5 shadow-2xl sm:rounded-[2rem] sm:p-8">
-          <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent)] sm:text-xs">VarsityVue Pick ’Em</p>
-          <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <h1 className="text-3xl font-black tracking-tight sm:text-5xl">{week?.title ?? "Weekly Pick ’Em"}</h1>
-              <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55 sm:text-base">Pick the winner of each matchup. Every game locks at kickoff, and verified finals grade the slate.</p>
-            </div>
-            {week ? <div className="rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-right"><p className="text-[9px] font-black uppercase tracking-[0.14em] text-white/35">Season</p><p className="mt-1 text-lg font-black">{week.season} · Week {week.week}</p></div> : null}
-          </div>
+          <div className="flex flex-wrap items-center gap-2"><p className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent)] sm:text-xs">VarsityVue Pick ’Em</p>{week ? <span className="rounded-full border border-white/10 bg-black/30 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/45">{week.season} · Week {week.week}</span> : null}</div>
+          <h1 className="mt-3 text-3xl font-black tracking-tight sm:text-5xl">{week?.title ?? "Weekly Pick ’Em"}</h1>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55 sm:text-base">Pick every winner. Each correct pick earns one point, games lock individually at kickoff, and verified finals grade the slate.</p>
+          <div className="mt-4 flex flex-wrap gap-2 text-[9px] font-black uppercase tracking-[0.11em] text-white/45"><span className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5">1 point per winner</span><span className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5">Individual lock times</span><span className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5">Season leaderboard</span></div>
         </section>
 
         {!week || games.length === 0 ? (
