@@ -76,13 +76,13 @@ begin
     (other_week_game, member_a, 'home-e'),
     (other_season_game, member_a, 'away-f');
 
-  insert into public.game_state (game_id, status, home_score, away_score, verified, verified_at)
+  insert into public.game_state (game_id, status, home_score, away_score, verified, verified_at, result_type)
   values
-    ('__pickem_audit_away__', 'final', 7, 21, true, now()),
-    ('__pickem_audit_home__', 'final', 24, 10, true, now()),
-    ('__pickem_audit_unverified__', 'final', 3, 14, false, null),
-    ('__pickem_audit_week_2_game__', 'final', 28, 7, true, now()),
-    ('__pickem_audit_other_season_game__', 'final', 0, 35, true, now());
+    ('__pickem_audit_away__', 'final', 7, 21, true, now(), 'played'),
+    ('__pickem_audit_home__', 'final', 24, 10, true, now(), 'played'),
+    ('__pickem_audit_unverified__', 'final', 3, 14, false, null, null),
+    ('__pickem_audit_week_2_game__', 'final', 28, 7, true, now(), 'played'),
+    ('__pickem_audit_other_season_game__', 'final', 0, 35, true, now(), 'played');
 
   if not (select is_correct is true from public.pickem_picks where pickem_game_id = away_game and user_id = member_a) then
     raise exception 'Away pick with away win was not correct';
@@ -139,7 +139,7 @@ begin
   from public.pickem_member_totals where season = 2098 and user_id = member_a;
   if graded <> 3 or correct <> 2 then raise exception 'Winner correction did not regrade totals'; end if;
 
-  update public.game_state set home_score = 14, away_score = 14
+  update public.game_state set home_score = 14, away_score = 14, result_type = 'tie'
   where game_id = '__pickem_audit_away__';
   if not (select is_correct is null from public.pickem_picks where pickem_game_id = away_game and user_id = member_a) then
     raise exception 'Tie correction retained a stale grade';
@@ -155,7 +155,8 @@ begin
   end if;
 
   update public.game_state
-  set status = 'cancelled', verified = true, home_score = null, away_score = null
+  set status = 'cancelled', verified = true, home_score = null, away_score = null,
+      result_type = null, official_winner_school_slug = null
   where game_id = '__pickem_audit_home__';
   if exists (
     select 1 from public.pickem_picks

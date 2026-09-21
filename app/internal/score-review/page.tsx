@@ -56,15 +56,19 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
   if (!canModerate) redirect("/account");
 
   const params = await searchParams;
-  const [{ data: submissions }, dynamicGames] = await Promise.all([
+  const [{ data: submissions }, dynamicGames, { data: scheduleStates }] = await Promise.all([
     supabase
       .from("score_submissions")
       .select("id, game_id, submitted_by, home_score, away_score, game_status, period, clock, source_note, status, created_at")
       .eq("status", "pending")
       .order("created_at", { ascending: true }),
     getDynamicGames(),
+    supabase.from("game_state").select("game_id, schedule_revision"),
   ]);
   const dynamicGamesById = new Map(dynamicGames.map((game) => [game.id, game]));
+  const scheduleRevisionByGameId = new Map(
+    (scheduleStates ?? []).map((state) => [state.game_id, state.schedule_revision]),
+  );
 
   const submitterIds = Array.from(new Set((submissions ?? []).map((item) => item.submitted_by).filter(Boolean) as string[]));
   const [{ data: profiles }, { data: contributorAssignments }] = submitterIds.length
@@ -168,14 +172,15 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
               <h2 className="mt-1 text-xl font-black">Set a new kickoff</h2>
               <p className="mt-2 text-xs leading-5 text-white/45">Enter the verified new kickoff in Central Time. Saving it restores the game to Upcoming and supersedes stale pending score reports.</p>
             </div>
-            <form action={rescheduleGame} className="grid gap-2 sm:grid-cols-[minmax(220px,1fr)_minmax(190px,auto)_auto]">
-              <select name="game_id" required defaultValue="" className="rounded-xl border border-white/10 bg-black/40 px-3 py-2.5 text-xs text-white outline-none">
+            <form action={rescheduleGame} className="grid gap-2 sm:grid-cols-[minmax(220px,1fr)_minmax(190px,auto)_minmax(220px,1fr)_auto]">
+              <select name="game_schedule" required defaultValue="" className="rounded-xl border border-white/10 bg-black/40 px-3 py-2.5 text-xs text-white outline-none">
                 <option value="" disabled>Select game…</option>
                 {dynamicGames.filter((game) => ["upcoming", "postponed", "scheduled"].includes(game.status) && game.gameType !== "bye" && game.gameType !== "scrimmage").map((game) => (
-                  <option key={game.id} value={game.id}>Week {game.week ?? "—"} · {displayTeamName(game.awayTeam, game.awaySchoolSlug)} at {displayTeamName(game.homeTeam, game.homeSchoolSlug)} · {game.status}</option>
+                  <option key={game.id} value={`${game.id}::${scheduleRevisionByGameId.get(game.id) ?? 0}`}>Week {game.week ?? "—"} · {displayTeamName(game.awayTeam, game.awaySchoolSlug)} at {displayTeamName(game.homeTeam, game.homeSchoolSlug)} · {game.status}</option>
                 ))}
               </select>
               <input type="datetime-local" name="kickoff_local" required aria-label="New kickoff in Central Time" className="rounded-xl border border-white/10 bg-black/40 px-3 py-2.5 text-xs text-white outline-none"/>
+              <input name="reason" required maxLength={300} placeholder="Verified reason for schedule change" aria-label="Schedule change reason" className="rounded-xl border border-white/10 bg-black/40 px-3 py-2.5 text-xs text-white outline-none"/>
               <button type="submit" className="rounded-xl border border-sky-300/20 bg-sky-300/10 px-4 py-2.5 text-xs font-black text-sky-50 transition hover:bg-sky-300/15">Save Kickoff</button>
             </form>
           </div>

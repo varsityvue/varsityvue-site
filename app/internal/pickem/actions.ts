@@ -59,6 +59,15 @@ export async function savePickemWeek(formData: FormData) {
     redirect(resultUrl("Every selected game must have a valid kickoff time."));
   }
 
+  const { data: scheduleStates, error: scheduleStateError } = await supabase
+    .from("game_state")
+    .select("game_id, schedule_revision, kickoff_override")
+    .in("game_id", selectedGames.map((game) => game.id));
+  if (scheduleStateError) {
+    redirect(resultUrl("Canonical schedule revisions could not be loaded."));
+  }
+  const scheduleStateByGameId = new Map((scheduleStates ?? []).map((state) => [state.game_id, state]));
+
   const { data: existingWeek } = await supabase
     .from("pickem_weeks")
     .select("id, status, created_by")
@@ -115,20 +124,26 @@ export async function savePickemWeek(formData: FormData) {
     if (deleteError) redirect(resultUrl("A deselected game could not be removed."));
   }
 
-  const { error: gamesError } = await supabase
-    .from("pickem_games")
-    .upsert(selectedGames.map((game, index) => ({
-      week_id: savedWeek.id,
-      game_id: game.id,
-      sort_order: index + 1,
-      lock_at: game.kickoff,
-      away_school_slug: game.awaySchoolSlug,
-      home_school_slug: game.homeSchoolSlug,
-    })), { onConflict: "week_id,game_id" });
+  for (const [index, game] of selectedGames.entries()) {
+    const scheduleState = scheduleStateByGameId.get(game.id);
+    const { error: gameError } = await supabase.rpc("sync_pickem_game_lock", {
+      p_week_id: savedWeek.id,
+      p_game_id: game.id,
+      p_sort_order: index + 1,
+      p_canonical_kickoff: game.kickoff!,
+      p_expected_schedule_revision: scheduleState?.schedule_revision ?? 0,
+      p_away_school_slug: game.awaySchoolSlug!,
+      p_home_school_slug: game.homeSchoolSlug!,
+    });
 
-  if (gamesError) {
-    console.error("Pick Em games save failed.", { code: gamesError.code });
-    redirect(resultUrl("The slate games could not be saved."));
+    if (gameError) {
+      console.error("Pick Em game synchronization failed.", { code: gameError.code });
+      redirect(resultUrl(
+        gameError.code === "40001"
+          ? "A canonical kickoff changed while the slate was saving. Refresh and try again."
+          : "The slate games could not be saved.",
+      ));
+    }
   }
 
   revalidatePath("/pickem");

@@ -13,6 +13,23 @@ function text(formData: FormData, key: string) {
   return String(formData.get(key) ?? "").trim();
 }
 
+function scheduleSelection(formData: FormData) {
+  const raw = text(formData, "game_schedule");
+  const separator = raw.lastIndexOf("::");
+  const gameId = separator > 0 ? raw.slice(0, separator) : "";
+  const revision = separator > 0 ? Number(raw.slice(separator + 2)) : Number.NaN;
+  return { gameId, revision };
+}
+
+function scheduleErrorMessage(code?: string, message?: string) {
+  if (code === "40001" || message?.includes("Stale schedule revision")) {
+    return "This schedule changed after the page loaded. Refresh and try again.";
+  }
+  if (code === "22007") return message ?? "Enter a valid, unambiguous Central Time kickoff.";
+  if (code === "42501") return "You are not authorized to update this schedule.";
+  return message ?? "The canonical kickoff could not be updated.";
+}
+
 function hasCompleteSchoolIdentity(slug?: string) {
   if (!slug) return false;
   const school = getSchoolBySlug(slug);
@@ -183,6 +200,8 @@ export async function updateGameAvailability(formData: FormData) {
       verified_at: new Date().toISOString(),
       updated_by: userId,
       updated_at: new Date().toISOString(),
+      result_type: null,
+      official_winner_school_slug: null,
     },
     { onConflict: "game_id" },
   );
@@ -213,12 +232,16 @@ export async function updateGameAvailability(formData: FormData) {
 
 
 export async function rescheduleGame(formData: FormData) {
-  const gameId = text(formData, "game_id");
+  const { gameId, revision } = scheduleSelection(formData);
   const kickoffLocal = text(formData, "kickoff_local");
-  const { supabase, userId } = await requireModerator();
+  const reason = text(formData, "reason");
+  const { supabase } = await requireModerator();
 
-  if (!gameId || !kickoffLocal) {
-    redirect("/internal/score-review?message=Choose%20a%20game%20and%20new%20kickoff.");
+  if (!gameId || !Number.isSafeInteger(revision) || revision < 0 || !kickoffLocal || !reason) {
+    redirect("/internal/score-review?message=Choose%20a%20game%2C%20new%20kickoff%2C%20and%20reason.");
+  }
+  if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(kickoffLocal)) {
+    redirect("/internal/score-review?message=Enter%20a%20valid%20Central%20Time%20kickoff.");
   }
 
   const currentGame = await getDynamicGameById(gameId);
@@ -226,37 +249,22 @@ export async function rescheduleGame(formData: FormData) {
   if (currentGame.status === "final" || currentGame.status === "cancelled") {
     redirect("/internal/score-review?message=Final%20or%20cancelled%20games%20cannot%20be%20rescheduled.");
   }
-
-  const parsed = new Date(`${kickoffLocal}:00-05:00`);
-  if (Number.isNaN(parsed.getTime())) {
-    redirect("/internal/score-review?message=Enter%20a%20valid%20Central%20Time%20kickoff.");
+  if (!currentGame.kickoff || !currentGame.awaySchoolSlug || !currentGame.homeSchoolSlug) {
+    redirect("/internal/score-review?message=The%20canonical%20game%20is%20missing%20kickoff%20or%20team%20identity.");
   }
 
-  const { error } = await supabase.from("game_state").upsert(
-    {
-      game_id: gameId,
-      status: "upcoming",
-      kickoff_override: parsed.toISOString(),
-      home_score: null,
-      away_score: null,
-      period: null,
-      clock: null,
-      source_submission_id: null,
-      verified: true,
-      verified_at: new Date().toISOString(),
-      updated_by: userId,
-      updated_at: new Date().toISOString(),
-    },
-    { onConflict: "game_id" },
-  );
-  if (error) redirect(`/internal/score-review?message=${encodeURIComponent(error.message)}`);
-
-  await supabase.from("score_submissions").update({
-    status: "superseded",
-    reviewed_by: userId,
-    reviewed_at: new Date().toISOString(),
-    review_note: "Superseded when game kickoff was rescheduled.",
-  }).eq("game_id", gameId).eq("status", "pending");
+  const { error } = await supabase.rpc("update_canonical_game_kickoff", {
+    p_game_id: gameId,
+    p_expected_revision: revision,
+    p_expected_current_kickoff: currentGame.kickoff,
+    p_kickoff_local: `${kickoffLocal}:00`,
+    p_reason: reason,
+    p_away_school_slug: currentGame.awaySchoolSlug,
+    p_home_school_slug: currentGame.homeSchoolSlug,
+  });
+  if (error) {
+    redirect(`/internal/score-review?message=${encodeURIComponent(scheduleErrorMessage(error.code, error.message))}`);
+  }
 
   revalidatePath("/internal/score-review");
   revalidatePath("/games");
