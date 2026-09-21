@@ -72,6 +72,25 @@ async function requireModerator() {
   return { supabase, userId };
 }
 
+async function requireAdministrator() {
+  const { supabase, userId } = await requireActiveMember();
+  const { data: roles } = await supabase
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", userId);
+
+  if (!roles?.some((row) => row.role === "admin")) redirect("/account");
+  return { supabase };
+}
+
+function outcomeErrorMessage(code?: string, message?: string) {
+  if (code === "40001" || message?.includes("Stale outcome revision")) {
+    return "This outcome changed after the page loaded. Refresh and review the authoritative state before trying again.";
+  }
+  if (code === "42501") return "Only an active administrator can change a canonical outcome.";
+  return message ?? "The canonical outcome could not be changed.";
+}
+
 export async function approveScoreSubmission(formData: FormData) {
   const submissionId = text(formData, "submission_id");
   const reviewNote = text(formData, "review_note") || null;
@@ -271,4 +290,54 @@ export async function rescheduleGame(formData: FormData) {
   revalidatePath("/scoreboard");
   revalidatePath(`/games/${gameId}`);
   redirect("/internal/score-review?game-status=rescheduled");
+}
+
+export async function setCanonicalGameOutcome(formData: FormData) {
+  const gameId = text(formData, "game_id");
+  const resultType = text(formData, "result_type");
+  const winnerSlug = text(formData, "official_winner_school_slug") || null;
+  const reason = text(formData, "reason");
+  const awayScoreText = text(formData, "away_score");
+  const homeScoreText = text(formData, "home_score");
+  const awayScore = awayScoreText === "" ? null : Number(awayScoreText);
+  const homeScore = homeScoreText === "" ? null : Number(homeScoreText);
+  const expectedRevision = Number(text(formData, "expected_outcome_revision"));
+  const { supabase } = await requireAdministrator();
+
+  if (!gameId || !["played", "tie", "forfeit", "no_contest"].includes(resultType)) {
+    redirect("/internal/score-review?message=Choose%20a%20valid%20canonical%20outcome.");
+  }
+  if (!Number.isSafeInteger(expectedRevision) || expectedRevision < 0 || !reason) {
+    redirect("/internal/score-review?message=Refresh%20the%20game%20and%20enter%20a%20reason%20before%20submitting.");
+  }
+  if (reason.length > 500) {
+    redirect("/internal/score-review?message=Keep%20the%20outcome%20reason%20to%20500%20characters%20or%20fewer.");
+  }
+  if (["played", "tie"].includes(resultType) && (
+    !Number.isSafeInteger(awayScore) || !Number.isSafeInteger(homeScore) ||
+    (awayScore as number) < 0 || (homeScore as number) < 0
+  )) {
+    redirect("/internal/score-review?message=Played%20and%20tie%20outcomes%20require%20nonnegative%20whole-number%20scores.");
+  }
+
+  const { error } = await supabase.rpc("admin_set_canonical_game_outcome", {
+    p_game_id: gameId,
+    p_expected_outcome_revision: expectedRevision,
+    p_result_type: resultType,
+    p_official_winner_school_slug: winnerSlug,
+    p_reason: reason,
+    p_away_score: ["played", "tie"].includes(resultType) ? awayScore : null,
+    p_home_score: ["played", "tie"].includes(resultType) ? homeScore : null,
+  });
+
+  if (error) {
+    redirect(`/internal/score-review?message=${encodeURIComponent(outcomeErrorMessage(error.code, error.message))}`);
+  }
+
+  revalidatePath("/internal/score-review");
+  revalidatePath("/pickem");
+  revalidatePath("/games");
+  revalidatePath("/scoreboard");
+  revalidatePath(`/games/${gameId}`);
+  redirect(`/internal/score-review?outcome-updated=${encodeURIComponent(gameId)}`);
 }

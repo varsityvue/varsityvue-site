@@ -9,7 +9,9 @@ import { getDynamicGames } from "@/lib/dynamic-games";
 import { getGameById } from "@/lib/games";
 import { requireActiveMember } from "@/lib/member-access";
 import { getSchoolBySlug } from "@/lib/schools";
+import type { CanonicalOutcomeGame } from "@/lib/admin-outcome";
 import { approveScoreSubmission, rejectScoreSubmission, updateGameAvailability, rescheduleGame } from "./actions";
+import CanonicalOutcomeForm from "./CanonicalOutcomeForm";
 
 export const metadata: Metadata = {
   title: "Score Review",
@@ -17,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 type PageProps = {
-  searchParams: Promise<{ message?: string; reviewed?: string; "game-status"?: string }>;
+  searchParams: Promise<{ message?: string; reviewed?: string; "game-status"?: string; "outcome-updated"?: string }>;
 };
 
 function hasCompleteSchoolIdentity(slug?: string, teamName?: string) {
@@ -53,6 +55,7 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
     .eq("user_id", userId);
 
   const canModerate = roles?.some((row) => row.role === "moderator" || row.role === "admin");
+  const isAdministrator = roles?.some((row) => row.role === "admin") ?? false;
   if (!canModerate) redirect("/account");
 
   const params = await searchParams;
@@ -63,12 +66,36 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
       .eq("status", "pending")
       .order("created_at", { ascending: true }),
     getDynamicGames(),
-    supabase.from("game_state").select("game_id, schedule_revision"),
+    supabase
+      .from("game_state")
+      .select("game_id, status, verified, home_score, away_score, result_type, official_winner_school_slug, away_school_slug, home_school_slug, schedule_revision, outcome_revision"),
   ]);
   const dynamicGamesById = new Map(dynamicGames.map((game) => [game.id, game]));
   const scheduleRevisionByGameId = new Map(
     (scheduleStates ?? []).map((state) => [state.game_id, state.schedule_revision]),
   );
+  const canonicalOutcomeGames: CanonicalOutcomeGame[] = (scheduleStates ?? []).flatMap((state) => {
+    if (state.status !== "final" || state.verified !== true || !state.away_school_slug || !state.home_school_slug) return [];
+    const game = dynamicGamesById.get(state.game_id) ?? getGameById(state.game_id);
+    if (!game) return [];
+    const awayName = displayTeamName(game.awayTeam, state.away_school_slug);
+    const homeName = displayTeamName(game.homeTeam, state.home_school_slug);
+    return [{
+      gameId: state.game_id,
+      matchup: `${awayName} at ${homeName}`,
+      awayName,
+      awaySlug: state.away_school_slug,
+      homeName,
+      homeSlug: state.home_school_slug,
+      awayScore: state.away_score,
+      homeScore: state.home_score,
+      status: state.status,
+      verified: state.verified,
+      resultType: state.result_type,
+      officialWinnerSlug: state.official_winner_school_slug,
+      outcomeRevision: state.outcome_revision,
+    }];
+  });
 
   const submitterIds = Array.from(new Set((submissions ?? []).map((item) => item.submitted_by).filter(Boolean) as string[]));
   const [{ data: profiles }, { data: contributorAssignments }] = submitterIds.length
@@ -138,6 +165,28 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
         ) : null}
         {params.message ? (
           <div className="mt-6 rounded-2xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm text-amber-50">{params.message}</div>
+        ) : null}
+        {params["outcome-updated"] ? (
+          <div className="mt-6 rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-sm text-emerald-50">
+            Canonical outcome saved for {params["outcome-updated"]}. The authoritative state, Pick ’Em grades, and totals have been refreshed.
+          </div>
+        ) : null}
+
+        {isAdministrator ? (
+          <section className="mt-8 rounded-2xl border border-amber-300/20 bg-white/[0.035] p-5 sm:p-6">
+            <div className="max-w-3xl">
+              <p className="text-[10px] font-black uppercase tracking-[0.18em] text-amber-100/60">Administrator authority</p>
+              <h2 className="mt-1 text-xl font-black">Record or correct a canonical outcome</h2>
+              <p className="mt-2 text-xs leading-5 text-white/50">
+                Use an official ruling to record a tie, forfeit, or no-contest, or return a game to played when unequal final scores are valid. This operation never infers exceptional outcomes from status text or scores.
+              </p>
+            </div>
+            {canonicalOutcomeGames.length > 0 ? (
+              <CanonicalOutcomeForm games={canonicalOutcomeGames} />
+            ) : (
+              <p className="mt-5 rounded-xl border border-white/10 bg-black/25 p-4 text-sm text-white/50">No verified final games with complete canonical team identity are available.</p>
+            )}
+          </section>
         ) : null}
 
         <section className="mt-8 rounded-2xl border border-white/10 bg-white/[0.035] p-5 sm:p-6">
