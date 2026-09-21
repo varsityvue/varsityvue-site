@@ -1,6 +1,3 @@
--- Correct the admin role-management RPC to use the private authorization helper schema.
--- This is a follow-up migration so previously applied migration history remains immutable.
-
 create or replace function public.admin_set_user_role(
   target_user_id uuid,
   target_role public.user_role,
@@ -9,26 +6,18 @@ create or replace function public.admin_set_user_role(
 returns void
 language plpgsql
 security definer
-set search_path = public, private
+set search_path = public
 as $$
 begin
-  if auth.uid() is null or not private.has_role('admin'::public.user_role) then
+  if auth.uid() is null or not public.has_role('admin') then
     raise exception 'Admin access required';
   end if;
 
-  if target_role not in (
-    'member'::public.user_role,
-    'scorekeeper'::public.user_role,
-    'moderator'::public.user_role
-  ) then
+  if target_role not in ('member'::public.user_role, 'scorekeeper'::public.user_role, 'moderator'::public.user_role) then
     raise exception 'This role cannot be managed here';
   end if;
 
-  if not exists (
-    select 1
-    from public.profiles
-    where id = target_user_id
-  ) then
+  if not exists (select 1 from public.profiles where id = target_user_id) then
     raise exception 'Member not found';
   end if;
 
@@ -49,3 +38,6 @@ begin
   end if;
 end;
 $$;
+
+revoke all on function public.admin_set_user_role(uuid, public.user_role, boolean) from public;
+grant execute on function public.admin_set_user_role(uuid, public.user_role, boolean) to authenticated;

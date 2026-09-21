@@ -1,5 +1,3 @@
--- Allow admins to grant/revoke the scorekeeper role used by contributor access.
-
 create policy "Admins can grant scorekeeper role"
 on public.user_roles for insert
 to authenticated

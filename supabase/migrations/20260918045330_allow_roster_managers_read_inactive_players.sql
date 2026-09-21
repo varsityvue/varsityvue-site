@@ -1,7 +1,3 @@
--- Roster removal is implemented as a soft delete (active = false).
--- Managers therefore need SELECT visibility to the row after the UPDATE,
--- while the public policy continues to expose active roster entries only.
-
 create policy "Active roster managers can read managed roster players"
 on public.school_roster_players
 for select

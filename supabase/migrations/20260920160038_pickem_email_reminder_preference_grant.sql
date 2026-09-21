@@ -1,0 +1,1 @@
+revoke all on function public.set_own_member_notification_preference(text, boolean) from public, anon; grant execute on function public.set_own_member_notification_preference(text, boolean) to authenticated;

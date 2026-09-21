@@ -1,7 +1,3 @@
--- Assign scorekeepers/coaches to the static school slugs they are authorized
--- to manage. Schools remain repository data for now, so school_slug is not a
--- foreign key.
-
 create table public.contributor_school_assignments (
   user_id uuid not null references public.profiles(id) on delete cascade,
   school_slug text not null,

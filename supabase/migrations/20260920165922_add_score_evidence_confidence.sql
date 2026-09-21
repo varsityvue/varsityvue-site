@@ -14,7 +14,6 @@ alter table public.missing_score_evidence
       else 40
     end
   ) stored;
-
 create index missing_score_evidence_consensus_idx
   on public.missing_score_evidence(intelligence_id, away_score, home_score)
   where away_score is not null and home_score is not null;

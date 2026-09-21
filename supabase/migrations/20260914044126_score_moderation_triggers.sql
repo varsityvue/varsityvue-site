@@ -1,5 +1,3 @@
--- Apply moderation decisions atomically to game state and audit history.
-
 create or replace function public.apply_score_submission_review()
 returns trigger
 language plpgsql

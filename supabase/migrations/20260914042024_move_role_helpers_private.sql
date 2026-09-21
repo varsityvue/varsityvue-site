@@ -31,6 +31,7 @@ $$;
 grant execute on function private.has_role(public.user_role) to authenticated;
 grant execute on function private.can_moderate_scores() to authenticated;
 
+-- Rebuild policies that depend on the role helpers.
 drop policy "Users can read own roles" on public.user_roles;
 create policy "Users can read own roles"
 on public.user_roles for select to authenticated
