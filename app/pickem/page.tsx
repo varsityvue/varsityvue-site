@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import PickemGuestSlate from "@/components/PickemGuestSlate";
 import PickemSlateForm, { type PickemSlateGame } from "@/components/PickemSlateForm";
-import { getProgramLogoPath } from "@/components/SchoolBadge";
-import { getPickemLogoFilter, getPickemLogoScale } from "@/data/school-logos";
+import { getPickemLogoFilter, getPickemLogoPath } from "@/data/school-logos";
 import { getGameById } from "@/lib/games";
 import { memberAccountStatus } from "@/lib/member-access";
 import { getSchoolBySlug } from "@/lib/schools";
@@ -138,16 +137,14 @@ export default async function PickemPage({ searchParams }: PageProps) {
       awaySlug: row.away_school_slug,
       awayMark: awaySchool?.abbreviation ?? game.awayTeam?.slice(0, 3).toUpperCase() ?? "AWY",
       awayColor: awaySchool?.colors.primary ?? "#7a1022",
-      awayLogoUrl: awaySchool ? getProgramLogoPath(awaySchool.slug) : undefined,
+      awayLogoUrl: awaySchool ? getPickemLogoPath(awaySchool.slug) : undefined,
       awayLogoFilter: getPickemLogoFilter(row.away_school_slug),
-      awayLogoScale: getPickemLogoScale(row.away_school_slug),
       homeName: game.homeTeam ?? "Home Team",
       homeSlug: row.home_school_slug,
       homeMark: homeSchool?.abbreviation ?? game.homeTeam?.slice(0, 3).toUpperCase() ?? "HME",
       homeColor: homeSchool?.colors.primary ?? "#7a1022",
-      homeLogoUrl: homeSchool ? getProgramLogoPath(homeSchool.slug) : undefined,
+      homeLogoUrl: homeSchool ? getPickemLogoPath(homeSchool.slug) : undefined,
       homeLogoFilter: getPickemLogoFilter(row.home_school_slug),
-      homeLogoScale: getPickemLogoScale(row.home_school_slug),
       kickoffLabel: kickoffLabel(row.lock_at),
       locked: row.is_locked === true,
       savedSlug: selections.get(row.id),

@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "normalize:pickem-logos": "node --import tsx scripts/normalize-pickem-logos.ts",
+    "test:pickem-logos": "node --import tsx --test scripts/normalize-pickem-logos.test.ts",
     "validate:stats": "node --import tsx scripts/validate-stat-reconciliation.ts",
     "validate:public-stats": "node --import tsx scripts/validate-public-stat-completeness.ts",
     "validate:touchdowns": "node --import tsx scripts/validate-touchdown-semantics.ts"
@@ -30,6 +32,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
+    "sharp": "^0.34.5",
     "tailwindcss": "^4",
     "tsx": "^4.23.13",
     "typescript": "^5"
