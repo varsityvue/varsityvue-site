@@ -5,6 +5,7 @@ import PickemWeekDisclosure from "@/components/PickemWeekDisclosure";
 import { getPickemLogoFilter, getPickemLogoPath } from "@/data/school-logos";
 import { getGameById } from "@/lib/games";
 import { memberAccountStatus } from "@/lib/member-access";
+import { rankPickemStandings } from "@/lib/pickem-lifecycle";
 import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
 
@@ -76,6 +77,7 @@ export default async function PickemPage({ searchParams }: PageProps) {
           .eq("season", week.season)
           .order("correct_picks", { ascending: false })
           .order("accuracy_pct", { ascending: false })
+          .order("user_id", { ascending: true })
           .limit(10),
       ])
     : [{ data: [] }, { data: [] }];
@@ -207,6 +209,7 @@ export default async function PickemPage({ searchParams }: PageProps) {
   const memberHistory = [...historyByWeek.values()].sort((a, b) => b.season - a.season || b.week - a.week);
   const accuracy = gradedPicks > 0 ? Math.round((correctPicks / gradedPicks) * 1000) / 10 : 0;
   const seasonRank = gradedPicks > 0 && higherScoreCount !== null ? (higherScoreCount ?? 0) + 1 : null;
+  const rankedLeaderboard = rankPickemStandings(leaderboardRows ?? []);
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] px-4 py-7 text-white sm:px-6 sm:py-12 lg:px-8">
@@ -288,7 +291,7 @@ export default async function PickemPage({ searchParams }: PageProps) {
 
         <section className="mt-5 rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-5 sm:mt-7 sm:p-7">
           <div className="flex items-end justify-between gap-3"><div><p className="text-[9px] font-black uppercase tracking-[0.18em] text-[var(--vv-accent)]">Season Standings</p><h2 className="mt-1 text-2xl font-black sm:text-3xl">Leaderboard</h2></div><p className="text-[10px] text-white/35">Verified finals only</p></div>
-          {(leaderboardRows ?? []).length > 0 ? <div className="mt-4 divide-y divide-white/10">{(leaderboardRows ?? []).map((entry, index) => <div key={entry.user_id} className="grid grid-cols-[2rem_1fr_auto] items-center gap-3 py-3"><span className="text-sm font-black text-white/35">{index + 1}</span><div className="min-w-0"><p className="truncate text-sm font-black">{entry.display_name || entry.username || "VarsityVue Member"}</p><p className="mt-0.5 text-[10px] text-white/35">{entry.graded_picks} graded · {entry.accuracy_pct}% correct</p></div><p className="text-xl font-black">{entry.correct_picks}</p></div>)}</div> : <p className="mt-4 rounded-xl border border-white/10 bg-black/25 p-4 text-sm text-white/45">Standings will appear as Week {week?.week ?? "—"} games are graded.</p>}
+          {rankedLeaderboard.length > 0 ? <div className="mt-4 divide-y divide-white/10">{rankedLeaderboard.map((entry) => <div key={entry.user_id} className="grid grid-cols-[2rem_1fr_auto] items-center gap-3 py-3"><span className="text-sm font-black text-white/35">{entry.rank}</span><div className="min-w-0"><p className="truncate text-sm font-black">{entry.display_name || entry.username || "VarsityVue Member"}</p><p className="mt-0.5 text-[10px] text-white/35">{entry.graded_picks} graded · {entry.accuracy_pct}% correct</p></div><p className="text-xl font-black">{entry.correct_picks}</p></div>)}</div> : <p className="mt-4 rounded-xl border border-white/10 bg-black/25 p-4 text-sm text-white/45">Standings will appear as Week {week?.week ?? "—"} games are graded.</p>}
         </section>
       </div>
     </main>

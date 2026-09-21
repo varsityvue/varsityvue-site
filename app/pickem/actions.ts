@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 
 import { trackConversion } from "@/lib/conversion-analytics";
 import { requireActiveMember } from "@/lib/member-access";
+import { evaluatePickemSubmission } from "@/lib/pickem-lifecycle";
 
 export type PickemActionState = {
   status: "idle" | "success" | "error";
@@ -47,18 +48,34 @@ export async function savePickemSlate(
     .in("pickem_game_id", games.map((game) => game.id));
   const existingGameIds = new Set((existingPicks ?? []).map((pick) => pick.pickem_game_id));
 
-  const now = Date.now();
-  const rows = games.flatMap((game) => {
-    const pickedSchoolSlug = String(formData.get(`pick_${game.id}`) ?? "").trim();
-    const validTeams = [game.away_school_slug, game.home_school_slug];
-    if (!pickedSchoolSlug || !validTeams.includes(pickedSchoolSlug)) return [];
-    if (new Date(game.lock_at).getTime() <= now) return [];
-    return [{
-      pickem_game_id: game.id,
-      user_id: userId,
-      picked_school_slug: pickedSchoolSlug,
-    }];
+  const selections = new Map(games.map((game) => [
+    game.id,
+    String(formData.get(`pick_${game.id}`) ?? ""),
+  ]));
+  const { rows, lockedGameIds, invalidGameIds } = evaluatePickemSubmission({
+    games: games.map((game) => ({
+      id: game.id,
+      awaySchoolSlug: game.away_school_slug,
+      homeSchoolSlug: game.home_school_slug,
+      lockAt: game.lock_at,
+    })),
+    selections,
+    userId,
+    nowMs: Date.now(),
   });
+
+  if (invalidGameIds.length > 0) {
+    return { status: "error", message: "A submitted pick does not belong to its matchup. Refresh and try again." };
+  }
+
+  // Reject the complete stale request so the client never labels a skipped,
+  // newly locked choice as saved while accepting other rows from the same form.
+  if (lockedGameIds.length > 0) {
+    return {
+      status: "error",
+      message: `${lockedGameIds.length === 1 ? "A game locked" : `${lockedGameIds.length} games locked`} while you were submitting. Refresh the slate and save your remaining unlocked picks again.`,
+    };
+  }
 
   if (rows.length === 0) {
     return { status: "error", message: "Select at least one unlocked game." };
