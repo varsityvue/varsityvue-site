@@ -223,7 +223,7 @@ export default async function PickemPage({ searchParams }: PageProps) {
         ) : isActiveMember ? (
           <>
             {intendedPicks.size > 0 ? <div className="mt-5 rounded-2xl border border-emerald-300/20 bg-emerald-300/10 p-4 text-sm text-emerald-50">Your pre-registration picks were restored. Select <strong>Save My Picks</strong> below to add them to your account.</div> : null}
-            <PickemSlateForm weekId={week.id} games={games} savedPickCount={(memberPickRows ?? []).filter((pick) => games.some((game) => game.id === pick.pickem_game_id)).length} />
+            <PickemSlateForm weekId={week.id} games={games} />
           </>
         ) : (
           <PickemGuestSlate games={games} />
