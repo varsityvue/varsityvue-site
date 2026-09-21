@@ -23,7 +23,7 @@ const schoolLogoBySlug: Record<string, SchoolLogo> = {
   stamford: { path: "/logos/schools/stamford.png" },
   stephenville: { path: "/logos/schools/stephenville.png" },
   tolar: { path: "/logos/schools/tolar.png", pickemScale: 1.25 },
-  winters: { path: "/logos/schools/winters.png" },
+  winters: { path: "/logos/schools/winters.png", pickemScale: 1.3 },
 };
 
 export function getSchoolLogoPath(schoolSlug: string) {
