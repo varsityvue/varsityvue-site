@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import PickemGuestSlate from "@/components/PickemGuestSlate";
 import PickemSlateForm, { type PickemSlateGame } from "@/components/PickemSlateForm";
+import PickemWeekDisclosure from "@/components/PickemWeekDisclosure";
 import { getPickemLogoFilter, getPickemLogoPath } from "@/data/school-logos";
 import { getGameById } from "@/lib/games";
 import { memberAccountStatus } from "@/lib/member-access";
@@ -262,14 +263,7 @@ export default async function PickemPage({ searchParams }: PageProps) {
             {memberHistory.length > 0 ? (
               <div className="mt-5 space-y-3">
                 {memberHistory.map((historyWeek) => (
-                  <details key={historyWeek.id} open={historyWeek.id === week?.id} className="group rounded-2xl border border-white/10 bg-black/20 p-4">
-                    <summary className="flex cursor-pointer list-none items-center justify-between gap-3">
-                      <div>
-                        <p className="text-sm font-black">{historyWeek.title}</p>
-                        <p className="mt-1 text-[10px] text-white/35">{historyWeek.picks.length} pick{historyWeek.picks.length === 1 ? "" : "s"}</p>
-                      </div>
-                      <span className="text-xs font-black text-white/40 group-open:rotate-180">⌄</span>
-                    </summary>
+                  <PickemWeekDisclosure key={historyWeek.id} title={historyWeek.title} pickCount={historyWeek.picks.length}>
                     <div className="mt-3 divide-y divide-white/10 border-t border-white/10">
                       {historyWeek.picks.map((pick) => (
                         <div key={pick.id} className="flex items-center justify-between gap-4 py-3">
@@ -283,7 +277,7 @@ export default async function PickemPage({ searchParams }: PageProps) {
                         </div>
                       ))}
                     </div>
-                  </details>
+                  </PickemWeekDisclosure>
                 ))}
               </div>
             ) : (
