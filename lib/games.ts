@@ -10,7 +10,10 @@ import { applySchoolBroadcasts, clearInheritedSchoolBroadcasts } from "@/data/sc
 import { getSchoolBySlug } from "@/lib/schools";
 import type { Game } from "@/types/platform";
 
-const GAME_OF_THE_WEEK_IDS = new Set(["de-leon-at-goldthwaite-2026-week-4"]);
+const GAME_OF_THE_WEEK_IDS = new Set([
+  "de-leon-at-goldthwaite-2026-week-4",
+  "jacksboro-at-cisco-2026-week-5",
+]);
 const santoGameIds = new Set(santoGames.map((game) => game.id));
 const AUTO_LIVE_WINDOW_MS = 4 * 60 * 60 * 1000;
 
