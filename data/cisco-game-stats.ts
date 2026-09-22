@@ -107,4 +107,33 @@ export const ciscoGameStats: GameStats[] = [
       { player: "Carter Toof", schoolSlug: "cisco", receptions: 1, yards: 15, touchdowns: 0 },
     ],
   },
+  {
+    gameId: "cisco-at-stamford-2026-week-4",
+    season: 2026,
+    sourceStatus: "verified",
+    sourceLabel: "MaxPreps",
+    quarterScores: [
+      { schoolSlug: "cisco", quarters: [0, 0, 7, 0], total: 7 },
+      { schoolSlug: "stamford", quarters: [0, 21, 6, 0], total: 27 },
+    ],
+    scoringPlays: [],
+    teamStats: [
+      { schoolSlug: "cisco", rushingAttempts: 41, rushingYards: 270, passingYards: 108, totalYards: 378, completions: 8, passAttempts: 19, interceptionsThrown: 2 },
+    ],
+    rushing: [
+      { player: "Corbin Harrison", schoolSlug: "cisco", attempts: 1, yards: 7, touchdowns: 0 },
+      { player: "Landry Vosburg", schoolSlug: "cisco", attempts: 14, yards: 57, touchdowns: 0 },
+      { player: "July Johnson", schoolSlug: "cisco", attempts: 10, yards: 74, touchdowns: 0 },
+      { player: "Colby McIlroy", schoolSlug: "cisco", attempts: 16, yards: 132, touchdowns: 1 },
+    ],
+    passing: [
+      { player: "Landry Vosburg", schoolSlug: "cisco", completions: 0, attempts: 1, yards: 0, interceptions: 0, touchdowns: 0 },
+      { player: "Colby McIlroy", schoolSlug: "cisco", completions: 8, attempts: 18, yards: 108, interceptions: 2, touchdowns: 0 },
+    ],
+    receiving: [
+      { player: "Corbin Harrison", schoolSlug: "cisco", receptions: 1, yards: 23, touchdowns: 0 },
+      { player: "Gage Johnson", schoolSlug: "cisco", receptions: 2, yards: 18, touchdowns: 0 },
+      { player: "Cannon Harris", schoolSlug: "cisco", receptions: 5, yards: 67, touchdowns: 0 },
+    ],
+  },
 ];
