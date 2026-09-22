@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "test:games": "node --import tsx --test lib/games.test.ts",
+    "test:jacksboro-school-hub": "node --import tsx --test lib/jacksboro-school-hub.test.ts",
     "normalize:pickem-logos": "node --import tsx scripts/normalize-pickem-logos.ts",
     "test:pickem-interactions": "node --import tsx --test lib/pickem-client-state.test.ts",
     "test:pickem-admin-outcomes": "node --import tsx --test lib/admin-outcome.test.ts",

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Game, School, UILClassification } from "@/types/platform";
 import { getDistrictById } from "@/lib/districts";
+import { filterUpcomingGamesForSchool } from "@/lib/games";
 import { getSchoolBySlug } from "@/lib/schools";
 import { getStandingForSchoolFromGames } from "@/lib/standings";
 import SchoolBadge from "./SchoolBadge";
@@ -15,8 +16,6 @@ function formatShortDistrict(districtName: string) {
   return districtName.match(/District\s+\d+$/)?.[0] ?? districtName;
 }
 function parseGameDate(kickoff?: string) { if (!kickoff) return null; if (!kickoff.includes("T")) { const [year, month, day] = kickoff.split("-").map(Number); return new Date(year, month - 1, day); } const parsedDate = new Date(kickoff); return Number.isNaN(parsedDate.getTime()) ? null : parsedDate; }
-function getCentralDateKey(date: Date) { const parts = new Intl.DateTimeFormat("en-US", { year: "numeric", month: "2-digit", day: "2-digit", timeZone: "America/Chicago" }).formatToParts(date); const year = parts.find((part) => part.type === "year")?.value; const month = parts.find((part) => part.type === "month")?.value; const day = parts.find((part) => part.type === "day")?.value; return year && month && day ? `${year}-${month}-${day}` : null; }
-function getGameTimestamp(game: Game) { return parseGameDate(game.kickoff)?.getTime() ?? Number.MAX_SAFE_INTEGER; }
 function formatGameDate(kickoff?: string) { const parsedDate = parseGameDate(kickoff); if (!parsedDate) return "TBD"; return new Intl.DateTimeFormat("en-US", { weekday: "short", month: "short", day: "numeric", timeZone: "America/Chicago" }).format(parsedDate); }
 function formatGameTime(kickoff?: string) { if (!kickoff || !kickoff.includes("T")) return "Time TBD"; const parsedDate = parseGameDate(kickoff); if (!parsedDate) return "Time TBD"; return new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/Chicago" }).format(parsedDate); }
 function getWeekLabel(gameType: string, week?: number) { if (gameType === "playoff") return "Playoff"; if (gameType === "scrimmage") return "Scrimmage"; if (gameType === "bye") return "BYE"; return week === undefined ? "Week TBD" : `Week ${week}`; }
@@ -31,11 +30,7 @@ function getGameMapUrl(game: { venue?: string; venueAddress?: string; homeTeam?:
 }
 
 export default function SchoolHero({ school, games, isAuthenticated, isFollowing, finishFollowing = false, followMessage = "" }: { school: School; games: Game[]; isAuthenticated: boolean; isFollowing: boolean; finishFollowing?: boolean; followMessage?: string }) {
-  const now = new Date(); const todayKey = getCentralDateKey(now);
-  const upcomingGames = games
-    .filter((game) => game.homeSchoolSlug === school.slug || game.awaySchoolSlug === school.slug)
-    .filter((game) => { if (game.status !== "upcoming" || game.gameType === "bye") return false; if (game.kickoff && !game.kickoff.includes("T")) return !todayKey || game.kickoff >= todayKey; return getGameTimestamp(game) >= now.getTime(); })
-    .sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b));
+  const upcomingGames = filterUpcomingGamesForSchool(games, school.slug);
   const nextGame = upcomingGames[0];
   const standing = getStandingForSchoolFromGames(school.slug, games); const seasonRecord = `${standing?.overallWins ?? 0}-${standing?.overallLosses ?? 0}`;
   const district = getDistrictById(school.districtId); const districtName = district?.name ?? school.districtId;

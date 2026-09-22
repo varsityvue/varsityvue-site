@@ -6,6 +6,7 @@ import { liveGameAdditions } from "@/data/live-game-additions";
 import { lateWeek3Results } from "@/data/late-week3-results";
 import { followedDistrictResults } from "@/data/followed-district-results";
 import { followedDistrictResultsPhase2 } from "@/data/followed-district-results-phase2";
+import { jacksboroGames } from "@/data/jacksboro-games";
 import { applySchoolBroadcasts, clearInheritedSchoolBroadcasts } from "@/data/school-broadcasts";
 import { getSchoolBySlug } from "@/lib/schools";
 import type { Game } from "@/types/platform";
@@ -36,6 +37,7 @@ const baseGames = [
   ...verifiedScheduledGames,
   ...week2GameAdditions,
   ...santoGames,
+  ...jacksboroGames,
 ];
 
 const gamesById = new Map(baseGames.map((game) => [game.id, game]));
@@ -213,8 +215,8 @@ export function getGameById(id: string) {
   return getNormalizedGames().find((game) => game.id === id);
 }
 
-export function getGamesForSchool(slug: string) {
-  return getNormalizedGames()
+export function getGamesForSchool(slug: string, now = new Date()) {
+  return getNormalizedGames(now)
     .filter(
       (game) =>
         game.homeSchoolSlug === slug || game.awaySchoolSlug === slug,
@@ -222,19 +224,25 @@ export function getGamesForSchool(slug: string) {
     .sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b));
 }
 
-export function getUpcomingGamesForSchool(slug: string) {
-  const now = new Date();
+export function filterUpcomingGamesForSchool(games: Game[], slug: string, now = new Date()) {
   const todayKey = getCentralDateKey(now);
 
-  return getGamesForSchool(slug).filter((game) => {
-    if (game.status !== "upcoming" || game.gameType === "bye") return false;
+  return games
+    .filter((game) => game.homeSchoolSlug === slug || game.awaySchoolSlug === slug)
+    .filter((game) => {
+      if (game.status !== "upcoming" || game.gameType === "bye") return false;
 
-    if (game.kickoff && !game.kickoff.includes("T")) {
-      return !todayKey || game.kickoff >= todayKey;
-    }
+      if (game.kickoff && !game.kickoff.includes("T")) {
+        return !todayKey || game.kickoff >= todayKey;
+      }
 
-    return getGameTimestamp(game) >= now.getTime();
-  });
+      return getGameTimestamp(game) >= now.getTime();
+    })
+    .sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b));
+}
+
+export function getUpcomingGamesForSchool(slug: string, now = new Date()) {
+  return filterUpcomingGamesForSchool(getGamesForSchool(slug, now), slug, now);
 }
 
 export function getRecentScoresForSchool(slug: string) {

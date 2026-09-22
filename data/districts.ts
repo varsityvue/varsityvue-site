@@ -28,6 +28,16 @@ export const districts: District[] = [
     coverageMarket: "VarsityVue Coverage Area",
     status: "pilot",
   },
+  // Texas UIL 2026-2028 football alignment.
+  {
+    id: "3a-d2-district-4",
+    slug: "3a-d2-district-4",
+    name: "3A Division II District 4",
+    classification: { conference: "3A", division: "D2" },
+    uilRegion: 1,
+    coverageMarket: "VarsityVue Coverage Area",
+    status: "watchlist",
+  },
   {
     id: "2a-d1-district-7",
     slug: "2a-d1-district-7",

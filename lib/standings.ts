@@ -144,6 +144,8 @@ function addScheduledDistrictOpponents(standingsMap: Map<string, Standing>, dist
 }
 
 function buildStandingsForDistrict(districtId: string, games: StandingGame[]): Standing[] {
+  if (districtId === "opponent") return [];
+
   const districtSchools = getSchoolsByDistrictId(districtId);
   const standingsMap = new Map<string, Standing>();
   districtSchools.forEach((school) => standingsMap.set(school.slug, emptyStanding(school.slug, school.name)));
