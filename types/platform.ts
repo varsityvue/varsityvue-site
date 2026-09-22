@@ -34,6 +34,7 @@ export type SchoolColors = {
 export type School = {
   id: string;
   slug: string;
+  aliases?: string[];
 
   name: string;
   fullName: string;

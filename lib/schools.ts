@@ -38,14 +38,21 @@ const SCHOOL_IDENTITY_OVERRIDES: Record<string, { badgeLabel?: string; badgeSubt
 function assertSchoolDataIntegrity() {
   const seenSlugs = new Set<string>();
   const seenIds = new Set<string>();
+  const seenAliases = new Set<string>();
+  const canonicalSlugs = new Set(schools.map((school) => school.slug));
   const duplicateSlugs: string[] = [];
   const duplicateIds: string[] = [];
   const districtIds = new Set(districts.map((district) => district.id));
   const invalidDistrictReferences: string[] = [];
+  const duplicateAliases: string[] = [];
 
   for (const school of schools) {
     if (seenSlugs.has(school.slug)) duplicateSlugs.push(school.slug);
     if (seenIds.has(school.id)) duplicateIds.push(school.id);
+    for (const alias of school.aliases ?? []) {
+      if (seenAliases.has(alias) || canonicalSlugs.has(alias)) duplicateAliases.push(alias);
+      seenAliases.add(alias);
+    }
     if (school.districtId !== "opponent" && !districtIds.has(school.districtId)) {
       invalidDistrictReferences.push(`${school.slug} → ${school.districtId}`);
     }
@@ -65,6 +72,9 @@ function assertSchoolDataIntegrity() {
     problems.push(
       `schools reference unknown districts: ${invalidDistrictReferences.join(", ")}`
     );
+  }
+  if (duplicateAliases.length > 0) {
+    problems.push(`duplicate school aliases: ${duplicateAliases.join(", ")}`);
   }
 
   if (problems.length > 0) {
@@ -94,7 +104,9 @@ export function getSchools() {
 }
 
 export function getSchoolBySlug(slug: string) {
-  const school = schools.find((school) => school.slug === slug);
+  const school = schools.find(
+    (school) => school.slug === slug || school.aliases?.includes(slug)
+  );
   return school ? applySchoolOverrides(school) : undefined;
 }
 
