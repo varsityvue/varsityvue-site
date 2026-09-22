@@ -59,3 +59,15 @@ export function summarizePickemWeeks({
 export function pickemWeekDisclosureLabel(expanded: boolean) {
   return expanded ? "Hide picks" : "View picks";
 }
+
+export function formatPickemWeekSummary(summary: PickemWeekSummary) {
+  const hasEligibleResults = summary.eligibleGames > 0;
+
+  return {
+    picksSaved: `${summary.picksSaved} picks saved`,
+    results: hasEligibleResults
+      ? `Results graded: ${summary.resultsGraded} of ${summary.eligibleGames}`
+      : "Results pending",
+    points: `Points earned ${hasEligibleResults ? summary.pointsEarned : "—"}`,
+  };
+}

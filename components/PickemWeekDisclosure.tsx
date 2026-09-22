@@ -1,7 +1,11 @@
 "use client";
 
 import { useId, useState, type ReactNode } from "react";
-import { pickemWeekDisclosureLabel, type PickemWeekSummary } from "@/lib/pickem-week-summary";
+import {
+  formatPickemWeekSummary,
+  pickemWeekDisclosureLabel,
+  type PickemWeekSummary,
+} from "@/lib/pickem-week-summary";
 
 export default function PickemWeekDisclosure({
   title,
@@ -14,6 +18,7 @@ export default function PickemWeekDisclosure({
 }) {
   const [expanded, setExpanded] = useState(false);
   const contentId = useId();
+  const formattedSummary = formatPickemWeekSummary(summary);
 
   return (
     <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
@@ -22,17 +27,16 @@ export default function PickemWeekDisclosure({
           <p className="text-sm font-black">{title}</p>
           <dl className="mt-3 grid grid-cols-3 gap-2" aria-label={`${title} scoring summary`}>
             <div>
-              <dt className="text-[8px] font-black uppercase tracking-[0.08em] text-white/35">Picks saved</dt>
-              <dd className="mt-1 text-sm font-black">{summary.picksSaved}</dd>
+              <dt className="sr-only">Picks saved</dt>
+              <dd className="text-[10px] font-black text-white/70">{formattedSummary.picksSaved}</dd>
             </div>
             <div>
-              <dt className="text-[8px] font-black uppercase tracking-[0.08em] text-white/35">Results graded</dt>
-              <dd className="mt-1 text-sm font-black">{summary.resultsGraded} of {summary.eligibleGames}</dd>
-              {summary.eligibleGames === 0 ? <p className="mt-0.5 text-[8px] text-amber-100/55">Results pending</p> : null}
+              <dt className="sr-only">Results</dt>
+              <dd className="text-[10px] font-black text-white/70">{formattedSummary.results}</dd>
             </div>
             <div>
-              <dt className="text-[8px] font-black uppercase tracking-[0.08em] text-white/35">Points earned</dt>
-              <dd className="mt-1 text-sm font-black">{summary.pointsEarned}</dd>
+              <dt className="sr-only">Points earned</dt>
+              <dd className="text-[10px] font-black text-white/70">{formattedSummary.points}</dd>
             </div>
           </dl>
         </div>

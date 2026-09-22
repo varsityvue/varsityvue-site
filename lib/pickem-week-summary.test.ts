@@ -1,7 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { pickemWeekDisclosureLabel, summarizePickemWeeks } from "./pickem-week-summary";
+import {
+  formatPickemWeekSummary,
+  pickemWeekDisclosureLabel,
+  summarizePickemWeeks,
+} from "./pickem-week-summary";
 
 type Outcome = "played" | "forfeit" | "tie" | "no_contest" | "cancelled" | "postponed" | "unclassified";
 
@@ -118,4 +122,33 @@ test("another member's picks are ignored", () => {
 test("collapsed disclosure labels preserve View picks and Hide picks behavior", () => {
   assert.equal(pickemWeekDisclosureLabel(false), "View picks");
   assert.equal(pickemWeekDisclosureLabel(true), "Hide picks");
+});
+
+test("no eligible results display pending results and a dash for points", () => {
+  assert.deepEqual(
+    formatPickemWeekSummary({ picksSaved: 9, resultsGraded: 0, eligibleGames: 0, pointsEarned: 0 }),
+    {
+      picksSaved: "9 picks saved",
+      results: "Results pending",
+      points: "Points earned —",
+    },
+  );
+});
+
+test("eligible results display graded progress and numeric points", () => {
+  assert.deepEqual(
+    formatPickemWeekSummary({ picksSaved: 9, resultsGraded: 6, eligibleGames: 8, pointsEarned: 4 }),
+    {
+      picksSaved: "9 picks saved",
+      results: "Results graded: 6 of 8",
+      points: "Points earned 4",
+    },
+  );
+});
+
+test("zero points after eligible grading remain numeric zero", () => {
+  assert.equal(
+    formatPickemWeekSummary({ picksSaved: 9, resultsGraded: 6, eligibleGames: 8, pointsEarned: 0 }).points,
+    "Points earned 0",
+  );
 });
