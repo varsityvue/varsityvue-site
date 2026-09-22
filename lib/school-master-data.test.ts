@@ -62,7 +62,7 @@ test("district reconciliation preserves existing valid members", () => {
 
 test("school master-data reconciliation creates no schedules or games", () => {
   const games = getGames();
-  assert.equal(games.length, 196);
+  assert.equal(games.length, 215);
   assert.equal(new Set(games.map((game) => game.id)).size, games.length);
   assert.equal(games.filter((game) => game.homeSchoolSlug === "jacksboro" || game.awaySchoolSlug === "jacksboro").length, 11);
 });

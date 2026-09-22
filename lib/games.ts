@@ -7,6 +7,7 @@ import { lateWeek3Results } from "@/data/late-week3-results";
 import { followedDistrictResults } from "@/data/followed-district-results";
 import { followedDistrictResultsPhase2 } from "@/data/followed-district-results-phase2";
 import { jacksboroGames } from "@/data/jacksboro-games";
+import { district8Games } from "@/data/district-8-games";
 import { applySchoolBroadcasts, clearInheritedSchoolBroadcasts } from "@/data/school-broadcasts";
 import { getSchoolBySlug } from "@/lib/schools";
 import type { Game } from "@/types/platform";
@@ -46,6 +47,7 @@ for (const verifiedGame of [
   ...followedDistrictResultsPhase2,
   ...liveGameAdditions,
   ...lateWeek3Results,
+  ...district8Games,
 ]) {
   const existing = gamesById.get(verifiedGame.id);
   gamesById.set(
