@@ -12,6 +12,7 @@
     "test:pickem-interactions": "node --import tsx --test lib/pickem-client-state.test.ts",
     "test:pickem-admin-outcomes": "node --import tsx --test lib/admin-outcome.test.ts",
     "test:pickem-lifecycle": "node --import tsx --test lib/pickem-lifecycle.test.ts",
+    "test:pickem-week-summary": "node --import tsx --test lib/pickem-week-summary.test.ts",
     "test:pickem-logos": "node --import tsx --test scripts/normalize-pickem-logos.test.ts",
     "validate:stats": "node --import tsx scripts/validate-stat-reconciliation.ts",
     "validate:public-stats": "node --import tsx scripts/validate-public-stat-completeness.ts",

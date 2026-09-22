@@ -6,6 +6,7 @@ import { getPickemLogoFilter, getPickemLogoPath } from "@/data/school-logos";
 import { getGameById } from "@/lib/games";
 import { memberAccountStatus } from "@/lib/member-access";
 import { rankPickemStandings } from "@/lib/pickem-lifecycle";
+import { summarizePickemWeeks } from "@/lib/pickem-week-summary";
 import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
 
@@ -109,12 +110,18 @@ export default async function PickemPage({ searchParams }: PageProps) {
     : [{ data: [] }, { data: null }];
 
   const memberWeekIds = [...new Set((memberGameRows ?? []).map((game) => game.week_id))];
-  const { data: memberWeekRows } = memberWeekIds.length > 0
-    ? await supabase
-        .from("pickem_weeks")
-        .select("id, season, week, title, status")
-        .in("id", memberWeekIds)
-    : { data: [] };
+  const [{ data: memberWeekRows }, { data: memberWeekGameRows }] = memberWeekIds.length > 0
+    ? await Promise.all([
+        supabase
+          .from("pickem_weeks")
+          .select("id, season, week, title, status")
+          .in("id", memberWeekIds),
+        supabase
+          .from("pickem_games")
+          .select("id, week_id, result_winner_school_slug, graded_at")
+          .in("week_id", memberWeekIds),
+      ])
+    : [{ data: [] }, { data: [] }];
 
   const correctPicks = memberTotal?.correct_picks ?? 0;
   const gradedPicks = memberTotal?.graded_picks ?? 0;
@@ -161,6 +168,20 @@ export default async function PickemPage({ searchParams }: PageProps) {
 
   const memberGamesById = new Map((memberGameRows ?? []).map((game) => [game.id, game]));
   const memberWeeksById = new Map((memberWeekRows ?? []).map((pickemWeek) => [pickemWeek.id, pickemWeek]));
+  const weeklySummaries = summarizePickemWeeks({
+    userId: userId!,
+    games: (memberWeekGameRows ?? []).map((game) => ({
+      id: game.id,
+      weekId: game.week_id,
+      resultWinnerSchoolSlug: game.result_winner_school_slug,
+      gradedAt: game.graded_at,
+    })),
+    picks: (memberPickRows ?? []).map((pick) => ({
+      pickemGameId: pick.pickem_game_id,
+      userId: userId!,
+      isCorrect: pick.is_correct,
+    })),
+  });
   const editableGameIds = new Set(games.filter((game) => !game.locked).map((game) => game.id));
   const historyByWeek = new Map<string, {
     id: string;
@@ -266,7 +287,16 @@ export default async function PickemPage({ searchParams }: PageProps) {
             {memberHistory.length > 0 ? (
               <div className="mt-5 space-y-3">
                 {memberHistory.map((historyWeek) => (
-                  <PickemWeekDisclosure key={historyWeek.id} title={historyWeek.title} pickCount={historyWeek.picks.length}>
+                  <PickemWeekDisclosure
+                    key={historyWeek.id}
+                    title={historyWeek.title}
+                    summary={weeklySummaries.get(historyWeek.id) ?? {
+                      picksSaved: historyWeek.picks.length,
+                      resultsGraded: 0,
+                      eligibleGames: 0,
+                      pointsEarned: 0,
+                    }}
+                  >
                     <div className="mt-3 divide-y divide-white/10 border-t border-white/10">
                       {historyWeek.picks.map((pick) => (
                         <div key={pick.id} className="flex items-center justify-between gap-4 py-3">
