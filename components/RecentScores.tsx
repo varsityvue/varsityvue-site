@@ -38,6 +38,7 @@ function formatScoreDate(kickoff?: string) {
 
 function getResult(game: Game, schoolSlug: string) {
   if (game.status !== "final") return null;
+  if (game.resultType === "forfeit") return game.officialWinnerSchoolSlug === schoolSlug ? "W" : "L";
   if (game.homeScore === undefined || game.awayScore === undefined) return null;
   const isHomeTeam = game.homeSchoolSlug === schoolSlug;
   const schoolScore = isHomeTeam ? game.homeScore : game.awayScore;
@@ -47,6 +48,7 @@ function getResult(game: Game, schoolSlug: string) {
 }
 
 function getScoreDisplay(game: Game, schoolSlug: string) {
+  if (game.resultType === "forfeit") return "Forfeit";
   if (game.homeScore === undefined || game.awayScore === undefined) return "—";
   const isHomeTeam = game.homeSchoolSlug === schoolSlug;
   const schoolScore = isHomeTeam ? game.homeScore : game.awayScore;

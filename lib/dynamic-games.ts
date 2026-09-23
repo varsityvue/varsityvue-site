@@ -12,6 +12,8 @@ type GameStateRow = {
   clock: string | null;
   verified: boolean;
   kickoff_override: string | null;
+  result_type: Game["resultType"] | null;
+  official_winner_school_slug: string | null;
 };
 
 function applyGameState(game: Game, state?: GameStateRow): Game {
@@ -29,6 +31,9 @@ function applyGameState(game: Game, state?: GameStateRow): Game {
     sourceStatus: state.verified ? "verified" : game.sourceStatus,
     homeScore: state.home_score ?? game.homeScore,
     awayScore: state.away_score ?? game.awayScore,
+    resultType: state.result_type ?? game.resultType,
+    officialWinnerSchoolSlug:
+      state.official_winner_school_slug ?? game.officialWinnerSchoolSlug,
     score: hasScore
       ? {
           home: state.home_score as number,
@@ -50,7 +55,7 @@ export async function getDynamicGames(): Promise<Game[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("game_state")
-    .select("game_id,status,home_score,away_score,period,clock,verified,kickoff_override")
+    .select("game_id,status,home_score,away_score,period,clock,verified,kickoff_override,result_type,official_winner_school_slug")
     .eq("verified", true);
 
   if (error || !data?.length) return baseGames;

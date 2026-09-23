@@ -119,21 +119,31 @@ export const ciscoGameStats: GameStats[] = [
     scoringPlays: [],
     teamStats: [
       { schoolSlug: "cisco", rushingAttempts: 41, rushingYards: 270, passingYards: 108, totalYards: 378, completions: 8, passAttempts: 19, interceptionsThrown: 2 },
+      { schoolSlug: "stamford", rushingAttempts: 23, rushingYards: 211, passingYards: 214, totalYards: 425, completions: 15, passAttempts: 24 },
     ],
     rushing: [
       { player: "Corbin Harrison", schoolSlug: "cisco", attempts: 1, yards: 7, touchdowns: 0 },
       { player: "Landry Vosburg", schoolSlug: "cisco", attempts: 14, yards: 57, touchdowns: 0 },
       { player: "July Johnson", schoolSlug: "cisco", attempts: 10, yards: 74, touchdowns: 0 },
       { player: "Colby McIlroy", schoolSlug: "cisco", attempts: 16, yards: 132, touchdowns: 1 },
+      { player: "Miles Follis", schoolSlug: "stamford", attempts: 2, yards: 22 },
+      { player: "Slayden Young", schoolSlug: "stamford", attempts: 10, yards: 58, touchdowns: 1 },
+      { player: "Christopher McCann", schoolSlug: "stamford", attempts: 5, yards: 110, touchdowns: 0 },
+      { player: "Brenham Walker", schoolSlug: "stamford", attempts: 6, yards: 21 },
     ],
     passing: [
       { player: "Landry Vosburg", schoolSlug: "cisco", completions: 0, attempts: 1, yards: 0, interceptions: 0, touchdowns: 0 },
       { player: "Colby McIlroy", schoolSlug: "cisco", completions: 8, attempts: 18, yards: 108, interceptions: 2, touchdowns: 0 },
+      { player: "Miles Follis", schoolSlug: "stamford", completions: 15, attempts: 24, yards: 214, touchdowns: 2 },
     ],
     receiving: [
       { player: "Corbin Harrison", schoolSlug: "cisco", receptions: 1, yards: 23, touchdowns: 0 },
       { player: "Gage Johnson", schoolSlug: "cisco", receptions: 2, yards: 18, touchdowns: 0 },
       { player: "Cannon Harris", schoolSlug: "cisco", receptions: 5, yards: 67, touchdowns: 0 },
+      { player: "Cason Whitfield", schoolSlug: "stamford", receptions: 1, yards: 3 },
+      { player: "Brennan Armstrong", schoolSlug: "stamford", receptions: 1, yards: 17 },
+      { player: "Slayden Young", schoolSlug: "stamford", receptions: 4, yards: 46 },
+      { player: "Levi Vahlenkamp", schoolSlug: "stamford", receptions: 9, yards: 148 },
     ],
   },
 ];

@@ -32,7 +32,7 @@ export type PassingStatLine = {
   completions: number;
   attempts: number;
   yards: number;
-  interceptions: number;
+  interceptions?: number;
   touchdowns?: number;
 };
 

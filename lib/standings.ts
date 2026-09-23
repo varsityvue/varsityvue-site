@@ -61,7 +61,11 @@ function emptyStanding(schoolSlug: string, team: string): Standing {
 }
 
 function isCountableFinal(game: StandingGame) {
-  return game.status === "final" && game.gameType !== "bye" && game.gameType !== "scrimmage" && typeof game.homeScore === "number" && typeof game.awayScore === "number" && game.homeScore !== game.awayScore;
+  const scoredFinal = typeof game.homeScore === "number" && typeof game.awayScore === "number" && game.homeScore !== game.awayScore;
+  const forfeitFinal = game.resultType === "forfeit" &&
+    Boolean(game.officialWinnerSchoolSlug) &&
+    [game.homeSchoolSlug, game.awaySchoolSlug].includes(game.officialWinnerSchoolSlug);
+  return game.status === "final" && game.gameType !== "bye" && game.gameType !== "scrimmage" && (scoredFinal || forfeitFinal);
 }
 
 function applyGameToStanding(standing: Standing, schoolSlug: string, game: StandingGame) {
@@ -69,6 +73,18 @@ function applyGameToStanding(standing: Standing, schoolSlug: string, game: Stand
   const isHome = game.homeSchoolSlug === schoolSlug;
   const isAway = game.awaySchoolSlug === schoolSlug;
   if (!isHome && !isAway) return;
+
+  if (game.resultType === "forfeit") {
+    const won = game.officialWinnerSchoolSlug === schoolSlug;
+    standing.overallRecordKnown = true;
+    if (won) standing.overallWins += 1;
+    else standing.overallLosses += 1;
+    if (game.districtGame) {
+      if (won) standing.districtWins += 1;
+      else standing.districtLosses += 1;
+    }
+    return;
+  }
 
   const homeScore = game.homeScore as number;
   const awayScore = game.awayScore as number;

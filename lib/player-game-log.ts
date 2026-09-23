@@ -22,7 +22,7 @@ export type PlayerGameLogEntry = {
     attempts: number;
     yards: number;
     touchdowns?: number;
-    interceptions: number;
+    interceptions?: number;
   };
   receiving?: {
     receptions: number;

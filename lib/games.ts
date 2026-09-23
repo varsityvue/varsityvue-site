@@ -8,6 +8,11 @@ import { followedDistrictResults } from "@/data/followed-district-results";
 import { followedDistrictResultsPhase2 } from "@/data/followed-district-results-phase2";
 import { jacksboroGames } from "@/data/jacksboro-games";
 import { district8Games } from "@/data/district-8-games";
+import {
+  ownerVerifiedScheduleAdditions,
+  ownerVerifiedScheduleCorrections,
+  removedRepositoryByeGameIds,
+} from "@/data/2026-district-schedule-reconciliation";
 import { applySchoolBroadcasts, clearInheritedSchoolBroadcasts } from "@/data/school-broadcasts";
 import { getSchoolBySlug } from "@/lib/schools";
 import type { Game } from "@/types/platform";
@@ -41,7 +46,11 @@ const baseGames = [
   ...jacksboroGames,
 ];
 
-const gamesById = new Map(baseGames.map((game) => [game.id, game]));
+const gamesById = new Map(
+  baseGames
+    .filter((game) => !removedRepositoryByeGameIds.has(game.id))
+    .map((game) => [game.id, game]),
+);
 for (const verifiedGame of [
   ...followedDistrictResults,
   ...followedDistrictResultsPhase2,
@@ -53,6 +62,23 @@ for (const verifiedGame of [
   gamesById.set(
     verifiedGame.id,
     existing ? { ...existing, ...verifiedGame } : verifiedGame,
+  );
+}
+
+for (const reconciledGame of [
+  ...ownerVerifiedScheduleCorrections,
+  ...ownerVerifiedScheduleAdditions,
+]) {
+  const existing = gamesById.get(reconciledGame.id);
+  gamesById.set(
+    reconciledGame.id,
+    existing
+      ? {
+          ...existing,
+          ...reconciledGame,
+          sourceLabel: existing.sourceLabel ?? reconciledGame.sourceLabel,
+        }
+      : reconciledGame,
   );
 }
 
@@ -153,7 +179,11 @@ function assertGameScoreConsistency() {
     const hasHomeScore = typeof game.homeScore === "number";
     const hasAwayScore = typeof game.awayScore === "number";
 
-    if (game.status === "final" && (!hasHomeScore || !hasAwayScore)) {
+    const validForfeit = game.resultType === "forfeit" &&
+      Boolean(game.officialWinnerSchoolSlug) &&
+      [game.homeSchoolSlug, game.awaySchoolSlug].includes(game.officialWinnerSchoolSlug);
+
+    if (game.status === "final" && (!hasHomeScore || !hasAwayScore) && !validForfeit) {
       problems.push(`${game.id}: final without both team scores`);
       continue;
     }

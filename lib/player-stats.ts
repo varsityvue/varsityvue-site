@@ -14,7 +14,7 @@ export type PlayerSeasonStats = {
   season: number;
   gamesRecorded: number;
   rushing: { attempts: number; yards: number; touchdowns?: number; yardsPerCarry: number };
-  passing: { completions: number; attempts: number; yards: number; touchdowns?: number; interceptions: number; completionPercentage: number };
+  passing: { completions: number; attempts: number; yards: number; touchdowns?: number; interceptions?: number; completionPercentage: number };
   receiving: { receptions: number; yards: number; touchdowns?: number; yardsPerReception: number };
   completeness: {
     rushing: AggregateStatCompleteness;
@@ -69,7 +69,7 @@ export function getPlayerSeasonStats(season = 2026): PlayerSeasonStats[] {
     }
     for (const line of game.passing) {
       const player = ensurePlayer(line.player, line.schoolSlug, line.playerId);
-      player.passing.completions += line.completions; player.passing.attempts += line.attempts; player.passing.yards += line.yards; player.passing.touchdowns = addOptionalStatTotal(player.passing.touchdowns, line.touchdowns); player.passing.interceptions += line.interceptions;
+      player.passing.completions += line.completions; player.passing.attempts += line.attempts; player.passing.yards += line.yards; player.passing.touchdowns = addOptionalStatTotal(player.passing.touchdowns, line.touchdowns); player.passing.interceptions = addOptionalStatTotal(player.passing.interceptions, line.interceptions);
       gamesByPlayer.get(player.playerId)?.add(game.gameId);
     }
     for (const line of game.receiving) {

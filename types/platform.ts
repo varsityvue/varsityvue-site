@@ -177,6 +177,9 @@ export type Game = {
     period?: string;
   };
 
+  resultType?: "played" | "tie" | "forfeit" | "no_contest";
+  officialWinnerSchoolSlug?: string;
+
   homeScore?: number;
   awayScore?: number;
 

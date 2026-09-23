@@ -30,7 +30,7 @@ test("Cisco Week 4 offensive statistics reconcile to the MaxPreps totals", () =>
   assert.equal(passing.reduce((sum, line) => sum + line.completions, 0), 8);
   assert.equal(passing.reduce((sum, line) => sum + line.attempts, 0), 19);
   assert.equal(passing.reduce((sum, line) => sum + line.yards, 0), 108);
-  assert.equal(passing.reduce((sum, line) => sum + line.interceptions, 0), 2);
+  assert.equal(passing.reduce((sum, line) => sum + (line.interceptions ?? 0), 0), 2);
 
   const rushing = stats.rushing.filter((line) => line.schoolSlug === "cisco");
   assert.equal(rushing.reduce((sum, line) => sum + line.attempts, 0), 41);

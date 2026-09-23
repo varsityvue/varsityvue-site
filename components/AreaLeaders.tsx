@@ -58,7 +58,7 @@ export default function AreaLeaders() {
       schoolSlug: player.schoolSlug,
       gamesRecorded: player.gamesRecorded,
       value: player.passing.yards,
-      detail: `${player.passing.completions}/${player.passing.attempts} · ${formatTouchdownDetail(player.passing.touchdowns)} · ${player.passing.interceptions} INT`,
+      detail: `${player.passing.completions}/${player.passing.attempts} · ${formatTouchdownDetail(player.passing.touchdowns)} · ${player.passing.interceptions ?? "—"} INT`,
       completeness: player.completeness.passing,
     }));
 

@@ -319,7 +319,7 @@ export function reconcileStatCatalogs({ coreStats, extendedStats, canonicalGames
       const passingExpected = team?.completions !== undefined && team.passAttempts !== undefined && team.passingYards !== undefined && team.interceptionsThrown !== undefined
         ? { completions: team.completions, attempts: team.passAttempts, yards: team.passingYards, interceptions: team.interceptionsThrown }
         : undefined;
-      const passingActual = sumBy(passing, { completions: (line) => line.completions, attempts: (line) => line.attempts, yards: (line) => line.yards, interceptions: (line) => line.interceptions });
+      const passingActual = sumBy(passing, { completions: (line) => line.completions, attempts: (line) => line.attempts, yards: (line) => line.yards, interceptions: (line) => line.interceptions ?? 0 });
       const passingComplete = Boolean(passingExpected && sameTotals(passingExpected, passingActual));
       const passingCompleteness = getCategoryCompleteness(stats, schoolSlug, "passing");
       if (passingCompleteness.status === "unavailable" && passing.length > 0) add({ severity: "error", kind: "reconciliation", gameId: stats.gameId, message: `${schoolSlug} passing is marked unavailable, but ${passing.length} player lines are stored.` });

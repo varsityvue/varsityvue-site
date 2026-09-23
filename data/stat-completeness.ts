@@ -161,6 +161,71 @@ export const statCompletenessByGame: Record<string, TeamStatCompleteness[]> = {
       },
     },
   ],
+  "stephenville-at-abilene-wylie-2026-week-4": [
+    {
+      schoolSlug: "stephenville",
+      categories: {
+        quarterScoring: suppliedQuarterSplits,
+        scoringPlays: missingScoringPlays,
+        teamStats: complete("The supplied offensive team totals reconcile to 451 total yards."),
+        rushing: complete("All supplied Stephenville rushing attempts and yards reconcile to the team totals."),
+        passing: complete("The supplied passer line matches the team passing totals."),
+        receiving: complete("The supplied receiving lines reconcile to 18 receptions for 197 yards and four touchdowns."),
+      },
+    },
+    {
+      ...noBoxScore("abilene-wylie"),
+      categories: { ...noBoxScore("abilene-wylie").categories, quarterScoring: suppliedQuarterSplits },
+    },
+  ],
+  "cisco-at-stamford-2026-week-4": [
+    {
+      schoolSlug: "cisco",
+      categories: {
+        quarterScoring: suppliedQuarterSplits,
+        scoringPlays: missingScoringPlays,
+        teamStats: complete("Cisco's supplied offensive team totals reconcile to 378 total yards."),
+        rushing: complete("Cisco's player rushing lines reconcile to the team totals."),
+        passing: complete("Cisco's passer lines reconcile to the team totals."),
+        receiving: complete("Cisco's receiver lines reconcile to the team totals."),
+      },
+    },
+    {
+      schoolSlug: "stamford",
+      categories: {
+        quarterScoring: suppliedQuarterSplits,
+        scoringPlays: missingScoringPlays,
+        teamStats: partial("The supplied offensive totals reconcile to 425 yards, but the team interception total is unconfirmed."),
+        rushing: complete("The supplied Stamford rushing attempts and yards reconcile to the team totals."),
+        passing: partial("Miles Follis's completions, attempts, yards, and touchdowns are supplied; interceptions are unconfirmed."),
+        receiving: partial("All 15 receptions and 214 yards are attributed, but the two receiving touchdown recipients are unknown."),
+      },
+    },
+  ],
+  "de-leon-at-goldthwaite-2026-week-4": [
+    {
+      schoolSlug: "de-leon",
+      categories: {
+        quarterScoring: suppliedQuarterSplits,
+        scoringPlays: missingScoringPlays,
+        teamStats: complete("The supplied De Leon offensive totals reconcile to 326 total yards."),
+        rushing: complete("The supplied player lines reconcile to 41 carries for 220 yards and zero rushing touchdowns."),
+        passing: complete("Hud Price's line matches the supplied team passing totals."),
+        receiving: complete("The supplied receiver lines reconcile to 16 receptions for 106 yards and two touchdowns."),
+      },
+    },
+    {
+      schoolSlug: "goldthwaite",
+      categories: {
+        quarterScoring: suppliedQuarterSplits,
+        scoringPlays: missingScoringPlays,
+        teamStats: partial("Passing totals are supplied; a complete Goldthwaite rushing or total-offense line was not independently confirmed."),
+        rushing: partial("Only the supplied Landry Sanderson and Hayes Greenway rushing lines are stored; they are not labeled as a complete team total."),
+        passing: complete("Hayes Greenway's corrected 6-of-11 line supplies all Goldthwaite passing totals."),
+        receiving: complete("The supplied receiving lines reconcile to six receptions for 61 yards."),
+      },
+    },
+  ],
 };
 
 function mergeCompleteness(

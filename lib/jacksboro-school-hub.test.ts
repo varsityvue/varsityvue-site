@@ -42,13 +42,14 @@ test("Jacksboro schedule derives a 4-0 record and six upcoming games", () => {
   const standing = getStandingForSchoolFromGames("jacksboro", games);
   const upcoming = getUpcomingGamesForSchool("jacksboro", asOf);
 
-  assert.equal(games.length, 11);
+  assert.equal(games.length, 10);
   assert.equal(new Set(games.map((game) => game.id)).size, games.length);
   assert.equal(standing?.overallWins, 4);
   assert.equal(standing?.overallLosses, 0);
   assert.equal(upcoming.length, 6);
   assert.equal(upcoming[0]?.id, "jacksboro-at-cisco-2026-week-5");
   assert.equal(upcoming.some((game) => game.gameType === "bye"), false);
+  assert.equal(games.some((game) => game.id === "jacksboro-bye-2026-week-6"), false);
   assert.equal(games.filter((game) => game.id === "millsap-at-jacksboro-2026-week-1").length, 1);
   assert.equal(games.filter((game) => game.id === "jacksboro-at-cisco-2026-week-5").length, 1);
 });
