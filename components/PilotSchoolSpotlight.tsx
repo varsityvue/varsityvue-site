@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getFeaturedSchools } from "@/lib/schools";
 import { getDistrictById } from "@/lib/districts";
 import { getDynamicGames } from "@/lib/dynamic-games";
+import { filterUpcomingGamesForSchool } from "@/lib/games";
 import ProgramLogo from "./ProgramLogo";
 
 function formatClassification(conference: string, division?: string | null) {
@@ -50,15 +51,7 @@ export default async function FeaturedSchoolSpotlight() {
         <div className="flex snap-x snap-mandatory gap-2.5 overflow-x-auto pb-2 pr-4 sm:gap-4 md:grid md:grid-cols-2 md:overflow-visible md:pb-0 md:pr-0 xl:grid-cols-3">
           {schools.map((school) => {
             const district = getDistrictById(school.districtId);
-            const nextGame = games
-              .filter(
-                (game) =>
-                  (game.homeSchoolSlug === school.slug || game.awaySchoolSlug === school.slug) &&
-                  game.status === "upcoming" &&
-                  game.gameType !== "bye" &&
-                  game.gameType !== "scrimmage",
-              )
-              .sort((a, b) => (a.date ?? "").localeCompare(b.date ?? ""))[0];
+            const nextGame = filterUpcomingGamesForSchool(games, school.slug)[0];
 
             return (
               <Link

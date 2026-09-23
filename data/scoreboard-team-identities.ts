@@ -80,10 +80,15 @@ const scoreboardTeamIdentities: Record<string, ScoreboardTeamIdentity> = {
   burnet: { abbreviation: "BHS", mascot: "Bulldogs", primary: "#036330", secondary: "#000000", accent: "#FFFFFF" },
   lampasas: { abbreviation: "LHS", mascot: "Badgers", primary: "#00009C", secondary: "#FFFFFF", accent: "#FFFFFF" },
   "china spring": { abbreviation: "CSHS", mascot: "Cougars", primary: "#478BCA", secondary: "#121B4E", accent: "#FFFFFF" },
+  chico: { abbreviation: "CHS", mascot: "Dragons", primary: "#F6C127", secondary: "#000000", accent: "#FFFFFF" },
+  bridgeport: { abbreviation: "BHS", mascot: "Bulls", primary: "#800000", secondary: "#FFFFFF", accent: "#FFFFFF" },
+  whitesboro: { abbreviation: "WHS", mascot: "Bearcats", primary: "#430602", secondary: "#CCBA84", accent: "#FFFFFF" },
+  bowie: { abbreviation: "BHS", mascot: "Jackrabbits", primary: "#800000", secondary: "#FFFFFF", accent: "#FFFFFF" },
 };
 
 const scoreboardTeamAliases: Record<string, string> = {
   "san angelo tlca": "san angelo texas leadership",
+  "san angelo texas leadership charter academy": "san angelo texas leadership",
 };
 
 const scoreboardTeamDisplayNames: Record<string, string> = {
