@@ -60,4 +60,37 @@ export const albanyGameStats: GameStats[] = [
       { player: "Jakobi Roberson", schoolSlug: "albany", receptions: 2, yards: 8, touchdowns: 1 },
     ],
   },
+  {
+    gameId: "albany-at-coleman-2026-week-4",
+    season: 2026,
+    sourceStatus: "verified",
+    sourceLabel: "Owner-supplied 2026 box score",
+    quarterScores: [
+      { schoolSlug: "albany", quarters: [7, 24, 0, 0], total: 31 },
+      { schoolSlug: "coleman", quarters: [0, 0, 0, 8], total: 8 },
+    ],
+    scoringPlays: [],
+    teamStats: [
+      { schoolSlug: "albany", rushingAttempts: 37, rushingYards: 246, passingYards: 197, completions: 12, passAttempts: 23 },
+    ],
+    rushing: [
+      { player: "Blake Britting", schoolSlug: "albany", attempts: 1, yards: 32, touchdowns: 0 },
+      { player: "Aiden Vickers", schoolSlug: "albany", attempts: 1, yards: 47, touchdowns: 0 },
+      { player: "Lyle Wheeler", schoolSlug: "albany", attempts: 10, yards: 52, touchdowns: 0 },
+      { player: "Jakobi Roberson", schoolSlug: "albany", attempts: 19, yards: 110, touchdowns: 1 },
+      { player: "Clay Chapman", schoolSlug: "albany", attempts: 5, yards: 4, touchdowns: 0 },
+      { player: "Sam Tidwell", schoolSlug: "albany", attempts: 1, yards: 1, touchdowns: 0 },
+    ],
+    passing: [
+      { player: "Clay Chapman", schoolSlug: "albany", completions: 12, attempts: 23, yards: 197, touchdowns: 3 },
+    ],
+    receiving: [
+      { player: "Blake Britting", schoolSlug: "albany", receptions: 5, yards: 79, touchdowns: 2 },
+      { player: "Aiden Vickers", schoolSlug: "albany", receptions: 3, yards: 64, touchdowns: 1 },
+      { player: "Lyle Wheeler", schoolSlug: "albany", receptions: 1, yards: 0, touchdowns: 0 },
+      { player: "Wesley Gleitz", schoolSlug: "albany", receptions: 1, yards: 9, touchdowns: 0 },
+      { player: "Jakobi Roberson", schoolSlug: "albany", receptions: 1, yards: 40, touchdowns: 0 },
+      { player: "Levi Murphy", schoolSlug: "albany", receptions: 1, yards: 5, touchdowns: 0 },
+    ],
+  },
 ];

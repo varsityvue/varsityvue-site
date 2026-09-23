@@ -226,6 +226,54 @@ export const statCompletenessByGame: Record<string, TeamStatCompleteness[]> = {
       },
     },
   ],
+  "albany-at-coleman-2026-week-4": [
+    {
+      schoolSlug: "albany",
+      categories: {
+        quarterScoring: suppliedQuarterSplits,
+        scoringPlays: missingScoringPlays,
+        teamStats: partial("The supplied rushing and passing team totals are stored, but Albany's interception total is unconfirmed."),
+        rushing: complete("All supplied Albany rushing attempts, yards, and touchdowns reconcile to the team totals."),
+        passing: partial("Clay Chapman's completions, attempts, yards, and touchdowns are supplied; interceptions are unconfirmed."),
+        receiving: complete("All supplied Albany receptions, yards, and touchdowns reconcile to the team totals."),
+      },
+    },
+    {
+      ...noBoxScore("coleman"),
+      categories: { ...noBoxScore("coleman").categories, quarterScoring: suppliedQuarterSplits },
+    },
+  ],
+  "clyde-at-comanche-2026-week-3": [
+    noBoxScore("clyde", true),
+    {
+      schoolSlug: "comanche",
+      categories: {
+        quarterScoring: missingQuarterSplits,
+        scoringPlays: missingScoringPlays,
+        teamStats: complete("The supplied Comanche rushing and passing team totals are stored without deriving unsupplied fields."),
+        rushing: complete("All supplied Comanche rushing attempts, yards, and touchdowns reconcile to the team totals."),
+        passing: complete("Cooper Welch's line matches the supplied team passing totals."),
+        receiving: complete("All supplied Comanche receptions, yards, and touchdowns reconcile to the team totals."),
+      },
+    },
+  ],
+  "comanche-at-clifton-2026-week-4": [
+    {
+      schoolSlug: "comanche",
+      categories: {
+        quarterScoring: suppliedQuarterSplits,
+        scoringPlays: missingScoringPlays,
+        teamStats: complete("The supplied Comanche rushing and passing team totals are stored without deriving unsupplied fields."),
+        rushing: complete("All supplied Comanche rushing attempts, yards, and touchdowns reconcile to the team totals."),
+        passing: complete("The supplied passer lines reconcile to the team totals, including zero passing touchdowns."),
+        receiving: complete("All supplied Comanche receptions and yards reconcile to the team totals, with zero receiving touchdowns."),
+      },
+    },
+    {
+      ...noBoxScore("clifton"),
+      categories: { ...noBoxScore("clifton").categories, quarterScoring: suppliedQuarterSplits },
+    },
+  ],
 };
 
 function mergeCompleteness(
