@@ -111,7 +111,7 @@ export default function StandingsTable({ standings, theme, currentSchoolSlug, di
 
           <div className="hidden overflow-x-auto rounded-3xl border bg-black/35 md:block" style={{ borderColor: `${theme.secondary}33`, boxShadow: `0 18px 50px ${theme.primary}18` }}>
             <table className={`w-full border-collapse text-left ${districtStarted ? "min-w-[840px]" : "min-w-[760px]"}`}>
-              <thead style={{ background: "linear-gradient(90deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04))", borderBottom: `2px solid ${theme.primary}` }}><tr>{districtStarted && <th className="px-5 py-4 text-xs font-black uppercase tracking-[0.18em] text-white">Place</th>} {["Team", "District", "Overall", "PF", "PA", "Diff"].map((header) => <th key={header} className="px-5 py-4 text-xs font-black uppercase tracking-[0.18em] text-white">{header}</th>)}</tr></thead>
+              <thead style={{ background: "linear-gradient(90deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04))", borderBottom: `2px solid ${theme.primary}` }}><tr>{districtStarted && <th className="px-5 py-4 text-xs font-black uppercase tracking-[0.18em] text-white">Place</th>}{["Team", "District", "Overall", "PF", "PA", "Diff"].map((header) => <th key={header} className="px-5 py-4 text-xs font-black uppercase tracking-[0.18em] text-white">{header}</th>)}</tr></thead>
               <tbody>{displayed.map((team, index) => {
                 const differential = team.pointsFor - team.pointsAgainst;
                 const school = getSchoolBySlug(team.schoolSlug);
