@@ -91,6 +91,14 @@ function outcomeErrorMessage(code?: string, message?: string) {
   return message ?? "The canonical outcome could not be changed.";
 }
 
+function scorelessOutcomeErrorMessage(code?: string, message?: string) {
+  if (code === "40001" || message?.includes("Stale outcome revision")) {
+    return "This outcome changed after the page loaded. Refresh and review the authoritative state before trying again.";
+  }
+  if (code === "42501") return "Only an active administrator can originate an exceptional outcome.";
+  return message ?? "The scoreless exceptional outcome could not be recorded.";
+}
+
 export async function approveScoreSubmission(formData: FormData) {
   const submissionId = text(formData, "submission_id");
   const reviewNote = text(formData, "review_note") || null;
@@ -340,4 +348,76 @@ export async function setCanonicalGameOutcome(formData: FormData) {
   revalidatePath("/scoreboard");
   revalidatePath(`/games/${gameId}`);
   redirect(`/internal/score-review?outcome-updated=${encodeURIComponent(gameId)}`);
+}
+
+export async function originateScorelessOutcome(formData: FormData) {
+  const gameId = text(formData, "game_id");
+  const resultType = text(formData, "result_type");
+  const winnerSlug = text(formData, "official_winner_school_slug") || null;
+  const source = text(formData, "source");
+  const reason = text(formData, "reason");
+  const expectedRevision = Number(text(formData, "expected_outcome_revision"));
+  const { supabase } = await requireAdministrator();
+
+  if (!gameId || !["forfeit", "no_contest"].includes(resultType)) {
+    redirect("/internal/score-review?message=Choose%20a%20valid%20scoreless%20exceptional%20outcome.");
+  }
+  if (!Number.isSafeInteger(expectedRevision) || expectedRevision < 0) {
+    redirect("/internal/score-review?message=Refresh%20the%20game%20before%20submitting.");
+  }
+  if (!source || !reason) {
+    redirect("/internal/score-review?message=Enter%20an%20authoritative%20source%20and%20reason.");
+  }
+  if (source.length > 300 || reason.length > 500) {
+    redirect("/internal/score-review?message=Keep%20the%20source%20to%20300%20characters%20and%20the%20reason%20to%20500.");
+  }
+
+  const currentGame = await getDynamicGameById(gameId);
+  if (!currentGame || currentGame.gameType === "bye" || currentGame.gameType === "scrimmage") {
+    redirect("/internal/score-review?message=Canonical%20game%20not%20found.");
+  }
+  if (currentGame.status === "final") {
+    redirect("/internal/score-review?message=A%20verified%20final%20already%20exists.%20Use%20the%20canonical%20correction%20workflow.");
+  }
+  if (
+    !currentGame.awaySchoolSlug ||
+    !currentGame.homeSchoolSlug ||
+    currentGame.awaySchoolSlug === currentGame.homeSchoolSlug ||
+    ["bye", "opponent", "special-event"].includes(currentGame.awaySchoolSlug) ||
+    ["bye", "opponent", "special-event"].includes(currentGame.homeSchoolSlug)
+  ) {
+    redirect("/internal/score-review?message=The%20canonical%20matchup%20identity%20is%20incomplete.");
+  }
+  if (resultType === "forfeit" && ![currentGame.awaySchoolSlug, currentGame.homeSchoolSlug].includes(winnerSlug ?? "")) {
+    redirect("/internal/score-review?message=Choose%20the%20official%20forfeit%20winner%20from%20the%20participating%20schools.");
+  }
+  if (resultType === "no_contest" && winnerSlug) {
+    redirect("/internal/score-review?message=A%20no-contest%20cannot%20have%20an%20official%20winner.");
+  }
+
+  const { error } = await supabase.rpc("admin_originate_canonical_game_outcome", {
+    p_game_id: gameId,
+    p_expected_outcome_revision: expectedRevision,
+    p_result_type: resultType,
+    p_official_winner_school_slug: winnerSlug,
+    p_source: source,
+    p_reason: reason,
+    p_away_school_slug: currentGame.awaySchoolSlug,
+    p_home_school_slug: currentGame.homeSchoolSlug,
+  });
+
+  if (error) {
+    redirect(`/internal/score-review?message=${encodeURIComponent(scorelessOutcomeErrorMessage(error.code, error.message))}`);
+  }
+
+  revalidatePath("/");
+  revalidatePath("/internal/score-review");
+  revalidatePath("/pickem");
+  revalidatePath("/games");
+  revalidatePath("/scores");
+  revalidatePath("/scoreboard");
+  revalidatePath(`/games/${gameId}`);
+  revalidatePath(`/schools/${currentGame.awaySchoolSlug}`);
+  revalidatePath(`/schools/${currentGame.homeSchoolSlug}`);
+  redirect(`/internal/score-review?exceptional-outcome-recorded=${encodeURIComponent(gameId)}`);
 }

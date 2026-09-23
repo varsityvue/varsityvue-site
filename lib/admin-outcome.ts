@@ -1,4 +1,5 @@
 export type CanonicalOutcomeType = "played" | "tie" | "forfeit" | "no_contest";
+export type ScorelessOutcomeType = "forfeit" | "no_contest";
 
 export type CanonicalOutcomeGame = {
   gameId: string;
@@ -13,6 +14,17 @@ export type CanonicalOutcomeGame = {
   verified: boolean;
   resultType: string | null;
   officialWinnerSlug: string | null;
+  outcomeRevision: number;
+};
+
+export type ScorelessOutcomeGame = {
+  gameId: string;
+  matchup: string;
+  awayName: string;
+  awaySlug: string;
+  homeName: string;
+  homeSlug: string;
+  status: string;
   outcomeRevision: number;
 };
 
@@ -69,4 +81,42 @@ export function canonicalOutcomeSummary(
     ? "The game becomes VOID; grades are cleared and totals are recalculated."
     : "Existing picks are regraded and totals are recalculated.";
   return `${game.matchup}: ${outcome}. ${grading} Saved member selections are preserved.`;
+}
+
+export function scorelessOutcomeValidation(
+  game: ScorelessOutcomeGame | undefined,
+  resultType: ScorelessOutcomeType,
+  winnerSlug: string,
+  source: string,
+  reason: string,
+) {
+  if (!game) return "Choose a canonical game.";
+  if (game.status === "final") return "A final already exists; use the correction workflow.";
+  if (!source.trim()) return "Enter the authoritative source.";
+  if (source.trim().length > 300) return "Keep the source to 300 characters or fewer.";
+  if (!reason.trim()) return "Enter a reason for the exceptional outcome.";
+  if (reason.trim().length > 500) return "Keep the reason to 500 characters or fewer.";
+  if (resultType === "forfeit" && ![game.awaySlug, game.homeSlug].includes(winnerSlug)) {
+    return "Choose the official winner from this matchup.";
+  }
+  if (resultType === "no_contest" && winnerSlug) {
+    return "A no-contest cannot have an official winner.";
+  }
+  return null;
+}
+
+export function scorelessOutcomeSummary(
+  game: ScorelessOutcomeGame,
+  resultType: ScorelessOutcomeType,
+  winnerSlug: string,
+) {
+  const winner = winnerSlug === game.awaySlug
+    ? game.awayName
+    : winnerSlug === game.homeSlug
+      ? game.homeName
+      : null;
+  if (resultType === "forfeit") {
+    return `${game.matchup}: scoreless forfeit — ${winner ?? "no winner selected"} is the official winner. Existing picks are preserved and graded from that explicit winner. No numeric final-score alert is created.`;
+  }
+  return `${game.matchup}: scoreless no-contest. Existing picks are preserved, the matchup is VOID for Pick ’Em, and no numeric final-score alert is created.`;
 }

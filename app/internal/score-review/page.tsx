@@ -9,9 +9,10 @@ import { getDynamicGames } from "@/lib/dynamic-games";
 import { getGameById } from "@/lib/games";
 import { requireActiveMember } from "@/lib/member-access";
 import { getSchoolBySlug } from "@/lib/schools";
-import type { CanonicalOutcomeGame } from "@/lib/admin-outcome";
+import type { CanonicalOutcomeGame, ScorelessOutcomeGame } from "@/lib/admin-outcome";
 import { approveScoreSubmission, rejectScoreSubmission, updateGameAvailability, rescheduleGame } from "./actions";
 import CanonicalOutcomeForm from "./CanonicalOutcomeForm";
+import ScorelessOutcomeForm from "./ScorelessOutcomeForm";
 
 export const metadata: Metadata = {
   title: "Score Review",
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
 };
 
 type PageProps = {
-  searchParams: Promise<{ message?: string; reviewed?: string; "game-status"?: string; "outcome-updated"?: string }>;
+  searchParams: Promise<{ message?: string; reviewed?: string; "game-status"?: string; "outcome-updated"?: string; "exceptional-outcome-recorded"?: string }>;
 };
 
 function hasCompleteSchoolIdentity(slug?: string, teamName?: string) {
@@ -74,6 +75,9 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
   const scheduleRevisionByGameId = new Map(
     (scheduleStates ?? []).map((state) => [state.game_id, state.schedule_revision]),
   );
+  const outcomeRevisionByGameId = new Map(
+    (scheduleStates ?? []).map((state) => [state.game_id, state.outcome_revision]),
+  );
   const canonicalOutcomeGames: CanonicalOutcomeGame[] = (scheduleStates ?? []).flatMap((state) => {
     if (state.status !== "final" || state.verified !== true || !state.away_school_slug || !state.home_school_slug) return [];
     const game = dynamicGamesById.get(state.game_id) ?? getGameById(state.game_id);
@@ -94,6 +98,33 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
       resultType: state.result_type,
       officialWinnerSlug: state.official_winner_school_slug,
       outcomeRevision: state.outcome_revision,
+    }];
+  });
+  const scorelessOutcomeGames: ScorelessOutcomeGame[] = dynamicGames.flatMap((game) => {
+    const awaySlug = game.awaySchoolSlug;
+    const homeSlug = game.homeSchoolSlug;
+    if (
+      game.status === "final" ||
+      game.gameType === "bye" ||
+      game.gameType === "scrimmage" ||
+      !awaySlug ||
+      !homeSlug ||
+      awaySlug === homeSlug ||
+      ["bye", "opponent", "special-event"].includes(awaySlug) ||
+      ["bye", "opponent", "special-event"].includes(homeSlug)
+    ) return [];
+
+    const awayName = displayTeamName(game.awayTeam, awaySlug);
+    const homeName = displayTeamName(game.homeTeam, homeSlug);
+    return [{
+      gameId: game.id,
+      matchup: `${awayName} at ${homeName}`,
+      awayName,
+      awaySlug,
+      homeName,
+      homeSlug,
+      status: game.status,
+      outcomeRevision: outcomeRevisionByGameId.get(game.id) ?? 0,
     }];
   });
 
@@ -171,12 +202,34 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
             Canonical outcome saved for {params["outcome-updated"]}. The authoritative state, Pick ’Em grades, and totals have been refreshed.
           </div>
         ) : null}
+        {params["exceptional-outcome-recorded"] ? (
+          <div className="mt-6 rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-sm text-emerald-50">
+            Scoreless exceptional outcome recorded for {params["exceptional-outcome-recorded"]}. Pick ’Em grading and totals were refreshed without creating a numeric final-score alert.
+          </div>
+        ) : null}
 
         {isAdministrator ? (
           <section className="mt-8 rounded-2xl border border-amber-300/20 bg-white/[0.035] p-5 sm:p-6">
             <div className="max-w-3xl">
               <p className="text-[10px] font-black uppercase tracking-[0.18em] text-amber-100/60">Administrator authority</p>
-              <h2 className="mt-1 text-xl font-black">Record or correct a canonical outcome</h2>
+              <h2 className="mt-1 text-xl font-black">Originate a scoreless exceptional outcome</h2>
+              <p className="mt-2 text-xs leading-5 text-white/50">
+                Use this only when an official ruling establishes a forfeit or no-contest before any verified final exists. A source and reason are required, no numeric score is stored, and pending reports are preserved as superseded history.
+              </p>
+            </div>
+            {scorelessOutcomeGames.length > 0 ? (
+              <ScorelessOutcomeForm games={scorelessOutcomeGames} />
+            ) : (
+              <p className="mt-5 rounded-xl border border-white/10 bg-black/25 p-4 text-sm text-white/50">No canonical games without a verified final are available.</p>
+            )}
+          </section>
+        ) : null}
+
+        {isAdministrator ? (
+          <section className="mt-8 rounded-2xl border border-amber-300/20 bg-white/[0.035] p-5 sm:p-6">
+            <div className="max-w-3xl">
+              <p className="text-[10px] font-black uppercase tracking-[0.18em] text-amber-100/60">Administrator authority</p>
+              <h2 className="mt-1 text-xl font-black">Correct a verified final outcome</h2>
               <p className="mt-2 text-xs leading-5 text-white/50">
                 Use an official ruling to record a tie, forfeit, or no-contest, or return a game to played when unequal final scores are valid. This operation never infers exceptional outcomes from status text or scores.
               </p>
