@@ -91,7 +91,7 @@ test("the five formerly blocked games have complete identities on both sides", (
 
 test("the reviewed migrations register every Week 5 game exactly once", () => {
   const original = weekFiveIdsInSql("supabase/migrations/20260917134403_verified_final_score_email.sql");
-  const additionPath = "supabase/migrations/20260923150000_register_week5_final_score_notifications.sql";
+  const additionPath = "supabase/migrations/20260923072611_register_week5_final_score_notifications.sql";
   const additions = weekFiveIdsInSql(additionPath);
   const registered = [...original, ...additions].sort();
 
