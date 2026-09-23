@@ -3,6 +3,7 @@ import type { Game, School, UILClassification } from "@/types/platform";
 import { getDistrictById } from "@/lib/districts";
 import { filterUpcomingGamesForSchool } from "@/lib/games";
 import { getSchoolBySlug } from "@/lib/schools";
+import { formatScoringAverage, getSchoolScoringAverages } from "@/lib/school-scoring-averages";
 import { getStandingForSchoolFromGames } from "@/lib/standings";
 import SchoolBadge from "./SchoolBadge";
 import ProgramLogo from "./ProgramLogo";
@@ -34,6 +35,8 @@ export default function SchoolHero({ school, games, isAuthenticated, isFollowing
   const nextGame = upcomingGames[0];
   const standing = getStandingForSchoolFromGames(school.slug, games); const seasonRecord = `${standing?.overallWins ?? 0}-${standing?.overallLosses ?? 0}`;
   const district = getDistrictById(school.districtId); const districtName = district?.name ?? school.districtId;
+  const scoringAverages = getSchoolScoringAverages(school.slug, games);
+  const scoredGamesLabel = scoringAverages.scoredGames === 0 ? "No scored finals" : `${scoringAverages.scoredGames} scored ${scoringAverages.scoredGames === 1 ? "game" : "games"}`;
   const nextAwaySchool = nextGame?.awaySchoolSlug ? getSchoolBySlug(nextGame.awaySchoolSlug) : undefined; const nextHomeSchool = nextGame?.homeSchoolSlug ? getSchoolBySlug(nextGame.homeSchoolSlug) : undefined;
   const primary = school.colors.primary; const secondary = school.colors.secondary;
   const longSchoolName = school.name.length > 10;
@@ -72,13 +75,17 @@ export default function SchoolHero({ school, games, isAuthenticated, isFollowing
             </div>
           </div>
           <p className="mt-6 hidden max-w-3xl text-base leading-7 text-white/62 sm:block">{programDescription}</p>
-        </div><div className="mt-3 grid grid-cols-2 gap-1.5 sm:mt-10 sm:gap-3 lg:grid-cols-4"><Stat value={seasonRecord} label="2026 Record" /><Stat value={formatShortClassification(school.classification)} label="Class" /><Stat value={formatShortDistrict(districtName)} label="District" /><Stat value={upcomingGames.length.toString()} label="Upcoming" /></div></div>
+        </div><div className="mt-3"><div className="grid grid-cols-2 gap-1.5 sm:mt-10 sm:gap-3 lg:grid-cols-4"><Stat value={seasonRecord} label="2026 Record" /><Stat value={`${formatShortClassification(school.classification)} · ${formatShortDistrict(districtName)}`} label="Class · District" href={district ? `/districts/${district.slug}` : undefined} compact /><Stat value={formatScoringAverage(scoringAverages.pointsPerGame)} label="PPG" ariaLabel={`${formatScoringAverage(scoringAverages.pointsPerGame)} points scored per game`} /><Stat value={formatScoringAverage(scoringAverages.pointsAllowedPerGame)} label="Allowed/G" ariaLabel={`${formatScoringAverage(scoringAverages.pointsAllowedPerGame)} points allowed per game`} /></div><p className="mt-1.5 text-[8px] font-bold uppercase tracking-[0.12em] text-white/35 sm:mt-2 sm:text-[9px] sm:tracking-[0.16em]">Season averages · {scoredGamesLabel}</p></div></div>
         <div className="hidden items-end lg:flex"><div className="w-full rounded-[1.75rem] border p-6 shadow-2xl backdrop-blur-sm" style={{ borderColor: `${primary}55`, background: "linear-gradient(135deg, rgba(255,255,255,0.06), rgba(0,0,0,0.94))", boxShadow: `inset 4px 0 0 ${primary}, 0 24px 70px rgba(0,0,0,0.45)` }}><p className="inline-flex rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-white/80">Next Matchup</p>{nextGame ? <><h2 className="mt-4 text-3xl font-black leading-tight tracking-tight sm:text-4xl">{nextGame.awayTeam} at {nextGame.homeTeam}</h2><div className="mt-7 grid grid-cols-3 items-center gap-4 text-center"><div className="flex justify-center">{nextAwaySchool ? <SchoolBadge school={nextAwaySchool} size="sm" /> : <FallbackTeamBadge team={nextGame.awayTeam ?? "Away"} />}</div><div className="text-2xl font-black text-white/30">VS</div><div className="flex justify-center">{nextHomeSchool ? <SchoolBadge school={nextHomeSchool} size="sm" /> : <FallbackTeamBadge team={nextGame.homeTeam ?? "Home"} />}</div></div><div className="mt-7 grid gap-3 sm:grid-cols-2"><InfoCard label="Date" value={formatGameDate(nextGame.kickoff)} /><InfoCard label="Kickoff" value={formatGameTime(nextGame.kickoff)} />{nextGame.venue && nextGameMapUrl ? <a href={nextGameMapUrl} target="_blank" rel="noopener noreferrer" title={`Open ${nextGame.venue} in Google Maps`}><InfoCard label="Venue" value={`${nextGame.venue} →`} /></a> : <InfoCard label="Venue" value={nextGame.venue ?? "Venue TBD"} />}<InfoCard label="Game" value={getWeekLabel(nextGame.gameType, nextGame.week)} /></div><Link href={`/games/${nextGame.id}`} className="mt-6 block rounded-xl border px-5 py-4 text-center text-sm font-black uppercase tracking-[0.14em] text-white transition hover:bg-white/15" style={{ borderColor: `${secondary}44`, backgroundColor: "rgba(255,255,255,0.08)" }}>View Matchup →</Link></> : <div className="mt-5 rounded-2xl border border-white/10 bg-white/5 p-6 text-white/55">No upcoming game is currently listed.</div>}</div></div>
       </div>
     </section>
   );
 }
 function HeroChip({ label }: { label: string }) { return <p className="inline-flex max-w-full items-center rounded-full border border-white/10 bg-black/25 px-2.5 py-1.5 text-[9px] font-black uppercase tracking-[0.14em] text-white/55 sm:px-3 sm:py-1.5 sm:text-[10px] sm:tracking-[0.18em]">{label}</p>; }
-function Stat({ value, label }: { value: string; label: string }) { return <div className="min-w-0 rounded-lg border border-white/10 bg-black/35 p-2.5 sm:rounded-2xl sm:p-4"><p className="truncate text-base font-black text-white sm:text-xl">{value}</p><p className="mt-0.5 truncate text-[9px] uppercase tracking-[0.12em] text-white/35 sm:mt-1 sm:text-xs sm:tracking-[0.2em]">{label}</p></div>; }
+function Stat({ value, label, href, compact = false, ariaLabel }: { value: string; label: string; href?: string; compact?: boolean; ariaLabel?: string }) {
+  const content = <><p className={`${compact ? "text-[13px] leading-4 sm:text-lg sm:leading-6" : "text-base sm:text-xl"} break-words font-black text-white`}>{value}</p><p className="mt-0.5 text-[9px] uppercase tracking-[0.1em] text-white/35 sm:mt-1 sm:text-xs sm:tracking-[0.16em]">{label}</p></>;
+  const className = "block min-w-0 rounded-lg border border-white/10 bg-black/35 p-2.5 sm:rounded-2xl sm:p-4";
+  return href ? <Link href={href} aria-label={`${value}. View district hub`} className={`${className} transition hover:border-white/25 hover:bg-black/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70`}>{content}</Link> : <div aria-label={ariaLabel} className={className}>{content}</div>;
+}
 function FallbackTeamBadge({ team }: { team: string }) { return <div className="flex min-h-24 w-24 items-center justify-center rounded-2xl border border-white/10 bg-white/10 p-4 text-center text-xs font-black text-white">{team.slice(0, 3).toUpperCase()}</div>; }
 function InfoCard({ label, value }: { label: string; value: string }) { return <div className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/[0.08]"><p className="text-xs uppercase tracking-[0.2em] text-white/35">{label}</p><p className="mt-2 font-bold text-white">{value}</p></div>; }
