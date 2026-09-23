@@ -57,7 +57,7 @@ export const ownerWeek4OffensiveStats: GameStats[] = [
       { player: "Hayes Greenway", schoolSlug: "goldthwaite", completions: 6, attempts: 11, yards: 61, touchdowns: 0, interceptions: 1 },
     ],
     receiving: [
-      { player: "Bryce Lingle", schoolSlug: "de-leon", receptions: 2, yards: 11, touchdowns: 0 },
+      { player: "Bentley Lingle", playerId: "de-leon-bentley-lingle-2026", schoolSlug: "de-leon", receptions: 2, yards: 11, touchdowns: 0 },
       { player: "Trenton Zmeskal", schoolSlug: "de-leon", receptions: 5, yards: 43, touchdowns: 1 },
       { player: "Bryce Burkeen", schoolSlug: "de-leon", receptions: 8, yards: 41, touchdowns: 0 },
       { player: "Jayden Lindley", schoolSlug: "de-leon", receptions: 1, yards: 11, touchdowns: 1 },
