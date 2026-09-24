@@ -83,10 +83,13 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
                 Account created
               </p>
               <h2 className="mt-2 text-xl font-black text-white">
-                Check your email to confirm your account.
+                Check your email
               </h2>
               <p className="mt-2 text-sm leading-6 text-emerald-50/75">
-                Open the message from VarsityVue and select the confirmation link.
+                Check your inbox for a confirmation email from VarsityVue. If you don’t see it, check Spam or Junk.
+              </p>
+              <p className="mt-2 text-sm leading-6 text-emerald-50/75">
+                Select the confirmation link in the email.
                 {followSchool
                   ? ` After confirmation, we’ll return you to finish following ${followSchool.name}.`
                   : " After confirmation, you can sign in to VarsityVue."}
