@@ -44,6 +44,7 @@ export default async function PickemManagementPage({ searchParams }: PageProps) 
   if (!roles?.some((row) => row.role === "moderator" || row.role === "admin")) {
     redirect("/account");
   }
+  const isAdmin = roles.some((row) => row.role === "admin");
 
   const configuredByWeek = new Map((configuredWeeks ?? []).map((week) => [week.week, week]));
   const weekOptions = [5, 6, 7].map((weekNumber) => {
@@ -66,7 +67,10 @@ export default async function PickemManagementPage({ searchParams }: PageProps) 
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div><p className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent)]">Internal Tool</p><h1 className="mt-2 text-3xl font-black sm:text-5xl">Pick ’Em management</h1><p className="mt-3 max-w-3xl text-sm leading-6 text-white/50 sm:text-base">Build each slate from canonical VarsityVue games. Kickoff times become lock times automatically; this tool does not create or reschedule games.</p></div>
-          <Link href="/pickem" className="rounded-full border border-white/15 px-4 py-2.5 text-xs font-black text-white/70 transition hover:bg-white/10 hover:text-white">View Public Pick ’Em →</Link>
+          <div className="flex flex-wrap gap-2">
+            {isAdmin ? <Link href="/internal/pickem/submissions" className="rounded-full border border-white/15 px-4 py-2.5 text-xs font-black text-white/70 transition hover:bg-white/10 hover:text-white">Member submissions</Link> : null}
+            <Link href="/pickem" className="rounded-full border border-white/15 px-4 py-2.5 text-xs font-black text-white/70 transition hover:bg-white/10 hover:text-white">View Public Pick ’Em →</Link>
+          </div>
         </div>
 
         {params.message ? <div className="mt-6 rounded-2xl border border-emerald-300/20 bg-emerald-300/10 p-4 text-sm text-emerald-50">{params.message}</div> : null}
