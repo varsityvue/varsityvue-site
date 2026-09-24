@@ -30,6 +30,12 @@ export function getArticleBySlug(slug: string) {
   return getPublishedArticles().find((article) => article.slug === slug);
 }
 
+export function getPublishedGamePreview(gameId: string) {
+  return sortNewestFirst(
+    getPublishedArticles().filter((article) => article.gameId === gameId && article.type === "preview")
+  )[0];
+}
+
 export function getArticlesForSchool(schoolIdOrSlug: string) {
   return sortNewestFirst(
     getPublishedArticles().filter((article) =>

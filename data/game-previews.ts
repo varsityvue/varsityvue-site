@@ -1,3 +1,5 @@
+import { getPublishedGamePreview } from "@/lib/articles";
+
 export type GamePreview = {
   gameId: string;
   eyebrow: string;
@@ -10,6 +12,14 @@ export type GamePreview = {
 };
 
 export const gamePreviews: GamePreview[] = [
+  {
+    gameId: "jacksboro-at-cisco-2026-week-5",
+    eyebrow: "Week 5 Game of the Week",
+    title: "Jacksboro at Cisco: Who Has More to Prove?",
+    excerpt:
+      "No. 4 Jacksboro brings a 4–0 record and a 49.5-point scoring average to Chesley Field. Cisco (2–2) is looking to answer last week’s loss at Stamford and make it a four-quarter fight.",
+    paragraphs: [],
+  },
   {
     gameId: "de-leon-at-goldthwaite-2026-week-4",
     eyebrow: "Week 4 Game of the Week",
@@ -44,5 +54,15 @@ export const gamePreviews: GamePreview[] = [
 ];
 
 export function getGamePreview(gameId: string) {
-  return gamePreviews.find((preview) => preview.gameId === gameId);
+  const preview = gamePreviews.find((entry) => entry.gameId === gameId);
+  if (!preview) return undefined;
+
+  const article = getPublishedGamePreview(gameId);
+  if (!article) return preview;
+
+  return {
+    ...preview,
+    coverageHref: `/coverage/${article.slug}`,
+    coverageLabel: "Read Game Preview →",
+  };
 }
