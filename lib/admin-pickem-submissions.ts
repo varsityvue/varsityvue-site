@@ -86,3 +86,8 @@ export function adminPickemGradeLabel(row: AdminPickemSubmissionRow) {
   if (row.graded_at && row.is_correct === false) return "Incorrect";
   return "Result pending";
 }
+
+export function adminPickemPointsLabel(gradedPicks: number, points: number) {
+  if (gradedPicks === 0) return "Points pending";
+  return `${points} point${points === 1 ? "" : "s"} · ${gradedPicks} graded`;
+}

@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 
 import {
   adminPickemGradeLabel,
+  adminPickemPointsLabel,
   groupAdminPickemSubmissions,
   type AdminPickemSubmissionRow,
 } from "@/lib/admin-pickem-submissions";
@@ -98,20 +99,20 @@ export default async function PickemSubmissionsPage({ searchParams }: PageProps)
   const completeEntrants = entrants.filter((entrant) => entrant.complete).length;
 
   return (
-    <main className="min-h-screen bg-[#050505] px-4 py-8 text-white sm:px-6 sm:py-12 lg:px-8">
+    <main className="min-h-screen bg-[#050505] px-4 py-5 text-white sm:px-6 sm:py-10 lg:px-8">
       <div className="mx-auto max-w-6xl">
-        <header className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+        <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-5">
           <div>
             <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent)]">Admin · Pick ’Em</p>
-            <h1 className="mt-2 text-3xl font-black sm:text-5xl">Member submissions</h1>
-            <p className="mt-3 max-w-3xl text-sm leading-6 text-white/50 sm:text-base">
+            <h1 className="mt-1.5 text-3xl font-black sm:mt-2 sm:text-5xl">Member submissions</h1>
+            <p className="mt-2 max-w-3xl text-sm leading-5 text-white/50 sm:mt-3 sm:text-base sm:leading-6">
               Participation is visible immediately. Each selection stays concealed until that matchup locks.
             </p>
           </div>
           <Link href="/internal/pickem" className="text-sm font-bold text-white/50 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70">← Pick ’Em management</Link>
         </header>
 
-        <form className="mt-6 flex flex-col gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4 sm:flex-row sm:items-end" method="get">
+        <form className="mt-4 flex flex-col gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-3 sm:mt-6 sm:flex-row sm:items-end sm:p-4" method="get">
           <label className="min-w-0 flex-1">
             <span className="text-[10px] font-black uppercase tracking-[0.14em] text-white/40">Week</span>
             <select name="week" defaultValue={selectedWeek?.id} className="mt-2 w-full rounded-xl border border-white/10 bg-[#0a0a0a] px-4 py-3 text-sm font-bold text-white outline-none focus:border-white/35 focus-visible:ring-2 focus-visible:ring-white/60">
@@ -125,7 +126,7 @@ export default async function PickemSubmissionsPage({ searchParams }: PageProps)
           <div role="alert" className="mt-6 rounded-2xl border border-red-300/20 bg-red-500/10 p-5 text-sm text-red-50">Submission data is temporarily unavailable.</div>
         ) : selectedWeek ? (
           <>
-            <section aria-label="Participation summary" className="mt-6 grid grid-cols-3 gap-2 sm:gap-3">
+            <section aria-label="Participation summary" className="mt-4 grid grid-cols-3 gap-2 sm:mt-6 sm:gap-3">
               {[
                 ["Entrants", entrants.length],
                 ["Complete", completeEntrants],
@@ -139,22 +140,31 @@ export default async function PickemSubmissionsPage({ searchParams }: PageProps)
             </section>
 
             {entrants.length > 0 ? (
-              <section className="mt-6 space-y-4" aria-label={`${selectedWeek.title} entrants`}>
+              <section className="mt-4 space-y-2.5 sm:mt-6 sm:space-y-3" aria-label={`${selectedWeek.title} entrants`}>
                 {entrants.map((entrant) => (
-                  <article key={entrant.userId} className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035]">
-                    <div className="flex flex-wrap items-start justify-between gap-3 border-b border-white/10 p-4 sm:p-5">
-                      <div className="min-w-0">
-                        <h2 className="truncate text-lg font-black sm:text-xl">{entrant.displayName}</h2>
-                        <p className="mt-1 text-[10px] text-white/35">Last saved {dateTimeLabel(entrant.lastSubmittedAt)}</p>
+                  <details key={entrant.userId} className="group overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035]">
+                    <summary className="cursor-pointer list-none p-3.5 outline-none transition hover:bg-white/[0.035] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white/70 sm:p-5 [&::-webkit-details-marker]:hidden">
+                      <div className="flex min-w-0 items-start justify-between gap-3">
+                        <div className="min-w-0 flex-1">
+                          <div className="flex min-w-0 flex-wrap items-center gap-2">
+                            <h2 className="min-w-0 truncate text-base font-black sm:text-xl">{entrant.displayName}</h2>
+                            <span className={`inline-flex shrink-0 rounded-full border px-2 py-0.5 text-[8px] font-black uppercase tracking-[0.09em] sm:px-2.5 sm:py-1 sm:text-[9px] sm:tracking-[0.1em] ${entrant.complete ? "border-emerald-300/20 bg-emerald-300/10 text-emerald-100" : "border-amber-300/20 bg-amber-300/10 text-amber-100"}`}>{entrant.complete ? "Complete" : "Incomplete"}</span>
+                          </div>
+                          <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-1 text-[10px] text-white/45 sm:mt-2 sm:text-xs">
+                            <span className="font-bold text-white/65">{entrant.savedPicks} of {entrant.gameCount} saved</span>
+                            <span>Last saved {dateTimeLabel(entrant.lastSubmittedAt)}</span>
+                            <span className="font-black text-white/75">{adminPickemPointsLabel(entrant.gradedPicks, entrant.points)}</span>
+                          </div>
+                        </div>
+                        <span className="flex shrink-0 items-center gap-1.5 pt-0.5 text-[9px] font-black uppercase tracking-[0.1em] text-white/45 sm:gap-2 sm:text-[10px]">
+                          <span className="group-open:hidden">View picks</span>
+                          <span className="hidden group-open:inline">Hide picks</span>
+                          <span aria-hidden="true" className="text-base leading-none transition-transform group-open:rotate-180">⌄</span>
+                        </span>
                       </div>
-                      <div className="text-right">
-                        <span className={`inline-flex rounded-full border px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.1em] ${entrant.complete ? "border-emerald-300/20 bg-emerald-300/10 text-emerald-100" : "border-amber-300/20 bg-amber-300/10 text-amber-100"}`}>{entrant.complete ? "Complete" : "Incomplete"}</span>
-                        <p className="mt-2 text-xs font-bold text-white/55">{entrant.savedPicks} of {entrant.gameCount} saved</p>
-                        <p className="mt-1 text-xs font-black">{entrant.gradedPicks > 0 ? `${entrant.points} point${entrant.points === 1 ? "" : "s"} · ${entrant.gradedPicks} graded` : "Points pending"}</p>
-                      </div>
-                    </div>
+                    </summary>
 
-                    <div className="divide-y divide-white/10">
+                    <div className="divide-y divide-white/10 border-t border-white/10">
                       {entrant.games.map((game) => {
                         const grade = adminPickemGradeLabel(game);
                         const selectedTeam = teamName(game, game.picked_school_slug);
@@ -177,7 +187,7 @@ export default async function PickemSubmissionsPage({ searchParams }: PageProps)
                         );
                       })}
                     </div>
-                  </article>
+                  </details>
                 ))}
               </section>
             ) : (

@@ -1,8 +1,10 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 
 import {
   adminPickemGradeLabel,
+  adminPickemPointsLabel,
   adminPickemSelectionLabel,
   groupAdminPickemSubmissions,
   type AdminPickemSubmissionRow,
@@ -42,6 +44,20 @@ function row(overrides: Partial<AdminPickemSubmissionRow> = {}): AdminPickemSubm
   };
 }
 
+const pageSource = readFileSync(
+  new URL("../app/internal/pickem/submissions/page.tsx", import.meta.url),
+  "utf8",
+);
+
+test("renders independent member cards as collapsed native disclosures", () => {
+  assert.match(pageSource, /<details key=\{entrant\.userId\}/);
+  assert.doesNotMatch(pageSource, /<details[^>]*\sopen(?:=|\s|>)/);
+  assert.doesNotMatch(pageSource, /<details[^>]*\sname=/);
+  assert.match(pageSource, /<summary[^>]*focus-visible:ring-2/);
+  assert.match(pageSource, />View picks</);
+  assert.match(pageSource, />Hide picks</);
+});
+
 test("keeps an open-game selection concealed", () => {
   const open = row({ picked_school_slug: "away" });
   assert.equal(adminPickemSelectionLabel(open), "Concealed until lock");
@@ -60,6 +76,13 @@ test("shows post-lock grades, including a numeric zero-point result", () => {
   assert.equal(adminPickemGradeLabel(incorrect), "Incorrect");
   assert.equal(incorrect.entrant_points, 0);
   assert.equal(incorrect.entrant_graded_picks, 1);
+  assert.equal(adminPickemPointsLabel(incorrect.entrant_graded_picks, incorrect.entrant_points), "0 points · 1 graded");
+});
+
+test("keeps pending points distinct from a graded zero", () => {
+  assert.equal(adminPickemPointsLabel(0, 0), "Points pending");
+  assert.equal(adminPickemPointsLabel(2, 0), "0 points · 2 graded");
+  assert.equal(adminPickemPointsLabel(3, 1), "1 point · 3 graded");
 });
 
 test("labels voids and incomplete entries without manufacturing grades", () => {
