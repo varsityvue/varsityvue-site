@@ -1,0 +1,101 @@
+name: Pick Em administrator submission visibility verification
+
+on:
+  push:
+    branches:
+      - codex/pickem-admin-submissions-20260924
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout exact verification commit
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 3
+          persist-credentials: false
+
+      - name: Confirm isolated runner and exact commit shape
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(docker ps -aq --filter name=supabase_ | wc -l)" -eq 0
+          test "$(docker volume ls -q --filter name=supabase_ | wc -l)" -eq 0
+          test -z "${SUPABASE_ACCESS_TOKEN:-}"
+          test -z "${SUPABASE_DB_PASSWORD:-}"
+          test -z "${DATABASE_URL:-}"
+          test -z "${DIRECT_URL:-}"
+          test -z "${SUPABASE_SERVICE_ROLE_KEY:-}"
+          test -z "${SUPABASE_SECRET_KEY:-}"
+          test "$(git rev-parse HEAD^^)" = "7ceb8dd67b05a560b72d01879c3040587b601d36"
+          test "$(git rev-parse HEAD^:supabase/migrations/20260924040507_admin_pickem_submission_visibility.sql)" = "b6a8fb6fa6aef0bf619d0311e2ed1d6b06b3cbd6"
+          test "$(git diff --name-only HEAD^^..HEAD^ | sort | tr '\n' ' ')" = "app/internal/pickem/page.tsx app/internal/pickem/submissions/page.tsx lib/admin-pickem-submissions.test.ts lib/admin-pickem-submissions.ts package.json supabase/migrations/20260924040507_admin_pickem_submission_visibility.sql supabase/tests/pickem_admin_submissions.sql "
+          test ! -e supabase/migrations/20260924034350_admin_pickem_submission_visibility.sql
+          test "$(find supabase/migrations -maxdepth 1 -type f -name '*.sql' | wc -l)" -eq 62
+          echo "Isolated runner and commit shape verified."
+
+      - name: Install application dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Rebuild all migrations in a clean disposable database
+        shell: bash
+        run: |
+          set -euo pipefail
+          npx --yes supabase@2.117.0 --version
+          npx --yes supabase@2.117.0 start --exclude gotrue,realtime,storage-api,imgproxy,kong,mailpit,postgrest,postgres-meta,studio,edge-runtime,logflare,vector,supavisor >/tmp/supabase-start.log 2>&1
+          db_container="$(docker ps --format '{{.Names}}' | grep '^supabase_db_' | head -n 1)"
+          test -n "$db_container"
+          echo "DB_CONTAINER=$db_container" >> "$GITHUB_ENV"
+          find supabase/migrations -maxdepth 1 -type f -name '*.sql' -printf '%f\n' | sed -E 's/_.*$//' | sort > /tmp/repository-migrations
+          docker exec -i "$db_container" psql -X -At -v ON_ERROR_STOP=1 -U postgres -d postgres -c "select version from supabase_migrations.schema_migrations order by version" > /tmp/database-migrations
+          test "$(wc -l < /tmp/repository-migrations)" -eq 62
+          test "$(wc -l < /tmp/database-migrations)" -eq 62
+          grep -qx '20260924040507' /tmp/repository-migrations
+          grep -qx '20260924040507' /tmp/database-migrations
+          ! grep -qx '20260924034350' /tmp/repository-migrations
+          ! grep -qx '20260924034350' /tmp/database-migrations
+          diff -u /tmp/repository-migrations /tmp/database-migrations
+          echo "All 62 repository migrations rebuilt with exact ledger parity."
+
+      - name: Run Pick Em SQL authorization suites
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker exec -i "$DB_CONTAINER" psql -X -v ON_ERROR_STOP=1 -U postgres -d postgres < scripts/admin-outcome-test-identities.sql
+          for suite in supabase/tests/*.sql; do
+            echo "Running $suite"
+            docker exec -i "$DB_CONTAINER" psql -X -v ON_ERROR_STOP=1 -U postgres -d postgres < "$suite"
+          done
+          docker exec -i "$DB_CONTAINER" psql -X -At -v ON_ERROR_STOP=1 -U postgres -d postgres -c "select count(*) from supabase_migrations.schema_migrations" | grep -qx '62'
+
+      - name: Database lint
+        shell: bash
+        run: |
+          set -euo pipefail
+          npx --yes supabase@2.117.0 db lint --local --level error --fail-on error
+          npx --yes supabase@2.117.0 migration list --local
+
+      - name: Application verification
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --import tsx --test lib/*.test.ts scripts/*.test.ts
+          npx next typegen
+          npx tsc --noEmit
+          npm run lint -- --max-warnings=12
+          npm run build
+          git diff --check HEAD^^..HEAD^
+          git diff --check HEAD^..HEAD
+
+      - name: Stop disposable database and verify cleanup
+        if: always()
+        shell: bash
+        run: |
+          npx --yes supabase@2.117.0 stop --no-backup >/tmp/supabase-stop.log 2>&1 || true
+          test "$(docker ps -aq --filter name=supabase_ | wc -l)" -eq 0
+          test "$(docker volume ls -q --filter name=supabase_ | wc -l)" -eq 0
+          echo "Disposable database cleanup verified."
