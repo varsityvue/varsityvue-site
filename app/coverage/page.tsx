@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
+import PageHero from "@/components/PageHero";
 import { getArticles } from "@/lib/articles";
 import type { Article } from "@/types/platform";
 
@@ -68,13 +70,11 @@ export default async function CoveragePage({ searchParams }: { searchParams: Pro
 
   return (
     <main className="min-h-screen bg-[#050505] text-white">
-      <header className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.23),transparent_48%)] px-4 py-7 sm:px-6 sm:py-10 lg:px-8">
-        <div className="mx-auto max-w-[1440px]">
-          <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.28em]">VarsityVue Stories</p>
-          <h1 className="mt-2 text-4xl font-black leading-tight tracking-tight text-white sm:mt-3 sm:text-5xl">Coverage</h1>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-white/60 sm:mt-3 sm:text-base sm:leading-7">Game previews, recaps and local football stories.</p>
-        </div>
-      </header>
+      <PageHero
+        eyebrow="VarsityVue Coverage"
+        title="Coverage"
+        description="Local game coverage, verified results, program stories, and district context connected directly to VarsityVue school and matchup pages."
+      />
 
       <section className="px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         <div className="mx-auto max-w-[1440px]">
@@ -100,14 +100,32 @@ export default async function CoveragePage({ searchParams }: { searchParams: Pro
             <>
               <section>
                 {featuredArticle && (
-                  <Link href={`/coverage/${featuredArticle.slug}`} className="group relative block overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl transition hover:-translate-y-1 hover:border-[color:var(--vv-accent)]/40 hover:bg-white/[0.075] sm:rounded-[2rem] sm:p-6 md:p-8">
-                    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(122,16,34,0.48),transparent_55%)] opacity-55 transition group-hover:opacity-75" />
-                    <div className="relative">
-                      <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.32em]">Featured Story</p>
-                      <p className="mt-3 text-[10px] font-black uppercase tracking-[0.16em] text-white/45 sm:mt-5 sm:text-xs sm:tracking-[0.2em]">{formatArticleType(featuredArticle.type)} · {formatArticleDate(featuredArticle.publishedAt)}</p>
-                      <h2 className="mt-3 max-w-4xl text-[1.8rem] font-black leading-[1.05] text-white sm:mt-5 sm:text-5xl sm:leading-tight">{featuredArticle.title}</h2>
-                      {featuredArticle.subtitle && <p className="mt-3 max-w-3xl text-sm font-semibold leading-5 text-white/55 sm:mt-4 sm:text-lg sm:leading-7">{featuredArticle.subtitle}</p>}
-                      <p className="mt-4 text-[10px] font-black uppercase tracking-[0.12em] text-[var(--vv-accent)] sm:mt-8 sm:text-sm sm:tracking-[0.14em]">Read full story →</p>
+                  <Link
+                    href={`/coverage/${featuredArticle.slug}`}
+                    className={`group grid overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#151515] shadow-xl transition hover:-translate-y-1 hover:border-[color:var(--vv-accent)]/40 sm:rounded-[2rem] ${featuredArticle.featuredImageUrl ? "md:grid-cols-[minmax(0,42%)_minmax(0,1fr)]" : ""}`}
+                  >
+                    {featuredArticle.featuredImageUrl && (
+                      <figure className="relative min-h-[210px] overflow-hidden bg-black sm:min-h-[260px]">
+                        <Image
+                          src={featuredArticle.featuredImageUrl}
+                          alt={featuredArticle.featuredImageAlt ?? featuredArticle.title}
+                          fill
+                          sizes="(max-width: 767px) 100vw, 42vw"
+                          className="object-cover transition duration-500 group-hover:scale-[1.03]"
+                        />
+                        {featuredArticle.featuredImageCaption && (
+                          <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/85 to-transparent px-4 pb-3 pt-8 text-[10px] leading-4 text-white/85 sm:px-5">
+                            {featuredArticle.featuredImageCaption}
+                          </figcaption>
+                        )}
+                      </figure>
+                    )}
+                    <div className="flex min-w-0 flex-col justify-center border-l-4 border-[var(--vv-accent)] p-5 sm:p-7 md:p-8">
+                      <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.3em]">Featured Story</p>
+                      <p className="mt-3 text-[10px] font-black uppercase tracking-[0.16em] text-white/45 sm:text-xs sm:tracking-[0.2em]">{formatArticleType(featuredArticle.type)} · {formatArticleDate(featuredArticle.publishedAt)}</p>
+                      <h2 className="mt-3 text-[1.8rem] font-black leading-[1.08] text-white sm:mt-4 sm:text-4xl sm:leading-tight">{featuredArticle.title}</h2>
+                      {featuredArticle.subtitle && <p className="mt-3 text-sm font-semibold leading-6 text-white/60 sm:mt-4 sm:text-base sm:leading-7">{featuredArticle.subtitle}</p>}
+                      <p className="mt-5 text-[10px] font-black uppercase tracking-[0.12em] text-[var(--vv-accent)] sm:mt-6 sm:text-sm sm:tracking-[0.14em]">Read full story →</p>
                     </div>
                   </Link>
                 )}
