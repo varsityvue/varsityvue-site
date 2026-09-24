@@ -11,9 +11,21 @@ import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "VarsityVue Pick ’Em",
-  description: "Make weekly Texas high school football picks and follow the VarsityVue season leaderboard.",
+  title: "Texas High School Football Pick ’Em",
+  description: "Pick the winners in VarsityVue’s weekly Texas high school football Pick ’Em. Every correct pick earns a point. Follow the season leaderboard.",
   alternates: { canonical: "/pickem" },
+  openGraph: {
+    title: "VarsityVue Pick ’Em | Pick the Winners",
+    description: "Make your weekly Texas high school football picks. Every correct pick earns a point. Follow the season leaderboard.",
+    url: "/pickem",
+    siteName: "VarsityVue",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "VarsityVue Pick ’Em | Pick the Winners",
+    description: "Make your weekly Texas high school football picks. Every correct pick earns a point. Follow the season leaderboard.",
+  },
 };
 
 type PageProps = { searchParams: Promise<{ intent?: string }> };
