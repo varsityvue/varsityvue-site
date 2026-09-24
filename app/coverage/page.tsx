@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import PageHero from "@/components/PageHero";
 import { getArticles } from "@/lib/articles";
 import type { Article } from "@/types/platform";
 
@@ -69,11 +68,13 @@ export default async function CoveragePage({ searchParams }: { searchParams: Pro
 
   return (
     <main className="min-h-screen bg-[#050505] text-white">
-      <PageHero
-        eyebrow="VarsityVue Coverage"
-        title="Coverage"
-        description="Local game coverage, verified results, program stories, and district context connected directly to VarsityVue school and matchup pages."
-      />
+      <header className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.23),transparent_48%)] px-4 py-7 sm:px-6 sm:py-10 lg:px-8">
+        <div className="mx-auto max-w-[1440px]">
+          <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.28em]">VarsityVue Stories</p>
+          <h1 className="mt-2 text-4xl font-black leading-tight tracking-tight text-white sm:mt-3 sm:text-5xl">Coverage</h1>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-white/60 sm:mt-3 sm:text-base sm:leading-7">Game previews, recaps and local football stories.</p>
+        </div>
+      </header>
 
       <section className="px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         <div className="mx-auto max-w-[1440px]">
