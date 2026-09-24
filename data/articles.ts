@@ -2,6 +2,100 @@ import type { Article } from "@/types/platform";
 
 export const articles: Article[] = [
   {
+    id: "jacksboro-cisco-week-5-who-has-more-to-prove-2026",
+    slug: "jacksboro-cisco-week-5-who-has-more-to-prove-2026",
+    title: "Jacksboro at Cisco: Who Has More to Prove?",
+    subtitle: "The Tigers want to continue validating their top-five ranking. The Loboes want to prove last week was a fluke. Both arrive at Chesley Field with something to prove, just for entirely different reasons.",
+    excerpt: "No. 4 Jacksboro brings an unbeaten record and a dynamic offense to Chesley Field, where Cisco looks to answer last week's loss at Stamford in the Week 5 Game of the Week.",
+    body: `Jacksboro arrives undefeated, ranked No. 4 in Class 3A Division II and determined to show that its fast start is no September illusion. The Tigers are 4–0, averaging 49.5 points per game and coming off a 70 point performance against previously unbeaten Bowie. They have looked like a legitimate contender, but beating Cisco on the road would further strengthen Jacksboro’s case that it belongs among the best teams in its classification.
+
+Cisco’s burden of proof is more urgent.
+
+The Loboes enter at 2–2 after a frustrating 27–7 loss at Stamford, a performance that looked nothing like the tough, disciplined Cisco program people have come to expect. Now they have an opportunity to prove that last Friday was an exception, not an indication of where their season is headed.
+
+That tension makes the VarsityVue Game of the Week more than a matchup between an unbeaten 3A opponent and a 2A program trying to regain its footing.
+
+Jacksboro wants to prove it’s the real deal.
+
+Cisco wants to prove it’s still Cisco.
+
+By the end of Friday night, we should know which team made the stronger case.
+
+## A BALANCED JACKSBORO ATTACK
+
+Jacksboro has built its unbeaten start around one of the most productive and balanced offenses in the area.
+
+The Tigers are averaging 462 yards per game, including more than 292 on the ground. Senior quarterback Hoytt Wesson is the centerpiece, producing more than 270 yards of total offense per game as a threat with both his arm and his legs.
+
+Wesson delivered his biggest performance of the season in last week’s 70–34 victory over Bowie, throwing for 265 yards and four touchdowns while rushing for another 136 yards and a score. Altogether, he accounted for 401 yards and five touchdowns.
+
+Sophomore running back Ryder Davis has emerged as the Tigers’ primary ball carrier. Davis currently averages 149 rushing yards per game and erupted for 252 yards and four touchdowns against Bowie.
+
+Senior receiver Travis Mitchell gives Wesson a proven target downfield. He currently averages 55.5 receiving yards per game and caught two touchdown passes last week, but he was far from Wesson’s only option. Nine different Jacksboro receivers caught at least one pass against Bowie, illustrating the depth and versatility of the Tigers’ passing attack.
+
+That balance and depth make it difficult for Cisco to key on any one player. The Loboes will have to play disciplined assignment football, tackle well in space and limit the explosive plays that have fueled Jacksboro’s unbeaten start.
+
+## TREADWAY LEADS THE DEFENSE
+
+Jacksboro presents a major problem for opponents on the other side of the ball, as well.
+
+Dave Campbell’s Texas Football named senior defensive lineman Will Treadway its preseason District 4-3A Division II Defensive MVP after he recorded 93 tackles, 22 tackles for loss and 10 sacks last season.
+
+Through four games this year, he has already matched last season’s sack total. That gives him an average of 2.5 sacks per game and places him 13th nationally in total sacks, according to MaxPreps. His ability to disrupt plays before they develop makes his battle with Cisco’s offensive front one of the defining matchups of the game.
+
+Cisco must account for Treadway on every snap. If he consistently reaches the backfield, the Loboes will struggle to establish their running game or give quarterback Colby McIlroy enough time to attack downfield.
+
+## CISCO’S ANSWER
+
+Cisco’s 2–2 record tells only part of its story.
+
+The Loboes opened the season with a narrow 27–24 road loss to 3A Division I Clyde. They responded with convincing victories over Comanche and Breckenridge, outscoring those opponents 80–12, before their momentum came to an abrupt stop at Stamford.
+
+There is no point dressing up last week. Cisco did not play its best football. What happens next will reveal considerably more about this team than what happened last Friday.
+
+Junior quarterback Colby McIlroy remains the central piece of the Cisco offense. He has completed 40 of 66 passes for 657 yards and five touchdowns while adding 218 yards and three scores on the ground. His ability to extend plays will be especially important against Jacksboro’s pass rush.
+
+Junior running back Landry Vosburg leads the Loboes with 334 rushing yards and four touchdowns, averaging 6.5 yards per carry. Fellow junior July Johnson has added 259 yards at 7.2 yards per attempt, giving Cisco multiple options in a rushing attack that averages 217 yards per game.
+
+Through the air, senior receiver Cannon Harris leads Cisco with 14 receptions for 212 yards and two touchdowns. Senior Carter Toof has supplied the biggest explosive-play threat, averaging nearly 27 yards per reception with 161 yards and a touchdown on six catches.
+
+Altogether, Cisco is averaging more than 381 yards of offense per game. The ability is there. The question is whether the Loboes can execute consistently against, arguably, the best opponent they have faced this season.
+
+## A FOUR-QUARTER FIGHT
+
+Jacksboro will arrive as the favorite, and deservedly so. The Tigers are unbeaten, highly ranked and coming off their most explosive performance of the season.
+
+Cisco does not need to pretend otherwise. The Loboes’ path begins with protecting the football, limiting Jacksboro’s explosive plays and keeping Treadway from wrecking drives. They must also prevent the Tigers from building the early lead that would force Cisco away from its balanced offense.
+
+Most importantly, Cisco must turn the game into a four-quarter fight.
+
+For Cisco, success begins with staying composed, answering adversity and giving itself an opportunity in the fourth quarter. That is where the Loboes’ toughness and the home-field advantage at Chesley Field could matter most.
+
+Jacksboro wants another statement victory, one that validates its top-five ranking and strengthens its case as a legitimate Class 3A Division II contender.
+
+Cisco wants to erase the memory of Stamford and prove that one bad Friday night did not change who the Loboes are.
+
+Jacksboro is defending an unbeaten record and its place among the state’s best.
+
+Cisco is defending its identity.`,
+    featuredImageUrl: "/images/coverage/jacksboro-cisco-week-5-2026.png",
+    featuredImageSocialUrl: "/images/coverage/jacksboro-cisco-week-5-2026.png",
+    featuredImageAlt: "Jacksboro Tigers and Cisco Loboes football teams take the field in a side-by-side Game of the Week photo.",
+    featuredImageCaption: "Jacksboro photo: Edifly Productions LLC. Cisco photo: Top Notch Sports Film.",
+    type: "preview",
+    author: "VarsityVue",
+    publishedAt: "2026-09-24T16:30:00-05:00",
+    schoolIds: ["jacksboro", "cisco"],
+    gameId: "jacksboro-at-cisco-2026-week-5",
+    tags: ["Week 5", "Game of the Week", "Jacksboro", "Cisco", "Game Preview", "Hoytt Wesson", "Ryder Davis", "Travis Mitchell", "Will Treadway", "Colby McIlroy"],
+    seo: {
+      title: "Jacksboro at Cisco: Who Has More to Prove?",
+      description: "No. 4 Jacksboro visits Cisco for VarsityVue's Week 5 Game of the Week. The Tigers seek another statement win while the Loboes look to bounce back from Stamford.",
+    },
+    aiAssisted: true,
+    humanReviewed: true,
+  },
+  {
     id: "de-leon-goldthwaite-week-4-seven-meets-47",
     slug: "de-leon-goldthwaite-week-4-seven-meets-47",
     title: "Seven Meets 47: De Leon and Goldthwaite Reignite an Old Rivalry",
