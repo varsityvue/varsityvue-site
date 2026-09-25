@@ -2,6 +2,76 @@ import type { Article } from "@/types/platform";
 
 export const articles: Article[] = [
   {
+    id: "district-7-2a-d2-goldthwaite-preview-2026",
+    slug: "district-7-2a-d2-goldthwaite-leads-race-2026",
+    title: "District 7-2A Division II Preview: Goldthwaite Leads a Competitive Race",
+    subtitle: "The unbeaten Eagles enter district play as the favorite, but Albany and Stamford will have opportunities to reshape the race.",
+    excerpt: "Goldthwaite enters District 7-2A Division II play at 4-0 and ranked No. 8, with Albany, Stamford and Hamlin leading the challengers in a competitive playoff race.",
+    body: `District 7-2A Division II enters league play with a clear favorite, two legitimate challengers and a fourth playoff spot that could remain unsettled until the final week.
+
+Goldthwaite has earned the top billing after opening the season 4–0 and climbing to No. 8 in the Class 2A Division II rankings. Albany and Stamford remain serious threats, while Hamlin appears to be the leading candidate for the final playoff position.
+
+The district race should feature several important matchups, including Albany’s visit to Stamford, Goldthwaite’s trip to Albany and the Eagles’ regular-season finale at Stamford.
+
+## GOLDTHWAITE ENTERS AS THE FAVORITE
+
+Goldthwaite began the season behind Albany and Stamford in many preseason projections, but the Eagles have quickly changed that outlook.
+
+They are undefeated through four games, have shown the ability to win in different ways and most recently defeated previously unbeaten De Leon in a physical contest.
+
+The Eagles open the district schedule Friday at home against Winters before traveling to Miles. Hamlin and Cross Plains will visit Gary Proffitt Stadium, while Goldthwaite’s two most important tests will likely come on the road.
+
+Goldthwaite travels to Albany on Oct. 16 and closes the regular season at Stamford on Oct. 30. Winning the district championship will require the Eagles to handle the pressure that comes with being the favorite and prove their success travels.
+
+## ALBANY HAS THE EXPERIENCE AND HOME-FIELD ADVANTAGE
+
+Albany enters its open week at 3–1 and ranked No. 10 in Class 2A Division II. The Lions remain one of the district’s most established programs and will host Goldthwaite in what could be the most important game of the season.
+
+Albany’s only loss came against De Leon, but the Lions responded with a convincing victory over Coleman. Their physical style and experience in meaningful games make them a difficult opponent regardless of their record.
+
+Before facing Goldthwaite, Albany must visit Stamford on Oct. 9. A victory would strengthen the Lions’ position entering the following week, while a loss could turn the championship race into a three-team fight.
+
+## STAMFORD COULD SHAPE THE DISTRICT RACE
+
+Stamford enters district play at 2–2, but its record does not fully reflect the Bulldogs’ potential.
+
+Stamford lost to Hawley by one point before responding with a 27–7 victory over Cisco. The Bulldogs have shown enough offensive ability and physicality to challenge the district’s top teams, although their inconsistency has kept them from entering league play with a stronger record.
+
+The Bulldogs will host both Albany and Goldthwaite, giving them an opportunity to influence the championship race directly. The Albany matchup provides an important early test, while Goldthwaite’s visit in the regular-season finale could carry district-title implications.
+
+## THE FINAL PLAYOFF SPOT
+
+Hamlin is VarsityVue’s current choice to finish fourth, but Cross Plains and Miles should remain involved in the playoff race. Winters also has an opportunity to change the outlook if it can turn its early-season struggles around during district play.
+
+That final spot may not be decided until Nov. 6, when Hamlin closes against Albany and Cross Plains meets Miles.
+
+## VARSITYVUE’S DISTRICT 7-2A DIVISION II PREDICTION
+
+1. Goldthwaite
+2. Albany
+3. Stamford
+4. Hamlin
+
+Goldthwaite has earned its position as the district favorite. Albany has the experience and home-field advantage to challenge for the championship, while Stamford has the talent and schedule to disrupt the standings.
+
+The preseason order has already changed. District play will determine whether Goldthwaite can finish the job now that the Eagles are the team everyone is chasing.`,
+    featuredImageUrl: "/images/coverage/goldthwaite-district-7-preview-2026.png",
+    featuredImageSocialUrl: "/images/coverage/goldthwaite-district-7-preview-2026.png",
+    featuredImageAlt: "VarsityVue District 7-2A Division II football preview graphic featuring Goldthwaite as the district favorite.",
+    type: "feature",
+    author: "VarsityVue",
+    publishedAt: "2026-09-25T11:00:00-05:00",
+    schoolIds: ["goldthwaite", "albany", "stamford", "hamlin", "cross-plains", "miles", "winters"],
+    districtIds: ["2a-d2-district-7"],
+    tags: ["District 7-2A Division II", "District Preview", "Goldthwaite", "Albany", "Stamford", "Hamlin", "Cross Plains", "Miles", "Winters"],
+    seo: {
+      title: "District 7-2A DII Preview: Goldthwaite Leads the Race",
+      description: "Goldthwaite enters District 7-2A Division II play as VarsityVue’s favorite, with Albany, Stamford and Hamlin leading a competitive playoff race.",
+    },
+    aiAssisted: true,
+    humanReviewed: true,
+  },
+  {
     id: "jacksboro-cisco-week-5-who-has-more-to-prove-2026",
     slug: "jacksboro-cisco-week-5-who-has-more-to-prove-2026",
     title: "Jacksboro at Cisco: Who Has More to Prove?",
