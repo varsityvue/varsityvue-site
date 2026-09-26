@@ -1,5 +1,6 @@
 -- Disposable database only. This combined fixture follows the actual Week 6+
--- draft/open/complete-entry path and rolls every identity and game back.
+-- draft/open/complete-entry path. Only a disposable CI database is used;
+-- a transaction boundary permits an actual close between entry and grading.
 begin;
 create temp table integration_ids (label text primary key,id uuid,phone text) on commit preserve rows;
 insert into integration_ids values
@@ -191,7 +192,9 @@ do $$ declare w uuid;g uuid;r record;begin
  end loop;
 end $$;
 reset role;
+commit;
 select pg_sleep(5.1);
+begin;
 insert into private.final_score_notification_games
  (game_id,game_date,kickoff,away_team_name,home_team_name,away_school_slug,home_school_slug)
  values('__integrated_reversal__',current_date,now(),'Rev Away','Rev Home','rev-away','rev-home');
