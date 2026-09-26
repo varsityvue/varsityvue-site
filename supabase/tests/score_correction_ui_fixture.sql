@@ -9,6 +9,7 @@ insert into auth.users (id,instance_id,aud,role,email,encrypted_password,email_c
 values ('00000000-0000-4000-8000-00000000a002','00000000-0000-0000-0000-000000000000',
  'authenticated','authenticated','score-ui-challenger@example.invalid','!',now(),'{}'::jsonb,
  '{"display_name":"UI challenger"}'::jsonb,now(),now());
+alter table public.pickem_picks disable trigger pickem_pick_lock_guard;
 do $$ declare w uuid;g uuid;admin_id uuid;begin
  select id into admin_id from auth.users where email='score-ui-admin@example.invalid';
  select id into w from public.pickem_weeks where season=2026 and week=5;
@@ -22,3 +23,4 @@ do $$ declare w uuid;g uuid;admin_id uuid;begin
  values(g,admin_id,'jacksboro'),(g,'00000000-0000-4000-8000-00000000a002','cisco');
  update public.game_state set period='Q4' where game_id='jacksboro-at-cisco-2026-week-5';
 end $$;
+alter table public.pickem_picks enable trigger pickem_pick_lock_guard;
