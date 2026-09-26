@@ -131,6 +131,11 @@ begin
     from private.pickem_contest_finalizations f where h.week_id=f.week_id
       and h.generation=f.generation and h.week_id=any(affected_weeks)
       and f.state<>'current' and h.correction_audit_id is null;
+  update private.pickem_winner_claims c set correction_audit_id=audit_id
+    from private.pickem_contest_finalizations f where c.week_id=f.week_id
+      and c.generation=f.generation and c.week_id=any(affected_weeks)
+      and f.state='superseded' and c.decision='superseded'
+      and c.correction_audit_id is null;
 end; $$;
 revoke all on function public.correct_game_score(text,timestamptz,bigint,text,integer,integer,text,text,text) from public,anon;
 grant execute on function public.correct_game_score(text,timestamptz,bigint,text,integer,integer,text,text,text) to authenticated;
