@@ -4,6 +4,7 @@ create table private.pickem_entrant_phones (
   phone_e164 text not null unique check (phone_e164 ~ '^\+1[2-9][0-9]{2}[2-9][0-9]{6}$'),
   created_at timestamptz not null default now()
 );
+alter table private.pickem_entrant_phones enable row level security;
 revoke all on private.pickem_entrant_phones from public, anon, authenticated;
 
 -- Unfinished work is deliberately separate from scored picks and contest
@@ -97,6 +98,20 @@ grant select on public.pickem_contest_entries to authenticated;
 create policy "Entrants read own contest status"
 on public.pickem_contest_entries for select to authenticated
 using (user_id = (select auth.uid()));
+
+create function private.protect_contest_entry_receipt()
+returns trigger language plpgsql set search_path = '' as $$
+begin
+  if new.week_id is distinct from old.week_id or new.user_id is distinct from old.user_id
+    or new.completed_at is distinct from old.completed_at
+    or new.entry_order is distinct from old.entry_order then
+    raise exception 'The initial contest receipt cannot change';
+  end if;
+  return new;
+end; $$;
+revoke all on function private.protect_contest_entry_receipt() from public, anon, authenticated;
+create trigger protect_contest_entry_receipt before update on public.pickem_contest_entries
+for each row execute function private.protect_contest_entry_receipt();
 
 create or replace function private.protect_contest_slate()
 returns trigger language plpgsql security definer set search_path = '' as $$

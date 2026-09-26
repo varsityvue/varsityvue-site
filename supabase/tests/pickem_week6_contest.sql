@@ -27,7 +27,7 @@ do $$ declare w uuid; g uuid; begin
 end $$;
 grant select on test_ids, contest_fixture to authenticated;
 set local role authenticated;
-do $$ declare w uuid; picks jsonb; count_draft integer; begin
+do $$ declare w uuid; picks jsonb; count_draft integer; entrant record; begin
  select week_id into w from contest_fixture limit 1;
  perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='draft'),true);
  select jsonb_build_object(pickem_game_id::text,'home-'||game_number) into picks from contest_fixture where game_number=1;
