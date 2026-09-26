@@ -14,7 +14,7 @@ jobs:
       - run: supabase init
       - run: supabase db start
       - run: supabase db reset --local --no-seed
-      - run: supabase start
+      - run: supabase stop && supabase start
       - run: PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f supabase/tests/score_correction_ui_fixture.sql
       - run: npm ci && npm install --no-save playwright && npx playwright install chromium --with-deps
       - name: Run temporary authenticated route and browser
