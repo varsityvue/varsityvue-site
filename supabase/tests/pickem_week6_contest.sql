@@ -14,7 +14,7 @@ select user_id, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authen
   label || '@example.invalid', '!', now(), '{}'::jsonb,
   jsonb_build_object('display_name', 'Contest test ' || label), now(), now() from test_ids;
 create temporary table contest_fixture (week_id uuid, game_number integer, pickem_game_id uuid) on commit preserve rows;
-do $$ declare w uuid; g uuid; begin
+do $$ declare w uuid; g uuid; unrelated_week uuid; begin
  insert into public.pickem_weeks (season, week, title, status, opens_at, closes_at, official_rules_version, official_rules_published_at, presenting_sponsor_name)
  values (2099, 6, 'Isolated test only', 'draft', now()-interval '1 hour', now()+interval '20 seconds','isolated-test',now(),'Gilder Storage') returning id into w;
  for i in 1..9 loop
@@ -31,6 +31,11 @@ do $$ declare w uuid; g uuid; begin
  update public.pickem_weeks set official_rules_version='isolated-test' where id=w;
  update public.pickem_weeks set tiebreaker_game_id = (select pickem_game_id from contest_fixture where game_number=1), status='open' where id=w;
  if (select presenting_sponsor_name from public.pickem_weeks where id=w) <> 'Gilder Storage' then raise exception 'Sponsor configuration not retained'; end if;
+ insert into public.pickem_weeks (season,week,title,status,opens_at,closes_at)
+ values (2099,7,'Unrelated unsponsored draft','draft',now()+interval '1 day',now()+interval '2 days')
+ returning id into unrelated_week;
+ if (select presenting_sponsor_name from public.pickem_weeks where id=unrelated_week) is not null then
+  raise exception 'Sponsor attribution leaked to unrelated contest'; end if;
  begin
   update public.pickem_weeks set presenting_sponsor_name='Changed sponsor' where id=w;
   raise exception 'Opened sponsor attribution changed';
@@ -85,6 +90,9 @@ do $$ declare w uuid; picks jsonb; count_draft integer; entrant record; begin
  or has_table_privilege('authenticated','public.pickem_picks','INSERT')
  or has_table_privilege('authenticated','public.pickem_week_tiebreakers','UPDATE') then
   raise exception 'Direct sensitive data or pick write privilege remains'; end if;
+ update public.pickem_weeks set presenting_sponsor_name='Unauthorized change' where id=w;
+ if (select presenting_sponsor_name from public.pickem_weeks where id=w) <> 'Gilder Storage' then
+  raise exception 'Ordinary member altered presenting sponsor'; end if;
  for entrant in select * from test_ids where label in ('A','B','C','D') order by label loop
   perform set_config('request.jwt.claim.sub',entrant.user_id::text,true);
   select jsonb_object_agg(pickem_game_id::text,
@@ -185,6 +193,8 @@ do $$ declare w uuid; expected text[]; actual text[]; begin
  where standing.week_id=w;
  expected := array['C','D','B','A'];
  if actual is distinct from expected then raise exception 'Ranking expected %, got %', expected, actual; end if;
+ if (select presenting_sponsor_name from public.pickem_weeks where id=w) <> 'Gilder Storage' then
+  raise exception 'Sponsor attribution lost during grading'; end if;
  if (select valid_entries from public.pickem_contest_prize where week_id=w)<>4
  or (select prize_dollars from public.pickem_contest_prize where week_id=w)<>4 then
   raise exception 'Prize count incorrect'; end if;
