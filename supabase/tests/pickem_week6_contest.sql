@@ -88,10 +88,45 @@ do $$ declare w uuid; picks jsonb; initial_time timestamptz; after_time timestam
  if exists (select 1 from public.get_pickem_contest_draft(w)) then raise exception 'Another user draft visible'; end if;
 end $$;
 reset role;
+commit;
+-- Test the boundary in a new transaction, because PostgreSQL now() is the
+-- transaction start time. The first game is locked; later games are open.
+select pg_sleep(greatest(0,extract(epoch from ((select lock_at from public.pickem_games
+  where id=(select pickem_game_id from contest_fixture where game_number=1))-clock_timestamp()))+0.1));
+begin;
+set local role authenticated;
+do $$ declare w uuid; game_one uuid; game_two uuid; before_time timestamptz; picks jsonb; begin
+ select week_id into w from contest_fixture limit 1;
+ select pickem_game_id into game_one from contest_fixture where game_number=1;
+ select pickem_game_id into game_two from contest_fixture where game_number=2;
+ perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='C'),true);
+ select completed_at into before_time from public.pickem_contest_entries where week_id=w and user_id=auth.uid();
+ begin
+  perform public.submit_pickem_contest_entry(w,null,60,jsonb_build_object(game_one::text,'away-1'));
+  raise exception 'Locked game edit accepted';
+ exception when others then if sqlerrm='Locked game edit accepted' then raise; end if; end;
+ perform public.submit_pickem_contest_entry(w,null,60,jsonb_build_object(game_two::text,'away-2'));
+ if (select picked_school_slug from public.pickem_picks where user_id=auth.uid() and pickem_game_id=game_two)<>'away-2'
+ or (select picked_school_slug from public.pickem_picks where user_id=auth.uid() and pickem_game_id=game_one)<>'home-1'
+ then raise exception 'Mixed locked/unlocked edit failed'; end if;
+ perform public.submit_pickem_contest_entry(w,null,60,jsonb_build_object(game_two::text,'home-2'));
+ if (select completed_at from public.pickem_contest_entries where week_id=w and user_id=auth.uid()) is distinct from before_time
+ then raise exception 'Editing changed initial entry time'; end if;
+ perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='draft'),true);
+ select jsonb_object_agg(pickem_game_id::text,'home-'||game_number) into picks from contest_fixture;
+ begin
+  perform public.submit_pickem_contest_entry(w,'2545550105',63,picks);
+  raise exception 'Late entry accepted';
+ exception when others then if sqlerrm='Late entry accepted' then raise; end if; end;
+ if exists (select 1 from public.pickem_contest_entries where user_id=auth.uid()) then
+  raise exception 'Late attempt established eligibility'; end if;
+end $$;
+reset role;
 -- Grading consumes canonical verified finals. Overtime is part of played total.
-insert into public.game_state (game_id,status,home_score,away_score,verified,verified_at,result_type,away_school_slug,home_school_slug)
+insert into public.game_state (game_id,status,home_score,away_score,period,verified,verified_at,result_type,away_school_slug,home_school_slug)
 select '__isolated_week6_'||game_number, 'final', case when game_number=1 then 35 else 7 end,
- case when game_number=1 then 28 else 0 end, true, now(), 'played',
+ case when game_number=1 then 28 else 0 end, case when game_number=1 then 'OT' end,
+ true, now(), 'played',
  'away-'||game_number, 'home-'||game_number from contest_fixture;
 -- We intentionally wait until the stored deadline; changing it after entry is prohibited.
 commit;
@@ -116,6 +151,17 @@ do $$ declare w uuid; begin
  select week_id into w from contest_fixture limit 1;
  if (select actual_total from public.pickem_week_standings where week_id=w limit 1)<>70 then
   raise exception 'Corrected Game of the Week total stale'; end if;
+ if (select i.label from public.pickem_week_standings s join test_ids i on i.user_id=s.user_id
+     where week_id=w order by weekly_rank limit 1)<>'B' then
+  raise exception 'Corrected final did not rerank predictions'; end if;
+end $$;
+-- A verified forfeit grades its explicit winner, regardless of score absence.
+update public.game_state set result_type='forfeit',home_score=null,away_score=null,
+ official_winner_school_slug='away-9' where game_id='__isolated_week6_9';
+do $$ begin
+ if (select p.is_correct from public.pickem_picks p join contest_fixture f on f.pickem_game_id=p.pickem_game_id
+     join test_ids i on i.user_id=p.user_id where f.game_number=9 and i.label='A') is distinct from true
+ then raise exception 'Explicit forfeit winner failed grading'; end if;
 end $$;
 -- A no-contest void clears any prior grade; the remaining score excludes it.
 update public.game_state set status='final',result_type='no_contest',home_score=null,away_score=null,
@@ -137,5 +183,42 @@ do $$ declare w uuid; begin
  if (select i.label from public.pickem_week_standings s join test_ids i on i.user_id=s.user_id
      where week_id=w order by weekly_rank limit 1)<>'A' then
   raise exception 'GOTW fallback did not use initial entry time'; end if;
+end $$;
+-- Exercise the cap through 117 actual completed RPC entries, then revoke one.
+create temporary table cap_ids (user_id uuid, phone text) on commit preserve rows;
+insert into cap_ids select gen_random_uuid(), '254555'||lpad(n::text,4,'0')
+from generate_series(200,316) n;
+insert into auth.users (id,instance_id,aud,role,email,encrypted_password,email_confirmed_at,raw_app_meta_data,raw_user_meta_data,created_at,updated_at)
+select user_id,'00000000-0000-0000-0000-000000000000','authenticated','authenticated',
+ user_id::text||'@example.invalid','!',now(),'{}'::jsonb,'{}'::jsonb,now(),now() from cap_ids;
+create temporary table cap_fixture (week_id uuid, game_id uuid) on commit preserve rows;
+do $$ declare w uuid; g uuid; begin
+ insert into public.pickem_weeks (season,week,title,status,opens_at,closes_at)
+ values (2099,8,'Cap fixture','open',now()-interval '1 hour',now()+interval '1 hour') returning id into w;
+ insert into public.pickem_games (week_id,game_id,lock_at,away_school_slug,home_school_slug)
+ values (w,'__cap_game__',now()+interval '30 minutes','cap-away','cap-home') returning id into g;
+ update public.pickem_weeks set tiebreaker_game_id=g where id=w;
+ insert into cap_fixture values (w,g);
+end $$;
+grant select on cap_ids, cap_fixture to authenticated;
+set local role authenticated;
+do $$ declare entrant record; w uuid; g uuid; begin
+ select week_id,game_id into w,g from cap_fixture;
+ for entrant in select * from cap_ids loop
+  perform set_config('request.jwt.claim.sub',entrant.user_id::text,true);
+  perform public.submit_pickem_contest_entry(w,entrant.phone,63,jsonb_build_object(g::text,'cap-home'));
+ end loop;
+end $$;
+reset role;
+do $$ declare w uuid; begin
+ select week_id into w from cap_fixture;
+ if (select valid_entries from public.pickem_contest_prize where week_id=w)<>117
+ or (select prize_dollars from public.pickem_contest_prize where week_id=w)<>100 then
+  raise exception '117 valid entries did not cap at $100'; end if;
+ update public.pickem_contest_entries set status='disqualified',disqualification_reason='Synthetic test'
+ where week_id=w and user_id=(select user_id from cap_ids limit 1);
+ if (select valid_entries from public.pickem_contest_prize where week_id=w)<>116
+ or (select prize_dollars from public.pickem_contest_prize where week_id=w)<>100 then
+  raise exception 'Disqualification did not recalculate valid count'; end if;
 end $$;
 rollback;
