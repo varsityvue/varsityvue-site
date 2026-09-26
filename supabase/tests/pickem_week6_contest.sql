@@ -7,7 +7,8 @@ insert into test_ids values
  ('C','00000000-0000-4000-8000-000000000103','2545550103'),
  ('D','00000000-0000-4000-8000-000000000104','2545550104'),
  ('draft','00000000-0000-4000-8000-000000000105','2545550105'),
- ('duplicate','00000000-0000-4000-8000-000000000106','(254) 555-0103');
+ ('duplicate','00000000-0000-4000-8000-000000000106','(254) 555-0103'),
+ ('admin','00000000-0000-4000-8000-000000000107','2545550107');
 insert into auth.users (id, instance_id, aud, role, email, encrypted_password, email_confirmed_at, raw_app_meta_data, raw_user_meta_data, created_at, updated_at)
 select user_id, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated',
   label || '@example.invalid', '!', now(), '{}'::jsonb,
@@ -132,6 +133,8 @@ select '__isolated_week6_'||game_number, 'final', case when game_number=1 then 3
 commit;
 select pg_sleep(greatest(0,extract(epoch from ((select closes_at from public.pickem_weeks where id=(select week_id from contest_fixture limit 1))-clock_timestamp()))+0.1));
 begin;
+insert into public.user_roles (user_id,role)
+select user_id,'admin'::public.user_role from test_ids where label='admin';
 do $$ declare w uuid; expected text[]; actual text[]; begin
  select week_id into w from contest_fixture limit 1;
  select array_agg(ids.label order by standing.weekly_rank) into actual
@@ -145,6 +148,21 @@ do $$ declare w uuid; expected text[]; actual text[]; begin
  if (select correct_picks from public.pickem_week_standings s join test_ids i on i.user_id=s.user_id where week_id=w and label='A')<>8 then
   raise exception 'Incorrect-pick grading failed'; end if;
 end $$;
+set local role authenticated;
+do $$ declare w uuid; winner record; begin
+ select week_id into w from contest_fixture limit 1;
+ perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='B'),true);
+ begin
+  perform public.admin_pickem_provisional_winner_contact(w);
+  raise exception 'Ordinary member obtained winner contact';
+ exception when others then if sqlerrm='Ordinary member obtained winner contact' then raise; end if; end;
+ perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='admin'),true);
+ select * into winner from public.admin_pickem_provisional_winner_contact(w);
+ if winner.user_id is distinct from (select user_id from test_ids where label='C')
+ or winner.phone_e164 is distinct from '+12545550103' then
+  raise exception 'Administrator provisional winner contact incorrect'; end if;
+end $$;
+reset role;
 -- Corrected final changes the authoritative total and standings immediately.
 update public.game_state set home_score=42 where game_id='__isolated_week6_1';
 do $$ declare w uuid; begin
