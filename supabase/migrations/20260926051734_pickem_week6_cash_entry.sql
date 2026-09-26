@@ -6,6 +6,82 @@ create table private.pickem_entrant_phones (
 );
 revoke all on private.pickem_entrant_phones from public, anon, authenticated;
 
+-- Unfinished work is deliberately separate from scored picks and contest
+-- entries. No public view or grade trigger reads this table.
+create table private.pickem_draft_picks (
+  week_id uuid not null references public.pickem_weeks(id) on delete cascade,
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  pickem_game_id uuid not null references public.pickem_games(id) on delete cascade,
+  picked_school_slug text not null,
+  updated_at timestamptz not null default now(),
+  primary key (week_id, user_id, pickem_game_id)
+);
+alter table private.pickem_draft_picks enable row level security;
+revoke all on private.pickem_draft_picks from public, anon, authenticated;
+
+create function public.save_pickem_contest_draft(p_week_id uuid, p_selections jsonb)
+returns integer language plpgsql security definer set search_path = '' as $$
+declare
+  entrant uuid := auth.uid();
+  selected_week public.pickem_weeks%rowtype;
+  first_lock timestamptz;
+  game record;
+  selected_slug text;
+begin
+  if entrant is null or not private.is_active_member(entrant) then
+    raise exception 'An active account is required';
+  end if;
+  select * into selected_week from public.pickem_weeks where id = p_week_id for share;
+  select min(lock_at) into first_lock from public.pickem_games where week_id = p_week_id;
+  if selected_week.id is null or (selected_week.season = 2026 and selected_week.week < 6)
+    or selected_week.status <> 'open' or selected_week.tiebreaker_game_id is null
+    or selected_week.opens_at is null or now() < selected_week.opens_at
+    or selected_week.closes_at is null or now() >= selected_week.closes_at
+    or first_lock is null or now() >= first_lock then
+    raise exception 'Draft saving is closed';
+  end if;
+  if p_selections is null or jsonb_typeof(p_selections) <> 'object'
+    or (select count(*) from jsonb_object_keys(p_selections)) >
+      (select count(*) from public.pickem_games where week_id = p_week_id) then
+    raise exception 'Invalid draft';
+  end if;
+  perform pg_advisory_xact_lock(hashtextextended(entrant::text, 611));
+  if exists (select 1 from public.pickem_contest_entries
+             where week_id = p_week_id and user_id = entrant) then
+    raise exception 'This member already entered the contest';
+  end if;
+  for game in select * from public.pickem_games where week_id = p_week_id loop
+    selected_slug := p_selections ->> game.id::text;
+    if selected_slug is null then continue; end if;
+    if selected_slug not in (game.away_school_slug, game.home_school_slug) then
+      raise exception 'Invalid matchup selection';
+    end if;
+    insert into private.pickem_draft_picks
+      (week_id, user_id, pickem_game_id, picked_school_slug)
+    values (p_week_id, entrant, game.id, selected_slug)
+    on conflict (week_id, user_id, pickem_game_id) do update
+      set picked_school_slug = excluded.picked_school_slug, updated_at = now();
+  end loop;
+  return (select count(*)::integer from private.pickem_draft_picks
+          where week_id = p_week_id and user_id = entrant);
+end; $$;
+revoke all on function public.save_pickem_contest_draft(uuid,jsonb) from public, anon;
+grant execute on function public.save_pickem_contest_draft(uuid,jsonb) to authenticated;
+
+create function public.get_pickem_contest_draft(p_week_id uuid)
+returns table (pickem_game_id uuid, picked_school_slug text)
+language plpgsql stable security definer set search_path = '' as $$
+begin
+  if auth.uid() is null or not private.is_active_member(auth.uid()) then
+    raise exception 'An active account is required';
+  end if;
+  return query select draft.pickem_game_id, draft.picked_school_slug
+    from private.pickem_draft_picks draft
+    where draft.week_id = p_week_id and draft.user_id = auth.uid();
+end; $$;
+revoke all on function public.get_pickem_contest_draft(uuid) from public, anon;
+grant execute on function public.get_pickem_contest_draft(uuid) to authenticated;
+
 create table public.pickem_contest_entries (
   week_id uuid not null references public.pickem_weeks(id) on delete cascade,
   user_id uuid not null references public.profiles(id) on delete cascade,
@@ -185,6 +261,8 @@ begin
     values (p_week_id, entrant, p_predicted_total);
     insert into public.pickem_contest_entries (week_id, user_id)
     values (p_week_id, entrant);
+    delete from private.pickem_draft_picks
+    where week_id = p_week_id and user_id = entrant;
   elsif p_predicted_total is distinct from
     (select predicted_total from public.pickem_week_tiebreakers
      where week_id = p_week_id and user_id = entrant) then

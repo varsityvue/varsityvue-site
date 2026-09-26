@@ -12,6 +12,36 @@ export type PickemActionState = {
   message: string;
 };
 
+export async function savePickemDraft(
+  _previousState: PickemActionState,
+  formData: FormData,
+): Promise<PickemActionState> {
+  const weekId = String(formData.get("week_id") ?? "").trim();
+  if (!weekId) return { status: "error", message: "Pick ’Em week is missing." };
+  const { supabase } = await requireActiveMember({
+    loginPath: `/login?next=${encodeURIComponent("/pickem")}`,
+  });
+  const { data: games, error: gameError } = await supabase.from("pickem_games")
+    .select("id").eq("week_id", weekId);
+  if (gameError || !games?.length) return { status: "error", message: "The slate could not be loaded." };
+  const selections = Object.fromEntries(games.flatMap((game) => {
+    const choice = formData.get(`pick_${game.id}`);
+    return choice === null ? [] : [[game.id, String(choice)]];
+  }));
+  if (Object.keys(selections).length === 0) {
+    return { status: "error", message: "Select at least one game to save a draft." };
+  }
+  const { data: savedCount, error } = await supabase.rpc("save_pickem_contest_draft", {
+    p_week_id: weekId, p_selections: selections,
+  });
+  if (error) {
+    console.error("Pick Em draft save failed.", { code: error.code });
+    return { status: "error", message: "Your draft could not be saved. Check the entry deadline and try again." };
+  }
+  revalidatePath("/pickem");
+  return { status: "success", message: `Draft saved — ${savedCount} picks. You are not entered. Complete the slate, prediction, and phone number before the first kickoff.` };
+}
+
 export async function savePickemSlate(
   _previousState: PickemActionState,
   formData: FormData,

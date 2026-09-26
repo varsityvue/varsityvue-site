@@ -110,6 +110,9 @@ export default async function PickemPage({ searchParams }: PageProps) {
   const { data: memberEntry } = isActiveMember && contestWeek
     ? await supabase.from("pickem_contest_entries").select("completed_at, status").eq("week_id", week!.id).eq("user_id", userId!).maybeSingle()
     : { data: null };
+  const { data: draftPicks } = isActiveMember && contestWeek && !memberEntry
+    ? await supabase.rpc("get_pickem_contest_draft", { p_week_id: week!.id })
+    : { data: [] };
   const { data: prize } = contestWeek
     ? await supabase.from("pickem_contest_prize").select("valid_entries, prize_dollars").eq("week_id", week!.id).maybeSingle()
     : { data: null };
@@ -163,7 +166,11 @@ export default async function PickemPage({ searchParams }: PageProps) {
   const { data: weeklyStandings } = week && weekClosed
     ? await supabase.from("pickem_week_standings").select("user_id, display_name, username, correct_picks, graded_picks, predicted_total, actual_total, distance, weekly_rank").eq("week_id", week.id).order("weekly_rank", { ascending: true }).order("user_id", { ascending: true }).limit(20)
     : { data: [] };
-  const selections = new Map((memberPickRows ?? []).map((pick) => [pick.pickem_game_id, pick.picked_school_slug]));
+  const typedDraftPicks = (draftPicks ?? []) as Array<{ pickem_game_id: string; picked_school_slug: string }>;
+  const selections = new Map<string, string>([
+    ...(memberPickRows ?? []).map((pick) => [pick.pickem_game_id, pick.picked_school_slug] as const),
+    ...typedDraftPicks.map((pick) => [pick.pickem_game_id, pick.picked_school_slug] as const),
+  ]);
   const games: PickemSlateGame[] = (slateRows ?? []).flatMap((row) => {
     const game = getGameById(row.game_id);
     if (!game || !row.away_school_slug || !row.home_school_slug) return [];
