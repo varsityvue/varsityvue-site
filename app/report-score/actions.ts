@@ -6,6 +6,7 @@ import { hasCompleteScoreboardTeamIdentity } from "@/data/scoreboard-team-identi
 import { getDynamicGameById } from "@/lib/dynamic-games";
 import { requireActiveMember } from "@/lib/member-access";
 import { getSchoolBySlug } from "@/lib/schools";
+import { normalizeLivePeriod } from "@/lib/live-period";
 
 function text(formData: FormData, key: string) {
   return String(formData.get(key) ?? "").trim();
@@ -106,7 +107,9 @@ export async function submitScore(formData: FormData) {
     reportRedirect(gameId, "Choose Live or Final for the game status.");
   }
 
-  const period = gameStatus === "live" ? (text(formData, "period") || null) : null;
+  const rawPeriod = text(formData, "period");
+  const period = gameStatus === "live" && rawPeriod ? normalizeLivePeriod(rawPeriod) : null;
+  if (gameStatus === "live" && rawPeriod && !period) reportRedirect(gameId, "Choose a valid quarter or overtime period.");
   const clock = gameStatus === "live" ? (text(formData, "clock") || null) : null;
 
   const { data: pendingReports } = await supabase

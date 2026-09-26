@@ -6,6 +6,7 @@ import type { UILClassification } from "@/types/platform";
 import { getProgramLogoPath } from "@/components/SchoolBadge";
 
 export type DirectorySchool = {
+  featured: boolean;
   slug: string;
   name: string;
   fullName: string;
@@ -64,7 +65,7 @@ function getClassificationCount(
   ).length;
 }
 
-export default function SchoolDirectory({ schools }: { schools: DirectorySchool[] }) {
+export default function SchoolDirectory({ schools, additionalTeams = [] }: { schools: DirectorySchool[]; additionalTeams?: { slug: string; name: string }[] }) {
   const [search, setSearch] = useState("");
   const [classificationFilter, setClassificationFilter] =
     useState<ClassificationFilter>("all");
@@ -100,6 +101,9 @@ export default function SchoolDirectory({ schools }: { schools: DirectorySchool[
       return matchesSearch && matchesClassification;
     });
   }, [schools, search, classificationFilter]);
+  const featuredSchools = filteredSchools.filter((school) => school.featured);
+  const otherSchools = filteredSchools.filter((school) => !school.featured);
+  const filteredTeams = additionalTeams.filter((team) => (classificationFilter === "all") && (!search.trim() || team.name.toLowerCase().includes(search.trim().toLowerCase())));
 
   return (
     <>
@@ -138,11 +142,11 @@ export default function SchoolDirectory({ schools }: { schools: DirectorySchool[
         </fieldset>
 
         <p className="mt-3 text-right text-[10px] font-bold text-white/40 sm:mt-4 sm:text-xs" aria-live="polite">
-          {filteredSchools.length} of {schools.length} schools shown
+          {filteredSchools.length + filteredTeams.length} of {schools.length + additionalTeams.length} teams shown
         </p>
       </section>
 
-      {filteredSchools.length === 0 ? (
+      {filteredSchools.length + filteredTeams.length === 0 ? (
         <div className="rounded-[1.3rem] border border-white/10 bg-white/[0.045] p-6 text-center shadow-2xl sm:rounded-[1.75rem] sm:p-10">
           <h2 className="text-2xl font-black text-white sm:text-3xl">No schools found.</h2>
           <p className="mt-2 text-sm text-white/50 sm:mt-3">
@@ -156,9 +160,18 @@ export default function SchoolDirectory({ schools }: { schools: DirectorySchool[
             Request a School →
           </Link>
         </div>
-      ) : (
-        <div className="grid gap-3 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {filteredSchools.map((school) => {
+      ) : <>
+        {featuredSchools.length > 0 && <><h2 className="mb-2 text-xl font-black sm:text-2xl">Featured Schools</h2><p className="mb-4 text-sm text-white/50">Programs with expanded VarsityVue coverage and school hubs.</p><SchoolCards schools={featuredSchools} /></>}
+        {otherSchools.length > 0 && <><h2 className="mb-2 mt-8 text-xl font-black sm:text-2xl">All Schools</h2><p className="mb-4 text-sm text-white/50">Tracked programs with schedules and scores; coverage and statistics vary by school.</p><SchoolCards schools={otherSchools} /></>}
+        {filteredTeams.length > 0 && <section className="mt-8"><h2 className="text-xl font-black sm:text-2xl">More Teams on the Scoreboard</h2><p className="mt-2 text-sm text-white/50">These teams appear in tracked matchups. A full School Hub is not yet on file.</p><div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{filteredTeams.map((team) => <Link key={team.slug} href={`/games?q=${encodeURIComponent(team.name)}#all-matchups`} className="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-black transition hover:border-white/25 hover:bg-white/[0.07]">{team.name} <span className="float-right text-white/40">Scores →</span></Link>)}</div></section>}
+      </>}
+    </>
+  );
+}
+
+function SchoolCards({ schools }: { schools: DirectorySchool[] }) {
+  return <div className="grid gap-3 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {schools.map((school) => {
             const classification = formatClassification(school.classification);
             const district = formatDistrictName(school.districtId);
             const programLogo = getProgramLogoPath(school.slug);
@@ -206,7 +219,7 @@ export default function SchoolDirectory({ schools }: { schools: DirectorySchool[
                     )}
 
                     <span className="rounded-full border border-white/15 bg-white/10 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.14em] text-white/70 sm:px-3 sm:py-1.5 sm:text-[10px] sm:tracking-[0.18em]">
-                      School Hub
+                      {school.featured ? "Featured Hub" : "Tracked School"}
                     </span>
                   </div>
 
@@ -224,7 +237,7 @@ export default function SchoolDirectory({ schools }: { schools: DirectorySchool[
                   </div>
 
                   <div className="mt-3 space-y-2 rounded-xl border border-white/10 bg-black/40 p-3 sm:mt-5 sm:space-y-3 sm:rounded-2xl sm:p-4">
-                    <SchoolMeta label="Stadium" value={school.stadium ?? "TBD"} />
+                    {school.stadium && <SchoolMeta label="Stadium" value={school.stadium} />}
 
                     {school.stateTitles !== undefined && (
                       <SchoolMeta
@@ -260,10 +273,7 @@ export default function SchoolDirectory({ schools }: { schools: DirectorySchool[
               </Link>
             );
           })}
-        </div>
-      )}
-    </>
-  );
+        </div>;
 }
 
 function FilterButton({

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { getDynamicGameById, getDynamicGames } from "@/lib/dynamic-games";
+import { liveGameContext } from "@/lib/live-period";
 import { getGameStats } from "@/lib/game-stats";
 import { getSchoolBySlug } from "@/lib/schools";
 import { getDistrictById } from "@/lib/districts";
@@ -68,7 +69,7 @@ export default async function GamePage({ params, searchParams }: GamePageProps) 
     for (const row of followRows ?? []) followedSchoolSlugs.add(row.school_slug);
   }
   const awayColor = awaySchool?.colors.primary ?? VARSITYVUE_PRIMARY; const homeColor = homeSchool?.colors.primary ?? VARSITYVUE_ACCENT; const hasScore = ["live", "final"].includes(game.status) && game.homeScore !== undefined && game.awayScore !== undefined;
-  const gameStateLabel = game.status === "live" ? "Live" : game.status === "final" && game.resultType === "forfeit" ? "Final · Forfeit" : game.status === "final" ? "Final" : game.status === "scheduled" ? "Result Pending" : game.status === "postponed" ? "Postponed" : game.status === "cancelled" ? "Cancelled" : "Upcoming";
+  const gameStateLabel = game.status === "live" ? liveGameContext(game.score?.period, game.score?.clock) : game.status === "final" && game.resultType === "forfeit" ? "Final · Forfeit" : game.status === "final" ? "Final" : game.status === "scheduled" ? "Result Pending" : game.status === "postponed" ? "Postponed" : game.status === "cancelled" ? "Cancelled" : "Upcoming";
   const showReportScore = game.season === 2026 && game.week !== undefined && game.gameType !== "scrimmage" && game.gameType !== "bye" && ["live", "scheduled"].includes(game.status);
   const sportsEventSchema = { "@context": "https://schema.org", "@type": "SportsEvent", name: `${awayTeamName} at ${homeTeamName}`, startDate: hasReliableKickoff ? kickoffValue : undefined, eventStatus: getSchemaEventStatus(game.status), eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode", url: `https://varsityvue.com/games/${game.id}`, location: hasVenue ? { "@type": "Place", name: venueName, address: game.venueAddress || undefined } : undefined, competitor: [{ "@type": "SportsTeam", name: awayTeamName }, { "@type": "SportsTeam", name: homeTeamName }] };
   return <main className="min-h-screen bg-[var(--vv-bg)] text-white" style={{ "--vv-primary": VARSITYVUE_PRIMARY, "--vv-away": awayColor, "--vv-home": homeColor, "--vv-accent": VARSITYVUE_ACCENT, "--vv-bg": VARSITYVUE_BG } as CSSProperties}>

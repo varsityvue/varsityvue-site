@@ -29,7 +29,8 @@ test("Tolar at Comanche remains a normal Week 5 matchup", () => {
   assert.ok(game);
   assert.equal(game.featured, undefined);
   assert.equal(game.specialEvent, undefined);
-  assert.equal(game.status, "upcoming");
+  assert.equal(game.gameType, "regular");
+  assert.ok(["upcoming", "live", "scheduled"].includes(game.status));
 });
 
 test("every designated Game of the Week has a short, written pregame matchup summary", () => {

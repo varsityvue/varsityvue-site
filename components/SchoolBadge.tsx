@@ -4,6 +4,7 @@ import { getSchoolLogoPath } from "@/data/school-logos";
 type SchoolBadgeProps = {
   school: School;
   size?: "xs" | "sm" | "md" | "lg";
+  preferLogo?: boolean;
 };
 
 // Retain the existing export while all logo consumers migrate to the shared registry.
@@ -82,15 +83,16 @@ function isDarkColor(hex: string) {
 export default function SchoolBadge({
   school,
   size = "md",
+  preferLogo = false,
 }: SchoolBadgeProps) {
   const programLogo = getProgramLogoPath(school.slug);
 
   // Large identity treatments should use the official program mark when one
   // is available. Compact xs/sm contexts retain the uniform VarsityVue badge.
-  if (programLogo && (size === "md" || size === "lg")) {
+  if (programLogo && (size === "md" || size === "lg" || preferLogo)) {
     return (
       <div
-        className={`${largeLogoClasses[size]} flex shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-black/35 p-2 shadow-xl`}
+        className={`${size === "xs" ? "h-12 w-12" : size === "sm" ? "h-16 w-16 sm:h-20 sm:w-20" : largeLogoClasses[size]} flex shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-black/35 p-2 shadow-xl`}
       >
         <img
           src={programLogo}

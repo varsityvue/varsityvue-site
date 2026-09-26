@@ -98,6 +98,9 @@ export default async function AccountPage() {
   const isModerator = roleSet.has("moderator");
   const isScorekeeper = roleSet.has("scorekeeper");
   const canModerate = isModerator || isAdmin;
+  const pendingScoreReports = canModerate
+    ? (await supabase.from("score_submissions").select("id", { count: "exact", head: true }).eq("status", "pending")).count ?? 0
+    : 0;
   const isContributor = isScorekeeper || canModerate;
 
   const displayName = profile?.display_name || claims.email || "VarsityVue Member";
@@ -312,7 +315,7 @@ export default async function AccountPage() {
                 <p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/35">Scoreboard</p>
                 <div className="mt-3 flex flex-col gap-2.5">
                   <Link href="/report-score" className="text-sm font-black text-white transition hover:text-[var(--vv-accent)]">Enter Score →</Link>
-                  <Link href="/internal/score-review" className="text-sm font-black text-white transition hover:text-[var(--vv-accent)]">Review Score Reports →</Link>
+                  <Link href="/internal/score-review" className="text-sm font-black text-white transition hover:text-[var(--vv-accent)]">Review Score Reports{pendingScoreReports > 0 ? ` (${pendingScoreReports} pending)` : ""} →</Link>
                   <Link href="/internal/score-intelligence" className="text-sm font-bold text-white/65 transition hover:text-white">Missing Score Intelligence →</Link>
                   <Link href="/internal/pickem" className="text-sm font-black text-white transition hover:text-[var(--vv-accent)]">Manage Pick ’Em →</Link>
                   <Link href="/scoreboard" className="text-sm font-bold text-white/65 transition hover:text-white">View Scoreboard →</Link>

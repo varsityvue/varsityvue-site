@@ -157,6 +157,7 @@ function applyDynamicScoreState(game: Game, states?: DynamicScoreStateMap): Game
             home: state.home_score,
             away: state.away_score,
             period: state.period ?? undefined,
+            clock: state.clock ?? undefined,
           }
         : game.score,
   });

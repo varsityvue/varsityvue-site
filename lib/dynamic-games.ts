@@ -39,6 +39,7 @@ function applyGameState(game: Game, state?: GameStateRow): Game {
           home: state.home_score as number,
           away: state.away_score as number,
           period: state.period ?? undefined,
+          clock: state.clock ?? undefined,
         }
       : game.score,
   };

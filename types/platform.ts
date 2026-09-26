@@ -175,6 +175,7 @@ export type Game = {
     home: number;
     away: number;
     period?: string;
+    clock?: string;
   };
 
   resultType?: "played" | "tie" | "forfeit" | "no_contest";

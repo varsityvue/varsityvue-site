@@ -16,6 +16,14 @@ export default async function SiteHeader() {
   const supabase = await createClient();
   const { data: claimsData } = await supabase.auth.getClaims();
   const signedIn = Boolean(claimsData?.claims?.sub);
+  let pendingScoreReports = 0;
+  if (signedIn) {
+    const { data: roles } = await supabase.from("user_roles").select("role").eq("user_id", claimsData!.claims!.sub);
+    if (roles?.some((row) => row.role === "admin" || row.role === "moderator")) {
+      const { count } = await supabase.from("score_submissions").select("id", { count: "exact", head: true }).eq("status", "pending");
+      pendingScoreReports = count ?? 0;
+    }
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-[var(--vv-bg)]/95 backdrop-blur-xl">
@@ -58,7 +66,7 @@ export default async function SiteHeader() {
               href="/account"
               className="rounded-full border border-white/15 bg-white/[0.06] px-3 py-2 text-[8px] font-black uppercase tracking-[0.08em] text-white/80 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:px-5 sm:py-3 sm:text-xs sm:tracking-[0.14em] lg:px-4 lg:py-2.5 lg:text-[10px] xl:px-5 xl:text-xs"
             >
-              Account
+              Account{pendingScoreReports > 0 ? <span className="ml-1.5 rounded-full bg-amber-300 px-1.5 py-0.5 text-black" aria-label={`${pendingScoreReports} score reports need review`}>{pendingScoreReports}</span> : null}
             </Link>
           ) : (
             <div className="flex items-center gap-1 sm:gap-2">

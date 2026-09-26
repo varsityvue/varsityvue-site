@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { trackConversion } from "@/lib/conversion-analytics";
 import { requireActiveMember } from "@/lib/member-access";
 import { evaluatePickemSubmission } from "@/lib/pickem-lifecycle";
+import { isPickemWeekClosed } from "@/lib/pickem-week-state";
 
 export type PickemActionState = {
   status: "idle" | "success" | "error";
@@ -24,11 +25,11 @@ export async function savePickemSlate(
 
   const { data: week, error: weekError } = await supabase
     .from("pickem_weeks")
-    .select("id, season, week, status")
+    .select("id, season, week, status, closes_at, tiebreaker_game_id")
     .eq("id", weekId)
     .maybeSingle();
 
-  if (weekError || !week || week.status !== "open") {
+  if (weekError || !week || isPickemWeekClosed(week)) {
     return { status: "error", message: "This Pick ’Em slate is not open." };
   }
 
@@ -77,8 +78,18 @@ export async function savePickemSlate(
     };
   }
 
-  if (rows.length === 0) {
+  if (rows.length === 0 && !week.tiebreaker_game_id) {
     return { status: "error", message: "Select at least one unlocked game." };
+  }
+  if (week.tiebreaker_game_id) {
+    const rawPrediction = String(formData.get("predicted_total") ?? "").trim();
+    const prediction = Number(rawPrediction);
+    if (!/^\d{1,3}$/.test(rawPrediction) || !Number.isInteger(prediction) || prediction > 300) {
+      return { status: "error", message: "Enter your Game of the Week combined-points prediction (0–300)." };
+    }
+    const { error: predictionError } = await supabase.from("pickem_week_tiebreakers")
+      .upsert({ week_id: week.id, user_id: userId, predicted_total: prediction }, { onConflict: "week_id,user_id" });
+    if (predictionError) return { status: "error", message: "Your tiebreaker prediction could not be saved. Refresh and try again." };
   }
 
   const { error } = await supabase

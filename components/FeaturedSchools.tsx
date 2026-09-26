@@ -45,7 +45,7 @@ export default function FeaturedSchools() {
               }}
             >
               <div className="mb-5 flex justify-center">
-                <SchoolBadge school={school} size="sm" />
+                <SchoolBadge school={school} size="sm" preferLogo />
               </div>
 
               <p className="text-sm text-[var(--vv-accent)]">

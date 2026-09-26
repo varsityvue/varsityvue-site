@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useReducer, useRef, useTransition, type FormEvent } from "react";
+import { useEffect, useReducer, useRef, useState, useTransition, type FormEvent } from "react";
 
 import { savePickemSlate, type PickemActionState } from "@/app/pickem/actions";
 import { PickemChoice, PickemGameHeader, PickemProgress } from "@/components/PickemSelectionCard";
@@ -40,15 +40,19 @@ const initialActionState: PickemActionState = { status: "idle", message: "" };
 export default function PickemSlateForm({
   weekId,
   games,
+  tiebreaker,
   saveAction = savePickemSlate,
 }: {
   weekId: string;
   games: PickemSlateGame[];
+  tiebreaker?: { matchup: string; savedPrediction?: number };
   saveAction?: (previousState: PickemActionState, formData: FormData) => Promise<PickemActionState>;
 }) {
   const [transitionPending, startTransition] = useTransition();
   const submittingRef = useRef(false);
   const statusRef = useRef<HTMLParagraphElement>(null);
+  const [prediction, setPrediction] = useState(tiebreaker?.savedPrediction?.toString() ?? "");
+  const [savedPrediction, setSavedPrediction] = useState(tiebreaker?.savedPrediction?.toString() ?? "");
   const [state, dispatch] = useReducer(
     pickemClientReducer,
     undefined,
@@ -59,18 +63,19 @@ export default function PickemSlateForm({
   );
   const derived = derivePickemClientState(games, state);
   const pending = state.saveStatus === "pending" || transitionPending;
-  const canSubmit = canSubmitPickem(state, derived.hasUnsavedChanges) && !transitionPending;
-  const showMobileSaveBar = shouldShowMobileSaveBar(derived.hasUnsavedChanges);
+  const hasUnsavedChanges = derived.hasUnsavedChanges || Boolean(tiebreaker && prediction !== savedPrediction);
+  const canSubmit = (canSubmitPickem(state, hasUnsavedChanges) || Boolean(tiebreaker && hasUnsavedChanges && derived.selectedCount > 0)) && !transitionPending;
+  const showMobileSaveBar = shouldShowMobileSaveBar(hasUnsavedChanges);
 
   useEffect(() => {
-    if (!shouldWarnBeforeUnload(derived.hasUnsavedChanges)) return;
+    if (!shouldWarnBeforeUnload(hasUnsavedChanges)) return;
     const warnBeforeUnload = (event: BeforeUnloadEvent) => {
       event.preventDefault();
       event.returnValue = "";
     };
     window.addEventListener("beforeunload", warnBeforeUnload);
     return () => window.removeEventListener("beforeunload", warnBeforeUnload);
-  }, [derived.hasUnsavedChanges]);
+  }, [hasUnsavedChanges]);
 
   useEffect(() => {
     if (state.saveStatus === "success") {
@@ -85,6 +90,7 @@ export default function PickemSlateForm({
     startTransition(async () => {
       try {
         const nextState = await saveAction(initialActionState, formData);
+        if (nextState.status === "success") setSavedPrediction(prediction);
         dispatch(nextState.status === "success"
           ? { type: "save-success", message: nextState.message }
           : { type: "save-error", message: nextState.message });
@@ -117,9 +123,10 @@ export default function PickemSlateForm({
   return (
     <form onSubmit={handleSubmit} className={`mt-5 sm:mt-7 ${showMobileSaveBar ? "pb-24 sm:pb-0" : ""}`}>
       <input type="hidden" name="week_id" value={weekId} />
+      {tiebreaker && <div className="mb-4 rounded-xl border border-white/15 bg-black/35 p-4"><label htmlFor="predicted_total" className="block text-sm font-black">Game of the Week total points · {tiebreaker.matchup}</label><p className="mt-1 text-xs text-white/50">Predict both teams’ combined score. Closest prediction breaks a weekly points tie.</p><input id="predicted_total" name="predicted_total" type="number" min="0" max="300" step="1" required value={prediction} onChange={(event) => setPrediction(event.target.value)} className="mt-3 w-full max-w-xs rounded-xl border border-white/15 bg-[#161616] px-4 py-3 text-base text-white" /></div>}
       <div className="mb-4 flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.035] px-4 py-3">
         <PickemProgress selectedCount={derived.selectedCount} totalGames={derived.totalGames} />
-        {derived.hasUnsavedChanges ? <span className="text-[9px] font-black uppercase tracking-[0.1em] text-[var(--vv-accent)]">Not saved</span> : null}
+        {hasUnsavedChanges ? <span className="text-[9px] font-black uppercase tracking-[0.1em] text-[var(--vv-accent)]">Not saved</span> : null}
       </div>
       <div className="grid gap-3 lg:grid-cols-2">
         {games.map((game, index) => {

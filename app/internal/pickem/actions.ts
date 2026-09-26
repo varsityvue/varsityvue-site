@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 
 import { getDynamicGames } from "@/lib/dynamic-games";
 import { requireActiveMember } from "@/lib/member-access";
+import { fridaySevenCentralForGame } from "@/lib/pickem-close";
 
 function value(formData: FormData, key: string) {
   return String(formData.get(key) ?? "").trim();
@@ -49,6 +50,10 @@ export async function savePickemWeek(formData: FormData) {
     const game = canonicalById.get(gameId);
     return game ? [game] : [];
   });
+  const gameOfTheWeek = selectedGames.find((game) => game.specialEvent?.toLowerCase() === "game of the week");
+  if (status === "open" && (season > 2026 || weekNumber >= 6) && !gameOfTheWeek) {
+    redirect(resultUrl("Choose the designated Game of the Week before opening a tiebreaker slate."));
+  }
 
   if (selectedGames.length < 1 || selectedGames.length > 12) {
     redirect(resultUrl("Select between 1 and 12 canonical games."));
@@ -78,6 +83,10 @@ export async function savePickemWeek(formData: FormData) {
   if (existingWeek?.status === "graded") {
     redirect(resultUrl("A graded slate cannot be changed."));
   }
+  if (existingWeek?.status === "open") {
+    const { data: existingClose } = await supabase.from("pickem_weeks").select("closes_at").eq("id", existingWeek.id).single();
+    if (existingClose?.closes_at && Date.now() >= new Date(existingClose.closes_at).getTime()) redirect(resultUrl("A closed slate cannot be reopened or changed."));
+  }
   if (existingWeek && existingWeek.status !== "draft" && status === "draft") {
     redirect(resultUrl("An opened slate cannot be moved back to draft."));
   }
@@ -90,7 +99,7 @@ export async function savePickemWeek(formData: FormData) {
       title,
       status,
       opens_at: status === "open" ? new Date().toISOString() : null,
-      closes_at: new Date(Math.max(...lockTimes)).toISOString(),
+      closes_at: fridaySevenCentralForGame(selectedGames[0].kickoff!),
       created_by: existingWeek?.created_by ?? userId,
     }, { onConflict: "season,week" })
     .select("id")
@@ -144,6 +153,12 @@ export async function savePickemWeek(formData: FormData) {
           : "The slate games could not be saved.",
       ));
     }
+  }
+  if (gameOfTheWeek && (season > 2026 || weekNumber >= 6)) {
+    const { data: tiebreakerGame } = await supabase.from("pickem_games").select("id").eq("week_id", savedWeek.id).eq("game_id", gameOfTheWeek.id).single();
+    if (!tiebreakerGame) redirect(resultUrl("The Game of the Week tiebreaker could not be configured."));
+    const { error: tiebreakerError } = await supabase.from("pickem_weeks").update({ tiebreaker_game_id: tiebreakerGame.id }).eq("id", savedWeek.id);
+    if (tiebreakerError) redirect(resultUrl("The Game of the Week tiebreaker could not be configured."));
   }
 
   revalidatePath("/pickem");

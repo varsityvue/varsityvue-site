@@ -203,15 +203,14 @@ export default function ScoreReportForm({ games, selectedGameId, disabled, restr
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <label htmlFor="period" className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-white/45">Quarter / Period</label>
-            <input
+            <select
               id="period"
               name="period"
               value={period}
               onChange={(event) => setPeriod(event.target.value)}
-              placeholder="3rd"
               disabled={disabled}
-              className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/25 focus:border-[var(--vv-accent)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-40"
-            />
+              className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white focus:border-[var(--vv-accent)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-40"
+            ><option value="">Period unknown</option>{["1st", "2nd", "3rd", "4th", "OT", "OT2", "OT3", "OT4"].map((option) => <option key={option} value={option}>{option}</option>)}</select>
           </div>
           <div>
             <label htmlFor="clock" className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-white/45">Clock</label>

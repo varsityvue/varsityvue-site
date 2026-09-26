@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { getPilotSchools } from "@/lib/schools";
+import { getSchools } from "@/lib/schools";
+import { getGames } from "@/lib/games";
 import PageHero from "@/components/PageHero";
 import SchoolDirectory, { type DirectorySchool } from "../../components/SchoolDirectory";
 
@@ -38,7 +39,12 @@ export const metadata: Metadata = {
 };
 
 export default function SchoolsPage() {
-  const liveSchools = getPilotSchools();
+  const trackedSlugs = new Set(getGames().flatMap((game) => [game.homeSchoolSlug, game.awaySchoolSlug].filter((slug): slug is string => Boolean(slug))));
+  const liveSchools = getSchools().filter((school) => school.status === "pilot" || trackedSlugs.has(school.slug));
+  const knownSlugs = new Set(liveSchools.map((school) => school.slug));
+  const additionalTeams = Array.from(new Map(getGames().flatMap((game) => [
+    [game.awaySchoolSlug, game.awayTeam], [game.homeSchoolSlug, game.homeTeam],
+  ] as Array<[string | undefined, string | undefined]>).filter(([slug, name]) => slug && name && !knownSlugs.has(slug) && !["bye", "opponent", "special-event"].includes(slug)).map(([slug, name]) => [slug!, { slug: slug!, name: name! }])).values()).sort((a, b) => a.name.localeCompare(b.name));
   const directorySchools: DirectorySchool[] = liveSchools.map((school) => ({
     slug: school.slug,
     name: school.name,
@@ -55,6 +61,7 @@ export default function SchoolsPage() {
       primary: school.colors.primary,
       secondary: school.colors.secondary,
     },
+    featured: school.status === "pilot",
   }));
   const districts = new Set(liveSchools.map((school) => school.districtId));
   const classifications = new Set(
@@ -83,7 +90,7 @@ export default function SchoolsPage() {
         }
         footer={
           <section className="grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-4">
-            <DirectoryStat label="Live School Hubs" value={liveSchools.length.toString()} />
+            <DirectoryStat label="Tracked Teams" value={(liveSchools.length + additionalTeams.length).toString()} />
             <DirectoryStat label="Districts" value={districts.size.toString()} />
             <DirectoryStat label="Classifications" value={classifications.size.toString()} />
             <DirectoryStat label="Season" value="2026" />
@@ -93,7 +100,7 @@ export default function SchoolsPage() {
 
       <section className="px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
         <div className="mx-auto max-w-[1440px]">
-          <SchoolDirectory schools={directorySchools} />
+          <SchoolDirectory schools={directorySchools} additionalTeams={additionalTeams} />
         </div>
       </section>
     </main>

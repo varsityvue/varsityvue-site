@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { liveGameContext } from "@/lib/live-period";
 import HomeMembershipCta from "@/components/HomeMembershipCta";
 import {
   getHomepageScoreboardGames,
@@ -99,24 +100,24 @@ export default async function ScoreStrip() {
                         isFinal ? "text-white/45" : "text-white/50"
                       }`}
                     >
-                      {isFinal ? "Final" : game.displayStatus}
+                      {isFinal ? "Final" : game.status === "live" ? liveGameContext(game.score?.period, game.score?.clock) : game.displayStatus}
                     </span>
 
                     <span className="text-[11px] font-black text-white sm:text-sm">
                       {game.awayTeam ?? "Away"}
                     </span>
 
-                    {isFinal && score.away !== undefined ? (
+                    {(isFinal || game.status === "live") && score.away !== undefined ? (
                       <span className="min-w-4 text-center text-xs font-black tabular-nums text-white sm:min-w-5 sm:text-base">
                         {score.away}
                       </span>
                     ) : null}
 
                     <span className="text-[7px] font-black uppercase tracking-[0.08em] text-white/25 sm:text-[9px] sm:tracking-[0.1em]">
-                      {isFinal ? "—" : "at"}
+                      {isFinal || game.status === "live" ? "—" : "at"}
                     </span>
 
-                    {isFinal && score.home !== undefined ? (
+                    {(isFinal || game.status === "live") && score.home !== undefined ? (
                       <span className="min-w-4 text-center text-xs font-black tabular-nums text-white sm:min-w-5 sm:text-base">
                         {score.home}
                       </span>
