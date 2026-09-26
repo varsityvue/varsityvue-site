@@ -243,13 +243,14 @@ end $$;
 do $$ declare w uuid; g uuid; begin
  select id into w from public.pickem_weeks where season=2026 and week=5;
  if w is null then raise exception 'Expected seeded Week 5 historical slate'; end if;
- update public.pickem_weeks set status='open' where id=w;
+ update public.pickem_weeks set status='open',closes_at=now()+interval '1 hour' where id=w;
  insert into public.pickem_games (week_id,game_id,lock_at,away_school_slug,home_school_slug)
  values (w,'__historical_week5__',now()+interval '1 hour','history-away','history-home') returning id into g;
  insert into public.pickem_picks (pickem_game_id,user_id,picked_school_slug)
  select g,user_id,'history-home' from test_ids where label in ('A','B');
  insert into public.game_state (game_id,status,home_score,away_score,verified,verified_at,result_type,away_school_slug,home_school_slug)
  values ('__historical_week5__','final',7,0,true,now(),'played','history-away','history-home');
+ update public.pickem_weeks set closes_at=now()-interval '1 hour' where id=w;
  if (select count(*) from public.pickem_week_standings where week_id=w and weekly_rank=1)<>2 then
   raise exception 'Week 5 historical shared rank changed'; end if;
 end $$;
