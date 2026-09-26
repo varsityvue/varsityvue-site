@@ -340,7 +340,8 @@ with totals as (
     prediction.predicted_total,
     case when (week.outcome_resolution_at is null or featured_resolution.disposition='resolved')
       and state.verified and state.status = 'final'
-      and (state.result_type = 'played' or (week.season = 2026 and week.week < 6 and state.result_type = 'tie'))
+      and ((week.season = 2026 and week.week < 6 and state.result_type in ('played', 'tie'))
+        or (state.result_type = 'played' and state.home_score <> state.away_score))
       and state.home_score is not null and state.away_score is not null
       then state.home_score + state.away_score end as actual_total,
     entry.completed_at, entry.entry_order, entry.status as entry_status
