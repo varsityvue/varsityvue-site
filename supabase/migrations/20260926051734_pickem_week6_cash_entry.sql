@@ -295,10 +295,17 @@ begin
       select disposition into resolution from private.pickem_contest_game_resolution
       where pickem_game_id=selected_game.id;
       if resolution is null then
-        if new.verified is true and new.status in ('final','cancelled')
+        if new.verified is true and new.status = 'final'
+          and new.result_type in ('played','forfeit')
           and clock_timestamp() < selected_game.outcome_resolution_at then
           insert into private.pickem_contest_game_resolution (pickem_game_id,disposition,reason)
-          values (selected_game.id,'resolved','Verified terminal outcome before Monday cutoff')
+          values (selected_game.id,'resolved','Verified winner before Monday cutoff')
+          on conflict do nothing;
+        elsif new.verified is true and
+          (new.status = 'cancelled' or (new.status = 'final' and new.result_type in ('tie','no_contest')))
+          and clock_timestamp() < selected_game.outcome_resolution_at then
+          insert into private.pickem_contest_game_resolution (pickem_game_id,disposition,reason)
+          values (selected_game.id,'void','Verified non-scoring outcome before Monday cutoff')
           on conflict do nothing;
         elsif clock_timestamp() >= selected_game.outcome_resolution_at then
           insert into private.pickem_contest_game_resolution (pickem_game_id,disposition,reason)

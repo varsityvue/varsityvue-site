@@ -243,6 +243,51 @@ do $$ declare w uuid; begin
  or (select prize_dollars from public.pickem_contest_prize where week_id=w)<>100 then
   raise exception 'Disqualification did not recalculate valid count'; end if;
 end $$;
+-- Opening freezes the earliest scheduled kickoff. An earlier revision of a
+-- later game is rejected until an administrator voids that contest matchup.
+create temporary table schedule_fixture (week_id uuid, first_game uuid, moved_game uuid) on commit preserve rows;
+do $$ declare w uuid; first_id uuid; moved_id uuid; frozen timestamptz; begin
+ insert into public.pickem_weeks (season,week,title,status,opens_at,closes_at)
+ values (2099,10,'Schedule fixture','draft',now()-interval '1 hour',now()+interval '2 hours') returning id into w;
+ insert into public.pickem_games (week_id,game_id,lock_at,away_school_slug,home_school_slug)
+ values (w,'__schedule_first__',now()+interval '30 minutes','schedule-away-1','schedule-home-1') returning id into first_id;
+ insert into public.pickem_games (week_id,game_id,lock_at,away_school_slug,home_school_slug)
+ values (w,'__schedule_moved__',now()+interval '40 minutes','schedule-away-2','schedule-home-2') returning id into moved_id;
+ update public.pickem_weeks set tiebreaker_game_id=moved_id,status='open' where id=w;
+ select entry_deadline_at into frozen from public.pickem_weeks where id=w;
+ begin
+  update public.pickem_games set lock_at=now()+interval '20 minutes' where id=moved_id;
+  raise exception 'Earlier schedule revision bypassed frozen cutoff';
+ exception when others then
+  if sqlerrm='Earlier schedule revision bypassed frozen cutoff' then raise; end if;
+ end;
+ if (select entry_deadline_at from public.pickem_weeks where id=w) is distinct from frozen then
+  raise exception 'Schedule revision changed frozen deadline'; end if;
+ insert into schedule_fixture values (w,first_id,moved_id);
+end $$;
+grant select on schedule_fixture to authenticated;
+set local role authenticated;
+select set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='admin'),true);
+select public.admin_void_pickem_contest_game((select moved_game from schedule_fixture),'Kickoff moved ahead of frozen entry deadline');
+reset role;
+update public.pickem_games set lock_at=now()+interval '20 minutes'
+where id=(select moved_game from schedule_fixture);
+do $$ begin
+ if (select entry_deadline_at from public.pickem_weeks where id=(select week_id from schedule_fixture)) is distinct from
+    (select lock_at from public.pickem_games where id=(select first_game from schedule_fixture))
+ then raise exception 'Contest deadline moved after authorized early schedule revision'; end if;
+end $$;
+set local role authenticated;
+do $$ declare w uuid; first_id uuid; begin
+ select week_id,first_game into w,first_id from schedule_fixture;
+ perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='draft'),true);
+ perform public.submit_pickem_contest_entry(w,'2545550105',null,
+   jsonb_build_object(first_id::text,'schedule-home-1'));
+ if (select valid_entries from public.pickem_contest_prize where week_id=w)<>1
+ or exists (select 1 from public.pickem_week_tiebreakers where week_id=w) then
+  raise exception 'VOID GOTW still required a prediction or inflated prize'; end if;
+end $$;
+reset role;
 -- Week 5 had no prediction at entry: equal correct totals remain shared rank.
 do $$ declare w uuid; g uuid; begin
  select id into w from public.pickem_weeks where season=2026 and week=5;
@@ -257,5 +302,78 @@ do $$ declare w uuid; g uuid; begin
  update public.pickem_weeks set closes_at=now()-interval '1 hour' where id=w;
  if (select count(*) from public.pickem_week_standings where week_id=w and weekly_rank=1)<>2 then
   raise exception 'Week 5 historical shared rank changed'; end if;
+end $$;
+rollback;
+-- A separate disposable fixture compresses the Monday boundary to seconds.
+-- The production cutoff formula remains the following Tuesday at 00:00 CT.
+begin;
+insert into public.user_roles (user_id,role)
+select user_id,'admin'::public.user_role from test_ids where label='admin';
+create temporary table monday_fixture (week_id uuid, gotw uuid, other_game uuid) on commit preserve rows;
+do $$ declare w uuid; gotw_id uuid; other_id uuid; begin
+ insert into public.pickem_weeks (season,week,title,status,opens_at,closes_at)
+ values (2099,11,'Monday fixture','draft',now()-interval '1 hour',now()+interval '20 seconds') returning id into w;
+ insert into public.pickem_games (week_id,game_id,lock_at,away_school_slug,home_school_slug)
+ values (w,'__monday_gotw__',now()+interval '10 seconds','monday-away-1','monday-home-1') returning id into gotw_id;
+ insert into public.pickem_games (week_id,game_id,lock_at,away_school_slug,home_school_slug)
+ values (w,'__monday_other__',now()+interval '12 seconds','monday-away-2','monday-home-2') returning id into other_id;
+ update public.pickem_weeks set tiebreaker_game_id=gotw_id,status='open' where id=w;
+ -- Disposable fixture clock compression; no production code bypasses the frozen trigger.
+ alter table public.pickem_weeks disable trigger freeze_pickem_contest_deadlines;
+ update public.pickem_weeks set outcome_resolution_at=clock_timestamp()+interval '6 seconds' where id=w;
+ alter table public.pickem_weeks enable trigger freeze_pickem_contest_deadlines;
+ insert into monday_fixture values (w,gotw_id,other_id);
+end $$;
+grant select on monday_fixture to authenticated;
+set local role authenticated;
+do $$ declare w uuid; g uuid; o uuid; entrant record; begin
+ select week_id,gotw,other_game into w,g,o from monday_fixture;
+ for entrant in select * from test_ids where label in ('A','B') order by label loop
+  perform set_config('request.jwt.claim.sub',entrant.user_id::text,true);
+  perform public.submit_pickem_contest_entry(w,null,
+    case when entrant.label='A' then 50 else 63 end,
+    jsonb_build_object(g::text,'monday-home-1',o::text,'monday-home-2'));
+  if entrant.label='A' then perform pg_sleep(0.05); end if;
+ end loop;
+ perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='admin'),true);
+ begin
+  perform public.admin_resolve_pickem_contest_week(w);
+  raise exception 'Monday resolution accepted before cutoff';
+ exception when others then if sqlerrm='Monday resolution accepted before cutoff' then raise; end if; end;
+end $$;
+reset role;
+insert into public.game_state (game_id,status,verified,result_type,away_school_slug,home_school_slug)
+values ('__monday_gotw__','postponed',false,null,'monday-away-1','monday-home-1');
+insert into public.game_state (game_id,status,home_score,away_score,verified,verified_at,result_type,away_school_slug,home_school_slug)
+values ('__monday_other__','final',7,0,true,clock_timestamp(),'played','monday-away-2','monday-home-2');
+commit;
+select pg_sleep(greatest(0,extract(epoch from ((select outcome_resolution_at from public.pickem_weeks where id=(select week_id from monday_fixture))-clock_timestamp()))+0.1));
+begin;
+set local role authenticated;
+select set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='admin'),true);
+do $$ declare w uuid; changed integer; begin
+ select week_id into w from monday_fixture;
+ select public.admin_resolve_pickem_contest_week(w) into changed;
+ if changed<>1 then raise exception 'Expected one unresolved GOTW to become VOID, got %',changed; end if;
+end $$;
+reset role;
+do $$ declare w uuid; g uuid; begin
+ select week_id,gotw into w,g from monday_fixture;
+ if not exists (select 1 from public.pickem_contest_void_games where pickem_game_id=g)
+ or exists (select 1 from public.pickem_week_standings where week_id=w and distance is not null)
+ or (select valid_entries from public.pickem_contest_prize where week_id=w)<>2
+ or (select i.label from public.pickem_week_standings s join test_ids i on i.user_id=s.user_id
+     where s.week_id=w order by s.weekly_rank limit 1)<>'A' then
+  raise exception 'Monday GOTW VOID fallback or prize count incorrect'; end if;
+end $$;
+-- Canonical later play is preserved, while contest grades stay VOID.
+update public.game_state set status='final',home_score=35,away_score=28,verified=true,
+ verified_at=clock_timestamp(),result_type='played' where game_id='__monday_gotw__';
+do $$ declare g uuid; begin
+ select gotw into g from monday_fixture;
+ if exists (select 1 from public.pickem_picks where pickem_game_id=g and is_correct is not null)
+ or (select result_winner_school_slug from public.pickem_games where id=g) is not null
+ or (select home_score+away_score from public.game_state where game_id='__monday_gotw__')<>63 then
+  raise exception 'Late played final revived VOID contest scoring or changed canonical score'; end if;
 end $$;
 rollback;
