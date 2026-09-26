@@ -97,7 +97,7 @@ export default async function PickemSubmissionsPage({ searchParams }: PageProps)
   const entrants = groupAdminPickemSubmissions(rows);
   const totalSavedPicks = entrants.reduce((total, entrant) => total + entrant.savedPicks, 0);
   const completeEntrants = entrants.filter((entrant) => entrant.complete).length;
-  const contestWeek = Boolean(selectedWeek && (selectedWeek.season > 2026 || selectedWeek.week >= 6));
+  const contestWeek = Boolean(selectedWeek && (selectedWeek.season > 2026 || (selectedWeek.season === 2026 && selectedWeek.week >= 6)));
   const { data: contestPrize } = contestWeek
     ? await supabase.from("pickem_contest_prize").select("valid_entries, prize_dollars").eq("week_id", selectedWeek!.id).maybeSingle()
     : { data: null };

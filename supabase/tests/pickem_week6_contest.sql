@@ -221,4 +221,17 @@ do $$ declare w uuid; begin
  or (select prize_dollars from public.pickem_contest_prize where week_id=w)<>100 then
   raise exception 'Disqualification did not recalculate valid count'; end if;
 end $$;
+-- Week 5 had no prediction at entry: equal correct totals remain shared rank.
+do $$ declare w uuid; g uuid; begin
+ insert into public.pickem_weeks (season,week,title,status,opens_at,closes_at)
+ values (2026,5,'Historical tie fixture','open',now()-interval '2 hours',now()-interval '1 hour') returning id into w;
+ insert into public.pickem_games (week_id,game_id,lock_at,away_school_slug,home_school_slug)
+ values (w,'__historical_week5__',now()+interval '1 hour','history-away','history-home') returning id into g;
+ insert into public.pickem_picks (pickem_game_id,user_id,picked_school_slug)
+ select g,user_id,'history-home' from test_ids where label in ('A','B');
+ insert into public.game_state (game_id,status,home_score,away_score,verified,verified_at,result_type,away_school_slug,home_school_slug)
+ values ('__historical_week5__','final',7,0,true,now(),'played','history-away','history-home');
+ if (select count(*) from public.pickem_week_standings where week_id=w and weekly_rank=1)<>2 then
+  raise exception 'Week 5 historical shared rank changed'; end if;
+end $$;
 rollback;

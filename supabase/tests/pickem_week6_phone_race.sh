@@ -20,7 +20,9 @@ set +e
 wait "${pid[1]}"; status_one=$?
 wait "${pid[2]}"; status_two=$?
 set -e
-if [[ "$status_one$status_two" != 03 && "$status_one$status_two" != 30 ]]; then
+if [[ ( "$status_one" -eq 0 && "$status_two" -eq 0 ) ||
+      ( "$status_one" -ne 0 && "$status_two" -ne 0 ) ]] ||
+   ! grep -q 'This number is already used for another entrant' /tmp/race-1.log /tmp/race-2.log; then
   cat /tmp/race-1.log /tmp/race-2.log
   echo "Expected one successful and one rejected concurrent entry; got $status_one and $status_two" >&2
   exit 1
