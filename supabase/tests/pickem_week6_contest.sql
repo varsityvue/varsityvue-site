@@ -228,6 +228,19 @@ do $$ declare w uuid; begin
      where week_id=w order by weekly_rank limit 1)<>'B' then
   raise exception 'Corrected final did not rerank predictions'; end if;
 end $$;
+-- Integration gate: a played GOTW corrected to a tie loses its grade and points tiebreaker.
+update public.game_state set home_score=21,away_score=21,result_type='tie'
+where game_id='__isolated_week6_1';
+do $$ declare w uuid; disposition text; begin
+ select week_id into w from contest_fixture limit 1;
+ select r.disposition into disposition from private.pickem_contest_game_resolution r
+ join contest_fixture f on f.pickem_game_id=r.pickem_game_id where f.game_number=1;
+ if disposition is distinct from 'void' then raise exception 'Played final to tie retained % contest resolution',disposition; end if;
+ if exists (select 1 from public.pickem_week_standings where week_id=w and distance is not null) then
+  raise exception 'Tie retained GOTW tiebreaker'; end if;
+end $$;
+update public.game_state set home_score=42,away_score=28,result_type='played'
+where game_id='__isolated_week6_1';
 -- A verified forfeit grades its explicit winner, regardless of score absence.
 update public.game_state set result_type='forfeit',home_score=null,away_score=null,
  official_winner_school_slug='away-9' where game_id='__isolated_week6_9';

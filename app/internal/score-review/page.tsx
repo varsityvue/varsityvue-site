@@ -184,6 +184,22 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
           <a href="/internal/score-intelligence" className="rounded-full border border-sky-300/20 bg-sky-300/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-sky-100 transition hover:bg-sky-300/15">Missing Scores →</a>
         </div>
 
+        <section className="mt-6 rounded-2xl border border-white/10 bg-white/[0.035] p-4 sm:p-6">
+          <h2 className="text-xl font-black">Edit Score / Correct Score</h2>
+          <p className="mt-2 text-xs text-white/50">Correct a live score or game clock. Administrators can also correct a finalized result. Select a game to review its current values.</p>
+          <div className="mt-4 grid max-h-64 gap-2 overflow-y-auto sm:grid-cols-2">
+            {dynamicGames.filter((game) => {
+              const state = (scheduleStates ?? []).find((row) => row.game_id === game.id);
+              return state?.verified && ["scheduled", "upcoming", "live", "final"].includes(state.status) &&
+                !["forfeit", "no_contest"].includes(state.result_type ?? "") && (state.status !== "final" || isAdministrator);
+            }).map((game) => (
+              <a key={game.id} href={`/internal/score-review/correct?game=${encodeURIComponent(game.id)}`} className="rounded-xl border border-white/15 px-3 py-3 text-sm font-bold hover:border-amber-300/40">
+                Week {game.week ?? "—"} · {displayTeamName(game.awayTeam, game.awaySchoolSlug)} at {displayTeamName(game.homeTeam, game.homeSchoolSlug)} · {game.status}
+              </a>
+            ))}
+          </div>
+        </section>
+
         {params["game-status"] ? (
           <div className="mt-6 rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-sm text-emerald-50">
             Game marked {params["game-status"]}.
