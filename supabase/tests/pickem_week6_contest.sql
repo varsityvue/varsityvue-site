@@ -15,10 +15,10 @@ select user_id, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authen
 create temporary table contest_fixture (week_id uuid, game_number integer, pickem_game_id uuid) on commit preserve rows;
 do $$ declare w uuid; g uuid; begin
  insert into public.pickem_weeks (season, week, title, status, opens_at, closes_at)
- values (2099, 6, 'Isolated test only', 'open', now()-interval '1 hour', now()+interval '75 seconds') returning id into w;
+ values (2099, 6, 'Isolated test only', 'open', now()-interval '1 hour', now()+interval '20 seconds') returning id into w;
  for i in 1..9 loop
   insert into public.pickem_games (week_id, game_id, sort_order, lock_at, away_school_slug, home_school_slug)
-  values (w, '__isolated_week6_'||i, i, now()+case when i=1 then interval '35 seconds' else interval '60 seconds' end,
+  values (w, '__isolated_week6_'||i, i, now()+case when i=1 then interval '7 seconds' else interval '15 seconds' end,
     'away-'||i, 'home-'||i) returning id into g;
   insert into contest_fixture values (w,i,g);
  end loop;
@@ -223,8 +223,8 @@ do $$ declare w uuid; begin
 end $$;
 -- Week 5 had no prediction at entry: equal correct totals remain shared rank.
 do $$ declare w uuid; g uuid; begin
- insert into public.pickem_weeks (season,week,title,status,opens_at,closes_at)
- values (2026,5,'Historical tie fixture','open',now()-interval '2 hours',now()-interval '1 hour') returning id into w;
+ select id into w from public.pickem_weeks where season=2026 and week=5;
+ if w is null then raise exception 'Expected seeded Week 5 historical slate'; end if;
  insert into public.pickem_games (week_id,game_id,lock_at,away_school_slug,home_school_slug)
  values (w,'__historical_week5__',now()+interval '1 hour','history-away','history-home') returning id into g;
  insert into public.pickem_picks (pickem_game_id,user_id,picked_school_slug)
