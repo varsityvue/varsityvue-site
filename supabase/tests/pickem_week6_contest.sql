@@ -269,6 +269,9 @@ do $$ declare w uuid; deadline timestamptz; begin
   raise exception 'Member recorded winner notice';
  exception when others then if sqlerrm='Member recorded winner notice' then raise; end if; end;
  perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='admin'),true);
+ -- Prior canonical corrections changed the provisional leader. The old
+ -- finalization is superseded; review the now-settled result first.
+ perform public.admin_finalize_pickem_contest_results(w);
  select public.admin_record_pickem_winner_notice(w) into deadline;
  if deadline <= clock_timestamp() or deadline > clock_timestamp()+interval '72 hours' then
   raise exception 'Winner response deadline incorrect'; end if;
