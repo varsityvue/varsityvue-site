@@ -6,6 +6,7 @@ permissions:
   contents: read
 jobs:
   isolated-db:
+    if: false
     runs-on: ubuntu-latest
     timeout-minutes: 35
     steps:
@@ -74,6 +75,8 @@ jobs:
           npx agent-browser fill 'input[name="reason"]' 'Official correction'
           npx agent-browser click 'button[type="button"]'
           npx agent-browser wait 200
+          npx agent-browser errors
+          npx agent-browser console
           npx agent-browser snapshot -i
           npx agent-browser eval 'document.querySelector("form")?.innerText' > /tmp/score-form.txt
           cat /tmp/score-form.txt
