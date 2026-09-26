@@ -17,6 +17,7 @@ do $$ declare week_id uuid; selected_id uuid; begin
            (selected_id, (select value from correction_ids where key='moderator'), 'home-a');
   insert into public.game_state(game_id,status,away_score,home_score,period,clock,verified,verified_at,away_school_slug,home_school_slug)
     values ('__score_correction__','live',7,0,'Q1','08:00',true,now(),'away-a','home-a');
+  update public.pickem_weeks set closes_at=now()-interval '1 minute' where id=week_id;
 end $$;
 
 select set_config('request.jwt.claim.sub', (select value::text from correction_ids where key='member'), true);
@@ -57,15 +58,40 @@ do $$ begin
   if not exists (select 1 from public.pickem_games where game_id='__score_correction__' and result_winner_school_slug='away-a') then raise exception 'Initial final did not grade'; end if;
 end $$;
 select public.correct_game_score('__score_correction__',(select updated_at from public.game_state where game_id='__score_correction__'),2,'final',14,21,'Q4','00:00','Official corrected final');
+reset role;
 do $$ begin
   if not exists (select 1 from public.pickem_games where game_id='__score_correction__' and result_winner_school_slug='home-a') then raise exception 'Winner did not regrade'; end if;
   if not exists (select 1 from public.pickem_picks p join public.pickem_games g on g.id=p.pickem_game_id where g.game_id='__score_correction__' and p.picked_school_slug='home-a' and p.is_correct) then raise exception 'Pick grade did not reverse'; end if;
+  if not exists (select 1 from public.pickem_member_totals where season=2097 and user_id=(select value from correction_ids where key='moderator') and correct_picks=1)
+    or not exists (select 1 from public.pickem_member_totals where season=2097 and user_id=(select value from correction_ids where key='member') and correct_picks=0) then
+    raise exception 'Member totals did not reverse'; end if;
+  if not exists (select 1 from public.pickem_week_standings where season=2097 and week=27 and user_id=(select value from correction_ids where key='moderator') and weekly_rank=1 and correct_picks=1) then
+    raise exception 'Weekly leaderboard did not reverse'; end if;
   if (select count(*) from private.product_notification_events where category='final_score' and source_key='game-final:__score_correction__') <> 1 then raise exception 'Duplicate or missing FINAL event'; end if;
   if (select count(*) from private.game_score_correction_audit where game_id='__score_correction__') <> 3 then raise exception 'Correction audit is incomplete'; end if;
 end $$;
+set local role authenticated;
 select public.correct_game_score('__score_correction__',(select updated_at from public.game_state where game_id='__score_correction__'),3,'final',17,17,'OT','00:00','Official tie');
+reset role;
 do $$ begin
   if exists (select 1 from public.pickem_picks p join public.pickem_games g on g.id=p.pickem_game_id where g.game_id='__score_correction__' and p.is_correct is not null) then raise exception 'Tie did not clear grades'; end if;
+  if exists (select 1 from public.pickem_member_totals where season=2097 and user_id in (select value from correction_ids)) then raise exception 'Tie left stale member totals'; end if;
   if (select count(*) from private.product_notification_events where category='final_score' and source_key='game-final:__score_correction__') <> 1 then raise exception 'Tie sent another FINAL'; end if;
+  if not exists (select 1 from private.game_score_correction_audit where game_id='__score_correction__'
+    and actor_id=(select value from correction_ids where key='admin') and reason='Official corrected final'
+    and previous_state->>'away_score'='21' and corrected_state->>'away_score'='14'
+    and occurred_at is not null) then raise exception 'Audit identity, reason, time, or before/after values missing'; end if;
+end $$;
+select set_config('request.jwt.claim.sub', (select value::text from correction_ids where key='member'), true);
+set local role authenticated;
+do $$ begin
+  begin
+    delete from private.game_score_correction_audit where game_id='__score_correction__';
+    raise exception 'Ordinary user erased audit history';
+  exception when insufficient_privilege then null; end;
+  begin
+    update private.game_score_correction_audit set reason='tampered' where game_id='__score_correction__';
+    raise exception 'Ordinary user altered audit history';
+  exception when insufficient_privilege then null; end;
 end $$;
 rollback;
