@@ -70,7 +70,8 @@ export default function PickemSlateForm({
   const pending = state.saveStatus === "pending" || transitionPending;
   const hasUnsavedChanges = derived.hasUnsavedChanges || Boolean(tiebreaker && prediction !== savedPrediction);
   const canSubmit = (contest && !contest.entered
-    ? derived.selectedCount === derived.totalGames && prediction.trim() !== ""
+    ? derived.totalGames > 0 && derived.selectedCount === derived.totalGames
+      && (!tiebreaker || prediction.trim() !== "")
     : canSubmitPickem(state, hasUnsavedChanges) || Boolean(tiebreaker && hasUnsavedChanges && derived.selectedCount > 0)) && !transitionPending;
   const showMobileSaveBar = shouldShowMobileSaveBar(hasUnsavedChanges);
 

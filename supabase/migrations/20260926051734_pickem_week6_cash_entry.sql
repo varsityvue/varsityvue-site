@@ -1,4 +1,62 @@
 -- Cash-contest entries begin with Week 6. Week 5 rows and rankings remain historical.
+alter table public.pickem_weeks
+  add column entry_deadline_at timestamptz,
+  add column outcome_resolution_at timestamptz;
+
+-- The deadline is snapshotted when a fully configured draft week opens.
+-- The local Tuesday midnight boundary is exclusive: this represents the end
+-- of Monday 11:59 p.m. in America/Chicago, including DST transitions.
+create function private.freeze_pickem_contest_deadlines()
+returns trigger language plpgsql security definer set search_path = '' as $$
+declare first_kickoff timestamptz; games integer;
+begin
+  if not (new.season > 2026 or (new.season = 2026 and new.week >= 6)) then return new; end if;
+  if tg_op = 'INSERT' then
+    if new.status = 'open' then raise exception 'Configure the contest as a draft before opening'; end if;
+    return new;
+  end if;
+  if old.entry_deadline_at is not null then
+    if new.entry_deadline_at is distinct from old.entry_deadline_at
+      or new.outcome_resolution_at is distinct from old.outcome_resolution_at
+      or new.status = 'draft' then
+      raise exception 'An opened contest has immutable deadlines';
+    end if;
+  elsif new.status = 'open' and old.status <> 'open' then
+    select min(lock_at), count(*) into first_kickoff, games
+    from public.pickem_games where week_id = new.id;
+    if games not between 1 and 12 or first_kickoff <= clock_timestamp()
+      or new.tiebreaker_game_id is null
+      or not exists (select 1 from public.pickem_games where id = new.tiebreaker_game_id and week_id = new.id)
+      or new.opens_at is null or new.closes_at is null or new.closes_at <= first_kickoff then
+      raise exception 'Configure games, featured game, and closing time before opening';
+    end if;
+    new.entry_deadline_at := first_kickoff;
+    new.outcome_resolution_at :=
+      (date_trunc('week', first_kickoff at time zone 'America/Chicago') + interval '8 days')
+      at time zone 'America/Chicago';
+  end if;
+  return new;
+end; $$;
+revoke all on function private.freeze_pickem_contest_deadlines() from public, anon, authenticated;
+create trigger freeze_pickem_contest_deadlines before insert or update on public.pickem_weeks
+for each row execute function private.freeze_pickem_contest_deadlines();
+
+create table private.pickem_contest_game_resolution (
+  pickem_game_id uuid primary key references public.pickem_games(id) on delete cascade,
+  disposition text not null check (disposition in ('resolved', 'void')),
+  reason text not null,
+  decided_at timestamptz not null default clock_timestamp()
+);
+alter table private.pickem_contest_game_resolution enable row level security;
+revoke all on private.pickem_contest_game_resolution from public, anon, authenticated;
+
+create view public.pickem_contest_void_games as
+select resolution.pickem_game_id, game.week_id, resolution.reason
+from private.pickem_contest_game_resolution resolution
+join public.pickem_games game on game.id = resolution.pickem_game_id
+where resolution.disposition = 'void';
+grant select on public.pickem_contest_void_games to anon, authenticated;
+
 create table private.pickem_entrant_phones (
   user_id uuid primary key references public.profiles(id) on delete cascade,
   phone_e164 text not null unique check (phone_e164 ~ '^\+1[2-9][0-9]{2}[2-9][0-9]{6}$'),
@@ -25,7 +83,6 @@ returns integer language plpgsql security definer set search_path = '' as $$
 declare
   entrant uuid := auth.uid();
   selected_week public.pickem_weeks%rowtype;
-  first_lock timestamptz;
   game record;
   selected_slug text;
 begin
@@ -33,12 +90,12 @@ begin
     raise exception 'An active account is required';
   end if;
   select * into selected_week from public.pickem_weeks where id = p_week_id for share;
-  select min(lock_at) into first_lock from public.pickem_games where week_id = p_week_id;
   if selected_week.id is null or not (selected_week.season > 2026 or (selected_week.season = 2026 and selected_week.week >= 6))
     or selected_week.status <> 'open' or selected_week.tiebreaker_game_id is null
     or selected_week.opens_at is null or now() < selected_week.opens_at
     or selected_week.closes_at is null or now() >= selected_week.closes_at
-    or first_lock is null or now() >= first_lock then
+    or selected_week.entry_deadline_at is null
+    or clock_timestamp() >= selected_week.entry_deadline_at then
     raise exception 'Draft saving is closed';
   end if;
   if p_selections is null or jsonb_typeof(p_selections) <> 'object'
@@ -51,7 +108,9 @@ begin
              where week_id = p_week_id and user_id = entrant) then
     raise exception 'This member already entered the contest';
   end if;
-  for game in select * from public.pickem_games where week_id = p_week_id loop
+  for game in select g.* from public.pickem_games g where g.week_id = p_week_id
+    and not exists (select 1 from private.pickem_contest_game_resolution r
+      where r.pickem_game_id=g.id and r.disposition='void') loop
     selected_slug := p_selections ->> game.id::text;
     if selected_slug is null then continue; end if;
     if selected_slug not in (game.away_school_slug, game.home_school_slug) then
@@ -129,6 +188,14 @@ begin
       raise exception 'A contest slate with entries cannot change its matchups';
     end if;
   end if;
+  if tg_op = 'UPDATE' and new.lock_at is distinct from old.lock_at
+    and exists (select 1 from public.pickem_weeks w
+      where w.id = old.week_id and w.entry_deadline_at is not null
+        and new.lock_at < w.entry_deadline_at)
+    and not exists (select 1 from private.pickem_contest_game_resolution r
+      where r.pickem_game_id = old.id and r.disposition = 'void') then
+    raise exception 'Void this contest matchup before moving its kickoff ahead of the frozen entry deadline';
+  end if;
   if tg_op = 'DELETE' then return old; end if;
   return new;
 end; $$;
@@ -151,6 +218,123 @@ revoke all on function private.protect_contest_week() from public, anon, authent
 create trigger protect_contest_week before update on public.pickem_weeks
 for each row execute function private.protect_contest_week();
 
+-- An administrator must explicitly void an included matchup before a
+-- schedule revision can bring its kickoff ahead of the frozen entry cutoff.
+create function public.admin_void_pickem_contest_game(p_game_id uuid, p_reason text)
+returns void language plpgsql security definer set search_path = '' as $$
+declare chosen public.pickem_games%rowtype;
+begin
+  if auth.uid() is null or not private.has_role('admin'::public.user_role) then
+    raise exception using errcode='42501', message='Administrator access required';
+  end if;
+  if nullif(btrim(p_reason),'') is null then raise exception 'A void reason is required'; end if;
+  select * into chosen from public.pickem_games where id=p_game_id for update;
+  if chosen.id is null or not exists (select 1 from public.pickem_weeks w
+       where w.id=chosen.week_id and w.entry_deadline_at is not null) then
+    raise exception 'An opened cash-contest game is required';
+  end if;
+  if exists (select 1 from private.pickem_contest_game_resolution where pickem_game_id=p_game_id) then
+    raise exception 'This contest matchup is already resolved';
+  end if;
+  insert into private.pickem_contest_game_resolution (pickem_game_id,disposition,reason)
+  values (p_game_id,'void',btrim(p_reason));
+  update public.pickem_games set result_winner_school_slug=null,graded_at=null where id=p_game_id;
+  update public.pickem_picks set is_correct=null where pickem_game_id=p_game_id and is_correct is not null;
+end; $$;
+revoke all on function public.admin_void_pickem_contest_game(uuid,text) from public, anon;
+grant execute on function public.admin_void_pickem_contest_game(uuid,text) to authenticated;
+
+-- Called after the Monday window closes. The first qualifying verified
+-- terminal result was already stamped by the canonical grading trigger.
+create function public.admin_resolve_pickem_contest_week(p_week_id uuid)
+returns integer language plpgsql security definer set search_path = '' as $$
+declare chosen public.pickem_weeks%rowtype; changed integer;
+begin
+  if auth.uid() is null or not private.has_role('admin'::public.user_role) then
+    raise exception using errcode='42501', message='Administrator access required';
+  end if;
+  select * into chosen from public.pickem_weeks where id=p_week_id for update;
+  if chosen.outcome_resolution_at is null or clock_timestamp() < chosen.outcome_resolution_at then
+    raise exception 'The Monday outcome window remains open';
+  end if;
+  with inserted as (
+    insert into private.pickem_contest_game_resolution (pickem_game_id,disposition,reason)
+    select g.id,'void','No verified outcome by Monday 11:59 p.m. America/Chicago'
+    from public.pickem_games g
+    where g.week_id=p_week_id and not exists
+      (select 1 from private.pickem_contest_game_resolution r where r.pickem_game_id=g.id)
+    on conflict do nothing returning pickem_game_id
+  ) select count(*) into changed from inserted;
+  update public.pickem_games g set result_winner_school_slug=null,graded_at=null
+  where g.week_id=p_week_id and exists (select 1 from private.pickem_contest_game_resolution r
+    where r.pickem_game_id=g.id and r.disposition='void')
+    and (g.result_winner_school_slug is not null or g.graded_at is not null);
+  update public.pickem_picks p set is_correct=null
+  from public.pickem_games g join private.pickem_contest_game_resolution r
+    on r.pickem_game_id=g.id and r.disposition='void'
+  where p.pickem_game_id=g.id and g.week_id=p_week_id and p.is_correct is not null;
+  return changed;
+end; $$;
+revoke all on function public.admin_resolve_pickem_contest_week(uuid) from public, anon;
+grant execute on function public.admin_resolve_pickem_contest_week(uuid) to authenticated;
+
+-- Canonical results stay authoritative. The contest resolution decides only
+-- whether that week's picks may receive a grade; later play cannot revive a
+-- matchup voided at the Monday cutoff. A timely final remains correctable.
+create or replace function private.grade_pickem_from_verified_final()
+returns trigger language plpgsql security definer set search_path = '' as $$
+declare selected_game record; winner_slug text; resolution text;
+begin
+  for selected_game in
+    select g.id,g.away_school_slug,g.home_school_slug,w.outcome_resolution_at
+    from public.pickem_games g join public.pickem_weeks w on w.id=g.week_id
+    where g.game_id=new.game_id order by g.id
+  loop
+    resolution := null;
+    if selected_game.outcome_resolution_at is not null then
+      select disposition into resolution from private.pickem_contest_game_resolution
+      where pickem_game_id=selected_game.id;
+      if resolution is null then
+        if new.verified is true and new.status in ('final','cancelled')
+          and clock_timestamp() < selected_game.outcome_resolution_at then
+          insert into private.pickem_contest_game_resolution (pickem_game_id,disposition,reason)
+          values (selected_game.id,'resolved','Verified terminal outcome before Monday cutoff')
+          on conflict do nothing;
+        elsif clock_timestamp() >= selected_game.outcome_resolution_at then
+          insert into private.pickem_contest_game_resolution (pickem_game_id,disposition,reason)
+          values (selected_game.id,'void','No verified outcome by Monday 11:59 p.m. America/Chicago')
+          on conflict do nothing;
+        end if;
+        select disposition into resolution from private.pickem_contest_game_resolution
+        where pickem_game_id=selected_game.id;
+      end if;
+    end if;
+    winner_slug := null;
+    if resolution is distinct from 'void' and new.verified is true and new.status='final' then
+      if new.result_type='played' then
+        winner_slug := case when new.away_score>new.home_score
+          then selected_game.away_school_slug else selected_game.home_school_slug end;
+      elsif new.result_type='forfeit' then
+        winner_slug := new.official_winner_school_slug;
+      end if;
+    end if;
+    if winner_slug is null or winner_slug not in (selected_game.away_school_slug,selected_game.home_school_slug) then
+      update public.pickem_games set result_winner_school_slug=null,graded_at=null
+      where id=selected_game.id and (result_winner_school_slug is not null or graded_at is not null);
+      update public.pickem_picks set is_correct=null,updated_at=now()
+      where pickem_game_id=selected_game.id and is_correct is not null;
+    else
+      update public.pickem_games set result_winner_school_slug=winner_slug,graded_at=now()
+      where id=selected_game.id and result_winner_school_slug is distinct from winner_slug;
+      update public.pickem_picks set is_correct=(picked_school_slug=winner_slug),updated_at=now()
+      where pickem_game_id=selected_game.id
+        and is_correct is distinct from (picked_school_slug=winner_slug);
+    end if;
+  end loop;
+  return new;
+end; $$;
+revoke all on function private.grade_pickem_from_verified_final() from public, anon, authenticated;
+
 -- Do not allow direct Data API writes to bypass the atomic contest checks.
 -- The closed Week 5 slate is read-only; grading uses privileged DB functions.
 revoke insert, update on public.pickem_picks from authenticated;
@@ -170,8 +354,9 @@ declare
   digits text;
   selected_slug text;
   current_slug text;
-  first_lock timestamptz;
   game_count integer;
+  required_count integer;
+  gotw_void boolean;
 begin
   if entrant is null or not private.is_active_member(entrant) then
     raise exception 'An active account is required';
@@ -186,7 +371,7 @@ begin
     or selected_week.closes_at is null or now() >= selected_week.closes_at then
     raise exception 'The contest is not open';
   end if;
-  select min(lock_at), count(*) into first_lock, game_count
+  select count(*) into game_count
   from public.pickem_games where week_id = p_week_id;
   if game_count < 1 or game_count > 12 or p_selections is null
     or jsonb_typeof(p_selections) <> 'object'
@@ -199,8 +384,11 @@ begin
   if existing_entry.status = 'disqualified' then
     raise exception 'This entry is ineligible';
   end if;
-  if existing_entry.week_id is null and now() >= first_lock then
-    raise exception 'New entries closed at the first kickoff';
+  if selected_week.entry_deadline_at is null then
+    raise exception 'The entry deadline is not configured';
+  end if;
+  if existing_entry.week_id is null and clock_timestamp() >= selected_week.entry_deadline_at then
+    raise exception 'New entries closed at the frozen first-kickoff deadline';
   end if;
 
   -- U.S. NANP normalization. This checks format, not mobile ownership or SMS verification.
@@ -226,14 +414,17 @@ begin
     raise exception 'This number is already used for another entrant';
   end if;
 
-  if p_predicted_total is null or p_predicted_total not between 0 and 300 then
-    raise exception 'Enter a Game of the Week combined-points prediction';
-  end if;
   if not exists (select 1 from public.pickem_games
                  where id = selected_week.tiebreaker_game_id and week_id = p_week_id) then
     raise exception 'The Game of the Week is not configured';
   end if;
-  if now() >= (select lock_at from public.pickem_games where id = selected_week.tiebreaker_game_id)
+  select exists (select 1 from private.pickem_contest_game_resolution
+    where pickem_game_id=selected_week.tiebreaker_game_id and disposition='void') into gotw_void;
+  if not gotw_void and (p_predicted_total is null or p_predicted_total not between 0 and 300) then
+    raise exception 'Enter a Game of the Week combined-points prediction';
+  end if;
+  if not gotw_void and clock_timestamp() >=
+    (select lock_at from public.pickem_games where id = selected_week.tiebreaker_game_id)
     and (existing_entry.week_id is null or p_predicted_total is distinct from
       (select predicted_total from public.pickem_week_tiebreakers
        where week_id = p_week_id and user_id = entrant)) then
@@ -241,7 +432,9 @@ begin
   end if;
 
   -- Unique constraints also protect the phone and one-entry-per-week invariant.
-  for game in select * from public.pickem_games where week_id = p_week_id order by id loop
+  for game in select g.* from public.pickem_games g where g.week_id = p_week_id
+    and not exists (select 1 from private.pickem_contest_game_resolution r
+      where r.pickem_game_id=g.id and r.disposition='void') order by g.id loop
     selected_slug := p_selections ->> game.id::text;
     select picked_school_slug into current_slug from public.pickem_picks
       where pickem_game_id = game.id and user_id = entrant;
@@ -254,7 +447,7 @@ begin
     if selected_slug not in (game.away_school_slug, game.home_school_slug) then
       raise exception 'Invalid matchup selection';
     end if;
-    if now() >= game.lock_at then
+    if clock_timestamp() >= game.lock_at then
       if selected_slug is distinct from current_slug then raise exception 'A game is locked'; end if;
     elsif selected_slug is distinct from current_slug then
       insert into public.pickem_picks (pickem_game_id, user_id, picked_school_slug)
@@ -263,22 +456,31 @@ begin
         set picked_school_slug = excluded.picked_school_slug;
     end if;
   end loop;
+  select count(*) into required_count from public.pickem_games g
+    where g.week_id=p_week_id and not exists
+      (select 1 from private.pickem_contest_game_resolution r
+       where r.pickem_game_id=g.id and r.disposition='void');
+  if required_count < 1 then raise exception 'No pickable matchups remain'; end if;
   if (select count(*) from public.pickem_picks p
       join public.pickem_games g on g.id = p.pickem_game_id
-      where g.week_id = p_week_id and p.user_id = entrant) <> game_count then
+      where g.week_id = p_week_id and p.user_id = entrant
+        and not exists (select 1 from private.pickem_contest_game_resolution r
+          where r.pickem_game_id=g.id and r.disposition='void')) <> required_count then
     raise exception 'Select every game before entering';
   end if;
 
   insert into private.pickem_entrant_phones (user_id, phone_e164)
   values (entrant, normalized) on conflict (user_id) do nothing;
   if existing_entry.week_id is null then
-    insert into public.pickem_week_tiebreakers (week_id, user_id, predicted_total)
-    values (p_week_id, entrant, p_predicted_total);
+    if not gotw_void then
+      insert into public.pickem_week_tiebreakers (week_id, user_id, predicted_total)
+      values (p_week_id, entrant, p_predicted_total);
+    end if;
     insert into public.pickem_contest_entries (week_id, user_id)
     values (p_week_id, entrant);
     delete from private.pickem_draft_picks
     where week_id = p_week_id and user_id = entrant;
-  elsif p_predicted_total is distinct from
+  elsif not gotw_void and p_predicted_total is distinct from
     (select predicted_total from public.pickem_week_tiebreakers
      where week_id = p_week_id and user_id = entrant) then
     update public.pickem_week_tiebreakers set predicted_total = p_predicted_total
@@ -299,7 +501,8 @@ with totals as (
     count(*) filter (where pick.is_correct is not null)::integer as graded_picks,
     count(*) filter (where pick.is_correct = true)::integer as correct_picks,
     prediction.predicted_total,
-    case when state.verified and state.status = 'final'
+    case when (week.outcome_resolution_at is null or featured_resolution.disposition='resolved')
+      and state.verified and state.status = 'final'
       and state.result_type in ('played', 'tie')
       and state.home_score is not null and state.away_score is not null
       then state.home_score + state.away_score end as actual_total,
@@ -312,10 +515,13 @@ with totals as (
   left join public.pickem_week_tiebreakers prediction
     on prediction.week_id = week.id and prediction.user_id = pick.user_id
   left join public.pickem_games featured on featured.id = week.tiebreaker_game_id
+  left join private.pickem_contest_game_resolution featured_resolution
+    on featured_resolution.pickem_game_id = featured.id
   left join public.game_state state on state.game_id = featured.game_id
   where week.closes_at is not null and now() >= week.closes_at
     and ((week.season = 2026 and week.week < 6) or entry.status = 'valid')
-  group by week.id, pick.user_id, prediction.predicted_total, state.verified,
+  group by week.id, pick.user_id, prediction.predicted_total, week.outcome_resolution_at,
+    featured_resolution.disposition, state.verified,
     state.status, state.result_type, state.home_score, state.away_score,
     entry.completed_at, entry.entry_order, entry.status
 ), ranked as (
@@ -359,8 +565,15 @@ begin
       select 1 from public.pickem_games game
       left join public.game_state state on state.game_id = game.game_id
       where game.week_id = p_week_id
+        and not exists (select 1 from private.pickem_contest_game_resolution resolution
+          where resolution.pickem_game_id=game.id and resolution.disposition='void')
         and (state.verified is distinct from true
           or state.status not in ('final', 'cancelled'))
+    ) or exists (
+      select 1 from public.pickem_games game
+      where game.week_id=p_week_id
+        and not exists (select 1 from private.pickem_contest_game_resolution resolution
+          where resolution.pickem_game_id=game.id)
     ) then
     return;
   end if;

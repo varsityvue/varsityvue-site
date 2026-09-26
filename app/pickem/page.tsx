@@ -71,7 +71,7 @@ export default async function PickemPage({ searchParams }: PageProps) {
 
   const { data: week } = await supabase
     .from("pickem_weeks")
-    .select("id, season, week, title, status, closes_at, tiebreaker_game_id")
+    .select("id, season, week, title, status, closes_at, tiebreaker_game_id, entry_deadline_at")
     .in("status", ["open", "locked", "graded"])
     .order("season", { ascending: false })
     .order("week", { ascending: false })
@@ -116,6 +116,10 @@ export default async function PickemPage({ searchParams }: PageProps) {
   const { data: prize } = contestWeek
     ? await supabase.from("pickem_contest_prize").select("valid_entries, prize_dollars").eq("week_id", week!.id).maybeSingle()
     : { data: null };
+  const { data: voidGames } = contestWeek
+    ? await supabase.from("pickem_contest_void_games").select("pickem_game_id, reason").eq("week_id", week!.id)
+    : { data: [] };
+  const voidGameIds = new Set((voidGames ?? []).map((row) => row.pickem_game_id));
 
   const memberGameIds = [...new Set((memberPickRows ?? []).map((pick) => pick.pickem_game_id))];
   const [{ data: memberGameRows }, { data: memberTotal }] = isActiveMember && week
@@ -162,7 +166,9 @@ export default async function PickemPage({ searchParams }: PageProps) {
 
   const weekClosed = week ? isPickemWeekClosed(week) : true;
   const firstKickoff = (slateRows ?? []).reduce<number>((minimum, row) => Math.min(minimum, new Date(row.lock_at).getTime()), Infinity);
-  const newEntriesClosed = contestWeek && isPickemEntryClosed(firstKickoff);
+  const newEntriesClosed = contestWeek && isPickemEntryClosed(
+    week?.entry_deadline_at ? new Date(week.entry_deadline_at).getTime() : firstKickoff,
+  );
   const { data: weeklyStandings } = week && weekClosed
     ? await supabase.from("pickem_week_standings").select("user_id, display_name, username, correct_picks, graded_picks, predicted_total, actual_total, distance, weekly_rank").eq("week_id", week.id).order("weekly_rank", { ascending: true }).order("user_id", { ascending: true }).limit(20)
     : { data: [] };
@@ -172,6 +178,7 @@ export default async function PickemPage({ searchParams }: PageProps) {
     ...typedDraftPicks.map((pick) => [pick.pickem_game_id, pick.picked_school_slug] as const),
   ]);
   const games: PickemSlateGame[] = (slateRows ?? []).flatMap((row) => {
+    if (voidGameIds.has(row.id)) return [];
     const game = getGameById(row.game_id);
     if (!game || !row.away_school_slug || !row.home_school_slug) return [];
     const awaySchool = getSchoolBySlug(row.away_school_slug);
@@ -279,14 +286,15 @@ export default async function PickemPage({ searchParams }: PageProps) {
         </section>
 
         {week && weekClosed ? <div className="mt-5 rounded-xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm font-bold text-amber-50">Week {week.week} Pick ’Em is CLOSED. Saved picks remain visible while verified results are graded.</div> : null}
-        {contestWeek && prize ? <section className="mt-5 rounded-xl border border-white/15 bg-white/[0.04] p-4 text-sm text-white/80"><strong className="text-white">Free Week {week?.week} contest · Current prize: ${prize.prize_dollars}</strong><p className="mt-1 text-xs text-white/55">${prize.valid_entries} valid completed {prize.valid_entries === 1 ? "entry" : "entries"} · $1 per valid entry, maximum $100. One entry per person. A U.S. mobile number is required; number ownership is not SMS verified. Official rules are pending approval.</p><p className="mt-1 text-xs text-white/55">Complete every pick and the Game of the Week total-points prediction before the first kickoff. Each correct pick earns one point. Closest combined-points prediction breaks a tie; if still tied, the earliest completed entry wins.</p></section> : null}
-        {contestWeek && newEntriesClosed && !memberEntry && !weekClosed ? <div className="mt-5 rounded-xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm text-amber-50">New Week {week?.week} contest entries are closed after the first kickoff. Existing entrants may edit games that have not started.</div> : null}
+        {contestWeek && prize ? <section className="mt-5 rounded-xl border border-white/15 bg-white/[0.04] p-4 text-sm text-white/80"><strong className="text-white">Free Week {week?.week} contest · Current prize: ${prize.prize_dollars}</strong><p className="mt-1 text-xs text-white/55">{prize.valid_entries} valid completed {prize.valid_entries === 1 ? "entry" : "entries"} · $1 per valid entry, maximum $100. One entry per person. A U.S. mobile number is required; number ownership is not SMS verified. Official rules are pending approval.</p><p className="mt-1 text-xs text-white/55">Complete every non-void pick and, if the Game of the Week remains active, its total-points prediction before the frozen entry deadline. Each correct pick earns one point. Closest combined-points prediction breaks a tie; if still tied, the earliest completed entry wins.</p></section> : null}
+        {voidGames?.length ? <div className="mt-5 rounded-xl border border-sky-300/20 bg-sky-300/10 p-4 text-sm text-sky-50">{voidGames.length} included {voidGames.length === 1 ? "matchup is" : "matchups are"} VOID for this contest. No pick is required or graded for {voidGames.length === 1 ? "it" : "them"}.{voidGameIds.has(week?.tiebreaker_game_id ?? "") ? " The Game of the Week prediction is skipped." : ""}</div> : null}
+        {contestWeek && newEntriesClosed && !memberEntry && !weekClosed ? <div className="mt-5 rounded-xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm text-amber-50">New Week {week?.week} contest entries are closed at the frozen entry deadline. Existing entrants may edit games that have not started.</div> : null}
         {!week || games.length === 0 ? (
           <section className="mt-5 rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-center text-white/55">The next Pick ’Em slate is not open yet.</section>
         ) : isActiveMember ? (
           <>
             {intendedPicks.size > 0 ? <div className="mt-5 rounded-2xl border border-emerald-300/20 bg-emerald-300/10 p-4 text-sm text-emerald-50">Your pre-registration picks were restored. Select <strong>Save My Picks</strong> below to add them to your account.</div> : null}
-            {(!newEntriesClosed || memberEntry || !contestWeek) && <PickemSlateForm weekId={week.id} games={games} contest={contestWeek ? { entered: Boolean(memberEntry), completedAt: memberEntry?.completed_at, status: memberEntry?.status } : undefined} tiebreaker={week.tiebreaker_game_id ? { matchup: (() => { const selected = games.find((game) => game.id === week.tiebreaker_game_id); return selected ? `${selected.awayName} at ${selected.homeName}` : "Game of the Week"; })(), savedPrediction: memberPrediction?.predicted_total, locked: games.find((game) => game.id === week.tiebreaker_game_id)?.locked ?? false } : undefined} />}
+            {(!newEntriesClosed || memberEntry || !contestWeek) && <PickemSlateForm weekId={week.id} games={games} contest={contestWeek ? { entered: Boolean(memberEntry), completedAt: memberEntry?.completed_at, status: memberEntry?.status } : undefined} tiebreaker={week.tiebreaker_game_id && !voidGameIds.has(week.tiebreaker_game_id) ? { matchup: (() => { const selected = games.find((game) => game.id === week.tiebreaker_game_id); return selected ? `${selected.awayName} at ${selected.homeName}` : "Game of the Week"; })(), savedPrediction: memberPrediction?.predicted_total, locked: games.find((game) => game.id === week.tiebreaker_game_id)?.locked ?? false } : undefined} />}
           </>
         ) : (
           !newEntriesClosed ? <PickemGuestSlate games={games} /> : null
@@ -344,7 +352,7 @@ export default async function PickemPage({ searchParams }: PageProps) {
                             <p className="mt-1 text-sm font-black">Picked {pick.pickedTeam}</p>
                           </div>
                           <span className={`shrink-0 rounded-full border px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.1em] ${pick.isCorrect === true ? "border-emerald-300/20 bg-emerald-300/10 text-emerald-100" : pick.isCorrect === false ? "border-red-300/20 bg-red-300/10 text-red-100" : pick.editable ? "border-sky-300/20 bg-sky-300/10 text-sky-100" : "border-white/10 bg-white/[0.04] text-white/45"}`}>
-                            {pickResultLabel(pick.isCorrect, pick.editable)}
+                            {voidGameIds.has(pick.id) ? "Void" : pickResultLabel(pick.isCorrect, pick.editable)}
                           </span>
                         </div>
                       ))}

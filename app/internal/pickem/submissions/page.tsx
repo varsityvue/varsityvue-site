@@ -101,6 +101,14 @@ export default async function PickemSubmissionsPage({ searchParams }: PageProps)
   const { data: contestPrize } = contestWeek
     ? await supabase.from("pickem_contest_prize").select("valid_entries, prize_dollars").eq("week_id", selectedWeek!.id).maybeSingle()
     : { data: null };
+  const { data: contestWeekTimes } = contestWeek
+    ? await supabase.from("pickem_weeks").select("entry_deadline_at, outcome_resolution_at")
+      .eq("id", selectedWeek!.id).maybeSingle()
+    : { data: null };
+  const { data: voidGames } = contestWeek
+    ? await supabase.from("pickem_contest_void_games").select("pickem_game_id, reason")
+      .eq("week_id", selectedWeek!.id)
+    : { data: [] };
   const { data: contestStandings } = contestWeek
     ? await supabase.from("pickem_week_standings")
       .select("user_id, display_name, correct_picks, predicted_total, actual_total, distance, weekly_rank")
@@ -153,6 +161,8 @@ export default async function PickemSubmissionsPage({ searchParams }: PageProps)
             {contestWeek && contestPrize && <section className="mt-4 rounded-2xl border border-white/10 bg-white/[0.04] p-4 sm:p-5">
               <h2 className="text-lg font-black">Cash contest status · Week {selectedWeek.week}</h2>
               <p className="mt-2 text-sm text-white/70">{contestPrize.valid_entries} valid completed entries · ${contestPrize.prize_dollars} current prize (maximum $100). {Math.max(0, entrants.length - contestPrize.valid_entries)} members with saved picks do not currently count as valid entries.</p>
+              <p className="mt-2 text-xs text-white/60">Frozen entry deadline: {dateTimeLabel(contestWeekTimes?.entry_deadline_at ?? null)} · Monday result cutoff: {dateTimeLabel(contestWeekTimes?.outcome_resolution_at ?? null)} (exclusive Tuesday midnight).</p>
+              <p className="mt-2 text-xs text-white/60">Contest VOID matchups: {voidGames?.length ?? 0}. Resolve unfinished games after the Monday cutoff before contacting a winner.</p>
               <p className="mt-1 text-xs text-white/45">Phone numbers are held privately. Number uniqueness is enforced, but ownership is not SMS verified. Standings appear after the weekly close; review every outcome and eligibility before announcing a winner.</p>
               {contestStandings?.[0] && <p className="mt-3 text-sm text-white/80">Provisional leader: {contestStandings[0].display_name || "VarsityVue Member"} · {contestStandings[0].correct_picks} correct · prediction {contestStandings[0].predicted_total ?? "—"} · actual {contestStandings[0].actual_total ?? "pending"} · difference {contestStandings[0].distance ?? "pending"}. Verify all games before finalizing.</p>}
               {winnerContact?.[0] && <p className="mt-2 text-sm text-white/70">Provisional leader contact: {winnerContact[0].phone_e164}. Confirm eligibility and corrected scores before notifying anyone.</p>}

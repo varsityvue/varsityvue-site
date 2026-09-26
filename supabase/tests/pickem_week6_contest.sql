@@ -16,14 +16,18 @@ select user_id, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authen
 create temporary table contest_fixture (week_id uuid, game_number integer, pickem_game_id uuid) on commit preserve rows;
 do $$ declare w uuid; g uuid; begin
  insert into public.pickem_weeks (season, week, title, status, opens_at, closes_at)
- values (2099, 6, 'Isolated test only', 'open', now()-interval '1 hour', now()+interval '20 seconds') returning id into w;
+ values (2099, 6, 'Isolated test only', 'draft', now()-interval '1 hour', now()+interval '20 seconds') returning id into w;
  for i in 1..9 loop
   insert into public.pickem_games (week_id, game_id, sort_order, lock_at, away_school_slug, home_school_slug)
   values (w, '__isolated_week6_'||i, i, now()+case when i=1 then interval '7 seconds' else interval '15 seconds' end,
     'away-'||i, 'home-'||i) returning id into g;
   insert into contest_fixture values (w,i,g);
  end loop;
- update public.pickem_weeks set tiebreaker_game_id = (select pickem_game_id from contest_fixture where game_number=1) where id=w;
+ update public.pickem_weeks set tiebreaker_game_id = (select pickem_game_id from contest_fixture where game_number=1), status='open' where id=w;
+ if (select entry_deadline_at from public.pickem_weeks where id=w) is distinct from
+    (select min(lock_at) from public.pickem_games where week_id=w) then raise exception 'Entry cutoff did not freeze at opening'; end if;
+ if (select outcome_resolution_at from public.pickem_weeks where id=w) is distinct from
+    ((date_trunc('week', (select min(lock_at) from public.pickem_games where week_id=w) at time zone 'America/Chicago') + interval '8 days') at time zone 'America/Chicago') then raise exception 'Monday Central cutoff incorrect'; end if;
 end $$;
 grant select on test_ids, contest_fixture to authenticated;
 set local role authenticated;
@@ -212,10 +216,10 @@ select user_id,'00000000-0000-0000-0000-000000000000','authenticated','authentic
 create temporary table cap_fixture (week_id uuid, game_id uuid) on commit preserve rows;
 do $$ declare w uuid; g uuid; begin
  insert into public.pickem_weeks (season,week,title,status,opens_at,closes_at)
- values (2099,8,'Cap fixture','open',now()-interval '1 hour',now()+interval '1 hour') returning id into w;
+ values (2099,8,'Cap fixture','draft',now()-interval '1 hour',now()+interval '1 hour') returning id into w;
  insert into public.pickem_games (week_id,game_id,lock_at,away_school_slug,home_school_slug)
  values (w,'__cap_game__',now()+interval '30 minutes','cap-away','cap-home') returning id into g;
- update public.pickem_weeks set tiebreaker_game_id=g where id=w;
+ update public.pickem_weeks set tiebreaker_game_id=g,status='open' where id=w;
  insert into cap_fixture values (w,g);
 end $$;
 grant select on cap_ids, cap_fixture to authenticated;

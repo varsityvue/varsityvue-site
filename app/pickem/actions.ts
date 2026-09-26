@@ -73,9 +73,13 @@ export async function savePickemSlate(
   }
 
   if (week.season > 2026 || (week.season === 2026 && week.week >= 6)) {
+    const { data: voidGames } = await supabase.from("pickem_contest_void_games")
+      .select("pickem_game_id").eq("week_id", week.id);
+    const voidIds = new Set((voidGames ?? []).map((game) => game.pickem_game_id));
+    const gotwVoid = voidIds.has(week.tiebreaker_game_id ?? "");
     const rawPrediction = String(formData.get("predicted_total") ?? "").trim();
     const predictedTotal = Number(rawPrediction);
-    if (!/^\d{1,3}$/.test(rawPrediction) || predictedTotal > 300) {
+    if (!gotwVoid && (!/^\d{1,3}$/.test(rawPrediction) || predictedTotal > 300)) {
       return { status: "error", message: "Enter the Game of the Week combined-points prediction (0–300)." };
     }
     const selections = Object.fromEntries(games.flatMap((game) => {
@@ -86,14 +90,14 @@ export async function savePickemSlate(
     const { data: completedAt, error } = await supabase.rpc("submit_pickem_contest_entry", {
       p_week_id: week.id,
       p_phone: phone || null,
-      p_predicted_total: predictedTotal,
+      p_predicted_total: gotwVoid ? null : predictedTotal,
       p_selections: selections,
     });
     if (error) {
       const detail = error.message.toLowerCase();
       const message = detail.includes("already used") ? "This number is already used for another entrant."
         : detail.includes("phone") || detail.includes("mobile") ? "Enter a valid U.S. mobile number."
-        : detail.includes("first kickoff") ? "New entries closed when the first game kicked off."
+        : detail.includes("frozen first-kickoff") ? "New entries closed at the frozen first-kickoff deadline."
         : detail.includes("locked") ? "A game or prediction locked while saving. Refresh and try again."
         : detail.includes("every game") ? "Select every game before entering."
         : "Your entry could not be saved. Refresh and review the slate.";
