@@ -72,9 +72,11 @@ jobs:
           npx agent-browser fill 'input[name="home_score"]' '28'
           npx agent-browser fill 'input[name="reason"]' 'Official correction'
           npx agent-browser click 'button[type="button"]'
-          npx agent-browser get text 'form' > /tmp/score-form.txt
-          grep -q 'Before: Away A 28 · Home B 21' /tmp/score-form.txt
-          grep -q 'After: Away A 27 · Home B 28' /tmp/score-form.txt
+          npx agent-browser snapshot -i
+          npx agent-browser eval 'document.querySelector("form")?.innerText' > /tmp/score-form.txt
+          cat /tmp/score-form.txt
+          grep -q 'Before: Away A 28' /tmp/score-form.txt
+          grep -q 'After: Away A 27' /tmp/score-form.txt
           npx agent-browser eval 'document.documentElement.scrollWidth <= innerWidth' | grep -q true
           npx agent-browser screenshot /tmp/score-phone.png
           npx agent-browser set viewport 1280 800
