@@ -81,7 +81,7 @@ assert.equal(await stale.locator('[name=home_score]').inputValue(),'29');
 assert.equal(await stale.locator('[name=away_score]').inputValue(),'27');
 for(const width of [390,400,430]) {
  await stale.setViewportSize({width,height:844});
- assert.ok(await stale.getByRole('alert').isVisible());
+ assert.ok(await stale.getByRole('alert').filter({hasText:/game changed|Refresh and review/i}).first().isVisible());
  assert.ok(await stale.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
 }
 console.log('stale UI rejected and refreshed latest revision: PASS');
