@@ -43,6 +43,10 @@ do $$ begin
     perform public.correct_game_score('__score_correction__',(select updated_at from public.game_state where game_id='__score_correction__'),1,'final',7,3,'Q4','00:00','Moderator final attempt');
     raise exception 'Moderator final was accepted';
   exception when insufficient_privilege then null; end;
+  begin
+    update public.game_state set status='final' where game_id='__score_correction__';
+    raise exception 'Direct moderator FINAL update was accepted';
+  exception when insufficient_privilege then null; end;
 end $$;
 
 reset role;
@@ -57,6 +61,16 @@ select public.correct_game_score('__score_correction__',(select updated_at from 
 do $$ begin
   if not exists (select 1 from public.pickem_games where game_id='__score_correction__' and result_winner_school_slug='away-a') then raise exception 'Initial final did not grade'; end if;
 end $$;
+select set_config('request.jwt.claim.sub', (select value::text from correction_ids where key='moderator'), true);
+set local role authenticated;
+do $$ begin
+  begin
+    update public.game_state set clock='00:01' where game_id='__score_correction__';
+    raise exception 'Direct finalized clock update bypassed the audit';
+  exception when insufficient_privilege then null; end;
+end $$;
+select set_config('request.jwt.claim.sub', (select value::text from correction_ids where key='admin'), true);
+set local role authenticated;
 select public.correct_game_score('__score_correction__',(select updated_at from public.game_state where game_id='__score_correction__'),2,'final',14,21,'Q4','00:00','Official corrected final');
 reset role;
 do $$ begin

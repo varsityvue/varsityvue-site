@@ -89,3 +89,37 @@ end;
 $$;
 revoke all on function public.correct_game_score(text,timestamptz,bigint,text,integer,integer,text,text,text) from public, anon;
 grant execute on function public.correct_game_score(text,timestamptz,bigint,text,integer,integer,text,text,text) to authenticated;
+
+-- Direct authenticated Data API writes must not bypass correction auditing or
+-- originate a FINAL event. Trusted review triggers and RPCs run as their owner.
+create or replace function private.guard_canonical_outcome_write()
+returns trigger language plpgsql security invoker set search_path = '' as $$
+begin
+  if current_user in ('anon', 'authenticated') and (
+    (tg_op = 'INSERT' and (
+      new.result_type is not null or new.official_winner_school_slug is not null
+      or new.outcome_revision <> 0 or new.status = 'final'
+    )) or
+    (tg_op = 'UPDATE' and (
+      new.result_type is distinct from old.result_type
+      or new.official_winner_school_slug is distinct from old.official_winner_school_slug
+      or new.outcome_revision is distinct from old.outcome_revision
+      or (new.status = 'final' and old.status is distinct from 'final')
+      or (old.verified is true and old.status = 'final' and (
+        new.status is distinct from old.status
+        or new.home_score is distinct from old.home_score
+        or new.away_score is distinct from old.away_score
+        or new.period is distinct from old.period
+        or new.clock is distinct from old.clock
+        or new.verified is distinct from old.verified
+        or new.verified_at is distinct from old.verified_at
+      ))
+    ))
+  ) then
+    raise exception using errcode = '42501',
+      message = 'Finalized game changes must use an authorized correction or review operation.';
+  end if;
+  return new;
+end;
+$$;
+revoke all on function private.guard_canonical_outcome_write() from public, anon, authenticated;
