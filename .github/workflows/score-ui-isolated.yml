@@ -33,5 +33,8 @@ jobs:
           source /tmp/supabase-ui.env
           printf 'NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321\nNEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=%s\n' "$ANON_KEY" > .env.local
           npm run dev -- --hostname 127.0.0.1 > /tmp/score-ui-next.log 2>&1 &
-          for i in {1..80}; do curl -fsS http://127.0.0.1:3000/verification-login -o /dev/null && break || sleep 2; done
+          for i in {1..30}; do curl -fsS http://127.0.0.1:3000/ -o /dev/null && break || sleep 2; done
+          curl -sS -D /tmp/score-login-headers http://127.0.0.1:3000/verification-login -o /tmp/score-login-response
+          head -n 1 /tmp/score-login-headers
+          if grep -q '500' /tmp/score-login-headers; then cat /tmp/score-login-response; exit 1; fi
           node scripts/verification-score-ui.mjs || { tail -100 /tmp/score-ui-next.log; exit 1; }
