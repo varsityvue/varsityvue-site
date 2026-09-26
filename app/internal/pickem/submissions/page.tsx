@@ -103,7 +103,7 @@ export default async function PickemSubmissionsPage({ searchParams }: PageProps)
     ? await supabase.from("pickem_contest_prize").select("valid_entries, prize_dollars").eq("week_id", selectedWeek!.id).maybeSingle()
     : { data: null };
   const { data: contestWeekTimes } = contestWeek
-    ? await supabase.from("pickem_weeks").select("entry_deadline_at, outcome_resolution_at")
+    ? await supabase.from("pickem_weeks").select("entry_deadline_at, outcome_resolution_at, presenting_sponsor_name")
       .eq("id", selectedWeek!.id).maybeSingle()
     : { data: null };
   const { data: voidGames } = contestWeek
@@ -166,6 +166,7 @@ export default async function PickemSubmissionsPage({ searchParams }: PageProps)
             </section>
             {contestWeek && contestPrize && <section className="mt-4 rounded-2xl border border-white/10 bg-white/[0.04] p-4 sm:p-5">
               <h2 className="text-lg font-black">Cash contest status · Week {selectedWeek.week}</h2>
+              {contestWeekTimes?.presenting_sponsor_name && <p className="mt-1 text-xs text-white/60">Presented by {contestWeekTimes.presenting_sponsor_name}. VarsityVue administers entries, winner review, and payment; sponsor recognition does not grant access to entrant records.</p>}
               <p className="mt-2 text-sm text-white/70">{contestPrize.valid_entries} accepted completed entries · ${contestPrize.prize_dollars} provisional prize (maximum $100), subject to eligibility/disqualification review. {Math.max(0, entrants.length - contestPrize.valid_entries)} members with saved picks do not currently count.</p>
               <p className="mt-2 text-xs text-white/60">Frozen entry deadline: {dateTimeLabel(contestWeekTimes?.entry_deadline_at ?? null)} · Monday result cutoff: {dateTimeLabel(contestWeekTimes?.outcome_resolution_at ?? null)} (exclusive Tuesday midnight).</p>
               <p className="mt-2 text-xs text-white/60">Contest VOID matchups: {voidGames?.length ?? 0}. Resolve unfinished games after the Monday cutoff before contacting a winner.</p>

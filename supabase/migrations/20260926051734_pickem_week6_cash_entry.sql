@@ -3,7 +3,10 @@ alter table public.pickem_weeks
   add column entry_deadline_at timestamptz,
   add column outcome_resolution_at timestamptz,
   add column official_rules_version text,
-  add column official_rules_published_at timestamptz;
+  add column official_rules_published_at timestamptz,
+  add column presenting_sponsor_name text
+    check (presenting_sponsor_name is null or
+      (length(btrim(presenting_sponsor_name)) between 1 and 100 and presenting_sponsor_name = btrim(presenting_sponsor_name)));
 
 -- The deadline is snapshotted when a fully configured draft week opens.
 -- The local Tuesday midnight boundary is exclusive: this represents the end
@@ -22,6 +25,7 @@ begin
       or new.outcome_resolution_at is distinct from old.outcome_resolution_at
       or new.official_rules_version is distinct from old.official_rules_version
       or new.official_rules_published_at is distinct from old.official_rules_published_at
+      or new.presenting_sponsor_name is distinct from old.presenting_sponsor_name
       or new.status = 'draft' then
       raise exception 'An opened contest has immutable deadlines';
     end if;

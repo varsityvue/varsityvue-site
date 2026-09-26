@@ -15,8 +15,8 @@ select user_id, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authen
   jsonb_build_object('display_name', 'Contest test ' || label), now(), now() from test_ids;
 create temporary table contest_fixture (week_id uuid, game_number integer, pickem_game_id uuid) on commit preserve rows;
 do $$ declare w uuid; g uuid; begin
- insert into public.pickem_weeks (season, week, title, status, opens_at, closes_at, official_rules_version, official_rules_published_at)
- values (2099, 6, 'Isolated test only', 'draft', now()-interval '1 hour', now()+interval '20 seconds','isolated-test',now()) returning id into w;
+ insert into public.pickem_weeks (season, week, title, status, opens_at, closes_at, official_rules_version, official_rules_published_at, presenting_sponsor_name)
+ values (2099, 6, 'Isolated test only', 'draft', now()-interval '1 hour', now()+interval '20 seconds','isolated-test',now(),'Gilder Storage') returning id into w;
  for i in 1..9 loop
   insert into public.pickem_games (week_id, game_id, sort_order, lock_at, away_school_slug, home_school_slug)
   values (w, '__isolated_week6_'||i, i, now()+case when i=1 then interval '7 seconds' else interval '15 seconds' end,
@@ -30,6 +30,11 @@ do $$ declare w uuid; g uuid; begin
  exception when others then if sqlerrm='Unpublished rules allowed contest opening' then raise; end if; end;
  update public.pickem_weeks set official_rules_version='isolated-test' where id=w;
  update public.pickem_weeks set tiebreaker_game_id = (select pickem_game_id from contest_fixture where game_number=1), status='open' where id=w;
+ if (select presenting_sponsor_name from public.pickem_weeks where id=w) <> 'Gilder Storage' then raise exception 'Sponsor configuration not retained'; end if;
+ begin
+  update public.pickem_weeks set presenting_sponsor_name='Changed sponsor' where id=w;
+  raise exception 'Opened sponsor attribution changed';
+ exception when others then if sqlerrm='Opened sponsor attribution changed' then raise; end if; end;
  if (select entry_deadline_at from public.pickem_weeks where id=w) is distinct from
     (select min(lock_at) from public.pickem_games where week_id=w) then raise exception 'Entry cutoff did not freeze at opening'; end if;
  if (select outcome_resolution_at from public.pickem_weeks where id=w) is distinct from
