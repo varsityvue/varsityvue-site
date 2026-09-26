@@ -85,6 +85,7 @@ select public.admin_record_pickem_winner_notice((select id from integration_week
 select public.correct_game_score('__integrated_gotw__',
  (select updated_at from public.game_state where game_id='__integrated_gotw__'),1,
  'final',25,35,'Q4','00:00','B: revised official total');
+reset role;
 do $$ declare w uuid;begin
  select id into w from integration_week;
  if not exists(select 1 from private.pickem_winner_claims c join integration_ids i on i.id=c.user_id
@@ -95,6 +96,11 @@ do $$ declare w uuid;begin
  perform public.admin_finalize_pickem_contest_results(w);
  if (select user_id from public.admin_pickem_provisional_winner_contact(w)) is distinct from
    (select id from integration_ids where label='A') then raise exception 'B: A not new leader';end if;
+end $$;
+set local role authenticated;
+select set_config('request.jwt.claim.sub',(select id::text from integration_ids where label='admin'),true);
+do $$ declare w uuid;begin
+ select id into w from integration_week;
  perform public.admin_record_pickem_winner_notice(w);
  perform public.admin_record_pickem_winner_response(w);
  perform public.admin_decide_pickem_winner_claim(w,'confirmed','Test eligibility reviewed');
@@ -103,6 +109,7 @@ end $$;
 select public.correct_game_score('__integrated_gotw__',
  (select updated_at from public.game_state where game_id='__integrated_gotw__'),2,
  'final',28,42,'Q4','00:00','C: official score revised');
+reset role;
 do $$ declare w uuid;begin
  select id into w from integration_week;
  if not exists(select 1 from private.pickem_winner_claims c join integration_ids i on i.id=c.user_id
@@ -112,6 +119,11 @@ do $$ declare w uuid;begin
  begin perform public.admin_record_pickem_prize_paid(w);
    raise exception 'C: stale A could be paid';
  exception when others then if sqlerrm='C: stale A could be paid' then raise;end if;end;
+end $$;
+set local role authenticated;
+select set_config('request.jwt.claim.sub',(select id::text from integration_ids where label='admin'),true);
+do $$ declare w uuid;begin
+ select id into w from integration_week;
  perform public.admin_finalize_pickem_contest_results(w);
  perform public.admin_record_pickem_winner_notice(w);
  perform public.admin_record_pickem_winner_response(w);
@@ -121,6 +133,7 @@ end $$;
 select public.correct_game_score('__integrated_gotw__',
  (select updated_at from public.game_state where game_id='__integrated_gotw__'),3,
  'final',29,42,'Q4','00:00','E: minor official adjustment');
+reset role;
 do $$ declare w uuid;begin
  select id into w from integration_week;
  if (select generation from public.admin_pickem_correction_review_status(w))<>4
@@ -128,6 +141,11 @@ do $$ declare w uuid;begin
  or not exists(select 1 from private.pickem_winner_claims where week_id=w
     and generation=4 and decision='confirmed')
  then raise exception 'E: unchanged leader restarted workflow';end if;
+end $$;
+set local role authenticated;
+select set_config('request.jwt.claim.sub',(select id::text from integration_ids where label='admin'),true);
+do $$ declare w uuid;begin
+ select id into w from integration_week;
  perform public.admin_record_pickem_prize_paid(w);
 end $$;
 -- D: a paid record survives, and a changed leader requires manual review.
@@ -148,5 +166,79 @@ do $$ declare w uuid;begin
  if (select user_id from public.pickem_week_standings where week_id=w order by weekly_rank limit 1)
    is distinct from (select id from integration_ids where label='A')
  then raise exception 'D: canonical corrected ranking not reflected';end if;
+end $$;
+-- Separate legitimate contest: a final correction reverses the picked winner,
+-- and canonical tie, forfeit and no-contest outcomes retain their grading rules.
+create temp table reversal_week (id uuid,game uuid) on commit preserve rows;
+do $$ declare w uuid;g uuid;begin
+ insert into public.pickem_weeks(season,week,title,status,opens_at,closes_at,
+   official_rules_version,official_rules_published_at)
+ values(2098,7,'Winner reversal test','draft',now()-interval '1 minute',
+   now()+interval '5 seconds','isolated-test',now()) returning id into w;
+ insert into public.pickem_games(week_id,game_id,sort_order,lock_at,away_school_slug,home_school_slug)
+ values(w,'__integrated_reversal__',1,now()+interval '3 seconds','rev-away','rev-home') returning id into g;
+ update public.pickem_weeks set tiebreaker_game_id=g,status='open' where id=w;
+ insert into reversal_week values(w,g);
+end $$;
+grant select on reversal_week to authenticated;
+set local role authenticated;
+do $$ declare w uuid;g uuid;r record;begin
+ select id,game into w,g from reversal_week;
+ for r in select * from integration_ids where label in ('A','B') order by label loop
+   perform set_config('request.jwt.claim.sub',r.id::text,true);
+   perform public.submit_pickem_contest_entry(w,r.phone,35,
+     jsonb_build_object(g::text,case when r.label='A' then 'rev-away' else 'rev-home' end),true);
+ end loop;
+end $$;
+reset role;
+select pg_sleep(5.1);
+insert into private.final_score_notification_games
+ (game_id,game_date,kickoff,away_team_name,home_team_name,away_school_slug,home_school_slug)
+ values('__integrated_reversal__',current_date,now(),'Rev Away','Rev Home','rev-away','rev-home');
+insert into public.game_state(game_id,status,away_score,home_score,verified,verified_at,
+ result_type,away_school_slug,home_school_slug)
+ values('__integrated_reversal__','final',21,14,true,now(),'played','rev-away','rev-home');
+set local role authenticated;
+select set_config('request.jwt.claim.sub',(select id::text from integration_ids where label='admin'),true);
+select public.correct_game_score('__integrated_reversal__',
+ (select updated_at from public.game_state where game_id='__integrated_reversal__'),0,
+ 'final',14,21,'Q4','00:00','Verified winner reversal');
+reset role;
+do $$ declare g uuid;begin
+ select game into g from reversal_week;
+ if (select result_winner_school_slug from public.pickem_games where id=g)<>'rev-home'
+ or not exists(select 1 from public.pickem_picks p join integration_ids i on i.id=p.user_id
+   where p.pickem_game_id=g and i.label='B' and p.is_correct)
+ or not exists(select 1 from public.pickem_picks p join integration_ids i on i.id=p.user_id
+   where p.pickem_game_id=g and i.label='A' and p.is_correct=false)
+ or (select count(*) from private.game_score_correction_audit
+   where game_id='__integrated_reversal__' and previous_state->>'away_score'='21'
+     and corrected_state->>'away_score'='14')<>1
+ or (select count(*) from private.product_notification_events
+   where category='final_score' and source_key='game-final:__integrated_reversal__')<>1
+ then raise exception 'Winner reversal, audit, grading, or FINAL suppression failed';end if;
+end $$;
+set local role authenticated;
+select set_config('request.jwt.claim.sub',(select id::text from integration_ids where label='admin'),true);
+select public.correct_game_score('__integrated_reversal__',
+ (select updated_at from public.game_state where game_id='__integrated_reversal__'),1,
+ 'final',17,17,'OT','00:00','Verified official tie');
+reset role;
+do $$ begin
+ if exists(select 1 from public.pickem_picks where pickem_game_id=(select game from reversal_week)
+   and is_correct is not null) then raise exception 'Tie retained stale grades';end if;
+end $$;
+update public.game_state set result_type='forfeit',away_score=null,home_score=null,
+ official_winner_school_slug='rev-home' where game_id='__integrated_reversal__';
+do $$ begin
+ if not exists(select 1 from public.pickem_picks p join integration_ids i on i.id=p.user_id
+   where p.pickem_game_id=(select game from reversal_week) and i.label='B' and p.is_correct)
+ then raise exception 'Canonical forfeit winner failed to grade';end if;
+end $$;
+update public.game_state set result_type='no_contest',official_winner_school_slug=null
+ where game_id='__integrated_reversal__';
+do $$ begin
+ if exists(select 1 from public.pickem_picks where pickem_game_id=(select game from reversal_week)
+   and is_correct is not null) then raise exception 'No contest retained a grade';end if;
 end $$;
 rollback;
