@@ -11,7 +11,7 @@ import {
 import { getGameById } from "@/lib/games";
 import { requireActiveMember } from "@/lib/member-access";
 import { getSchoolBySlug } from "@/lib/schools";
-import { decideWinnerClaim, recordWinnerNotice, recordWinnerResponse } from "./actions";
+import { decideWinnerClaim, finalizeContestResults, recordWinnerNotice, recordWinnerResponse } from "./actions";
 
 export const metadata: Metadata = {
   title: "Pick ’Em Submissions",
@@ -121,6 +121,10 @@ export default async function PickemSubmissionsPage({ searchParams }: PageProps)
   const { data: claimRows } = contestWeek
     ? await supabase.rpc("admin_pickem_winner_claim_status", { p_week_id: selectedWeek!.id })
     : { data: null };
+  const { data: finalizationRows } = contestWeek
+    ? await supabase.rpc("admin_pickem_contest_finalization", { p_week_id: selectedWeek!.id })
+    : { data: null };
+  const finalization = finalizationRows?.[0];
   const currentClaim = (claimRows ?? []).find((claim: { user_id: string }) =>
     claim.user_id === winnerContact?.[0]?.user_id);
 
@@ -171,13 +175,14 @@ export default async function PickemSubmissionsPage({ searchParams }: PageProps)
               <p className="mt-2 text-xs text-white/60">Frozen entry deadline: {dateTimeLabel(contestWeekTimes?.entry_deadline_at ?? null)} · Monday result cutoff: {dateTimeLabel(contestWeekTimes?.outcome_resolution_at ?? null)} (exclusive Tuesday midnight).</p>
               <p className="mt-2 text-xs text-white/60">Contest VOID matchups: {voidGames?.length ?? 0}. Resolve unfinished games after the Monday cutoff before contacting a winner.</p>
               <p className="mt-1 text-xs text-white/45">Phone numbers are held privately. Number uniqueness is enforced, but ownership is not SMS verified. Standings appear after the weekly close; review every outcome and eligibility before announcing a winner.</p>
+              {finalization ? <p className="mt-2 text-xs text-white/70">Results finalized: {dateTimeLabel(finalization.finalized_at)} · Last day for prize reallocation: {dateTimeLabel(finalization.reallocation_ends_at)}. If no eligible winner claims by then, leave the prize unawarded.</p> : <form action={finalizeContestResults} className="mt-3"><input type="hidden" name="week_id" value={selectedWeek.id} /><button className="rounded-xl border border-white/25 px-4 py-2 text-xs font-bold">Finalize verified results and start winner-contact window</button><p className="mt-1 text-xs text-white/45">Review every outcome, grade, and eligibility issue first. The database rejects finalization until games are resolved and locked.</p></form>}
               {contestStandings?.[0] && <p className="mt-3 text-sm text-white/80">Provisional leader: {contestStandings[0].display_name || "VarsityVue Member"} · {contestStandings[0].correct_picks} correct · prediction {contestStandings[0].predicted_total ?? "—"} · actual {contestStandings[0].actual_total ?? "pending"} · difference {contestStandings[0].distance ?? "pending"}. Verify all games before finalizing.</p>}
               {winnerContact?.[0] && <p className="mt-2 text-sm text-white/70">Provisional leader contact: {winnerContact[0].phone_e164}. Confirm eligibility and corrected scores before notifying anyone.</p>}
               {params.claim === "error" && <p role="alert" className="mt-3 text-sm text-red-200">The claim action was rejected. Check the candidate, response deadline, and required reason.</p>}
               {params.claim === "recorded" && <p role="status" className="mt-3 text-sm text-emerald-200">Claim action recorded.</p>}
               {winnerContact?.[0] && <div className="mt-4 border-t border-white/10 pt-4">
                 <h3 className="text-sm font-black">Winner contact and 72-hour response</h3>
-                <p className="mt-1 text-xs text-white/50">After finalizing weekly results, initiate contact within 24 hours using the account email or supplied number. Record the results-finalization time in the contest operations log; this page does not send or enforce the first contact. Record notice only after it was actually sent. Recording it starts a fixed 72-hour response period; repeating the action cannot restart the clock.</p>
+                <p className="mt-1 text-xs text-white/50">Initiate contact within 24 hours of the recorded results-finalization time using the account email or supplied number. This page does not send or enforce the first contact. Record notice immediately after it was actually sent; the recorded time starts a fixed 72-hour response period. A replacement candidate receives the same 72 hours. No reallocation continues beyond 30 days after finalization.</p>
                 {currentClaim ? <p className="mt-2 text-xs text-white/70">Notice: {currentClaim.notified_at ? dateTimeLabel(currentClaim.notified_at) : "Not sent"} · Respond by: {currentClaim.respond_by ? dateTimeLabel(currentClaim.respond_by) : "—"} · Response: {currentClaim.responded_at ? dateTimeLabel(currentClaim.responded_at) : "Not recorded"} · Decision: {currentClaim.decision}</p> : null}
                 {!currentClaim && <form action={recordWinnerNotice} className="mt-3"><input type="hidden" name="week_id" value={selectedWeek.id} /><button className="rounded-xl border border-white/25 px-4 py-2 text-xs font-bold">Record notice already sent</button></form>}
                 {currentClaim?.decision === "pending" && currentClaim.notified_at && !currentClaim.responded_at && <form action={recordWinnerResponse} className="mt-3"><input type="hidden" name="week_id" value={selectedWeek.id} /><button className="rounded-xl border border-white/25 px-4 py-2 text-xs font-bold">Record timely response</button></form>}

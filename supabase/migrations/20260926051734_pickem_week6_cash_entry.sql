@@ -431,7 +431,7 @@ begin
   if selected_week.id is null or not (selected_week.season > 2026 or (selected_week.season = 2026 and selected_week.week >= 6))
     or selected_week.tiebreaker_game_id is null or selected_week.status <> 'open'
     or selected_week.opens_at is null or now() < selected_week.opens_at
-    or selected_week.closes_at is null or now() >= selected_week.closes_at then
+    or selected_week.closes_at is null then
     raise exception 'The contest is not open';
   end if;
   select count(*) into game_count
@@ -589,6 +589,11 @@ with totals as (
     on featured_resolution.pickem_game_id = featured.id
   left join public.game_state state on state.game_id = featured.game_id
   where week.closes_at is not null and now() >= week.closes_at
+    and ((week.season = 2026 and week.week < 6) or not exists (
+      select 1 from public.pickem_games remaining
+      where remaining.week_id = week.id and now() < remaining.lock_at
+        and not exists (select 1 from private.pickem_contest_game_resolution resolution
+          where resolution.pickem_game_id = remaining.id and resolution.disposition = 'void')))
     and ((week.season = 2026 and week.week < 6) or entry.status = 'valid')
   group by week.id, pick.user_id, prediction.predicted_total, week.outcome_resolution_at,
     featured_resolution.disposition, state.verified,
@@ -619,6 +624,59 @@ where week.season > 2026 or (week.season = 2026 and week.week >= 6)
 group by week.id;
 grant select on public.pickem_contest_prize to anon, authenticated;
 
+-- An administrator records the start of the winner-contact window only after
+-- every included matchup has a resolved or contest-VOID outcome.
+create table private.pickem_contest_finalizations (
+  week_id uuid primary key references public.pickem_weeks(id) on delete cascade,
+  finalized_at timestamptz not null default clock_timestamp(),
+  actor_id uuid not null references public.profiles(id)
+);
+alter table private.pickem_contest_finalizations enable row level security;
+revoke all on private.pickem_contest_finalizations from public, anon, authenticated;
+
+create function public.admin_finalize_pickem_contest_results(p_week_id uuid)
+returns timestamptz language plpgsql security definer set search_path = '' as $$
+declare finalized timestamptz;
+begin
+  if auth.uid() is null or not private.is_active_member(auth.uid())
+    or not private.has_role('admin'::public.user_role) then
+    raise exception using errcode='42501', message='Administrator access required';
+  end if;
+  if not exists (select 1 from public.pickem_weeks where id=p_week_id
+    and (season>2026 or (season=2026 and week>=6)) and status='open'
+    and closes_at<=clock_timestamp())
+    or not exists (select 1 from public.pickem_week_standings where week_id=p_week_id)
+    or exists (select 1 from public.pickem_games game
+      left join private.pickem_contest_game_resolution resolution on resolution.pickem_game_id=game.id
+      left join public.game_state state on state.game_id=game.game_id
+      where game.week_id=p_week_id and (clock_timestamp()<game.lock_at
+        or resolution.disposition is null
+        or (resolution.disposition<>'void' and
+          (state.verified is distinct from true or state.status not in ('final','cancelled'))))) then
+    raise exception 'Resolve and lock all games before finalizing results';
+  end if;
+  insert into private.pickem_contest_finalizations (week_id,actor_id)
+  values (p_week_id,auth.uid()) on conflict (week_id) do nothing;
+  select finalized_at into finalized from private.pickem_contest_finalizations where week_id=p_week_id;
+  return finalized;
+end; $$;
+revoke all on function public.admin_finalize_pickem_contest_results(uuid) from public, anon;
+grant execute on function public.admin_finalize_pickem_contest_results(uuid) to authenticated;
+
+create function public.admin_pickem_contest_finalization(p_week_id uuid)
+returns table (finalized_at timestamptz, reallocation_ends_at timestamptz)
+language plpgsql stable security definer set search_path = '' as $$
+begin
+  if auth.uid() is null or not private.is_active_member(auth.uid())
+    or not private.has_role('admin'::public.user_role) then
+    raise exception using errcode='42501', message='Administrator access required';
+  end if;
+  return query select f.finalized_at, f.finalized_at+interval '30 days'
+    from private.pickem_contest_finalizations f where f.week_id=p_week_id;
+end; $$;
+revoke all on function public.admin_pickem_contest_finalization(uuid) from public, anon;
+grant execute on function public.admin_pickem_contest_finalization(uuid) to authenticated;
+
 -- A single operational contact, visible only to an active administrator after
 -- every included game has a verified terminal outcome and the week has closed.
 create function public.admin_pickem_provisional_winner_contact(p_week_id uuid)
@@ -628,6 +686,10 @@ begin
   if auth.uid() is null or not private.is_active_member(auth.uid())
     or not private.has_role('admin'::public.user_role) then
     raise exception using errcode = '42501', message = 'Administrator access required';
+  end if;
+  if not exists (select 1 from private.pickem_contest_finalizations f
+    where f.week_id=p_week_id and clock_timestamp()<f.finalized_at+interval '30 days') then
+    return;
   end if;
   if not exists (select 1 from public.pickem_weeks
                  where id = p_week_id and closes_at <= now())
@@ -687,6 +749,9 @@ begin
   end if;
   select contact.user_id into candidate from public.admin_pickem_provisional_winner_contact(p_week_id) contact;
   if candidate is null then raise exception 'No resolved provisional winner is available'; end if;
+  if not exists (select 1 from private.pickem_contest_finalizations f
+    where f.week_id=p_week_id and clock_timestamp()<f.finalized_at+interval '30 days') then
+    raise exception 'The 30-day reallocation period has ended'; end if;
   if exists (select 1 from private.pickem_winner_claims
              where week_id=p_week_id and user_id=candidate) then
     raise exception 'This candidate already has a recorded claim action';
@@ -745,6 +810,10 @@ begin
   if p_decision='confirmed' and (claim.responded_at is null
     or claim.responded_at>=claim.respond_by) then
     raise exception 'A timely response and eligibility review are required'; end if;
+  if p_decision='confirmed' and not exists (
+    select 1 from private.pickem_contest_finalizations f where f.week_id=p_week_id
+      and clock_timestamp()<f.finalized_at+interval '30 days') then
+    raise exception 'The 30-day prize claim period has ended'; end if;
   update private.pickem_winner_claims set decision=p_decision,decision_at=clock_timestamp(),
     reason=btrim(p_reason),actor_id=auth.uid()
   where week_id=p_week_id and user_id=candidate;

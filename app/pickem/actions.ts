@@ -64,7 +64,8 @@ export async function savePickemSlate(
     .eq("id", weekId)
     .maybeSingle();
 
-  if (weekError || !week || isPickemWeekClosed(week)) {
+  const contestWeek = Boolean(week && (week.season > 2026 || (week.season === 2026 && week.week >= 6)));
+  if (weekError || !week || (contestWeek ? week.status !== "open" : isPickemWeekClosed(week))) {
     return { status: "error", message: "This Pick ’Em slate is not open." };
   }
 

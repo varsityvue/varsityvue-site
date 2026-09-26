@@ -22,6 +22,15 @@ export async function recordWinnerNotice(formData: FormData) {
   redirect(destination(week, error ? "error" : "recorded"));
 }
 
+export async function finalizeContestResults(formData: FormData) {
+  const week = weekId(formData);
+  if (!week) return;
+  const { supabase } = await requireActiveMember();
+  const { error } = await supabase.rpc("admin_finalize_pickem_contest_results", { p_week_id: week });
+  if (!error) revalidatePath("/internal/pickem/submissions");
+  redirect(destination(week, error ? "error" : "recorded"));
+}
+
 export async function recordWinnerResponse(formData: FormData) {
   const week = weekId(formData);
   if (!week) return;

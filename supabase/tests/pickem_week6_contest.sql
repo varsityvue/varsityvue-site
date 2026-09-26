@@ -210,6 +210,8 @@ do $$ declare w uuid; winner record; begin
   raise exception 'Ordinary member obtained winner contact';
  exception when others then if sqlerrm='Ordinary member obtained winner contact' then raise; end if; end;
  perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='admin'),true);
+ if public.admin_finalize_pickem_contest_results(w) is null then
+  raise exception 'Contest finalization time was not recorded'; end if;
  select * into winner from public.admin_pickem_provisional_winner_contact(w);
  if winner.user_id is distinct from (select user_id from test_ids where label='C')
  or winner.phone_e164 is distinct from '+12545550103' then
@@ -300,6 +302,23 @@ do $$ declare w uuid; begin
  if (select valid_entries from public.pickem_contest_prize where week_id=w)<>2
  or (select count(*) from public.admin_pickem_winner_claim_status(w) where decision='confirmed')<>1 then
   raise exception 'Confirmed winner workflow failed'; end if;
+ if (select reallocation_ends_at from public.admin_pickem_contest_finalization(w)) is distinct from
+    (select finalized_at+interval '30 days' from public.admin_pickem_contest_finalization(w)) then
+  raise exception 'Reallocation end is not 30 days after finalization'; end if;
+end $$;
+reset role;
+update private.pickem_contest_finalizations set finalized_at=statement_timestamp()-interval '31 days'
+where week_id=(select week_id from contest_fixture limit 1);
+set local role authenticated;
+do $$ declare w uuid; begin
+ select week_id into w from contest_fixture limit 1;
+ perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='admin'),true);
+ if exists (select 1 from public.admin_pickem_provisional_winner_contact(w)) then
+  raise exception 'Candidate contact remained available after 30 days'; end if;
+ begin
+  perform public.admin_record_pickem_winner_notice(w);
+  raise exception 'Notice after 30-day cutoff accepted';
+ exception when others then if sqlerrm='Notice after 30-day cutoff accepted' then raise; end if; end;
 end $$;
 reset role;
 -- Exercise the cap through 117 actual completed RPC entries, then revoke one.
@@ -398,6 +417,75 @@ do $$ declare w uuid; g uuid; begin
  update public.pickem_weeks set closes_at=now()-interval '1 hour' where id=w;
  if (select count(*) from public.pickem_week_standings where week_id=w and weekly_rank=1)<>2 then
   raise exception 'Week 5 historical shared rank changed'; end if;
+end $$;
+rollback;
+-- ENTRY CLOSED is distinct from ALL PICKS LOCKED. The internal week close
+-- falls between two kickoffs; an existing entrant retains edit rights.
+begin;
+create temporary table edit_window_fixture (week_id uuid, first_game uuid, later_game uuid, original_time timestamptz) on commit preserve rows;
+do $$ declare w uuid; first_id uuid; later_id uuid; receipt timestamptz; begin
+ insert into public.pickem_weeks (season,week,title,status,opens_at,closes_at,official_rules_version,official_rules_published_at)
+ values (2099,12,'Editing window fixture','draft',now()-interval '1 hour',now()+interval '8 seconds','isolated-test',now()) returning id into w;
+ insert into public.pickem_games (week_id,game_id,lock_at,away_school_slug,home_school_slug)
+ values (w,'__edit_first__',now()+interval '5 seconds','edit-away-1','edit-home-1') returning id into first_id;
+ insert into public.pickem_games (week_id,game_id,lock_at,away_school_slug,home_school_slug)
+ values (w,'__edit_later__',now()+interval '18 seconds','edit-away-2','edit-home-2') returning id into later_id;
+ update public.pickem_weeks set tiebreaker_game_id=later_id,status='open' where id=w;
+ perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='A'),true);
+ receipt := public.submit_pickem_contest_entry(w,null,55,
+   jsonb_build_object(first_id::text,'edit-home-1',later_id::text,'edit-home-2'),true);
+ insert into edit_window_fixture values (w,first_id,later_id,receipt);
+end $$;
+commit;
+select pg_sleep(greatest(0,extract(epoch from ((select closes_at from public.pickem_weeks
+ where id=(select week_id from edit_window_fixture))-clock_timestamp()))+0.2));
+begin;
+set local role authenticated;
+do $$ declare w uuid; first_id uuid; later_id uuid; receipt timestamptz; begin
+ select week_id,first_game,later_game,original_time into w,first_id,later_id,receipt from edit_window_fixture;
+ perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='A'),true);
+ perform public.submit_pickem_contest_entry(w,null,58,jsonb_build_object(later_id::text,'edit-away-2'),false);
+ if (select completed_at from public.pickem_contest_entries where week_id=w and user_id=auth.uid()) is distinct from receipt
+   or (select picked_school_slug from public.pickem_picks where pickem_game_id=later_id and user_id=auth.uid())<>'edit-away-2'
+   or (select predicted_total from public.pickem_week_tiebreakers where week_id=w and user_id=auth.uid())<>58
+   or (select valid_entries from public.pickem_contest_prize where week_id=w)<>1 then
+  raise exception 'Existing entrant edit after internal close failed'; end if;
+ if exists (select 1 from public.pickem_week_standings where week_id=w) then
+  raise exception 'Standings leaked while a later pick remained editable'; end if;
+ begin
+  perform public.submit_pickem_contest_entry(w,null,58,jsonb_build_object(first_id::text,'edit-away-1'),false);
+  raise exception 'First locked game was changed';
+ exception when others then if sqlerrm='First locked game was changed' then raise; end if; end;
+ perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='draft'),true);
+ begin
+  perform public.submit_pickem_contest_entry(w,'2545550105',58,
+   jsonb_build_object(first_id::text,'edit-home-1',later_id::text,'edit-home-2'),true);
+  raise exception 'Late draft became a valid entry';
+ exception when others then if sqlerrm='Late draft became a valid entry' then raise; end if; end;
+ begin
+  perform public.save_pickem_contest_draft(w,jsonb_build_object(later_id::text,'edit-home-2'),58);
+  raise exception 'Late draft save accepted';
+ exception when others then if sqlerrm='Late draft save accepted' then raise; end if; end;
+ if (select valid_entries from public.pickem_contest_prize where week_id=w)<>1 then
+  raise exception 'Late entry changed prize count'; end if;
+end $$;
+reset role;
+commit;
+select pg_sleep(greatest(0,extract(epoch from ((select lock_at from public.pickem_games
+ where id=(select later_game from edit_window_fixture))-clock_timestamp()))+0.2));
+begin;
+set local role authenticated;
+do $$ declare w uuid; later_id uuid; begin
+ select week_id,later_game into w,later_id from edit_window_fixture;
+ perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='A'),true);
+ begin
+  perform public.submit_pickem_contest_entry(w,null,59,jsonb_build_object(later_id::text,'edit-away-2'),false);
+  raise exception 'Locked GOTW prediction changed';
+ exception when others then if sqlerrm='Locked GOTW prediction changed' then raise; end if; end;
+ begin
+  perform public.submit_pickem_contest_entry(w,null,58,jsonb_build_object(later_id::text,'edit-home-2'),false);
+  raise exception 'Later locked pick changed';
+ exception when others then if sqlerrm='Later locked pick changed' then raise; end if; end;
 end $$;
 rollback;
 -- A separate disposable fixture compresses the Monday boundary to seconds.

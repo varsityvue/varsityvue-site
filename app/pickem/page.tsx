@@ -169,7 +169,9 @@ export default async function PickemPage({ searchParams }: PageProps) {
         .gt("correct_picks", correctPicks)
     : { count: null };
 
-  const weekClosed = week ? isPickemWeekClosed(week) : true;
+  const allPicksLocked = Boolean(week && (slateRows ?? []).filter((row) => !voidGameIds.has(row.id))
+    .every((row) => row.is_locked === true));
+  const weekClosed = week ? (contestWeek ? week.status !== "open" || allPicksLocked : isPickemWeekClosed(week)) : true;
   const firstKickoff = (slateRows ?? []).reduce<number>((minimum, row) => Math.min(minimum, new Date(row.lock_at).getTime()), Infinity);
   const newEntriesClosed = contestWeek && isPickemEntryClosed(
     week?.entry_deadline_at ? new Date(week.entry_deadline_at).getTime() : firstKickoff,
@@ -291,10 +293,18 @@ export default async function PickemPage({ searchParams }: PageProps) {
           <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55 sm:text-base">Pick every winner. Each correct pick earns one point, and games lock individually at kickoff.</p>
         </section>
 
-        {week && weekClosed ? <div className="mt-5 rounded-xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm font-bold text-amber-50">Week {week.week} Pick ’Em is CLOSED. Saved picks remain visible while verified results are graded.</div> : null}
-        {contestWeek && prize ? <section className="mt-5 rounded-xl border border-white/15 bg-white/[0.04] p-4 text-sm text-white/80"><strong className="text-white">Free Week {week?.week} contest · Provisional prize: ${prize.prize_dollars}</strong><p className="mt-1 text-xs text-white/60">{prize.valid_entries} accepted completed {prize.valid_entries === 1 ? "entry" : "entries"} currently counted. $1 per valid accepted entry adds to the winner’s cash prize, up to $100 for this week. The displayed amount is provisional, subject to eligibility and disqualification review under the Official Rules. No purchase from VarsityVue or a presenting sponsor is necessary; sponsor business provides no advantage. Texas residents age 18+; one entry per person.</p><p className="mt-1 text-xs text-white/60">{week?.entry_deadline_at ? <>New entries close <strong className="text-white">{centralContestDeadline(week.entry_deadline_at)}</strong> (the frozen earliest included kickoff).</> : "Entry deadline pending configuration."} Submit before that instant. Complete every non-void pick, the Game of the Week total-points prediction when applicable, a mobile number, and the eligibility attestation. Each correct pick earns one point; closest combined-points prediction and then earliest valid entry break ties.</p><p className="mt-2 text-xs text-white/60"><Link href="/pickem/rules" className="font-bold text-white underline underline-offset-2">Official Rules</Link> · Questions: <a href="mailto:info@varsityvue.com" className="font-bold text-white underline underline-offset-2">info@varsityvue.com</a> · Rules await owner approval and are not published yet.</p></section> : null}
+        {week && weekClosed ? <div className="mt-5 rounded-xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm font-bold text-amber-50">{contestWeek ? `Week ${week.week}: ALL PICKS LOCKED. Saved picks remain visible while verified results are graded.` : `Week ${week.week} Pick ’Em is CLOSED. Saved picks remain visible while verified results are graded.`}</div> : null}
+        {contestWeek && prize ? <section className="mt-5 rounded-xl border border-white/15 bg-white/[0.04] p-4 text-sm text-white/80">
+          <p className="text-xs font-black uppercase tracking-wide text-white">Free to play · Texas 18+</p>
+          <p className="mt-2">Pick every game and predict the combined points in the VarsityVue Game of the Week. Each correct pick earns 1 point. Ties go to the closest prediction, then the earliest valid completed entry.</p>
+          <p className="mt-2 font-bold text-white">Provisional cash prize: ${prize.prize_dollars}</p>
+          <p className="mt-1 text-xs text-white/70">$1 per valid accepted entry, up to $100 this week. {prize.valid_entries} accepted completed {prize.valid_entries === 1 ? "entry" : "entries"} currently counted. Subject to eligibility and disqualification review.</p>
+          <p className="mt-2 text-xs text-white/70">One entry per person. Mobile number and eligibility attestation required. No purchase necessary.</p>
+          <p className="mt-2 text-xs text-white/70">{week?.presenting_sponsor_name ? `Presented by ${week.presenting_sponsor_name} · ` : ""}<Link href="/pickem/rules" className="font-bold text-white underline underline-offset-2">Official Rules</Link> · Questions: <a href="mailto:info@varsityvue.com" className="font-bold text-white underline underline-offset-2">info@varsityvue.com</a></p>
+          <div className="mt-4 rounded-lg border border-amber-300/25 bg-amber-300/10 p-3 text-amber-50"><strong>New-entry deadline: {week?.entry_deadline_at ? centralContestDeadline(week.entry_deadline_at) : "Pending configuration"}</strong><p className="mt-1 text-xs">A complete entry must be received before this frozen time. Existing valid entrants may edit each unlocked pick until its game locks.</p></div>
+        </section> : null}
         {voidGames?.length ? <div className="mt-5 rounded-xl border border-sky-300/20 bg-sky-300/10 p-4 text-sm text-sky-50">{voidGames.length} included {voidGames.length === 1 ? "matchup is" : "matchups are"} VOID for this contest. No pick is required or graded for {voidGames.length === 1 ? "it" : "them"}.{voidGameIds.has(week?.tiebreaker_game_id ?? "") ? " The Game of the Week prediction is skipped." : ""}</div> : null}
-        {contestWeek && newEntriesClosed && !memberEntry && !weekClosed ? <div className="mt-5 rounded-xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm text-amber-50">New Week {week?.week} contest entries are closed at the frozen entry deadline. Existing entrants may edit games that have not started.</div> : null}
+        {contestWeek && newEntriesClosed && !weekClosed ? <div className="mt-5 rounded-xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm text-amber-50">Week {week?.week}: ENTRY CLOSED. No new entries can qualify. Existing valid entrants may still edit individual games that have not locked.</div> : null}
         {!week || games.length === 0 ? (
           <section className="mt-5 rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-center text-white/55">The next Pick ’Em slate is not open yet.</section>
         ) : isActiveMember ? (
