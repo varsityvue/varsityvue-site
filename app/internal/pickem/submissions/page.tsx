@@ -119,7 +119,7 @@ export default async function PickemSubmissionsPage({ searchParams }: PageProps)
     ? await supabase.rpc("admin_pickem_provisional_winner_contact", { p_week_id: selectedWeek!.id })
     : { data: null };
   const { data: claimRows } = contestWeek
-    ? await supabase.rpc("admin_pickem_winner_claim_status", { p_week_id: selectedWeek!.id })
+    ? await supabase.rpc("admin_pickem_winner_claim_status_v2", { p_week_id: selectedWeek!.id })
     : { data: null };
   const { data: finalizationRows } = contestWeek
     ? await supabase.rpc("admin_pickem_contest_finalization", { p_week_id: selectedWeek!.id })
@@ -129,8 +129,8 @@ export default async function PickemSubmissionsPage({ searchParams }: PageProps)
     : { data: null };
   const finalization = finalizationRows?.[0];
   const correctionReview = correctionRows?.[0];
-  const currentClaim = (claimRows ?? []).find((claim: { user_id: string }) =>
-    claim.user_id === winnerContact?.[0]?.user_id);
+  const currentClaim = (claimRows ?? []).find((claim: { user_id: string; generation: number }) =>
+    claim.user_id === winnerContact?.[0]?.user_id && claim.generation === correctionReview?.generation);
 
   return (
     <main className="min-h-screen bg-[#050505] px-4 py-5 text-white sm:px-6 sm:py-10 lg:px-8">

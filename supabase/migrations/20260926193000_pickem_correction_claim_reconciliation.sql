@@ -114,44 +114,23 @@ create function public.correct_game_score(
   p_game_id text,p_expected_updated_at timestamptz,p_expected_outcome_revision bigint,
   p_status text,p_away_score integer,p_home_score integer,p_period text,p_clock text,p_reason text)
 returns void language plpgsql security definer set search_path = '' as $$
-declare f record; candidate uuid; audit_id bigint; paid boolean;
+declare audit_id bigint; affected_weeks uuid[];
 begin
-  -- The base operation performs authorization, expected-revision checks,
-  -- row locking, audit insertion, canonical grading and notification triggers.
-  -- Lock finalized contests first, then the canonical game, consistently with
-  -- the prize-payment RPC below.
-  perform 1 from private.pickem_contest_finalizations finalization
-    join public.pickem_games g on g.week_id=finalization.week_id
-    where g.game_id=p_game_id order by finalization.week_id for update of finalization;
+  select array_agg(distinct f.week_id) into affected_weeks
+    from private.pickem_contest_finalizations f join public.pickem_games g on g.week_id=f.week_id
+    where g.game_id=p_game_id and f.state='current';
+  perform 1 from private.pickem_contest_finalizations f
+    where f.week_id=any(affected_weeks) order by f.week_id for update;
   perform private.correct_game_score_base(p_game_id,p_expected_updated_at,p_expected_outcome_revision,
     p_status,p_away_score,p_home_score,p_period,p_clock,p_reason);
   select id into audit_id from private.game_score_correction_audit
     where game_id=p_game_id order by id desc limit 1;
-  for f in select distinct finalization.* from private.pickem_contest_finalizations finalization
-    join public.pickem_games g on g.week_id=finalization.week_id
-    where g.game_id=p_game_id and finalization.state='current'
-  loop
-    select user_id into candidate from public.pickem_week_standings
-      where week_id=f.week_id order by weekly_rank limit 1;
-    if candidate is not distinct from f.winner_user_id then continue; end if;
-    select exists (select 1 from private.pickem_winner_claims c
-      where c.week_id=f.week_id and c.generation=f.generation and c.decision='paid') into paid;
-    if not paid then
-      update private.pickem_winner_claims set decision='superseded',superseded_at=clock_timestamp(),
-        decision_at=clock_timestamp(),reason='Official score correction changed the provisional winner',
-        correction_audit_id=audit_id,actor_id=auth.uid()
-        where week_id=f.week_id and generation=f.generation and decision in ('pending','confirmed');
-    end if;
-    update private.pickem_contest_finalization_history
-      set superseded_at=clock_timestamp(),correction_audit_id=audit_id,
-          previous_rank=1,corrected_winner_user_id=candidate,
-          reason=case when paid then 'Paid prize: administrator and legal review required'
-            else 'Official score correction changed the provisional winner' end
-      where week_id=f.week_id and generation=f.generation;
-    update private.pickem_contest_finalizations
-      set state=case when paid then 'post_payment_review' else 'superseded' end,
-          correction_audit_id=audit_id where week_id=f.week_id;
-  end loop;
+  update private.pickem_contest_finalizations set correction_audit_id=audit_id
+    where week_id=any(affected_weeks) and state<>'current' and correction_audit_id is null;
+  update private.pickem_contest_finalization_history h set correction_audit_id=audit_id
+    from private.pickem_contest_finalizations f where h.week_id=f.week_id
+      and h.generation=f.generation and h.week_id=any(affected_weeks)
+      and f.state<>'current' and h.correction_audit_id is null;
 end; $$;
 revoke all on function public.correct_game_score(text,timestamptz,bigint,text,integer,integer,text,text,text) from public,anon;
 grant execute on function public.correct_game_score(text,timestamptz,bigint,text,integer,integer,text,text,text) to authenticated;
@@ -290,3 +269,58 @@ begin
 end; $$;
 revoke all on function public.admin_pickem_correction_review_status(uuid) from public,anon;
 grant execute on function public.admin_pickem_correction_review_status(uuid) to authenticated;
+
+create function public.admin_pickem_winner_claim_status_v2(p_week_id uuid)
+returns table (user_id uuid,generation integer,previous_rank integer,notified_at timestamptz,
+  respond_by timestamptz,responded_at timestamptz,decision text,decision_at timestamptz,
+  superseded_at timestamptz,payment_recorded_at timestamptz,correction_audit_id bigint)
+language plpgsql stable security definer set search_path = '' as $$
+begin
+  if auth.uid() is null or not private.is_active_member(auth.uid())
+    or not private.has_role('admin'::public.user_role) then
+    raise exception using errcode='42501',message='Administrator access required';
+  end if;
+  return query select c.user_id,c.generation,c.previous_rank,c.notified_at,c.respond_by,
+    c.responded_at,c.decision,c.decision_at,c.superseded_at,c.payment_recorded_at,c.correction_audit_id
+    from private.pickem_winner_claims c where c.week_id=p_week_id
+    order by c.generation,c.notified_at nulls first;
+end; $$;
+revoke all on function public.admin_pickem_winner_claim_status_v2(uuid) from public,anon;
+grant execute on function public.admin_pickem_winner_claim_status_v2(uuid) to authenticated;
+
+-- Run after the existing verified_final_grades_pickem trigger. This also
+-- catches trusted canonical outcome changes outside the score-correction RPC.
+create function private.reconcile_pickem_leader_after_state_change()
+returns trigger language plpgsql security definer set search_path = '' as $$
+declare f record; candidate uuid; paid boolean;
+begin
+  for f in select distinct current_finalization.* from private.pickem_contest_finalizations current_finalization
+    join public.pickem_games g on g.week_id=current_finalization.week_id
+    where g.game_id=new.game_id and current_finalization.state='current'
+  loop
+    select user_id into candidate from public.pickem_week_standings
+      where week_id=f.week_id order by weekly_rank limit 1;
+    if candidate is not distinct from f.winner_user_id then continue; end if;
+    select exists(select 1 from private.pickem_winner_claims c where c.week_id=f.week_id
+      and c.generation=f.generation and c.decision='paid') into paid;
+    if not paid then
+      update private.pickem_winner_claims set decision='superseded',superseded_at=clock_timestamp(),
+        decision_at=clock_timestamp(),reason='Corrected official result changed the provisional winner',
+        actor_id=coalesce(new.updated_by,f.actor_id)
+        where week_id=f.week_id and generation=f.generation and decision in ('pending','confirmed');
+    end if;
+    update private.pickem_contest_finalization_history
+      set superseded_at=clock_timestamp(),previous_rank=1,corrected_winner_user_id=candidate,
+          reason=case when paid then 'Paid prize: administrator and legal review required'
+            else 'Corrected official result changed the provisional winner' end
+      where week_id=f.week_id and generation=f.generation;
+    update private.pickem_contest_finalizations
+      set state=case when paid then 'post_payment_review' else 'superseded' end
+      where week_id=f.week_id;
+  end loop;
+  return new;
+end; $$;
+revoke all on function private.reconcile_pickem_leader_after_state_change() from public,anon,authenticated;
+create trigger zz_reconcile_pickem_leader_after_state_change
+  after insert or update on public.game_state for each row
+  execute function private.reconcile_pickem_leader_after_state_change();
