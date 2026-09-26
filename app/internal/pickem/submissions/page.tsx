@@ -11,13 +11,14 @@ import {
 import { getGameById } from "@/lib/games";
 import { requireActiveMember } from "@/lib/member-access";
 import { getSchoolBySlug } from "@/lib/schools";
+import { decideWinnerClaim, finalizeContestResults, recordWinnerNotice, recordWinnerResponse } from "./actions";
 
 export const metadata: Metadata = {
   title: "Pick ’Em Submissions",
   robots: { index: false, follow: false, nocache: true },
 };
 
-type PageProps = { searchParams: Promise<{ week?: string }> };
+type PageProps = { searchParams: Promise<{ week?: string; claim?: string }> };
 
 type WeekOption = {
   id: string;
@@ -97,6 +98,35 @@ export default async function PickemSubmissionsPage({ searchParams }: PageProps)
   const entrants = groupAdminPickemSubmissions(rows);
   const totalSavedPicks = entrants.reduce((total, entrant) => total + entrant.savedPicks, 0);
   const completeEntrants = entrants.filter((entrant) => entrant.complete).length;
+  const contestWeek = Boolean(selectedWeek && (selectedWeek.season > 2026 || (selectedWeek.season === 2026 && selectedWeek.week >= 6)));
+  const { data: contestPrize } = contestWeek
+    ? await supabase.from("pickem_contest_prize").select("valid_entries, prize_dollars").eq("week_id", selectedWeek!.id).maybeSingle()
+    : { data: null };
+  const { data: contestWeekTimes } = contestWeek
+    ? await supabase.from("pickem_weeks").select("entry_deadline_at, outcome_resolution_at, presenting_sponsor_name")
+      .eq("id", selectedWeek!.id).maybeSingle()
+    : { data: null };
+  const { data: voidGames } = contestWeek
+    ? await supabase.from("pickem_contest_void_games").select("pickem_game_id, reason")
+      .eq("week_id", selectedWeek!.id)
+    : { data: [] };
+  const { data: contestStandings } = contestWeek
+    ? await supabase.from("pickem_week_standings")
+      .select("user_id, display_name, correct_picks, predicted_total, actual_total, distance, weekly_rank")
+      .eq("week_id", selectedWeek!.id).order("weekly_rank").limit(3)
+    : { data: null };
+  const { data: winnerContact } = contestWeek
+    ? await supabase.rpc("admin_pickem_provisional_winner_contact", { p_week_id: selectedWeek!.id })
+    : { data: null };
+  const { data: claimRows } = contestWeek
+    ? await supabase.rpc("admin_pickem_winner_claim_status", { p_week_id: selectedWeek!.id })
+    : { data: null };
+  const { data: finalizationRows } = contestWeek
+    ? await supabase.rpc("admin_pickem_contest_finalization", { p_week_id: selectedWeek!.id })
+    : { data: null };
+  const finalization = finalizationRows?.[0];
+  const currentClaim = (claimRows ?? []).find((claim: { user_id: string }) =>
+    claim.user_id === winnerContact?.[0]?.user_id);
 
   return (
     <main className="min-h-screen bg-[#050505] px-4 py-5 text-white sm:px-6 sm:py-10 lg:px-8">
@@ -138,6 +168,28 @@ export default async function PickemSubmissionsPage({ searchParams }: PageProps)
                 </div>
               ))}
             </section>
+            {contestWeek && contestPrize && <section className="mt-4 rounded-2xl border border-white/10 bg-white/[0.04] p-4 sm:p-5">
+              <h2 className="text-lg font-black">Cash contest status · Week {selectedWeek.week}</h2>
+              {contestWeekTimes?.presenting_sponsor_name && <p className="mt-1 text-xs text-white/60">Presented by {contestWeekTimes.presenting_sponsor_name}. VarsityVue administers entries, winner review, and payment; sponsor recognition does not grant access to entrant records.</p>}
+              <p className="mt-2 text-sm text-white/70">{contestPrize.valid_entries} accepted completed entries · ${contestPrize.prize_dollars} provisional prize (maximum $100), subject to eligibility/disqualification review. {Math.max(0, entrants.length - contestPrize.valid_entries)} members with saved picks do not currently count.</p>
+              <p className="mt-2 text-xs text-white/60">Frozen entry deadline: {dateTimeLabel(contestWeekTimes?.entry_deadline_at ?? null)} · Monday result cutoff: {dateTimeLabel(contestWeekTimes?.outcome_resolution_at ?? null)} (exclusive Tuesday midnight).</p>
+              <p className="mt-2 text-xs text-white/60">Contest VOID matchups: {voidGames?.length ?? 0}. Resolve unfinished games after the Monday cutoff before contacting a winner.</p>
+              <p className="mt-1 text-xs text-white/45">Phone numbers are held privately. Number uniqueness is enforced, but ownership is not SMS verified. Standings appear after the weekly close; review every outcome and eligibility before announcing a winner.</p>
+              {finalization ? <p className="mt-2 text-xs text-white/70">Results finalized: {dateTimeLabel(finalization.finalized_at)} · Last day for prize reallocation: {dateTimeLabel(finalization.reallocation_ends_at)}. If no eligible winner claims by then, leave the prize unawarded.</p> : <form action={finalizeContestResults} className="mt-3"><input type="hidden" name="week_id" value={selectedWeek.id} /><button className="rounded-xl border border-white/25 px-4 py-2 text-xs font-bold">Finalize verified results and start winner-contact window</button><p className="mt-1 text-xs text-white/45">Review every outcome, grade, and eligibility issue first. The database rejects finalization until games are resolved and locked.</p></form>}
+              {contestStandings?.[0] && <p className="mt-3 text-sm text-white/80">Provisional leader: {contestStandings[0].display_name || "VarsityVue Member"} · {contestStandings[0].correct_picks} correct · prediction {contestStandings[0].predicted_total ?? "—"} · actual {contestStandings[0].actual_total ?? "pending"} · difference {contestStandings[0].distance ?? "pending"}. Verify all games before finalizing.</p>}
+              {winnerContact?.[0] && <p className="mt-2 text-sm text-white/70">Provisional leader contact: {winnerContact[0].phone_e164}. Confirm eligibility and corrected scores before notifying anyone.</p>}
+              {params.claim === "error" && <p role="alert" className="mt-3 text-sm text-red-200">The claim action was rejected. Check the candidate, response deadline, and required reason.</p>}
+              {params.claim === "recorded" && <p role="status" className="mt-3 text-sm text-emerald-200">Claim action recorded.</p>}
+              {winnerContact?.[0] && <div className="mt-4 border-t border-white/10 pt-4">
+                <h3 className="text-sm font-black">Winner contact and 72-hour response</h3>
+                <p className="mt-1 text-xs text-white/50">Initiate contact within 24 hours of the recorded results-finalization time using the account email or supplied number. This page does not send or enforce the first contact. Record notice immediately after it was actually sent; the recorded time starts a fixed 72-hour response period. A replacement candidate receives the same 72 hours. No reallocation continues beyond 30 days after finalization.</p>
+                {currentClaim ? <p className="mt-2 text-xs text-white/70">Notice: {currentClaim.notified_at ? dateTimeLabel(currentClaim.notified_at) : "Not sent"} · Respond by: {currentClaim.respond_by ? dateTimeLabel(currentClaim.respond_by) : "—"} · Response: {currentClaim.responded_at ? dateTimeLabel(currentClaim.responded_at) : "Not recorded"} · Decision: {currentClaim.decision}</p> : null}
+                {!currentClaim && <form action={recordWinnerNotice} className="mt-3"><input type="hidden" name="week_id" value={selectedWeek.id} /><button className="rounded-xl border border-white/25 px-4 py-2 text-xs font-bold">Record notice already sent</button></form>}
+                {currentClaim?.decision === "pending" && currentClaim.notified_at && !currentClaim.responded_at && <form action={recordWinnerResponse} className="mt-3"><input type="hidden" name="week_id" value={selectedWeek.id} /><button className="rounded-xl border border-white/25 px-4 py-2 text-xs font-bold">Record timely response</button></form>}
+                {(!currentClaim || currentClaim.decision === "pending") && <form action={decideWinnerClaim} className="mt-3 grid gap-2 sm:grid-cols-[minmax(0,1fr)_minmax(0,2fr)_auto]"><input type="hidden" name="week_id" value={selectedWeek.id} /><select name="decision" required defaultValue="" className="min-w-0 rounded-xl border border-white/20 bg-[#111] px-3 py-2 text-sm"><option value="" disabled>Choose decision</option><option value="confirmed">Confirm eligible winner</option><option value="ineligible">Disqualify: ineligible</option><option value="cannot_contact">Disqualify: cannot contact</option><option value="no_response">Disqualify: no response after 72 hours</option></select><input name="reason" required maxLength={500} placeholder="Required review note (no private details)" className="min-w-0 rounded-xl border border-white/20 bg-[#111] px-3 py-2 text-sm" /><button className="rounded-xl bg-white px-4 py-2 text-xs font-black text-black">Record decision</button></form>}
+                {(claimRows ?? []).length > 0 && <p className="mt-3 text-xs text-white/45">Prior candidates: {(claimRows ?? []).map((claim: { decision: string }) => claim.decision).join(" → ")}. Disqualification recalculates rank and the provisional prize.</p>}
+              </div>}
+            </section>}
 
             {entrants.length > 0 ? (
               <section className="mt-4 space-y-2.5 sm:mt-6 sm:space-y-3" aria-label={`${selectedWeek.title} entrants`}>

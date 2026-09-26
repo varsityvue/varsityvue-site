@@ -62,8 +62,8 @@ export default function PickemGuestSlate({ games }: { games: PickemSlateGame[] }
       {unlockedCount > 0 && <div className="sticky bottom-3 z-20 mt-4 rounded-2xl border border-white/15 bg-[#080808]/95 p-3 shadow-2xl backdrop-blur-xl sm:mt-6 sm:flex sm:items-center sm:justify-between sm:gap-4 sm:p-4">
         <p className="text-xs leading-5 text-white/55"><span className="font-black text-white">{derived.selectedCount} of {derived.totalGames}</span> games selected{derived.allPicksMade ? " · Complete slate" : ""}</p>
         <div className="mt-3 flex gap-2 sm:mt-0">
-          <Link href={loginHref} onClick={() => trackRegistrationIntent("login")} className={`flex-1 rounded-full border border-white/15 px-4 py-2.5 text-center text-[10px] font-black uppercase tracking-[0.1em] text-white/70 transition hover:bg-white/10 sm:flex-none ${derived.selectedCount === 0 ? "pointer-events-none opacity-40" : ""}`}>Log In</Link>
-          <Link href={signupHref} onClick={() => trackRegistrationIntent("signup")} className={`flex-1 rounded-full bg-white px-4 py-2.5 text-center text-[10px] font-black uppercase tracking-[0.1em] text-black transition hover:bg-white/85 sm:flex-none ${derived.selectedCount === 0 ? "pointer-events-none opacity-40" : ""}`}>Save With Free Account →</Link>
+          <Link href={loginHref} onClick={() => trackRegistrationIntent("login")} className="flex-1 rounded-full border border-white/15 px-4 py-2.5 text-center text-[10px] font-black uppercase tracking-[0.1em] text-white/70 transition hover:bg-white/10 sm:flex-none">Log In</Link>
+          <Link href={signupHref} onClick={() => trackRegistrationIntent("signup")} className="flex-1 rounded-full bg-white px-4 py-2.5 text-center text-[10px] font-black uppercase tracking-[0.1em] text-black transition hover:bg-white/85 sm:flex-none">{derived.selectedCount > 0 ? "Save With Free Account →" : "Create Free Account →"}</Link>
         </div>
       </div>}
     </section>
