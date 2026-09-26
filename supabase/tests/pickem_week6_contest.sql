@@ -432,7 +432,7 @@ do $$ declare w uuid; first_id uuid; later_id uuid; receipt timestamptz; begin
  values (w,'__edit_later__',now()+interval '18 seconds','edit-away-2','edit-home-2') returning id into later_id;
  update public.pickem_weeks set tiebreaker_game_id=later_id,status='open' where id=w;
  perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='A'),true);
- receipt := public.submit_pickem_contest_entry(w,null,55,
+ receipt := public.submit_pickem_contest_entry(w,'2545550101',55,
    jsonb_build_object(first_id::text,'edit-home-1',later_id::text,'edit-home-2'),true);
  insert into edit_window_fixture values (w,first_id,later_id,receipt);
 end $$;
