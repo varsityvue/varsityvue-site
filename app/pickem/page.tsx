@@ -106,7 +106,7 @@ export default async function PickemPage({ searchParams }: PageProps) {
   const { data: memberPrediction } = isActiveMember && week?.tiebreaker_game_id
     ? await supabase.from("pickem_week_tiebreakers").select("predicted_total").eq("week_id", week.id).eq("user_id", userId!).maybeSingle()
     : { data: null };
-  const contestWeek = Boolean(week && (week.season > 2026 || week.week >= 6));
+  const contestWeek = Boolean(week && (week.season > 2026 || (week.season === 2026 && week.week >= 6)));
   const { data: memberEntry } = isActiveMember && contestWeek
     ? await supabase.from("pickem_contest_entries").select("completed_at, status").eq("week_id", week!.id).eq("user_id", userId!).maybeSingle()
     : { data: null };

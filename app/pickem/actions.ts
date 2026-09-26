@@ -72,7 +72,7 @@ export async function savePickemSlate(
     return { status: "error", message: "The slate could not be loaded. Try again." };
   }
 
-  if (week.season > 2026 || week.week >= 6) {
+  if (week.season > 2026 || (week.season === 2026 && week.week >= 6)) {
     const rawPrediction = String(formData.get("predicted_total") ?? "").trim();
     const predictedTotal = Number(rawPrediction);
     if (!/^\d{1,3}$/.test(rawPrediction) || predictedTotal > 300) {

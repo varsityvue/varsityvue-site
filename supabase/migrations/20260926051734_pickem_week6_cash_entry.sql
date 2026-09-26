@@ -34,7 +34,7 @@ begin
   end if;
   select * into selected_week from public.pickem_weeks where id = p_week_id for share;
   select min(lock_at) into first_lock from public.pickem_games where week_id = p_week_id;
-  if selected_week.id is null or (selected_week.season = 2026 and selected_week.week < 6)
+  if selected_week.id is null or not (selected_week.season > 2026 or (selected_week.season = 2026 and selected_week.week >= 6))
     or selected_week.status <> 'open' or selected_week.tiebreaker_game_id is null
     or selected_week.opens_at is null or now() < selected_week.opens_at
     or selected_week.closes_at is null or now() >= selected_week.closes_at
@@ -180,7 +180,7 @@ begin
     raise exception 'Contest operator accounts are ineligible';
   end if;
   select * into selected_week from public.pickem_weeks where id = p_week_id for share;
-  if selected_week.id is null or (selected_week.season = 2026 and selected_week.week < 6)
+  if selected_week.id is null or not (selected_week.season > 2026 or (selected_week.season = 2026 and selected_week.week >= 6))
     or selected_week.tiebreaker_game_id is null or selected_week.status <> 'open'
     or selected_week.opens_at is null or now() < selected_week.opens_at
     or selected_week.closes_at is null or now() >= selected_week.closes_at then
@@ -328,9 +328,9 @@ select ranked.week_id, ranked.season, ranked.week, ranked.user_id,
   ranked.actual_total, ranked.distance, profiles.display_name, profiles.username,
   rank() over (partition by ranked.week_id order by ranked.correct_picks desc,
     ranked.distance asc nulls last,
-    case when ranked.season > 2026 or ranked.week >= 6 then ranked.completed_at end asc nulls last,
-    case when ranked.season > 2026 or ranked.week >= 6 then ranked.entry_order end asc nulls last,
-    case when ranked.season > 2026 or ranked.week >= 6 then ranked.user_id end asc nulls last) as weekly_rank
+    case when ranked.season > 2026 or (ranked.season = 2026 and ranked.week >= 6) then ranked.completed_at end asc nulls last,
+    case when ranked.season > 2026 or (ranked.season = 2026 and ranked.week >= 6) then ranked.entry_order end asc nulls last,
+    case when ranked.season > 2026 or (ranked.season = 2026 and ranked.week >= 6) then ranked.user_id end asc nulls last) as weekly_rank
 from ranked join public.profiles profiles on profiles.id = ranked.user_id;
 
 create view public.pickem_contest_prize as

@@ -1,6 +1,6 @@
--- Disposable local database only. Synthetic identities and all fixtures roll back.
+-- Disposable local database only. Synthetic identities never leave the CI database.
 begin;
-create temporary table test_ids (label text primary key, user_id uuid, phone text) on commit drop;
+create temporary table test_ids (label text primary key, user_id uuid, phone text) on commit preserve rows;
 insert into test_ids values
  ('A','00000000-0000-4000-8000-000000000101','2545550101'),
  ('B','00000000-0000-4000-8000-000000000102','2545550102'),
@@ -12,8 +12,7 @@ insert into auth.users (id, instance_id, aud, role, email, encrypted_password, e
 select user_id, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated',
   label || '@example.invalid', '!', now(), '{}'::jsonb,
   jsonb_build_object('display_name', 'Contest test ' || label), now(), now() from test_ids;
-insert into public.member_account_status (user_id) select user_id from test_ids;
-create temporary table contest_fixture (week_id uuid, game_number integer, pickem_game_id uuid) on commit drop;
+create temporary table contest_fixture (week_id uuid, game_number integer, pickem_game_id uuid) on commit preserve rows;
 do $$ declare w uuid; g uuid; begin
  insert into public.pickem_weeks (season, week, title, status, opens_at, closes_at)
  values (2099, 6, 'Isolated test only', 'open', now()-interval '1 hour', now()+interval '75 seconds') returning id into w;
@@ -95,7 +94,9 @@ select '__isolated_week6_'||game_number, 'final', case when game_number=1 then 3
  case when game_number=1 then 28 else 0 end, true, now(), 'played',
  'away-'||game_number, 'home-'||game_number from contest_fixture;
 -- We intentionally wait until the stored deadline; changing it after entry is prohibited.
+commit;
 select pg_sleep(greatest(0,extract(epoch from ((select closes_at from public.pickem_weeks where id=(select week_id from contest_fixture limit 1))-clock_timestamp()))+0.1));
+begin;
 do $$ declare w uuid; expected text[]; actual text[]; begin
  select week_id into w from contest_fixture limit 1;
  select array_agg(ids.label order by standing.weekly_rank) into actual
