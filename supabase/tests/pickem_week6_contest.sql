@@ -423,6 +423,7 @@ rollback;
 -- falls between two kickoffs; an existing entrant retains edit rights.
 begin;
 create temporary table edit_window_fixture (week_id uuid, first_game uuid, later_game uuid, original_time timestamptz) on commit preserve rows;
+grant select on edit_window_fixture to authenticated;
 do $$ declare w uuid; first_id uuid; later_id uuid; receipt timestamptz; begin
  insert into public.pickem_weeks (season,week,title,status,opens_at,closes_at,official_rules_version,official_rules_published_at)
  values (2099,12,'Editing window fixture','draft',now()-interval '1 hour',now()+interval '8 seconds','isolated-test',now()) returning id into w;
