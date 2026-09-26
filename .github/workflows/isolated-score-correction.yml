@@ -71,7 +71,7 @@ jobs:
           npx agent-browser fill 'input[name="away_score"]' '27'
           npx agent-browser fill 'input[name="home_score"]' '28'
           npx agent-browser fill 'input[name="reason"]' 'Official correction'
-          npx agent-browser click 'button:has-text("Review correction")'
+          npx agent-browser click 'button[type="button"]'
           npx agent-browser get text 'form' > /tmp/score-form.txt
           grep -q 'Before: Away A 28 · Home B 21' /tmp/score-form.txt
           grep -q 'After: Away A 27 · Home B 28' /tmp/score-form.txt
