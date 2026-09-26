@@ -1,0 +1,50 @@
+name: Temporary authenticated score UI gate
+on:
+  push:
+    branches: [verification/release-ui-20260926]
+jobs:
+  ui:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v2
+        with:
+          version: 2.118.0
+      - run: supabase init
+      - run: supabase db start
+      - run: supabase db reset --local --no-seed
+      - run: supabase stop && supabase start
+      - name: Create synthetic administrator through local Auth
+        run: |
+          supabase status -o env > /tmp/supabase-ui.env
+          source /tmp/supabase-ui.env
+          curl -fsS -X POST http://127.0.0.1:54321/auth/v1/admin/users \
+            -H "apikey: $SERVICE_ROLE_KEY" -H "Authorization: Bearer $SERVICE_ROLE_KEY" \
+            -H 'Content-Type: application/json' \
+            --data '{"email":"score-ui-admin@example.invalid","password":"synthetic-only-password","email_confirm":true,"user_metadata":{"display_name":"Score UI admin"}}' \
+            > /tmp/synthetic-user.json
+      - run: PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f supabase/tests/score_correction_ui_fixture.sql
+      - run: npm ci && npm install --no-save playwright && npx playwright install chromium --with-deps
+      - name: Run temporary authenticated route and browser
+        run: |
+          mkdir -p app/verification-login
+          cat > app/verification-login/route.ts <<'ROUTE'
+          import { NextResponse } from 'next/server';
+          import { createClient } from '@/lib/supabase/server';
+          export async function GET() {
+            const client=await createClient();
+            const {error}=await client.auth.signInWithPassword({email:'score-ui-admin@example.invalid',password:'synthetic-only-password'});
+            if(error) return new Response(error.message,{status:500});
+            return NextResponse.redirect('http://127.0.0.1:3000/internal/score-review/correct?game=jacksboro-at-cisco-2026-week-5');
+          }
+          ROUTE
+          supabase status -o env > /tmp/supabase-ui.env
+          source /tmp/supabase-ui.env
+          printf 'NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321\nNEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=%s\n' "$ANON_KEY" > .env.local
+          npm run dev -- --hostname 127.0.0.1 > /tmp/score-ui-next.log 2>&1 &
+          for i in {1..30}; do curl -fsS http://127.0.0.1:3000/ -o /dev/null && break || sleep 2; done
+          curl -sS -D /tmp/score-login-headers http://127.0.0.1:3000/verification-login -o /tmp/score-login-response
+          head -n 1 /tmp/score-login-headers
+          if grep -q '500' /tmp/score-login-headers; then cat /tmp/score-login-response; exit 1; fi
+          node scripts/verification-score-ui.mjs || { tail -100 /tmp/score-ui-next.log; exit 1; }
