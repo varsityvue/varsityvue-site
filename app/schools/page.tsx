@@ -79,7 +79,7 @@ export default function SchoolsPage() {
       <PageHero
         eyebrow="VarsityVue School Directory"
         title="Find your school."
-        description="Browse live Texas high school football hubs by school, mascot, district, classification, or game-day venue."
+        description="Find tracked Texas high school football teams, scores, and featured school hubs."
         aside={
           <Link
             href="/school-request"

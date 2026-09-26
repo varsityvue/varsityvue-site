@@ -56,9 +56,10 @@ function formatDistrictName(districtId: string) {
 
 function getClassificationCount(
   schools: DirectorySchool[],
-  classification: ClassificationFilter
+  classification: ClassificationFilter,
+  additionalCount = 0,
 ) {
-  if (classification === "all") return schools.length;
+  if (classification === "all") return schools.length + additionalCount;
 
   return schools.filter(
     (school) => school.classification.conference === classification
@@ -110,7 +111,7 @@ export default function SchoolDirectory({ schools, additionalTeams = [] }: { sch
       <section className="mb-5 rounded-[1.3rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:mb-8 sm:rounded-[1.75rem] sm:p-6">
         <div>
           <label htmlFor="school-directory-search" className="sr-only">
-            Search school hubs by school, mascot, district, classification, or stadium
+            Search tracked teams by school, mascot, district, classification, or stadium
           </label>
           <input
             id="school-directory-search"
@@ -134,7 +135,7 @@ export default function SchoolDirectory({ schools, additionalTeams = [] }: { sch
                 key={classification}
                 active={classificationFilter === classification}
                 label={classification === "all" ? "All" : classification}
-                count={getClassificationCount(schools, classification)}
+                count={getClassificationCount(schools, classification, additionalTeams.length)}
                 onClick={() => setClassificationFilter(classification)}
               />
             ))}
