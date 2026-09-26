@@ -55,6 +55,10 @@ end $$;
 
 reset role;
 -- Enable synthetic registration within this transaction; original FINAL event is unique per game.
+insert into public.school_follows(user_id,school_slug,source_surface)
+  values ((select value from correction_ids where key='member'),'away-a','scoreboard');
+insert into public.member_notification_preferences(user_id,final_score_email)
+  values ((select value from correction_ids where key='member'),true);
 insert into private.final_score_notification_games(game_id,game_date,kickoff,away_team_name,home_team_name,away_school_slug,home_school_slug)
   values ('__score_correction__',current_date,'2026-09-26T19:00:00-05:00','Away A','Home A','away-a','home-a');
 update private.final_score_email_activation set activated_at=now()-interval '1 hour', minimum_game_date=current_date,
@@ -88,6 +92,12 @@ do $$ begin
   if not exists (select 1 from public.pickem_week_standings where season=2097 and week=27 and user_id=(select value from correction_ids where key='moderator') and actual_total=42 and predicted_total=42 and distance=0) then
     raise exception 'Corrected Game of the Week total did not update'; end if;
   if (select count(*) from private.product_notification_events where category='final_score' and source_key='game-final:__score_correction__') <> 1 then raise exception 'Duplicate or missing FINAL event'; end if;
+  if (select count(*) from private.product_email_deliveries d join private.product_notification_events e on e.id=d.event_id
+      where e.source_key='game-final:__score_correction__' and d.recipient_user_id=(select value from correction_ids where key='member')) <> 1 then
+    raise exception 'Initial FINAL delivery missing or duplicated'; end if;
+  if not exists (select 1 from private.product_notification_events where source_key='game-final:__score_correction__'
+    and content_snapshot->>'away_score'='21' and content_snapshot->>'home_score'='14') then
+    raise exception 'Original FINAL snapshot unexpectedly changed'; end if;
   if (select count(*) from private.game_score_correction_audit where game_id='__score_correction__') <> 3 then raise exception 'Correction audit is incomplete'; end if;
 end $$;
 set local role authenticated;
