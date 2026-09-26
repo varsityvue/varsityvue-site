@@ -329,3 +329,54 @@ revoke all on function private.reconcile_pickem_leader_after_state_change() from
 create trigger zz_reconcile_pickem_leader_after_state_change
   after insert or update on public.game_state for each row
   execute function private.reconcile_pickem_leader_after_state_change();
+
+-- A corrected official tie clears the Week 6+ GOTW played-total comparison.
+-- Preserve the historical Week 5 ranking definition.
+create or replace view public.pickem_week_standings as
+with totals as (
+  select week.id as week_id, week.season, week.week, pick.user_id,
+    count(*) filter (where pick.is_correct is not null)::integer as graded_picks,
+    count(*) filter (where pick.is_correct = true)::integer as correct_picks,
+    prediction.predicted_total,
+    case when (week.outcome_resolution_at is null or featured_resolution.disposition='resolved')
+      and state.verified and state.status = 'final'
+      and (state.result_type = 'played' or (week.season = 2026 and week.week < 6 and state.result_type = 'tie'))
+      and state.home_score is not null and state.away_score is not null
+      then state.home_score + state.away_score end as actual_total,
+    entry.completed_at, entry.entry_order, entry.status as entry_status
+  from public.pickem_weeks week
+  join public.pickem_games game on game.week_id = week.id
+  join public.pickem_picks pick on pick.pickem_game_id = game.id
+  left join public.pickem_contest_entries entry
+    on entry.week_id = week.id and entry.user_id = pick.user_id
+  left join public.pickem_week_tiebreakers prediction
+    on prediction.week_id = week.id and prediction.user_id = pick.user_id
+  left join public.pickem_games featured on featured.id = week.tiebreaker_game_id
+  left join private.pickem_contest_game_resolution featured_resolution
+    on featured_resolution.pickem_game_id = featured.id
+  left join public.game_state state on state.game_id = featured.game_id
+  where week.closes_at is not null and now() >= week.closes_at
+    and ((week.season = 2026 and week.week < 6) or not exists (
+      select 1 from public.pickem_games remaining
+      where remaining.week_id = week.id and now() < remaining.lock_at
+        and not exists (select 1 from private.pickem_contest_game_resolution resolution
+          where resolution.pickem_game_id = remaining.id and resolution.disposition = 'void')))
+    and ((week.season = 2026 and week.week < 6) or entry.status = 'valid')
+  group by week.id, pick.user_id, prediction.predicted_total, week.outcome_resolution_at,
+    featured_resolution.disposition, state.verified,
+    state.status, state.result_type, state.home_score, state.away_score,
+    entry.completed_at, entry.entry_order, entry.status
+), ranked as (
+  select totals.*, case when actual_total is not null and predicted_total is not null
+    then abs(actual_total - predicted_total) end as distance
+  from totals
+)
+select ranked.week_id, ranked.season, ranked.week, ranked.user_id,
+  ranked.graded_picks, ranked.correct_picks, ranked.predicted_total,
+  ranked.actual_total, ranked.distance, profiles.display_name, profiles.username,
+  rank() over (partition by ranked.week_id order by ranked.correct_picks desc,
+    ranked.distance asc nulls last,
+    case when ranked.season > 2026 or (ranked.season = 2026 and ranked.week >= 6) then ranked.completed_at end asc nulls last,
+    case when ranked.season > 2026 or (ranked.season = 2026 and ranked.week >= 6) then ranked.entry_order end asc nulls last,
+    case when ranked.season > 2026 or (ranked.season = 2026 and ranked.week >= 6) then ranked.user_id end asc nulls last) as weekly_rank
+from ranked join public.profiles profiles on profiles.id = ranked.user_id;

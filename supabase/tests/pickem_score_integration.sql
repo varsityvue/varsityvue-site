@@ -226,7 +226,14 @@ select public.correct_game_score('__integrated_reversal__',
 reset role;
 do $$ begin
  if exists(select 1 from public.pickem_picks where pickem_game_id=(select game from reversal_week)
-   and is_correct is not null) then raise exception 'Tie retained stale grades';end if;
+   and is_correct is not null)
+ or exists(select 1 from public.pickem_week_standings
+   where week_id=(select id from reversal_week)
+     and (actual_total is not null or distance is not null))
+ or (select user_id from public.pickem_week_standings
+   where week_id=(select id from reversal_week) order by weekly_rank limit 1)
+   is distinct from (select id from integration_ids where label='A')
+ then raise exception 'Tie retained stale grades or GOTW prediction tiebreaker';end if;
 end $$;
 update public.game_state set result_type='forfeit',away_score=null,home_score=null,
  official_winner_school_slug='rev-home' where game_id='__integrated_reversal__';
