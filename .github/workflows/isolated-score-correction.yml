@@ -49,8 +49,8 @@ jobs:
       - run: npm ci --ignore-scripts
       - name: Render exact PR editor with synthetic props
         run: |
-          mkdir -p app/__score_test
-          cat > app/__score_test/page.tsx <<'TSX'
+          mkdir -p app/score-test
+          cat > app/score-test/page.tsx <<'TSX'
           import ScoreCorrectionForm from "@/app/internal/score-review/correct/ScoreCorrectionForm";
           export default async function Test({searchParams}:{searchParams:Promise<{mode?:string}>}) {
             const {mode}=await searchParams;
@@ -59,15 +59,15 @@ jobs:
           }
           TSX
           NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlzcyI6InN1cGFiYXNlIiwiZXhwIjo0MTAyNDQ0ODAwfQ.signature npm run dev -- --port 3104 > /tmp/score-next.log 2>&1 &
-          for i in {1..100}; do curl -fsS http://127.0.0.1:3104/__score_test?mode=final >/dev/null && break; sleep 1; done
-          curl -fsS http://127.0.0.1:3104/__score_test?mode=final >/dev/null || { cat /tmp/score-next.log; exit 1; }
+          for i in {1..100}; do curl -fsS http://127.0.0.1:3104/score-test?mode=final >/dev/null && break; sleep 1; done
+          curl -fsS http://127.0.0.1:3104/score-test?mode=final >/dev/null || { cat /tmp/score-next.log; exit 1; }
       - name: Browser install and phone-width review
         run: |
           npm install --no-save agent-browser@0.38.1
           npx agent-browser install
           export AGENT_BROWSER_SESSION=score-correction-ci
           npx agent-browser set viewport 400 844
-          npx agent-browser open 'http://127.0.0.1:3104/__score_test?mode=final'
+          npx agent-browser open 'http://127.0.0.1:3104/score-test?mode=final'
           npx agent-browser fill 'input[name="away_score"]' '27'
           npx agent-browser fill 'input[name="home_score"]' '28'
           npx agent-browser fill 'input[name="reason"]' 'Official correction'
@@ -79,7 +79,7 @@ jobs:
           npx agent-browser screenshot /tmp/score-phone.png
           npx agent-browser set viewport 1280 800
           npx agent-browser screenshot /tmp/score-desktop.png
-          npx agent-browser open 'http://127.0.0.1:3104/__score_test?mode=live'
+          npx agent-browser open 'http://127.0.0.1:3104/score-test?mode=live'
           npx agent-browser get text 'form' | grep -q 'Correcting an entered live score'
           npx agent-browser close
       - uses: actions/upload-artifact@v4
