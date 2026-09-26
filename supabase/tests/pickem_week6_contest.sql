@@ -453,6 +453,12 @@ do $$ declare w uuid; first_id uuid; later_id uuid; receipt timestamptz; begin
   raise exception 'Existing entrant edit after internal close failed'; end if;
  if exists (select 1 from public.pickem_week_standings where week_id=w) then
   raise exception 'Standings leaked while a later pick remained editable'; end if;
+ if (select is_locked from public.pickem_game_cards where id=later_id) is distinct from false then
+  raise exception 'Later game card falsely locked at internal week close'; end if;
+ perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='B'),true);
+ if exists (select 1 from public.pickem_week_tiebreakers where week_id=w) then
+  raise exception 'Another entrant prediction leaked before GOTW lock'; end if;
+ perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='A'),true);
  begin
   perform public.submit_pickem_contest_entry(w,null,58,jsonb_build_object(first_id::text,'edit-away-1'),false);
   raise exception 'First locked game was changed';
@@ -487,6 +493,9 @@ do $$ declare w uuid; later_id uuid; begin
   perform public.submit_pickem_contest_entry(w,null,58,jsonb_build_object(later_id::text,'edit-home-2'),false);
   raise exception 'Later locked pick changed';
  exception when others then if sqlerrm='Later locked pick changed' then raise; end if; end;
+ perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='B'),true);
+ if not exists (select 1 from public.pickem_week_tiebreakers where week_id=w) then
+  raise exception 'Locked GOTW prediction remained hidden'; end if;
 end $$;
 rollback;
 -- A separate disposable fixture compresses the Monday boundary to seconds.

@@ -402,6 +402,68 @@ revoke all on function private.grade_pickem_from_verified_final() from public, a
 revoke insert, update on public.pickem_picks from authenticated;
 revoke insert, update on public.pickem_week_tiebreakers from authenticated;
 
+-- Week 6+ entry closure is independent of individual locks. Preserve the
+-- historical Week 5 weekly close while removing that blanket edit boundary
+-- from picks, GOTW predictions, game cards, and prediction visibility.
+create or replace function private.enforce_pickem_pick_lock()
+returns trigger language plpgsql security definer set search_path = '' as $$
+declare selected_game public.pickem_games%rowtype; selected_week public.pickem_weeks%rowtype;
+begin
+  if tg_op='UPDATE' and new.pickem_game_id=old.pickem_game_id
+    and new.user_id=old.user_id and new.picked_school_slug=old.picked_school_slug
+    and new.is_correct is distinct from old.is_correct then return new; end if;
+  select * into selected_game from public.pickem_games where id=new.pickem_game_id;
+  if selected_game.id is null then raise exception 'Pick Em game not found'; end if;
+  select * into selected_week from public.pickem_weeks where id=selected_game.week_id;
+  if selected_week.status <> 'open'::public.pickem_week_status
+    or ((selected_week.season=2026 and selected_week.week<6)
+      and selected_week.closes_at is not null and now()>=selected_week.closes_at) then
+    raise exception 'This Pick Em slate is not open'; end if;
+  if clock_timestamp()>=selected_game.lock_at then raise exception 'This game is locked'; end if;
+  if selected_game.away_school_slug is null or selected_game.home_school_slug is null
+    or new.picked_school_slug not in (selected_game.away_school_slug,selected_game.home_school_slug) then
+    raise exception 'Invalid team selection'; end if;
+  new.is_correct := null;
+  return new;
+end; $$;
+
+create or replace function private.enforce_week_tiebreaker_lock()
+returns trigger language plpgsql security definer set search_path = '' as $$
+declare selected_week public.pickem_weeks%rowtype; game_lock timestamptz;
+begin
+  select * into selected_week from public.pickem_weeks where id=new.week_id;
+  select lock_at into game_lock from public.pickem_games
+    where id=selected_week.tiebreaker_game_id and week_id=new.week_id;
+  if selected_week.id is null or selected_week.tiebreaker_game_id is null
+    or (selected_week.season=2026 and selected_week.week<6)
+    or selected_week.status<>'open'::public.pickem_week_status
+    or game_lock is null or clock_timestamp()>=game_lock then
+    raise exception 'This weekly tiebreaker is not open'; end if;
+  if tg_op='UPDATE' and (new.week_id<>old.week_id or new.user_id<>old.user_id) then
+    raise exception 'Prediction identity cannot be changed'; end if;
+  new.submitted_at := clock_timestamp();
+  return new;
+end; $$;
+
+create or replace view public.pickem_game_cards with (security_invoker = true) as
+select games.id,games.week_id,games.game_id,games.sort_order,games.lock_at,
+  games.away_school_slug,games.home_school_slug,games.result_winner_school_slug,games.graded_at,
+  (weeks.status<>'open'::public.pickem_week_status or
+    ((weeks.season=2026 and weeks.week<6) and weeks.closes_at is not null and now()>=weeks.closes_at)
+    or now()>=games.lock_at) as is_locked
+from public.pickem_games games join public.pickem_weeks weeks on weeks.id=games.week_id;
+
+drop policy "Entrants read own prediction and closed-week predictions" on public.pickem_week_tiebreakers;
+create policy "Entrants read own prediction and locked GOTW predictions"
+on public.pickem_week_tiebreakers for select to authenticated
+using (user_id=auth.uid() or private.can_moderate_scores() or exists (
+  select 1 from public.pickem_weeks week join public.pickem_games game
+    on game.id=week.tiebreaker_game_id and game.week_id=week.id
+  where week.id=pickem_week_tiebreakers.week_id and
+    (case when week.season=2026 and week.week<6
+      then week.closes_at is not null and now()>=week.closes_at
+      else now()>=game.lock_at end)));
+
 create or replace function public.submit_pickem_contest_entry(
   p_week_id uuid, p_phone text, p_predicted_total integer, p_selections jsonb,
   p_eligibility_attested boolean
