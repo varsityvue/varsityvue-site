@@ -38,3 +38,52 @@ jobs:
         run: PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f supabase/tests/pickem_admin_outcomes.sql
       - name: Existing scoreless outcome regression
         run: PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f supabase/tests/pickem_scoreless_outcome_origination.sql
+  editor-ui:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm ci --ignore-scripts
+      - name: Render exact PR editor with synthetic props
+        run: |
+          mkdir -p app/__score_test
+          cat > app/__score_test/page.tsx <<'TSX'
+          import ScoreCorrectionForm from "@/app/internal/score-review/correct/ScoreCorrectionForm";
+          export default async function Test({searchParams}:{searchParams:Promise<{mode?:string}>}) {
+            const {mode}=await searchParams;
+            const final=mode==="final";
+            return <main className="min-h-screen bg-[#050505] px-4 py-8 text-white sm:px-8"><div className="mx-auto max-w-4xl"><h1 className="text-3xl font-black">Score correction preview</h1><h2 className="mt-6 text-xl font-bold">Away A at Home B</h2><ScoreCorrectionForm gameId="__test__" awayName="Away A" homeName="Home B" isAdmin state={{status:final?"final":"live",away_score:28,home_score:21,period:final?"Q4":"Q2",clock:final?"00:00":"05:13",updated_at:"2026-09-26T00:00:00Z",outcome_revision:0,result_type:final?"played":null}}/></div></main>;
+          }
+          TSX
+          NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlzcyI6InN1cGFiYXNlIiwiZXhwIjo0MTAyNDQ0ODAwfQ.signature npm run dev -- --port 3104 > /tmp/score-next.log 2>&1 &
+          for i in {1..100}; do curl -fsS http://127.0.0.1:3104/__score_test?mode=final >/dev/null && break; sleep 1; done
+          curl -fsS http://127.0.0.1:3104/__score_test?mode=final >/dev/null || { cat /tmp/score-next.log; exit 1; }
+      - name: Browser install and phone-width review
+        run: |
+          npm install --no-save agent-browser@0.38.1
+          npx agent-browser install
+          export AGENT_BROWSER_SESSION=score-correction-ci
+          npx agent-browser set viewport 400 844
+          npx agent-browser open 'http://127.0.0.1:3104/__score_test?mode=final'
+          npx agent-browser fill 'input[name="away_score"]' '27'
+          npx agent-browser fill 'input[name="home_score"]' '28'
+          npx agent-browser fill 'input[name="reason"]' 'Official correction'
+          npx agent-browser click 'button:has-text("Review correction")'
+          npx agent-browser get text 'form' > /tmp/score-form.txt
+          grep -q 'Before: Away A 28 · Home B 21' /tmp/score-form.txt
+          grep -q 'After: Away A 27 · Home B 28' /tmp/score-form.txt
+          npx agent-browser eval 'document.documentElement.scrollWidth <= innerWidth' | grep -q true
+          npx agent-browser screenshot /tmp/score-phone.png
+          npx agent-browser set viewport 1280 800
+          npx agent-browser screenshot /tmp/score-desktop.png
+          npx agent-browser open 'http://127.0.0.1:3104/__score_test?mode=live'
+          npx agent-browser get text 'form' | grep -q 'Correcting an entered live score'
+          npx agent-browser close
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: score-correction-ui
+          path: /tmp/score-*.png
