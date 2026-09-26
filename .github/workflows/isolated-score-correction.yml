@@ -32,6 +32,8 @@ jobs:
           SQL
       - name: Score correction SQL regression
         run: PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f supabase/tests/game_score_corrections.sql
+      - name: Two-session row-lock race
+        run: bash supabase/tests/game_score_correction_race.sh
       - name: Existing canonical outcome regression
         run: PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f supabase/tests/pickem_admin_outcomes.sql
       - name: Existing scoreless outcome regression
