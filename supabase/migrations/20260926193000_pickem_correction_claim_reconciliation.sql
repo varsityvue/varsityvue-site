@@ -1,5 +1,38 @@
 -- Integration gate: preserve every finalization and claim generation when an
 -- authorized canonical score correction changes the payable leader.
+-- Reconcile a previously resolved contest matchup before the canonical grade
+-- trigger reads its disposition. A deadline/admin VOID is never revived.
+create function private.reconcile_pickem_resolution_before_grading()
+returns trigger language plpgsql security definer set search_path = '' as $$
+begin
+  update private.pickem_contest_game_resolution resolution
+  set disposition='void',reason='Official no-pickable score correction'
+  from public.pickem_games game join public.pickem_weeks week on week.id=game.week_id
+  where game.game_id=new.game_id and resolution.pickem_game_id=game.id
+    and (week.season>2026 or (week.season=2026 and week.week>=6))
+    and resolution.disposition='resolved' and new.verified is true
+    and new.status='final' and new.result_type in ('tie','no_contest');
+
+  update private.pickem_contest_game_resolution resolution
+  set disposition='resolved',reason='Corrected verified winner before Monday cutoff'
+  from public.pickem_games game join public.pickem_weeks week on week.id=game.week_id
+  where game.game_id=new.game_id and resolution.pickem_game_id=game.id
+    and (week.season>2026 or (week.season=2026 and week.week>=6))
+    and resolution.disposition='void'
+    and resolution.reason='Official no-pickable score correction'
+    and clock_timestamp()<week.outcome_resolution_at
+    and new.verified is true and new.status='final'
+    and ((new.result_type='played' and new.home_score is not null
+      and new.away_score is not null and new.home_score<>new.away_score)
+      or (new.result_type='forfeit' and new.official_winner_school_slug in
+        (game.away_school_slug,game.home_school_slug)));
+  return new;
+end; $$;
+revoke all on function private.reconcile_pickem_resolution_before_grading() from public,anon,authenticated;
+create trigger aa_reconcile_pickem_resolution_before_grading
+  after insert or update on public.game_state for each row
+  execute function private.reconcile_pickem_resolution_before_grading();
+
 alter table private.pickem_contest_finalizations
   add column generation integer not null default 1,
   add column state text not null default 'current'
