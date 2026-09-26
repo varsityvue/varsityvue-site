@@ -330,7 +330,7 @@ do $$ declare w uuid; g uuid; o uuid; entrant record; begin
  select week_id,gotw,other_game into w,g,o from monday_fixture;
  for entrant in select * from test_ids where label in ('A','B') order by label loop
   perform set_config('request.jwt.claim.sub',entrant.user_id::text,true);
-  perform public.submit_pickem_contest_entry(w,null,
+  perform public.submit_pickem_contest_entry(w,entrant.phone,
     case when entrant.label='A' then 50 else 63 end,
     jsonb_build_object(g::text,'monday-home-1',o::text,'monday-home-2'));
   if entrant.label='A' then perform pg_sleep(0.05); end if;
