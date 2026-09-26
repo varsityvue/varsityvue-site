@@ -243,6 +243,7 @@ end $$;
 do $$ declare w uuid; g uuid; begin
  select id into w from public.pickem_weeks where season=2026 and week=5;
  if w is null then raise exception 'Expected seeded Week 5 historical slate'; end if;
+ update public.pickem_weeks set status='open' where id=w;
  insert into public.pickem_games (week_id,game_id,lock_at,away_school_slug,home_school_slug)
  values (w,'__historical_week5__',now()+interval '1 hour','history-away','history-home') returning id into g;
  insert into public.pickem_picks (pickem_game_id,user_id,picked_school_slug)
