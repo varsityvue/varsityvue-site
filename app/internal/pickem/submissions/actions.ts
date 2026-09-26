@@ -55,3 +55,12 @@ export async function decideWinnerClaim(formData: FormData) {
   if (!error) revalidatePath("/internal/pickem/submissions");
   redirect(destination(week, error ? "error" : "recorded"));
 }
+
+export async function recordPrizePaid(formData: FormData) {
+  const week = weekId(formData);
+  if (!week) return;
+  const { supabase } = await requireActiveMember();
+  const { error } = await supabase.rpc("admin_record_pickem_prize_paid", { p_week_id: week });
+  if (!error) revalidatePath("/internal/pickem/submissions");
+  redirect(destination(week, error ? "error" : "recorded"));
+}
