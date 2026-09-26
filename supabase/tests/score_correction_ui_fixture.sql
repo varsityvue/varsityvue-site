@@ -11,11 +11,13 @@ values ('00000000-0000-4000-8000-00000000a002','00000000-0000-0000-0000-00000000
  '{"display_name":"UI challenger"}'::jsonb,now(),now());
 do $$ declare w uuid;g uuid;admin_id uuid;begin
  select id into admin_id from auth.users where email='score-ui-admin@example.invalid';
- insert into public.pickem_weeks(season,week,title,status,opens_at,closes_at)
- values(2026,5,'Synthetic Week 5','draft',now()-interval '2 days',now()-interval '1 day') returning id into w;
- insert into public.pickem_games(week_id,game_id,sort_order,lock_at,away_school_slug,home_school_slug)
- values(w,'jacksboro-at-cisco-2026-week-5',1,now()-interval '1 day','jacksboro','cisco') returning id into g;
- update public.pickem_weeks set status='graded' where id=w;
+ select id into w from public.pickem_weeks where season=2026 and week=5;
+ update public.pickem_weeks set status='graded',closes_at=now()-interval '1 day' where id=w;
+ select id into g from public.pickem_games where week_id=w and game_id='jacksboro-at-cisco-2026-week-5';
+ if g is null then
+   insert into public.pickem_games(week_id,game_id,sort_order,lock_at,away_school_slug,home_school_slug)
+   values(w,'jacksboro-at-cisco-2026-week-5',1,now()-interval '1 day','jacksboro','cisco') returning id into g;
+ end if;
  insert into public.pickem_picks(pickem_game_id,user_id,picked_school_slug)
  values(g,admin_id,'jacksboro'),(g,'00000000-0000-4000-8000-00000000a002','cisco');
  update public.game_state set period='Q4' where game_id='jacksboro-at-cisco-2026-week-5';
