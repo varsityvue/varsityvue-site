@@ -68,10 +68,12 @@ jobs:
           export AGENT_BROWSER_SESSION=score-correction-ci
           npx agent-browser set viewport 400 844
           npx agent-browser open 'http://127.0.0.1:3104/score-test?mode=final'
+          npx agent-browser wait 1000
           npx agent-browser fill 'input[name="away_score"]' '27'
           npx agent-browser fill 'input[name="home_score"]' '28'
           npx agent-browser fill 'input[name="reason"]' 'Official correction'
           npx agent-browser click 'button[type="button"]'
+          npx agent-browser wait 200
           npx agent-browser snapshot -i
           npx agent-browser eval 'document.querySelector("form")?.innerText' > /tmp/score-form.txt
           cat /tmp/score-form.txt
