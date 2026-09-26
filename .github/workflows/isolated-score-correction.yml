@@ -73,6 +73,7 @@ jobs:
           npx agent-browser fill 'input[name="away_score"]' '27'
           npx agent-browser fill 'input[name="home_score"]' '28'
           npx agent-browser fill 'input[name="reason"]' 'Official correction'
+          npx agent-browser wait 1000
           npx agent-browser click 'form button[type="button"]'
           npx agent-browser wait 200
           npx agent-browser errors
