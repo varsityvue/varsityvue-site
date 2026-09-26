@@ -1,0 +1,38 @@
+name: Isolated Score Correction Verification
+on:
+  push:
+    branches: [verification/score-correction-20260926]
+permissions:
+  contents: read
+jobs:
+  isolated-db:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v2
+        with:
+          version: latest
+      - name: Initialize clean local database
+        run: |
+          supabase init
+          supabase db start
+          supabase db reset --local --no-seed
+      - name: Create synthetic identities
+        run: |
+          PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres <<'SQL'
+          insert into auth.users(id,instance_id,aud,role,email,encrypted_password,email_confirmed_at,raw_app_meta_data,raw_user_meta_data,created_at,updated_at)
+          values
+          ('00000000-0000-4000-8000-000000000401','00000000-0000-0000-0000-000000000000','authenticated','authenticated','correction-admin@example.test','',now(),'{}','{}',now(),now()),
+          ('00000000-0000-4000-8000-000000000402','00000000-0000-0000-0000-000000000000','authenticated','authenticated','correction-moderator@example.test','',now(),'{}','{}',now(),now()),
+          ('00000000-0000-4000-8000-000000000403','00000000-0000-0000-0000-000000000000','authenticated','authenticated','correction-member@example.test','',now(),'{}','{}',now(),now());
+          insert into public.user_roles(user_id,role) values
+          ('00000000-0000-4000-8000-000000000401','admin'),
+          ('00000000-0000-4000-8000-000000000402','moderator');
+          SQL
+      - name: Score correction SQL regression
+        run: PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f supabase/tests/game_score_corrections.sql
+      - name: Existing canonical outcome regression
+        run: PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f supabase/tests/pickem_admin_outcomes.sql
+      - name: Existing scoreless outcome regression
+        run: PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f supabase/tests/pickem_scoreless_outcome_origination.sql
