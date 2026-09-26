@@ -42,6 +42,42 @@ export async function savePickemSlate(
     return { status: "error", message: "The slate could not be loaded. Try again." };
   }
 
+  if (week.season > 2026 || week.week >= 6) {
+    const rawPrediction = String(formData.get("predicted_total") ?? "").trim();
+    const predictedTotal = Number(rawPrediction);
+    if (!/^\d{1,3}$/.test(rawPrediction) || predictedTotal > 300) {
+      return { status: "error", message: "Enter the Game of the Week combined-points prediction (0–300)." };
+    }
+    const selections = Object.fromEntries(games.flatMap((game) => {
+      const choice = formData.get(`pick_${game.id}`);
+      return choice === null ? [] : [[game.id, String(choice)]];
+    }));
+    const phone = String(formData.get("mobile_phone") ?? "").trim();
+    const { data: completedAt, error } = await supabase.rpc("submit_pickem_contest_entry", {
+      p_week_id: week.id,
+      p_phone: phone || null,
+      p_predicted_total: predictedTotal,
+      p_selections: selections,
+    });
+    if (error) {
+      const detail = error.message.toLowerCase();
+      const message = detail.includes("already used") ? "This number is already used for another entrant."
+        : detail.includes("phone") || detail.includes("mobile") ? "Enter a valid U.S. mobile number."
+        : detail.includes("first kickoff") ? "New entries closed when the first game kicked off."
+        : detail.includes("locked") ? "A game or prediction locked while saving. Refresh and try again."
+        : detail.includes("every game") ? "Select every game before entering."
+        : "Your entry could not be saved. Refresh and review the slate.";
+      console.error("Pick Em contest entry failed.", { code: error.code });
+      return { status: "error", message };
+    }
+    trackConversion("Pick Slate Saved", { season: week.season, week: week.week, complete: true });
+    revalidatePath("/pickem");
+    return {
+      status: "success",
+      message: `Contest entry saved. Your original entry time is ${new Date(completedAt).toLocaleString("en-US", { timeZone: "America/Chicago", timeZoneName: "short" })}. You can edit unlocked picks without losing that time.`,
+    };
+  }
+
   const { data: existingPicks } = await supabase
     .from("pickem_picks")
     .select("pickem_game_id")

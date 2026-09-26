@@ -40,12 +40,14 @@ const initialActionState: PickemActionState = { status: "idle", message: "" };
 export default function PickemSlateForm({
   weekId,
   games,
+  contest,
   tiebreaker,
   saveAction = savePickemSlate,
 }: {
   weekId: string;
   games: PickemSlateGame[];
-  tiebreaker?: { matchup: string; savedPrediction?: number };
+  contest?: { entered: boolean; completedAt?: string; status?: string };
+  tiebreaker?: { matchup: string; savedPrediction?: number; locked?: boolean };
   saveAction?: (previousState: PickemActionState, formData: FormData) => Promise<PickemActionState>;
 }) {
   const [transitionPending, startTransition] = useTransition();
@@ -123,7 +125,11 @@ export default function PickemSlateForm({
   return (
     <form onSubmit={handleSubmit} className={`mt-5 sm:mt-7 ${showMobileSaveBar ? "pb-24 sm:pb-0" : ""}`}>
       <input type="hidden" name="week_id" value={weekId} />
-      {tiebreaker && <div className="mb-4 rounded-xl border border-white/15 bg-black/35 p-4"><label htmlFor="predicted_total" className="block text-sm font-black">Game of the Week total points · {tiebreaker.matchup}</label><p className="mt-1 text-xs text-white/50">Predict both teams’ combined score. Closest prediction breaks a weekly points tie.</p><input id="predicted_total" name="predicted_total" type="number" min="0" max="300" step="1" required value={prediction} onChange={(event) => setPrediction(event.target.value)} className="mt-3 w-full max-w-xs rounded-xl border border-white/15 bg-[#161616] px-4 py-3 text-base text-white" /></div>}
+      {contest && <div className="mb-4 rounded-xl border border-white/15 bg-black/35 p-4">
+        {contest.entered ? <p className="text-sm font-bold text-emerald-200">Entry completed {contest.completedAt ? new Date(contest.completedAt).toLocaleString("en-US", { timeZone: "America/Chicago", timeZoneName: "short" }) : ""}. Edits do not change your entry time.</p> : <><label htmlFor="mobile_phone" className="block text-sm font-black">Mobile phone number required to enter</label><input id="mobile_phone" name="mobile_phone" type="tel" autoComplete="tel-national" inputMode="tel" required placeholder="(254) 555-1234" className="mt-3 w-full max-w-xs rounded-xl border border-white/15 bg-[#161616] px-4 py-3 text-base text-white" /><p className="mt-2 text-xs text-white/50">One entry per person. We use this number to deter duplicates and contact a winner. Number ownership is not SMS verified. Your number will not appear publicly.</p></>}
+        {contest.status === "disqualified" && <p role="alert" className="mt-2 text-sm text-red-200">This entry is ineligible. Contact VarsityVue for review.</p>}
+      </div>}
+      {tiebreaker && <div className="mb-4 rounded-xl border border-white/15 bg-black/35 p-4"><label htmlFor="predicted_total" className="block text-sm font-black">Game of the Week total points · {tiebreaker.matchup}</label><p className="mt-1 text-xs text-white/50">Predict both teams’ combined score. Closest prediction breaks a weekly points tie.{tiebreaker.locked ? " Prediction locked at kickoff." : ""}</p><input id="predicted_total" name="predicted_total" type="number" min="0" max="300" step="1" required readOnly={tiebreaker.locked} value={prediction} onChange={(event) => setPrediction(event.target.value)} className="mt-3 w-full max-w-xs rounded-xl border border-white/15 bg-[#161616] px-4 py-3 text-base text-white" /></div>}
       <div className="mb-4 flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.035] px-4 py-3">
         <PickemProgress selectedCount={derived.selectedCount} totalGames={derived.totalGames} />
         {hasUnsavedChanges ? <span className="text-[9px] font-black uppercase tracking-[0.1em] text-[var(--vv-accent)]">Not saved</span> : null}
