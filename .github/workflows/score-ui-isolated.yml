@@ -15,6 +15,15 @@ jobs:
       - run: supabase db start
       - run: supabase db reset --local --no-seed
       - run: supabase stop && supabase start
+      - name: Create synthetic administrator through local Auth
+        run: |
+          supabase status -o env > /tmp/supabase-ui.env
+          source /tmp/supabase-ui.env
+          curl -fsS -X POST http://127.0.0.1:54321/auth/v1/admin/users \
+            -H "apikey: $SERVICE_ROLE_KEY" -H "Authorization: Bearer $SERVICE_ROLE_KEY" \
+            -H 'Content-Type: application/json' \
+            --data '{"email":"score-ui-admin@example.invalid","password":"synthetic-only-password","email_confirm":true,"user_metadata":{"display_name":"Score UI admin"}}' \
+            > /tmp/synthetic-user.json
       - run: PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f supabase/tests/score_correction_ui_fixture.sql
       - run: npm ci && npm install --no-save playwright && npx playwright install chromium --with-deps
       - name: Run temporary authenticated route and browser
