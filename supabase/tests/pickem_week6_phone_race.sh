@@ -12,7 +12,7 @@ for entry in 1 2; do
     phone='+1 254 555 0199'
   fi
   (
-    psql "${conn[@]}" -c "set role authenticated; select set_config('request.jwt.claim.sub','$user_id',false); select public.submit_pickem_contest_entry('00000000-0000-4000-8000-000000006006','$phone',63,'{\"00000000-0000-4000-8000-000000006007\":\"race-home\"}'::jsonb);" >"/tmp/race-$entry.log" 2>&1
+    psql "${conn[@]}" -c "set role authenticated; select set_config('request.jwt.claim.sub','$user_id',false); select public.submit_pickem_contest_entry('00000000-0000-4000-8000-000000006006','$phone',63,'{\"00000000-0000-4000-8000-000000006007\":\"race-home\"}'::jsonb,true);" >"/tmp/race-$entry.log" 2>&1
   ) &
   pid[$entry]=$!
 done

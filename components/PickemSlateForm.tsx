@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useReducer, useRef, useState, useTransition, type FormEvent } from "react";
 
 import { savePickemDraft, savePickemSlate, type PickemActionState } from "@/app/pickem/actions";
@@ -58,6 +59,7 @@ export default function PickemSlateForm({
   const statusRef = useRef<HTMLParagraphElement>(null);
   const [prediction, setPrediction] = useState(tiebreaker?.savedPrediction?.toString() ?? "");
   const [savedPrediction, setSavedPrediction] = useState(tiebreaker?.savedPrediction?.toString() ?? "");
+  const [attested, setAttested] = useState(false);
   const [state, dispatch] = useReducer(
     pickemClientReducer,
     undefined,
@@ -70,7 +72,7 @@ export default function PickemSlateForm({
   const pending = state.saveStatus === "pending" || transitionPending;
   const hasUnsavedChanges = derived.hasUnsavedChanges || Boolean(tiebreaker && prediction !== savedPrediction);
   const canSubmit = (contest && !contest.entered
-    ? derived.totalGames > 0 && derived.selectedCount === derived.totalGames
+    ? attested && derived.totalGames > 0 && derived.selectedCount === derived.totalGames
       && (!tiebreaker || prediction.trim() !== "")
     : canSubmitPickem(state, hasUnsavedChanges) || Boolean(tiebreaker && hasUnsavedChanges && derived.selectedCount > 0)) && !transitionPending;
   const showMobileSaveBar = shouldShowMobileSaveBar(hasUnsavedChanges);
@@ -116,13 +118,14 @@ export default function PickemSlateForm({
   };
 
   const saveDraft = () => {
-    if (!contest || contest.entered || !derived.hasUnsavedChanges || submittingRef.current || !formRef.current) return;
+    if (!contest || contest.entered || !hasUnsavedChanges || submittingRef.current || !formRef.current) return;
     submittingRef.current = true;
     dispatch({ type: "save-start" });
     const formData = new FormData(formRef.current);
     startTransition(async () => {
       try {
         const nextState = await saveDraftAction(initialActionState, formData);
+        if (nextState.status === "success") setSavedPrediction(prediction);
         dispatch(nextState.status === "success"
           ? { type: "save-success", message: nextState.message }
           : { type: "save-error", message: nextState.message });
@@ -151,7 +154,7 @@ export default function PickemSlateForm({
     <form ref={formRef} onSubmit={handleSubmit} className={`mt-5 sm:mt-7 ${showMobileSaveBar ? "pb-24 sm:pb-0" : ""}`}>
       <input type="hidden" name="week_id" value={weekId} />
       {contest && <div className="mb-4 rounded-xl border border-white/15 bg-black/35 p-4">
-        {contest.entered ? <p className="text-sm font-bold text-emerald-200">Entry completed {contest.completedAt ? new Date(contest.completedAt).toLocaleString("en-US", { timeZone: "America/Chicago", timeZoneName: "short" }) : ""}. Edits do not change your entry time.</p> : <><label htmlFor="mobile_phone" className="block text-sm font-black">Mobile phone number required to enter</label><input id="mobile_phone" name="mobile_phone" type="tel" autoComplete="tel-national" inputMode="tel" required placeholder="(254) 555-1234" className="mt-3 w-full max-w-xs rounded-xl border border-white/15 bg-[#161616] px-4 py-3 text-base text-white" /><p className="mt-2 text-xs text-white/50">One entry per person. We use this number to deter duplicates and contact a winner. Number ownership is not SMS verified. Your number will not appear publicly.</p></>}
+        {contest.entered ? <p className="text-sm font-bold text-emerald-200">Entry completed {contest.completedAt ? new Date(contest.completedAt).toLocaleString("en-US", { timeZone: "America/Chicago", timeZoneName: "short" }) : ""}. Edits do not change your entry time.</p> : <><label htmlFor="mobile_phone" className="block text-sm font-black">Mobile phone number required to enter</label><input id="mobile_phone" name="mobile_phone" type="tel" autoComplete="tel-national" inputMode="tel" required placeholder="(254) 555-1234" className="mt-3 w-full max-w-xs rounded-xl border border-white/15 bg-[#161616] px-4 py-3 text-base text-white" /><p className="mt-2 text-xs text-white/60">Required to help enforce one entry per person and contact the winner. It is not publicly displayed; entering does not consent to marketing texts. Number ownership and mobile-line type are not verified.</p><label className="mt-4 flex items-start gap-3 text-sm leading-5 text-white/80"><input type="checkbox" name="eligibility_attested" value="yes" required checked={attested} onChange={(event) => setAttested(event.target.checked)} className="mt-1 size-4 shrink-0 accent-[var(--vv-accent)]" /><span>I confirm that I am 18 or older, a Texas resident, and agree to the <Link href="/pickem/rules" target="_blank" rel="noopener noreferrer" className="font-bold text-white underline underline-offset-2">Official Rules</Link>.</span></label><p className="mt-2 text-xs text-white/45">This is your self-attestation; VarsityVue does not independently verify age or residency at entry.</p></>}
         {contest.status === "disqualified" && <p role="alert" className="mt-2 text-sm text-red-200">This entry is ineligible. Contact VarsityVue for review.</p>}
       </div>}
       {tiebreaker && <div className="mb-4 rounded-xl border border-white/15 bg-black/35 p-4"><label htmlFor="predicted_total" className="block text-sm font-black">Game of the Week total points · {tiebreaker.matchup}</label><p className="mt-1 text-xs text-white/50">Predict both teams’ combined score. Closest prediction breaks a weekly points tie.{tiebreaker.locked ? " Prediction locked at kickoff." : ""}</p><input id="predicted_total" name="predicted_total" type="number" min="0" max="300" step="1" required readOnly={tiebreaker.locked} value={prediction} onChange={(event) => setPrediction(event.target.value)} className="mt-3 w-full max-w-xs rounded-xl border border-white/15 bg-[#161616] px-4 py-3 text-base text-white" /></div>}
@@ -177,7 +180,7 @@ export default function PickemSlateForm({
       {showMobileSaveBar ? (
         <div className="fixed inset-x-4 bottom-[calc(env(safe-area-inset-bottom)+0.75rem)] z-30 flex items-center justify-between gap-3 rounded-2xl border border-white/15 bg-[#080808]/95 p-3 shadow-2xl backdrop-blur-xl sm:hidden">
           <p className="text-xs font-bold text-white/70">{derived.pendingChangeCount} change{derived.pendingChangeCount === 1 ? "" : "s"} pending</p>
-          {contest && !contest.entered && <button type="button" onClick={saveDraft} disabled={pending || !derived.hasUnsavedChanges} className="shrink-0 rounded-xl border border-white/25 px-3 py-2.5 text-[10px] font-black text-white disabled:opacity-50">Save Draft</button>}
+          {contest && !contest.entered && <button type="button" onClick={saveDraft} disabled={pending || !hasUnsavedChanges} className="shrink-0 rounded-xl border border-white/25 px-3 py-2.5 text-[10px] font-black text-white disabled:opacity-50">Save Draft</button>}
           <button type="submit" disabled={!canSubmit} className="shrink-0 rounded-xl bg-white px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.1em] text-black transition hover:bg-white/85 disabled:cursor-not-allowed disabled:opacity-50">
             {pending ? "Saving…" : contest && !contest.entered ? "Enter" : "Save Changes"}
           </button>
@@ -188,7 +191,7 @@ export default function PickemSlateForm({
         <p ref={statusRef} tabIndex={-1} role={state.saveStatus === "error" ? "alert" : "status"} aria-live={state.saveStatus === "error" ? "assertive" : "polite"} className={`text-xs leading-5 focus:outline-none ${state.saveStatus === "error" ? "text-red-200" : state.saveStatus === "success" ? "text-emerald-200" : "text-white/45"}`}>
           {statusMessage}
         </p>
-        {contest && !contest.entered && <button type="button" onClick={saveDraft} disabled={pending || !derived.hasUnsavedChanges} className="mt-3 w-full rounded-xl border border-white/25 px-5 py-3 text-xs font-black uppercase tracking-[0.12em] text-white disabled:opacity-50 sm:mt-0 sm:w-auto">Save Draft</button>}
+        {contest && !contest.entered && <button type="button" onClick={saveDraft} disabled={pending || !hasUnsavedChanges} className="mt-3 w-full rounded-xl border border-white/25 px-5 py-3 text-xs font-black uppercase tracking-[0.12em] text-white disabled:opacity-50 sm:mt-0 sm:w-auto">Save Draft</button>}
         <button type="submit" disabled={!canSubmit} className="mt-3 w-full rounded-xl bg-white px-5 py-3 text-xs font-black uppercase tracking-[0.12em] text-black transition hover:bg-white/85 disabled:cursor-not-allowed disabled:opacity-50 sm:mt-0 sm:w-auto sm:shrink-0">
           {standardSaveLabel}
         </button>

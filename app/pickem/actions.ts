@@ -28,18 +28,23 @@ export async function savePickemDraft(
     const choice = formData.get(`pick_${game.id}`);
     return choice === null ? [] : [[game.id, String(choice)]];
   }));
-  if (Object.keys(selections).length === 0) {
-    return { status: "error", message: "Select at least one game to save a draft." };
+  const rawPrediction = String(formData.get("predicted_total") ?? "").trim();
+  if (rawPrediction && (!/^\d{1,3}$/.test(rawPrediction) || Number(rawPrediction) > 300)) {
+    return { status: "error", message: "Enter a combined-points prediction from 0 to 300." };
+  }
+  if (Object.keys(selections).length === 0 && !rawPrediction) {
+    return { status: "error", message: "Select a game or enter a prediction to save a draft." };
   }
   const { data: savedCount, error } = await supabase.rpc("save_pickem_contest_draft", {
     p_week_id: weekId, p_selections: selections,
+    p_predicted_total: rawPrediction ? Number(rawPrediction) : null,
   });
   if (error) {
     console.error("Pick Em draft save failed.", { code: error.code });
     return { status: "error", message: "Your draft could not be saved. Check the entry deadline and try again." };
   }
   revalidatePath("/pickem");
-  return { status: "success", message: `Draft saved — ${savedCount} picks. You are not entered. Complete the slate, prediction, and phone number before the first kickoff.` };
+  return { status: "success", message: `Draft saved — ${savedCount} picks${rawPrediction ? " and a total-points prediction" : ""}. You are not entered. Complete the slate, prediction, phone number, and eligibility attestation before the frozen deadline.` };
 }
 
 export async function savePickemSlate(
@@ -92,10 +97,12 @@ export async function savePickemSlate(
       p_phone: phone || null,
       p_predicted_total: gotwVoid ? null : predictedTotal,
       p_selections: selections,
+      p_eligibility_attested: formData.get("eligibility_attested") === "yes",
     });
     if (error) {
       const detail = error.message.toLowerCase();
       const message = detail.includes("already used") ? "This number is already used for another entrant."
+        : detail.includes("attestation") ? "Confirm eligibility and agreement to the Official Rules before entering."
         : detail.includes("phone") || detail.includes("mobile") ? "Enter a valid U.S. mobile number."
         : detail.includes("frozen first-kickoff") ? "New entries closed at the frozen first-kickoff deadline."
         : detail.includes("locked") ? "A game or prediction locked while saving. Refresh and try again."

@@ -1,7 +1,9 @@
 -- Cash-contest entries begin with Week 6. Week 5 rows and rankings remain historical.
 alter table public.pickem_weeks
   add column entry_deadline_at timestamptz,
-  add column outcome_resolution_at timestamptz;
+  add column outcome_resolution_at timestamptz,
+  add column official_rules_version text,
+  add column official_rules_published_at timestamptz;
 
 -- The deadline is snapshotted when a fully configured draft week opens.
 -- The local Tuesday midnight boundary is exclusive: this represents the end
@@ -18,6 +20,8 @@ begin
   if old.entry_deadline_at is not null then
     if new.entry_deadline_at is distinct from old.entry_deadline_at
       or new.outcome_resolution_at is distinct from old.outcome_resolution_at
+      or new.official_rules_version is distinct from old.official_rules_version
+      or new.official_rules_published_at is distinct from old.official_rules_published_at
       or new.status = 'draft' then
       raise exception 'An opened contest has immutable deadlines';
     end if;
@@ -26,9 +30,12 @@ begin
     from public.pickem_games where week_id = new.id;
     if games not between 1 and 12 or first_kickoff <= clock_timestamp()
       or new.tiebreaker_game_id is null
+      or nullif(btrim(new.official_rules_version),'') is null
+      or new.official_rules_published_at is null
+      or new.official_rules_published_at > clock_timestamp()
       or not exists (select 1 from public.pickem_games where id = new.tiebreaker_game_id and week_id = new.id)
       or new.opens_at is null or new.closes_at is null or new.closes_at <= first_kickoff then
-      raise exception 'Configure games, featured game, and closing time before opening';
+      raise exception 'Configure games, featured game, approved published rules, and closing time before opening';
     end if;
     new.entry_deadline_at := first_kickoff;
     new.outcome_resolution_at :=
@@ -78,7 +85,17 @@ create table private.pickem_draft_picks (
 alter table private.pickem_draft_picks enable row level security;
 revoke all on private.pickem_draft_picks from public, anon, authenticated;
 
-create function public.save_pickem_contest_draft(p_week_id uuid, p_selections jsonb)
+create table private.pickem_draft_predictions (
+  week_id uuid not null references public.pickem_weeks(id) on delete cascade,
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  predicted_total integer not null check (predicted_total between 0 and 300),
+  updated_at timestamptz not null default now(),
+  primary key (week_id, user_id)
+);
+alter table private.pickem_draft_predictions enable row level security;
+revoke all on private.pickem_draft_predictions from public, anon, authenticated;
+
+create function public.save_pickem_contest_draft(p_week_id uuid, p_selections jsonb, p_predicted_total integer)
 returns integer language plpgsql security definer set search_path = '' as $$
 declare
   entrant uuid := auth.uid();
@@ -108,6 +125,21 @@ begin
              where week_id = p_week_id and user_id = entrant) then
     raise exception 'This member already entered the contest';
   end if;
+  if p_predicted_total is not null then
+    if p_predicted_total not between 0 and 300 then raise exception 'Invalid draft prediction'; end if;
+    if exists (select 1 from private.pickem_contest_game_resolution
+      where pickem_game_id=selected_week.tiebreaker_game_id and disposition='void')
+      or clock_timestamp() >= (select lock_at from public.pickem_games
+        where id=selected_week.tiebreaker_game_id) then
+      raise exception 'The Game of the Week prediction is locked';
+    end if;
+    insert into private.pickem_draft_predictions (week_id,user_id,predicted_total)
+    values (p_week_id,entrant,p_predicted_total)
+    on conflict (week_id,user_id) do update
+      set predicted_total=excluded.predicted_total,updated_at=now();
+  else
+    delete from private.pickem_draft_predictions where week_id=p_week_id and user_id=entrant;
+  end if;
   for game in select g.* from public.pickem_games g where g.week_id = p_week_id
     and not exists (select 1 from private.pickem_contest_game_resolution r
       where r.pickem_game_id=g.id and r.disposition='void') loop
@@ -125,8 +157,8 @@ begin
   return (select count(*)::integer from private.pickem_draft_picks
           where week_id = p_week_id and user_id = entrant);
 end; $$;
-revoke all on function public.save_pickem_contest_draft(uuid,jsonb) from public, anon;
-grant execute on function public.save_pickem_contest_draft(uuid,jsonb) to authenticated;
+revoke all on function public.save_pickem_contest_draft(uuid,jsonb,integer) from public, anon;
+grant execute on function public.save_pickem_contest_draft(uuid,jsonb,integer) to authenticated;
 
 create function public.get_pickem_contest_draft(p_week_id uuid)
 returns table (pickem_game_id uuid, picked_school_slug text)
@@ -142,10 +174,26 @@ end; $$;
 revoke all on function public.get_pickem_contest_draft(uuid) from public, anon;
 grant execute on function public.get_pickem_contest_draft(uuid) to authenticated;
 
+create function public.get_pickem_contest_draft_prediction(p_week_id uuid)
+returns integer language plpgsql stable security definer set search_path = '' as $$
+begin
+  if auth.uid() is null or not private.is_active_member(auth.uid()) then
+    raise exception 'An active account is required';
+  end if;
+  return (select draft.predicted_total from private.pickem_draft_predictions draft
+    where draft.week_id=p_week_id and draft.user_id=auth.uid());
+end; $$;
+revoke all on function public.get_pickem_contest_draft_prediction(uuid) from public, anon;
+grant execute on function public.get_pickem_contest_draft_prediction(uuid) to authenticated;
+
 create table public.pickem_contest_entries (
   week_id uuid not null references public.pickem_weeks(id) on delete cascade,
   user_id uuid not null references public.profiles(id) on delete cascade,
   completed_at timestamptz not null default clock_timestamp(),
+  attested_at timestamptz not null default clock_timestamp(),
+  attestation_text text not null check (attestation_text =
+    'I confirm that I am 18 or older, a Texas resident, and agree to the Official Rules.'),
+  attestation_rules_version text not null check (btrim(attestation_rules_version) <> ''),
   entry_order bigint generated always as identity unique,
   status text not null default 'valid' check (status in ('valid', 'disqualified')),
   disqualification_reason text,
@@ -163,6 +211,9 @@ returns trigger language plpgsql set search_path = '' as $$
 begin
   if new.week_id is distinct from old.week_id or new.user_id is distinct from old.user_id
     or new.completed_at is distinct from old.completed_at
+    or new.attested_at is distinct from old.attested_at
+    or new.attestation_text is distinct from old.attestation_text
+    or new.attestation_rules_version is distinct from old.attestation_rules_version
     or new.entry_order is distinct from old.entry_order then
     raise exception 'The initial contest receipt cannot change';
   end if;
@@ -348,7 +399,8 @@ revoke insert, update on public.pickem_picks from authenticated;
 revoke insert, update on public.pickem_week_tiebreakers from authenticated;
 
 create or replace function public.submit_pickem_contest_entry(
-  p_week_id uuid, p_phone text, p_predicted_total integer, p_selections jsonb
+  p_week_id uuid, p_phone text, p_predicted_total integer, p_selections jsonb,
+  p_eligibility_attested boolean
 ) returns timestamptz
 language plpgsql security definer set search_path = ''
 as $$
@@ -390,6 +442,9 @@ begin
   where week_id = p_week_id and user_id = entrant for update;
   if existing_entry.status = 'disqualified' then
     raise exception 'This entry is ineligible';
+  end if;
+  if existing_entry.week_id is null and p_eligibility_attested is distinct from true then
+    raise exception 'Eligibility and Official Rules attestation is required';
   end if;
   if selected_week.entry_deadline_at is null then
     raise exception 'The entry deadline is not configured';
@@ -483,9 +538,13 @@ begin
       insert into public.pickem_week_tiebreakers (week_id, user_id, predicted_total)
       values (p_week_id, entrant, p_predicted_total);
     end if;
-    insert into public.pickem_contest_entries (week_id, user_id)
-    values (p_week_id, entrant);
+    insert into public.pickem_contest_entries (week_id, user_id, attestation_text, attestation_rules_version)
+    values (p_week_id, entrant,
+      'I confirm that I am 18 or older, a Texas resident, and agree to the Official Rules.',
+      selected_week.official_rules_version);
     delete from private.pickem_draft_picks
+    where week_id = p_week_id and user_id = entrant;
+    delete from private.pickem_draft_predictions
     where week_id = p_week_id and user_id = entrant;
   elsif not gotw_void and p_predicted_total is distinct from
     (select predicted_total from public.pickem_week_tiebreakers
@@ -499,8 +558,8 @@ exception when unique_violation then
   raise exception 'This number is already used for another entrant';
 end;
 $$;
-revoke all on function public.submit_pickem_contest_entry(uuid,text,integer,jsonb) from public, anon;
-grant execute on function public.submit_pickem_contest_entry(uuid,text,integer,jsonb) to authenticated;
+revoke all on function public.submit_pickem_contest_entry(uuid,text,integer,jsonb,boolean) from public, anon;
+grant execute on function public.submit_pickem_contest_entry(uuid,text,integer,jsonb,boolean) to authenticated;
 
 create or replace view public.pickem_week_standings as
 with totals as (
@@ -593,3 +652,120 @@ begin
 end; $$;
 revoke all on function public.admin_pickem_provisional_winner_contact(uuid) from public, anon;
 grant execute on function public.admin_pickem_provisional_winner_contact(uuid) to authenticated;
+
+-- The administrator records an actual notification after sending it. No SMS
+-- or email is sent by these functions. A second call cannot restart 72 hours.
+create table private.pickem_winner_claims (
+  week_id uuid not null references public.pickem_weeks(id) on delete cascade,
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  notified_at timestamptz,
+  respond_by timestamptz,
+  responded_at timestamptz,
+  decision text not null default 'pending' check
+    (decision in ('pending','confirmed','ineligible','cannot_contact','no_response')),
+  decision_at timestamptz,
+  reason text,
+  actor_id uuid not null references public.profiles(id),
+  primary key (week_id,user_id),
+  check ((notified_at is null and respond_by is null) or
+    (notified_at is not null and respond_by=notified_at+interval '72 hours'))
+);
+alter table private.pickem_winner_claims enable row level security;
+revoke all on private.pickem_winner_claims from public, anon, authenticated;
+
+create function public.admin_record_pickem_winner_notice(p_week_id uuid)
+returns timestamptz language plpgsql security definer set search_path = '' as $$
+declare candidate uuid; deadline timestamptz; sent_at timestamptz;
+begin
+  if auth.uid() is null or not private.is_active_member(auth.uid())
+    or not private.has_role('admin'::public.user_role) then
+    raise exception using errcode='42501', message='Administrator access required';
+  end if;
+  select contact.user_id into candidate from public.admin_pickem_provisional_winner_contact(p_week_id) contact;
+  if candidate is null then raise exception 'No resolved provisional winner is available'; end if;
+  if exists (select 1 from private.pickem_winner_claims
+             where week_id=p_week_id and user_id=candidate) then
+    raise exception 'This candidate already has a recorded claim action';
+  end if;
+  sent_at := clock_timestamp();
+  insert into private.pickem_winner_claims (week_id,user_id,notified_at,respond_by,actor_id)
+  values (p_week_id,candidate,sent_at,sent_at+interval '72 hours',auth.uid())
+  returning respond_by into deadline;
+  return deadline;
+end; $$;
+revoke all on function public.admin_record_pickem_winner_notice(uuid) from public, anon;
+grant execute on function public.admin_record_pickem_winner_notice(uuid) to authenticated;
+
+create function public.admin_record_pickem_winner_response(p_week_id uuid)
+returns void language plpgsql security definer set search_path = '' as $$
+declare candidate uuid;
+begin
+  if auth.uid() is null or not private.is_active_member(auth.uid())
+    or not private.has_role('admin'::public.user_role) then
+    raise exception using errcode='42501', message='Administrator access required';
+  end if;
+  select contact.user_id into candidate from public.admin_pickem_provisional_winner_contact(p_week_id) contact;
+  update private.pickem_winner_claims set responded_at=clock_timestamp(),actor_id=auth.uid()
+  where week_id=p_week_id and user_id=candidate and decision='pending'
+    and responded_at is null and clock_timestamp()<respond_by;
+  if not found then raise exception 'No pending candidate can respond within 72 hours'; end if;
+end; $$;
+revoke all on function public.admin_record_pickem_winner_response(uuid) from public, anon;
+grant execute on function public.admin_record_pickem_winner_response(uuid) to authenticated;
+
+create function public.admin_decide_pickem_winner_claim(p_week_id uuid, p_decision text, p_reason text)
+returns void language plpgsql security definer set search_path = '' as $$
+declare candidate uuid; claim private.pickem_winner_claims%rowtype;
+begin
+  if auth.uid() is null or not private.is_active_member(auth.uid())
+    or not private.has_role('admin'::public.user_role) then
+    raise exception using errcode='42501', message='Administrator access required';
+  end if;
+  if p_decision not in ('confirmed','ineligible','cannot_contact','no_response')
+    or nullif(btrim(p_reason),'') is null then raise exception 'A decision and reason are required'; end if;
+  select contact.user_id into candidate from public.admin_pickem_provisional_winner_contact(p_week_id) contact;
+  if candidate is null then raise exception 'No resolved provisional winner is available'; end if;
+  select * into claim from private.pickem_winner_claims
+    where week_id=p_week_id and user_id=candidate for update;
+  if claim.week_id is null then
+    if p_decision not in ('ineligible','cannot_contact') then
+      raise exception 'Record notification before deciding this claim'; end if;
+    insert into private.pickem_winner_claims (week_id,user_id,actor_id)
+    values (p_week_id,candidate,auth.uid());
+  elsif claim.decision <> 'pending' then
+    raise exception 'This candidate already has a final claim decision';
+  end if;
+  if p_decision='no_response' and (claim.respond_by is null
+    or clock_timestamp()<claim.respond_by or claim.responded_at is not null) then
+    raise exception 'The 72-hour response period has not expired without a response'; end if;
+  if p_decision='confirmed' and (claim.responded_at is null
+    or claim.responded_at>=claim.respond_by) then
+    raise exception 'A timely response and eligibility review are required'; end if;
+  update private.pickem_winner_claims set decision=p_decision,decision_at=clock_timestamp(),
+    reason=btrim(p_reason),actor_id=auth.uid()
+  where week_id=p_week_id and user_id=candidate;
+  if p_decision<>'confirmed' then
+    update public.pickem_contest_entries set status='disqualified',
+      disqualification_reason=p_decision||': '||btrim(p_reason)
+    where week_id=p_week_id and user_id=candidate and status='valid';
+  end if;
+end; $$;
+revoke all on function public.admin_decide_pickem_winner_claim(uuid,text,text) from public, anon;
+grant execute on function public.admin_decide_pickem_winner_claim(uuid,text,text) to authenticated;
+
+create function public.admin_pickem_winner_claim_status(p_week_id uuid)
+returns table (user_id uuid, notified_at timestamptz, respond_by timestamptz,
+  responded_at timestamptz, decision text, decision_at timestamptz)
+language plpgsql stable security definer set search_path = '' as $$
+begin
+  if auth.uid() is null or not private.is_active_member(auth.uid())
+    or not private.has_role('admin'::public.user_role) then
+    raise exception using errcode='42501', message='Administrator access required';
+  end if;
+  return query select claim.user_id,claim.notified_at,claim.respond_by,
+    claim.responded_at,claim.decision,claim.decision_at
+    from private.pickem_winner_claims claim where claim.week_id=p_week_id
+    order by claim.decision_at nulls first,claim.notified_at nulls first;
+end; $$;
+revoke all on function public.admin_pickem_winner_claim_status(uuid) from public, anon;
+grant execute on function public.admin_pickem_winner_claim_status(uuid) to authenticated;

@@ -15,14 +15,20 @@ select user_id, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authen
   jsonb_build_object('display_name', 'Contest test ' || label), now(), now() from test_ids;
 create temporary table contest_fixture (week_id uuid, game_number integer, pickem_game_id uuid) on commit preserve rows;
 do $$ declare w uuid; g uuid; begin
- insert into public.pickem_weeks (season, week, title, status, opens_at, closes_at)
- values (2099, 6, 'Isolated test only', 'draft', now()-interval '1 hour', now()+interval '20 seconds') returning id into w;
+ insert into public.pickem_weeks (season, week, title, status, opens_at, closes_at, official_rules_version, official_rules_published_at)
+ values (2099, 6, 'Isolated test only', 'draft', now()-interval '1 hour', now()+interval '20 seconds','isolated-test',now()) returning id into w;
  for i in 1..9 loop
   insert into public.pickem_games (week_id, game_id, sort_order, lock_at, away_school_slug, home_school_slug)
   values (w, '__isolated_week6_'||i, i, now()+case when i=1 then interval '7 seconds' else interval '15 seconds' end,
     'away-'||i, 'home-'||i) returning id into g;
   insert into contest_fixture values (w,i,g);
  end loop;
+ update public.pickem_weeks set official_rules_version=null where id=w;
+ begin
+  update public.pickem_weeks set tiebreaker_game_id=(select pickem_game_id from contest_fixture where game_number=1),status='open' where id=w;
+  raise exception 'Unpublished rules allowed contest opening';
+ exception when others then if sqlerrm='Unpublished rules allowed contest opening' then raise; end if; end;
+ update public.pickem_weeks set official_rules_version='isolated-test' where id=w;
  update public.pickem_weeks set tiebreaker_game_id = (select pickem_game_id from contest_fixture where game_number=1), status='open' where id=w;
  if (select entry_deadline_at from public.pickem_weeks where id=w) is distinct from
     (select min(lock_at) from public.pickem_games where week_id=w) then raise exception 'Entry cutoff did not freeze at opening'; end if;
@@ -35,14 +41,18 @@ do $$ declare w uuid; picks jsonb; count_draft integer; entrant record; begin
  select week_id into w from contest_fixture limit 1;
  perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='draft'),true);
  select jsonb_build_object(pickem_game_id::text,'home-'||game_number) into picks from contest_fixture where game_number=1;
- select public.save_pickem_contest_draft(w,picks) into count_draft;
+ select public.save_pickem_contest_draft(w,picks,55) into count_draft;
  if count_draft <> 1 or (select count(*) from public.get_pickem_contest_draft(w)) <> 1 then raise exception 'Draft persistence failed'; end if;
+ if public.get_pickem_contest_draft_prediction(w)<>55 then raise exception 'Draft prediction did not persist'; end if;
+ perform public.save_pickem_contest_draft(w,'{}'::jsonb,null);
+ if public.get_pickem_contest_draft_prediction(w) is not null then raise exception 'Cleared draft prediction persisted'; end if;
+ perform public.save_pickem_contest_draft(w,'{}'::jsonb,55);
  if exists (select 1 from public.pickem_contest_entries where week_id=w)
  or exists (select 1 from public.pickem_picks where user_id=auth.uid())
  or (select valid_entries from public.pickem_contest_prize where week_id=w) <> 0 then
   raise exception 'Draft leaked into qualification or prize'; end if;
  begin
-  perform public.submit_pickem_contest_entry(w,'2545550105',55,picks);
+  perform public.submit_pickem_contest_entry(w,'2545550105',55,picks,true);
   raise exception 'Incomplete entry was accepted';
  exception when others then
   if sqlerrm = 'Incomplete entry was accepted' then raise; end if;
@@ -50,13 +60,23 @@ do $$ declare w uuid; picks jsonb; count_draft integer; entrant record; begin
  if exists (select 1 from public.pickem_contest_entries where user_id=auth.uid()) then raise exception 'Incomplete entry timestamp created'; end if;
  select jsonb_object_agg(pickem_game_id::text,'home-'||game_number) into picks from contest_fixture;
  begin
-  perform public.submit_pickem_contest_entry(w,'2545550105',null,picks);
+  perform public.submit_pickem_contest_entry(w,'2545550105',null,picks,true);
   raise exception 'Missing prediction was accepted';
  exception when others then
   if sqlerrm = 'Missing prediction was accepted' then raise; end if;
  end;
+ begin
+  perform public.submit_pickem_contest_entry(w,'2545550105',55,picks,false);
+  raise exception 'Unattested entry was accepted';
+ exception when others then
+  if sqlerrm='Unattested entry was accepted' or sqlerrm not like '%attestation is required%' then raise; end if;
+ end;
+ if exists (select 1 from public.pickem_contest_entries where user_id=auth.uid())
+ or (select valid_entries from public.pickem_contest_prize where week_id=w)<>0 then
+  raise exception 'Unattested attempt established eligibility'; end if;
  if has_table_privilege('authenticated','private.pickem_entrant_phones','SELECT')
  or has_table_privilege('authenticated','private.pickem_draft_picks','SELECT')
+ or has_table_privilege('authenticated','private.pickem_draft_predictions','SELECT')
  or has_table_privilege('authenticated','public.pickem_picks','INSERT')
  or has_table_privilege('authenticated','public.pickem_week_tiebreakers','UPDATE') then
   raise exception 'Direct sensitive data or pick write privilege remains'; end if;
@@ -66,13 +86,13 @@ do $$ declare w uuid; picks jsonb; count_draft integer; entrant record; begin
     case when entrant.label='A' and game_number=9 then 'away-'||game_number else 'home-'||game_number end)
   into picks from contest_fixture;
   perform public.submit_pickem_contest_entry(w, entrant.phone,
-    case entrant.label when 'A' then 55 when 'B' then 73 when 'C' then 60 else 66 end,picks);
+    case entrant.label when 'A' then 55 when 'B' then 73 when 'C' then 60 else 66 end,picks,true);
   if entrant.label='C' then perform pg_sleep(0.05); end if;
  end loop;
  perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='duplicate'),true);
  select jsonb_object_agg(pickem_game_id::text,'home-'||game_number) into picks from contest_fixture;
  begin
-  perform public.submit_pickem_contest_entry(w,'+1 254 555 0103',63,picks);
+  perform public.submit_pickem_contest_entry(w,'+1 254 555 0103',63,picks,true);
   raise exception 'Duplicate normalized phone accepted';
  exception when others then
   if sqlerrm = 'Duplicate normalized phone accepted' then raise; end if;
@@ -86,13 +106,27 @@ do $$ declare w uuid; picks jsonb; initial_time timestamptz; after_time timestam
  perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='C'),true);
  select completed_at into initial_time from public.pickem_contest_entries where week_id=w and user_id=auth.uid();
  select jsonb_object_agg(pickem_game_id::text,'home-'||game_number) into picks from contest_fixture;
- perform public.submit_pickem_contest_entry(w,null,60,picks);
+ perform public.submit_pickem_contest_entry(w,null,60,picks,false);
  select completed_at into after_time from public.pickem_contest_entries where week_id=w and user_id=auth.uid();
  if initial_time is distinct from after_time then raise exception 'Repeat save changed initial completion'; end if;
  perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='B'),true);
  if exists (select 1 from public.get_pickem_contest_draft(w)) then raise exception 'Another user draft visible'; end if;
+ if public.get_pickem_contest_draft_prediction(w) is not null then raise exception 'Another user prediction visible'; end if;
 end $$;
 reset role;
+do $$ declare w uuid; begin
+ select week_id into w from contest_fixture limit 1;
+ if (select count(*) from public.pickem_contest_entries
+     where week_id=w and attested_at is not null
+       and attestation_rules_version='isolated-test'
+       and attestation_text='I confirm that I am 18 or older, a Texas resident, and agree to the Official Rules.')<>4 then
+   raise exception 'Durable attestation missing or incorrect'; end if;
+ begin
+  update public.pickem_contest_entries set attestation_text='changed'
+  where week_id=w and user_id=(select user_id from test_ids where label='A');
+  raise exception 'Attestation mutation accepted';
+ exception when others then if sqlerrm='Attestation mutation accepted' then raise; end if; end;
+end $$;
 commit;
 -- Test the boundary in a new transaction, because PostgreSQL now() is the
 -- transaction start time. The first game is locked; later games are open.
@@ -107,20 +141,20 @@ do $$ declare w uuid; game_one uuid; game_two uuid; before_time timestamptz; pic
  perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='C'),true);
  select completed_at into before_time from public.pickem_contest_entries where week_id=w and user_id=auth.uid();
  begin
-  perform public.submit_pickem_contest_entry(w,null,60,jsonb_build_object(game_one::text,'away-1'));
+  perform public.submit_pickem_contest_entry(w,null,60,jsonb_build_object(game_one::text,'away-1'),false);
   raise exception 'Locked game edit accepted';
  exception when others then if sqlerrm='Locked game edit accepted' then raise; end if; end;
- perform public.submit_pickem_contest_entry(w,null,60,jsonb_build_object(game_two::text,'away-2'));
+ perform public.submit_pickem_contest_entry(w,null,60,jsonb_build_object(game_two::text,'away-2'),false);
  if (select picked_school_slug from public.pickem_picks where user_id=auth.uid() and pickem_game_id=game_two)<>'away-2'
  or (select picked_school_slug from public.pickem_picks where user_id=auth.uid() and pickem_game_id=game_one)<>'home-1'
  then raise exception 'Mixed locked/unlocked edit failed'; end if;
- perform public.submit_pickem_contest_entry(w,null,60,jsonb_build_object(game_two::text,'home-2'));
+ perform public.submit_pickem_contest_entry(w,null,60,jsonb_build_object(game_two::text,'home-2'),false);
  if (select completed_at from public.pickem_contest_entries where week_id=w and user_id=auth.uid()) is distinct from before_time
  then raise exception 'Editing changed initial entry time'; end if;
  perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='draft'),true);
  select jsonb_object_agg(pickem_game_id::text,'home-'||game_number) into picks from contest_fixture;
  begin
-  perform public.submit_pickem_contest_entry(w,'2545550105',63,picks);
+  perform public.submit_pickem_contest_entry(w,'2545550105',63,picks,true);
   raise exception 'Late entry accepted';
  exception when others then if sqlerrm='Late entry accepted' then raise; end if; end;
  if exists (select 1 from public.pickem_contest_entries where user_id=auth.uid()) then
@@ -206,6 +240,53 @@ do $$ declare w uuid; begin
      where week_id=w order by weekly_rank limit 1)<>'A' then
   raise exception 'GOTW fallback did not use initial entry time'; end if;
 end $$;
+-- Notification is recorded after actual contact; it cannot restart the clock.
+-- Ineligible/no-response decisions remove that candidate and advance by the
+-- same ranking order. Backdating here is confined to the disposable fixture.
+set local role authenticated;
+do $$ declare w uuid; deadline timestamptz; begin
+ select week_id into w from contest_fixture limit 1;
+ perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='B'),true);
+ begin
+  perform public.admin_record_pickem_winner_notice(w);
+  raise exception 'Member recorded winner notice';
+ exception when others then if sqlerrm='Member recorded winner notice' then raise; end if; end;
+ perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='admin'),true);
+ select public.admin_record_pickem_winner_notice(w) into deadline;
+ if deadline <= clock_timestamp() or deadline > clock_timestamp()+interval '72 hours' then
+  raise exception 'Winner response deadline incorrect'; end if;
+ begin
+  perform public.admin_record_pickem_winner_notice(w);
+  raise exception 'Notice deadline reset accepted';
+ exception when others then if sqlerrm='Notice deadline reset accepted' then raise; end if; end;
+ begin
+  perform public.admin_decide_pickem_winner_claim(w,'no_response','No reply');
+  raise exception 'Premature no-response accepted';
+ exception when others then if sqlerrm='Premature no-response accepted' then raise; end if; end;
+ perform public.admin_decide_pickem_winner_claim(w,'ineligible','Failed eligibility review');
+ if (select valid_entries from public.pickem_contest_prize where week_id=w)<>3 then
+  raise exception 'Ineligible leader remained in prize count'; end if;
+ perform public.admin_record_pickem_winner_notice(w);
+end $$;
+reset role;
+update private.pickem_winner_claims set notified_at=statement_timestamp()-interval '73 hours',
+  respond_by=statement_timestamp()-interval '1 hour'
+where week_id=(select week_id from contest_fixture limit 1) and decision='pending';
+set local role authenticated;
+do $$ declare w uuid; begin
+ select week_id into w from contest_fixture limit 1;
+ perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='admin'),true);
+ perform public.admin_decide_pickem_winner_claim(w,'no_response','No response within 72 hours');
+ if (select valid_entries from public.pickem_contest_prize where week_id=w)<>2 then
+  raise exception 'Nonresponsive leader remained in prize count'; end if;
+ perform public.admin_record_pickem_winner_notice(w);
+ perform public.admin_record_pickem_winner_response(w);
+ perform public.admin_decide_pickem_winner_claim(w,'confirmed','Eligibility reviewed after timely response');
+ if (select valid_entries from public.pickem_contest_prize where week_id=w)<>2
+ or (select count(*) from public.admin_pickem_winner_claim_status(w) where decision='confirmed')<>1 then
+  raise exception 'Confirmed winner workflow failed'; end if;
+end $$;
+reset role;
 -- Exercise the cap through 117 actual completed RPC entries, then revoke one.
 create temporary table cap_ids (user_id uuid, phone text) on commit preserve rows;
 insert into cap_ids select gen_random_uuid(), '254555'||lpad(n::text,4,'0')
@@ -215,8 +296,8 @@ select user_id,'00000000-0000-0000-0000-000000000000','authenticated','authentic
  user_id::text||'@example.invalid','!',now(),'{}'::jsonb,'{}'::jsonb,now(),now() from cap_ids;
 create temporary table cap_fixture (week_id uuid, game_id uuid) on commit preserve rows;
 do $$ declare w uuid; g uuid; begin
- insert into public.pickem_weeks (season,week,title,status,opens_at,closes_at)
- values (2099,8,'Cap fixture','draft',now()-interval '1 hour',now()+interval '1 hour') returning id into w;
+ insert into public.pickem_weeks (season,week,title,status,opens_at,closes_at,official_rules_version,official_rules_published_at)
+ values (2099,8,'Cap fixture','draft',now()-interval '1 hour',now()+interval '1 hour','isolated-test',now()) returning id into w;
  insert into public.pickem_games (week_id,game_id,lock_at,away_school_slug,home_school_slug)
  values (w,'__cap_game__',now()+interval '30 minutes','cap-away','cap-home') returning id into g;
  update public.pickem_weeks set tiebreaker_game_id=g,status='open' where id=w;
@@ -228,7 +309,7 @@ do $$ declare entrant record; w uuid; g uuid; begin
  select week_id,game_id into w,g from cap_fixture;
  for entrant in select * from cap_ids loop
   perform set_config('request.jwt.claim.sub',entrant.user_id::text,true);
-  perform public.submit_pickem_contest_entry(w,entrant.phone,63,jsonb_build_object(g::text,'cap-home'));
+  perform public.submit_pickem_contest_entry(w,entrant.phone,63,jsonb_build_object(g::text,'cap-home'),true);
  end loop;
 end $$;
 reset role;
@@ -247,8 +328,8 @@ end $$;
 -- later game is rejected until an administrator voids that contest matchup.
 create temporary table schedule_fixture (week_id uuid, first_game uuid, moved_game uuid) on commit preserve rows;
 do $$ declare w uuid; first_id uuid; moved_id uuid; frozen timestamptz; begin
- insert into public.pickem_weeks (season,week,title,status,opens_at,closes_at)
- values (2099,10,'Schedule fixture','draft',now()-interval '1 hour',now()+interval '2 hours') returning id into w;
+ insert into public.pickem_weeks (season,week,title,status,opens_at,closes_at,official_rules_version,official_rules_published_at)
+ values (2099,10,'Schedule fixture','draft',now()-interval '1 hour',now()+interval '2 hours','isolated-test',now()) returning id into w;
  insert into public.pickem_games (week_id,game_id,lock_at,away_school_slug,home_school_slug)
  values (w,'__schedule_first__',now()+interval '30 minutes','schedule-away-1','schedule-home-1') returning id into first_id;
  insert into public.pickem_games (week_id,game_id,lock_at,away_school_slug,home_school_slug)
@@ -282,7 +363,7 @@ do $$ declare w uuid; first_id uuid; begin
  select week_id,first_game into w,first_id from schedule_fixture;
  perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='draft'),true);
  perform public.submit_pickem_contest_entry(w,'2545550105',null,
-   jsonb_build_object(first_id::text,'schedule-home-1'));
+   jsonb_build_object(first_id::text,'schedule-home-1'),true);
  if (select valid_entries from public.pickem_contest_prize where week_id=w)<>1
  or exists (select 1 from public.pickem_week_tiebreakers where week_id=w) then
   raise exception 'VOID GOTW still required a prediction or inflated prize'; end if;
@@ -311,8 +392,8 @@ insert into public.user_roles (user_id,role)
 select user_id,'admin'::public.user_role from test_ids where label='admin';
 create temporary table monday_fixture (week_id uuid, gotw uuid, other_game uuid) on commit preserve rows;
 do $$ declare w uuid; gotw_id uuid; other_id uuid; begin
- insert into public.pickem_weeks (season,week,title,status,opens_at,closes_at)
- values (2099,11,'Monday fixture','draft',now()-interval '1 hour',now()+interval '20 seconds') returning id into w;
+ insert into public.pickem_weeks (season,week,title,status,opens_at,closes_at,official_rules_version,official_rules_published_at)
+ values (2099,11,'Monday fixture','draft',now()-interval '1 hour',now()+interval '20 seconds','isolated-test',now()) returning id into w;
  insert into public.pickem_games (week_id,game_id,lock_at,away_school_slug,home_school_slug)
  values (w,'__monday_gotw__',now()+interval '10 seconds','monday-away-1','monday-home-1') returning id into gotw_id;
  insert into public.pickem_games (week_id,game_id,lock_at,away_school_slug,home_school_slug)
@@ -332,7 +413,7 @@ do $$ declare w uuid; g uuid; o uuid; entrant record; begin
   perform set_config('request.jwt.claim.sub',entrant.user_id::text,true);
   perform public.submit_pickem_contest_entry(w,entrant.phone,
     case when entrant.label='A' then 50 else 63 end,
-    jsonb_build_object(g::text,'monday-home-1',o::text,'monday-home-2'));
+    jsonb_build_object(g::text,'monday-home-1',o::text,'monday-home-2'),true);
   if entrant.label='A' then perform pg_sleep(0.05); end if;
  end loop;
  perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='admin'),true);

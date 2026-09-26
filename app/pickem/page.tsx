@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import PickemGuestSlate from "@/components/PickemGuestSlate";
 import PickemSlateForm, { type PickemSlateGame } from "@/components/PickemSlateForm";
 import PickemWeekDisclosure from "@/components/PickemWeekDisclosure";
@@ -7,6 +8,7 @@ import { getGameById } from "@/lib/games";
 import { memberAccountStatus } from "@/lib/member-access";
 import { rankPickemStandings } from "@/lib/pickem-lifecycle";
 import { isPickemEntryClosed, isPickemWeekClosed } from "@/lib/pickem-week-state";
+import { centralContestDeadline } from "@/lib/pickem-contest-display";
 import { summarizePickemWeeks } from "@/lib/pickem-week-summary";
 import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
@@ -113,6 +115,9 @@ export default async function PickemPage({ searchParams }: PageProps) {
   const { data: draftPicks } = isActiveMember && contestWeek && !memberEntry
     ? await supabase.rpc("get_pickem_contest_draft", { p_week_id: week!.id })
     : { data: [] };
+  const { data: draftPrediction } = isActiveMember && contestWeek && !memberEntry
+    ? await supabase.rpc("get_pickem_contest_draft_prediction", { p_week_id: week!.id })
+    : { data: null };
   const { data: prize } = contestWeek
     ? await supabase.from("pickem_contest_prize").select("valid_entries, prize_dollars").eq("week_id", week!.id).maybeSingle()
     : { data: null };
@@ -286,7 +291,7 @@ export default async function PickemPage({ searchParams }: PageProps) {
         </section>
 
         {week && weekClosed ? <div className="mt-5 rounded-xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm font-bold text-amber-50">Week {week.week} Pick ’Em is CLOSED. Saved picks remain visible while verified results are graded.</div> : null}
-        {contestWeek && prize ? <section className="mt-5 rounded-xl border border-white/15 bg-white/[0.04] p-4 text-sm text-white/80"><strong className="text-white">Free Week {week?.week} contest · Current prize: ${prize.prize_dollars}</strong><p className="mt-1 text-xs text-white/55">{prize.valid_entries} valid completed {prize.valid_entries === 1 ? "entry" : "entries"} · $1 per valid entry, maximum $100. One entry per person. A U.S. mobile number is required; number ownership is not SMS verified. Official rules are pending approval.</p><p className="mt-1 text-xs text-white/55">Complete every non-void pick and, if the Game of the Week remains active, its total-points prediction before the frozen entry deadline. Each correct pick earns one point. Closest combined-points prediction breaks a tie; if still tied, the earliest completed entry wins.</p></section> : null}
+        {contestWeek && prize ? <section className="mt-5 rounded-xl border border-white/15 bg-white/[0.04] p-4 text-sm text-white/80"><strong className="text-white">Free Week {week?.week} contest · Provisional prize: ${prize.prize_dollars}</strong><p className="mt-1 text-xs text-white/60">{prize.valid_entries} accepted completed {prize.valid_entries === 1 ? "entry" : "entries"} currently counted. Prize is $1 per valid accepted entry, capped at $100, subject to eligibility and disqualification review under the Official Rules. No purchase necessary. Texas residents age 18+; one entry per person.</p><p className="mt-1 text-xs text-white/60">{week?.entry_deadline_at ? <>New entries close <strong className="text-white">{centralContestDeadline(week.entry_deadline_at)}</strong> (the frozen earliest included kickoff).</> : "Entry deadline pending configuration."} Submit before that instant. Complete every non-void pick, the Game of the Week total-points prediction when applicable, a mobile number, and the eligibility attestation. Each correct pick earns one point; closest combined-points prediction and then earliest valid entry break ties.</p><p className="mt-2 text-xs text-white/60"><Link href="/pickem/rules" className="font-bold text-white underline underline-offset-2">Official Rules</Link> · Rules await owner approval and are not published yet.</p></section> : null}
         {voidGames?.length ? <div className="mt-5 rounded-xl border border-sky-300/20 bg-sky-300/10 p-4 text-sm text-sky-50">{voidGames.length} included {voidGames.length === 1 ? "matchup is" : "matchups are"} VOID for this contest. No pick is required or graded for {voidGames.length === 1 ? "it" : "them"}.{voidGameIds.has(week?.tiebreaker_game_id ?? "") ? " The Game of the Week prediction is skipped." : ""}</div> : null}
         {contestWeek && newEntriesClosed && !memberEntry && !weekClosed ? <div className="mt-5 rounded-xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm text-amber-50">New Week {week?.week} contest entries are closed at the frozen entry deadline. Existing entrants may edit games that have not started.</div> : null}
         {!week || games.length === 0 ? (
@@ -294,7 +299,7 @@ export default async function PickemPage({ searchParams }: PageProps) {
         ) : isActiveMember ? (
           <>
             {intendedPicks.size > 0 ? <div className="mt-5 rounded-2xl border border-emerald-300/20 bg-emerald-300/10 p-4 text-sm text-emerald-50">Your pre-registration picks were restored. Select <strong>Save My Picks</strong> below to add them to your account.</div> : null}
-            {(!newEntriesClosed || memberEntry || !contestWeek) && <PickemSlateForm weekId={week.id} games={games} contest={contestWeek ? { entered: Boolean(memberEntry), completedAt: memberEntry?.completed_at, status: memberEntry?.status } : undefined} tiebreaker={week.tiebreaker_game_id && !voidGameIds.has(week.tiebreaker_game_id) ? { matchup: (() => { const selected = games.find((game) => game.id === week.tiebreaker_game_id); return selected ? `${selected.awayName} at ${selected.homeName}` : "Game of the Week"; })(), savedPrediction: memberPrediction?.predicted_total, locked: games.find((game) => game.id === week.tiebreaker_game_id)?.locked ?? false } : undefined} />}
+            {(!newEntriesClosed || memberEntry || !contestWeek) && <PickemSlateForm weekId={week.id} games={games} contest={contestWeek ? { entered: Boolean(memberEntry), completedAt: memberEntry?.completed_at, status: memberEntry?.status } : undefined} tiebreaker={week.tiebreaker_game_id && !voidGameIds.has(week.tiebreaker_game_id) ? { matchup: (() => { const selected = games.find((game) => game.id === week.tiebreaker_game_id); return selected ? `${selected.awayName} at ${selected.homeName}` : "Game of the Week"; })(), savedPrediction: memberPrediction?.predicted_total ?? draftPrediction ?? undefined, locked: games.find((game) => game.id === week.tiebreaker_game_id)?.locked ?? false } : undefined} />}
           </>
         ) : (
           !newEntriesClosed ? <PickemGuestSlate games={games} /> : null
