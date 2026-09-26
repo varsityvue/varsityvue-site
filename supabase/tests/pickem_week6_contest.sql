@@ -32,7 +32,7 @@ do $$ declare w uuid; g uuid; unrelated_week uuid; begin
  update public.pickem_weeks set tiebreaker_game_id = (select pickem_game_id from contest_fixture where game_number=1), status='open' where id=w;
  if (select presenting_sponsor_name from public.pickem_weeks where id=w) <> 'Gilder Storage' then raise exception 'Sponsor configuration not retained'; end if;
  insert into public.pickem_weeks (season,week,title,status,opens_at,closes_at)
- values (2099,7,'Unrelated unsponsored draft','draft',now()+interval '1 day',now()+interval '2 days')
+ values (2099,8,'Unrelated unsponsored draft','draft',now()+interval '1 day',now()+interval '2 days')
  returning id into unrelated_week;
  if (select presenting_sponsor_name from public.pickem_weeks where id=unrelated_week) is not null then
   raise exception 'Sponsor attribution leaked to unrelated contest'; end if;
