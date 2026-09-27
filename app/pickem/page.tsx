@@ -299,7 +299,7 @@ export default async function PickemPage({ searchParams }: PageProps) {
 
         {week && weekClosed ? <div className="mt-5 rounded-xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm font-bold text-amber-50">{contestWeek ? `Week ${week.week}: ALL PICKS LOCKED. Saved picks remain visible while verified results are graded.` : `Week ${week.week} Pick ’Em is CLOSED. Saved picks remain visible while verified results are graded.`}</div> : null}
         {contestWeek ? <section className="mt-5 rounded-xl border border-white/15 bg-white/[0.04] p-4 text-sm text-white/80">
-          <PickemPrizeCounter weekId={week!.id} initialPrize={prize} />
+          <PickemPrizeCounter key={`${week!.id}:${prize?.valid_entries ?? "?"}:${prize?.prize_dollars ?? "?"}`} weekId={week!.id} initialPrize={prize} />
           <p className="mt-3 font-bold text-white">$1 per valid accepted entry · up to $100 this week</p>
           <p className="mt-1 text-xs text-white/70">Count and prize are provisional, subject to eligibility and disqualification review.</p>
           <p className="mt-3">Pick every game and predict the combined points in the VarsityVue Game of the Week. Each correct pick earns 1 point. Ties go to the closest prediction, then the earliest valid completed entry.</p>
