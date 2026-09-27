@@ -90,7 +90,7 @@ export const comancheGameStats: GameStats[] = [
     receiving: [
       { player: "Zaden Tello", schoolSlug: "comanche", receptions: 3, yards: 44, touchdowns: 0 },
       { player: "Elijah Ozuna", schoolSlug: "comanche", receptions: 1, yards: 16, touchdowns: 0 },
-      { player: "L. Morgan", schoolSlug: "comanche", receptions: 1, yards: 7, touchdowns: 0 },
+      { player: "Lukas Morgan", schoolSlug: "comanche", receptions: 1, yards: 7, touchdowns: 0 },
       { player: "Ladanian Smith", schoolSlug: "comanche", receptions: 1, yards: 2, touchdowns: 0 },
       { player: "Adrian Molina", schoolSlug: "comanche", receptions: 1, yards: 7, touchdowns: 0 },
     ],

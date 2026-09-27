@@ -20,7 +20,7 @@ assert.equal(formatTouchdownDetail(undefined), "TD unavailable");
 const players = getPlayerSeasonStats(2026);
 const findPlayer = (name: string, schoolSlug = "de-leon") => players.find((player) => player.player === name && player.schoolSlug === schoolSlug);
 
-assert.equal(findPlayer("Bryce Burkeen")?.receiving.touchdowns, 4, "known positive season total must remain numeric");
+assert.equal(findPlayer("Bryce Burkeen")?.receiving.touchdowns, 7, "Week 5's three receiving touchdowns must add to the prior four");
 assert.equal(findPlayer("Jayden Lindley")?.receiving.touchdowns, 1, "known positive season total must include the Week 4 touchdown");
 assert.equal(findPlayer("Lane Couch")?.receiving.touchdowns, 0, "source-supported receiving zeroes must remain numeric through aggregation");
 assert.equal(findPlayer("Beau Morris")?.passing.touchdowns, 0, "source-supported passing zeroes must remain numeric through aggregation");
