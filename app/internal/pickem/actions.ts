@@ -99,7 +99,9 @@ export async function savePickemWeek(formData: FormData) {
       title,
       status,
       opens_at: status === "open" ? new Date().toISOString() : null,
-      closes_at: fridaySevenCentralForGame(selectedGames[0].kickoff!),
+      closes_at: season > 2026 || (season === 2026 && weekNumber >= 6)
+        ? new Date(Math.max(...lockTimes) + 1000).toISOString()
+        : fridaySevenCentralForGame(selectedGames[0].kickoff!),
       created_by: existingWeek?.created_by ?? userId,
     }, { onConflict: "season,week" })
     .select("id")

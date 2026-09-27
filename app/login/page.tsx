@@ -92,6 +92,8 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
                 Select the confirmation link in the email.
                 {followSchool
                   ? ` After confirmation, we’ll return you to finish following ${followSchool.name}.`
+                  : returnTo.startsWith("/pickem")
+                    ? " After confirmation, return to Pick ’Em and sign in if prompted. Any winners you selected before signup will be restored; finish the entry before the contest deadline."
                   : " After confirmation, you can sign in to VarsityVue."}
               </p>
             </div>
@@ -159,7 +161,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
                   type="text"
                   autoComplete="name"
                   required
-                  className="w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-3.5 text-sm text-white outline-none placeholder:text-white/30 focus:border-[var(--vv-accent)]"
+                  className="w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-3.5 text-base text-white outline-none placeholder:text-white/30 focus:border-[var(--vv-accent)] sm:text-sm"
                   placeholder="Your name"
                 />
               </div>
@@ -175,7 +177,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
                 type="email"
                 autoComplete="email"
                 required
-                className="w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-3.5 text-sm text-white outline-none placeholder:text-white/30 focus:border-[var(--vv-accent)]"
+                className="w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-3.5 text-base text-white outline-none placeholder:text-white/30 focus:border-[var(--vv-accent)] sm:text-sm"
                 placeholder="you@example.com"
               />
             </div>
@@ -191,7 +193,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
                 autoComplete={signupMode ? "new-password" : "current-password"}
                 minLength={8}
                 required
-                className="w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-3.5 text-sm text-white outline-none placeholder:text-white/30 focus:border-[var(--vv-accent)]"
+                className="w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-3.5 text-base text-white outline-none placeholder:text-white/30 focus:border-[var(--vv-accent)] sm:text-sm"
                 placeholder="At least 8 characters"
               />
             </div>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import PickemGuestSlate from "@/components/PickemGuestSlate";
 import PickemSlateForm, { type PickemSlateGame } from "@/components/PickemSlateForm";
 import PickemWeekDisclosure from "@/components/PickemWeekDisclosure";
@@ -6,7 +7,8 @@ import { getPickemLogoFilter, getPickemLogoPath } from "@/data/school-logos";
 import { getGameById } from "@/lib/games";
 import { memberAccountStatus } from "@/lib/member-access";
 import { rankPickemStandings } from "@/lib/pickem-lifecycle";
-import { isPickemWeekClosed } from "@/lib/pickem-week-state";
+import { isPickemEntryClosed, isPickemWeekClosed } from "@/lib/pickem-week-state";
+import { centralContestDeadline } from "@/lib/pickem-contest-display";
 import { summarizePickemWeeks } from "@/lib/pickem-week-summary";
 import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
@@ -71,7 +73,7 @@ export default async function PickemPage({ searchParams }: PageProps) {
 
   const { data: week } = await supabase
     .from("pickem_weeks")
-    .select("id, season, week, title, status, closes_at, tiebreaker_game_id")
+    .select("id, season, week, title, status, closes_at, tiebreaker_game_id, entry_deadline_at, presenting_sponsor_name")
     .in("status", ["open", "locked", "graded"])
     .order("season", { ascending: false })
     .order("week", { ascending: false })
@@ -106,6 +108,23 @@ export default async function PickemPage({ searchParams }: PageProps) {
   const { data: memberPrediction } = isActiveMember && week?.tiebreaker_game_id
     ? await supabase.from("pickem_week_tiebreakers").select("predicted_total").eq("week_id", week.id).eq("user_id", userId!).maybeSingle()
     : { data: null };
+  const contestWeek = Boolean(week && (week.season > 2026 || (week.season === 2026 && week.week >= 6)));
+  const { data: memberEntry } = isActiveMember && contestWeek
+    ? await supabase.from("pickem_contest_entries").select("completed_at, status").eq("week_id", week!.id).eq("user_id", userId!).maybeSingle()
+    : { data: null };
+  const { data: draftPicks } = isActiveMember && contestWeek && !memberEntry
+    ? await supabase.rpc("get_pickem_contest_draft", { p_week_id: week!.id })
+    : { data: [] };
+  const { data: draftPrediction } = isActiveMember && contestWeek && !memberEntry
+    ? await supabase.rpc("get_pickem_contest_draft_prediction", { p_week_id: week!.id })
+    : { data: null };
+  const { data: prize } = contestWeek
+    ? await supabase.from("pickem_contest_prize").select("valid_entries, prize_dollars").eq("week_id", week!.id).maybeSingle()
+    : { data: null };
+  const { data: voidGames } = contestWeek
+    ? await supabase.from("pickem_contest_void_games").select("pickem_game_id, reason").eq("week_id", week!.id)
+    : { data: [] };
+  const voidGameIds = new Set((voidGames ?? []).map((row) => row.pickem_game_id));
 
   const memberGameIds = [...new Set((memberPickRows ?? []).map((pick) => pick.pickem_game_id))];
   const [{ data: memberGameRows }, { data: memberTotal }] = isActiveMember && week
@@ -150,12 +169,23 @@ export default async function PickemPage({ searchParams }: PageProps) {
         .gt("correct_picks", correctPicks)
     : { count: null };
 
-  const weekClosed = week ? isPickemWeekClosed(week) : true;
+  const allPicksLocked = Boolean(week && (slateRows ?? []).filter((row) => !voidGameIds.has(row.id))
+    .every((row) => row.is_locked === true));
+  const weekClosed = week ? (contestWeek ? week.status !== "open" || allPicksLocked : isPickemWeekClosed(week)) : true;
+  const firstKickoff = (slateRows ?? []).reduce<number>((minimum, row) => Math.min(minimum, new Date(row.lock_at).getTime()), Infinity);
+  const newEntriesClosed = contestWeek && isPickemEntryClosed(
+    week?.entry_deadline_at ? new Date(week.entry_deadline_at).getTime() : firstKickoff,
+  );
   const { data: weeklyStandings } = week && weekClosed
     ? await supabase.from("pickem_week_standings").select("user_id, display_name, username, correct_picks, graded_picks, predicted_total, actual_total, distance, weekly_rank").eq("week_id", week.id).order("weekly_rank", { ascending: true }).order("user_id", { ascending: true }).limit(20)
     : { data: [] };
-  const selections = new Map((memberPickRows ?? []).map((pick) => [pick.pickem_game_id, pick.picked_school_slug]));
+  const typedDraftPicks = (draftPicks ?? []) as Array<{ pickem_game_id: string; picked_school_slug: string }>;
+  const selections = new Map<string, string>([
+    ...(memberPickRows ?? []).map((pick) => [pick.pickem_game_id, pick.picked_school_slug] as const),
+    ...typedDraftPicks.map((pick) => [pick.pickem_game_id, pick.picked_school_slug] as const),
+  ]);
   const games: PickemSlateGame[] = (slateRows ?? []).flatMap((row) => {
+    if (voidGameIds.has(row.id)) return [];
     const game = getGameById(row.game_id);
     if (!game || !row.away_school_slug || !row.home_school_slug) return [];
     const awaySchool = getSchoolBySlug(row.away_school_slug);
@@ -259,19 +289,31 @@ export default async function PickemPage({ searchParams }: PageProps) {
           <p className="pr-28 text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent)] sm:pr-32 sm:text-xs">VarsityVue</p>
           {week ? <span className="absolute right-5 top-5 rounded-full border border-white/10 bg-black/30 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/45 sm:right-8 sm:top-8">{week.season} · Week {week.week}</span> : null}
           <h1 className="mt-3 text-3xl font-black tracking-tight sm:text-5xl">Pick ’Em</h1>
+          {contestWeek && week?.presenting_sponsor_name ? <p className="mt-2 text-sm font-bold text-white/80">Presented by {week.presenting_sponsor_name}</p> : null}
           <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55 sm:text-base">Pick every winner. Each correct pick earns one point, and games lock individually at kickoff.</p>
         </section>
 
-        {week && weekClosed ? <div className="mt-5 rounded-xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm font-bold text-amber-50">Week {week.week} Pick ’Em is CLOSED. Saved picks remain visible while verified results are graded.</div> : null}
+        {week && weekClosed ? <div className="mt-5 rounded-xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm font-bold text-amber-50">{contestWeek ? `Week ${week.week}: ALL PICKS LOCKED. Saved picks remain visible while verified results are graded.` : `Week ${week.week} Pick ’Em is CLOSED. Saved picks remain visible while verified results are graded.`}</div> : null}
+        {contestWeek && prize ? <section className="mt-5 rounded-xl border border-white/15 bg-white/[0.04] p-4 text-sm text-white/80">
+          <p className="text-xs font-black uppercase tracking-wide text-white">Free to play · Texas 18+</p>
+          <p className="mt-2">Pick every game and predict the combined points in the VarsityVue Game of the Week. Each correct pick earns 1 point. Ties go to the closest prediction, then the earliest valid completed entry.</p>
+          <p className="mt-2 font-bold text-white">Provisional cash prize: ${prize.prize_dollars}</p>
+          <p className="mt-1 text-xs text-white/70">$1 per valid accepted entry, up to $100 this week. {prize.valid_entries} accepted completed {prize.valid_entries === 1 ? "entry" : "entries"} currently counted. Subject to eligibility and disqualification review.</p>
+          <p className="mt-2 text-xs text-white/70">One entry per person. Mobile number and eligibility attestation required. No purchase necessary.</p>
+          <p className="mt-2 text-xs text-white/70">{week?.presenting_sponsor_name ? `Presented by ${week.presenting_sponsor_name} · ` : ""}<Link href="/pickem/rules" className="font-bold text-white underline underline-offset-2">Official Rules</Link> · Questions: <a href="mailto:info@varsityvue.com" className="font-bold text-white underline underline-offset-2">info@varsityvue.com</a></p>
+          <div className="mt-4 rounded-lg border border-amber-300/25 bg-amber-300/10 p-3 text-amber-50"><strong>New-entry deadline: {week?.entry_deadline_at ? centralContestDeadline(week.entry_deadline_at) : "Pending configuration"}</strong><p className="mt-1 text-xs">A complete entry must be received before this frozen time. Existing valid entrants may edit each unlocked pick until its game locks.</p></div>
+        </section> : null}
+        {voidGames?.length ? <div className="mt-5 rounded-xl border border-sky-300/20 bg-sky-300/10 p-4 text-sm text-sky-50">{voidGames.length} included {voidGames.length === 1 ? "matchup is" : "matchups are"} VOID for this contest. No pick is required or graded for {voidGames.length === 1 ? "it" : "them"}.{voidGameIds.has(week?.tiebreaker_game_id ?? "") ? " The Game of the Week prediction is skipped." : ""}</div> : null}
+        {contestWeek && newEntriesClosed && !weekClosed ? <div className="mt-5 rounded-xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm text-amber-50">Week {week?.week}: ENTRY CLOSED. No new entries can qualify. Existing valid entrants may still edit individual games that have not locked.</div> : null}
         {!week || games.length === 0 ? (
           <section className="mt-5 rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-center text-white/55">The next Pick ’Em slate is not open yet.</section>
         ) : isActiveMember ? (
           <>
             {intendedPicks.size > 0 ? <div className="mt-5 rounded-2xl border border-emerald-300/20 bg-emerald-300/10 p-4 text-sm text-emerald-50">Your pre-registration picks were restored. Select <strong>Save My Picks</strong> below to add them to your account.</div> : null}
-            <PickemSlateForm weekId={week.id} games={games} tiebreaker={week.tiebreaker_game_id ? { matchup: (() => { const selected = games.find((game) => game.id === week.tiebreaker_game_id); return selected ? `${selected.awayName} at ${selected.homeName}` : "Game of the Week"; })(), savedPrediction: memberPrediction?.predicted_total } : undefined} />
+            {(!newEntriesClosed || memberEntry || !contestWeek) && <PickemSlateForm weekId={week.id} games={games} contest={contestWeek ? { entered: Boolean(memberEntry), completedAt: memberEntry?.completed_at, status: memberEntry?.status } : undefined} tiebreaker={week.tiebreaker_game_id && !voidGameIds.has(week.tiebreaker_game_id) ? { matchup: (() => { const selected = games.find((game) => game.id === week.tiebreaker_game_id); return selected ? `${selected.awayName} at ${selected.homeName}` : "Game of the Week"; })(), savedPrediction: memberPrediction?.predicted_total ?? draftPrediction ?? undefined, locked: games.find((game) => game.id === week.tiebreaker_game_id)?.locked ?? false } : undefined} />}
           </>
         ) : (
-          <PickemGuestSlate games={games} />
+          !newEntriesClosed ? <PickemGuestSlate games={games} /> : null
         )}
 
         {isActiveMember ? (
@@ -326,7 +368,7 @@ export default async function PickemPage({ searchParams }: PageProps) {
                             <p className="mt-1 text-sm font-black">Picked {pick.pickedTeam}</p>
                           </div>
                           <span className={`shrink-0 rounded-full border px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.1em] ${pick.isCorrect === true ? "border-emerald-300/20 bg-emerald-300/10 text-emerald-100" : pick.isCorrect === false ? "border-red-300/20 bg-red-300/10 text-red-100" : pick.editable ? "border-sky-300/20 bg-sky-300/10 text-sky-100" : "border-white/10 bg-white/[0.04] text-white/45"}`}>
-                            {pickResultLabel(pick.isCorrect, pick.editable)}
+                            {voidGameIds.has(pick.id) ? "Void" : pickResultLabel(pick.isCorrect, pick.editable)}
                           </span>
                         </div>
                       ))}
