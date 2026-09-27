@@ -10,7 +10,7 @@ insert into operator_test_ids values
   ('duplicate','00000000-0000-4000-8000-000000000204','(254) 555-0202');
 insert into auth.users (id,instance_id,aud,role,email,encrypted_password,email_confirmed_at,raw_app_meta_data,raw_user_meta_data,created_at,updated_at)
 select user_id,'00000000-0000-0000-0000-000000000000','authenticated','authenticated',
-  label||'@example.invalid','!',now(),'{}'::jsonb,'{}'::jsonb,now(),now() from operator_test_ids;
+  'operator-exclusion-'||label||'@example.invalid','!',now(),'{}'::jsonb,'{}'::jsonb,now(),now() from operator_test_ids;
 insert into public.user_roles (user_id,role)
 select user_id,case label when 'moderator' then 'moderator'::public.user_role else 'admin'::public.user_role end
 from operator_test_ids where label in ('operator','admin','moderator');
