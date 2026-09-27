@@ -5,7 +5,9 @@ export type ExtendedStatTable = { title: string; headers: string[]; rows: Extend
 export type ExtendedTeamMetric = { label: string; away: string | number; home: string | number; };
 export type ExtendedGameStats = { gameId: string; sourceLabel: string; sourceUrl?: string; teamMetrics: ExtendedTeamMetric[]; tables: ExtendedStatTable[]; notes?: string[]; };
 
-export const extendedGameStats: ExtendedGameStats[] = [
+import { ownerWeek5DetailedStats } from "@/data/owner-week5-detailed-stats";
+
+const historicalExtendedGameStats: ExtendedGameStats[] = [
   {
     gameId: "junction-at-goldthwaite-2026-week-1",
     sourceLabel: "Goldthwaite coaching staff via PressBox Stats",
@@ -35,3 +37,5 @@ export const extendedGameStats: ExtendedGameStats[] = [
     notes: [ "Goldthwaite's 503 yards included 242 rushing and 261 passing.", "Hayes Greenway produced 376 yards of total offense with three passing touchdowns and no interceptions.", "Aidyn Lee caught all seven of his targets for 180 yards and three touchdowns.", "Landry Sanderson rushed for 120 yards and four touchdowns on 16 carries." ],
   },
 ];
+
+export const extendedGameStats: ExtendedGameStats[] = [...historicalExtendedGameStats, ...ownerWeek5DetailedStats];

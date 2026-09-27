@@ -5,14 +5,15 @@ import { combineCategoryStates } from "@/lib/stat-completeness";
 export default function ExtendedGameStatsPanel({ gameId, awayTeamName, homeTeamName }: { gameId: string; awayTeamName: string; homeTeamName: string }) {
   const stats = extendedGameStats.find((entry) => entry.gameId === gameId);
   if (!stats) return null;
+  const offensiveDetail = stats.tables.some((table) => table.title === "Passing detail");
 
   return (
     <div className="space-y-3 sm:space-y-6">
       <section className="rounded-[1.25rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-7">
         <p className="text-[9px] font-black uppercase tracking-[0.18em] text-white/40 sm:text-xs sm:tracking-[0.28em]">Additional Team Stats</p>
-        <h2 className="mt-1.5 text-lg font-black sm:mt-3 sm:text-2xl">Situational breakdown</h2>
+        <h2 className="mt-1.5 text-lg font-black sm:mt-3 sm:text-2xl">{offensiveDetail ? "Offensive box score" : "Situational breakdown"}</h2>
         <p className="mt-2 max-w-3xl text-[11px] leading-5 text-white/45 sm:mt-3 sm:text-sm sm:leading-6">
-          These values are verified where supplied, but completeness has not been established for every situational category or team.
+          {offensiveDetail ? "Source details appear only where supplied; a dash means the value was not established." : "These values are verified where supplied, but completeness has not been established for every situational category or team."}
         </p>
         <div className="mt-4 grid grid-cols-[1fr_auto_1fr] items-center gap-2 px-1 text-[8px] font-black uppercase tracking-[0.08em] text-white/30 sm:mt-6 sm:text-[10px] sm:tracking-[0.14em]"><span className="truncate">{awayTeamName}</span><span>Stat</span><span className="truncate text-right">{homeTeamName}</span></div>
         <div className="mt-1.5 space-y-1.5 sm:mt-2 sm:space-y-2">
@@ -24,7 +25,7 @@ export default function ExtendedGameStatsPanel({ gameId, awayTeamName, homeTeamN
 
       <section className="rounded-[1.25rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-7">
         <p className="text-[9px] font-black uppercase tracking-[0.18em] text-white/40 sm:text-xs sm:tracking-[0.28em]">Additional Player Stats</p>
-        <h2 className="mt-1.5 text-lg font-black sm:mt-3 sm:text-2xl">Special teams & defense</h2>
+        <h2 className="mt-1.5 text-lg font-black sm:mt-3 sm:text-2xl">{offensiveDetail ? "Detailed offense" : "Special teams & defense"}</h2>
         <div className="mt-4 grid gap-2.5 sm:mt-6 sm:gap-5 xl:grid-cols-2">
           {stats.tables.map((table) => {
             const schoolSlugs = Array.from(new Set(table.rows.map((row) => row.schoolSlug)));
