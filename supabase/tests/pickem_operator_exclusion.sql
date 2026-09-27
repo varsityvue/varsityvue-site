@@ -64,6 +64,12 @@ do $$ declare w uuid; g uuid; entrant record; picks jsonb; receipt timestamptz; 
     if sqlerrm='Duplicate phone was accepted'
       or sqlerrm <> 'This number is already used for another entrant' then raise; end if;
   end;
+end $$;
+reset role;
+-- Aggregate receipt assertions use the fixture administrator context: entrant RLS
+-- intentionally exposes only the signed-in member's own receipt.
+do $$ declare w uuid; begin
+  select week_id into w from operator_test_week;
   if (select valid_entries from public.pickem_contest_prize where week_id=w)<>3
     or (select prize_dollars from public.pickem_contest_prize where week_id=w)<>3
     or exists (select 1 from public.pickem_contest_entries where week_id=w
@@ -78,7 +84,6 @@ do $$ declare w uuid; g uuid; entrant record; picks jsonb; receipt timestamptz; 
     raise exception 'Role entrant durable attestation missing';
   end if;
 end $$;
-reset role;
 commit;
 -- The standings view intentionally waits for the real close and every game lock.
 select pg_sleep(greatest(0,extract(epoch from
