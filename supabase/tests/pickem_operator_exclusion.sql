@@ -17,7 +17,7 @@ from operator_test_ids where label in ('operator','admin','moderator');
 create temporary table operator_test_week (week_id uuid, game_id uuid);
 do $$ declare w uuid; g uuid; begin
   insert into public.pickem_weeks (season,week,title,status,opens_at,closes_at,official_rules_version,official_rules_published_at)
-  values (2099,11,'Operator exclusion fixture','draft',now()-interval '1 hour',now()+interval '1 hour','isolated-test',now()) returning id into w;
+  values (2100,6,'Operator exclusion fixture','draft',now()-interval '1 hour',now()+interval '1 hour','isolated-test',now()) returning id into w;
   insert into public.pickem_games (week_id,game_id,lock_at,away_school_slug,home_school_slug)
   values (w,'__operator_exclusion__',now()+interval '30 minutes','fixture-away','fixture-home') returning id into g;
   update public.pickem_weeks set tiebreaker_game_id=g,status='open' where id=w;
