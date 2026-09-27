@@ -1,7 +1,7 @@
 name: Week 6 isolated database test
 on:
   push:
-    branches: [codex/week6-pickem-readiness-20260926, codex/admin-score-correction-20260926]
+    branches: [codex/week6-pickem-readiness-20260926, test/pr3-pr4-integration-20260926, codex/pickem-score-reconciliation-20260926]
   workflow_dispatch:
 jobs:
   isolated-db:

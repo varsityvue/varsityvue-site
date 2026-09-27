@@ -230,6 +230,8 @@ reset role;
 do $$ begin
  if exists(select 1 from public.pickem_picks where pickem_game_id=(select game from reversal_week)
    and is_correct is not null)
+ or (select disposition from private.pickem_contest_game_resolution
+   where pickem_game_id=(select game from reversal_week))<>'void'
  or exists(select 1 from public.pickem_week_standings
    where week_id=(select id from reversal_week)
      and (actual_total is not null or distance is not null))
@@ -237,6 +239,25 @@ do $$ begin
    where week_id=(select id from reversal_week) order by weekly_rank limit 1)
    is distinct from (select id from integration_ids where label='A')
  then raise exception 'Tie retained stale grades or GOTW prediction tiebreaker';end if;
+end $$;
+set local role authenticated;
+select set_config('request.jwt.claim.sub',(select id::text from integration_ids where label='admin'),true);
+select public.correct_game_score('__integrated_reversal__',
+ (select updated_at from public.game_state where game_id='__integrated_reversal__'),2,
+ 'final',14,21,'Q4','00:00','Timely official tie to played correction');
+reset role;
+do $$ begin
+ if (select disposition from private.pickem_contest_game_resolution
+   where pickem_game_id=(select game from reversal_week))<>'resolved'
+ or (select result_winner_school_slug from public.pickem_games
+   where id=(select game from reversal_week))<>'rev-home'
+ or not exists(select 1 from public.pickem_picks p join integration_ids i on i.id=p.user_id
+   where p.pickem_game_id=(select game from reversal_week) and i.label='B' and p.is_correct)
+ or (select actual_total from public.pickem_week_standings
+   where week_id=(select id from reversal_week) limit 1)<>35
+ or (select count(*) from private.product_notification_events
+   where category='final_score' and source_key='game-final:__integrated_reversal__')<>1
+ then raise exception 'Timely tie to played failed to restore grading, GOTW or FINAL deduplication';end if;
 end $$;
 update public.game_state set result_type='forfeit',away_score=null,home_score=null,
  official_winner_school_slug='rev-home' where game_id='__integrated_reversal__';
@@ -250,5 +271,22 @@ update public.game_state set result_type='no_contest',official_winner_school_slu
 do $$ begin
  if exists(select 1 from public.pickem_picks where pickem_game_id=(select game from reversal_week)
    and is_correct is not null) then raise exception 'No contest retained a grade';end if;
+end $$;
+-- Advancing the synthetic cutoff proves a permanent VOID cannot be revived by
+-- a later canonical result. The date override is confined to this rollback.
+alter table public.pickem_weeks disable trigger freeze_pickem_contest_deadlines;
+update public.pickem_weeks set outcome_resolution_at=clock_timestamp()-interval '1 second'
+ where id=(select id from reversal_week);
+alter table public.pickem_weeks enable trigger freeze_pickem_contest_deadlines;
+update public.game_state set result_type='played',away_score=14,home_score=21,
+ official_winner_school_slug=null where game_id='__integrated_reversal__';
+do $$ begin
+ if (select disposition from private.pickem_contest_game_resolution
+   where pickem_game_id=(select game from reversal_week))<>'void'
+ or exists(select 1 from public.pickem_picks where pickem_game_id=(select game from reversal_week)
+   and is_correct is not null)
+ or exists(select 1 from public.pickem_week_standings
+   where week_id=(select id from reversal_week) and distance is not null)
+ then raise exception 'Post-cutoff result revived permanent contest VOID';end if;
 end $$;
 rollback;
