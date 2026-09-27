@@ -336,6 +336,7 @@ export default async function AccountPage() {
                     <Link href="/internal/members" className="text-sm font-black text-white transition hover:text-[var(--vv-accent)]">Manage Members & Roles →</Link>
                     <Link href="/internal/conversions" className="text-sm font-bold text-white/65 transition hover:text-white">View Conversion Dashboard →</Link>
                     <Link href="/internal/contributor-access" className="text-sm font-bold text-white/65 transition hover:text-white">Manage Contributor Access →</Link>
+                    <Link href="/internal/homepage-feature" className="text-sm font-bold text-white/65 transition hover:text-white">Manage Homepage Feature →</Link>
                   </div>
                 </div>
               ) : null}
