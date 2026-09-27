@@ -3,6 +3,9 @@ import Link from "next/link";
 import PickemGuestSlate from "@/components/PickemGuestSlate";
 import PickemSlateForm, { type PickemSlateGame } from "@/components/PickemSlateForm";
 import PickemWeekDisclosure from "@/components/PickemWeekDisclosure";
+import PickemPrizeCounter from "@/components/PickemPrizeCounter";
+import PickemSponsorMark from "@/components/PickemSponsorMark";
+import { logoForPickemWeek } from "@/data/pickem-sponsor-logos";
 import { getPickemLogoFilter, getPickemLogoPath } from "@/data/school-logos";
 import { getGameById } from "@/lib/games";
 import { memberAccountStatus } from "@/lib/member-access";
@@ -289,16 +292,17 @@ export default async function PickemPage({ searchParams }: PageProps) {
           <p className="pr-28 text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent)] sm:pr-32 sm:text-xs">VarsityVue</p>
           {week ? <span className="absolute right-5 top-5 rounded-full border border-white/10 bg-black/30 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/45 sm:right-8 sm:top-8">{week.season} · Week {week.week}</span> : null}
           <h1 className="mt-3 text-3xl font-black tracking-tight sm:text-5xl">Pick ’Em</h1>
-          {contestWeek && week?.presenting_sponsor_name ? <p className="mt-2 text-sm font-bold text-white/80">Presented by {week.presenting_sponsor_name}</p> : null}
+          {contestWeek && week?.presenting_sponsor_name ? <PickemSponsorMark name={week.presenting_sponsor_name} logo={logoForPickemWeek(week.season, week.week, week.presenting_sponsor_name)} /> : null}
+          {contestWeek ? <p className="mt-3 text-xs font-black uppercase tracking-[0.14em] text-white/80">Free to play · Texas 18+</p> : null}
           <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55 sm:text-base">Pick every winner. Each correct pick earns one point, and games lock individually at kickoff.</p>
         </section>
 
         {week && weekClosed ? <div className="mt-5 rounded-xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm font-bold text-amber-50">{contestWeek ? `Week ${week.week}: ALL PICKS LOCKED. Saved picks remain visible while verified results are graded.` : `Week ${week.week} Pick ’Em is CLOSED. Saved picks remain visible while verified results are graded.`}</div> : null}
-        {contestWeek && prize ? <section className="mt-5 rounded-xl border border-white/15 bg-white/[0.04] p-4 text-sm text-white/80">
-          <p className="text-xs font-black uppercase tracking-wide text-white">Free to play · Texas 18+</p>
-          <p className="mt-2">Pick every game and predict the combined points in the VarsityVue Game of the Week. Each correct pick earns 1 point. Ties go to the closest prediction, then the earliest valid completed entry.</p>
-          <p className="mt-2 font-bold text-white">Provisional cash prize: ${prize.prize_dollars}</p>
-          <p className="mt-1 text-xs text-white/70">$1 per valid accepted entry, up to $100 this week. {prize.valid_entries} accepted completed {prize.valid_entries === 1 ? "entry" : "entries"} currently counted. Subject to eligibility and disqualification review.</p>
+        {contestWeek ? <section className="mt-5 rounded-xl border border-white/15 bg-white/[0.04] p-4 text-sm text-white/80">
+          <PickemPrizeCounter weekId={week!.id} initialPrize={prize} />
+          <p className="mt-3 font-bold text-white">$1 per valid accepted entry · up to $100 this week</p>
+          <p className="mt-1 text-xs text-white/70">Count and prize are provisional, subject to eligibility and disqualification review.</p>
+          <p className="mt-3">Pick every game and predict the combined points in the VarsityVue Game of the Week. Each correct pick earns 1 point. Ties go to the closest prediction, then the earliest valid completed entry.</p>
           <p className="mt-2 text-xs text-white/70">One entry per person. Mobile number and eligibility attestation required. No purchase necessary.</p>
           <p className="mt-2 text-xs text-white/70">{week?.presenting_sponsor_name ? `Presented by ${week.presenting_sponsor_name} · ` : ""}<Link href="/pickem/rules" className="font-bold text-white underline underline-offset-2">Official Rules</Link> · Questions: <a href="mailto:info@varsityvue.com" className="font-bold text-white underline underline-offset-2">info@varsityvue.com</a></p>
           <div className="mt-4 rounded-lg border border-amber-300/25 bg-amber-300/10 p-3 text-amber-50"><strong>New-entry deadline: {week?.entry_deadline_at ? centralContestDeadline(week.entry_deadline_at) : "Pending configuration"}</strong><p className="mt-1 text-xs">A complete entry must be received before this frozen time. Existing valid entrants may edit each unlocked pick until its game locks.</p></div>
