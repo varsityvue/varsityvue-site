@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import { renderToStaticMarkup } from "react-dom/server";
 import PickemPrizeCounter from "../components/PickemPrizeCounter";
 import PickemSponsorMark from "../components/PickemSponsorMark";
@@ -18,7 +20,10 @@ test("counter renders authoritative accepted-entry and capped prize values", () 
 });
 
 test("sponsor logo is per-week and falls back to the name without a missing image", () => {
-  const image = { src: "/sponsors/test.png", width: 500, height: 125 };
+  // An existing non-Gilder fixture asset verifies the logo branch without
+  // treating any repository image as the owner's approved Gilder asset.
+  assert.ok(existsSync(join(process.cwd(), "public/sponsors/1way-landscape.png")));
+  const image = { src: "/sponsors/1way-landscape.png", width: 500, height: 125 };
   const configured = { "2026-6": { name: "Gilder Storage", image } };
   assert.equal(logoForPickemWeek(2026, 6, "Gilder Storage", configured), image);
   assert.equal(logoForPickemWeek(2026, 7, "Gilder Storage", configured), null);
