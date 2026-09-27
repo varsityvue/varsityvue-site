@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { featureDestination, getActiveHomepageFeature } from "@/lib/homepage-feature";
+import HomeEditorialSpotlight from "@/components/HomeEditorialSpotlight";
 
 import { getSchools, getSchoolBySlug } from "@/lib/schools";
-import { getGameOfTheWeek, type DynamicScoreState } from "@/lib/scoreboard";
+import { getScoreboardGames, type DynamicScoreState } from "@/lib/scoreboard";
 import { getDynamicGames } from "@/lib/dynamic-games";
 import { getGamePreview } from "@/data/game-previews";
 import { getStandingForSchoolFromGames } from "@/lib/standings";
@@ -107,7 +109,11 @@ export default async function Home() {
       kickoff_override: game.kickoff ?? null,
     }]),
   );
-  const featuredGame = getGameOfTheWeek(dynamicState);
+  const feature = await getActiveHomepageFeature();
+  const featuredGame = feature?.feature_type === "game_of_the_week"
+    ? getScoreboardGames(dynamicState).find((game) => game.id === feature.game_id)
+    : undefined;
+  const featureHref = feature ? featureDestination(feature) : null;
   const featuredPreview = featuredGame ? getGamePreview(featuredGame.id) : undefined;
 
   const featuredHomeSchool = featuredGame?.homeSchoolSlug
@@ -150,10 +156,12 @@ export default async function Home() {
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(139,16,32,0.18),transparent_34%),linear-gradient(115deg,rgba(0,0,0,0.98),rgba(0,0,0,0.82)_55%,rgba(0,0,0,0.96))]" />
             <div className="relative z-10 p-3.5 sm:p-7 lg:p-9">
               <div className="flex justify-center">
-                <p className="inline-flex items-center justify-center rounded-full border border-white/15 bg-black/50 px-3 py-1.5 text-center text-[10px] font-black uppercase tracking-[0.18em] text-white/75 sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.22em]">Game of the Week</p>
+                <p className="inline-flex items-center justify-center rounded-full border border-white/15 bg-black/50 px-3 py-1.5 text-center text-[10px] font-black uppercase tracking-[0.18em] text-white/75 sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.22em]">{feature?.eyebrow ?? "VarsityVue"}</p>
               </div>
 
-              {featuredGame ? (
+              {feature?.active && feature.feature_type !== "game_of_the_week" ? (
+                <HomeEditorialSpotlight feature={feature} href={featureHref} />
+              ) : featuredGame ? (
                 <>
                   <div className="mt-4 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 sm:mt-6 sm:gap-4">
                     <HeroTeam school={featuredAwaySchool} team={featuredGame.awayTeam ?? "Away"} standing={featuredAwayStanding} align="left" result={awayResult} teamNameSize={featuredTeamNameSize} />
@@ -187,26 +195,26 @@ export default async function Home() {
 
                   <div className="mx-auto mt-4 max-w-3xl text-center sm:mt-6">
                     <h2 className="text-lg font-black leading-tight text-white sm:text-2xl md:text-3xl">
-                      {featuredGameFinal
+                      {feature?.headline || (featuredGameFinal
                         ? featuredGame.week !== undefined
                           ? `Week ${featuredGame.week} final is on the board.`
                           : "The final is on the board."
                         : featuredPreview?.title ?? (featuredGame.week !== undefined
                             ? `Week ${featuredGame.week} takes center stage.`
-                            : "This matchup takes center stage.")}
+                            : "This matchup takes center stage."))}
                     </h2>
                     <p className="mx-auto mt-1.5 max-w-2xl text-[11px] leading-[1.45] text-white/55 sm:mt-2 sm:text-sm sm:leading-6">
-                      {featuredGameFinal
+                      {feature?.description ?? (featuredGameFinal
                         ? "The verified final is posted. Visit the matchup center for the result and program links."
-                        : featuredPreview?.excerpt ?? `${featuredGame.awayTeam} and ${featuredGame.homeTeam} meet in one of VarsityVue's featured matchups of the week.`}
+                        : featuredPreview?.excerpt ?? `${featuredGame.awayTeam} and ${featuredGame.homeTeam} meet in one of VarsityVue's featured matchups of the week.`)}
                     </p>
                   </div>
 
-                  <div className="mt-4 flex justify-center sm:mt-6">
-                    <Link href={`/games/${featuredGame.id}`} className="rounded-full bg-white px-5 py-2 text-center text-[10px] font-black uppercase tracking-[0.14em] text-black transition hover:bg-white/85 sm:px-6 sm:py-3 sm:text-xs sm:tracking-[0.16em]">
-                      {featuredGameFinal ? "View Final Result" : "View Game of the Week"}
+                  {featureHref && <div className="mt-4 flex justify-center sm:mt-6">
+                    <Link href={featureHref} className="rounded-full bg-white px-5 py-2 text-center text-[10px] font-black uppercase tracking-[0.14em] text-black transition hover:bg-white/85 sm:px-6 sm:py-3 sm:text-xs sm:tracking-[0.16em]">
+                      {feature?.cta_label ?? (featuredGameFinal ? "View Final Result" : "View Game of the Week")}
                     </Link>
-                  </div>
+                  </div>}
                 </>
               ) : (
                 <div className="py-6 text-center sm:py-8">
