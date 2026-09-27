@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { renderToStaticMarkup } from "react-dom/server";
 import PickemPrizeCounter from "../components/PickemPrizeCounter";
 import PickemSponsorMark from "../components/PickemSponsorMark";
-import { logoForPickemWeek } from "../data/pickem-sponsor-logos";
+import { logoForPickemWeek, pickemSponsorLogos } from "../data/pickem-sponsor-logos";
 
 test("counter renders authoritative accepted-entry and capped prize values", () => {
   for (const [valid_entries, prize_dollars] of [[0, 0], [1, 1], [42, 42], [100, 100], [117, 100]]) {
@@ -20,20 +20,21 @@ test("counter renders authoritative accepted-entry and capped prize values", () 
 });
 
 test("sponsor logo is per-week and falls back to the name without a missing image", () => {
-  // An existing non-Gilder fixture asset verifies the logo branch without
-  // treating any repository image as the owner's approved Gilder asset.
-  assert.ok(existsSync(join(process.cwd(), "public/sponsors/1way-landscape.png")));
-  const image = { src: "/sponsors/1way-landscape.png", width: 500, height: 125 };
-  const configured = { "2026-6": { name: "Gilder Storage", image } };
-  assert.equal(logoForPickemWeek(2026, 6, "Gilder Storage", configured), image);
+  const path = "/sponsors/gilder-storage-approved.png";
+  assert.ok(existsSync(join(process.cwd(), "public", path)));
+  for (const placement of Object.values(pickemSponsorLogos)) {
+    assert.ok(existsSync(join(process.cwd(), "public", placement.path)));
+  }
+  const configured = { "2026-6": { name: "Gilder Storage", path } } as const;
+  assert.equal(logoForPickemWeek(2026, 6, "Gilder Storage", configured), path);
   assert.equal(logoForPickemWeek(2026, 7, "Gilder Storage", configured), null);
   assert.equal(logoForPickemWeek(2026, 6, "Another sponsor", configured), null);
   assert.equal(logoForPickemWeek(2026, 6, null, configured), null);
-  assert.equal(logoForPickemWeek(2026, 6, "Gilder Storage"), null);
+  assert.equal(logoForPickemWeek(2026, 6, "Gilder Storage"), path);
   const nameOnly = renderToStaticMarkup(<PickemSponsorMark name="Gilder Storage" logo={null} />);
   assert.match(nameOnly, /Presented by.*Gilder Storage/);
   assert.doesNotMatch(nameOnly, /<img/);
-  const withLogo = renderToStaticMarkup(<PickemSponsorMark name="Gilder Storage" logo={image} />);
+  const withLogo = renderToStaticMarkup(<PickemSponsorMark name="Gilder Storage" logo={path} />);
   assert.match(withLogo, /Gilder Storage logo/);
   assert.match(withLogo, /object-contain/);
 });
