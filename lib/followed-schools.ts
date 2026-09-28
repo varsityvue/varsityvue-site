@@ -2,14 +2,17 @@ import "server-only";
 
 import { createClient } from "@/lib/supabase/server";
 
-export async function getCurrentUserFollowedSchoolSlugs(): Promise<{
+export async function getCurrentUserFollowedSchoolSlugs(context?: {
+  supabase: Awaited<ReturnType<typeof createClient>>;
+  userId?: string;
+}): Promise<{
   isAuthenticated: boolean;
   schoolSlugs: Set<string>;
 }> {
-  const supabase = await createClient();
-  const { data: claimsData, error: claimsError } = await supabase.auth.getClaims();
-  if (claimsError) throw new Error("Unable to verify follow session.");
-  const userId = claimsData?.claims?.sub;
+  const supabase = context?.supabase ?? await createClient();
+  const claims = context ? null : await supabase.auth.getClaims();
+  if (claims?.error) throw new Error("Unable to verify follow session.");
+  const userId = context ? context.userId : claims?.data.claims?.sub;
   if (!userId) return { isAuthenticated: false, schoolSlugs: new Set() };
 
   const { data, error } = await supabase
