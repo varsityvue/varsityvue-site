@@ -104,7 +104,7 @@ export default async function Home() {
     getCurrentUserFollowedSchoolSlugs(),
   ]);
   const followedTeams = followState.schoolSlugs.size
-    ? orderFollowedSchoolsForHome(schools, dynamicGames.filter((game) => game.gameType !== "bye" && game.gameType !== "scrimmage"), followState.schoolSlugs, Date.now())
+    ? orderFollowedSchoolsForHome(schools, dynamicGames.filter((game) => game.gameType !== "bye" && game.gameType !== "scrimmage"), followState.schoolSlugs, followState.loadedAt)
     : [];
   const dynamicState = new Map(
     dynamicGames.map((game): [string, DynamicScoreState] => [game.id, {
