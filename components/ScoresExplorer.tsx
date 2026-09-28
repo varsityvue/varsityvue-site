@@ -3,6 +3,8 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { liveGameContext } from "@/lib/live-period";
+import type { GameStatus } from "@/types/platform";
+import { gamesInvolvingFollowedSchools, orderFollowedGames } from "@/lib/follow-personalization";
 
 export type ExplorerGame = {
   id: string;
@@ -11,23 +13,31 @@ export type ExplorerGame = {
   awaySlug?: string;
   homeSlug?: string;
   classification: string;
-  status: string;
+  status: GameStatus;
+  kickoff?: string;
   awayScore?: number;
   homeScore?: number;
   period?: string;
   clock?: string;
 };
 
-export default function ScoresExplorer({ games, followedSlugs }: { games: ExplorerGame[]; followedSlugs: string[] }) {
+export default function ScoresExplorer({ games, followingGames, followedSlugs, now }: { games: ExplorerGame[]; followingGames: ExplorerGame[]; followedSlugs: string[]; now: number }) {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState("All classifications");
+  const [showAllFollowed, setShowAllFollowed] = useState(false);
   const followed = useMemo(() => new Set(followedSlugs), [followedSlugs]);
   const classifications = [...new Set(games.map((game) => game.classification))].sort();
   const visible = games.filter((game) =>
     (!query.trim() || `${game.away} ${game.home}`.toLowerCase().includes(query.trim().toLowerCase())) &&
     (filter === "All classifications" || game.classification === filter)
   );
-  const followedGames = visible.filter((game) => followed.has(game.awaySlug ?? "") || followed.has(game.homeSlug ?? ""));
+  const followedGames = orderFollowedGames(
+    gamesInvolvingFollowedSchools(followingGames.filter((game) =>
+      (!query.trim() || `${game.away} ${game.home}`.toLowerCase().includes(query.trim().toLowerCase())) &&
+      (filter === "All classifications" || game.classification === filter)
+    ).map((game) => ({ ...game, awaySchoolSlug: game.awaySlug, homeSchoolSlug: game.homeSlug })), followed),
+    now,
+  );
   const followedIds = new Set(followedGames.map((game) => game.id));
   const groups = classifications.map((name) => ({ name, games: visible.filter((game) => game.classification === name && !followedIds.has(game.id)) })).filter((group) => group.games.length);
 
@@ -41,7 +51,7 @@ export default function ScoresExplorer({ games, followedSlugs }: { games: Explor
       <select id="score-classification" value={filter} onChange={(event) => setFilter(event.target.value)} className="rounded-xl border border-white/15 bg-[#161616] px-4 py-3 text-sm text-white"><option>All classifications</option>{classifications.map((name) => <option key={name}>{name}</option>)}</select>
     </div>
     <p className="mt-3 text-xs text-white/45" aria-live="polite">{visible.length} matchups</p>
-    {followedGames.length > 0 && <div className="mt-5"><h3 className="mb-2 text-sm font-black uppercase tracking-wider text-[var(--vv-accent)]">Following</h3><p className="mb-3 text-xs text-white/45">Your followed matchups appear first.</p><div className="grid gap-2 md:grid-cols-2">{followedGames.map((game) => <ExplorerCard key={`follow-${game.id}`} game={game} followed />)}</div></div>}
+    {followedGames.length > 0 && <div className="mt-5"><h3 className="mb-2 text-sm font-black uppercase tracking-wider text-[var(--vv-accent)]">Following</h3><p className="mb-3 text-xs text-white/45">Your followed matchups appear first.</p><div className="grid gap-2 md:grid-cols-2">{followedGames.map((game, index) => <div key={`follow-${game.id}`} className={index >= 4 && !showAllFollowed ? "hidden md:block" : ""}><ExplorerCard game={game} followed /></div>)}</div>{followedGames.length > 4 && <button type="button" aria-expanded={showAllFollowed} onClick={() => setShowAllFollowed((current) => !current)} className="mt-3 min-h-11 rounded-xl border border-white/15 px-4 text-xs font-black text-white/75 md:hidden">{showAllFollowed ? "Show fewer" : `Show all ${followedGames.length} followed games`}</button>}</div>}
     <div className="mt-5 space-y-2">{groups.map((group) => <details key={group.name} open={groups.length <= 4 || Boolean(query)} className="rounded-xl border border-white/10 bg-black/20"><summary className="cursor-pointer px-4 py-3 text-sm font-black">{group.name} <span className="text-white/40">({group.games.length})</span></summary><div className="grid gap-2 px-3 pb-3 md:grid-cols-2">{group.games.map((game) => <ExplorerCard key={game.id} game={game} followed={followed.has(game.awaySlug ?? "") || followed.has(game.homeSlug ?? "")} />)}</div></details>)}</div>
     {!visible.length && <p className="mt-5 text-sm text-white/50">No matching games. Try another school name or classification.</p>}
   </section>;

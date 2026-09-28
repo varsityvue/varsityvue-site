@@ -44,9 +44,9 @@ export default function AccountFollowList({
           <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--vv-accent)]">
             Member Schools
           </p>
-          <h2 className="mt-2 text-2xl font-black">Schools I Follow</h2>
+          <h2 className="mt-2 text-2xl font-black">My Teams</h2>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-white/50">
-            Keep your school hubs close for schedules, scores, coverage, and game-night links.
+            Follow your teams to see their games and coverage first, and keep their school hubs close.
           </p>
         </div>
         <Link

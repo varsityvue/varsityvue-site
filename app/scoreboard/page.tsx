@@ -18,6 +18,8 @@ import PageHero from "@/components/PageHero";
 import HomeMembershipCta from "@/components/HomeMembershipCta";
 import PickemPromo from "@/components/PickemPromo";
 import ScoresExplorer, { type ExplorerGame } from "@/components/ScoresExplorer";
+import { getCurrentUserFollowedSchoolSlugs } from "@/lib/followed-schools";
+import { relevantFollowedGames } from "@/lib/follow-personalization";
 import { liveGameContext } from "@/lib/live-period";
 
 const scoreboardTitle = "Texas High School Football Scores";
@@ -112,9 +114,7 @@ export default async function ScoreboardPage() {
       .eq("status", "pending");
     for (const row of pendingRows ?? []) pendingGameIds.add(row.game_id);
   }
-  const { data: followedRows } = userId
-    ? await supabase.from("school_follows").select("school_slug").eq("user_id", userId)
-    : { data: [] };
+  const { schoolSlugs: followedSlugs, loadedAt: followSnapshotTime } = await getCurrentUserFollowedSchoolSlugs({ supabase, userId });
 
   const dynamicState = new Map(
     ((dynamicRows ?? []) as DynamicScoreState[]).map((state) => [state.game_id, state]),
@@ -136,23 +136,26 @@ export default async function ScoreboardPage() {
     : finalPool
   ).slice(0, 6);
   const slateDate = latestFinalDate;
-  const explorerGames: ExplorerGame[] = scoreboardGames
+  const toExplorerGame = (game: ScoreboardGame): ExplorerGame => {
+    const away = game.awaySchoolSlug ? getSchoolBySlug(game.awaySchoolSlug) : undefined;
+    const home = game.homeSchoolSlug ? getSchoolBySlug(game.homeSchoolSlug) : undefined;
+    const classify = (school: typeof home) => school ? `${school.classification.conference}${school.classification.division ? ` Division ${school.classification.division === "D1" ? "I" : "II"}` : ""}` : null;
+    const awayClass = classify(away);
+    const homeClass = classify(home);
+    return { id: game.id, away: getTeamName(game.awayTeam, "Away"), home: getTeamName(game.homeTeam, "Home"), awaySlug: game.awaySchoolSlug, homeSlug: game.homeSchoolSlug, classification: awayClass && homeClass && awayClass !== homeClass ? "Cross-classification" : homeClass ?? awayClass ?? "Classification unavailable", status: game.status, kickoff: game.kickoff, awayScore: game.awayScore ?? game.score?.away, homeScore: game.homeScore ?? game.score?.home, period: game.score?.period, clock: game.score?.clock };
+  };
+  const explorerGames = scoreboardGames
     .filter((game) => slateDate && game.kickoff?.slice(0, 10) === slateDate)
-    .map((game) => {
-      const away = game.awaySchoolSlug ? getSchoolBySlug(game.awaySchoolSlug) : undefined;
-      const home = game.homeSchoolSlug ? getSchoolBySlug(game.homeSchoolSlug) : undefined;
-      const classify = (school: typeof home) => school ? `${school.classification.conference}${school.classification.division ? ` Division ${school.classification.division === "D1" ? "I" : "II"}` : ""}` : null;
-      const awayClass = classify(away);
-      const homeClass = classify(home);
-      return { id: game.id, away: getTeamName(game.awayTeam, "Away"), home: getTeamName(game.homeTeam, "Home"), awaySlug: game.awaySchoolSlug, homeSlug: game.homeSchoolSlug, classification: awayClass && homeClass && awayClass !== homeClass ? "Cross-classification" : homeClass ?? awayClass ?? "Classification unavailable", status: game.status, awayScore: game.awayScore ?? game.score?.away, homeScore: game.homeScore ?? game.score?.home, period: game.score?.period, clock: game.score?.clock };
-    });
+    .map(toExplorerGame);
+  const followingGames = relevantFollowedGames(scoreboardGames, followedSlugs, followSnapshotTime)
+    .map(toExplorerGame);
 
   return <main className="min-h-screen bg-[var(--vv-bg)] text-white">
     <PageHero eyebrow="VarsityVue Scoreboard · 2026 Football" title="Texas High School Football Scores" description="Verified final scores, featured matchups, and upcoming kickoffs from programs currently tracked by VarsityVue." />
     <HomeMembershipCta surface="scoreboard" />
     <PickemPromo />
     <div className="mx-auto max-w-[1440px] px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
-      {explorerGames.length > 0 && <ScoresExplorer games={explorerGames} followedSlugs={(followedRows ?? []).map((row) => row.school_slug)} />}
+      {(explorerGames.length > 0 || followingGames.length > 0) && <ScoresExplorer games={explorerGames} followingGames={followingGames} followedSlugs={[...followedSlugs]} now={followSnapshotTime} />}
       {featuredGame && <FeaturedScoreboardGame game={featuredGame} games={scoreboardGames} hasPendingReport={pendingGameIds.has(featuredGame.id)} />}
       <section className={`mt-5 grid items-start gap-3 sm:mt-8 sm:gap-6 ${liveGames.length > 0 ? "lg:grid-cols-3" : "lg:grid-cols-2"}`}>
         {liveGames.length > 0 && <ScoreboardColumn id="live-now" title="Live Now" description="Games currently marked in progress." games={liveGames} emptyText="No games are currently marked live." pendingGameIds={pendingGameIds} />}
