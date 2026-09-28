@@ -93,3 +93,32 @@ export function orderFollowedSchoolsForHome<T extends FollowGame>(
       return a.school.name.localeCompare(b.school.name) || a.school.slug.localeCompare(b.school.slug);
     });
 }
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+export const FOLLOWING_UPCOMING_DAYS = 14;
+export const FOLLOWING_FINAL_DAYS = 7;
+
+// Keep the Scores Following window finite while the browse slate remains date-based.
+export function relevantFollowedGames<T extends FollowGame>(
+  games: readonly T[],
+  followed: ReadonlySet<string>,
+  now: number,
+): T[] {
+  const centralToday = new Intl.DateTimeFormat("en-CA", {
+    year: "numeric", month: "2-digit", day: "2-digit", timeZone: "America/Chicago",
+  }).format(new Date(now));
+  return orderFollowedGames(gamesInvolvingFollowedSchools(games, followed).filter((game) => {
+    if (game.status === "live") return true;
+    if (!game.kickoff) return false;
+    const dateOnly = !game.kickoff.includes("T");
+    const timestamp = Date.parse(dateOnly ? `${game.kickoff}T12:00:00Z` : game.kickoff);
+    if (!Number.isFinite(timestamp)) return false;
+    if (game.status === "upcoming") {
+      if (dateOnly && game.kickoff < centralToday) return false;
+      return timestamp <= now + FOLLOWING_UPCOMING_DAYS * DAY_MS &&
+        (dateOnly || timestamp >= now);
+    }
+    return game.status === "final" && timestamp <= now &&
+      timestamp >= now - FOLLOWING_FINAL_DAYS * DAY_MS;
+  }), now);
+}
