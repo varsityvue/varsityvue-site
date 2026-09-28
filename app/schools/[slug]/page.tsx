@@ -19,6 +19,8 @@ import SchoolSeasonPulse from "../../../components/SchoolSeasonPulse";
 import SchoolCoverage from "@/components/SchoolCoverage";
 import SchoolTeamLeaders from "@/components/SchoolTeamLeaders";
 import RivalryWatch from "../../../components/RivalryWatch";
+import TeamFeedCard from "@/components/TeamFeedCard";
+import { getFeedPosts, isTeamFeedEnabled } from "@/lib/team-feed";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -32,6 +34,8 @@ export default async function SchoolPage({ params, searchParams }: { params: Pro
   const followParams = await searchParams;
   const school = getSchoolBySlug(slug);
   if (!school) notFound();
+  const feedEnabled = isTeamFeedEnabled(school.slug);
+  const feedPreview = feedEnabled ? await getFeedPosts(school.id, undefined, 2) : null;
   const district = getDistrictById(school.districtId);
   const districtSlug = district?.slug ?? school.districtId;
   const theme: SchoolTheme = { primary: school.colors.primary, secondary: school.colors.secondary, accent: school.colors.accent };
@@ -76,6 +80,7 @@ export default async function SchoolPage({ params, searchParams }: { params: Pro
       <SchoolSubnav schoolSlug={school.slug} districtSlug={districtSlug} theme={theme} />
       {canManageRoster ? <div className="mx-auto w-full max-w-6xl px-4 pt-4 sm:px-6 lg:px-8"><div className="flex items-center justify-between gap-3 rounded-xl border border-amber-300/15 bg-amber-300/[0.07] px-3 py-2.5 sm:px-4"><div className="min-w-0"><p className="text-[8px] font-black uppercase tracking-[0.14em] text-amber-100/55">Team Management</p><p className="mt-0.5 text-xs font-black leading-4 text-amber-50 sm:text-sm sm:leading-5">You can manage {school.name}&apos;s 2026 roster.</p></div><Link href={`/manage-roster?school=${encodeURIComponent(school.slug)}`} className="shrink-0 rounded-lg border border-amber-200/15 bg-amber-200/10 px-3 py-2 text-[9px] font-black uppercase tracking-[0.1em] text-amber-50 transition hover:bg-amber-200/15 sm:text-[10px]">Manage Roster →</Link></div></div> : null}
       <div className="mx-auto w-full max-w-6xl px-4 pt-5 sm:px-6 sm:pt-6 lg:px-8"><SchoolSeasonPulse schoolSlug={school.slug} theme={theme} /></div>
+      {feedEnabled && <section className="mx-auto w-full max-w-6xl px-4 pt-5 sm:px-6 lg:px-8" aria-label="Team Feed preview"><div className="flex items-center justify-between gap-3"><h2 className="text-xl font-black">Team Feed</h2><Link className="text-sm font-bold text-[var(--vv-accent)]" href={`/schools/${school.slug}/feed`}>View Team Feed →</Link></div>{feedPreview?.posts.length ? <div className="mt-4 grid gap-4 md:grid-cols-2">{feedPreview.posts.map(post => <TeamFeedCard key={post.id} post={post} />)}</div> : <p className="mt-3 rounded-xl border border-white/10 p-4 text-sm text-white/60">Team Feed is just getting started. VarsityVue graphics and game-night media will appear here.</p>}</section>}
       <div className="mx-auto w-full max-w-6xl px-4 py-5 sm:px-6 sm:py-6 lg:px-8">
         <div className="min-w-0 space-y-5 sm:space-y-6">
           {recentScores.length > 0 && <RecentScores scores={recentScores} theme={theme} schoolSlug={slug} />}
