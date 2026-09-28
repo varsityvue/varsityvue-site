@@ -298,9 +298,12 @@ export default async function PickemPage({ searchParams }: PageProps) {
           <p className="pr-28 text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent)] sm:pr-32 sm:text-xs">VarsityVue</p>
           {week ? <span className="absolute right-5 top-5 rounded-full border border-white/10 bg-black/30 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/45 sm:right-8 sm:top-8">{week.season} · Week {week.week}</span> : null}
           <h1 className="mt-2 text-3xl font-black tracking-tight sm:mt-3 sm:text-5xl">Pick ’Em</h1>
-          {contestWeek && week?.presenting_sponsor_name ? <PickemSponsorMark name={week.presenting_sponsor_name} logo={logoForPickemWeek(week.season, week.week, week.presenting_sponsor_name)} /> : null}
-          {contestWeek ? <p className="mt-2 text-xs font-black uppercase tracking-[0.14em] text-white/80">Free to play · Texas 18+</p> : <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55 sm:text-base">Pick every winner. Each correct pick earns one point, and games lock individually at kickoff.</p>}
+          {contestWeek ? <p className="mt-4 text-xs font-black uppercase tracking-[0.14em] text-white/80">Free to play · Texas 18+</p> : <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55 sm:text-base">Pick every winner. Each correct pick earns one point, and games lock individually at kickoff.</p>}
         </section>
+
+        {contestWeek && week?.presenting_sponsor_name ? <div className="mt-3 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-1.5 sm:px-8">
+          <PickemSponsorMark name={week.presenting_sponsor_name} logo={logoForPickemWeek(week.season, week.week, week.presenting_sponsor_name)} />
+        </div> : null}
 
         {week && weekClosed ? <div className="mt-5 rounded-xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm font-bold text-amber-50">{contestWeek ? `Week ${week.week}: ALL PICKS LOCKED. Saved picks remain visible while verified results are graded.` : `Week ${week.week} Pick ’Em is CLOSED. Saved picks remain visible while verified results are graded.`}</div> : null}
         {contestWeek ? <section className="mt-3 rounded-xl border border-white/15 bg-white/[0.04] p-3 text-sm text-white/80 sm:mt-5 sm:p-4">
