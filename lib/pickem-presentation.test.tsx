@@ -37,4 +37,6 @@ test("sponsor logo is per-week and falls back to the name without a missing imag
   const withLogo = renderToStaticMarkup(<PickemSponsorMark name="Gilder Storage" logo={path} />);
   assert.match(withLogo, /Gilder Storage logo/);
   assert.match(withLogo, /object-contain/);
+  assert.match(withLogo, /whitespace-nowrap/);
+  assert.doesNotMatch(withLogo, /Presented by.*<span[^>]*>Gilder Storage<\/span>/);
 });

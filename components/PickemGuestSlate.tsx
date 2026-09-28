@@ -50,7 +50,7 @@ export default function PickemGuestSlate({ games }: { games: PickemSlateGame[] }
           return (
           <fieldset key={game.id} disabled={game.locked} className={`min-w-0 rounded-[1.2rem] border p-3.5 sm:rounded-[1.5rem] sm:p-5 ${game.locked ? "border-white/15 bg-white/[0.025]" : "border-white/10 bg-black/25"}`}>
             <legend className="sr-only">{game.awayName} at {game.homeName}</legend>
-            <PickemGameHeader index={index} kickoffLabel={game.kickoffLabel} locked={game.locked} lockedMessageId={lockedMessageId} />
+            <PickemGameHeader index={index} isTiebreaker={game.isTiebreaker} kickoffLabel={game.kickoffLabel} locked={game.locked} lockedMessageId={lockedMessageId} />
             <div className="mt-3 grid grid-cols-2 gap-2">
               <PickemChoice name={`guest_${game.gameId}`} slug={game.awaySlug} team={game.awayName} label="Away" mark={game.awayMark} color={game.awayColor} logoUrl={game.awayLogoUrl} logoFilter={game.awayLogoFilter} checked={isPickSelected(state.selections, game.gameId, game.awaySlug)} locked={game.locked} lockedMessageId={lockedMessageId} onSelect={() => dispatch({ type: "select", gameId: game.gameId, schoolSlug: game.awaySlug, locked: game.locked })} />
               <PickemChoice name={`guest_${game.gameId}`} slug={game.homeSlug} team={game.homeName} label="Home" mark={game.homeMark} color={game.homeColor} logoUrl={game.homeLogoUrl} logoFilter={game.homeLogoFilter} checked={isPickSelected(state.selections, game.gameId, game.homeSlug)} locked={game.locked} lockedMessageId={lockedMessageId} onSelect={() => dispatch({ type: "select", gameId: game.gameId, schoolSlug: game.homeSlug, locked: game.locked })} />
