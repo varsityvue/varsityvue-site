@@ -38,33 +38,33 @@ grant select, insert, update on public.team_feed_posts, public.team_feed_media t
 create policy "Published feed posts are public" on public.team_feed_posts for select
 to anon,authenticated using (status = 'published' and published_at <= now());
 create policy "Admins read all feed posts" on public.team_feed_posts for select
-to authenticated using (public.has_role('admin'));
+to authenticated using (private.has_role('admin'));
 create policy "Admins create feed posts" on public.team_feed_posts for insert
-to authenticated with check (public.has_role('admin') and created_by = (select auth.uid()) and source_type = 'varsityvue');
+to authenticated with check (private.has_role('admin') and created_by = (select auth.uid()) and source_type = 'varsityvue');
 create policy "Admins update feed posts" on public.team_feed_posts for update
-to authenticated using (public.has_role('admin')) with check (public.has_role('admin') and source_type = 'varsityvue');
+to authenticated using (private.has_role('admin')) with check (private.has_role('admin') and source_type = 'varsityvue');
 create policy "Published media are public" on public.team_feed_media for select
 to anon,authenticated using (exists (select 1 from public.team_feed_posts p where p.id = post_id and p.status = 'published' and p.published_at <= now()));
 create policy "Admins read all feed media" on public.team_feed_media for select
-to authenticated using (public.has_role('admin'));
+to authenticated using (private.has_role('admin'));
 create policy "Admins insert feed media" on public.team_feed_media for insert
-to authenticated with check (public.has_role('admin'));
+to authenticated with check (private.has_role('admin'));
 create policy "Admins update feed media" on public.team_feed_media for update
-to authenticated using (public.has_role('admin')) with check (public.has_role('admin'));
+to authenticated using (private.has_role('admin')) with check (private.has_role('admin'));
 
 -- Private object keys are derived server-side from opaque post/media IDs and never stored in a public row.
 insert into storage.buckets (id,name,public,file_size_limit,allowed_mime_types)
 values ('team-feed-private','team-feed-private',false,10485760,array['image/webp']),
        ('team-feed-public','team-feed-public',true,10485760,array['image/webp']);
 create policy "Admins manage private team feed objects" on storage.objects for all
-to authenticated using (bucket_id = 'team-feed-private' and public.has_role('admin'))
-with check (bucket_id = 'team-feed-private' and public.has_role('admin'));
+to authenticated using (bucket_id = 'team-feed-private' and private.has_role('admin'))
+with check (bucket_id = 'team-feed-private' and private.has_role('admin'));
 create policy "Admins create public team feed objects" on storage.objects for insert
-to authenticated with check (bucket_id = 'team-feed-public' and public.has_role('admin'));
+to authenticated with check (bucket_id = 'team-feed-public' and private.has_role('admin'));
 create policy "Admins read public team feed objects for upsert" on storage.objects for select
-to authenticated using (bucket_id = 'team-feed-public' and public.has_role('admin'));
+to authenticated using (bucket_id = 'team-feed-public' and private.has_role('admin'));
 create policy "Admins replace public team feed objects" on storage.objects for update
-to authenticated using (bucket_id = 'team-feed-public' and public.has_role('admin'))
-with check (bucket_id = 'team-feed-public' and public.has_role('admin'));
+to authenticated using (bucket_id = 'team-feed-public' and private.has_role('admin'))
+with check (bucket_id = 'team-feed-public' and private.has_role('admin'));
 create policy "Admins remove public team feed objects" on storage.objects for delete
-to authenticated using (bucket_id = 'team-feed-public' and public.has_role('admin'));
+to authenticated using (bucket_id = 'team-feed-public' and private.has_role('admin'));

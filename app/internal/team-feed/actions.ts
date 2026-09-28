@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireActiveMember } from "@/lib/member-access";
 import { getSchoolById } from "@/lib/schools";
-import { validateFeedRelationships } from "@/lib/team-feed";
+import { validateFeedRelationships } from "@/lib/team-feed-validation";
 import { processTeamFeedImage } from "@/lib/team-feed-image";
 
 const field = (form: FormData, key: string) => String(form.get(key) ?? "").trim();
@@ -59,7 +59,8 @@ export async function saveTeamFeedPost(form: FormData) {
     const { error: mediaError } = await supabase.from("team_feed_media").insert({ id: mediaId, post_id: postId, alt_text: alt, width: processed!.width, height: processed!.height, byte_size: processed!.output.length, mime_type: "image/webp" });
     if (mediaError) redirect(destination("Image record failed; draft needs administrator cleanup."));
   }
-  if (intent === "publish") {
+  const newPublication = intent === "publish" && existing?.status !== "published";
+  if (newPublication) {
     const { data: original, error: downloadError } = await supabase.storage.from("team-feed-private").download(objectPath);
     if (downloadError || !original) redirect(destination("Could not read processed image; post remains unchanged."));
     const { error: uploadError } = await supabase.storage.from("team-feed-public").upload(objectPath, original, { contentType: "image/webp", upsert: true });
@@ -68,10 +69,22 @@ export async function saveTeamFeedPost(form: FormData) {
   const status = intent === "publish" ? "published" : intent === "unpublish" ? "unpublished" : existing?.status === "published" ? "published" : "draft";
   const publishedAt = intent === "publish" ? existing?.status === "published" ? existing.published_at : new Date().toISOString() : existing?.published_at ?? null;
   const { error: updateError } = await supabase.from("team_feed_posts").update({ primary_school_id: primary, secondary_school_id: secondary, game_id: gameId, caption, status, published_at: publishedAt }).eq("id", postId);
-  if (updateError) redirect(destination("Could not update post."));
+  if (updateError) {
+    if (newPublication) await supabase.storage.from("team-feed-public").remove([objectPath]);
+    redirect(destination("Could not update post; publication was cancelled."));
+  }
   const { error: altError } = await supabase.from("team_feed_media").update({ alt_text: alt, public_path: status === "published" ? objectPath : null }).eq("id", mediaId);
-  if (altError) redirect(destination("Post saved, but image details need review."));
-  if (intent === "unpublish") await supabase.storage.from("team-feed-public").remove([objectPath]);
+  if (altError) {
+    if (newPublication) {
+      await supabase.from("team_feed_posts").update({ status: "unpublished" }).eq("id", postId);
+      await supabase.storage.from("team-feed-public").remove([objectPath]);
+    }
+    redirect(destination(newPublication ? "Image record failed; publication was cancelled." : "Post saved, but image details need review."));
+  }
+  if (intent === "unpublish") {
+    const { error: removalError } = await supabase.storage.from("team-feed-public").remove([objectPath]);
+    if (removalError) redirect(destination("Post is hidden, but public image cleanup failed. Retry unpublish or contact an administrator."));
+  }
   refresh(primary, secondary);
   if (existing) refresh(existing.primary_school_id, existing.secondary_school_id);
   redirect(destination(status === "published" ? "Post published." : status === "unpublished" ? "Post unpublished." : "Draft saved."));

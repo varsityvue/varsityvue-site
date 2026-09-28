@@ -16,6 +16,6 @@ export default function TeamFeedCard({ post }: { post: FeedPost }) {
     {/* A native image preserves the intrinsic aspect ratio and never crops a graphic. */}
     {/* eslint-disable-next-line @next/next/no-img-element */}
     <img src={url} alt={media.alt_text} width={media.width} height={media.height} className="h-auto w-full bg-black object-contain" loading="lazy" />
-    <div className="space-y-2 px-4 py-3">{post.caption && <p className="whitespace-pre-wrap text-sm leading-6">{post.caption}</p>}{game && <Link className="text-sm font-semibold text-[var(--vv-accent)] underline" href={`/games/${game.id}`}>{game.awayTeam} at {game.homeTeam} · Game Center</Link>}<time className="block text-xs text-white/50" dateTime={post.published_at}>{new Intl.DateTimeFormat("en-US", { dateStyle: "medium", timeStyle: "short", timeZone: "America/Chicago" }).format(new Date(post.published_at))} CT</time></div>
+    <div className="space-y-2 px-4 py-3">{post.caption && <p className="whitespace-pre-wrap text-sm leading-6">{post.caption}</p>}{game && <Link className="text-sm font-semibold text-white/85 underline decoration-white/40 underline-offset-2 hover:text-white" href={`/games/${game.id}`}>{game.awayTeam} at {game.homeTeam} · Game Center</Link>}<time className="block text-xs text-white/50" dateTime={post.published_at}>{new Intl.DateTimeFormat("en-US", { dateStyle: "medium", timeStyle: "short", timeZone: "America/Chicago" }).format(new Date(post.published_at))} CT</time></div>
   </article>;
 }
