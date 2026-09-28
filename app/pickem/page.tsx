@@ -218,6 +218,7 @@ export default async function PickemPage({ searchParams }: PageProps) {
       ),
     }];
   });
+  const tiebreakerGame = games.find((game) => game.id === week?.tiebreaker_game_id);
 
   const memberGamesById = new Map((memberGameRows ?? []).map((game) => [game.id, game]));
   const memberWeeksById = new Map((memberWeekRows ?? []).map((pickemWeek) => [pickemWeek.id, pickemWeek]));
@@ -286,26 +287,25 @@ export default async function PickemPage({ searchParams }: PageProps) {
   const rankedLeaderboard = rankPickemStandings(leaderboardRows ?? []);
 
   return (
-    <main className="min-h-screen bg-[var(--vv-bg)] px-4 py-7 text-white sm:px-6 sm:py-12 lg:px-8">
+    <main className="min-h-screen bg-[var(--vv-bg)] px-4 py-4 text-white sm:px-6 sm:py-12 lg:px-8">
       <div className="mx-auto max-w-[1200px]">
-        <section className="relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.42),transparent_40%),linear-gradient(135deg,rgba(255,255,255,0.07),rgba(255,255,255,0.025))] p-5 shadow-2xl sm:rounded-[2rem] sm:p-8">
+        <section className="relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.42),transparent_40%),linear-gradient(135deg,rgba(255,255,255,0.07),rgba(255,255,255,0.025))] p-4 shadow-2xl sm:rounded-[2rem] sm:p-8">
           <p className="pr-28 text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent)] sm:pr-32 sm:text-xs">VarsityVue</p>
           {week ? <span className="absolute right-5 top-5 rounded-full border border-white/10 bg-black/30 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/45 sm:right-8 sm:top-8">{week.season} · Week {week.week}</span> : null}
-          <h1 className="mt-3 text-3xl font-black tracking-tight sm:text-5xl">Pick ’Em</h1>
+          <h1 className="mt-2 text-3xl font-black tracking-tight sm:mt-3 sm:text-5xl">Pick ’Em</h1>
           {contestWeek && week?.presenting_sponsor_name ? <PickemSponsorMark name={week.presenting_sponsor_name} logo={logoForPickemWeek(week.season, week.week, week.presenting_sponsor_name)} /> : null}
-          {contestWeek ? <p className="mt-3 text-xs font-black uppercase tracking-[0.14em] text-white/80">Free to play · Texas 18+</p> : null}
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55 sm:text-base">Pick every winner. Each correct pick earns one point, and games lock individually at kickoff.</p>
+          {contestWeek ? <p className="mt-2 text-xs font-black uppercase tracking-[0.14em] text-white/80">Free to play · Texas 18+</p> : <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55 sm:text-base">Pick every winner. Each correct pick earns one point, and games lock individually at kickoff.</p>}
         </section>
 
         {week && weekClosed ? <div className="mt-5 rounded-xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm font-bold text-amber-50">{contestWeek ? `Week ${week.week}: ALL PICKS LOCKED. Saved picks remain visible while verified results are graded.` : `Week ${week.week} Pick ’Em is CLOSED. Saved picks remain visible while verified results are graded.`}</div> : null}
-        {contestWeek ? <section className="mt-5 rounded-xl border border-white/15 bg-white/[0.04] p-4 text-sm text-white/80">
+        {contestWeek ? <section className="mt-3 rounded-xl border border-white/15 bg-white/[0.04] p-3 text-sm text-white/80 sm:mt-5 sm:p-4">
           <PickemPrizeCounter key={`${week!.id}:${prize?.valid_entries ?? "?"}:${prize?.prize_dollars ?? "?"}`} weekId={week!.id} initialPrize={prize} />
-          <p className="mt-3 font-bold text-white">$1 per valid accepted entry · up to $100 this week</p>
-          <p className="mt-1 text-xs text-white/70">Count and prize are provisional, subject to eligibility and disqualification review.</p>
-          <p className="mt-3">Pick every game and predict the combined points in the Pick ’Em Tiebreaker Game. Each correct pick earns 1 point. Ties go to the closest prediction, then the earliest valid completed entry.</p>
-          <p className="mt-2 text-xs text-white/70">One entry per person. Mobile number and eligibility attestation required. No purchase necessary.</p>
-          <p className="mt-2 text-xs text-white/70">{week?.presenting_sponsor_name ? `Presented by ${week.presenting_sponsor_name} · ` : ""}<Link href="/pickem/rules" className="font-bold text-white underline underline-offset-2">Official Rules</Link> · <Link href="/pickem/privacy" className="font-bold text-white underline underline-offset-2">Privacy Notice</Link> · Questions: <a href="mailto:info@varsityvue.com" className="font-bold text-white underline underline-offset-2">info@varsityvue.com</a></p>
-          <div className="mt-4 rounded-lg border border-amber-300/25 bg-amber-300/10 p-3 text-amber-50"><strong>New-entry deadline: {week?.entry_deadline_at ? centralContestDeadline(week.entry_deadline_at) : "Pending configuration"}</strong><p className="mt-1 text-xs">A complete entry must be received before this frozen time. Existing valid entrants may edit each unlocked pick until its game locks.</p></div>
+          <p className="mt-2 font-bold text-white">$1 per valid accepted entry · up to $100 this week</p>
+          <p className="mt-0.5 text-xs text-white/70">Count and prize are provisional, subject to eligibility and disqualification review.</p>
+          <div className="mt-3 rounded-lg border border-amber-300/25 bg-amber-300/10 p-3 text-amber-50"><strong>New-entry deadline: {week?.entry_deadline_at ? centralContestDeadline(week.entry_deadline_at) : "Pending configuration"}</strong><p className="mt-1 text-xs">Complete your entry before this time. Existing entrants may edit picks until each game locks.</p></div>
+          <p className="mt-3">Pick every game; each correct pick earns 1 point. Predict {tiebreakerGame ? `${tiebreakerGame.awayName}–${tiebreakerGame.homeName}` : "the Pick ’Em Tiebreaker Game"} combined points. Closest prediction breaks a tie, then earliest valid completed entry.</p>
+          <p className="mt-1 text-xs text-white/70">One entry per person · Mobile number and eligibility attestation required · No purchase necessary</p>
+          <p className="mt-2 text-xs text-white/70"><Link href="/pickem/rules" className="font-bold text-white underline underline-offset-2">Official Rules</Link> · <Link href="/pickem/privacy" className="font-bold text-white underline underline-offset-2">Privacy Notice</Link> · Questions: <a href="mailto:info@varsityvue.com" className="font-bold text-white underline underline-offset-2">info@varsityvue.com</a></p>
         </section> : null}
         {voidGames?.length ? <div className="mt-5 rounded-xl border border-sky-300/20 bg-sky-300/10 p-4 text-sm text-sky-50">{voidGames.length} included {voidGames.length === 1 ? "matchup is" : "matchups are"} VOID for this contest. No pick is required or graded for {voidGames.length === 1 ? "it" : "them"}.{voidGameIds.has(week?.tiebreaker_game_id ?? "") ? " The Tiebreaker Game prediction is skipped." : ""}</div> : null}
         {contestWeek && newEntriesClosed && !weekClosed ? <div className="mt-5 rounded-xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm text-amber-50">Week {week?.week}: ENTRY CLOSED. No new entries can qualify. Existing valid entrants may still edit individual games that have not locked.</div> : null}
