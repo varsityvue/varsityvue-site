@@ -66,7 +66,7 @@ export async function saveTeamFeedPost(form: FormData) {
     const { error: uploadError } = await supabase.storage.from("team-feed-public").upload(objectPath, original, { contentType: "image/webp", upsert: true });
     if (uploadError) redirect(destination("Public image upload failed; post remains unchanged."));
   }
-  const status = intent === "publish" ? "published" : intent === "unpublish" ? "unpublished" : existing?.status === "published" ? "published" : "draft";
+  const status = intent === "publish" ? "published" : intent === "unpublish" ? "unpublished" : existing?.status === "published" ? "published" : existing?.status === "unpublished" ? "unpublished" : "draft";
   const publishedAt = intent === "publish" ? existing?.status === "published" ? existing.published_at : new Date().toISOString() : existing?.published_at ?? null;
   const { error: updateError } = await supabase.from("team_feed_posts").update({ primary_school_id: primary, secondary_school_id: secondary, game_id: gameId, caption, status, published_at: publishedAt }).eq("id", postId);
   if (updateError) {
