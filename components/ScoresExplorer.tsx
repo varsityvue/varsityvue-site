@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { liveGameContext } from "@/lib/live-period";
+import type { GameStatus } from "@/types/platform";
 import { gamesInvolvingFollowedSchools, orderFollowedGames } from "@/lib/follow-personalization";
 
 export type ExplorerGame = {
@@ -12,7 +13,7 @@ export type ExplorerGame = {
   awaySlug?: string;
   homeSlug?: string;
   classification: string;
-  status: string;
+  status: GameStatus;
   kickoff?: string;
   awayScore?: number;
   homeScore?: number;
