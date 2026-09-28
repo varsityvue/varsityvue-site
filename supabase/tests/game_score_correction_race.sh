@@ -9,9 +9,11 @@ A_LOG=$(mktemp)
 B_LOG=$(mktemp)
 cleanup() {
   "${PSQL[@]}" -q -c "delete from public.game_state where game_id='$GAME_ID'" >/dev/null || true
+  "${PSQL[@]}" -q -c "delete from private.canonical_game_identity where game_id='$GAME_ID'" >/dev/null || true
   rm -f "$MARKER" "$A_LOG" "$B_LOG"
 }
 trap cleanup EXIT
+"${PSQL[@]}" -q -c "insert into private.canonical_game_identity(game_id,away_school_slug,home_school_slug) values('$GAME_ID','away-a','home-a')" >/dev/null
 "${PSQL[@]}" -q -c "insert into public.game_state(game_id,status,away_score,home_score,period,clock,verified,verified_at,away_school_slug,home_school_slug) values ('$GAME_ID','live',7,0,'Q2','06:00',true,now(),'away-a','home-a')" >/dev/null
 EXPECTED=$("${PSQL[@]}" -At -c "select updated_at from public.game_state where game_id='$GAME_ID'")
 "${PSQL[@]}" >"$A_LOG" 2>&1 <<SQL &

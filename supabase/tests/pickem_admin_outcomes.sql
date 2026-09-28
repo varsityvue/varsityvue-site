@@ -2,6 +2,7 @@
 -- All fixtures and changes are synthetic and rolled back.
 
 begin;
+insert into private.canonical_game_identity values('__admin_outcome_game__','away-a','home-a');
 
 create temporary table admin_outcome_ids (
   key text primary key,

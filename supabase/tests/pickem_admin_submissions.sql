@@ -2,6 +2,9 @@
 -- All fixtures and changes are synthetic and rolled back.
 
 begin;
+insert into private.canonical_game_identity values
+  ('__admin_submission_graded__','graded-away','graded-home'),
+  ('__admin_submission_void__','void-away','void-home');
 
 create temporary table admin_submission_ids (
   key text primary key,

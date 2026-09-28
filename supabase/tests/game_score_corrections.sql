@@ -1,5 +1,7 @@
 -- Run on an isolated database. Synthetic game, grades, and notification events roll back.
 begin;
+insert into private.canonical_game_identity(game_id,away_school_slug,home_school_slug)
+values('__score_correction__','away-a','home-a');
 create temporary table correction_ids (key text primary key, value uuid not null) on commit drop;
 insert into correction_ids select 'admin', user_id from public.user_roles where role='admin' order by user_id limit 1;
 insert into correction_ids select 'moderator', user_id from public.user_roles where role='moderator' order by user_id limit 1;

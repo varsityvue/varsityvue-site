@@ -85,6 +85,7 @@ export async function submitScore(formData: FormData) {
 
   const roleSet = new Set((roles ?? []).map((row) => row.role));
   const canModerate = roleSet.has("moderator") || roleSet.has("admin");
+  if (canModerate) redirect(`/internal/scoring?game=${encodeURIComponent(gameId)}`);
   const isRestrictedScorekeeper = roleSet.has("scorekeeper") && !canModerate;
 
   if (isRestrictedScorekeeper) {

@@ -69,9 +69,10 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
     getDynamicGames(),
     supabase
       .from("game_state")
-      .select("game_id, status, verified, home_score, away_score, result_type, official_winner_school_slug, away_school_slug, home_school_slug, schedule_revision, outcome_revision"),
+      .select("game_id, status, verified, home_score, away_score, updated_at, score_revision, result_type, official_winner_school_slug, away_school_slug, home_school_slug, schedule_revision, outcome_revision"),
   ]);
   const dynamicGamesById = new Map(dynamicGames.map((game) => [game.id, game]));
+  const stateByGameId = new Map((scheduleStates ?? []).map((state) => [state.game_id, state]));
   const scheduleRevisionByGameId = new Map(
     (scheduleStates ?? []).map((state) => [state.game_id, state.schedule_revision]),
   );
@@ -172,6 +173,7 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
         </section>
 
         <div className="mt-6 flex flex-wrap items-center gap-3">
+          <a href="/internal/scoring" className="rounded-full border border-[var(--vv-accent)] px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-white">Friday-night scoring →</a>
           <span className="rounded-full border border-amber-300/20 bg-amber-300/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-amber-100">
             {(submissions ?? []).length} Pending Reports
           </span>
@@ -310,6 +312,7 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
           ) : (
             groupedSubmissions.map(({ gameId, reports }) => {
               const game = dynamicGamesById.get(gameId) ?? getGameById(gameId);
+              const currentState = stateByGameId.get(gameId);
               const approvalBlocked = Boolean(
                 game && ["final", "cancelled", "postponed"].includes(game.status),
               );
@@ -364,7 +367,7 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
                 : reports;
 
               return (
-                <article key={gameId} className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.035]">
+                <article key={gameId} id={`report-${gameId}`} className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.035] scroll-mt-4">
                   <div className="border-b border-white/10 bg-black/30 px-5 py-4 sm:px-6">
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                       <div>
@@ -385,6 +388,7 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
                           ) : null}
                         </div>
                         <h2 className="mt-2 text-xl font-black sm:text-2xl">{awayName} at {homeName}</h2>
+                        <p className="mt-1 text-xs text-white/50">Canonical: {currentState?.verified ? `${awayName} ${currentState.away_score ?? "—"} · ${homeName} ${currentState.home_score ?? "—"} · ${currentState.status}` : "No verified score yet"}</p>
                         {isConflict ? (
                           <p className="mt-2 text-xs font-semibold text-red-100/75">Pending reports disagree on the score. Use the review path below before approving.</p>
                         ) : hasMultipleReports && scoresAgree && !stateAgrees ? (
@@ -502,6 +506,10 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
 
                           <form className="mt-4 space-y-3 border-t border-white/10 pt-4">
                             <input type="hidden" name="submission_id" value={submission.id} />
+                            <input type="hidden" name="expected_updated_at" value={currentState?.updated_at ?? ""} />
+                            <input type="hidden" name="expected_revision" value={currentState?.score_revision ?? ""} />
+                            <input type="hidden" name="expected_absent" value={String(!currentState)} />
+                            {currentState && new Date(currentState.updated_at) > new Date(submission.created_at) && <p className="text-xs font-bold text-amber-100">Canonical state changed after this report. Verify against the current score before approval.</p>}
                             <textarea name="review_note" rows={2} placeholder="Review note (optional)" className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white placeholder:text-white/25 focus:border-[var(--vv-accent)] focus:outline-none" />
                             <div className="grid grid-cols-2 gap-3">
                               <button

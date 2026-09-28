@@ -4,6 +4,12 @@
 -- and every fixture is rolled back.
 
 begin;
+insert into private.canonical_game_identity values
+  ('__pickem_audit_away__','away-a','home-a'),
+  ('__pickem_audit_home__','away-b','home-b'),
+  ('__pickem_audit_unverified__','away-d','home-d'),
+  ('__pickem_audit_week_2_game__','away-e','home-e'),
+  ('__pickem_audit_other_season_game__','away-f','home-f');
 
 do $audit$
 declare

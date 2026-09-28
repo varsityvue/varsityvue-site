@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 import {
   getCanonicalScoreboardTeamName,
@@ -107,6 +108,7 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
 
   const roleSet = new Set((roles ?? []).map((row) => row.role));
   const canModerate = roleSet.has("moderator") || roleSet.has("admin");
+  if (canModerate) redirect(params.game ? `/internal/scoring?game=${encodeURIComponent(params.game)}` : "/internal/scoring");
   const isRestrictedScorekeeper = roleSet.has("scorekeeper") && !canModerate;
   const assignedSchoolSlugs = new Set((assignments ?? []).map((assignment) => assignment.school_slug));
 

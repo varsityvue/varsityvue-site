@@ -2,6 +2,9 @@
 -- All fixtures and changes are synthetic and rolled back.
 
 begin;
+insert into private.canonical_game_identity values
+  ('__scoreless_forfeit__','away-f','home-f'),
+  ('__scoreless_no_contest__','away-n','home-n');
 
 create temporary table scoreless_outcome_ids (
   key text primary key,
