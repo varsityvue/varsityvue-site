@@ -15,6 +15,9 @@ import FeaturedSchoolSpotlight from "@/components/PilotSchoolSpotlight";
 import FeaturedMatchups from "@/components/FeaturedMatchups";
 import FeaturedCoverage from "@/components/FeaturedCoverage";
 import ProgramLogo from "@/components/ProgramLogo";
+import YourTeams from "@/components/YourTeams";
+import { getCurrentUserFollowedSchoolSlugs } from "@/lib/followed-schools";
+import { orderFollowedSchoolsForHome } from "@/lib/follow-personalization";
 
 const homeTitle = "VarsityVue | Texas High School Football Scores & Coverage";
 const homeDescription =
@@ -96,7 +99,13 @@ function getMatchupTeamNameSize(teamNames: string[]) {
 
 export default async function Home() {
   const schools = getSchools();
-  const dynamicGames = await getDynamicGames();
+  const [dynamicGames, followState] = await Promise.all([
+    getDynamicGames(),
+    getCurrentUserFollowedSchoolSlugs(),
+  ]);
+  const followedTeams = followState.schoolSlugs.size
+    ? orderFollowedSchoolsForHome(schools, dynamicGames.filter((game) => game.gameType !== "bye" && game.gameType !== "scrimmage"), followState.schoolSlugs, Date.now())
+    : [];
   const dynamicState = new Map(
     dynamicGames.map((game): [string, DynamicScoreState] => [game.id, {
       game_id: game.id,
@@ -236,6 +245,9 @@ export default async function Home() {
         </div>
       </section>
 
+      {followState.isAuthenticated && (followedTeams.length > 0
+        ? <YourTeams teams={followedTeams} />
+        : <section className="border-b border-white/10 bg-[#090909] px-4 py-4 text-white sm:px-6 lg:px-8"><div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-3"><p className="text-sm text-white/70">Follow your teams to see their games and coverage first.</p><Link href="/schools" className="rounded-full border border-white/20 px-4 py-2.5 text-xs font-black text-white hover:bg-white/10">Browse Schools →</Link></div></section>)}
       <ScoreStrip />
       <DistrictSpotlight />
       <FeaturedSchoolSpotlight />
