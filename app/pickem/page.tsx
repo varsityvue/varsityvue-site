@@ -301,7 +301,7 @@ export default async function PickemPage({ searchParams }: PageProps) {
           {contestWeek ? <p className="mt-4 text-xs font-black uppercase tracking-[0.14em] text-white/80">Free to play · Texas 18+</p> : <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55 sm:text-base">Pick every winner. Each correct pick earns one point, and games lock individually at kickoff.</p>}
         </section>
 
-        {contestWeek && week?.presenting_sponsor_name ? <div className="mt-3 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-1.5 sm:px-8">
+        {contestWeek && week?.presenting_sponsor_name ? <div className="mt-3 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-1.5 sm:px-8 lg:mx-auto lg:w-1/2 lg:max-w-[560px]">
           <PickemSponsorMark name={week.presenting_sponsor_name} logo={logoForPickemWeek(week.season, week.week, week.presenting_sponsor_name)} />
         </div> : null}
 
