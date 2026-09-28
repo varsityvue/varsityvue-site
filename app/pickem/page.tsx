@@ -12,6 +12,7 @@ import { memberAccountStatus } from "@/lib/member-access";
 import { rankPickemStandings } from "@/lib/pickem-lifecycle";
 import { isPickemEntryClosed, isPickemWeekClosed } from "@/lib/pickem-week-state";
 import { centralContestDeadline } from "@/lib/pickem-contest-display";
+import { orderPickemSlateRows } from "@/lib/pickem-display-order";
 import { summarizePickemWeeks } from "@/lib/pickem-week-summary";
 import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
@@ -187,7 +188,10 @@ export default async function PickemPage({ searchParams }: PageProps) {
     ...(memberPickRows ?? []).map((pick) => [pick.pickem_game_id, pick.picked_school_slug] as const),
     ...typedDraftPicks.map((pick) => [pick.pickem_game_id, pick.picked_school_slug] as const),
   ]);
-  const games: PickemSlateGame[] = (slateRows ?? []).flatMap((row) => {
+  const displayRows = week
+    ? orderPickemSlateRows(slateRows ?? [], week.season, week.week, week.tiebreaker_game_id)
+    : slateRows ?? [];
+  const games: PickemSlateGame[] = displayRows.flatMap((row) => {
     if (voidGameIds.has(row.id)) return [];
     const game = getGameById(row.game_id);
     if (!game || !row.away_school_slug || !row.home_school_slug) return [];
@@ -196,6 +200,7 @@ export default async function PickemPage({ searchParams }: PageProps) {
     return [{
       id: row.id,
       gameId: row.game_id,
+      isTiebreaker: row.id === week?.tiebreaker_game_id,
       awayName: game.awayTeam ?? "Away Team",
       awaySlug: row.away_school_slug,
       awayMark: awaySchool?.abbreviation ?? game.awayTeam?.slice(0, 3).toUpperCase() ?? "AWY",

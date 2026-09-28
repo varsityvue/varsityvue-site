@@ -15,11 +15,13 @@ export function PickemProgress({ selectedCount, totalGames }: { selectedCount: n
 
 export function PickemGameHeader({
   index,
+  isTiebreaker,
   kickoffLabel,
   locked,
   lockedMessageId,
 }: {
   index: number;
+  isTiebreaker?: boolean;
   kickoffLabel: string;
   locked: boolean;
   lockedMessageId: string;
@@ -27,7 +29,7 @@ export function PickemGameHeader({
   return (
     <>
       <div className="flex items-center justify-between gap-3">
-        <p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/35">Game {index + 1}</p>
+        <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[9px] font-black uppercase tracking-[0.16em] text-white/35">Game {index + 1}{isTiebreaker ? <span className="rounded-full border border-amber-300/25 px-1.5 py-0.5 text-[8px] tracking-[0.1em] text-amber-200/80">Tiebreaker</span> : null}</p>
         {locked ? (
           <div className="flex items-center gap-2">
             <span className="rounded-full border border-white/15 bg-white/[0.06] px-2 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/75">Locked</span>
