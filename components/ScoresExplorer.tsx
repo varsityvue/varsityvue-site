@@ -21,7 +21,7 @@ export type ExplorerGame = {
   clock?: string;
 };
 
-export default function ScoresExplorer({ games, followedSlugs, now }: { games: ExplorerGame[]; followedSlugs: string[]; now: number }) {
+export default function ScoresExplorer({ games, followingGames, followedSlugs, now }: { games: ExplorerGame[]; followingGames: ExplorerGame[]; followedSlugs: string[]; now: number }) {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState("All classifications");
   const [showAllFollowed, setShowAllFollowed] = useState(false);
@@ -32,7 +32,10 @@ export default function ScoresExplorer({ games, followedSlugs, now }: { games: E
     (filter === "All classifications" || game.classification === filter)
   );
   const followedGames = orderFollowedGames(
-    gamesInvolvingFollowedSchools(visible.map((game) => ({ ...game, awaySchoolSlug: game.awaySlug, homeSchoolSlug: game.homeSlug })), followed),
+    gamesInvolvingFollowedSchools(followingGames.filter((game) =>
+      (!query.trim() || `${game.away} ${game.home}`.toLowerCase().includes(query.trim().toLowerCase())) &&
+      (filter === "All classifications" || game.classification === filter)
+    ).map((game) => ({ ...game, awaySchoolSlug: game.awaySlug, homeSchoolSlug: game.homeSlug })), followed),
     now,
   );
   const followedIds = new Set(followedGames.map((game) => game.id));
