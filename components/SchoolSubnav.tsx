@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { SchoolTheme } from "../types/school-theme";
+import { isTeamFeedEnabled } from "@/lib/team-feed-eligibility";
 
 type SchoolSubnavProps = { schoolSlug: string; districtSlug?: string; theme: SchoolTheme };
 
@@ -12,6 +13,7 @@ export default function SchoolSubnav({ schoolSlug, districtSlug, theme }: School
     { href: `/schools/${schoolSlug}`, label: "Overview", active: pathname === `/schools/${schoolSlug}` },
     { href: `/schools/${schoolSlug}/schedule`, label: "Schedule", active: pathname === `/schools/${schoolSlug}/schedule` },
     { href: `/schools/${schoolSlug}/roster`, label: "Roster", active: pathname === `/schools/${schoolSlug}/roster` },
+    ...(isTeamFeedEnabled(schoolSlug) ? [{ href: `/schools/${schoolSlug}/feed`, label: "Team Feed", active: pathname === `/schools/${schoolSlug}/feed` }] : []),
     ...(districtSlug && districtSlug !== "opponent" ? [{ href: `/districts/${districtSlug}`, label: "Standings", active: pathname === `/districts/${districtSlug}` }] : []),
   ];
 
