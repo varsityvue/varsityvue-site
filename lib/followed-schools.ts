@@ -12,7 +12,7 @@ export async function getCurrentUserFollowedSchoolSlugs(context?: {
   const supabase = context?.supabase ?? await createClient();
   const claims = context ? null : await supabase.auth.getClaims();
   if (claims?.error) throw new Error("Unable to verify follow session.");
-  const userId = context ? context.userId : claims?.data.claims?.sub;
+  const userId = context ? context.userId : claims?.data?.claims?.sub;
   if (!userId) return { isAuthenticated: false, schoolSlugs: new Set() };
 
   const { data, error } = await supabase
