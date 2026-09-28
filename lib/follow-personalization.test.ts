@@ -6,6 +6,7 @@ import {
   gamesInvolvingFollowedSchools,
   isSchoolFollowed,
   orderFollowedGames,
+  relevantFollowedGames,
   orderFollowedSchoolsForHome,
   type FollowGame,
 } from "@/lib/follow-personalization";
@@ -60,4 +61,36 @@ test("homepage handles many follows, unknown slug, no game, and state transition
   assert.deepEqual(orderFollowedSchoolsForHome(schools, games, new Set(), now), []);
   const ended = orderFollowedSchoolsForHome(schools, [game("live", "final", "2026-09-28T18:00:00Z", "alpha", "delta"), ...games.slice(0, 2)], followed, now);
   assert.equal(ended[0]?.game?.status, "upcoming");
+});
+
+test("Scores Following spans dates and excludes old finals and distant upcoming games", () => {
+  const followed = new Set(["alpha", "beta", "gamma", "delta"]);
+  const games = [
+    game("old-final", "final", "2026-09-19T18:00:00Z"),
+    game("recent-final", "final", "2026-09-25T23:00:00Z", "gamma", "other"),
+    game("upcoming", "upcoming", "2026-10-02T23:00:00Z", "beta", "other"),
+    game("live", "live", "2026-09-28T18:00:00Z", "alpha", "delta"),
+    game("distant", "upcoming", "2026-10-20T23:00:00Z"),
+    game("unrelated", "live", "2026-09-28T18:00:00Z", "other", "unknown"),
+  ];
+  assert.deepEqual(relevantFollowedGames(games, followed, now).map((entry) => entry.id), [
+    "live", "upcoming", "recent-final",
+  ]);
+  assert.deepEqual(relevantFollowedGames(games, new Set(), now), []);
+});
+
+test("Scores Following deduplicates both-team matches and many follows within the window", () => {
+  const followed = new Set(["alpha", "beta", "gamma", "delta"]);
+  const shared = game("shared", "live", "2026-09-28T18:00:00Z");
+  const games = [
+    game("later", "upcoming", "2026-10-04T00:00:00Z", "delta", "other"),
+    game("soon", "upcoming", "2026-10-01T00:00:00Z", "gamma", "other"),
+    shared, shared,
+    game("final-a", "final", "2026-09-27T00:00:00Z", "alpha", "other"),
+    game("final-b", "final", "2026-09-26T00:00:00Z", "beta", "other"),
+  ];
+  assert.deepEqual(relevantFollowedGames(games, followed, now).map((entry) => entry.id), [
+    "shared", "soon", "later", "final-a", "final-b",
+  ]);
+  assert.equal(relevantFollowedGames([shared, shared], new Set(["alpha", "beta"]), now).length, 1);
 });
