@@ -7,6 +7,7 @@ import { getArticleBySlug, getArticles } from "@/lib/articles";
 import { getSchoolBySlug } from "@/lib/schools";
 import type { Article } from "@/types/platform";
 import ArticleShare from "@/components/ArticleShare";
+import ArticleBody from "@/components/ArticleBody";
 import SchoolBadge from "@/components/SchoolBadge";
 import SchoolFollowControl from "@/components/SchoolFollowControl";
 import { getDynamicGames } from "@/lib/dynamic-games";
@@ -236,24 +237,7 @@ export default async function ArticlePage({ params, searchParams }: ArticlePageP
             )}
 
             <div className="border-t border-white/10 pt-5 sm:pt-8">
-              <div className="space-y-4 text-[16px] leading-[1.75] text-white/78 sm:space-y-7 sm:text-lg sm:leading-8">
-                {article.body
-                  .split("\n")
-                  .map((paragraph) => paragraph.trim())
-                  .filter(Boolean)
-                  .map((paragraph, index) =>
-                    paragraph.startsWith("## ") ? (
-                      <h2
-                        key={`${article.id}-heading-${index}`}
-                        className="mt-7 border-l-[3px] border-[var(--vv-accent)] pl-3 text-xl font-black leading-tight tracking-tight text-white sm:mt-10 sm:border-l-4 sm:pl-4 sm:text-3xl"
-                      >
-                        {paragraph.slice(3)}
-                      </h2>
-                    ) : (
-                      <p key={`${article.id}-paragraph-${index}`}>{paragraph}</p>
-                    )
-                  )}
-              </div>
+              <ArticleBody body={article.body} />
             </div>
 
             {articleFollowSchools.length > 0 && (
