@@ -211,6 +211,7 @@ export type Article = {
   featuredImageCaption?: string;
 
   type: ArticleType;
+  editorialLabel?: string;
 
   author: string;
   publishedAt: string;

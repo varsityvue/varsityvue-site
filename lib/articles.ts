@@ -1,7 +1,8 @@
 import { articles as baseArticles } from "@/data/articles";
 import { deLeonAlbanyFeature2026 } from "@/data/de-leon-albany-feature-2026";
+import { district5Preview2026 } from "@/data/district-5-preview-2026";
 
-const articles = [deLeonAlbanyFeature2026, ...baseArticles];
+const articles = [district5Preview2026, deLeonAlbanyFeature2026, ...baseArticles];
 
 function getPublishedTimestamp(publishedAt: string) {
   const timestamp = new Date(publishedAt).getTime();

@@ -213,7 +213,7 @@ export default async function ArticlePage({ params, searchParams }: ArticlePageP
 
           <div className="mt-3 rounded-[1.35rem] border border-white/10 bg-white/[0.045] p-3.5 shadow-2xl sm:mt-5 sm:rounded-[1.75rem] sm:p-6 md:p-8">
             <p className="text-[9px] font-black uppercase tracking-[0.22em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.32em]">
-              {formatArticleType(article.type)}
+              {article.editorialLabel ?? formatArticleType(article.type)}
             </p>
             <h1 className="mt-2 text-[1.72rem] font-black leading-[1.05] tracking-tight sm:mt-4 sm:text-5xl md:text-6xl">{article.title}</h1>
             {article.subtitle && <p className="mt-2.5 max-w-3xl text-sm font-semibold leading-[1.45] text-white/55 sm:mt-5 sm:text-xl sm:leading-8">{article.subtitle}</p>}
