@@ -2,6 +2,27 @@
 -- authorization regression suite. Every fixture is synthetic and rolled back.
 
 begin;
+-- Synthetic game IDs are registered only inside this rolled-back test transaction.
+insert into private.canonical_game_identity values
+  ('__outcome_valid_played__','away-a','home-a'),
+  ('__outcome_played_missing__','away-x','home-x'),
+  ('__outcome_played_tied__','away-x','home-x'),
+  ('__outcome_valid_tie__','away-x','home-x'),
+  ('__outcome_invalid_tie__','away-x','home-x'),
+  ('__outcome_valid_forfeit__','away-f','home-f'),
+  ('__outcome_forfeit_no_winner__','away-f','home-f'),
+  ('__outcome_forfeit_bad_winner__','away-f','home-f'),
+  ('__outcome_played_with_winner__','away-p','home-p'),
+  ('__outcome_valid_no_contest__','away-n','home-n'),
+  ('__outcome_no_contest_winner__','away-n','home-n'),
+  ('__outcome_cancelled__','away-x','home-x'),
+  ('__outcome_postponed__','away-x','home-x'),
+  ('__outcome_unclassified__','away-x','home-x'),
+  ('__outcome_transition__','away-t','home-t'),
+  ('__schedule_future__','away-s','home-s'),
+  ('__schedule_passed__','away-p','home-p'),
+  ('__schedule_exact__','away-e','home-e'),
+  ('__direct_schedule_insert__','away-x','home-x');
 
 create temporary table canonical_audit_ids (
   key text primary key,
@@ -145,14 +166,19 @@ declare
   graded integer;
   correct integer;
 begin
-  insert into public.pickem_weeks (season, week, title, status)
-  values (2096, 1, '__canonical_outcome_grading__', 'open') returning id into week_id;
+  insert into public.pickem_weeks (season, week, title, status, opens_at, closes_at,
+    official_rules_version, official_rules_published_at)
+  values (2096, 1, '__canonical_outcome_grading__', 'draft', now() - interval '1 hour',
+    now() + interval '3 hours', 'isolated-test', now() - interval '1 hour') returning id into week_id;
 
   insert into public.pickem_games (
     week_id, game_id, lock_at, away_school_slug, home_school_slug
   ) values (
     week_id, '__outcome_transition__', now() + interval '2 hours', 'away-t', 'home-t'
   ) returning id into target_pickem_game_id;
+
+  update public.pickem_weeks set tiebreaker_game_id = target_pickem_game_id, status = 'open'
+  where id = week_id;
 
   insert into public.pickem_picks (pickem_game_id, user_id, picked_school_slug)
   values (target_pickem_game_id, member_id, 'away-t');
@@ -267,8 +293,10 @@ do $schedule_setup$
 declare
   week_id uuid;
 begin
+  -- This schedule fixture includes already-passed locks; use a historical
+  -- pre-contest week, for which the current lifecycle permits direct open.
   insert into public.pickem_weeks (season, week, title, status)
-  values (2096, 2, '__canonical_schedule__', 'open') returning id into week_id;
+  values (2025, 2, '__canonical_schedule__', 'open') returning id into week_id;
 
   insert into public.game_state (
     game_id, status, verified, kickoff_override,

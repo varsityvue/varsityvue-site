@@ -1,5 +1,11 @@
 -- Disposable local database only. Synthetic identities never leave the CI database.
 begin;
+insert into private.canonical_game_identity
+select '__isolated_week6_'||i,'away-'||i,'home-'||i from generate_series(1,12) i;
+insert into private.canonical_game_identity values
+  ('__historical_week5__','history-away','history-home'),
+  ('__monday_gotw__','monday-away-1','monday-home-1'),
+  ('__monday_other__','monday-away-2','monday-home-2');
 create temporary table test_ids (label text primary key, user_id uuid, phone text) on commit preserve rows;
 insert into test_ids values
  ('A','00000000-0000-4000-8000-000000000101','2545550101'),

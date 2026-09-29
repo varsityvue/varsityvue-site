@@ -102,6 +102,10 @@ function scorelessOutcomeErrorMessage(code?: string, message?: string) {
 export async function approveScoreSubmission(formData: FormData) {
   const submissionId = text(formData, "submission_id");
   const reviewNote = text(formData, "review_note") || null;
+  const expected = text(formData, "expected_updated_at");
+  const revisionRaw = text(formData, "expected_revision");
+  const revision = revisionRaw === "" ? null : Number(revisionRaw);
+  const expectedAbsent = text(formData, "expected_absent") === "true";
   const { supabase, userId } = await requireModerator();
 
   const { data: submission, error: submissionError } = await supabase
@@ -153,18 +157,26 @@ export async function approveScoreSubmission(formData: FormData) {
     );
   }
 
-  const { error } = await supabase
+  const { data: approved, error } = await supabase
     .from("score_submissions")
     .update({
       status: "approved",
       reviewed_by: userId,
       review_note: reviewNote,
+      expected_state_updated_at: expectedAbsent ? null : expected,
+      expected_state_revision: expectedAbsent ? null : revision,
+      expected_state_absent: expectedAbsent,
     })
     .eq("id", submissionId)
-    .eq("status", "pending");
+    .eq("status", "pending")
+    .select("id")
+    .maybeSingle();
 
   if (error) {
-    redirect(`/internal/score-review?message=${encodeURIComponent(error.message)}`);
+    redirect(`/internal/score-review?message=${encodeURIComponent(error.code === "40001" ? "Game changed — review the current score before approving." : error.message)}`);
+  }
+  if (!approved) {
+    redirect(`/internal/score-review?message=${encodeURIComponent("Report changed during review — refresh the queue and check the current canonical score.")}`);
   }
 
   revalidatePath("/internal/score-review");
@@ -178,7 +190,7 @@ export async function rejectScoreSubmission(formData: FormData) {
   const reviewNote = text(formData, "review_note") || "Rejected during review.";
   const { supabase, userId } = await requireModerator();
 
-  const { error } = await supabase
+  const { data: rejected, error } = await supabase
     .from("score_submissions")
     .update({
       status: "rejected",
@@ -186,10 +198,15 @@ export async function rejectScoreSubmission(formData: FormData) {
       review_note: reviewNote,
     })
     .eq("id", submissionId)
-    .eq("status", "pending");
+    .eq("status", "pending")
+    .select("id")
+    .maybeSingle();
 
   if (error) {
     redirect(`/internal/score-review?message=${encodeURIComponent(error.message)}`);
+  }
+  if (!rejected) {
+    redirect(`/internal/score-review?message=${encodeURIComponent("Report changed during review — refresh the queue.")}`);
   }
 
   revalidatePath("/internal/score-review");

@@ -2,6 +2,9 @@
 -- draft/open/complete-entry path. Only a disposable CI database is used;
 -- a transaction boundary permits an actual close between entry and grading.
 begin;
+insert into private.canonical_game_identity values
+  ('__integrated_gotw__','int-away','int-home'),
+  ('__integrated_reversal__','rev-away','rev-home');
 create temp table integration_ids (label text primary key,id uuid,phone text) on commit preserve rows;
 insert into integration_ids values
  ('A','00000000-0000-4000-8000-000000000601','2545550601'),

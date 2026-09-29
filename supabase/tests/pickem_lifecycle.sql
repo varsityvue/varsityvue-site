@@ -4,6 +4,12 @@
 -- and every fixture is rolled back.
 
 begin;
+insert into private.canonical_game_identity values
+  ('__pickem_audit_away__','away-a','home-a'),
+  ('__pickem_audit_home__','away-b','home-b'),
+  ('__pickem_audit_unverified__','away-d','home-d'),
+  ('__pickem_audit_week_2_game__','away-e','home-e'),
+  ('__pickem_audit_other_season_game__','away-f','home-f');
 
 do $audit$
 declare
@@ -12,6 +18,7 @@ declare
   week_one uuid;
   week_two uuid;
   other_season uuid;
+  legacy_lock_week uuid;
   away_game uuid;
   home_game uuid;
   pending_game uuid;
@@ -42,12 +49,15 @@ begin
     raise exception 'Pick Em lifecycle test requires two active fixture identities';
   end if;
 
-  insert into public.pickem_weeks (season, week, title, status)
-  values (2098, 1, '__pickem_audit_week_1__', 'open') returning id into week_one;
-  insert into public.pickem_weeks (season, week, title, status)
-  values (2098, 2, '__pickem_audit_week_2__', 'open') returning id into week_two;
-  insert into public.pickem_weeks (season, week, title, status)
-  values (2099, 1, '__pickem_audit_other_season__', 'open') returning id into other_season;
+  insert into public.pickem_weeks (season, week, title, status, opens_at, closes_at,
+    official_rules_version, official_rules_published_at)
+  values
+    (2098, 1, '__pickem_audit_week_1__', 'draft', now() - interval '1 hour', now() + interval '2 hours', 'isolated-test', now() - interval '1 hour'),
+    (2098, 2, '__pickem_audit_week_2__', 'draft', now() - interval '1 hour', now() + interval '2 hours', 'isolated-test', now() - interval '1 hour'),
+    (2099, 1, '__pickem_audit_other_season__', 'draft', now() - interval '1 hour', now() + interval '2 hours', 'isolated-test', now() - interval '1 hour');
+  select id into week_one from public.pickem_weeks where season = 2098 and week = 1;
+  select id into week_two from public.pickem_weeks where season = 2098 and week = 2;
+  select id into other_season from public.pickem_weeks where season = 2099 and week = 1;
 
   insert into public.pickem_games (week_id, game_id, sort_order, lock_at, away_school_slug, home_school_slug)
   values
@@ -64,6 +74,11 @@ begin
   select id into unverified_game from public.pickem_games where game_id = '__pickem_audit_unverified__';
   select id into other_week_game from public.pickem_games where game_id = '__pickem_audit_week_2_game__';
   select id into other_season_game from public.pickem_games where game_id = '__pickem_audit_other_season_game__';
+
+  update public.pickem_weeks set tiebreaker_game_id = case id
+    when week_one then away_game when week_two then other_week_game
+    else other_season_game end, status = 'open'
+  where id in (week_one, week_two, other_season);
 
   insert into public.pickem_picks (pickem_game_id, user_id, picked_school_slug)
   values
@@ -165,11 +180,14 @@ begin
     raise exception 'Cancellation retained stale grades';
   end if;
 
+  -- Legacy per-game lock boundaries are independent of the Week 6+ frozen slate.
+  insert into public.pickem_weeks (season, week, title, status)
+  values (2025, 1, '__pickem_lock_boundaries__', 'open') returning id into legacy_lock_week;
   insert into public.pickem_games (week_id, game_id, sort_order, lock_at, away_school_slug, home_school_slug)
   values
-    (week_one, '__pickem_audit_before__', 10, now() + interval '1 second', 'before-away', 'before-home'),
-    (week_one, '__pickem_audit_exact__', 11, now(), 'exact-away', 'exact-home'),
-    (week_one, '__pickem_audit_after__', 12, now() - interval '1 second', 'after-away', 'after-home');
+    (legacy_lock_week, '__pickem_audit_before__', 10, now() + interval '1 second', 'before-away', 'before-home'),
+    (legacy_lock_week, '__pickem_audit_exact__', 11, now(), 'exact-away', 'exact-home'),
+    (legacy_lock_week, '__pickem_audit_after__', 12, now() - interval '1 second', 'after-away', 'after-home');
   select id into before_game from public.pickem_games where game_id = '__pickem_audit_before__';
   select id into exact_game from public.pickem_games where game_id = '__pickem_audit_exact__';
   select id into after_game from public.pickem_games where game_id = '__pickem_audit_after__';

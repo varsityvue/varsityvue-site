@@ -2,6 +2,9 @@
 -- All fixtures and changes are synthetic and rolled back.
 
 begin;
+insert into private.canonical_game_identity values
+  ('__scoreless_forfeit__','away-f','home-f'),
+  ('__scoreless_no_contest__','away-n','home-n');
 
 create temporary table scoreless_outcome_ids (
   key text primary key,
@@ -41,8 +44,10 @@ declare
   forfeit_pickem_game_id uuid;
   no_contest_pickem_game_id uuid;
 begin
-  insert into public.pickem_weeks (season, week, title, status)
-  values (2098, 1, '__scoreless_outcome_origination__', 'open')
+  insert into public.pickem_weeks (season, week, title, status, opens_at, closes_at,
+    official_rules_version, official_rules_published_at)
+  values (2098, 1, '__scoreless_outcome_origination__', 'draft', now() - interval '1 hour',
+    now() + interval '3 hours', 'isolated-test', now() - interval '1 hour')
   returning id into week_id;
 
   insert into public.pickem_games (
@@ -56,6 +61,9 @@ begin
   ) values (
     week_id, '__scoreless_no_contest__', now() + interval '2 hours', 'away-n', 'home-n'
   ) returning id into no_contest_pickem_game_id;
+
+  update public.pickem_weeks set tiebreaker_game_id = forfeit_pickem_game_id, status = 'open'
+  where id = week_id;
 
   insert into public.pickem_picks (pickem_game_id, user_id, picked_school_slug)
   values

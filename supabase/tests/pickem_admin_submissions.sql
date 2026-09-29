@@ -2,6 +2,9 @@
 -- All fixtures and changes are synthetic and rolled back.
 
 begin;
+insert into private.canonical_game_identity values
+  ('__admin_submission_graded__','graded-away','graded-home'),
+  ('__admin_submission_void__','void-away','void-home');
 
 create temporary table admin_submission_ids (
   key text primary key,
@@ -43,8 +46,10 @@ declare
   void_game_id uuid;
   missing_game_id uuid;
 begin
+  -- This visibility fixture moves several locks into the past after setup;
+  -- use a historical week rather than violating the Week 6+ frozen slate.
   insert into public.pickem_weeks (season, week, title, status)
-  values (2099, 4, '__admin_submission_visibility__', 'open')
+  values (2025, 4, '__admin_submission_visibility__', 'open')
   returning id into synthetic_week_id;
 
   insert into public.pickem_games (

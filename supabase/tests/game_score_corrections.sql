@@ -1,6 +1,9 @@
--- Run on an isolated database. Synthetic game, grades, and notification events roll back.
+-- Run on an isolated database. The valid contest setup crosses its real close
+-- in a separate transaction; the synthetic setup is removed after assertions.
 begin;
-create temporary table correction_ids (key text primary key, value uuid not null) on commit drop;
+insert into private.canonical_game_identity(game_id,away_school_slug,home_school_slug)
+values('__score_correction__','away-a','home-a');
+create temporary table correction_ids (key text primary key, value uuid not null) on commit preserve rows;
 insert into correction_ids select 'admin', user_id from public.user_roles where role='admin' order by user_id limit 1;
 insert into correction_ids select 'moderator', user_id from public.user_roles where role='moderator' order by user_id limit 1;
 insert into correction_ids select 'member', user_id from public.member_account_status
@@ -9,20 +12,43 @@ do $$ begin if (select count(*) from correction_ids) <> 3 then raise exception '
 grant select on correction_ids to authenticated;
 
 do $$ declare week_id uuid; selected_id uuid; begin
-  insert into public.pickem_weeks(season, week, title, status, closes_at) values (2097, 27, '__correction__', 'open', now()+interval '1 hour') returning id into week_id;
+  insert into public.pickem_weeks
+    (season, week, title, status, opens_at, closes_at, official_rules_version, official_rules_published_at)
+    values (2097, 27, '__correction__', 'draft', now()-interval '1 minute',
+      now()+interval '30 seconds', 'isolated-test', now())
+    returning id into week_id;
   insert into public.pickem_games(week_id, game_id, lock_at, away_school_slug, home_school_slug)
-    values (week_id, '__score_correction__', now() + interval '2 hours', 'away-a', 'home-a') returning id into selected_id;
-  update public.pickem_weeks set tiebreaker_game_id=selected_id where id=week_id;
-  insert into public.pickem_week_tiebreakers(week_id,user_id,predicted_total)
-    values (week_id,(select value from correction_ids where key='member'),35),
-           (week_id,(select value from correction_ids where key='moderator'),42);
-  insert into public.pickem_picks(pickem_game_id, user_id, picked_school_slug)
-    values (selected_id, (select value from correction_ids where key='member'), 'away-a'),
-           (selected_id, (select value from correction_ids where key='moderator'), 'home-a');
+    values (week_id, '__score_correction__', now()+interval '25 seconds', 'away-a', 'home-a')
+    returning id into selected_id;
+  update public.pickem_weeks set tiebreaker_game_id=selected_id, status='open' where id=week_id;
+end $$;
+
+set local role authenticated;
+do $$ declare week_id uuid; selected_id uuid; begin
+  select id into week_id from public.pickem_weeks where season=2097 and week=27;
+  select id into selected_id from public.pickem_games where game_id='__score_correction__';
+  perform set_config('request.jwt.claim.sub',(select value::text from correction_ids where key='member'),true);
+  perform public.submit_pickem_contest_entry(week_id,'2545550491',35,
+    jsonb_build_object(selected_id::text,'away-a'),true);
+  perform set_config('request.jwt.claim.sub',(select value::text from correction_ids where key='moderator'),true);
+  perform public.submit_pickem_contest_entry(week_id,'2545550492',42,
+    jsonb_build_object(selected_id::text,'home-a'),true);
+end $$;
+reset role;
+do $$ begin
   insert into public.game_state(game_id,status,away_score,home_score,period,clock,verified,verified_at,away_school_slug,home_school_slug)
     values ('__score_correction__','live',7,0,'Q1','08:00',true,now(),'away-a','home-a');
-  update public.pickem_weeks set closes_at=now()-interval '1 minute' where id=week_id;
+  if exists (select 1 from public.pickem_picks p join public.pickem_games g on g.id=p.pickem_game_id
+    where g.game_id='__score_correction__' and p.is_correct is not null)
+    then raise exception 'LIVE prematurely graded picks'; end if;
 end $$;
+commit;
+
+-- The standings view uses transaction time. Start a new transaction after the
+-- frozen close and kickoff; no deadline or lock is moved to make this pass.
+select pg_sleep(greatest(0,extract(epoch from
+  ((select closes_at from public.pickem_weeks where season=2097 and week=27)-clock_timestamp()))+0.15));
+begin;
 
 select set_config('request.jwt.claim.sub', (select value::text from correction_ids where key='member'), true);
 set local role authenticated;
@@ -125,3 +151,11 @@ do $$ begin
   exception when insufficient_privilege then null; end;
 end $$;
 rollback;
+
+begin;
+delete from public.pickem_contest_entries where week_id =
+  (select id from public.pickem_weeks where season=2097 and week=27 and title='__correction__');
+delete from public.pickem_weeks where season=2097 and week=27 and title='__correction__';
+delete from public.game_state where game_id='__score_correction__';
+delete from private.canonical_game_identity where game_id='__score_correction__';
+commit;
