@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
 
 type CaptchaSubmitProps = {
-  action: "signin" | "signup" | "password_reset";
+  action: "signin" | "signup" | "password_reset" | "password_change";
   label: string;
   siteKey?: string;
   schoolSlug?: string;

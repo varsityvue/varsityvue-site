@@ -1,6 +1,9 @@
 "use server";
 
 import { requireActiveMember } from "@/lib/member-access";
+import { captchaMessage, captchaToken, isCaptchaError } from "@/lib/auth-captcha";
+import { getSupabaseConfig } from "@/lib/supabase/config";
+import { createClient } from "@supabase/supabase-js";
 
 export type PasswordState = { status: "idle" | "error" | "success" | "nonce"; message: string };
 
@@ -14,9 +17,30 @@ export async function changePassword(_previous: PasswordState, formData: FormDat
   if (next.length < 8) return { status: "error", message: "Use a password with at least 8 characters." };
   if (next !== confirmation) return { status: "error", message: "The new passwords do not match." };
   if (next === current) return { status: "error", message: "Choose a different new password." };
-  const { supabase } = await requireActiveMember();
+  const token = captchaToken(formData);
+  if (!token) return { status: "error", message: captchaMessage };
+  const { supabase, userId } = await requireActiveMember();
+  const { data: userData, error: userError } = await supabase.auth.getUser();
+  if (userError || userData.user?.id !== userId || !userData.user.email)
+    return { status: "error", message: "Could not verify your account. Sign in again." };
+
+  // Verify the current password with Auth itself. The updateUser current_password
+  // parameter is only enforced if the project's optional Auth setting is enabled.
+  // This separate client never persists its temporary session or touches SSR cookies.
+  const { url, publishableKey } = getSupabaseConfig();
+  const verifier = createClient(url, publishableKey, {
+    auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+  });
+  const { data: verified, error: verificationError } = await verifier.auth.signInWithPassword({
+    email: userData.user.email, password: current, options: { captchaToken: token },
+  });
+  if (verificationError || verified.user?.id !== userId) {
+    return { status: "error", message: verificationError && isCaptchaError(verificationError)
+      ? captchaMessage : "The current password is incorrect." };
+  }
+  await verifier.auth.signOut({ scope: "local" });
   const { error } = await supabase.auth.updateUser({
-    current_password: current, password: next,
+    password: next,
     ...(typeof nonce === "string" && nonce.trim() ? { nonce: nonce.trim() } : {}),
   });
   if (error) {

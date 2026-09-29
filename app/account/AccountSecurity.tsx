@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useActionState } from "react";
 import { changePassword, type PasswordState } from "./security-actions";
+import { CaptchaSubmit } from "@/components/auth/captcha-submit";
 
 const initial: PasswordState = { status: "idle", message: "" };
 
@@ -18,7 +19,7 @@ export default function AccountSecurity() {
             className="mt-2 block w-full rounded-xl border border-white/20 bg-black/30 px-4 py-3 text-white" /></label>)}
         {state.status === "nonce" && <label className="text-sm font-semibold">Email reauthentication code
           <input name="nonce" required autoComplete="one-time-code" className="mt-2 block w-full rounded-xl border border-white/20 bg-black/30 px-4 py-3 text-white" /></label>}
-        <button disabled={pending} className="w-fit rounded-full bg-[var(--vv-primary)] px-5 py-3 font-bold disabled:opacity-50">{pending ? "Updating…" : "Change password"}</button>
+        <CaptchaSubmit action="password_change" label={pending ? "Updating…" : "Change password"} siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY} />
       </form>}
     {state.message && <p role={state.status === "error" ? "alert" : "status"} className="mt-3 text-sm">{state.message}</p>}
     <Link href="/forgot-password" className="mt-4 inline-block text-sm text-white/60 underline">Forgot your password?</Link>
