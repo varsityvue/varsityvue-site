@@ -41,8 +41,10 @@ declare
   week_id uuid;
   pickem_game_id uuid;
 begin
-  insert into public.pickem_weeks (season, week, title, status)
-  values (2097, 1, '__admin_outcome_audit__', 'open')
+  insert into public.pickem_weeks (season, week, title, status, opens_at, closes_at,
+    official_rules_version, official_rules_published_at)
+  values (2097, 1, '__admin_outcome_audit__', 'draft', now() - interval '1 hour',
+    now() + interval '3 hours', 'isolated-test', now() - interval '1 hour')
   returning id into week_id;
 
   insert into public.pickem_games (
@@ -50,6 +52,9 @@ begin
   ) values (
     week_id, '__admin_outcome_game__', now() + interval '2 hours', 'away-a', 'home-a'
   ) returning id into pickem_game_id;
+
+  update public.pickem_weeks set tiebreaker_game_id = pickem_game_id, status = 'open'
+  where id = week_id;
 
   insert into public.pickem_picks (pickem_game_id, user_id, picked_school_slug)
   values

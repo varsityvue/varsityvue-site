@@ -23,8 +23,10 @@ order by user_id
 limit 1;
 
 with inserted as (
-  insert into public.pickem_weeks (season, week, title, status)
-  values (2094, 1, '__pickem_rls_audit__', 'open')
+  insert into public.pickem_weeks (season, week, title, status, opens_at, closes_at,
+    official_rules_version, official_rules_published_at)
+  values (2094, 1, '__pickem_rls_audit__', 'draft', now() - interval '1 hour',
+    now() + interval '2 hours', 'isolated-test', now() - interval '1 hour')
   returning id
 )
 insert into pickem_audit_ids select 'week', id from inserted;
@@ -41,6 +43,9 @@ with inserted as (
   ) returning id
 )
 insert into pickem_audit_ids select 'game', id from inserted;
+
+update public.pickem_weeks set tiebreaker_game_id = (select value from pickem_audit_ids where key = 'game'),
+  status = 'open' where id = (select value from pickem_audit_ids where key = 'week');
 
 insert into public.pickem_picks (pickem_game_id, user_id, picked_school_slug)
 values
@@ -67,11 +72,14 @@ begin
   where pickem_game_id = (select value from pickem_audit_ids where key = 'game');
   if visible_rows <> 1 then raise exception 'Cross-member pick read leaked'; end if;
 
-  update public.pickem_picks set picked_school_slug = 'rls-away'
-  where pickem_game_id = (select value from pickem_audit_ids where key = 'game')
-    and user_id = (select value from pickem_audit_ids where key = 'member_b');
-  get diagnostics changed_rows = row_count;
-  if changed_rows <> 0 then raise exception 'Cross-member pick update succeeded'; end if;
+  begin
+    update public.pickem_picks set picked_school_slug = 'rls-away'
+    where pickem_game_id = (select value from pickem_audit_ids where key = 'game')
+      and user_id = (select value from pickem_audit_ids where key = 'member_b');
+    get diagnostics changed_rows = row_count;
+    if changed_rows <> 0 then raise exception 'Cross-member pick update succeeded'; end if;
+  exception when insufficient_privilege then null; -- Production also denies UPDATE at the table grant.
+  end;
 
   begin
     insert into public.pickem_picks (pickem_game_id, user_id, picked_school_slug)
