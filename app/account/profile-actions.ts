@@ -14,7 +14,7 @@ export async function saveUsername(_previous: UsernameState, formData: FormData)
     .select("username, username_changed_at").eq("id", userId).single();
   if (readError || !profile) return { status: "error", message: "Unauthorized or profile unavailable." };
   const candidate = validateUsername(raw, profile.username);
-  if (candidate.error === "invalid") return { status: "error", message: "Use 3–30 lowercase letters, numbers, or underscores only." };
+  if (candidate.error === "invalid") return { status: "error", message: "Use 3–30 letters, numbers, or underscores only." };
   if (candidate.error === "reserved") return { status: "error", message: "That username is reserved." };
   if (candidate.error === "no-op") return { status: "error", message: "That is already your username." };
   if (profile.username_changed_at) {
@@ -29,7 +29,7 @@ export async function saveUsername(_previous: UsernameState, formData: FormData)
       : /Reserved username/.test(error.message) ? "That username is reserved."
       : /cooldown/.test(error.message) ? "Your 30-day username change limit is still active. Refresh for the exact next eligible time."
       : /unchanged/.test(error.message) ? "That is already your username."
-      : /Invalid username/.test(error.message) ? "Use 3–30 lowercase letters, numbers, or underscores only."
+      : /Invalid username/.test(error.message) ? "Use 3–30 letters, numbers, or underscores only."
       : "Username could not be updated. Check your account status and try again.";
     return { status: "error", message };
   }

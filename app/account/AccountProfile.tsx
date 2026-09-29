@@ -31,8 +31,7 @@ export default function AccountProfile({ username, changedAt, displayName }: {
     {locked ? <p className="mt-3 text-sm text-amber-100">You can change it after {centralDateTime(next.toISOString())}.</p> :
       <form action={action} className="mt-4 flex max-w-lg flex-col gap-3 sm:flex-row sm:items-end">
         <label className="min-w-0 flex-1 text-sm font-semibold">New username
-          <input name="username" required minLength={3} maxLength={30} autoComplete="off" spellCheck={false}
-            pattern="[A-Za-z0-9_]{3,30}" aria-describedby="username-help"
+          <input name="username" required autoComplete="off" spellCheck={false} aria-describedby="username-help"
             className="mt-2 w-full rounded-xl border border-white/20 bg-black/30 px-4 py-3 text-white" />
         </label>
         <button disabled={pending} className="rounded-full bg-[var(--vv-primary)] px-5 py-3 font-bold disabled:opacity-50">
