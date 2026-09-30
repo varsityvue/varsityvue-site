@@ -1,3 +1,5 @@
+> HISTORICAL / SUPERSEDED — Week 5 snapshot. Its pre-cash tiebreaker/ranking/closure assumptions and pending-final safeguards are not current rules. Use `/pickem/rules`, current lifecycle code and [canonical roadmap](ROADMAP.md); weekly work lives in [Season Operations](2026-season-operations-plan.md). Preserve this document for release context, not current operational instructions.
+
 # Week 5 product audit operating notes
 
 ## School results and directory
