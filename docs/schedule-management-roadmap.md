@@ -1,7 +1,7 @@
 # VarsityVue Schedule Management Roadmap
 
-Status: DEFERRED IN SEASON — POST-SEASON / OFFSEASON  
-Recorded: September 2026  
+Status: DEFERRED IN SEASON — POST-SEASON / OFFSEASON
+Recorded: September 2026
 Current interim method: schedules are submitted manually and added through the existing repository-backed workflow.
 
 ## Why this work is deferred
