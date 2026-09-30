@@ -96,7 +96,10 @@ do $$ declare w uuid; picks jsonb; count_draft integer; entrant record; begin
  or has_table_privilege('authenticated','public.pickem_picks','INSERT')
  or has_table_privilege('authenticated','public.pickem_week_tiebreakers','UPDATE') then
   raise exception 'Direct sensitive data or pick write privilege remains'; end if;
- update public.pickem_weeks set presenting_sponsor_name='Unauthorized change' where id=w;
+ begin
+  update public.pickem_weeks set presenting_sponsor_name='Unauthorized change' where id=w;
+ exception when insufficient_privilege then null; -- Setup now requires an authorized RPC.
+ end;
  if (select presenting_sponsor_name from public.pickem_weeks where id=w) <> 'Gilder Storage' then
   raise exception 'Ordinary member altered presenting sponsor'; end if;
  for entrant in select * from test_ids where label in ('A','B','C','D') order by label loop
