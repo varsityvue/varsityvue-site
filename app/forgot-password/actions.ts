@@ -4,7 +4,13 @@ import { redirect } from "next/navigation";
 import { captchaToken, isCaptchaError } from "@/lib/auth-captcha";
 import { createClient } from "@/lib/supabase/server";
 
-const recoveryCallbackUrl = "https://varsityvue.com/auth/recovery";
+function recoveryCallbackUrl() {
+  const previewHost = process.env.VERCEL_ENV === "preview" ? process.env.VERCEL_URL : undefined;
+  if (previewHost && /^[a-z0-9-]+\.vercel\.app$/.test(previewHost)) {
+    return `https://${previewHost}/auth/recovery`;
+  }
+  return "https://varsityvue.com/auth/recovery";
+}
 
 function isEmail(value: string) {
   return (
@@ -28,7 +34,7 @@ export async function requestPasswordReset(formData: FormData) {
   const supabase = await createClient();
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
     captchaToken: token,
-    redirectTo: recoveryCallbackUrl,
+    redirectTo: recoveryCallbackUrl(),
   });
 
   if (error) {

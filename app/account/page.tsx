@@ -7,6 +7,8 @@ import { requireActiveMember } from "@/lib/member-access";
 import { getSchoolBySlug } from "@/lib/schools";
 import AccountFollowList from "@/components/AccountFollowList";
 import NotificationPreferences from "@/components/NotificationPreferences";
+import AccountProfile from "./AccountProfile";
+import AccountSecurity from "./AccountSecurity";
 
 function schoolHasCompleteIdentity(slug?: string) {
   if (!slug) return false;
@@ -69,7 +71,7 @@ export default async function AccountPage() {
   ] = await Promise.all([
     supabase
       .from("profiles")
-      .select("display_name, username, created_at")
+      .select("display_name, username, username_changed_at, created_at")
       .eq("id", userId)
       .maybeSingle(),
     supabase.from("user_roles").select("role").eq("user_id", userId),
@@ -167,7 +169,7 @@ export default async function AccountPage() {
           <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.3em]">
             {accountLabel}
           </p>
-          <h1 className="mt-3 text-3xl font-black sm:text-5xl">{displayName}</h1>
+          <h1 className="mt-3 text-3xl font-black [overflow-wrap:anywhere] sm:text-5xl">{displayName}</h1>
           <div className="mt-4 flex flex-wrap gap-2">
             {visibleRoles.map((role) => (
               <span key={role} className="rounded-full border border-white/10 bg-black/25 px-3 py-1 text-[9px] font-black uppercase tracking-[0.14em] text-white/55">
@@ -196,6 +198,8 @@ export default async function AccountPage() {
         </section>
 
         <nav aria-label="Account sections" className="mt-4 flex gap-2 overflow-x-auto pb-1">
+          <a href="#profile" className="shrink-0 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-[10px] font-black uppercase tracking-[0.12em] text-white/65">Profile</a>
+          <a href="#security" className="shrink-0 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-[10px] font-black uppercase tracking-[0.12em] text-white/65">Security</a>
           <a href="#followed-schools" className="shrink-0 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-[10px] font-black uppercase tracking-[0.12em] text-white/65 transition hover:border-white/25 hover:text-white">
             Followed Schools
           </a>
@@ -212,6 +216,9 @@ export default async function AccountPage() {
             </a>
           ) : null}
         </nav>
+
+        <AccountProfile username={profile?.username ?? null} changedAt={profile?.username_changed_at ?? null} displayName={displayName} />
+        <AccountSecurity />
 
         <div id="followed-schools" className="scroll-mt-24">
           <AccountFollowList initialFollows={followedSchools} staleFollowCount={staleFollowCount} />
