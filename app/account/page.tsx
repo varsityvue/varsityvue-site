@@ -169,7 +169,7 @@ export default async function AccountPage() {
           <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.3em]">
             {accountLabel}
           </p>
-          <h1 className="mt-3 text-3xl font-black sm:text-5xl">{displayName}</h1>
+          <h1 className="mt-3 text-3xl font-black [overflow-wrap:anywhere] sm:text-5xl">{displayName}</h1>
           <div className="mt-4 flex flex-wrap gap-2">
             {visibleRoles.map((role) => (
               <span key={role} className="rounded-full border border-white/10 bg-black/25 px-3 py-1 text-[9px] font-black uppercase tracking-[0.14em] text-white/55">
