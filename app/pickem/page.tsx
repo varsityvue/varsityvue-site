@@ -17,21 +17,25 @@ import { summarizePickemWeeks } from "@/lib/pickem-week-summary";
 import { getSchoolBySlug } from "@/lib/schools";
 import { createClient } from "@/lib/supabase/server";
 
+const pickemTitle = "VarsityVue Pick ’Em | Texas High School Football";
+const pickemDescription =
+  "Make your weekly Texas high school football picks. The winner receives $1 per valid accepted entry, up to $100. Free to play for Texas residents 18+.";
+
 export const metadata: Metadata = {
-  title: "Texas High School Football Pick ’Em",
-  description: "Pick the winners in VarsityVue’s weekly Texas high school football Pick ’Em. Every correct pick earns a point. Follow the season leaderboard.",
+  title: { absolute: pickemTitle },
+  description: pickemDescription,
   alternates: { canonical: "/pickem" },
   openGraph: {
-    title: "VarsityVue Pick ’Em | Pick the Winners",
-    description: "Make your weekly Texas high school football picks. Every correct pick earns a point. Follow the season leaderboard.",
+    title: pickemTitle,
+    description: pickemDescription,
     url: "/pickem",
     siteName: "VarsityVue",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "VarsityVue Pick ’Em | Pick the Winners",
-    description: "Make your weekly Texas high school football picks. Every correct pick earns a point. Follow the season leaderboard.",
+    title: pickemTitle,
+    description: pickemDescription,
   },
 };
 
