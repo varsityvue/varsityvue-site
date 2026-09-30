@@ -1,3 +1,5 @@
+> HISTORICAL / SUPERSEDED — unapproved early rules draft. Week 6 is now OPEN; current published Official Rules are https://varsityvue.com/pickem/rules and repository app/pickem/rules/page.tsx. Do not publish or restore this draft, its bracketed decisions, broader operator exclusions or obsolete identity wording. Current product priorities: [ROADMAP.md](ROADMAP.md).
+
 # VarsityVue Week 6 Pick ’Em — proposed Official Rules
 
 **DRAFT FOR OWNER AND LEGAL REVIEW. NOT PUBLISHED.**

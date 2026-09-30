@@ -1,5 +1,7 @@
 # Historical canonical identity reconciliation — REVIEW ONLY
 
+Status: STILL ACTIVE. September 30 read-only recheck confirms 29 verified FINAL rows still have both school slugs NULL. No repair performed. Handle as a bounded separately reviewed release, ideally after Week 6 unless an affected correction requires earlier action. Resolve or explicitly account for these rows before canonical schedule cutover. Priority authority: [ROADMAP.md](ROADMAP.md). September 28 mappings below must be revalidated before execution.
+
 Production snapshot: 2026-09-28, 30 game_state rows; 29 verified FINAL rows have both school slugs NULL. The Early at De Leon row is already complete. No repair SQL in this document has been executed.
 
 Mapping authority: getGames() at starting main e9cbb3b, captured in private.canonical_game_identity in migration 20260928223000. The repository game ID selects one explicit away/home pair. The ID text alone is not parsed to infer direction; the neutral-site “vs” game follows its repository away/home fields.
