@@ -6,6 +6,11 @@ export type PickemSponsorLogo = { name: string; path: `/sponsors/${string}` };
 
 export const pickemSponsorLogos: Readonly<Record<string, PickemSponsorLogo>> = {
   "2026-6": { name: "Gilder Storage", path: "/sponsors/gilder-storage-approved.png" },
+  "2026-7": { name: "Gilder Storage", path: "/sponsors/gilder-storage-approved.png" },
+  "2026-8": { name: "Gilder Storage", path: "/sponsors/gilder-storage-approved.png" },
+  "2026-9": { name: "Gilder Storage", path: "/sponsors/gilder-storage-approved.png" },
+  "2026-10": { name: "Gilder Storage", path: "/sponsors/gilder-storage-approved.png" },
+  "2026-11": { name: "Gilder Storage", path: "/sponsors/gilder-storage-approved.png" },
 };
 
 export function logoForPickemWeek(
