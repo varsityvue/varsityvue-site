@@ -46,12 +46,17 @@ Status: OPEN contest verified at September 30 snapshot; operational tasks below 
 
 ## Week 7 — October 9, 2026
 
-Status: PLANNED; no configured Pick ’Em week at September 30 snapshot.
+Status: PLANNED — owner editorial and Pick ’Em tiebreaker decisions recorded October 1, 2026; production configuration and publication NOT PERFORMED by this planning update. No configured Pick ’Em week at September 30 snapshot.
 
-- Editorial coverage: PLANNED source refresh from older editorial brief: 2A DI District 5 openers (Anson–Cisco, Abilene TLCA–Hico, De Leon–Hawley); 3A DII District 4 openers; Lampasas at Stephenville / 4A DI District 12. Update 3A DII District 5 and 2A DII Districts 7/8 as ongoing races, not new openers. No predictions/results invented.
-- Source checks: NOT VERIFIED — confirm canonical games, kickoff/venue, records and source rights before publishing.
-- Homepage editorial feature: NOT SELECTED — choose after Week 6 results; old brief does not automatically select a matchup.
-- Pick ’Em tiebreaker designation: NOT SELECTED — independent owner selection from the actual slate.
+- Editorial coverage: OWNER SELECTED — Featured Matchup / Game of the Week: Albany at Stamford, albany-at-stamford-2026-week-7. Existing article research/draft remains HOLD / NOT PUBLISHED.
+- Secondary matchup priority 1: De Leon at Hawley.
+- Secondary matchup priority 2: Rio Vista at Tolar.
+- Secondary matchup priority 3: Anson at Cisco.
+- Article publication gate: HOLD until Week 6 results are final for Albany vs Cross Plains and Stamford at Hamlin. Before publication, refresh both team records, Week 6 results, district standings, key player totals and article framing; confirm photo/source approval. Do not invent results before the games occur.
+- Source checks: NOT VERIFIED — confirm canonical games, kickoff/venue, refreshed records/statistics and source rights before publishing.
+- Homepage editorial feature: OWNER SELECTED — Albany at Stamford; production homepage editorial state NOT UPDATED by this plan.
+- Pick ’Em tiebreaker designation: OWNER SELECTED — Albany at Stamford, albany-at-stamford-2026-week-7; NOT CONFIGURED in production by this plan. Validate inclusion in the owner-approved slate during a separately authorized configuration action.
+- Editorial/contest independence: The owner intentionally selected Albany at Stamford for BOTH editorial Game of the Week and Pick ’Em tiebreaker this week. They remain separate decisions and separately stored concepts; do not infer future tiebreakers from editorial choices or reintroduce automatic coupling. This update does not call configure_pickem_draft or open_pickem_draft, save a production draft or open Week 7.
 - Pick ’Em slate: NOT CONFIGURED — 17 actual Week 7 games exist in repository; owner selects eligible slate (existing max 12) after source/time checks. Do not automatically include all 17.
 - Deadline verification: NOT VERIFIED — earliest included kickoff/frozen entry boundary and each lock, with Central timezone.
 - Score coverage owner: NOT ASSIGNED — name coverage per game; owner confirms before Friday.

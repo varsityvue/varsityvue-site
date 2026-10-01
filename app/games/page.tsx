@@ -304,10 +304,12 @@ export default async function GamesPage({ searchParams }: { searchParams: Promis
           <section className="mt-5 rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:mt-8 sm:rounded-[1.75rem] sm:p-6">
             <div className="mb-4 flex items-end justify-between gap-3 sm:mb-6">
               <div>
-                <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.28em]">
-                  {hasLiveGames ? "Live Score Strip" : hasFinalGames ? "Recent Results" : "Next Up"}
-                </p>
-                <h2 className="mt-1.5 text-xl font-black text-white sm:mt-2 sm:text-3xl">
+                {(hasLiveGames || !hasFinalGames) && (
+                  <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.28em]">
+                    {hasLiveGames ? "Live Score Strip" : "Next Up"}
+                  </p>
+                )}
+                <h2 className={`text-xl font-black text-white sm:text-3xl${hasLiveGames || !hasFinalGames ? " mt-1.5 sm:mt-2" : ""}`}>
                   {hasLiveGames ? "Live Scoreboard" : hasFinalGames ? "Latest Finals" : "Upcoming Games"}
                 </h2>
               </div>
@@ -331,15 +333,17 @@ export default async function GamesPage({ searchParams }: { searchParams: Promis
                       <p className="text-[9px] font-black uppercase tracking-[0.14em] text-[var(--vv-accent)] sm:text-[10px] sm:tracking-[0.18em]">
                         {formatStatus(game.status, game.gameType)} · {getGameTypeLabel(game.gameType, game.week)}
                       </p>
-                      <h3 className="mt-1.5 text-sm font-black leading-5 text-white sm:mt-2 sm:text-lg">
-                        {getAwayTeam(game)} at {getHomeTeam(game)}
-                      </h3>
-                      {game.status === "final" && game.awayScore !== undefined && game.homeScore !== undefined && (
-                        <p className="mt-2 text-lg font-black leading-none text-white sm:text-xl">
-                          {getAwayTeam(game)} {game.awayScore}
-                          <span className="mx-1.5 text-white/30">—</span>
-                          {getHomeTeam(game)} {game.homeScore}
-                        </p>
+                      {game.status === "final" && game.awayScore !== undefined && game.homeScore !== undefined ? (
+                        <div className="mt-2 grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-3 gap-y-1.5 text-lg font-black leading-5 text-white sm:text-xl sm:leading-6">
+                          <span className="min-w-0 break-words">{getAwayTeam(game)}</span>
+                          <span className="shrink-0 text-right tabular-nums">{game.awayScore}</span>
+                          <span className="min-w-0 break-words">{getHomeTeam(game)}</span>
+                          <span className="shrink-0 text-right tabular-nums">{game.homeScore}</span>
+                        </div>
+                      ) : (
+                        <h3 className="mt-1.5 text-sm font-black leading-5 text-white sm:mt-2 sm:text-lg">
+                          {getAwayTeam(game)} at {getHomeTeam(game)}
+                        </h3>
                       )}
                       <p className="mt-1.5 text-xs text-white/45 sm:mt-2 sm:text-sm">
                         {formatGameDate(game.kickoff)} · {formatGameTime(game.kickoff)}
