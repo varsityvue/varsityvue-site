@@ -15,7 +15,7 @@ export default async function PickemManagementPage({ searchParams }: { searchPar
   if (roleError || !roles?.some((row) => row.role === "moderator" || row.role === "admin")) redirect("/account");
   const [params, dynamicGames, { data: configuredWeeks, error: weekError }, { data: scheduleStates, error: scheduleError }] = await Promise.all([
     searchParams, getDynamicGames(),
-    supabase.from("pickem_weeks").select("id, week, title, status, configuration_revision, tiebreaker_game_id, opens_at, closes_at, entry_deadline_at, outcome_resolution_at, official_rules_version, official_rules_published_at, presenting_sponsor_name, pickem_games(id, game_id, sort_order, lock_at, graded_at)")
+    supabase.from("pickem_weeks").select("id, week, title, status, configuration_revision, tiebreaker_game_id, opens_at, closes_at, entry_deadline_at, outcome_resolution_at, official_rules_version, official_rules_published_at, presenting_sponsor_name, pickem_games!pickem_games_week_id_fkey(id, game_id, sort_order, lock_at, graded_at)")
       .eq("season", 2026).gte("week", 5).lte("week", 11),
     supabase.from("game_state").select("game_id, schedule_revision"),
   ]);
