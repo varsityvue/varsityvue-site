@@ -91,4 +91,55 @@ export const stephenvilleGameStats: GameStats[] = [
       { player: "Hudson Devivo", schoolSlug: "stephenville", receptions: 1, yards: 5, touchdowns: 1 },
     ],
   },
+  {
+    gameId: "stephenville-vs-canyon-west-plains-2026-week-5",
+    season: 2026,
+    sourceStatus: "verified",
+    sourceLabel: "Owner-verified Stephenville Week 5 offensive statistics",
+    completeness: [
+      {
+        schoolSlug: "stephenville",
+        categories: {
+          quarterScoring: { status: "unavailable", note: "Only the existing final score is retained; quarter splits were not supplied." },
+          scoringPlays: { status: "unavailable", note: "No scoring-play chronology or kicking statistics were supplied." },
+          teamStats: { status: "partial", note: "Only supplied rushing, passing and interception totals are represented." },
+          rushing: { status: "complete", note: "The supplied lines reconcile to 23 carries, 166 yards and two owner-confirmed rushing touchdowns." },
+          passing: { status: "partial", note: "Jordan's full passing line is supplied; passing/receiving touchdown attribution remains partial because two receiver touchdown values are unconfirmed." },
+          receiving: { status: "partial", note: "All 12 receptions and 255 yards reconcile; Jergins and Monk have three supplied touchdowns combined, while McClendon and Tally touchdown values remain unknown." },
+        },
+      },
+      {
+        schoolSlug: "canyon-west-plains",
+        categories: {
+          quarterScoring: { status: "unavailable", note: "Quarter splits were not supplied." },
+          scoringPlays: { status: "unavailable", note: "No scoring-play chronology was supplied." },
+          teamStats: { status: "unavailable", note: "Canyon West Plains statistics are outside this Stephenville-only update." },
+          rushing: { status: "unavailable", note: "No Canyon West Plains player statistics are included." },
+          passing: { status: "unavailable", note: "No Canyon West Plains player statistics are included." },
+          receiving: { status: "unavailable", note: "No Canyon West Plains player statistics are included." },
+        },
+      },
+    ],
+    quarterScores: [
+      { schoolSlug: "canyon-west-plains", quarters: [], total: 17 },
+      { schoolSlug: "stephenville", quarters: [], total: 35 },
+    ],
+    scoringPlays: [],
+    teamStats: [
+      { schoolSlug: "stephenville", rushingAttempts: 23, rushingYards: 166, passingYards: 255, completions: 12, passAttempts: 21, interceptionsThrown: 3 },
+    ],
+    rushing: [
+      { player: "Zyler McClendon", schoolSlug: "stephenville", attempts: 16, yards: 108, touchdowns: 1 },
+      { player: "Trot Jordan", schoolSlug: "stephenville", attempts: 7, yards: 58, touchdowns: 1 },
+    ],
+    passing: [
+      { player: "Trot Jordan", schoolSlug: "stephenville", completions: 12, attempts: 21, yards: 255, interceptions: 3, touchdowns: 3 },
+    ],
+    receiving: [
+      { player: "Zyler McClendon", schoolSlug: "stephenville", receptions: 1, yards: 7 },
+      { player: "Adan Jergins", schoolSlug: "stephenville", receptions: 4, yards: 112, touchdowns: 2 },
+      { player: "Pecos Tally", schoolSlug: "stephenville", receptions: 3, yards: 40 },
+      { player: "Caden Monk", schoolSlug: "stephenville", receptions: 4, yards: 96, touchdowns: 1 },
+    ],
+  },
 ];
