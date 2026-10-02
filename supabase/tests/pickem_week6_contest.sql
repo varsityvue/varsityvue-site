@@ -202,6 +202,9 @@ do $$ declare w uuid; expected text[]; actual text[]; begin
  where standing.week_id=w;
  expected := array['C','D','B','A'];
  if actual is distinct from expected then raise exception 'Ranking expected %, got %', expected, actual; end if;
+ if (select array_agg(display_name order by ordinal) from public.public_pickem_week_standings(w))
+ is distinct from array['Contest test C','Contest test D','Contest test B','Contest test A']
+ then raise exception 'Sanitized weekly ranking changed the contest order'; end if;
  if (select presenting_sponsor_name from public.pickem_weeks where id=w) <> 'Gilder Storage' then
   raise exception 'Sponsor attribution lost during grading'; end if;
  if (select valid_entries from public.pickem_contest_prize where week_id=w)<>4
@@ -463,7 +466,7 @@ do $$ declare w uuid; first_id uuid; later_id uuid; receipt timestamptz; begin
    or (select predicted_total from public.pickem_week_tiebreakers where week_id=w and user_id=auth.uid())<>58
    or (select valid_entries from public.pickem_contest_prize where week_id=w)<>1 then
   raise exception 'Existing entrant edit after internal close failed'; end if;
- if exists (select 1 from public.pickem_week_standings where week_id=w) then
+ if exists (select 1 from public.public_pickem_week_standings(w)) then
   raise exception 'Standings leaked while a later pick remained editable'; end if;
  if (select is_locked from public.pickem_game_cards where id=later_id) is distinct from false then
   raise exception 'Later game card falsely locked at internal week close'; end if;
