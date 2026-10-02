@@ -509,8 +509,10 @@ do $$ declare w uuid; later_id uuid; begin
   raise exception 'Later locked pick changed';
  exception when others then if sqlerrm='Later locked pick changed' then raise; end if; end;
  perform set_config('request.jwt.claim.sub',(select user_id::text from test_ids where label='B'),true);
- if not exists (select 1 from public.pickem_week_tiebreakers where week_id=w) then
-  raise exception 'Locked GOTW prediction remained hidden'; end if;
+ if exists (select 1 from public.pickem_week_tiebreakers where week_id=w) then
+  raise exception 'Locked prediction exposed another account UUID'; end if;
+ if not exists (select 1 from public.public_pickem_week_standings(w) where predicted_total=58) then
+  raise exception 'Locked GOTW presentation remained hidden'; end if;
 end $$;
 rollback;
 -- A separate disposable fixture compresses the Monday boundary to seconds.
