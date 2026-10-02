@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {createHmac} from 'node:crypto';
+import sharp from 'sharp';
 const vars=Object.fromEntries(readFileSync(process.env.UUID_LOCAL_ENV,'utf8').trim().split('\n').filter(x=>x.includes('=')).map(x=>{const i=x.indexOf('=');return [x.slice(0,i),x.slice(i+1).replace(/^"|"$/g,'')]}));
 const api=vars.API_URL;assert.match(api,/^http:\/\/(127\.0\.0\.1|localhost):54321$/);
 const key=vars.ANON_KEY;assert.ok(key);
@@ -51,6 +52,13 @@ assert.ok(post.status>=400);count++;
 const write=await fetch(api+'/rest/v1/team_feed_posts',{method:'POST',headers:{apikey:key,Authorization:'Bearer '+jwt(actor(4)),'Content-Type':'application/json'},body:JSON.stringify({id:'00000000-0000-4000-8000-000000000898',primary_school_id:'stephenville',source_type:'varsityvue',status:'draft',caption:'UUID API draft',created_by:actor(4)})});assert.equal(write.status,201);count++;
 await empty('team_feed_posts?select=id,caption&caption=eq.UUID%20API%20draft');
 const adminDraft=await req('team_feed_posts?select=id,caption&caption=eq.UUID%20API%20draft',actor(4));assert.equal(adminDraft.status,200);assert.equal(adminDraft.data.length,1);count++;
+// Actual public media delivery and unchanged published-post embedding.
+const image=await sharp({create:{width:1,height:1,channels:3,background:'#000000'}}).webp().toBuffer();
+const upload=await fetch(api+'/storage/v1/object/team-feed-public/uuid-hardening-fixture.webp',{method:'POST',headers:{apikey:key,Authorization:'Bearer '+vars.SERVICE_ROLE_KEY,'Content-Type':'image/webp'},body:image});assert.equal(upload.status,200);count++;
+sql(`insert into public.team_feed_media(post_id,public_path,alt_text,width,height,byte_size,mime_type) values('00000000-0000-4000-8000-000000000898','uuid-hardening-fixture.webp','UUID fixture media',1,1,${image.length},'image/webp');`);
+const publish=await fetch(api+'/rest/v1/team_feed_posts?id=eq.00000000-0000-4000-8000-000000000898',{method:'PATCH',headers:{apikey:key,Authorization:'Bearer '+jwt(actor(4)),'Content-Type':'application/json'},body:JSON.stringify({status:'published',published_at:new Date().toISOString()})});assert.equal(publish.status,204);count++;
+const publicPost=await req('team_feed_posts?select=id,caption,team_feed_media(id,public_path,alt_text)&id=eq.00000000-0000-4000-8000-000000000898');assert.equal(publicPost.status,200);assert.equal(publicPost.data[0].team_feed_media.length,1);assert.ok(!('created_by'in publicPost.data[0]));count++;
+const media=await fetch(api+'/storage/v1/object/public/team-feed-public/uuid-hardening-fixture.webp');assert.equal(media.status,200);assert.equal((await media.arrayBuffer()).byteLength,image.length);count++;
 // Genuine assigned LIVE publication after hardening, from a local account JWT.
 const state=view.data[0];const published=await req('rpc/submit_assigned_scorekeeper_update',actor(5),{p_game_id:'__uuid_api__',p_home_score:14,p_away_score:0,p_period:'1st',p_clock:'10:00',p_expected_state_updated_at:state.updated_at,p_expected_state_revision:state.score_revision,p_confirm_score_decrease:false});assert.equal(published.status,200,JSON.stringify(published));count++;
 const after=await req('rpc/public_score_states',null,{});const current=after.data.find(x=>x.game_id==='__uuid_api__');assert.equal(current.home_score,14);assert.equal(current.attribution_username,'uuid_api_keeper');count++;

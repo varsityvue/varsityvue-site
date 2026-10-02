@@ -29,7 +29,27 @@ jobs:
         with:
           version: 2.119.0
       - run: supabase init
-      - run: supabase start -x studio,imgproxy,storage-api,realtime,edge-runtime,logflare,vector,supavisor,inbucket
+      - run: supabase start -x studio,imgproxy,realtime,edge-runtime,logflare,vector,supavisor,inbucket
+      - name: Stage A remains compatible before restrictions
+        run: |
+          later=supabase/migrations/20261002200333_public_uuid_restrict_legacy_reads.sql
+          mv "$later" "$RUNNER_TEMP/uuid-stage-c.sql"
+          trap 'mv "$RUNNER_TEMP/uuid-stage-c.sql" "$later"' EXIT
+          supabase db reset --local --no-seed
+          PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres <<'SQL'
+          do $$ begin
+            if not has_column_privilege('anon','public.profiles','id','SELECT')
+              or not has_column_privilege('anon','public.game_state','updated_by','SELECT')
+              or not has_table_privilege('anon','public.pickem_standings','SELECT') then
+              raise exception 'Stage A prematurely restricted legacy readers';
+            end if;
+          end $$;
+          set role anon;
+          select * from public.public_pickem_season_standings(2026);
+          select * from public.public_game_state;
+          SQL
+          mv "$RUNNER_TEMP/uuid-stage-c.sql" "$later"
+          trap - EXIT
       - run: supabase db reset --local --no-seed
       - name: Public UUID database security tests
         run: PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f supabase/tests/public_uuid_hardening.sql
