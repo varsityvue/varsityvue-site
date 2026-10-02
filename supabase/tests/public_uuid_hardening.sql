@@ -55,6 +55,7 @@ select pg_temp.denied('select created_by from public.team_feed_posts','feed crea
 select pg_temp.denied('select * from public.team_feed_posts','feed wildcard');
 select pg_temp.denied('select created_by from public.school_roster_players','roster creator');
 select pg_temp.denied('select created_by from public.pickem_weeks','week creator');
+select pg_temp.denied('select * from public.internal_pickem_weeks','anon full configuration');
 select pg_temp.denied('select * from private.pickem_entrant_phones','private phones');
 select pg_temp.assert_true((select count(*) from public.public_game_state where game_id='__uuid_game__')=1,'public scores');
 select pg_temp.assert_true((select count(*) from public.team_feed_posts where caption='UUID fixture')=1,'feed explicit safe fields');
@@ -71,6 +72,7 @@ select pg_temp.assert_true((select count(*) from public.pickem_member_totals whe
 select pg_temp.assert_true((select season_rank from public.own_pickem_season_summary(2095))=1,'own rank aggregate');
 select pg_temp.assert_true((select count(*) from public.score_submission_events)=0,'report owner raw events denied');
 select pg_temp.assert_true((select count(*) from public.internal_score_submissions)=0,'member review view denied');
+select pg_temp.assert_true((select count(*) from public.internal_pickem_weeks)=0,'member full configuration denied');
 select pg_temp.assert_true((select count(*) from public.game_state)=0,'member actor base rows denied');
 select pg_temp.denied('select reviewed_by from public.score_submissions','owner reviewer identity');
 select pg_temp.denied('select review_note from public.score_submissions','owner private review note');

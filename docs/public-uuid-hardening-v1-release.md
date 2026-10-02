@@ -24,6 +24,7 @@ Rollback after Stage C cannot restore the old application alone: old leaderboard
 - `internal_pickem_week_standings(uuid)`: active reviewer only; internal stable identity preserved.
 - `own_score_report_status()`: active current account only; report object ID, numeric tuple, status and times; no actor/reviewer/source/note/payload.
 - `public_game_state`: verified rows only; explicit safe score/canonical/revision fields, no actor or source submission.
+- `internal_pickem_weeks` (added with Stage C): active reviewer only; preserves full internal configuration snapshots.
 - `internal_score_submissions`: active reviewer guard; explicit review fields, no ordinary-owner access.
 - `internal_publication_provenance(text,text)`: active reviewer only; feed provenance additionally requires admin. Supports game/week/roster/feed identifiers, not arbitrary relation names.
 

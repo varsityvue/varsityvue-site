@@ -1,4 +1,11 @@
 -- Stage C: STOP before applying until Stage A and migrated application are live.
+-- Privileged full configuration snapshots remain possible without public creator reads.
+create view public.internal_pickem_weeks with(security_barrier=true) as
+ select id,season,week,title,status,opens_at,closes_at,created_by,created_at,updated_at,tiebreaker_game_id,
+ entry_deadline_at,outcome_resolution_at,official_rules_version,official_rules_published_at,
+ presenting_sponsor_name,configuration_revision from public.pickem_weeks where private.can_moderate_scores();
+revoke all on public.internal_pickem_weeks from public,anon,authenticated;
+grant select on public.internal_pickem_weeks to authenticated;
 -- Release must use --include-all only if independently needed; never push both stages together.
 drop policy "Profiles are publicly readable" on public.profiles;
 create policy "Profiles readable by self or trusted reviewers" on public.profiles for select to authenticated
