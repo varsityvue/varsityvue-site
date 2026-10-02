@@ -111,9 +111,7 @@ export default async function PickemSubmissionsPage({ searchParams }: PageProps)
       .eq("week_id", selectedWeek!.id)
     : { data: [] };
   const { data: contestStandings } = contestWeek
-    ? await supabase.from("pickem_week_standings")
-      .select("user_id, display_name, correct_picks, predicted_total, actual_total, distance, weekly_rank")
-      .eq("week_id", selectedWeek!.id).order("weekly_rank").limit(3)
+    ? await supabase.rpc("internal_pickem_week_standings", { p_week_id: selectedWeek!.id }).order("weekly_rank").limit(3)
     : { data: null };
   const { data: winnerContact } = contestWeek
     ? await supabase.rpc("admin_pickem_provisional_winner_contact", { p_week_id: selectedWeek!.id })

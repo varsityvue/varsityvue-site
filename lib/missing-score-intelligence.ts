@@ -18,7 +18,7 @@ export async function syncMissingScoreIntelligence() {
   const { url, publishableKey } = getSupabaseConfig();
   const client = createClient(url, publishableKey, { auth: { persistSession: false, autoRefreshToken: false } });
   const { data: states, error: stateError } = await client
-    .from("game_state")
+    .from("public_game_state")
     .select("game_id, status, verified, kickoff_override");
   if (stateError) {
     console.error("Missing-score scan could not read game state.", { code: stateError.code });
