@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 
 import { requireActiveMember } from "@/lib/member-access";
 import CampaignLinkBuilder from "@/components/internal/CampaignLinkBuilder";
+import PickemConversionReport from "@/components/internal/PickemConversionReport";
+import type { PickemConversionReport as PickemReport } from "@/lib/pickem-conversion-report";
 
 export const metadata: Metadata = {
   title: "Conversion Dashboard",
@@ -54,7 +56,10 @@ export default async function ConversionDashboardPage({ searchParams }: PageProp
   if (!roles?.some((row) => row.role === "admin")) redirect("/account");
 
   const days = selectedDays((await searchParams).days);
-  const { data, error } = await supabase.rpc("admin_conversion_dashboard", { range_days: days });
+  const [{ data, error }, { data: pickemData, error: pickemError }] = await Promise.all([
+    supabase.rpc("admin_conversion_dashboard", { range_days: days }),
+    supabase.rpc("admin_pickem_conversion_report", { p_season: 2026 }),
+  ]);
   const dashboard = data as DashboardData | null;
   const summary = dashboard?.summary;
   const maxDaily = Math.max(1, ...(dashboard?.daily_accounts ?? []).map((row) => row.accounts));
@@ -63,7 +68,7 @@ export default async function ConversionDashboardPage({ searchParams }: PageProp
     ["Email confirmed", summary.confirmed_accounts],
     ["Followed a school or made a pick", summary.activated_accounts],
     ["Enabled an email alert", summary.notification_opt_ins],
-    ["Completed a slate", summary.complete_slate_members],
+    ["Completed public selections in a week", summary.complete_slate_members],
   ] as const : [];
 
   return (
@@ -73,12 +78,15 @@ export default async function ConversionDashboardPage({ searchParams }: PageProp
           <div>
             <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--vv-accent)]">Admin · Growth</p>
             <h1 className="mt-3 text-4xl font-black sm:text-5xl">Conversion Dashboard</h1>
-            <p className="mt-4 max-w-3xl text-sm leading-7 text-white/50">Authoritative account and Pick ’Em outcomes. Page views and Facebook clicks remain in Vercel Analytics; this dashboard measures what actually became a member.</p>
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-white/50">Member conversion and receipt-based Pick ’Em reporting are separate. Page views and click events remain in Vercel Analytics.</p>
           </div>
           <Link href="/account#platform-tools" className="text-sm font-bold text-white/50 transition hover:text-white">← Admin tools</Link>
         </header>
 
-        <nav aria-label="Reporting period" className="mt-6 flex gap-2">
+        <h2 className="mt-8 text-xs font-black uppercase tracking-[0.18em] text-[var(--vv-accent)]">Member Conversion</h2>
+        <p className="mt-2 text-xs leading-5 text-white/40">Accounts created in the selected period, with their current adoption state. Active status differs from email confirmation. Public saved picks include historical pre-cash activity and exclude private drafts; they do not establish accepted cash-contest entries.</p>
+
+        <nav aria-label="Member reporting period" className="mt-6 flex gap-2">
           {[7, 30, 90].map((option) => <Link key={option} href={`/internal/conversions?days=${option}`} className={`rounded-full border px-4 py-2 text-xs font-black ${days === option ? "border-[var(--vv-primary)] bg-[var(--vv-primary)]" : "border-white/10 bg-white/[0.04] text-white/55"}`}>{option} days</Link>)}
         </nav>
 
@@ -90,27 +98,27 @@ export default async function ConversionDashboardPage({ searchParams }: PageProp
           <>
             <section className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
               {[
-                ["Total Members", summary.total_members],
+                ["Total Accounts", summary.total_members],
                 [`New · ${days} Days`, summary.new_accounts],
                 ["Confirmation Rate", percent(summary.confirmed_accounts, summary.new_accounts)],
-                ["New-Member Pick Rate", percent(summary.pickem_participants, summary.new_accounts)],
+                ["New-Member Public-Pick Adoption", percent(summary.pickem_participants, summary.new_accounts)],
               ].map(([metric, value]) => <div key={metric} className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 sm:p-5"><p className="text-[9px] font-black uppercase tracking-[0.14em] text-white/35">{metric}</p><p className="mt-2 text-3xl font-black">{value}</p></div>)}
             </section>
 
             <section className="mt-6 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
               <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-5 sm:p-6">
-                <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[var(--vv-accent)]">Member Funnel · {days} Days</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[var(--vv-accent)]">Member Adoption · {days} Days</p>
                 <div className="mt-5 space-y-4">
                   {funnel.map(([name, count], index) => <div key={name}><div className="flex items-center justify-between text-sm"><span className="font-bold text-white/70">{name}</span><span className="font-black">{count} <span className="ml-1 text-[10px] text-white/35">{index === 0 ? "100%" : percent(count, summary.new_accounts)}</span></span></div><div className="mt-2 h-2 overflow-hidden rounded-full bg-white/[0.06]"><div className="h-full rounded-full bg-[var(--vv-primary)]" style={{ width: `${summary.new_accounts > 0 ? Math.max(2, (count / summary.new_accounts) * 100) : 0}%` }} /></div></div>)}
                 </div>
               </div>
 
               <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-5 sm:p-6">
-                <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[var(--vv-accent)]">All-Time Pick ’Em</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[var(--vv-accent)]">All-Time Public-Pick Activity</p>
                 <div className="mt-5 grid grid-cols-3 gap-2">
-                  {[["Participants", dashboard.pickem.participants], ["Saved Picks", dashboard.pickem.saved_picks], ["Complete Slates", dashboard.pickem.complete_slates]].map(([metric, value]) => <div key={metric} className="rounded-xl border border-white/10 bg-black/20 p-3"><p className="text-2xl font-black">{value}</p><p className="mt-1 text-[9px] font-bold uppercase tracking-[0.1em] text-white/35">{metric}</p></div>)}
+                  {[["Members With Public Picks", dashboard.pickem.participants], ["Public Pick Rows", dashboard.pickem.saved_picks], ["Complete Public User/Week Slates", dashboard.pickem.complete_slates]].map(([metric, value]) => <div key={metric} className="rounded-xl border border-white/10 bg-black/20 p-3"><p className="text-2xl font-black">{value}</p><p className="mt-1 text-[9px] font-bold uppercase tracking-[0.1em] text-white/35">{metric}</p></div>)}
                 </div>
-                <p className="mt-4 text-xs leading-5 text-white/35">A participant has saved at least one pick. A complete slate means every game in a weekly slate was selected.</p>
+                <p className="mt-4 text-xs leading-5 text-white/35">These counts use public picks only. Complete slates count member/week combinations with every configured game selected, including Week 5. They are not valid accepted cash-contest entries.</p>
               </div>
             </section>
 
@@ -129,25 +137,27 @@ export default async function ConversionDashboardPage({ searchParams }: PageProp
             <section className="mt-6 rounded-2xl border border-white/10 bg-white/[0.035] p-5 sm:p-6">
               <div className="flex flex-wrap items-end justify-between gap-3"><div><p className="text-[10px] font-black uppercase tracking-[0.18em] text-[var(--vv-accent)]">Program Attribution</p><h2 className="mt-1 text-xl font-black">Schools driving membership</h2></div><p className="text-[10px] text-white/30">Follow-driven signups</p></div>
               <div className="mt-4 divide-y divide-white/10">
-                {dashboard.school_breakdown.length ? dashboard.school_breakdown.map((row) => <div key={row.school} className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-3 py-3 text-sm"><span className="min-w-0 font-bold text-white/70">{label(row.school)}</span><span className="text-right"><strong>{row.accounts}</strong><small className="block text-[9px] uppercase text-white/30">Accounts</small></span><span className="text-right"><strong>{row.confirmed}</strong><small className="block text-[9px] uppercase text-white/30">Confirmed</small></span><span className="text-right"><strong>{row.activated}</strong><small className="block text-[9px] uppercase text-white/30">Activated</small><small className="block text-[9px] text-white/25">{percent(row.activated, row.accounts)} · {row.notifications} alerts</small></span></div>) : <p className="py-5 text-sm text-white/40">School attribution begins with new follow-driven registrations after this release.</p>}
+                {dashboard.school_breakdown.length ? dashboard.school_breakdown.map((row) => <div key={row.school} className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-3 py-3 text-sm"><span className="min-w-0 font-bold text-white/70">{label(row.school)}</span><span className="text-right"><strong>{row.accounts}</strong><small className="block text-[9px] uppercase text-white/30">Accounts</small></span><span className="text-right"><strong>{row.confirmed}</strong><small className="block text-[9px] uppercase text-white/30">Confirmed</small></span><span className="text-right"><strong>{row.activated}</strong><small className="block text-[9px] uppercase text-white/30">Follow or public pick</small><small className="block text-[9px] text-white/25">{percent(row.activated, row.accounts)} · {row.notifications} alerts</small></span></div>) : <p className="py-5 text-sm text-white/40">School attribution begins with new follow-driven registrations after this release.</p>}
               </div>
             </section>
 
             <section className="mt-6 rounded-2xl border border-white/10 bg-white/[0.035] p-5 sm:p-6">
-              <h2 className="text-xl font-black">Facebook campaigns</h2>
+              <h2 className="text-xl font-black">Signup attribution · Facebook-tagged accounts</h2>
+              <p className="mt-2 text-xs leading-5 text-white/40">Existing signup metadata only. These counts do not establish Facebook-to-accepted-entry conversion or contest retention.</p>
               <div className="mt-4 divide-y divide-white/10">
-                {dashboard.campaign_breakdown.length ? dashboard.campaign_breakdown.map((row) => <div key={row.campaign} className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-4 py-3 text-sm"><span className="min-w-0 truncate font-bold text-white/70">{label(row.campaign)}</span><span className="text-right"><strong>{row.accounts}</strong><small className="block text-[9px] uppercase text-white/30">Accounts</small></span><span className="text-right"><strong>{row.confirmed}</strong><small className="block text-[9px] uppercase text-white/30">Confirmed</small></span><span className="text-right"><strong>{row.pickem_participants}</strong><small className="block text-[9px] uppercase text-white/30">Players</small></span></div>) : <p className="py-5 text-sm text-white/40">No tagged Facebook account conversions yet.</p>}
+                {dashboard.campaign_breakdown.length ? dashboard.campaign_breakdown.map((row) => <div key={row.campaign} className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-4 py-3 text-sm"><span className="min-w-0 truncate font-bold text-white/70">{label(row.campaign)}</span><span className="text-right"><strong>{row.accounts}</strong><small className="block text-[9px] uppercase text-white/30">Accounts</small></span><span className="text-right"><strong>{row.confirmed}</strong><small className="block text-[9px] uppercase text-white/30">Confirmed</small></span><span className="text-right"><strong>{row.pickem_participants}</strong><small className="block text-[9px] uppercase text-white/30">Public-pick members</small></span></div>) : <p className="py-5 text-sm text-white/40">No tagged Facebook account conversions yet.</p>}
               </div>
             </section>
 
             <p className="mt-5 text-xs leading-5 text-white/30">Intent and source attribution begins with accounts created after this release. Older accounts and untagged links appear as Unknown or Direct/Other instead of being guessed.</p>
           </>
         )}
+        <PickemConversionReport report={pickemError ? null : pickemData as PickemReport | null} />
       </div>
     </main>
   );
 }
 
 function Breakdown({ title, rows, keyName, showPickem = false, showActivation = false }: { title: string; rows: BreakdownRow[]; keyName: "intent" | "source"; showPickem?: boolean; showActivation?: boolean }) {
-  return <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-5 sm:p-6"><h2 className="text-xl font-black">{title}</h2><div className="mt-4 divide-y divide-white/10">{rows.length ? rows.map((row) => { const key = row[keyName] ?? "unknown"; return <div key={key} className={`grid ${showPickem || showActivation ? "grid-cols-[1fr_auto_auto_auto]" : "grid-cols-[1fr_auto_auto]"} items-center gap-3 py-3 text-sm`}><span className="min-w-0 font-bold text-white/70">{label(key)}</span><span className="text-right"><strong>{row.accounts}</strong><small className="block text-[9px] uppercase text-white/30">Accounts</small></span><span className="text-right"><strong>{row.confirmed}</strong><small className="block text-[9px] uppercase text-white/30">Confirmed</small></span>{showPickem ? <span className="text-right"><strong>{row.pickem_participants ?? 0}</strong><small className="block text-[9px] uppercase text-white/30">Players</small></span> : null}{showActivation ? <span className="text-right"><strong>{row.activated ?? 0}</strong><small className="block text-[9px] uppercase text-white/30">Activated</small><small className="block text-[9px] text-white/25">{percent(row.activated ?? 0, row.accounts)} · {row.notifications ?? 0} alerts</small></span> : null}</div>; }) : <p className="py-5 text-sm text-white/40">No accounts in this period.</p>}</div>{showActivation ? <p className="mt-3 border-t border-white/10 pt-3 text-[10px] leading-4 text-white/30">Activated means the member followed a school or saved at least one Pick ’Em selection. Alerts counts members with at least one email notification enabled.</p> : null}</div>;
+  return <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-5 sm:p-6"><h2 className="text-xl font-black">{title}</h2><div className="mt-4 divide-y divide-white/10">{rows.length ? rows.map((row) => { const key = row[keyName] ?? "unknown"; return <div key={key} className={`grid ${showPickem || showActivation ? "grid-cols-[1fr_auto_auto_auto]" : "grid-cols-[1fr_auto_auto]"} items-center gap-3 py-3 text-sm`}><span className="min-w-0 font-bold text-white/70">{label(key)}</span><span className="text-right"><strong>{row.accounts}</strong><small className="block text-[9px] uppercase text-white/30">Accounts</small></span><span className="text-right"><strong>{row.confirmed}</strong><small className="block text-[9px] uppercase text-white/30">Confirmed</small></span>{showPickem ? <span className="text-right"><strong>{row.pickem_participants ?? 0}</strong><small className="block text-[9px] uppercase text-white/30">Public-pick members</small></span> : null}{showActivation ? <span className="text-right"><strong>{row.activated ?? 0}</strong><small className="block text-[9px] uppercase text-white/30">Follow or public pick</small><small className="block text-[9px] text-white/25">{percent(row.activated ?? 0, row.accounts)} · {row.notifications ?? 0} alerts</small></span> : null}</div>; }) : <p className="py-5 text-sm text-white/40">No accounts in this period.</p>}</div>{showActivation ? <p className="mt-3 border-t border-white/10 pt-3 text-[10px] leading-4 text-white/30">General member adoption means the member currently follows a school or has at least one public Pick ’Em selection. Alerts counts members with at least one email notification enabled.</p> : null}</div>;
 }
