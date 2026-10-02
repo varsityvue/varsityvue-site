@@ -32,7 +32,7 @@ for(const sub of [actor(1),actor(5)]){
  await denied('score_submissions?select=*',sub);
  await empty('profiles?select=id&id=eq.'+actor(2),sub);
  await empty('game_state?select=updated_by&game_id=eq.__uuid_api__',sub);
- await denied('rpc/internal_pickem_week_standings',sub); // wrong HTTP shape also fails closed
+ const internal=await req('rpc/internal_pickem_week_standings',sub,{p_week_id:'00000000-0000-4000-8000-000000000899'});assert.equal(internal.data.code,'42501');count++;
  const status=await req('rpc/own_score_report_status',sub,{});assert.equal(status.status,200);for(const row of status.data)assert.ok(!['reviewed_by','submitted_by','payload','review_note'].some(x=>x in row));count++;
 }
 for(const sub of [actor(3),actor(4)]){const events=await req('score_submission_events?select=actor_id,payload&limit=1',sub);assert.equal(events.status,200);assert.equal(events.data.length,1);count++}
