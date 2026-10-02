@@ -59,7 +59,7 @@ select pg_temp.denied('select * from private.pickem_entrant_phones','private pho
 select pg_temp.assert_true((select count(*) from public.public_game_state where game_id='__uuid_game__')=1,'public scores');
 select pg_temp.assert_true((select count(*) from public.team_feed_posts where caption='UUID fixture')=1,'feed explicit safe fields');
 select pg_temp.assert_true((select count(*) from public.school_roster_players where school_slug='uuid-away')=1,'roster explicit fields');
-select pg_temp.assert_true((select count(*) from public.score_submission_events)=0,'anon events denied by RLS');
+select pg_temp.denied('select * from public.score_submission_events','anon raw events');
 select pg_temp.assert_true((select count(*) from public.public_pickem_season_standings(2095))=3,'public contextual identities');
 select pg_temp.assert_true(not exists(select 1 from public.public_pickem_season_standings(2095) s where to_jsonb(s)?'user_id'),'public rank shape');
 select pg_temp.denied('select * from public.own_score_report_status()','anon report RPC');
@@ -108,6 +108,8 @@ reset role;
 select pg_temp.assert_true(not has_table_privilege('authenticated','public.score_submission_events','INSERT'),'event insert grant removed');
 select pg_temp.assert_true(not has_table_privilege('authenticated','public.score_submission_events','UPDATE'),'event update grant removed');
 select pg_temp.assert_true(not has_table_privilege('authenticated','public.score_submission_events','DELETE'),'event delete grant removed');
+select pg_temp.assert_true(not has_table_privilege('authenticated','public.score_submission_events','TRUNCATE'),'event truncate grant removed');
+select pg_temp.assert_true(has_table_privilege('service_role','public.profiles','SELECT') and has_table_privilege('service_role','public.game_state','SELECT'),'server reads preserved');
 select pg_temp.assert_true(not has_column_privilege('anon','public.game_state','updated_by','SELECT'),'effective actor grant');
 select pg_temp.assert_true(not has_column_privilege('authenticated','public.team_feed_posts','created_by','SELECT'),'effective feed actor grant');
 select pg_temp.assert_true(not exists(select 1 from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname in('public_pickem_season_standings','public_pickem_week_standings','own_pickem_season_summary','own_score_report_status','internal_pickem_week_standings','internal_publication_provenance') and (not p.prosecdef or p.proconfig is distinct from array['search_path=""'])),'fixed definer contracts');

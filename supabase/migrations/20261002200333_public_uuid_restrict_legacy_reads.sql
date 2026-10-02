@@ -15,7 +15,8 @@ create policy "Predictions readable by active owner or reviewers" on public.pick
 drop policy "Active users can read events for visible submissions" on public.score_submission_events;
 create policy "Raw scoring events readable by trusted reviewers" on public.score_submission_events for select to authenticated
  using(private.can_moderate_scores());
-revoke insert,update,delete on public.score_submission_events from public,anon,authenticated;
+revoke all on public.score_submission_events from public,anon,authenticated;
+grant select on public.score_submission_events to authenticated;
 -- Operators retain full state reads, including invoker Score Scout lock/invariant reads.
 -- Ordinary members use the verified, explicitly sanitized public_game_state projection.
 drop policy "Verified game state is readable to members" on public.game_state;
