@@ -71,6 +71,15 @@ language sql stable security definer set search_path = '' as $$
           and a.corrected_state = jsonb_build_object('status',g.status,'away_score',g.away_score,
             'home_score',g.home_score,'period',g.period,'clock',g.clock,'result_type',g.result_type,
             'official_winner_school_slug',g.official_winner_school_slug,'outcome_revision',g.outcome_revision)
+      ) or exists (
+        select 1 from private.game_outcome_audit a
+        where a.game_id=g.game_id and a.new_outcome_revision=g.outcome_revision
+          and a.new_status=g.status and a.new_verified=g.verified
+          and a.new_result_type=g.result_type
+          and a.new_away_score is not distinct from g.away_score
+          and a.new_home_score is not distinct from g.home_score
+          and a.new_official_winner_school_slug is not distinct from g.official_winner_school_slug
+          and a.new_verified_at is not distinct from g.verified_at
       ) as corrected
     from public.game_state g where g.verified
   ), classified as (

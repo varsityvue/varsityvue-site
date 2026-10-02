@@ -8,6 +8,7 @@ on:
       - 'supabase/migrations/*public_live_score_attribution.sql'
       - 'supabase/tests/public_score_attribution.sql'
       - 'lib/public-score-*'
+      - 'scripts/test-public-score-attribution-browser.mjs'
       - 'components/ScoreAttribution.tsx'
       - 'lib/dynamic-games.ts'
       - 'lib/scoreboard.ts'
@@ -50,3 +51,32 @@ jobs:
           for file in friday_scoring_operations game_score_corrections pickem_score_integration pickem_scoreless_outcome_origination; do
             PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f "supabase/tests/$file.sql" || exit 1
           done
+      - name: Existing concurrent scoring regressions
+        run: |
+          PGPASSWORD=postgres bash supabase/tests/friday_scoring_race.sh
+
+      - name: Browser dependencies (no repository dependency changes)
+        run: |
+          npm install --no-save --package-lock=false playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Disposable public score fixture from actual RPC
+        run: |
+          PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres <<'SQL'
+          update public.profiles set username='abcdefghijklmnopqrstuvwxyz1234' where id='00000000-0000-4000-8000-000000000901';
+          select set_config('request.jwt.claim.sub','00000000-0000-4000-8000-000000000901',false);
+          set role authenticated;
+          select public.submit_trusted_score_update('goldthwaite-at-miles-2026-week-6',0,7,'live','1st','08:00',null,null,null,true);
+          reset role;
+          update public.game_state set kickoff_override=now()-interval '1 minute' where game_id='goldthwaite-at-miles-2026-week-6';
+          SQL
+          PGPASSWORD=postgres psql -X -At -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -c "select jsonb_agg(s) from public.public_score_states() s where game_id='goldthwaite-at-miles-2026-week-6'" > "$RUNNER_TEMP/attribution-browser-fixture.json"
+      - name: Responsive mounted-page verification
+        env:
+          ATTRIBUTION_BROWSER_FIXTURE: ${{ runner.temp }}/attribution-browser-fixture.json
+        run: node scripts/test-public-score-attribution-browser.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: attribution-browser-evidence
+          path: attribution-browser-evidence
+          if-no-files-found: ignore

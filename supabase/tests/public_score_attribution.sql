@@ -16,7 +16,7 @@ from attribution_actors where label in ('A','B');
 update public.profiles set username='publisher_a' where id=(select id from attribution_actors where label='A');
 insert into private.canonical_game_identity(game_id,away_school_slug,home_school_slug)
 select '__attribution_'||name||'__','attr-away','attr-home'
-from unnest(array['live','pending','rejected','approved','final','outcome','legacy','deleted']) name;
+from unnest(array['live','pending','rejected','approved','final','outcome','forfeit','legacy','deleted']) name;
 grant select on attribution_actors to authenticated;
 create function pg_temp.assert_attribution(p_game text,p_type text,p_username text default null)
 returns void language plpgsql as $$ declare r record; begin
@@ -130,6 +130,23 @@ reset role;
 select pg_temp.assert_attribution('__attribution_live__','publisher','publisher_a');
 select pg_temp.assert_attribution('__attribution_final__','verified');
 select pg_temp.assert_attribution('__attribution_outcome__','outcome');
+set local role authenticated;
+select * from public.admin_originate_canonical_game_outcome('__attribution_forfeit__',0,'forfeit','attr-home',
+ 'Official fixture source','Private outcome reason','attr-away','attr-home');
+reset role;
+select pg_temp.assert_attribution('__attribution_forfeit__','outcome');
+-- Numeric FINAL corrections via both existing audited operations stay neutral.
+set local role authenticated;
+select public.correct_game_score('__attribution_final__',
+ (select updated_at from public.game_state where game_id='__attribution_final__'),0,
+ 'final',27,21,null,null,'Private final correction reason');
+reset role;
+select pg_temp.assert_attribution('__attribution_final__','correction');
+set local role authenticated;
+select * from public.admin_set_canonical_game_outcome('__attribution_final__',1,'played',null,
+ 'Private canonical correction reason',26,21);
+reset role;
+select pg_temp.assert_attribution('__attribution_final__','correction');
 -- Unknown/repository/system state does not receive speculative human credit.
 insert into public.game_state(game_id,status,home_score,away_score,verified,updated_by)
 values('__attribution_legacy__','live',0,7,true,(select id from attribution_actors where label='A'));
@@ -154,4 +171,13 @@ do $$ declare payload jsonb;key text;begin
  then raise exception 'Identity-bearing public payload';end if;
 end $$;
 reset role;
+do $$ declare proc record;begin
+ select p.prosecdef,p.proconfig into proc from pg_proc p where p.oid='public.public_score_states()'::regprocedure;
+ if not proc.prosecdef or proc.proconfig is distinct from array['search_path=""']::text[]
+ then raise exception 'RPC security definition changed';end if;
+ if not has_function_privilege('anon','public.public_score_states()','execute')
+ or not has_function_privilege('authenticated','public.public_score_states()','execute')
+ or has_function_privilege('anon','private.corroborate_score_publication()','execute')
+ then raise exception 'Unexpected public/trigger grants';end if;
+end $$;
 rollback;
