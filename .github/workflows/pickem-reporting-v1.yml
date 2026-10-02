@@ -1,0 +1,28 @@
+name: Pick Em reporting V1 isolated verification
+on:
+  push:
+    branches: [codex/pickem-reporting-v1]
+  pull_request:
+    paths:
+      - '.github/workflows/pickem-reporting-v1.yml'
+      - 'supabase/migrations/*pickem_conversion_retention_report.sql'
+      - 'supabase/tests/pickem_conversion_report.sql'
+      - 'app/internal/conversions/page.tsx'
+      - 'components/internal/PickemConversionReport.tsx'
+      - 'lib/pickem-conversion-report*'
+jobs:
+  reporting-database:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v2
+        with:
+          version: 2.119.0
+      - run: supabase init
+      - run: supabase db start
+      - run: supabase db reset --local --no-seed
+      - name: Reporting aggregate and authority tests
+        run: PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f supabase/tests/pickem_conversion_report.sql
+      - name: Existing operator-exclusion lifecycle regression
+        run: PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f supabase/tests/pickem_operator_exclusion.sql
