@@ -62,6 +62,7 @@ try {
         assert.ok(line.width <= line.parentWidth);
       }
       assert.doesNotMatch(await page.locator('main').innerText(), /00000000-0000|@example\.invalid|Private correction/);
+      if (layout.lines.length) await lines.filter({ visible: true }).first().scrollIntoViewIfNeeded();
       await page.screenshot({ path: `attribution-browser-evidence/${index}-${width}.png`, fullPage: false });
       console.log(`PASS ${route} ${width}px: surface visibility preserved, complete handle, no overflow, no private identity`);
     }
