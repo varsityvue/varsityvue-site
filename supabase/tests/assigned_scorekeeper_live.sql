@@ -17,7 +17,7 @@ create temp table keeper_tokens(name text,updated_at timestamptz,revision bigint
 insert into private.canonical_game_identity select '__keeper_'||n||'__','keeper-away','keeper-home' from unnest(array['live','absent','scheduled','final','postponed','cancelled','unverified','forfeit','numeric','rollback']) n;
 insert into public.game_state(game_id,status,home_score,away_score,verified,verified_at,result_type,official_winner_school_slug)
 select '__keeper_'||n||'__',case when n in('final','forfeit') then 'final' when n in('scheduled','postponed','cancelled') then n else 'live' end,
- case when n in('forfeit','numeric') then null else 14 end,case when n='forfeit' then null else 21 end,n<>'unverified',now(),
+ case when n in('forfeit','numeric') then null else 14 end,case when n in('forfeit','numeric') then null else 21 end,n<>'unverified',now(),
  case when n='forfeit' then 'forfeit' when n='final' then 'played' else null end,case when n='forfeit' then 'keeper-away' else null end
 from unnest(array['live','scheduled','final','postponed','cancelled','unverified','forfeit','numeric','rollback']) n;
 insert into keeper_tokens select replace(replace(game_id,'__keeper_',''),'__',''),updated_at,score_revision from public.game_state where game_id like '__keeper_%';
@@ -93,6 +93,12 @@ do $$ begin
  begin perform public.correct_game_score('__keeper_live__',null,0,'live',28,14,null,null,'Keeper cannot correct');raise exception 'Correction authority broadened';exception when insufficient_privilege then null;end;
  begin perform public.review_missing_score_evidence(null,'approve',null,'__keeper_live__',null,null,false,'{}',true,'played');raise exception 'Score Scout authority broadened';exception when insufficient_privilege then null;end;
 end $$;
+-- Generic keeper event text cannot manufacture publication corroboration.
+reset role;
+insert into public.score_submission_events(submission_id,event_type,actor_id,payload)
+select id,'approved',auth.uid(),'{"publisher_bound_v1":true}' from public.score_submissions where game_id='__keeper_live__' and status='approved';
+do $$ begin if exists(select 1 from public.score_submission_events e where event_type='approved' and payload='{"publisher_bound_v1":true}'::jsonb and submission_id in(select id from public.score_submissions where game_id='__keeper_live__')) then raise exception 'Generic keeper event corroborated';end if;end $$;
+set local role authenticated;
 -- Pending FINAL uses unchanged community RPC.
 select * from public.submit_score_submission('__keeper_live__',14,28,'final',null,null,null);
 reset role;
