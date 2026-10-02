@@ -49,7 +49,10 @@ try {
       });
       assert.equal(layout.overlay, false);
       assert.ok(layout.scrollWidth <= width, `${route}@${width}: horizontal overflow ${layout.scrollWidth}`);
-      assert.ok(layout.lines.length > 0);
+      // The existing SchoolSeasonPulse current-game card is mobile/tablet only.
+      // Preserve that surface policy rather than introducing a new desktop card.
+      if (route === '/schools/miles' && width >= 1024) assert.equal(layout.lines.length, 0);
+      else assert.ok(layout.lines.length > 0);
       for (const line of layout.lines) {
         assert.equal(line.text, `Updated by @${username}`);
         assert.equal(line.fontSize, '12px');
@@ -60,7 +63,7 @@ try {
       }
       assert.doesNotMatch(await page.locator('main').innerText(), /00000000-0000|@example\.invalid|Private correction/);
       await page.screenshot({ path: `attribution-browser-evidence/${index}-${width}.png`, fullPage: false });
-      console.log(`PASS ${route} ${width}px: LIVE byline, complete handle, no overflow, no private identity`);
+      console.log(`PASS ${route} ${width}px: surface visibility preserved, complete handle, no overflow, no private identity`);
     }
   }
   // Actual mounted pages also exercise fallback/correction and compact FINAL policies.
