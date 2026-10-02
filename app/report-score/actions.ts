@@ -1,5 +1,8 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+import { assignedLivePayload, assignedLiveError } from "@/lib/assigned-scorekeeper";
+
 import { redirect } from "next/navigation";
 
 import { hasCompleteScoreboardTeamIdentity } from "@/data/scoreboard-team-identities";
@@ -152,4 +155,20 @@ export async function submitScore(formData: FormData) {
   const submission = Array.isArray(data) ? data[0] : data;
   const outcome = submission?.submission_status === "approved" ? "approved" : "pending";
   redirect(`/report-score?submitted=${outcome}&game=${encodeURIComponent(gameId)}`);
+}
+
+// Page-origin tokens are forwarded unchanged. The RPC is the authority boundary.
+export async function submitAssignedLiveScore(formData: FormData) {
+  const { supabase } = await requireActiveMember({ loginPath: "/login?next=%2Freport-score" });
+  const gameId = text(formData, "game_id");
+  let payload: ReturnType<typeof assignedLivePayload>;
+  try { payload = assignedLivePayload(formData); }
+  catch (error) { reportRedirect(gameId, error instanceof Error ? error.message : "Check the LIVE update."); }
+  const { error } = await supabase.rpc("submit_assigned_scorekeeper_update", payload);
+  if (error) reportRedirect(gameId, assignedLiveError(error));
+  revalidatePath("/scoreboard");
+  revalidatePath(`/games/${gameId}`);
+  revalidatePath("/schools", "layout");
+  revalidatePath("/report-score");
+  redirect(`/report-score?submitted=approved&game=${encodeURIComponent(gameId)}`);
 }
