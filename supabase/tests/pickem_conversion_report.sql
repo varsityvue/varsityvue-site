@@ -44,8 +44,6 @@ do $$ declare w uuid; picks jsonb; u record; begin
     perform set_config('request.jwt.claim.sub',u.id::text,true);
     perform public.submit_pickem_contest_entry(w,'2545550'||case u.label when 'A' then '903' when 'B' then '904' else '905' end,42,picks,true);
   end loop;
-  -- Existing operator lifecycle must reject the real excluded UUID, before
-  -- reporting could ever count it. No operator profile is inserted.
 end $$;
 reset role;
 update public.pickem_contest_entries set status='disqualified',disqualification_reason='Synthetic fixture'
@@ -105,6 +103,8 @@ do $$ declare r jsonb; w jsonb; pair jsonb; actor text; begin
     raise exception 'Missing identity allowed';
   exception when insufficient_privilege then null; end;
   perform set_config('request.jwt.claim.sub',(select id::text from report_users where label='admin'),true);
+  if not (public.admin_conversion_dashboard(30)->'summary' ? 'new_accounts') then
+    raise exception 'Existing member conversion RPC failed'; end if;
   begin
     perform public.admin_pickem_conversion_report(2025);
     raise exception 'Pre-cash season allowed';
@@ -172,7 +172,7 @@ do $$ declare r jsonb; pair jsonb; w uuid; picks jsonb; begin
   select week_id into w from report_games where week=7 limit 1;
   select jsonb_object_agg(id::text,'report-home') into picks from report_games where week=7;
   perform set_config('request.jwt.claim.sub',(select id::text from report_users where label='A'),true);
-  perform public.submit_pickem_contest_entry(w,null,42,picks,true);
+  perform public.submit_pickem_contest_entry(w,'2545550903',42,picks,true);
   -- A second save edits the same receipt, not another participant/entry.
   perform public.submit_pickem_contest_entry(w,null,44,picks,true);
   perform set_config('request.jwt.claim.sub',(select id::text from report_users where label='new'),true);
@@ -185,6 +185,31 @@ do $$ declare r jsonb; pair jsonb; w uuid; picks jsonb; begin
     or r#>>'{summary,unique_valid_participants}'<>'3' or r#>>'{summary,total_valid_entries}'<>'4'
     or r#>>'{summary,average_entries_per_participant}'<>'1.33'
     or r#>>'{summary,no_current_follows}'<>'1' then raise exception 'Repeat/unique counts incorrect: %',r; end if;
+end $$;
+reset role;
+-- Prize finalization derives from the existing ledger, not status/selection guesses.
+insert into private.pickem_contest_finalizations(week_id,finalized_at,actor_id,state)
+select distinct g.week_id,now(),u.id,'current' from report_games g cross join report_users u
+where g.week in(6,7) and u.label='admin';
+set local role authenticated;
+do $$ declare r jsonb; w jsonb; pair jsonb; begin
+  perform set_config('request.jwt.claim.sub',(select id::text from report_users where label='admin'),true);
+  r:=public.admin_pickem_conversion_report(2098);
+  select value into w from jsonb_array_elements(r->'weeks') where value->>'week'='6';
+  select value into pair from jsonb_array_elements(r->'retention') where value->>'previous_week'='6';
+  if w->>'prize_state'<>'finalized' or w->'finalized_at'='null'::jsonb or pair->>'finalized'<>'true' then
+    raise exception 'Finalization ledger ignored'; end if;
+end $$;
+reset role;
+update private.pickem_contest_finalizations set state='superseded'
+where week_id=(select week_id from report_games where week=6 limit 1);
+set local role authenticated;
+do $$ declare r jsonb; w jsonb; begin
+  perform set_config('request.jwt.claim.sub',(select id::text from report_users where label='admin'),true);
+  r:=public.admin_pickem_conversion_report(2098);
+  select value into w from jsonb_array_elements(r->'weeks') where value->>'week'='6';
+  if w->>'prize_state'<>'under_review' or w->'finalized_at'<>'null'::jsonb then
+    raise exception 'Superseded finalization shown as final'; end if;
 end $$;
 reset role;
 -- Unfollow removes current evidence; first-ever follow history is not invented.
