@@ -12,6 +12,8 @@ import { getDynamicGames } from "@/lib/dynamic-games";
 import { requireActiveMember } from "@/lib/member-access";
 import { getSchoolBySlug } from "@/lib/schools";
 import type { Game } from "@/types/platform";
+import { eligibleAssignedLiveState } from "@/lib/assigned-scorekeeper";
+import TrustedLiveScoreForm from "./TrustedLiveScoreForm";
 import ScoreReportForm from "./ScoreReportForm";
 
 export const metadata: Metadata = {
@@ -101,7 +103,7 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
     supabase.from("user_roles").select("role").eq("user_id", userId),
     supabase
       .from("contributor_school_assignments")
-      .select("school_slug, active")
+      .select("school_slug, active, assignment_role")
       .eq("user_id", userId)
       .eq("active", true),
   ]);
@@ -132,6 +134,18 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
       (game.awaySchoolSlug && assignedSchoolSlugs.has(game.awaySchoolSlug)) ||
       (game.homeSchoolSlug && assignedSchoolSlugs.has(game.homeSchoolSlug)),
     );
+  });
+
+  // Only public state and page-origin stale tokens enter the form, never actors
+  // or assignment snapshots. Canonical scope is rechecked under RPC row locks.
+  const { data: liveStates } = isRestrictedScorekeeper
+    ? await supabase.from("game_state").select("game_id,status,verified,home_score,away_score,home_school_slug,away_school_slug,result_type,official_winner_school_slug,period,clock,updated_at,score_revision").eq("status", "live").eq("verified", true)
+    : { data: null };
+  const trustedGames = (liveStates ?? []).filter((state) => eligibleAssignedLiveState(isRestrictedScorekeeper, assignments ?? [], state)).flatMap((state) => {
+    const game = relevantGames.find((g) => g.id === state.game_id);
+    return game ? [{ id: game.id, awayName: displayTeamName(game.awayTeam, game.awaySchoolSlug), homeName: displayTeamName(game.homeTeam, game.homeSchoolSlug),
+      awayScore: state.away_score!, homeScore: state.home_score!, period: state.period, clock: state.clock,
+      updatedAt: state.updated_at, scoreRevision: state.score_revision }] : [];
   });
 
   const selectedGameId = params.game && relevantGames.some((game) => game.id === params.game)
@@ -196,7 +210,7 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
             {canModerate
               ? "Submit a score you can verify. Your trusted update is recorded, approved, and published immediately through VarsityVue's normal score history."
               : isRestrictedScorekeeper
-              ? "Your contributor account can submit scores only for games involving programs assigned to you. Reports are still reviewed before becoming an official VarsityVue update."
+              ? "Publish LIVE updates for eligible games covered by your active scorekeeper assignment. Other score reports and FINAL requests remain pending moderator review."
               : "Submit a live or final score you can verify. Reports are saved with your account and reviewed before becoming an official VarsityVue update."}
           </p>
         </section>
@@ -228,7 +242,10 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
           </div>
         ) : null}
 
+        {trustedGames.length > 0 ? <TrustedLiveScoreForm games={trustedGames} selectedGameId={selectedGameId} /> : null}
+
         <section className="mt-6 rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-5 sm:p-7">
+          <h2 className="mb-4 text-xl font-bold">Pending Score Report / FINAL Request</h2>
           <ScoreReportForm
             games={formGames}
             selectedGameId={selectedGameId}
