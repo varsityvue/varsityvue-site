@@ -9,6 +9,7 @@ on:
       - 'lib/score-scout-review*'
       - 'supabase/migrations/*score_scout_approval_repair.sql'
       - 'supabase/tests/score_scout*'
+      - 'scripts/test-score-scout-browser.mjs'
 jobs:
   score-scout:
     runs-on: ubuntu-latest
@@ -57,3 +58,17 @@ jobs:
           npx eslint app/internal/score-intelligence lib/score-scout-review.ts lib/score-scout-review.test.tsx
           npm run build
           git diff --check
+      - name: Authenticated browser dependencies
+        run: |
+          npm install --no-save --package-lock=false playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Authenticated Score Scout browser verification (local only)
+        run: |
+          supabase status -o env > "$RUNNER_TEMP/scout-local.env"
+          SCOUT_LOCAL_ENV="$RUNNER_TEMP/scout-local.env" node scripts/test-score-scout-browser.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: score-scout-browser-evidence
+          path: score-scout-browser-evidence
+          if-no-files-found: ignore

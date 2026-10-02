@@ -106,7 +106,7 @@ do $$ begin
 end $$;
 reset role;
 -- Successful provenance, neutral public projection, and sibling/queue state.
-do $$ declare n text;s public.score_submissions%rowtype;g public.game_state%rowtype;actor uuid;payload jsonb;begin
+do $$ declare n text;s public.score_submissions%rowtype;g public.game_state%rowtype;actor uuid;projected_json jsonb;begin
  foreach n in array array['mod','admin'] loop
  select * into s from public.score_submissions where game_id='__scout_'||n||'__';
  select * into g from public.game_state where game_id=s.game_id;
@@ -119,9 +119,9 @@ do $$ declare n text;s public.score_submissions%rowtype;g public.game_state%rowt
  or not exists(select 1 from public.score_submission_events where submission_id=s.id and event_type='note_added' and actor_id=actor and payload->>'kind'='score_scout_evidence_link_v1' and payload->>'evidence_id'=(select evidence::text from scout_fixtures where name=n)) then raise exception 'Event provenance missing';end if;
  if (select status from public.missing_score_intelligence where id=(select candidate from scout_fixtures where name=n))<>'resolved'
  or (select review_status from public.missing_score_evidence where id=(select evidence from scout_fixtures where name=n))<>'approved' then raise exception 'Evidence/queue not resolved';end if;
- select to_jsonb(p) into payload from public.public_score_states() p where game_id=s.game_id;
- if payload->>'attribution_type'<>'verified' or payload->>'attribution_username' is not null
- or payload ?| array['actor_id','updated_by','source_submission_id','reviewed_by','email','source_url','payload'] then raise exception 'Public privacy changed';end if;
+ select to_jsonb(p) into projected_json from public.public_score_states() p where game_id=s.game_id;
+ if projected_json->>'attribution_type'<>'verified' or projected_json->>'attribution_username' is not null
+ or projected_json ?| array['actor_id','updated_by','source_submission_id','reviewed_by','email','source_url','payload'] then raise exception 'Public privacy changed';end if;
  end loop;
  if exists(select 1 from public.missing_score_evidence where intelligence_id=(select candidate from scout_fixtures where name='mod') and id<>(select evidence from scout_fixtures where name='mod') and review_status<>'superseded') then raise exception 'Sibling not superseded';end if;
  if exists(select 1 from public.score_submissions where game_id in('__scout_reject__','__scout_defer__')) then raise exception 'Reject/defer published';end if;

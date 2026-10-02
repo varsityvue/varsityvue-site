@@ -5,6 +5,8 @@ export PGPASSWORD="${PGPASSWORD:-postgres}"
 PSQL=(psql -X -v ON_ERROR_STOP=1 -h "${PGHOST:-127.0.0.1}" -p "${PGPORT:-54322}" -U "${PGUSER:-postgres}" -d "${PGDATABASE:-postgres}")
 ACTOR=$("${PSQL[@]}" -At -c "select user_id from public.user_roles where role='admin' order by user_id limit 1")
 [[ -n "$ACTOR" ]] || { echo 'Disposable admin fixture required'; exit 1; }
+SECOND_ACTOR=$("${PSQL[@]}" -At -c "select user_id from public.user_roles where role='moderator' order by user_id limit 1")
+[[ -n "$SECOND_ACTOR" ]] || { echo 'Disposable moderator fixture required'; exit 1; }
 A_LOG=$(mktemp); B_LOG=$(mktemp); MARKER=$(mktemp)
 cleanup() {
  "${PSQL[@]}" -q -c "delete from public.game_state where game_id like '__scout_race_%'; delete from public.score_submissions where game_id like '__scout_race_%'; delete from public.missing_score_intelligence where game_id like '__scout_race_%'; delete from private.canonical_game_identity where game_id like '__scout_race_%'" >/dev/null || true
@@ -39,7 +41,7 @@ SQL
  set +e
  timeout 15 "${PSQL[@]}" -v snapshot="$SNAPSHOT" >"$B_LOG" 2>&1 <<SQL
 set statement_timeout='12s';
-select set_config('request.jwt.claim.sub','$ACTOR',false);
+select set_config('request.jwt.claim.sub','$SECOND_ACTOR',false);
 set role authenticated;
 select public.review_missing_score_evidence('$EVIDENCE','approve',null,'$GAME',null,null,true,:'snapshot'::jsonb,true,'played');
 SQL
