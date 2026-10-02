@@ -3,6 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+import { getGameById } from "@/lib/games";
+import { scoutReviewArguments, scoutReviewError } from "@/lib/score-scout-review";
 import { requireActiveMember } from "@/lib/member-access";
 import { evidenceSourceTypes, type EvidenceSourceType } from "@/lib/score-evidence-confidence";
 
@@ -80,27 +82,18 @@ export async function updateIntelligenceStatus(formData: FormData) {
 }
 
 export async function reviewScoreEvidence(formData: FormData) {
-  const evidenceId = value(formData, "evidence_id");
-  const gameId = value(formData, "game_id");
-  const decision = value(formData, "decision");
-  const reviewNote = value(formData, "review_note").slice(0, 1000) || null;
   const { supabase } = await requireModerator();
-
-  if (!evidenceId || !["approve", "reject", "defer"].includes(decision)) {
-    redirect("/internal/score-intelligence?message=Invalid%20evidence%20decision.");
+  let args: ReturnType<typeof scoutReviewArguments>;
+  try { args = scoutReviewArguments(formData); }
+  catch (error) { redirect(`/internal/score-intelligence?message=${encodeURIComponent(scoutReviewError({ message: error instanceof Error ? error.message : undefined }))}`); }
+  const game = getGameById(args.p_expected_game_id);
+  if (!game || game.gameType === "bye" || game.gameType === "scrimmage" ||
+    game.awaySchoolSlug !== args.p_evidence_snapshot.away_school_slug ||
+    game.homeSchoolSlug !== args.p_evidence_snapshot.home_school_slug) {
+    redirect("/internal/score-intelligence?message=Game%20mapping%20changed%20%E2%80%94%20review%20the%20evidence%20again.");
   }
-
-  const { error } = await supabase.rpc("review_missing_score_evidence", {
-    target_evidence_id: evidenceId,
-    decision,
-    note: reviewNote,
-  });
-  if (error) redirect(`/internal/score-intelligence?message=${encodeURIComponent(error.message)}`);
-
-  revalidatePath("/internal/score-intelligence");
-  revalidatePath("/internal/score-review");
-  revalidatePath("/scoreboard");
-  revalidatePath("/games");
-  if (gameId) revalidatePath(`/games/${gameId}`);
-  redirect(`/internal/score-intelligence?updated=${encodeURIComponent(`evidence-${decision}d`)}`);
+  const { error } = await supabase.rpc("review_missing_score_evidence", args);
+  if (error) redirect(`/internal/score-intelligence?message=${encodeURIComponent(scoutReviewError(error))}`);
+  for (const path of ["/internal/score-intelligence", "/internal/score-review", "/internal/scoring", "/scoreboard", "/games", "/", "/pickem", `/games/${game.id}`, `/schools/${game.awaySchoolSlug}`, `/schools/${game.homeSchoolSlug}`]) revalidatePath(path);
+  redirect(`/internal/score-intelligence?updated=${encodeURIComponent(`evidence-${args.decision}d`)}`);
 }
