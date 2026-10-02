@@ -33,6 +33,11 @@ jobs:
       - run: supabase db reset --local --no-seed
       - name: Public UUID database security tests
         run: PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f supabase/tests/public_uuid_hardening.sql
+      - name: Pick Em entry, standings, reporting and future-week regressions
+        run: |
+          for file in pickem_week6_contest pickem_conversion_report pickem_future_week_admin; do
+            PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f "supabase/tests/$file.sql" || exit 1
+          done
       - name: Attribution database tests
         run: PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f supabase/tests/public_score_attribution.sql
       - name: Assigned scorekeeper authority database tests
@@ -48,7 +53,7 @@ jobs:
           SQL
       - name: Existing scoring and Pick Em regressions
         run: |
-          for file in friday_scoring_operations game_score_corrections pickem_score_integration pickem_scoreless_outcome_origination; do
+          for file in friday_scoring_operations game_score_corrections pickem_score_integration pickem_scoreless_outcome_origination pickem_admin_outcomes pickem_admin_submissions; do
             PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f "supabase/tests/$file.sql" || exit 1
           done
       - name: Existing concurrent scoring regressions
