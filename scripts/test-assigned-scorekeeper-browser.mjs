@@ -45,13 +45,13 @@ try {
  await trusted().locator('[name=confirm_score_decrease]').check();await trusted().getByRole('button').click();
  await page.waitForURL(/submitted=approved/);
  assert.equal(sql(`select status||'|'||away_score||'|'||home_score from public.game_state where game_id='${game}'`),'live|20|14');
- await page.goto(`http://127.0.0.1:3000/games/${game}`);await page.getByText('Updated by @browser_scorekeeper',{exact:true}).first().waitFor();
+ await page.goto(`http://127.0.0.1:3000/games/${game}`);await page.getByText('Updated by @browser_scorekeeper',{exact:true}).filter({visible:true}).first().waitFor();
  assert.equal((await page.content()).includes('assigned_scorekeeper_authority_v1'),false);
  assert.equal((await page.content()).includes(keeper.actor),false,'Private actor leaked in Game Center');
- await page.goto('http://127.0.0.1:3000/scoreboard');await page.getByText('Updated by @browser_scorekeeper',{exact:true}).first().waitFor();
+ await page.goto('http://127.0.0.1:3000/scoreboard');await page.getByText('Updated by @browser_scorekeeper',{exact:true}).filter({visible:true}).first().waitFor();
  await page.goto('http://127.0.0.1:3000/schools/goldthwaite');await page.getByText('Updated by @browser_scorekeeper',{exact:true}).first().waitFor({state:'attached'});
  sql(`select set_config('request.jwt.claim.sub','${fallback.actor}',false);set role authenticated;select public.submit_assigned_scorekeeper_update('${game}',14,20,'3rd','04:00',(select updated_at from public.game_state where game_id='${game}'),(select score_revision from public.game_state where game_id='${game}'),false)`);
- await page.goto(`http://127.0.0.1:3000/games/${game}`);await page.getByText('Updated by VarsityVue contributor',{exact:true}).first().waitFor();
+ await page.goto(`http://127.0.0.1:3000/games/${game}`);await page.getByText('Updated by VarsityVue contributor',{exact:true}).filter({visible:true}).first().waitFor();
  // The tokens stay page-origin even while another publisher wins.
  await page.goto(`http://127.0.0.1:3000/report-score?game=${game}`);await page.getByRole('heading',{name:'Trusted LIVE Update',exact:true}).waitFor();
  const revision=await trusted().locator('[name=expected_state_revision]').inputValue();const updated=await trusted().locator('[name=expected_state_updated_at]').inputValue();
@@ -72,6 +72,6 @@ try {
  assert.equal(sql(`select status from public.game_state where game_id='${game}'`),'live');
  sql(`select set_config('request.jwt.claim.sub','${admin}',false);set role authenticated;select public.submit_trusted_score_update('${game}',14,28,'final',null,null,null,(select updated_at from public.game_state where game_id='${game}'),(select score_revision from public.game_state where game_id='${game}'),false)`);
  await page.goto(`http://127.0.0.1:3000/report-score?game=${game}`);assert.equal(await page.getByRole('heading',{name:'Trusted LIVE Update',exact:true}).count(),0);
- await page.goto(`http://127.0.0.1:3000/games/${game}`);await page.getByText('Verified by VarsityVue',{exact:true}).first().waitFor();assert.equal(await page.getByText(/Updated by @/).count(),0);
+ await page.goto(`http://127.0.0.1:3000/games/${game}`);await page.getByText('Verified by VarsityVue',{exact:true}).filter({visible:true}).first().waitFor();assert.equal(await page.getByText(/Updated by @/).count(),0);
  assert.deepEqual(errors,[]);console.log('Assigned LIVE UI -> server action -> RPC -> public attribution/fallback, stale/revoked denial, coach exclusion, pending FINAL and responsive checks PASS');
 } finally {await browser?.close();app.kill('SIGTERM');}
