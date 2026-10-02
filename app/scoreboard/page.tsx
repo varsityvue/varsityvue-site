@@ -1,3 +1,5 @@
+import ScoreAttribution from "@/components/ScoreAttribution";
+import { loadPublicScoreStates } from "@/lib/public-score-loader";
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
@@ -96,11 +98,8 @@ function StatStatusBadge({ gameId }: { gameId: string }) {
 
 export default async function ScoreboardPage() {
   const supabase = await createClient();
-  const [{ data: dynamicRows }, { data: claimsData }] = await Promise.all([
-    supabase
-      .from("game_state")
-      .select("game_id, status, home_score, away_score, period, clock, verified, kickoff_override")
-      .eq("verified", true),
+  const [dynamicRows, { data: claimsData }] = await Promise.all([
+    loadPublicScoreStates(supabase),
     supabase.auth.getClaims(),
   ]);
 
@@ -182,6 +181,7 @@ function FeaturedScoreboardGame({ game, games, hasPendingReport }: { game: Score
   return <section className="rounded-[1.4rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:rounded-3xl sm:p-6 md:p-8">
     <div className="flex flex-wrap items-start justify-between gap-2 sm:items-center sm:gap-3"><div className="min-w-0"><p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/55 sm:text-xs sm:tracking-[0.3em]">{isGameOfTheWeek ? "Game of the Week" : "Featured Matchup"}</p><p className="mt-1 text-[11px] font-bold leading-4 text-white/45 sm:mt-2 sm:text-sm">{getWeekLabel(game.week)} · {formatKickoff(game.kickoff)}{game.venue ? ` · ${game.venue}` : ""}</p></div><div className="flex flex-wrap items-center justify-end gap-2"><span className="rounded-full border border-white/15 bg-black/40 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.14em] text-white/75 sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.18em]">{game.status === "live" ? liveGameContext(game.score?.period, game.score?.clock) : game.displayStatus}</span>{isFinal && <StatStatusBadge gameId={game.id} />}</div></div>
     <div className="mt-4 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 sm:mt-8 sm:gap-6"><TeamResult team={getTeamName(game.awayTeam, "Away Team")} standing={awayStanding} /><div className="text-center">{hasScore ? <><p className="text-[8px] font-black uppercase tracking-[0.2em] text-white/40 sm:text-[10px] sm:tracking-[0.28em]">{isFinal ? "Final" : liveGameContext(game.score?.period, game.score?.clock)}</p><p className="mt-1 text-3xl font-black tracking-tight text-white sm:mt-2 sm:text-5xl md:text-6xl">{awayScore}<span className="mx-1.5 text-white/25 sm:mx-3">—</span>{homeScore}</p></> : <p className="text-sm font-black uppercase tracking-[0.2em] text-white/45 sm:text-2xl sm:tracking-[0.3em]">VS</p>}</div><TeamResult team={getTeamName(game.homeTeam, "Home Team")} standing={homeStanding} /></div>
+    <ScoreAttribution game={game} />
     <div className="mt-4 flex flex-wrap justify-center gap-2 border-t border-white/10 pt-4 sm:mt-8 sm:gap-3 sm:pt-6"><Link href={`/games/${game.id}`} className="rounded-full bg-white px-4 py-2 text-center text-[10px] font-black uppercase tracking-[0.1em] text-black transition hover:bg-white/85 sm:px-7 sm:py-4 sm:text-base sm:normal-case sm:tracking-normal">{isFinal ? "View Final Result →" : "Matchup Center →"}</Link>{actionLabel && <Link href={`/report-score?game=${encodeURIComponent(game.id)}`} className={`rounded-full border px-4 py-2 text-center text-[10px] font-black uppercase tracking-[0.1em] transition sm:px-7 sm:py-4 sm:text-base sm:normal-case sm:tracking-normal ${hasPendingReport ? "border-amber-300/30 bg-amber-300/10 text-amber-100 hover:bg-amber-300/15" : "border-[var(--vv-accent)]/30 bg-[var(--vv-primary)]/40 text-white hover:bg-[var(--vv-primary)]/60"}`}>{actionLabel} →</Link>}{mapUrl && <a href={mapUrl} target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-center text-[10px] font-black uppercase tracking-[0.1em] text-white/75 transition hover:bg-white/10 hover:text-white sm:px-7 sm:py-4 sm:text-base sm:normal-case sm:tracking-normal">Venue Map →</a>}</div>
   </section>;
 }
@@ -247,6 +247,7 @@ function ScoreboardGameCard({ game, hasPendingReport }: { game: ScoreboardGame; 
     <Link href={`/games/${game.id}`} className="block">
       <div className="flex items-center justify-between gap-2 sm:gap-3"><div className="flex flex-wrap items-center gap-1.5"><span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[9px] font-black uppercase tracking-[0.12em] text-white/55 sm:px-3 sm:py-1 sm:text-[10px] sm:tracking-[0.16em]">{game.status === "live" ? liveGameContext(game.score?.period, game.score?.clock) : game.displayStatus}</span>{isFinal && <StatStatusBadge gameId={game.id} />}</div><span className="text-[9px] font-black uppercase tracking-[0.12em] text-white/35 sm:text-[10px] sm:tracking-[0.16em]">{getWeekLabel(game.week)}</span></div>
       <div className="mt-2.5 space-y-1.5 sm:mt-5 sm:space-y-4"><CompactTeamRow school={awaySchool} team={getTeamName(game.awayTeam, "Away")} score={showScore ? awayScore : undefined} /><CompactTeamRow school={homeSchool} team={getTeamName(game.homeTeam, "Home")} score={showScore ? homeScore : undefined} /></div>
+      <ScoreAttribution game={game} />
       <div className="mt-2.5 flex items-center justify-between gap-3 border-t border-white/10 pt-2.5 sm:mt-5 sm:block sm:pt-4"><p className="text-[10px] font-semibold text-white/45 sm:text-xs">{formatKickoff(game.kickoff)}</p><p className="shrink-0 text-[8px] font-black uppercase tracking-[0.1em] text-white/60 sm:mt-2 sm:text-[10px] sm:tracking-[0.16em]">{isFinal ? "View Final →" : "View Matchup →"}</p></div>
     </Link>
     {actionLabel && <Link href={`/report-score?game=${encodeURIComponent(game.id)}`} className={`mt-3 block rounded-lg border px-3 py-2 text-center text-[9px] font-black uppercase tracking-[0.12em] transition sm:mt-4 sm:rounded-xl sm:text-[10px] ${hasPendingReport ? "border-amber-300/30 bg-amber-300/10 text-amber-100 hover:bg-amber-300/15" : "border-[var(--vv-accent)]/20 bg-[var(--vv-primary)]/35 text-white hover:bg-[var(--vv-primary)]/55"}`}>{actionLabel} →</Link>}

@@ -1,3 +1,4 @@
+import { getScoreAttribution } from "@/lib/public-score-state";
 import { getGames, normalizeGameStatus } from "@/lib/games";
 import type { Game } from "@/types/platform";
 
@@ -17,6 +18,8 @@ export type DynamicScoreState = {
   clock: string | null;
   verified: boolean;
   kickoff_override?: string | null;
+  attribution_type?: string;
+  attribution_username?: string | null;
 };
 
 type DynamicScoreStateMap = Map<string, DynamicScoreState>;
@@ -148,6 +151,7 @@ function applyDynamicScoreState(game: Game, states?: DynamicScoreStateMap): Game
   return normalizeGameStatus({
     ...game,
     status,
+    scoreAttribution: getScoreAttribution({ ...state, status }),
     kickoff: state.kickoff_override ?? game.kickoff,
     homeScore: state.home_score ?? game.homeScore,
     awayScore: state.away_score ?? game.awayScore,

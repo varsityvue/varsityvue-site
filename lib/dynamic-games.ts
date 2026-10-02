@@ -1,22 +1,11 @@
 import { createClient } from "@/lib/supabase/server";
 import { getGames, normalizeGameStatus } from "@/lib/games";
 import { clearInheritedSchoolBroadcasts } from "@/data/school-broadcasts";
-import type { Game, GameStatus } from "@/types/platform";
+import { loadPublicScoreStates } from "@/lib/public-score-loader";
+import { getScoreAttribution, type PublicScoreState } from "@/lib/public-score-state";
+import type { Game } from "@/types/platform";
 
-type GameStateRow = {
-  game_id: string;
-  status: GameStatus;
-  home_score: number | null;
-  away_score: number | null;
-  period: string | null;
-  clock: string | null;
-  verified: boolean;
-  kickoff_override: string | null;
-  result_type: Game["resultType"] | null;
-  official_winner_school_slug: string | null;
-};
-
-function applyGameState(game: Game, state?: GameStateRow): Game {
+function applyGameState(game: Game, state?: PublicScoreState): Game {
   if (!state?.verified) return game;
 
   const hasScore =
@@ -26,6 +15,7 @@ function applyGameState(game: Game, state?: GameStateRow): Game {
   const dynamicGame: Game = {
     ...game,
     status: state.status,
+    scoreAttribution: getScoreAttribution(state),
     kickoff: state.kickoff_override ?? game.kickoff,
     date: state.kickoff_override ? state.kickoff_override.slice(0, 10) : game.date,
     sourceStatus: state.verified ? "verified" : game.sourceStatus,
@@ -54,16 +44,9 @@ function applyGameState(game: Game, state?: GameStateRow): Game {
 export async function getDynamicGames(): Promise<Game[]> {
   const baseGames = getGames();
   const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("game_state")
-    .select("game_id,status,home_score,away_score,period,clock,verified,kickoff_override,result_type,official_winner_school_slug")
-    .eq("verified", true);
-
-  if (error || !data?.length) return baseGames;
-
-  const states = new Map(
-    (data as GameStateRow[]).map((state) => [state.game_id, state]),
-  );
+  const data = await loadPublicScoreStates(supabase);
+  if (!data.length) return baseGames;
+  const states = new Map(data.map((state) => [state.game_id, state]));
 
   return baseGames.map((game) => applyGameState(game, states.get(game.id)));
 }
