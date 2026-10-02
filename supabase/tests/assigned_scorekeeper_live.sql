@@ -70,13 +70,13 @@ do $$ begin
 end $$;
 select pg_temp.keeper_update();
 reset role;
-do $$ declare s public.score_submissions%rowtype; g public.game_state%rowtype; actor uuid; payload jsonb;begin
+do $$ declare s public.score_submissions%rowtype; g public.game_state%rowtype; actor uuid; assignment_payload jsonb;begin
  select id into actor from keeper_actors where label='keeper';select * into g from public.game_state where game_id='__keeper_live__';select * into s from public.score_submissions where id=g.source_submission_id;
  if g.status<>'live' or not g.verified or g.home_score<>14 or g.away_score<>28 or g.updated_by<>actor or s.submitted_by<>actor or s.reviewed_by<>actor or s.status<>'approved' then raise exception 'Winning state/actor invalid';end if;
  if (select count(*) from public.score_submission_events where submission_id=s.id and event_type='submitted' and actor_id=actor)<>1 then raise exception 'Submitted actor invalid';end if;
  if (select count(*) from public.score_submission_events where submission_id=s.id and event_type='approved' and actor_id=actor and payload->>'publisher_bound_v1'='true')<>1 then raise exception 'Approved evidence invalid';end if;
- select e.payload into payload from public.score_submission_events e where submission_id=s.id and e.event_type='note_added';
- if payload->>'kind'<>'assigned_scorekeeper_authority_v1' or payload#>>'{authority,actor_id}'<>actor::text or payload#>>'{authority,assignment_role}'<>'scorekeeper' or payload#>>'{authority,school_slug}'<>'keeper-away' or payload#>>'{authority,active}'<>'true' then raise exception 'Assignment snapshot invalid';end if;
+ select e.payload into assignment_payload from public.score_submission_events e where submission_id=s.id and e.event_type='note_added';
+ if assignment_payload->>'kind'<>'assigned_scorekeeper_authority_v1' or assignment_payload#>>'{authority,actor_id}'<>actor::text or assignment_payload#>>'{authority,assignment_role}'<>'scorekeeper' or assignment_payload#>>'{authority,school_slug}'<>'keeper-away' or assignment_payload#>>'{authority,active}'<>'true' then raise exception 'Assignment snapshot invalid';end if;
  if not exists(select 1 from public.public_score_states() where game_id=g.game_id and attribution_type='publisher' and attribution_username='live_keeper') then raise exception 'Keeper attribution missing';end if;
  if (select array_agg(k order by k) from jsonb_object_keys((select to_jsonb(p) from public.public_score_states() p where p.game_id=g.game_id)) k) is distinct from array['attribution_type','attribution_username','away_score','clock','game_id','home_score','kickoff_override','official_winner_school_slug','period','result_type','status','verified'] then raise exception 'Public fields changed';end if;
 end $$;

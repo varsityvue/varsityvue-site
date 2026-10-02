@@ -28,7 +28,7 @@ begin
  and school_slug in (identity.home_school_slug,identity.away_school_slug)
  order by school_slug limit 1 for share;
  if not found then raise exception using errcode='42501',message='Your active scorekeeper assignment no longer covers this game.'; end if;
- return jsonb_build_object('policy','assigned_scorekeeper_authority_v1','actor_id',actor,
+ return jsonb_build_object('policy','assigned_scorekeeper_authority_v1','actor_id',actor,'account_status','active','actor_role','scorekeeper',
   'game_id',p_game_id,'school_slug',assignment.school_slug,'assignment_role',assignment.assignment_role,
   'active',assignment.active,'assignment_created_at',assignment.created_at,'assignment_updated_at',assignment.updated_at,
   'canonical_home_school_slug',identity.home_school_slug,'canonical_away_school_slug',identity.away_school_slug,
