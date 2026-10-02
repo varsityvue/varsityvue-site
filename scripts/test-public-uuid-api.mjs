@@ -20,7 +20,7 @@ insert into public.score_submission_events(submission_id,event_type,actor_id,pay
 insert into public.pickem_member_totals(season,user_id,graded_picks,correct_picks,incorrect_picks) values(2094,'${actor(1)}',6,6,0),(2094,'${actor(2)}',8,6,2);
 insert into public.contributor_school_assignments(user_id,school_slug,assignment_role,active) values('${actor(5)}','uuid-api-away','scorekeeper',true);`);
 function jwt(sub){const encode=x=>Buffer.from(JSON.stringify(x)).toString('base64url');const body=encode({alg:'HS256',typ:'JWT'})+'.'+encode({sub,role:'authenticated',aud:'authenticated',iat:Math.floor(Date.now()/1000),exp:Math.floor(Date.now()/1000)+3600});return body+'.'+createHmac('sha256',secret).update(body).digest('base64url')}
-async function req(path,sub,body){const r=await fetch(api+'/rest/v1/'+path,{method:body?'POST':'GET',headers:{apikey:key,Authorization:'Bearer '+(sub?jwt(sub):key),'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined});return{status:r.status,data:await r.json()}}
+async function req(path,sub,body){const r=await fetch(api+'/rest/v1/'+path,{method:body?'POST':'GET',headers:{apikey:key,Authorization:'Bearer '+(sub?jwt(sub):key),'Content-Type':'application/json',Prefer:'return=representation'},body:body?JSON.stringify(body):undefined});return{status:r.status,data:await r.json()}}
 let count=0;
 async function denied(path,sub){const r=await req(path,sub);assert.ok(r.status>=400,`Unexpected access: ${path}`);count++}
 async function empty(path,sub){const r=await req(path,sub);assert.equal(r.status,200,path);assert.deepEqual(r.data,[],path);count++}
@@ -40,6 +40,17 @@ const ranks=await req('rpc/public_pickem_season_standings',null,{p_season:2094})
 const weekly=await req('rpc/public_pickem_week_standings',null,{p_week_id:'00000000-0000-4000-8000-000000000899'});assert.equal(weekly.status,200);assert.deepEqual(weekly.data,[]);count++;
 const scores=await req('rpc/public_score_states',null,{});assert.equal(scores.status,200);for(const row of scores.data)assert.deepEqual(Object.keys(row).sort(),['game_id','status','home_score','away_score','period','clock','verified','kickoff_override','result_type','official_winner_school_slug','attribution_type','attribution_username'].sort());count++;
 const view=await req('public_game_state?select=*&game_id=eq.__uuid_api__');assert.equal(view.status,200);assert.equal(view.data.length,1);assert.ok(!('updated_by'in view.data[0]));assert.ok(!('source_submission_id'in view.data[0]));count++;
+// Follow ownership remains usable and cannot enumerate another member.
+const followed=await req('school_follows',actor(1),{user_id:actor(1),school_slug:'goldthwaite',source_surface:'account'});assert.equal(followed.status,201);count++;
+await empty('school_follows?select=*&user_id=eq.'+actor(1),actor(2));
+const selfFollow=await req('school_follows?select=school_slug',actor(1));assert.equal(selfFollow.status,200);assert.equal(selfFollow.data.length,1);count++;
+// Admin authoring and published/draft RLS stay intact with safe column grants.
+const post=await req('team_feed_posts',actor(4),{id:'00000000-0000-4000-8000-000000000898',primary_school_id:'stephenville',source_type:'varsityvue',status:'draft',caption:'UUID API draft',created_by:actor(4)});
+// Returning * deliberately fails for restricted provenance; existing app writes return minimal.
+assert.ok(post.status>=400);count++;
+const write=await fetch(api+'/rest/v1/team_feed_posts',{method:'POST',headers:{apikey:key,Authorization:'Bearer '+jwt(actor(4)),'Content-Type':'application/json'},body:JSON.stringify({id:'00000000-0000-4000-8000-000000000898',primary_school_id:'stephenville',source_type:'varsityvue',status:'draft',caption:'UUID API draft',created_by:actor(4)})});assert.equal(write.status,201);count++;
+await empty('team_feed_posts?select=id,caption&caption=eq.UUID%20API%20draft');
+const adminDraft=await req('team_feed_posts?select=id,caption&caption=eq.UUID%20API%20draft',actor(4));assert.equal(adminDraft.status,200);assert.equal(adminDraft.data.length,1);count++;
 // Genuine assigned LIVE publication after hardening, from a local account JWT.
 const state=view.data[0];const published=await req('rpc/submit_assigned_scorekeeper_update',actor(5),{p_game_id:'__uuid_api__',p_home_score:14,p_away_score:0,p_period:'1st',p_clock:'10:00',p_expected_state_updated_at:state.updated_at,p_expected_state_revision:state.score_revision,p_confirm_score_decrease:false});assert.equal(published.status,200,JSON.stringify(published));count++;
 const after=await req('rpc/public_score_states',null,{});const current=after.data.find(x=>x.game_id==='__uuid_api__');assert.equal(current.home_score,14);assert.equal(current.attribution_username,'uuid_api_keeper');count++;

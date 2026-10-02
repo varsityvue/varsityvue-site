@@ -73,5 +73,17 @@ try {
  sql(`select set_config('request.jwt.claim.sub','${admin}',false);set role authenticated;select public.submit_trusted_score_update('${game}',14,28,'final',null,null,null,(select updated_at from public.public_game_state where game_id='${game}'),(select score_revision from public.public_game_state where game_id='${game}'),false)`);
  await page.goto(`http://127.0.0.1:3000/report-score?game=${game}`);assert.equal(await page.getByRole('heading',{name:'Trusted LIVE Update',exact:true}).count(),0);
  await page.goto(`http://127.0.0.1:3000/games/${game}`);await page.getByText('Verified by VarsityVue',{exact:true}).filter({visible:true}).first().waitFor();assert.equal(await page.getByText(/Updated by @/).count(),0);
+ // UUID hardening regression: safe owner and operator routes render with real isolated sessions.
+ const operator=await user('uuid-reviewer-browser@example.invalid');
+ sql(`insert into public.user_roles(user_id,role) values('${operator.actor}','admin')`);
+ const operatorContext=await contextFor(operator.session);const operatorPage=await operatorContext.newPage();
+ operatorPage.on('pageerror',e=>errors.push(e.message));
+ for(const route of ['/account','/internal/scoring','/internal/score-review','/internal/score-review/history','/internal/contributor-access','/internal/pickem/submissions','/internal/team-feed','/manage-roster','/internal/score-intelligence','/internal/conversions']) {
+  const response=await operatorPage.goto('http://127.0.0.1:3000'+route);assert.equal(response.status(),200,route);
+  assert.ok(!(await operatorPage.locator('body').innerText()).includes('Application error'),route);
+ }
+ for(const route of ['/','/pickem','/games','/schools/stephenville','/account']) {
+  const response=await page.goto('http://127.0.0.1:3000'+route);assert.equal(response.status(),200,route);
+ }
  assert.deepEqual(errors,[]);console.log('Assigned LIVE UI -> server action -> RPC -> public attribution/fallback, stale/revoked denial, coach exclusion, pending FINAL and responsive checks PASS');
 } finally {await browser?.close();app.kill('SIGTERM');}
