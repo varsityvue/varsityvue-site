@@ -1,3 +1,5 @@
+import type { ScoreAttribution } from "@/lib/public-score-state";
+
 export type SportKey =
   | "football"
   | "volleyball"
@@ -177,6 +179,8 @@ export type Game = {
     period?: string;
     clock?: string;
   };
+
+  scoreAttribution?: ScoreAttribution;
 
   resultType?: "played" | "tie" | "forfeit" | "no_contest";
   officialWinnerSchoolSlug?: string;
