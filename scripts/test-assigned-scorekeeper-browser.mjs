@@ -15,11 +15,12 @@ async function user(email) {
 }
 const keeper=await user('keeper-browser@example.invalid');
 const coach=await user('coach-browser@example.invalid');
+const fallback=await user('fallback-browser@example.invalid');
 const sql=q=>execFileSync('psql',['-X','-At','-v','ON_ERROR_STOP=1','-h','127.0.0.1','-p','54322','-U','postgres','-d','postgres','-c',q],{env:{...process.env,PGPASSWORD:'postgres'},encoding:'utf8'}).trim();
 const admin=sql("select user_id from public.user_roles where role='admin' order by user_id limit 1");assert.match(admin,/^[0-9a-f-]{36}$/);
 const game='goldthwaite-at-miles-2026-week-6';
-sql(`insert into public.user_roles(user_id,role) values('${keeper.actor}','scorekeeper'),('${coach.actor}','scorekeeper');
-insert into public.contributor_school_assignments(user_id,school_slug,assignment_role) values('${keeper.actor}','goldthwaite','scorekeeper'),('${coach.actor}','goldthwaite','coach');
+sql(`insert into public.user_roles(user_id,role) values('${keeper.actor}','scorekeeper'),('${coach.actor}','scorekeeper'),('${fallback.actor}','scorekeeper');
+insert into public.contributor_school_assignments(user_id,school_slug,assignment_role) values('${keeper.actor}','goldthwaite','scorekeeper'),('${coach.actor}','goldthwaite','coach'),('${fallback.actor}','miles','scorekeeper');
 update public.profiles set username='browser_scorekeeper' where id='${keeper.actor}';
 select set_config('request.jwt.claim.sub','${admin}',false);set role authenticated;
 select public.submit_trusted_score_update('${game}',14,21,'live','3rd','04:00',null,null,null,true);`);
@@ -49,7 +50,7 @@ try {
  assert.equal((await page.content()).includes(keeper.actor),false,'Private actor leaked in Game Center');
  await page.goto('http://127.0.0.1:3000/scoreboard');await page.getByText('Updated by @browser_scorekeeper',{exact:true}).first().waitFor();
  await page.goto('http://127.0.0.1:3000/schools/goldthwaite');await page.getByText('Updated by @browser_scorekeeper',{exact:true}).first().waitFor({state:'attached'});
- sql(`update public.profiles set username=null where id='${keeper.actor}'`);
+ sql(`select set_config('request.jwt.claim.sub','${fallback.actor}',false);set role authenticated;select public.submit_assigned_scorekeeper_update('${game}',14,20,'3rd','04:00',(select updated_at from public.game_state where game_id='${game}'),(select score_revision from public.game_state where game_id='${game}'),false)`);
  await page.goto(`http://127.0.0.1:3000/games/${game}`);await page.getByText('Updated by VarsityVue contributor',{exact:true}).first().waitFor();
  // The tokens stay page-origin even while another publisher wins.
  await page.goto(`http://127.0.0.1:3000/report-score?game=${game}`);await page.getByRole('heading',{name:'Trusted LIVE Update',exact:true}).waitFor();

@@ -67,6 +67,7 @@ SQL
  PID=$!
  for _ in {1..100}; do [[ -e "$MARKER" ]] && break; sleep 0.05; done
  [[ -e "$MARKER" ]] || { cat "$A_LOG"; exit 1; }
+ START=$(date +%s)
  set +e
  timeout 15 "${PSQL[@]}" >"$B_LOG" 2>&1 <<SQL
 set statement_timeout='12s';
@@ -77,6 +78,7 @@ SQL
  CODE=$?
  set -e
  wait "$PID"
+ [[ $(($(date +%s)-START)) -ge 1 ]] || { cat "$B_LOG"; echo 'Competing transaction did not wait on authorization/game locks'; exit 1; }
  if [[ "$MODE" == publication_* ]]; then
  [[ "$CODE" == 0 ]] || { cat "$B_LOG"; exit 1; }
  # Authorized publication completed before revocation; next update denied.

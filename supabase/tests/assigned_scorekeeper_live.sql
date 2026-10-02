@@ -103,8 +103,6 @@ set local role authenticated;
 select * from public.submit_score_submission('__keeper_live__',14,28,'final',null,null,null);
 reset role;
 do $$ begin if not exists(select 1 from public.score_submissions where game_id='__keeper_live__' and game_status='final' and status='pending') then raise exception 'Pending FINAL changed';end if;end $$;
-update public.profiles set username=null where id=(select id from keeper_actors where label='keeper');
-do $$ begin if not exists(select 1 from public.public_score_states() where game_id='__keeper_live__' and attribution_type='publisher' and attribution_username is null) then raise exception 'Fallback broken';end if;end $$;
 update public.profiles set username='renamed_keeper' where id=(select id from keeper_actors where label='keeper');
 delete from public.contributor_school_assignments where user_id=(select id from keeper_actors where label='keeper');
 set local role authenticated;select pg_temp.keeper_failure('live','42501');reset role;
@@ -113,6 +111,7 @@ do $$ begin if not exists(select 1 from public.public_score_states() where game_
 update keeper_tokens t set updated_at=g.updated_at,revision=g.score_revision from public.game_state g where t.name='live' and g.game_id='__keeper_live__';
 select set_config('request.jwt.claim.sub',(select id::text from keeper_actors where label='opposite'),true);
 set local role authenticated;select pg_temp.keeper_update('live',13,28,true);reset role;
+do $$ begin if not exists(select 1 from public.public_score_states() where game_id='__keeper_live__' and attribution_type='publisher' and attribution_username is null) then raise exception 'Fallback broken';end if;end $$;
 -- Moderator override, then keeper stale denial, then current LIVE update allowed.
 select set_config('request.jwt.claim.sub',(select id::text from keeper_actors where label='moderator'),true);
 set local role authenticated;
