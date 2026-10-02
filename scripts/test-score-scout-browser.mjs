@@ -9,15 +9,17 @@ const api = vars.API_URL;
 assert.equal(api, 'http://127.0.0.1:54321', 'Browser test must never target production');
 const key = vars.ANON_KEY; const serviceKey = vars.SERVICE_ROLE_KEY;
 assert.ok(key && serviceKey);
-const actor = '00000000-0000-4000-8000-000000000901';
 const password = randomBytes(24).toString('base64url');
-let response = await fetch(`${api}/auth/v1/admin/users/${actor}`, { method:'PUT', headers:{apikey:serviceKey,Authorization:`Bearer ${serviceKey}`,'Content-Type':'application/json'},body:JSON.stringify({password}) });
-assert.ok(response.ok, 'Disposable Auth password setup failed');
-response = await fetch(`${api}/auth/v1/token?grant_type=password`, {method:'POST',headers:{apikey:key,'Content-Type':'application/json'},body:JSON.stringify({email:'regression-1@example.invalid',password})});
+let response = await fetch(`${api}/auth/v1/admin/users`, { method:'POST', headers:{apikey:serviceKey,Authorization:`Bearer ${serviceKey}`,'Content-Type':'application/json'},body:JSON.stringify({email:'scout-browser@example.invalid',password,email_confirm:true}) });
+assert.ok(response.ok, 'Disposable Auth user setup failed');
+const actor = (await response.json()).id;
+assert.match(actor, /^[0-9a-f-]{36}$/);
+response = await fetch(`${api}/auth/v1/token?grant_type=password`, {method:'POST',headers:{apikey:key,'Content-Type':'application/json'},body:JSON.stringify({email:'scout-browser@example.invalid',password})});
 assert.ok(response.ok,'Disposable Auth login failed');
 const session = await response.json();
 const sql = (query) => execFileSync('psql',['-X','-At','-v','ON_ERROR_STOP=1','-h','127.0.0.1','-p','54322','-U','postgres','-d','postgres','-c',query],{env:{...process.env,PGPASSWORD:'postgres'},encoding:'utf8'}).trim();
-sql(`insert into public.missing_score_intelligence(game_id,kickoff,away_team,home_team,away_school_slug,home_school_slug) values
+sql(`insert into public.user_roles(user_id,role) values('${actor}','admin');
+insert into public.missing_score_intelligence(game_id,kickoff,away_team,home_team,away_school_slug,home_school_slug) values
 ('goldthwaite-at-miles-2026-week-6',now()-interval '5 hours','Goldthwaite','Miles','goldthwaite','miles'),
 ('albany-at-stamford-2026-week-7',now()-interval '5 hours','Albany','Stamford','albany','stamford'),
 ('anson-at-cisco-2026-week-7',now()-interval '5 hours','Anson','Cisco','anson','cisco');

@@ -34,7 +34,7 @@ begin
  from (select 1) seed left join public.game_state s on s.game_id=g;
 end $$;
 select pg_temp.scout_fixture(n,case when n in('stale_time','stale_revision','stale_absent','final_conflict','final_same','exceptional') then case when n in('final_conflict','final_same') then 'final' else 'live' end else null end)
-from unnest(array['mod','admin','authority','reject','defer','stale_time','stale_revision','stale_absent','evidence','mapping','final_conflict','final_same','tie','exceptional','confirm','rollback','community','keeper']) n;
+from unnest(array['mod','admin','authority','reject','defer','stale_time','stale_revision','stale_absent','evidence','mapping','final_conflict','final_same','tie','exceptional','confirm','rollback','community','keeper','registry']) n;
 insert into public.missing_score_evidence(intelligence_id,source_name,home_score,away_score)
 select candidate,'Sibling',21,28 from scout_fixtures where name='mod';
 -- Equal-result terminal request still fails, not an idempotent new publication.
@@ -44,6 +44,7 @@ update public.missing_score_evidence set home_score=21,away_score=21 where id=(s
 update scout_fixtures set snapshot=snapshot||'{"home_score":21,"away_score":21}' where name='tie';
 update public.missing_score_evidence set evidence_note='Changed after page load' where id=(select evidence from scout_fixtures where name='evidence');
 update public.missing_score_intelligence set game_id='__scout_other_mapping__' where id=(select candidate from scout_fixtures where name='mapping');
+update private.canonical_game_identity set away_school_slug='changed-registry-away' where game_id='__scout_registry__';
 grant select on scout_actors,scout_fixtures to authenticated;
 create function pg_temp.scout_review(n text,d text default 'approve',patch jsonb default '{}') returns jsonb language plpgsql as $$
 declare f scout_fixtures%rowtype;begin
@@ -85,6 +86,7 @@ select pg_temp.scout_failure('stale_absent','40001','{"absent":true}');
 select pg_temp.scout_failure('authority','40001','{"absent":false,"revision":0,"updated_at":"2000-01-01T00:00:00Z"}');
 select pg_temp.scout_failure('evidence','40001');
 select pg_temp.scout_failure('mapping','40001');
+select pg_temp.scout_failure('registry','40001');
 select pg_temp.scout_failure('final_conflict','P0001');
 select pg_temp.scout_failure('final_same','P0001');
 select pg_temp.scout_failure('tie','22023');

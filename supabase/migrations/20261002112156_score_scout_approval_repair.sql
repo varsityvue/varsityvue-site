@@ -125,6 +125,10 @@ begin
   submission := public.submit_trusted_score_update(i.game_id,e.home_score,e.away_score,'final',null,null,
     left('Score Scout evidence: '||e.source_name||coalesce(' — '||e.source_url,''),500),
     p_expected_state_updated_at,p_expected_state_revision,p_expected_state_absent);
+  select * into g from public.game_state where game_id=i.game_id;
+  if g.away_school_slug is distinct from i.away_school_slug or g.home_school_slug is distinct from i.home_school_slug then
+    raise exception using errcode='40001',message='Game mapping changed — review the evidence again.';
+  end if;
   if not exists(select 1 from public.score_submissions s join public.game_state state
     on state.source_submission_id=s.id and state.game_id=s.game_id
     where s.id=submission and s.status='approved' and s.game_id=i.game_id
