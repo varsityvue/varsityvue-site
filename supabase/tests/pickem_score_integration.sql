@@ -76,10 +76,16 @@ do $$ declare w uuid;begin
  select id into w from integration_week;
  if (select state from public.admin_pickem_correction_review_status(w))<>'superseded'
  or exists(select 1 from public.admin_pickem_provisional_winner_contact(w))
- or (select actual_total from public.pickem_week_standings where week_id=w limit 1)<>70
- or (select distance from public.pickem_week_standings s join integration_ids i on i.id=s.user_id
-     where s.week_id=w and i.label='B')<>0
+ or (select actual_total from public.internal_pickem_week_standings(w) limit 1)<>70
+ or (select distance from public.internal_pickem_week_standings(w) s join integration_ids i on i.id=s.user_id
+     where i.label='B')<>0
  then raise exception 'A: corrected total, error, or supersession failed';end if;
+ -- Public projection preserves eligibility, ordering and tiebreaker values without identities.
+ if (select actual_total from public.public_pickem_week_standings(w) limit 1)<>70
+ or exists(select 1 from public.public_pickem_week_standings(w) s where to_jsonb(s)?'user_id')
+ or (select array_agg(correct_picks order by ordinal) from public.public_pickem_week_standings(w))
+ is distinct from (select array_agg(correct_picks order by weekly_rank,user_id) from public.internal_pickem_week_standings(w))
+ then raise exception 'Public weekly contract changed ranking or exposed identity';end if;
  perform public.admin_finalize_pickem_contest_results(w);
  if (select user_id from public.admin_pickem_provisional_winner_contact(w)) is distinct from
     (select id from integration_ids where label='B') then raise exception 'A: B not new leader';end if;

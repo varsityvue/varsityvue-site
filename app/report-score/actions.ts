@@ -1,5 +1,7 @@
 "use server";
 
+import type { OwnScoreReport } from "@/lib/public-read-contracts";
+
 import { revalidatePath } from "next/cache";
 import { assignedLivePayload, assignedLiveError } from "@/lib/assigned-scorekeeper";
 
@@ -117,13 +119,11 @@ export async function submitScore(formData: FormData) {
   const clock = gameStatus === "live" ? (text(formData, "clock") || null) : null;
 
   const { data: pendingReports } = await supabase
-    .from("score_submissions")
-    .select("home_score, away_score, game_status, period, clock")
-    .eq("submitted_by", userId)
+    .rpc("own_score_report_status")
     .eq("game_id", gameId)
     .eq("status", "pending");
 
-  const exactDuplicate = (pendingReports ?? []).some((pending) =>
+  const exactDuplicate = ((pendingReports ?? []) as OwnScoreReport[]).some((pending) =>
     pending.home_score === homeScore &&
     pending.away_score === awayScore &&
     pending.game_status === gameStatus &&

@@ -1,3 +1,4 @@
+import type { PublicSeasonStanding, PublicWeekStanding, OwnPickemSummary } from "@/lib/public-read-contracts";
 import type { Metadata } from "next";
 import Link from "next/link";
 import PickemGuestSlate from "@/components/PickemGuestSlate";
@@ -9,7 +10,6 @@ import { logoForPickemWeek } from "@/data/pickem-sponsor-logos";
 import { getPickemLogoFilter, getPickemLogoPath } from "@/data/school-logos";
 import { getGameById } from "@/lib/games";
 import { memberAccountStatus } from "@/lib/member-access";
-import { rankPickemStandings } from "@/lib/pickem-lifecycle";
 import { isPickemEntryClosed, isPickemWeekClosed } from "@/lib/pickem-week-state";
 import { centralContestDeadline } from "@/lib/pickem-contest-display";
 import { orderPickemSlateRows } from "@/lib/pickem-display-order";
@@ -95,14 +95,7 @@ export default async function PickemPage({ searchParams }: PageProps) {
           .select("id, game_id, sort_order, lock_at, away_school_slug, home_school_slug, is_locked")
           .eq("week_id", week.id)
           .order("sort_order", { ascending: true }),
-        supabase
-          .from("pickem_standings")
-          .select("user_id, display_name, username, graded_picks, correct_picks, accuracy_pct")
-          .eq("season", week.season)
-          .order("correct_picks", { ascending: false })
-          .order("accuracy_pct", { ascending: false })
-          .order("user_id", { ascending: true })
-          .limit(10),
+        supabase.rpc("public_pickem_season_standings", { p_season: week.season }).limit(10),
       ])
     : [{ data: [] }, { data: [] }];
 
@@ -135,7 +128,7 @@ export default async function PickemPage({ searchParams }: PageProps) {
   const voidGameIds = new Set((voidGames ?? []).map((row) => row.pickem_game_id));
 
   const memberGameIds = [...new Set((memberPickRows ?? []).map((pick) => pick.pickem_game_id))];
-  const [{ data: memberGameRows }, { data: memberTotal }] = isActiveMember && week
+  const [{ data: memberGameRows }, { data: rawMemberTotal }] = isActiveMember && week
     ? await Promise.all([
         memberGameIds.length > 0
           ? supabase
@@ -143,12 +136,7 @@ export default async function PickemPage({ searchParams }: PageProps) {
               .select("id, game_id, week_id, result_winner_school_slug, graded_at")
               .in("id", memberGameIds)
           : Promise.resolve({ data: [] }),
-        supabase
-          .from("pickem_member_totals")
-          .select("graded_picks, correct_picks, incorrect_picks")
-          .eq("season", week.season)
-          .eq("user_id", userId!)
-          .maybeSingle(),
+        supabase.rpc("own_pickem_season_summary", { p_season: week.season }).maybeSingle(),
       ])
     : [{ data: [] }, { data: null }];
 
@@ -166,16 +154,11 @@ export default async function PickemPage({ searchParams }: PageProps) {
       ])
     : [{ data: [] }, { data: [] }];
 
+  const memberTotal = rawMemberTotal as OwnPickemSummary | null;
   const correctPicks = memberTotal?.correct_picks ?? 0;
   const gradedPicks = memberTotal?.graded_picks ?? 0;
   const incorrectPicks = memberTotal?.incorrect_picks ?? 0;
-  const { count: higherScoreCount } = isActiveMember && week && gradedPicks > 0
-    ? await supabase
-        .from("pickem_member_totals")
-        .select("user_id", { count: "exact", head: true })
-        .eq("season", week.season)
-        .gt("correct_picks", correctPicks)
-    : { count: null };
+
 
   const allPicksLocked = Boolean(week && (slateRows ?? []).filter((row) => !voidGameIds.has(row.id))
     .every((row) => row.is_locked === true));
@@ -184,9 +167,10 @@ export default async function PickemPage({ searchParams }: PageProps) {
   const newEntriesClosed = contestWeek && isPickemEntryClosed(
     week?.entry_deadline_at ? new Date(week.entry_deadline_at).getTime() : firstKickoff,
   );
-  const { data: weeklyStandings } = week && weekClosed
-    ? await supabase.from("pickem_week_standings").select("user_id, display_name, username, correct_picks, graded_picks, predicted_total, actual_total, distance, weekly_rank").eq("week_id", week.id).order("weekly_rank", { ascending: true }).order("user_id", { ascending: true }).limit(20)
+  const { data: rawWeeklyStandings } = week && weekClosed
+    ? await supabase.rpc("public_pickem_week_standings", { p_week_id: week.id }).limit(20)
     : { data: [] };
+  const weeklyStandings = (rawWeeklyStandings ?? []) as PublicWeekStanding[];
   const typedDraftPicks = (draftPicks ?? []) as Array<{ pickem_game_id: string; picked_school_slug: string }>;
   const selections = new Map<string, string>([
     ...(memberPickRows ?? []).map((pick) => [pick.pickem_game_id, pick.picked_school_slug] as const),
@@ -292,8 +276,8 @@ export default async function PickemPage({ searchParams }: PageProps) {
 
   const memberHistory = [...historyByWeek.values()].sort((a, b) => b.season - a.season || b.week - a.week);
   const accuracy = gradedPicks > 0 ? Math.round((correctPicks / gradedPicks) * 1000) / 10 : 0;
-  const seasonRank = gradedPicks > 0 && higherScoreCount !== null ? (higherScoreCount ?? 0) + 1 : null;
-  const rankedLeaderboard = rankPickemStandings(leaderboardRows ?? []);
+  const seasonRank = memberTotal?.season_rank ?? null;
+  const rankedLeaderboard = (leaderboardRows ?? []) as PublicSeasonStanding[];
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] px-4 py-4 text-white sm:px-6 sm:py-12 lg:px-8">
@@ -398,11 +382,11 @@ export default async function PickemPage({ searchParams }: PageProps) {
           </section>
         ) : null}
 
-        {weekClosed && weeklyStandings && weeklyStandings.length > 0 && <section className="mt-5 rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-5 sm:mt-7 sm:p-7"><h2 className="text-2xl font-black">Week {week?.week} standings</h2><p className="mt-1 text-xs text-white/45">{week?.status === "graded" ? "Final weekly results" : "Provisional while results are graded"}{week?.tiebreaker_game_id ? " · Pick ’Em Tiebreaker Game combined points break ties when a verified played final is available." : " · No tiebreaker was collected for this week."}</p><div className="mt-4 divide-y divide-white/10">{weeklyStandings.map((entry) => <div key={entry.user_id} className="grid grid-cols-[2rem_1fr_auto] items-center gap-3 py-3"><span className="font-black text-white/45">{entry.weekly_rank}</span><div className="min-w-0"><p className="truncate text-sm font-black">{entry.display_name || entry.username || "VarsityVue Member"}</p><p className="text-[10px] text-white/45">{entry.graded_picks} graded{entry.distance !== null ? ` · ${entry.distance} points from total` : ""}</p></div><span className="text-xl font-black">{entry.correct_picks}</span></div>)}</div></section>}
+        {weekClosed && weeklyStandings && weeklyStandings.length > 0 && <section className="mt-5 rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-5 sm:mt-7 sm:p-7"><h2 className="text-2xl font-black">Week {week?.week} standings</h2><p className="mt-1 text-xs text-white/45">{week?.status === "graded" ? "Final weekly results" : "Provisional while results are graded"}{week?.tiebreaker_game_id ? " · Pick ’Em Tiebreaker Game combined points break ties when a verified played final is available." : " · No tiebreaker was collected for this week."}</p><div className="mt-4 divide-y divide-white/10">{weeklyStandings.map((entry) => <div key={entry.ordinal} className="grid grid-cols-[2rem_1fr_auto] items-center gap-3 py-3"><span className="font-black text-white/45">{entry.weekly_rank}</span><div className="min-w-0"><p className="truncate text-sm font-black">{entry.display_name || entry.username || "VarsityVue Member"}</p><p className="text-[10px] text-white/45">{entry.graded_picks} graded{entry.distance !== null ? ` · ${entry.distance} points from total` : ""}</p></div><span className="text-xl font-black">{entry.correct_picks}</span></div>)}</div></section>}
 
         <section className="mt-5 rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-5 sm:mt-7 sm:p-7">
           <div className="flex items-end justify-between gap-3"><div><p className="text-[9px] font-black uppercase tracking-[0.18em] text-[var(--vv-accent)]">Season Standings</p><h2 className="mt-1 text-2xl font-black sm:text-3xl">Leaderboard</h2></div><p className="text-[10px] text-white/35">Verified finals only</p></div>
-          {rankedLeaderboard.length > 0 ? <div className="mt-4 divide-y divide-white/10">{rankedLeaderboard.map((entry) => <div key={entry.user_id} className="grid grid-cols-[2rem_1fr_auto] items-center gap-3 py-3"><span className="text-sm font-black text-white/35">{entry.rank}</span><div className="min-w-0"><p className="truncate text-sm font-black">{entry.display_name || entry.username || "VarsityVue Member"}</p><p className="mt-0.5 text-[10px] text-white/35">{entry.graded_picks} graded · {entry.accuracy_pct}% correct</p></div><p className="text-xl font-black">{entry.correct_picks}</p></div>)}</div> : <p className="mt-4 rounded-xl border border-white/10 bg-black/25 p-4 text-sm text-white/45">Standings will appear as Week {week?.week ?? "—"} games are graded.</p>}
+          {rankedLeaderboard.length > 0 ? <div className="mt-4 divide-y divide-white/10">{rankedLeaderboard.map((entry) => <div key={entry.ordinal} className="grid grid-cols-[2rem_1fr_auto] items-center gap-3 py-3"><span className="text-sm font-black text-white/35">{entry.rank}</span><div className="min-w-0"><p className="truncate text-sm font-black">{entry.display_name || entry.username || "VarsityVue Member"}</p><p className="mt-0.5 text-[10px] text-white/35">{entry.graded_picks} graded · {entry.accuracy_pct}% correct</p></div><p className="text-xl font-black">{entry.correct_picks}</p></div>)}</div> : <p className="mt-4 rounded-xl border border-white/10 bg-black/25 p-4 text-sm text-white/45">Standings will appear as Week {week?.week ?? "—"} games are graded.</p>}
         </section>
       </div>
     </main>

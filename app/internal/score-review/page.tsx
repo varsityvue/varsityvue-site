@@ -62,7 +62,7 @@ export default async function ScoreReviewPage({ searchParams }: PageProps) {
   const params = await searchParams;
   const [{ data: submissions }, dynamicGames, { data: scheduleStates }] = await Promise.all([
     supabase
-      .from("score_submissions")
+      .from("internal_score_submissions")
       .select("id, game_id, submitted_by, home_score, away_score, game_status, period, clock, source_note, status, created_at")
       .eq("status", "pending")
       .order("created_at", { ascending: true }),

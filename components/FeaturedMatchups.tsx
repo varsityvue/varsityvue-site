@@ -84,7 +84,7 @@ function BroadcastIcon({ type }: { type: string }) {
 export default async function FeaturedMatchups() {
   const supabase = await createClient();
   const { data: dynamicRows } = await supabase
-    .from("game_state")
+    .from("public_game_state")
     .select("game_id, status, home_score, away_score, period, clock, verified, kickoff_override")
     .eq("verified", true);
   const dynamicState = new Map(

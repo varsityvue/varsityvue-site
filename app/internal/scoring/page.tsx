@@ -22,7 +22,7 @@ export default async function ScoringOperationsPage({ searchParams }: {
   const now = new Date();
   const [{ data: states, error: stateError }, { data: pending, error: reportError }, { data: intelligence, error: intelligenceError }, allGames] = await Promise.all([
     supabase.from("game_state").select("game_id,status,away_score,home_score,period,clock,updated_at,score_revision,away_school_slug,home_school_slug,verified"),
-    supabase.from("score_submissions").select("id,game_id,away_score,home_score,game_status,created_at").eq("status", "pending").order("created_at", { ascending: true }),
+    supabase.from("internal_score_submissions").select("id,game_id,away_score,home_score,game_status,created_at").eq("status", "pending").order("created_at", { ascending: true }),
     supabase.from("missing_score_intelligence").select("game_id").eq("status", "open"),
     getDynamicGames(),
   ]);

@@ -60,10 +60,10 @@ do $$ declare n integer; w public.pickem_weeks; original jsonb; g uuid; feature_
  perform pg_temp.check_error('select public.configure_pickem_draft(2026,8,1,''Bad'',''[{"game_id":"forged","schedule_revision":0}]'',''{forged}'')','22023');
  perform pg_temp.check_error(format('select public.configure_pickem_draft(2026,8,1,''Bad'',%L::jsonb,%L::text[])',jsonb_set(pg_temp.payload(8),'{0,schedule_revision}','null'),pg_temp.tb(8)),'22023');
  insert into setup_results values('invalid canonical games and missing revisions rejected');
- original:=(select to_jsonb(x) from public.pickem_weeks x where season=2026 and week=8);
+ original:=(select to_jsonb(x) from public.internal_pickem_weeks x where season=2026 and week=8);
  perform pg_temp.check_error(format('select public.configure_pickem_draft(2026,8,1,''Partial'',%L::jsonb,%L::text[])',
    jsonb_set(pg_temp.payload(8,0,true),'{1,schedule_revision}','1'),pg_temp.tb(8)),'40001');
- if (select to_jsonb(x) from public.pickem_weeks x where season=2026 and week=8) is distinct from original
+ if (select to_jsonb(x) from public.internal_pickem_weeks x where season=2026 and week=8) is distinct from original
    or (select count(*) from public.pickem_games where week_id=(original->>'id')::uuid)<>1 then raise exception 'Partial edit survived'; end if;
  insert into setup_results values('existing draft rollback on intermediate schedule failure');
  select * into w from public.configure_pickem_draft(2026,8,1,'Changed title',pg_temp.payload(8),pg_temp.tb(8));
@@ -97,7 +97,7 @@ reset role;
 update public.pickem_weeks set official_rules_version=null where season=2026 and week=10;
 set local role authenticated;
 do $$ declare w public.pickem_weeks; begin
- select * into w from public.pickem_weeks where season=2026 and week=10;
+ select * into w from public.internal_pickem_weeks where season=2026 and week=10;
  perform pg_temp.check_error(format('select public.open_pickem_draft(%L,%s,%L::jsonb)',w.id,w.configuration_revision,
    (select jsonb_object_agg(game_id,0) from public.pickem_games where week_id=w.id)),'22023');
  perform public.configure_pickem_draft(2026,10,w.configuration_revision,w.title,pg_temp.payload(10),pg_temp.tb(10));
@@ -129,7 +129,7 @@ do $$ declare actor record; w uuid; begin
  insert into setup_results values('admin moderator member scorekeeper and dedicated-operation boundaries');
 end $$;
 do $$ declare w public.pickem_weeks; revisions jsonb; begin
- select * into w from public.pickem_weeks where season=2026 and week=7;
+ select * into w from public.internal_pickem_weeks where season=2026 and week=7;
  select jsonb_object_agg(game_id,0) into revisions from public.pickem_games where week_id=w.id;
  perform pg_temp.check_error(format('select public.open_pickem_draft(%L,1,%L::jsonb)',w.id,revisions),'40001');
  perform pg_temp.check_error(format('select public.open_pickem_draft(%L,%s,%L::jsonb)',w.id,w.configuration_revision,jsonb_set(revisions,array[(select game_id from public.pickem_games where week_id=w.id limit 1)],'1')),'40001');
@@ -141,7 +141,7 @@ do $$ declare w public.pickem_weeks; revisions jsonb; begin
  insert into setup_snapshots values('published',to_jsonb(w));
  perform pg_temp.check_error(format('select public.configure_pickem_draft(2026,7,%s,''Unsafe'',%L::jsonb,%L::text[])',w.configuration_revision,pg_temp.payload(7),pg_temp.tb(7)),'55000');
  perform pg_temp.check_error(format('select public.open_pickem_draft(%L,%s,%L::jsonb)',w.id,w.configuration_revision,revisions),'55000');
- if (select to_jsonb(x) from public.pickem_weeks x where id=w.id) is distinct from (select value from setup_snapshots where key='published') then raise exception 'Published week changed'; end if;
+ if (select to_jsonb(x) from public.internal_pickem_weeks x where id=w.id) is distinct from (select value from setup_snapshots where key='published') then raise exception 'Published week changed'; end if;
  insert into setup_results values('published edits and repeated opening rejected without metadata changes');
 end $$;
 reset role;
@@ -221,7 +221,7 @@ reset role;
 set local role authenticated;
 select set_config('request.jwt.claim.sub',(select id::text from setup_actors where label='admin'),true);
 do $$ declare w public.pickem_weeks; begin
- select * into w from public.pickem_weeks where season=2026 and week=7;
+ select * into w from public.internal_pickem_weeks where season=2026 and week=7;
  perform pg_temp.check_error(format('select public.configure_pickem_draft(2026,7,%s,''Unsafe'',%L::jsonb,%L::text[])',w.configuration_revision,pg_temp.payload(7),pg_temp.tb(7)),'55000');
  if pg_temp.protected_state() is distinct from (select value from setup_snapshots where key='protected') then raise exception 'Protected contest state changed'; end if;
  insert into setup_results values('receipt picks predictions private drafts deadlines locks grades standings and audit state preserved');

@@ -1,3 +1,4 @@
+import type { OwnScoreReport } from "@/lib/public-read-contracts";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -139,7 +140,7 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
   // Only public state and page-origin stale tokens enter the form, never actors
   // or assignment snapshots. Canonical scope is rechecked under RPC row locks.
   const { data: liveStates } = isRestrictedScorekeeper
-    ? await supabase.from("game_state").select("game_id,status,verified,home_score,away_score,home_school_slug,away_school_slug,result_type,official_winner_school_slug,period,clock,updated_at,score_revision").eq("status", "live").eq("verified", true)
+    ? await supabase.from("public_game_state").select("game_id,status,verified,home_score,away_score,home_school_slug,away_school_slug,result_type,official_winner_school_slug,period,clock,updated_at,score_revision").eq("status", "live").eq("verified", true)
     : { data: null };
   const trustedGames = (liveStates ?? []).filter((state) => eligibleAssignedLiveState(isRestrictedScorekeeper, assignments ?? [], state)).flatMap((state) => {
     const game = relevantGames.find((g) => g.id === state.game_id);
@@ -155,21 +156,19 @@ export default async function ReportScorePage({ searchParams }: PageProps) {
     ? `/games/${encodeURIComponent(params.game)}`
     : null;
 
-  const [{ data: recentSubmissions }, { data: pendingSubmissions }] = await Promise.all([
+  const [{ data: rawRecentSubmissions }, { data: rawPendingSubmissions }] = await Promise.all([
     supabase
-      .from("score_submissions")
-      .select("id, game_id, home_score, away_score, game_status, period, status, created_at")
-      .eq("submitted_by", userId)
+      .rpc("own_score_report_status")
       .order("created_at", { ascending: false })
       .limit(5),
     supabase
-      .from("score_submissions")
-      .select("game_id, home_score, away_score, game_status, period, clock, created_at")
-      .eq("submitted_by", userId)
+      .rpc("own_score_report_status")
       .eq("status", "pending")
       .order("created_at", { ascending: false }),
   ]);
 
+  const recentSubmissions = (rawRecentSubmissions ?? []) as OwnScoreReport[];
+  const pendingSubmissions = (rawPendingSubmissions ?? []) as OwnScoreReport[];
   const pendingByGame = new Map<string, NonNullable<typeof pendingSubmissions>[number]>();
   for (const pending of pendingSubmissions ?? []) {
     if (!pendingByGame.has(pending.game_id)) pendingByGame.set(pending.game_id, pending);

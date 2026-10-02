@@ -8,7 +8,7 @@ export async function loadPublicScoreStates(supabase: SupabaseClient): Promise<P
 
   // Additive rollout: preserve existing scores while the RPC is unavailable.
   // The old projection is explicitly sanitized and never supplies attribution.
-  const fallback = await supabase.from("game_state")
+  const fallback = await supabase.from("public_game_state")
     .select("game_id,status,home_score,away_score,period,clock,verified,kickoff_override,result_type,official_winner_school_slug")
     .eq("verified", true);
   return ((fallback.data ?? []) as PublicScoreState[]).map((row) => projectPublicScoreState({
