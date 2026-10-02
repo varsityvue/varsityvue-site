@@ -124,7 +124,7 @@ select public.submit_trusted_score_update('__attribution_live__',0,21,'live','3r
  (select updated_at from public.game_state where game_id='__attribution_live__'),
  (select score_revision from public.game_state where game_id='__attribution_live__'),false);
 select public.submit_trusted_score_update('__attribution_final__',21,28,'final',null,null,null,null,null,true);
-select * from public.admin_originate_canonical_game_outcome('__attribution_outcome__',null,'no_contest',null,
+select * from public.admin_originate_canonical_game_outcome('__attribution_outcome__',0,'no_contest',null,
  'Official fixture source','Private outcome reason','attr-away','attr-home');
 reset role;
 select pg_temp.assert_attribution('__attribution_live__','publisher','publisher_a');
