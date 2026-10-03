@@ -90,7 +90,7 @@ try{
  }
  const beforeInactivity=summaries.length;await page.clock.fastForward(61000);await idle();assert.equal(summaries.length,beforeInactivity+1);await nearby.locator('#nearby-radius').selectOption('100');await page.clock.fastForward(61000);await idle();assert.equal(summaries.length,beforeInactivity+1);
  pass('Bounded inactivity finalizes once; later radius interactions cannot duplicate the same episode');
- await optin.focus();const focus=await optin.evaluate(e=>({active:document.activeElement===e,outline:getComputedStyle(e).outlineStyle}));assert.ok(focus.active);assert.notEqual(focus.outline,'none');await page.keyboard.press('Tab');assert.equal(await decline.evaluate(e=>document.activeElement===e),true);await page.keyboard.press('Enter');assert.equal(await decline.getAttribute('aria-pressed'),'true');
+ await page.keyboard.press('Tab');await optin.focus();const focus=await optin.evaluate(e=>({active:document.activeElement===e,outline:getComputedStyle(e).outlineStyle}));assert.ok(focus.active);assert.notEqual(focus.outline,'none');await page.keyboard.press('Tab');assert.equal(await decline.evaluate(e=>document.activeElement===e),true);await page.keyboard.press('Enter');assert.equal(await decline.getAttribute('aria-pressed'),'true');
  const beforeDecline=summaries.length;await clear();await idle();assert.equal(summaries.length,beforeDecline);
  pass('Keyboard/focus and opt-out discard active episode without delivery');
  const privacy=await page.evaluate(async()=>({url:location.href,html:document.documentElement.outerHTML,local:JSON.stringify(localStorage),session:JSON.stringify(sessionStorage),cookie:document.cookie,databases:indexedDB.databases?await indexedDB.databases():[]}));
