@@ -112,7 +112,9 @@ test("kickoff inferred LIVE never claims verified score coverage", () => {
 });
 test("client location is transient and discovery does not transmit it", () => {
   const client = readFileSync("components/GamesNearMe.tsx", "utf8");
-  assert.match(client, /getCurrentPosition/); assert.doesNotMatch(client, /watchPosition|localStorage|sessionStorage|indexedDB|document\.cookie|fetch\(|sendBeacon|console\.|track\(|router\.|URLSearchParams/);
+  assert.match(client, /getCurrentPosition/); assert.doesNotMatch(client, /watchPosition|sessionStorage|indexedDB|document\.cookie|fetch\(|sendBeacon|console\.|track\(|router\.|URLSearchParams/);
+  assert.deepEqual(client.match(/localStorage\.setItem\([^;]+/g), ["localStorage.setItem(COVERAGE_CHOICE_KEY, choice)"]);
+  assert.deepEqual(client.match(/localStorage\.getItem\([^;]+/g), ["localStorage.getItem(COVERAGE_CHOICE_KEY)"]);
   assert.doesNotMatch(client, /sourceReferences|verifiedAt|applicant_id|updated_by|source_submission_id/);
   assert.match(client, /prefetch=\{false\}/);
   const page = readFileSync("app/games/page.tsx", "utf8"); assert.doesNotMatch(page, /^"use client"/);

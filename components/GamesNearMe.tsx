@@ -7,7 +7,11 @@ import { approvedLocationPilotSlates } from "@/data/game-location-pilot";
 import { currentScheduleWeek, nearbyGames, pilotGate, NEARBY_RADII, type DiscoveryFilter } from "@/lib/game-discovery";
 import { distanceLabel, validPoint, type GeographicPoint } from "@/lib/geo-distance";
 
-type Center = GeographicPoint & { label: string };
+import { buildSearchSummary } from "@/lib/coverage-demand-summary";
+import { CoverageEpisode, COVERAGE_CHOICE_KEY, EPISODE_INACTIVITY_MS, deliverCoverageSummary } from "@/lib/coverage-demand-client";
+import type { CoverageChoice, CenterSource } from "@/types/coverage-demand";
+
+type Center = GeographicPoint & { label: string; source: CenterSource };
 const control = "min-h-11 rounded-xl border border-white/25 bg-black/40 px-3 py-2 text-sm text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white";
 const errors: Record<number, string> = {
   1: "Location permission was denied. Choose a school instead, or retry after changing your browser permission.",
@@ -27,18 +31,53 @@ export default function GamesNearMe({ games, centers, initialQuery = "", initial
   const [loading, setLoading] = useState(false);
   const [choosing, setChoosing] = useState(false);
   const [school, setSchool] = useState("");
+  const [measurement, setMeasurement] = useState<CoverageChoice>(null);
+  const episode = useRef<CoverageEpisode | null>(null);
+  if (episode.current == null) episode.current = new CoverageEpisode(deliverCoverageSummary);
   const request = useRef(0);
+  useEffect(() => {
+    let active = true;
+    queueMicrotask(() => {
+      if (!active) return;
+      try {
+        const stored = localStorage.getItem(COVERAGE_CHOICE_KEY);
+        if (stored === "enabled" || stored === "disabled") { setMeasurement(stored); }
+      } catch { /* session-only preference when storage is unavailable */ }
+    });
+    const finalize = () => episode.current?.finalize();
+    const hidden = () => { if (document.visibilityState === "hidden") finalize(); };
+    window.addEventListener("pagehide", finalize);
+    document.addEventListener("visibilitychange", hidden);
+    return () => { active = false; finalize(); window.removeEventListener("pagehide", finalize); document.removeEventListener("visibilitychange", hidden); };
+  }, []);
+  function chooseMeasurement(choice: Exclude<CoverageChoice, null>) {
+    if (choice === "disabled") episode.current?.discard();
+    setMeasurement(choice);
+    try { localStorage.setItem(COVERAGE_CHOICE_KEY, choice); } catch { /* preference remains in memory */ }
+  }
   useEffect(() => () => { request.current++; }, []);
   const gate = pilotGate(games, week);
   const weeks = [...new Set(games.filter(g => g.season === 2026 && g.week !== undefined).map(g => g.week!))].sort((a,b) => a-b);
   const result = center && gate.enabled ? nearbyGames(games, center, radius, week, query, filter) : null;
 
+  useEffect(() => {
+    if (!center || !gate.enabled || measurement !== "enabled" || process.env.NEXT_PUBLIC_COVERAGE_DEMAND_ENABLED !== "true") {
+      episode.current?.discard(); return;
+    }
+    episode.current?.observe(center, buildSearchSummary(games, center, center.source, week, radius, query, filter), true);
+    const timer = window.setTimeout(() => episode.current?.finalize(), EPISODE_INACTIVITY_MS);
+    return () => window.clearTimeout(timer);
+  }, [center, week, radius, query, filter, games, measurement, gate.enabled]);
+
   function clear() {
+    episode.current?.finalize();
+    episode.current?.discard();
     request.current++;
     setCenter(null); setSchool(""); setMessage(""); setLoading(false); setChoosing(false);
   }
   function locate() {
     if (!gate.enabled) return;
+    episode.current?.finalize(); episode.current?.discard();
     const token = ++request.current;
     setCenter(null); setSchool(""); setChoosing(true);
     if (!navigator.geolocation) { setMessage("This browser does not support location. Choose a school instead."); return; }
@@ -50,16 +89,17 @@ export default function GamesNearMe({ games, centers, initialQuery = "", initial
       if (!validPoint(point) || !Number.isFinite(position.coords.accuracy) || position.coords.accuracy > 1000) {
         setMessage("Your location is too approximate for reliable nearby results. Choose a school instead or retry."); return;
       }
-      setCenter({ ...point, label: "Near your location" }); setMessage("Location ready."); setChoosing(false);
+      setCenter({ ...point, label: "Near your location", source: "browser_location" }); setMessage("Location ready."); setChoosing(false);
     }, error => {
       if (token !== request.current) return;
       setLoading(false); setMessage(errors[error.code] ?? errors[2]);
     }, { enableHighAccuracy: false, timeout: 10000, maximumAge: 0 });
   }
   function chooseSchool(slug: string) {
+    episode.current?.finalize(); episode.current?.discard();
     request.current++; setLoading(false); setSchool(slug);
     const selected = centers.find(c => c.schoolSlug === slug);
-    setCenter(selected ? { latitude: selected.latitude, longitude: selected.longitude, label: `Searching near ${selected.schoolName}` } : null);
+    setCenter(selected ? { latitude: selected.latitude, longitude: selected.longitude, label: `Searching near ${selected.schoolName}`, source: "school_center" } : null);
     setMessage(selected ? "School center selected." : "");
   }
 
@@ -69,6 +109,14 @@ export default function GamesNearMe({ games, centers, initialQuery = "", initial
         <p className="mt-1 max-w-2xl text-sm leading-6 text-white/75">Find tracked games within a straight-line radius. Your precise location stays in this browser’s memory and is cleared when you leave or select Clear.</p>
       </div>
       <a href="#all-matchups" className={`${control} inline-flex items-center`}>Browse normal schedule</a>
+    </div>
+    <div className="mt-3 rounded-xl border border-white/15 p-3">
+      <p id="coverage-disclosure" className="text-sm leading-6 text-white/75">Optional approximate regional usage helps VarsityVue decide where to expand coverage. Precise location is not saved. Games Near Me works without sharing.</p>
+      <div aria-describedby="coverage-disclosure" className="mt-2 flex flex-wrap items-center gap-2">
+        <button type="button" aria-pressed={measurement === "enabled"} onClick={() => chooseMeasurement("enabled")} className={control}>Allow regional measurement</button>
+        <button type="button" aria-pressed={measurement === "disabled"} onClick={() => chooseMeasurement("disabled")} className={control}>Don’t share regional usage</button>
+        {measurement && <span role="status" className="text-sm text-white/75">Regional measurement {measurement === "enabled" ? "allowed" : "off"}.</span>}
+      </div>
     </div>
     <div className="mt-4 flex flex-wrap items-end gap-3">
       <label className="flex flex-col gap-1 text-sm" htmlFor="nearby-week">Schedule week
@@ -111,7 +159,7 @@ export default function GamesNearMe({ games, centers, initialQuery = "", initial
       <p className="mt-1 text-sm text-white/75">{result?.games.length ?? 0} matching games · Week {week}</p>
       {result && result.games.length === 0 && <p className="mt-3 text-sm text-white/80">{result.nearbyCount === 0 ? "No nearby tracked games in this radius and result category. Try a larger radius, another week, or the normal schedule." : "No matches with these filters. Clear your search or change the game filter."}</p>}
       <div className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-        {result?.games.map(g => <Link prefetch={false} key={g.gameId} href={`/games/${g.gameId}`} className="rounded-xl border border-white/15 bg-black/30 p-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
+        {result?.games.map(g => <Link prefetch={false} key={g.gameId} href={`/games/${g.gameId}`} onClick={() => episode.current?.finalize(true)} onAuxClick={e => { if (e.button === 1) episode.current?.finalize(true); }} className="rounded-xl border border-white/15 bg-black/30 p-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
           <p className="text-xs font-semibold text-white/80">{g.status === "live" ? (g.livePresentation === "kickoff_inferred" ? "Kickoff window · live score not confirmed" : "LIVE · score available") : g.status === "final" ? "FINAL" : "Upcoming"}</p>
           <h4 className="mt-2 text-lg font-bold">{g.awayTeam} at {g.homeTeam}</h4>
           {g.homeScore !== undefined && g.awayScore !== undefined && <p className="mt-1 text-lg font-bold">{g.awayScore}–{g.homeScore}{g.period ? ` · ${g.period}` : ""}{g.clock ? ` · ${g.clock}` : ""}</p>}
