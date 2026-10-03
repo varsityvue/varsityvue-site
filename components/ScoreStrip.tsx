@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { liveGameContext } from "@/lib/live-period";
+import { getGamePresentation } from "@/lib/game-presentation";
 import HomeMembershipCta from "@/components/HomeMembershipCta";
 import {
   getHomepageScoreboardGames,
@@ -86,6 +87,8 @@ export default async function ScoreStrip() {
                 const score = getScore(game);
                 const duplicate = index >= games.length;
                 const isFinal = mode === "finals";
+                const presentation = getGamePresentation(game);
+                const showScore = isFinal || presentation.showScore;
 
                 return (
                   <Link
@@ -100,24 +103,24 @@ export default async function ScoreStrip() {
                         isFinal ? "text-white/45" : "text-white/50"
                       }`}
                     >
-                      {isFinal ? "Final" : game.status === "live" ? liveGameContext(game.score?.period, game.score?.clock) : game.displayStatus}
+                      {isFinal ? "Final" : presentation.kind === "verified_live" ? liveGameContext(game.score?.period, game.score?.clock) : presentation.kind === "kickoff_window" ? "Kickoff window" : game.displayStatus}
                     </span>
 
                     <span className="text-[11px] font-black text-white sm:text-sm">
                       {game.awayTeam ?? "Away"}
                     </span>
 
-                    {(isFinal || game.status === "live") && score.away !== undefined ? (
+                    {showScore && score.away !== undefined ? (
                       <span className="min-w-4 text-center text-xs font-black tabular-nums text-white sm:min-w-5 sm:text-base">
                         {score.away}
                       </span>
                     ) : null}
 
                     <span className="text-[7px] font-black uppercase tracking-[0.08em] text-white/25 sm:text-[9px] sm:tracking-[0.1em]">
-                      {isFinal || game.status === "live" ? "—" : "at"}
+                      {showScore ? "—" : "at"}
                     </span>
 
-                    {(isFinal || game.status === "live") && score.home !== undefined ? (
+                    {showScore && score.home !== undefined ? (
                       <span className="min-w-4 text-center text-xs font-black tabular-nums text-white sm:min-w-5 sm:text-base">
                         {score.home}
                       </span>
