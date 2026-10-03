@@ -2,12 +2,13 @@
 import { useEffect, useRef, useState } from "react";
 import type { SchoolCenter } from "@/types/game-location";
 import { validPoint, type GeographicPoint } from "@/lib/geo-distance";
+import type { CenterSource } from "@/types/coverage-demand";
 export default function WeeklyNearbyControls({
   centers,
   onCenter,
 }: {
   centers: SchoolCenter[];
-  onCenter: (p: GeographicPoint | null) => void;
+  onCenter: (p: (GeographicPoint & {source: CenterSource}) | null) => void;
 }) {
   const [school, setSchool] = useState(""),
     [label, setLabel] = useState(""),
@@ -61,7 +62,7 @@ export default function WeeklyNearbyControls({
           setMessage("Location is too approximate. Choose a school or retry.");
           return;
         }
-        onCenter(p);
+        onCenter({...p, source: "browser_location"});
         setLabel("Near your location");
         setMessage("Location ready.");
       },
@@ -106,7 +107,7 @@ export default function WeeklyNearbyControls({
             setSchool(e.target.value);
             const c = centers.find((c) => c.schoolSlug === e.target.value);
             onCenter(
-              c ? { latitude: c.latitude, longitude: c.longitude } : null,
+              c ? { latitude: c.latitude, longitude: c.longitude, source: "school_center" } : null,
             );
             setLabel(c ? `Near ${c.schoolName}` : "");
             setMessage("");

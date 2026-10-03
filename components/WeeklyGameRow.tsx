@@ -12,6 +12,7 @@ export default function WeeklyGameRow({
   followed,
   distance,
   moved,
+  onNearbySelection,
 }: {
   game: WeeklyGame;
   now: Date;
@@ -20,6 +21,7 @@ export default function WeeklyGameRow({
   followed: boolean;
   distance?: number;
   moved?: boolean;
+  onNearbySelection?: () => void;
 }) {
   const p = getGamePresentation(g, now),
     byline = scoreAttributionText(g);
@@ -48,7 +50,7 @@ export default function WeeklyGameRow({
     ["live", "scheduled"].includes(g.status);
   return (
     <article data-game-id={g.id} className="weekly-row">
-      <Link prefetch={false} href={detail} className="weekly-row-link">
+      <Link prefetch={false} href={detail} onClick={onNearbySelection} onAuxClick={e => {if (e.button === 1) onNearbySelection?.();}} className="weekly-row-link">
         <p className="weekly-status">
           <span
             className={p.authoritativeLive ? "live-dot" : ""}
@@ -98,11 +100,11 @@ export default function WeeklyGameRow({
           •••
         </summary>
         <div className="weekly-action-menu">
-          <Link prefetch={false} href={detail}>
+          <Link prefetch={false} href={detail} onClick={onNearbySelection} onAuxClick={e => {if (e.button === 1) onNearbySelection?.();}}>
             Game Center →
           </Link>
           {g.previewHref && (
-            <Link prefetch={false} href={detail}>
+            <Link prefetch={false} href={detail} onClick={onNearbySelection} onAuxClick={e => {if (e.button === 1) onNearbySelection?.();}}>
               Featured preview →
             </Link>
           )}

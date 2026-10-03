@@ -17,6 +17,7 @@ const api = http.createServer((req, res) => {
 });
 await new Promise(resolve => api.listen(54325, '127.0.0.1', resolve));
 const app = spawn('npm', ['run', 'dev', '--', '--hostname', '127.0.0.1', '--port', '3000'], {
+  detached: true,
   stdio: 'inherit', env: { ...process.env, NEXT_PUBLIC_SUPABASE_URL: 'http://127.0.0.1:54325', NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: 'disposable-fixture-public-key', NEXT_PUBLIC_TURNSTILE_SITE_KEY: '', SUPABASE_SERVICE_ROLE_KEY: '', RESEND_API_KEY: '', CRON_SECRET: '' },
 });
 let browser;
@@ -246,5 +247,5 @@ try {
   assert.deepEqual(errors, []);
   writeFileSync(`${evidence}/results.json`, JSON.stringify({ results, screenReader: 'NOT VERIFIED: no manual screen-reader session', backend: 'loopback read-only synthetic score fixture', geolocation: 'mocked only' }, null, 2));
 } finally {
-  await browser?.close(); app.kill('SIGTERM'); api.close();
+  await browser?.close(); try { process.kill(-app.pid, 'SIGTERM'); } catch {} api.close();
 }

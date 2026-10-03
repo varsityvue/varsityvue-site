@@ -2,6 +2,9 @@ import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/proxy";
 
 export async function proxy(request: NextRequest) {
+  // Anonymous regional summaries must never pass through session refresh.
+  if (request.nextUrl.pathname === "/api/coverage-demand") return NextResponse.next();
+
   if (request.nextUrl.pathname === "/Pickem") {
     const destination = request.nextUrl.clone();
     destination.pathname = "/pickem";

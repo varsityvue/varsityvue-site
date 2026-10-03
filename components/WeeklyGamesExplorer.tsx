@@ -18,6 +18,11 @@ import type { SchoolCenter } from "@/types/game-location";
 import WeeklyGameRow from "./WeeklyGameRow";
 import WeeklyNearbyControls from "./WeeklyNearbyControls";
 
+import CoverageMeasurementChoice from "./CoverageMeasurementChoice";
+import {useCoverageEpisode} from "./useCoverageEpisode";
+import {buildWeeklySearchSummary} from "@/lib/coverage-demand-summary";
+import type {CenterSource} from "@/types/coverage-demand";
+
 type Props = {
   route?: "/games" | "/scoreboard";
   games: WeeklyGame[];
@@ -44,7 +49,7 @@ export default function WeeklyGamesExplorer(props: Props) {
     [busy, setBusy] = useState(false),
     [offline, setOffline] = useState(false),
     [error, setError] = useState(""),
-    [center, setCenter] = useState<GeographicPoint | null>(null),
+    [center, setCenter] = useState<(GeographicPoint & {source: CenterSource}) | null>(null),
     [heldIds, setHeldIds] = useState<string[] | null>(null),
     [showAll, setShowAll] = useState(false),
     [shareMessage, setShareMessage] = useState(""),
@@ -78,6 +83,9 @@ export default function WeeklyGamesExplorer(props: Props) {
         return g ? [current ?? { game: g, distance: undefined }] : [];
       })
     : matched;
+  const coverageSnapshot = useMemo(() => ({games, heldIds, now}), [games, heldIds, now]);
+  const coverage = useCoverageEpisode(center, JSON.stringify([params.season, params.week, params.mode, params.radius, params.q, params.filter, params.classification, params.district, params.following, params.current, params.verified]), coverageSnapshot,
+    () => center && gate.enabled ? buildWeeklySearchSummary(games, center, center.source, params, followed, new Date(now), rows.map(r => r.game), heldIds !== null) : null);
   const matchedIds = new Set(matched.map((r) => r.game.id));
   const changed =
     heldIds !== null &&
@@ -114,6 +122,7 @@ export default function WeeklyGamesExplorer(props: Props) {
       next.season !== params.season ||
       next.mode !== params.mode
     ) {
+      coverage.finish();
       setCenter(null);
       setShowAll(false);
     }
@@ -168,6 +177,7 @@ export default function WeeklyGamesExplorer(props: Props) {
     }
   }
   const refreshFromEvent = useEffectEvent(refresh);
+  const finishCoverageFromEvent = useEffectEvent(coverage.finish);
   useEffect(() => {
     const restore = () => {
       generation.current++;
@@ -175,6 +185,7 @@ export default function WeeklyGamesExplorer(props: Props) {
       request.current = null;
       setBusy(false);
       setHeldIds(null);
+      finishCoverageFromEvent();
       setCenter(null);
       setParams(
         parseWeeklyParams(
@@ -311,6 +322,7 @@ export default function WeeklyGamesExplorer(props: Props) {
         pending={pending.has(r.game.id)}
         followed={isFollowed(r.game, followed)}
         distance={r.distance}
+        onNearbySelection={params.mode === "nearby" && center ? coverage.select : undefined}
         moved={
           !matchedIds.has(r.game.id) &&
           getGamePresentation(r.game, displayNow).kind === "verified_final"
@@ -575,6 +587,7 @@ export default function WeeklyGamesExplorer(props: Props) {
           </a>
         </p>
       )}
+      {params.mode === "nearby" && <CoverageMeasurementChoice choice={coverage.choice} choose={coverage.choose} />}
       {params.mode === "nearby" &&
         (gate.enabled ? (
           <WeeklyNearbyControls
@@ -585,6 +598,7 @@ export default function WeeklyGamesExplorer(props: Props) {
               request.current?.abort();
               request.current = null;
               setBusy(false);
+              coverage.finish();
               setCenter(c);
               setHeldIds(null);
             }}
