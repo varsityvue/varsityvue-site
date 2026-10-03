@@ -192,12 +192,13 @@ try {
         await page.getByRole('link', { name: 'Team Feed', exact: true }).first().waitFor();
         const logo = page.getByRole('img', { name: 'Hamilton Bulldogs logo', exact: true }).first();
         await logo.waitFor();
+        await page.waitForFunction(el => el.complete && el.naturalWidth > 0, await logo.elementHandle());
         const dimensions = await logo.evaluate(el => ({ natural: el.naturalWidth/el.naturalHeight, objectFit: getComputedStyle(el).objectFit, loaded: el.complete && el.naturalWidth > 0 }));
         assert.ok(dimensions.loaded); assert.equal(dimensions.natural, 1.5); assert.equal(dimensions.objectFit, 'contain');
       }
       if(path === '/schools') {
         const placement = await page.locator('a[href="/schools/hamilton"]').evaluateAll(nodes => nodes.map(n => {
-          const h = [...document.querySelectorAll('h2')].filter(h => h.compareDocumentPosition(n) & Node.DOCUMENT_POSITION_FOLLOWING).pop();
+          const h = [...document.querySelectorAll('h2')].filter(h => ['Featured Schools', 'All Schools'].includes(h.textContent) && (h.compareDocumentPosition(n) & Node.DOCUMENT_POSITION_FOLLOWING)).pop();
           return h?.textContent;
         }));
         assert.deepEqual(placement, ['Featured Schools']);
