@@ -112,16 +112,6 @@ export function getGamePresentation(game: Game, now = new Date()): GamePresentat
     }
   }
 
-  if (game.status === "scheduled") {
-    return {
-      kind: "awaiting_verification",
-      label: "Result awaiting verification",
-      authoritativeLive: false,
-      authoritativeScore: false,
-      showScore: false,
-    };
-  }
-
   if (game.kickoff && !game.kickoff.includes("T")) {
     const today = centralDateKey(now);
     if (today && game.kickoff < today) {
