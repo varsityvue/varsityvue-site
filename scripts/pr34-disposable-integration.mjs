@@ -123,14 +123,13 @@ try{
  await sp.locator('[name=password]').fill(signupPassword);
  await sp.getByRole('button',{name:'Create VarsityVue Account',exact:true}).click({timeout:60000});
  await sp.waitForURL(/status=confirmation-pending/);
- let mail;
+ let body;
  for(let i=0;i<30;i++){
-  const r=await fetch('http://127.0.0.1:54324/api/v1/mailbox/pr34-browser-signup');
-  if(r.ok){const list=await r.json();if(list.length){mail=await (await fetch('http://127.0.0.1:54324/api/v1/mailbox/pr34-browser-signup/'+list[0].id)).json();break}}
+  const r=await fetch('http://127.0.0.1:54324/view/latest.html?query='+encodeURIComponent('to:'+signupEmail));
+  if(r.ok){body=await r.text();break}
   await new Promise(r=>setTimeout(r,500));
  }
- assert.ok(mail,'Local confirmation mail');
- const body=mail.body.html||mail.body.text;
+ assert.ok(body,'Local confirmation mail');
  const links=[...body.matchAll(/(?:href="|https?:\/\/)([^"\s<>]+)/g)].map(m=>m[0].startsWith('href')?m[1]:m[0]);
  const verification=links.find(x=>x.includes('/auth/v1/verify'));assert.ok(verification);
  const verifyUrl=new URL(verification.replaceAll('&amp;','&'));
