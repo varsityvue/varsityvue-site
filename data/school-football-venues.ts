@@ -29,5 +29,10 @@ export const schoolFootballVenues: Readonly<Record<string, string>> = {
   "eastland": "tx-eastland-maverick-stadium",
   "rio-vista": "tx-rio-vista-eagle-field",
   "henrietta": "tx-henrietta-bearcat-stadium",
-  "city-view": "tx-city-view-veterans-field"
+  "city-view": "tx-city-view-veterans-field",
+  "jarrell": "tx-jarrell-cougar-field",
+  "anson": "tx-anson-tiger-stadium",
+  "wortham": "tx-wortham-bulldog-stadium",
+  "miles": "tx-miles-gary-krejci-memorial-stadium",
+  "merkel": "tx-merkel-badger-stadium"
 };
