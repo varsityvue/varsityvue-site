@@ -130,6 +130,13 @@ try{
   await b.locator('a[href^="/games/"]').first().click();await tabB.waitForURL(/\/games\/.+/);await tabB.waitForTimeout(750);assert.equal(tabSummaries.length,before);
   pass(`Two-tab ${mode}: active unfinished B episode discarded before inactivity/selection; navigation works`);
  }
+ // A delivered withdrawal also revokes page-memory fallback if reads become blocked.
+ await activeB();const beforeBlockedWithdrawal=tabSummaries.length;
+ await tabB.evaluate(()=>{Storage.prototype.getItem=()=>{throw Error('storage became unreadable');};});
+ await a.getByRole('button',{name:'Don’t share regional usage',exact:true}).click();
+ await tabB.waitForFunction(()=>document.querySelector('#nearby-games button[aria-pressed]')?.getAttribute('aria-pressed')==='false');
+ await tabB.clock.fastForward(61000);await b.locator('a[href^="/games/"]').first().click();await tabB.waitForURL(/\/games\/.+/);await tabB.waitForTimeout(750);assert.equal(tabSummaries.length,beforeBlockedWithdrawal);
+ pass('Delivered cross-tab withdrawal revokes memory fallback when B storage reads become blocked');
  // Deliberately prevent B's storage notification: finalization must still read storage.
  await activeB();await tabB.evaluate(()=>window.addEventListener('storage',event=>event.stopImmediatePropagation(),{capture:true}));
  const beforeDelayed=tabSummaries.length;await tabA.evaluate(()=>localStorage.setItem('coverage_measurement_v1','disabled'));

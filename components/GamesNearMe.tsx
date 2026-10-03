@@ -44,6 +44,11 @@ export default function GamesNearMe({ games, centers, initialQuery = "", initial
     });
     const synchronize = (event: StorageEvent) => {
       if (event.key !== null && event.key !== COVERAGE_CHOICE_KEY) return;
+      // Withdrawal remains authoritative even if storage becomes unreadable.
+      if (event.newValue !== "enabled") {
+        episode.discard();
+        preference.choose(event.newValue === "disabled" ? "disabled" : null);
+      }
       const choice = preference.reconcile();
       if (choice !== "enabled") episode.discard();
       setMeasurement(choice);
