@@ -59,6 +59,14 @@ try {
  await page.evaluate(()=>localStorage.removeItem('coverage_measurement_v1'));
  assert.equal(await page.getByRole('link',{name:'Read privacy, retention and withdrawal details'}).getAttribute('href'),'/privacy#regional-measurement');
  pass('Legacy dormant opt-in rejected; fuller disclosure linked; no pre-consent episode reconstructed');
+ await page.getByRole('link',{name:'Read privacy, retention and withdrawal details'}).click();
+ await page.getByRole('heading',{name:'Privacy at VarsityVue',exact:true}).waitFor();
+ await page.screenshot({path:`${evidence}/privacy-disclosure.png`,fullPage:true});
+ await page.goBack({waitUntil:'networkidle'});
+ await page.getByRole('heading',{name:'Games & Scores',exact:true}).waitFor();
+ assert.equal(await allow(page).getAttribute('aria-pressed'),'false');
+ pass('General disclosure renders, browser Back restores Games & Scores and consent remains default off');
+
  await locate(page).click();assert.ok(await cards(page).count()>0);await clear(page);await idle(page);assert.equal(sent(page).length,0);
  await decline(page).click();await locate(page).click();await radius(page,150);await clear(page);await idle(page);assert.equal(sent(page).length,0);
  await page.reload({waitUntil:'networkidle'});assert.equal(await decline(page).getAttribute('aria-pressed'),'true');
