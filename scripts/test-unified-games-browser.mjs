@@ -134,7 +134,7 @@ function start() {
       "node_modules/next/dist/bin/next",
       "dev",
       "--hostname",
-      "0.0.0.0",
+      "127.0.0.1",
       "--port",
       "3019",
     ],
@@ -191,7 +191,13 @@ async function authenticated(c) {
   ]);
 }
 async function settled(page) {
-  await page.waitForFunction(() => location.search.includes("season="));
+  try {
+    await page.waitForFunction(() => location.search.includes("season="));
+  } catch (error) {
+    console.error("HYDRATION FAILURE", await page.locator("body").innerText());
+    await page.screenshot({ path: `${evidence}/failure.png`, fullPage: true });
+    throw error;
+  }
 }
 try {
   start();
@@ -201,7 +207,10 @@ try {
   await authenticated(c);
   let page = await c.newPage();
   const errors = [];
-  page.on("pageerror", (e) => errors.push(e.message));
+  page.on("pageerror", (e) => {
+    errors.push(e.message);
+    console.error("BROWSER RUNTIME ERROR", e.message);
+  });
   for (const width of [390, 400, 430, 1280]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto(origin + "/games?week=7");

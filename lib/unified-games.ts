@@ -261,7 +261,10 @@ export function selectWeeklyGames(
       ? a.distance! - b.distance! || a.game.id.localeCompare(b.game.id)
       : order.indexOf(getGamePresentation(a.game, now).kind) -
           order.indexOf(getGamePresentation(b.game, now).kind) ||
-        (p.filter === "completed" ? -1 : 1) *
+        (completed.has(getGamePresentation(a.game, now).kind) &&
+        completed.has(getGamePresentation(b.game, now).kind)
+          ? -1
+          : 1) *
           ((Date.parse(a.game.kickoff ?? "") || 0) -
             (Date.parse(b.game.kickoff ?? "") || 0)) ||
         a.game.id.localeCompare(b.game.id),

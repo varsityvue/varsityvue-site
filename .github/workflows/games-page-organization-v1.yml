@@ -19,7 +19,7 @@ jobs:
       - run: npm ci
       - run: node --import tsx --test lib/unified-games.test.ts lib/games-page-organization.test.ts lib/game-presentation.test.ts lib/game-discovery.test.ts lib/follow-personalization.test.ts lib/public-score-loader.test.ts lib/hamilton-featured.test.ts lib/public-read-contracts.test.ts
       - run: npx tsc --noEmit
-      - run: npx eslint app/games/page.tsx components/GamesNearbyDisclosure.tsx lib/games-page-organization.ts lib/unified-games.test.ts lib/games-page-organization.test.ts
+      - run: npm run lint
       - run: npm run build
         env:
           NEXT_PUBLIC_SUPABASE_URL: http://127.0.0.1:54329
