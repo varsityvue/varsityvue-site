@@ -106,7 +106,7 @@ try{
  await sp.goto(base+'/login?next=https://example.invalid/unsafe');
  assert.equal(await sp.locator('[name=next]').inputValue(),'/account');pass('auth_intent_paths');
  const confirmation=await fetch(api+'/auth/v1/admin/generate_link',{method:'POST',headers:{apikey:service,Authorization:'Bearer '+service,'Content-Type':'application/json'},body:JSON.stringify({type:'signup',email:'pr34-confirmation@example.invalid',password:randomBytes(24).toString('base64url')})});assert.ok(confirmation.ok);
- const hash=(await confirmation.json()).properties.hashed_token;assert.ok(hash);
+ const confirmationData=await confirmation.json();const hash=confirmationData.hashed_token||confirmationData.properties?.hashed_token;assert.ok(hash);
  await sp.goto(base+'/auth/confirm?token_hash='+encodeURIComponent(hash)+'&type=signup&next='+encodeURIComponent('/contributors?school=de-leon&role=scorekeeper'));
  assert.equal(new URL(sp.url()).pathname,'/contributors');
  assert.equal(await sp.locator('[name=school_slug]').inputValue(),'de-leon');
