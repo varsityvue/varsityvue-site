@@ -1,8 +1,20 @@
-import type { GamesNearMeSearchSummary } from "@/types/coverage-demand";
+import type { CoverageChoice, GamesNearMeSearchSummary } from "@/types/coverage-demand";
 import { validSummary } from "./coverage-demand-summary";
 
 export const COVERAGE_CHOICE_KEY = "coverage_measurement_v1";
 export const EPISODE_INACTIVITY_MS = 60000;
+export class CoveragePreference {
+  private choice: CoverageChoice = null;
+  constructor(private read: () => string | null) {}
+  choose(choice: CoverageChoice) { this.choice = choice; }
+  reconcile(): CoverageChoice {
+    try {
+      const stored = this.read();
+      this.choice = stored === "enabled" || stored === "disabled" ? stored : null;
+    } catch { /* unreadable storage: preserve explicit mounted-page choice */ }
+    return this.choice;
+  }
+}
 export function deliverCoverageSummary(summary: GamesNearMeSearchSummary): void {
   if (process.env.NEXT_PUBLIC_COVERAGE_DEMAND_ENABLED !== "true" || !validSummary(summary)) return;
   // fetch, rather than sendBeacon, explicitly omits credentials and referrer.
@@ -19,7 +31,7 @@ export class CoverageEpisode {
   private week = 0;
   private latest: GamesNearMeSearchSummary | null = null;
   private finalized = false;
-  constructor(private send: (summary: GamesNearMeSearchSummary) => void) {}
+  constructor(private send: (summary: GamesNearMeSearchSummary) => void, private permitted: () => boolean = () => true) {}
   observe(center: object, summary: GamesNearMeSearchSummary | null, enabled: boolean) {
     if (!enabled || !summary) { this.discard(); return; }
     if (this.center !== center || this.week !== summary.week) {
@@ -32,6 +44,7 @@ export class CoverageEpisode {
     this.latest = { ...summary, initial_radius_miles: initial, radius_expansion_steps: steps, radius_expanded: steps > 0 };
   }
   finalize(selected = false) {
+    if (!this.permitted()) { this.discard(); return; }
     if (!this.latest || this.finalized) return;
     this.finalized = true;
     const summary = { ...this.latest, game_selected: selected };

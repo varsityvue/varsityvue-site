@@ -8,7 +8,7 @@ import { currentScheduleWeek, nearbyGames, pilotGate, NEARBY_RADII, type Discove
 import { distanceLabel, validPoint, type GeographicPoint } from "@/lib/geo-distance";
 
 import { buildSearchSummary } from "@/lib/coverage-demand-summary";
-import { CoverageEpisode, COVERAGE_CHOICE_KEY, EPISODE_INACTIVITY_MS, deliverCoverageSummary } from "@/lib/coverage-demand-client";
+import { CoverageEpisode, CoveragePreference, COVERAGE_CHOICE_KEY, EPISODE_INACTIVITY_MS, deliverCoverageSummary } from "@/lib/coverage-demand-client";
 import type { CoverageChoice, CenterSource } from "@/types/coverage-demand";
 
 type Center = GeographicPoint & { label: string; source: CenterSource };
@@ -32,26 +32,32 @@ export default function GamesNearMe({ games, centers, initialQuery = "", initial
   const [choosing, setChoosing] = useState(false);
   const [school, setSchool] = useState("");
   const [measurement, setMeasurement] = useState<CoverageChoice>(null);
-  const episode = useRef<CoverageEpisode | null>(null);
-  if (episode.current == null) episode.current = new CoverageEpisode(deliverCoverageSummary);
+  const [preference] = useState(() => new CoveragePreference(() => { return localStorage.getItem(COVERAGE_CHOICE_KEY); }));
+  const [episode] = useState(() => new CoverageEpisode(deliverCoverageSummary,
+    () => preference.reconcile() === "enabled"));
   const request = useRef(0);
   useEffect(() => {
     let active = true;
     queueMicrotask(() => {
       if (!active) return;
-      try {
-        const stored = localStorage.getItem(COVERAGE_CHOICE_KEY);
-        if (stored === "enabled" || stored === "disabled") { setMeasurement(stored); }
-      } catch { /* session-only preference when storage is unavailable */ }
+      setMeasurement(preference.reconcile());
     });
-    const finalize = () => episode.current?.finalize();
+    const synchronize = (event: StorageEvent) => {
+      if (event.key !== null && event.key !== COVERAGE_CHOICE_KEY) return;
+      const choice = preference.reconcile();
+      if (choice !== "enabled") episode.discard();
+      setMeasurement(choice);
+    };
+    window.addEventListener("storage", synchronize);
+    const finalize = () => episode.finalize();
     const hidden = () => { if (document.visibilityState === "hidden") finalize(); };
     window.addEventListener("pagehide", finalize);
     document.addEventListener("visibilitychange", hidden);
-    return () => { active = false; finalize(); window.removeEventListener("pagehide", finalize); document.removeEventListener("visibilitychange", hidden); };
-  }, []);
+    return () => { active = false; finalize(); window.removeEventListener("storage", synchronize); window.removeEventListener("pagehide", finalize); document.removeEventListener("visibilitychange", hidden); };
+  }, [episode, preference]);
   function chooseMeasurement(choice: Exclude<CoverageChoice, null>) {
-    if (choice === "disabled") episode.current?.discard();
+    if (choice === "disabled") episode.discard();
+    preference.choose(choice);
     setMeasurement(choice);
     try { localStorage.setItem(COVERAGE_CHOICE_KEY, choice); } catch { /* preference remains in memory */ }
   }
@@ -61,23 +67,23 @@ export default function GamesNearMe({ games, centers, initialQuery = "", initial
   const result = center && gate.enabled ? nearbyGames(games, center, radius, week, query, filter) : null;
 
   useEffect(() => {
-    if (!center || !gate.enabled || measurement !== "enabled" || process.env.NEXT_PUBLIC_COVERAGE_DEMAND_ENABLED !== "true") {
-      episode.current?.discard(); return;
+    if (!center || !gate.enabled || (measurement !== "enabled" || preference.reconcile() !== "enabled") || process.env.NEXT_PUBLIC_COVERAGE_DEMAND_ENABLED !== "true") {
+      episode.discard(); return;
     }
-    episode.current?.observe(center, buildSearchSummary(games, center, center.source, week, radius, query, filter), true);
-    const timer = window.setTimeout(() => episode.current?.finalize(), EPISODE_INACTIVITY_MS);
+    episode.observe(center, buildSearchSummary(games, center, center.source, week, radius, query, filter), true);
+    const timer = window.setTimeout(() => episode.finalize(), EPISODE_INACTIVITY_MS);
     return () => window.clearTimeout(timer);
-  }, [center, week, radius, query, filter, games, measurement, gate.enabled]);
+  }, [center, week, radius, query, filter, games, measurement, gate.enabled, episode, preference]);
 
   function clear() {
-    episode.current?.finalize();
-    episode.current?.discard();
+    episode.finalize();
+    episode.discard();
     request.current++;
     setCenter(null); setSchool(""); setMessage(""); setLoading(false); setChoosing(false);
   }
   function locate() {
     if (!gate.enabled) return;
-    episode.current?.finalize(); episode.current?.discard();
+    episode.finalize(); episode.discard();
     const token = ++request.current;
     setCenter(null); setSchool(""); setChoosing(true);
     if (!navigator.geolocation) { setMessage("This browser does not support location. Choose a school instead."); return; }
@@ -96,7 +102,7 @@ export default function GamesNearMe({ games, centers, initialQuery = "", initial
     }, { enableHighAccuracy: false, timeout: 10000, maximumAge: 0 });
   }
   function chooseSchool(slug: string) {
-    episode.current?.finalize(); episode.current?.discard();
+    episode.finalize(); episode.discard();
     request.current++; setLoading(false); setSchool(slug);
     const selected = centers.find(c => c.schoolSlug === slug);
     setCenter(selected ? { latitude: selected.latitude, longitude: selected.longitude, label: `Searching near ${selected.schoolName}`, source: "school_center" } : null);
@@ -159,7 +165,7 @@ export default function GamesNearMe({ games, centers, initialQuery = "", initial
       <p className="mt-1 text-sm text-white/75">{result?.games.length ?? 0} matching games · Week {week}</p>
       {result && result.games.length === 0 && <p className="mt-3 text-sm text-white/80">{result.nearbyCount === 0 ? "No nearby tracked games in this radius and result category. Try a larger radius, another week, or the normal schedule." : "No matches with these filters. Clear your search or change the game filter."}</p>}
       <div className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-        {result?.games.map(g => <Link prefetch={false} key={g.gameId} href={`/games/${g.gameId}`} onClick={() => episode.current?.finalize(true)} onAuxClick={e => { if (e.button === 1) episode.current?.finalize(true); }} className="rounded-xl border border-white/15 bg-black/30 p-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
+        {result?.games.map(g => <Link prefetch={false} key={g.gameId} href={`/games/${g.gameId}`} onClick={() => episode.finalize(true)} onAuxClick={e => { if (e.button === 1) episode.finalize(true); }} className="rounded-xl border border-white/15 bg-black/30 p-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
           <p className="text-xs font-semibold text-white/80">{g.status === "live" ? (g.livePresentation === "kickoff_inferred" ? "Kickoff window · live score not confirmed" : "LIVE · verified score") : g.status === "final" ? "FINAL" : "Upcoming"}</p>
           <h4 className="mt-2 text-lg font-bold">{g.awayTeam} at {g.homeTeam}</h4>
           {g.homeScore !== undefined && g.awayScore !== undefined && <p className="mt-1 text-lg font-bold">{g.awayScore}–{g.homeScore}{g.period ? ` · ${g.period}` : ""}{g.clock ? ` · ${g.clock}` : ""}</p>}

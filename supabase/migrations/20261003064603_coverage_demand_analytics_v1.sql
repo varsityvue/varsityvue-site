@@ -174,12 +174,11 @@ begin
  return result;
 end $$;
 
-create function public.admin_coverage_dashboard(p_kind text,p_from date,p_to date)
-returns jsonb language plpgsql stable security definer set search_path='' as $$
+create function private.coverage_dashboard(p_kind text,p_from date,p_to date,p_today date)
+returns jsonb language plpgsql stable set search_path='' as $$
 declare output jsonb;
 begin
- if auth.uid() is null or not private.is_active_member(auth.uid()) or not private.has_role('admin'::public.user_role) then
- raise exception using errcode='42501',message='Active administrator access required';end if;
+ if p_today is null then raise exception using errcode='22023',message='Invalid coverage reporting date';end if;
  if p_kind is null or p_kind not in('week','month','season') or p_from is null or p_to is null or p_from>p_to
  or p_to-p_from>400 or p_from<'2026-01-01' then raise exception using errcode='22023',message='Invalid coverage reporting range';end if;
  -- Entire fixed periods only. No fine time slicing, caller-selected source/filter or leaf override.
@@ -187,17 +186,27 @@ begin
  or p_kind='month' and (p_from<>date_trunc('month',p_from)::date or p_to<>(date_trunc('month',p_to)+interval '1 month - 1 day')::date)
  or p_kind='season' and (p_from<>make_date(extract(year from p_from)::integer,1,1) or p_to<>make_date(extract(year from p_from)::integer,12,31)) then
  raise exception using errcode='22023',message='Reporting requires complete fixed periods';end if;
+ if p_from>p_today then raise exception using errcode='22023',message='Future-only coverage reporting periods are not supported';end if;
+ if p_kind='week' and p_from<p_today-29 then
+ raise exception using errcode='22023',message='Weekly reporting start precedes retained daily coverage window';end if;
  with source as (
  select case p_kind when 'week' then date_trunc('week',d.report_date)::date when 'month' then date_trunc('month',d.report_date)::date else make_date(d.season,1,1) end period,
  d.grid_version,private.coverage_parent(d.coarse_bucket_id) region,d.center_source,d.season,d.summary_count,d.metrics
- from private.coverage_demand_daily d where d.report_date between p_from and p_to and d.report_date>=(now() at time zone 'America/Chicago')::date-29
+ from private.coverage_demand_daily d where d.report_date between p_from and least(p_to,p_today)
+ and (p_kind='week' and d.report_date>=p_today-29
+ or p_kind='month' and d.report_date>=(date_trunc('month',p_today)-interval '12 months')::date
+ or p_kind='season' and make_date(d.season+2,2,1)>p_today)
  union all
  select m.report_month,m.grid_version,m.reporting_region,m.center_source,m.season,m.summary_count,m.metrics from private.coverage_demand_monthly m
- where p_kind='month' and m.report_month between p_from and p_to
- and m.report_month>=(date_trunc('month',now() at time zone 'America/Chicago')-interval '12 months')::date
+ where p_kind='month' and m.report_month between p_from and least(p_to,p_today)
+ and m.report_month>=(date_trunc('month',p_today)-interval '12 months')::date
  union all
  select make_date(s.season,1,1),s.grid_version,s.reporting_region,s.center_source,s.season,s.summary_count,s.metrics from private.coverage_demand_season s
- where p_kind='season' and make_date(s.season,1,1)=p_from and make_date(s.season+2,2,1)>(now() at time zone 'America/Chicago')::date
+ where p_kind='season' and make_date(s.season,1,1)=p_from and make_date(s.season+2,2,1)>p_today
+ ), period_rows as (
+ select distinct period,
+ case p_kind when 'week' then period+6 when 'month' then (period+interval '1 month - 1 day')::date else make_date(extract(year from period)::integer,12,31) end period_end
+ from source
  ), totals as (
  select period,grid_version,region,center_source,season,sum(summary_count)::bigint total
  from source group by period,grid_version,region,center_source,season having sum(summary_count)>=20
@@ -209,9 +218,20 @@ begin
  group by period,grid_version,region,center_source,season
  )
  select coalesce(jsonb_agg(jsonb_build_object('period',t.period,'period_kind',p_kind,'grid_version',t.grid_version,'reporting_region',t.region,
+ 'period_end',p.period_end,'period_state',case when p.period_end<p_today then 'completed' else 'open' end,
+ 'reporting_as_of',p_today,'effective_through',least(p.period_end,p_today),
  'center_source',t.center_source,'season',t.season,'accepted_summary_count',t.total,'metrics',private.coverage_safe_metrics(m.metrics,t.total))
- order by t.period,t.region,t.center_source),'[]'::jsonb) into output from totals t join merged m using(period,grid_version,region,center_source,season);
+ order by t.period,t.region,t.center_source),'[]'::jsonb) into output from totals t join merged m using(period,grid_version,region,center_source,season) join period_rows p using(period);
  return output;
+end $$;
+-- Deterministic date argument is private/test-only, never a browser reporting override.
+revoke all on function private.coverage_dashboard(text,date,date,date) from public,anon,authenticated,service_role;
+create function public.admin_coverage_dashboard(p_kind text,p_from date,p_to date)
+returns jsonb language plpgsql stable security definer set search_path='' as $$
+begin
+ if auth.uid() is null or not private.is_active_member(auth.uid()) or not private.has_role('admin'::public.user_role) then
+ raise exception using errcode='42501',message='Active administrator access required';end if;
+ return private.coverage_dashboard(p_kind,p_from,p_to,(now() at time zone 'America/Chicago')::date);
 end $$;
 revoke all on function public.admin_coverage_dashboard(text,date,date) from public,anon;
 grant execute on function public.admin_coverage_dashboard(text,date,date) to authenticated;

@@ -106,5 +106,43 @@ try{
  const restrictedPage=await restricted.newPage();await restrictedPage.goto('http://127.0.0.1:3001/games',{waitUntil:'networkidle'});const restrictedNear=restrictedPage.locator('#nearby-games');await restrictedNear.locator('#nearby-week').selectOption('7');await restrictedNear.getByRole('button',{name:'Allow regional measurement'}).click();await restrictedNear.getByRole('button',{name:'Games Near Me',exact:true}).click();assert.ok(await restrictedNear.locator('a[href^="/games/"]').count()>0);await restrictedNear.getByRole('button',{name:'Clear',exact:true}).click();await restrictedPage.reload({waitUntil:'networkidle'});assert.equal(await restrictedNear.getByRole('button',{name:'Allow regional measurement'}).getAttribute('aria-pressed'),'false');await restricted.close();
  pass('Unavailable preference storage falls back to page memory and resets safely on reload');
  assert.deepEqual(errors,[]);pass('Exact synthetic point, identities, credentials, query and selected identity absent from telemetry, URLs, cookies, storage, markup and console');
- writeFileSync(`${evidence}/results.json`,JSON.stringify({results,accepted,geolocation:'synthetic only',sink:'loopback aggregate fixture; database security tested separately',screenReader:'NOT VERIFIED: manual screen-reader session'},null,2));
+ // Two mounted tabs share preference storage; B must have a live unfinished episode.
+ const tabA=await context.newPage(),tabB=await context.newPage();const tabSummaries=[];
+ tabB.on('request',r=>{if(r.url().endsWith('/api/coverage-demand'))tabSummaries.push(JSON.parse(r.postData()));});
+ await tabB.clock.install();
+ await tabA.goto('http://127.0.0.1:3001/games',{waitUntil:'networkidle'});
+ const a=tabA.locator('#nearby-games'),b=tabB.locator('#nearby-games');
+ const allowA=()=>a.getByRole('button',{name:'Allow regional measurement',exact:true}).click();
+ const allowB=b.getByRole('button',{name:'Allow regional measurement',exact:true});
+ const activeB=async()=>{
+  await allowA();await tabB.goto('http://127.0.0.1:3001/games',{waitUntil:'networkidle'});
+  await b.locator('#nearby-week').selectOption('7');await b.getByRole('button',{name:'Games Near Me',exact:true}).click();
+  await b.locator('#nearby-radius').selectOption('100');assert.ok(await b.locator('a[href^="/games/"]').count()>0);
+  assert.equal(await allowB.getAttribute('aria-pressed'),'true');
+ };
+ for(const mode of ['withdraw','remove','invalid','clear']){
+  const before=tabSummaries.length;await activeB();assert.equal(tabSummaries.length,before,'Episode must be unfinished before revocation');
+  if(mode==='withdraw')await a.getByRole('button',{name:'Don’t share regional usage',exact:true}).click();
+  else await tabA.evaluate(mode=>{if(mode==='remove')localStorage.removeItem('coverage_measurement_v1');else if(mode==='invalid')localStorage.setItem('coverage_measurement_v1','invalid');else localStorage.clear();},mode);
+  await tabB.waitForFunction(()=>document.querySelector('#nearby-games button[aria-pressed]')?.getAttribute('aria-pressed')==='false');
+  await tabB.clock.fastForward(61000);await tabB.waitForTimeout(750);assert.equal(tabSummaries.length,before);
+  await b.locator('a[href^="/games/"]').first().click();await tabB.waitForURL(/\/games\/.+/);await tabB.waitForTimeout(750);assert.equal(tabSummaries.length,before);
+  pass(`Two-tab ${mode}: active unfinished B episode discarded before inactivity/selection; navigation works`);
+ }
+ // Deliberately prevent B's storage notification: finalization must still read storage.
+ await activeB();await tabB.evaluate(()=>window.addEventListener('storage',event=>event.stopImmediatePropagation(),{capture:true}));
+ const beforeDelayed=tabSummaries.length;await tabA.evaluate(()=>localStorage.setItem('coverage_measurement_v1','disabled'));
+ assert.equal(await allowB.getAttribute('aria-pressed'),'true','Keep stale component state to exercise finalization guard');
+ await b.locator('a[href^="/games/"]').first().click();await tabB.waitForURL(/\/games\/.+/);await tabB.waitForTimeout(750);assert.equal(tabSummaries.length,beforeDelayed);
+ pass('Suppressed storage notification cannot authorize delivery: selection reconciles persisted withdrawal');
+ // Cross-tab opt-in starts from current controls, without reconstructing prior changes.
+ await tabB.goto('http://127.0.0.1:3001/games',{waitUntil:'networkidle'});await b.locator('#nearby-week').selectOption('7');
+ await b.getByRole('button',{name:'Games Near Me',exact:true}).click();await b.locator('#nearby-radius').selectOption('150');await b.locator('#nearby-radius').selectOption('25');
+ const beforeOptin=tabSummaries.length;await allowA();await tabB.waitForFunction(()=>document.querySelector('#nearby-games button[aria-pressed]')?.getAttribute('aria-pressed')==='true');
+ await b.getByRole('button',{name:'Clear',exact:true}).click();await tabB.waitForTimeout(750);assert.equal(tabSummaries.length,beforeOptin+1);
+ assert.equal(tabSummaries.at(-1).initial_radius_miles,25);assert.equal(tabSummaries.at(-1).radius_expansion_steps,0);
+ for(const payload of tabSummaries)for(const secret of ['32.123456789','-98.543210987','disposable-server-key'])assert.ok(!JSON.stringify(payload).includes(secret));
+ pass('Cross-tab opt-in observes current state only; no pre-consent radius trail or precise coordinates');
+ await tabA.close();await tabB.close();
+ writeFileSync(`${evidence}/results.json`,JSON.stringify({results,accepted,twoTabSummaryCount:tabSummaries.length,geolocation:'synthetic only',sink:'loopback aggregate fixture; database security tested separately',screenReader:'NOT VERIFIED: manual screen-reader session'},null,2));
 }finally{await browser?.close();try{process.kill(-app.pid,'SIGTERM');}catch{}api.close();}

@@ -24,6 +24,7 @@ select pg_temp.coverage_denied('select * from private.coverage_demand_daily');
 select pg_temp.coverage_denied('select * from private.coverage_demand_monthly');
 select pg_temp.coverage_denied('select * from private.coverage_demand_season');
 select pg_temp.coverage_denied('select private.record_coverage_demand_summary(''{}''::jsonb)');
+select pg_temp.coverage_denied('select private.coverage_dashboard(''week'',date ''2026-10-26'',date ''2026-11-01'',date ''2026-11-01'')');
 select pg_temp.coverage_denied('select public.server_record_coverage_demand_summary(''{}''::jsonb)');
 reset role;
 create temp table coverage_actors(label text,id uuid);
@@ -89,4 +90,45 @@ select private.retain_coverage_demand();
 select pg_temp.coverage_assert((select count(*)=1 from private.coverage_demand_monthly where reporting_region='tx25-v1:p4r4'), '13 calendar cohort upper retention bound');
 select private.retain_coverage_demand(date '2028-02-01');
 select pg_temp.coverage_assert(not exists(select 1 from private.coverage_demand_monthly) and not exists(select 1 from private.coverage_demand_season), 'long-term expiry');
+-- Deterministic reporting clock is private: no public date override.
+-- November 1 cutoff is October 3; September 28–October 4 must fail entirely.
+delete from private.coverage_demand_daily;
+delete from private.coverage_demand_monthly;
+delete from private.coverage_demand_season;
+insert into private.coverage_demand_daily(report_date,grid_version,coarse_bucket_id,center_source,season,week,location_catalog_version,schedule_catalog_version,summary_count,metrics)
+select day,'tx25-v1','tx25-v1:c3r22','browser_location',2026,7,'locations-edc8867688bf','schedule-1692cf167930',20,
+'{"returned_2_5":20,"zero_result":0,"game_selected":0}'::jsonb
+from unnest(array[date '2026-10-01',date '2026-10-03',date '2026-10-20',date '2026-10-28']) day;
+insert into private.coverage_demand_daily(report_date,grid_version,coarse_bucket_id,center_source,season,week,location_catalog_version,schedule_catalog_version,summary_count,metrics)
+values(date '2026-10-28','tx25-v1','tx25-v1:c8r22','school_center',2026,7,'locations-edc8867688bf','schedule-1692cf167930',19,'{"returned_2_5":19}');
+do $$ declare start_date date;begin
+ for start_date in select unnest(array[date '2026-09-28',date '2026-09-21']) loop
+  begin perform private.coverage_dashboard('week',start_date,start_date+6,date '2026-11-01');raise exception 'Truncated/expired week accepted';
+  exception when sqlstate '22023' then if sqlerrm<>'Weekly reporting start precedes retained daily coverage window' then raise;end if;end;
+ end loop;
+ begin perform private.coverage_dashboard('week',date '2026-09-28',date '2026-10-25',date '2026-11-01');raise exception 'Truncated multiweek accepted';
+ exception when sqlstate '22023' then if sqlerrm<>'Weekly reporting start precedes retained daily coverage window' then raise;end if;end;
+ for start_date in select unnest(array[date '2026-11-02',date '2026-12-01',date '2027-01-01']) loop
+  begin perform private.coverage_dashboard(case when start_date=date '2026-11-02' then 'week' when start_date=date '2026-12-01' then 'month' else 'season' end,
+   start_date,case when start_date=date '2026-11-02' then start_date+6 when start_date=date '2026-12-01' then date '2026-12-31' else date '2027-12-31' end,date '2026-11-01');
+   raise exception 'Future-only period accepted';
+  exception when sqlstate '22023' then if sqlerrm<>'Future-only coverage reporting periods are not supported' then raise;end if;end;
+ end loop;
+end $$;
+select pg_temp.coverage_assert((private.coverage_dashboard('week',date '2026-10-19',date '2026-10-25',date '2026-11-01')->0) @> '{"period_state":"completed","effective_through":"2026-10-25","reporting_as_of":"2026-11-01","accepted_summary_count":20}', 'fully retained completed week');
+select pg_temp.coverage_assert((private.coverage_dashboard('week',date '2026-10-26',date '2026-11-01',date '2026-10-30')->0) @> '{"period_state":"open","period_end":"2026-11-01","effective_through":"2026-10-30","accepted_summary_count":20}', 'current open week and source suppression');
+select pg_temp.coverage_assert(jsonb_array_length(private.coverage_dashboard('week',date '2026-10-26',date '2026-11-01',date '2026-10-30'))=1, '19-summary separate parent/source remains hidden');
+select pg_temp.coverage_assert((private.coverage_dashboard('month',date '2026-10-01',date '2026-10-31',date '2026-10-30')->0) @> '{"period_state":"open","effective_through":"2026-10-30","accepted_summary_count":80}', 'open month before retention');
+select pg_temp.coverage_assert((private.coverage_dashboard('month',date '2026-10-01',date '2026-10-31',date '2026-11-01')->0) @> '{"period_state":"completed","effective_through":"2026-10-31","accepted_summary_count":80}', 'completed month before retention');
+select pg_temp.coverage_assert((private.coverage_dashboard('season',date '2026-01-01',date '2026-12-31',date '2026-11-01')->0) @> '{"period_state":"open","effective_through":"2026-11-01","accepted_summary_count":80}', 'open season before retention');
+select pg_temp.coverage_assert((private.coverage_dashboard('season',date '2026-01-01',date '2026-12-31',date '2027-01-01')->0) @> '{"period_state":"completed","effective_through":"2026-12-31","accepted_summary_count":80}', 'completed season before retention');
+select pg_temp.coverage_assert(private.retain_coverage_demand(date '2026-11-01')=1, 'November boundary rolls October 1 once');
+select pg_temp.coverage_assert(private.retain_coverage_demand(date '2026-11-01')=0, 'November retention idempotent');
+select pg_temp.coverage_assert((private.coverage_dashboard('month',date '2026-10-01',date '2026-10-31',date '2026-11-01')->0->>'accepted_summary_count')::integer=80, 'month archive plus daily exactly once');
+select pg_temp.coverage_assert((private.coverage_dashboard('season',date '2026-01-01',date '2026-12-31',date '2027-01-01')->0->>'accepted_summary_count')::integer=80, 'season archive plus daily exactly once');
+select pg_temp.coverage_assert((private.coverage_dashboard('week',date '2026-10-19',date '2026-10-25',date '2026-11-01')->0->>'accepted_summary_count')::integer=20, 'completed supported week stable after retention');
+do $$ begin
+ begin perform private.coverage_dashboard('week',date '2026-09-28',date '2026-10-04',date '2026-11-01');raise exception 'Retained fragment reported after rollup';
+ exception when sqlstate '22023' then if sqlerrm<>'Weekly reporting start precedes retained daily coverage window' then raise;end if;end;
+end $$;
 rollback;

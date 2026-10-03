@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { CoverageEpisode,deliverCoverageSummary } from "./coverage-demand-client";
+import { CoverageEpisode,CoveragePreference,deliverCoverageSummary } from "./coverage-demand-client";
 import { fixtureSummary } from "./coverage-demand-test-fixture";
 import type { GamesNearMeSearchSummary } from "../types/coverage-demand";
 
@@ -29,4 +29,15 @@ test("delivery explicitly omits credentials/referrer, has a timeout, no retry, a
  process.env.NEXT_PUBLIC_COVERAGE_DEMAND_ENABLED='true';assert.doesNotThrow(()=>deliverCoverageSummary(fixtureSummary));await Promise.resolve();assert.equal(calls,1);
  const ep=new CoverageEpisode(()=>{throw new Error('offline');});ep.observe({},fixtureSummary,true);assert.doesNotThrow(()=>ep.finalize(true));
  }finally{globalThis.fetch=original;if(enabled===undefined)delete process.env.NEXT_PUBLIC_COVERAGE_DEMAND_ENABLED;else process.env.NEXT_PUBLIC_COVERAGE_DEMAND_ENABLED=enabled;}
+});
+
+test("preference reconciliation revokes stale consent, invalid/removal values, and preserves unreadable-storage memory",()=>{
+ let persisted:string|null='enabled';let blocked=false;
+ const preference=new CoveragePreference(()=>{if(blocked)throw Error('blocked');return persisted;});
+ let sent=0;const ep=new CoverageEpisode(()=>sent++,()=>preference.reconcile()==='enabled');
+ assert.equal(preference.reconcile(),'enabled');ep.observe({},fixtureSummary,true);
+ persisted='disabled';ep.finalize(true);assert.equal(sent,0);
+ for(const value of [null,'invalid','']){persisted='enabled';preference.reconcile();ep.observe({},fixtureSummary,true);persisted=value;ep.finalize();assert.equal(sent,0);assert.equal(preference.reconcile(),null);}
+ blocked=true;preference.choose('enabled');ep.observe({},fixtureSummary,true);ep.finalize();assert.equal(sent,1);
+ preference.choose('disabled');ep.observe({},fixtureSummary,true);ep.finalize();assert.equal(sent,1);
 });
