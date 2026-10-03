@@ -18,7 +18,7 @@ const api=http.createServer(async(req,res)=>{
  res.end('[]');
 });
 await new Promise(resolve=>api.listen(54326,'127.0.0.1',resolve));
-const app=spawn('npm',['run','dev','--','--hostname','127.0.0.1','--port','3001'],{
+const app=spawn('npm',['run','dev','--','--hostname','127.0.0.1','--port','3001'],{detached:true,
  stdio:'inherit',env:{...process.env,NEXT_PUBLIC_SUPABASE_URL:'http://127.0.0.1:54326',NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:'disposable-public',
  NEXT_PUBLIC_COVERAGE_DEMAND_ENABLED:'true',COVERAGE_DEMAND_ENABLED:'true',COVERAGE_DEMAND_SUPABASE_URL:'http://127.0.0.1:54326',COVERAGE_DEMAND_SERVICE_ROLE_KEY:'disposable-server-key',
  NEXT_PUBLIC_TURNSTILE_SITE_KEY:'',SUPABASE_SERVICE_ROLE_KEY:'',RESEND_API_KEY:'',CRON_SECRET:''}
@@ -104,4 +104,4 @@ try{
  pass('Unavailable preference storage falls back to page memory and resets safely on reload');
  assert.deepEqual(errors,[]);pass('Exact synthetic point, identities, credentials, query and selected identity absent from telemetry, URLs, cookies, storage, markup and console');
  writeFileSync(`${evidence}/results.json`,JSON.stringify({results,accepted,geolocation:'synthetic only',sink:'loopback aggregate fixture; database security tested separately',screenReader:'NOT VERIFIED: manual screen-reader session'},null,2));
-}finally{await browser?.close();app.kill('SIGTERM');api.close();}
+}finally{await browser?.close();try{process.kill(-app.pid,'SIGTERM');}catch{}api.close();}
