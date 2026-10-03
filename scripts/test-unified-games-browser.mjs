@@ -313,6 +313,10 @@ try {
       await page.evaluate(() => document.documentElement.style.fontSize = "200%");
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
       assert.ok(await page.evaluate(() => ![document.documentElement, document.body, document.querySelector("main")].some(e => ["hidden", "clip"].includes(getComputedStyle(e).overflowX))));
+      assert.ok(await page.locator('footer [aria-label="VarsityVue home"] h2').evaluate(e => {
+        const style = getComputedStyle(e);
+        return e.getBoundingClientRect().height <= parseFloat(style.lineHeight) * 2 + 1;
+      }), "Enlarged footer brand must remain readable within two lines");
       await page.getByRole("button", { name: "Refresh", exact: true }).focus();
       assert.ok(await page.getByRole("button", { name: "Refresh", exact: true }).evaluate(e => getComputedStyle(e).outlineStyle !== "none"));
       await page.getByRole("link", { name: "Completed", exact: true }).click();

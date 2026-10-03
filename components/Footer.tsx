@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer className="border-t border-white/10 bg-[var(--vv-bg)] px-4 py-7 text-white sm:px-6 sm:py-10 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <div className="grid grid-cols-1 gap-7 sm:gap-10 md:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr]">
+        <div className="vv-footer-grid grid gap-7 sm:gap-10">
           <div className="min-w-0 max-w-md">
             <Link
               href="/"
@@ -91,10 +91,10 @@ export default function Footer() {
             </h3>
             <Link
               href="mailto:info@varsityvue.com"
-              className="mt-3 flex w-fit items-center gap-2 text-xs text-white/70 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:mt-4 sm:text-sm"
+              className="mt-3 flex w-fit max-w-full items-center gap-2 text-xs text-white/70 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:mt-4 sm:text-sm"
             >
-              <Mail size={15} aria-hidden="true" />
-              info@varsityvue.com
+              <Mail size={15} className="shrink-0" aria-hidden="true" />
+              <span className="min-w-0 [overflow-wrap:anywhere]">info@varsityvue.com</span>
             </Link>
           </div>
         </div>
