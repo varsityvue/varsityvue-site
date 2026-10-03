@@ -22,3 +22,10 @@ test("anonymous budget is global, transient and bounded; route bypasses auth and
  const route=readFileSync('app/api/coverage-demand/route.ts','utf8');assert.doesNotMatch(route,/console\.|trackConversion\(|getClaims\(|getUser\(|cookies\(|request\.headers/);
  const proxy=readFileSync('proxy.ts','utf8');assert.ok(proxy.indexOf('"/api/coverage-demand"')<proxy.indexOf('return updateSession(request)'));
 });
+
+test("same-origin validation uses incoming Host when Next has an internal listener URL",async()=>{
+ const req=new Request('http://localhost:3002/api/coverage-demand',{method:'POST',headers:{origin:'http://127.0.0.1:3002',host:'127.0.0.1:3002','content-type':'application/json'},body:JSON.stringify(fixtureSummary)});
+ assert.equal((await ingestCoverage(req,async()=>{},options)).status,204);
+ const mismatch=new Request('http://localhost:3002/api/coverage-demand',{method:'POST',headers:{origin:'http://different.invalid:3002',host:'127.0.0.1:3002','content-type':'application/json'},body:JSON.stringify(fixtureSummary)});
+ assert.equal((await ingestCoverage(mismatch,async()=>{},options)).status,400);
+});

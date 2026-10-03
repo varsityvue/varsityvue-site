@@ -43,12 +43,6 @@ jobs:
         run: PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f supabase/tests/coverage_demand_analytics.sql
       - name: Concurrent aggregate increment
         run: bash supabase/tests/coverage_demand_race.sh
-      - name: Existing privacy, score authority, Score Scout and Pick Em database regressions
-        run: |
-          for file in public_uuid_hardening public_score_attribution assigned_scorekeeper_live score_scout_approval pickem_week6_contest pickem_conversion_report pickem_future_week_admin; do
-            supabase db reset --local --no-seed
-            PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f "supabase/tests/$file.sql" || exit 1
-          done
       - name: Real first-party HTTP ingestion into isolated Supabase
         run: |
           supabase status -o env > "$RUNNER_TEMP/coverage-local.env"
@@ -61,6 +55,12 @@ jobs:
         run: node scripts/test-games-near-me-browser.mjs
       - name: Coverage consent, episodes, privacy and failure browser verification
         run: node scripts/test-coverage-demand-browser.mjs
+      - name: Existing privacy, score authority, Score Scout and Pick Em database regressions
+        run: |
+          for file in public_uuid_hardening public_score_attribution assigned_scorekeeper_live score_scout_approval pickem_week6_contest pickem_conversion_report pickem_future_week_admin; do
+            supabase db reset --local --no-seed
+            PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f "supabase/tests/$file.sql" || exit 1
+          done
       - uses: actions/upload-artifact@v4
         if: always()
         with:

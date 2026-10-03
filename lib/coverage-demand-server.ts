@@ -30,7 +30,11 @@ export async function ingestCoverage(request: Request, record: (summary: GamesNe
   const respond = (status: number) => new Response(null, { status, headers: { "Cache-Control": "no-store" } });
   if (!options.enabled) return respond(503);
   // Exact same origin; no CORS allowance. Does not inspect IP, UA, cookies or identity.
-  if (request.headers.get("origin") !== new URL(request.url).origin
+  const url = new URL(request.url);
+  // Next can use its listener hostname in request.url; Host preserves the actual
+  // first-party browser destination. Browser JavaScript cannot override Host.
+  const origin = `${url.protocol}//${request.headers.get("host") ?? url.host}`;
+  if (request.headers.get("origin") !== origin
     || request.headers.get("content-type")?.split(";")[0].trim() !== "application/json") return respond(400);
   if (!options.budget()) return respond(429);
   let summary: unknown;
