@@ -111,12 +111,12 @@ test("kickoff inferred LIVE never claims verified score coverage", () => {
   assert.equal(toDiscoveryGame({ ...original, status: "live", publicScoreVerified: true }, location).livePresentation, "score_available");
 });
 test("client location is transient and discovery does not transmit it", () => {
-  const client = readFileSync("components/GamesNearMe.tsx", "utf8");
+  const client = readFileSync("components/WeeklyNearbyControls.tsx", "utf8");
   assert.match(client, /getCurrentPosition/); assert.doesNotMatch(client, /watchPosition|localStorage|sessionStorage|indexedDB|document\.cookie|fetch\(|sendBeacon|console\.|track\(|router\.|URLSearchParams/);
   assert.doesNotMatch(client, /sourceReferences|verifiedAt|applicant_id|updated_by|source_submission_id/);
-  assert.match(client, /prefetch=\{false\}/);
-  const page = readFileSync("app/games/page.tsx", "utf8"); assert.doesNotMatch(page, /^"use client"/);
-  assert.match(page, /toDiscoveryGame/); assert.match(page, /prefetch=\{false\}/);
+  assert.match(readFileSync("components/WeeklyGameRow.tsx", "utf8"), /prefetch=\{false\}/);
+  const page = readFileSync("components/UnifiedGamesPage.tsx", "utf8"); assert.doesNotMatch(page, /^"use client"/);
+  assert.match(page, /weeklyGameDto/); assert.match(page, /prefetch=\{false\}/);
 });
 
 test("Week 8 exact canonical 17-of-17 slate fails closed on missing, changed, duplicate or unresolved games", () => {

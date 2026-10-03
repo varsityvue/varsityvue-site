@@ -182,6 +182,7 @@ export async function approveScoreSubmission(formData: FormData) {
   revalidatePath("/internal/score-review");
   revalidatePath("/scores");
   revalidatePath("/scoreboard");
+  revalidatePath("/games");
   redirect("/internal/score-review?reviewed=approved");
 }
 

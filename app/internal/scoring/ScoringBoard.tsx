@@ -40,7 +40,7 @@ function LiveEditor({ game, week, receipt, stale, error, now, onChoose }: { game
     <button type="button" onClick={onChoose} className="mt-2 rounded-lg border border-white/20 px-3 py-2 text-xs font-bold lg:hidden">Find another game ↓</button>
     <h2 className="mt-1 text-xl font-black leading-tight">{game.awayName} at {game.homeName}</h2>
     <p className="mt-1 text-xs text-white/50">{centralTime(game.kickoff)} · {game.status.toUpperCase()}{game.period ? ` · ${game.period}` : ""}{game.clock ? ` · ${game.clock}` : ""}</p>
-    <div className="mt-3 flex flex-wrap gap-2 text-xs"><Link href={`/games/${encodeURIComponent(game.id)}`} className="rounded-lg border border-white/20 px-3 py-2.5">View Game Center</Link><Link href="/scoreboard" className="rounded-lg border border-white/20 px-3 py-2.5">View public Scores</Link></div>
+    <div className="mt-3 flex flex-wrap gap-2 text-xs"><Link href={`/games/${encodeURIComponent(game.id)}`} className="rounded-lg border border-white/20 px-3 py-2.5">View Game Center</Link><Link href="/games?intent=scores" className="rounded-lg border border-white/20 px-3 py-2.5">View public Scores</Link></div>
     {stale && <p role="alert" className="mt-4 rounded-xl border border-amber-300/30 bg-amber-300/10 p-3 text-sm text-amber-100">Game changed — review the current score below before submitting again.</p>}
     {error && <p role="alert" className="mt-4 rounded-xl border border-red-300/30 bg-red-300/10 p-3 text-sm text-red-100">Score was not saved. Check the current game state and try again.</p>}
     {receipt && game.verified && <div role="status" className="mt-4 rounded-xl border border-emerald-300/25 bg-emerald-300/10 p-3 text-sm text-emerald-50">

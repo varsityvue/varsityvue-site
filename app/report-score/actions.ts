@@ -167,6 +167,7 @@ export async function submitAssignedLiveScore(formData: FormData) {
   const { error } = await supabase.rpc("submit_assigned_scorekeeper_update", payload);
   if (error) reportRedirect(gameId, assignedLiveError(error));
   revalidatePath("/scoreboard");
+  revalidatePath("/games");
   revalidatePath(`/games/${gameId}`);
   revalidatePath("/schools", "layout");
   revalidatePath("/report-score");

@@ -1,3 +1,4 @@
+import { safeGamesReturn } from "@/lib/unified-games";
 import ScoreAttribution from "@/components/ScoreAttribution";
 import type { CSSProperties, ReactNode } from "react";
 import type { Metadata } from "next";
@@ -27,6 +28,7 @@ import type { Game, MediaLink, UILClassification } from "@/types/platform";
 import { getGamePresentation } from "@/lib/game-presentation";
 
 type FollowSearchParams = {
+  return?: string;
   followed?: string;
   unfollowed?: string;
   finishFollow?: string;
@@ -78,7 +80,7 @@ export default async function GamePage({ params, searchParams }: GamePageProps) 
   return <main className="min-h-screen bg-[var(--vv-bg)] text-white" style={{ "--vv-primary": VARSITYVUE_PRIMARY, "--vv-away": awayColor, "--vv-home": homeColor, "--vv-accent": VARSITYVUE_ACCENT, "--vv-bg": VARSITYVUE_BG } as CSSProperties}>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sportsEventSchema) }} />
     <section className="border-b border-white/10 px-4 py-4 sm:px-6 sm:py-8 lg:px-8" style={{ background: `radial-gradient(circle at top left, ${awayColor}66 0%, transparent 38%), radial-gradient(circle at top right, ${homeColor}66 0%, transparent 38%), linear-gradient(120deg, #050505 0%, #080808 48%, #000 100%)` }}><div className="mx-auto max-w-[1440px]">
-      <Link href="/scoreboard" className="text-[10px] font-black uppercase tracking-[0.12em] text-white/50 transition hover:text-white sm:text-sm sm:tracking-[0.14em]">← Back to Scoreboard</Link>{dynamicSnapshot.scoreLoadStatus === "failed" && <p role="status" className="mt-3 rounded-xl border border-amber-300/20 bg-amber-300/10 px-4 py-3 text-sm text-amber-100">Live score data could not be refreshed. Scheduled game information and previously verified repository results remain available.</p>}
+      <Link href={safeGamesReturn(followParams.return, `/games?season=${game.season}&week=${game.week ?? "all"}`)} className="text-[10px] font-black uppercase tracking-[0.12em] text-white/50 transition hover:text-white sm:text-sm sm:tracking-[0.14em]">← Back to Games</Link>{dynamicSnapshot.scoreLoadStatus === "failed" && <p role="status" className="mt-3 rounded-xl border border-amber-300/20 bg-amber-300/10 px-4 py-3 text-sm text-amber-100">Live score data could not be refreshed. Scheduled game information and previously verified repository results remain available.</p>}
       <div className="mt-3 overflow-hidden rounded-[1.25rem] border border-white/10 bg-white/[0.045] shadow-2xl sm:mt-6 sm:rounded-[2rem]">
         <div className="border-b border-white/10 bg-black/35 p-3 sm:p-5"><div className="flex flex-wrap gap-1.5 sm:gap-2"><Badge label="Game Center" /><Badge label={getGameStatusLabel(game)} /><Badge label={getGameTypeLabel(game.gameType, game.week)} className="hidden sm:inline-flex" />{stats && <Badge label="Verified Stats · Coverage Varies" />}{missingStatsState && <Badge label={getStatAvailabilityLabel(missingStatsState.status)} className="border-amber-300/20 bg-amber-300/10 text-amber-100/75" />}{preview && <Badge label={preview.eyebrow} className="hidden sm:inline-flex" />}{game.districtGame && <Badge label="District Game" className="hidden sm:inline-flex" />}</div></div>
         <div className="p-3 sm:p-6 md:p-8">

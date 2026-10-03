@@ -306,7 +306,7 @@ export default async function AccountPage() {
               {canManageRoster ? (
                 <Link href={manageRosterHref} className="rounded-full border border-amber-300/25 bg-amber-300/10 px-5 py-2.5 text-sm font-black text-amber-100 transition hover:bg-amber-300/15">Manage Roster</Link>
               ) : null}
-              <Link href="/scoreboard" className="rounded-full border border-white/15 px-5 py-2.5 text-sm font-bold text-white/80 transition hover:border-white/30 hover:text-white">View Scoreboard</Link>
+              <Link href="/games?intent=scores" className="rounded-full border border-white/15 px-5 py-2.5 text-sm font-bold text-white/80 transition hover:border-white/30 hover:text-white">View Scoreboard</Link>
             </div>
           </section>
         ) : canModerate ? (
@@ -325,7 +325,7 @@ export default async function AccountPage() {
                   <Link href="/internal/score-review" className="text-sm font-black text-white transition hover:text-[var(--vv-accent)]">Review Score Reports{pendingScoreReports > 0 ? ` (${pendingScoreReports} pending)` : ""} →</Link>
                   <Link href="/internal/score-intelligence" className="text-sm font-bold text-white/65 transition hover:text-white">Missing Score Intelligence →</Link>
                   <Link href="/internal/pickem" className="text-sm font-black text-white transition hover:text-[var(--vv-accent)]">Manage Pick ’Em →</Link>
-                  <Link href="/scoreboard" className="text-sm font-bold text-white/65 transition hover:text-white">View Scoreboard →</Link>
+                  <Link href="/games?intent=scores" className="text-sm font-bold text-white/65 transition hover:text-white">View Scoreboard →</Link>
                 </div>
               </div>
 
@@ -359,13 +359,13 @@ export default async function AccountPage() {
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               <Link href="/report-score" className="rounded-full border border-white/15 px-5 py-2.5 text-sm font-bold text-white/80 transition hover:border-white/30 hover:text-white">Report a Score</Link>
-              <Link href="/scoreboard" className="rounded-full border border-white/15 px-5 py-2.5 text-sm font-bold text-white/80 transition hover:border-white/30 hover:text-white">View Scoreboard</Link>
+              <Link href="/games?intent=scores" className="rounded-full border border-white/15 px-5 py-2.5 text-sm font-bold text-white/80 transition hover:border-white/30 hover:text-white">View Scoreboard</Link>
             </div>
           </section>
         )}
 
         <div className="mt-6 flex items-center justify-between gap-4 border-t border-white/10 pt-6">
-          <Link href="/scoreboard" className="text-sm font-bold text-white/50 transition hover:text-white">← Back to scoreboard</Link>
+          <Link href="/games?intent=scores" className="text-sm font-bold text-white/50 transition hover:text-white">← Back to scoreboard</Link>
           <form action="/auth/signout" method="post">
             <button type="submit" className="rounded-full border border-white/15 px-5 py-2.5 text-sm font-bold text-white/70 transition hover:border-white/30 hover:text-white">
               Sign Out
