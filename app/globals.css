@@ -134,3 +134,12 @@ div[class~="mb-6"]:has(a[href="/submit"]):has(a[href="/coverage"]) > div > h2 {
 @media(min-width:768px){.weekly-game-list{grid-template-columns:repeat(2,minmax(0,1fr))}.weekly-filters form{grid-template-columns:repeat(2,minmax(0,1fr))}.weekly-heading h1{font-size:2.25rem}.weekly-page{padding:32px}}
 @media(min-width:1024px){.weekly-mobile-nav{display:none}}
 @media(max-width:1023px){body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}}
+
+.weekly-toolbar {display:flex;align-items:flex-start;gap:8px;margin:6px 0 10px;position:relative}
+.weekly-toolbar .weekly-status-filters {flex:1;min-width:0}
+.weekly-toolbar .weekly-filters {margin:3px 0 0;flex-shrink:0}
+.weekly-toolbar .weekly-filters summary {padding:8px 10px;border:1px solid #454545;border-radius:9px;background:#131313;font-size:.75rem;max-width:110px;overflow-wrap:anywhere}
+.weekly-toolbar .weekly-filters form {position:absolute;right:0;top:54px;background:#161616;width:min(320px,calc(100vw - 32px));z-index:25;box-shadow:0 12px 40px #000;grid-template-columns:1fr}
+.weekly-refresh > div {flex:1;min-width:0}
+.weekly-refresh .weekly-control {flex-shrink:0}
+.weekly-mobile-nav span {overflow-wrap:anywhere;max-width:100%}

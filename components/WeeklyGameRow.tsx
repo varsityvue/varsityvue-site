@@ -57,7 +57,7 @@ export default function WeeklyGameRow({
           {moved
             ? "Final · moved to Completed"
             : p.authoritativeLive
-              ? liveGameContext(g.score?.period, g.score?.clock)
+              ? `${p.label}${g.score?.period || g.score?.clock ? ` · ${liveGameContext(g.score?.period, g.score?.clock)}` : ""}`
               : p.label}
           {g.gameType === "scrimmage" ? " · Scrimmage" : ""}
           {g.districtGame ? " · District" : ""}

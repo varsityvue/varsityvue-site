@@ -226,6 +226,7 @@ export default function WeeklyGamesExplorer(props: Props) {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       generation.current++;
       request.current?.abort();
+      setCenter(null);
     };
   }, [props.games, props.fetchedAt]);
   useEffect(() => {
@@ -404,111 +405,116 @@ export default function WeeklyGamesExplorer(props: Props) {
           Search
         </button>
       </form>
-      <nav className="weekly-status-filters" aria-label="Game status">
-        {(["all", "live", "upcoming", "completed"] as const).map((filter) => (
-          <a
-            key={filter}
-            href={weeklyUrl(params, {
-              filter,
-              current: false,
-              verified: false,
-            })}
-            onClick={(e) =>
-              navigation(e, { filter, current: false, verified: false })
-            }
-            aria-current={
-              params.filter === filter && !params.current ? "page" : undefined
-            }
+      <div className="weekly-toolbar">
+        <nav className="weekly-status-filters" aria-label="Game status">
+          {(["all", "live", "upcoming", "completed"] as const).map((filter) => (
+            <a
+              key={filter}
+              href={weeklyUrl(params, {
+                filter,
+                current: false,
+                verified: false,
+              })}
+              onClick={(e) =>
+                navigation(e, { filter, current: false, verified: false })
+              }
+              aria-current={
+                params.filter === filter && !params.current ? "page" : undefined
+              }
+            >
+              {filter === "live"
+                ? "LIVE"
+                : filter[0].toUpperCase() + filter.slice(1)}
+            </a>
+          ))}
+        </nav>
+        <details className="weekly-filters">
+          <summary>
+            Filters
+            {params.district || params.classification || params.following
+              ? " · active"
+              : ""}
+          </summary>
+          <form
+            action="/games"
+            method="get"
+            onSubmit={(e) => {
+              e.preventDefault();
+              const d = new FormData(e.currentTarget);
+              update({
+                classification: String(d.get("classification") ?? ""),
+                district: d.has("district"),
+                following: d.has("following"),
+                radius: Number(d.get("radius") ?? 50),
+              });
+            }}
           >
-            {filter === "live"
-              ? "LIVE"
-              : filter[0].toUpperCase() + filter.slice(1)}
-          </a>
-        ))}
-      </nav>
-      <details className="weekly-filters">
-        <summary>
-          Filters
-          {params.district || params.classification || params.following
-            ? " · active"
-            : ""}
-        </summary>
-        <form
-          action="/games"
-          method="get"
-          onSubmit={(e) => {
-            e.preventDefault();
-            const d = new FormData(e.currentTarget);
-            update({
-              classification: String(d.get("classification") ?? ""),
-              district: d.has("district"),
-              following: d.has("following"),
-              radius: Number(d.get("radius") ?? 50),
-            });
-          }}
-        >
-          {[...new URLSearchParams(url.split("?")[1])]
-            .filter(
-              ([k]) =>
-                !["classification", "district", "following", "radius"].includes(
-                  k,
-                ),
-            )
-            .map(([k, v]) => (
-              <input key={k} type="hidden" name={k} value={v} />
-            ))}
-          <label className="weekly-label">
-            Classification
-            <select
-              name="classification"
-              className="weekly-control"
-              key={params.classification}
-              defaultValue={params.classification}
-            >
-              <option value="">All classifications</option>
-              {classes.map((c) => (
-                <option key={c}>{c}</option>
+            {[...new URLSearchParams(url.split("?")[1])]
+              .filter(
+                ([k]) =>
+                  ![
+                    "classification",
+                    "district",
+                    "following",
+                    "radius",
+                  ].includes(k),
+              )
+              .map(([k, v]) => (
+                <input key={k} type="hidden" name={k} value={v} />
               ))}
-            </select>
-          </label>
-          <label className="weekly-check">
-            <input
-              type="checkbox"
-              name="district"
-              key={`d${params.district}`}
-              defaultChecked={params.district}
-            />
-            District games only
-          </label>
-          <label className="weekly-check">
-            <input
-              type="checkbox"
-              name="following"
-              key={`f${params.following}`}
-              defaultChecked={params.following}
-            />
-            Following only
-          </label>
-          <label className="weekly-label">
-            Nearby radius
-            <select
-              name="radius"
-              className="weekly-control"
-              key={params.radius}
-              defaultValue={params.radius}
-            >
-              {NEARBY_RADII.map((r) => (
-                <option key={r} value={r}>
-                  {r} miles
-                </option>
-              ))}
-            </select>
-          </label>
-          <button className="weekly-control" type="submit">
-            Apply filters
-          </button>
-        </form>
-      </details>
+            <label className="weekly-label">
+              Classification
+              <select
+                name="classification"
+                className="weekly-control"
+                key={params.classification}
+                defaultValue={params.classification}
+              >
+                <option value="">All classifications</option>
+                {classes.map((c) => (
+                  <option key={c}>{c}</option>
+                ))}
+              </select>
+            </label>
+            <label className="weekly-check">
+              <input
+                type="checkbox"
+                name="district"
+                key={`d${params.district}`}
+                defaultChecked={params.district}
+              />
+              District games only
+            </label>
+            <label className="weekly-check">
+              <input
+                type="checkbox"
+                name="following"
+                key={`f${params.following}`}
+                defaultChecked={params.following}
+              />
+              Following only
+            </label>
+            <label className="weekly-label">
+              Nearby radius
+              <select
+                name="radius"
+                className="weekly-control"
+                key={params.radius}
+                defaultValue={params.radius}
+              >
+                {NEARBY_RADII.map((r) => (
+                  <option key={r} value={r}>
+                    {r} miles
+                  </option>
+                ))}
+              </select>
+            </label>
+            <button className="weekly-control" type="submit">
+              Apply filters
+            </button>
+          </form>
+        </details>
+      </div>
       {(params.current || params.verified) && (
         <p className="weekly-notice">
           Legacy link scope:{" "}
@@ -568,19 +574,46 @@ export default function WeeklyGamesExplorer(props: Props) {
         </p>
       </noscript>
       <div className="weekly-refresh">
-        <p>
-          {fetchedAt
-            ? `Refreshed ${new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", second: "2-digit", timeZone: "America/Chicago" }).format(new Date(fetchedAt))} CT`
-            : "Live scores unavailable"}
-          {active ? " · every 30s while visible" : ""}
-        </p>
+        <div>
+          <p aria-live="polite">
+            {matched.length} matching games{changed ? " · updates ready" : ""}
+          </p>
+          <p>
+            {fetchedAt
+              ? `Refreshed ${new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", second: "2-digit", timeZone: "America/Chicago" }).format(new Date(fetchedAt))} CT`
+              : "Live scores unavailable"}
+            {active ? " · every 30s while visible" : ""}
+          </p>
+        </div>
         <button
           type="button"
           className="weekly-control"
           disabled={busy}
           onClick={() => void refresh()}
         >
-          {busy ? "Refreshing…" : error ? "Retry" : "Refresh"}
+          {busy
+            ? "Refreshing…"
+            : error || loadStatus === "failed"
+              ? "Retry"
+              : "Refresh"}
+        </button>
+        <button
+          type="button"
+          className="weekly-control"
+          onClick={async () => {
+            try {
+              await navigator.clipboard.writeText(location.origin + url);
+              setShareMessage(
+                "Public filters copied. Your location is excluded.",
+              );
+            } catch {
+              setShareMessage(
+                "Copy this page address to share public filters. Your location is excluded.",
+              );
+            }
+          }}
+        >
+          Share
         </button>
       </div>
       {(error || loadStatus === "failed") && (
@@ -597,7 +630,8 @@ export default function WeeklyGamesExplorer(props: Props) {
       )}
       {props.followFailed && (
         <p className="weekly-notice">
-          Your Teams could not be loaded. Browse All Games or reload to retry.
+          Your Teams could not be loaded. Browse All Games or{" "}
+          <a href={url}>retry Your Teams</a>.
         </p>
       )}
       {props.pendingFailed && (
@@ -618,29 +652,7 @@ export default function WeeklyGamesExplorer(props: Props) {
           </button>
         </div>
       )}
-      <div className="weekly-result-summary">
-        <p aria-live="polite">
-          {matched.length} matching games{changed ? " · updates ready" : ""}
-        </p>
-        <button
-          type="button"
-          className="weekly-control"
-          onClick={async () => {
-            try {
-              await navigator.clipboard.writeText(location.origin + url);
-              setShareMessage(
-                "Public filters copied. Your location is excluded.",
-              );
-            } catch {
-              setShareMessage(
-                "Copy this page address to share public filters. Your location is excluded.",
-              );
-            }
-          }}
-        >
-          Share
-        </button>
-      </div>
+
       <p role="status" className="weekly-meta">
         {shareMessage}
       </p>

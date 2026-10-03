@@ -1,3 +1,5 @@
+import { publicKeys } from "./games-route-compatibility";
+export { publicKeys, scoresDestination } from "./games-route-compatibility";
 import type { Game } from "@/types/platform";
 import type { GameLocation } from "@/types/game-location";
 import { getGamePresentation } from "./game-presentation";
@@ -28,22 +30,6 @@ export type WeeklyParams = {
   verified: boolean;
   intent: boolean;
 };
-export const publicKeys = [
-  "season",
-  "week",
-  "q",
-  "filter",
-  "mode",
-  "classification",
-  "district",
-  "following",
-  "radius",
-  "state",
-  "result",
-  "intent",
-  "status",
-  "view",
-] as const;
 const completed = new Set([
   "verified_final",
   "verified_exceptional",
@@ -160,17 +146,6 @@ export function weeklyUrl(
   if (n.current) q.set("state", "current");
   if (n.verified) q.set("result", "verified");
   if (n.intent) q.set("intent", "scores");
-  return `/games?${q}`;
-}
-export function scoresDestination(
-  raw: Record<string, string | string[] | undefined>,
-) {
-  const q = new URLSearchParams();
-  for (const key of publicKeys) {
-    const v = scalar(raw[key]);
-    if (v) q.set(key, v.slice(0, key === "q" ? 200 : 80));
-  }
-  q.set("intent", "scores");
   return `/games?${q}`;
 }
 export function safeGamesReturn(value: unknown, fallback = "/games") {

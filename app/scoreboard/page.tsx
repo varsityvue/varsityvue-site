@@ -1,5 +1,5 @@
 import { permanentRedirect } from "next/navigation";
-import { scoresDestination } from "@/lib/unified-games";
+import { scoresDestination } from "@/lib/games-route-compatibility";
 export default async function ScoreboardPage({
   searchParams,
 }: {

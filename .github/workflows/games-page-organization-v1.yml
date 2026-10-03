@@ -1,7 +1,7 @@
 name: Unified Games and Scores
 on:
   pull_request:
-    paths: ['app/games/**', 'app/scoreboard/**', 'app/api/games/**', 'app/globals.css', 'components/Weekly*.tsx', 'components/MobileNavigation.tsx', 'components/SiteHeader.tsx', 'lib/unified-games*', 'lib/weekly-game-dto.ts', 'scripts/test-unified-games-browser.mjs', '.github/workflows/games-page-organization-v1.yml']
+    paths: ['app/games/**', 'app/scoreboard/**', 'app/api/games/**', 'app/globals.css', 'components/Weekly*.tsx', 'components/MobileNavigation.tsx', 'components/SiteHeader.tsx', 'lib/unified-games*', 'lib/games-route-compatibility.ts', 'proxy.ts', 'lib/weekly-game-dto.ts', 'scripts/test-unified-games-browser.mjs', '.github/workflows/games-page-organization-v1.yml']
   push:
     branches: [codex/unified-games-scores-v1]
 jobs:

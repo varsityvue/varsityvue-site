@@ -18,7 +18,7 @@ Rows use school names, white/grey text, VarsityVue red selected controls, public
 
 ## Compatibility
 
-- `/scoreboard` permanently redirects (308) to `/games?intent=scores`, copying only allowlisted public query keys. Its metadata image endpoints remain unchanged.
+- `/scoreboard` permanently redirects (308) to `/games?intent=scores`, copying only allowlisted public query keys and valid existing campaign tokens. The redirect happens before rendering/streaming to preserve incoming browser fragments. Its metadata image endpoints remain unchanged.
 - `season`, `week`, `q`, legacy `status` and `view` retain their supported intent. New parameters are `filter`, `mode`, `classification`, `district`, `following`, `radius`, `state`, `result` and `intent`.
 - `status=final` without a week becomes All weeks, Completed, verified-only; `view=completed` includes cancelled. `status=upcoming`, `view=current` and legacy district links preserve current/unresolved semantics, rather than adopting the new strict Upcoming chip.
 - Legacy fragments `live-now`, `final-scores`, `upcoming` and `nearby-games` translate once into public state and normalize to the collection anchor. Explicit weeks win. No GPS is requested by a fragment.

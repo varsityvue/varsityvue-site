@@ -192,7 +192,17 @@ async function authenticated(c) {
 }
 async function settled(page) {
   try {
-    await page.waitForFunction(() => location.search.includes("season="));
+    await page.waitForFunction(() => {
+      const q = new URLSearchParams(location.search);
+      const active = document.querySelector(
+        ".weekly-status-filters [aria-current=page]",
+      );
+      return (
+        q.has("season") &&
+        (q.get("state") === "current" ||
+          active?.textContent?.toLowerCase() === (q.get("filter") ?? "all"))
+      );
+    });
   } catch (error) {
     console.error("HYDRATION FAILURE", await page.locator("body").innerText());
     await page.screenshot({ path: `${evidence}/failure.png`, fullPage: true });
@@ -230,6 +240,15 @@ try {
         () => document.documentElement.scrollWidth <= innerWidth,
       ),
     );
+    if (width < 1024)
+      assert.ok(
+        await page.locator(".weekly-mobile-nav").evaluate((e) => {
+          const r = e.getBoundingClientRect();
+          return r.bottom <= innerHeight + 1 && r.top >= innerHeight - 100;
+        }),
+        "Mobile navigation must sit at the viewport bottom",
+      );
+
     await page.screenshot({
       path: `${evidence}/weekly-${width}.png`,
       fullPage: true,
@@ -346,6 +365,7 @@ try {
   assert.ok(!destination.includes("latitude"));
   await page.goto(origin + "/scoreboard?week=7#live-now");
   await settled(page);
+  console.log("LEGACY FRAGMENT URL", page.url());
   assert.equal(
     await page
       .getByRole("link", { name: "LIVE", exact: true })
@@ -354,6 +374,11 @@ try {
   );
   await page.getByRole("link", { name: "Upcoming", exact: true }).click();
   await page.goBack();
+  await page.waitForFunction(
+    () =>
+      document.querySelector(".weekly-status-filters [aria-current=page]")
+        ?.textContent === "LIVE",
+  );
   assert.equal(
     await page
       .getByRole("link", { name: "LIVE", exact: true })
@@ -361,6 +386,11 @@ try {
     "page",
   );
   await page.goForward();
+  await page.waitForFunction(
+    () =>
+      document.querySelector(".weekly-status-filters [aria-current=page]")
+        ?.textContent === "Upcoming",
+  );
   assert.equal(
     await page
       .getByRole("link", { name: "Upcoming", exact: true })
@@ -441,6 +471,92 @@ try {
   });
   assert.equal(errors.length, 0, errors.join("\n"));
   pass("Visible keyboard focus, 200% root text, no browser runtime errors");
+
+  const timed = await c.newPage();
+  let refreshRequests = 0;
+  timed.on("request", (r) => {
+    if (r.url().endsWith("/api/games/snapshot")) refreshRequests++;
+  });
+  await timed.clock.install();
+  await timed.goto(origin + "/games?week=7&filter=live");
+  await settled(timed);
+  let nextResponse = timed.waitForResponse((r) =>
+    r.url().endsWith("/api/games/snapshot"),
+  );
+  await timed.clock.runFor(30000);
+  await nextResponse;
+  assert.equal(refreshRequests, 1);
+  await timed.evaluate(() => {
+    Object.defineProperty(document, "hidden", {
+      configurable: true,
+      value: true,
+    });
+    document.dispatchEvent(new Event("visibilitychange"));
+  });
+  const hiddenRequests = refreshRequests;
+  await timed.clock.runFor(30000);
+  assert.equal(refreshRequests, hiddenRequests);
+  nextResponse = timed.waitForResponse((r) =>
+    r.url().endsWith("/api/games/snapshot"),
+  );
+  await timed.evaluate(() => {
+    Object.defineProperty(document, "hidden", {
+      configurable: true,
+      value: false,
+    });
+    document.dispatchEvent(new Event("visibilitychange"));
+  });
+  await nextResponse;
+  await c.setOffline(true);
+  const offlineRequests = refreshRequests;
+  await timed.clock.runFor(30000);
+  assert.equal(refreshRequests, offlineRequests);
+  nextResponse = timed.waitForResponse((r) =>
+    r.url().endsWith("/api/games/snapshot"),
+  );
+  await c.setOffline(false);
+  await nextResponse;
+  const snapshot = await fetch(origin + "/api/games/snapshot").then((r) =>
+    r.json(),
+  );
+  assert.ok(
+    !JSON.stringify(snapshot).match(
+      /sourceReferences|verifiedAt|source_submission_id|updated_by|applicant_id|submitted_by/,
+    ),
+  );
+  let release;
+  const delayed = new Promise((r) => (release = r));
+  let started;
+  const pendingRefresh = new Promise((r) => (started = r));
+  await timed.route("**/api/games/snapshot", async (route) => {
+    started();
+    await delayed;
+    try {
+      await route.fulfill({
+        json: {
+          ...snapshot,
+          games: snapshot.games.map((g) => ({
+            ...g,
+            homeScore: 999,
+            awayScore: 999,
+          })),
+        },
+      });
+    } catch {
+      /* Request was cancelled by the week change. */
+    }
+  });
+  await timed.getByRole("button", { name: "Refresh", exact: true }).click();
+  await pendingRefresh;
+  await timed.getByRole("link", { name: "Week 8", exact: true }).click();
+  release();
+  await settled(timed);
+  assert.equal(await timed.locator("[data-game-id]").count(), 0);
+  assert.match(timed.url(), /week=8/);
+  await timed.close();
+  pass(
+    "30-second foreground cadence, hidden/offline pause and resume, public snapshot allowlist, old refresh cancelled on week change",
+  );
   await c.close();
   c = await context({ javaScriptEnabled: false });
   page = await c.newPage();

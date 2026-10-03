@@ -208,3 +208,21 @@ test("links round-trip public context and discard coordinates, unknown identifie
     "/games?week=7&q=Hawley&intent=scores",
   );
 });
+
+test("redirect preserves existing valid campaign tokens without private or arbitrary context", () => {
+  assert.equal(
+    scoresDestination({
+      utm_source: "Facebook",
+      utm_campaign: "week_7",
+      user_id: "secret",
+    }),
+    "/games?utm_source=facebook&utm_campaign=week_7&intent=scores",
+  );
+  assert.equal(
+    scoresDestination({
+      utm_source: "member@example.invalid",
+      utm_campaign: "invalid text",
+    }),
+    "/games?intent=scores",
+  );
+});

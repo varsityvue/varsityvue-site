@@ -17,6 +17,10 @@ export default function WeeklyNearbyControls({
   useEffect(
     () => () => {
       token.current++;
+      setSchool("");
+      setLabel("");
+      setMessage("");
+      setLoading(false);
     },
     [],
   );
