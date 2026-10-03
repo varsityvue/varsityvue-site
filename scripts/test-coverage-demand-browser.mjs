@@ -26,6 +26,9 @@ const app=spawn('npm',['run','dev','--','--hostname','127.0.0.1','--port','3001'
 let browser;const results=[];const pass=name=>{results.push({name,status:'PASS'});console.log(`PASS ${name}`);};
 try{
  for(let i=0;i<90;i++){try{if((await fetch('http://127.0.0.1:3001/games')).ok)break;}catch{}await new Promise(r=>setTimeout(r,500));assert.notEqual(i,89,'Disposable app did not start');}
+ // Compile the dev route before measuring background delivery; this rejected
+ // request creates no aggregate and keeps cold compiler time outside the test.
+ assert.equal((await fetch('http://127.0.0.1:3001/api/coverage-demand',{method:'POST',headers:{origin:'http://127.0.0.1:3001','Content-Type':'application/json'},body:'{}'})).status,400);
  browser=await chromium.launch();
  const context=await browser.newContext({viewport:{width:390,height:900}});
  await context.addInitScript(()=>{
@@ -44,7 +47,7 @@ try{
  const nearby=page.locator('#nearby-games'),locate=nearby.getByRole('button',{name:'Games Near Me',exact:true}),cards=nearby.locator('a[href^="/games/"]');
  const optin=nearby.getByRole('button',{name:'Allow regional measurement',exact:true}),decline=nearby.getByRole('button',{name:'Don’t share regional usage',exact:true});
  const clear=()=>nearby.getByRole('button',{name:'Clear',exact:true}).click();
- const idle=()=>page.waitForTimeout(350);
+ const idle=()=>page.waitForTimeout(750);
  await page.goto('http://127.0.0.1:3001/games',{waitUntil:'networkidle'});await nearby.locator('#nearby-week').selectOption('7');
  await nearby.waitFor();assert.ok((await nearby.innerText()).includes('Games Near Me works without sharing.'));
  assert.equal(await page.evaluate(()=>window.geoFixture.calls),0);assert.equal(await optin.getAttribute('aria-pressed'),'false');
