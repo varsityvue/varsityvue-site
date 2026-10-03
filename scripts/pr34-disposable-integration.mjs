@@ -134,7 +134,7 @@ try{
  await sp.screenshot({path:evidence+'/keyboard-focus.png',fullPage:true});
  await sp.keyboard.press('Enter');await sp.getByRole('heading',{name:'Sign in to apply'}).waitFor();pass('keyboard_semantics_focus');
  results.screen_reader='NOT VERIFIED: no manual screen reader.';
- const contrast=await card.evaluate(el=>{
+ await sp.goto(base+'/scoreboard');const contrast=await card.evaluate(el=>{
  const canvas=document.createElement('canvas');canvas.width=canvas.height=1;const ctx=canvas.getContext('2d');
  const rgba=color=>{ctx.clearRect(0,0,1,1);ctx.fillStyle=color;ctx.fillRect(0,0,1,1);return [...ctx.getImageData(0,0,1,1).data].map((v,i)=>i===3?v/255:v)};
  const blend=(fg,bg)=>fg.slice(0,3).map((v,i)=>v*fg[3]+bg[i]*(1-fg[3]));
