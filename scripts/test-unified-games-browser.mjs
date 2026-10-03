@@ -318,7 +318,31 @@ try {
       await page.getByRole("link", { name: "Completed", exact: true }).click();
       assert.match(await page.locator("main").innerText(), /Cancelled/);
       assert.equal(new URL(page.url()).pathname, route);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      if (width < 1024) {
+        assert.ok(await page.locator(".weekly-mobile-nav").evaluate(e => {
+          const r = e.getBoundingClientRect();
+          return r.bottom <= innerHeight + 1 && [...e.querySelectorAll("a")].every(a => a.scrollWidth <= a.clientWidth && a.scrollHeight <= a.clientHeight);
+        }));
+      }
       await page.screenshot({ path: `${evidence}/${label}-text-200-${width}.png`, fullPage: true });
+    }
+    await page.goto(origin + route + "?week=7&filter=live");
+    await settled(page);
+    const row = page.locator('[data-game-id="de-leon-at-hawley-2026-week-7"]');
+    await row.locator("summary").click();
+    const detailHref = await row.getByRole("link", { name: "Game Center →" }).getAttribute("href");
+    await page.goto(origin + detailHref);
+    await page.getByRole("link", { name: "← Back to Games" }).click();
+    await settled(page);
+    assert.equal(new URL(page.url()).pathname, route);
+    assert.match(page.url(), /week=7.*filter=live/);
+    for (const [fragment, expected] of [["live-now", "live"], ["final-scores", "completed"], ["upcoming", "upcoming"], ["nearby-games", "nearby"]]) {
+      await page.goto(origin + route + "?week=7#" + fragment);
+      await settled(page);
+      assert.equal(new URL(page.url()).pathname, route);
+      assert.match(page.url(), expected === "nearby" ? /mode=nearby/ : new RegExp("filter=" + expected));
+      assert.ok(page.url().endsWith("#all-matchups"));
     }
   }
   pass(
