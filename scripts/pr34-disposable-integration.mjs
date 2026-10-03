@@ -7,7 +7,7 @@ import {chromium} from 'playwright';
 const v=Object.fromEntries(readFileSync(process.env.PR34_LOCAL_ENV,'utf8').split('\n').filter(x=>x.includes('=')).map(x=>{const i=x.indexOf('=');return [x.slice(0,i),x.slice(i+1).replace(/^"|"$/g,'')]}));
 const api=v.API_URL, key=v.ANON_KEY, service=v.SERVICE_ROLE_KEY;
 assert.equal(api,'http://127.0.0.1:54321');assert.ok(key&&service);
-const base='http://127.0.0.1:3000', evidence='pr34-evidence';
+const base='http://localhost:3000', evidence='pr34-evidence';
 mkdirSync(evidence,{recursive:true});
 const results={}; const pass=k=>{results[k]='PASS';console.log(k+': PASS')};
 const sql=q=>execFileSync('psql',['-X','-At','-v','ON_ERROR_STOP=1','-h','127.0.0.1','-p','54322','-U','postgres','-d','postgres','-c',q],{encoding:'utf8',env:{...process.env,PGPASSWORD:'postgres'}}).trim();
@@ -60,7 +60,7 @@ const log=await import('node:fs').then(fs=>fs.openSync(evidence+'/runtime.log','
 const app=spawn(process.execPath,['node_modules/next/dist/bin/next','dev','--hostname','127.0.0.1','--port','3000'],{env,stdio:['ignore',log,log]});
 let browser;
 try{
- for(let i=0;i<120;i++){try{if((await fetch(base+'/scoreboard')).ok)break}catch{}assert.notEqual(i,119,'runtime readiness');await new Promise(r=>setTimeout(r,500))}
+ for(let i=0;i<120;i++){try{if((await fetch('http://127.0.0.1:3000/scoreboard')).ok)break}catch{}assert.notEqual(i,119,'runtime readiness');await new Promise(r=>setTimeout(r,500))}
  browser=await chromium.launch();
  async function contextFor(u){
   const c=await browser.newContext({viewport:{width:400,height:900}});
