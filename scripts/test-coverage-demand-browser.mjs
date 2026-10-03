@@ -110,6 +110,7 @@ try{
  const tabA=await context.newPage(),tabB=await context.newPage();const tabSummaries=[];
  for(const tab of [tabA,tabB])tab.on('pageerror',e=>errors.push(e.message));
  tabB.on('request',r=>{if(r.url().endsWith('/api/coverage-demand'))tabSummaries.push(JSON.parse(r.postData()));});
+ await tabB.addInitScript(()=>{window.__delayCoverageStorage=false;window.addEventListener('storage',event=>{if(window.__delayCoverageStorage)event.stopImmediatePropagation();},true);});
  await tabB.clock.install();
  await tabA.goto('http://127.0.0.1:3001/games',{waitUntil:'networkidle'});
  const a=tabA.locator('#nearby-games'),b=tabB.locator('#nearby-games');
@@ -138,7 +139,7 @@ try{
  await tabB.clock.fastForward(61000);await b.locator('a[href^="/games/"]').first().click();await tabB.waitForURL(/\/games\/.+/);await tabB.waitForTimeout(750);assert.equal(tabSummaries.length,beforeBlockedWithdrawal);
  pass('Delivered cross-tab withdrawal revokes memory fallback when B storage reads become blocked');
  // Deliberately prevent B's storage notification: finalization must still read storage.
- await activeB();await tabB.evaluate(()=>window.addEventListener('storage',event=>event.stopImmediatePropagation(),{capture:true}));
+ await activeB();await tabB.evaluate(()=>{window.__delayCoverageStorage=true;});
  const beforeDelayed=tabSummaries.length;await tabA.evaluate(()=>localStorage.setItem('coverage_measurement_v1','disabled'));
  assert.equal(await allowB.getAttribute('aria-pressed'),'true','Keep stale component state to exercise finalization guard');
  await b.locator('a[href^="/games/"]').first().click();await tabB.waitForURL(/\/games\/.+/);await tabB.waitForTimeout(750);assert.equal(tabSummaries.length,beforeDelayed);
