@@ -161,6 +161,7 @@ export default async function ScoreboardPage() {
     <div className="mx-auto max-w-[1440px] px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
       {(explorerGames.length > 0 || followingGames.length > 0) && <ScoresExplorer games={explorerGames} followingGames={followingGames} followedSlugs={[...followedSlugs]} now={followSnapshotTime} />}
       {featuredGame && <FeaturedScoreboardGame game={featuredGame} games={scoreboardGames} hasPendingReport={pendingGameIds.has(featuredGame.id)} />}
+      <div className="mt-4 text-sm"><Link href="/games#nearby-games" className="inline-flex min-h-11 items-center rounded-xl border border-white/20 px-4 text-white/80 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">Games Near Me →</Link></div>
       <ScorekeeperCta state={scorekeeperCtaState} />
       <section className={`mt-5 grid items-start gap-3 sm:mt-8 sm:gap-6 ${liveGames.length > 0 ? "lg:grid-cols-3" : "lg:grid-cols-2"}`}>
         {liveGames.length > 0 && <ScoreboardColumn id="live-now" title="Live Now" description="Games currently marked in progress." games={liveGames} emptyText="No games are currently marked live." pendingGameIds={pendingGameIds} />}

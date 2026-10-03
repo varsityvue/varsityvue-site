@@ -1,0 +1,24 @@
+// One mapping to the canonical physical-venue registry; no campus/city approximation.
+export const schoolFootballVenues: Readonly<Record<string, string>> = {
+  "stephenville": "tx-stephenville-art-briles-stadium",
+  "cisco": "tx-cisco-chesley-stadium",
+  "millsap": "tx-millsap-bulldog-stadium",
+  "hico": "tx-hico-tiger-stadium",
+  "hawley": "tx-hawley-forrest-field",
+  "stamford": "tx-stamford-bill-anderson-stadium",
+  "goldthwaite": "tx-goldthwaite-gary-proffitt-stadium",
+  "jacksboro": "tx-jacksboro-tiger-stadium",
+  "hubbard": "tx-hubbard-jaguar-field",
+  "mart": "tx-mart-mart-i-s-d-athletic-complex",
+  "meridian": "tx-meridian-yellow-jacket-stadium",
+  "winters": "tx-winters-blizzard-stadium",
+  "hamilton": "tx-hamilton-kooken-field",
+  "clifton": "tx-clifton-cub-stadium",
+  "tolar": "tx-tolar-tolar-rattlers-stadium",
+  "breckenridge": "tx-breckenridge-buckaroo-stadium",
+  "holliday": "tx-holliday-eagle-stadium",
+  "de-leon": "tx-de-leon-bearcat-stadium",
+  "comanche": "tx-comanche-indian-stadium",
+  "albany": "tx-albany-robert-nail-memorial-stadium",
+  "santo": "tx-santo-wild-cat-stadium"
+};

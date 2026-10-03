@@ -1,0 +1,45 @@
+name: Games Near Me V1 verification
+on:
+  push:
+    branches: [codex/games-near-me-v1]
+  pull_request:
+    paths:
+      - 'data/*venue*.ts'
+      - 'data/game-location-pilot.ts'
+      - 'lib/game-location.ts'
+      - 'lib/game-discovery*'
+      - 'lib/geo-distance.ts'
+      - 'types/game-location.ts'
+      - 'components/GamesNearMe.tsx'
+      - 'app/games/page.tsx'
+      - 'scripts/test-games-near-me-browser.mjs'
+      - '.github/workflows/games-near-me-v1.yml'
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Venue gates and relevant application regressions
+        run: node --import tsx --test lib/game-discovery.test.ts lib/scorekeeper-cta.test.ts lib/public-read-contracts.test.ts lib/assigned-scorekeeper.test.ts lib/public-score-state.test.tsx lib/score-scout-review.test.tsx lib/scoring-operations.test.ts lib/games.test.ts data/game-previews.test.ts lib/pickem-lifecycle.test.ts lib/pickem-client-state.test.ts lib/pickem-week-summary.test.ts lib/pickem-contest-display.test.ts lib/team-feed-image.test.ts lib/follow-personalization.test.ts
+      - run: npx tsc --noEmit
+      - run: npx eslint app/games/page.tsx app/scoreboard/page.tsx components/GamesNearMe.tsx components/ScorekeeperCta.tsx data/venues.ts data/school-football-venues.ts data/game-venue-overrides.ts data/game-location-pilot.ts lib/game-location.ts lib/game-discovery.ts lib/game-discovery.test.ts lib/geo-distance.ts types/game-location.ts scripts/test-games-near-me-browser.mjs
+      - run: npm run build
+      - run: git diff --check
+      - name: Disposable browser tools (no runtime dependency change)
+        run: |
+          npm install --no-save --package-lock=false playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Mounted browser, geolocation and privacy tests
+        run: node scripts/test-games-near-me-browser.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: games-near-me-browser-evidence
+          path: games-near-me-browser-evidence
+          if-no-files-found: ignore
