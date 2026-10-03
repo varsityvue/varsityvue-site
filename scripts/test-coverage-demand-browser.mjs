@@ -120,7 +120,7 @@ try {
  await writeBlocked.addInitScript(()=>{Storage.prototype.setItem=()=>{throw Error('blocked writes');};});const w=await make(writeBlocked);await go(w);await allow(w).click();assert.equal(await allow(w).getAttribute('aria-pressed'),'false');await clear(w);await idle(w);assert.equal(sent(w).length,0);await writeBlocked.close();
  pass('Readable storage with failed writes fails conservatively');
  // Route departure sends one at most, and returning never carries geography or resumes an old episode.
- await go(page);await allow(page).click();await locate(page).click();const departed=sent(page).length;await page.goto(origin+'/scoreboard?week=7&mode=nearby',{waitUntil:'networkidle'});await idle(page);assert.equal(sent(page).length,departed+1);await clear(page);await idle(page);assert.equal(sent(page).length,departed+1);
+ await go(page);await allow(page).click();await locate(page).click();const departed=accepted;await page.goto(origin+'/scoreboard?week=7&mode=nearby',{waitUntil:'networkidle'});await idle(page);assert.equal(accepted,departed+1,'Server receives exactly one departure summary even when unload detaches the page request listener');await clear(page);await idle(page);assert.equal(accepted,departed+1);
  pass('Alias departure is one boundary; returning alias cannot reconstruct a location episode');
  const stored=await page.evaluate(()=>({local:JSON.stringify(localStorage),session:JSON.stringify(sessionStorage),cookies:document.cookie,html:document.documentElement.outerHTML}));
  assert.deepEqual(await page.evaluate(()=>Object.keys(localStorage)),['coverage_measurement_v1']);
