@@ -1,3 +1,5 @@
+import ScorekeeperCta from "@/components/ScorekeeperCta";
+import { getScorekeeperCtaState } from "@/lib/scorekeeper-cta-server";
 import ScoreAttribution from "@/components/ScoreAttribution";
 import { loadPublicScoreStates } from "@/lib/public-score-loader";
 import type { Metadata } from "next";
@@ -97,6 +99,7 @@ function StatStatusBadge({ gameId }: { gameId: string }) {
 }
 
 export default async function ScoreboardPage() {
+  const scorekeeperCtaStatePromise = getScorekeeperCtaState();
   const supabase = await createClient();
   const [dynamicRows, { data: claimsData }] = await Promise.all([
     loadPublicScoreStates(supabase),
@@ -149,6 +152,8 @@ export default async function ScoreboardPage() {
   const followingGames = relevantFollowedGames(scoreboardGames, followedSlugs, followSnapshotTime)
     .map(toExplorerGame);
 
+  const scorekeeperCtaState = await scorekeeperCtaStatePromise;
+
   return <main className="min-h-screen bg-[var(--vv-bg)] text-white">
     <PageHero eyebrow="VarsityVue Scoreboard · 2026 Football" title="Texas High School Football Scores" description="Verified final scores, featured matchups, and upcoming kickoffs from programs currently tracked by VarsityVue." />
     <HomeMembershipCta surface="scoreboard" />
@@ -156,6 +161,7 @@ export default async function ScoreboardPage() {
     <div className="mx-auto max-w-[1440px] px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
       {(explorerGames.length > 0 || followingGames.length > 0) && <ScoresExplorer games={explorerGames} followingGames={followingGames} followedSlugs={[...followedSlugs]} now={followSnapshotTime} />}
       {featuredGame && <FeaturedScoreboardGame game={featuredGame} games={scoreboardGames} hasPendingReport={pendingGameIds.has(featuredGame.id)} />}
+      <ScorekeeperCta state={scorekeeperCtaState} />
       <section className={`mt-5 grid items-start gap-3 sm:mt-8 sm:gap-6 ${liveGames.length > 0 ? "lg:grid-cols-3" : "lg:grid-cols-2"}`}>
         {liveGames.length > 0 && <ScoreboardColumn id="live-now" title="Live Now" description="Games currently marked in progress." games={liveGames} emptyText="No games are currently marked live." pendingGameIds={pendingGameIds} />}
         <ScoreboardColumn id="final-scores" title="Latest Finals" description="The latest confirmed results." games={finalGames} emptyText="No final scores posted yet." footerHref="/games?status=final#all-matchups" footerLabel="Browse Final Score Archive" pendingGameIds={pendingGameIds} />
