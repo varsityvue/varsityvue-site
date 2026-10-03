@@ -3,7 +3,7 @@ import { useEffect, useEffectEvent, useState } from "react";
 import { CoverageEpisode, CoveragePreference, COVERAGE_CHOICE_KEY, EPISODE_INACTIVITY_MS, deliverCoverageSummary } from "@/lib/coverage-demand-client";
 import type { CoverageChoice, GamesNearMeSearchSummary } from "@/types/coverage-demand";
 // One mounted owner in WeeklyGamesExplorer. Score refresh is deliberately not a boundary or inactivity reset.
-export function useCoverageEpisode(center: object | null, controls: string, summary: () => GamesNearMeSearchSummary | null) {
+export function useCoverageEpisode(center: object | null, controls: string, snapshot: object, summary: () => GamesNearMeSearchSummary | null) {
   const [choice, setChoice] = useState<CoverageChoice>(null);
   const [preference] = useState(() => new CoveragePreference(() => localStorage.getItem(COVERAGE_CHOICE_KEY)));
   const [episode] = useState(() => new CoverageEpisode(deliverCoverageSummary, () => preference.reconcile() === "enabled"));
@@ -35,6 +35,12 @@ export function useCoverageEpisode(center: object | null, controls: string, summ
     const timer = window.setTimeout(() => episode.finalize(), EPISODE_INACTIVITY_MS);
     return () => window.clearTimeout(timer);
   }, [center, controls, choice, preference, episode]);
+  // Refresh can update result counts without restarting the inactivity timer or owning a second episode.
+  useEffect(() => {
+    if (!center || choice !== "enabled" || process.env.NEXT_PUBLIC_COVERAGE_DEMAND_ENABLED !== "true") return;
+    if (preference.reconcile() !== "enabled") { episode.discard(); return; }
+    episode.observe(center, readSummary(), true);
+  }, [snapshot, center, choice, preference, episode]);
   function choose(next: "enabled" | "disabled") {
     if (next === "disabled") episode.discard();
     preference.choose(next);

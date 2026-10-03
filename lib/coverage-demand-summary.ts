@@ -9,7 +9,7 @@ import { distanceMiles, type GeographicPoint } from "./geo-distance";
 import { LOCATION_CATALOG_VERSION, SCHEDULE_CATALOG_VERSION } from "./coverage-catalog-versions";
 
 export const MAX_SUMMARY_BYTES = 2048;
-export const SUMMARY_FIELDS = ["schema_version", "grid_version", "coarse_bucket_id", "center_source", "season", "week", "initial_radius_miles", "final_radius_miles", "radius_expansion_steps", "radius_expanded", "filter_scope", "district_only", "additional_filters_present", "current_only", "verified_only", "query_present", "week_real_game_count", "week_located_game_count", "week_unlocated_game_count", "in_radius_real_game_count", "in_radius_default_eligible_count", "returned_game_count", "live_game_count", "kickoff_window_game_count", "upcoming_game_count", "final_game_count", "other_game_count", "game_selected", "zero_result_reason", "location_catalog_version", "schedule_catalog_version"] as const;
+export const SUMMARY_FIELDS = ["schema_version", "grid_version", "coarse_bucket_id", "center_source", "season", "week", "initial_radius_miles", "final_radius_miles", "radius_expansion_steps", "radius_expanded", "filter_scope", "district_only", "additional_filters_present", "current_only", "verified_only", "held_results", "query_present", "week_real_game_count", "week_located_game_count", "week_unlocated_game_count", "in_radius_real_game_count", "in_radius_default_eligible_count", "returned_game_count", "live_game_count", "kickoff_window_game_count", "upcoming_game_count", "final_game_count", "other_game_count", "game_selected", "zero_result_reason", "location_catalog_version", "schedule_catalog_version"] as const;
 const counts = ["week_real_game_count", "week_located_game_count", "week_unlocated_game_count", "in_radius_real_game_count", "in_radius_default_eligible_count", "returned_game_count", "live_game_count", "kickoff_window_game_count", "upcoming_game_count", "final_game_count", "other_game_count"] as const;
 const reasons: ZeroResultReason[] = ["none", "no_games_in_radius", "status_filter_excluded", "query_filter_excluded", "week_unapproved", "week_location_incomplete", "no_real_games", "other_bounded_case"];
 
@@ -26,7 +26,7 @@ export function validSummary(value: unknown): value is GamesNearMeSearchSummary 
     || typeof s.radius_expanded !== "boolean" || s.radius_expanded !== (s.radius_expansion_steps > 0)
     || (s.final_radius_miles > s.initial_radius_miles && !s.radius_expanded)
     || !["all", "live", "upcoming", "completed"].includes(s.filter_scope)
-    || [s.query_present, s.game_selected, s.district_only, s.additional_filters_present, s.current_only, s.verified_only].some(b => typeof b !== "boolean")
+    || [s.query_present, s.game_selected, s.district_only, s.additional_filters_present, s.current_only, s.verified_only, s.held_results].some(b => typeof b !== "boolean")
     || !reasons.includes(s.zero_result_reason)
     || s.location_catalog_version !== LOCATION_CATALOG_VERSION || s.schedule_catalog_version !== SCHEDULE_CATALOG_VERSION
     || counts.some(k => !Number.isInteger(s[k]) || s[k] < 0 || s[k] > 512)) return false;
@@ -37,11 +37,11 @@ export function validSummary(value: unknown): value is GamesNearMeSearchSummary 
     || s.live_game_count + s.kickoff_window_game_count + s.upcoming_game_count + s.final_game_count + s.other_game_count !== s.returned_game_count
     || s.game_selected && s.returned_game_count === 0
     || (s.returned_game_count > 0) !== (s.zero_result_reason === "none")) return false;
-  if (s.filter_scope === "completed" && s.live_game_count + s.kickoff_window_game_count + s.upcoming_game_count !== 0) return false;
-  if (s.filter_scope === "live" && s.live_game_count !== s.returned_game_count
-    || s.filter_scope === "upcoming" && s.upcoming_game_count !== s.returned_game_count) return false;
-  if (s.current_only && s.final_game_count !== 0
-    || s.verified_only && s.final_game_count !== s.returned_game_count) return false;
+  if (!s.held_results && s.filter_scope === "completed" && s.live_game_count + s.kickoff_window_game_count + s.upcoming_game_count !== 0) return false;
+  if (!s.held_results && (s.filter_scope === "live" && s.live_game_count !== s.returned_game_count
+    || s.filter_scope === "upcoming" && s.upcoming_game_count !== s.returned_game_count)) return false;
+  if (!s.held_results && (s.current_only && s.final_game_count !== 0
+    || s.verified_only && s.final_game_count !== s.returned_game_count)) return false;
   if (s.zero_result_reason === "no_real_games" && s.week_real_game_count !== 0
     || s.zero_result_reason === "no_games_in_radius" && (s.in_radius_real_game_count !== 0 || s.week_unlocated_game_count !== 0 || s.week_real_game_count === 0)
     || s.zero_result_reason === "query_filter_excluded" && (!s.query_present || s.in_radius_real_game_count === 0)
@@ -63,7 +63,7 @@ export function buildSearchSummary(games: readonly DiscoveryGame[], center: Geog
   // Explicit allowlist: neither point, query text nor any game identity is copied.
   return { schema_version: 2, grid_version: GRID_VERSION, coarse_bucket_id: bucket, center_source: centerSource,
     season: 2026, week, initial_radius_miles: radius, final_radius_miles: radius, radius_expansion_steps: 0,
-    radius_expanded: false, filter_scope: filter === "final" ? "completed" : filter === "district" ? "all" : filter, district_only: filter === "district", additional_filters_present: false, current_only: false, verified_only: false, query_present: Boolean(query.trim()),
+    radius_expanded: false, filter_scope: filter === "final" ? "completed" : filter === "district" ? "all" : filter, district_only: filter === "district", additional_filters_present: false, current_only: false, verified_only: false, held_results: false, query_present: Boolean(query.trim()),
     week_real_game_count: slate.length, week_located_game_count: slate.length - gate.unresolved,
     week_unlocated_game_count: gate.unresolved, in_radius_real_game_count: inRadius.length,
     in_radius_default_eligible_count: inRadius.length,
@@ -77,7 +77,7 @@ export function buildSearchSummary(games: readonly DiscoveryGame[], center: Geog
 // Shared weekly renderer's actual results, including rows held during score refresh.
 // Modifier presence is bounded; classification text and followed school identities never leave memory.
 export function buildWeeklySearchSummary(games: readonly WeeklyGame[], center: GeographicPoint, source: CenterSource,
-  params: WeeklyParams, followed: ReadonlySet<string>, now: Date, displayed: readonly WeeklyGame[]): GamesNearMeSearchSummary | null {
+  params: WeeklyParams, followed: ReadonlySet<string>, now: Date, displayed: readonly WeeklyGame[], held = false): GamesNearMeSearchSummary | null {
   const discovery = games.map(g => toDiscoveryGame(g, g.locationInfo));
   const base = buildSearchSummary(discovery, center, source, Number(params.week), params.radius, "", "all");
   if (!base || params.mode !== "nearby" || params.season !== "2026") return null;
@@ -87,7 +87,7 @@ export function buildWeeklySearchSummary(games: readonly WeeklyGame[], center: G
     : withoutQuery.length && params.q ? "query_filter_excluded" : "other_bounded_case";
   return {...base, filter_scope: params.filter, district_only: params.district,
     additional_filters_present: Boolean(params.classification || params.following), current_only: params.current,
-    verified_only: params.verified, query_present: Boolean(params.q), returned_game_count: displayed.length,
+    verified_only: params.verified, held_results: held, query_present: Boolean(params.q), returned_game_count: displayed.length,
     live_game_count: kinds.filter(k => k === "verified_live").length,
     kickoff_window_game_count: kinds.filter(k => k === "kickoff_window").length,
     upcoming_game_count: kinds.filter(k => k === "scheduled").length,

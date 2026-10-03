@@ -6,7 +6,7 @@ import http from 'node:http';
 import { spawn, execFileSync } from 'node:child_process';
 import { chromium } from 'playwright';
 const evidence='coverage-demand-browser-evidence';mkdirSync(evidence,{recursive:true});
-let accepted=0, sinkMode='ok';const sinkBodies=[];
+let accepted=0, sinkMode='ok', scoreRows=[];const sinkBodies=[];
 const api=http.createServer(async(req,res)=>{
  res.setHeader('Content-Type','application/json');
  if(req.url==='/rest/v1/rpc/server_record_coverage_demand_summary'){
@@ -15,7 +15,7 @@ const api=http.createServer(async(req,res)=>{
   if(sinkMode==='timeout'){setTimeout(()=>{res.end('{}');},3001).unref();return;}
   accepted++;res.end('null');return;
  }
- res.end('[]');
+ res.end(JSON.stringify(req.url.startsWith('/rest/v1/rpc/public_score_states') ? scoreRows : []));
 });
 await new Promise(resolve=>api.listen(54326,'127.0.0.1',resolve));
 const app=spawn('npm',['run','dev','--','--hostname','127.0.0.1','--port','3001'],{detached:true,
@@ -63,15 +63,17 @@ try {
  pass('School source distinct; week/center/Clear boundaries preserved');
  await locate(page).click();const beforeSelect=sent(page).length;await cards(page).first().click();await page.waitForURL(/\/games\/.+/);await idle(page);assert.equal(sent(page).length,beforeSelect+1);assert.equal(sent(page).at(-1).game_selected,true);
  const destination=page.url();assert.ok(!/latitude|longitude|bucket|measurement|consent|32\.123/.test(destination));
- await page.getByRole('link',{name:'← Back to Games',exact:true}).click();assert.match(page.url(),/mode=nearby/);assert.equal(await cards(page).count(),0);
+ await page.getByRole('link',{name:'← Back to Games',exact:true}).click();await page.waitForURL(/\/games\?/);assert.match(page.url(),/mode=nearby/);assert.equal(await cards(page).count(),0);
  pass('Selection/unmount dedupe; Game Center return preserves public context without location or consent');
  for(const alias of ['/games','/scoreboard']) {
-  await go(page,alias);assert.equal(await page.getByRole('heading',{name:'Games & Scores',exact:true}).count(),1);assert.equal(await allow(page).count(),1);
+  scoreRows=[{game_id:'lampasas-at-stephenville-2026-week-7',status:'live',home_score:10,away_score:0,verified:true,period:'1st',clock:'08:00',attribution_type:'verified',attribution_username:null}];
+  await go(page,alias);await page.getByRole('link',{name:'LIVE',exact:true}).click();assert.equal(await page.getByRole('heading',{name:'Games & Scores',exact:true}).count(),1);assert.equal(await allow(page).count(),1);
   await locate(page).click();await page.clock.fastForward(30000);
-  const start=sent(page).length;await page.getByRole('button',{name:'Refresh',exact:true}).click();await page.getByRole('button',{name:'Refresh',exact:true}).waitFor();await idle(page);assert.equal(sent(page).length,start);
-  await page.clock.fastForward(31000);await idle(page);assert.equal(sent(page).length,start+1,'Refresh must not reset inactivity');
+  const start=sent(page).length;scoreRows=[{...scoreRows[0],status:'final'}];await page.getByRole('button',{name:'Refresh',exact:true}).click();await page.getByRole('button',{name:'Refresh',exact:true}).waitFor();await idle(page);assert.equal(sent(page).length,start);
+  await page.clock.fastForward(31000);await idle(page);assert.equal(sent(page).length,start+1,'Refresh must not reset inactivity');assert.equal(sent(page).at(-1).held_results,true);assert.equal(sent(page).at(-1).final_game_count,1);assert.equal(sent(page).at(-1).live_game_count,0);
   await page.getByRole('button',{name:'Refresh',exact:true}).click();await page.getByRole('button',{name:'Refresh',exact:true}).waitFor();await clear(page);await idle(page);assert.equal(sent(page).length,start+1);
  }
+ scoreRows=[];
  pass('Both direct aliases: one renderer, one consent control, one episode owner; refresh neither finalizes/restarts nor resets inactivity');
  await go(page);sinkMode='error';await locate(page).click();assert.ok(await cards(page).count());await clear(page);await idle(page);assert.ok(responses.includes(503));
  sinkMode='timeout';await locate(page).click();const began=Date.now();await clear(page);assert.ok(Date.now()-began<1500);sinkMode='ok';

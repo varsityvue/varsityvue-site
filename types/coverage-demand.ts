@@ -5,7 +5,7 @@ export type GamesNearMeSearchSummary = {
   schema_version: 2; grid_version: "tx25-v1"; coarse_bucket_id: string; center_source: CenterSource;
   season: number; week: number; initial_radius_miles: number; final_radius_miles: number;
   radius_expansion_steps: number; radius_expanded: boolean;
-  filter_scope: "all" | "live" | "upcoming" | "completed"; district_only: boolean; additional_filters_present: boolean; current_only: boolean; verified_only: boolean; query_present: boolean;
+  filter_scope: "all" | "live" | "upcoming" | "completed"; district_only: boolean; additional_filters_present: boolean; current_only: boolean; verified_only: boolean; held_results: boolean; query_present: boolean;
   week_real_game_count: number; week_located_game_count: number; week_unlocated_game_count: number;
   in_radius_real_game_count: number; in_radius_default_eligible_count: number; returned_game_count: number;
   live_game_count: number; kickoff_window_game_count: number; upcoming_game_count: number; final_game_count: number; other_game_count: number;

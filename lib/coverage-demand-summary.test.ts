@@ -58,6 +58,11 @@ test("unified summaries count actual all/strict LIVE/completed rows and bounded 
  assert.ok(validSummary(s));assert.equal(s.additional_filters_present,true);assert.equal(s.district_only,true);assert.equal(s.zero_result_reason,'other_bounded_case');
  assert.ok(!JSON.stringify(s).includes('2A'));assert.equal(s.filter_scope,'all');
  assert.equal(validSummary({...fixtureSummary,schema_version:1}),false);
- for(const k of ['district_only','additional_filters_present','current_only','verified_only'])assert.equal(validSummary({...fixtureSummary,[k]:'true'}),false);
+ for(const k of ['district_only','additional_filters_present','current_only','verified_only','held_results'])assert.equal(validSummary({...fixtureSummary,[k]:'true'}),false);
  assert.equal(validSummary({...fixtureSummary,other_game_count:1}),false);
+});
+
+test("held rows preserve honest presentation counts while strict status rules apply to unheld results",()=>{
+ const held={...fixtureSummary,filter_scope:'live' as const,held_results:true,upcoming_game_count:0,final_game_count:fixtureSummary.returned_game_count};
+ assert.ok(validSummary(held));assert.equal(validSummary({...held,held_results:false}),false);
 });

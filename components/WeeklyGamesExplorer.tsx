@@ -83,8 +83,9 @@ export default function WeeklyGamesExplorer(props: Props) {
         return g ? [current ?? { game: g, distance: undefined }] : [];
       })
     : matched;
-  const coverage = useCoverageEpisode(center, JSON.stringify([params.season, params.week, params.mode, params.radius, params.q, params.filter, params.classification, params.district, params.following, params.current, params.verified]),
-    () => center && gate.enabled ? buildWeeklySearchSummary(games, center, center.source, params, followed, new Date(now), rows.map(r => r.game)) : null);
+  const coverageSnapshot = useMemo(() => ({games, heldIds, now}), [games, heldIds, now]);
+  const coverage = useCoverageEpisode(center, JSON.stringify([params.season, params.week, params.mode, params.radius, params.q, params.filter, params.classification, params.district, params.following, params.current, params.verified]), coverageSnapshot,
+    () => center && gate.enabled ? buildWeeklySearchSummary(games, center, center.source, params, followed, new Date(now), rows.map(r => r.game), heldIds !== null) : null);
   const matchedIds = new Set(matched.map((r) => r.game.id));
   const changed =
     heldIds !== null &&
