@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { liveGameContext } from "@/lib/live-period";
+import { getGamePresentation } from "@/lib/game-presentation";
 import HomeMembershipCta from "@/components/HomeMembershipCta";
 import {
   getHomepageScoreboardGames,
   type DynamicScoreState,
 } from "@/lib/scoreboard";
 import { createClient } from "@/lib/supabase/server";
+import { loadPublicScoreStatesResult } from "@/lib/public-score-loader";
 
 function getScore(game: { awayScore?: number; homeScore?: number; score?: { away?: number; home?: number } }) {
   return {
@@ -24,13 +26,9 @@ function getTickerLabel(mode: "finals" | "upcoming", week?: number) {
 
 export default async function ScoreStrip() {
   const supabase = await createClient();
-  const { data: dynamicRows } = await supabase
-    .from("public_game_state")
-    .select("game_id, status, home_score, away_score, period, clock, verified, kickoff_override")
-    .eq("verified", true);
-
+  const scoreLoad = await loadPublicScoreStatesResult(supabase);
   const dynamicState = new Map(
-    ((dynamicRows ?? []) as DynamicScoreState[]).map((state) => [state.game_id, state]),
+    (scoreLoad.states as DynamicScoreState[]).map((state) => [state.game_id, state]),
   );
   const { mode, games } = getHomepageScoreboardGames(12, dynamicState);
 
@@ -44,6 +42,7 @@ export default async function ScoreStrip() {
   return (
     <>
       <HomeMembershipCta />
+      {scoreLoad.status === "failed" && <p role="status" className="border-b border-white/10 bg-amber-300/10 px-4 py-2 text-center text-xs text-amber-100">Live score refresh is temporarily unavailable.</p>}
       <section
         aria-label={label}
         className="overflow-hidden border-y border-white/10 bg-[#070707]"
@@ -86,6 +85,8 @@ export default async function ScoreStrip() {
                 const score = getScore(game);
                 const duplicate = index >= games.length;
                 const isFinal = mode === "finals";
+                const presentation = getGamePresentation(game);
+                const showScore = isFinal || presentation.showScore;
 
                 return (
                   <Link
@@ -100,24 +101,24 @@ export default async function ScoreStrip() {
                         isFinal ? "text-white/45" : "text-white/50"
                       }`}
                     >
-                      {isFinal ? "Final" : game.status === "live" ? liveGameContext(game.score?.period, game.score?.clock) : game.displayStatus}
+                      {isFinal ? "Final" : presentation.kind === "verified_live" ? liveGameContext(game.score?.period, game.score?.clock) : presentation.kind === "kickoff_window" ? "Kickoff window" : game.displayStatus}
                     </span>
 
                     <span className="text-[11px] font-black text-white sm:text-sm">
                       {game.awayTeam ?? "Away"}
                     </span>
 
-                    {(isFinal || game.status === "live") && score.away !== undefined ? (
+                    {showScore && score.away !== undefined ? (
                       <span className="min-w-4 text-center text-xs font-black tabular-nums text-white sm:min-w-5 sm:text-base">
                         {score.away}
                       </span>
                     ) : null}
 
                     <span className="text-[7px] font-black uppercase tracking-[0.08em] text-white/25 sm:text-[9px] sm:tracking-[0.1em]">
-                      {isFinal || game.status === "live" ? "—" : "at"}
+                      {showScore ? "—" : "at"}
                     </span>
 
-                    {(isFinal || game.status === "live") && score.home !== undefined ? (
+                    {showScore && score.home !== undefined ? (
                       <span className="min-w-4 text-center text-xs font-black tabular-nums text-white sm:min-w-5 sm:text-base">
                         {score.home}
                       </span>

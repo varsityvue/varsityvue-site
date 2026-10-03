@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { getGames, normalizeGameStatus } from "@/lib/games";
 import { clearInheritedSchoolBroadcasts } from "@/data/school-broadcasts";
-import { loadPublicScoreStates } from "@/lib/public-score-loader";
+import { loadPublicScoreStatesResult, type PublicScoreLoadStatus } from "@/lib/public-score-loader";
 import { getScoreAttribution, type PublicScoreState } from "@/lib/public-score-state";
 import type { Game } from "@/types/platform";
 
@@ -16,6 +16,7 @@ function applyGameState(game: Game, state?: PublicScoreState): Game {
     ...game,
     status: state.status,
     scoreAttribution: getScoreAttribution(state),
+    publicScoreVerified: true,
     kickoff: state.kickoff_override ?? game.kickoff,
     date: state.kickoff_override ? state.kickoff_override.slice(0, 10) : game.date,
     sourceStatus: state.verified ? "verified" : game.sourceStatus,
@@ -41,14 +42,26 @@ function applyGameState(game: Game, state?: PublicScoreState): Game {
     : clearInheritedSchoolBroadcasts(normalizedGame);
 }
 
-export async function getDynamicGames(): Promise<Game[]> {
+export type DynamicGamesSnapshot = {
+  games: Game[];
+  scoreLoadStatus: PublicScoreLoadStatus;
+};
+
+export async function getDynamicGamesSnapshot(): Promise<DynamicGamesSnapshot> {
   const baseGames = getGames();
   const supabase = await createClient();
-  const data = await loadPublicScoreStates(supabase);
-  if (!data.length) return baseGames;
-  const states = new Map(data.map((state) => [state.game_id, state]));
+  const result = await loadPublicScoreStatesResult(supabase);
+  if (!result.states.length) return { games: baseGames, scoreLoadStatus: result.status };
+  const states = new Map(result.states.map((state) => [state.game_id, state]));
 
-  return baseGames.map((game) => applyGameState(game, states.get(game.id)));
+  return {
+    games: baseGames.map((game) => applyGameState(game, states.get(game.id))),
+    scoreLoadStatus: result.status,
+  };
+}
+
+export async function getDynamicGames(): Promise<Game[]> {
+  return (await getDynamicGamesSnapshot()).games;
 }
 
 export async function getDynamicGameById(id: string): Promise<Game | undefined> {

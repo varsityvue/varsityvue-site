@@ -19,6 +19,7 @@ export type ExplorerGame = {
   homeScore?: number;
   period?: string;
   clock?: string;
+  publicScoreVerified?: boolean;
 };
 
 export default function ScoresExplorer({ games, followingGames, followedSlugs, now }: { games: ExplorerGame[]; followingGames: ExplorerGame[]; followedSlugs: string[]; now: number }) {
@@ -58,9 +59,19 @@ export default function ScoresExplorer({ games, followingGames, followedSlugs, n
 }
 
 function ExplorerCard({ game, followed }: { game: ExplorerGame; followed: boolean }) {
-  const status = game.status === "live" ? liveGameContext(game.period, game.clock) : game.status === "final" ? "Final" : game.status === "scheduled" ? "Result pending" : game.status;
+  const verifiedLive = game.status === "live" && game.publicScoreVerified === true;
+  const status = verifiedLive
+    ? liveGameContext(game.period, game.clock)
+    : game.status === "live"
+      ? "Kickoff window · live score unavailable"
+      : game.status === "final"
+        ? "Final · verified"
+        : game.status === "scheduled"
+          ? "Result awaiting verification"
+          : game.status;
+  const showScore = game.status === "final" || verifiedLive;
   return <Link href={`/games/${game.id}`} className="flex min-w-0 items-center justify-between gap-3 rounded-lg border border-white/10 bg-black/40 p-3 transition hover:border-white/25 hover:bg-white/[0.06]">
     <div className="min-w-0"><p className="truncate text-sm font-black">{game.away} at {game.home}</p><p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-white/45">{status}{followed ? " · Following" : ""}</p></div>
-    <span className="shrink-0 text-sm font-black tabular-nums">{game.awayScore !== undefined && game.homeScore !== undefined ? `${game.awayScore}–${game.homeScore}` : "→"}</span>
+    <span className="shrink-0 text-sm font-black tabular-nums">{showScore && game.awayScore !== undefined && game.homeScore !== undefined ? `${game.awayScore}–${game.homeScore}` : "→"}</span>
   </Link>;
 }

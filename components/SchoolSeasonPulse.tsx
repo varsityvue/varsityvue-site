@@ -6,6 +6,7 @@ import { getSchoolBySlug } from "@/lib/schools";
 import { getStandingForSchoolFromGames } from "@/lib/standings";
 import { orderPlayedFinals } from "@/lib/recent-results";
 import { liveGameContext } from "@/lib/live-period";
+import { getGamePresentation } from "@/lib/game-presentation";
 import type { Game } from "@/types/platform";
 import type { SchoolTheme } from "@/types/school-theme";
 import SchoolBadge from "./SchoolBadge";
@@ -76,11 +77,12 @@ export default async function SchoolSeasonPulse({
 }) {
   const games = await getDynamicGamesForSchool(schoolSlug);
   const finals = orderPlayedFinals(games);
-  const liveGame = games.find((game) => game.status === "live");
+  const liveGame = games.find((game) => getGamePresentation(game).kind === "verified_live");
+  const kickoffWindowGame = games.find((game) => getGamePresentation(game).kind === "kickoff_window");
   const nextUpcomingGame = games
     .filter((game) => game.status === "upcoming" && game.gameType !== "bye")
     .sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b))[0];
-  const featuredGame = liveGame ?? nextUpcomingGame;
+  const featuredGame = liveGame ?? kickoffWindowGame ?? nextUpcomingGame;
   const verifiedStanding = getStandingForSchoolFromGames(schoolSlug, games);
 
   const summary = finals.reduce<{
@@ -112,8 +114,10 @@ export default async function SchoolSeasonPulse({
   const featuredOpponent = featuredGame ? getOpponent(featuredGame, schoolSlug) : null;
   const featuredOpponentSchool = featuredOpponent?.slug ? getSchoolBySlug(featuredOpponent.slug) : undefined;
   const featuredScore = featuredGame ? getTeamScore(featuredGame, schoolSlug) : null;
+  const featuredPresentation = featuredGame ? getGamePresentation(featuredGame) : null;
   const hasLiveScore =
-    featuredGame?.status === "live" &&
+    featuredPresentation?.kind === "verified_live" &&
+    featuredPresentation.showScore &&
     featuredScore?.team !== undefined &&
     featuredScore?.opponent !== undefined;
 
@@ -124,13 +128,13 @@ export default async function SchoolSeasonPulse({
         <div className="mt-3 grid grid-cols-3 gap-2 sm:mt-5"><PulseStat label="PF" value={hasScoringData ? summary.pointsFor.toString() : "—"} /><PulseStat label="PA" value={hasScoringData ? summary.pointsAgainst.toString() : "—"} /><PulseStat label="Diff" value={hasScoringData ? `${summary.pointsFor - summary.pointsAgainst > 0 ? "+" : ""}${summary.pointsFor - summary.pointsAgainst}` : "—"} /></div>
       </div>
 
-      <div className="relative overflow-hidden rounded-[1.5rem] border p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6 lg:hidden" style={{ borderColor: featuredGame?.status === "live" ? `${theme.primary}88` : `${theme.secondary}33`, background: featuredGame?.status === "live" ? `linear-gradient(135deg, ${theme.primary}2e, rgba(255,255,255,0.055), rgba(0,0,0,0.96) 66%)` : "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.96) 62%)", boxShadow: `0 18px 50px ${theme.primary}18` }}>
+      <div className="relative overflow-hidden rounded-[1.5rem] border p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6 lg:hidden" style={{ borderColor: featuredPresentation?.kind === "verified_live" ? `${theme.primary}88` : `${theme.secondary}33`, background: featuredPresentation?.kind === "verified_live" ? `linear-gradient(135deg, ${theme.primary}2e, rgba(255,255,255,0.055), rgba(0,0,0,0.96) 66%)` : "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.96) 62%)", boxShadow: `0 18px 50px ${theme.primary}18` }}>
         <div className="pointer-events-none absolute inset-0 opacity-20" style={{ background: `radial-gradient(circle at top right, ${theme.primary}, transparent 55%)` }} />
-        <div className="relative"><div className="flex items-center justify-between gap-3"><p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/45 sm:text-[10px] sm:tracking-[0.24em]">{featuredGame?.status === "live" ? "Live Now" : "Next Game"}</p><div className="flex items-center gap-2">{featuredGame?.status === "live" && <span className="rounded-full border border-red-400/30 bg-red-500/15 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-red-200 sm:px-3 sm:py-1.5 sm:text-[10px] sm:tracking-[0.14em]">Live</span>}{featuredGame?.districtGame && <span className="rounded-full border border-white/10 bg-white/10 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/60 sm:px-3 sm:py-1.5 sm:text-[10px] sm:tracking-[0.14em]">District</span>}</div></div>
+        <div className="relative"><div className="flex items-center justify-between gap-3"><p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/45 sm:text-[10px] sm:tracking-[0.24em]">{featuredPresentation?.kind === "verified_live" ? "Live Now" : featuredPresentation?.kind === "kickoff_window" ? "Kickoff Window" : "Next Game"}</p><div className="flex items-center gap-2">{featuredPresentation?.kind === "verified_live" && <span className="rounded-full border border-red-400/30 bg-red-500/15 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-red-200 sm:px-3 sm:py-1.5 sm:text-[10px] sm:tracking-[0.14em]">Live · verified</span>}{featuredPresentation?.kind === "kickoff_window" && <span className="rounded-full border border-amber-300/25 bg-amber-300/10 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-amber-100 sm:px-3 sm:py-1.5 sm:text-[10px] sm:tracking-[0.14em]">Live score unavailable</span>}{featuredGame?.districtGame && <span className="rounded-full border border-white/10 bg-white/10 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/60 sm:px-3 sm:py-1.5 sm:text-[10px] sm:tracking-[0.14em]">District</span>}</div></div>
           {featuredGame && featuredOpponent ? <><div className="mt-3 flex items-center gap-3 sm:mt-5 sm:gap-4">{featuredOpponentSchool ? <SchoolBadge school={featuredOpponentSchool} size="xs" /> : null}<div className="min-w-0 flex-1"><h2 className="break-words text-xl font-black leading-tight text-white sm:text-2xl">{featuredOpponent.name}</h2><p className="mt-1 text-[9px] font-black uppercase tracking-[0.14em] text-white/35 sm:text-[10px] sm:tracking-[0.16em]">{featuredOpponent.location} · Week {featuredGame.week ?? "TBD"}</p></div></div>
             {hasLiveScore && featuredScore ? <div className="mt-3 rounded-2xl border border-white/10 bg-black/35 p-4 sm:mt-5"><p className="text-[9px] font-black uppercase tracking-[0.16em] text-white/35">Current Score</p><div className="mt-2 flex items-end justify-between gap-4"><p className="text-3xl font-black tracking-tight text-white sm:text-4xl">{featuredScore.team} <span className="mx-1 text-white/25">—</span> {featuredScore.opponent}</p><p className="pb-1 text-xs font-black uppercase tracking-[0.14em] text-red-200">{liveGameContext(featuredGame.score?.period, featuredGame.score?.clock)}</p></div><ScoreAttribution game={featuredGame} /></div> : <div className="mt-3 grid grid-cols-2 gap-2 sm:mt-5"><InfoStat label="Date" value={formatDate(featuredGame.kickoff)} /><InfoStat label="Kickoff" value={formatTime(featuredGame.kickoff)} /></div>}
             <div className="mt-2 flex items-center gap-2 rounded-xl border border-white/10 bg-black/20 px-3 py-2.5 sm:mt-3 sm:rounded-2xl sm:px-4 sm:py-3"><span className="text-[8px] font-black uppercase tracking-[0.14em] text-white/25 sm:text-[9px]">Venue</span><span className="min-w-0 break-words text-[11px] font-black text-white/60 sm:text-xs">{featuredGame.venue ?? "TBD"}</span></div>
-            <div className="mt-3 flex gap-2 sm:mt-5"><Link href={`/games/${featuredGame.id}`} className="rounded-full px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.1em] transition hover:opacity-90 sm:text-xs sm:tracking-[0.12em]" style={{ backgroundColor: theme.secondary, color: theme.primary }}>{featuredGame.status === "live" ? "Follow Live →" : "Game Center →"}</Link><Link href={`/schools/${schoolSlug}/schedule`} className="rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.1em] text-white/60 transition hover:bg-white/10 hover:text-white sm:text-xs sm:tracking-[0.12em]">Schedule</Link></div></> : <div className="mt-4 rounded-xl border border-white/10 bg-black/30 p-4 text-xs text-white/45 sm:mt-5 sm:rounded-2xl sm:p-5 sm:text-sm">No upcoming game is currently listed.</div>}
+            <div className="mt-3 flex gap-2 sm:mt-5"><Link href={`/games/${featuredGame.id}`} className="rounded-full px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.1em] transition hover:opacity-90 sm:text-xs sm:tracking-[0.12em]" style={{ backgroundColor: theme.secondary, color: theme.primary }}>{featuredPresentation?.kind === "verified_live" ? "Follow Live →" : "Game Center →"}</Link><Link href={`/schools/${schoolSlug}/schedule`} className="rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.1em] text-white/60 transition hover:bg-white/10 hover:text-white sm:text-xs sm:tracking-[0.12em]">Schedule</Link></div></> : <div className="mt-4 rounded-xl border border-white/10 bg-black/30 p-4 text-xs text-white/45 sm:mt-5 sm:rounded-2xl sm:p-5 sm:text-sm">No upcoming game is currently listed.</div>}
         </div>
       </div>
     </section>

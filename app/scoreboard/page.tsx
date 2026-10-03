@@ -1,7 +1,7 @@
 import ScorekeeperCta from "@/components/ScorekeeperCta";
 import { getScorekeeperCtaState } from "@/lib/scorekeeper-cta-server";
 import ScoreAttribution from "@/components/ScoreAttribution";
-import { loadPublicScoreStates } from "@/lib/public-score-loader";
+import { loadPublicScoreStatesResult } from "@/lib/public-score-loader";
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
@@ -25,6 +25,7 @@ import ScoresExplorer, { type ExplorerGame } from "@/components/ScoresExplorer";
 import { getCurrentUserFollowedSchoolSlugs } from "@/lib/followed-schools";
 import { relevantFollowedGames } from "@/lib/follow-personalization";
 import { liveGameContext } from "@/lib/live-period";
+import { getGamePresentation } from "@/lib/game-presentation";
 
 const scoreboardTitle = "Texas High School Football Scores";
 const scoreboardDescription =
@@ -101,10 +102,11 @@ function StatStatusBadge({ gameId }: { gameId: string }) {
 export default async function ScoreboardPage() {
   const scorekeeperCtaStatePromise = getScorekeeperCtaState();
   const supabase = await createClient();
-  const [dynamicRows, { data: claimsData }] = await Promise.all([
-    loadPublicScoreStates(supabase),
+  const [scoreLoad, { data: claimsData }] = await Promise.all([
+    loadPublicScoreStatesResult(supabase),
     supabase.auth.getClaims(),
   ]);
+  const dynamicRows = scoreLoad.states;
 
   const pendingGameIds = new Set<string>();
   const userId = claimsData?.claims?.sub;
@@ -144,7 +146,7 @@ export default async function ScoreboardPage() {
     const classify = (school: typeof home) => school ? `${school.classification.conference}${school.classification.division ? ` Division ${school.classification.division === "D1" ? "I" : "II"}` : ""}` : null;
     const awayClass = classify(away);
     const homeClass = classify(home);
-    return { id: game.id, away: getTeamName(game.awayTeam, "Away"), home: getTeamName(game.homeTeam, "Home"), awaySlug: game.awaySchoolSlug, homeSlug: game.homeSchoolSlug, classification: awayClass && homeClass && awayClass !== homeClass ? "Cross-classification" : homeClass ?? awayClass ?? "Classification unavailable", status: game.status, kickoff: game.kickoff, awayScore: game.awayScore ?? game.score?.away, homeScore: game.homeScore ?? game.score?.home, period: game.score?.period, clock: game.score?.clock };
+    return { id: game.id, away: getTeamName(game.awayTeam, "Away"), home: getTeamName(game.homeTeam, "Home"), awaySlug: game.awaySchoolSlug, homeSlug: game.homeSchoolSlug, classification: awayClass && homeClass && awayClass !== homeClass ? "Cross-classification" : homeClass ?? awayClass ?? "Classification unavailable", status: game.status, kickoff: game.kickoff, awayScore: game.awayScore ?? game.score?.away, homeScore: game.homeScore ?? game.score?.home, period: game.score?.period, clock: game.score?.clock, publicScoreVerified: game.publicScoreVerified };
   };
   const explorerGames = scoreboardGames
     .filter((game) => slateDate && game.kickoff?.slice(0, 10) === slateDate)
@@ -159,6 +161,7 @@ export default async function ScoreboardPage() {
     <HomeMembershipCta surface="scoreboard" />
     <PickemPromo />
     <div className="mx-auto max-w-[1440px] px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
+      {scoreLoad.status === "failed" && <p role="status" className="mb-4 rounded-xl border border-amber-300/20 bg-amber-300/10 px-4 py-3 text-sm text-amber-100">Live score data could not be refreshed. Scheduled games and previously verified repository results remain available.</p>}
       {(explorerGames.length > 0 || followingGames.length > 0) && <ScoresExplorer games={explorerGames} followingGames={followingGames} followedSlugs={[...followedSlugs]} now={followSnapshotTime} />}
       {featuredGame && <FeaturedScoreboardGame game={featuredGame} games={scoreboardGames} hasPendingReport={pendingGameIds.has(featuredGame.id)} />}
       <div className="mt-4 text-sm"><Link href="/games#nearby-games" className="inline-flex min-h-11 items-center rounded-xl border border-white/20 px-4 text-white/80 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">Games Near Me →</Link></div>
@@ -177,16 +180,17 @@ function FeaturedScoreboardGame({ game, games, hasPendingReport }: { game: Score
   const homeStanding = game.homeSchoolSlug ? getStandingForSchoolFromGames(game.homeSchoolSlug, games) : undefined;
   const awayScore = game.awayScore ?? game.score?.away;
   const homeScore = game.homeScore ?? game.score?.home;
-  const isFinal = game.status === "final";
-  const isLive = game.status === "live";
-  const hasScore = (isFinal || isLive) && awayScore !== undefined && homeScore !== undefined;
+  const presentation = getGamePresentation(game);
+  const isFinal = presentation.kind === "verified_final" || presentation.kind === "verified_exceptional";
+  const isLive = presentation.kind === "verified_live";
+  const hasScore = presentation.showScore && awayScore !== undefined && homeScore !== undefined;
   const mapUrl = getMapUrl(game);
   const reportScoreLabel = getReportScoreLabel(game);
   const actionLabel = hasPendingReport && reportScoreLabel ? "Pending Review" : reportScoreLabel;
   const isGameOfTheWeek = game.specialEvent?.toLowerCase() === "game of the week";
 
   return <section className="rounded-[1.4rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:rounded-3xl sm:p-6 md:p-8">
-    <div className="flex flex-wrap items-start justify-between gap-2 sm:items-center sm:gap-3"><div className="min-w-0"><p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/55 sm:text-xs sm:tracking-[0.3em]">{isGameOfTheWeek ? "Game of the Week" : "Featured Matchup"}</p><p className="mt-1 text-[11px] font-bold leading-4 text-white/45 sm:mt-2 sm:text-sm">{getWeekLabel(game.week)} · {formatKickoff(game.kickoff)}{game.venue ? ` · ${game.venue}` : ""}</p></div><div className="flex flex-wrap items-center justify-end gap-2"><span className="rounded-full border border-white/15 bg-black/40 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.14em] text-white/75 sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.18em]">{game.status === "live" ? liveGameContext(game.score?.period, game.score?.clock) : game.displayStatus}</span>{isFinal && <StatStatusBadge gameId={game.id} />}</div></div>
+    <div className="flex flex-wrap items-start justify-between gap-2 sm:items-center sm:gap-3"><div className="min-w-0"><p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/55 sm:text-xs sm:tracking-[0.3em]">{isGameOfTheWeek ? "Game of the Week" : "Featured Matchup"}</p><p className="mt-1 text-[11px] font-bold leading-4 text-white/45 sm:mt-2 sm:text-sm">{getWeekLabel(game.week)} · {formatKickoff(game.kickoff)}{game.venue ? ` · ${game.venue}` : ""}</p></div><div className="flex flex-wrap items-center justify-end gap-2"><span className="rounded-full border border-white/15 bg-black/40 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.14em] text-white/75 sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.18em]">{isLive ? liveGameContext(game.score?.period, game.score?.clock) : presentation.label}</span>{isFinal && <StatStatusBadge gameId={game.id} />}</div></div>
     <div className="mt-4 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 sm:mt-8 sm:gap-6"><TeamResult team={getTeamName(game.awayTeam, "Away Team")} standing={awayStanding} /><div className="text-center">{hasScore ? <><p className="text-[8px] font-black uppercase tracking-[0.2em] text-white/40 sm:text-[10px] sm:tracking-[0.28em]">{isFinal ? "Final" : liveGameContext(game.score?.period, game.score?.clock)}</p><p className="mt-1 text-3xl font-black tracking-tight text-white sm:mt-2 sm:text-5xl md:text-6xl">{awayScore}<span className="mx-1.5 text-white/25 sm:mx-3">—</span>{homeScore}</p></> : <p className="text-sm font-black uppercase tracking-[0.2em] text-white/45 sm:text-2xl sm:tracking-[0.3em]">VS</p>}</div><TeamResult team={getTeamName(game.homeTeam, "Home Team")} standing={homeStanding} /></div>
     <ScoreAttribution game={game} />
     <div className="mt-4 flex flex-wrap justify-center gap-2 border-t border-white/10 pt-4 sm:mt-8 sm:gap-3 sm:pt-6"><Link href={`/games/${game.id}`} className="rounded-full bg-white px-4 py-2 text-center text-[10px] font-black uppercase tracking-[0.1em] text-black transition hover:bg-white/85 sm:px-7 sm:py-4 sm:text-base sm:normal-case sm:tracking-normal">{isFinal ? "View Final Result →" : "Matchup Center →"}</Link>{actionLabel && <Link href={`/report-score?game=${encodeURIComponent(game.id)}`} className={`rounded-full border px-4 py-2 text-center text-[10px] font-black uppercase tracking-[0.1em] transition sm:px-7 sm:py-4 sm:text-base sm:normal-case sm:tracking-normal ${hasPendingReport ? "border-amber-300/30 bg-amber-300/10 text-amber-100 hover:bg-amber-300/15" : "border-[var(--vv-accent)]/30 bg-[var(--vv-primary)]/40 text-white hover:bg-[var(--vv-primary)]/60"}`}>{actionLabel} →</Link>}{mapUrl && <a href={mapUrl} target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-center text-[10px] font-black uppercase tracking-[0.1em] text-white/75 transition hover:bg-white/10 hover:text-white sm:px-7 sm:py-4 sm:text-base sm:normal-case sm:tracking-normal">Venue Map →</a>}</div>
@@ -245,14 +249,15 @@ function ScoreboardGameCard({ game, hasPendingReport }: { game: ScoreboardGame; 
   const homeSchool = game.homeSchoolSlug ? getSchoolBySlug(game.homeSchoolSlug) : undefined;
   const awayScore = game.awayScore ?? game.score?.away;
   const homeScore = game.homeScore ?? game.score?.home;
-  const isFinal = game.status === "final";
+  const presentation = getGamePresentation(game);
+  const isFinal = presentation.kind === "verified_final" || presentation.kind === "verified_exceptional";
   const reportScoreLabel = getReportScoreLabel(game);
   const actionLabel = hasPendingReport && reportScoreLabel ? "Pending Review" : reportScoreLabel;
-  const showScore = (isFinal || game.status === "live") && awayScore !== undefined && homeScore !== undefined;
+  const showScore = presentation.showScore && awayScore !== undefined && homeScore !== undefined;
 
-  return <div className={`rounded-xl p-2.5 transition hover:bg-white/10 sm:rounded-2xl sm:p-4 ${game.status === "live" ? "border border-white/30 bg-black/45 shadow-[0_0_28px_rgba(255,255,255,0.10)]" : "border border-white/10 bg-black/35"}`}>
+  return <div className={`rounded-xl p-2.5 transition hover:bg-white/10 sm:rounded-2xl sm:p-4 ${presentation.kind === "verified_live" ? "border border-white/30 bg-black/45 shadow-[0_0_28px_rgba(255,255,255,0.10)]" : "border border-white/10 bg-black/35"}`}>
     <Link href={`/games/${game.id}`} className="block">
-      <div className="flex items-center justify-between gap-2 sm:gap-3"><div className="flex flex-wrap items-center gap-1.5"><span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[9px] font-black uppercase tracking-[0.12em] text-white/55 sm:px-3 sm:py-1 sm:text-[10px] sm:tracking-[0.16em]">{game.status === "live" ? liveGameContext(game.score?.period, game.score?.clock) : game.displayStatus}</span>{isFinal && <StatStatusBadge gameId={game.id} />}</div><span className="text-[9px] font-black uppercase tracking-[0.12em] text-white/35 sm:text-[10px] sm:tracking-[0.16em]">{getWeekLabel(game.week)}</span></div>
+      <div className="flex items-center justify-between gap-2 sm:gap-3"><div className="flex flex-wrap items-center gap-1.5"><span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[9px] font-black uppercase tracking-[0.12em] text-white/55 sm:px-3 sm:py-1 sm:text-[10px] sm:tracking-[0.16em]">{presentation.kind === "verified_live" ? liveGameContext(game.score?.period, game.score?.clock) : presentation.label}</span>{isFinal && <StatStatusBadge gameId={game.id} />}</div><span className="text-[9px] font-black uppercase tracking-[0.12em] text-white/35 sm:text-[10px] sm:tracking-[0.16em]">{getWeekLabel(game.week)}</span></div>
       <div className="mt-2.5 space-y-1.5 sm:mt-5 sm:space-y-4"><CompactTeamRow school={awaySchool} team={getTeamName(game.awayTeam, "Away")} score={showScore ? awayScore : undefined} /><CompactTeamRow school={homeSchool} team={getTeamName(game.homeTeam, "Home")} score={showScore ? homeScore : undefined} /></div>
       <ScoreAttribution game={game} />
       <div className="mt-2.5 flex items-center justify-between gap-3 border-t border-white/10 pt-2.5 sm:mt-5 sm:block sm:pt-4"><p className="text-[10px] font-semibold text-white/45 sm:text-xs">{formatKickoff(game.kickoff)}</p><p className="shrink-0 text-[8px] font-black uppercase tracking-[0.1em] text-white/60 sm:mt-2 sm:text-[10px] sm:tracking-[0.16em]">{isFinal ? "View Final →" : "View Matchup →"}</p></div>

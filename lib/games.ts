@@ -122,6 +122,8 @@ function markPastUnverifiedGame(game: Game): Game {
 }
 
 export function normalizeGameStatus(game: Game, now = new Date()): Game {
+  // A verified public LIVE state is authoritative and must never be downgraded by schedule timing.
+  if (game.status === "live" && game.publicScoreVerified === true) return game;
   if (!["upcoming", "live"].includes(game.status) || !game.kickoff) return game;
 
   const todayKey = getCentralDateKey(now);
@@ -139,7 +141,6 @@ export function normalizeGameStatus(game: Game, now = new Date()): Game {
     return {
       ...game,
       status: "live",
-      coverageStatus: game.coverageStatus === "none" ? "live" : game.coverageStatus,
     };
   }
 

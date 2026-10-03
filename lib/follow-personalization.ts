@@ -1,6 +1,6 @@
 import type { Game, School } from "@/types/platform";
 
-export type FollowGame = Pick<Game, "id" | "status" | "kickoff" | "homeSchoolSlug" | "awaySchoolSlug">;
+export type FollowGame = Pick<Game, "id" | "status" | "kickoff" | "homeSchoolSlug" | "awaySchoolSlug" | "publicScoreVerified">;
 
 export function isSchoolFollowed(slug: string | undefined, followed: ReadonlySet<string>) {
   return Boolean(slug && followed.has(slug));
@@ -32,8 +32,8 @@ function gameTime(game: Pick<FollowGame, "kickoff">) {
 
 function gameRank(game: FollowGame, now: number) {
   const time = gameTime(game);
-  if (game.status === "live") return 0;
-  if (game.status === "upcoming" || (game.status === "scheduled" && time !== null && time > now)) return 1;
+  if (game.status === "live" && game.publicScoreVerified === true) return 0;
+  if (game.status === "live" || game.status === "upcoming" || (game.status === "scheduled" && time !== null && time > now)) return 1;
   if (game.status === "final") return 2;
   return 3;
 }
