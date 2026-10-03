@@ -83,7 +83,16 @@ export function getGamePresentation(game: Game, now = new Date()): GamePresentat
   const exactKickoff = exactKickoffTimestamp(game);
   if (exactKickoff !== null) {
     const elapsed = now.getTime() - exactKickoff;
-    if (elapsed >= 0 && elapsed <= KICKOFF_WINDOW_MS) {
+    if (elapsed < 0) {
+      return {
+        kind: "scheduled",
+        label: "Upcoming",
+        authoritativeLive: false,
+        authoritativeScore: false,
+        showScore: false,
+      };
+    }
+    if (elapsed <= KICKOFF_WINDOW_MS) {
       return {
         kind: "kickoff_window",
         label: "Kickoff window · live score unavailable",
@@ -124,6 +133,23 @@ export function getGamePresentation(game: Game, now = new Date()): GamePresentat
         showScore: false,
       };
     }
+    return {
+      kind: "scheduled",
+      label: "Upcoming",
+      authoritativeLive: false,
+      authoritativeScore: false,
+      showScore: false,
+    };
+  }
+
+  if (game.status === "scheduled") {
+    return {
+      kind: "awaiting_verification",
+      label: "Result awaiting verification",
+      authoritativeLive: false,
+      authoritativeScore: false,
+      showScore: false,
+    };
   }
 
   return {
