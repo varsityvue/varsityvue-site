@@ -7,8 +7,10 @@ export const completedKinds = new Set<GamePresentationKind>(['verified_final','v
 export const groupLabels: Record<GamePresentationKind,string> = { verified_live:'Verified LIVE', kickoff_window:'Kickoff window · live score unavailable', scheduled:'Upcoming games', awaiting_verification:'Results awaiting verification', postponed:'Postponed games', cancelled:'Cancelled matchups', verified_final:'Verified finals', verified_exceptional:'Verified completed outcomes' };
 const scalar = (v: string | string[] | undefined) => typeof v === 'string' ? v : '';
 export function parseGamesParams(raw: Record<string,string|string[]|undefined>, games: readonly Game[]): GamesParams {
-  const status = ['all','upcoming','final','district'].includes(scalar(raw.status)) ? scalar(raw.status) : 'all';
-  return { view: scalar(raw.view) === 'completed' || (!scalar(raw.view) && status === 'final') ? 'completed':'current', q: scalar(raw.q).trim().slice(0,200), status,
+  const requestedStatus = ['all','upcoming','final','district'].includes(scalar(raw.status)) ? scalar(raw.status) : 'all';
+  const view: GamesView = scalar(raw.view) === 'completed' || (!scalar(raw.view) && requestedStatus === 'final') ? 'completed':'current';
+  const status = (view === 'current' && requestedStatus === 'final') || (view === 'completed' && requestedStatus === 'upcoming') ? 'all' : requestedStatus;
+  return { view, q: scalar(raw.q).trim().slice(0,200), status,
     week: scalar(raw.week) === 'all' || games.some(g => String(g.week) === scalar(raw.week)) ? scalar(raw.week):'',
     season: games.some(g => String(g.season) === scalar(raw.season)) ? scalar(raw.season):'' };
 }
