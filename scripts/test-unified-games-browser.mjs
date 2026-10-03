@@ -460,6 +460,34 @@ try {
       .evaluate((e) => getComputedStyle(e).outlineStyle !== "none"),
   );
   await page.evaluate(() => (document.documentElement.style.fontSize = "200%"));
+  await page.screenshot({
+    path: `${evidence}/text-200-390.png`,
+    fullPage: true,
+  });
+  console.log(
+    "ENLARGED LAYOUT",
+    await page.evaluate(() => ({
+      width: innerWidth,
+      scrollWidth: document.documentElement.scrollWidth,
+      overflow: [...document.querySelectorAll("body *")]
+        .filter((e) => {
+          const r = e.getBoundingClientRect();
+          return (
+            r.right > innerWidth + 1 &&
+            r.width > 0 &&
+            getComputedStyle(e).position !== "absolute" &&
+            !e.closest(".weekly-tabs,.weekly-status-filters")
+          );
+        })
+        .map((e) => ({
+          tag: e.tagName,
+          cls: e.className,
+          text: e.textContent?.slice(0, 60),
+          right: e.getBoundingClientRect().right,
+        }))
+        .slice(0, 12),
+    })),
+  );
   assert.ok(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= innerWidth,

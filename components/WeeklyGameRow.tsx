@@ -83,7 +83,7 @@ export default function WeeklyGameRow({
         <p className="weekly-meta">
           {kickoff}
           {!g.kickoff?.includes("T") ? " · Time TBD" : ""}
-          {followed ? " · Following" : ""}
+          {followed && distance !== undefined ? " · Following" : ""}
           {distance !== undefined ? ` · ${distanceLabel(distance)}` : ""}
         </p>
         <p className="weekly-meta">

@@ -143,3 +143,10 @@ div[class~="mb-6"]:has(a[href="/submit"]):has(a[href="/coverage"]) > div > h2 {
 .weekly-refresh > div {flex:1;min-width:0}
 .weekly-refresh .weekly-control {flex-shrink:0}
 .weekly-mobile-nav span {overflow-wrap:anywhere;max-width:100%}
+.weekly-heading {margin-bottom:12px}
+.weekly-tabs {padding-bottom:4px}
+.weekly-date {margin:0 0 10px}
+.weekly-toolbar {margin-bottom:6px}
+.weekly-refresh {margin:6px 0}
+.weekly-section {margin:12px 0}
+@media(max-width:767px){.weekly-page{padding-top:16px}}

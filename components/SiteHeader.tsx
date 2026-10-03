@@ -39,7 +39,7 @@ export default async function SiteHeader() {
           <Link
             href="/"
             aria-label="VarsityVue home"
-            className="group flex min-w-0 shrink-0 items-center gap-2 transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:gap-4 lg:gap-3"
+            className="group flex min-w-0 items-center gap-2 transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:gap-4 lg:gap-3"
           >
             <Image
               src="/logos/varsityvue-logo.png"

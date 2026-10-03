@@ -43,7 +43,8 @@ export default function WeeklyGamesExplorer(props: Props) {
     [center, setCenter] = useState<GeographicPoint | null>(null),
     [heldIds, setHeldIds] = useState<string[] | null>(null),
     [showAll, setShowAll] = useState(false),
-    [shareMessage, setShareMessage] = useState("");
+    [shareMessage, setShareMessage] = useState(""),
+    [seasonNotice, setSeasonNotice] = useState("");
   const request = useRef<AbortController | null>(null),
     generation = useRef(0),
     selectedTab = useRef<HTMLAnchorElement | null>(null);
@@ -268,7 +269,13 @@ export default function WeeklyGamesExplorer(props: Props) {
         .map((g) => String(g.week)),
     ),
   ].sort((a, b) => Number(a) - Number(b));
-  const seasons = [...new Set(games.map((g) => String(g.season)))]
+  if (params.week !== "all" && !weeks.includes(params.week)) {
+    weeks.push(params.week);
+    weeks.sort((a, b) => Number(a) - Number(b));
+  }
+  const seasons = [
+    ...new Set([...games.map((g) => String(g.season)), params.season]),
+  ]
     .sort()
     .reverse();
   const classes = [
@@ -315,31 +322,62 @@ export default function WeeklyGamesExplorer(props: Props) {
           <h1>Games &amp; Scores</h1>
           <p>Texas high school football · {params.season}</p>
         </div>
-        <label className="sr-only" htmlFor="weekly-season">
-          Season
-        </label>
-        <select
-          id="weekly-season"
-          className="weekly-control"
-          value={params.season}
-          onChange={(e) => {
-            const next = parseWeeklyParams(
-              {
-                ...Object.fromEntries(new URLSearchParams(url.split("?")[1])),
-                season: e.target.value,
-                week: undefined,
-              },
-              games,
-              displayNow,
-            );
-            update({ season: next.season, week: next.week });
-          }}
-        >
-          {seasons.map((s) => (
-            <option key={s}>{s}</option>
-          ))}
-        </select>
+        <form action="/games" method="get" className="weekly-season">
+          {[...new URLSearchParams(url.split("?")[1])]
+            .filter(([key]) => !["season", "week"].includes(key))
+            .map(([key, value]) => (
+              <input key={key} type="hidden" name={key} value={value} />
+            ))}
+          <label className="sr-only" htmlFor="weekly-season">
+            Season
+          </label>
+          <select
+            id="weekly-season"
+            name="season"
+            className="weekly-control"
+            value={params.season}
+            onChange={(e) => {
+              const next = parseWeeklyParams(
+                {
+                  ...Object.fromEntries(new URLSearchParams(url.split("?")[1])),
+                  season: e.target.value,
+                  week:
+                    params.week === "all" ||
+                    games.some(
+                      (g) =>
+                        String(g.season) === e.target.value &&
+                        String(g.week) === params.week,
+                    )
+                      ? params.week
+                      : undefined,
+                },
+                games,
+                displayNow,
+              );
+              setSeasonNotice(
+                next.week !== params.week
+                  ? `Week ${params.week} is unavailable in ${next.season}. Selected ${next.week === "all" ? "All weeks" : `Week ${next.week}`}.`
+                  : "",
+              );
+              update({ season: next.season, week: next.week });
+            }}
+          >
+            {seasons.map((s) => (
+              <option key={s}>{s}</option>
+            ))}
+          </select>
+          <noscript>
+            <button type="submit" className="weekly-control">
+              Apply season
+            </button>
+          </noscript>
+        </form>
       </div>
+      {seasonNotice && (
+        <p role="status" className="weekly-notice">
+          {seasonNotice}
+        </p>
+      )}
       <nav className="weekly-tabs" aria-label="Schedule weeks">
         {[...weeks, "all"].map((w) => (
           <a
@@ -661,9 +699,6 @@ export default function WeeklyGamesExplorer(props: Props) {
           <h2 id="your-teams">
             Your Teams <span>{your.length}</span>
           </h2>
-          <p className="weekly-meta">
-            Followed matchups first · each game appears once
-          </p>
           <div className="weekly-game-list">
             {(showAll ? your : your.slice(0, 4)).map(row)}
           </div>

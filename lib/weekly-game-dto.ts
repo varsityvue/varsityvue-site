@@ -12,6 +12,7 @@ import {
   getStatAvailabilityLabel,
 } from "@/data/stat-availability";
 import { getStandingForSchoolFromGames } from "./standings";
+import { validPoint } from "./geo-distance";
 import { safeScoreUsername } from "./public-score-state";
 import type { SchoolCenter } from "@/types/game-location";
 const classify = (s: School | undefined) =>
@@ -106,7 +107,8 @@ export function weeklyCenters(): SchoolCenter[] {
   return Object.entries(schoolFootballVenues)
     .flatMap(([schoolSlug, id]) => {
       const v = venues.find(
-        (v) => v.id === id && v.verificationStatus === "verified",
+        (v) =>
+          v.id === id && v.verificationStatus === "verified" && validPoint(v),
       );
       return v
         ? [
