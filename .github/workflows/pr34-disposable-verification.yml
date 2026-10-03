@@ -1,0 +1,71 @@
+name: PR 34 disposable contributor verification
+on:
+  push:
+    branches: [codex/pr34-disposable-verification]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: infrastructure
+      - uses: actions/checkout@v4
+        with:
+          ref: fbcbe6d4af6eedb67ca653bba95f2c513128c098
+          path: application
+      - uses: actions/checkout@v4
+        with:
+          ref: 2bdf08d57b2409936c893b651da180f8cdc3c72d
+          path: schema
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: supabase/setup-cli@v2
+        with:
+          version: 2.119.0
+      - name: Verify pinned sources and bootstrap canonical schema
+        working-directory: application
+        run: |
+          test "$(git rev-parse HEAD)" = fbcbe6d4af6eedb67ca653bba95f2c513128c098
+          test "$(git rev-parse HEAD^{tree})" = 16de76218167f6bcab88d709bb806c234af95f05
+          diff -qr supabase/migrations ../schema/supabase/migrations
+          npm ci
+          supabase init
+          supabase start -x studio,imgproxy,storage-api,realtime,edge-runtime,logflare,vector,supavisor
+          supabase db reset --local --no-seed
+          supabase status -o env > "$RUNNER_TEMP/pr34-local.env"
+      - name: Contributor integration and browser gates
+        working-directory: application
+        run: |
+          test -f ../infrastructure/scripts/pr34-disposable-integration.mjs
+          npm install --no-save --package-lock=false playwright@1.63.0
+          npx playwright install --with-deps chromium
+          cp ../infrastructure/scripts/pr34-disposable-integration.mjs scripts/pr34-disposable-integration.mjs
+          PR34_LOCAL_ENV="$RUNNER_TEMP/pr34-local.env" node scripts/pr34-disposable-integration.mjs
+      - name: Public UUID and assigned scorekeeper database regressions
+        working-directory: application
+        run: |
+          supabase db reset --local --no-seed
+          PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f supabase/tests/public_uuid_hardening.sql
+          PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f supabase/tests/assigned_scorekeeper_live.sql
+      - name: Application checks
+        working-directory: application
+        run: |
+          node --import tsx --test lib/scorekeeper-cta.test.ts lib/assigned-scorekeeper.test.ts lib/public-read-contracts.test.ts
+          npx tsc --noEmit
+          npx eslint app/contributors/actions.ts app/contributors/page.tsx app/login/page.tsx app/scoreboard/page.tsx components/ScorekeeperCta.tsx lib/contributor-intent.ts lib/scorekeeper-cta-server.ts lib/scorekeeper-cta.ts lib/scorekeeper-cta.test.ts
+          npm run build
+          git diff --check
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pr34-disposable-verification-evidence
+          path: application/pr34-evidence
+          if-no-files-found: ignore
+      - name: Destroy disposable backend
+        if: always()
+        working-directory: application
+        run: supabase stop --no-backup
