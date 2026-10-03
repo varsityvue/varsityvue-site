@@ -5,6 +5,11 @@ on:
   pull_request:
     paths:
       - 'data/*venue*.ts'
+      - 'data/district-school-additions.ts'
+      - 'data/schools.ts'
+      - 'data/school-logos.ts'
+      - 'public/logos/schools/hamilton.png'
+      - 'lib/hamilton-featured.test.ts'
       - 'data/game-location-pilot.ts'
       - 'lib/game-location.ts'
       - 'lib/game-discovery*'
@@ -26,9 +31,9 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Venue gates and relevant application regressions
-        run: node --import tsx --test lib/game-discovery.test.ts lib/scorekeeper-cta.test.ts lib/public-read-contracts.test.ts lib/assigned-scorekeeper.test.ts lib/public-score-state.test.tsx lib/score-scout-review.test.tsx lib/scoring-operations.test.ts lib/games.test.ts data/game-previews.test.ts lib/pickem-lifecycle.test.ts lib/pickem-client-state.test.ts lib/pickem-week-summary.test.ts lib/pickem-contest-display.test.ts lib/team-feed-image.test.ts lib/follow-personalization.test.ts
+        run: node --import tsx --test lib/game-discovery.test.ts lib/hamilton-featured.test.ts lib/school-master-data.test.ts lib/team-feed-validation.test.ts lib/scorekeeper-cta.test.ts lib/public-read-contracts.test.ts lib/assigned-scorekeeper.test.ts lib/public-score-state.test.tsx lib/score-scout-review.test.tsx lib/scoring-operations.test.ts lib/games.test.ts data/game-previews.test.ts lib/pickem-lifecycle.test.ts lib/pickem-client-state.test.ts lib/pickem-week-summary.test.ts lib/pickem-contest-display.test.ts lib/team-feed-image.test.ts lib/follow-personalization.test.ts
       - run: npx tsc --noEmit
-      - run: npx eslint app/games/page.tsx app/scoreboard/page.tsx components/GamesNearMe.tsx components/ScorekeeperCta.tsx data/venues.ts data/school-football-venues.ts data/game-venue-overrides.ts data/game-location-pilot.ts lib/game-location.ts lib/game-discovery.ts lib/game-discovery.test.ts lib/geo-distance.ts types/game-location.ts scripts/test-games-near-me-browser.mjs
+      - run: npx eslint app/games/page.tsx app/scoreboard/page.tsx components/GamesNearMe.tsx components/ScorekeeperCta.tsx data/venues.ts data/school-football-venues.ts data/game-venue-overrides.ts data/game-location-pilot.ts lib/game-location.ts lib/game-discovery.ts lib/game-discovery.test.ts lib/hamilton-featured.test.ts data/schools.ts data/district-school-additions.ts data/school-logos.ts lib/geo-distance.ts types/game-location.ts scripts/test-games-near-me-browser.mjs
       - run: npm run build
       - run: git diff --check
       - name: Disposable browser tools (no runtime dependency change)

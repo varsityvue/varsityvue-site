@@ -66,9 +66,9 @@ try {
   await nearby.locator('#nearby-week').selectOption('6');
   assert.equal(await locate.isDisabled(), true);
   assert.match(await nearby.innerText(), /venue information is incomplete/);
-  await nearby.locator('#nearby-week').selectOption('8');
+  await nearby.locator('#nearby-week').selectOption('9');
   assert.equal(await locate.isDisabled(), true);
-  pass('Week 6/current-week incomplete message and Week 8 fail-closed guard');
+  pass('Week 6/current-week incomplete message and Week 9 fail-closed guard');
   await pilot();
   await page.waitForLoadState('networkidle');
   const before = requests.length;
@@ -163,8 +163,50 @@ try {
   await page.evaluate(() => { window.geoFixture.latitude = 45.123456789; window.geoFixture.longitude = -110.543210987; });
   await locate.click(); assert.match(await nearby.innerText(), /No nearby tracked games/);
   pass('Zero nearby tracked games distinguished from filtered empty results');
-  await nearby.locator('#nearby-week').selectOption('8'); assert.equal(await cards.count(), 0); assert.equal(await locate.isDisabled(), true);
+  await nearby.locator('#nearby-week').selectOption('9'); assert.equal(await cards.count(), 0); assert.equal(await locate.isDisabled(), true);
   pass('Changing to unverified week clears center and remains disabled');
+  await nearby.locator('#nearby-week').selectOption('8');
+  assert.equal(await locate.isEnabled(), true);
+  await nearby.getByRole('button', { name: 'Choose a school instead' }).click();
+  await nearby.locator('#nearby-center').selectOption('hamilton');
+  await nearby.locator('#nearby-radius').selectOption('150');
+  assert.equal(await cards.count(), 16);
+  assert.match(await nearby.innerText(), /Searching near Hamilton/);
+  assert.doesNotMatch(await nearby.innerText(), /venue information is incomplete/);
+  const distances = await cards.evaluateAll(nodes => nodes.map(n => Number(n.innerText.match(/(\d+) mi away/)?.[1] ?? 0)));
+  assert.deepEqual(distances, [...distances].sort((a,b) => a-b));
+  await nearby.locator('#nearby-radius').selectOption('10');
+  assert.equal(await cards.count(), 1);
+  assert.match(await cards.first().innerText(), /Clifton at Hamilton/);
+  await nearby.getByRole('button', { name: 'Clear', exact: true }).click();
+  assert.equal(await cards.count(), 0);
+  pass('Week 8 17/17, Hamilton school center, radius/sorting, clear and normal schedule fallback');
+  for (const width of [390,400,430,1280]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const path of ['/games', '/schools/hamilton', '/schools']) {
+      await page.goto('http://127.0.0.1:3000'+path, { waitUntil: 'networkidle' });
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `${path} overflow at ${width}`);
+      if(path === '/schools/hamilton') {
+        await page.getByRole('heading', { name: 'Hamilton', exact: true }).waitFor();
+        await page.getByRole('button', { name: 'Follow Hamilton', exact: true }).waitFor();
+        await page.getByRole('link', { name: 'Team Feed', exact: true }).first().waitFor();
+        const logo = page.getByRole('img', { name: 'Hamilton Bulldogs logo', exact: true }).first();
+        await logo.waitFor();
+        await page.waitForFunction(el => el.complete && el.naturalWidth > 0, await logo.elementHandle());
+        const dimensions = await logo.evaluate(el => ({ natural: el.naturalWidth/el.naturalHeight, objectFit: getComputedStyle(el).objectFit, loaded: el.complete && el.naturalWidth > 0 }));
+        assert.ok(dimensions.loaded); assert.equal(dimensions.natural, 1.5); assert.equal(dimensions.objectFit, 'contain');
+      }
+      if(path === '/schools') {
+        const placement = await page.locator('a[href="/schools/hamilton"]').evaluateAll(nodes => nodes.map(n => {
+          const h = [...document.querySelectorAll('h2')].filter(h => ['Featured Schools', 'All Schools'].includes(h.textContent) && (h.compareDocumentPosition(n) & Node.DOCUMENT_POSITION_FOLLOWING)).pop();
+          return h?.textContent;
+        }));
+        assert.deepEqual(placement, ['Featured Schools']);
+      }
+      await page.screenshot({ path: `${evidence}/${path === '/games' ? 'week8-games' : path === '/schools' ? 'featured-directory' : 'hamilton-hub'}-${width}.png`, fullPage: true });
+    }
+    pass(`${width}px Hamilton hub/logo/follow/feed, Featured directory, Games Near Me: no overflow`);
+  }
   assert.deepEqual(errors, []);
   writeFileSync(`${evidence}/results.json`, JSON.stringify({ results, screenReader: 'NOT VERIFIED: no manual screen-reader session', backend: 'loopback read-only synthetic score fixture', geolocation: 'mocked only' }, null, 2));
 } finally {

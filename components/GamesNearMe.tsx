@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { DiscoveryGame, SchoolCenter } from "@/types/game-location";
+import { approvedLocationPilotSlates } from "@/data/game-location-pilot";
 import { currentScheduleWeek, nearbyGames, pilotGate, NEARBY_RADII, type DiscoveryFilter } from "@/lib/game-discovery";
 import { distanceLabel, validPoint, type GeographicPoint } from "@/lib/geo-distance";
 
@@ -72,14 +73,14 @@ export default function GamesNearMe({ games, centers, initialQuery = "", initial
     <div className="mt-4 flex flex-wrap items-end gap-3">
       <label className="flex flex-col gap-1 text-sm" htmlFor="nearby-week">Schedule week
         <select id="nearby-week" value={week} onChange={e => { clear(); setWeek(Number(e.target.value)); }} className={control}>
-          {weeks.map(w => <option key={w} value={w}>Week {w}{w === 7 ? " · Venue pilot" : ""}</option>)}
+          {weeks.map(w => <option key={w} value={w}>Week {w}{approvedLocationPilotSlates[w] ? " · Venue pilot" : ""}</option>)}
         </select>
       </label>
       <button type="button" onClick={locate} disabled={!gate.enabled || loading} className={`${control} bg-white/10 disabled:opacity-50`}>{loading ? "Finding location…" : "Games Near Me"}</button>
       <button type="button" onClick={() => setChoosing(true)} disabled={!gate.enabled} className={`${control} disabled:opacity-50`}>Choose a school instead</button>
       {loading && <button type="button" onClick={clear} className={control}>Cancel location request</button>}
     </div>
-    {!gate.enabled && <p className="mt-3 text-sm leading-6 text-white/80">Nearby discovery is disabled for Week {week}: venue information is incomplete or this week is outside the verified pilot. No complete nearby coverage is claimed. Select Week 7 for the venue pilot, or browse the normal schedule.{gate.unresolved > 0 && ` ${gate.unresolved} of ${gate.total} games have unavailable venue information.`}</p>}
+    {!gate.enabled && <p className="mt-3 text-sm leading-6 text-white/80">Nearby discovery is disabled for Week {week}: venue information is incomplete or this week is outside the verified pilot. No complete nearby coverage is claimed. Select Week 7 or Week 8 for the venue pilot, or browse the normal schedule.{gate.unresolved > 0 && ` ${gate.unresolved} of ${gate.total} games have unavailable venue information.`}</p>}
     <p role="status" className="mt-2 text-sm text-white/80">{message}</p>
     {gate.enabled && (choosing || school) && <label htmlFor="nearby-center" className="mt-3 flex max-w-lg flex-col gap-1 text-sm">Search center
       <select id="nearby-center" className={control} value={school} onChange={e => chooseSchool(e.target.value)}>

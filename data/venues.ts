@@ -1,6 +1,6 @@
 import type { Venue } from "@/types/game-location";
 
-// Bounded Week 7 + Featured School pilot. Sources are repository-only provenance.
+// Bounded Weeks 7–8 + Featured School pilot. Sources are repository-only provenance.
 // Stadium pins/football footprints were checked separately from campus entrances.
 export const venues: readonly Venue[] = [
   {
@@ -375,6 +375,188 @@ export const venues: readonly Venue[] = [
       "https://texasbob.com/stadium/stadium.php?id=712",
       "https://www.santoisd.net/about-us/contact-us",
       "https://goo.gl/maps/8yjcDXoSn8g16Uj76"
+    ],
+    "verifiedAt": "2026-10-03",
+    "aliases": []
+  }
+,
+  {
+    "id": "tx-dublin-bob-and-norma-cervetto-stadium",
+    "name": "Bob and Norma Cervetto Stadium",
+    "address": "2233 Hwy 6",
+    "city": "Dublin",
+    "state": "TX",
+    "zip": "76446",
+    "latitude": 32.08764,
+    "longitude": -98.32358,
+    "verificationStatus": "verified",
+    "sourceReferences": [
+      "https://texasbob.com/stadium/stadium.php?id=3542",
+      "https://goo.gl/maps/SnMek5KYTMWGGttj8",
+      "https://mapcarta.com/W1162948758",
+      "https://www.openstreetmap.org/way/1162948758"
+    ],
+    "verifiedAt": "2026-10-03",
+    "aliases": [
+      "Bob and Norma Cervetto Field"
+    ]
+  },
+  {
+    "id": "tx-cross-plains-buffalo-stadium",
+    "name": "Buffalo Stadium",
+    "address": "700 N Main St",
+    "city": "Cross Plains",
+    "state": "TX",
+    "zip": "76443",
+    "latitude": 32.1322757,
+    "longitude": -99.1634379,
+    "verificationStatus": "verified",
+    "sourceReferences": [
+      "https://texasbob.com/stadium/stadium.php?id=977",
+      "https://goo.gl/maps/89EPEPTLy5WWiG6D7"
+    ],
+    "verifiedAt": "2026-10-03",
+    "aliases": []
+  },
+  {
+    "id": "tx-frost-joe-parum-stadium",
+    "name": "Joe Parum Stadium",
+    "address": "110 South Allen Street",
+    "city": "Frost",
+    "state": "TX",
+    "zip": "76641",
+    "latitude": 32.0773187,
+    "longitude": -96.8080151,
+    "verificationStatus": "verified",
+    "sourceReferences": [
+      "https://texasbob.com/stadium/stadium.php?id=106",
+      "https://goo.gl/maps/DQGBBFt6YzcioS9e6"
+    ],
+    "verifiedAt": "2026-10-03",
+    "aliases": []
+  },
+  {
+    "id": "tx-crawford-pirate-stadium",
+    "name": "Pirate Stadium",
+    "address": "523 E 4th St",
+    "city": "Crawford",
+    "state": "TX",
+    "zip": "76638",
+    "latitude": 31.5375397,
+    "longitude": -97.4340561,
+    "verificationStatus": "verified",
+    "sourceReferences": [
+      "https://texasbob.com/stadium/stadium.php?id=147",
+      "https://goo.gl/maps/iTkPUJFBT91pzyQ27"
+    ],
+    "verifiedAt": "2026-10-03",
+    "aliases": []
+  },
+  {
+    "id": "tx-hamlin-piper-stadium",
+    "name": "Piper Stadium",
+    "address": "450 SW Ave F",
+    "city": "Hamlin",
+    "state": "TX",
+    "zip": "79520",
+    "latitude": 32.8772636,
+    "longitude": -100.1323037,
+    "verificationStatus": "verified",
+    "sourceReferences": [
+      "https://texasbob.com/stadium/stadium.php?id=999",
+      "https://goo.gl/maps/4VqnJwKubWmvuKC18"
+    ],
+    "verifiedAt": "2026-10-03",
+    "aliases": []
+  },
+  {
+    "id": "tx-eastland-maverick-stadium",
+    "name": "Maverick Stadium",
+    "address": "900 E Main St",
+    "city": "Eastland",
+    "state": "TX",
+    "zip": "76448",
+    "latitude": 32.4010047,
+    "longitude": -98.8084793,
+    "verificationStatus": "verified",
+    "sourceReferences": [
+      "https://texasbob.com/stadium/stadium.php?id=125",
+      "https://goo.gl/maps/nRTg98KXyGoqvJLw8"
+    ],
+    "verifiedAt": "2026-10-03",
+    "aliases": [
+      "EISD Maverick Stadium"
+    ]
+  },
+  {
+    "id": "tx-rio-vista-eagle-field",
+    "name": "Eagle Field",
+    "address": "200 Capps St",
+    "city": "Rio Vista",
+    "state": "TX",
+    "zip": "76093",
+    "latitude": 32.2284004,
+    "longitude": -97.3740184,
+    "verificationStatus": "verified",
+    "sourceReferences": [
+      "https://texasbob.com/stadium/stadium.php?id=71",
+      "https://goo.gl/maps/xQwd7mBCi1rAeWSb9"
+    ],
+    "verifiedAt": "2026-10-03",
+    "aliases": []
+  },
+  {
+    "id": "tx-henrietta-bearcat-stadium",
+    "name": "Bearcat Stadium",
+    "address": "1700 E Crafton St",
+    "city": "Henrietta",
+    "state": "TX",
+    "zip": "76365",
+    "latitude": 33.8205565,
+    "longitude": -98.1761794,
+    "verificationStatus": "verified",
+    "sourceReferences": [
+      "https://texasbob.com/stadium/stadium.php?id=369",
+      "https://goo.gl/maps/wwUYi4RcDcc9c4pB6",
+      "https://www.henrietta-isd.net/o/athletics/page/playoff-reservations",
+      "https://www.openstreetmap.org/way/864196387"
+    ],
+    "verifiedAt": "2026-10-03",
+    "aliases": []
+  },
+  {
+    "id": "tx-city-view-veterans-field",
+    "name": "City View Veterans Field",
+    "address": "1600 City View Drive",
+    "city": "Wichita Falls",
+    "state": "TX",
+    "zip": "76306",
+    "latitude": 33.9444093,
+    "longitude": -98.5587037,
+    "verificationStatus": "verified",
+    "sourceReferences": [
+      "https://texasbob.com/stadium/stadium.php?id=711",
+      "https://goo.gl/maps/aXFf7D9nMyhv4GC36"
+    ],
+    "verifiedAt": "2026-10-03",
+    "aliases": [
+      "Veterans Field"
+    ]
+  },
+  {
+    "id": "tx-abilene-wilford-moore-stadium",
+    "name": "Wilford Moore Stadium",
+    "address": "1560 Ross Ave",
+    "city": "Abilene",
+    "state": "TX",
+    "zip": "79605",
+    "latitude": 32.4293492,
+    "longitude": -99.7519346,
+    "verificationStatus": "verified",
+    "sourceReferences": [
+      "https://www.texasleadershipabilene.com/athletics/schedules-information",
+      "https://mcm.edu/map-location-details/#location-1671",
+      "https://www.openstreetmap.org/way/544668369"
     ],
     "verifiedAt": "2026-10-03",
     "aliases": []

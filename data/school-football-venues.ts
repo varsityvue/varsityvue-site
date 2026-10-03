@@ -20,5 +20,14 @@ export const schoolFootballVenues: Readonly<Record<string, string>> = {
   "de-leon": "tx-de-leon-bearcat-stadium",
   "comanche": "tx-comanche-indian-stadium",
   "albany": "tx-albany-robert-nail-memorial-stadium",
-  "santo": "tx-santo-wild-cat-stadium"
+  "santo": "tx-santo-wild-cat-stadium",
+  "dublin": "tx-dublin-bob-and-norma-cervetto-stadium",
+  "cross-plains": "tx-cross-plains-buffalo-stadium",
+  "frost": "tx-frost-joe-parum-stadium",
+  "crawford": "tx-crawford-pirate-stadium",
+  "hamlin": "tx-hamlin-piper-stadium",
+  "eastland": "tx-eastland-maverick-stadium",
+  "rio-vista": "tx-rio-vista-eagle-field",
+  "henrietta": "tx-henrietta-bearcat-stadium",
+  "city-view": "tx-city-view-veterans-field"
 };
