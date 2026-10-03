@@ -1,6 +1,7 @@
 import Link from "next/link";
 import ProgramLogo from "@/components/ProgramLogo";
 import type { FollowedSchoolGame } from "@/lib/follow-personalization";
+import { getGamePresentation } from "@/lib/game-presentation";
 import type { Game } from "@/types/platform";
 
 function kickoffLabel(kickoff?: string) {
@@ -19,16 +20,25 @@ function gameDetails(game: Game | undefined, schoolSlug: string) {
   const isHome = game.homeSchoolSlug === schoolSlug;
   const opponent = isHome ? game.awayTeam : game.homeTeam;
   const matchup = `${isHome ? "vs" : "at"} ${opponent ?? "Opponent TBD"}`;
-  if (game.status === "live") {
+  const presentation = getGamePresentation(game);
+  if (presentation.kind === "verified_live") {
     const own = isHome ? game.homeScore ?? game.score?.home : game.awayScore ?? game.score?.away;
     const other = isHome ? game.awayScore ?? game.score?.away : game.homeScore ?? game.score?.home;
-    return { label: "Live", detail: `${matchup}${own !== undefined && other !== undefined ? ` · ${own}–${other}` : ""}` };
+    return { label: "Live · verified", detail: `${matchup}${presentation.showScore && own !== undefined && other !== undefined ? ` · ${own}–${other}` : ""}` };
   }
-  if (game.status === "final") {
+  if (presentation.kind === "kickoff_window") {
+    return { label: "Kickoff window", detail: `${matchup} · live score unavailable` };
+  }
+  if (presentation.kind === "verified_final" || presentation.kind === "verified_exceptional") {
     const own = isHome ? game.homeScore ?? game.score?.home : game.awayScore ?? game.score?.away;
     const other = isHome ? game.awayScore ?? game.score?.away : game.homeScore ?? game.score?.home;
-    return { label: "Latest result", detail: `${matchup}${own !== undefined && other !== undefined ? ` · ${own}–${other}` : ""}` };
+    return { label: "Latest result", detail: `${matchup}${presentation.showScore && own !== undefined && other !== undefined ? ` · ${own}–${other}` : ""}` };
   }
+  if (presentation.kind === "awaiting_verification") {
+    return { label: "Result pending", detail: `${matchup} · awaiting verification` };
+  }
+  if (presentation.kind === "postponed") return { label: "Postponed", detail: matchup };
+  if (presentation.kind === "cancelled") return { label: "Cancelled", detail: matchup };
   return { label: "Next game", detail: `${matchup} · ${kickoffLabel(game.kickoff)}` };
 }
 
