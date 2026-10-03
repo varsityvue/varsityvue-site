@@ -1,9 +1,9 @@
-name: Games Page Organization V1
+name: Unified Games and Scores
 on:
   pull_request:
-    paths: ['app/games/page.tsx', 'components/GamesNearbyDisclosure.tsx', 'lib/games-page-organization*', 'scripts/test-games-organization-browser.mjs', '.github/workflows/games-page-organization-v1.yml']
+    paths: ['app/games/**', 'app/scoreboard/**', 'app/api/games/**', 'app/globals.css', 'components/Weekly*.tsx', 'components/MobileNavigation.tsx', 'components/SiteHeader.tsx', 'lib/unified-games*', 'lib/weekly-game-dto.ts', 'scripts/test-unified-games-browser.mjs', '.github/workflows/games-page-organization-v1.yml']
   push:
-    branches: [codex/games-page-organization-v1]
+    branches: [codex/unified-games-scores-v1]
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -17,16 +17,19 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: node --import tsx --test lib/games-page-organization.test.ts lib/game-presentation.test.ts lib/game-discovery.test.ts lib/follow-personalization.test.ts lib/public-score-loader.test.ts lib/hamilton-featured.test.ts lib/public-read-contracts.test.ts
+      - run: node --import tsx --test lib/unified-games.test.ts lib/games-page-organization.test.ts lib/game-presentation.test.ts lib/game-discovery.test.ts lib/follow-personalization.test.ts lib/public-score-loader.test.ts lib/hamilton-featured.test.ts lib/public-read-contracts.test.ts
       - run: npx tsc --noEmit
-      - run: npx eslint app/games/page.tsx components/GamesNearbyDisclosure.tsx lib/games-page-organization.ts lib/games-page-organization.test.ts
+      - run: npx eslint app/games/page.tsx components/GamesNearbyDisclosure.tsx lib/games-page-organization.ts lib/unified-games.test.ts lib/games-page-organization.test.ts
       - run: npm run build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: http://127.0.0.1:54329
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: fixture-public-key
       - run: git diff --check
       - run: npm install --no-save --package-lock=false playwright@1.63.0
       - run: npx playwright install --with-deps chromium
-      - run: node scripts/test-games-organization-browser.mjs
+      - run: node scripts/test-unified-games-browser.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: games-organization-browser-evidence
-          path: games-organization-browser-evidence
+          name: unified-games-browser-evidence
+          path: unified-games-browser-evidence

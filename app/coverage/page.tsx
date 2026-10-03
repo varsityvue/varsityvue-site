@@ -91,7 +91,7 @@ export default async function CoveragePage({ searchParams }: { searchParams: Pro
                   <LaunchCard title="District Context" body="Stories around district races as verified results build." />
                 </div>
                 <div className="mt-5 flex flex-col gap-2.5 sm:mt-8 sm:flex-row sm:gap-3">
-                  <Link href="/scoreboard" className="rounded-xl bg-white px-5 py-3 text-center text-xs font-black uppercase tracking-[0.14em] text-black transition hover:bg-white/85 sm:px-6 sm:py-4 sm:text-sm sm:tracking-[0.16em]">View Scoreboard</Link>
+                  <Link href="/games?intent=scores" className="rounded-xl bg-white px-5 py-3 text-center text-xs font-black uppercase tracking-[0.14em] text-black transition hover:bg-white/85 sm:px-6 sm:py-4 sm:text-sm sm:tracking-[0.16em]">View Scoreboard</Link>
                   <Link href="/submit" className="rounded-xl border border-white/15 bg-black/35 px-5 py-3 text-center text-xs font-black uppercase tracking-[0.14em] text-white/75 transition hover:bg-white/10 hover:text-white sm:px-6 sm:py-4 sm:text-sm sm:tracking-[0.16em]">Submit a Story Tip</Link>
                 </div>
               </div>

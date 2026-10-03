@@ -72,7 +72,7 @@ export default async function ScoreStrip() {
 
         <div className="flex min-h-10 items-stretch sm:min-h-14">
           <Link
-            href="/scoreboard"
+            href="/games?intent=scores"
             className="relative z-10 flex shrink-0 items-center border-r border-white/10 bg-[var(--vv-primary)] px-2.5 text-[8px] font-black uppercase tracking-[0.14em] text-white shadow-[8px_0_20px_rgba(0,0,0,0.35)] sm:px-5 sm:text-xs sm:tracking-[0.2em]"
           >
             <span className="max-w-[62px] leading-tight sm:max-w-none">{label}</span>

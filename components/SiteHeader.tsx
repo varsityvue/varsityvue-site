@@ -1,16 +1,17 @@
 import Link from "next/link";
+import MobileNavigation from "@/components/MobileNavigation";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 import TrackedSignupLink from "@/components/TrackedSignupLink";
 
 const navItems = [
-  { href: "/scoreboard", label: "Scores" },
+  { href: "/games", label: "Games" },
   { href: "/schools", label: "Schools" },
   { href: "/coverage", label: "Coverage" },
   { href: "/pickem", label: "Pick ’Em" },
 ];
 
-const mobileNavItems = navItems;
+
 
 export default async function SiteHeader() {
   const supabase = await createClient();
@@ -87,19 +88,7 @@ export default async function SiteHeader() {
         </div>
       </div>
 
-      <nav aria-label="Mobile navigation" className="border-t border-white/10 lg:hidden">
-        <div className="mx-auto grid max-w-[1440px] grid-cols-4 px-1.5 py-1 sm:px-5 sm:py-1.5">
-          {mobileNavItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="min-w-0 rounded-full px-1 py-1.5 text-center text-[9px] font-black uppercase tracking-[0.05em] text-white/70 transition hover:bg-white/[0.07] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:px-3 sm:py-2 sm:text-xs sm:tracking-[0.12em]"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </div>
-      </nav>
+      <MobileNavigation />
 
       <div className="h-px bg-gradient-to-r from-transparent via-[var(--vv-accent)] to-transparent sm:h-[2px]" />
     </header>

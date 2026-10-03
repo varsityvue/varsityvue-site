@@ -43,7 +43,7 @@ export default function Footer() {
             <FooterColumn
               title="Platform"
               links={[
-                { href: "/scoreboard", label: "Scoreboard" },
+                { href: "/games?intent=scores", label: "Scoreboard" },
                 { href: "/pickem", label: "Pick ’Em" },
                 { href: "/schools", label: "Schools" },
                 { href: "/districts", label: "Districts" },
