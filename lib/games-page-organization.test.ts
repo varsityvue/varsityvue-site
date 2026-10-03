@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import test from 'node:test';
+import type { Game } from '@/types/platform';
+import { parseGamesParams,selectGames,gamesUrl } from './games-page-organization';
+const now=new Date('2026-10-03T01:00:00Z');
+const base:Game={id:'base',districtGame:false,season:2026,week:6,gameType:'regular',status:'upcoming',homeSchoolSlug:'albany',awaySchoolSlug:'cisco',homeTeam:'Albany',awayTeam:'Cisco',kickoff:'2026-10-02T19:00:00-05:00'};
+const games:Game[]=[{...base,id:'live',status:'live',publicScoreVerified:true,homeScore:0,awayScore:0},{...base,id:'window'}, {...base,id:'pending',kickoff:'2026-10-01T19:00:00-05:00'}, {...base,id:'next',week:7,kickoff:'2026-10-09T19:00:00-05:00'}, {...base,id:'later',week:8,kickoff:'2026-10-16T19:00:00-05:00'}, {...base,id:'final',status:'final',homeScore:21,awayScore:14}, {...base,id:'forfeit',status:'final',resultType:'forfeit'}, {...base,id:'cancelled',status:'cancelled'}, {...base,id:'postponed',status:'postponed'}];
+test('default excludes all completed kinds and later slate, retains unresolved',()=>{const p=parseGamesParams({},games);assert.equal(p.view,'current');const s=selectGames(games,p,new Set(),now);assert.deepEqual(s.selected.map(g=>g.id),['live','window','next','pending','postponed']);});
+test('completed contains finals, scoreless exceptional outcomes and cancelled',()=>{const s=selectGames(games,parseGamesParams({view:'completed'},games),new Set(),now);assert.deepEqual(new Set(s.selected.map(g=>g.id)),new Set(['final','forfeit','cancelled']));});
+test('search spans weeks and reports matching other view',()=>{const s=selectGames(games,parseGamesParams({q:'Cisco'},games),new Set(),now);assert.equal(s.otherCount,3);assert.ok(s.selected.some(g=>g.id==='later'));});
+test('week selection and incompatible view week are explicit',()=>{const s=selectGames(games,parseGamesParams({view:'completed',week:'7'},games),new Set(),now);assert.equal(s.incompatible,true);assert.equal(s.effectiveWeek,'all');assert.equal(s.selected.length,3);});
+test('following both participants never repeats immutable ID',()=>{const s=selectGames([...games,games[0]],parseGamesParams({},games),new Set(['albany','cisco']),now);assert.equal(s.selected.length,5);assert.equal(s.following.length,4);assert.equal(s.followingExtra.length,1);assert.equal(s.general.length,0);});
+test('legacy final links and validated URL parameters',()=>{assert.equal(parseGamesParams({status:'final'},games).view,'completed');const p=parseGamesParams({view:['completed'],week:'999',season:'1900',status:'bad',q:['bad']},games);assert.deepEqual(p,{view:'current',week:'',season:'',status:'all',q:''});assert.match(gamesUrl(p,{q:'Cisco & Albany'}),/q=Cisco\+%26\+Albany/);});

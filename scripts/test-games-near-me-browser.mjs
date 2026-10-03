@@ -51,7 +51,7 @@ try {
   const nearby = page.locator('#nearby-games');
   const locate = nearby.getByRole('button', { name: 'Games Near Me', exact: true });
   async function pilot() {
-    await page.goto('http://127.0.0.1:3000/games', { waitUntil: 'networkidle' });
+    await page.goto('http://127.0.0.1:3000/games#nearby-games', { waitUntil: 'networkidle' });
     await nearby.locator('#nearby-week').selectOption('7');
     assert.equal(await page.evaluate(() => window.geoFixture.calls), 0);
     assert.equal(await locate.isEnabled(), true);

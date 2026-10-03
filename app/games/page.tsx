@@ -1,24 +1,22 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import { getDynamicGamesSnapshot } from "@/lib/dynamic-games";
-import { createClient } from "@/lib/supabase/server";
-import GamesNearMe from "@/components/GamesNearMe";
-import ScorekeeperCta from "@/components/ScorekeeperCta";
-import { getScorekeeperCtaState } from "@/lib/scorekeeper-cta-server";
-import { resolveGameLocation, toDiscoveryGame } from "@/lib/game-location";
-import { venues } from "@/data/venues";
-import { schoolFootballVenues } from "@/data/school-football-venues";
-import { gameVenueOverrides } from "@/data/game-venue-overrides";
-import { getSchoolBySlug } from "@/lib/schools";
-import type { Game, MediaLink } from "@/types/platform";
-import { getGamePresentation } from "@/lib/game-presentation";
-
-export const metadata: Metadata = {
-  title: "Texas High School Football Scores, Schedules & Matchups",
-  description:
-    "Browse Texas high school football schedules, scores, district matchups, kickoff times, venues, previews, and VarsityVue game coverage.",
-};
-
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { getDynamicGamesSnapshot } from '@/lib/dynamic-games';
+import { createClient } from '@/lib/supabase/server';
+import GamesNearMe from '@/components/GamesNearMe';
+import GamesNearbyDisclosure from '@/components/GamesNearbyDisclosure';
+import ScorekeeperCta from '@/components/ScorekeeperCta';
+import { getScorekeeperCtaState } from '@/lib/scorekeeper-cta-server';
+import { resolveGameLocation, toDiscoveryGame } from '@/lib/game-location';
+import { venues } from '@/data/venues';
+import { schoolFootballVenues } from '@/data/school-football-venues';
+import { gameVenueOverrides } from '@/data/game-venue-overrides';
+import { getSchoolBySlug } from '@/lib/schools';
+import { getGamePresentation } from '@/lib/game-presentation';
+import { getCurrentUserFollowedSchoolSlugs } from '@/lib/followed-schools';
+import { parseGamesParams, selectGames, gamesUrl, groupLabels } from '@/lib/games-page-organization';
+import type { Game, MediaLink } from '@/types/platform';
+export const metadata: Metadata = { title:'Texas High School Football Scores, Schedules & Matchups', description:'Browse Texas high school football schedules, verified results and upcoming matchups.' };
+const control = 'min-h-11 min-w-0 rounded-xl border border-white/25 bg-black/40 px-3 py-2 text-sm text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white';
 function parseGameDate(kickoff?: string) {
   if (!kickoff) return null;
 
@@ -57,30 +55,6 @@ function formatGameTime(kickoff?: string) {
   }).format(parsed);
 }
 
-function getGameTimestamp(game: { kickoff?: string }) {
-  const parsed = parseGameDate(game.kickoff);
-  return parsed ? parsed.getTime() : Number.MAX_SAFE_INTEGER;
-}
-
-function compareGameDatesDesc(
-  a: { kickoff?: string },
-  b: { kickoff?: string }
-) {
-  const aTime = getGameTimestamp(a);
-  const bTime = getGameTimestamp(b);
-
-  if (aTime === Number.MAX_SAFE_INTEGER && bTime === Number.MAX_SAFE_INTEGER) return 0;
-  if (aTime === Number.MAX_SAFE_INTEGER) return 1;
-  if (bTime === Number.MAX_SAFE_INTEGER) return -1;
-
-  return bTime - aTime;
-}
-
-function formatStatus(game: Game) {
-  if (game.status === "scheduled" && game.gameType === "scrimmage") return "Score Not Tracked";
-  return getGamePresentation(game).label;
-}
-
 function getGameTypeLabel(gameType: string, week?: number) {
   if (gameType === "scrimmage") return "Scrimmage";
   if (gameType === "playoff") return "Playoff";
@@ -107,356 +81,69 @@ function getScoreReportLabel(game: { status: string; gameType: string }) {
   return null;
 }
 
-export default async function GamesPage({ searchParams }: { searchParams: Promise<{ q?: string; status?: string }> }) {
-  const ctaStatePromise = getScorekeeperCtaState();
-  const { q = "", status = "all" } = await searchParams;
-  const matchupQuery = q.trim().toLowerCase();
-  const matchupStatus = ["all", "upcoming", "final", "district"].includes(status) ? status : "all";
-  const dynamicSnapshot = await getDynamicGamesSnapshot();
-  const regularGames = [...dynamicSnapshot.games]
-    .filter((game) => game.gameType !== "bye")
-    .sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b));
-
-  const supabase = await createClient();
-  const { data: claimsData } = await supabase.auth.getClaims();
-  const pendingGameIds = new Set<string>();
-  const userId = claimsData?.claims?.sub;
-
-  if (userId) {
-    const { data: pendingRows } = await supabase
-      .from("score_submissions")
-      .select("game_id")
-      .eq("submitted_by", userId)
-      .eq("status", "pending");
-
-    for (const row of pendingRows ?? []) pendingGameIds.add(row.game_id);
-  }
-
-  const finalGames = regularGames.filter((game) => game.status === "final");
-  const latestFinal = [...finalGames].sort(compareGameDatesDesc)[0];
-  const latestFeaturedFinal = [...finalGames]
-    .filter((game) => game.specialEvent || game.featured)
-    .sort(compareGameDatesDesc)[0];
-
-  const featuredGame =
-    regularGames.find((game) => getGamePresentation(game).kind === "verified_live") ??
-    regularGames.find((game) => getGamePresentation(game).kind === "kickoff_window") ??
-    regularGames.find(
-      (game) => game.status === "upcoming" && game.specialEvent === "Game of the Week"
-    ) ??
-    regularGames.find(
-      (game) => game.status === "upcoming" && (game.featured || game.specialEvent)
-    ) ??
-    regularGames.find((game) => game.status === "upcoming") ??
-    latestFeaturedFinal ??
-    latestFinal ??
-    regularGames[0];
-
-  const liveGames = regularGames.filter((game) => getGamePresentation(game).kind === "verified_live");
-  const upcomingGames = regularGames.filter((game) => game.status === "upcoming");
-  const districtGames = regularGames.filter((game) => game.districtGame);
-  const hasLiveGames = liveGames.length > 0;
-  const hasFinalGames = finalGames.length > 0;
-
-  const displayGames = [...regularGames]
-    .filter((game) => {
-      if (matchupStatus === "upcoming" && !["upcoming", "scheduled", "live"].includes(game.status)) return false;
-      if (matchupStatus === "final" && game.status !== "final") return false;
-      if (matchupStatus === "district" && !game.districtGame) return false;
-      if (!matchupQuery) return true;
-
-      const haystack = [
-        getAwayTeam(game),
-        getHomeTeam(game),
-        getVenue(game),
-        game.specialEvent,
-        game.week !== undefined ? `week ${game.week}` : "",
-      ].filter(Boolean).join(" ").toLowerCase();
-
-      return haystack.includes(matchupQuery);
-    })
-    .sort((a, b) => {
-      const statusPriority: Record<string, number> = {
-        live: 0,
-        upcoming: 1,
-        scheduled: 2,
-        final: 3,
-      };
-
-      const priorityDifference =
-        (statusPriority[a.status] ?? 4) - (statusPriority[b.status] ?? 4);
-      if (priorityDifference !== 0) return priorityDifference;
-
-      const aTime = getGameTimestamp(a);
-      const bTime = getGameTimestamp(b);
-
-      if (aTime === Number.MAX_SAFE_INTEGER && bTime === Number.MAX_SAFE_INTEGER) return 0;
-      if (aTime === Number.MAX_SAFE_INTEGER) return 1;
-      if (bTime === Number.MAX_SAFE_INTEGER) return -1;
-
-      return a.status === "final" ? bTime - aTime : aTime - bTime;
-    });
-
-  const matchupGroups = new Map<string, typeof displayGames>();
-  for (const game of displayGames) {
-    const groupLabel = game.gameType === "scrimmage"
-      ? "Scrimmages"
-      : game.gameType === "playoff"
-        ? "Playoffs"
-        : game.week !== undefined
-          ? `Week ${game.week}`
-          : "Other Games";
-    const existing = matchupGroups.get(groupLabel) ?? [];
-    existing.push(game);
-    matchupGroups.set(groupLabel, existing);
-  }
-
-  const currentWeek = featuredGame?.week;
-
-  const stripGames = hasLiveGames
-    ? liveGames
-    : hasFinalGames
-      ? [...finalGames].sort(compareGameDatesDesc).slice(0, 5)
-      : upcomingGames.slice(0, 5);
-
-  const discoveryGames = regularGames.map(game => toDiscoveryGame(game, resolveGameLocation(game, venues, schoolFootballVenues, gameVenueOverrides)));
-  const centers = Object.entries(schoolFootballVenues).flatMap(([schoolSlug, id]) => {
-    const venue = venues.find(v => v.id === id && v.verificationStatus === "verified");
-    return venue ? [{ schoolSlug, schoolName: getSchoolBySlug(schoolSlug)?.name ?? schoolSlug, venueName: venue.name, latitude: venue.latitude, longitude: venue.longitude }] : [];
-  }).sort((a, b) => a.schoolName.localeCompare(b.schoolName));
-  const ctaState = await ctaStatePromise;
-
-  return (
-    <main className="min-h-screen bg-[var(--vv-bg)] text-white">
-      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.62),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
-        <div className="mx-auto max-w-[1440px]">
-          {dynamicSnapshot.scoreLoadStatus === "failed" && <p role="status" className="mb-4 rounded-xl border border-amber-300/20 bg-amber-300/10 px-4 py-3 text-sm text-amber-100">Live score data could not be refreshed. Scheduled game information remains available.</p>}
-          <section
-            className="rounded-[1.5rem] border border-white/10 p-5 shadow-2xl sm:rounded-[2rem] sm:p-6 md:p-8"
-            style={{
-              background: `
-                radial-gradient(circle at top left, rgba(139,16,32,0.42), transparent 42%),
-                radial-gradient(circle at bottom right, rgba(139,16,32,0.16), transparent 46%),
-                rgba(255,255,255,0.045)
-              `,
-            }}
-          >
-            <h1 className="max-w-5xl text-[2rem] font-black leading-[1.08] tracking-tight sm:text-6xl sm:leading-tight">
-              VarsityVue Football Scores + Schedules
-            </h1>
-
-            <p className="mt-3 max-w-3xl text-sm leading-6 text-white/60 sm:mt-6 sm:text-lg sm:leading-7">
-              Schedules, live scores, featured matchups, district games, and game-week coverage across the VarsityVue ecosystem.
-            </p>
-          </section>
-
-          <section className="mt-4 grid grid-cols-2 gap-2.5 sm:mt-6 sm:gap-4 lg:grid-cols-4">
-            <StatCard label="Total Games" value={regularGames.length.toString()} />
-            <StatCard label="Live Now" value={liveGames.length.toString()} />
-            <StatCard label="Final Scores" value={finalGames.length.toString()} />
-            <StatCard label="District Games" value={districtGames.length.toString()} />
-          </section>
-        </div>
+export default async function GamesPage({searchParams}:{searchParams:Promise<Record<string,string|string[]|undefined>>}) {
+  const [snapshot, raw, cta] = await Promise.all([getDynamicGamesSnapshot(),searchParams,getScorekeeperCtaState()]);
+  const p = parseGamesParams(raw,snapshot.games); const now = new Date();
+  let followed = new Set<string>(); let followFailed=false;
+  try { followed=(await getCurrentUserFollowedSchoolSlugs()).schoolSlugs; } catch { followFailed=true; }
+  const supabase=await createClient(); const {data:claims}=await supabase.auth.getClaims();
+  const pending=new Set<string>(); let pendingFailed=false;
+  if(claims?.claims?.sub){const {data,error}=await supabase.from('score_submissions').select('game_id').eq('submitted_by',claims.claims.sub).eq('status','pending'); pendingFailed=Boolean(error); for(const row of data??[])pending.add(row.game_id);}
+  const collection=selectGames(snapshot.games,p,followed,now);
+  const groups=new Map<string,Game[]>();
+  for(const game of collection.general){const kind=getGamePresentation(game,now).kind;const label=p.view==='completed'?`Week ${game.week ?? 'TBD'} · ${groupLabels[kind]}`:groupLabels[kind];groups.set(label,[...(groups.get(label)??[]),game]);}
+  const discovery=snapshot.games.filter(g=>g.gameType!=='bye').map(g=>toDiscoveryGame(g,resolveGameLocation(g,venues,schoolFootballVenues,gameVenueOverrides)));
+  const centers=Object.entries(schoolFootballVenues).flatMap(([schoolSlug,id])=>{const v=venues.find(v=>v.id===id&&v.verificationStatus==='verified');return v?[{schoolSlug,schoolName:getSchoolBySlug(schoolSlug)?.name??schoolSlug,venueName:v.name,latitude:v.latitude,longitude:v.longitude}]:[];}).sort((a,b)=>a.schoolName.localeCompare(b.schoolName));
+  const otherParams={view:collection.otherView,week:'all',status:p.status==='district'?'district':'all'} as const;
+  return <main className="min-h-screen bg-[var(--vv-bg)] px-4 py-6 text-white sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-[1440px] space-y-5">
+      <header><h1 className="text-3xl font-black sm:text-4xl">Football Games</h1><p className="mt-2 text-base text-white/70">Upcoming matchups, verified scores and past results.</p></header>
+      {snapshot.scoreLoadStatus==='failed'&&<p role="status" className="rounded-xl border border-amber-300/30 p-4 text-amber-100">Live score data could not be refreshed. Scheduled game information and previously verified repository results remain available.</p>}
+      {followFailed&&<p role="status" className="text-amber-100">Your followed matchups could not be loaded. Browse the full collection below.</p>}
+      {pendingFailed&&<p role="status" className="text-amber-100">Your pending score reports could not be loaded.</p>}
+      <section id="all-matchups" aria-labelledby="matchups-heading" className="scroll-mt-28 space-y-4">
+        <h2 id="matchups-heading" className="sr-only">Find a Matchup</h2>
+        <nav aria-label="Game views" className="grid grid-cols-2 gap-2">
+          {(['current','completed'] as const).map(view=><a key={view} aria-current={p.view===view?'page':undefined} href={gamesUrl(p,{view, status:p.status==='district'?'district':'all'})} className={`${control} flex items-center justify-center font-bold ${p.view===view?'border-[var(--vv-accent)] bg-white/15':''}`}>{view==='current'?'Current Games':'Completed Games'}</a>)}
+        </nav>
+        <GamesNearbyDisclosure><GamesNearMe games={discovery} centers={centers} initialQuery={p.q} initialFilter={p.status as 'all'|'upcoming'|'final'|'district'} now={now.toISOString()} recruitment={<ScorekeeperCta state={cta} prefetch={false}/>} /></GamesNearbyDisclosure>
+        <form action="/games#all-matchups" method="get" className="space-y-3 rounded-2xl border border-white/15 p-4">
+          <input type="hidden" name="view" value={p.view}/>
+          <label className="block text-sm" htmlFor="matchup-search">Search matchups</label>
+          <input id="matchup-search" name="q" type="search" defaultValue={p.q} placeholder="Team, venue, or week" className={`${control} w-full`}/>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <label className="flex min-w-0 flex-col gap-1 text-sm">Week<select name="week" defaultValue={collection.effectiveWeek} className={control}><option value="all">All weeks</option>{collection.weeks.map(w=><option key={w} value={w}>Week {w}</option>)}</select></label>
+            <label className="flex min-w-0 flex-col gap-1 text-sm">Game filter<select name="status" defaultValue={p.status} className={control}><option value="all">All matchups</option><option value="district">District</option>{p.view==='current'?<option value="upcoming">Current / upcoming</option>:<option value="final">Verified finals</option>}</select></label>
+            <label className="flex min-w-0 flex-col gap-1 text-sm">Season<select name="season" defaultValue={collection.season} className={control}>{[...new Set(snapshot.games.map(g=>g.season))].sort((a,b)=>b-a).map(y=><option key={y}>{y}</option>)}</select></label>
+            <button className={`${control} self-end bg-white/10`} type="submit">Apply filters</button>
+          </div>
+          <a href={gamesUrl(p,{q:'',status:'all',week:'',season:''})} className="inline-flex min-h-11 items-center text-sm underline">Clear filters</a>
+        </form>
+        {collection.incompatible&&<p role="status" className="text-sm text-amber-100">Week {p.week} has no games in this view for season {collection.season}. Showing all available weeks; choose a week above.</p>}
+        {p.q&&collection.otherCount>0&&<p className="text-sm"><a className="inline-flex min-h-11 items-center underline" href={gamesUrl(p,otherParams)}>{collection.otherCount} matching {collection.otherView==='completed'?'completed':'current'} games — view results</a></p>}
+        <p className="text-sm text-white/70">{collection.selected.length} matching matchups · {p.view==='current'?'Current Games':'Completed Games'}</p>
+        {collection.following.length>0&&<section aria-labelledby="following-heading" className="space-y-3"><h2 id="following-heading" className="text-xl font-bold">Following</h2><div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">{collection.following.map(g=><Matchup key={g.id} game={g} now={now} pending={pending.has(g.id)}/>)}</div>{collection.followingCount>4&&<details className="rounded-xl border border-white/15 p-3"><summary className="min-h-11 cursor-pointer text-sm">{collection.followingCount-4} more followed matchups</summary><div className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-3">{collection.followingExtra.map(g=><Matchup key={g.id} game={g} now={now} pending={pending.has(g.id)}/>)}</div></details>}</section>}
+        {collection.selected.length===0&&<p className="rounded-xl border border-white/15 p-5">No matchups match these filters in {p.view==='current'?'Current Games':'Completed Games'}.{collection.otherCount>0&&' Matching games are available in the other view above.'}</p>}
+        {[...groups].map(([label,games])=><section key={label} aria-label={label} className="space-y-3"><h2 className="text-xl font-bold">{label}</h2><div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">{games.map(g=><Matchup key={g.id} game={g} now={now} pending={pending.has(g.id)}/>)}</div></section>)}
       </section>
-
-      <section className="px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
-        <div className="mx-auto max-w-[1440px]">
-          {featuredGame && (
-            <section className="overflow-hidden rounded-[1.5rem] border border-[color:var(--vv-primary)]/40 bg-gradient-to-br from-[var(--vv-primary)]/45 via-black to-black shadow-2xl sm:rounded-[2rem]">
-              <div className="grid gap-0 lg:grid-cols-[1.25fr_0.75fr]">
-                <div className="p-4 sm:p-6 md:p-8">
-                  <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent-soft)] sm:text-xs sm:tracking-[0.32em]">
-                    {featuredGame.specialEvent === "Game of the Week" ? "Game of the Week" : "Featured Matchup"}
-                  </p>
-
-                  <h2 className="mt-2.5 text-3xl font-black leading-[1.05] sm:mt-4 sm:text-5xl sm:leading-tight">
-                    {getAwayTeam(featuredGame)}
-                    <span className="block text-white/35">at</span>
-                    {getHomeTeam(featuredGame)}
-                  </h2>
-
-                  <div className="mt-4 flex flex-wrap gap-1.5 sm:mt-6 sm:gap-2">
-                    <Badge label={getGameTypeLabel(featuredGame.gameType, featuredGame.week)} />
-                    <Badge label={formatStatus(featuredGame)} />
-                    {featuredGame.districtGame && <Badge label="District Game" />}
-                    {featuredGame.specialEvent && <Badge label={featuredGame.specialEvent} />}
-                  </div>
-
-                  <div className="mt-4 grid grid-cols-3 gap-2 sm:mt-7 sm:gap-3">
-                    <InfoCard label="Date" value={formatGameDate(featuredGame.kickoff)} />
-                    <InfoCard label="Kickoff" value={formatGameTime(featuredGame.kickoff)} />
-                    <InfoCard label="Venue" value={getVenue(featuredGame)} />
-                  </div>
-                </div>
-
-                <div className="flex flex-col justify-between border-t border-white/10 bg-black/35 p-4 sm:p-6 md:p-8 lg:border-l lg:border-t-0">
-                  <div>
-                    <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/40 sm:text-xs sm:tracking-[0.28em]">
-                      Matchup Center
-                    </p>
-                    <h3 className="mt-2 text-xl font-black sm:mt-3 sm:text-3xl">
-                      Follow the game in one place.
-                    </h3>
-                    <p className="mt-2 text-xs leading-5 text-white/55 sm:mt-3 sm:text-sm sm:leading-6">
-                      Open the matchup center for confirmed game details, scores, team links, and verified postgame information as it becomes available.
-                    </p>
-                  </div>
-
-                  <div className="mt-4 space-y-2 sm:mt-6 sm:space-y-3">
-                    <BroadcastButtons links={featuredGame.mediaLinks} />
-                    <Link
-                      href={`/games/${featuredGame.id}`}
-                      className="block rounded-xl border border-white/15 bg-white/10 px-4 py-3 text-center text-[11px] font-black uppercase tracking-[0.12em] text-white transition hover:bg-white/15 sm:px-5 sm:py-4 sm:text-sm sm:tracking-[0.16em]"
-                    >
-                      Matchup Center →
-                    </Link>
-                    <ScoreReportLink game={featuredGame} hasPendingReport={pendingGameIds.has(featuredGame.id)} />
-                  </div>
-                </div>
-              </div>
-            </section>
-          )}
-
-          <section className="mt-5 rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:mt-8 sm:rounded-[1.75rem] sm:p-6">
-            <div className="mb-4 flex items-end justify-between gap-3 sm:mb-6">
-              <div>
-                {(hasLiveGames || !hasFinalGames) && (
-                  <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.28em]">
-                    {hasLiveGames ? "Live Score Strip" : "Next Up"}
-                  </p>
-                )}
-                <h2 className={`text-xl font-black text-white sm:text-3xl${hasLiveGames || !hasFinalGames ? " mt-1.5 sm:mt-2" : ""}`}>
-                  {hasLiveGames ? "Live Scoreboard" : hasFinalGames ? "Latest Finals" : "Upcoming Games"}
-                </h2>
-              </div>
-
-              <p className="shrink-0 text-[11px] font-bold text-white/45 sm:text-sm">
-                {hasLiveGames
-                  ? `${liveGames.length} live`
-                  : hasFinalGames
-                    ? `${finalGames.length} finals`
-                    : upcomingGames.length > 0
-                      ? `${upcomingGames.length} upcoming`
-                      : "No games listed"}
-              </p>
-            </div>
-
-            {stripGames.length > 0 ? (
-              <div className="flex gap-2.5 overflow-x-auto pb-1.5 pr-2 sm:gap-3 sm:pb-2 sm:pr-4">
-                {stripGames.map((game) => (
-                  <div key={game.id} className="min-w-[235px] rounded-[1.1rem] border border-white/10 bg-black/35 p-3 sm:min-w-[280px] sm:rounded-2xl sm:p-4">
-                    <Link href={`/games/${game.id}`} className="block transition hover:opacity-80">
-                      <p className="text-[9px] font-black uppercase tracking-[0.14em] text-[var(--vv-accent)] sm:text-[10px] sm:tracking-[0.18em]">
-                        {formatStatus(game)} · {getGameTypeLabel(game.gameType, game.week)}
-                      </p>
-                      {game.status === "final" && game.awayScore !== undefined && game.homeScore !== undefined ? (
-                        <div className="mt-2 grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-3 gap-y-1.5 text-lg font-black leading-5 text-white sm:text-xl sm:leading-6">
-                          <span className="min-w-0 break-words">{getAwayTeam(game)}</span>
-                          <span className="shrink-0 text-right tabular-nums">{game.awayScore}</span>
-                          <span className="min-w-0 break-words">{getHomeTeam(game)}</span>
-                          <span className="shrink-0 text-right tabular-nums">{game.homeScore}</span>
-                        </div>
-                      ) : (
-                        <h3 className="mt-1.5 text-sm font-black leading-5 text-white sm:mt-2 sm:text-lg">
-                          {getAwayTeam(game)} at {getHomeTeam(game)}
-                        </h3>
-                      )}
-                      <p className="mt-1.5 text-xs text-white/45 sm:mt-2 sm:text-sm">
-                        {formatGameDate(game.kickoff)} · {formatGameTime(game.kickoff)}
-                      </p>
-                    </Link>
-                    <BroadcastButtons links={game.mediaLinks} compact />
-                    <ScoreReportLink game={game} compact hasPendingReport={pendingGameIds.has(game.id)} />
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="rounded-2xl border border-white/10 bg-black/35 p-4 text-sm text-white/55">
-                No game information is currently available.
-              </p>
-            )}
-          </section>
-
-          <GamesNearMe games={discoveryGames} centers={centers} initialQuery={q} initialFilter={matchupStatus as "all" | "upcoming" | "final" | "district"} now={new Date().toISOString()} recruitment={<ScorekeeperCta state={ctaState} prefetch={false} />} />
-
-          <section id="all-matchups" className="mt-7 scroll-mt-24 sm:mt-10">
-            <div className="mb-4 sm:mb-6">
-              <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.28em]">
-                Schedule + Archive
-              </p>
-              <div className="mt-1.5 flex items-end justify-between gap-3 sm:mt-2">
-                <h2 className="text-2xl font-black text-white sm:text-3xl">Find a Matchup</h2>
-                <span className="text-[10px] font-black uppercase tracking-[0.12em] text-white/35">{displayGames.length} games</span>
-              </div>
-            </div>
-
-            <form action="/games#all-matchups" method="get" className="mb-4 rounded-[1.35rem] border border-white/10 bg-white/[0.045] p-3 sm:mb-6 sm:rounded-[1.75rem] sm:p-4">
-              <label htmlFor="matchup-search" className="sr-only">Search matchups</label>
-              <input id="matchup-search" name="q" type="search" defaultValue={q} placeholder="Search team, venue, or week…" className="w-full rounded-xl border border-white/10 bg-black/35 px-3.5 py-3 text-sm font-semibold text-white outline-none placeholder:text-white/30 focus:border-white/25 sm:rounded-2xl" />
-              <div className="mt-2.5 grid grid-cols-[1fr_auto] gap-2">
-                <label htmlFor="matchup-status" className="sr-only">Filter matchups</label>
-                <select id="matchup-status" name="status" defaultValue={matchupStatus} className="min-w-0 rounded-xl border border-white/10 bg-black/35 px-3.5 py-3 text-xs font-black uppercase tracking-[0.1em] text-white/75 outline-none focus:border-white/25 sm:rounded-2xl">
-                  <option value="all">All games</option>
-                  <option value="upcoming">Upcoming</option>
-                  <option value="final">Finals</option>
-                  <option value="district">District</option>
-                </select>
-                <button type="submit" className="rounded-xl border border-white/15 bg-white/[0.08] px-4 text-[10px] font-black uppercase tracking-[0.12em] text-white transition hover:bg-white/12 sm:rounded-2xl">Apply</button>
-              </div>
-              {(matchupQuery || matchupStatus !== "all") && <div className="mt-2.5 flex items-center justify-between gap-3"><p className="text-[10px] font-semibold text-white/40">{displayGames.length} matching game{displayGames.length === 1 ? "" : "s"}</p><Link href="/games#all-matchups" className="text-[9px] font-black uppercase tracking-[0.12em] text-white/55 hover:text-white">Clear filters</Link></div>}
-            </form>
-
-            {displayGames.length > 0 ? (
-              <div className="space-y-3 sm:space-y-4">
-                {[...matchupGroups.entries()].map(([groupLabel, games]) => {
-                  const groupWeek = groupLabel.startsWith("Week ") ? Number(groupLabel.replace("Week ", "")) : undefined;
-                  const shouldOpen = Boolean(matchupQuery) || matchupStatus !== "all" || groupWeek === currentWeek;
-                  return <details key={groupLabel} open={shouldOpen} className="group rounded-[1.35rem] border border-white/10 bg-white/[0.035] p-3.5 sm:rounded-[1.75rem] sm:p-5">
-                    <summary className="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-                      <div className="flex items-center justify-between gap-3">
-                        <div><h3 className="text-lg font-black text-white sm:text-xl">{groupLabel}</h3><p className="mt-0.5 text-[9px] font-black uppercase tracking-[0.12em] text-white/35">{games.length} matchup{games.length === 1 ? "" : "s"}</p></div>
-                        <span className="text-sm font-black text-white/45 transition group-open:rotate-180">⌄</span>
-                      </div>
-                    </summary>
-                    <div className="mt-3 grid gap-3 border-t border-white/10 pt-3 sm:mt-5 sm:gap-5 sm:pt-5 md:grid-cols-2 xl:grid-cols-3">
-                      {games.map((game) => (
-                        <div key={game.id} className="group/card relative overflow-hidden rounded-[1.35rem] border border-white/10 bg-white/[0.045] p-4 shadow-xl transition hover:-translate-y-1 hover:border-[color:var(--vv-accent)]/40 hover:bg-white/[0.075] sm:rounded-[1.75rem] sm:p-5">
-                          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(139,16,32,0.38),transparent_55%)] opacity-45 transition group-hover/card:opacity-70" />
-                          <div className="relative">
-                            <Link href={`/games/${game.id}`} className="block">
-                              <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                                <Badge label={getGameTypeLabel(game.gameType, game.week)} />
-                                <Badge label={formatStatus(game)} />
-                                {game.districtGame && <Badge label="District" />}
-                                {game.specialEvent && <Badge label={game.specialEvent} />}
-                              </div>
-                              <h3 className="mt-3 text-xl font-black leading-[1.08] text-white sm:mt-5 sm:text-2xl sm:leading-tight">{getAwayTeam(game)}<span className="block text-white/35">at</span>{getHomeTeam(game)}</h3>
-                              <div className="mt-3 grid grid-cols-2 gap-2 sm:mt-6 sm:gap-3"><InfoCard label="Date" value={formatGameDate(game.kickoff)} /><InfoCard label="Kickoff" value={formatGameTime(game.kickoff)} /></div>
-                              <div className="mt-2 rounded-xl border border-white/10 bg-black/35 p-3 sm:mt-3 sm:rounded-2xl sm:p-4"><p className="text-[9px] font-black uppercase tracking-[0.15em] text-white/35 sm:text-[10px] sm:tracking-[0.18em]">Venue</p><p className="mt-1 text-sm font-black leading-5 text-white sm:mt-2 sm:text-base">{getVenue(game)}</p></div>
-                              {game.status === "final" && game.homeScore !== undefined && game.awayScore !== undefined && <p className="mt-3 text-base font-black text-white sm:mt-4 sm:text-lg">Final: {game.awayScore}-{game.homeScore}</p>}
-                              <p className="mt-4 text-[11px] font-black uppercase tracking-[0.11em] text-[var(--vv-accent)] sm:mt-6 sm:text-sm sm:tracking-[0.14em]">Matchup Center →</p>
-                            </Link>
-                            <BroadcastButtons links={game.mediaLinks} />
-                            <ScoreReportLink game={game} hasPendingReport={pendingGameIds.has(game.id)} />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </details>;
-                })}
-              </div>
-            ) : (
-              <div className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 text-white/55">
-                No matchups match those filters.
-              </div>
-            )}
-          </section>
-        </div>
-      </section>
-    </main>
-  );
+    </div>
+  </main>;
 }
-
+function Matchup({game,now,pending}:{game:Game;now:Date;pending:boolean}) {
+ const presentation=getGamePresentation(game,now);
+ return <article data-game-id={game.id} className="min-w-0 rounded-2xl border border-white/15 bg-white/[0.04] p-4">
+ <Link prefetch={false} href={`/games/${game.id}`} className="block rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
+ <p className="text-sm font-bold text-[var(--vv-accent)]">{presentation.label} · {getGameTypeLabel(game.gameType,game.week)}</p>
+ <h3 className="mt-2 break-words text-xl font-black">{getAwayTeam(game)} at {getHomeTeam(game)}</h3>
+ {presentation.showScore&&<p className="mt-2 text-xl font-bold">{game.awayScore ?? game.score?.away}–{game.homeScore ?? game.score?.home}</p>}
+ {game.resultType==='forfeit'&&<p className="mt-2 text-sm">Forfeit{game.officialWinnerSchoolSlug?` · Winner: ${getSchoolBySlug(game.officialWinnerSchoolSlug)?.name??game.officialWinnerSchoolSlug}`:''}</p>}
+ {game.resultType==='no_contest'&&<p className="mt-2 text-sm">No contest</p>}
+ <p className="mt-2 text-sm text-white/75">{formatGameDate(game.kickoff)} · {formatGameTime(game.kickoff)}</p>
+ <p className="mt-1 break-words text-sm text-white/75">{getVenue(game)}{game.districtGame?' · District':''}</p>
+ <p className="mt-3 text-sm font-bold underline">Game Center</p></Link>
+ <BroadcastButtons links={game.mediaLinks}/><ScoreReportLink game={game} hasPendingReport={pending}/>
+ </article>;
+}
 function ScoreReportLink({
   game,
   compact = false,
@@ -497,32 +184,6 @@ function BroadcastButtons({ links, compact = false }: { links?: MediaLink[]; com
           {link.type === "radio" ? "Listen Live" : "Watch Live"}
         </a>
       ))}
-    </div>
-  );
-}
-
-function Badge({ label }: { label: string }) {
-  return (
-    <span className="rounded-full border border-white/10 bg-black/35 px-2 py-1 text-[8px] font-black uppercase tracking-[0.11em] text-white/70 sm:px-3 sm:py-1.5 sm:text-[10px] sm:tracking-[0.16em]">
-      {label}
-    </span>
-  );
-}
-
-function StatCard({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-xl border border-white/10 bg-white/[0.045] p-3 shadow-xl sm:rounded-2xl sm:p-5">
-      <p className="text-[9px] font-black uppercase tracking-[0.14em] text-white/35 sm:text-xs sm:tracking-[0.22em]">{label}</p>
-      <p className="mt-1 text-xl font-black text-white sm:mt-2 sm:text-3xl">{value}</p>
-    </div>
-  );
-}
-
-function InfoCard({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="min-w-0 rounded-xl border border-white/10 bg-black/35 p-2.5 sm:rounded-2xl sm:p-4">
-      <p className="text-[8px] font-black uppercase tracking-[0.12em] text-white/35 sm:text-[10px] sm:tracking-[0.18em]">{label}</p>
-      <p className="mt-1 truncate text-[11px] font-black text-white sm:mt-2 sm:text-base">{value}</p>
     </div>
   );
 }
