@@ -179,7 +179,7 @@ function BroadcastButtons({ links, compact = false }: { links?: MediaLink[]; com
           href={link.url}
           target="_blank"
           rel="noopener noreferrer"
-          className={`${compact ? "px-2.5 py-1.5 text-[9px] sm:px-3 sm:py-2 sm:text-[10px]" : "px-3 py-2 text-[10px] sm:px-4 sm:py-3 sm:text-xs"} rounded-lg border border-white/15 bg-white/10 font-black uppercase tracking-[0.12em] text-white transition hover:bg-white/15 sm:rounded-xl sm:tracking-[0.14em]`}
+          className={`${compact ? "px-2.5 py-1.5 text-[9px] sm:px-3 sm:py-2 sm:text-[10px]" : "px-3 py-2 text-[10px] sm:px-4 sm:py-3 sm:text-xs"} inline-flex min-h-11 items-center rounded-lg border border-white/15 bg-white/10 font-black uppercase tracking-[0.12em] text-white transition hover:bg-white/15 sm:rounded-xl sm:tracking-[0.14em]`}
         >
           {link.type === "radio" ? "Listen Live" : "Watch Live"}
         </a>
