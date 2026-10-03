@@ -133,7 +133,7 @@ function Matchup({game,now,pending}:{game:Game;now:Date;pending:boolean}) {
  const presentation=getGamePresentation(game,now);
  return <article data-game-id={game.id} className="min-w-0 rounded-2xl border border-white/15 bg-white/[0.04] p-4">
  <Link prefetch={false} href={`/games/${game.id}`} className="block rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
- <p className="text-sm font-bold text-[var(--vv-accent)]">{presentation.label} · {getGameTypeLabel(game.gameType,game.week)}</p>
+ <p className="text-sm font-bold text-[#FDA4AF]">{presentation.label} · {getGameTypeLabel(game.gameType,game.week)}</p>
  <h3 className="mt-2 break-words text-xl font-black">{getAwayTeam(game)} at {getHomeTeam(game)}</h3>
  {presentation.showScore&&<p className="mt-2 text-xl font-bold">{game.awayScore ?? game.score?.away}–{game.homeScore ?? game.score?.home}</p>}
  {game.resultType==='forfeit'&&<p className="mt-2 text-sm">Forfeit{game.officialWinnerSchoolSlug?` · Winner: ${getSchoolBySlug(game.officialWinnerSchoolSlug)?.name??game.officialWinnerSchoolSlug}`:''}</p>}
