@@ -40,6 +40,7 @@ try{
  page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>consoleMessages.push(m.text()));
  page.on('request',r=>{requests.push(r.url()+(r.postData()??''));if(r.url().endsWith('/api/coverage-demand'))summaries.push(JSON.parse(r.postData()));});
  page.on('response',r=>{if(r.url().endsWith('/api/coverage-demand'))responses.push(r.status());});
+ await page.clock.install();
  const nearby=page.locator('#nearby-games'),locate=nearby.getByRole('button',{name:'Games Near Me',exact:true}),cards=nearby.locator('a[href^="/games/"]');
  const optin=nearby.getByRole('button',{name:'Allow regional measurement',exact:true}),decline=nearby.getByRole('button',{name:'Don’t share regional usage',exact:true});
  const clear=()=>nearby.getByRole('button',{name:'Clear',exact:true}).click();
@@ -84,7 +85,7 @@ try{
   for(const rect of await nearby.locator('button,input,select').evaluateAll(ns=>ns.filter(n=>n.getBoundingClientRect().height>0).map(n=>{const r=n.getBoundingClientRect();return{height:r.height,left:r.left,right:r.right};}))) assert.ok(rect.height>=44&&rect.left>=0&&rect.right<=width);
   await page.screenshot({path:`${evidence}/nearby-${width}.png`,fullPage:false});pass(`${width}px disclosure/results/control layout; no overflow; 44px controls`);
  }
- await page.clock.install();const beforeInactivity=summaries.length;await page.clock.fastForward(61000);await idle();assert.equal(summaries.length,beforeInactivity+1);await nearby.locator('#nearby-radius').selectOption('100');await page.clock.fastForward(61000);await idle();assert.equal(summaries.length,beforeInactivity+1);
+ const beforeInactivity=summaries.length;await page.clock.fastForward(61000);await idle();assert.equal(summaries.length,beforeInactivity+1);await nearby.locator('#nearby-radius').selectOption('100');await page.clock.fastForward(61000);await idle();assert.equal(summaries.length,beforeInactivity+1);
  pass('Bounded inactivity finalizes once; later radius interactions cannot duplicate the same episode');
  await optin.focus();const focus=await optin.evaluate(e=>({active:document.activeElement===e,outline:getComputedStyle(e).outlineStyle}));assert.ok(focus.active);assert.notEqual(focus.outline,'none');await page.keyboard.press('Tab');assert.equal(await decline.evaluate(e=>document.activeElement===e),true);await page.keyboard.press('Enter');assert.equal(await decline.getAttribute('aria-pressed'),'true');
  const beforeDecline=summaries.length;await clear();await idle();assert.equal(summaries.length,beforeDecline);
