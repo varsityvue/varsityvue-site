@@ -62,38 +62,39 @@ declare
  s jsonb:=p_summary; k text; m jsonb; d date:=(now() at time zone 'America/Chicago')::date; b integer;
 begin
  if s is null or jsonb_typeof(s)<>'object' or octet_length(s::text)>2048 then raise exception using errcode='22023',message='Invalid coverage summary';end if;
- if (select count(*) from jsonb_object_keys(s))<>26 or exists(select 1 from jsonb_object_keys(s) f(field) where f.field<>all(array['schema_version','grid_version','coarse_bucket_id','center_source','season','week','initial_radius_miles','final_radius_miles','radius_expansion_steps','radius_expanded','filter_scope','query_present','week_real_game_count','week_located_game_count','week_unlocated_game_count','in_radius_real_game_count','in_radius_default_eligible_count','returned_game_count','live_game_count','kickoff_window_game_count','upcoming_game_count','final_game_count','game_selected','zero_result_reason','location_catalog_version','schedule_catalog_version'])) then
+ if (select count(*) from jsonb_object_keys(s))<>31 or exists(select 1 from jsonb_object_keys(s) f(field) where f.field<>all(array['schema_version','grid_version','coarse_bucket_id','center_source','season','week','initial_radius_miles','final_radius_miles','radius_expansion_steps','radius_expanded','filter_scope','district_only','additional_filters_present','current_only','verified_only','query_present','week_real_game_count','week_located_game_count','week_unlocated_game_count','in_radius_real_game_count','in_radius_default_eligible_count','returned_game_count','live_game_count','kickoff_window_game_count','upcoming_game_count','final_game_count','other_game_count','game_selected','zero_result_reason','location_catalog_version','schedule_catalog_version'])) then
  raise exception using errcode='22023',message='Invalid coverage summary fields';end if;
- for k in select unnest(array['week_real_game_count','week_located_game_count','week_unlocated_game_count','in_radius_real_game_count','in_radius_default_eligible_count','returned_game_count','live_game_count','kickoff_window_game_count','upcoming_game_count','final_game_count','schema_version','week','initial_radius_miles','final_radius_miles','radius_expansion_steps']) loop
+ for k in select unnest(array['week_real_game_count','week_located_game_count','week_unlocated_game_count','in_radius_real_game_count','in_radius_default_eligible_count','returned_game_count','live_game_count','kickoff_window_game_count','upcoming_game_count','final_game_count','other_game_count','schema_version','week','initial_radius_miles','final_radius_miles','radius_expansion_steps']) loop
    if jsonb_typeof(s->k)<>'number' or s->>k !~ '^[0-9]+$' or (s->>k)::numeric>512 then raise exception using errcode='22023',message='Invalid coverage number';end if;
  end loop;
- for k in select unnest(array['radius_expanded','query_present','game_selected']) loop
+ for k in select unnest(array['radius_expanded','query_present','game_selected','district_only','additional_filters_present','current_only','verified_only']) loop
    if jsonb_typeof(s->k)<>'boolean' then raise exception using errcode='22023',message='Invalid coverage boolean';end if;
  end loop;
  for k in select unnest(array['grid_version','coarse_bucket_id','center_source','filter_scope','zero_result_reason','location_catalog_version','schedule_catalog_version']) loop
    if jsonb_typeof(s->k)<>'string' then raise exception using errcode='22023',message='Invalid coverage string';end if;
  end loop;
- if jsonb_typeof(s->'season')<>'number' or s->>'schema_version'<>'1' or s->>'grid_version'<>'tx25-v1' or not private.coverage_bucket_valid(s->>'coarse_bucket_id')
+ if jsonb_typeof(s->'season')<>'number' or s->>'schema_version'<>'2' or s->>'grid_version'<>'tx25-v1' or not private.coverage_bucket_valid(s->>'coarse_bucket_id')
  or s->>'center_source' not in('browser_location','school_center') or s->>'season'<>'2026' or (s->>'week')::integer not in(7,8,9)
  or (s->>'initial_radius_miles')::integer not in(10,25,50,100,150) or (s->>'final_radius_miles')::integer not in(10,25,50,100,150)
  or (s->>'radius_expansion_steps')::integer>4 or (s->>'radius_expanded')::boolean<>((s->>'radius_expansion_steps')::integer>0)
  or ((s->>'final_radius_miles')::integer>(s->>'initial_radius_miles')::integer and not (s->>'radius_expanded')::boolean)
- or s->>'filter_scope' not in('all','live','upcoming','final','district')
+ or s->>'filter_scope' not in('all','live','upcoming','completed')
  or s->>'zero_result_reason' not in('none','no_games_in_radius','status_filter_excluded','query_filter_excluded','week_unapproved','week_location_incomplete','no_real_games','other_bounded_case')
  or s->>'location_catalog_version'<>'locations-edc8867688bf' or s->>'schedule_catalog_version'<>'schedule-1692cf167930'
  or (s->>'week_real_game_count')::integer<>17 or (s->>'week_located_game_count')::integer<>17 or (s->>'week_unlocated_game_count')::integer<>0
  or (s->>'in_radius_real_game_count')::integer>(s->>'week_located_game_count')::integer
- or (s->>'in_radius_default_eligible_count')::integer>(s->>'in_radius_real_game_count')::integer
+ or (s->>'in_radius_default_eligible_count')::integer<>(s->>'in_radius_real_game_count')::integer
  or (s->>'returned_game_count')::integer>(s->>'in_radius_real_game_count')::integer
- or (s->>'live_game_count')::integer+(s->>'kickoff_window_game_count')::integer+(s->>'upcoming_game_count')::integer+(s->>'final_game_count')::integer<>(s->>'returned_game_count')::integer
+ or (s->>'live_game_count')::integer+(s->>'kickoff_window_game_count')::integer+(s->>'upcoming_game_count')::integer+(s->>'final_game_count')::integer+(s->>'other_game_count')::integer<>(s->>'returned_game_count')::integer
  or ((s->>'game_selected')::boolean and (s->>'returned_game_count')::integer=0)
  or ((s->>'returned_game_count')::integer>0)<>(s->>'zero_result_reason'='none')
  or (s->>'zero_result_reason'='no_games_in_radius' and (s->>'in_radius_real_game_count')::integer<>0)
  or (s->>'zero_result_reason'='query_filter_excluded' and (not (s->>'query_present')::boolean or (s->>'in_radius_real_game_count')::integer=0))
  or (s->>'zero_result_reason'='status_filter_excluded' and (s->>'in_radius_real_game_count')::integer=0)
- or (s->>'filter_scope'='final' and (s->>'final_game_count')::integer<>(s->>'returned_game_count')::integer)
- or (s->>'filter_scope'<>'final' and ((s->>'final_game_count')::integer<>0 or (s->>'returned_game_count')::integer>(s->>'in_radius_default_eligible_count')::integer))
- or (s->>'filter_scope'='live' and (s->>'live_game_count')::integer+(s->>'kickoff_window_game_count')::integer<>(s->>'returned_game_count')::integer)
+ or (s->>'filter_scope'='completed' and (s->>'live_game_count')::integer+(s->>'kickoff_window_game_count')::integer+(s->>'upcoming_game_count')::integer<>0)
+ or ((s->>'current_only')::boolean and (s->>'final_game_count')::integer<>0)
+ or ((s->>'verified_only')::boolean and (s->>'final_game_count')::integer<>(s->>'returned_game_count')::integer)
+ or (s->>'filter_scope'='live' and (s->>'live_game_count')::integer<>(s->>'returned_game_count')::integer)
  or (s->>'filter_scope'='upcoming' and (s->>'upcoming_game_count')::integer<>(s->>'returned_game_count')::integer)
  or s->>'zero_result_reason' in('week_unapproved','week_location_incomplete','no_real_games') then
  raise exception using errcode='22023',message='Invalid coverage summary';end if;
@@ -107,6 +108,8 @@ begin
  m:=jsonb_build_object('radius_expanded',(s->>'radius_expanded')::boolean::integer,
  'game_selected',(s->>'game_selected')::boolean::integer,'zero_result',((s->>'returned_game_count')::integer=0)::integer,
  'query_present',(s->>'query_present')::boolean::integer,
+ 'district_only',(s->>'district_only')::boolean::integer,'additional_filters_present',(s->>'additional_filters_present')::boolean::integer,
+ 'current_only',(s->>'current_only')::boolean::integer,'verified_only',(s->>'verified_only')::boolean::integer,
  'initial_radius_'||(s->>'initial_radius_miles'),1,'final_radius_'||(s->>'final_radius_miles'),1,
  'expansion_steps_'||(s->>'radius_expansion_steps'),1,'filter_'||(s->>'filter_scope'),1,'reason_'||(s->>'zero_result_reason'),1,
  'week_real_'||private.coverage_count_bin((s->>'week_real_game_count')::integer),1,
@@ -118,7 +121,8 @@ begin
  'live_'||private.coverage_count_bin((s->>'live_game_count')::integer),1,
  'kickoff_window_'||private.coverage_count_bin((s->>'kickoff_window_game_count')::integer),1,
  'upcoming_'||private.coverage_count_bin((s->>'upcoming_game_count')::integer),1,
- 'final_'||private.coverage_count_bin((s->>'final_game_count')::integer),1);
+ 'final_'||private.coverage_count_bin((s->>'final_game_count')::integer),1,
+ 'other_'||private.coverage_count_bin((s->>'other_game_count')::integer),1);
  insert into private.coverage_demand_daily(report_date,grid_version,coarse_bucket_id,center_source,season,week,location_catalog_version,schedule_catalog_version,summary_count,metrics)
  values(d,s->>'grid_version',s->>'coarse_bucket_id',s->>'center_source',(s->>'season')::integer,(s->>'week')::integer,s->>'location_catalog_version',s->>'schedule_catalog_version',1,m)
  on conflict(report_date,grid_version,coarse_bucket_id,center_source,season,week,location_catalog_version,schedule_catalog_version)
@@ -161,7 +165,7 @@ language plpgsql immutable set search_path='' as $$
 declare result jsonb:='{}'; k text; v bigint; prefix text; unsafe boolean;
 begin
  for k,v in select key,value::bigint from jsonb_each_text(m) loop
-   if k in('radius_expanded','game_selected','zero_result','query_present') then
+   if k in('radius_expanded','game_selected','zero_result','query_present','district_only','additional_filters_present','current_only','verified_only') then
      result:=result||jsonb_build_object(k,case when (v=0 or v>=20) and (total-v=0 or total-v>=20) then v else null end);
    else
      prefix:=regexp_replace(k,'_(0|1|2_5|6_10|11_plus|10|25|50|100|150|2|3|4)$','');

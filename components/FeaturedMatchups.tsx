@@ -116,7 +116,7 @@ export default async function FeaturedMatchups() {
           </div>
 
           <Link
-            href="/scoreboard"
+            href="/games?intent=scores"
             className="inline-flex w-fit rounded-full border border-white/10 bg-black/35 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-[0.12em] text-white/60 transition hover:bg-white/10 hover:text-white sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.16em]"
           >
             Full Scoreboard →

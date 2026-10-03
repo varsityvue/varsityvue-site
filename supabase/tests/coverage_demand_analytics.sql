@@ -6,7 +6,7 @@ create function pg_temp.coverage_denied(statement text) returns void language pl
  begin execute statement;exception when insufficient_privilege then return;end;
  raise exception 'Coverage access unexpectedly allowed: %',statement;end $$;
 create temp table coverage_fixture(s jsonb);
-insert into coverage_fixture values ($summary${"schema_version":1,"grid_version":"tx25-v1","coarse_bucket_id":"tx25-v1:c3r22","center_source":"browser_location","season":2026,"week":7,"initial_radius_miles":50,"final_radius_miles":50,"radius_expansion_steps":0,"radius_expanded":false,"filter_scope":"all","query_present":false,"week_real_game_count":17,"week_located_game_count":17,"week_unlocated_game_count":0,"in_radius_real_game_count":7,"in_radius_default_eligible_count":7,"returned_game_count":7,"live_game_count":0,"kickoff_window_game_count":0,"upcoming_game_count":7,"final_game_count":0,"game_selected":false,"zero_result_reason":"none","location_catalog_version":"locations-edc8867688bf","schedule_catalog_version":"schedule-1692cf167930"}$summary$::jsonb);
+insert into coverage_fixture values ($summary${"schema_version":2,"grid_version":"tx25-v1","coarse_bucket_id":"tx25-v1:c3r22","center_source":"browser_location","season":2026,"week":7,"initial_radius_miles":50,"final_radius_miles":50,"radius_expansion_steps":0,"radius_expanded":false,"filter_scope":"all","district_only":false,"additional_filters_present":false,"current_only":false,"verified_only":false,"query_present":false,"week_real_game_count":17,"week_located_game_count":17,"week_unlocated_game_count":0,"in_radius_real_game_count":7,"in_radius_default_eligible_count":7,"returned_game_count":7,"live_game_count":0,"kickoff_window_game_count":0,"upcoming_game_count":7,"final_game_count":0,"other_game_count":0,"game_selected":false,"zero_result_reason":"none","location_catalog_version":"locations-edc8867688bf","schedule_catalog_version":"schedule-1692cf167930"}$summary$::jsonb);
 select pg_temp.coverage_assert(not exists(select 1 from information_schema.columns where table_schema='private'
  and table_name like 'coverage_demand_%' and column_name ~ '(latitude|longitude|user_id|profile_id|session_id|anonymous_id|device_id|(^ip$)|email|phone)'), 'no location/identity columns');
 select pg_temp.coverage_assert(not exists(select 1 from information_schema.tables where table_schema in('public','private') and table_name ~ 'coverage.*(event|raw|search)'), 'no raw event table');
@@ -40,13 +40,21 @@ select pg_temp.coverage_denied('select public.admin_coverage_dashboard(''week'',
 reset role;
 -- Unknown fields, aliases, identity, invalid type, impossible counts and dishonest states.
 do $$ declare s jsonb:=(select coverage_fixture.s from coverage_fixture);patch jsonb;begin
- for patch in select value from jsonb_array_elements('[{"lat":32},{"user_id":"x"},{"query":"text"},{"selected_game_id":"x"},{"schema_version":2},{"grid_version":"v2"},{"coarse_bucket_id":"bad"},{"season":2027},{"week":10},{"final_radius_miles":20},{"radius_expansion_steps":5},{"returned_game_count":-1},{"in_radius_real_game_count":512},{"week_located_game_count":16},{"query_present":"true"},{"game_selected":null},{"filter_scope":"unknown"},{"zero_result_reason":"coverage_gap"},{"center_source":"home"}]') loop
+ for patch in select value from jsonb_array_elements('[{"lat":32},{"user_id":"x"},{"query":"text"},{"selected_game_id":"x"},{"schema_version":1},{"grid_version":"v2"},{"coarse_bucket_id":"bad"},{"season":2027},{"week":10},{"final_radius_miles":20},{"radius_expansion_steps":5},{"returned_game_count":-1},{"in_radius_real_game_count":512},{"week_located_game_count":16},{"query_present":"true"},{"game_selected":null},{"filter_scope":"unknown"},{"zero_result_reason":"coverage_gap"},{"center_source":"home"},{"district_only":"true"},{"other_game_count":1},{"filter_scope":"completed"}]') loop
   begin perform private.record_coverage_demand_summary(s||patch);raise exception 'Invalid summary accepted: %',patch;
   exception when sqlstate '22023' then null;end;
  end loop;
  begin perform private.record_coverage_demand_summary(s-'game_selected');raise exception 'Missing summary field accepted';exception when sqlstate '22023' then null;end;
  begin perform private.record_coverage_demand_summary(s||jsonb_build_object('extra',repeat('x',2049)));raise exception 'Oversized summary accepted';exception when sqlstate '22023' then null;end;
 end $$;
+-- Unified status contract: unresolved/completed rows remain bounded, LIVE excludes inferred windows.
+do $$ declare s jsonb:=(select coverage_fixture.s from coverage_fixture);begin
+ perform private.record_coverage_demand_summary(s||'{"filter_scope":"all","upcoming_game_count":0,"other_game_count":7}');
+ perform private.record_coverage_demand_summary(s||'{"filter_scope":"completed","upcoming_game_count":0,"final_game_count":7}');
+ begin perform private.record_coverage_demand_summary(s||'{"filter_scope":"live","upcoming_game_count":0,"kickoff_window_game_count":7}');raise exception 'Inferred LIVE accepted';exception when sqlstate '22023' then null;end;
+end $$;
+delete from private.coverage_demand_daily;
+delete from private.coverage_demand_budget;
 set local role service_role;
 select public.server_record_coverage_demand_summary(s) from coverage_fixture;
 reset role;

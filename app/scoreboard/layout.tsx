@@ -8,10 +8,10 @@ export const metadata: Metadata = {
     template: "%s",
   },
   alternates: {
-    canonical: "/scoreboard",
+    canonical: "/games",
   },
   openGraph: {
-    url: "/scoreboard",
+    url: "/games",
   },
 };
 

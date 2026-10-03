@@ -30,10 +30,10 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
     shortcuts: [
       {
-        name: "Scoreboard",
+        name: "Games & Scores",
         short_name: "Scores",
         description: "Open the latest VarsityVue football scores and game status.",
-        url: "/scoreboard",
+        url: "/games?intent=scores",
       },
       {
         name: "School Hubs",

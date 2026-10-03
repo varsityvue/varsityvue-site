@@ -6,12 +6,12 @@ export default function Footer() {
   return (
     <footer className="border-t border-white/10 bg-[var(--vv-bg)] px-4 py-7 text-white sm:px-6 sm:py-10 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-7 sm:gap-10 md:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr]">
-          <div className="max-w-md">
+        <div className="vv-footer-grid grid gap-7 sm:gap-10">
+          <div className="min-w-0 max-w-md">
             <Link
               href="/"
               aria-label="VarsityVue home"
-              className="inline-flex items-center gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:gap-3"
+              className="inline-flex max-w-full items-center gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:gap-3"
             >
               <Image
                 src="/logos/varsityvue-logo.png"
@@ -20,8 +20,10 @@ export default function Footer() {
                 height={56}
                 className="h-11 w-11 shrink-0 object-contain drop-shadow-[0_0_18px_rgba(139,16,32,0.35)] sm:h-12 sm:w-12"
               />
-              <div>
-                <h2 className="text-xl font-black sm:text-2xl">VARSITY<span className="text-[var(--vv-accent)]">VUE</span></h2>
+              <div className="min-w-0">
+                <h2 className="break-words text-xl font-black sm:text-2xl">
+                  VARSITY<span className="text-[var(--vv-accent)]">VUE</span>
+                </h2>
                 <p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/40 sm:text-xs sm:tracking-[0.3em]">
                   Texas HS Football
                 </p>
@@ -29,13 +31,30 @@ export default function Footer() {
             </Link>
 
             <p className="mt-3 max-w-sm text-xs leading-5 text-white/55 sm:mt-4 sm:text-sm sm:leading-6">
-              Texas high school football scores, schedules, district standings, school hubs, matchup pages, verified statistics, legacy archives, and local coverage.
+              Texas high school football scores, schedules, district standings,
+              school hubs, matchup pages, verified statistics, legacy archives,
+              and local coverage.
             </p>
 
-            <div className="mt-4 flex gap-2.5 sm:mt-5 sm:gap-3" aria-label="VarsityVue social links">
-              <Social href="https://x.com/varsityvue" label="X" accessibleLabel="VarsityVue on X" />
-              <Social href="https://instagram.com/varsityvueapp" label="IG" accessibleLabel="VarsityVue on Instagram" />
-              <Social href="https://facebook.com/VarsityVue" label="f" accessibleLabel="VarsityVue on Facebook" />
+            <div
+              className="mt-4 flex gap-2.5 sm:mt-5 sm:gap-3"
+              aria-label="VarsityVue social links"
+            >
+              <Social
+                href="https://x.com/varsityvue"
+                label="X"
+                accessibleLabel="VarsityVue on X"
+              />
+              <Social
+                href="https://instagram.com/varsityvueapp"
+                label="IG"
+                accessibleLabel="VarsityVue on Instagram"
+              />
+              <Social
+                href="https://facebook.com/VarsityVue"
+                label="f"
+                accessibleLabel="VarsityVue on Facebook"
+              />
             </div>
           </div>
 
@@ -43,7 +62,7 @@ export default function Footer() {
             <FooterColumn
               title="Platform"
               links={[
-                { href: "/scoreboard", label: "Scoreboard" },
+                { href: "/games?intent=scores", label: "Scoreboard" },
                 { href: "/pickem", label: "Pick ’Em" },
                 { href: "/schools", label: "Schools" },
                 { href: "/districts", label: "Districts" },
@@ -72,10 +91,10 @@ export default function Footer() {
             </h3>
             <Link
               href="mailto:info@varsityvue.com"
-              className="mt-3 flex w-fit items-center gap-2 text-xs text-white/70 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:mt-4 sm:text-sm"
+              className="mt-3 flex w-fit max-w-full items-center gap-2 text-xs text-white/70 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:mt-4 sm:text-sm"
             >
-              <Mail size={15} aria-hidden="true" />
-              info@varsityvue.com
+              <Mail size={15} className="shrink-0" aria-hidden="true" />
+              <span className="min-w-0 [overflow-wrap:anywhere]">info@varsityvue.com</span>
             </Link>
           </div>
         </div>
@@ -89,7 +108,15 @@ export default function Footer() {
   );
 }
 
-function Social({ href, label, accessibleLabel }: { href: string; label: string; accessibleLabel: string }) {
+function Social({
+  href,
+  label,
+  accessibleLabel,
+}: {
+  href: string;
+  label: string;
+  accessibleLabel: string;
+}) {
   return (
     <Link
       href={href}
@@ -103,7 +130,13 @@ function Social({ href, label, accessibleLabel }: { href: string; label: string;
   );
 }
 
-function FooterColumn({ title, links }: { title: string; links: { href: string; label: string }[] }) {
+function FooterColumn({
+  title,
+  links,
+}: {
+  title: string;
+  links: { href: string; label: string }[];
+}) {
   return (
     <div>
       <h3 className="text-[10px] font-bold uppercase tracking-[0.24em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.3em]">

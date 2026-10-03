@@ -62,8 +62,13 @@ test("loader keeps score and attribution in one RPC; unavailable RPC preserves s
 });
 
 test("only approved full surfaces mount attribution; excluded compact surfaces stay unchanged", () => {
+  const row = readFileSync("components/WeeklyGameRow.tsx", "utf8");
+  assert.match(row, /scoreAttributionText\(g\)/);
+  assert.match(row, /weekly-byline/);
   const scoreboard = readFileSync("app/scoreboard/page.tsx", "utf8");
-  assert.equal((scoreboard.match(/<ScoreAttribution game={game}/g) ?? []).length, 2);
+  assert.match(scoreboard, /UnifiedGamesPage/);
+  assert.doesNotMatch(scoreboard, /permanentRedirect/);
+  assert.doesNotMatch(readFileSync("proxy.ts", "utf8"), /scoresDestination|pathname === "\/scoreboard"/);
   const center = readFileSync("app/games/[gameId]/page.tsx", "utf8");
   assert.equal((center.match(/<ScoreAttribution game={game} detail/g) ?? []).length, 2);
   const pulse = readFileSync("components/SchoolSeasonPulse.tsx", "utf8");

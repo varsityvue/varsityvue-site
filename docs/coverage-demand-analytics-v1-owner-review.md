@@ -30,7 +30,7 @@ An episode is one chosen center object and selected schedule week on the mounted
 
 GamesNearMeSearchSummary has exactly these fields, all required:
 
-schema_version: integer 1
+schema_version: integer 2 (draft-only unified contract; V1 payloads fail validation)
 
 grid_version: tx25-v1
 
@@ -46,7 +46,9 @@ initial_radius_miles, final_radius_miles: 10, 25, 50, 100 or 150
 
 radius_expansion_steps: integer 0..4, capped count of increases; radius_expanded: boolean consistent with steps
 
-filter_scope: all, live, upcoming, final or district
+filter_scope: all, live, upcoming or completed. All includes every unified presentation category; LIVE requires confirmed public live status. Completed includes verified finals, exceptional outcomes and cancellations.
+
+district_only, additional_filters_present, current_only, verified_only: booleans. additional_filters_present indicates classification and/or Following restriction without transmitting classification text, followed school slugs, member state or any identity. Combined exclusion is other_bounded_case; no unsupported attribution to a single status filter.
 
 query_present: boolean; trimmed query text is never sent
 
@@ -54,9 +56,9 @@ week_real_game_count, week_located_game_count, week_unlocated_game_count: intege
 
 in_radius_real_game_count: all real, verified-location games within radius, independent of status/query
 
-in_radius_default_eligible_count: nearby LIVE + upcoming games, before query and optional status/district filters
+in_radius_default_eligible_count: all real, verified-location in-radius games before optional filters; equal to in_radius_real_game_count in schema 2. This is the unified All default; the old LIVE + upcoming interpretation is retired.
 
-returned_game_count, live_game_count, kickoff_window_game_count, upcoming_game_count, final_game_count: final returned result counts. live_game_count counts confirmed public LIVE presentation; kickoff_window_game_count separately counts schedule-inferred kickoff windows. This extra supported field avoids misrepresenting an inferred window as confirmed live activity
+returned_game_count, live_game_count, kickoff_window_game_count, upcoming_game_count, final_game_count, other_game_count: final returned result counts. live_game_count counts confirmed public LIVE presentation; kickoff_window_game_count separately counts schedule-inferred kickoff windows. other_game_count includes awaiting-verification, postponed and cancelled presentation; final_game_count includes verified exceptional outcomes. The five presentation counts sum to returned_game_count. LIVE cannot include inferred kickoff windows.
 
 game_selected: boolean only; no selected game or school identity
 
@@ -88,7 +90,7 @@ Migration: supabase/migrations/20261003064603_coverage_demand_analytics_v1.sql. 
 
 private.coverage_demand_daily key: Central report_date + grid_version + coarse_bucket_id + center_source + season + selected schedule week + location_catalog_version + schedule_catalog_version. Radii, filters, query flags, reasons and counts are NOT joint row dimensions. This avoids a row per behavior combination.
 
-Each row stores summary_count and flat counter/histogram metrics. Counters: radius_expanded, game_selected, zero_result and query_present. Histograms: initial/final radius; capped expansion steps; filter; reason; week real/located/unlocated counts; in-radius real/default-eligible; returned/verified-live/kickoff-window/upcoming/final counts. Count bins: 0, 1, 2–5, 6–10, 11+. No raw payload is persisted. No median claim is made from coarse bins. No unique-person estimate exists.
+Each row stores summary_count and flat counter/histogram metrics. Counters: radius_expanded, game_selected, zero_result, query_present, district_only, additional_filters_present, current_only and verified_only. All use the same value/complement suppression. Histograms: initial/final radius; capped expansion steps; filter; reason; week real/located/unlocated counts; in-radius real/default-eligible; returned/verified-live/kickoff-window/upcoming/final/other counts. Count bins: 0, 1, 2–5, 6–10, 11+. No raw payload is persisted. No median claim is made from coarse bins. No unique-person estimate exists.
 
 private.record_coverage_demand_summary(jsonb) repeats validation and atomically increments/upserts. public.server_record_coverage_demand_summary(jsonb) is a narrow PostgREST bridge, executable only by service_role; no anonymous/member browser can invoke it. The private function and tables have no direct application-role grants. Trusted server config uses a server-only credential, never user credentials. RLS is enabled with no member policies. Definer functions use empty search_path and explicit schema qualification. public.server_retain_coverage_demand() is similarly service_role-only.
 
@@ -132,4 +134,22 @@ Starting main was 163624bb2b3b96cf7f953751735e67f166e716a3 with production dpl_F
 
 ## Bounded owner-review corrections
 
-The consent correction synchronizes withdrawal across tabs and reconciles persisted permission before every episode finalization. The reporting correction rejects retention-truncated weekly requests and explicitly labels open/completed periods and their effective date. The original draft migration is amended; no production remediation migration, weekly archive, scheduler, identity or dashboard is added. Tests exercise the November 1, 2026 cutoff, before/after retention totals, and withdrawal of an active unfinished episode in a second tab. Scheduling AND failure monitoring remain activation prerequisites. PR #40 is not incorporated; combined disclosure/navigation/episode verification remains outstanding.
+The consent correction synchronizes withdrawal across tabs and reconciles persisted permission before every episode finalization. The reporting correction rejects retention-truncated weekly requests and explicitly labels open/completed periods and their effective date. The original draft migration is amended; no production remediation migration, weekly archive, scheduler, identity or dashboard is added. Tests exercise the November 1, 2026 cutoff, before/after retention totals, and withdrawal of an active unfinished episode in a second tab. Scheduling AND failure monitoring remain activation prerequisites. Released PR #41 is incorporated as described below. Its aliases, public filters, refresh and return behavior remain authoritative.
+
+## PR #41 integration and evidence interpretation
+
+Completion preflight verified main ca9db89ec9368624723453ef3e4be6a1176b7b0f, production dpl_5ejKXcKNmBe92Y3fpGpKW1nXYoGv READY on both public domains, and production migration baseline 20261002200333. Starting PR head was c47b62db8578467e95a7857ccfbdb71e4ffedc1b, draft/unmerged. Current main is incorporated as a merge parent; main is never rewritten. Earlier evidence is historical and is not proof of this integrated revision.
+
+Both /games and /scoreboard remain direct aliases of UnifiedGamesPage and one WeeklyGamesExplorer. The old standalone GamesNearMe component is restored exactly to main and is not mounted by either alias. One useCoverageEpisode instance owns observation in the shared explorer; WeeklyNearbyControls holds the transient source-tagged center, and WeeklyGameRow supplies selection callbacks for the row, Game Center and preview links, including middle click. No duplicate renderer or second episode owner is added. Consent controls render only in Near Me, including when collection flags remain off.
+
+Schema 2 consistently rejects schema 1 at client/server/database. It adapts only the approved search summary to the released unified filters; it adds no All Games measurement, new geography, identifying filter values, result identities or acquisition/conversion events. Week/season/mode changes, popstate departure and center/Clear actions finalize and discard old state. Hidden/pagehide/unmount finalization remains at most once. Full alias navigation ends the mounted episode; the destination has no restored center. Score refresh and Apply updates neither finalize/restart episodes nor reset the 60-second timer. Counts represent the latest consented user-control observation, not continuously refreshed scores at delivery. A new measured control change samples the then-current unified result set. Query presence reflects the committed public search, not unsubmitted input typing.
+
+The released unified interface already puts public search/filter parameters in URLs and Game Center return links. This PR preserves those semantics. Search text never enters a coverage summary or database aggregate. It does not claim existing public query URLs are query-free. No point, bucket, measurement consent or identity is added to any navigation, contributor, signup or authentication return URL. Precise center and center source never enter the public parameter allowlist.
+
+Application checks locally include the relevant 176 regressions, TypeScript, targeted lint, full build and diff checking. Local browser execution cannot supply evidence where the sandbox cannot download Chromium; the exact-head CI workflow installs its own browser and runs both the released unified suite and the revised coverage suite. The coverage suite includes actual two-mounted-tab withdrawal/removal/invalid/clear before inactivity and selection, delayed storage notifications, blocked reads/writes, cross-tab opt-in, aliases, refresh ownership, failure behavior, synthetic GPS and school centers, and retained screenshots/results. Browser artifacts record the checked-out head and tree. Never infer PASS from this test inventory: inspect the exact final workflow results attached to PR #39.
+
+Database evidence must come from the coverage workflow's fresh disposable local Supabase reset using every repository migration, including the final revised original migration, not a stale remote verification project. The SQL suite checks role denial, source/parent/value/complement suppression, schema-2 validation, open/completed week/month/season state, November 1 cutoff crossings, unsupported multiweek/future ranges, stable before/after retention, long-term expiry and idempotence. The concurrency fixture uses 20 parallel connections, and the separate HTTP fixture traverses the actual first-party route and real isolated PostgREST aggregate bridge. Seven existing database suites run from fresh resets. No production fixtures are used. The coverage workflow now runs the released unified browser regression instead of the obsolete standalone Nearby harness.
+
+Preview evidence is a separate category: a READY deployment and checks are not proof of authenticated/browser rendering. Preview keeps both flags off and ingestion unconfigured; active measurement browser/database evidence is isolated only. Record actual Preview browser observations and protection limitations in the final PR report. Manual screen-reader operation, provider request/body logging, diagnostics, backup deletion, session replay exclusion and infrastructure safeguards remain NOT VERIFIED unless separately evidenced. No provider changes, retention scheduler, monitoring setup, dashboard or general analytics rewrite occurs in this draft.
+
+Dormant release readiness requires successful checks and review of the exact final tree. Measurement activation additionally requires separately authorized production migration/configuration, retention scheduling AND failure monitoring, provider logging/body-capture/replay/backup safeguards, suitable general disclosure, abuse-control evaluation and a separate owner activation decision. Residual repeat-report and cross-period differencing, opted-in sample bias, duplicate/replayed summaries and best-effort loss remain explicit limitations.

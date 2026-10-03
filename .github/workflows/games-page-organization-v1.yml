@@ -1,0 +1,36 @@
+name: Unified Games and Scores
+on:
+  pull_request:
+    paths: ['app/games/**', 'app/scoreboard/**', 'app/api/games/**', 'app/globals.css', 'components/Weekly*.tsx', 'components/UnifiedGamesPage.tsx', 'components/MobileNavigation.tsx', 'components/SiteHeader.tsx', 'lib/unified-games*', 'lib/games-route-compatibility.ts', 'proxy.ts', 'lib/weekly-game-dto.ts', 'scripts/test-unified-games-browser.mjs', '.github/workflows/games-page-organization-v1.yml']
+  push:
+    branches: [codex/unified-games-scores-v1]
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: node --import tsx --test lib/unified-games.test.ts lib/games-page-organization.test.ts lib/game-presentation.test.ts lib/game-discovery.test.ts lib/follow-personalization.test.ts lib/public-score-loader.test.ts lib/hamilton-featured.test.ts lib/public-read-contracts.test.ts
+      - run: npx tsc --noEmit
+      - run: npm run lint
+      - run: npm run build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: http://127.0.0.1:54329
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: fixture-public-key
+      - run: git diff --check
+      - run: git rev-parse HEAD HEAD^{tree}
+      - run: npm install --no-save --package-lock=false playwright@1.63.0
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/test-unified-games-browser.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: unified-games-browser-evidence
+          path: unified-games-browser-evidence

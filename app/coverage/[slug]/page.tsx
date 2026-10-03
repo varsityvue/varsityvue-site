@@ -280,7 +280,7 @@ export default async function ArticlePage({ params, searchParams }: ArticlePageP
                         {primarySchool.name} Hub →
                       </Link>
                     )}
-                    <Link href="/scoreboard" className="rounded-lg border border-white/10 bg-white/[0.07] px-2 py-2 text-center text-[8px] font-black uppercase tracking-[0.06em] text-white/75 transition hover:bg-white/12 hover:text-white sm:rounded-xl sm:px-4 sm:py-3 sm:text-xs sm:tracking-[0.12em]">
+                    <Link href="/games?intent=scores" className="rounded-lg border border-white/10 bg-white/[0.07] px-2 py-2 text-center text-[8px] font-black uppercase tracking-[0.06em] text-white/75 transition hover:bg-white/12 hover:text-white sm:rounded-xl sm:px-4 sm:py-3 sm:text-xs sm:tracking-[0.12em]">
                       Scoreboard →
                     </Link>
                   </div>

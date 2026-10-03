@@ -34,7 +34,30 @@ test("confirmed LIVE and schedule-inferred kickoff windows are counted separatel
  const point={latitude:32.123456789,longitude:-98.543210987};
  const rows=fixtureGames.map(g=>g.season===2026&&g.week===7?{...g,status:'live' as const,livePresentation:'kickoff_inferred' as const}:g);
  const inferred=buildSearchSummary(rows,point,'browser_location',7,150,'','live')!;
- assert.ok(inferred.returned_game_count>0);assert.equal(inferred.live_game_count,0);assert.equal(inferred.kickoff_window_game_count,inferred.returned_game_count);assert.ok(validSummary(inferred));
+ assert.equal(inferred.returned_game_count,0);assert.equal(inferred.live_game_count,0);assert.equal(inferred.kickoff_window_game_count,0);assert.ok(validSummary(inferred));
  const confirmed=buildSearchSummary(rows.map(g=>({...g,livePresentation:'score_available' as const})),point,'browser_location',7,150,'','live')!;
  assert.equal(confirmed.kickoff_window_game_count,0);assert.equal(confirmed.live_game_count,confirmed.returned_game_count);assert.ok(validSummary(confirmed));
+});
+
+test("unified summaries count actual all/strict LIVE/completed rows and bounded filter modifiers", async()=>{
+ const {buildWeeklySearchSummary}=await import('./coverage-demand-summary');
+ const {parseWeeklyParams,selectWeeklyGames}=await import('./unified-games');
+ const {getGamePresentation}=await import('./game-presentation');
+ const point={latitude:32.123456789,longitude:-98.543210987};
+ const games=getGames().map(g=>({...g,classification:'2A',searchText:`${g.homeTeam} ${g.awayTeam}`.toLowerCase(),locationInfo:fixtureGames.find(f=>f.gameId===g.id)!.location}));
+ const now=new Date('2026-10-09T23:30:00Z');
+ for(const filter of ['all','live','upcoming','completed']) {
+  const p=parseWeeklyParams({season:'2026',week:'7',mode:'nearby',radius:'150',filter},games,now);
+  const rows=selectWeeklyGames(games,p,new Set(),now,point).map(r=>r.game);
+  const s=buildWeeklySearchSummary(games,point,'browser_location',p,new Set(),now,rows)!;
+  assert.ok(validSummary(s),JSON.stringify(s));assert.equal(s.returned_game_count,rows.length);assert.equal(s.in_radius_default_eligible_count,s.in_radius_real_game_count);
+  assert.equal(s.live_game_count,rows.filter(g=>getGamePresentation(g,now).kind==='verified_live').length);
+ }
+ const p=parseWeeklyParams({season:'2026',week:'7',mode:'nearby',following:'1',classification:'2A',district:'1'},games,now);
+ const s=buildWeeklySearchSummary(games,point,'school_center',p,new Set(),now,[])!;
+ assert.ok(validSummary(s));assert.equal(s.additional_filters_present,true);assert.equal(s.district_only,true);assert.equal(s.zero_result_reason,'other_bounded_case');
+ assert.ok(!JSON.stringify(s).includes('2A'));assert.equal(s.filter_scope,'all');
+ assert.equal(validSummary({...fixtureSummary,schema_version:1}),false);
+ for(const k of ['district_only','additional_filters_present','current_only','verified_only'])assert.equal(validSummary({...fixtureSummary,[k]:'true'}),false);
+ assert.equal(validSummary({...fixtureSummary,other_game_count:1}),false);
 });

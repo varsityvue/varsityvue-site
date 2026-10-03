@@ -7,7 +7,9 @@ on:
       - 'lib/coverage-*'
       - 'types/coverage-demand.ts'
       - 'app/api/coverage-demand/**'
-      - 'components/GamesNearMe.tsx'
+      - 'components/Weekly*.tsx'
+      - 'components/useCoverageEpisode.ts'
+      - 'components/CoverageMeasurementChoice.tsx'
       - 'proxy.ts'
       - 'supabase/migrations/*coverage_demand*'
       - 'supabase/tests/coverage_demand*'
@@ -30,9 +32,9 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Analytics and all relevant application regressions
-        run: node --import tsx --test lib/coverage-*.test.ts lib/game-discovery.test.ts lib/game-presentation.test.ts lib/public-score-loader.test.ts lib/hamilton-featured.test.ts lib/school-master-data.test.ts lib/team-feed-validation.test.ts lib/scorekeeper-cta.test.ts lib/public-read-contracts.test.ts lib/assigned-scorekeeper.test.ts lib/public-score-state.test.tsx lib/score-scout-review.test.tsx lib/scoring-operations.test.ts lib/games.test.ts data/game-previews.test.ts lib/pickem-lifecycle.test.ts lib/pickem-client-state.test.ts lib/pickem-week-summary.test.ts lib/pickem-contest-display.test.ts lib/team-feed-image.test.ts lib/follow-personalization.test.ts
+        run: node --import tsx --test lib/coverage-*.test.ts lib/game-discovery.test.ts lib/unified-games.test.ts lib/games-page-organization.test.ts lib/game-presentation.test.ts lib/public-score-loader.test.ts lib/hamilton-featured.test.ts lib/school-master-data.test.ts lib/team-feed-validation.test.ts lib/scorekeeper-cta.test.ts lib/public-read-contracts.test.ts lib/assigned-scorekeeper.test.ts lib/public-score-state.test.tsx lib/score-scout-review.test.tsx lib/scoring-operations.test.ts lib/games.test.ts data/game-previews.test.ts lib/pickem-lifecycle.test.ts lib/pickem-client-state.test.ts lib/pickem-week-summary.test.ts lib/pickem-contest-display.test.ts lib/team-feed-image.test.ts lib/follow-personalization.test.ts
       - run: npx tsc --noEmit
-      - run: npx eslint components/GamesNearMe.tsx lib/coverage-*.ts lib/game-discovery.test.ts types/coverage-demand.ts app/api/coverage-demand/route.ts proxy.ts scripts/test-coverage-demand-browser.mjs scripts/test-coverage-demand-http.mjs
+      - run: npx eslint components/Weekly*.tsx components/useCoverageEpisode.ts components/CoverageMeasurementChoice.tsx lib/coverage-*.ts lib/game-discovery.test.ts types/coverage-demand.ts app/api/coverage-demand/route.ts proxy.ts scripts/test-coverage-demand-browser.mjs scripts/test-coverage-demand-http.mjs
       - run: npm run build
       - run: git diff --check
       - uses: supabase/setup-cli@v2
@@ -53,8 +55,8 @@ jobs:
         run: |
           npm install --no-save --package-lock=false playwright@1.63.0
           npx playwright install --with-deps chromium
-      - name: Existing Nearby, school, CTA and privacy browser regressions
-        run: node scripts/test-games-near-me-browser.mjs
+      - name: Released unified aliases, school, CTA, refresh and privacy browser regressions
+        run: node scripts/test-unified-games-browser.mjs
       - name: Coverage consent, episodes, privacy and failure browser verification
         run: node scripts/test-coverage-demand-browser.mjs
       - name: Existing privacy, score authority, Score Scout and Pick Em database regressions
@@ -69,5 +71,5 @@ jobs:
           name: coverage-demand-browser-evidence
           path: |
             coverage-demand-browser-evidence
-            games-near-me-browser-evidence
+            unified-games-browser-evidence
           if-no-files-found: ignore
