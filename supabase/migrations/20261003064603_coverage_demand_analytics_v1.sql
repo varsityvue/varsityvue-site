@@ -189,6 +189,9 @@ begin
  if p_from>p_today then raise exception using errcode='22023',message='Future-only coverage reporting periods are not supported';end if;
  if p_kind='week' and p_from<p_today-29 then
  raise exception using errcode='22023',message='Weekly reporting start precedes retained daily coverage window';end if;
+ if p_kind='week' and p_to>(date_trunc('week',p_today)+interval '6 days')::date
+ or p_kind='month' and p_to>(date_trunc('month',p_today)+interval '1 month - 1 day')::date then
+ raise exception using errcode='22023',message='Coverage reporting range includes future-only periods';end if;
  with source as (
  select case p_kind when 'week' then date_trunc('week',d.report_date)::date when 'month' then date_trunc('month',d.report_date)::date else make_date(d.season,1,1) end period,
  d.grid_version,private.coverage_parent(d.coarse_bucket_id) region,d.center_source,d.season,d.summary_count,d.metrics

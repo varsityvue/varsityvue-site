@@ -115,6 +115,12 @@ do $$ declare start_date date;begin
   exception when sqlstate '22023' then if sqlerrm<>'Future-only coverage reporting periods are not supported' then raise;end if;end;
  end loop;
 end $$;
+do $$ begin
+ begin perform private.coverage_dashboard('week',date '2026-10-19',date '2026-11-08',date '2026-11-01');raise exception 'Mixed future week accepted';
+ exception when sqlstate '22023' then if sqlerrm<>'Coverage reporting range includes future-only periods' then raise;end if;end;
+ begin perform private.coverage_dashboard('month',date '2026-10-01',date '2026-12-31',date '2026-11-01');raise exception 'Mixed future month accepted';
+ exception when sqlstate '22023' then if sqlerrm<>'Coverage reporting range includes future-only periods' then raise;end if;end;
+end $$;
 select pg_temp.coverage_assert((private.coverage_dashboard('week',date '2026-10-19',date '2026-10-25',date '2026-11-01')->0) @> '{"period_state":"completed","effective_through":"2026-10-25","reporting_as_of":"2026-11-01","accepted_summary_count":20}', 'fully retained completed week');
 select pg_temp.coverage_assert((private.coverage_dashboard('week',date '2026-10-26',date '2026-11-01',date '2026-10-30')->0) @> '{"period_state":"open","period_end":"2026-11-01","effective_through":"2026-10-30","accepted_summary_count":20}', 'current open week and source suppression');
 select pg_temp.coverage_assert(jsonb_array_length(private.coverage_dashboard('week',date '2026-10-26',date '2026-11-01',date '2026-10-30'))=1, '19-summary separate parent/source remains hidden');
