@@ -25,7 +25,7 @@ async function user(name){
  let r=await fetch(api+'/auth/v1/admin/users',{method:'POST',headers:{apikey:service,Authorization:'Bearer '+service,'Content-Type':'application/json'},body:JSON.stringify({email,password,email_confirm:true,user_metadata:{display_name:'Disposable '+name}})});
  assert.ok(r.ok,'fixture creation');
  const id=(await r.json()).id;
- r=await req('/auth/v1/token?grant_type=password',key,'POST',{email,password});assert.ok(r.ok,'fixture session');
+ r=await req('/auth/v1/token?grant_type=password',key,'POST',{email,password,gotrue_meta_security:{captcha_token:'XXXX.DUMMY.TOKEN.XXXX'}});assert.ok(r.ok,'fixture session');
  return {id,session:r.data};
 }
 const actors={};
@@ -55,7 +55,7 @@ const denied=await req('/rest/v1/rpc/review_contributor_application',actors.memb
 // App outbound fetch is restricted to local disposable services, including analytics.
 const guard=evidence+'/local-fetch-guard.cjs';
 writeFileSync(guard,"const original=global.fetch;global.fetch=(input,...args)=>{const u=new URL(typeof input==='string'?input:input.url||String(input));if(!['127.0.0.1','localhost','[::1]'].includes(u.hostname))return Promise.reject(new Error('Disposable runtime blocks external fetch'));return original(input,...args)};");
-const env={PATH:process.env.PATH,HOME:process.env.HOME,CI:'1',NODE_ENV:'development',NEXT_TELEMETRY_DISABLED:'1',NEXT_PUBLIC_SUPABASE_URL:api,NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:key,NODE_OPTIONS:'--require '+process.cwd()+'/'+guard};
+const env={PATH:process.env.PATH,HOME:process.env.HOME,CI:'1',NODE_ENV:'development',NEXT_TELEMETRY_DISABLED:'1',NEXT_PUBLIC_SUPABASE_URL:api,NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:key,NEXT_PUBLIC_TURNSTILE_SITE_KEY:'1x00000000000000000000AA',NODE_OPTIONS:'--require '+process.cwd()+'/'+guard};
 const log=await import('node:fs').then(fs=>fs.openSync(evidence+'/runtime.log','w',0o600));
 const app=spawn(process.execPath,['node_modules/next/dist/bin/next','dev','--hostname','127.0.0.1','--port','3000'],{env,stdio:['ignore',log,log]});
 let browser;
@@ -64,7 +64,7 @@ try{
  browser=await chromium.launch();
  async function contextFor(u){
   const c=await browser.newContext({viewport:{width:400,height:900}});
-  await c.route('**/*',route=>{const url=new URL(route.request().url());return ['127.0.0.1','localhost'].includes(url.hostname)?route.continue():route.abort()});
+  await c.route('**/*',route=>{const url=new URL(route.request().url());return ['127.0.0.1','localhost','challenges.cloudflare.com'].includes(url.hostname)?route.continue():route.abort()});
   if(u){const encoded='base64-'+Buffer.from(JSON.stringify(u.session)).toString('base64url');const chunks=encoded.match(/.{1,3180}/g);await c.addCookies(chunks.map((value,i)=>({name:chunks.length===1?'sb-127-auth-token':'sb-127-auth-token.'+i,value,url:base,sameSite:'Lax',httpOnly:false})))}
   return c;
  }
@@ -112,8 +112,46 @@ try{
  assert.equal(await sp.locator('[name=school_slug]').inputValue(),'de-leon');
  assert.equal(await sp.locator('[name=requested_role]').inputValue(),'scorekeeper');
  pass('real_auth_confirmation_return');
- results.auth_credentials='NOT VERIFIED: application signup/sign-in CAPTCHA execution not completed; genuine Auth session and OTP confirmation tested.';
+ results.auth_credentials='Pending actual browser signup/sign-in';
+
  await signed.clearCookies();
+ const signupEmail='pr34-browser-signup@example.invalid',signupPassword=randomBytes(24).toString('base64url');
+ await sp.goto(base+'/contributors?school=de-leon&role=scorekeeper');
+ await sp.getByRole('link',{name:'Create Account',exact:true}).click();
+ await sp.locator('[name=display_name]').fill('Disposable signup');
+ await sp.locator('[name=email]').fill(signupEmail);
+ await sp.locator('[name=password]').fill(signupPassword);
+ await sp.getByRole('button',{name:'Create VarsityVue Account',exact:true}).click({timeout:60000});
+ await sp.waitForURL(/status=confirmation-pending/);
+ let mail;
+ for(let i=0;i<30;i++){
+  const r=await fetch('http://127.0.0.1:54324/api/v1/mailbox/pr34-browser-signup');
+  if(r.ok){const list=await r.json();if(list.length){mail=await (await fetch('http://127.0.0.1:54324/api/v1/mailbox/pr34-browser-signup/'+list[0].id)).json();break}}
+  await new Promise(r=>setTimeout(r,500));
+ }
+ assert.ok(mail,'Local confirmation mail');
+ const body=mail.body.html||mail.body.text;
+ const links=[...body.matchAll(/(?:href="|https?:\/\/)([^"\s<>]+)/g)].map(m=>m[0].startsWith('href')?m[1]:m[0]);
+ const verification=links.find(x=>x.includes('/auth/v1/verify'));assert.ok(verification);
+ const verifyUrl=new URL(verification.replaceAll('&amp;','&'));
+ assert.ok(['127.0.0.1','localhost'].includes(verifyUrl.hostname));assert.equal(verifyUrl.port,'54321');
+ await sp.goto(verifyUrl.href);
+ await sp.waitForURL(url=>url.pathname==='/contributors');
+ assert.equal(await sp.locator('[name=school_slug]').inputValue(),'de-leon');
+ assert.equal(await sp.locator('[name=requested_role]').inputValue(),'scorekeeper');pass('browser_signup_email_confirmation_return');
+ await signed.clearCookies();
+ await sp.goto(base+'/contributors?school=de-leon&role=scorekeeper');
+ await sp.getByRole('link',{name:'Sign In',exact:true}).click();
+ await sp.locator('[name=email]').fill(signupEmail);
+ await sp.locator('[name=password]').fill(signupPassword);
+ await sp.getByRole('button',{name:'Sign In',exact:true}).click({timeout:60000});
+ await sp.waitForURL(url=>url.pathname==='/contributors');
+ assert.equal(await sp.locator('[name=school_slug]').inputValue(),'de-leon');
+ assert.equal(await sp.locator('[name=requested_role]').inputValue(),'scorekeeper');
+ for(const key of new URL(sp.url()).searchParams.keys())assert.ok(['school','role','confirmed'].includes(key));
+ pass('browser_signin_return');results.auth_credentials='PASS: actual local signup, local confirmation mail, and sign-in return with official test CAPTCHA.';
+ await signed.clearCookies();
+
  await sp.goto(base+'/scoreboard');
  const card=sp.getByRole('region',{name:'Scorekeeper participation'});
  for(const width of [390,400,430,1280]){

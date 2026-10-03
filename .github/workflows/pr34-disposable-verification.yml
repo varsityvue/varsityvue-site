@@ -38,6 +38,7 @@ jobs:
           diff -qr supabase/migrations ../schema/supabase/migrations
           npm ci
           supabase init
+          python ../infrastructure/scripts/pr34-configure-test-auth.py
           supabase start -x studio,imgproxy,storage-api,realtime,edge-runtime,logflare,vector,supavisor
           supabase db reset --local --no-seed
           supabase status -o env > "$RUNNER_TEMP/pr34-local.env"
