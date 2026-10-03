@@ -105,7 +105,15 @@ try{
  }
  await sp.goto(base+'/login?next=https://example.invalid/unsafe');
  assert.equal(await sp.locator('[name=next]').inputValue(),'/account');pass('auth_intent_paths');
- results.auth_credentials_confirmation='NOT VERIFIED: local browser tests use genuine Auth sessions; signup/sign-in CAPTCHA and email-confirmation execution not completed.';
+ const confirmation=await fetch(api+'/auth/v1/admin/generate_link',{method:'POST',headers:{apikey:service,Authorization:'Bearer '+service,'Content-Type':'application/json'},body:JSON.stringify({type:'signup',email:'pr34-confirmation@example.invalid',password:randomBytes(24).toString('base64url')})});assert.ok(confirmation.ok);
+ const hash=(await confirmation.json()).properties.hashed_token;assert.ok(hash);
+ await sp.goto(base+'/auth/confirm?token_hash='+encodeURIComponent(hash)+'&type=signup&next='+encodeURIComponent('/contributors?school=de-leon&role=scorekeeper'));
+ assert.equal(new URL(sp.url()).pathname,'/contributors');
+ assert.equal(await sp.locator('[name=school_slug]').inputValue(),'de-leon');
+ assert.equal(await sp.locator('[name=requested_role]').inputValue(),'scorekeeper');
+ pass('real_auth_confirmation_return');
+ results.auth_credentials='NOT VERIFIED: application signup/sign-in CAPTCHA execution not completed; genuine Auth session and OTP confirmation tested.';
+ await signed.clearCookies();
  await sp.goto(base+'/scoreboard');
  const card=sp.getByRole('region',{name:'Scorekeeper participation'});
  for(const width of [390,400,430,1280]){
@@ -126,9 +134,16 @@ try{
  await sp.screenshot({path:evidence+'/keyboard-focus.png',fullPage:true});
  await sp.keyboard.press('Enter');await sp.getByRole('heading',{name:'Sign in to apply'}).waitFor();pass('keyboard_semantics_focus');
  results.screen_reader='NOT VERIFIED: no manual screen reader.';
- results.contrast_visual_review='NOT VERIFIED: screenshots require owner/manual review; numerical contrast not measured.';
+ const contrast=await card.evaluate(el=>{
+ const canvas=document.createElement('canvas');canvas.width=canvas.height=1;const ctx=canvas.getContext('2d');
+ const rgba=color=>{ctx.clearRect(0,0,1,1);ctx.fillStyle=color;ctx.fillRect(0,0,1,1);return [...ctx.getImageData(0,0,1,1).data].map((v,i)=>i===3?v/255:v)};
+ const blend=(fg,bg)=>fg.slice(0,3).map((v,i)=>v*fg[3]+bg[i]*(1-fg[3]));
+ const back=node=>{if(!node)return [0,0,0];return blend(rgba(getComputedStyle(node).backgroundColor),back(node.parentElement))};
+ const lum=rgb=>rgb.map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4}).reduce((s,v,i)=>s+v*[.2126,.7152,.0722][i],0);
+ return [...el.querySelectorAll('h2,p,a')].map(node=>{const bg=back(node);const fg=blend(rgba(getComputedStyle(node).color),bg);const a=lum(fg),b=lum(bg);return (Math.max(a,b)+.05)/(Math.min(a,b)+.05)});
+ });assert.ok(contrast.every(x=>x>=4.5),'CTA text contrast');results.contrast_ratios=contrast;pass('text_contrast');
  await signed.close();
  pass('private_identity_cta_markup');
  pass('production_backend_isolation');
 }catch(error){results.failure=error.message;throw error}
-finally{writeFileSync(evidence+'/results.json',JSON.stringify(results,null,2));await browser?.close();app.kill('SIGTERM')}
+finally{writeFileSync(evidence+'/results.json',JSON.stringify(results,null,2));await browser?.close();app.kill('SIGTERM');const runtime=readFileSync(evidence+'/runtime.log','utf8');writeFileSync(evidence+'/runtime.log',runtime.replace(/token_hash=[^&\\s]+/g,'token_hash=[REDACTED]'))}
