@@ -131,6 +131,7 @@ export function parseWeeklyParams(
 export function weeklyUrl(
   p: WeeklyParams,
   updates: Partial<WeeklyParams> = {},
+  route: "/games" | "/scoreboard" = "/games",
 ) {
   const n = { ...p, ...updates };
   const q = new URLSearchParams();
@@ -146,24 +147,24 @@ export function weeklyUrl(
   if (n.current) q.set("state", "current");
   if (n.verified) q.set("result", "verified");
   if (n.intent) q.set("intent", "scores");
-  return `/games?${q}`;
+  return `${route}?${q}`;
 }
 export function safeGamesReturn(value: unknown, fallback = "/games") {
   if (
     typeof value !== "string" ||
-    !value.startsWith("/games?") ||
+    !(value.startsWith("/games?") || value.startsWith("/scoreboard?")) ||
     value.includes("\\")
   )
     return fallback;
   try {
     const url = new URL(value, "https://varsityvue.com");
-    if (url.origin !== "https://varsityvue.com" || url.pathname !== "/games")
+    if (url.origin !== "https://varsityvue.com" || !["/games", "/scoreboard"].includes(url.pathname))
       return fallback;
     const raw = Object.fromEntries(url.searchParams);
     const q = new URLSearchParams();
     for (const key of publicKeys)
       if (raw[key]) q.set(key, raw[key].slice(0, key === "q" ? 200 : 80));
-    return `/games?${q}`;
+    return `${url.pathname}?${q}`;
   } catch {
     return fallback;
   }

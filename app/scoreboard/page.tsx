@@ -1,9 +1,7 @@
-import { permanentRedirect } from "next/navigation";
-import { scoresDestination } from "@/lib/games-route-compatibility";
-export default async function ScoreboardPage({
-  searchParams,
-}: {
+import UnifiedGamesPage from "@/components/UnifiedGamesPage";
+
+export default function ScoreboardPage({ searchParams }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  permanentRedirect(scoresDestination(await searchParams));
+  return <UnifiedGamesPage searchParams={searchParams} route="/scoreboard" />;
 }

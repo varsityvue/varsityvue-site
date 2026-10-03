@@ -1,7 +1,7 @@
 name: Unified Games and Scores
 on:
   pull_request:
-    paths: ['app/games/**', 'app/scoreboard/**', 'app/api/games/**', 'app/globals.css', 'components/Weekly*.tsx', 'components/MobileNavigation.tsx', 'components/SiteHeader.tsx', 'lib/unified-games*', 'lib/games-route-compatibility.ts', 'proxy.ts', 'lib/weekly-game-dto.ts', 'scripts/test-unified-games-browser.mjs', '.github/workflows/games-page-organization-v1.yml']
+    paths: ['app/games/**', 'app/scoreboard/**', 'app/api/games/**', 'app/globals.css', 'components/Weekly*.tsx', 'components/UnifiedGamesPage.tsx', 'components/MobileNavigation.tsx', 'components/SiteHeader.tsx', 'lib/unified-games*', 'lib/games-route-compatibility.ts', 'proxy.ts', 'lib/weekly-game-dto.ts', 'scripts/test-unified-games-browser.mjs', '.github/workflows/games-page-organization-v1.yml']
   push:
     branches: [codex/unified-games-scores-v1]
 jobs:
@@ -25,6 +25,7 @@ jobs:
           NEXT_PUBLIC_SUPABASE_URL: http://127.0.0.1:54329
           NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: fixture-public-key
       - run: git diff --check
+      - run: git rev-parse HEAD HEAD^{tree}
       - run: npm install --no-save --package-lock=false playwright@1.63.0
       - run: npx playwright install --with-deps chromium
       - run: node scripts/test-unified-games-browser.mjs

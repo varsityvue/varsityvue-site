@@ -17,7 +17,7 @@ export default function MobileNavigation() {
           key={href}
           href={href}
           aria-current={
-            pathname === href || pathname.startsWith(href + "/")
+            pathname === href || (href === "/games" && pathname === "/scoreboard") || pathname.startsWith(href + "/")
               ? "page"
               : undefined
           }

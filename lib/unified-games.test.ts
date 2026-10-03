@@ -209,7 +209,7 @@ test("links round-trip public context and discard coordinates, unknown identifie
   );
 });
 
-test("redirect preserves existing valid campaign tokens without private or arbitrary context", () => {
+test("scores links preserve existing valid campaign tokens without private or arbitrary context", () => {
   assert.equal(
     scoresDestination({
       utm_source: "Facebook",
@@ -225,4 +225,10 @@ test("redirect preserves existing valid campaign tokens without private or arbit
     }),
     "/games?intent=scores",
   );
+});
+
+test("both aliases preserve collection and safe Game Center return context", () => {
+  const p = parseWeeklyParams({week: "7", intent: "scores"}, [], new Date("2026-10-03"));
+  assert.match(weeklyUrl(p, {}, "/scoreboard"), /^\/scoreboard\?/);
+  assert.equal(safeGamesReturn("/scoreboard?week=7&latitude=32"), "/scoreboard?week=7");
 });

@@ -3,7 +3,7 @@ import { useEffectEvent, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import {
   parseWeeklyParams,
-  weeklyUrl,
+  weeklyUrl as collectionUrl,
   selectWeeklyGames,
   isFollowed,
   weekDateLabel,
@@ -19,6 +19,7 @@ import WeeklyGameRow from "./WeeklyGameRow";
 import WeeklyNearbyControls from "./WeeklyNearbyControls";
 
 type Props = {
+  route?: "/games" | "/scoreboard";
   games: WeeklyGame[];
   initialParams: WeeklyParams;
   centers: SchoolCenter[];
@@ -31,6 +32,8 @@ type Props = {
   fetchedAt: string;
 };
 export default function WeeklyGamesExplorer(props: Props) {
+  const route = props.route ?? "/games";
+  const weeklyUrl = (params: WeeklyParams, updates: Partial<WeeklyParams> = {}) => collectionUrl(params, updates, route);
   const [games, setGames] = useState(props.games),
     [params, setParams] = useState(props.initialParams),
     [now, setNow] = useState(props.fetchedAt),
@@ -175,7 +178,7 @@ export default function WeeklyGamesExplorer(props: Props) {
       setCenter(null);
       setParams(
         parseWeeklyParams(
-          Object.fromEntries(new URLSearchParams(location.search)),
+          { ...Object.fromEntries(new URLSearchParams(location.search)), ...(route === "/scoreboard" ? { intent: "scores" } : {}) },
           props.games,
           new Date(props.fetchedAt),
         ),
@@ -183,7 +186,7 @@ export default function WeeklyGamesExplorer(props: Props) {
     };
     const fragment = () => {
       const hash = location.hash;
-      const raw = Object.fromEntries(new URLSearchParams(location.search));
+      const raw: Record<string, string> = { ...Object.fromEntries(new URLSearchParams(location.search)), ...(route === "/scoreboard" ? { intent: "scores" } : {}) };
       let next = parseWeeklyParams(raw, props.games, new Date(props.fetchedAt));
       if (["#live-now", "#final-scores", "#upcoming"].includes(hash)) {
         const filter =
@@ -216,7 +219,7 @@ export default function WeeklyGamesExplorer(props: Props) {
       ].includes(hash)
         ? "#all-matchups"
         : hash;
-      window.history.replaceState(null, "", weeklyUrl(next) + normalizedHash);
+      window.history.replaceState(null, "", collectionUrl(next, {}, route) + normalizedHash);
     };
     fragment();
     window.addEventListener("popstate", restore);
@@ -230,7 +233,7 @@ export default function WeeklyGamesExplorer(props: Props) {
       request.current?.abort();
       setCenter(null);
     };
-  }, [props.games, props.fetchedAt]);
+  }, [props.games, props.fetchedAt, route]);
   useEffect(() => {
     selectedTab.current?.scrollIntoView({ block: "nearest", inline: "center" });
   }, [params.week, params.season]);
@@ -326,7 +329,7 @@ export default function WeeklyGamesExplorer(props: Props) {
           <h1>Games &amp; Scores</h1>
           <p>Texas high school football · {params.season}</p>
         </div>
-        <form action="/games" method="get" className="weekly-season">
+        <form action={route} method="get" className="weekly-season">
           {[...new URLSearchParams(url.split("?")[1])]
             .filter(([key]) => !["season", "week"].includes(key))
             .map(([key, value]) => (
@@ -414,7 +417,7 @@ export default function WeeklyGamesExplorer(props: Props) {
       </nav>
       <form
         className="weekly-search"
-        action="/games"
+        action={route}
         method="get"
         onSubmit={(e) => {
           e.preventDefault();
@@ -478,7 +481,7 @@ export default function WeeklyGamesExplorer(props: Props) {
               : ""}
           </summary>
           <form
-            action="/games"
+            action={route}
             method="get"
             onSubmit={(e) => {
               e.preventDefault();

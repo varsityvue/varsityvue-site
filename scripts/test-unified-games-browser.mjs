@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import http from "node:http";
 import { createHmac } from "node:crypto";
-import { spawn } from "node:child_process";
+import { spawn, execFileSync } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { chromium } from "playwright";
 const evidence = "unified-games-browser-evidence";
@@ -140,6 +140,7 @@ function start() {
     ],
     {
       stdio: ["ignore", "pipe", "pipe"],
+      detached: process.platform !== "win32",
       env: {
         ...process.env,
         NEXT_PUBLIC_SUPABASE_URL: "http://127.0.0.1:54329",
@@ -221,9 +222,11 @@ try {
     errors.push(e.message);
     console.error("BROWSER RUNTIME ERROR", e.message);
   });
+  for (const route of ["/games", "/scoreboard"]) {
+  const label = route.slice(1);
   for (const width of [390, 400, 430, 1280]) {
     await page.setViewportSize({ width, height: 900 });
-    await page.goto(origin + "/games?week=7");
+    await page.goto(origin + route + "?week=7");
     await settled(page);
     assert.equal(
       await page.getByRole("heading", { name: /Your Teams/ }).count(),
@@ -250,7 +253,7 @@ try {
       );
 
     await page.screenshot({
-      path: `${evidence}/weekly-${width}.png`,
+      path: `${evidence}/${label}-weekly-${width}.png`,
       fullPage: true,
     });
     await page.getByRole("link", { name: "LIVE", exact: true }).click();
@@ -269,7 +272,7 @@ try {
       "0,0",
     );
     await page.screenshot({
-      path: `${evidence}/live-${width}.png`,
+      path: `${evidence}/${label}-live-${width}.png`,
       fullPage: true,
     });
     await page.getByRole("link", { name: "Completed", exact: true }).click();
@@ -285,12 +288,41 @@ try {
       ",",
     );
     await page.screenshot({
-      path: `${evidence}/completed-${width}.png`,
+      path: `${evidence}/${label}-completed-${width}.png`,
       fullPage: true,
     });
   }
+    await page.goto(origin + route + "?week=7&view=current");
+    await settled(page);
+    assert.match(await page.locator("main").innerText(), /Legacy link scope/);
+    await page.screenshot({ path: `${evidence}/${label}-current-1280.png`, fullPage: true });
+    for (const width of [390, 400, 430, 1280]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(origin + route + "?week=7&view=current");
+      await settled(page);
+      assert.match(await page.locator("main").innerText(), /Legacy link scope/);
+      await page.screenshot({ path: `${evidence}/${label}-current-${width}.png`, fullPage: true });
+      await page.goto(origin + route + "?week=7&mode=nearby");
+      await settled(page);
+      await page.getByLabel("Or choose a school").selectOption("hawley");
+      assert.ok(await page.locator("[data-game-id]").count() > 0);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      await page.screenshot({ path: `${evidence}/${label}-nearby-${width}.png`, fullPage: true });
+      await page.goto(origin + route + "?week=7&filter=live");
+      await settled(page);
+      await page.evaluate(() => document.documentElement.style.fontSize = "200%");
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      assert.ok(await page.evaluate(() => ![document.documentElement, document.body, document.querySelector("main")].some(e => ["hidden", "clip"].includes(getComputedStyle(e).overflowX))));
+      await page.getByRole("button", { name: "Refresh", exact: true }).focus();
+      assert.ok(await page.getByRole("button", { name: "Refresh", exact: true }).evaluate(e => getComputedStyle(e).outlineStyle !== "none"));
+      await page.getByRole("link", { name: "Completed", exact: true }).click();
+      assert.match(await page.locator("main").innerText(), /Cancelled/);
+      assert.equal(new URL(page.url()).pathname, route);
+      await page.screenshot({ path: `${evidence}/${label}-text-200-${width}.png`, fullPage: true });
+    }
+  }
   pass(
-    "390/400/430/1280 layouts: followed dedupe, authoritative live, zero scores, completed and exceptional outcomes, no overflow",
+    "Both aliases: Current, Nearby, 200% text, 390/400/430/1280 layouts: followed dedupe, authoritative live, zero scores, completed and exceptional outcomes, no overflow",
   );
   await page.setViewportSize({ width: 390, height: 900 });
   await page.goto(origin + "/games?week=7&mode=nearby");
@@ -359,10 +391,9 @@ try {
     origin + "/scoreboard?week=7&q=Hawley&filter=live&latitude=32",
     { redirect: "manual" },
   );
-  assert.equal(response.status, 308);
-  const destination = response.headers.get("location");
-  assert.match(destination, /intent=scores/);
-  assert.ok(!destination.includes("latitude"));
+  assert.equal(response.status, 200);
+  assert.equal(response.headers.get("location"), null);
+  assert.match(await response.text(), /Games &amp; Scores/);
   await page.goto(origin + "/scoreboard?week=7#live-now");
   await settled(page);
   console.log("LEGACY FRAGMENT URL", page.url());
@@ -398,7 +429,7 @@ try {
     "page",
   );
   pass(
-    "308 compatibility, public parameter allowlist, fragments, history and legacy final/current/district semantics",
+    "Direct 200 aliases, fragments, history and legacy final/current/district semantics",
   );
   await page.goto(origin + "/games?week=7&filter=live");
   await settled(page);
@@ -588,14 +619,17 @@ try {
   );
   await c.close();
   c = await context({ javaScriptEnabled: false });
+  for (const route of ["/games", "/scoreboard"]) {
   page = await c.newPage();
-  await page.goto(origin + "/games?week=7");
+  await page.goto(origin + route + "?week=7");
   assert.ok((await page.locator("[data-game-id]").count()) > 0);
   await page.getByRole("link", { name: "Completed", exact: true }).click();
   assert.match(page.url(), /filter=completed/);
   assert.match(await page.locator("main").innerText(), /Cancelled/);
+  assert.equal(new URL(page.url()).pathname, route);
+  }
   await c.close();
-  pass("No-JavaScript SSR slate and status navigation");
+  pass("Both aliases: no-JavaScript SSR slate and status navigation");
   c = await context();
   await authenticated(c);
   page = await c.newPage();
@@ -619,6 +653,8 @@ try {
     `${evidence}/results.json`,
     JSON.stringify(
       {
+        head: execFileSync("git", ["rev-parse", "HEAD"], {encoding: "utf8"}).trim(),
+        tree: execFileSync("git", ["rev-parse", "HEAD^{tree}"], {encoding: "utf8"}).trim(),
         results,
         scoreCalls,
         writes,
@@ -635,7 +671,15 @@ try {
   }
 } finally {
   if (browser) await browser.close();
-  if (app) app.kill("SIGTERM");
+  if (app) {
+    try {
+      if (process.platform !== "win32") process.kill(-app.pid, "SIGTERM");
+      else app.kill("SIGTERM");
+    } catch {
+      /* Only this fixture process group is stopped. */
+    }
+  }
+  api.closeAllConnections();
   api.close();
   writeFileSync(`${evidence}/server.log`, log);
 }

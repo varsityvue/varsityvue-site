@@ -115,7 +115,7 @@ test("client location is transient and discovery does not transmit it", () => {
   assert.match(client, /getCurrentPosition/); assert.doesNotMatch(client, /watchPosition|localStorage|sessionStorage|indexedDB|document\.cookie|fetch\(|sendBeacon|console\.|track\(|router\.|URLSearchParams/);
   assert.doesNotMatch(client, /sourceReferences|verifiedAt|applicant_id|updated_by|source_submission_id/);
   assert.match(readFileSync("components/WeeklyGameRow.tsx", "utf8"), /prefetch=\{false\}/);
-  const page = readFileSync("app/games/page.tsx", "utf8"); assert.doesNotMatch(page, /^"use client"/);
+  const page = readFileSync("components/UnifiedGamesPage.tsx", "utf8"); assert.doesNotMatch(page, /^"use client"/);
   assert.match(page, /weeklyGameDto/); assert.match(page, /prefetch=\{false\}/);
 });
 

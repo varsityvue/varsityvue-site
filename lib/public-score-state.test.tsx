@@ -66,7 +66,9 @@ test("only approved full surfaces mount attribution; excluded compact surfaces s
   assert.match(row, /scoreAttributionText\(g\)/);
   assert.match(row, /weekly-byline/);
   const scoreboard = readFileSync("app/scoreboard/page.tsx", "utf8");
-  assert.match(scoreboard, /permanentRedirect/);
+  assert.match(scoreboard, /UnifiedGamesPage/);
+  assert.doesNotMatch(scoreboard, /permanentRedirect/);
+  assert.doesNotMatch(readFileSync("proxy.ts", "utf8"), /scoresDestination|pathname === "\/scoreboard"/);
   const center = readFileSync("app/games/[gameId]/page.tsx", "utf8");
   assert.equal((center.match(/<ScoreAttribution game={game} detail/g) ?? []).length, 2);
   const pulse = readFileSync("components/SchoolSeasonPulse.tsx", "utf8");
