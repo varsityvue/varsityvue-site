@@ -16,12 +16,19 @@ const post=(body,extra={})=>fetch(origin+'/api/coverage-demand',{method:'POST',h
 try{
  for(let i=0;i<90;i++){try{if((await fetch(origin+'/api/coverage-demand')).status===405)break;}catch{}await new Promise(r=>setTimeout(r,500));assert.notEqual(i,89,'Local coverage HTTP server unavailable');}
  assert.equal((await fetch(origin+'/api/cron/coverage-demand-retention')).status,401);
+ // Exercise the full metric-shape backlog through real PostgREST, including function-level timeout.
+ const fixtureSQL=readFileSync('supabase/tests/coverage_demand_operations.sql','utf8');
+ const seed=fixtureSQL.slice(fixtureSQL.indexOf('insert into private.coverage_demand_daily'),fixtureSQL.indexOf('\\timing on'));
+ sql('truncate private.coverage_demand_daily,private.coverage_demand_monthly,private.coverage_demand_season,private.coverage_demand_maintenance;'+seed);
+ const maintenanceStarted=Date.now();
  const maintenance=await fetch(vars.API_URL+'/rest/v1/rpc/server_maintain_coverage_demand',{method:'POST',headers:{apikey:vars.SERVICE_ROLE_KEY,Authorization:'Bearer '+vars.SERVICE_ROLE_KEY,'Content-Type':'application/json'},body:'{}'});
- assert.equal(maintenance.status,200);const maintained=await maintenance.json();assert.equal(maintained.postconditions,'passed');
+ assert.equal(maintenance.status,200);const maintained=await maintenance.json();assert.equal(maintained.postconditions,'passed');assert.equal(maintained.moved_rows,20000);
+ console.log('PASS real isolated PostgREST 20k full-metric retention backlog duration_ms='+String(Date.now()-maintenanceStarted));
  assert.equal(maintained.reporting_date,sql("select (now() at time zone 'America/Chicago')::date"));
  const repeat=await fetch(vars.API_URL+'/rest/v1/rpc/server_maintain_coverage_demand',{method:'POST',headers:{apikey:vars.SERVICE_ROLE_KEY,Authorization:'Bearer '+vars.SERVICE_ROLE_KEY,'Content-Type':'application/json'},body:'{}'});
  assert.equal((await repeat.json()).skipped,true);
  console.log('PASS real isolated PostgREST maintenance bridge, Central date, repeated delivery, and unauthenticated route denial');
+ sql('truncate private.coverage_demand_monthly,private.coverage_demand_season,private.coverage_demand_maintenance;');
  assert.equal((await post(summary,{Cookie:'fake_member_uuid=00000000-0000-4000-8000-000000000999'})).status,204);
  assert.equal((await post(summary)).status,204);
  assert.equal((await post({...summary,latitude:32.123456789})).status,400);

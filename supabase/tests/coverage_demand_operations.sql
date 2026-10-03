@@ -14,7 +14,7 @@ insert into private.coverage_demand_daily
 select (now() at time zone 'America/Chicago')::date-30-i/7560,'tx25-v1',
  'tx25-v1:c'||(i%36-18)||'r'||(2+(i/36)%35),
  case when (i/1260)%2=0 then 'school_center' else 'browser_location' end,2026,7+(i/2520)%3,
- 'locations-edc8867688bf','schedule-1692cf167930',1,jsonb_build_object('game_selected',1),now()
+ 'locations-edc8867688bf','schedule-1692cf167930',1,jsonb_build_object('game_selected',1,'radius_expanded',0,'zero_result',0,'query_present',0,'district_only',0,'additional_filters_present',0,'current_only',0,'verified_only',0,'held_results',0,'initial_radius_50',1,'final_radius_50',1,'expansion_steps_0',1,'filter_all',1,'reason_none',1,'week_real_11_plus',1,'week_located_11_plus',1,'week_unlocated_0',1,'in_radius_6_10',1,'default_eligible_6_10',1,'returned_6_10',1,'live_0',1,'kickoff_window_0',1,'upcoming_6_10',1,'final_0',1,'other_0',1),now()
 from generate_series(0,19999) i;
 \timing on
 create temp table ops_first as select public.server_maintain_coverage_demand() as r;
@@ -23,6 +23,7 @@ select pg_temp.ops_assert((select (r->>'moved_rows')::int=20000 and r->>'postcon
 select pg_temp.ops_assert((select count(*)=0 from private.coverage_demand_daily),'expiry deleted');
 select pg_temp.ops_assert((select sum(summary_count)=20000 and sum((metrics->>'game_selected')::bigint)=20000 from private.coverage_demand_monthly),'monthly counts/metrics exactly once');
 select pg_temp.ops_assert((select sum(summary_count)=20000 and sum((metrics->>'game_selected')::bigint)=20000 from private.coverage_demand_season),'season independent counts/metrics exactly once');
+select pg_temp.ops_assert(not exists(select 1 from private.coverage_demand_monthly m cross join lateral jsonb_each_text(m.metrics) v where v.key not in('radius_expanded','zero_result','query_present','district_only','additional_filters_present','current_only','verified_only','held_results') and v.value::bigint<>m.summary_count),'all full-shape histogram/counter metrics preserved');
 select pg_temp.ops_assert((select count(*)=1 and min(reporting_date)=(now() at time zone 'America/Chicago')::date from private.coverage_demand_maintenance),'one actual Central status');
 select pg_temp.ops_assert(public.server_maintain_coverage_demand()->>'skipped'='true','uncertain-response retry skips committed work');
 select pg_temp.ops_assert((select sum(summary_count)=20000 from private.coverage_demand_monthly),'repeat no archive duplication');

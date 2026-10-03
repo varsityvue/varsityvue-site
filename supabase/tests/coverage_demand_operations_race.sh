@@ -39,7 +39,7 @@ insert into private.coverage_demand_daily
 select (now() at time zone 'America/Chicago')::date-30-i/7560,'tx25-v1',
  'tx25-v1:c'||(i%36-18)||'r'||(2+(i/36)%35),
  case when (i/1260)%2=0 then 'school_center' else 'browser_location' end,2026,7+(i/2520)%3,
- 'locations-edc8867688bf','schedule-1692cf167930',1,jsonb_build_object('game_selected',1),now()
+ 'locations-edc8867688bf','schedule-1692cf167930',1,jsonb_build_object('game_selected',1,'radius_expanded',0,'zero_result',0,'query_present',0,'district_only',0,'additional_filters_present',0,'current_only',0,'verified_only',0,'held_results',0,'initial_radius_50',1,'final_radius_50',1,'expansion_steps_0',1,'filter_all',1,'reason_none',1,'week_real_11_plus',1,'week_located_11_plus',1,'week_unlocated_0',1,'in_radius_6_10',1,'default_eligible_6_10',1,'returned_6_10',1,'live_0',1,'kickoff_window_0',1,'upcoming_6_10',1,'final_0',1,'other_0',1),now()
 from generate_series(0,19999) i;
 SQL
 "${psql_local[@]}" -c 'select public.server_maintain_coverage_demand();' > "$ops_dir/backlog.log" 2>&1 &
