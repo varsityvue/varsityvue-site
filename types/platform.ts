@@ -181,6 +181,8 @@ export type Game = {
   };
 
   scoreAttribution?: ScoreAttribution;
+  /** True only when the public score contract returned a verified state for this game. */
+  publicScoreVerified?: boolean;
 
   resultType?: "played" | "tie" | "forfeit" | "no_contest";
   officialWinnerSchoolSlug?: string;
