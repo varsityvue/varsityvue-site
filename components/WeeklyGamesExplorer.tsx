@@ -39,6 +39,7 @@ export default function WeeklyGamesExplorer(props: Props) {
     ),
     [loadStatus, setLoadStatus] = useState(props.scoreLoadStatus),
     [busy, setBusy] = useState(false),
+    [offline, setOffline] = useState(false),
     [error, setError] = useState(""),
     [center, setCenter] = useState<GeographicPoint | null>(null),
     [heldIds, setHeldIds] = useState<string[] | null>(null),
@@ -235,9 +236,11 @@ export default function WeeklyGamesExplorer(props: Props) {
   }, [params.week, params.season]);
   useEffect(() => {
     const resume = () => {
+      setOffline(!navigator.onLine);
       if (!document.hidden && navigator.onLine) void refreshFromEvent();
     };
     const pause = () => {
+      setOffline(!navigator.onLine);
       if (document.hidden || !navigator.onLine) {
         generation.current++;
         request.current?.abort();
@@ -245,6 +248,7 @@ export default function WeeklyGamesExplorer(props: Props) {
         setBusy(false);
       }
     };
+    if (!navigator.onLine) pause();
     const visibility = () => (document.hidden ? pause() : resume());
     document.addEventListener("visibilitychange", visibility);
     window.addEventListener("online", resume);
@@ -626,7 +630,7 @@ export default function WeeklyGamesExplorer(props: Props) {
         <button
           type="button"
           className="weekly-control"
-          disabled={busy}
+          disabled={busy || offline}
           onClick={() => void refresh()}
         >
           {busy
@@ -654,6 +658,12 @@ export default function WeeklyGamesExplorer(props: Props) {
           Share
         </button>
       </div>
+      {offline && (
+        <p className="weekly-notice" role="status">
+          Offline · refresh paused. Showing the last available snapshot; refresh
+          resumes when connected.
+        </p>
+      )}
       {(error || loadStatus === "failed") && (
         <p role="status" className="weekly-notice">
           {error ||

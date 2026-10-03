@@ -29,6 +29,8 @@ Rows use school names, white/grey text, VarsityVue red selected controls, public
 
 PR #39 is not imported, modified or enabled here. Its existing `SummaryV1` definitions describe the old Nearby experience: `all` means live + upcoming, `live` includes inferred kickoff, district is a mutually exclusive filter, and final excludes cancelled. The approved unified controls have different meanings. Do not attach that measurement code to these controls without a separately reviewed contract revision.
 
+PR #39 integrates its client measurement into `GamesNearMe`, which the unified page no longer mounts. A simple merge would leave the new controls outside that coverage. Reconnect the reviewed episode/consent integration to the unified control surface only as part of the separate contract review; do not enable the ingestion flags, apply its migration, or broaden collection in this PR.
+
 Required integration work in a separate change:
 
 1. Define true status dimensions (authoritative LIVE versus inferred kickoff, strict Upcoming, Completed including cancelled), independent district/classification/Following filters and weekly versus archive scope. Keep historical reports explicitly versioned; do not reinterpret V1 history.

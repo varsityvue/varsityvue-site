@@ -6,8 +6,8 @@ export default function Footer() {
   return (
     <footer className="border-t border-white/10 bg-[var(--vv-bg)] px-4 py-7 text-white sm:px-6 sm:py-10 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-7 sm:gap-10 md:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr]">
-          <div className="max-w-md">
+        <div className="grid grid-cols-1 gap-7 sm:gap-10 md:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr]">
+          <div className="min-w-0 max-w-md">
             <Link
               href="/"
               aria-label="VarsityVue home"

@@ -536,6 +536,7 @@ try {
   });
   await nextResponse;
   await c.setOffline(true);
+  await timed.getByText(/Offline · refresh paused/).waitFor();
   const offlineRequests = refreshRequests;
   await timed.clock.runFor(30000);
   assert.equal(refreshRequests, offlineRequests);
