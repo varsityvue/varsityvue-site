@@ -19,8 +19,9 @@ const base: Game = {
 
 const at = (iso: string) => new Date(iso);
 
-test("future kickoff is scheduled", () => {
+test("future kickoff is scheduled for upcoming and scheduled source states", () => {
   assert.equal(getGamePresentation(base, at("2026-10-02T18:00:00-05:00")).kind, "scheduled");
+  assert.equal(getGamePresentation({ ...base, status: "scheduled" }, at("2026-10-02T18:00:00-05:00")).kind, "scheduled");
 });
 
 test("timing-only kickoff window never claims live authority or score", () => {
@@ -45,8 +46,10 @@ test("verified LIVE remains live beyond the four-hour window", () => {
 });
 
 test("date-only kickoff does not infer live status", () => {
-  const game = { ...base, kickoff: "2026-10-02", status: "upcoming" as const };
-  assert.equal(getGamePresentation(game, at("2026-10-02T20:00:00-05:00")).kind, "scheduled");
+  const upcoming = { ...base, kickoff: "2026-10-02", status: "upcoming" as const };
+  const scheduled = { ...base, kickoff: "2026-10-02", status: "scheduled" as const };
+  assert.equal(getGamePresentation(upcoming, at("2026-10-02T20:00:00-05:00")).kind, "scheduled");
+  assert.equal(getGamePresentation(scheduled, at("2026-10-02T20:00:00-05:00")).kind, "scheduled");
 });
 
 test("elapsed exact kickoff becomes result awaiting verification after the window", () => {
@@ -66,4 +69,18 @@ test("verified final and exceptional outcomes are distinct", () => {
 test("postponed and cancelled are preserved", () => {
   assert.equal(getGamePresentation({ ...base, status: "postponed" }).kind, "postponed");
   assert.equal(getGamePresentation({ ...base, status: "cancelled" }).kind, "cancelled");
+});
+
+test("pending or contributor-derived numeric scores remain non-authoritative without verified public state", () => {
+  const game = {
+    ...base,
+    status: "live" as const,
+    homeScore: 14,
+    awayScore: 7,
+    publicScoreVerified: undefined,
+  };
+  const presentation = getGamePresentation(game, at("2026-10-02T20:00:00-05:00"));
+  assert.equal(presentation.kind, "kickoff_window");
+  assert.equal(presentation.authoritativeScore, false);
+  assert.equal(presentation.showScore, false);
 });
