@@ -1,11 +1,12 @@
 import { getScoreAttribution } from "@/lib/public-score-state";
 import { getGames, normalizeGameStatus } from "@/lib/games";
+import { getGamePresentation, isVerifiedLiveGame } from "@/lib/game-presentation";
 import type { Game } from "@/types/platform";
 
 const CENTRAL_TIME_ZONE = "America/Chicago";
 
 export type ScoreboardGame = Game & {
-  displayStatus: "Upcoming" | "Live" | "Final";
+  displayStatus: "Upcoming" | "Kickoff window" | "Live" | "Final" | "Result pending" | "Postponed" | "Cancelled";
   isFeatured: boolean;
 };
 
@@ -20,6 +21,8 @@ export type DynamicScoreState = {
   kickoff_override?: string | null;
   attribution_type?: string;
   attribution_username?: string | null;
+  result_type?: Game["resultType"] | null;
+  official_winner_school_slug?: string | null;
 };
 
 type DynamicScoreStateMap = Map<string, DynamicScoreState>;
@@ -96,8 +99,13 @@ function isUpcomingByScheduleDate(game: Game, now = new Date()) {
 }
 
 function getDisplayStatus(game: Game): ScoreboardGame["displayStatus"] {
-  if (game.status === "live") return "Live";
-  if (game.status === "final") return "Final";
+  const presentation = getGamePresentation(game);
+  if (presentation.kind === "verified_live") return "Live";
+  if (presentation.kind === "kickoff_window") return "Kickoff window";
+  if (presentation.kind === "verified_final" || presentation.kind === "verified_exceptional") return "Final";
+  if (presentation.kind === "awaiting_verification") return "Result pending";
+  if (presentation.kind === "postponed") return "Postponed";
+  if (presentation.kind === "cancelled") return "Cancelled";
   return "Upcoming";
 }
 
@@ -152,9 +160,12 @@ function applyDynamicScoreState(game: Game, states?: DynamicScoreStateMap): Game
     ...game,
     status,
     scoreAttribution: getScoreAttribution({ ...state, status }),
+    publicScoreVerified: true,
     kickoff: state.kickoff_override ?? game.kickoff,
     homeScore: state.home_score ?? game.homeScore,
     awayScore: state.away_score ?? game.awayScore,
+    resultType: state.result_type ?? game.resultType,
+    officialWinnerSchoolSlug: state.official_winner_school_slug ?? game.officialWinnerSchoolSlug,
     score:
       state.home_score !== null && state.away_score !== null
         ? {
@@ -187,13 +198,13 @@ export function getGameOfTheWeek(states?: DynamicScoreStateMap): ScoreboardGame 
   const explicitSelections = scoreboardGames.filter(isExplicitGameOfTheWeek);
 
   return (
-    explicitSelections.find((game) => game.status === "live") ??
+    explicitSelections.find((game) => isVerifiedLiveGame(game)) ??
     explicitSelections.find((game) => isUpcomingByScheduleDate(game, nowDate)) ??
     explicitSelections
       .filter((game) => isRecentFinal(game, now))
       .sort((a, b) => getGameTimestamp(b) - getGameTimestamp(a))[0] ??
     scoreboardGames.find(
-      (game) => game.status === "live" && game.featured === true
+      (game) => isVerifiedLiveGame(game) && game.featured === true
     ) ??
     scoreboardGames
       .filter(
@@ -214,7 +225,7 @@ export function getFeaturedScoreboardGame(states?: DynamicScoreStateMap): Scoreb
   const nowDate = new Date(now);
 
   return (
-    scoreboardGames.find((game) => game.status === "live") ??
+    scoreboardGames.find((game) => isVerifiedLiveGame(game)) ??
     scoreboardGames
       .filter((game) => isRecentFinal(game, now) && game.isFeatured)
       .sort((a, b) => getGameTimestamp(b) - getGameTimestamp(a))[0] ??
@@ -226,7 +237,7 @@ export function getFeaturedScoreboardGame(states?: DynamicScoreStateMap): Scoreb
 }
 
 export function getLiveGames(states?: DynamicScoreStateMap): ScoreboardGame[] {
-  return getScoreboardGames(states).filter((game) => game.status === "live");
+  return getScoreboardGames(states).filter((game) => isVerifiedLiveGame(game));
 }
 
 export function getUpcomingScoreboardGames(limit = 5, states?: DynamicScoreStateMap): ScoreboardGame[] {
