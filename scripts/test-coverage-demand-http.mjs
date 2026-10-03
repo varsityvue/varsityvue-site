@@ -15,6 +15,13 @@ let logs='';app.stdout.on('data',b=>{logs+=b;});app.stderr.on('data',b=>{logs+=b
 const post=(body,extra={})=>fetch(origin+'/api/coverage-demand',{method:'POST',headers:{origin,'Content-Type':'application/json',...extra},body:JSON.stringify(body)});
 try{
  for(let i=0;i<90;i++){try{if((await fetch(origin+'/api/coverage-demand')).status===405)break;}catch{}await new Promise(r=>setTimeout(r,500));assert.notEqual(i,89,'Local coverage HTTP server unavailable');}
+ assert.equal((await fetch(origin+'/api/cron/coverage-demand-retention')).status,401);
+ const maintenance=await fetch(vars.API_URL+'/rest/v1/rpc/server_maintain_coverage_demand',{method:'POST',headers:{apikey:vars.SERVICE_ROLE_KEY,Authorization:'Bearer '+vars.SERVICE_ROLE_KEY,'Content-Type':'application/json'},body:'{}'});
+ assert.equal(maintenance.status,200);const maintained=await maintenance.json();assert.equal(maintained.postconditions,'passed');
+ assert.equal(maintained.reporting_date,sql("select (now() at time zone 'America/Chicago')::date"));
+ const repeat=await fetch(vars.API_URL+'/rest/v1/rpc/server_maintain_coverage_demand',{method:'POST',headers:{apikey:vars.SERVICE_ROLE_KEY,Authorization:'Bearer '+vars.SERVICE_ROLE_KEY,'Content-Type':'application/json'},body:'{}'});
+ assert.equal((await repeat.json()).skipped,true);
+ console.log('PASS real isolated PostgREST maintenance bridge, Central date, repeated delivery, and unauthenticated route denial');
  assert.equal((await post(summary,{Cookie:'fake_member_uuid=00000000-0000-4000-8000-000000000999'})).status,204);
  assert.equal((await post(summary)).status,204);
  assert.equal((await post({...summary,latitude:32.123456789})).status,400);

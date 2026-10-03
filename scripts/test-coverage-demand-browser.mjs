@@ -50,6 +50,15 @@ try {
  const radius=async(p,n)=>{await p.locator('.weekly-filters summary').click();await p.locator('select[name=radius]').selectOption(String(n));await p.getByRole('button',{name:'Apply filters',exact:true}).click();await p.locator('.weekly-filters summary').click();};
  const query=async(p,q)=>{await p.locator('#weekly-search').fill(q);await p.getByRole('button',{name:'Search',exact:true}).click();};
  await go(page);assert.equal(await page.evaluate(()=>window.geoFixture.calls),0);
+ // The previous dormant preference must not enable a newly mounted episode.
+ await page.evaluate(()=>localStorage.setItem('coverage_measurement_v1','enabled'));
+ await page.reload({waitUntil:'networkidle'});
+ assert.equal(await allow(page).getAttribute('aria-pressed'),'false');
+ await locate(page).click();await page.clock.fastForward(61000);await idle(page);
+ assert.equal(sent(page).length,0);await clear(page);
+ await page.evaluate(()=>localStorage.removeItem('coverage_measurement_v1'));
+ assert.equal(await page.getByRole('link',{name:'Read privacy, retention and withdrawal details'}).getAttribute('href'),'/privacy#regional-measurement');
+ pass('Legacy dormant opt-in rejected; fuller disclosure linked; no pre-consent episode reconstructed');
  await locate(page).click();assert.ok(await cards(page).count()>0);await clear(page);await idle(page);assert.equal(sent(page).length,0);
  await decline(page).click();await locate(page).click();await radius(page,150);await clear(page);await idle(page);assert.equal(sent(page).length,0);
  await page.reload({waitUntil:'networkidle'});assert.equal(await decline(page).getAttribute('aria-pressed'),'true');
@@ -98,7 +107,7 @@ try {
  const activeB=async()=>{await allow(a).click();await go(b);await locate(b).click();await radius(b,100);assert.ok(await cards(b).count());assert.equal(await allow(b).getAttribute('aria-pressed'),'true');};
  for(const mode of ['withdraw','remove','invalid','clear']) {
   const before=sent(b).length;await activeB();assert.equal(sent(b).length,before);
-  if(mode==='withdraw')await decline(a).click();else await a.evaluate(mode=>{if(mode==='remove')localStorage.removeItem('coverage_measurement_v1');else if(mode==='invalid')localStorage.setItem('coverage_measurement_v1','invalid');else localStorage.clear();},mode);
+  if(mode==='withdraw')await decline(a).click();else await a.evaluate(mode=>{if(mode==='remove')localStorage.removeItem('coverage_measurement_v2');else if(mode==='invalid')localStorage.setItem('coverage_measurement_v2','invalid');else localStorage.clear();},mode);
   await b.waitForFunction(()=>document.querySelector('[aria-describedby=coverage-disclosure] button')?.getAttribute('aria-pressed')==='false');
   await b.screenshot({path:`${evidence}/two-tab-${mode}-discarded.png`,fullPage:true});await b.clock.fastForward(61000);await idle(b);assert.equal(sent(b).length,before);
   await cards(b).first().click();await b.waitForURL(/\/games\/.+/);await idle(b);assert.equal(sent(b).length,before);
@@ -123,7 +132,7 @@ try {
  await go(page);await allow(page).click();await locate(page).click();const departed=accepted;await page.goto(origin+'/scoreboard?week=7&mode=nearby',{waitUntil:'networkidle'});await idle(page);assert.equal(accepted,departed+1,'Server receives exactly one departure summary even when unload detaches the page request listener');await clear(page);await idle(page);assert.equal(accepted,departed+1);
  pass('Alias departure is one boundary; returning alias cannot reconstruct a location episode');
  const stored=await page.evaluate(()=>({local:JSON.stringify(localStorage),session:JSON.stringify(sessionStorage),cookies:document.cookie,html:document.documentElement.outerHTML}));
- assert.deepEqual(await page.evaluate(()=>Object.keys(localStorage)),['coverage_measurement_v1']);
+ assert.deepEqual(await page.evaluate(()=>Object.keys(localStorage)),['coverage_measurement_v2']);
  for(const secret of ['32.123456789','-98.543210987','private-free-text-query','disposable-server-key']){assert.ok(!JSON.stringify(summaries.map(s=>s.body)).includes(secret));assert.ok(!JSON.stringify(sinkBodies).includes(secret));assert.ok(!JSON.stringify(stored).includes(secret));if(secret!=='private-free-text-query')assert.ok(!requests.join('\n').includes(secret));}
  assert.deepEqual(errors,[]);pass('Precise synthetic coordinates, credentials, query and identities absent from requests/storage/markup; no runtime errors');
  writeFileSync(`${evidence}/results.json`,JSON.stringify({head:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),tree:execFileSync('git',['rev-parse','HEAD^{tree}'],{encoding:'utf8'}).trim(),results,accepted,twoTabSummaryCount:sent(b).length,fixture:'Loopback synthetic sink; no production data or owner GPS',screenReader:'NOT VERIFIED'},null,2));

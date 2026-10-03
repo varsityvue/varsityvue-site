@@ -77,6 +77,7 @@ export default function Footer() {
               links={[
                 { href: "/about", label: "About" },
                 { href: "/contact", label: "Contact" },
+                { href: "/privacy", label: "Privacy" },
                 { href: "/submit", label: "Submit to VarsityVue" },
                 { href: "/contributors", label: "Become a Contributor" },
                 { href: "/school-request", label: "Request a School" },

@@ -1,7 +1,7 @@
 import type { CoverageChoice, GamesNearMeSearchSummary } from "@/types/coverage-demand";
 import { validSummary } from "./coverage-demand-summary";
 
-export const COVERAGE_CHOICE_KEY = "coverage_measurement_v1";
+export const COVERAGE_CHOICE_KEY = "coverage_measurement_v2";
 export const EPISODE_INACTIVITY_MS = 60000;
 export class CoveragePreference {
   private choice: CoverageChoice = null;
