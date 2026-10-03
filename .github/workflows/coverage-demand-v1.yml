@@ -28,7 +28,7 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Analytics and all relevant application regressions
-        run: node --import tsx --test lib/coverage-*.test.ts lib/game-discovery.test.ts lib/hamilton-featured.test.ts lib/school-master-data.test.ts lib/team-feed-validation.test.ts lib/scorekeeper-cta.test.ts lib/public-read-contracts.test.ts lib/assigned-scorekeeper.test.ts lib/public-score-state.test.tsx lib/score-scout-review.test.tsx lib/scoring-operations.test.ts lib/games.test.ts data/game-previews.test.ts lib/pickem-lifecycle.test.ts lib/pickem-client-state.test.ts lib/pickem-week-summary.test.ts lib/pickem-contest-display.test.ts lib/team-feed-image.test.ts lib/follow-personalization.test.ts
+        run: node --import tsx --test lib/coverage-*.test.ts lib/game-discovery.test.ts lib/game-presentation.test.ts lib/public-score-loader.test.ts lib/hamilton-featured.test.ts lib/school-master-data.test.ts lib/team-feed-validation.test.ts lib/scorekeeper-cta.test.ts lib/public-read-contracts.test.ts lib/assigned-scorekeeper.test.ts lib/public-score-state.test.tsx lib/score-scout-review.test.tsx lib/scoring-operations.test.ts lib/games.test.ts data/game-previews.test.ts lib/pickem-lifecycle.test.ts lib/pickem-client-state.test.ts lib/pickem-week-summary.test.ts lib/pickem-contest-display.test.ts lib/team-feed-image.test.ts lib/follow-personalization.test.ts
       - run: npx tsc --noEmit
       - run: npx eslint components/GamesNearMe.tsx lib/coverage-*.ts lib/game-discovery.test.ts types/coverage-demand.ts app/api/coverage-demand/route.ts proxy.ts scripts/test-coverage-demand-browser.mjs
       - run: npm run build

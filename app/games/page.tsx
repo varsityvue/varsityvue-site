@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getDynamicGames } from "@/lib/dynamic-games";
+import { getDynamicGamesSnapshot } from "@/lib/dynamic-games";
 import { createClient } from "@/lib/supabase/server";
 import GamesNearMe from "@/components/GamesNearMe";
 import ScorekeeperCta from "@/components/ScorekeeperCta";
@@ -10,7 +10,8 @@ import { venues } from "@/data/venues";
 import { schoolFootballVenues } from "@/data/school-football-venues";
 import { gameVenueOverrides } from "@/data/game-venue-overrides";
 import { getSchoolBySlug } from "@/lib/schools";
-import type { MediaLink } from "@/types/platform";
+import type { Game, MediaLink } from "@/types/platform";
+import { getGamePresentation } from "@/lib/game-presentation";
 
 export const metadata: Metadata = {
   title: "Texas High School Football Scores, Schedules & Matchups",
@@ -75,13 +76,9 @@ function compareGameDatesDesc(
   return bTime - aTime;
 }
 
-function formatStatus(status: string, gameType?: string) {
-  if (status === "upcoming") return "Upcoming";
-  if (status === "live") return "Live";
-  if (status === "final") return "Final";
-  if (status === "scheduled" && gameType === "scrimmage") return "Score Not Tracked";
-  if (status === "scheduled") return "Result Pending";
-  return status.charAt(0).toUpperCase() + status.slice(1);
+function formatStatus(game: Game) {
+  if (game.status === "scheduled" && game.gameType === "scrimmage") return "Score Not Tracked";
+  return getGamePresentation(game).label;
 }
 
 function getGameTypeLabel(gameType: string, week?: number) {
@@ -115,7 +112,8 @@ export default async function GamesPage({ searchParams }: { searchParams: Promis
   const { q = "", status = "all" } = await searchParams;
   const matchupQuery = q.trim().toLowerCase();
   const matchupStatus = ["all", "upcoming", "final", "district"].includes(status) ? status : "all";
-  const regularGames = [...(await getDynamicGames())]
+  const dynamicSnapshot = await getDynamicGamesSnapshot();
+  const regularGames = [...dynamicSnapshot.games]
     .filter((game) => game.gameType !== "bye")
     .sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b));
 
@@ -141,7 +139,8 @@ export default async function GamesPage({ searchParams }: { searchParams: Promis
     .sort(compareGameDatesDesc)[0];
 
   const featuredGame =
-    regularGames.find((game) => game.status === "live") ??
+    regularGames.find((game) => getGamePresentation(game).kind === "verified_live") ??
+    regularGames.find((game) => getGamePresentation(game).kind === "kickoff_window") ??
     regularGames.find(
       (game) => game.status === "upcoming" && game.specialEvent === "Game of the Week"
     ) ??
@@ -153,7 +152,7 @@ export default async function GamesPage({ searchParams }: { searchParams: Promis
     latestFinal ??
     regularGames[0];
 
-  const liveGames = regularGames.filter((game) => game.status === "live");
+  const liveGames = regularGames.filter((game) => getGamePresentation(game).kind === "verified_live");
   const upcomingGames = regularGames.filter((game) => game.status === "upcoming");
   const districtGames = regularGames.filter((game) => game.districtGame);
   const hasLiveGames = liveGames.length > 0;
@@ -231,6 +230,7 @@ export default async function GamesPage({ searchParams }: { searchParams: Promis
     <main className="min-h-screen bg-[var(--vv-bg)] text-white">
       <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(139,16,32,0.62),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
         <div className="mx-auto max-w-[1440px]">
+          {dynamicSnapshot.scoreLoadStatus === "failed" && <p role="status" className="mb-4 rounded-xl border border-amber-300/20 bg-amber-300/10 px-4 py-3 text-sm text-amber-100">Live score data could not be refreshed. Scheduled game information remains available.</p>}
           <section
             className="rounded-[1.5rem] border border-white/10 p-5 shadow-2xl sm:rounded-[2rem] sm:p-6 md:p-8"
             style={{
@@ -277,7 +277,7 @@ export default async function GamesPage({ searchParams }: { searchParams: Promis
 
                   <div className="mt-4 flex flex-wrap gap-1.5 sm:mt-6 sm:gap-2">
                     <Badge label={getGameTypeLabel(featuredGame.gameType, featuredGame.week)} />
-                    <Badge label={formatStatus(featuredGame.status, featuredGame.gameType)} />
+                    <Badge label={formatStatus(featuredGame)} />
                     {featuredGame.districtGame && <Badge label="District Game" />}
                     {featuredGame.specialEvent && <Badge label={featuredGame.specialEvent} />}
                   </div>
@@ -347,7 +347,7 @@ export default async function GamesPage({ searchParams }: { searchParams: Promis
                   <div key={game.id} className="min-w-[235px] rounded-[1.1rem] border border-white/10 bg-black/35 p-3 sm:min-w-[280px] sm:rounded-2xl sm:p-4">
                     <Link href={`/games/${game.id}`} className="block transition hover:opacity-80">
                       <p className="text-[9px] font-black uppercase tracking-[0.14em] text-[var(--vv-accent)] sm:text-[10px] sm:tracking-[0.18em]">
-                        {formatStatus(game.status, game.gameType)} · {getGameTypeLabel(game.gameType, game.week)}
+                        {formatStatus(game)} · {getGameTypeLabel(game.gameType, game.week)}
                       </p>
                       {game.status === "final" && game.awayScore !== undefined && game.homeScore !== undefined ? (
                         <div className="mt-2 grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-3 gap-y-1.5 text-lg font-black leading-5 text-white sm:text-xl sm:leading-6">
@@ -426,7 +426,7 @@ export default async function GamesPage({ searchParams }: { searchParams: Promis
                             <Link href={`/games/${game.id}`} className="block">
                               <div className="flex flex-wrap gap-1.5 sm:gap-2">
                                 <Badge label={getGameTypeLabel(game.gameType, game.week)} />
-                                <Badge label={formatStatus(game.status, game.gameType)} />
+                                <Badge label={formatStatus(game)} />
                                 {game.districtGame && <Badge label="District" />}
                                 {game.specialEvent && <Badge label={game.specialEvent} />}
                               </div>

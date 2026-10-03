@@ -25,7 +25,7 @@ export function toDiscoveryGame(game: Game, location: GameLocation): DiscoveryGa
     homeSchoolSlug: game.homeSchoolSlug, awaySchoolSlug: game.awaySchoolSlug,
     kickoff: game.kickoff, status: game.status, gameType: game.gameType, districtGame: game.districtGame,
     homeScore: game.homeScore, awayScore: game.awayScore, period: game.score?.period, clock: game.score?.clock,
-    livePresentation: game.status === "live" ? (game.scoreAttribution ? "score_available" : "kickoff_inferred") : null,
+    livePresentation: game.status === "live" ? (game.publicScoreVerified ? "score_available" : "kickoff_inferred") : null,
     location: location.locationQuality === "verified" ? {
       locationQuality: "verified", locationSource: location.locationSource, venueName: location.venueName,
       city: location.city, latitude: location.latitude, longitude: location.longitude,

@@ -107,16 +107,20 @@ export default async function Home() {
     ? orderFollowedSchoolsForHome(schools, dynamicGames.filter((game) => game.gameType !== "bye" && game.gameType !== "scrimmage"), followState.schoolSlugs, followState.loadedAt)
     : [];
   const dynamicState = new Map(
-    dynamicGames.map((game): [string, DynamicScoreState] => [game.id, {
-      game_id: game.id,
-      status: game.status,
-      home_score: game.homeScore ?? null,
-      away_score: game.awayScore ?? null,
-      period: game.score?.period ?? null,
-      clock: null,
-      verified: true,
-      kickoff_override: game.kickoff ?? null,
-    }]),
+    dynamicGames
+      .filter((game) => game.publicScoreVerified === true)
+      .map((game): [string, DynamicScoreState] => [game.id, {
+        game_id: game.id,
+        status: game.status,
+        home_score: game.homeScore ?? null,
+        away_score: game.awayScore ?? null,
+        period: game.score?.period ?? null,
+        clock: game.score?.clock ?? null,
+        verified: true,
+        kickoff_override: game.kickoff ?? null,
+        result_type: game.resultType ?? null,
+        official_winner_school_slug: game.officialWinnerSchoolSlug ?? null,
+      }]),
   );
   const feature = await getActiveHomepageFeature();
   const featuredGame = feature?.feature_type === "game_of_the_week"

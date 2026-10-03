@@ -125,3 +125,7 @@ Infrastructure/providers necessarily receive connection metadata (such as source
 7. Verify ordinary/anonymous denial, admin suppression and discovery under disabled/failed telemetry. No changes to Week 10/11 approval occur here.
 
 There is no down migration convention in this repository. For a later rollback: turn off ingestion/client flags first; reverse only the new coverage-specific objects under separate authorization. Do not rewrite UUIDs or remove other private-schema objects.
+
+## Concurrent release integration
+
+Starting main was 163624bb2b3b96cf7f953751735e67f166e716a3 with production dpl_FXhgo8CsEWWTETp4gGwVxb7LMfUc. During implementation, PR #38 merged as 7418f075a8778b9b90e90420a906aba989f0a178 and production became dpl_BddXnMkyTWqNhJ9rpEg3RFqssLhJ. This draft incorporates that main revision, preserves the new verified-score presentation and score-load reliability behavior, and adds its presentation/loader regression tests to this workflow. The single Nearby-card conflict was resolved by retaining PR #38 wording and adding only summary finalization handlers. Canonical catalogs and the migration baseline did not change. The analytics diff against the updated main remains bounded to this feature.
