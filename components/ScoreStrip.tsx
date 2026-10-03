@@ -7,6 +7,7 @@ import {
   type DynamicScoreState,
 } from "@/lib/scoreboard";
 import { createClient } from "@/lib/supabase/server";
+import { loadPublicScoreStatesResult } from "@/lib/public-score-loader";
 
 function getScore(game: { awayScore?: number; homeScore?: number; score?: { away?: number; home?: number } }) {
   return {
@@ -25,13 +26,9 @@ function getTickerLabel(mode: "finals" | "upcoming", week?: number) {
 
 export default async function ScoreStrip() {
   const supabase = await createClient();
-  const { data: dynamicRows } = await supabase
-    .from("public_game_state")
-    .select("game_id, status, home_score, away_score, period, clock, verified, kickoff_override")
-    .eq("verified", true);
-
+  const scoreLoad = await loadPublicScoreStatesResult(supabase);
   const dynamicState = new Map(
-    ((dynamicRows ?? []) as DynamicScoreState[]).map((state) => [state.game_id, state]),
+    (scoreLoad.states as DynamicScoreState[]).map((state) => [state.game_id, state]),
   );
   const { mode, games } = getHomepageScoreboardGames(12, dynamicState);
 
@@ -45,6 +42,7 @@ export default async function ScoreStrip() {
   return (
     <>
       <HomeMembershipCta />
+      {scoreLoad.status === "failed" && <p role="status" className="border-b border-white/10 bg-amber-300/10 px-4 py-2 text-center text-xs text-amber-100">Live score refresh is temporarily unavailable.</p>}
       <section
         aria-label={label}
         className="overflow-hidden border-y border-white/10 bg-[#070707]"
