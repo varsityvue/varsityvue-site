@@ -1,10 +1,8 @@
 import type { DiscoveryGame } from "@/types/game-location";
-import { weekSevenPilotGameIds } from "@/data/game-location-pilot";
+import { approvedLocationPilotSlates } from "@/data/game-location-pilot";
 import { distanceMiles, type GeographicPoint } from "./geo-distance";
 
 export const PILOT_SEASON = 2026;
-export const PILOT_WEEK = 7;
-export const PILOT_EXPECTED_GAMES = 17;
 export const NEARBY_RADII = [10, 25, 50, 100, 150] as const;
 export type DiscoveryFilter = "all" | "live" | "upcoming" | "final" | "district";
 export function realGame(game: Pick<DiscoveryGame, "gameType">) {
@@ -14,8 +12,9 @@ export function pilotGate(games: readonly DiscoveryGame[], week: number) {
   const slate = games.filter(g => g.season === PILOT_SEASON && g.week === week && realGame(g));
   const unresolved = slate.filter(g => g.location.locationQuality !== "verified").length;
   const ids = slate.map(g => g.gameId).sort();
-  const exactSlate = ids.length === weekSevenPilotGameIds.length && ids.every((id, i) => id === weekSevenPilotGameIds[i]);
-  return { enabled: week === PILOT_WEEK && exactSlate && slate.length === PILOT_EXPECTED_GAMES && unresolved === 0,
+  const approvedSlate = approvedLocationPilotSlates[week];
+  const exactSlate = Boolean(approvedSlate && ids.length === approvedSlate.length && ids.every((id, i) => id === approvedSlate[i]));
+  return { enabled: exactSlate && unresolved === 0,
     total: slate.length, unresolved };
 }
 

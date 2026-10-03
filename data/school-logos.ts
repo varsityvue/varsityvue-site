@@ -15,6 +15,7 @@ export const schoolLogoBySlug: Record<string, SchoolLogo> = {
   florence: { path: "/logos/schools/florence.png" },
   frost: { path: "/logos/schools/frost.png" },
   goldthwaite: { path: "/logos/schools/goldthwaite.png" },
+  hamilton: { path: "/logos/schools/hamilton.png" },
   hamlin: { path: "/logos/schools/hamlin.png" },
   hawley: { path: "/logos/schools/hawley.png", pickemFilter: "brightness(1.9) contrast(1.08)" },
   hico: { path: "/logos/schools/hico.png" },

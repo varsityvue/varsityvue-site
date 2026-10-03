@@ -165,11 +165,12 @@ export const districtSchoolAdditions: School[] = [
     uilRegion: 2,
     coverageMarket: "VarsityVue Coverage Area",
     stadium: "Kooken Field",
+    officialWebsite: "https://www.hamiltonisd.org/",
     stadiumAddress: "917 S Railroad St, Hamilton, TX 76531",
     headCoach: "Ryan Marwitz",
     colors: { primary: "#CE2123", secondary: "#000000", accent: "#FFFFFF" },
     sports: ["football"],
-    status: "watchlist",
+    status: "pilot",
   },
   {
     id: "millsap",
