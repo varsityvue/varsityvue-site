@@ -66,9 +66,9 @@ try {
   await nearby.locator('#nearby-week').selectOption('6');
   assert.equal(await locate.isDisabled(), true);
   assert.match(await nearby.innerText(), /venue information is incomplete/);
-  await nearby.locator('#nearby-week').selectOption('9');
+  await nearby.locator('#nearby-week').selectOption('10');
   assert.equal(await locate.isDisabled(), true);
-  pass('Week 6/current-week incomplete message and Week 9 fail-closed guard');
+  pass('Week 6/current-week incomplete message and Week 10 fail-closed guard');
   await pilot();
   await page.waitForLoadState('networkidle');
   const before = requests.length;
@@ -163,7 +163,7 @@ try {
   await page.evaluate(() => { window.geoFixture.latitude = 45.123456789; window.geoFixture.longitude = -110.543210987; });
   await locate.click(); assert.match(await nearby.innerText(), /No nearby tracked games/);
   pass('Zero nearby tracked games distinguished from filtered empty results');
-  await nearby.locator('#nearby-week').selectOption('9'); assert.equal(await cards.count(), 0); assert.equal(await locate.isDisabled(), true);
+  await nearby.locator('#nearby-week').selectOption('10'); assert.equal(await cards.count(), 0); assert.equal(await locate.isDisabled(), true);
   pass('Changing to unverified week clears center and remains disabled');
   await nearby.locator('#nearby-week').selectOption('8');
   assert.equal(await locate.isEnabled(), true);
@@ -181,6 +181,41 @@ try {
   await nearby.getByRole('button', { name: 'Clear', exact: true }).click();
   assert.equal(await cards.count(), 0);
   pass('Week 8 17/17, Hamilton school center, radius/sorting, clear and normal schedule fallback');
+  await nearby.locator('#nearby-week').selectOption('9');
+  assert.equal(await locate.isEnabled(), true);
+  assert.equal(await cards.count(), 0); // week switching clears previous center
+  await nearby.getByRole('button', { name: 'Choose a school instead' }).click();
+  await nearby.locator('#nearby-center').selectOption('jacksboro');
+  assert.match(await nearby.innerText(), /Searching near Jacksboro/);
+  assert.equal(await page.evaluate(() => window.geoFixture.calls), 1);
+  for (const [radius, expected] of [['10',1], ['25',1], ['50',3], ['100',8], ['150',15]]) {
+    await nearby.locator('#nearby-radius').selectOption(radius);
+    assert.equal(await cards.count(), expected, `Week 9 radius ${radius}`);
+    const distances = await cards.evaluateAll(nodes => nodes.map(n => Number(n.innerText.match(/(\d+) mi away/)?.[1] ?? 0)));
+    assert.deepEqual(distances, [...distances].sort((a,b) => a-b));
+    assert.ok((await cards.evaluateAll(nodes => nodes.map(n => n.getAttribute('href')))).every(href => href.endsWith('-2026-week-9')));
+  }
+  pass('Week 9 enabled 17/17; verified Jacksboro school center; all five radius counts and nearest sorting; no GPS request');
+  for (const width of [390,400,430,1280]) {
+    await page.setViewportSize({ width, height: 900 });
+    await nearby.scrollIntoViewIfNeeded();
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+    for (const box of await nearby.locator('button,select,input').evaluateAll(nodes => nodes.filter(n => n.getBoundingClientRect().height > 0).map(n => { const r=n.getBoundingClientRect(); return { height:r.height, left:r.left, right:r.right }; }))) {
+      assert.ok(box.height >= 44 && box.left >= 0 && box.right <= width);
+    }
+    await page.screenshot({ path: `${evidence}/week9-games-${width}.png`, fullPage: false });
+    pass(`${width}px Week 9 responsive controls and results: no overflow, 44px targets`);
+  }
+  await nearby.getByRole('button', { name: 'Clear', exact: true }).click();
+  assert.equal(await cards.count(), 0); assert.ok(await page.locator('#all-matchups').count());
+  pass('Week 9 Clear removes center/results; normal schedule remains available');
+  for (const week of ['10','11']) {
+    await nearby.locator('#nearby-week').selectOption(week);
+    assert.equal(await locate.isDisabled(), true); assert.equal(await cards.count(), 0);
+    assert.match(await nearby.innerText(), /outside the verified pilot/);
+    assert.ok(await page.locator('#all-matchups').count());
+    pass(`Week ${week} explicitly disabled; normal schedule fallback and no location prompt`);
+  }
   for (const width of [390,400,430,1280]) {
     await page.setViewportSize({ width, height: 900 });
     for (const path of ['/games', '/schools/hamilton', '/schools']) {

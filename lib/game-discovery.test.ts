@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 import { venues } from "@/data/venues";
 import { schoolFootballVenues } from "@/data/school-football-venues";
 import { gameVenueOverrides } from "@/data/game-venue-overrides";
-import { weekSevenPilotGameIds, weekEightPilotGameIds } from "@/data/game-location-pilot";
+import { weekSevenPilotGameIds, weekEightPilotGameIds, weekNinePilotGameIds } from "@/data/game-location-pilot";
 import { getGames } from "@/lib/games";
 import { getFeaturedSchools, getSchoolBySlug } from "@/lib/schools";
 import { resolveGameLocation, toDiscoveryGame } from "./game-location";
@@ -20,9 +20,9 @@ const location = resolveGameLocation(original, venues, schoolFootballVenues, {})
 const fixture = (id: string, status: Game["status"] = "upcoming", lon = 0): DiscoveryGame => ({ ...toDiscoveryGame(original, location), gameId: id, status, kickoff: "2026-10-09T19:00:00-05:00", location: { locationQuality: "verified", locationSource: "home_venue", venueName: "Test field", city: "Test", latitude: 0, longitude: lon } });
 const center = { latitude: 0, longitude: 0 };
 
-test("venue IDs unique; bounded 30 school mappings and 31 physical venues", () => {
-  assert.equal(venues.length, 31); assert.equal(new Set(venues.map(v => v.id)).size, venues.length);
-  assert.equal(Object.keys(schoolFootballVenues).length, 30);
+test("venue IDs unique; bounded 35 school mappings and 36 physical venues", () => {
+  assert.equal(venues.length, 36); assert.equal(new Set(venues.map(v => v.id)).size, venues.length);
+  assert.equal(Object.keys(schoolFootballVenues).length, 35);
 });
 test("verified coordinate ranges and research provenance", () => {
   for (const v of venues) { assert.ok(validPoint(v)); assert.equal(v.verificationStatus, "verified"); assert.ok(v.sourceReferences.length >= 2); assert.equal(v.verifiedAt, "2026-10-03"); assert.match(v.zip, /^\d{5}$/); }
@@ -62,17 +62,18 @@ test("neutral and playoff games require verified explicit override", () => {
   }
 });
 test("incomplete/changed/duplicate slate and unverified weeks are disabled", () => {
-  assert.equal(pilotGate(dto, 6).enabled, false); assert.equal(pilotGate(dto, 9).enabled, false);
+  assert.equal(pilotGate(dto, 6).enabled, false); assert.equal(pilotGate(dto, 10).enabled, false);
   assert.equal(pilotGate(dto.filter(g => g.gameId !== original.id), 7).enabled, false);
   assert.equal(pilotGate(dto.map(g => g.gameId === original.id ? { ...g, gameId: "changed-id" } : g), 7).enabled, false);
   assert.equal(pilotGate([...dto, dto.find(g => g.gameId === original.id)!], 7).enabled, false);
   assert.equal(pilotGate(dto.map(g => g.gameId === original.id ? { ...g, location: { locationQuality: "unavailable", reason: "missing_venue" } } : g), 7).enabled, false);
 });
-test("current Central schedule week is independent of Pick Em and does not auto-enable Week 9", () => {
+test("current Central schedule week is independent of Pick Em and does not auto-enable Week 10", () => {
   assert.equal(currentScheduleWeek(dto, new Date("2026-10-03T02:00:00Z")), 6);
   assert.equal(currentScheduleWeek(dto, new Date("2026-10-05T05:01:00Z")), 7);
   assert.equal(currentScheduleWeek(dto, new Date("2026-10-12T05:01:00Z")), 8);
-  assert.equal(pilotGate(dto, currentScheduleWeek(dto, new Date("2026-10-19T05:01:00Z"))!).enabled, false);
+  assert.equal(pilotGate(dto, currentScheduleWeek(dto, new Date("2026-10-19T05:01:00Z"))!).enabled, true);
+  assert.equal(pilotGate(dto, currentScheduleWeek(dto, new Date("2026-10-26T05:01:00Z"))!).enabled, false);
 });
 test("Haversine known fixtures, identical points and antipodes", () => {
   assert.equal(distanceMiles(center, center), 0);
@@ -146,4 +147,75 @@ test("all mappings and overrides reference canonical schools, games and unique v
     assert.equal(result.locationSource, "game_override"); assert.equal(result.venueName, "Wilford Moore Stadium");
   }
   assert.equal(new Set(venues.map(v => `${v.latitude},${v.longitude}`)).size, venues.length);
+});
+
+test("Week 9 exact canonical district slate has no historical bye or scrimmage inflation", () => {
+  const rows = games.filter(g => g.season === 2026 && g.week === 9);
+  assert.equal(rows.length, 17);
+  assert.equal(rows.filter(realGame).length, 17);
+  assert.equal(rows.filter(g => g.districtGame).length, 17);
+  assert.ok(rows.every(g => !g.isNeutralSite && g.gameType !== "playoff" && g.kickoff?.startsWith("2026-10-23")));
+  assert.equal(new Set(rows.map(g => g.id)).size, 17);
+  assert.equal(new Set(rows.flatMap(g => [g.homeSchoolSlug, g.awaySchoolSlug])).size, 34);
+  assert.equal(new Set(rows.map(g => g.homeSchoolSlug)).size, 17);
+  assert.ok(!games.some(g => g.id === "stamford-bye-2026-week-9"));
+  assert.deepEqual(rows.map(g => g.id).sort(), [...weekNinePilotGameIds]);
+  assert.deepEqual([...weekNinePilotGameIds].sort(), [...weekNinePilotGameIds]);
+  assert.deepEqual(pilotGate(dto, 9), { enabled: true, total: 17, unresolved: 0 });
+});
+test("Week 9 approval fails closed on missing, extra, duplicate, changed or unresolved games", () => {
+  const first = dto.find(g => g.gameId === weekNinePilotGameIds[0])!;
+  for (const changed of [
+    dto.filter(g => g.gameId !== first.gameId),
+    [...dto, first],
+    [...dto, { ...first, gameId: "unexpected-extra-game" }],
+    dto.map(g => g.gameId === first.gameId ? { ...g, gameId: "changed-id" } : g),
+    dto.map(g => g.gameId === first.gameId ? { ...g, location: { locationQuality: "unavailable" as const, reason: "missing_venue" as const } } : g),
+  ]) assert.equal(pilotGate(changed, 9).enabled, false);
+});
+test("all five new Week 9 home venues resolve; invalid or unverified records disable approval", () => {
+  const expected = {
+    jarrell: "tx-jarrell-cougar-field", anson: "tx-anson-tiger-stadium", wortham: "tx-wortham-bulldog-stadium",
+    miles: "tx-miles-gary-krejci-memorial-stadium", merkel: "tx-merkel-badger-stadium",
+  };
+  for (const [slug, id] of Object.entries(expected)) {
+    assert.equal(schoolFootballVenues[slug], id);
+    const game = games.find(g => g.week === 9 && g.homeSchoolSlug === slug)!;
+    const venue = venues.find(v => v.id === id)!;
+    assert.ok(venue); assert.equal(gameVenueOverrides[game.id], undefined);
+    const resolved = resolveGameLocation(game, venues, schoolFootballVenues, gameVenueOverrides);
+    assert.equal(resolved.locationQuality, "verified");
+    if (resolved.locationQuality === "verified") { assert.equal(resolved.locationSource, "home_venue"); assert.equal(resolved.venueName, venue.name); }
+    for (const patch of [{ verificationStatus: "needs_review" as const }, { latitude: 91 }, { longitude: NaN }]) {
+      const catalog = venues.map(v => v.id === id ? { ...v, ...patch } : v);
+      const changed = games.map(g => toDiscoveryGame(g, resolveGameLocation(g, catalog, schoolFootballVenues, gameVenueOverrides)));
+      assert.equal(pilotGate(changed, 9).enabled, false);
+    }
+    const broken = games.map(g => toDiscoveryGame(g, resolveGameLocation(g, venues, schoolFootballVenues, { ...gameVenueOverrides, [game.id]: "broken" })));
+    assert.equal(pilotGate(broken, 9).enabled, false);
+  }
+});
+test("Week 9 reuses all twelve approved venue identities without game overrides", () => {
+  const existing = {
+    cisco: "tx-cisco-chesley-stadium", comanche: "tx-comanche-indian-stadium", hico: "tx-hico-tiger-stadium",
+    winters: "tx-winters-blizzard-stadium", goldthwaite: "tx-goldthwaite-gary-proffitt-stadium", hubbard: "tx-hubbard-jaguar-field",
+    jacksboro: "tx-jacksboro-tiger-stadium", meridian: "tx-meridian-yellow-jacket-stadium", clifton: "tx-clifton-cub-stadium",
+    millsap: "tx-millsap-bulldog-stadium", tolar: "tx-tolar-tolar-rattlers-stadium", holliday: "tx-holliday-eagle-stadium",
+  };
+  for (const [slug, id] of Object.entries(existing)) {
+    assert.equal(schoolFootballVenues[slug], id);
+    const game = games.find(g => g.week === 9 && g.homeSchoolSlug === slug)!;
+    assert.equal(gameVenueOverrides[game.id], undefined);
+    assert.equal(resolveGameLocation(game, venues, schoolFootballVenues, gameVenueOverrides).locationQuality, "verified");
+  }
+  assert.equal(Object.keys(gameVenueOverrides).length, 1);
+  assert.equal(gameVenueOverrides["anson-at-abilene-tlca-2026-week-8"], "tx-abilene-wilford-moore-stadium");
+});
+test("Week 10 remains disabled despite 17 verified locations; Week 11 remains unapproved", () => {
+  assert.deepEqual(pilotGate(dto, 10), { enabled: false, total: 17, unresolved: 0 });
+  assert.equal(pilotGate(dto, 11).enabled, false);
+  assert.equal(pilotGate(dto, 12).enabled, false);
+  assert.equal(schoolFootballVenues.hamilton, "tx-hamilton-kooken-field");
+  assert.ok(getFeaturedSchools().some(s => s.slug === "hamilton"));
+  assert.deepEqual(getFeaturedSchools().map(s => s.slug).sort(), ["de-leon", "cisco", "hico", "comanche", "goldthwaite", "albany", "stamford", "stephenville", "hamilton", "santo"].sort());
 });

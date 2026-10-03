@@ -1,6 +1,6 @@
 import type { Venue } from "@/types/game-location";
 
-// Bounded Weeks 7–8 + Featured School pilot. Sources are repository-only provenance.
+// Bounded Weeks 7–9 + Featured School pilot. Sources are repository-only provenance.
 // Stadium pins/football footprints were checked separately from campus entrances.
 export const venues: readonly Venue[] = [
   {
@@ -560,5 +560,115 @@ export const venues: readonly Venue[] = [
     ],
     "verifiedAt": "2026-10-03",
     "aliases": []
+  },
+  {
+    "id": "tx-jarrell-cougar-field",
+    "name": "Cougar Field",
+    "address": "1100 W FM 487",
+    "city": "Jarrell",
+    "state": "TX",
+    "zip": "76537",
+    "latitude": 30.8200396,
+    "longitude": -97.627041,
+    "verificationStatus": "verified",
+    "sourceReferences": [
+      "https://jhs.jarrellisd.org/athletics/jarrell-high-school-athletics/schedules",
+      "https://texasbob.com/stadium/stadium.php?id=104",
+      "https://goo.gl/maps/DTgQF45xRvntXrA5A",
+      "https://www.texasfootball.com/team/jarrell-cougars",
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export?bbox=-97.628641,30.8187396,-97.62544100000001,30.8213396&bboxSR=4326&imageSR=4326&size=800,800&format=png&f=image"
+    ],
+    "verifiedAt": "2026-10-03",
+    "aliases": [
+      "Cougar Stadium",
+      "Jarrell High School Football Field"
+    ]
+  },
+  {
+    "id": "tx-anson-tiger-stadium",
+    "name": "Tiger Stadium",
+    "address": "710 Avenue N",
+    "city": "Anson",
+    "state": "TX",
+    "zip": "79501",
+    "latitude": 32.760197,
+    "longitude": -99.9007582,
+    "verificationStatus": "verified",
+    "sourceReferences": [
+      "https://www.ansontigers.com/athletics/",
+      "https://texasbob.com/stadium/stadium.php?id=1008",
+      "https://goo.gl/maps/W2UtwXAshuiw6hAn7",
+      "https://www.texasfootball.com/team/anson-tigers",
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export?bbox=-99.9023582,32.758897,-99.8991582,32.761497&bboxSR=4326&imageSR=4326&size=800,800&format=png&f=image"
+    ],
+    "verifiedAt": "2026-10-03",
+    "aliases": []
+  },
+  {
+    "id": "tx-wortham-bulldog-stadium",
+    "name": "Bulldog Stadium",
+    "address": "411 Longbotham St",
+    "city": "Wortham",
+    "state": "TX",
+    "zip": "76693",
+    "latitude": 31.7928468,
+    "longitude": -96.4679942,
+    "verificationStatus": "verified",
+    "sourceReferences": [
+      "https://www.worthamisd.org/bulldogs-athletics",
+      "https://texasbob.com/stadium/stadium.php?id=36",
+      "https://goo.gl/maps/Zab4rumyubBS7vX38",
+      "https://www.texasfootball.com/team/wortham-bulldogs",
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export?bbox=-96.4695942,31.7915468,-96.46639420000001,31.7941468&bboxSR=4326&imageSR=4326&size=800,800&format=png&f=image"
+    ],
+    "verifiedAt": "2026-10-03",
+    "aliases": [
+      "Bulldog Field",
+      "Wortham ISD Bulldog Stadium"
+    ]
+  },
+  {
+    "id": "tx-miles-gary-krejci-memorial-stadium",
+    "name": "Gary Krejci Memorial Stadium",
+    "address": "1001 Robinson St",
+    "city": "Miles",
+    "state": "TX",
+    "zip": "76861",
+    "latitude": 31.6050723,
+    "longitude": -100.1885923,
+    "verificationStatus": "verified",
+    "sourceReferences": [
+      "https://www.milesisd.net/athletics/",
+      "https://texasbob.com/stadium/stadium.php?id=984",
+      "https://goo.gl/maps/dBzusgfj6YkcNrpL8",
+      "https://www.texasfootball.com/team/miles-bulldogs",
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export?bbox=-100.19019229999999,31.6037723,-100.1869923,31.6063723&bboxSR=4326&imageSR=4326&size=800,800&format=png&f=image"
+    ],
+    "verifiedAt": "2026-10-03",
+    "aliases": [
+      "Bulldog Stadium"
+    ]
+  },
+  {
+    "id": "tx-merkel-badger-stadium",
+    "name": "Badger Stadium",
+    "address": "702 Haynes St",
+    "city": "Merkel",
+    "state": "TX",
+    "zip": "79536",
+    "latitude": 32.4636228,
+    "longitude": -100.022023,
+    "verificationStatus": "verified",
+    "sourceReferences": [
+      "https://mms.merkelisd.net/",
+      "https://texasbob.com/stadium/stadium.php?id=969",
+      "https://goo.gl/maps/7ph8Qn1hLg3LvHoK9",
+      "https://www.texasfootball.com/team/merkel-badgers",
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export?bbox=-100.023623,32.4623228,-100.02042300000001,32.464922800000004&bboxSR=4326&imageSR=4326&size=800,800&format=png&f=image"
+    ],
+    "verifiedAt": "2026-10-03",
+    "aliases": [
+      "Merkel ISD Football Field"
+    ]
   }
 ];

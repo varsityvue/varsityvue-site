@@ -39,8 +39,29 @@ export const weekEightPilotGameIds = [
   "winters-at-hamlin-2026-week-8"
 ] as const;
 
+export const weekNinePilotGameIds = [
+  "abilene-tlca-at-cisco-2026-week-9",
+  "albany-at-winters-2026-week-9",
+  "breckenridge-at-holliday-2026-week-9",
+  "city-view-at-merkel-2026-week-9",
+  "crawford-at-wortham-2026-week-9",
+  "cross-plains-at-goldthwaite-2026-week-9",
+  "de-leon-at-anson-2026-week-9",
+  "dublin-at-clifton-2026-week-9",
+  "eastland-at-millsap-2026-week-9",
+  "frost-at-meridian-2026-week-9",
+  "hamilton-at-tolar-2026-week-9",
+  "hamlin-at-miles-2026-week-9",
+  "hawley-at-hico-2026-week-9",
+  "henrietta-at-jacksboro-2026-week-9",
+  "rio-vista-at-comanche-2026-week-9",
+  "santo-at-hubbard-2026-week-9",
+  "stephenville-at-jarrell-2026-week-9"
+] as const;
+
 // Explicit approval, not calendar-based or partial-coverage enablement.
 export const approvedLocationPilotSlates: Readonly<Record<number, readonly string[]>> = {
   7: weekSevenPilotGameIds,
   8: weekEightPilotGameIds,
+  9: weekNinePilotGameIds,
 };

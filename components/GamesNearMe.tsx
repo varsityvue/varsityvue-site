@@ -80,7 +80,7 @@ export default function GamesNearMe({ games, centers, initialQuery = "", initial
       <button type="button" onClick={() => setChoosing(true)} disabled={!gate.enabled} className={`${control} disabled:opacity-50`}>Choose a school instead</button>
       {loading && <button type="button" onClick={clear} className={control}>Cancel location request</button>}
     </div>
-    {!gate.enabled && <p className="mt-3 text-sm leading-6 text-white/80">Nearby discovery is disabled for Week {week}: venue information is incomplete or this week is outside the verified pilot. No complete nearby coverage is claimed. Select Week 7 or Week 8 for the venue pilot, or browse the normal schedule.{gate.unresolved > 0 && ` ${gate.unresolved} of ${gate.total} games have unavailable venue information.`}</p>}
+    {!gate.enabled && <p className="mt-3 text-sm leading-6 text-white/80">Nearby discovery is disabled for Week {week}: venue information is incomplete or this week is outside the verified pilot. No complete nearby coverage is claimed. Select Week 7, Week 8 or Week 9 for the venue pilot, or browse the normal schedule.{gate.unresolved > 0 && ` ${gate.unresolved} of ${gate.total} games have unavailable venue information.`}</p>}
     <p role="status" className="mt-2 text-sm text-white/80">{message}</p>
     {gate.enabled && (choosing || school) && <label htmlFor="nearby-center" className="mt-3 flex max-w-lg flex-col gap-1 text-sm">Search center
       <select id="nearby-center" className={control} value={school} onChange={e => chooseSchool(e.target.value)}>
