@@ -107,8 +107,8 @@ test("public DTO allowlist strips member/provenance and repository sources", () 
   assert.doesNotMatch(JSON.stringify(result), /private|sourceReferences|verifiedAt|updated_by|source_submission_id|user_id|applicant_id|reviewed_by/);
 });
 test("kickoff inferred LIVE never claims verified score coverage", () => {
-  assert.equal(toDiscoveryGame({ ...original, status: "live", scoreAttribution: undefined }, location).livePresentation, "kickoff_inferred");
-  assert.equal(toDiscoveryGame({ ...original, status: "live", scoreAttribution: { type: "publisher" } }, location).livePresentation, "score_available");
+  assert.equal(toDiscoveryGame({ ...original, status: "live", publicScoreVerified: undefined }, location).livePresentation, "kickoff_inferred");
+  assert.equal(toDiscoveryGame({ ...original, status: "live", publicScoreVerified: true }, location).livePresentation, "score_available");
 });
 test("client location is transient and discovery does not transmit it", () => {
   const client = readFileSync("components/GamesNearMe.tsx", "utf8");
