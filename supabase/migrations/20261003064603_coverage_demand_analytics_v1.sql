@@ -146,7 +146,7 @@ begin
    set summary_count=coverage_demand_season.summary_count+excluded.summary_count,metrics=private.coverage_merge_metrics(coverage_demand_season.metrics,excluded.metrics);
    moved:=moved+1;
  end loop;
- delete from private.coverage_demand_monthly where report_month<(date_trunc('month',p_today)-interval '13 months')::date;
+ delete from private.coverage_demand_monthly where report_month<(date_trunc('month',p_today)-interval '12 months')::date;
  delete from private.coverage_demand_season where make_date(season+2,2,1)<=p_today;
  return moved;
 end $$;
@@ -194,7 +194,7 @@ begin
  union all
  select m.report_month,m.grid_version,m.reporting_region,m.center_source,m.season,m.summary_count,m.metrics from private.coverage_demand_monthly m
  where p_kind='month' and m.report_month between p_from and p_to
- and m.report_month>=(date_trunc('month',now() at time zone 'America/Chicago')-interval '13 months')::date
+ and m.report_month>=(date_trunc('month',now() at time zone 'America/Chicago')-interval '12 months')::date
  union all
  select make_date(s.season,1,1),s.grid_version,s.reporting_region,s.center_source,s.season,s.summary_count,s.metrics from private.coverage_demand_season s
  where p_kind='season' and make_date(s.season,1,1)=p_from and make_date(s.season+2,2,1)>(now() at time zone 'America/Chicago')::date

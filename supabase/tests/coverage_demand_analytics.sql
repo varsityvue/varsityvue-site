@@ -82,6 +82,11 @@ select pg_temp.coverage_assert((select sum(summary_count)=10 from private.covera
 set local role authenticated;
 select pg_temp.coverage_assert(jsonb_array_length(public.admin_coverage_dashboard('season',date '2026-01-01',date '2026-12-31'))=1, 'season current and archived no duplication');
 reset role;
+insert into private.coverage_demand_monthly values
+ ((date_trunc('month',now() at time zone 'America/Chicago')-interval '13 months')::date,'tx25-v1','tx25-v1:p4r4','browser_location',2026,20,'{}'),
+ ((date_trunc('month',now() at time zone 'America/Chicago')-interval '12 months')::date,'tx25-v1','tx25-v1:p4r4','browser_location',2026,20,'{}');
+select private.retain_coverage_demand();
+select pg_temp.coverage_assert((select count(*)=1 from private.coverage_demand_monthly where reporting_region='tx25-v1:p4r4'), '13 calendar cohort upper retention bound');
 select private.retain_coverage_demand(date '2028-02-01');
 select pg_temp.coverage_assert(not exists(select 1 from private.coverage_demand_monthly) and not exists(select 1 from private.coverage_demand_season), 'long-term expiry');
 rollback;
