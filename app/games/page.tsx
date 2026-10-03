@@ -2,6 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getDynamicGames } from "@/lib/dynamic-games";
 import { createClient } from "@/lib/supabase/server";
+import GamesNearMe from "@/components/GamesNearMe";
+import ScorekeeperCta from "@/components/ScorekeeperCta";
+import { getScorekeeperCtaState } from "@/lib/scorekeeper-cta-server";
+import { resolveGameLocation, toDiscoveryGame } from "@/lib/game-location";
+import { venues } from "@/data/venues";
+import { schoolFootballVenues } from "@/data/school-football-venues";
+import { gameVenueOverrides } from "@/data/game-venue-overrides";
+import { getSchoolBySlug } from "@/lib/schools";
 import type { MediaLink } from "@/types/platform";
 
 export const metadata: Metadata = {
@@ -103,6 +111,7 @@ function getScoreReportLabel(game: { status: string; gameType: string }) {
 }
 
 export default async function GamesPage({ searchParams }: { searchParams: Promise<{ q?: string; status?: string }> }) {
+  const ctaStatePromise = getScorekeeperCtaState();
   const { q = "", status = "all" } = await searchParams;
   const matchupQuery = q.trim().toLowerCase();
   const matchupStatus = ["all", "upcoming", "final", "district"].includes(status) ? status : "all";
@@ -210,6 +219,13 @@ export default async function GamesPage({ searchParams }: { searchParams: Promis
     : hasFinalGames
       ? [...finalGames].sort(compareGameDatesDesc).slice(0, 5)
       : upcomingGames.slice(0, 5);
+
+  const discoveryGames = regularGames.map(game => toDiscoveryGame(game, resolveGameLocation(game, venues, schoolFootballVenues, gameVenueOverrides)));
+  const centers = Object.entries(schoolFootballVenues).flatMap(([schoolSlug, id]) => {
+    const venue = venues.find(v => v.id === id && v.verificationStatus === "verified");
+    return venue ? [{ schoolSlug, schoolName: getSchoolBySlug(schoolSlug)?.name ?? schoolSlug, venueName: venue.name, latitude: venue.latitude, longitude: venue.longitude }] : [];
+  }).sort((a, b) => a.schoolName.localeCompare(b.schoolName));
+  const ctaState = await ctaStatePromise;
 
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] text-white">
@@ -360,6 +376,8 @@ export default async function GamesPage({ searchParams }: { searchParams: Promis
               </p>
             )}
           </section>
+
+          <GamesNearMe games={discoveryGames} centers={centers} initialQuery={q} initialFilter={matchupStatus as "all" | "upcoming" | "final" | "district"} now={new Date().toISOString()} recruitment={<ScorekeeperCta state={ctaState} prefetch={false} />} />
 
           <section id="all-matchups" className="mt-7 scroll-mt-24 sm:mt-10">
             <div className="mb-4 sm:mb-6">
