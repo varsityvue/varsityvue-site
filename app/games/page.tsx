@@ -160,7 +160,7 @@ function ScoreReportLink({
   return (
     <Link
       href={`/report-score?game=${encodeURIComponent(game.id)}`}
-      className={`${compact ? "mt-2.5 px-2.5 py-2 text-[9px] sm:px-3 sm:text-[10px]" : "mt-3 px-3 py-2.5 text-[10px] sm:mt-4 sm:px-4 sm:py-3 sm:text-xs"} block rounded-xl border text-center font-black uppercase tracking-[0.12em] transition ${hasPendingReport ? "border-amber-300/30 bg-amber-300/10 text-amber-100 hover:bg-amber-300/15" : "border-[var(--vv-accent)]/25 bg-[var(--vv-accent)]/10 text-[var(--vv-accent)] hover:bg-[var(--vv-accent)]/15"}`}
+      className={`${compact ? "mt-2.5 px-2.5 py-2 text-[9px] sm:px-3 sm:text-[10px]" : "mt-3 px-3 py-2.5 text-[10px] sm:mt-4 sm:px-4 sm:py-3 sm:text-xs"} block min-h-11 rounded-xl border text-center font-black uppercase tracking-[0.12em] transition ${hasPendingReport ? "border-amber-300/30 bg-amber-300/10 text-amber-100 hover:bg-amber-300/15" : "border-[var(--vv-accent)]/25 bg-[var(--vv-accent)]/10 text-[var(--vv-accent)] hover:bg-[var(--vv-accent)]/15"}`}
     >
       {label} →
     </Link>
