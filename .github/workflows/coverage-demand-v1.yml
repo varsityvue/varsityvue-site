@@ -37,6 +37,14 @@ jobs:
       - run: npx eslint components/Weekly*.tsx components/useCoverageEpisode.ts components/CoverageMeasurementChoice.tsx lib/coverage-*.ts lib/game-discovery.test.ts types/coverage-demand.ts app/api/coverage-demand/route.ts proxy.ts scripts/test-coverage-demand-browser.mjs scripts/test-coverage-demand-http.mjs
       - run: npm run build
       - run: git diff --check
+      - name: Browser tooling (test-only; no package manifest change)
+        run: |
+          npm install --no-save --package-lock=false playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Released unified aliases, school, CTA, refresh and privacy browser regressions
+        run: node scripts/test-unified-games-browser.mjs
+      - name: Coverage consent, episodes, privacy and failure browser verification
+        run: node scripts/test-coverage-demand-browser.mjs
       - uses: supabase/setup-cli@v2
         with:
           version: 2.119.0
@@ -51,14 +59,6 @@ jobs:
         run: |
           supabase status -o env > "$RUNNER_TEMP/coverage-local.env"
           COVERAGE_LOCAL_ENV="$RUNNER_TEMP/coverage-local.env" node --import tsx scripts/test-coverage-demand-http.mjs
-      - name: Browser tooling (test-only; no package manifest change)
-        run: |
-          npm install --no-save --package-lock=false playwright@1.63.0
-          npx playwright install --with-deps chromium
-      - name: Released unified aliases, school, CTA, refresh and privacy browser regressions
-        run: node scripts/test-unified-games-browser.mjs
-      - name: Coverage consent, episodes, privacy and failure browser verification
-        run: node scripts/test-coverage-demand-browser.mjs
       - name: Existing privacy, score authority, Score Scout and Pick Em database regressions
         run: |
           for file in public_uuid_hardening public_score_attribution assigned_scorekeeper_live score_scout_approval pickem_week6_contest pickem_conversion_report pickem_future_week_admin; do

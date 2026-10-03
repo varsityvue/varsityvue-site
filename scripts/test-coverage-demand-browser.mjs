@@ -6,13 +6,13 @@ import http from 'node:http';
 import { spawn, execFileSync } from 'node:child_process';
 import { chromium } from 'playwright';
 const evidence='coverage-demand-browser-evidence';mkdirSync(evidence,{recursive:true});
-let accepted=0, sinkMode='ok', scoreRows=[];const sinkBodies=[];
+let accepted=0, sinkMode='ok', scoreRows=[], timeoutCalls=0;const sinkBodies=[];
 const api=http.createServer(async(req,res)=>{
  res.setHeader('Content-Type','application/json');
  if(req.url==='/rest/v1/rpc/server_record_coverage_demand_summary'){
   let body='';for await(const chunk of req)body+=chunk; sinkBodies.push(JSON.parse(body));
   if(sinkMode==='error'){res.statusCode=500;res.end('{}');return;}
-  if(sinkMode==='timeout'){setTimeout(()=>{res.end('{}');},3001).unref();return;}
+  if(sinkMode==='timeout'){timeoutCalls++;setTimeout(()=>{res.end('{}');},3001).unref();return;}
   accepted++;res.end('null');return;
  }
  res.end(JSON.stringify(req.url.startsWith('/rest/v1/rpc/public_score_states') ? scoreRows : []));
@@ -76,7 +76,7 @@ try {
  scoreRows=[];
  pass('Both direct aliases: one renderer, one consent control, one episode owner; refresh neither finalizes/restarts nor resets inactivity');
  await go(page);sinkMode='error';await locate(page).click();assert.ok(await cards(page).count());await clear(page);await idle(page);assert.ok(responses.includes(503));
- sinkMode='timeout';await locate(page).click();const began=Date.now();await clear(page);assert.ok(Date.now()-began<1500);sinkMode='ok';
+ sinkMode='timeout';await locate(page).click();const began=Date.now();await clear(page);assert.ok(Date.now()-began<1500);await page.waitForTimeout(2300);assert.ok(timeoutCalls>0);sinkMode='ok';
  await page.route('**/api/coverage-demand',r=>r.abort());await locate(page).click();await cards(page).first().click();await page.waitForURL(/\/games\/.+/);await page.unroute('**/api/coverage-demand');
  pass('Failed, timed-out and blocked ingestion cannot impair discovery/Clear/navigation');
  await go(page);await page.evaluate(()=>window.geoFixture.mode='denied');await locate(page).click();assert.match(await page.locator('.weekly-location').innerText(),/permission denied/);
@@ -89,7 +89,7 @@ try {
  pass('Weeks 7/8/9 enabled; 10/11 disabled');
  await page.getByRole('link',{name:'Week 9',exact:true}).click();await page.getByRole('combobox',{name:'Or choose a school'}).selectOption('jacksboro');
  for(const width of [390,400,430,1280]) {await page.setViewportSize({width,height:900});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await page.screenshot({path:`${evidence}/unified-nearby-${width}.png`,fullPage:true});}
- await allow(page).focus();assert.notEqual(await allow(page).evaluate(e=>getComputedStyle(e).outlineStyle),'none');await page.keyboard.press('Tab');assert.ok(await decline(page).evaluate(e=>document.activeElement===e));await page.keyboard.press('Enter');await clear(page);
+ await page.keyboard.press('Tab');await allow(page).focus();assert.notEqual(await allow(page).evaluate(e=>getComputedStyle(e).outlineStyle),'none');await page.keyboard.press('Tab');assert.ok(await decline(page).evaluate(e=>document.activeElement===e));await page.keyboard.press('Enter');await clear(page);
  pass('Responsive disclosure/results and keyboard consent reversal');
  // Each mounted B episode is active and unfinished before A withdraws. No hide/page navigation is used to withdraw.
  const a=await make(),b=await make();
