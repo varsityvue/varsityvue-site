@@ -85,7 +85,7 @@ try {
   await nearby.locator('#nearby-radius').selectOption('150');
   const cards = nearby.locator('a[href^="/games/"]');
   assert.equal(await cards.count(), 16); // one fixture FINAL is separate
-  assert.match(await cards.first().innerText(), /LIVE · score available/);
+  assert.match(await cards.first().innerText(), /LIVE · verified score/);
   assert.match(await cards.first().innerText(), /De Leon at Hawley/);
   assert.equal(await nearby.getByRole('heading', { name: 'Help cover local games' }).count(), 1);
   assert.equal(await nearby.getByRole('link', { name: 'Become a Scorekeeper' }).getAttribute('href'), '/contributors');
