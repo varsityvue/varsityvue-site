@@ -16,7 +16,7 @@ const schools = ["alpha", "beta", "gamma", "delta", "empty"].map((slug) => ({
   slug, name: slug.toUpperCase(),
 }) as School);
 const game = (id: string, status: FollowGame["status"], kickoff: string | undefined, awaySchoolSlug = "alpha", homeSchoolSlug = "beta"): FollowGame =>
-  ({ id, status, kickoff, awaySchoolSlug, homeSchoolSlug });
+  ({ id, status, kickoff, awaySchoolSlug, homeSchoolSlug, publicScoreVerified: status === "live" ? true : undefined });
 
 test("empty follows, one follow, and both teams followed yield one game", () => {
   const match = game("a", "live", "2026-09-28T18:00:00Z");
@@ -93,4 +93,13 @@ test("Scores Following deduplicates both-team matches and many follows within th
     "shared", "soon", "later", "final-a", "final-b",
   ]);
   assert.equal(relevantFollowedGames([shared, shared], new Set(["alpha", "beta"]), now).length, 1);
+});
+
+test("timing-derived live games do not outrank verified LIVE games", () => {
+  const verified = { ...game("verified-live", "live", "2026-09-28T18:00:00Z"), publicScoreVerified: true };
+  const timingOnly = { ...game("timing-only", "live", "2026-09-28T17:30:00Z"), publicScoreVerified: undefined };
+  const upcoming = game("upcoming", "upcoming", "2026-09-29T00:00:00Z");
+  assert.deepEqual(orderFollowedGames([timingOnly, upcoming, verified], now).map((entry) => entry.id), [
+    "verified-live", "timing-only", "upcoming",
+  ]);
 });
