@@ -8,7 +8,7 @@ export type GamesNearMeSearchSummary = {
   filter_scope: "all" | "live" | "upcoming" | "final" | "district"; query_present: boolean;
   week_real_game_count: number; week_located_game_count: number; week_unlocated_game_count: number;
   in_radius_real_game_count: number; in_radius_default_eligible_count: number; returned_game_count: number;
-  live_game_count: number; upcoming_game_count: number; final_game_count: number;
+  live_game_count: number; kickoff_window_game_count: number; upcoming_game_count: number; final_game_count: number;
   game_selected: boolean; zero_result_reason: ZeroResultReason;
   location_catalog_version: string; schedule_catalog_version: string;
 };

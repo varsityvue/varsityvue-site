@@ -30,3 +30,11 @@ test("catalog fingerprints cover public venue sources and canonical merged sched
  const schedule=getGames().map(g=>({id:g.id,season:g.season,week:g.week,kickoff:g.kickoff,gameType:g.gameType,homeSchoolSlug:g.homeSchoolSlug,awaySchoolSlug:g.awaySchoolSlug,districtGame:g.districtGame})).sort((a,b)=>a.id.localeCompare(b.id));
  assert.equal(LOCATION_CATALOG_VERSION,'locations-'+location);assert.equal(SCHEDULE_CATALOG_VERSION,'schedule-'+createHash('sha256').update(JSON.stringify(schedule)).digest('hex').slice(0,12));
 });
+test("confirmed LIVE and schedule-inferred kickoff windows are counted separately",()=>{
+ const point={latitude:32.123456789,longitude:-98.543210987};
+ const rows=fixtureGames.map(g=>g.season===2026&&g.week===7?{...g,status:'live' as const,livePresentation:'kickoff_inferred' as const}:g);
+ const inferred=buildSearchSummary(rows,point,'browser_location',7,150,'','live')!;
+ assert.ok(inferred.returned_game_count>0);assert.equal(inferred.live_game_count,0);assert.equal(inferred.kickoff_window_game_count,inferred.returned_game_count);assert.ok(validSummary(inferred));
+ const confirmed=buildSearchSummary(rows.map(g=>({...g,livePresentation:'score_available' as const})),point,'browser_location',7,150,'','live')!;
+ assert.equal(confirmed.kickoff_window_game_count,0);assert.equal(confirmed.live_game_count,confirmed.returned_game_count);assert.ok(validSummary(confirmed));
+});

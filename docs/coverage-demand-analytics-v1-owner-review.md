@@ -56,7 +56,7 @@ in_radius_real_game_count: all real, verified-location games within radius, inde
 
 in_radius_default_eligible_count: nearby LIVE + upcoming games, before query and optional status/district filters
 
-returned_game_count, live_game_count, upcoming_game_count, final_game_count: final returned result counts; component's kickoff-inferred LIVE categorization is preserved, not represented as confirmed scoring
+returned_game_count, live_game_count, kickoff_window_game_count, upcoming_game_count, final_game_count: final returned result counts. live_game_count counts confirmed public LIVE presentation; kickoff_window_game_count separately counts schedule-inferred kickoff windows. This extra supported field avoids misrepresenting an inferred window as confirmed live activity
 
 game_selected: boolean only; no selected game or school identity
 
@@ -88,7 +88,7 @@ Migration: supabase/migrations/20261003064603_coverage_demand_analytics_v1.sql. 
 
 private.coverage_demand_daily key: Central report_date + grid_version + coarse_bucket_id + center_source + season + selected schedule week + location_catalog_version + schedule_catalog_version. Radii, filters, query flags, reasons and counts are NOT joint row dimensions. This avoids a row per behavior combination.
 
-Each row stores summary_count and flat counter/histogram metrics. Counters: radius_expanded, game_selected, zero_result and query_present. Histograms: initial/final radius; capped expansion steps; filter; reason; week real/located/unlocated counts; in-radius real/default-eligible; returned/live/upcoming/final counts. Count bins: 0, 1, 2–5, 6–10, 11+. No raw payload is persisted. No median claim is made from coarse bins. No unique-person estimate exists.
+Each row stores summary_count and flat counter/histogram metrics. Counters: radius_expanded, game_selected, zero_result and query_present. Histograms: initial/final radius; capped expansion steps; filter; reason; week real/located/unlocated counts; in-radius real/default-eligible; returned/verified-live/kickoff-window/upcoming/final counts. Count bins: 0, 1, 2–5, 6–10, 11+. No raw payload is persisted. No median claim is made from coarse bins. No unique-person estimate exists.
 
 private.record_coverage_demand_summary(jsonb) repeats validation and atomically increments/upserts. public.server_record_coverage_demand_summary(jsonb) is a narrow PostgREST bridge, executable only by service_role; no anonymous/member browser can invoke it. The private function and tables have no direct application-role grants. Trusted server config uses a server-only credential, never user credentials. RLS is enabled with no member policies. Definer functions use empty search_path and explicit schema qualification. public.server_retain_coverage_demand() is similarly service_role-only.
 
