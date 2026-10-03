@@ -14,7 +14,7 @@ const rows=[
  {game_id:'anson-at-cisco-2026-week-7',status:'postponed',verified:true},
  {game_id:'comanche-at-millsap-2026-week-7',status:'cancelled',verified:true},
  {game_id:'crawford-at-hubbard-2026-week-7',status:'final',verified:true,result_type:'forfeit',official_winner_school_slug:'hubbard'},
- {game_id:'eastland-at-clifton-2026-week-7',status:'upcoming',verified:true,kickoff_override:new Date(Date.now()-3600000).toISOString()},
+ {game_id:'eastland-at-clifton-2026-week-7',status:'scheduled',verified:true,kickoff_override:new Date(Date.now()-3600000).toISOString()},
 ];
 const api=http.createServer((req,res)=>{res.setHeader('Content-Type','application/json');const path=req.url;const send=x=>res.end(JSON.stringify(x));if(path.startsWith('/auth/v1/user'))return send(session.user);if(req.method==='POST'&&!path.startsWith('/rest/v1/rpc/public_score_states'))writes++;
  if(mode==='failure'&&(path.includes('public_score_states')||path.includes('public_game_state')||path.includes('school_follows'))){res.statusCode=503;return send({message:'Isolated unavailable fixture'});}
