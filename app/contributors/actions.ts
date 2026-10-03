@@ -4,21 +4,22 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { requireActiveMember } from "@/lib/member-access";
-import { getSchoolBySlug } from "@/lib/schools";
+import { applicationSchools, contributorIntent, contributorLoginHref } from "@/lib/contributor-intent";
 
 function value(formData: FormData, key: string) {
   return String(formData.get(key) ?? "").trim();
 }
 
 export async function submitContributorApplication(formData: FormData) {
-  const { supabase, userId } = await requireActiveMember({ loginPath: "/login?mode=signup&next=/contributors" });
   const schoolSlug = value(formData, "school_slug");
   const requestedRole = value(formData, "requested_role");
+  const intent = contributorIntent(schoolSlug, requestedRole);
+  const { supabase, userId } = await requireActiveMember({ loginPath: contributorLoginHref(intent.returnTo, true) });
   const affiliation = value(formData, "affiliation").slice(0, 160);
   const contactDetail = value(formData, "contact_detail").slice(0, 240);
   const experienceNote = value(formData, "experience_note").slice(0, 1500);
 
-  if (!getSchoolBySlug(schoolSlug) || !["scorekeeper", "coach"].includes(requestedRole) || affiliation.length < 2 || contactDetail.length < 3 || experienceNote.length < 20) {
+  if (!applicationSchools().some(school => school.slug === schoolSlug) || !["scorekeeper", "coach"].includes(requestedRole) || affiliation.length < 2 || contactDetail.length < 3 || experienceNote.length < 20) {
     redirect("/contributors?message=Please%20complete%20every%20application%20field.");
   }
 

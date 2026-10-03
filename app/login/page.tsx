@@ -94,6 +94,8 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
                   ? ` After confirmation, we’ll return you to finish following ${followSchool.name}.`
                   : returnTo.startsWith("/pickem")
                     ? " After confirmation, return to Pick ’Em and sign in if prompted. Any winners you selected before signup will be restored; finish the entry before the contest deadline."
+                  : returnTo.startsWith("/contributors")
+                    ? " After confirmation, we’ll return you to your contributor application. Sign in if prompted."
                   : " After confirmation, you can sign in to VarsityVue."}
               </p>
             </div>
@@ -121,6 +123,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
             </div>
           ) : null}
 
+          {returnTo.startsWith("/contributors") ? <p className="mt-4 text-sm leading-6 text-white/70">Sign in or create an account and we’ll return you to apply for contributor access. Approval and a school assignment are required.</p> : null}
           {returnTo.startsWith("/report-score") ? (
             <div className="mt-5 rounded-2xl border border-[var(--vv-accent)]/15 bg-white/[0.04] px-4 py-3 text-xs leading-5 text-white/55">
               Sign in or create an account and we’ll return you directly to the score report you selected.
