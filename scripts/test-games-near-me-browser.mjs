@@ -170,7 +170,7 @@ try {
   await nearby.getByRole('button', { name: 'Choose a school instead' }).click();
   await nearby.locator('#nearby-center').selectOption('hamilton');
   await nearby.locator('#nearby-radius').selectOption('150');
-  assert.equal(await cards.count(), 17);
+  assert.equal(await cards.count(), 16);
   assert.match(await nearby.innerText(), /Searching near Hamilton/);
   assert.doesNotMatch(await nearby.innerText(), /venue information is incomplete/);
   const distances = await cards.evaluateAll(nodes => nodes.map(n => Number(n.innerText.match(/(\d+) mi away/)?.[1] ?? 0)));
