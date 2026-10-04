@@ -1,3 +1,4 @@
+import sharp from "sharp";
 import assert from "node:assert/strict";
 import test from "node:test";
 import { readFileSync, existsSync } from "node:fs";
@@ -21,11 +22,16 @@ test("Hamilton is the only tenth Featured School and keeps canonical identity", 
   assert.deepEqual(s.colors, { primary: "#CE2123", secondary: "#000000", accent: "#FFFFFF" });
   assert.equal(s.officialWebsite, "https://www.hamiltonisd.org/");
 });
-test("Hamilton uses supplied logo through the existing registry, without changing artwork", () => {
+test("Hamilton crops only transparent padding and preserves original artwork and contest asset", async () => {
   assert.equal(getSchoolLogoPath("hamilton"), "/logos/schools/hamilton.png");
   assert.equal(getPickemLogoPath("hamilton"), "/logos/schools/pickem/hamilton.png");
   assert.ok(existsSync("public/logos/schools/hamilton.png"));
-  assert.deepEqual(readFileSync("public/logos/schools/hamilton.png"), readFileSync("public/logos/schools/pickem/hamilton.png"));
+  const original = sharp("public/logos/schools/pickem/hamilton.png");
+  assert.deepEqual(await original.metadata().then(({width,height}) => [width,height]), [1200,800]);
+  const expected = await original.extract({left:209,top:20,width:782,height:760}).raw().toBuffer();
+  const actual = await sharp("public/logos/schools/hamilton.png").raw().toBuffer();
+  assert.deepEqual(actual, expected);
+
 });
 test("Hamilton schedule, standings and home venue reuse existing canonical data", () => {
   const games = getGames().filter(g => g.homeSchoolSlug === "hamilton" || g.awaySchoolSlug === "hamilton");

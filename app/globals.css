@@ -111,18 +111,19 @@ div[class~="mb-6"]:has(a[href="/submit"]):has(a[href="/coverage"]) > div > h2 {
 .weekly-section h2 {font-size:1.0rem;font-weight:800;margin-bottom:6px}
 .weekly-section h2 span {margin-left:5px;font-size:0.75rem;color:#bbb}
 .weekly-game-list {display:grid;gap:8px;margin:10px 0}
-.weekly-row {position:relative;border:1px solid #303030;background:#111;border-radius:12px;min-width:0}
-.weekly-row-link {display:block;padding:12px 56px 12px 14px;border-radius:12px}
-.weekly-status {display:flex;align-items:center;gap:6px;font-size:0.6875rem;font-weight:700;color:#d0d0d0;margin-bottom:7px;line-height:1.5}
+.weekly-row {position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;border:1px solid #303030;background:#111;border-radius:12px;min-width:0}
+.weekly-row-link {display:block;min-width:0;padding:12px 6px 12px 14px;border-radius:12px}
+.weekly-status {display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:0.6875rem;font-weight:700;color:#d0d0d0;margin-bottom:7px;line-height:1.5}
 .live-dot {display:inline-block;width:6px;height:6px;background:#d13347;border-radius:50%;flex-shrink:0}
 .weekly-teams {display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;font-size:1.0rem;line-height:1.35;font-weight:750;margin-bottom:7px}
 .weekly-teams span {overflow-wrap:anywhere}
 .weekly-teams strong {font-size:1.1875rem;font-weight:900;font-variant-numeric:tabular-nums;color:#fff}
 .weekly-byline {font-size:0.75rem;color:#b0b0b0;overflow-wrap:anywhere;margin-top:6px}
-.weekly-actions {position:absolute;top:8px;right:6px;z-index:2}
-.weekly-actions summary {display:flex;align-items:center;justify-content:center;width:44px;min-height:44px;cursor:pointer;list-style:none;border-radius:8px;color:#ccc;font-size:0.875rem}
+.weekly-row-controls {display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 6px 8px 0}
+.weekly-actions {position:relative;z-index:2}
+.weekly-actions summary {display:flex;align-items:center;justify-content:center;width:2.75rem;min-width:44px;min-height:max(44px,2.75rem);cursor:pointer;list-style:none;border-radius:8px;color:#ccc;font-size:0.875rem}
 .weekly-actions summary::-webkit-details-marker {display:none}
-.weekly-action-menu {position:absolute;right:0;top:44px;width:min(270px,75vw);border:1px solid #555;background:#1b1b1b;border-radius:10px;box-shadow:0 12px 40px #000;padding:8px;z-index:10}
+.weekly-action-menu {position:absolute;right:0;top:100%;width:min(270px,75vw);border:1px solid #555;background:#1b1b1b;border-radius:10px;box-shadow:0 12px 40px #000;padding:8px;z-index:10}
 .weekly-action-menu a {display:flex;align-items:center;min-height:44px;padding:8px;border-radius:7px;font-size:0.8125rem;color:white}
 .weekly-action-menu a:hover {background:#333}
 .weekly-action-menu p {font-size:0.75rem;color:#ccc;padding:8px;line-height:1.5}
@@ -153,3 +154,13 @@ div[class~="mb-6"]:has(a[href="/submit"]):has(a[href="/coverage"]) > div > h2 {
 
 /* Reflow with text size as well as viewport size; keep every footer column readable. */
 .vv-footer-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+
+/* Compact discovery refinements and secondary card actions. */
+.weekly-toolbar .weekly-search {flex:1;min-width:0;margin:0}
+.weekly-toolbar .weekly-search button {padding:8px;font-size:.75rem}
+.weekly-toolbar .weekly-filters {margin:0}
+.weekly-refresh-icon {display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:8px;flex-shrink:0}
+.weekly-refresh-icon:disabled {opacity:.4}
+.weekly-refresh-icon:focus-visible {outline:2px solid white;outline-offset:2px}
+.weekly-share {align-self:center}
+.weekly-meta {overflow-wrap:anywhere}

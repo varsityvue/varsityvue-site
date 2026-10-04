@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+  weekDateLabel,
   parseWeeklyParams,
   selectWeeklyGames,
   weeklyUrl,
@@ -231,4 +232,9 @@ test("both aliases preserve collection and safe Game Center return context", () 
   const p = parseWeeklyParams({week: "7", intent: "scores"}, [], new Date("2026-10-03"));
   assert.match(weeklyUrl(p, {}, "/scoreboard"), /^\/scoreboard\?/);
   assert.equal(safeGamesReturn("/scoreboard?week=7&latitude=32"), "/scoreboard?week=7");
+});
+
+test("week date label collapses equal Central dates while retaining distinct ranges", () => {
+  assert.equal(weekDateLabel([game("a"), game("b",6,{kickoff:"2026-10-03T01:00:00Z"})], "2026", "6"), "Oct 2");
+  assert.equal(weekDateLabel([game("a"),game("b",6,{kickoff:"2026-10-03T19:00:00-05:00"})],"2026","6"), "Oct 2 – Oct 3");
 });
