@@ -35,3 +35,11 @@ jobs:
         with:
           name: unified-games-browser-evidence
           path: unified-games-browser-evidence
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bounded-action-browser-evidence
+          path: |
+            unified-games-browser-evidence/*text-200-*.png
+            unified-games-browser-evidence/copied-multiple-cards.png
+            unified-games-browser-evidence/results.json
