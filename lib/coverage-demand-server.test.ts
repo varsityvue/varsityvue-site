@@ -29,3 +29,13 @@ test("same-origin validation uses incoming Host when Next has an internal listen
  const mismatch=new Request('http://localhost:3002/api/coverage-demand',{method:'POST',headers:{origin:'http://different.invalid:3002',host:'127.0.0.1:3002','content-type':'application/json'},body:JSON.stringify(fixtureSummary)});
  assert.equal((await ingestCoverage(mismatch,async()=>{},options)).status,400);
 });
+
+test("bounded SQLSTATE classification and sanitized operational categories do not alter ingestion responses",async()=>{
+ const {coverageFailureCategory,CoverageDatabaseFailure}=await import('./coverage-demand-server');
+ assert.equal(await coverageFailureCategory(Response.json({code:'54000',message:'sensitive'})),'capacity_failure');
+ assert.equal(await coverageFailureCategory(new Response('x'.repeat(4097))),'database_failure');
+ const statuses:string[]=[];
+ assert.equal((await ingestCoverage(request(fixtureSummary),async()=>{throw new CoverageDatabaseFailure('capacity_failure');},{...options,health:s=>statuses.push(s)})).status,503);
+ assert.deepEqual(statuses,['capacity_failure']);
+ assert.equal((await ingestCoverage(request(fixtureSummary),async()=>{},{...options,health:()=>{throw Error('monitor');}})).status,204);
+});

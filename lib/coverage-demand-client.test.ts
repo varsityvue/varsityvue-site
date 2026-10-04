@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { CoverageEpisode,CoveragePreference,deliverCoverageSummary } from "./coverage-demand-client";
@@ -40,4 +41,9 @@ test("preference reconciliation revokes stale consent, invalid/removal values, a
  for(const value of [null,'invalid','']){persisted='enabled';preference.reconcile();ep.observe({},fixtureSummary,true);persisted=value;ep.finalize();assert.equal(sent,0);assert.equal(preference.reconcile(),null);}
  blocked=true;preference.choose('enabled');ep.observe({},fixtureSummary,true);ep.finalize();assert.equal(sent,1);
  preference.choose('disabled');ep.observe({},fixtureSummary,true);ep.finalize();assert.equal(sent,1);
+});
+
+test("activation preference is versioned and no legacy key is read or transferred",()=>{
+ const source = readFileSync('lib/coverage-demand-client.ts','utf8');
+ assert.match(source,/coverage_measurement_v2/);assert.doesNotMatch(source,/coverage_measurement_v1/);
 });

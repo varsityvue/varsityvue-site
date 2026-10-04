@@ -77,6 +77,7 @@ export default function Footer() {
               links={[
                 { href: "/about", label: "About" },
                 { href: "/contact", label: "Contact" },
+                { href: "/privacy", label: "Privacy" },
                 { href: "/submit", label: "Submit to VarsityVue" },
                 { href: "/contributors", label: "Become a Contributor" },
                 { href: "/school-request", label: "Request a School" },
@@ -144,6 +145,8 @@ function FooterColumn({
       </h3>
       <div className="mt-3 flex flex-col gap-2 text-xs text-white/70 sm:mt-4 sm:gap-3 sm:text-sm">
         {links.map((link) => (
+          link.href === "/privacy" ? <a key={link.href} href={link.href}
+            className="w-fit transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70">{link.label}</a> :
           <Link
             key={link.href}
             href={link.href}
