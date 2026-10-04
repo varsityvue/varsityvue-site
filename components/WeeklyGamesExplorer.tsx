@@ -475,7 +475,9 @@ export default function WeeklyGamesExplorer(props: Props) {
             method="get"
             onSubmit={(e) => {
               e.preventDefault();
-              e.currentTarget.closest("details")?.removeAttribute("open");
+              const panel = e.currentTarget.closest("details");
+              panel?.removeAttribute("open");
+              panel?.querySelector("summary")?.focus();
               const d = new FormData(e.currentTarget);
               update({
                 filter: String(d.get("filter") ?? "all") as WeeklyParams["filter"],
