@@ -111,8 +111,10 @@ const api = http.createServer((req, res) => {
     scoreCalls++;
     return send(rows);
   }
-  if (path.includes("school_follows"))
-    return send([{ school_slug: "de-leon" }, { school_slug: "hawley" }]);
+  if (path.includes("school_follows")) {
+    const school = new URL(path, "http://127.0.0.1").searchParams.get("school_slug");
+    return send([{ school_slug: "de-leon" }, { school_slug: "hawley" }].filter(row => !school || school === `eq.${row.school_slug}`));
+  }
   if (path.includes("member_account_status"))
     return send([{ status: "active" }]);
   send([]);
