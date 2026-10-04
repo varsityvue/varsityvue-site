@@ -8,6 +8,7 @@ import { getStandingForSchoolFromGames } from "@/lib/standings";
 import SchoolBadge from "./SchoolBadge";
 import ProgramLogo from "./ProgramLogo";
 import SchoolFollowControl from "./SchoolFollowControl";
+import ShareAction from "./ShareAction";
 
 function formatShortClassification(classification: UILClassification) {
   if (!classification.division) return classification.conference;
@@ -49,7 +50,7 @@ export default function SchoolHero({ school, games, isAuthenticated, isFollowing
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.82),rgba(0,0,0,0.30))]" /><div className="absolute -right-24 top-16 h-80 w-80 rounded-full bg-white/10 blur-3xl" />
       <div className="relative mx-auto grid max-w-[1440px] gap-4 px-4 py-4 sm:gap-5 sm:px-6 sm:py-8 lg:min-h-[500px] lg:grid-cols-[1.15fr_0.85fr] lg:gap-8 lg:px-8">
         <div className="flex min-w-0 flex-col justify-between"><div className="min-w-0">
-          <Link href="/schools" className="inline-flex text-[10px] font-black uppercase tracking-[0.14em] text-white/50 transition hover:text-white sm:text-xs sm:tracking-[0.18em]">← School Directory</Link>
+          <div className="flex min-h-11 items-center justify-between gap-3 lg:pr-14"><Link href="/schools" className="inline-flex text-[10px] font-black uppercase tracking-[0.14em] text-white/50 transition hover:text-white sm:text-xs sm:tracking-[0.18em]">← School Directory</Link><ShareAction title={`${school.name} Football | VarsityVue`} text={`${school.name} ${school.mascot} Football — schedules, scores, standings and coverage on VarsityVue.`} url={`https://varsityvue.com/schools/${encodeURIComponent(school.slug)}`} className="shrink-0 lg:absolute lg:right-8 lg:top-6" /></div>
           <div className="mt-2 flex min-w-0 flex-wrap items-center gap-1.5 sm:mt-6 sm:gap-3"><HeroChip label="2026 Football" /></div>
           <div className="mt-3 grid min-w-0 grid-cols-[auto_minmax(0,1fr)] items-center gap-x-3 gap-y-2 sm:mt-8 sm:gap-x-6 sm:gap-y-3">
             <div className="shrink-0 self-center">
@@ -57,12 +58,11 @@ export default function SchoolHero({ school, games, isAuthenticated, isFollowing
               <div className="hidden sm:block"><ProgramLogo school={school} size="md" /></div>
             </div>
             <div className="min-w-0">
-              <h1 className={`font-black uppercase leading-[0.92] tracking-tight text-white ${longSchoolName ? "text-[2.15rem] sm:text-5xl lg:text-6xl xl:text-7xl" : "text-[2.35rem] sm:text-7xl xl:text-8xl"}`}>{school.name}</h1>
+              <h1 className={`[overflow-wrap:anywhere] font-black uppercase leading-[0.92] tracking-tight text-white ${longSchoolName ? "text-[2.15rem] sm:text-5xl lg:text-6xl xl:text-7xl" : "text-[2.35rem] sm:text-7xl xl:text-8xl"}`}>{school.name}</h1>
               <p className="mt-1 truncate text-[9px] font-black uppercase tracking-[0.14em] text-white/55 sm:mt-2 sm:text-xs sm:tracking-[0.24em]">{school.fullName}</p>
             </div>
             <div className="col-span-2 mt-1 sm:col-span-1 sm:col-start-2 sm:mt-0">
               <SchoolFollowControl schoolName={school.name} schoolSlug={school.slug} isAuthenticated={isAuthenticated} isFollowing={isFollowing} finishFollowing={finishFollowing} initialMessage={followMessage} />
-              {!isFollowing && <p className="mt-1.5 max-w-sm text-[9px] leading-4 text-white/50 sm:text-[10px]">Follow this team to see its games and coverage first. Email alerts are a separate choice in Account.</p>}
             </div>
             <div className="col-span-2 mt-1 text-[10px] font-semibold leading-5 text-white/50 sm:col-span-1 sm:col-start-2 sm:mt-0 sm:text-xs sm:leading-6">
               {school.headCoach && <p><span className="text-white/55">Head coach:</span> {school.headCoach}</p>}
