@@ -194,7 +194,7 @@ async function authenticated(c) {
 async function chooseStatus(page, value) {
   const filters = page.locator(".weekly-filters");
   if ((await filters.getAttribute("open")) === null) await filters.locator("summary").click();
-  await page.getByLabel("Game status", {exact:true}).selectOption(value);
+  await page.getByRole("combobox", {name:"Game status", exact:true}).selectOption(value);
   await page.getByRole("button", {name:"Apply filters", exact:true}).click();
 }
 async function settled(page) {
