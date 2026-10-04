@@ -1,5 +1,10 @@
+import type { CoverageHealthCategory } from "./coverage-operations";
 import { MAX_SUMMARY_BYTES, validSummary } from "./coverage-demand-summary";
 import type { GamesNearMeSearchSummary } from "@/types/coverage-demand";
+
+export class CoverageDatabaseFailure extends Error {
+  constructor(readonly category: "database_failure" | "capacity_failure") { super("Coverage aggregate unavailable"); }
+}
 
 // A process-local global budget, never indexed by an IP or browser identifier.
 // Distributed protection remains a deployment requirement, not a uniqueness claim.
@@ -26,7 +31,7 @@ export async function readCoverageBody(request: Request): Promise<unknown> {
   return JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(body));
 }
 export async function ingestCoverage(request: Request, record: (summary: GamesNearMeSearchSummary) => Promise<void>,
-  options: { enabled: boolean; budget: () => boolean; approved: (summary: GamesNearMeSearchSummary) => boolean }): Promise<Response> {
+  options: { enabled: boolean; budget: () => boolean; approved: (summary: GamesNearMeSearchSummary) => boolean; health?: (category: CoverageHealthCategory) => void }): Promise<Response> {
   const respond = (status: number) => new Response(null, { status, headers: { "Cache-Control": "no-store" } });
   if (!options.enabled) return respond(503);
   // Exact same origin; no CORS allowance. Does not inspect IP, UA, cookies or identity.
@@ -40,5 +45,22 @@ export async function ingestCoverage(request: Request, record: (summary: GamesNe
   let summary: unknown;
   try { summary = await readCoverageBody(request); } catch { return respond(400); }
   if (!validSummary(summary) || !options.approved(summary)) return respond(400);
-  try { await record(summary); return respond(204); } catch { return respond(503); }
+  const health = (category: CoverageHealthCategory) => { try { options.health?.(category); } catch { /* optional operations cannot change ingestion */ } };
+  try { await record(summary); health("accepted"); return respond(204); } catch (error) { health(error instanceof CoverageDatabaseFailure ? error.category : "database_failure"); return respond(503); }
+}
+
+// Parse only a bounded SQLSTATE. Response diagnostics never enter signals or logs.
+export async function coverageFailureCategory(response: Response): Promise<"capacity_failure" | "database_failure"> {
+  const reader = response.body?.getReader();
+  if (!reader) return "database_failure";
+  let text = "", bytes = 0; const decoder = new TextDecoder();
+  try {
+    while (true) {
+      const {done,value} = await reader.read(); if (done) break;
+      bytes += value.byteLength; if (bytes > 4096) { await reader.cancel(); return "database_failure"; }
+      text += decoder.decode(value, {stream:true});
+    }
+    text += decoder.decode();
+    return JSON.parse(text)?.code === "54000" ? "capacity_failure" : "database_failure";
+  } catch { return "database_failure"; } finally { reader.releaseLock(); }
 }
