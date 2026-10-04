@@ -16,6 +16,7 @@ test("upcoming shares canonical game, Central kickoff and available venue", () =
   assert.match(share.text, /Test at Home · Week 7/);
   assert.match(share.text, /Friday, Oct 9.*7:00 PM CDT/);
   assert.match(share.text, /Long Stadium Name/);
+  assert.match(gameShare({...base, venue:undefined, locationInfo:{locationQuality:"verified",locationSource:"home_venue",venueName:"Verified Field",city:"Hamilton",latitude:31.7,longitude:-98.1}},now).text,/Verified Field · Hamilton/);
 });
 test("only authoritative scores and live context enter share text, including zero", () => {
   const live = {...base, status:"live" as const, publicScoreVerified:true, awayScore:0,homeScore:14,score:{away:0,home:14,period:"3rd",clock:"2:05"}};

@@ -18,7 +18,8 @@ export function gameShare(game: WeeklyGame, now: Date) {
       ...(game.kickoff?.includes("T") ? {hour: "numeric", minute: "2-digit", timeZoneName: "short"} as const : {}),
     }).format(date) + (game.kickoff?.includes("T") ? "" : " · Time TBD"));
     else lines.push("Date/time TBD");
-    if (game.venue) lines.push(game.venue);
+    const venue = game.locationInfo.locationQuality === "verified" ? `${game.locationInfo.venueName} · ${game.locationInfo.city}` : game.venue;
+    if (venue) lines.push(venue);
   }
   lines.push(p.authoritativeLive ? "Follow the live score on VarsityVue" : p.kind === "scheduled" ? "View the matchup on VarsityVue" : "View the game on VarsityVue");
   return {title: `${matchup} | VarsityVue`, text: lines.join("\n"), url: `https://varsityvue.com/games/${encodeURIComponent(game.id)}`};
