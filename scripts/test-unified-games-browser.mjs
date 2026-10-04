@@ -48,8 +48,8 @@ const rows = [
   {
     game_id: "albany-at-stamford-2026-week-7",
     status: "final",
-    home_score: 7,
-    away_score: 0,
+    home_score: 107,
+    away_score: 100,
     verified: true,
     result_type: "played",
   },
@@ -289,6 +289,13 @@ try {
         .then((x) => x.join(",")),
       ",",
     );
+    const scoredFinal = page.locator('[data-game-id="albany-at-stamford-2026-week-7"]');
+    assert.deepEqual(await scoredFinal.locator(".weekly-teams strong").allTextContents(), ["100","107"]);
+    assert.ok(await scoredFinal.evaluate(e => {
+      const share = e.querySelector(".weekly-share button").getBoundingClientRect();
+      const actions = e.querySelector(".weekly-actions summary").getBoundingClientRect();
+      return [...e.querySelectorAll(".weekly-teams strong")].every(score => score.getBoundingClientRect().right <= Math.min(share.left, actions.left));
+    }), "Three-digit final scores must not intersect share or overflow actions");
     await page.screenshot({
       path: `${evidence}/${label}-completed-${width}.png`,
       fullPage: true,
