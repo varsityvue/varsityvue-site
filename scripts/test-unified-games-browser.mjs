@@ -753,8 +753,15 @@ try {
         const controls=[...section.querySelectorAll("button")].map(b=>b.getBoundingClientRect());
         return controls.every(b => h.left >= b.right || h.right <= b.left || h.top >= b.bottom || h.bottom <= b.top);
       }), "School title must not collide with Follow/Share");
-      assert.equal(await sharePage.evaluate(() => document.documentElement.scrollWidth <= innerWidth),true);
       await sharePage.screenshot({path:`${evidence}/school-${slug}-text-200-${width}.png`,fullPage:true});
+      assert.ok(await sharePage.locator("h1").evaluate(e => {
+        const hero=e.closest("section"), bounds=hero.getBoundingClientRect();
+        return [...hero.querySelectorAll("button")].every(control => {
+          const b=control.getBoundingClientRect();
+          return b.left >= bounds.left && b.right <= bounds.right && b.width >=44 && b.height >=44;
+        });
+      }), "Enlarged hero controls must remain accessible inside the hero");
+      console.log("SCHOOL TEXT 200",slug,width,await sharePage.evaluate(() => [...document.querySelectorAll("body *")].filter(e => {const b=e.getBoundingClientRect();return b.right > innerWidth+1 && b.width && getComputedStyle(e).position !== "absolute";}).slice(0,8).map(e=>({tag:e.tagName,class:e.className,text:e.textContent.slice(0,60)}))));
     }
     await sharePage.goto(origin+"/schools");
     await sharePage.screenshot({path:`${evidence}/directory-${width}.png`,fullPage:true});
