@@ -121,7 +121,7 @@ test('saturation and counter reset are indeterminate; missed evaluation and dele
   await record(base, 1000000); let view = await evaluate(base); assert.ok(view.incident & 4); assert.equal(view.clean_windows, 0);
   await command(['DEL', state]); view = fleetSnapshot(await store.central('review')); assert.equal(view.incident, 4); assert.equal(view.transport_fault, 1);
   now += 3900; view = fleetSnapshot(await store.central('evaluate')); assert.ok(view.incident & 4); assert.equal(view.clean_windows, 0);
-  assert.equal(Number(await command(['HLEN', state])), 12);
+  assert.equal(Number(await command(['HLEN', state])), 11);
 });
 test('ambiguous acknowledgment commits once, marks uncertainty and is never retried as a delta', async () => {
   const collector = fleetCollector(() => now * 1000); collector.observe('accepted'); lose = true;

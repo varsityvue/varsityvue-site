@@ -126,9 +126,12 @@ export async function runFleet(request: Request, action: "evaluate" | "review" |
     try {
       const reader = request.body?.getReader(); if (!reader) return respond(400, "invalid_request");
       let text = "", size = 0;
+      let timedOut = false;
+      const deadline = setTimeout(() => { timedOut = true; void reader.cancel().catch(() => {}); }, 1500);
       try { while (true) { const r = await reader.read(); if (r.done) break; size += r.value.byteLength;
         if (size > 512) { await reader.cancel(); return respond(400, "invalid_request"); } text += new TextDecoder().decode(r.value); } }
-      finally { reader.releaseLock(); }
+      finally { clearTimeout(deadline); reader.releaseLock(); }
+      if (timedOut) return respond(400, "invalid_request");
       const v = JSON.parse(text);
       if (Object.keys(v).sort().join() !== "cause_resolved,expected_revision,loss_accepted,reviewed_window,transport_reviewed"
         || v.cause_resolved !== true || v.transport_reviewed !== true || v.loss_accepted !== true

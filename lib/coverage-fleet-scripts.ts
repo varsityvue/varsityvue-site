@@ -22,7 +22,9 @@ local function latch(flag)
   local old = num(state, 'incident')
   local next = bit.bor(old, flag)
   if next ~= old then
-    redis.call('HSET', state, 'incident', next, 'revision', num(state, 'revision') + 1,
+    local revision = math.min(1000000000, num(state, 'revision') + 1)
+    if revision == 1000000000 then next = bit.bor(next, 4) end
+    redis.call('HSET', state, 'incident', next, 'revision', revision,
       'notify_after', 0, 'lease_until', 0)
   end
 end
@@ -115,7 +117,8 @@ elseif op == 'fault' then
 elseif op == 'recover' then
   if tonumber(ARGV[3]) ~= num(state, 'revision') or tonumber(ARGV[4]) ~= latest
     or num(state, 'last_window') ~= latest or now - num(state, 'last_eval') > 90
-    or num(state, 'clean_windows') < 2 or num(state, 'incident') == 0 then return {0} end
+    or num(state, 'clean_windows') < 2 or num(state, 'incident') == 0
+    or num(state, 'revision') >= 999999999 then return {0} end
   for window = latest - 1, current do
     local key = bucket(window)
     if num(key, 'database_failure') + num(key, 'capacity_failure') > 0 or num(key, 'indeterminate') == 1 then return {0} end
