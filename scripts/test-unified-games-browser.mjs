@@ -753,7 +753,7 @@ try {
         const controls=[...section.querySelectorAll("button")].map(b=>b.getBoundingClientRect());
         return controls.every(b => h.left >= b.right || h.right <= b.left || h.top >= b.bottom || h.bottom <= b.top);
       }), "School title must not collide with Follow/Share");
-      await sharePage.screenshot({path:`${evidence}/school-${slug}-text-200-${width}.png`,fullPage:true});
+      await sharePage.locator("section").filter({has:sharePage.locator("h1")}).screenshot({path:`${evidence}/school-${slug}-text-200-${width}.png`});
       assert.ok(await sharePage.locator("h1").evaluate(e => {
         const hero=e.closest("section"), bounds=hero.getBoundingClientRect();
         return [...hero.querySelectorAll("button")].every(control => {
