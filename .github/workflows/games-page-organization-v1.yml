@@ -18,7 +18,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: node --import tsx --test lib/game-share.test.ts lib/unified-games.test.ts lib/games-page-organization.test.ts lib/game-presentation.test.ts lib/game-discovery.test.ts lib/follow-personalization.test.ts lib/public-score-loader.test.ts lib/hamilton-featured.test.ts lib/public-read-contracts.test.ts
+      - run: node --import tsx --test lib/share-action.test.ts lib/game-share.test.ts lib/unified-games.test.ts lib/games-page-organization.test.ts lib/game-presentation.test.ts lib/game-discovery.test.ts lib/follow-personalization.test.ts lib/public-score-loader.test.ts lib/hamilton-featured.test.ts lib/public-read-contracts.test.ts
       - run: npx tsc --noEmit
       - run: npm run lint
       - run: npm run build

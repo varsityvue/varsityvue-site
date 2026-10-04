@@ -835,6 +835,13 @@ try {
   await sharePage.clock.runFor(4001);
   assert.equal(await feedback.count(),0,"Copied feedback expires after four seconds");
   await shareButton.click();
+  const previousScore=rows[0].home_score;
+  rows[0].home_score=previousScore+1;
+  await sharePage.getByRole("button",{name:"Refresh scores",exact:true}).click();
+  await sharePage.waitForFunction(() => !document.querySelector('[data-game-id="de-leon-at-hawley-2026-week-7"] [role="status"]').textContent);
+  assert.equal(await feedback.count(),0,"Changed share content resets obsolete feedback immediately");
+  rows[0].home_score=previousScore;
+  await shareButton.click();
   await sharePage.getByRole("link",{name:"Week 8",exact:true}).click();
   await sharePage.clock.runFor(5000);
   assert.equal(await feedback.count(),0,"Feedback and timer do not survive card unmount");

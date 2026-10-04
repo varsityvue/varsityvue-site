@@ -6,12 +6,24 @@ import { Share2 } from "lucide-react";
 export default function ShareAction({ title, text, url, className = "" }: {
   title: string; text: string; url: string; className?: string;
 }) {
-  const [message, setMessage] = useState("");
+  const [feedback, setFeedback] = useState<{key: string} | null>(null);
+  const contentKey = JSON.stringify([title, text, url]);
   const [pending, setPending] = useState(false);
   const sharing = useRef(false);
   const mounted = useRef(false);
   const feedbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const feedbackVersion = useRef(0);
+  const [previousContent, setPreviousContent] = useState(contentKey);
+  if (previousContent !== contentKey) {
+    setPreviousContent(contentKey);
+    setFeedback(null);
+  }
+  const message = feedback?.key === contentKey ? "Link copied" : "";
+  useEffect(() => () => {
+    feedbackVersion.current++;
+    if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
+    feedbackTimer.current = null;
+  }, [contentKey]);
   useEffect(() => {
     mounted.current = true;
     return () => {
@@ -23,7 +35,7 @@ export default function ShareAction({ title, text, url, className = "" }: {
     feedbackVersion.current++;
     if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
     feedbackTimer.current = null;
-    setMessage("");
+    setFeedback(null);
   }
   async function share() {
     // The ref closes the same-render gap before native sharing or any await.
@@ -31,6 +43,7 @@ export default function ShareAction({ title, text, url, className = "" }: {
     sharing.current = true;
     setPending(true);
     clearFeedback();
+    const attemptVersion = feedbackVersion.current;
     try {
       if (navigator.share) {
         try {
@@ -40,21 +53,21 @@ export default function ShareAction({ title, text, url, className = "" }: {
           if (error instanceof DOMException && error.name === "AbortError") return;
         }
       }
-      if (!mounted.current) return;
+      if (!mounted.current || attemptVersion !== feedbackVersion.current) return;
       try {
         await navigator.clipboard.writeText(`${text}\n${url}`);
-        if (mounted.current) {
-          setMessage("Link copied");
+        if (mounted.current && attemptVersion === feedbackVersion.current) {
           const version = ++feedbackVersion.current;
+          setFeedback({key: contentKey});
           feedbackTimer.current = setTimeout(() => {
             if (mounted.current && version === feedbackVersion.current) {
-              setMessage("");
+              setFeedback(null);
               feedbackTimer.current = null;
             }
           }, 4000);
         }
       } catch {
-        if (mounted.current) window.location.href = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(`${text}\n${url}`)}`;
+        if (mounted.current && attemptVersion === feedbackVersion.current) window.location.href = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(`${text}\n${url}`)}`;
       }
     } finally {
       sharing.current = false;
