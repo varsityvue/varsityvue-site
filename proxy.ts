@@ -3,7 +3,8 @@ import { updateSession } from "@/lib/supabase/proxy";
 
 export async function proxy(request: NextRequest) {
   // Anonymous regional summaries must never pass through session refresh.
-  if (["/api/coverage-demand", "/api/cron/coverage-demand-retention"].includes(request.nextUrl.pathname)) return NextResponse.next();
+  if (["/api/coverage-demand", "/api/cron/coverage-demand-retention", "/api/cron/coverage-demand-fleet",
+    "/api/coverage-demand-fleet/recovery"].includes(request.nextUrl.pathname)) return NextResponse.next();
 
   if (request.nextUrl.pathname === "/Pickem") {
     const destination = request.nextUrl.clone();

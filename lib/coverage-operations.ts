@@ -20,30 +20,6 @@ export async function heartbeat(url: string | undefined, signal: HeartbeatSignal
   } catch { return false; }
 }
 
-// Fixed five-minute tumbling totals only; bounded memory, no event history or keys.
-// Per-instance evidence cannot establish fleet health. A provider aggregate alert is also a launch gate.
-export function ingestionHealth(clock: () => number = Date.now) {
-  let window = -1, accepted = 0, database = 0, capacity = 0;
-  let failing = false, pending: HeartbeatSignal | null = null, inFlight = false, nextAttempt = 0;
-  return async (category: CoverageHealthCategory, signal: (state: HeartbeatSignal) => Promise<boolean>) => {
-    const next = Math.floor(clock() / 300000);
-    if (next !== window) { window = next; accepted = 0; database = 0; capacity = 0; }
-    if (category === "accepted") accepted = Math.min(1000000, accepted + 1);
-    if (category === "database_failure") database = Math.min(1000000, database + 1);
-    if (category === "capacity_failure") capacity = Math.min(1000000, capacity + 1);
-    const failures = database + capacity;
-    if (!failing && failures >= 5 && failures >= accepted) { failing = true; pending = "fail"; }
-    if (failing && accepted >= 3 && failures === 0) { failing = false; pending = "success"; }
-    if (!pending || inFlight || clock() < nextAttempt) return;
-    nextAttempt = clock() + 60000;
-    inFlight = true;
-    const state = pending;
-    try { if (await signal(state) && pending === state) pending = null; }
-    catch { /* retry on a later category; never retain exception data */ }
-    finally { inFlight = false; }
-  };
-}
-
 export type RetentionResult = { reporting_date: string; completed_at: string; moved_rows: number; postconditions: "passed"; skipped: boolean };
 export function validRetentionResult(value: unknown): value is RetentionResult {
   if (!value || typeof value !== "object") return false;

@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { heartbeat, ingestionHealth, runRetention, validHeartbeatUrl } from "./coverage-operations";
+import { heartbeat, runRetention, validHeartbeatUrl } from "./coverage-operations";
 import { readFileSync } from "node:fs";
 const target="https://hc-ping.com/00000000-0000-0000-0000-000000000000";
 const result={reporting_date:"2026-10-03",completed_at:"2026-10-03T08:00:00Z",moved_rows:12,postconditions:"passed",skipped:false};
@@ -30,15 +30,6 @@ test("monitor adapter restricts destination and emits empty bounded signals with
  const send:typeof fetch=async(url,init)=>{assert.equal(String(url),target+'/fail');assert.equal(init?.body,'');assert.equal(init?.credentials,'omit');assert.equal(init?.redirect,'error');assert.ok(init?.signal);return new Response(null,{status:200});};
  assert.equal(await heartbeat(target,'fail',send),true);
  assert.equal(await heartbeat(target,'success',async()=>{throw Error('secret');}),false);
-});
-test("bounded ingestion totals detect sustained failures, retry notification and recover; inactivity never alerts",async()=>{
- let now=0;const health=ingestionHealth(()=>now);const signals:string[]=[];let delivery=false;
- const ping=async(s:string)=>{signals.push(s);return delivery;};
- for(let i=0;i<4;i++)await health('database_failure',ping);assert.deepEqual(signals,[]);
- await health('capacity_failure',ping);assert.deepEqual(signals,['fail']);
- delivery=true;now=60000;await health('database_failure',ping);assert.deepEqual(signals,['fail','fail']);
- now=300000;for(let i=0;i<3;i++)await health('accepted',ping);assert.deepEqual(signals,['fail','fail','success']);
- now=900000;await health('accepted',ping);assert.equal(signals.length,3);
 });
 test("operations have no sensitive console logs, public status route, active schedule or client secret reference",()=>{
  for(const file of ['lib/coverage-operations.ts','app/api/cron/coverage-demand-retention/route.ts','app/api/coverage-demand/route.ts'])assert.doesNotMatch(readFileSync(file,'utf8'),/console\.|track\(|getUser\(|cookies\(/);

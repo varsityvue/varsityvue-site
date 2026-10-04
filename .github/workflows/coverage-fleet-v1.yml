@@ -1,0 +1,65 @@
+name: Coverage fleet monitoring draft verification
+on:
+  push:
+    branches: [codex/coverage-fleet-monitoring-draft]
+  pull_request:
+    paths:
+      - 'lib/coverage-*'
+      - 'app/api/coverage-demand/**'
+      - 'app/api/coverage-demand-fleet/**'
+      - 'app/api/cron/coverage-demand-fleet/**'
+      - 'proxy.ts'
+      - 'scripts/test-coverage-fleet-redis.mjs'
+      - 'docs/coverage-fleet-monitoring-draft.md'
+      - '.github/workflows/coverage-fleet-v1.yml'
+permissions:
+  contents: read
+concurrency:
+  group: coverage-fleet-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      redis:
+        image: redis:7.2.7-alpine
+        ports: ['6379:6379']
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Bounded adapters and relevant regressions
+        run: node --import tsx --test lib/coverage-*.test.ts lib/unified-games.test.ts lib/game-discovery.test.ts lib/game-share.test.ts lib/share-action.test.ts
+      - name: Actual Lua, concurrent disposable instances, REST transport and recovery
+        env:
+          COVERAGE_FLEET_LOCAL_REDIS_PORT: '6379'
+        run: |
+          mkdir -p coverage-fleet-evidence
+          node --import tsx --test scripts/test-coverage-fleet-redis.mjs > coverage-fleet-evidence/redis-tests.txt 2>&1
+          cat coverage-fleet-evidence/redis-tests.txt
+      - run: npx tsc --noEmit
+      - run: npx eslint lib/coverage-*.ts app/api/coverage-demand/route.ts app/api/coverage-demand-fleet/recovery/route.ts app/api/cron/coverage-demand-fleet/route.ts proxy.ts scripts/test-coverage-fleet-redis.mjs
+      - run: npm run build
+      - run: git diff --check
+      - name: Exact evidence identity and dormant scope
+        run: |
+          git rev-parse HEAD HEAD^{tree} > coverage-fleet-evidence/identity.txt
+          git diff --name-only origin/main...HEAD > coverage-fleet-evidence/changed-files.txt
+          test -z "$(git diff origin/main...HEAD -- vercel.json supabase/migrations components/WeeklyGamesExplorer.tsx lib/coverage-demand-client.ts types/coverage-demand.ts)"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-fleet-isolated-evidence
+          path: coverage-fleet-evidence
+          if-no-files-found: error

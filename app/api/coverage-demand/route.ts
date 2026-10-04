@@ -1,5 +1,6 @@
 import { after } from "next/server";
-import { heartbeat, ingestionHealth } from "@/lib/coverage-operations";
+import { fleetCollector } from "@/lib/coverage-fleet";
+import { fleetRuntimeConfig, lazyFleetStore } from "@/lib/coverage-fleet-runtime";
 import { ingestCoverage, coverageBudget, CoverageDatabaseFailure, coverageFailureCategory } from "@/lib/coverage-demand-server";
 import { getGames } from "@/lib/games";
 import { pilotGate } from "@/lib/game-discovery";
@@ -10,7 +11,7 @@ import { gameVenueOverrides } from "@/data/game-venue-overrides";
 
 export const runtime = "nodejs";
 const budget = coverageBudget();
-const health = ingestionHealth();
+const health = fleetCollector();
 const slates = getGames().map(game => toDiscoveryGame(game, resolveGameLocation(game, venues, schoolFootballVenues, gameVenueOverrides)));
 
 export async function POST(request: Request) {
@@ -26,8 +27,10 @@ export async function POST(request: Request) {
     if (!response.ok) throw new CoverageDatabaseFailure(await coverageFailureCategory(response));
   }, { enabled: process.env.COVERAGE_DEMAND_ENABLED === "true" && Boolean(url && key), budget,
     health: category => {
-      if (process.env.COVERAGE_DEMAND_INGESTION_MONITOR_ENABLED === "true") {
-        after(() => health(category, state => heartbeat(process.env.COVERAGE_DEMAND_INGESTION_HEARTBEAT_URL, state)));
+      if (process.env.COVERAGE_DEMAND_INGESTION_MONITOR_ENABLED === "true" && fleetRuntimeConfig().enabled) {
+        if (health.observe(category)) after(async () => {
+          try { await health.flush(lazyFleetStore()); } catch { /* monitoring never changes ingestion */ }
+        });
       }
     },
     approved: summary => { const gate = pilotGate(slates, summary.week);
