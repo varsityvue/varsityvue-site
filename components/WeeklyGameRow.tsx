@@ -97,6 +97,7 @@ export default function WeeklyGameRow({
         </p>
         {byline && <p className="weekly-byline">{byline}</p>}
       </Link>
+      <div className="weekly-row-controls">
       <ShareAction {...gameShare(g, now)} className="weekly-share" />
       <details className="weekly-actions">
         <summary aria-label={`Actions for ${g.awayTeam} at ${g.homeTeam}`}>
@@ -148,6 +149,7 @@ export default function WeeklyGameRow({
           )}
         </div>
       </details>
+      </div>
     </article>
   );
 }

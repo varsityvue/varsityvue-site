@@ -58,7 +58,7 @@ export default function SchoolHero({ school, games, isAuthenticated, isFollowing
               <div className="hidden sm:block"><ProgramLogo school={school} size="md" /></div>
             </div>
             <div className="min-w-0">
-              <h1 className={`font-black uppercase leading-[0.92] tracking-tight text-white ${longSchoolName ? "text-[2.15rem] sm:text-5xl lg:text-6xl xl:text-7xl" : "text-[2.35rem] sm:text-7xl xl:text-8xl"}`}>{school.name}</h1>
+              <h1 className={`[overflow-wrap:anywhere] font-black uppercase leading-[0.92] tracking-tight text-white ${longSchoolName ? "text-[2.15rem] sm:text-5xl lg:text-6xl xl:text-7xl" : "text-[2.35rem] sm:text-7xl xl:text-8xl"}`}>{school.name}</h1>
               <p className="mt-1 truncate text-[9px] font-black uppercase tracking-[0.14em] text-white/55 sm:mt-2 sm:text-xs sm:tracking-[0.24em]">{school.fullName}</p>
             </div>
             <div className="col-span-2 mt-1 sm:col-span-1 sm:col-start-2 sm:mt-0">

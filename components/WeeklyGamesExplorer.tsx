@@ -481,7 +481,7 @@ export default function WeeklyGamesExplorer(props: Props) {
               const d = new FormData(e.currentTarget);
               update({
                 filter: String(d.get("filter") ?? "all") as WeeklyParams["filter"],
-                ...(String(d.get("filter")) !== params.filter ? {current: false, verified: false} : {}),
+                current: false, verified: false,
                 classification: String(d.get("classification") ?? ""),
                 district: d.has("district"),
                 following: d.has("following"),
@@ -498,6 +498,8 @@ export default function WeeklyGamesExplorer(props: Props) {
                     "district",
                     "following",
                     "radius",
+                    "state",
+                    "result",
                   ].includes(k),
               )
               .map(([k, v]) => (
@@ -527,6 +529,7 @@ export default function WeeklyGamesExplorer(props: Props) {
               <input
                 type="checkbox"
                 name="district"
+                value="1"
                 key={`d${params.district}`}
                 defaultChecked={params.district}
               />
@@ -536,6 +539,7 @@ export default function WeeklyGamesExplorer(props: Props) {
               <input
                 type="checkbox"
                 name="following"
+                value="1"
                 key={`f${params.following}`}
                 defaultChecked={params.following}
               />
