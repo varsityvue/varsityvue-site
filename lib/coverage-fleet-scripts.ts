@@ -6,11 +6,40 @@ ${FLEET_CLOCK}
 local current = math.floor(now / 300)
 local latest = math.floor((now - 30) / 300) - 1
 local state = KEYS[1]
-for _, key in ipairs(KEYS) do
+-- Validate existing hashes completely before any read-as-zero or mutation.
+-- Absent buckets represent no observed traffic; existing incomplete hashes never do.
+local safe = 9007199254740991
+local stateSchema = {last_window={0,safe}, failure_streak={0,2}, capacity_streak={0,2},
+  clean_windows={0,2}, incident={0,7}, revision={1,1000000000},
+  notified_revision={0,1000000000}, notify_after={0,safe}, lease_until={0,safe},
+  transport_fault={0,1}, last_eval={0,safe}}
+local bucketSchema = {accepted={0,1000000}, database_failure={0,1000000},
+  capacity_failure={0,1000000}, indeterminate={0,1}, finalized={0,1}}
+local function validHash(key, schema, count)
   local kind = redis.call('TYPE', key).ok
-  if kind ~= 'none' and kind ~= 'hash' then return redis.error_reply('invalid store') end
+  if kind == 'none' then return true end
+  if kind ~= 'hash' or redis.call('HLEN', key) ~= count then return false end
+  for field, range in pairs(schema) do
+    local raw = redis.call('HGET', key, field)
+    if not raw or not string.match(raw, '^%d+$') then return false end
+    local value = tonumber(raw)
+    if not value or value % 1 ~= 0 or value < range[1] or value > range[2]
+      or string.format('%.0f', value) ~= raw then return false end
+  end
+  return true
 end
-local function num(key, field) return tonumber(redis.call('HGET', key, field) or '0') end
+if not validHash(state, stateSchema, 11) then return redis.error_reply('invalid store') end
+if redis.call('EXISTS', state) == 1 and
+  tonumber(redis.call('HGET', state, 'notified_revision')) > tonumber(redis.call('HGET', state, 'revision')) then
+  return redis.error_reply('invalid store')
+end
+for i = 2, #KEYS do
+  if not validHash(KEYS[i], bucketSchema, 5) then return redis.error_reply('invalid store') end
+end
+local function num(key, field)
+  -- Only wholly absent hashes may supply zero; complete schemas above guard existing hashes.
+  return tonumber(redis.call('HGET', key, field) or '0')
+end
 local function initialize()
   if redis.call('EXISTS', state) == 0 then
     redis.call('HSET', state, 'last_window', latest - 2, 'failure_streak', 0, 'capacity_streak', 0,

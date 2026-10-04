@@ -145,3 +145,53 @@ test('store outage sanitizes response and signals independent evaluator failure 
     { secret: 'disposable', enabled: true, configured: true }, down, async s => { signals.push(s); return true; }, async s => { signals.push('incident:' + s); return true; });
   assert.equal(response.status, 503); assert.deepEqual(await response.json(), { state: 'monitor_unavailable' }); assert.deepEqual(signals, ['fail']);
 });
+
+// Every corruption fixture traverses the production REST adapter and actual Lua.
+test('partial singleton corruption never hides an incident or mutates damaged state', async () => {
+  for (const mutation of [
+    ...['last_window','failure_streak','capacity_streak','clean_windows','incident','revision','notified_revision','notify_after','lease_until','transport_fault','last_eval'].map(field => ['HDEL',state,field]), ['HSET', state, 'unexpected', '1'],
+    ['HSET', state, 'incident', 'bad'], ['HSET', state, 'incident', '8'],
+    ['HSET', state, 'revision', '0'], ['HSET', state, 'clean_windows', '3'],
+    ['HSET', state, 'transport_fault', '-1'], ['HSET', state, 'last_eval', '1.5'],
+    ['HSET', state, 'failure_streak', '01'], ['HSET', state, 'lease_until', '9007199254740992'],
+  ]) {
+    await command(['FLUSHDB']); now = base * 300 + 5;
+    await record(base, 1); const original = fleetSnapshot(await store.central('review'));
+    assert.equal(original.incident, 4);
+    await command(mutation); const damaged = await command(['HGETALL', state]);
+    for (const op of ['review', 'evaluate', 'claim', 'ack', 'fault', 'recover']) {
+      await assert.rejects(store.central(op, original.revision, original.window, true), /Fleet unavailable/);
+      assert.deepEqual(await command(['HGETALL', state]), damaged);
+    }
+    await assert.rejects(store.record(base, {accepted:1,database_failure:0,capacity_failure:0,indeterminate:false}));
+    const signals = [];
+    const response = await runFleet(new Request('https://fixture.invalid/evaluate', {headers:{authorization:'Bearer disposable'}}),
+      'evaluate', {secret:'disposable',enabled:true,configured:true}, store,
+      async s => { signals.push('evaluator:'+s); return true; }, async s => { signals.push('incident:'+s); return true; });
+    assert.equal(response.status,503); assert.deepEqual(signals,['evaluator:fail']);
+    assert.deepEqual(await command(['HGETALL', state]), damaged);
+  }
+});
+test('corrupt finalized and open buckets cannot provide clean proof or permit recovery', async () => {
+  const mutations = [
+    ['HDEL','database_failure'], ['HDEL','capacity_failure'], ['HDEL','indeterminate'],
+    ['HDEL','accepted'], ['HDEL','finalized'], ['HSET','unexpected','1'],
+    ['HSET','database_failure','bad'], ['HSET','capacity_failure','-1'],
+    ['HSET','accepted','1000001'], ['HSET','indeterminate','2'],
+    ['HSET','finalized','1.5'], ['HSET','accepted','1e2'],
+  ];
+  for (const open of [false,true]) for (const mutation of mutations) {
+    await command(['FLUSHDB']); now = base * 300 + 5;
+    await record(base,3); await evaluate(base); await record(base+1,3); const view = await evaluate(base+1);
+    const key = bucket(open ? base+2 : base+1);
+    if (open) await store.record(base+2,{accepted:1,database_failure:0,capacity_failure:0,indeterminate:false});
+    await command([mutation[0],key,...mutation.slice(1)]);
+    const damaged = await command(['HGETALL',key]), before = await command(['HGETALL',state]);
+    for (const op of ['review','evaluate','claim','ack','fault','recover']) {
+      await assert.rejects(store.central(op,view.revision,view.window,true), /Fleet unavailable/);
+    }
+    await assert.rejects(store.record(open ? base+2 : base+1,{accepted:1,database_failure:0,capacity_failure:0,indeterminate:false}));
+    assert.deepEqual(await command(['HGETALL',key]),damaged);
+    assert.deepEqual(await command(['HGETALL',state]),before);
+  }
+});
