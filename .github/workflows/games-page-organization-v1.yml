@@ -1,7 +1,7 @@
 name: Unified Games and Scores
 on:
   pull_request:
-    paths: ['app/games/**', 'app/scoreboard/**', 'app/api/games/**', 'app/globals.css', 'components/Weekly*.tsx', 'components/UnifiedGamesPage.tsx', 'components/MobileNavigation.tsx', 'components/SiteHeader.tsx', 'lib/unified-games*', 'lib/games-route-compatibility.ts', 'proxy.ts', 'lib/weekly-game-dto.ts', 'scripts/test-unified-games-browser.mjs', '.github/workflows/games-page-organization-v1.yml']
+    paths: ['app/games/**', 'app/scoreboard/**', 'app/api/games/**', 'app/globals.css', 'components/Weekly*.tsx', 'components/SchoolHero.tsx', 'components/ShareAction.tsx', 'lib/game-share*', 'public/logos/schools/hamilton.png', 'components/UnifiedGamesPage.tsx', 'components/MobileNavigation.tsx', 'components/SiteHeader.tsx', 'lib/unified-games*', 'lib/games-route-compatibility.ts', 'proxy.ts', 'lib/weekly-game-dto.ts', 'scripts/test-unified-games-browser.mjs', '.github/workflows/games-page-organization-v1.yml']
   push:
     branches: [codex/unified-games-scores-v1]
 jobs:
@@ -17,7 +17,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: node --import tsx --test lib/unified-games.test.ts lib/games-page-organization.test.ts lib/game-presentation.test.ts lib/game-discovery.test.ts lib/follow-personalization.test.ts lib/public-score-loader.test.ts lib/hamilton-featured.test.ts lib/public-read-contracts.test.ts
+      - run: node --import tsx --test lib/game-share.test.ts lib/unified-games.test.ts lib/games-page-organization.test.ts lib/game-presentation.test.ts lib/game-discovery.test.ts lib/follow-personalization.test.ts lib/public-score-loader.test.ts lib/hamilton-featured.test.ts lib/public-read-contracts.test.ts
       - run: npx tsc --noEmit
       - run: npm run lint
       - run: npm run build

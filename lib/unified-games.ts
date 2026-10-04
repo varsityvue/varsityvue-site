@@ -264,5 +264,6 @@ export function weekDateLabel(
       day: "numeric",
       timeZone: s.includes("T") ? "America/Chicago" : "UTC",
     }).format(new Date(s.includes("T") ? s : s + "T12:00:00Z"));
-  return `${format(dates[0])} – ${format(dates.at(-1)!)}`;
+  const first = format(dates[0]), last = format(dates.at(-1)!);
+  return first === last ? first : `${first} – ${last}`;
 }

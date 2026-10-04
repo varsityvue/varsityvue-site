@@ -1,6 +1,7 @@
 "use client";
 import { useEffectEvent, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { RefreshCw } from "lucide-react";
 import {
   parseWeeklyParams,
   weeklyUrl as collectionUrl,
@@ -52,7 +53,6 @@ export default function WeeklyGamesExplorer(props: Props) {
     [center, setCenter] = useState<(GeographicPoint & {source: CenterSource}) | null>(null),
     [heldIds, setHeldIds] = useState<string[] | null>(null),
     [showAll, setShowAll] = useState(false),
-    [shareMessage, setShareMessage] = useState(""),
     [seasonNotice, setSeasonNotice] = useState("");
   const request = useRef<AbortController | null>(null),
     generation = useRef(0),
@@ -427,6 +427,7 @@ export default function WeeklyGamesExplorer(props: Props) {
           </a>
         ))}
       </nav>
+      <div className="weekly-toolbar">
       <form
         className="weekly-search"
         action={route}
@@ -462,33 +463,10 @@ export default function WeeklyGamesExplorer(props: Props) {
           Search
         </button>
       </form>
-      <div className="weekly-toolbar">
-        <nav className="weekly-status-filters" aria-label="Game status">
-          {(["all", "live", "upcoming", "completed"] as const).map((filter) => (
-            <a
-              key={filter}
-              href={weeklyUrl(params, {
-                filter,
-                current: false,
-                verified: false,
-              })}
-              onClick={(e) =>
-                navigation(e, { filter, current: false, verified: false })
-              }
-              aria-current={
-                params.filter === filter && !params.current ? "page" : undefined
-              }
-            >
-              {filter === "live"
-                ? "LIVE"
-                : filter[0].toUpperCase() + filter.slice(1)}
-            </a>
-          ))}
-        </nav>
         <details className="weekly-filters">
           <summary>
             Filters
-            {params.district || params.classification || params.following
+            {params.filter !== "all" || params.district || params.classification || params.following
               ? " · active"
               : ""}
           </summary>
@@ -497,8 +475,11 @@ export default function WeeklyGamesExplorer(props: Props) {
             method="get"
             onSubmit={(e) => {
               e.preventDefault();
+              e.currentTarget.closest("details")?.removeAttribute("open");
               const d = new FormData(e.currentTarget);
               update({
+                filter: String(d.get("filter") ?? "all") as WeeklyParams["filter"],
+                ...(String(d.get("filter")) !== params.filter ? {current: false, verified: false} : {}),
                 classification: String(d.get("classification") ?? ""),
                 district: d.has("district"),
                 following: d.has("following"),
@@ -510,6 +491,7 @@ export default function WeeklyGamesExplorer(props: Props) {
               .filter(
                 ([k]) =>
                   ![
+                    "filter",
                     "classification",
                     "district",
                     "following",
@@ -519,6 +501,12 @@ export default function WeeklyGamesExplorer(props: Props) {
               .map(([k, v]) => (
                 <input key={k} type="hidden" name={k} value={v} />
               ))}
+            <label className="weekly-label">
+              Game status
+              <select name="filter" className="weekly-control" key={params.filter} defaultValue={params.filter}>
+                <option value="all">All</option><option value="live">LIVE</option><option value="upcoming">Upcoming</option><option value="completed">Completed</option>
+              </select>
+            </label>
             <label className="weekly-label">
               Classification
               <select
@@ -635,44 +623,21 @@ export default function WeeklyGamesExplorer(props: Props) {
       <div className="weekly-refresh">
         <div>
           <p aria-live="polite">
-            {matched.length} matching games{changed ? " · updates ready" : ""}
-          </p>
-          <p>
-            {fetchedAt
-              ? `Refreshed ${new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", second: "2-digit", timeZone: "America/Chicago" }).format(new Date(fetchedAt))} CT`
+            {matched.length} {matched.length === 1 ? "game" : "games"}{changed ? " · updates ready" : ""}
+            {" · "}{fetchedAt
+              ? `Updated ${new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/Chicago" }).format(new Date(fetchedAt))} CT`
               : "Live scores unavailable"}
-            {active ? " · every 30s while visible" : ""}
           </p>
         </div>
         <button
           type="button"
-          className="weekly-control"
+          className="weekly-refresh-icon"
+          aria-label={error || loadStatus === "failed" ? "Retry score refresh" : "Refresh scores"}
+          title="Refresh scores"
           disabled={busy || offline}
           onClick={() => void refresh()}
         >
-          {busy
-            ? "Refreshing…"
-            : error || loadStatus === "failed"
-              ? "Retry"
-              : "Refresh"}
-        </button>
-        <button
-          type="button"
-          className="weekly-control"
-          onClick={async () => {
-            try {
-              await navigator.clipboard.writeText(location.origin + url);
-              setShareMessage(
-                "Public filters copied. Your location is excluded.",
-              );
-            } catch {
-              setShareMessage(
-                "Copy this page address to share public filters. Your location is excluded.",
-              );
-            }
-          }}
-        >
-          Share
+          <RefreshCw size={16} aria-hidden="true" className={busy ? "animate-spin" : ""} />
         </button>
       </div>
       {offline && (
@@ -718,9 +683,6 @@ export default function WeeklyGamesExplorer(props: Props) {
         </div>
       )}
 
-      <p role="status" className="weekly-meta">
-        {shareMessage}
-      </p>
       {params.mode === "all" && your.length > 0 && (
         <section className="weekly-section" aria-labelledby="your-teams">
           <h2 id="your-teams">
@@ -741,7 +703,7 @@ export default function WeeklyGamesExplorer(props: Props) {
           )}
         </section>
       )}
-      {params.mode === "all" && your.length === 0 && !props.followFailed && (
+      {params.mode === "all" && params.following && your.length === 0 && !props.followFailed && (
         <p className="weekly-follow-prompt">
           {followed.size
             ? "No followed matchups match this week and filters."

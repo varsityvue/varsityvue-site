@@ -153,3 +153,14 @@ div[class~="mb-6"]:has(a[href="/submit"]):has(a[href="/coverage"]) > div > h2 {
 
 /* Reflow with text size as well as viewport size; keep every footer column readable. */
 .vv-footer-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+
+/* Compact discovery refinements and secondary card actions. */
+.weekly-toolbar .weekly-search {flex:1;min-width:0;margin:0}
+.weekly-toolbar .weekly-search button {padding:8px;font-size:.75rem}
+.weekly-toolbar .weekly-filters {margin:0}
+.weekly-refresh-icon {display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:8px;flex-shrink:0}
+.weekly-refresh-icon:disabled {opacity:.4}
+.weekly-refresh-icon:focus-visible {outline:2px solid white;outline-offset:2px}
+.weekly-share {position:absolute;right:6px;top:8px;z-index:2}
+.weekly-actions {top:56px}
+.weekly-meta {overflow-wrap:anywhere}

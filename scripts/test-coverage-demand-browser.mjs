@@ -67,11 +67,11 @@ try {
  pass('Selection/unmount dedupe; Game Center return preserves public context without location or consent');
  for(const alias of ['/games','/scoreboard']) {
   scoreRows=[{game_id:'lampasas-at-stephenville-2026-week-7',status:'live',home_score:10,away_score:0,verified:true,period:'1st',clock:'08:00',attribution_type:'verified',attribution_username:null}];
-  await go(page,alias);await page.getByRole('link',{name:'LIVE',exact:true}).click();assert.equal(await page.getByRole('heading',{name:'Games & Scores',exact:true}).count(),1);assert.equal(await allow(page).count(),1);
+  await go(page,alias);await page.locator('.weekly-filters summary').click();await page.getByLabel('Game status',{exact:true}).selectOption('live');await page.getByRole('button',{name:'Apply filters',exact:true}).click();assert.equal(await page.getByRole('heading',{name:'Games & Scores',exact:true}).count(),1);assert.equal(await allow(page).count(),1);
   await locate(page).click();await page.clock.fastForward(30000);
-  const start=sent(page).length;scoreRows=[{...scoreRows[0],status:'final'}];await page.getByRole('button',{name:'Refresh',exact:true}).click();await page.getByRole('button',{name:'Refresh',exact:true}).waitFor();await idle(page);assert.equal(sent(page).length,start);
+  const start=sent(page).length;scoreRows=[{...scoreRows[0],status:'final'}];await page.getByRole('button',{name:'Refresh scores',exact:true}).click();await page.getByRole('button',{name:'Refresh scores',exact:true}).waitFor();await idle(page);assert.equal(sent(page).length,start);
   await page.clock.fastForward(31000);await idle(page);assert.equal(sent(page).length,start+1,'Refresh must not reset inactivity');assert.equal(sent(page).at(-1).held_results,true);assert.equal(sent(page).at(-1).final_game_count,1);assert.equal(sent(page).at(-1).live_game_count,0);
-  await page.getByRole('button',{name:'Refresh',exact:true}).click();await page.getByRole('button',{name:'Refresh',exact:true}).waitFor();await clear(page);await idle(page);assert.equal(sent(page).length,start+1);
+  await page.getByRole('button',{name:'Refresh scores',exact:true}).click();await page.getByRole('button',{name:'Refresh scores',exact:true}).waitFor();await clear(page);await idle(page);assert.equal(sent(page).length,start+1);
  }
  scoreRows=[];
  pass('Both direct aliases: one renderer, one consent control, one episode owner; refresh neither finalizes/restarts nor resets inactivity');

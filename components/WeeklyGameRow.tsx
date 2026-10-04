@@ -1,4 +1,6 @@
 import Link from "next/link";
+import ShareAction from "./ShareAction";
+import { gameShare } from "@/lib/game-share";
 import type { WeeklyGame } from "@/lib/unified-games";
 import { getGamePresentation } from "@/lib/game-presentation";
 import { liveGameContext } from "@/lib/live-period";
@@ -95,6 +97,7 @@ export default function WeeklyGameRow({
         </p>
         {byline && <p className="weekly-byline">{byline}</p>}
       </Link>
+      <ShareAction {...gameShare(g, now)} className="weekly-share" />
       <details className="weekly-actions">
         <summary aria-label={`Actions for ${g.awayTeam} at ${g.homeTeam}`}>
           •••

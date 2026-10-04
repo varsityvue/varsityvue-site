@@ -191,18 +191,18 @@ async function authenticated(c) {
     },
   ]);
 }
+async function chooseStatus(page, value) {
+  const filters = page.locator(".weekly-filters");
+  if (!(await filters.getAttribute("open"))) await filters.locator("summary").click();
+  await page.getByLabel("Game status", {exact:true}).selectOption(value);
+  await page.getByRole("button", {name:"Apply filters", exact:true}).click();
+}
 async function settled(page) {
   try {
     await page.waitForFunction(() => {
       const q = new URLSearchParams(location.search);
-      const active = document.querySelector(
-        ".weekly-status-filters [aria-current=page]",
-      );
-      return (
-        q.has("season") &&
-        (q.get("state") === "current" ||
-          active?.textContent?.toLowerCase() === (q.get("filter") ?? "all"))
-      );
+      const active = document.querySelector('select[name="filter"]');
+      return q.has("season") && (q.get("state") === "current" || active?.value === (q.get("filter") ?? "all"));
     });
   } catch (error) {
     console.error("HYDRATION FAILURE", await page.locator("body").innerText());
@@ -256,7 +256,7 @@ try {
       path: `${evidence}/${label}-weekly-${width}.png`,
       fullPage: true,
     });
-    await page.getByRole("link", { name: "LIVE", exact: true }).click();
+    await chooseStatus(page, "live");
     assert.equal(await page.locator("[data-game-id]").count(), 2);
     assert.match(
       await page.locator("main").innerText(),
@@ -275,7 +275,7 @@ try {
       path: `${evidence}/${label}-live-${width}.png`,
       fullPage: true,
     });
-    await page.getByRole("link", { name: "Completed", exact: true }).click();
+    await chooseStatus(page, "completed");
     assert.match(await page.locator("main").innerText(), /Cancelled/);
     assert.match(await page.locator("main").innerText(), /Forfeit/);
     assert.equal(
@@ -317,9 +317,9 @@ try {
         const style = getComputedStyle(e);
         return e.getBoundingClientRect().height <= parseFloat(style.lineHeight) * 2 + 1;
       }), "Enlarged footer brand must remain readable within two lines");
-      await page.getByRole("button", { name: "Refresh", exact: true }).focus();
-      assert.ok(await page.getByRole("button", { name: "Refresh", exact: true }).evaluate(e => getComputedStyle(e).outlineStyle !== "none"));
-      await page.getByRole("link", { name: "Completed", exact: true }).click();
+      await page.getByRole("button", { name: "Refresh scores", exact: true }).focus();
+      assert.ok(await page.getByRole("button", { name: "Refresh scores", exact: true }).evaluate(e => getComputedStyle(e).outlineStyle !== "none"));
+      await chooseStatus(page, "completed");
       assert.match(await page.locator("main").innerText(), /Cancelled/);
       assert.equal(new URL(page.url()).pathname, route);
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
@@ -425,37 +425,12 @@ try {
   await page.goto(origin + "/scoreboard?week=7#live-now");
   await settled(page);
   console.log("LEGACY FRAGMENT URL", page.url());
-  assert.equal(
-    await page
-      .getByRole("link", { name: "LIVE", exact: true })
-      .getAttribute("aria-current"),
-    "page",
-  );
-  await page.getByRole("link", { name: "Upcoming", exact: true }).click();
+  assert.equal(await page.locator('select[name="filter"]').inputValue(), "live");
+  await chooseStatus(page, "upcoming");
   await page.goBack();
-  await page.waitForFunction(
-    () =>
-      document.querySelector(".weekly-status-filters [aria-current=page]")
-        ?.textContent === "LIVE",
-  );
-  assert.equal(
-    await page
-      .getByRole("link", { name: "LIVE", exact: true })
-      .getAttribute("aria-current"),
-    "page",
-  );
+  await page.waitForFunction(() => document.querySelector('select[name="filter"]')?.value === "live");
   await page.goForward();
-  await page.waitForFunction(
-    () =>
-      document.querySelector(".weekly-status-filters [aria-current=page]")
-        ?.textContent === "Upcoming",
-  );
-  assert.equal(
-    await page
-      .getByRole("link", { name: "Upcoming", exact: true })
-      .getAttribute("aria-current"),
-    "page",
-  );
+  await page.waitForFunction(() => document.querySelector('select[name="filter"]')?.value === "upcoming");
   pass(
     "Direct 200 aliases, fragments, history and legacy final/current/district semantics",
   );
@@ -472,8 +447,8 @@ try {
   assert.match(page.url(), /week=7/);
   assert.match(page.url(), /filter=live/);
   mode = "failure";
-  await page.getByRole("button", { name: "Refresh", exact: true }).click();
-  await page.getByRole("button", { name: "Retry", exact: true }).waitFor();
+  await page.getByRole("button", { name: "Refresh scores", exact: true }).click();
+  await page.getByRole("button", { name: "Retry score refresh", exact: true }).waitFor();
   assert.match(await first.innerText(), /Updated by @friday_fan/);
   assert.equal(await page.locator("[data-game-id]").count(), 2);
   await page.screenshot({
@@ -490,7 +465,7 @@ try {
     attribution_username: null,
   };
   await first.locator("summary").click();
-  await page.getByRole("button", { name: "Retry", exact: true }).click();
+  await page.getByRole("button", { name: "Retry score refresh", exact: true }).click();
   await page
     .getByRole("button", { name: "Apply updates", exact: true })
     .waitFor();
@@ -512,10 +487,10 @@ try {
   };
   await page.goto(origin + "/games?week=7&filter=live");
   await settled(page);
-  await page.getByRole("button", { name: "Refresh", exact: true }).focus();
+  await page.getByRole("button", { name: "Refresh scores", exact: true }).focus();
   assert.ok(
     await page
-      .getByRole("button", { name: "Refresh", exact: true })
+      .getByRole("button", { name: "Refresh scores", exact: true })
       .evaluate((e) => getComputedStyle(e).outlineStyle !== "none"),
   );
   await page.evaluate(() => (document.documentElement.style.fontSize = "200%"));
@@ -634,7 +609,7 @@ try {
       /* Request was cancelled by the week change. */
     }
   });
-  await timed.getByRole("button", { name: "Refresh", exact: true }).click();
+  await timed.getByRole("button", { name: "Refresh scores", exact: true }).click();
   await pendingRefresh;
   await timed.getByRole("link", { name: "Week 8", exact: true }).click();
   release();
@@ -651,7 +626,7 @@ try {
   page = await c.newPage();
   await page.goto(origin + route + "?week=7");
   assert.ok((await page.locator("[data-game-id]").count()) > 0);
-  await page.getByRole("link", { name: "Completed", exact: true }).click();
+  await chooseStatus(page, "completed");
   assert.match(page.url(), /filter=completed/);
   assert.match(await page.locator("main").innerText(), /Cancelled/);
   assert.equal(new URL(page.url()).pathname, route);
@@ -675,6 +650,73 @@ try {
   mode = "normal";
   await c.close();
   pass("Initial score and follow outage show independent fallback messages");
+  const sharing = await context();
+  await sharing.addInitScript(() => {
+    window.shared = []; window.copied = []; window.shareMode = "native";
+    Object.defineProperty(navigator, "share", {configurable:true, value: async data => {
+      window.shared.push(data);
+      if (window.shareMode === "cancel") throw new DOMException("Cancelled", "AbortError");
+      if (window.shareMode === "copy") throw new Error("Unavailable");
+    }});
+    Object.defineProperty(navigator, "clipboard", {configurable:true, value:{writeText:async data => window.copied.push(data)}});
+  });
+  const sharePage = await sharing.newPage();
+  sharePage.on("pageerror", e => errors.push(e.message));
+  for (const width of [390,430,1280]) {
+    await sharePage.setViewportSize({width,height:900});
+    for (const slug of ["hamilton","santo","de-leon","stephenville"]) {
+      await sharePage.goto(origin + "/schools/" + slug);
+      await sharePage.getByRole("button",{name:/^Share /}).first().waitFor();
+      assert.equal(await sharePage.getByText("Follow this team to see its games and coverage first. Email alerts are a separate choice in Account.").count(),0);
+      assert.ok(await sharePage.getByRole("button",{name:/^Follow /}).count());
+      const button = sharePage.getByRole("button",{name:/^Share /}).first();
+      const box = await button.boundingBox(); assert.ok(box.width >=44 && box.height >=44);
+      await button.click();
+      assert.equal(await sharePage.evaluate(() => window.shared.at(-1).url), "https://varsityvue.com/schools/"+slug);
+      assert.equal(await sharePage.evaluate(() => document.documentElement.scrollWidth <= innerWidth),true);
+      await sharePage.screenshot({path:`${evidence}/school-${slug}-${width}.png`,fullPage:true});
+    }
+    await sharePage.goto(origin+"/schools");
+    await sharePage.screenshot({path:`${evidence}/directory-${width}.png`,fullPage:true});
+    await sharePage.goto(origin+"/games?week=7"); await settled(sharePage);
+    assert.equal(await sharePage.locator(".weekly-status-filters").count(),0);
+    assert.equal(await sharePage.getByRole("button",{name:"Share",exact:true}).count(),0);
+    for (const filter of ["all","live","completed","upcoming"]) {
+      await chooseStatus(sharePage,filter);
+      assert.equal(await sharePage.locator('select[name="filter"]').inputValue(),filter);
+      if (await sharePage.locator("[data-game-id]").count()) {
+        const game = sharePage.locator("[data-game-id]").first();
+        const id = await game.getAttribute("data-game-id");
+        await game.getByRole("button",{name:/^Share /}).click();
+        const data = await sharePage.evaluate(() => window.shared.at(-1));
+        assert.equal(data.url, "https://varsityvue.com/games/"+encodeURIComponent(id));
+        assert.ok(!data.url.includes("return="));
+      }
+    }
+    await sharePage.screenshot({path:`${evidence}/sharing-${width}.png`,fullPage:true});
+  }
+  await sharePage.goto(origin+"/games?week=7&filter=live"); await settled(sharePage);
+  const shareButton = sharePage.locator("[data-game-id]").first().getByRole("button",{name:/^Share /});
+  await sharePage.evaluate(() => window.shareMode="cancel"); await shareButton.click();
+  assert.equal(await sharePage.evaluate(() => window.copied.length),0);
+  await sharePage.evaluate(() => window.shareMode="copy"); await shareButton.click();
+  await sharePage.getByRole("status").filter({hasText:"Link copied"}).waitFor();
+  assert.match(await sharePage.evaluate(() => window.copied.at(-1)),/https:\/\/varsityvue.com\/games\//);
+  await sharePage.evaluate(() => Object.defineProperty(navigator,"share",{value:undefined})); await shareButton.click();
+  assert.equal(await sharePage.evaluate(() => window.copied.length),2);
+  await authenticated(sharing);
+  await sharePage.goto(origin+"/schools/de-leon");
+  await sharePage.getByRole("button",{name:/Unfollow/}).waitFor();
+  assert.ok(await sharePage.getByRole("status").filter({hasText:"Following"}).count());
+  await sharePage.goto(origin+"/schools/hamilton"); await sharePage.getByRole("button",{name:/^Follow /}).waitFor();
+  await sharePage.goto(origin+"/games?week=7&q=no-such-team"); await settled(sharePage);
+  assert.equal(await sharePage.locator("[data-game-id]").count(),0);
+  assert.equal(await sharePage.locator(".weekly-follow-prompt").count(),0);
+  await sharePage.goto(origin+"/games?week=7&q=no-such-team&following=1"); await settled(sharePage);
+  assert.ok(await sharePage.locator(".weekly-follow-prompt").count());
+  assert.deepEqual(errors,[]);
+  await sharing.close();
+  pass("School heroes/directory 390/430/1280; follow states; canonical native/cancel/clipboard sharing; status panel and followed empty scope");
   assert.equal(writes, 0);
   pass("Synthetic read-only backend: zero writes");
   writeFileSync(
