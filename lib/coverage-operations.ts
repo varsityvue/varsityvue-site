@@ -1,6 +1,6 @@
 // Server operations only. No request context, payloads or exception text enters monitoring.
 export type CoverageHealthCategory = "accepted" | "database_failure" | "capacity_failure";
-export type HeartbeatSignal = "start" | "success" | "fail";
+export type HeartbeatSignal = "success" | "fail";
 export function validHeartbeatUrl(value: string | undefined): value is string {
   if (!value) return false;
   try {
@@ -62,7 +62,7 @@ export async function runRetention(request: Request, config: { secret?: string; 
   if (!config.enabled || !config.configured) return respond(503, "unconfigured");
   // Monitoring failure never prevents maintenance or undoes committed database work.
   const ping = async (state: HeartbeatSignal) => { try { return await signal(state); } catch { return false; } };
-  await ping("start");
+  // Omit /start: a late recovery must not reset the external 09:00 UTC deadline.
   try {
     const result = await retain();
     if (!validRetentionResult(result)) throw new Error("Maintenance result unavailable");

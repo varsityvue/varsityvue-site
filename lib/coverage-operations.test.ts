@@ -23,7 +23,7 @@ test("heartbeat failure cannot undo maintenance; uncertain delivery retries, rec
  assert.deepEqual(await first.json(),{state:"completed_monitor_failed"});assert.equal(work,1);
  assert.equal((await runRetention(request(),config,retain,async s=>{signals.push(s);return true;})).status,200);assert.equal(work,2);
  assert.equal((await runRetention(request(),config,async()=>{throw Error('uncertain');},async s=>{signals.push(s);return true;})).status,503);
- assert.deepEqual(signals,['start','success','start','success','start','fail']);
+ assert.deepEqual(signals,['success','success','fail']);
 });
 test("monitor adapter restricts destination and emits empty bounded signals with no redirects or credentials",async()=>{
  for(const url of [undefined,'https://evil.invalid/a',target+'?secret=x',target+'/start',target+'#x',target.replace('https:','http:'),target.replace('hc-ping.com','user@hc-ping.com')])assert.equal(validHeartbeatUrl(url),false);
