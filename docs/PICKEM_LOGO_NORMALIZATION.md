@@ -47,3 +47,18 @@ npm run test:pickem-logos
 The command is deterministic and idempotent: unchanged outputs are reported as
 `unchanged` and are not rewritten. Unknown slugs, missing/corrupt assets, and
 assets without usable visible pixels fail with an explicit error.
+
+## Week 7 additions — October 5, 2026
+
+The owner supplied all seven source PNGs. Source files are copied unchanged;
+Pick ’Em assets use the existing normalization script.
+
+| School | Owner attachment |
+| --- | --- |
+| Anson | IMG_1008.png |
+| Millsap | IMG_1009.png |
+| Eastland | IMG_1010.png |
+| Clifton | IMG_1011.png |
+| Lampasas | IMG_1012.png |
+| Merkel | IMG_1013.png |
+| Rio Vista | IMG_1014.png |
