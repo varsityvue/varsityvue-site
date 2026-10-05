@@ -95,8 +95,8 @@ const api = http.createServer((req, res) => {
   const send = (x) => res.end(JSON.stringify(x));
   if (path.startsWith("/auth/v1/user")) return send(session.user);
   if (
-    req.method === "POST" &&
-    !path.startsWith("/rest/v1/rpc/public_score_states")
+    ["POST", "PUT", "PATCH", "DELETE"].includes(req.method) &&
+    !(req.method === "POST" && path.startsWith("/rest/v1/rpc/public_score_states"))
   )
     writes++;
   if (
@@ -114,6 +114,9 @@ const api = http.createServer((req, res) => {
   }
   if (path.includes("pickem_weeks")) return send({id:"fixture-week", title:"Week 6 Pick ’Em",season:2026,week:6,status:"open",closes_at:"2026-10-03T00:00:01Z"});
   if (path.includes("pickem_games")) return send({lock_at:"2026-10-03T00:00:00Z"});
+  if (mode === "following-failure" && path.includes("school_follows")) {
+    res.statusCode = 503; return send({message:"Isolated following-only failure"});
+  }
   if (path.includes("school_follows")) {
     const school = new URL(path, "http://127.0.0.1").searchParams.get("school_slug");
     return send([{ school_slug: "de-leon" }, { school_slug: "hawley" }].filter(row => !school || school === `eq.${row.school_slug}`));
@@ -523,28 +526,6 @@ async function refinementRegressions(page, route) {
   }
   mode='normal';
   assert.equal(await page.evaluate(()=>window.locationCalls),0);
-  for (const change of ['refinement','location','week','mode']) {
-    await page.goto(origin+route+'?season=2026&week=7&mode=nearby&state=current'); await settled(page);
-    await page.getByLabel('Or choose a school').selectOption('de-leon');
-    let release, started;
-    const waiting = new Promise(resolve => {release=resolve;});
-    const observed = new Promise(resolve => {started=resolve;});
-    await page.route('**/api/games/snapshot', async request => {
-      started(); await waiting;
-      await request.fulfill({status:200,contentType:'application/json',body:JSON.stringify({games:[],scoreLoadStatus:'loaded',fetchedAt:'2026-10-10T00:00:00Z'})}).catch(()=>{});
-    },{times:1});
-    await page.getByRole('button',{name:'Refresh scores',exact:true}).click(); await observed;
-    if(change==='refinement') await page.getByRole('link',{name:'Clear Current and unresolved games',exact:true}).click();
-    if(change==='location') await page.getByLabel('Or choose a school').selectOption('hawley');
-    if(change==='week') await page.getByRole('link',{name:'Week 8',exact:true}).click();
-    if(change==='mode') await page.getByRole('link',{name:'All Games',exact:true}).click();
-    const current = await page.locator('.weekly-refresh').innerText();
-    const ids = await page.locator('[data-game-id]').evaluateAll(es=>es.map(e=>e.dataset.gameId));
-    release(); await page.waitForTimeout(100);
-    assert.equal(await page.locator('.weekly-refresh').innerText(),current);
-    assert.deepEqual(await page.locator('[data-game-id]').evaluateAll(es=>es.map(e=>e.dataset.gameId)),ids);
-    await page.unroute('**/api/games/snapshot');
-  }
   for (const week of [6,7,8,9,10,11]) {
     await page.goto(origin+route+`?season=2026&week=${week}&mode=nearby&result=verified`); await settled(page);
     assert.match(await page.locator('.weekly-filters summary').getAttribute('aria-label'),/1 active refinement/);
@@ -555,8 +536,140 @@ async function refinementRegressions(page, route) {
   pass(`${route}: counts, unknown classification unchanged Apply, all individual clears, keyboard focus, shared/history restoration, result=current ignored, genuine empty versus failure, stale completion after refinement/location/week/mode changes, supported/unsupported weeks, mobile and 200% text; measurement declined`);
 }
 
+async function allGamesRefinements(page, route) {
+  const gameId = 'de-leon-at-hawley-2026-week-7';
+  for (const width of [390,400,430,1280]) for (const text of ['100%','200%']) {
+    await page.setViewportSize({width,height:900});
+    await page.goto(origin+route+'?season=2026&week=7&q=Hawley&following=1'); await settled(page);
+    await page.evaluate(value => document.documentElement.style.fontSize=value,text);
+    const your = page.locator('section[aria-labelledby="your-teams"]');
+    assert.equal(await your.locator(`[data-game-id="${gameId}"]`).count(),1);
+    assert.equal(await page.locator(`[data-game-id="${gameId}"]`).count(),1,'Two followed schools must produce one canonical game');
+    assert.match(await page.locator('.weekly-filters summary').getAttribute('aria-label'),/2 active refinements/);
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth),true);
+    // Bring each clear into the viewport and verify its focus/click target is
+    // unobscured, rather than treating lack of horizontal overflow as usability.
+    for (const label of ['Clear Search: Hawley','Clear Following only']) {
+      const link=page.getByRole('link',{name:label,exact:true}); await link.focus();
+      await link.scrollIntoViewIfNeeded();
+      assert.equal(await link.evaluate(e=>{const r=e.getBoundingClientRect();const hit=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);return e===document.activeElement && (hit===e || e.contains(hit));}),true);
+    }
+    const clear=page.getByRole('link',{name:'Clear Search: Hawley',exact:true});
+    await clear.focus(); await page.keyboard.press('Enter');
+    assert.equal(new URL(page.url()).searchParams.has('q'),false);
+    assert.equal(new URL(page.url()).searchParams.get('following'),'1');
+    assert.equal(await page.locator(`[data-game-id="${gameId}"]`).count(),1);
+    assert.equal(await page.locator('.weekly-filters summary').evaluate(e=>e===document.activeElement),true);
+    await page.getByRole('link',{name:'Clear Following only',exact:true}).focus(); await page.keyboard.press('Enter');
+    assert.equal(new URL(page.url()).searchParams.has('following'),false);
+    assert.equal(await page.locator(`[data-game-id="${gameId}"]`).count(),1);
+    assert.equal(await your.locator(`[data-game-id="${gameId}"]`).count(),1);
+    const ids=await page.locator('[data-game-id]').evaluateAll(es=>es.map(e=>e.dataset.gameId));
+    assert.equal(new Set(ids).size,ids.length);
+    await page.screenshot({path:`${evidence}/${route.slice(1)}-all-teams-${width}-${text.replace('%','')}.png`,fullPage:true});
+    await chooseStatus(page,'live');
+    assert.equal(await page.locator(`[data-game-id="${gameId}"]`).count(),1);
+    assert.equal(await page.locator('[data-game-id]').count(),2);
+    const row=page.locator(`[data-game-id="${gameId}"]`); await row.locator('summary').focus(); await page.keyboard.press('Enter');
+    const detail=row.getByRole('link',{name:'Game Center →'}); await detail.focus(); await page.keyboard.press('Enter');
+    await page.getByRole('link',{name:'← Back to Games'}).waitFor();
+    await page.getByRole('link',{name:'← Back to Games'}).focus(); await page.keyboard.press('Enter'); await settled(page);
+    assert.equal(new URL(page.url()).pathname,route);
+    assert.equal(new URL(page.url()).searchParams.get('filter'),'live');
+    if(route==='/scoreboard') assert.equal(new URL(page.url()).searchParams.get('intent'),'scores');
+    await page.getByRole('link',{name:'Week 8',exact:true}).focus(); await page.keyboard.press('Enter');
+    assert.equal(new URL(page.url()).searchParams.get('week'),'8');
+    await page.goBack(); await settled(page); assert.equal(new URL(page.url()).searchParams.get('week'),'7');
+    await page.evaluate(()=>document.documentElement.style.fontSize='100%');
+  }
+  // Seed an unavailable season through a shared link; both options are native
+  // server-rendered controls, not injected fake UI.
+  await page.goto(origin+route+'?season=2025&week=all&classification=Unavailable&result=verified'); await settled(page);
+  await page.getByLabel('Season',{exact:true}).selectOption('2026');
+  assert.equal(new URL(page.url()).searchParams.get('season'),'2026');
+  assert.equal(new URL(page.url()).searchParams.get('classification'),'Unavailable');
+  assert.equal(new URL(page.url()).searchParams.get('result'),'verified');
+  await page.goBack(); await settled(page); assert.equal(new URL(page.url()).searchParams.get('season'),'2025');
+  pass(`${route}: All Games/Your Teams 390/400/430/1280 at 100/200% text, unobscured keyboard clears, canonical dedupe, filter/navigation/Game Center and season history`);
+}
+async function followingFailure(page,route) {
+  mode='following-failure';
+  for(const nearby of [false,true]) {
+    const url=origin+route+'?season=2026&week=7&following=1'+(nearby?'&mode=nearby':'');
+    await page.goto(url); await settled(page);
+    if(nearby) await page.getByLabel('Or choose a school').selectOption('de-leon');
+    assert.match(await page.locator('main').innerText(),/Your Teams could not be loaded/);
+    assert.doesNotMatch(await page.locator('main').innerText(),/No followed matchups|Follow schools to|Live scores (are unavailable|could not be loaded)/);
+    assert.equal(await page.locator('.weekly-follow-prompt').count(),0);
+    assert.equal(await page.getByRole('heading',{name:'No games match these filters',exact:true}).count(),0);
+    assert.doesNotMatch(await page.locator('.weekly-refresh').innerText(),/0 games/);
+    const retry=page.getByRole('link',{name:'retry Your Teams',exact:true});
+    assert.equal(new URL(await retry.getAttribute('href'),origin).pathname,route);
+    assert.equal(new URL(await retry.getAttribute('href'),origin).searchParams.get('following'),'1');
+    await page.screenshot({path:`${evidence}/${route.slice(1)}-following-only-failure-${nearby?'nearby':'all'}.png`,fullPage:true});
+    mode='normal'; await retry.focus(); await page.keyboard.press('Enter'); await settled(page);
+    if(nearby) await page.getByLabel('Or choose a school').selectOption('de-leon');
+    assert.doesNotMatch(await page.locator('main').innerText(),/Your Teams could not be loaded/);
+    assert.equal(await page.locator('[data-game-id="de-leon-at-hawley-2026-week-7"]').count(),1);
+    assert.equal(new URL(page.url()).searchParams.get('following'),'1');
+    if(route==='/scoreboard') assert.equal(new URL(page.url()).searchParams.get('intent'),'scores');
+    mode='following-failure';
+  }
+  mode='normal';
+  pass(`${route}: following-only failure with successful scores has no false empty/team prompt; keyboard native GET retry recovers the same scope`);
+}
+async function orderedRefreshes(page,route) {
+  for(const change of ['refinement','location','week','mode','history','season','fragment']) for(const obsolete of ['success','failure']) {
+    await page.goto(origin+route+(change==='season'?'?season=2025&week=all&state=current':'?season=2026&week=7&mode=nearby&state=current')); await settled(page);
+    if(change!=='season') await page.getByLabel('Or choose a school').selectOption('de-leon');
+    // A controlled fetch that intentionally ignores AbortSignal models a
+    // transport already completing. Every completion is acknowledged, and
+    // success JSON consumption proves the generation guard was reached.
+    await page.evaluate(async()=>{
+      const realFetch=window.fetch.bind(window);
+      const baseline=await (await realFetch('/api/games/snapshot')).json();
+      window.refreshFixture={baseline,requests:[]};
+      window.fetch=(input,options)=>{
+        if(String(input)!=='/api/games/snapshot') return realFetch(input,options);
+        const record={signal:options.signal,jsonRead:false,outcome:null};
+        window.refreshFixture.requests.push(record);
+        return new Promise((resolve,reject)=>{
+          record.complete=(outcome,at)=>new Promise(done=>{
+            record.outcome=outcome;
+            if(outcome==='failure') reject(new Error('Controlled obsolete failure'));
+            else resolve({ok:true,json:async()=>{record.jsonRead=true;return {...baseline,fetchedAt:at};}});
+            // Acknowledgement occurs after async fetch/json continuations;
+            // frames flush React rendering. No fixed timing assumption.
+            setTimeout(()=>requestAnimationFrame(()=>requestAnimationFrame(done)),0);
+          });
+        });
+      };
+    });
+    await page.getByRole('button',{name:'Refresh scores',exact:true}).click();
+    await page.waitForFunction(()=>window.refreshFixture.requests.length===1);
+    if(change==='refinement') await page.getByRole('link',{name:'Clear Current and unresolved games',exact:true}).click();
+    if(change==='location') await page.getByLabel('Or choose a school').selectOption('hawley');
+    if(change==='week') await page.getByRole('link',{name:'Week 8',exact:true}).click();
+    if(change==='mode') await page.getByRole('link',{name:'All Games',exact:true}).click();
+    if(change==='history') {await page.getByRole('link',{name:'Week 8',exact:true}).click();await page.goBack();await settled(page);}
+    if(change==='season') await page.getByLabel('Season',{exact:true}).selectOption('2026');
+    if(change==='fragment') {await page.evaluate(()=>location.hash='upcoming');await page.waitForFunction(()=>document.querySelector('select[name="filter"]').value==='upcoming');}
+    assert.equal(await page.evaluate(()=>window.refreshFixture.requests[0].signal.aborted),true,`${change}: invalidate obsolete request`);
+    await page.getByRole('button',{name:'Refresh scores',exact:true}).click();
+    await page.waitForFunction(()=>window.refreshFixture.requests.length===2);
+    await page.evaluate(()=>window.refreshFixture.requests[1].complete('success','2026-10-05T20:00:00Z'));
+    const snapshot=()=>page.evaluate(()=>({url:location.href,rows:[...document.querySelectorAll('[data-game-id]')].map(e=>[e.dataset.gameId,e.innerText]),refresh:document.querySelector('.weekly-refresh').innerText,notices:[...document.querySelectorAll('.weekly-notice')].map(e=>e.innerText),status:document.querySelector('select[name="filter"]').value}));
+    const current=await snapshot();
+    await page.evaluate(outcome=>window.refreshFixture.requests[0].complete(outcome,'2026-10-10T00:00:00Z'),obsolete);
+    assert.equal(await page.evaluate(()=>window.refreshFixture.requests[0].outcome),obsolete);
+    if(obsolete==='success') assert.equal(await page.evaluate(()=>window.refreshFixture.requests[0].jsonRead),true);
+    assert.deepEqual(await snapshot(),current,`${route} ${change}: obsolete ${obsolete} cannot replace current success/state`);
+  }
+  pass(`${route}: deterministic newer success before obsolete success/failure after refinement/location/week/mode/history/season/fragment; abort and JSON consumption acknowledged`);
+}
+
 try {
- verification: {
+ {
   start();
   await ready();
   browser = await chromium.launch({ args: ["--no-sandbox"], executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH });
@@ -569,12 +682,12 @@ try {
     console.error("BROWSER RUNTIME ERROR", e.message);
   });
   for (const route of ["/games", "/scoreboard"]) {
-    if (process.env.FILTER_CORRECTION_ONLY !== "1") await nearMePresentation(page, route);
+    await nearMePresentation(page, route);
     await page.setViewportSize({ width: 390, height: 900 });
     await statusRegressions(page, route);
     await nearbyStatusRegression(page, route);
   }
-  if (process.env.FILTER_CORRECTION_ONLY === "1") {
+  {
     for (const route of ["/games", "/scoreboard"]) await refinementRegressions(page, route);
     const nativeContext = await context({javaScriptEnabled:false});
     await authenticated(nativeContext);
@@ -591,10 +704,11 @@ try {
       assert.equal(new URL(native.url()).searchParams.has('result'),false);
     }
     await nativeContext.close();
-    assert.deepEqual(errors, []);
-    assert.equal(writes,0); assert.equal(telemetryRequests,0);
-    writeFileSync(`${evidence}/results.json`, JSON.stringify({head:execFileSync("git",["rev-parse","HEAD"],{encoding:"utf8"}).trim(),tree:execFileSync("git",["rev-parse","HEAD^{tree}"],{encoding:"utf8"}).trim(),results,writes,telemetryRequests,scoreCalls,fixture:"Local synthetic read-only backend; measurement declined and collection off."},null,2));
-    break verification;
+  }
+  for (const route of ["/games", "/scoreboard"]) {
+    await allGamesRefinements(page, route);
+    await followingFailure(page, route);
+    await orderedRefreshes(page, route);
   }
   for (const route of ["/games", "/scoreboard"]) {
   const label = route.slice(1);

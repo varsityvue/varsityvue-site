@@ -1,7 +1,7 @@
 name: Unified Games and Scores
 on:
   pull_request:
-    paths: ['app/games/**', 'app/scoreboard/**', 'app/api/games/**', 'app/globals.css', 'components/Weekly*.tsx', 'components/SchoolHero.tsx', 'components/ShareAction.tsx', 'lib/game-share*', 'public/logos/schools/hamilton.png', 'components/UnifiedGamesPage.tsx', 'components/MobileNavigation.tsx', 'components/SiteHeader.tsx', 'lib/unified-games*', 'lib/weekly-refinements.test.ts', 'lib/games-route-compatibility.ts', 'proxy.ts', 'lib/weekly-game-dto.ts', 'scripts/test-unified-games-browser.mjs', '.github/workflows/games-page-organization-v1.yml']
+    paths: ['app/games/**', 'app/scoreboard/**', 'app/api/games/**', 'app/globals.css', 'components/Weekly*.tsx', 'components/SchoolHero.tsx', 'components/ShareAction.tsx', 'lib/game-share*', 'public/logos/schools/hamilton.png', 'components/UnifiedGamesPage.tsx', 'components/MobileNavigation.tsx', 'components/SiteHeader.tsx', 'lib/unified-games*', 'lib/weekly-refinements.test.ts', 'lib/games-route-compatibility.ts', 'proxy.ts', 'lib/weekly-game-dto.ts', 'scripts/test-unified-games-browser.mjs', 'scripts/coverage-integration-scope*', '.github/workflows/games-page-organization-v1.yml']
   push:
     branches: [codex/unified-games-scores-v1]
 jobs:
@@ -18,7 +18,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: node --import tsx --test lib/near-me-presentation.test.tsx lib/share-action.test.ts lib/game-share.test.ts lib/unified-games.test.ts lib/weekly-refinements.test.ts lib/games-page-organization.test.ts lib/game-presentation.test.ts lib/game-discovery.test.ts lib/follow-personalization.test.ts lib/public-score-loader.test.ts lib/hamilton-featured.test.ts lib/public-read-contracts.test.ts
+      - run: node --import tsx --test scripts/coverage-integration-scope.test.mjs lib/near-me-presentation.test.tsx lib/share-action.test.ts lib/game-share.test.ts lib/unified-games.test.ts lib/weekly-refinements.test.ts lib/games-page-organization.test.ts lib/game-presentation.test.ts lib/game-discovery.test.ts lib/follow-personalization.test.ts lib/public-score-loader.test.ts lib/hamilton-featured.test.ts lib/public-read-contracts.test.ts
       - run: npx tsc --noEmit
       - run: npm run lint
       - run: npm run build
@@ -30,8 +30,6 @@ jobs:
       - run: npm install --no-save --package-lock=false playwright@1.63.0
       - run: npx playwright install --with-deps chromium
       - run: node scripts/test-unified-games-browser.mjs
-        env:
-          FILTER_CORRECTION_ONLY: ${{ github.head_ref == 'codex/games-filter-state-correction' && '1' || '0' }}
       - uses: actions/upload-artifact@v4
         if: always()
         with:
