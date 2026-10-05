@@ -1,6 +1,12 @@
 import Image from "next/image";
 
-export default function PickemSponsorMark({ name, logo }: { name: string; logo: string | null }) {
+export default function PickemSponsorMark({ name, logo, compact = false }: { name: string; logo: string | null; compact?: boolean }) {
+  if (compact) return (
+    <div className="flex shrink-0 flex-col items-center text-white/65">
+      <p className="text-[9px] font-bold">Presented by{logo ? null : <> <span className="text-white">{name}</span></>}</p>
+      {logo ? <div className="relative h-10 w-20"><Image src={logo} alt={`${name} logo`} fill sizes="80px" className="object-contain" /></div> : null}
+    </div>
+  );
   return (
     <div className={`${logo ? "grid grid-cols-2 gap-2" : "flex"} min-w-0 items-center text-white/80`}>
       <p className={`${logo ? "justify-self-center" : ""} whitespace-nowrap text-sm font-bold`}>Presented by{logo ? null : <> <span className="text-white">{name}</span></>}</p>
