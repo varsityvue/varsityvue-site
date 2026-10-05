@@ -458,7 +458,105 @@ async function stressCardText(page) {
     card.querySelectorAll(".weekly-meta")[1].textContent = "Illustrative Extremely Long Community Memorial Football Stadium · Long Venue City, Texas";
   });
 }
+async function refinementRegressions(page, route) {
+  const label = route.slice(1);
+  const unknown = 'Unknown fixture classification';
+  const params = new URLSearchParams({season:'2026',week:'7',filter:'legacy-completed-current-verified',q:'Hawley',classification:unknown,district:'1',following:'1',mode:'nearby',radius:'100'});
+  const link = origin + route + '?' + params;
+  for (const width of [390,400,430,1280]) {
+    await page.setViewportSize({width,height:900});
+    await page.goto(link); await settled(page);
+    await page.getByLabel('Or choose a school').selectOption('de-leon');
+    assert.match(await page.locator('.weekly-filters summary').innerText(), /8 active refinements/);
+    await page.locator('.weekly-filters summary').click();
+    assert.equal(await page.locator('select[name="classification"]').inputValue(),unknown);
+    const before = new URL(page.url()).search;
+    await page.getByRole('button',{name:'Apply filters',exact:true}).click();
+    assert.equal(new URL(page.url()).search,before);
+    assert.equal(await page.getByLabel('Or choose a school').inputValue(),'de-leon');
+    for (const zoom of ['100%','200%']) {
+      await page.evaluate(value=>document.documentElement.style.fontSize=value,zoom);
+      assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth),true, `${route} ${width} ${zoom}`);
+    }
+    await page.screenshot({path:`${evidence}/${label}-refinements-${width}.png`,fullPage:true});
+    await page.evaluate(()=>document.documentElement.style.fontSize='100%');
+  }
+  const clears = [
+    ['Search: Hawley','q'],['Completed','filter'],['Current and unresolved games','current'],['Verified finals only','verified'],
+    [`Classification: ${unknown}`,'classification'],['District games only','district'],['Following only','following'],['Radius: 100 miles','radius']
+  ];
+  for (const [name,key] of clears) {
+    await page.goto(link); await settled(page);
+    await page.getByLabel('Or choose a school').selectOption('de-leon');
+    const before = Object.fromEntries(new URL(page.url()).searchParams);
+    const clear = page.getByRole('link',{name:`Clear ${name}`,exact:true});
+    await clear.focus(); await page.keyboard.press('Enter');
+    assert.match(await page.locator('.weekly-filters summary').innerText(),/7 active refinements/);
+    assert.equal(await page.locator('.weekly-filters summary').evaluate(e=>e===document.activeElement),true);
+    assert.equal(await page.getByLabel('Or choose a school').inputValue(),'de-leon');
+    const after = new URL(page.url()).searchParams;
+    for (const field of ['q','classification','district','following','radius']) if(field !== key) assert.equal(after.get(field),before[field]);
+    if(key !== 'current') assert.equal(after.get('state'),'current');
+    if(key !== 'verified') assert.equal(after.get('result'),'verified');
+    if(route === '/scoreboard') assert.equal(after.get('intent'),'scores');
+    await page.goBack(); await settled(page);
+    assert.match(await page.locator('.weekly-filters summary').innerText(),/8 active refinements/);
+    assert.equal(await page.getByLabel('Or choose a school').inputValue(),'');
+    await page.goForward(); await settled(page);
+    assert.match(await page.locator('.weekly-filters summary').innerText(),/7 active refinements/);
+    const shared = page.url(); await page.goto(shared); await settled(page);
+    assert.equal(page.url(),shared);
+  }
+  await page.goto(origin+route+'?season=2026&week=7&result=current'); await settled(page);
+  assert.equal(await page.locator('select[name="filter"]').inputValue(),'all');
+  assert.equal(await page.getByRole('navigation',{name:'Applied refinements'}).count(),0);
+  await page.goto(origin+route+'?season=2026&week=7&q=nonexistent-fixture'); await settled(page);
+  assert.equal(await page.getByRole('heading',{name:'No games match these filters',exact:true}).count(),1);
+  assert.match(await page.locator('.weekly-refresh').innerText(),/0 games/);
+  mode='failure';
+  for (const nearby of [false,true]) {
+    await page.goto(origin+route+'?season=2026&week=7&q=nonexistent-fixture'+(nearby?'&mode=nearby':'')); await settled(page);
+    if(nearby) await page.getByLabel('Or choose a school').selectOption('de-leon');
+    assert.match(await page.locator('main').innerText(),/Live scores (are unavailable|could not be loaded)/);
+    assert.equal(await page.getByRole('heading',{name:'No games match these filters',exact:true}).count(),0);
+    assert.doesNotMatch(await page.locator('.weekly-refresh').innerText(),/0 games/);
+  }
+  mode='normal';
+  assert.equal(await page.evaluate(()=>window.locationCalls),0);
+  for (const change of ['refinement','location','week','mode']) {
+    await page.goto(origin+route+'?season=2026&week=7&mode=nearby&state=current'); await settled(page);
+    await page.getByLabel('Or choose a school').selectOption('de-leon');
+    let release, started;
+    const waiting = new Promise(resolve => {release=resolve;});
+    const observed = new Promise(resolve => {started=resolve;});
+    await page.route('**/api/games/snapshot', async request => {
+      started(); await waiting;
+      await request.fulfill({status:200,contentType:'application/json',body:JSON.stringify({games:[],scoreLoadStatus:'loaded',fetchedAt:'2026-10-10T00:00:00Z'})}).catch(()=>{});
+    },{times:1});
+    await page.getByRole('button',{name:'Refresh scores',exact:true}).click(); await observed;
+    if(change==='refinement') await page.getByRole('link',{name:'Clear Current and unresolved games',exact:true}).click();
+    if(change==='location') await page.getByLabel('Or choose a school').selectOption('hawley');
+    if(change==='week') await page.getByRole('link',{name:'Week 8',exact:true}).click();
+    if(change==='mode') await page.getByRole('link',{name:'All Games',exact:true}).click();
+    const current = await page.locator('.weekly-refresh').innerText();
+    const ids = await page.locator('[data-game-id]').evaluateAll(es=>es.map(e=>e.dataset.gameId));
+    release(); await page.waitForTimeout(100);
+    assert.equal(await page.locator('.weekly-refresh').innerText(),current);
+    assert.deepEqual(await page.locator('[data-game-id]').evaluateAll(es=>es.map(e=>e.dataset.gameId)),ids);
+    await page.unroute('**/api/games/snapshot');
+  }
+  for (const week of [6,7,8,9,10,11]) {
+    await page.goto(origin+route+`?season=2026&week=${week}&mode=nearby&result=verified`); await settled(page);
+    assert.match(await page.locator('.weekly-filters summary').innerText(),/1 active refinement/);
+    assert.equal(await page.getByRole('button',{name:'Use my location',exact:true}).count(),[7,8,9].includes(week)?1:0);
+    assert.doesNotMatch(await page.locator('.weekly-refresh').innerText(),/0 games/);
+    assert.match(await page.locator('.weekly-measurement').innerText(),/Preference: don’t share/);
+  }
+  pass(`${route}: counts, unknown classification unchanged Apply, all individual clears, keyboard focus, shared/history restoration, result=current ignored, genuine empty versus failure, stale completion after refinement/location/week/mode changes, supported/unsupported weeks, mobile and 200% text; measurement declined`);
+}
+
 try {
+ verification: {
   start();
   await ready();
   browser = await chromium.launch({ args: ["--no-sandbox"], executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH });
@@ -471,10 +569,32 @@ try {
     console.error("BROWSER RUNTIME ERROR", e.message);
   });
   for (const route of ["/games", "/scoreboard"]) {
-    await nearMePresentation(page, route);
+    if (process.env.FILTER_CORRECTION_ONLY !== "1") await nearMePresentation(page, route);
     await page.setViewportSize({ width: 390, height: 900 });
     await statusRegressions(page, route);
     await nearbyStatusRegression(page, route);
+  }
+  if (process.env.FILTER_CORRECTION_ONLY === "1") {
+    for (const route of ["/games", "/scoreboard"]) await refinementRegressions(page, route);
+    const nativeContext = await context({javaScriptEnabled:false});
+    await authenticated(nativeContext);
+    const native = await nativeContext.newPage();
+    for (const route of ["/games", "/scoreboard"]) {
+      await statusRegressions(native, route, true);
+      await native.goto(origin+route+'?season=2026&week=7&result=verified&classification=Unknown%20fixture%20classification');
+      await native.locator('.weekly-filters summary').click();
+      assert.equal(await native.locator('select[name="classification"]').inputValue(),'Unknown fixture classification');
+      await native.getByRole('button',{name:'Apply filters',exact:true}).click();
+      assert.equal(new URL(native.url()).searchParams.get('classification'),'Unknown fixture classification');
+      await native.getByRole('link',{name:'Clear Verified finals only',exact:true}).click();
+      assert.equal(new URL(native.url()).searchParams.get('classification'),'Unknown fixture classification');
+      assert.equal(new URL(native.url()).searchParams.has('result'),false);
+    }
+    await nativeContext.close();
+    assert.deepEqual(errors, []);
+    assert.equal(writes,0); assert.equal(telemetryRequests,0);
+    writeFileSync(`${evidence}/results.json`, JSON.stringify({head:execFileSync("git",["rev-parse","HEAD"],{encoding:"utf8"}).trim(),tree:execFileSync("git",["rev-parse","HEAD^{tree}"],{encoding:"utf8"}).trim(),results,writes,telemetryRequests,scoreCalls,fixture:"Local synthetic read-only backend; measurement declined and collection off."},null,2));
+    break verification;
   }
   for (const route of ["/games", "/scoreboard"]) {
   const label = route.slice(1);
@@ -1158,6 +1278,7 @@ try {
     console.log("FIXTURE_READY");
     await new Promise(() => {});
   }
+ }
 } finally {
   if (browser) await browser.close();
   if (app) {

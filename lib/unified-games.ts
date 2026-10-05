@@ -60,6 +60,28 @@ export function applyWeeklyStatus(p: WeeklyParams, value: string) {
     ? { filter: value, current: false, verified: false }
     : { filter: p.filter, current: p.current, verified: p.verified };
 }
+// An explicit modern status clears inherited scopes unless the caller
+// deliberately retains an individual scope (for example, clearing only status).
+export function updateWeeklyParams(p: WeeklyParams, updates: Partial<WeeklyParams>) {
+  return { ...p, ...(updates.filter ? applyWeeklyStatus(p, updates.filter) : {}), ...updates };
+}
+export function weeklyAppliedRefinements(p: WeeklyParams): {
+  key: string; label: string; clear: Partial<WeeklyParams>;
+}[] {
+  const refinements: { key: string; label: string; clear: Partial<WeeklyParams> }[] = [];
+  if (p.q) refinements.push({ key: "q", label: `Search: ${p.q}`, clear: { q: "" } });
+  if (p.filter !== "all") refinements.push({
+    key: "filter", label: p.filter === "live" ? "LIVE" : p.filter === "upcoming" ? "Upcoming" : "Completed",
+    clear: { filter: "all", current: p.current, verified: p.verified },
+  });
+  if (p.current) refinements.push({ key: "current", label: "Current and unresolved games", clear: { current: false } });
+  if (p.verified) refinements.push({ key: "verified", label: "Verified finals only", clear: { verified: false } });
+  if (p.classification) refinements.push({ key: "classification", label: `Classification: ${p.classification}`, clear: { classification: "" } });
+  if (p.district) refinements.push({ key: "district", label: "District games only", clear: { district: false } });
+  if (p.following) refinements.push({ key: "following", label: "Following only", clear: { following: false } });
+  if (p.mode === "nearby" && p.radius !== 50) refinements.push({ key: "radius", label: `Radius: ${p.radius} miles`, clear: { radius: 50 } });
+  return refinements;
+}
 export function parseWeeklyParams(
   raw: Record<string, string | string[] | undefined>,
   games: readonly WeeklyGame[],
@@ -158,7 +180,7 @@ export function weeklyUrl(
   updates: Partial<WeeklyParams> = {},
   route: "/games" | "/scoreboard" = "/games",
 ) {
-  const n = { ...p, ...updates, ...(updates.filter ? applyWeeklyStatus(p, updates.filter) : {}) };
+  const n = updateWeeklyParams(p, updates);
   const q = new URLSearchParams();
   q.set("season", n.season);
   q.set("week", n.week);
