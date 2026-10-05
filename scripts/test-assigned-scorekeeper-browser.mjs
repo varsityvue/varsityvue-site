@@ -18,9 +18,9 @@ const coach=await user('coach-browser@example.invalid');
 const fallback=await user('fallback-browser@example.invalid');
 const sql=q=>execFileSync('psql',['-X','-At','-v','ON_ERROR_STOP=1','-h','127.0.0.1','-p','54322','-U','postgres','-d','postgres','-c',q],{env:{...process.env,PGPASSWORD:'postgres'},encoding:'utf8'}).trim();
 const admin=sql("select user_id from public.user_roles where role='admin' order by user_id limit 1");assert.match(admin,/^[0-9a-f-]{36}$/);
-const game='goldthwaite-at-miles-2026-week-6';
+const game='albany-at-stamford-2026-week-7';
 sql(`insert into public.user_roles(user_id,role) values('${keeper.actor}','scorekeeper'),('${coach.actor}','scorekeeper'),('${fallback.actor}','scorekeeper');
-insert into public.contributor_school_assignments(user_id,school_slug,assignment_role) values('${keeper.actor}','goldthwaite','scorekeeper'),('${coach.actor}','goldthwaite','coach'),('${fallback.actor}','miles','scorekeeper');
+insert into public.contributor_school_assignments(user_id,school_slug,assignment_role) values('${keeper.actor}','albany','scorekeeper'),('${coach.actor}','albany','coach'),('${fallback.actor}','stamford','scorekeeper');
 update public.profiles set username='browser_scorekeeper' where id='${keeper.actor}';
 select set_config('request.jwt.claim.sub','${admin}',false);set role authenticated;
 select public.submit_trusted_score_update('${game}',14,21,'live','3rd','04:00',null,null,null,true);`);
@@ -31,6 +31,19 @@ try {
  browser=await chromium.launch();
  async function contextFor(session) {const c=await browser.newContext({viewport:{width:400,height:900}});const encoded=`base64-${Buffer.from(JSON.stringify(session)).toString('base64url')}`;const chunks=encoded.match(/.{1,3180}/g);await c.addCookies(chunks.map((value,i)=>({name:chunks.length===1?'sb-127-auth-token':`sb-127-auth-token.${i}`,value,url:'http://127.0.0.1:3000',httpOnly:false,sameSite:'Lax'})));return c;}
  const context=await contextFor(keeper.session);const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ // Synthetic Week 7 actor -> actual Account -> actual reporting page.
+ await page.goto('http://127.0.0.1:3000/account');
+ const tools=page.locator('#platform-tools');
+ const gameLink=tools.locator(`a[href="/report-score?game=${game}"]`);
+ await gameLink.waitFor();
+ for(const width of [390,400,430,1280]) {
+  await page.setViewportSize({width,height:900});
+  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Account horizontal overflow');
+ }
+ await page.locator('body').click({position:{x:1,y:1}});
+ let reached=false;for(let i=0;i<80;i++){await page.keyboard.press('Tab');if(await gameLink.evaluate(e=>e===document.activeElement)){reached=true;break;}}
+ assert.ok(reached,'Assigned game is reachable by Tab');
+ await page.keyboard.press('Enter');await page.waitForURL(new RegExp('report-score\\?game='+game));
  await page.goto(`http://127.0.0.1:3000/report-score?game=${game}`);
  await page.getByRole('heading',{name:'Trusted LIVE Update',exact:true}).waitFor();
  const trusted=()=>page.locator('form').filter({has:page.getByRole('button',{name:'Publish Trusted LIVE Update',exact:true})});
@@ -49,7 +62,7 @@ try {
  assert.equal((await page.content()).includes('assigned_scorekeeper_authority_v1'),false);
  assert.equal((await page.content()).includes(keeper.actor),false,'Private actor leaked in Game Center');
  await page.goto('http://127.0.0.1:3000/scoreboard');await page.getByText('Updated by @browser_scorekeeper',{exact:true}).filter({visible:true}).first().waitFor();
- await page.goto('http://127.0.0.1:3000/schools/goldthwaite');await page.getByText('Updated by @browser_scorekeeper',{exact:true}).first().waitFor({state:'attached'});
+ await page.goto('http://127.0.0.1:3000/schools/albany');await page.getByText('Updated by @browser_scorekeeper',{exact:true}).first().waitFor({state:'attached'});
  sql(`select set_config('request.jwt.claim.sub','${fallback.actor}',false);set role authenticated;select public.submit_assigned_scorekeeper_update('${game}',14,20,'3rd','04:00',(select updated_at from public.public_game_state where game_id='${game}'),(select score_revision from public.public_game_state where game_id='${game}'),false)`);
  await page.goto(`http://127.0.0.1:3000/games/${game}`);await page.getByText('Updated by VarsityVue contributor',{exact:true}).filter({visible:true}).first().waitFor();
  // The tokens stay page-origin even while another publisher wins.
@@ -58,13 +71,38 @@ try {
  sql(`select set_config('request.jwt.claim.sub','${admin}',false);set role authenticated;select public.submit_trusted_score_update('${game}',14,28,'live','4th','02:00',null,'${updated}',${revision},false)`);
  await trusted().locator('[name=away_score]').fill('21');await trusted().getByRole('button').click();await page.getByText('Game changed — review the current score.',{exact:true}).waitFor();
  assert.equal(sql(`select away_score from public.game_state where game_id='${game}'`),'28');
+ // Connection loss does not fabricate success; reconnect/reload reconciles the
+ // latest authoritative tokens before another publication attempt.
+ await context.setOffline(true);
+ await assert.rejects(page.reload({timeout:5000}));
+ await context.setOffline(false);
+ await page.goto(`http://127.0.0.1:3000/report-score?game=${game}`);
+ await page.getByRole('heading',{name:'Trusted LIVE Update',exact:true}).waitFor();
+ assert.equal(await trusted().locator('[name=away_score]').inputValue(),'28');
+ assert.notEqual(await trusted().locator('[name=expected_state_revision]').inputValue(),revision);
  // Revocation is current at publication, even when controls were loaded earlier.
  sql(`delete from public.contributor_school_assignments where user_id='${keeper.actor}'`);
  await trusted().locator('[name=away_score]').fill('35');await trusted().getByRole('button').click();await page.getByText(/Your active scorekeeper access no longer covers/).waitFor();
  assert.equal(sql(`select away_score from public.game_state where game_id='${game}'`),'28');
+ // Revoked assignment removes Account discovery; role-only cannot publish.
+ await page.goto('http://127.0.0.1:3000/account');
+ assert.equal(await page.locator(`#platform-tools a[href="/report-score?game=${game}"]`).count(),0);
+ const unassigned=await user('unassigned-browser@example.invalid');
+ sql(`insert into public.user_roles(user_id,role) values('${unassigned.actor}','scorekeeper')`);
+ const unassignedContext=await contextFor(unassigned.session);const unassignedPage=await unassignedContext.newPage();
+ await unassignedPage.goto('http://127.0.0.1:3000/account');
+ assert.equal(await unassignedPage.locator('#platform-tools a[href*="game="]').count(),0);
+ await unassignedPage.goto(`http://127.0.0.1:3000/report-score?game=${game}`);
+ assert.equal(await unassignedPage.getByRole('heading',{name:'Trusted LIVE Update',exact:true}).count(),0);
+ const suspended=await user('suspended-browser@example.invalid');
+ sql(`insert into public.user_roles(user_id,role) values('${suspended.actor}','scorekeeper');
+ insert into public.contributor_school_assignments(user_id,school_slug) values('${suspended.actor}','albany');
+ update public.member_account_status set status='suspended', suspended_at=now() where user_id='${suspended.actor}'`);
+ const suspendedContext=await contextFor(suspended.session);const suspendedPage=await suspendedContext.newPage();
+ await suspendedPage.goto('http://127.0.0.1:3000/account');await suspendedPage.waitForURL(/account-suspended/);
  const coachContext=await contextFor(coach.session);const coachPage=await coachContext.newPage();await coachPage.goto(`http://127.0.0.1:3000/report-score?game=${game}`);await coachPage.getByRole('heading',{name:'Pending Score Report / FINAL Request'}).waitFor();assert.equal(await coachPage.getByRole('heading',{name:'Trusted LIVE Update',exact:true}).count(),0);
  // FINAL is still a pending report, never a trusted button.
- sql(`insert into public.contributor_school_assignments(user_id,school_slug) values('${keeper.actor}','goldthwaite')`);
+ sql(`insert into public.contributor_school_assignments(user_id,school_slug) values('${keeper.actor}','albany')`);
  await page.goto(`http://127.0.0.1:3000/report-score?game=${game}`);
  const pending=page.locator('form').filter({has:page.locator('[name=game_status]')});
  await pending.locator('[name=game_status]').selectOption('final');await pending.locator('[name=away_score]').fill('28');await pending.locator('[name=home_score]').fill('14');await pending.getByRole('button',{name:/Submit/}).click();await page.waitForURL(/submitted=pending/);

@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { getCanonicalScoreboardTeamName, hasCompleteScoreboardTeamIdentity } from "@/data/scoreboard-team-identities";
 import { getDynamicGames } from "@/lib/dynamic-games";
+import { assignedScorekeeperGames } from "@/lib/assigned-scorekeeper-games";
 import { resolveAccountFollows } from "@/lib/account-follows";
 import { requireActiveMember } from "@/lib/member-access";
 import { getSchoolBySlug } from "@/lib/schools";
@@ -140,26 +141,10 @@ export default async function AccountPage() {
   const assignedSchoolSlugs = new Set(assignedPrograms.map((program) => program.slug));
 
   const scoreReadyAssignedGames = isScorekeeper && !canModerate
-    ? dynamicGames
-        .filter(
-          (game) =>
-            game.season === 2026 &&
-            game.week !== undefined &&
-            game.week >= 3 &&
-            game.week <= 6 &&
-            game.gameType !== "bye" &&
-            game.gameType !== "scrimmage" &&
-            ["live", "scheduled"].includes(game.status) &&
-            ((game.awaySchoolSlug && assignedSchoolSlugs.has(game.awaySchoolSlug)) ||
-              (game.homeSchoolSlug && assignedSchoolSlugs.has(game.homeSchoolSlug))) &&
-            teamHasCompleteIdentity(game.awaySchoolSlug, game.awayTeam) &&
-            teamHasCompleteIdentity(game.homeSchoolSlug, game.homeTeam),
-        )
-        .sort((a, b) => {
-          if (a.status !== b.status) return a.status === "live" ? -1 : 1;
-          return (b.kickoff ?? "").localeCompare(a.kickoff ?? "");
-        })
-        .slice(0, 6)
+    ? assignedScorekeeperGames(dynamicGames, assignedSchoolSlugs, (game) =>
+        teamHasCompleteIdentity(game.awaySchoolSlug, game.awayTeam) &&
+        teamHasCompleteIdentity(game.homeSchoolSlug, game.homeTeam),
+      )
     : [];
 
   return (
@@ -238,7 +223,7 @@ export default async function AccountPage() {
                 <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--vv-accent)]">Contributor Dashboard</p>
                 <h2 className="mt-2 text-2xl font-black">Game-night tools</h2>
                 <p className="mt-2 max-w-2xl text-sm leading-6 text-white/55">
-                  Enter score reports only for games involving programs assigned to your contributor account. Reports still pass through verification before becoming official VarsityVue game state.
+                  Enter score reports only for games involving programs assigned to your contributor account. Trusted LIVE updates require a moderator-started, verified numeric LIVE game. Other reports and FINAL requests still require review.
                 </p>
               </div>
               <span className="w-fit rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.14em] text-emerald-100">
@@ -269,29 +254,29 @@ export default async function AccountPage() {
 
             {assignedPrograms.length > 0 ? (
               <div className="mt-5">
-                <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">Score-Ready Assigned Games</p>
-                <p className="mt-1 text-xs text-white/40">Live games and past matchups awaiting a result.</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35">Assigned Games</p>
+                <p className="mt-1 text-xs text-white/40">Upcoming games, live games, and past matchups awaiting a result. Score reporting opens at kickoff.</p>
                 {scoreReadyAssignedGames.length ? (
                   <div className="mt-3 grid gap-3">
                     {scoreReadyAssignedGames.map((game) => (
                       <div key={game.id} className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-black/20 p-4 sm:flex-row sm:items-center sm:justify-between">
                         <div className="min-w-0">
                           <p className="text-[10px] font-black uppercase tracking-[0.14em] text-white/35">
-                            {game.status === "live" ? "Live" : "Result Pending"} · Week {game.week ?? "—"} · {formatKickoff(game.kickoff)}
+                            {game.status === "upcoming" ? "Upcoming" : game.status === "live" ? "Reporting Open" : "Result Pending"} · Week {game.week ?? "—"} · {formatKickoff(game.kickoff)}
                           </p>
                           <p className="mt-1 truncate text-sm font-black text-white">
                             {displayTeamName(game.awayTeam, game.awaySchoolSlug)} at {displayTeamName(game.homeTeam, game.homeSchoolSlug)}
                           </p>
                         </div>
-                        <Link href={`/report-score?game=${encodeURIComponent(game.id)}`} className="shrink-0 rounded-full bg-[var(--vv-primary)] px-4 py-2 text-center text-xs font-black transition hover:bg-[#93142a]">
-                          Enter Score
+                        <Link href={game.status === "upcoming" ? `/games/${encodeURIComponent(game.id)}` : `/report-score?game=${encodeURIComponent(game.id)}`} className="shrink-0 rounded-full bg-[var(--vv-primary)] px-4 py-2 text-center text-xs font-black transition hover:bg-[#93142a]">
+                          {game.status === "upcoming" ? "View Game" : "Enter Score"}
                         </Link>
                       </div>
                     ))}
                   </div>
                 ) : (
                   <div className="mt-3 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-white/45">
-                    No assigned games are currently live or awaiting a result.
+                    No identity-ready assigned games are upcoming, live, or awaiting a result.
                   </div>
                 )}
               </div>

@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/workflows/assigned-scorekeeper-live-v1.yml'
       - 'app/report-score/**'
+      - 'app/account/page.tsx'
       - 'lib/assigned-scorekeeper*'
       - 'supabase/migrations/*assigned_scorekeeper_live_v1.sql'
       - 'supabase/tests/assigned_scorekeeper*'
@@ -21,7 +22,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: node --import tsx --test lib/assigned-scorekeeper.test.ts lib/score-scout-review.test.tsx lib/public-score-state.test.tsx lib/scoring-operations.test.ts lib/games.test.ts lib/school-scoring-averages.test.ts lib/pickem-lifecycle.test.ts lib/pickem-client-state.test.ts lib/pickem-week-summary.test.ts lib/pickem-contest-display.test.ts
+      - run: node --import tsx --test lib/assigned-scorekeeper.test.ts lib/assigned-scorekeeper-games.test.ts lib/score-scout-review.test.tsx lib/public-score-state.test.tsx lib/scoring-operations.test.ts lib/games.test.ts lib/school-scoring-averages.test.ts lib/pickem-lifecycle.test.ts lib/pickem-client-state.test.ts lib/pickem-week-summary.test.ts lib/pickem-contest-display.test.ts
       - run: npx tsc --noEmit
       - uses: supabase/setup-cli@v2
         with:
@@ -59,7 +60,7 @@ jobs:
         run: PGPASSWORD=postgres bash supabase/tests/assigned_scorekeeper_race.sh
       - name: Targeted lint and full build
         run: |
-          npx eslint app/report-score/actions.ts app/report-score/page.tsx app/report-score/TrustedLiveScoreForm.tsx lib/assigned-scorekeeper.ts lib/assigned-scorekeeper.test.ts
+          npx eslint app/report-score/actions.ts app/report-score/page.tsx app/report-score/TrustedLiveScoreForm.tsx lib/assigned-scorekeeper.ts lib/assigned-scorekeeper.test.ts lib/assigned-scorekeeper-games.ts lib/assigned-scorekeeper-games.test.ts app/account/page.tsx
           npm run build
           git diff --check
       - name: Authenticated browser dependencies
