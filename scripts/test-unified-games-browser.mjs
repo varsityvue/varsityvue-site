@@ -235,6 +235,7 @@ async function nearMePresentation(page, route) {
       assert.equal(await page.locator('.weekly-measurement').getByRole('link',{name:'Privacy',exact:true}).getAttribute('href'), '/privacy#regional-measurement');
       assert.equal(await page.locator('.weekly-empty').count(),0);
       assert.doesNotMatch(await page.locator('.weekly-refresh').innerText(), /0 games/);
+      if ([6,7].includes(week)) await page.screenshot({path:`${evidence}/near-me-${week===6?'unavailable':'missing'}-${label}-${width}.png`,fullPage:true});
       if ([7,8,9].includes(week)) {
         assert.equal(await page.locator('.weekly-location').count(),1);
         assert.equal(await page.locator('.weekly-nearby-state').count(),0);
@@ -394,7 +395,7 @@ async function nearbyStatusRegression(page, route) {
   assert.equal(await page.locator("[data-game-id]").count(), 7);
   assert.equal(await page.locator(".weekly-refresh p").innerText(), before);
   assert.equal(await page.getByLabel("Or choose a school").inputValue(), "de-leon");
-  assert.match(await page.locator("main").innerText(), /Scores could not be refreshed/);
+  assert.match(await page.locator("main").innerText(), /Live scores are unavailable/);
   await page.screenshot({ path: `${evidence}/${label}-de-leon-refresh-failure.png`, fullPage: true });
   mode = "schedule";
   await chooseStatus(page, "upcoming");
