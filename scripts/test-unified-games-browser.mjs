@@ -307,7 +307,7 @@ async function statusRegressions(page, route, noJavaScript = false) {
     await page.goto(origin + route + "?season=2026&week=7&" + legacy);
     if (!noJavaScript) await settled(page);
     assert.match(await status.locator("option:checked").textContent(), new RegExp(text.replaceAll("+", "\\+")));
-    assert.match(await page.locator(".weekly-filters summary").innerText(), /active/);
+    assert.match(await page.locator(".weekly-filters summary").getAttribute("aria-label"), /active/);
     const original = await ids();
     if (current) assert.ok(!original.includes("albany-at-stamford-2026-week-7"));
     if (verified) assert.ok(!original.includes("comanche-at-millsap-2026-week-7"));
@@ -379,7 +379,7 @@ async function nearbyStatusRegression(page, route) {
     if (legacy) {
       await page.locator(".weekly-filters summary").click();
       assert.equal(await page.locator('select[name="filter"]').inputValue(), "legacy-all-verified");
-      assert.match(await page.locator(".weekly-filters summary").innerText(), /active/);
+      assert.match(await page.locator(".weekly-filters summary").getAttribute("aria-label"), /active/);
       await page.screenshot({ path: `${evidence}/${label}-de-leon-verified-empty.png`, fullPage: true });
       await chooseStatus(page, "legacy-all-verified");
       assert.equal(await page.locator("[data-game-id]").count(), 0);
@@ -467,7 +467,7 @@ async function refinementRegressions(page, route) {
     await page.setViewportSize({width,height:900});
     await page.goto(link); await settled(page);
     await page.getByLabel('Or choose a school').selectOption('de-leon');
-    assert.match(await page.locator('.weekly-filters summary').innerText(), /8 active refinements/);
+    assert.match(await page.locator('.weekly-filters summary').getAttribute('aria-label'), /8 active refinements/);
     await page.locator('.weekly-filters summary').click();
     assert.equal(await page.locator('select[name="classification"]').inputValue(),unknown);
     const before = new URL(page.url()).search;
@@ -491,7 +491,7 @@ async function refinementRegressions(page, route) {
     const before = Object.fromEntries(new URL(page.url()).searchParams);
     const clear = page.getByRole('link',{name:`Clear ${name}`,exact:true});
     await clear.focus(); await page.keyboard.press('Enter');
-    assert.match(await page.locator('.weekly-filters summary').innerText(),/7 active refinements/);
+    assert.match(await page.locator('.weekly-filters summary').getAttribute('aria-label'),/7 active refinements/);
     assert.equal(await page.locator('.weekly-filters summary').evaluate(e=>e===document.activeElement),true);
     assert.equal(await page.getByLabel('Or choose a school').inputValue(),'de-leon');
     const after = new URL(page.url()).searchParams;
@@ -500,10 +500,10 @@ async function refinementRegressions(page, route) {
     if(key !== 'verified') assert.equal(after.get('result'),'verified');
     if(route === '/scoreboard') assert.equal(after.get('intent'),'scores');
     await page.goBack(); await settled(page);
-    assert.match(await page.locator('.weekly-filters summary').innerText(),/8 active refinements/);
+    assert.match(await page.locator('.weekly-filters summary').getAttribute('aria-label'),/8 active refinements/);
     assert.equal(await page.locator('[data-game-id]').count(),0);
     await page.goForward(); await settled(page);
-    assert.match(await page.locator('.weekly-filters summary').innerText(),/7 active refinements/);
+    assert.match(await page.locator('.weekly-filters summary').getAttribute('aria-label'),/7 active refinements/);
     const shared = page.url(); await page.goto(shared); await settled(page);
     assert.equal(page.url(),shared);
   }
@@ -547,7 +547,7 @@ async function refinementRegressions(page, route) {
   }
   for (const week of [6,7,8,9,10,11]) {
     await page.goto(origin+route+`?season=2026&week=${week}&mode=nearby&result=verified`); await settled(page);
-    assert.match(await page.locator('.weekly-filters summary').innerText(),/1 active refinement/);
+    assert.match(await page.locator('.weekly-filters summary').getAttribute('aria-label'),/1 active refinement/);
     assert.equal(await page.getByRole('button',{name:'Use my location',exact:true}).count(),[7,8,9].includes(week)?1:0);
     assert.doesNotMatch(await page.locator('.weekly-refresh').innerText(),/0 games/);
     assert.match(await page.locator('.weekly-measurement').innerText(),/Preference: don’t share/);

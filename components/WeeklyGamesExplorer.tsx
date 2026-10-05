@@ -472,11 +472,8 @@ export default function WeeklyGamesExplorer(props: Props) {
         </button>
       </form>
         <details className="weekly-filters">
-          <summary>
-            Filters
-            {refinements.length
-              ? ` · ${refinements.length} active ${refinements.length === 1 ? "refinement" : "refinements"}`
-              : ""}
+          <summary aria-label={refinements.length ? `Filters, ${refinements.length} active ${refinements.length === 1 ? "refinement" : "refinements"}` : "Filters"}>
+            Filters{refinements.length ? ` · ${refinements.length}` : ""}
           </summary>
           <form
             action={route}
