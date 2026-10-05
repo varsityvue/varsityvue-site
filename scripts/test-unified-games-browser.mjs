@@ -37,6 +37,8 @@ let writes = 0;
 let scoreCalls = 0;
 let telemetryRequests = 0;
 let browserMutations = 0;
+let devDiagnosticReads = 0;
+const browserRequestAudit = [];
 const rows = [
   {
     game_id: "de-leon-at-hawley-2026-week-7",
@@ -96,7 +98,7 @@ const api = http.createServer((req, res) => {
   const send = (x) => res.end(JSON.stringify(x));
   if (
     ["POST", "PUT", "PATCH", "DELETE"].includes(req.method) &&
-    !(req.method === "POST" && path.startsWith("/rest/v1/rpc/public_score_states"))
+    !(req.method === "POST" && new URL(path,"http://127.0.0.1:54329").pathname === "/rest/v1/rpc/public_score_states")
   )
     writes++;
   if (path.startsWith("/auth/v1/user")) return send(session.user);
@@ -182,7 +184,16 @@ async function context(options = {}) {
   await c.route(/https?:\/\/(?!127\.0\.0\.1|localhost)/, (r) => r.abort());
   c.on("page", page => page.on("request", request => {
     if (new URL(request.url()).pathname === "/api/coverage-demand") telemetryRequests++;
-    if (["POST","PUT","PATCH","DELETE"].includes(request.method())) browserMutations++;
+    if (["POST","PUT","PATCH","DELETE"].includes(request.method())) {
+      const url=new URL(request.url());
+      // Next 16's installed devtools/shared/stack-frame.js uses POST to read
+      // source frames. This exact local diagnostic endpoint does not mutate
+      // application data; every other mutating-method request stays counted.
+      const diagnostic=request.method()==="POST" && url.origin===origin && url.pathname==="/__nextjs_original-stack-frames";
+      if(diagnostic) devDiagnosticReads++; else browserMutations++;
+      browserRequestAudit.push({method:request.method(),origin:url.origin,path:url.pathname,classification:diagnostic?"read-only-dev-diagnostic":"mutation"});
+      if(!diagnostic) console.log("UNEXPECTED_BROWSER_MUTATION",request.method(),url.origin,url.pathname);
+    }
   }));
   await c.addInitScript(() => {
     localStorage.setItem("coverage_measurement_v2", "disabled");
@@ -1402,6 +1413,8 @@ try {
         writes,
         telemetryRequests,
         browserMutations,
+        devDiagnosticReads,
+        browserRequestAudit,
         fixture:
           "All scores/statuses are illustrative. Local synthetic Supabase only.",
       },
