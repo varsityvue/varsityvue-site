@@ -49,6 +49,8 @@ test("compact header shows the frozen Central deadline and sponsor without entry
   assert.match(html, /Oct 9.*7:00 PM CDT/);
   assert.match(html, /Texas residents 18\+/);
   assert.match(html, /Gilder Storage logo/);
+  assert.match(html, /Share Week 7 Pick ’Em/);
+  assert.match(html, />Share<\/span>/);
   assert.doesNotMatch(html, /Accepted completed entries|Provisional cash prize/);
   const winter = renderToStaticMarkup(<PickemContestHeader season={2026} week={11} deadline="2026-11-07T00:00:00Z" sponsorLogo={null} />);
   assert.match(winter, /Nov 6.*6:00 PM CST/);
