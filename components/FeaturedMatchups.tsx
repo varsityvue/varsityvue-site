@@ -93,7 +93,10 @@ export default async function FeaturedMatchups() {
   const gameOfTheWeek = getGameOfTheWeek(dynamicState);
   const upcomingGames = getUpcomingScoreboardGames(8, dynamicState);
   const upcomingGameOfTheWeek =
-    gameOfTheWeek?.status === "upcoming" ? gameOfTheWeek : undefined;
+    gameOfTheWeek?.status === "upcoming" &&
+    gameOfTheWeek.specialEvent === "Game of the Week"
+      ? gameOfTheWeek
+      : undefined;
 
   const games = [
     ...(upcomingGameOfTheWeek ? [upcomingGameOfTheWeek] : []),
