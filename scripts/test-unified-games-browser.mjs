@@ -210,11 +210,16 @@ async function authenticated(c) {
     },
   ]);
 }
-async function chooseStatus(page, value) {
+async function nativeGet(page, action) {
+  const navigation=page.waitForEvent("framenavigated",{predicate:frame=>frame===page.mainFrame()});
+  await action(); await navigation; await page.waitForLoadState("domcontentloaded");
+}
+async function chooseStatus(page, value, native = false) {
   const filters = page.locator(".weekly-filters");
   if ((await filters.getAttribute("open")) === null) await filters.locator("summary").click();
   await page.getByRole("combobox", {name:"Game status", exact:true}).selectOption(value);
-  await page.getByRole("button", {name:"Apply filters", exact:true}).click();
+  const apply=()=>page.getByRole("button", {name:"Apply filters", exact:true}).click();
+  if(native) await nativeGet(page,apply); else await apply();
 }
 async function settled(page) {
   try {
@@ -315,7 +320,7 @@ async function statusRegressions(page, route, noJavaScript = false) {
     if (verified) assert.ok(!original.includes("comanche-at-millsap-2026-week-7"));
     if (current && verified) assert.deepEqual(original, []);
     // Merely applying the panel must preserve the selected exact legacy scope.
-    await chooseStatus(page, await status.inputValue());
+    await chooseStatus(page, await status.inputValue(),noJavaScript);
     if (!noJavaScript) await settled(page);
     assert.deepEqual(await ids(), original);
     const retained = new URL(page.url()).searchParams;
@@ -324,7 +329,7 @@ async function statusRegressions(page, route, noJavaScript = false) {
     for (const target of ["all", "upcoming", "completed"]) {
       await page.goto(origin + route + "?season=2026&week=7&" + legacy);
       if (!noJavaScript) await settled(page);
-      await chooseStatus(page, target);
+      await chooseStatus(page, target,noJavaScript);
       if (!noJavaScript) await settled(page);
       assert.equal(await status.inputValue(), target);
       if (!noJavaScript) {
@@ -355,7 +360,7 @@ async function statusRegressions(page, route, noJavaScript = false) {
     await settled(page);
     await page.getByLabel("Or choose a school").selectOption("de-leon");
   }
-  await chooseStatus(page, "all");
+  await chooseStatus(page, "all",noJavaScript);
   if (!noJavaScript) await settled(page);
   const q = new URL(page.url()).searchParams;
   for (const [key, value] of Object.entries(refinements)) assert.equal(q.get(key), value);
@@ -704,9 +709,9 @@ try {
       await native.goto(origin+route+'?season=2026&week=7&result=verified&classification=Unknown%20fixture%20classification');
       await native.locator('.weekly-filters summary').click();
       assert.equal(await native.locator('select[name="classification"]').inputValue(),'Unknown fixture classification');
-      await native.getByRole('button',{name:'Apply filters',exact:true}).click();
+      await nativeGet(native,()=>native.getByRole('button',{name:'Apply filters',exact:true}).click());
       assert.equal(new URL(native.url()).searchParams.get('classification'),'Unknown fixture classification');
-      await native.getByRole('link',{name:'Clear Verified finals only',exact:true}).click();
+      await nativeGet(native,()=>native.getByRole('link',{name:'Clear Verified finals only',exact:true}).click());
       assert.equal(new URL(native.url()).searchParams.get('classification'),'Unknown fixture classification');
       assert.equal(new URL(native.url()).searchParams.has('result'),false);
     }
