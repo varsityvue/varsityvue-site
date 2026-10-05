@@ -40,11 +40,11 @@ export default function PickemGuestSlate({ games }: { games: PickemSlateGame[] }
     <section className="mt-5 rounded-[1.5rem] border border-[var(--vv-accent)]/25 bg-white/[0.045] p-4 shadow-xl sm:mt-7 sm:p-7">
       <div className="text-center">
         <h2 className="text-xl font-black sm:text-2xl">{unlockedCount > 0 ? "Choose Your Winners" : "This Week’s Matchups"}</h2>
-        <p className="mx-auto mt-2 max-w-2xl text-sm leading-6 text-white/50">{unlockedCount > 0 ? `Make all ${unlockedCount} picks now. Create a free account when you’re ready to save them.` : "Selections are closed. Review the matchups and weekly standings below."}</p>
+        <p className="mx-auto mt-1 max-w-2xl text-xs leading-5 text-white/50">{unlockedCount > 0 ? "Pick one winner in each matchup. Sign in to submit." : "Selections are closed. Review the matchups and weekly standings below."}</p>
         {unlockedCount > 0 && <div className="mt-3 flex justify-center"><PickemProgress selectedCount={derived.selectedCount} totalGames={derived.totalGames} /></div>}
       </div>
 
-      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+      <div className="mt-3 grid gap-3 lg:grid-cols-2">
         {games.map((game, index) => {
           const lockedMessageId = `guest-pickem-${game.id}-locked`;
           return (
