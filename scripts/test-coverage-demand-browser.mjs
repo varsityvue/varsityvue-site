@@ -58,9 +58,9 @@ try {
  await locate(page).click();await page.clock.fastForward(61000);await idle(page);
  assert.equal(sent(page).length,0);await clear(page);
  await page.evaluate(()=>localStorage.removeItem('coverage_measurement_v1'));
- assert.equal(await page.getByRole('link',{name:'Privacy',exact:true}).getAttribute('href'),'/privacy#regional-measurement');
+ assert.equal(await page.locator('.weekly-measurement').getByRole('link',{name:'Privacy',exact:true}).getAttribute('href'),'/privacy#regional-measurement');
  pass('Legacy dormant opt-in rejected; fuller disclosure linked; no pre-consent episode reconstructed');
- await page.getByRole('link',{name:'Privacy',exact:true}).click();
+ await page.locator('.weekly-measurement').getByRole('link',{name:'Privacy',exact:true}).click();
  await page.getByRole('heading',{name:'Privacy at VarsityVue',exact:true}).waitFor();
  await page.screenshot({path:`${evidence}/privacy-disclosure.png`,fullPage:true});
  await page.goBack({waitUntil:'networkidle'});

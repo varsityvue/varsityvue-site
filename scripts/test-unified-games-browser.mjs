@@ -231,7 +231,7 @@ async function nearMePresentation(page, route) {
       await page.goto(origin + route + `?season=2026&week=${week}&mode=nearby`);
       await settled(page);
       assert.match(await page.locator('.weekly-measurement').innerText(), /Collection is currently off.*Preference: don’t share/);
-      assert.equal(await page.getByRole('link',{name:'Privacy',exact:true}).getAttribute('href'), '/privacy#regional-measurement');
+      assert.equal(await page.locator('.weekly-measurement').getByRole('link',{name:'Privacy',exact:true}).getAttribute('href'), '/privacy#regional-measurement');
       assert.equal(await page.locator('.weekly-empty').count(),0);
       assert.doesNotMatch(await page.locator('.weekly-refresh').innerText(), /0 games/);
       if ([7,8,9].includes(week)) {
@@ -919,7 +919,7 @@ try {
     for (const [key,value] of Object.entries({season:"2026",week:"7",q:"Hawley",following:"1",classification:"2A Division I",district:"1",mode:"nearby",radius:"100"})) assert.equal(q.get(key),value);
     assert.match(await page.locator("main").innerText(),/Near Me needs JavaScript/);
     assert.equal(await page.locator('.weekly-location').isVisible(),false);
-    assert.equal(await page.getByRole('link',{name:'Privacy',exact:true}).isVisible(),true);
+    assert.equal(await page.locator('.weekly-measurement').getByRole('link',{name:'Privacy',exact:true}).isVisible(),true);
     assert.equal(await page.getByRole('link',{name:'Browse All Games',exact:true}).isVisible(),true);
     await page.close();
   }
