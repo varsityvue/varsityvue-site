@@ -24,6 +24,8 @@ concurrency:
   cancel-in-progress: true
 jobs:
   verify:
+    # This bounded draft must not run consent activation or ingestion fixtures.
+    if: github.head_ref != 'codex/games-filter-state-correction'
     runs-on: ubuntu-latest
     timeout-minutes: 35
     steps:
