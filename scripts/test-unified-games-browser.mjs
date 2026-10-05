@@ -603,7 +603,10 @@ async function followingFailure(page,route) {
   for(const nearby of [false,true]) {
     const url=origin+route+'?season=2026&week=7&following=1'+(nearby?'&mode=nearby':'');
     await page.goto(url); await settled(page);
-    if(nearby) await page.getByLabel('Or choose a school').selectOption('hawley');
+    if(nearby) {
+      await page.waitForFunction(()=>document.querySelector('.weekly-measurement [role=status]')?.textContent.includes('Preference: don’t share'));
+      await page.getByLabel('Or choose a school').selectOption('hawley');
+    }
     assert.match(await page.locator('main').innerText(),/Your Teams could not be loaded/);
     assert.doesNotMatch(await page.locator('main').innerText(),/No followed matchups|Follow schools to|Live scores (are unavailable|could not be loaded)/);
     assert.equal(await page.locator('.weekly-follow-prompt').count(),0);
@@ -613,8 +616,11 @@ async function followingFailure(page,route) {
     assert.equal(new URL(await retry.getAttribute('href'),origin).pathname,route);
     assert.equal(new URL(await retry.getAttribute('href'),origin).searchParams.get('following'),'1');
     await page.screenshot({path:`${evidence}/${route.slice(1)}-following-only-failure-${nearby?'nearby':'all'}.png`,fullPage:true});
-    mode='normal'; await retry.focus(); await page.keyboard.press('Enter'); await settled(page);
-    if(nearby) await page.getByLabel('Or choose a school').selectOption('hawley');
+    mode='normal'; await retry.focus(); await nativeGet(page,()=>page.keyboard.press('Enter')); await settled(page);
+    if(nearby) {
+      await page.waitForFunction(()=>document.querySelector('.weekly-measurement [role=status]')?.textContent.includes('Preference: don’t share'));
+      await page.getByLabel('Or choose a school').selectOption('hawley');
+    }
     assert.doesNotMatch(await page.locator('main').innerText(),/Your Teams could not be loaded/);
     assert.equal(await page.locator('[data-game-id="de-leon-at-hawley-2026-week-7"]').count(),1);
     assert.equal(new URL(page.url()).searchParams.get('following'),'1');
