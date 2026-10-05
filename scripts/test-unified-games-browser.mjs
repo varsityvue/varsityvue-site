@@ -501,7 +501,7 @@ async function refinementRegressions(page, route) {
     if(route === '/scoreboard') assert.equal(after.get('intent'),'scores');
     await page.goBack(); await settled(page);
     assert.match(await page.locator('.weekly-filters summary').innerText(),/8 active refinements/);
-    assert.equal(await page.getByLabel('Or choose a school').inputValue(),'');
+    assert.equal(await page.locator('[data-game-id]').count(),0);
     await page.goForward(); await settled(page);
     assert.match(await page.locator('.weekly-filters summary').innerText(),/7 active refinements/);
     const shared = page.url(); await page.goto(shared); await settled(page);
