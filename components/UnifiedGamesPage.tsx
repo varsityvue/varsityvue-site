@@ -63,9 +63,9 @@ export default async function UnifiedGamesPage({
           scoreLoadStatus={snapshot.scoreLoadStatus}
           fetchedAt={now.toISOString()}
         />
-        <ScorekeeperCta state={cta} prefetch={false} />
-        <HomeMembershipCta surface="scoreboard" />
-        <PickemPromo />
+        <ScorekeeperCta state={cta} prefetch={false} nearbyCompact />
+        <HomeMembershipCta surface="scoreboard" nearbyCompact />
+        <PickemPromo nearbyCompact />
       </div>
     </main>
   );

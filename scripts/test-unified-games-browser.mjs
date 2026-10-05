@@ -112,6 +112,8 @@ const api = http.createServer((req, res) => {
     scoreCalls++;
     return send(mode === "schedule" ? [] : rows);
   }
+  if (path.includes("pickem_weeks")) return send({id:"fixture-week", title:"Week 6 Pick ’Em",season:2026,week:6,status:"open",closes_at:"2026-10-03T00:00:01Z"});
+  if (path.includes("pickem_games")) return send({lock_at:"2026-10-03T00:00:00Z"});
   if (path.includes("school_follows")) {
     const school = new URL(path, "http://127.0.0.1").searchParams.get("school_slug");
     return send([{ school_slug: "de-leon" }, { school_slug: "hawley" }].filter(row => !school || school === `eq.${row.school_slug}`));
@@ -221,6 +223,72 @@ async function settled(page) {
     throw error;
   }
 }
+async function nearMePresentation(page, route) {
+  const label = route.slice(1);
+  for (const width of [390, 430, 1280]) {
+    await page.setViewportSize({width, height:900});
+    for (const week of [6, 7, 8, 9, 10, 11]) {
+      await page.goto(origin + route + `?season=2026&week=${week}&mode=nearby`);
+      await settled(page);
+      await page.waitForFunction(()=>document.querySelector('.weekly-measurement [role=status]')?.textContent.includes('Preference: don’t share'));
+      assert.match(await page.locator('.weekly-measurement').innerText(), /Collection is currently off.*Preference: don’t share/);
+      assert.equal(await page.locator('.weekly-measurement').getByRole('link',{name:'Privacy',exact:true}).getAttribute('href'), '/privacy#regional-measurement');
+      assert.equal(await page.locator('.weekly-empty').count(),0);
+      assert.doesNotMatch(await page.locator('.weekly-refresh').innerText(), /0 games/);
+      if ([6,7].includes(week)) await page.screenshot({path:`${evidence}/near-me-${week===6?'unavailable':'missing'}-${label}-${width}.png`,fullPage:true});
+      if ([7,8,9].includes(week)) {
+        assert.equal(await page.locator('.weekly-location').count(),1);
+        assert.equal(await page.locator('.weekly-nearby-state').count(),0);
+      } else {
+        assert.equal(await page.locator('.weekly-location').count(),0);
+        assert.equal(await page.locator('.weekly-nearby-state').count(),1);
+        assert.equal(await page.getByRole('button',{name:'Use my location',exact:true}).count(),0);
+      }
+    }
+    await page.goto(origin + route + '?season=2026&week=7&mode=nearby&q=NoSuchSchool');
+    await settled(page);
+    await page.getByLabel('Or choose a school').selectOption('de-leon');
+    assert.equal(await page.locator('.weekly-empty').count(),1);
+    await page.getByRole('button',{name:'Review Filters',exact:true}).click();
+    assert.equal(await page.locator('.weekly-filters summary').evaluate(e=>e===document.activeElement),true);
+    assert.equal(await page.locator('#weekly-search').inputValue(),'NoSuchSchool');
+    await page.locator('.weekly-filters summary').click();
+    await page.screenshot({path:`${evidence}/near-me-empty-${label}-${width}.png`,fullPage:true});
+    await page.locator('#weekly-search').fill('');await page.getByRole('button',{name:'Search',exact:true}).click();
+    assert.equal(await page.getByLabel('Or choose a school').inputValue(),'de-leon');
+    const ids = await page.locator('[data-game-id]').evaluateAll(es=>es.map(e=>e.dataset.gameId));
+    assert.ok(ids.length > 0);
+    await page.route('**/api/games/snapshot**',r=>r.fulfill({status:503,body:'{}'}));
+    await page.getByRole('button',{name:'Refresh scores',exact:true}).click();
+    await page.getByRole('button',{name:'Retry score refresh',exact:true}).waitFor();
+    assert.deepEqual(await page.locator('[data-game-id]').evaluateAll(es=>es.map(e=>e.dataset.gameId)),ids);
+    assert.equal(await page.getByLabel('Or choose a school').inputValue(),'de-leon');
+    assert.match(await page.locator('main').innerText(),/Last available results remain/);
+    await page.unroute('**/api/games/snapshot**');
+    await page.goto(origin + route + '?season=2026&week=7&mode=nearby');await settled(page);
+    // Enabled preference is an isolated storage fixture, not hosted consent or telemetry.
+    await page.locator('.weekly-measurement summary').click();
+    await page.getByRole('button',{name:'Allow regional measurement',exact:true}).click();
+    await page.locator('.weekly-measurement summary').click();
+    await page.waitForFunction(()=>document.querySelector('.weekly-measurement [role=status]')?.textContent.includes('Preference: allow regional sharing'));
+    assert.match(await page.locator('.weekly-measurement').innerText(), /Collection is currently off.*Preference: allow regional sharing/);
+    assert.equal(await page.locator('.weekly-measurement details').getAttribute('open'),null);
+    const withdraw = page.getByRole('button',{name:'Don’t share regional usage',exact:true});
+    assert.equal(await withdraw.isVisible(),true);await withdraw.focus();await page.keyboard.press('Enter');
+    assert.match(await page.locator('.weekly-measurement').innerText(),/Preference: don’t share/);
+    assert.equal(await page.evaluate(()=>localStorage.getItem('coverage_measurement_v2')),'disabled');
+    assert.equal(await page.locator('.weekly-measurement summary').evaluate(e=>e===document.activeElement),true);
+    await page.getByLabel('Or choose a school').selectOption('de-leon');
+    await page.screenshot({path:`${evidence}/near-me-compact-${label}-${width}.png`,fullPage:true});
+    await page.evaluate(()=>document.documentElement.style.fontSize='200%');
+    await page.locator('.weekly-measurement summary').click();
+    assert.equal(await page.getByRole('button',{name:'Allow regional measurement',exact:true}).isVisible(),true);
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth),true);
+    await page.screenshot({path:`${evidence}/near-me-text-200-${label}-${width}.png`,fullPage:true});
+  }
+  pass(`${route}: concise gated/missing/empty states; privacy, immediate withdrawal, dormant preference, keyboard, 390/430/1280 and 200% text; failed refresh retains center/results`);
+}
+
 async function statusRegressions(page, route, noJavaScript = false) {
   const label = route.slice(1);
   const ids = () => page.locator("[data-game-id]").evaluateAll(es => es.map(e => e.dataset.gameId).sort());
@@ -304,7 +372,7 @@ async function nearbyStatusRegression(page, route) {
   for (const legacy of [false, true]) {
     await page.goto(origin + route + "?season=2026&week=6&mode=nearby" + (legacy ? "&result=verified" : ""));
     await settled(page);
-    assert.ok(await page.getByRole("button", { name: "Use my location", exact: true }).isDisabled());
+    assert.equal(await page.getByRole("button", { name: "Use my location", exact: true }).count(),0);
     await page.getByRole("link", { name: "Week 7", exact: true }).click();
     await page.getByLabel("Or choose a school").selectOption("de-leon");
     assert.equal(await page.locator("[data-game-id]").count(), legacy ? 0 : 7);
@@ -327,7 +395,7 @@ async function nearbyStatusRegression(page, route) {
   assert.equal(await page.locator("[data-game-id]").count(), 7);
   assert.equal(await page.locator(".weekly-refresh p").innerText(), before);
   assert.equal(await page.getByLabel("Or choose a school").inputValue(), "de-leon");
-  assert.match(await page.locator("main").innerText(), /Scores could not be refreshed/);
+  assert.match(await page.locator("main").innerText(), /Live scores are unavailable/);
   await page.screenshot({ path: `${evidence}/${label}-de-leon-refresh-failure.png`, fullPage: true });
   mode = "schedule";
   await chooseStatus(page, "upcoming");
@@ -403,6 +471,7 @@ try {
     console.error("BROWSER RUNTIME ERROR", e.message);
   });
   for (const route of ["/games", "/scoreboard"]) {
+    await nearMePresentation(page, route);
     await page.setViewportSize({ width: 390, height: 900 });
     await statusRegressions(page, route);
     await nearbyStatusRegression(page, route);
@@ -552,7 +621,7 @@ try {
   assert.equal(await page.evaluate(() => window.locationCalls), 0);
   await page.getByLabel("Or choose a school").selectOption("hawley");
   assert.ok((await page.locator("[data-game-id]").count()) > 0);
-  assert.match(await page.locator("main").innerText(), /Nearest first/);
+  assert.match(await page.locator("main").innerText(), /nearest first/);
   assert.equal(await page.evaluate(() => window.locationCalls), 0);
   assert.ok(!page.url().includes("latitude"));
   await page.screenshot({ path: `${evidence}/nearby-390.png`, fullPage: true });
@@ -573,7 +642,7 @@ try {
   );
   assert.match(
     await page.locator("main").innerText(),
-    /Choose a location to find games/,
+    /Choose a school or use your location/,
   );
   assert.ok(!page.url().includes("latitude"));
   await page.getByRole("link", { name: "Week 6", exact: true }).click();
@@ -581,10 +650,7 @@ try {
     await page.locator("main").innerText(),
     /Near Me is unavailable for Week 6/,
   );
-  assert.equal(
-    await page.getByRole("button", { name: "Use my location" }).isDisabled(),
-    true,
-  );
+  assert.equal(await page.getByRole("button", { name: "Use my location" }).count(), 0);
   await page.screenshot({
     path: `${evidence}/nearby-unavailable-390.png`,
     fullPage: true,
@@ -856,7 +922,10 @@ try {
     await chooseStatus(page,"completed");
     const q = new URL(page.url()).searchParams;
     for (const [key,value] of Object.entries({season:"2026",week:"7",q:"Hawley",following:"1",classification:"2A Division I",district:"1",mode:"nearby",radius:"100"})) assert.equal(q.get(key),value);
-    assert.match(await page.locator("main").innerText(),/Choose a location to find games/);
+    assert.match(await page.locator("main").innerText(),/Near Me needs JavaScript/);
+    assert.equal(await page.locator('.weekly-location').isVisible(),false);
+    assert.equal(await page.locator('.weekly-measurement').getByRole('link',{name:'Privacy',exact:true}).isVisible(),true);
+    assert.equal(await page.getByRole('link',{name:'Browse All Games',exact:true}).isVisible(),true);
     await page.close();
   }
   await c.close();
@@ -1041,6 +1110,32 @@ try {
   pass("School heroes/directory 390/430/1280; follow states; canonical native/cancel/clipboard sharing; status panel and followed empty scope");
   assert.equal(writes, 0);
   assert.equal(telemetryRequests, 0);
+  const promotionsContext = await context();
+  const promotions = await promotionsContext.newPage();
+  await promotions.setViewportSize({width:390,height:900});
+  await promotions.goto(origin+'/games?season=2026&week=7');await settled(promotions);
+  const full = promotions.locator('.weekly-scorekeeper .weekly-promo-description');
+  assert.equal(await full.isVisible(),true);
+  assert.match(await promotions.locator('.weekly-membership').innerText(),/Save your teams. Keep your picks/);
+  assert.match(await promotions.locator('.weekly-pickem').innerText(),/Closed.*Week 6 Pick/si);
+  const allHeight = await promotions.locator('.weekly-scorekeeper').evaluate(e=>e.getBoundingClientRect().height);
+  await promotions.getByRole('link',{name:'Near Me',exact:true}).click();
+  assert.equal(await full.isVisible(),false);
+  assert.match(await promotions.locator('.weekly-membership').innerText(),/Follow teams free/);
+  assert.equal(await promotions.locator('.weekly-membership .weekly-promo-description').isVisible(),false);
+  assert.equal(await promotions.locator('.weekly-pickem .weekly-promo-description').isVisible(),false);
+  assert.ok(await promotions.locator('.weekly-scorekeeper').evaluate(e=>e.getBoundingClientRect().height)<allHeight);
+  for (const width of [390,430,1280]) {
+    await promotions.setViewportSize({width,height:900});
+    await promotions.evaluate(()=>document.documentElement.style.fontSize='200%');
+    assert.equal(await promotions.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+    await promotions.screenshot({path:`${evidence}/near-me-promotions-text-200-${width}.png`,fullPage:true});
+  }
+  await promotions.getByRole('link',{name:'All Games',exact:true}).click();
+  assert.equal(await full.isVisible(),true);
+  assert.match(await promotions.locator('.weekly-membership').innerText(),/Save your teams. Keep your picks/);
+  await promotionsContext.close();
+  pass('Near Me promotions shrink on client mode transitions; All Games restores original copy/layout; truthful closed contest; signed-out 200% text');
   pass("Synthetic read-only backend: zero writes; declined measurement and zero telemetry requests");
   writeFileSync(
     `${evidence}/results.json`,

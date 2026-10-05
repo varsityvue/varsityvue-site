@@ -64,7 +64,7 @@ export default function WeeklyNearbyControls({
         }
         onCenter({...p, source: "browser_location"});
         setLabel("Near your location");
-        setMessage("Location ready.");
+        setMessage("");
       },
       (err) => {
         if (id !== token.current) return;
@@ -82,7 +82,7 @@ export default function WeeklyNearbyControls({
   }
   return (
     <section className="weekly-location" aria-label="Nearby search center">
-      <p>Nearest first · straight-line distance. Following is marked inline.</p>
+      {!label && !message && <p>Choose a school or use your location to find nearby games.</p>}
       <div className="weekly-location-buttons">
         <button
           className="weekly-control"
@@ -121,12 +121,9 @@ export default function WeeklyNearbyControls({
           ))}
         </select>
       </label>
-      {label && <p className="font-semibold">{label}</p>}
-      <p role="status">{message}</p>
-      <p className="weekly-meta">
-        Your location stays in memory and clears when you change week or leave
-        Near Me. It is never included in shared links.
-      </p>
+      {label && <p className="font-semibold">{label} · nearest first</p>}
+      {message && <p role="status">{message}</p>}
+      <details className="weekly-location-details"><summary>Location details</summary><p className="weekly-meta">Distances are straight-line. The center stays in page memory, clears on week changes or leaving Near Me, and is excluded from shared links.</p></details>
     </section>
   );
 }

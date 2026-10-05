@@ -337,6 +337,7 @@ export default function WeeklyGamesExplorer(props: Props) {
     <section
       id="all-matchups"
       className="weekly-browser"
+      data-mode={params.mode}
       aria-label="Weekly games and scores"
     >
       <div className="weekly-heading">
@@ -599,19 +600,14 @@ export default function WeeklyGamesExplorer(props: Props) {
             }}
           />
         ) : (
-          <div className="weekly-notice">
+          <div className="weekly-notice weekly-nearby-state">
             <p>
               Near Me is unavailable for{" "}
               {params.week === "all" ? "All weeks" : `Week ${params.week}`}.
-              Nearby coverage is limited to verified pilot slates in Weeks 7, 8
-              and 9 of 2026.
-              {gate.unresolved
-                ? ` ${gate.unresolved} venues are unresolved.`
-                : ""}
+              {Number(params.season) === PILOT_SEASON && [7, 8, 9].includes(Number(params.week))
+                ? " This slate does not currently have verified Nearby coverage."
+                : " Supported weeks: 7, 8 and 9 of 2026."}
             </p>
-            <button className="weekly-control" disabled>
-              Use my location
-            </button>
             <a
               className="weekly-control"
               href={weeklyUrl(params, { mode: "all" })}
@@ -622,16 +618,15 @@ export default function WeeklyGamesExplorer(props: Props) {
           </div>
         ))}
       <noscript>
+        {params.mode === "nearby" && <style>{`.weekly-location,.weekly-nearby-state,.weekly-consent-buttons,.weekly-refresh,.weekly-empty{display:none}`}</style>}
         <p className="weekly-notice">
-          Nearby discovery and live refresh need JavaScript. All Games, week
-          links and search forms remain available.
+          {params.mode === "nearby" ? <>Near Me needs JavaScript. <a className="underline" href={weeklyUrl(params, {mode: "all"})}>Browse All Games</a>; week links, search and filters still work.</> : "Nearby discovery and live refresh need JavaScript. All Games, week links and search forms remain available."}
         </p>
       </noscript>
       <div className="weekly-refresh">
         <div>
           <p aria-live="polite">
-            {matched.length} {matched.length === 1 ? "game" : "games"}{changed ? " · updates ready" : ""}
-            {" · "}{fetchedAt
+            {(params.mode === "all" || (gate.enabled && center)) && <>{matched.length} {matched.length === 1 ? "game" : "games"}{changed ? " · updates ready" : ""}{" · "}</>}{fetchedAt
               ? `Updated ${new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/Chicago" }).format(new Date(fetchedAt))} CT`
               : "Live scores unavailable"}
           </p>
@@ -653,9 +648,9 @@ export default function WeeklyGamesExplorer(props: Props) {
           resumes when connected.
         </p>
       )}
-      {(error || loadStatus === "failed") && (
+      {(error || loadStatus === "failed") && !(params.mode === "nearby" && offline) && (
         <p role="status" className="weekly-notice">
-          {error ||
+          {params.mode === "nearby" ? "Live scores are unavailable. Last available results remain; retry refresh." : error ||
             "Live scores could not be loaded. Scheduled information and repository results remain available."}
         </p>
       )}
@@ -764,7 +759,7 @@ export default function WeeklyGamesExplorer(props: Props) {
           <div className="weekly-game-list">{other.map(row)}</div>
         </section>
       )}
-      {rows.length === 0 && (
+      {rows.length === 0 && (params.mode === "all" || (gate.enabled && center && !error && loadStatus !== "failed")) && (
         <div className="weekly-empty">
           <h2>
             {params.mode === "nearby" && !center
@@ -773,10 +768,10 @@ export default function WeeklyGamesExplorer(props: Props) {
           </h2>
           <p>
             {params.mode === "nearby"
-              ? "Choose a verified school or your location, adjust the radius, or browse All Games."
+              ? "No nearby games match the current radius and filters. Review Filters or browse All Games."
               : "The selected week stays selected. Clear filters or search All weeks."}
           </p>
-          <a
+          {params.mode === "nearby" ? <div className="weekly-location-buttons"><button type="button" className="weekly-control" onClick={() => { const filters = document.querySelector<HTMLDetailsElement>(".weekly-filters"); if (filters) { filters.open = true; filters.querySelector("summary")?.focus(); } }}>Review Filters</button><a className="weekly-control" href={weeklyUrl(params, {mode: "all"})} onClick={(e) => navigation(e, {mode: "all"})}>Browse All Games</a></div> : <a
             className="weekly-control"
             href={weeklyUrl(params, {
               week: "all",
@@ -804,7 +799,7 @@ export default function WeeklyGamesExplorer(props: Props) {
             }
           >
             Browse All weeks
-          </a>
+          </a>}
         </div>
       )}
     </section>
