@@ -27,7 +27,7 @@ export default function PickemContestHeader({ season, week, deadline, sponsorNam
           <p className="text-xs font-bold text-white/75">Free to enter · Texas residents 18+</p>
           <p className="mt-1 text-xs text-white/70">$1 per valid accepted entry · up to $100 this week</p>
         </div>
-        <ShareAction title={`Week ${week} Pick ’Em | VarsityVue`} text={`Make your Week ${week} Texas high school football picks on VarsityVue. Free to enter for Texas residents 18+.`} url="https://varsityvue.com/pickem" label="Share" className="shrink-0" />
+        <ShareAction title={`Week ${week} Pick ’Em | VarsityVue`} text={`Make your Week ${week} Texas high school football picks on VarsityVue. Free to enter for Texas residents 18+.`} url="https://varsityvue.com/pickem" label="Share" className="shrink-0 sm:mr-32" />
       </div>
       <p className="mt-3 rounded-lg border border-amber-300/25 bg-amber-300/10 px-3 py-2 text-xs font-bold text-amber-50">New-entry deadline: <span className="whitespace-nowrap">{deadlineLabel}</span></p>
     </section>
