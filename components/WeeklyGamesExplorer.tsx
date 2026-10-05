@@ -604,10 +604,9 @@ export default function WeeklyGamesExplorer(props: Props) {
             <p>
               Near Me is unavailable for{" "}
               {params.week === "all" ? "All weeks" : `Week ${params.week}`}.
-              Supported weeks: 7, 8 and 9 of 2026.
-              {gate.unresolved
-                ? ` ${gate.unresolved} venues are unresolved.`
-                : ""}
+              {Number(params.season) === PILOT_SEASON && [7, 8, 9].includes(Number(params.week))
+                ? " This slate does not currently have verified Nearby coverage."
+                : " Supported weeks: 7, 8 and 9 of 2026."}
             </p>
             <a
               className="weekly-control"

@@ -103,7 +103,7 @@ try {
  pass('Denied GPS fallback and cancelled late callback remain safe');
  await page.evaluate(()=>window.geoFixture.mode='granted');
  for(const w of [7,8,9]){await page.getByRole('link',{name:`Week ${w}`,exact:true}).click();assert.ok(await locate(page).isEnabled());}
- for(const w of [10,11]){await page.getByRole('link',{name:`Week ${w}`,exact:true}).click();assert.ok(await locate(page).isDisabled());}
+ for(const w of [10,11]){await page.getByRole('link',{name:`Week ${w}`,exact:true}).click();assert.equal(await locate(page).count(),0);}
  pass('Weeks 7/8/9 enabled; 10/11 disabled');
  await page.getByRole('link',{name:'Week 9',exact:true}).click();await page.getByRole('combobox',{name:'Or choose a school'}).selectOption('jacksboro');
  for(const width of [390,400,430,1280]) {await page.setViewportSize({width,height:900});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await page.screenshot({path:`${evidence}/unified-nearby-${width}.png`,fullPage:true});}

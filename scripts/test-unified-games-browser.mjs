@@ -230,6 +230,7 @@ async function nearMePresentation(page, route) {
     for (const week of [6, 7, 8, 9, 10, 11]) {
       await page.goto(origin + route + `?season=2026&week=${week}&mode=nearby`);
       await settled(page);
+      await page.waitForFunction(()=>document.querySelector('.weekly-measurement [role=status]')?.textContent.includes('Preference: don’t share'));
       assert.match(await page.locator('.weekly-measurement').innerText(), /Collection is currently off.*Preference: don’t share/);
       assert.equal(await page.locator('.weekly-measurement').getByRole('link',{name:'Privacy',exact:true}).getAttribute('href'), '/privacy#regional-measurement');
       assert.equal(await page.locator('.weekly-empty').count(),0);
@@ -265,7 +266,10 @@ async function nearMePresentation(page, route) {
     await page.unroute('**/api/games/snapshot**');
     await page.goto(origin + route + '?season=2026&week=7&mode=nearby');await settled(page);
     // Enabled preference is an isolated storage fixture, not hosted consent or telemetry.
-    await page.evaluate(()=>localStorage.setItem('coverage_measurement_v2','enabled'));await page.reload();await settled(page);
+    await page.locator('.weekly-measurement summary').click();
+    await page.getByRole('button',{name:'Allow regional measurement',exact:true}).click();
+    await page.locator('.weekly-measurement summary').click();
+    await page.waitForFunction(()=>document.querySelector('.weekly-measurement [role=status]')?.textContent.includes('Preference: allow regional sharing'));
     assert.match(await page.locator('.weekly-measurement').innerText(), /Collection is currently off.*Preference: allow regional sharing/);
     assert.equal(await page.locator('.weekly-measurement details').getAttribute('open'),null);
     const withdraw = page.getByRole('button',{name:'Don’t share regional usage',exact:true});
@@ -367,7 +371,7 @@ async function nearbyStatusRegression(page, route) {
   for (const legacy of [false, true]) {
     await page.goto(origin + route + "?season=2026&week=6&mode=nearby" + (legacy ? "&result=verified" : ""));
     await settled(page);
-    assert.ok(await page.getByRole("button", { name: "Use my location", exact: true }).isDisabled());
+    assert.equal(await page.getByRole("button", { name: "Use my location", exact: true }).count(),0);
     await page.getByRole("link", { name: "Week 7", exact: true }).click();
     await page.getByLabel("Or choose a school").selectOption("de-leon");
     assert.equal(await page.locator("[data-game-id]").count(), legacy ? 0 : 7);
