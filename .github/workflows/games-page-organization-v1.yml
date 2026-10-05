@@ -51,3 +51,13 @@ jobs:
           path: |
             unified-games-browser-evidence/near-me-*.png
             unified-games-browser-evidence/results.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: filter-verification-gap-evidence
+          path: |
+            unified-games-browser-evidence/*all-teams-*.png
+            unified-games-browser-evidence/*clear-focus-*.png
+            unified-games-browser-evidence/*following-only-failure-*.png
+            unified-games-browser-evidence/results.json
+            unified-games-browser-evidence/server.log

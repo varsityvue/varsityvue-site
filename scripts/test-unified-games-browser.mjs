@@ -132,6 +132,7 @@ let app,
   browser,
   log = "";
 const results = [];
+const controlledOrdering = [];
 const pass = (name) => {
   results.push({ name, status: "PASS" });
   console.log("PASS", name);
@@ -597,7 +598,7 @@ async function followingFailure(page,route) {
   for(const nearby of [false,true]) {
     const url=origin+route+'?season=2026&week=7&following=1'+(nearby?'&mode=nearby':'');
     await page.goto(url); await settled(page);
-    if(nearby) await page.getByLabel('Or choose a school').selectOption('de-leon');
+    if(nearby) await page.getByLabel('Or choose a school').selectOption('hawley');
     assert.match(await page.locator('main').innerText(),/Your Teams could not be loaded/);
     assert.doesNotMatch(await page.locator('main').innerText(),/No followed matchups|Follow schools to|Live scores (are unavailable|could not be loaded)/);
     assert.equal(await page.locator('.weekly-follow-prompt').count(),0);
@@ -608,7 +609,7 @@ async function followingFailure(page,route) {
     assert.equal(new URL(await retry.getAttribute('href'),origin).searchParams.get('following'),'1');
     await page.screenshot({path:`${evidence}/${route.slice(1)}-following-only-failure-${nearby?'nearby':'all'}.png`,fullPage:true});
     mode='normal'; await retry.focus(); await page.keyboard.press('Enter'); await settled(page);
-    if(nearby) await page.getByLabel('Or choose a school').selectOption('de-leon');
+    if(nearby) await page.getByLabel('Or choose a school').selectOption('hawley');
     assert.doesNotMatch(await page.locator('main').innerText(),/Your Teams could not be loaded/);
     assert.equal(await page.locator('[data-game-id="de-leon-at-hawley-2026-week-7"]').count(),1);
     assert.equal(new URL(page.url()).searchParams.get('following'),'1');
@@ -637,7 +638,7 @@ async function orderedRefreshes(page,route) {
           record.complete=(outcome,at)=>new Promise(done=>{
             record.outcome=outcome;
             if(outcome==='failure') reject(new Error('Controlled obsolete failure'));
-            else resolve({ok:true,json:async()=>{record.jsonRead=true;return {...baseline,fetchedAt:at};}});
+            else resolve({ok:true,json:async()=>{record.jsonRead=true;return {...baseline,games:window.refreshFixture.requests[0]===record?[]:baseline.games,fetchedAt:at};}});
             // Acknowledgement occurs after async fetch/json continuations;
             // frames flush React rendering. No fixed timing assumption.
             setTimeout(()=>requestAnimationFrame(()=>requestAnimationFrame(done)),0);
@@ -664,6 +665,7 @@ async function orderedRefreshes(page,route) {
     assert.equal(await page.evaluate(()=>window.refreshFixture.requests[0].outcome),obsolete);
     if(obsolete==='success') assert.equal(await page.evaluate(()=>window.refreshFixture.requests[0].jsonRead),true);
     assert.deepEqual(await snapshot(),current,`${route} ${change}: obsolete ${obsolete} cannot replace current success/state`);
+    controlledOrdering.push({route,change,obsolete,completionOrder:["newer-success",`obsolete-${obsolete}`],aborted:true,jsonConsumed:obsolete==="success",preserved:true});
   }
   pass(`${route}: deterministic newer success before obsolete success/failure after refinement/location/week/mode/history/season/fragment; abort and JSON consumption acknowledged`);
 }
@@ -1371,6 +1373,7 @@ try {
   assert.match(await promotions.locator('.weekly-membership').innerText(),/Save your teams. Keep your picks/);
   await promotionsContext.close();
   pass('Near Me promotions shrink on client mode transitions; All Games restores original copy/layout; truthful closed contest; signed-out 200% text');
+  assert.equal(writes,0); assert.equal(browserMutations,0); assert.equal(telemetryRequests,0);
   pass("Synthetic read-only backend: zero writes; declined measurement and zero telemetry requests");
   writeFileSync(
     `${evidence}/results.json`,
@@ -1379,6 +1382,7 @@ try {
         head: execFileSync("git", ["rev-parse", "HEAD"], {encoding: "utf8"}).trim(),
         tree: execFileSync("git", ["rev-parse", "HEAD^{tree}"], {encoding: "utf8"}).trim(),
         results,
+        controlledOrdering,
         scoreCalls,
         writes,
         telemetryRequests,
