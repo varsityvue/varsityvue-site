@@ -34,15 +34,39 @@ export const ownerWeek4OffensiveStats: GameStats[] = [
     gameId: "de-leon-at-goldthwaite-2026-week-4",
     season: 2026,
     sourceStatus: "verified",
-    sourceLabel: "Owner-supplied 2026 box score",
+    // De Leon retains its existing coach-designated MaxPreps statistics.
+    // Goldthwaite uses the coach report supplied by the owner October 5, 2026.
+    // Owner approved 6/11 rather than reported 7/11 to match six receptions.
+    sourceLabel: "De Leon: existing coach-designated stats; Goldthwaite: coach-supplied report",
     quarterScores: [
       { schoolSlug: "de-leon", quarters: [0, 7, 0, 6], total: 13 },
       { schoolSlug: "goldthwaite", quarters: [7, 0, 3, 14], total: 24 },
     ],
-    scoringPlays: [],
+    scoringPlays: [
+  {
+    "quarter": 1,
+    "schoolSlug": "goldthwaite",
+    "description": "Hayes Greenway 38-yard touchdown run (Blake Howard kick)"
+  },
+  {
+    "quarter": 3,
+    "schoolSlug": "goldthwaite",
+    "description": "Blake Howard 29-yard field goal"
+  },
+  {
+    "quarter": 4,
+    "schoolSlug": "goldthwaite",
+    "description": "Landry Sanderson 40-yard touchdown run (Blake Howard kick)"
+  },
+  {
+    "quarter": 4,
+    "schoolSlug": "goldthwaite",
+    "description": "Hayes Greenway 19-yard touchdown run (Blake Howard kick)"
+  }
+],
     teamStats: [
       { schoolSlug: "de-leon", rushingAttempts: 41, rushingYards: 220, passingYards: 106, totalYards: 326, completions: 16, passAttempts: 30, interceptionsThrown: 0 },
-      { schoolSlug: "goldthwaite", passingYards: 61, completions: 6, passAttempts: 11, interceptionsThrown: 1 },
+      { schoolSlug: "goldthwaite", firstDowns: 10, rushingAttempts: 24, rushingYards: 259, passingYards: 61, totalYards: 320, completions: 6, passAttempts: 11, interceptionsThrown: 1, fumbles: 2, fumblesLost: 1, penalties: 5, penaltyYards: 51 },
     ],
     rushing: [
       { player: "Lane Couch", schoolSlug: "de-leon", attempts: 23, yards: 103, touchdowns: 0 },
@@ -50,7 +74,7 @@ export const ownerWeek4OffensiveStats: GameStats[] = [
       { player: "Hud Price", schoolSlug: "de-leon", attempts: 10, yards: 68, touchdowns: 0 },
       { player: "Ed Garcia", schoolSlug: "de-leon", attempts: 3, yards: 13, touchdowns: 0 },
       { player: "Landry Sanderson", schoolSlug: "goldthwaite", attempts: 16, yards: 195, touchdowns: 1 },
-      { player: "Hayes Greenway", schoolSlug: "goldthwaite", attempts: 8, yards: 65, touchdowns: 2 },
+      { player: "Hayes Greenway", schoolSlug: "goldthwaite", attempts: 8, yards: 64, touchdowns: 2 },
     ],
     passing: [
       { player: "Hud Price", schoolSlug: "de-leon", completions: 16, attempts: 30, yards: 106, touchdowns: 2, interceptions: 0 },

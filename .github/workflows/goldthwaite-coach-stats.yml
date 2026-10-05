@@ -1,0 +1,25 @@
+name: Goldthwaite coach statistics verification
+on:
+  pull_request:
+    paths:
+      - 'data/goldthwaite-coach*'
+      - 'data/owner-week4-offensive-stats.ts'
+      - 'data/stat-completeness.ts'
+      - 'data/extended-game-stats.ts'
+      - 'lib/all-game-stats.ts'
+      - 'lib/goldthwaite-coach-stats.test.ts'
+      - '.github/workflows/goldthwaite-coach-stats.yml'
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: node --import tsx --test lib/goldthwaite-coach-stats.test.ts
+      - run: npx tsc --noEmit
+      - run: npm run build

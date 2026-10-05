@@ -7,6 +7,8 @@ export type ExtendedGameStats = { gameId: string; sourceLabel: string; sourceUrl
 
 import { ownerWeek5DetailedStats } from "@/data/owner-week5-detailed-stats";
 
+import { goldthwaiteCoachDetailedStats } from "@/data/goldthwaite-coach-detailed-stats";
+
 const historicalExtendedGameStats: ExtendedGameStats[] = [
   {
     gameId: "junction-at-goldthwaite-2026-week-1",
@@ -38,4 +40,4 @@ const historicalExtendedGameStats: ExtendedGameStats[] = [
   },
 ];
 
-export const extendedGameStats: ExtendedGameStats[] = [...historicalExtendedGameStats, ...ownerWeek5DetailedStats];
+export const extendedGameStats: ExtendedGameStats[] = [...historicalExtendedGameStats, ...ownerWeek5DetailedStats, ...goldthwaiteCoachDetailedStats];
