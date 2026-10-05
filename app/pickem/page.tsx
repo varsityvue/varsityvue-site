@@ -1,6 +1,7 @@
 import type { PublicSeasonStanding, PublicWeekStanding, OwnPickemSummary } from "@/lib/public-read-contracts";
 import type { Metadata } from "next";
 import Link from "next/link";
+import ShareAction from "@/components/ShareAction";
 import PickemGuestSlate from "@/components/PickemGuestSlate";
 import PickemSlateForm, { type PickemSlateGame } from "@/components/PickemSlateForm";
 import PickemWeekDisclosure from "@/components/PickemWeekDisclosure";
@@ -288,6 +289,7 @@ export default async function PickemPage({ searchParams }: PageProps) {
           {week ? <span className="absolute right-5 top-5 rounded-full border border-white/10 bg-black/30 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/45 sm:right-8 sm:top-8">{week.season} · Week {week.week}</span> : null}
           <h1 className="mt-2 text-3xl font-black tracking-tight sm:mt-3 sm:text-5xl">Pick ’Em</h1>
           {contestWeek ? <p className="mt-4 text-xs font-black uppercase tracking-[0.14em] text-white/80">Free to play · Texas 18+</p> : <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55 sm:text-base">Pick every winner. Each correct pick earns one point, and games lock individually at kickoff.</p>}
+          <ShareAction title="Pick ’Em | VarsityVue" text="Make your weekly Texas high school football picks on VarsityVue." url="https://varsityvue.com/pickem" label="Share" className="mt-3" />
         </section>
         )}
 
