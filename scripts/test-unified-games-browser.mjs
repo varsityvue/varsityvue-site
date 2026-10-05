@@ -35,6 +35,7 @@ const session = {
 let mode = "normal";
 let writes = 0;
 let scoreCalls = 0;
+let telemetryRequests = 0;
 const rows = [
   {
     game_id: "de-leon-at-hawley-2026-week-7",
@@ -109,7 +110,7 @@ const api = http.createServer((req, res) => {
   }
   if (path.includes("public_score_states")) {
     scoreCalls++;
-    return send(rows);
+    return send(mode === "schedule" ? [] : rows);
   }
   if (path.includes("school_follows")) {
     const school = new URL(path, "http://127.0.0.1").searchParams.get("school_slug");
@@ -150,6 +151,10 @@ function start() {
         SUPABASE_SERVICE_ROLE_KEY: "",
         RESEND_API_KEY: "",
         CRON_SECRET: "",
+        NEXT_PUBLIC_COVERAGE_DEMAND_ENABLED: "false",
+        COVERAGE_DEMAND_INGESTION_ENABLED: "false",
+        COVERAGE_DEMAND_MONITOR_ENABLED: "false",
+        COVERAGE_DEMAND_FLEET_ENABLED: "false",
       },
     },
   );
@@ -168,7 +173,11 @@ async function ready() {
 async function context(options = {}) {
   const c = await browser.newContext(options);
   await c.route(/https?:\/\/(?!127\.0\.0\.1|localhost)/, (r) => r.abort());
+  c.on("page", page => page.on("request", request => {
+    if (new URL(request.url()).pathname === "/api/coverage-demand") telemetryRequests++;
+  }));
   await c.addInitScript(() => {
+    localStorage.setItem("coverage_measurement_v2", "disabled");
     window.locationCalls = 0;
     window.geoCallbacks = [];
     Object.defineProperty(navigator, "geolocation", {
@@ -204,13 +213,155 @@ async function settled(page) {
     await page.waitForFunction(() => {
       const q = new URLSearchParams(location.search);
       const active = document.querySelector('select[name="filter"]');
-      return q.has("season") && (q.get("state") === "current" || active?.value === (q.get("filter") ?? "all"));
+      return q.has("season") && active?.value === (q.get("filter") ?? "all");
     });
   } catch (error) {
     console.error("HYDRATION FAILURE", await page.locator("body").innerText());
     await page.screenshot({ path: `${evidence}/failure.png`, fullPage: true });
     throw error;
   }
+}
+async function statusRegressions(page, route, noJavaScript = false) {
+  const label = route.slice(1);
+  const ids = () => page.locator("[data-game-id]").evaluateAll(es => es.map(e => e.dataset.gameId).sort());
+  const status = page.locator('select[name="filter"]');
+  const scopes = [
+    ["result=verified", "verified finals only", false, true],
+    ["state=current", "current and unresolved games", true, false],
+    ["state=current&result=verified", "verified finals only + current and unresolved games", true, true],
+    ["status=final", "verified finals only", false, true],
+    ["view=current&status=final", "current and unresolved games", true, false],
+    ["status=upcoming", "current and unresolved games", true, false],
+    ["status=district", "current and unresolved games", true, false],
+    ["view=completed&state=current&result=verified", "verified finals only + current and unresolved games", true, true],
+  ];
+  for (const [legacy, text, current, verified] of scopes) {
+    await page.goto(origin + route + "?season=2026&week=7&" + legacy);
+    if (!noJavaScript) await settled(page);
+    assert.match(await status.locator("option:checked").textContent(), new RegExp(text.replaceAll("+", "\\+")));
+    assert.match(await page.locator(".weekly-filters summary").innerText(), /active/);
+    const original = await ids();
+    if (current) assert.ok(!original.includes("albany-at-stamford-2026-week-7"));
+    if (verified) assert.ok(!original.includes("comanche-at-millsap-2026-week-7"));
+    if (current && verified) assert.deepEqual(original, []);
+    // Merely applying the panel must preserve the selected exact legacy scope.
+    await chooseStatus(page, await status.inputValue());
+    if (!noJavaScript) await settled(page);
+    assert.deepEqual(await ids(), original);
+    const retained = new URL(page.url()).searchParams;
+    assert.equal(retained.get("filter").includes("-current"), current);
+    assert.equal(retained.get("filter").includes("-verified"), verified);
+    for (const target of ["all", "upcoming", "completed"]) {
+      await page.goto(origin + route + "?season=2026&week=7&" + legacy);
+      if (!noJavaScript) await settled(page);
+      await chooseStatus(page, target);
+      if (!noJavaScript) await settled(page);
+      assert.equal(await status.inputValue(), target);
+      if (!noJavaScript) {
+        const q = new URL(page.url()).searchParams;
+        assert.equal(q.has("state"), false); assert.equal(q.has("result"), false);
+      }
+      assert.equal(await page.getByText(/Legacy link scope/).count(), 0);
+      const actual = await ids();
+      await page.goto(origin + route + "?season=2026&week=7&filter=" + target + (legacy === "status=district" ? "&district=1" : ""));
+      if (!noJavaScript) await settled(page);
+      assert.deepEqual(actual, await ids(), `${route}: ${legacy} -> ${target}`);
+    }
+  }
+  for (const target of ["all", "live", "upcoming", "completed"]) {
+    await page.goto(origin + route + "?season=2026&week=7&filter=" + target + "&state=current&result=verified&status=final&view=current");
+    if (!noJavaScript) await settled(page);
+    assert.equal(await status.inputValue(), target);
+    assert.equal(await page.getByText(/Legacy link scope/).count(), 0);
+    const actual = await ids();
+    await page.goto(origin + route + "?season=2026&week=7&filter=" + target);
+    if (!noJavaScript) await settled(page);
+    assert.deepEqual(actual, await ids());
+  }
+  // Preserve non-status refinements even when a native GET retains contradictory hidden keys.
+  const refinements = { q: "Hawley", classification: "2A Division I", district: "1", following: "1", mode: "nearby", radius: "100" };
+  await page.goto(origin + route + "?season=2026&week=7&state=current&" + new URLSearchParams(refinements));
+  if (!noJavaScript) {
+    await settled(page);
+    await page.getByLabel("Or choose a school").selectOption("de-leon");
+  }
+  await chooseStatus(page, "all");
+  if (!noJavaScript) await settled(page);
+  const q = new URL(page.url()).searchParams;
+  for (const [key, value] of Object.entries(refinements)) assert.equal(q.get(key), value);
+  assert.equal(new URL(page.url()).pathname, route);
+  if (!noJavaScript) {
+    assert.equal(await page.getByLabel("Or choose a school").inputValue(), "de-leon");
+    assert.deepEqual(await ids(), ["de-leon-at-hawley-2026-week-7"]);
+  }
+  await page.screenshot({ path: `${evidence}/${label}-status-refinements-${noJavaScript ? "no-js" : "js"}.png`, fullPage: true });
+  pass(`${label}: ${noJavaScript ? "native GET" : "hydrated"} legacy scope matrix, exact intersections, explicit status precedence and retained refinements`);
+}
+async function nearbyStatusRegression(page, route) {
+  const label = route.slice(1);
+  mode = "schedule";
+  // Real catalog, no dynamic score overrides: reproduce both the clean and restricted sequences.
+  for (const legacy of [false, true]) {
+    await page.goto(origin + route + "?season=2026&week=6&mode=nearby" + (legacy ? "&result=verified" : ""));
+    await settled(page);
+    assert.ok(await page.getByRole("button", { name: "Use my location", exact: true }).isDisabled());
+    await page.getByRole("link", { name: "Week 7", exact: true }).click();
+    await page.getByLabel("Or choose a school").selectOption("de-leon");
+    assert.equal(await page.locator("[data-game-id]").count(), legacy ? 0 : 7);
+    if (legacy) {
+      await page.locator(".weekly-filters summary").click();
+      assert.equal(await page.locator('select[name="filter"]').inputValue(), "legacy-all-verified");
+      assert.match(await page.locator(".weekly-filters summary").innerText(), /active/);
+      await page.screenshot({ path: `${evidence}/${label}-de-leon-verified-empty.png`, fullPage: true });
+      await chooseStatus(page, "legacy-all-verified");
+      assert.equal(await page.locator("[data-game-id]").count(), 0);
+      await chooseStatus(page, "all");
+      assert.equal(await page.locator("[data-game-id]").count(), 7);
+      assert.equal(await page.getByLabel("Or choose a school").inputValue(), "de-leon");
+    }
+  }
+  const before = await page.locator(".weekly-refresh p").innerText();
+  mode = "failure";
+  await page.getByRole("button", { name: "Refresh scores", exact: true }).click();
+  await page.getByRole("button", { name: "Retry score refresh", exact: true }).waitFor();
+  assert.equal(await page.locator("[data-game-id]").count(), 7);
+  assert.equal(await page.locator(".weekly-refresh p").innerText(), before);
+  assert.equal(await page.getByLabel("Or choose a school").inputValue(), "de-leon");
+  assert.match(await page.locator("main").innerText(), /Scores could not be refreshed/);
+  await page.screenshot({ path: `${evidence}/${label}-de-leon-refresh-failure.png`, fullPage: true });
+  mode = "schedule";
+  await chooseStatus(page, "upcoming");
+  assert.equal(await page.locator("[data-game-id]").count(), 7);
+  await chooseStatus(page, "completed");
+  assert.equal(await page.locator("[data-game-id]").count(), 0);
+  assert.equal(await page.getByLabel("Or choose a school").inputValue(), "de-leon");
+  await page.goBack();
+  await page.waitForFunction(() => document.querySelector('select[name="filter"]')?.value === "upcoming");
+  // History deliberately clears precise memory-only centers, as before this correction.
+  assert.equal(await page.locator("[data-game-id]").count(), 0);
+  await page.getByLabel("Or choose a school").selectOption("de-leon");
+  assert.equal(await page.locator("[data-game-id]").count(), 7);
+  await page.goForward();
+  await page.waitForFunction(() => document.querySelector('select[name="filter"]')?.value === "completed");
+  assert.equal(await page.locator("[data-game-id]").count(), 0);
+  await page.goto(origin + route + "?season=2026&week=7&mode=nearby&state=current");
+  await settled(page);
+  await page.getByLabel("Or choose a school").selectOption("de-leon");
+  const card = page.locator("[data-game-id]").first();
+  await card.locator("summary").click();
+  const href = await card.getByRole("link", { name: "Game Center →", exact: true }).getAttribute("href");
+  const returnUrl = new URL(href, origin).searchParams.get("return");
+  assert.equal(new URL(returnUrl, origin).pathname, route);
+  assert.match(returnUrl, /filter=legacy-all-current/); assert.match(returnUrl, /state=current/);
+  assert.ok(!/latitude|longitude/.test(returnUrl));
+  await page.goto(origin + href);
+  await page.getByRole("link", { name: "← Back to Games", exact: true }).click();
+  await settled(page);
+  assert.equal(await page.locator('select[name="filter"]').inputValue(), "legacy-all-current");
+  assert.equal(await page.locator("[data-game-id]").count(), 0);
+  assert.equal(await page.evaluate(() => window.locationCalls), 0);
+  pass(`${label}: clean seven-game and legacy-zero sequence; explicit statuses preserve center; failed refresh retains seven rows/timestamp; history and detail returns clear center only`);
+  mode = "normal";
 }
 // Inspect the controls and rendered text, not just document overflow.
 async function assertActionLayout(page) {
@@ -242,7 +393,7 @@ async function stressCardText(page) {
 try {
   start();
   await ready();
-  browser = await chromium.launch({ args: ["--no-sandbox"] });
+  browser = await chromium.launch({ args: ["--no-sandbox"], executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH });
   let c = await context();
   await authenticated(c);
   let page = await c.newPage();
@@ -251,6 +402,11 @@ try {
     errors.push(e.message);
     console.error("BROWSER RUNTIME ERROR", e.message);
   });
+  for (const route of ["/games", "/scoreboard"]) {
+    await page.setViewportSize({ width: 390, height: 900 });
+    await statusRegressions(page, route);
+    await nearbyStatusRegression(page, route);
+  }
   for (const route of ["/games", "/scoreboard"]) {
   const label = route.slice(1);
   for (const width of [390, 400, 430, 1280]) {
@@ -660,6 +816,12 @@ try {
   );
   await c.close();
   c = await context({ javaScriptEnabled: false });
+  await authenticated(c);
+  for (const route of ["/games", "/scoreboard"]) {
+    const native = await c.newPage();
+    await statusRegressions(native, route, true);
+    await native.close();
+  }
   for (const route of ["/games", "/scoreboard"]) {
   page = await c.newPage();
   await page.goto(origin + route + "?week=7");
@@ -674,7 +836,7 @@ try {
     const ids = () => page.locator("[data-game-id]").evaluateAll(es => es.map(e => e.dataset.gameId).sort());
     for (const [legacy, target, expected, excluded] of [
       ["state=current", "completed", "albany-at-stamford-2026-week-7", "rio-vista-at-tolar-2026-week-7"],
-      ["result=verified&filter=completed", "upcoming", "rio-vista-at-tolar-2026-week-7", "albany-at-stamford-2026-week-7"],
+      ["result=verified&filter=legacy-completed", "upcoming", "rio-vista-at-tolar-2026-week-7", "albany-at-stamford-2026-week-7"],
       ["view=current", "completed", "albany-at-stamford-2026-week-7", "rio-vista-at-tolar-2026-week-7"],
       ["status=final", "upcoming", "rio-vista-at-tolar-2026-week-7", "albany-at-stamford-2026-week-7"],
     ]) {
@@ -878,7 +1040,8 @@ try {
   await sharing.close();
   pass("School heroes/directory 390/430/1280; follow states; canonical native/cancel/clipboard sharing; status panel and followed empty scope");
   assert.equal(writes, 0);
-  pass("Synthetic read-only backend: zero writes");
+  assert.equal(telemetryRequests, 0);
+  pass("Synthetic read-only backend: zero writes; declined measurement and zero telemetry requests");
   writeFileSync(
     `${evidence}/results.json`,
     JSON.stringify(
@@ -888,6 +1051,7 @@ try {
         results,
         scoreCalls,
         writes,
+        telemetryRequests,
         fixture:
           "All scores/statuses are illustrative. Local synthetic Supabase only.",
       },

@@ -37,6 +37,29 @@ const completed = new Set([
 ]);
 const scalar = (v: string | string[] | undefined) =>
   typeof v === "string" ? v : "";
+const statusFilters = ["all", "live", "upcoming", "completed"] as const;
+function isStatusFilter(value: string): value is WeeklyParams["filter"] {
+  return statusFilters.some((filter) => filter === value);
+}
+// Legacy scopes remain independent intersections, not approximate modern statuses.
+export function weeklyStatusValue(p: WeeklyParams) {
+  return p.current || p.verified
+    ? `legacy-${p.filter}${p.current ? "-current" : ""}${p.verified ? "-verified" : ""}`
+    : p.filter;
+}
+export function weeklyStatusLabel(p: WeeklyParams) {
+  const scopes: string[] = [];
+  if (p.filter !== "all" && !(p.filter === "completed" && p.verified))
+    scopes.push(p.filter === "live" ? "LIVE" : p.filter === "upcoming" ? "Upcoming" : "Completed");
+  if (p.verified) scopes.push("verified finals only");
+  if (p.current) scopes.push("current and unresolved games");
+  return scopes.join(" + ");
+}
+export function applyWeeklyStatus(p: WeeklyParams, value: string) {
+  return isStatusFilter(value)
+    ? { filter: value, current: false, verified: false }
+    : { filter: p.filter, current: p.current, verified: p.verified };
+}
 export function parseWeeklyParams(
   raw: Record<string, string | string[] | undefined>,
   games: readonly WeeklyGame[],
@@ -49,24 +72,26 @@ export function parseWeeklyParams(
     (g) => String(g.season) === season && g.gameType !== "bye",
   );
   const filterValue = scalar(raw.filter);
+  const explicitStatus = isStatusFilter(filterValue);
+  // Self-contained form value: native GET can retain a scope without hidden
+  // state/result fields that would survive an explicit modern selection.
+  const legacyStatus = /^legacy-(all|live|upcoming|completed)(-current)?(-verified)?$/.exec(filterValue);
+  const legacyFilter = legacyStatus?.[1] ?? "";
   const status = scalar(raw.status);
   const view = scalar(raw.view);
-  const filter: WeeklyParams["filter"] = [
-    "all",
-    "live",
-    "upcoming",
-    "completed",
-  ].includes(filterValue)
-    ? (filterValue as WeeklyParams["filter"])
-    : view !== "current" && (status === "final" || view === "completed")
-      ? "completed"
-      : "all";
+  const filter: WeeklyParams["filter"] = explicitStatus
+    ? filterValue
+    : isStatusFilter(legacyFilter)
+      ? legacyFilter
+      : view !== "current" && (status === "final" || view === "completed")
+        ? "completed"
+        : "all";
   const current =
-    scalar(raw.state) === "current" ||
-    (!filterValue &&
-      view !== "completed" &&
-      ["upcoming", "district"].includes(status)) ||
-    (!filterValue && view === "current");
+    !explicitStatus && (scalar(raw.state) === "current" || Boolean(legacyStatus?.[2]) ||
+      (!filterValue &&
+        view !== "completed" &&
+        ["upcoming", "district"].includes(status)) ||
+      (!filterValue && view === "current"));
   const q = scalar(raw.q).trim().slice(0, 200);
   const requested = scalar(raw.week);
   const explicit = requested === "all" || /^\d{1,2}$/.test(requested);
@@ -123,8 +148,8 @@ export function parseWeeklyParams(
       : 50,
     current,
     verified:
-      scalar(raw.result) === "verified" ||
-      (!filterValue && status === "final" && view !== "current"),
+      !explicitStatus && (scalar(raw.result) === "verified" || Boolean(legacyStatus?.[3]) ||
+        (!filterValue && status === "final" && view !== "current")),
     intent,
   };
 }
@@ -133,12 +158,12 @@ export function weeklyUrl(
   updates: Partial<WeeklyParams> = {},
   route: "/games" | "/scoreboard" = "/games",
 ) {
-  const n = { ...p, ...updates };
+  const n = { ...p, ...updates, ...(updates.filter ? applyWeeklyStatus(p, updates.filter) : {}) };
   const q = new URLSearchParams();
   q.set("season", n.season);
   q.set("week", n.week);
   if (n.q) q.set("q", n.q);
-  if (n.filter !== "all") q.set("filter", n.filter);
+  if (n.filter !== "all" || n.current || n.verified) q.set("filter", weeklyStatusValue(n));
   if (n.mode !== "all") q.set("mode", n.mode);
   if (n.classification) q.set("classification", n.classification);
   if (n.district) q.set("district", "1");

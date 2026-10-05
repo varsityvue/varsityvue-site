@@ -7,6 +7,9 @@ import {
   weeklyUrl,
   safeGamesReturn,
   scoresDestination,
+  weeklyStatusValue,
+  weeklyStatusLabel,
+  applyWeeklyStatus,
   type WeeklyGame,
 } from "./unified-games";
 const now = new Date("2026-10-03T18:00:00Z");
@@ -237,4 +240,71 @@ test("both aliases preserve collection and safe Game Center return context", () 
 test("week date label collapses equal Central dates while retaining distinct ranges", () => {
   assert.equal(weekDateLabel([game("a"), game("b",6,{kickoff:"2026-10-03T01:00:00Z"})], "2026", "6"), "Oct 2");
   assert.equal(weekDateLabel([game("a"),game("b",6,{kickoff:"2026-10-03T19:00:00-05:00"})],"2026","6"), "Oct 2 – Oct 3");
+});
+
+const rawLegacyScopes = [
+  { result: "verified" },
+  { state: "current" },
+  { result: "verified", state: "current" },
+  { status: "final" },
+  { status: "upcoming" },
+  { status: "district" },
+  { view: "current", status: "final" },
+  { view: "completed", result: "verified" },
+] as const;
+test("legacy status selection and URL round trips preserve exact intersections on both aliases", () => {
+  const slate = [game("future", 7), game("unresolved"),
+    game("postponed", 7, { status: "postponed" }),
+    game("cancelled", 7, { status: "cancelled" }),
+    game("verified", 7, { status: "final" }),
+    game("exceptional", 7, { status: "final", resultType: "forfeit" })];
+  const ids = (p: ReturnType<typeof parseWeeklyParams>) => selectWeeklyGames(slate, p, new Set(), now).map(r => r.game.id).sort();
+  const verified = parseWeeklyParams({ week: "all", result: "verified" }, slate, now);
+  const current = parseWeeklyParams({ week: "all", state: "current" }, slate, now);
+  assert.deepEqual(ids(verified), ["exceptional", "verified"]);
+  assert.deepEqual(ids(current), ["future", "postponed", "unresolved"]);
+  assert.notDeepEqual(ids(current), ids({ ...current, ...applyWeeklyStatus(current, "upcoming") }));
+  assert.notDeepEqual(ids(verified), ids({ ...verified, ...applyWeeklyStatus(verified, "completed") }));
+  assert.deepEqual(ids({ ...verified, current: true }), []);
+  assert.equal(weeklyStatusLabel({ ...verified, current: true }), "verified finals only + current and unresolved games");
+  for (const raw of rawLegacyScopes) for (const route of ["/games", "/scoreboard"] as const) {
+    const p = parseWeeklyParams({ season: "2026", week: "all", ...raw }, slate, now);
+    assert.match(weeklyStatusValue(p), /^legacy-/);
+    // Applying another refinement with the legacy option unchanged must not broaden it.
+    assert.deepEqual(applyWeeklyStatus(p, weeklyStatusValue(p)), { filter: p.filter, current: p.current, verified: p.verified });
+    const url = weeklyUrl(p, { week: "7", q: "hawley", radius: 100 }, route);
+    const roundTrip = parseWeeklyParams(Object.fromEntries(new URL(url, "https://varsityvue.com").searchParams), slate, now);
+    assert.deepEqual(roundTrip, { ...p, week: "7", q: "hawley", radius: 100 });
+    assert.equal(safeGamesReturn(url), url);
+    assert.deepEqual(ids(roundTrip), ids({ ...p, week: "7", q: "hawley", radius: 100 }));
+  }
+});
+test("explicit modern status wins over all contradictory legacy forms without losing refinements", () => {
+  const refinements = { season: "2026", week: "7", q: "Hawley", classification: "2A Division I", district: "1", following: "1", mode: "nearby", radius: "100", intent: "scores" };
+  for (const raw of rawLegacyScopes) for (const filter of ["all", "live", "upcoming", "completed"] as const) {
+    const ordinary = parseWeeklyParams({ ...refinements, filter }, games, now);
+    assert.deepEqual(parseWeeklyParams({ ...refinements, ...raw, filter }, games, now), ordinary);
+    const old = parseWeeklyParams({ ...refinements, ...raw }, games, now);
+    assert.deepEqual({ ...old, ...applyWeeklyStatus(old, filter) }, ordinary);
+    for (const route of ["/games", "/scoreboard"] as const) {
+      const url = weeklyUrl(old, { filter }, route);
+      assert.equal(new URL(url, "https://varsityvue.com").searchParams.has("state"), false);
+      assert.equal(new URL(url, "https://varsityvue.com").searchParams.has("result"), false);
+      assert.deepEqual(parseWeeklyParams(Object.fromEntries(new URL(url, "https://varsityvue.com").searchParams), games, now), ordinary);
+    }
+  }
+});
+test("canonical legacy base filters retain exact conjunctions; malformed status is not an explicit selection", () => {
+  for (const filter of ["all", "live", "upcoming", "completed"] as const) for (const [current, verified] of [[true, false], [false, true], [true, true]]) {
+    const p = { ...parseWeeklyParams({ week: "all" }, games, now), filter, current, verified };
+    const raw = Object.fromEntries(new URL(weeklyUrl(p), "https://varsityvue.com").searchParams);
+    assert.deepEqual(parseWeeklyParams(raw, games, now), p);
+    // Native Filters excludes hidden state/result keys; the selection carries
+    // the exact legacy conjunction until a modern status is chosen.
+    delete raw.state; delete raw.result;
+    assert.deepEqual(parseWeeklyParams(raw, games, now), p);
+  }
+  const malformed = parseWeeklyParams({ filter: "not-a-status", state: "current", result: "verified" }, games, now);
+  assert.equal(malformed.current, true); assert.equal(malformed.verified, true);
+  assert.equal(parseWeeklyParams({ view: "completed" }, games, now).verified, false);
 });

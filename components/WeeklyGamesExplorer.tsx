@@ -8,6 +8,9 @@ import {
   selectWeeklyGames,
   isFollowed,
   weekDateLabel,
+  weeklyStatusValue,
+  weeklyStatusLabel,
+  applyWeeklyStatus,
   type WeeklyGame,
   type WeeklyParams,
 } from "@/lib/unified-games";
@@ -466,7 +469,7 @@ export default function WeeklyGamesExplorer(props: Props) {
         <details className="weekly-filters">
           <summary>
             Filters
-            {params.filter !== "all" || params.district || params.classification || params.following
+            {params.filter !== "all" || params.current || params.verified || params.district || params.classification || params.following
               ? " · active"
               : ""}
           </summary>
@@ -480,8 +483,7 @@ export default function WeeklyGamesExplorer(props: Props) {
               panel?.querySelector("summary")?.focus();
               const d = new FormData(e.currentTarget);
               update({
-                filter: String(d.get("filter") ?? "all") as WeeklyParams["filter"],
-                current: false, verified: false,
+                ...applyWeeklyStatus(params, String(d.get("filter") ?? "all")),
                 classification: String(d.get("classification") ?? ""),
                 district: d.has("district"),
                 following: d.has("following"),
@@ -507,7 +509,8 @@ export default function WeeklyGamesExplorer(props: Props) {
               ))}
             <label className="weekly-label">
               Game status
-              <select name="filter" className="weekly-control" key={params.filter} defaultValue={params.filter}>
+              <select name="filter" className="weekly-control" key={`${params.filter}-${params.current}-${params.verified}`} defaultValue={weeklyStatusValue(params)}>
+                {(params.current || params.verified) && <option value={weeklyStatusValue(params)}>{weeklyStatusLabel(params)} (legacy)</option>}
                 <option value="all">All</option><option value="live">LIVE</option><option value="upcoming">Upcoming</option><option value="completed">Completed</option>
               </select>
             </label>
@@ -569,15 +572,13 @@ export default function WeeklyGamesExplorer(props: Props) {
       {(params.current || params.verified) && (
         <p className="weekly-notice">
           Legacy link scope:{" "}
-          {params.current
-            ? "current and unresolved games"
-            : "verified finals only"}
+          {weeklyStatusLabel(params)}
           .{" "}
           <a
             href={weeklyUrl(params, { current: false, verified: false })}
             onClick={(e) => navigation(e, { current: false, verified: false })}
           >
-            Show all matching statuses
+            Remove legacy restrictions
           </a>
         </p>
       )}
