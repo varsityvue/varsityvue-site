@@ -164,3 +164,25 @@ div[class~="mb-6"]:has(a[href="/submit"]):has(a[href="/coverage"]) > div > h2 {
 .weekly-refresh-icon:focus-visible {outline:2px solid white;outline-offset:2px}
 .weekly-share {align-self:center}
 .weekly-meta {overflow-wrap:anywhere}
+
+/* Near Me presentation only; the shared footer, navigation and All Games stay unchanged. */
+.weekly-measurement { margin-top: .75rem; border-top: 1px solid #ffffff26; padding: .75rem 0; font-size: .8125rem; line-height: 1.5; }
+.weekly-measurement-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; }
+.weekly-measurement summary, .weekly-location-details summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; text-decoration: underline; }
+.weekly-measurement details[open] { flex-basis: 100%; }
+.weekly-measurement a { display: inline-flex; align-items: center; min-height: 44px; }
+.weekly-measurement summary:focus-visible, .weekly-location-details summary:focus-visible { outline: 2px solid white; outline-offset: 3px; }
+.weekly-withdraw { font-size: inherit; }
+.weekly-promo-short { display: none; }
+.weekly-container:has(> .weekly-browser[data-mode="nearby"]) .weekly-secondary { margin-top: .75rem; padding: .75rem; }
+.weekly-container:has(> .weekly-browser[data-mode="nearby"]) .weekly-secondary > div { padding: 0; background: none; border: 0; gap: .5rem; }
+.weekly-container:has(> .weekly-browser[data-mode="nearby"]) .weekly-secondary .weekly-promo-description,
+.weekly-container:has(> .weekly-browser[data-mode="nearby"]) .weekly-secondary .weekly-promo-full { display: none; }
+.weekly-container:has(> .weekly-browser[data-mode="nearby"]) .weekly-secondary .weekly-promo-short { display: inline; }
+.weekly-container:has(> .weekly-browser[data-mode="nearby"]) .weekly-secondary h2 { font-size: 1rem; }
+.weekly-container:has(> .weekly-browser[data-mode="nearby"]) .weekly-secondary a { min-height: 44px; font-size: .8125rem; }
+.weekly-browser[data-mode="nearby"] .weekly-location { padding: .75rem; }
+.weekly-browser[data-mode="nearby"] .weekly-location-details { font-size: .8125rem; }
+
+.weekly-measurement .weekly-control { max-width: 100%; white-space: normal; }
+.weekly-measurement-actions details { min-width: 0; }

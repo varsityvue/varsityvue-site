@@ -39,6 +39,7 @@ try {
  });
  const make=async(c=context)=>{const p=await c.newPage();p.on('response',r=>{if(r.url().endsWith('/api/coverage-demand'))responses.push(r.status());});p.on('pageerror',e=>errors.push(e.message));p.on('request',r=>{requests.push(r.url()+(r.postData()??''));if(r.url().endsWith('/api/coverage-demand'))summaries.push({page:p,body:JSON.parse(r.postData())});});await p.clock.install();return p;};
  const page=await make();
+ const options=async p=>{const d=p.locator('.weekly-measurement details');if(await d.getAttribute('open')===null)await d.locator('summary').click();};
  const allow=p=>p.getByRole('button',{name:'Allow regional measurement',exact:true});
  const decline=p=>p.getByRole('button',{name:'Don’t share regional usage',exact:true});
  const locate=p=>p.getByRole('button',{name:'Use my location',exact:true});
@@ -57,9 +58,9 @@ try {
  await locate(page).click();await page.clock.fastForward(61000);await idle(page);
  assert.equal(sent(page).length,0);await clear(page);
  await page.evaluate(()=>localStorage.removeItem('coverage_measurement_v1'));
- assert.equal(await page.getByRole('link',{name:'Read privacy, retention and withdrawal details'}).getAttribute('href'),'/privacy#regional-measurement');
+ assert.equal(await page.getByRole('link',{name:'Privacy',exact:true}).getAttribute('href'),'/privacy#regional-measurement');
  pass('Legacy dormant opt-in rejected; fuller disclosure linked; no pre-consent episode reconstructed');
- await page.getByRole('link',{name:'Read privacy, retention and withdrawal details'}).click();
+ await page.getByRole('link',{name:'Privacy',exact:true}).click();
  await page.getByRole('heading',{name:'Privacy at VarsityVue',exact:true}).waitFor();
  await page.screenshot({path:`${evidence}/privacy-disclosure.png`,fullPage:true});
  await page.goBack({waitUntil:'networkidle'});
@@ -68,10 +69,10 @@ try {
  pass('General disclosure renders, browser Back restores Games & Scores and consent remains default off');
 
  await locate(page).click();assert.ok(await cards(page).count()>0);await clear(page);await idle(page);assert.equal(sent(page).length,0);
- await decline(page).click();await locate(page).click();await radius(page,150);await clear(page);await idle(page);assert.equal(sent(page).length,0);
+ await options(page);await decline(page).click();await locate(page).click();await radius(page,150);await clear(page);await idle(page);assert.equal(sent(page).length,0);
  await page.reload({waitUntil:'networkidle'});assert.equal(await decline(page).getAttribute('aria-pressed'),'true');
  pass('Default/decline: location permission independent; discovery works; only preference persists');
- await allow(page).click();await radius(page,50);await locate(page).click();await radius(page,100);await radius(page,150);
+ await options(page);await allow(page).click();await radius(page,50);await locate(page).click();await radius(page,100);await radius(page,150);
  await query(page,'private-free-text-query');await clear(page);await idle(page);
  assert.equal(sent(page).length,1);assert.equal(sent(page)[0].radius_expansion_steps,2);assert.equal(sent(page)[0].query_present,true);assert.equal(sent(page)[0].zero_result_reason,'query_filter_excluded');assert.equal(accepted,1);
  pass('Unified controls emit one schema-2 coarse summary through real first-party HTTP; query text excluded');
@@ -106,38 +107,38 @@ try {
  pass('Weeks 7/8/9 enabled; 10/11 disabled');
  await page.getByRole('link',{name:'Week 9',exact:true}).click();await page.getByRole('combobox',{name:'Or choose a school'}).selectOption('jacksboro');
  for(const width of [390,400,430,1280]) {await page.setViewportSize({width,height:900});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await page.screenshot({path:`${evidence}/unified-nearby-${width}.png`,fullPage:true});}
- await page.keyboard.press('Tab');await allow(page).focus();assert.notEqual(await allow(page).evaluate(e=>getComputedStyle(e).outlineStyle),'none');await page.keyboard.press('Tab');assert.ok(await decline(page).evaluate(e=>document.activeElement===e));await page.keyboard.press('Enter');await clear(page);
+ await options(page);await page.keyboard.press('Tab');await allow(page).focus();assert.notEqual(await allow(page).evaluate(e=>getComputedStyle(e).outlineStyle),'none');await decline(page).focus();assert.ok(await decline(page).evaluate(e=>document.activeElement===e));await page.keyboard.press('Enter');await clear(page);
  pass('Responsive disclosure/results and keyboard consent reversal');
  // Each mounted B episode is active and unfinished before A withdraws. No hide/page navigation is used to withdraw.
  const a=await make(),b=await make();
  await b.addInitScript(()=>{window.delayStorage=false;window.addEventListener('storage',e=>{if(window.delayStorage)e.stopImmediatePropagation();},true);});
  await go(a);
- const activeB=async()=>{await allow(a).click();await go(b);await locate(b).click();await radius(b,100);assert.ok(await cards(b).count());assert.equal(await allow(b).getAttribute('aria-pressed'),'true');};
+ const activeB=async()=>{await options(a);await allow(a).click();await go(b);await locate(b).click();await radius(b,100);assert.ok(await cards(b).count());assert.equal(await allow(b).getAttribute('aria-pressed'),'true');};
  for(const mode of ['withdraw','remove','invalid','clear']) {
   const before=sent(b).length;await activeB();assert.equal(sent(b).length,before);
-  if(mode==='withdraw')await decline(a).click();else await a.evaluate(mode=>{if(mode==='remove')localStorage.removeItem('coverage_measurement_v2');else if(mode==='invalid')localStorage.setItem('coverage_measurement_v2','invalid');else localStorage.clear();},mode);
+  if(mode==='withdraw'){await options(a);await decline(a).click();}else await a.evaluate(mode=>{if(mode==='remove')localStorage.removeItem('coverage_measurement_v2');else if(mode==='invalid')localStorage.setItem('coverage_measurement_v2','invalid');else localStorage.clear();},mode);
   await b.waitForFunction(()=>document.querySelector('[aria-describedby=coverage-disclosure] button')?.getAttribute('aria-pressed')==='false');
   await b.screenshot({path:`${evidence}/two-tab-${mode}-discarded.png`,fullPage:true});await b.clock.fastForward(61000);await idle(b);assert.equal(sent(b).length,before);
   await cards(b).first().click();await b.waitForURL(/\/games\/.+/);await idle(b);assert.equal(sent(b).length,before);
   pass(`Two-tab ${mode}: unfinished episode discarded; inactivity then selection sends nothing`);
  }
- await activeB();const blocked=sent(b).length;await b.evaluate(()=>{Storage.prototype.getItem=()=>{throw Error('blocked');};});await decline(a).click();
+ await activeB();const blocked=sent(b).length;await b.evaluate(()=>{Storage.prototype.getItem=()=>{throw Error('blocked');};});await options(a);await decline(a).click();
  await b.waitForFunction(()=>document.querySelector('[aria-describedby=coverage-disclosure] button')?.getAttribute('aria-pressed')==='false');await b.clock.fastForward(61000);await cards(b).first().click();await b.waitForURL(/\/games\/.+/);await idle(b);assert.equal(sent(b).length,blocked);
  pass('Cross-tab withdrawal revokes mounted fallback when reads become blocked');
- await activeB();await b.evaluate(()=>window.delayStorage=true);const delayed=sent(b).length;await decline(a).click();assert.equal(await allow(b).getAttribute('aria-pressed'),'true');await cards(b).first().click();await b.waitForURL(/\/games\/.+/);await idle(b);assert.equal(sent(b).length,delayed);
+ await activeB();await b.evaluate(()=>window.delayStorage=true);const delayed=sent(b).length;await options(a);await decline(a).click();assert.equal(await allow(b).getAttribute('aria-pressed'),'true');await cards(b).first().click();await b.waitForURL(/\/games\/.+/);await idle(b);assert.equal(sent(b).length,delayed);
  pass('Finalization re-reads preference even when cross-tab notification is suppressed');
- await go(b);await locate(b).click();await radius(b,150);await radius(b,25);const preOpt=sent(b).length;await allow(a).click();
+ await go(b);await locate(b).click();await radius(b,150);await radius(b,25);const preOpt=sent(b).length;await options(a);await allow(a).click();
  await b.waitForFunction(()=>document.querySelector('[aria-describedby=coverage-disclosure] button')?.getAttribute('aria-pressed')==='true');await clear(b);await idle(b);assert.equal(sent(b).length,preOpt+1);assert.equal(sent(b).at(-1).initial_radius_miles,25);assert.equal(sent(b).at(-1).radius_expansion_steps,0);
  pass('Cross-tab opt-in starts current controls; no pre-consent interaction reconstruction');
  const restricted=await browser.newContext();await restricted.route(/https?:\/\/(?!127\.0\.0\.1|localhost)/,r=>r.abort());
  await restricted.addInitScript(()=>{Storage.prototype.getItem=()=>{throw Error('blocked');};Storage.prototype.setItem=()=>{throw Error('blocked');};Object.defineProperty(navigator,'geolocation',{value:{getCurrentPosition(ok){ok({coords:{latitude:32.123456789,longitude:-98.543210987,accuracy:30}});}}});});
- const r=await make(restricted);await go(r);await allow(r).click();await locate(r).click();await clear(r);await idle(r);assert.equal(sent(r).length,1);await r.reload({waitUntil:'networkidle'});assert.equal(await allow(r).getAttribute('aria-pressed'),'false');await restricted.close();
+ const r=await make(restricted);await go(r);await options(r);await allow(r).click();await locate(r).click();await clear(r);await idle(r);assert.equal(sent(r).length,1);await r.reload({waitUntil:'networkidle'});assert.equal(await allow(r).getAttribute('aria-pressed'),'false');await restricted.close();
  pass('Blocked storage explicit mounted memory fallback delivers; reload defaults off');
  const writeBlocked=await browser.newContext();await writeBlocked.route(/https?:\/\/(?!127\.0\.0\.1|localhost)/,r=>r.abort());
- await writeBlocked.addInitScript(()=>{Storage.prototype.setItem=()=>{throw Error('blocked writes');};});const w=await make(writeBlocked);await go(w);await allow(w).click();assert.equal(await allow(w).getAttribute('aria-pressed'),'false');await clear(w);await idle(w);assert.equal(sent(w).length,0);await writeBlocked.close();
+ await writeBlocked.addInitScript(()=>{Storage.prototype.setItem=()=>{throw Error('blocked writes');};});const w=await make(writeBlocked);await go(w);await options(w);await allow(w).click();assert.equal(await allow(w).getAttribute('aria-pressed'),'false');await clear(w);await idle(w);assert.equal(sent(w).length,0);await writeBlocked.close();
  pass('Readable storage with failed writes fails conservatively');
  // Route departure sends one at most, and returning never carries geography or resumes an old episode.
- await go(page);await allow(page).click();await locate(page).click();const departed=accepted;await page.goto(origin+'/scoreboard?week=7&mode=nearby',{waitUntil:'networkidle'});await idle(page);assert.equal(accepted,departed+1,'Server receives exactly one departure summary even when unload detaches the page request listener');await clear(page);await idle(page);assert.equal(accepted,departed+1);
+ await go(page);await options(page);await allow(page).click();await locate(page).click();const departed=accepted;await page.goto(origin+'/scoreboard?week=7&mode=nearby',{waitUntil:'networkidle'});await idle(page);assert.equal(accepted,departed+1,'Server receives exactly one departure summary even when unload detaches the page request listener');await clear(page);await idle(page);assert.equal(accepted,departed+1);
  pass('Alias departure is one boundary; returning alias cannot reconstruct a location episode');
  const stored=await page.evaluate(()=>({local:JSON.stringify(localStorage),session:JSON.stringify(sessionStorage),cookies:document.cookie,html:document.documentElement.outerHTML}));
  assert.deepEqual(await page.evaluate(()=>Object.keys(localStorage)),['coverage_measurement_v2']);
