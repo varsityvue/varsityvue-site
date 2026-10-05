@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Share2 } from "lucide-react";
 
-export default function ShareAction({ title, text, url, className = "" }: {
-  title: string; text: string; url: string; className?: string;
+export default function ShareAction({ title, text, url, className = "", label }: {
+  title: string; text: string; url: string; className?: string; label?: string;
 }) {
   const [feedback, setFeedback] = useState<{key: string} | null>(null);
   const contentKey = JSON.stringify([title, text, url]);
@@ -74,9 +74,10 @@ export default function ShareAction({ title, text, url, className = "" }: {
       if (mounted.current) setPending(false);
     }
   }
-  return <span className={`inline-flex w-[2.75rem] min-w-11 flex-col items-center ${className}`}>
-    <button type="button" onClick={() => void share()} disabled={pending} aria-label={`Share ${title}`} title={`Share ${title}`} className="inline-flex h-11 min-h-11 w-11 min-w-11 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-black/25 text-white/65 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white disabled:opacity-60">
+  return <span className={`inline-flex ${label ? "w-auto" : "w-[2.75rem]"} min-w-11 flex-col items-center ${className}`}>
+    <button type="button" onClick={() => void share()} disabled={pending} aria-label={`Share ${title}`} title={`Share ${title}`} className={`inline-flex h-11 min-h-11 ${label ? "gap-2 px-3" : "w-11"} min-w-11 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-black/25 text-white/65 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white disabled:opacity-60`}>
       <Share2 aria-hidden="true" size={18} />
+      {label ? <span className="whitespace-nowrap text-xs font-bold">{label}</span> : null}
     </button>
     <span role="status" aria-atomic="true" className={message ? "mt-1 w-full break-words text-center text-xs leading-normal text-white" : "sr-only"}>{message}</span>
   </span>;
