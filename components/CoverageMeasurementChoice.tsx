@@ -5,7 +5,7 @@ export default function CoverageMeasurementChoice({choice, choose}: {choice: Cov
   const options = useRef<HTMLDetailsElement>(null);
   const available = process.env.NEXT_PUBLIC_COVERAGE_DEMAND_ENABLED === "true";
   return <section className="weekly-measurement" aria-label="Regional measurement">
-    <p role="status">{available ? "Collection requires your permission." : "Collection is currently off."} {choice === "enabled" ? "Preference: allow regional sharing." : choice === "disabled" ? "Preference: don’t share." : "No sharing preference chosen."}</p>
+    <p role="status">{available ? "Collection requires your permission." : "Collection is currently off."} {choice === "enabled" ? "Preference: allow regional sharing." : choice === "disabled" ? "Preference: don’t share." : "No preference active on this page."}</p>
     <div className="weekly-measurement-actions">
       <a href="/privacy#regional-measurement" className="underline">Privacy</a>
       {choice === "enabled" && <button type="button" className="weekly-control weekly-withdraw" aria-pressed={false} onClick={() => { choose("disabled"); options.current?.querySelector("summary")?.focus(); }}>Don’t share regional usage</button>}
@@ -17,7 +17,7 @@ export default function CoverageMeasurementChoice({choice, choose}: {choice: Cov
           <button type="button" className="weekly-control" aria-pressed={choice === "enabled"} onClick={() => choose("enabled")}>Allow regional measurement</button>
           {choice !== "enabled" && <button type="button" className="weekly-control" aria-pressed={choice === "disabled"} onClick={() => choose("disabled")}>Don’t share regional usage</button>}
         </div>
-        <noscript><p>Changing a preference requires JavaScript. Discovery remains available through All Games.</p></noscript>
+        <noscript><p>JavaScript is needed to read or change a saved preference. All Games discovery stays available.</p></noscript>
       </details>
     </div>
   </section>;

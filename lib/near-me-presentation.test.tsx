@@ -17,7 +17,7 @@ test('dormant choice distinguishes preference from collection and leaves withdra
         assert.match(html, /Preference: allow regional sharing/);
         assert.ok(html.indexOf('Don’t share regional usage') < html.indexOf('<details'));
         assert.equal(html.split('Don’t share regional usage').length - 1, 1);
-      } else assert.match(html, choice === 'disabled' ? /Preference: don’t share/ : /No sharing preference chosen/);
+      } else assert.match(html, choice === 'disabled' ? /Preference: don’t share/ : /No preference active on this page/);
     }
     process.env.NEXT_PUBLIC_COVERAGE_DEMAND_ENABLED = 'true';
     assert.match(renderToStaticMarkup(<CoverageMeasurementChoice choice="disabled" choose={() => {}} />), /Collection requires your permission/);
