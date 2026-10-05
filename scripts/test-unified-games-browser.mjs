@@ -625,7 +625,7 @@ async function followingFailure(page,route) {
   pass(`${route}: following-only failure with successful scores has no false empty/team prompt; keyboard native GET retry recovers the same scope`);
 }
 async function orderedRefreshes(page,route) {
-  for(const change of ['refinement','location','week','mode','history','season','fragment']) for(const obsolete of ['success','failure']) {
+  for(const change of ['refinement','location','week','mode','history','season','fragment']) for(const obsolete of ['success','failure']) for(const order of ['newer-first','obsolete-first']) {
     await page.goto(origin+route+(change==='season'?'?season=2025&week=all&state=current':'?season=2026&week=7&mode=nearby&state=current')); await settled(page);
     if(change!=='season') await page.getByLabel('Or choose a school').selectOption('de-leon');
     // A controlled fetch that intentionally ignores AbortSignal models a
@@ -663,16 +663,20 @@ async function orderedRefreshes(page,route) {
     assert.equal(await page.evaluate(()=>window.refreshFixture.requests[0].signal.aborted),true,`${change}: invalidate obsolete request`);
     await page.getByRole('button',{name:'Refresh scores',exact:true}).click();
     await page.waitForFunction(()=>window.refreshFixture.requests.length===2);
-    await page.evaluate(()=>window.refreshFixture.requests[1].complete('success','2026-10-05T20:00:00Z'));
-    const snapshot=()=>page.evaluate(()=>({url:location.href,rows:[...document.querySelectorAll('[data-game-id]')].map(e=>[e.dataset.gameId,e.innerText]),refresh:document.querySelector('.weekly-refresh').innerText,notices:[...document.querySelectorAll('.weekly-notice')].map(e=>e.innerText),status:document.querySelector('select[name="filter"]').value}));
+    const snapshot=()=>page.evaluate(()=>({url:location.href,rows:[...document.querySelectorAll('[data-game-id]')].map(e=>[e.dataset.gameId,e.innerText]),refresh:document.querySelector('.weekly-refresh').innerText,busy:document.querySelector('.weekly-refresh-icon').disabled,notices:[...document.querySelectorAll('.weekly-notice')].map(e=>e.innerText),status:document.querySelector('select[name="filter"]').value}));
+    if(order==='newer-first') await page.evaluate(()=>window.refreshFixture.requests[1].complete('success','2026-10-05T20:00:00Z'));
     const current=await snapshot();
+    assert.equal(current.busy,order==='obsolete-first');
     await page.evaluate(outcome=>window.refreshFixture.requests[0].complete(outcome,'2026-10-10T00:00:00Z'),obsolete);
     assert.equal(await page.evaluate(()=>window.refreshFixture.requests[0].outcome),obsolete);
     if(obsolete==='success') assert.equal(await page.evaluate(()=>window.refreshFixture.requests[0].jsonRead),true);
-    assert.deepEqual(await snapshot(),current,`${route} ${change}: obsolete ${obsolete} cannot replace current success/state`);
-    controlledOrdering.push({route,change,obsolete,completionOrder:["newer-success",`obsolete-${obsolete}`],aborted:true,jsonConsumed:obsolete==="success",preserved:true});
+    assert.deepEqual(await snapshot(),current,`${route} ${change} ${order}: obsolete ${obsolete} cannot replace current results/loading/state`);
+    if(order==='obsolete-first') await page.evaluate(()=>window.refreshFixture.requests[1].complete('success','2026-10-05T20:00:00Z'));
+    assert.equal((await snapshot()).busy,false);
+    assert.equal(await page.evaluate(()=>window.refreshFixture.requests[1].jsonRead),true);
+    controlledOrdering.push({route,change,obsolete,completionOrder:order==='newer-first'?['newer-success',`obsolete-${obsolete}`]:[`obsolete-${obsolete}`,'newer-success'],aborted:true,jsonConsumed:obsolete==='success',preserved:true});
   }
-  pass(`${route}: deterministic newer success before obsolete success/failure after refinement/location/week/mode/history/season/fragment; abort and JSON consumption acknowledged`);
+  pass(`${route}: deterministic both completion orders for obsolete success/failure, including current loading state, after refinement/location/week/mode/history/season/fragment; abort and JSON consumption acknowledged`);
 }
 
 try {
