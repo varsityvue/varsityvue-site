@@ -40,8 +40,8 @@ try {
  const make=async(c=context)=>{const p=await c.newPage();p.on('response',r=>{if(r.url().endsWith('/api/coverage-demand'))responses.push(r.status());});p.on('pageerror',e=>errors.push(e.message));p.on('request',r=>{requests.push(r.url()+(r.postData()??''));if(r.url().endsWith('/api/coverage-demand'))summaries.push({page:p,body:JSON.parse(r.postData())});});await p.clock.install();return p;};
  const page=await make();
  const options=async p=>{const d=p.locator('.weekly-measurement details');if(await d.getAttribute('open')===null)await d.locator('summary').click();};
- const allow=p=>p.getByRole('button',{name:'Allow regional measurement',exact:true});
- const decline=p=>p.getByRole('button',{name:'Don’t share regional usage',exact:true});
+ const allow=p=>p.getByRole('button',{name:'Allow regional measurement',exact:true,includeHidden:true});
+ const decline=p=>p.getByRole('button',{name:'Don’t share regional usage',exact:true,includeHidden:true});
  const locate=p=>p.getByRole('button',{name:'Use my location',exact:true});
  const clear=p=>p.getByRole('button',{name:'Clear location',exact:true}).click();
  const cards=p=>p.locator('.weekly-row-link');
