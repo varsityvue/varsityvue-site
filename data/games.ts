@@ -1117,7 +1117,6 @@ export const games: Game[] = [
     kickoff: "2026-10-09T19:00:00-05:00",
     status: "upcoming",
     districtGame: true,
-    featured: true,
     coverageStatus: "planned",
     sourceStatus: "uploaded-schedule",
     sourceLabel: "Hawley Football 2026 Schedule",
