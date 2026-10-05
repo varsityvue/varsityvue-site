@@ -531,7 +531,7 @@ async function refinementRegressions(page, route) {
     assert.doesNotMatch(await page.locator('.weekly-refresh').innerText(),/0 games/);
     assert.match(await page.locator('.weekly-measurement').innerText(),/Preference: don’t share/);
   }
-  pass(`${route}: counts, unknown classification unchanged Apply, all individual clears, keyboard focus, shared/history restoration, result=current ignored, genuine empty versus failure, stale completion after refinement/location/week/mode changes, supported/unsupported weeks, mobile and 200% text; measurement declined`);
+  pass(`${route}: counts, unknown classification unchanged Apply, all individual clears, keyboard focus, shared/history restoration, result=current ignored, genuine empty versus failure, supported/unsupported weeks, mobile and 200% text; measurement declined`);
 }
 
 async function allGamesRefinements(page, route) {
@@ -549,7 +549,9 @@ async function allGamesRefinements(page, route) {
     // unobscured, rather than treating lack of horizontal overflow as usability.
     for (const label of ['Clear Search: Hawley','Clear Following only']) {
       const link=page.getByRole('link',{name:label,exact:true}); await link.focus();
-      await link.scrollIntoViewIfNeeded();
+      await link.evaluate(e=>e.scrollIntoView({block:'center',behavior:'instant'}));
+      await page.evaluate(()=>new Promise(done=>requestAnimationFrame(()=>requestAnimationFrame(done))));
+      await page.screenshot({path:`${evidence}/${route.slice(1)}-clear-focus-${width}-${text.replace('%','')}.png`});
       assert.equal(await link.evaluate(e=>{const r=e.getBoundingClientRect();const hit=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);return e===document.activeElement && (hit===e || e.contains(hit));}),true);
     }
     const clear=page.getByRole('link',{name:'Clear Search: Hawley',exact:true});
@@ -680,6 +682,11 @@ try {
     console.error("BROWSER RUNTIME ERROR", e.message);
   });
   for (const route of ["/games", "/scoreboard"]) {
+    await allGamesRefinements(page, route);
+    await followingFailure(page, route);
+    await orderedRefreshes(page, route);
+  }
+  for (const route of ["/games", "/scoreboard"]) {
     await nearMePresentation(page, route);
     await page.setViewportSize({ width: 390, height: 900 });
     await statusRegressions(page, route);
@@ -702,11 +709,6 @@ try {
       assert.equal(new URL(native.url()).searchParams.has('result'),false);
     }
     await nativeContext.close();
-  }
-  for (const route of ["/games", "/scoreboard"]) {
-    await allGamesRefinements(page, route);
-    await followingFailure(page, route);
-    await orderedRefreshes(page, route);
   }
   for (const route of ["/games", "/scoreboard"]) {
   const label = route.slice(1);
