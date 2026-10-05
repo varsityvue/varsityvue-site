@@ -4,6 +4,7 @@ import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { renderToStaticMarkup } from "react-dom/server";
 import PickemPrizeCounter from "../components/PickemPrizeCounter";
+import PickemContestHeader from "../components/PickemContestHeader";
 import PickemSponsorMark from "../components/PickemSponsorMark";
 import { logoForPickemWeek, pickemSponsorLogos } from "../data/pickem-sponsor-logos";
 
@@ -39,4 +40,16 @@ test("sponsor logo is per-week and falls back to the name without a missing imag
   assert.match(withLogo, /object-contain/);
   assert.match(withLogo, /whitespace-nowrap/);
   assert.doesNotMatch(withLogo, /Presented by.*<span[^>]*>Gilder Storage<\/span>/);
+});
+
+
+test("compact header shows the frozen Central deadline and sponsor without entry statistics", () => {
+  const html = renderToStaticMarkup(<PickemContestHeader season={2026} week={7} deadline="2026-10-10T00:00:00Z" sponsorName="Gilder Storage" sponsorLogo="/sponsors/gilder-storage-approved.png" />);
+  assert.match(html, /Week 7 Pick ’Em/);
+  assert.match(html, /Oct 9.*7:00 PM CDT/);
+  assert.match(html, /Texas residents 18\+/);
+  assert.match(html, /Gilder Storage logo/);
+  assert.doesNotMatch(html, /Accepted completed entries|Provisional cash prize/);
+  const winter = renderToStaticMarkup(<PickemContestHeader season={2026} week={11} deadline="2026-11-07T00:00:00Z" sponsorLogo={null} />);
+  assert.match(winter, /Nov 6.*6:00 PM CST/);
 });
