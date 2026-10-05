@@ -36,6 +36,7 @@ let mode = "normal";
 let writes = 0;
 let scoreCalls = 0;
 let telemetryRequests = 0;
+let browserMutations = 0;
 const rows = [
   {
     game_id: "de-leon-at-hawley-2026-week-7",
@@ -93,12 +94,12 @@ const api = http.createServer((req, res) => {
   res.setHeader("Content-Type", "application/json");
   const path = req.url;
   const send = (x) => res.end(JSON.stringify(x));
-  if (path.startsWith("/auth/v1/user")) return send(session.user);
   if (
     ["POST", "PUT", "PATCH", "DELETE"].includes(req.method) &&
     !(req.method === "POST" && path.startsWith("/rest/v1/rpc/public_score_states"))
   )
     writes++;
+  if (path.startsWith("/auth/v1/user")) return send(session.user);
   if (
     mode === "failure" &&
     (path.includes("public_score_states") ||
@@ -180,6 +181,7 @@ async function context(options = {}) {
   await c.route(/https?:\/\/(?!127\.0\.0\.1|localhost)/, (r) => r.abort());
   c.on("page", page => page.on("request", request => {
     if (new URL(request.url()).pathname === "/api/coverage-demand") telemetryRequests++;
+    if (["POST","PUT","PATCH","DELETE"].includes(request.method())) browserMutations++;
   }));
   await c.addInitScript(() => {
     localStorage.setItem("coverage_measurement_v2", "disabled");
@@ -269,18 +271,14 @@ async function nearMePresentation(page, route) {
     assert.match(await page.locator('main').innerText(),/Last available results remain/);
     await page.unroute('**/api/games/snapshot**');
     await page.goto(origin + route + '?season=2026&week=7&mode=nearby');await settled(page);
-    // Enabled preference is an isolated storage fixture, not hosted consent or telemetry.
+    // Keep measurement declined throughout this discovery suite. Activation
+    // and withdrawal transitions remain covered by pure preference tests.
     await page.locator('.weekly-measurement summary').click();
-    await page.getByRole('button',{name:'Allow regional measurement',exact:true}).click();
-    await page.locator('.weekly-measurement summary').click();
-    await page.waitForFunction(()=>document.querySelector('.weekly-measurement [role=status]')?.textContent.includes('Preference: allow regional sharing'));
-    assert.match(await page.locator('.weekly-measurement').innerText(), /Collection is currently off.*Preference: allow regional sharing/);
-    assert.equal(await page.locator('.weekly-measurement details').getAttribute('open'),null);
-    const withdraw = page.getByRole('button',{name:'Don’t share regional usage',exact:true});
-    assert.equal(await withdraw.isVisible(),true);await withdraw.focus();await page.keyboard.press('Enter');
-    assert.match(await page.locator('.weekly-measurement').innerText(),/Preference: don’t share/);
+    const decline=page.getByRole('button',{name:'Don’t share regional usage',exact:true});
+    await decline.focus(); await page.keyboard.press('Enter');
+    assert.match(await page.locator('.weekly-measurement').innerText(),/Collection is currently off.*Preference: don’t share/);
     assert.equal(await page.evaluate(()=>localStorage.getItem('coverage_measurement_v2')),'disabled');
-    assert.equal(await page.locator('.weekly-measurement summary').evaluate(e=>e===document.activeElement),true);
+    await page.locator('.weekly-measurement summary').click();
     await page.getByLabel('Or choose a school').selectOption('de-leon');
     await page.screenshot({path:`${evidence}/near-me-compact-${label}-${width}.png`,fullPage:true});
     await page.evaluate(()=>document.documentElement.style.fontSize='200%');
@@ -289,7 +287,7 @@ async function nearMePresentation(page, route) {
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth),true);
     await page.screenshot({path:`${evidence}/near-me-text-200-${label}-${width}.png`,fullPage:true});
   }
-  pass(`${route}: concise gated/missing/empty states; privacy, immediate withdrawal, dormant preference, keyboard, 390/430/1280 and 200% text; failed refresh retains center/results`);
+  pass(`${route}: concise gated/missing/empty states; privacy, declined dormant preference, keyboard, 390/430/1280 and 200% text; failed refresh retains center/results`);
 }
 
 async function statusRegressions(page, route, noJavaScript = false) {
@@ -1344,6 +1342,7 @@ try {
   pass("School heroes/directory 390/430/1280; follow states; canonical native/cancel/clipboard sharing; status panel and followed empty scope");
   assert.equal(writes, 0);
   assert.equal(telemetryRequests, 0);
+  assert.equal(browserMutations, 0);
   const promotionsContext = await context();
   const promotions = await promotionsContext.newPage();
   await promotions.setViewportSize({width:390,height:900});
@@ -1381,6 +1380,7 @@ try {
         scoreCalls,
         writes,
         telemetryRequests,
+        browserMutations,
         fixture:
           "All scores/statuses are illustrative. Local synthetic Supabase only.",
       },
