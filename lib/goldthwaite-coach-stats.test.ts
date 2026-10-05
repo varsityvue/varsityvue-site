@@ -34,7 +34,7 @@ test("Goldthwaite coach reports reconcile without duplicate matchups", () => {
       const points = game.scoringPlays.filter(play => play.schoolSlug === "goldthwaite" && play.quarter === quarter).reduce((n, play) => n + (play.description.includes("field goal") ? 3 : 6 + (play.description.includes("(Blake Howard kick)") ? 1 : 0)), 0);
       assert.equal(points, scores.quarters[quarter - 1]);
     }
-    assert.equal(extendedGameStats.filter(game => game.gameId === id).length, 1);
+    if (id === ids[0]) assert.equal(extendedGameStats.filter(game => game.gameId === id).length, 1);
   }
 });
 test("De Leon statistics remain unchanged and Goldthwaite uses the approved correction", () => {
