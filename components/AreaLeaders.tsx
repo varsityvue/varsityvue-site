@@ -14,6 +14,7 @@ type LeaderRow = {
   value: number;
   detail: string;
   completeness: StatCompletenessDetail;
+  valueSuffix?: string;
 };
 
 type LeaderCard = {
