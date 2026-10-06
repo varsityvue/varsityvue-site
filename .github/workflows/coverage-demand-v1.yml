@@ -19,6 +19,8 @@ on:
       - 'supabase/tests/coverage_demand*'
       - 'scripts/test-coverage-demand*'
       - '.github/workflows/coverage-demand-v1.yml'
+      - 'scripts/coverage-integration-scope*'
+      - 'lib/unified-games.ts'
 concurrency:
   group: coverage-demand-${{ github.ref }}
   cancel-in-progress: true
@@ -30,13 +32,19 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Select integration checks from affected dependencies
+        id: scope
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: node scripts/coverage-integration-scope.mjs "$BASE_SHA" >> "$GITHUB_OUTPUT"
       - name: Analytics and all relevant application regressions
-        run: node --import tsx --test lib/coverage-*.test.ts lib/game-discovery.test.ts lib/unified-games.test.ts lib/games-page-organization.test.ts lib/game-presentation.test.ts lib/public-score-loader.test.ts lib/hamilton-featured.test.ts lib/school-master-data.test.ts lib/team-feed-validation.test.ts lib/scorekeeper-cta.test.ts lib/public-read-contracts.test.ts lib/assigned-scorekeeper.test.ts lib/public-score-state.test.tsx lib/score-scout-review.test.tsx lib/scoring-operations.test.ts lib/games.test.ts data/game-previews.test.ts lib/pickem-lifecycle.test.ts lib/pickem-client-state.test.ts lib/pickem-week-summary.test.ts lib/pickem-contest-display.test.ts lib/team-feed-image.test.ts lib/follow-personalization.test.ts
+        run: node --import tsx --test scripts/coverage-integration-scope.test.mjs lib/coverage-*.test.ts lib/game-discovery.test.ts lib/unified-games.test.ts lib/games-page-organization.test.ts lib/game-presentation.test.ts lib/public-score-loader.test.ts lib/hamilton-featured.test.ts lib/school-master-data.test.ts lib/team-feed-validation.test.ts lib/scorekeeper-cta.test.ts lib/public-read-contracts.test.ts lib/assigned-scorekeeper.test.ts lib/public-score-state.test.tsx lib/score-scout-review.test.tsx lib/scoring-operations.test.ts lib/games.test.ts data/game-previews.test.ts lib/pickem-lifecycle.test.ts lib/pickem-client-state.test.ts lib/pickem-week-summary.test.ts lib/pickem-contest-display.test.ts lib/team-feed-image.test.ts lib/follow-personalization.test.ts
       - run: npx tsc --noEmit
       - run: npx eslint components/Weekly*.tsx components/useCoverageEpisode.ts components/CoverageMeasurementChoice.tsx lib/coverage-*.ts lib/game-discovery.test.ts types/coverage-demand.ts app/api/coverage-demand/route.ts app/api/cron/coverage-demand-retention/route.ts app/privacy/page.tsx components/Footer.tsx proxy.ts scripts/test-coverage-demand-browser.mjs scripts/test-coverage-demand-http.mjs
       - run: npm run build
@@ -48,26 +56,37 @@ jobs:
       - name: Released unified aliases, school, CTA, refresh and privacy browser regressions
         run: node scripts/test-unified-games-browser.mjs
       - name: Coverage consent, episodes, privacy and failure browser verification
+        if: steps.scope.outputs.integration == 'true'
         run: node scripts/test-coverage-demand-browser.mjs
       - uses: supabase/setup-cli@v2
+        if: steps.scope.outputs.integration == 'true'
         with:
           version: 2.119.0
       - run: supabase init
+        if: steps.scope.outputs.integration == 'true'
       - run: supabase start -x studio,imgproxy,realtime,edge-runtime,logflare,vector,supavisor,inbucket
+        if: steps.scope.outputs.integration == 'true'
       - run: supabase db reset --local --no-seed
+        if: steps.scope.outputs.integration == 'true'
       - name: Aggregate-only security, authorization, suppression and retention
+        if: steps.scope.outputs.integration == 'true'
         run: PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f supabase/tests/coverage_demand_analytics.sql
       - name: Operational maintenance backlog, status, postcondition rollback and retries
+        if: steps.scope.outputs.integration == 'true'
         run: PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f supabase/tests/coverage_demand_operations.sql
       - name: Maintenance locking and concurrent ingestion
+        if: steps.scope.outputs.integration == 'true'
         run: bash supabase/tests/coverage_demand_operations_race.sh
       - name: Concurrent aggregate increment
+        if: steps.scope.outputs.integration == 'true'
         run: bash supabase/tests/coverage_demand_race.sh
       - name: Real first-party HTTP ingestion into isolated Supabase
+        if: steps.scope.outputs.integration == 'true'
         run: |
           supabase status -o env > "$RUNNER_TEMP/coverage-local.env"
           COVERAGE_LOCAL_ENV="$RUNNER_TEMP/coverage-local.env" node --import tsx scripts/test-coverage-demand-http.mjs
       - name: Existing privacy, score authority, Score Scout and Pick Em database regressions
+        if: steps.scope.outputs.integration == 'true'
         run: |
           for file in public_uuid_hardening public_score_attribution assigned_scorekeeper_live score_scout_approval pickem_week6_contest pickem_conversion_report pickem_future_week_admin; do
             supabase db reset --local --no-seed

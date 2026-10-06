@@ -11,6 +11,8 @@ import {
   weeklyStatusValue,
   weeklyStatusLabel,
   applyWeeklyStatus,
+  updateWeeklyParams,
+  weeklyAppliedRefinements,
   type WeeklyGame,
   type WeeklyParams,
 } from "@/lib/unified-games";
@@ -103,6 +105,8 @@ export default function WeeklyGamesExplorer(props: Props) {
       ? rows.filter((r) => !isFollowed(r.game, followed))
       : rows;
   const url = weeklyUrl(params);
+  const refinements = weeklyAppliedRefinements(params);
+  const unavailableEmpty = rows.length === 0 && Boolean(error || loadStatus === "failed" || (params.following && props.followFailed));
   const active = games.some(
     (g) =>
       String(g.season) === params.season &&
@@ -113,7 +117,7 @@ export default function WeeklyGamesExplorer(props: Props) {
   );
   const displayNow = new Date(now);
   function update(updates: Partial<WeeklyParams>, replace = false) {
-    const next = { ...params, ...updates };
+    const next = updateWeeklyParams(params, updates);
     generation.current++;
     request.current?.abort();
     request.current = null;
@@ -468,11 +472,8 @@ export default function WeeklyGamesExplorer(props: Props) {
         </button>
       </form>
         <details className="weekly-filters">
-          <summary>
-            Filters
-            {params.filter !== "all" || params.current || params.verified || params.district || params.classification || params.following
-              ? " · active"
-              : ""}
+          <summary aria-label={refinements.length ? `Filters, ${refinements.length} active ${refinements.length === 1 ? "refinement" : "refinements"}` : "Filters"}>
+            Filters{refinements.length ? ` · ${refinements.length}` : ""}
           </summary>
           <form
             action={route}
@@ -524,6 +525,7 @@ export default function WeeklyGamesExplorer(props: Props) {
                 defaultValue={params.classification}
               >
                 <option value="">All classifications</option>
+                {params.classification && !classes.includes(params.classification) && <option value={params.classification}>{params.classification} (not listed in this season)</option>}
                 {classes.map((c) => (
                   <option key={c}>{c}</option>
                 ))}
@@ -570,6 +572,18 @@ export default function WeeklyGamesExplorer(props: Props) {
           </form>
         </details>
       </div>
+      {refinements.length > 0 && <nav className="weekly-location-buttons" aria-label="Applied refinements">
+        {refinements.map(refinement => <a
+          key={refinement.key}
+          className="weekly-control"
+          href={weeklyUrl(params, refinement.clear)}
+          aria-label={`Clear ${refinement.label}`}
+          onClick={event => {
+            navigation(event, refinement.clear);
+            if (event.defaultPrevented) document.querySelector<HTMLDetailsElement>(".weekly-filters")?.querySelector("summary")?.focus();
+          }}
+        >{refinement.label} <span aria-hidden="true">×</span></a>)}
+      </nav>}
       {(params.current || params.verified) && (
         <p className="weekly-notice">
           Legacy link scope:{" "}
@@ -626,7 +640,7 @@ export default function WeeklyGamesExplorer(props: Props) {
       <div className="weekly-refresh">
         <div>
           <p aria-live="polite">
-            {(params.mode === "all" || (gate.enabled && center)) && <>{matched.length} {matched.length === 1 ? "game" : "games"}{changed ? " · updates ready" : ""}{" · "}</>}{fetchedAt
+            {!unavailableEmpty && (params.mode === "all" || (gate.enabled && center)) && <>{matched.length} {matched.length === 1 ? "game" : "games"}{changed ? " · updates ready" : ""}{" · "}</>}{fetchedAt
               ? `Updated ${new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/Chicago" }).format(new Date(fetchedAt))} CT`
               : "Live scores unavailable"}
           </p>
@@ -759,7 +773,7 @@ export default function WeeklyGamesExplorer(props: Props) {
           <div className="weekly-game-list">{other.map(row)}</div>
         </section>
       )}
-      {rows.length === 0 && (params.mode === "all" || (gate.enabled && center && !error && loadStatus !== "failed")) && (
+      {rows.length === 0 && !unavailableEmpty && (params.mode === "all" || (gate.enabled && center)) && (
         <div className="weekly-empty">
           <h2>
             {params.mode === "nearby" && !center
