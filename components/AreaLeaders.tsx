@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { getPlayerSeasonStats } from "@/lib/player-stats";
 import { getFeaturedSchools } from "@/lib/schools";
-import { compareOptionalStatsDescending, formatTouchdownDetail, sumOptionalStats } from "@/lib/stat-values";
+import { compareOptionalStatsDescending, formatTouchdownDetail, sumVerifiedStats } from "@/lib/stat-values";
 import { combineCategoryStates, isDefinitiveRanking } from "@/lib/stat-completeness";
 import type { StatCompletenessDetail } from "@/data/game-stats";
 
@@ -14,6 +14,7 @@ type LeaderRow = {
   value: number;
   detail: string;
   completeness: StatCompletenessDetail;
+  valueSuffix?: string;
 };
 
 type LeaderCard = {
@@ -31,6 +32,11 @@ function touchdownDetail(player: ReturnType<typeof getPlayerSeasonStats>[number]
   if (player.passing.touchdowns !== undefined && player.passing.touchdowns > 0) parts.push(`${player.passing.touchdowns} PASS`);
   if (player.rushing.touchdowns !== undefined && player.rushing.touchdowns > 0) parts.push(`${player.rushing.touchdowns} RUSH`);
   if (player.receiving.touchdowns !== undefined && player.receiving.touchdowns > 0) parts.push(`${player.receiving.touchdowns} REC`);
+  const incomplete: string[] = [];
+  if (player.passing.touchdowns === undefined) incomplete.push("PASS");
+  if (player.rushing.touchdowns === undefined) incomplete.push("RUSH");
+  if (player.receiving.touchdowns === undefined) incomplete.push("REC");
+  if (incomplete.length > 0) parts.push(`${incomplete.join("/")} TD INCOMPLETE`);
   return parts.join(" · ");
 }
 
@@ -111,26 +117,27 @@ export default function AreaLeaders() {
   const totalTouchdowns: LeaderRow[] = players
     .map((player) => ({
       player,
-      touchdowns: sumOptionalStats([
+      touchdownTotal: sumVerifiedStats([
         player.passing.touchdowns,
         player.rushing.touchdowns,
         player.receiving.touchdowns,
       ]),
     }))
-    .filter((entry): entry is typeof entry & { touchdowns: number } => entry.touchdowns !== undefined && entry.touchdowns > 0)
+    .filter((entry) => entry.touchdownTotal.value !== undefined && entry.touchdownTotal.value > 0)
     .sort(
       (a, b) =>
-        b.touchdowns - a.touchdowns ||
+        (b.touchdownTotal.value ?? 0) - (a.touchdownTotal.value ?? 0) ||
         b.player.passing.yards + b.player.rushing.yards + b.player.receiving.yards -
           (a.player.passing.yards + a.player.rushing.yards + a.player.receiving.yards)
     )
     .slice(0, 3)
-    .map(({ player, touchdowns }) => ({
+    .map(({ player, touchdownTotal }) => ({
       playerId: player.playerId,
       player: player.player,
       schoolSlug: player.schoolSlug,
       gamesRecorded: player.gamesRecorded,
-      value: touchdowns,
+      value: touchdownTotal.value ?? 0,
+      valueSuffix: touchdownTotal.complete ? undefined : "+",
       detail: touchdownDetail(player),
       completeness: combineCategoryStates([player.completeness.passing, player.completeness.rushing, player.completeness.receiving]),
     }));
@@ -195,7 +202,7 @@ export default function AreaLeaders() {
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="text-base font-black text-white sm:text-xl">{number(row.value)}</p>
+                      <p className="text-base font-black text-white sm:text-xl">{number(row.value)}{row.valueSuffix}</p>
                       <p className="text-[7px] font-black uppercase tracking-[0.12em] text-white/30 sm:text-[9px] sm:tracking-[0.16em]">
                         {card.statLabel}
                       </p>
