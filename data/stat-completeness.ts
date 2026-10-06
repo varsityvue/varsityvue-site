@@ -218,9 +218,9 @@ export const statCompletenessByGame: Record<string, TeamStatCompleteness[]> = {
       schoolSlug: "goldthwaite",
       categories: {
         quarterScoring: suppliedQuarterSplits,
-        scoringPlays: missingScoringPlays,
-        teamStats: partial("Passing totals are supplied; a complete Goldthwaite rushing or total-offense line was not independently confirmed."),
-        rushing: partial("Only the supplied Landry Sanderson and Hayes Greenway rushing lines are stored; they are not labeled as a complete team total."),
+        scoringPlays: complete("Coach-supplied Goldthwaite scoring plays account for all 24 points."),
+        teamStats: complete("Coach-supplied totals reconcile to 24 carries for 259 yards and 320 total yards; owner approved 6/11 passing to match receptions."),
+        rushing: complete("Coach-supplied Sanderson and Greenway lines reconcile to 24 carries, 259 yards and three touchdowns."),
         passing: complete("Hayes Greenway's corrected 6-of-11 line supplies all Goldthwaite passing totals."),
         receiving: complete("The supplied receiving lines reconcile to six receptions for 61 yards."),
       },

@@ -14,6 +14,8 @@ import { ownerWeek5OffensiveStats } from "@/data/owner-week5-offensive-stats";
 import { applyDeLeonStatCorrections } from "@/data/de-leon-stat-corrections";
 import { applyStatCompleteness } from "@/data/stat-completeness";
 
+import { goldthwaiteCoachWeek5Week6Stats } from "@/data/goldthwaite-coach-week5-week6-stats";
+
 const combinedGameStats = [
   ...baseGameStats,
   ...week2GameStats,
@@ -28,6 +30,7 @@ const combinedGameStats = [
   ...goldthwaiteSanSabaGameStats,
   ...ownerWeek4OffensiveStats,
   ...ownerWeek5OffensiveStats,
+  ...goldthwaiteCoachWeek5Week6Stats,
 ];
 
 function getGameIdentity(game: (typeof combinedGameStats)[number]) {
