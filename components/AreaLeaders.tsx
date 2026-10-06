@@ -32,6 +32,11 @@ function touchdownDetail(player: ReturnType<typeof getPlayerSeasonStats>[number]
   if (player.passing.touchdowns !== undefined && player.passing.touchdowns > 0) parts.push(`${player.passing.touchdowns} PASS`);
   if (player.rushing.touchdowns !== undefined && player.rushing.touchdowns > 0) parts.push(`${player.rushing.touchdowns} RUSH`);
   if (player.receiving.touchdowns !== undefined && player.receiving.touchdowns > 0) parts.push(`${player.receiving.touchdowns} REC`);
+  const incomplete: string[] = [];
+  if (player.passing.touchdowns === undefined) incomplete.push("PASS");
+  if (player.rushing.touchdowns === undefined) incomplete.push("RUSH");
+  if (player.receiving.touchdowns === undefined) incomplete.push("REC");
+  if (incomplete.length > 0) parts.push(`${incomplete.join("/")} TD INCOMPLETE`);
   return parts.join(" · ");
 }
 
