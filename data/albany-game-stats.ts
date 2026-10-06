@@ -93,4 +93,57 @@ export const albanyGameStats: GameStats[] = [
       { player: "Levi Murphy", schoolSlug: "albany", receptions: 1, yards: 5, touchdowns: 0 },
     ],
   },
+  {
+    gameId: "cross-plains-at-albany-2026-week-6",
+    season: 2026,
+    sourceStatus: "verified",
+    sourceLabel: "Owner-supplied Week 6 offensive box score",
+    quarterScores: [
+      { schoolSlug: "cross-plains", quarters: [], total: 8 },
+      { schoolSlug: "albany", quarters: [], total: 59 },
+    ],
+    scoringPlays: [],
+    teamStats: [
+      { schoolSlug: "albany", rushingAttempts: 44, rushingYards: 301, passingYards: 189, totalYards: 490, completions: 7, passAttempts: 14, interceptionsThrown: 1 },
+    ],
+    rushing: [
+      { player: "Lyle Wheeler", schoolSlug: "albany", attempts: 13, yards: 65, touchdowns: 1 },
+      { player: "Jakobi Roberson", schoolSlug: "albany", attempts: 16, yards: 142, touchdowns: 4 },
+      { player: "Clay Chapman", schoolSlug: "albany", attempts: 7, yards: 47 },
+      { player: "Sam Tidwell", schoolSlug: "albany", attempts: 8, yards: 47 },
+    ],
+    passing: [
+      { player: "Clay Chapman", schoolSlug: "albany", completions: 7, attempts: 14, yards: 189, interceptions: 1, touchdowns: 4 },
+    ],
+    receiving: [
+      { player: "Blake Britting", schoolSlug: "albany", receptions: 2, yards: 13 },
+      { player: "Aiden Vickers", schoolSlug: "albany", receptions: 3, yards: 139, touchdowns: 3 },
+      { player: "Wesley Gleitz", schoolSlug: "albany", receptions: 1, yards: 21, touchdowns: 1 },
+      { player: "Jakobi Roberson", schoolSlug: "albany", receptions: 1, yards: 16 },
+    ],
+    completeness: [
+      {
+        schoolSlug: "cross-plains",
+        categories: {
+          quarterScoring: { status: "unavailable", note: "The retained source establishes the final score but does not provide quarter-by-quarter splits." },
+          scoringPlays: { status: "unavailable", note: "The retained source does not provide a scoring-play summary." },
+          teamStats: { status: "unavailable", note: "The retained source does not provide Cross Plains box-score statistics." },
+          rushing: { status: "unavailable", note: "The retained source does not provide Cross Plains rushing statistics." },
+          passing: { status: "unavailable", note: "The retained source does not provide Cross Plains passing statistics." },
+          receiving: { status: "unavailable", note: "The retained source does not provide Cross Plains receiving statistics." },
+        },
+      },
+      {
+        schoolSlug: "albany",
+        categories: {
+          quarterScoring: { status: "unavailable", note: "The retained source establishes the final score but does not provide quarter-by-quarter splits." },
+          scoringPlays: { status: "unavailable", note: "The retained source does not provide a scoring-play summary." },
+          teamStats: { status: "complete", note: "The supplied offensive totals reconcile to 490 total yards." },
+          rushing: { status: "complete", note: "All supplied Albany rushing attempts, yards, and touchdowns reconcile to the team totals." },
+          passing: { status: "complete", note: "Clay Chapman's line matches the supplied team passing totals." },
+          receiving: { status: "complete", note: "All supplied Albany receptions, yards, and receiving touchdowns reconcile to the team totals." },
+        },
+      },
+    ],
+  },
 ];
