@@ -27,3 +27,15 @@ export function formatTouchdownCount(value: number | undefined): string {
 export function formatTouchdownDetail(value: number | undefined): string {
   return value === undefined ? "TD unavailable" : `${value} TD`;
 }
+
+export function sumVerifiedStats(values: (number | undefined)[]): {
+  value: number | undefined;
+  complete: boolean;
+} {
+  const verified = values.filter((value): value is number => value !== undefined);
+  if (verified.length === 0) return { value: undefined, complete: false };
+  return {
+    value: verified.reduce((total, value) => total + value, 0),
+    complete: verified.length === values.length,
+  };
+}
