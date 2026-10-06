@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "prebuild": "node --import tsx --test lib/games.test.ts data/game-previews.test.ts lib/game-discovery.test.ts lib/game-presentation.test.ts lib/follow-personalization.test.ts lib/public-score-loader.test.ts lib/unified-games.test.ts",
+    "prebuild": "node --import tsx --test lib/games.test.ts data/game-previews.test.ts lib/game-discovery.test.ts lib/game-presentation.test.ts lib/follow-personalization.test.ts lib/public-score-loader.test.ts lib/unified-games.test.ts lib/stat-values.test.ts",
     "start": "next start",
     "lint": "eslint",
     "test:games": "node --import tsx --test lib/games.test.ts data/game-previews.test.ts lib/game-presentation.test.ts",
