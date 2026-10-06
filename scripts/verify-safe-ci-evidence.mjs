@@ -111,17 +111,31 @@ export async function platformSnapshot(reader,binding){
 export async function fetchCurrentEvidence(reader,binding,policy,{includeAttestation=true}={}){
   const root='https://api.github.com/repos/'+binding.repository,initial=await platformSnapshot(reader,binding);
   const listing=await reader.pages(root+'/actions/workflows/'+binding.workflowId+'/runs?event=pull_request&per_page=100','workflow_runs');
-  const runs=[];
+  requireInvariant(listing.pagesComplete===true&&Array.isArray(listing.items),'Incomplete run pages');
+  const applicable=[];
   for(const raw of listing.items){
     if(!raw.pull_requests?.some(p=>p.number===binding.pr)||raw.path!==binding.workflowPath)continue;
-    requireInvariant(Number.isSafeInteger(raw.run_attempt),'Missing run attempt');
-    const jobs=await reader.pages(root+'/actions/runs/'+raw.id+'/attempts/'+raw.run_attempt+'/jobs?per_page=100','jobs');requireInvariant(jobs.pagesComplete===true,'Incomplete job pages');
-    const producers=jobs.items.filter(j=>j.name==='Trusted isolated producer');requireInvariant(producers.length===1,'Missing/ambiguous producer job');
-    const job=producers[0];requireInvariant([binding.head,binding.merge].includes(raw.head_sha)&&raw.event==='pull_request'&&raw.workflow_id===binding.workflowId,'Run workflow/event/head');
-    runs.push({...binding,runId:raw.id,attempt:raw.run_attempt,jobId:job.id,status:job.status,conclusion:job.conclusion,appId:APP_ID});
-    // Expected Actions app source is independently read from the actual check.
-    const check=await reader.json(job.check_run_url);requireInvariant(check.app?.id===APP_ID&&check.head_sha===binding.merge,'Actual check source/merge','BLOCKED — IDENTITY MISMATCH');
+    requireInvariant(typeof raw.head_sha==='string'&&/^[a-f0-9]{40}$/.test(raw.head_sha)&&!/^0+$/.test(raw.head_sha),'Missing/malformed run head');
+    // Other immutable PR revisions are unrelated. Never ask their producer or
+    // check to match the current merge, and never use them as a green fallback.
+    if(![binding.head,binding.merge].includes(raw.head_sha))continue;
+    const prs=raw.pull_requests.filter(p=>p.number===binding.pr);requireInvariant(prs.length===1,'Ambiguous run PR');const pr=prs[0];
+    if(pr.base?.sha!==undefined){requireInvariant(typeof pr.base.sha==='string'&&/^[a-f0-9]{40}$/.test(pr.base.sha)&&!/^0+$/.test(pr.base.sha),'Malformed run base');if(pr.base.sha!==binding.base)continue;}
+    if(pr.head?.sha!==undefined)requireInvariant(pr.head.sha===binding.head,'Contradictory run PR head','BLOCKED — IDENTITY MISMATCH');
+    requireInvariant(Number.isSafeInteger(raw.id)&&raw.id>0&&Number.isSafeInteger(raw.run_attempt)&&raw.run_attempt>0&&raw.event==='pull_request'&&raw.workflow_id===binding.workflowId,'Malformed applicable run');
+    applicable.push({raw,pr,head:raw.head_sha===binding.merge?binding.mergeParents[1]:raw.head_sha,base:pr.base?.sha??initial.base});
   }
+  requireInvariant(applicable.length>0,'Missing current run','BLOCKED — MISSING ARTIFACT');applicable.sort((a,b)=>b.raw.id-a.raw.id||b.raw.run_attempt-a.raw.run_attempt);const latest=applicable[0],raw=latest.raw;
+  requireInvariant(applicable.filter(r=>r.raw.id===raw.id&&r.raw.run_attempt===raw.run_attempt).length===1,'Ambiguous latest run');
+  requireInvariant(raw.id===binding.runId&&raw.run_attempt===binding.attempt,'Superseded/old attempt','BLOCKED — IDENTITY MISMATCH');
+  // Producer success must be read only for the selected latest target attempt.
+  // Missing/cancelled/incomplete latest evidence blocks; it never selects older.
+  const jobs=await reader.pages(root+'/actions/runs/'+raw.id+'/attempts/'+raw.run_attempt+'/jobs?per_page=100','jobs');requireInvariant(jobs.pagesComplete===true,'Incomplete job pages');
+  const producers=jobs.items.filter(j=>j.name==='Trusted isolated producer');requireInvariant(producers.length===1,'Missing/ambiguous producer job');const job=producers[0];
+  const check=await reader.json(job.check_run_url);requireInvariant(check.app?.id===APP_ID&&check.head_sha===binding.merge,'Actual check source/merge','BLOCKED — IDENTITY MISMATCH');
+  // The live merge snapshot and selected check pin the base even if the run's
+  // optional PR metadata omits it. Do not relabel a historical run with binding.
+  const runs=[{repository:binding.repository,pr:latest.pr.number,workflowPath:raw.path,head:latest.head,base:latest.base,runId:raw.id,attempt:raw.run_attempt,workflowId:raw.workflow_id,jobId:job.id,status:job.status,conclusion:job.conclusion,appId:check.app.id}];
   const platform={initial,final:initial,runs,pagesComplete:listing.pagesComplete};selectCurrentRun(runs,binding,platform);
   const artifacts=await reader.pages(root+'/actions/runs/'+binding.runId+'/artifacts?per_page=100','artifacts');requireInvariant(artifacts.pagesComplete===true,'Incomplete artifact pages');
   const name='safe-evidence-'+binding.runId+'-'+binding.attempt,matched=artifacts.items.filter(a=>a.name===name);requireInvariant(matched.length===1&&!matched[0].expired,'Missing/ambiguous/expired artifact','BLOCKED — MISSING ARTIFACT');

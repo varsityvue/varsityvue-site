@@ -47,8 +47,11 @@ export function noSymlinks(path,{directory=false,ownerUid}={}){
   requireInvariant(realpathSync(path)===path,'Path alias','BLOCKED — TRUST');return path;
 }
 export const TOOL_PATHS=['.github/workflows/varsityvue-safe-required.yml','scripts/verify-safe-ci-evidence.mjs','scripts/verify-safe-ci-evidence.test.mjs','scripts/run-trusted-runtime.mjs','scripts/collect-trusted-runtime.mjs','scripts/trusted-runtime-policy.json','scripts/trusted-runtime-schema.json','scripts/trusted-runtime.test.mjs'];
+export function validateRunnerPins(b,policy){
+  for(const [bindingKey,policyKey]of [['runnerImage','image'],['runnerPolicy','policy'],['isolationPolicy','isolationPolicy']])requireInvariant(typeof policy.runner?.[policyKey]==='string'&&/^[a-f0-9]{64}$/.test(policy.runner[policyKey])&&b[bindingKey]===policy.runner[policyKey],'Trusted runner pin '+bindingKey,'BLOCKED — ISOLATION');return true;
+}
 export function validateBinding(b,policy,schema){validateSchema(b,schema.$defs.binding,schema);requireInvariant(b.repositoryId===policy.repositoryId&&b.repository===policy.repository&&b.event==='pull_request'&&b.baseRef==='main'&&b.workflowPath==='.github/workflows/varsityvue-safe-required.yml'&&policy.actions.includes(b.action),'Repository/event mismatch','BLOCKED — IDENTITY MISMATCH');for(const key of ['base','baseTree','head','headTree','merge','bootstrap','bootstrapTree'])requireInvariant(!/^0+$/.test(b[key]),'Zero identity','BLOCKED — IDENTITY MISMATCH');
-  requireInvariant(b.mergeParents.length===2&&b.mergeParents[0]===b.base&&b.mergeParents[1]===b.head,'Merge parents','BLOCKED — IDENTITY MISMATCH');requireInvariant(Object.keys(b.toolBlobs).sort().join('|')===TOOL_PATHS.slice().sort().join('|'),'Tool identities','BLOCKED — TRUST');return b;}
+  requireInvariant(b.mergeParents.length===2&&b.mergeParents[0]===b.base&&b.mergeParents[1]===b.head,'Merge parents','BLOCKED — IDENTITY MISMATCH');requireInvariant(Object.keys(b.toolBlobs).sort().join('|')===TOOL_PATHS.slice().sort().join('|'),'Tool identities','BLOCKED — TRUST');validateRunnerPins(b,policy);return b;}
 export function validateTrustedSource(root,b){
   noSymlinks(root,{directory:true});const git=args=>execFileSync('/usr/bin/git',['-C',root,...args],{encoding:'utf8',env:{PATH:'/usr/bin:/bin',HOME:'/nonexistent',GIT_CONFIG_NOSYSTEM:'1',GIT_CONFIG_GLOBAL:'/dev/null',GIT_NO_REPLACE_OBJECTS:'1'}}).trim();
   requireInvariant(git(['rev-parse','HEAD'])===b.bootstrap&&git(['rev-parse','HEAD^{tree}'])===b.bootstrapTree,'Bootstrap checkpoint','BLOCKED — TRUST');
@@ -62,6 +65,7 @@ export function validateLayout(layout){
 export function commandPolicy(policy,ids){requireInvariant(Array.isArray(ids)&&ids.length===policy.commands.length&&canonical(ids)===canonical(policy.commands.map(c=>c.id)),'Unexpected/reordered command');for(const c of policy.commands){requireInvariant(isAbsolute(c.argv[0])&&!c.argv.some(a=>typeof a!=='string'||a.includes('\0'))&&c.cwdClass==='candidate','Command argv');requireInvariant(!/(?:npm|npx|sudo|supabase|psql|docker|curl|wget|bash|sh)$/.test(c.argv[0]),'Forbidden executable');}return structuredClone(policy.commands);}
 export function safeEnvironment(home){noSymlinks(home,{directory:true});return {PATH:'/usr/bin:/bin',HOME:home,LANG:'C.UTF-8',NEXT_TELEMETRY_DISABLED:'1',NEXT_PUBLIC_COVERAGE_DEMAND_ENABLED:'false',COVERAGE_DEMAND_INGESTION_ENABLED:'false',COVERAGE_DEMAND_MONITOR_ENABLED:'false',COVERAGE_DEMAND_FLEET_ENABLED:'false'};}
 export function validateIsolation(c,b,policy,phase){
+  validateRunnerPins(b,policy);
   requireInvariant(c&&c.phase===phase&&c.bindingDigest===hash(bytes(b))&&c.runnerImage===b.runnerImage&&c.runnerPolicy===b.runnerPolicy&&c.isolationPolicy===b.isolationPolicy,'Isolation identity/missing evidence','BLOCKED — ISOLATION');
   requireInvariant(c.candidateUid>0&&Number.isSafeInteger(c.candidateUid)&&c.capabilities.length===0,'Candidate privilege','BLOCKED — ISOLATION');
   for(const k of ['defaultDeny','establishedBeforeExecution','active','activeThroughout','hostControlled','disposable','trustedReadOnly','evidenceNonwritable','processAuditComplete','noCredentials','noSudo','noDaemon','firewallImmutable','provisioningImmutable'])requireInvariant(c[k]===true,'Isolation '+k,'BLOCKED — ISOLATION');
@@ -74,13 +78,33 @@ export function validateSensitiveContracts(observed,policy){
     requireInvariant(s.id===expected.id&&s.ordinal===expected.ordinal&&guard===expected.guard&&canonical(body)===canonical(expected.contract),'Sensitive source body/env/with/order/guard');
   }return true;
 }
-export function validateSuppression(audit,policy){
+export function validateSuppression(audit,policy,commands){
   requireInvariant(audit&&audit.complete===true&&audit.terminated===true&&audit.collectorAlive===true&&audit.sensitiveDispatches===0&&audit.prohibitedNetworkActions===0,'Missing/nonzero suppression');
   const contracts=policy.sensitiveStages.map(({contract,...record})=>{requireInvariant(hash(bytes(contract))===record.contractSha256,'Trusted contract hash');return record;});
   requireInvariant(canonical(audit.contracts)===canonical(contracts),'Sensitive contract/body/env/with/order/guard');
   requireInvariant(Array.isArray(audit.events)&&audit.events.every((e,i)=>e.seq===i+1),'Process sequence');
-  const pids=new Set([audit.supervisorPid]);requireInvariant(Number.isSafeInteger(audit.supervisorPid)&&audit.supervisorPid>0,'Supervisor PID');
-  for(const e of audit.events){requireInvariant(['exec','exit','probe'].includes(e.type)&&pids.has(e.parentPid),'Unknown/reparented process');if(e.type==='exec'){requireInvariant(!pids.has(e.pid)&&e.pid>0,'Duplicate process');pids.add(e.pid);requireInvariant(policy.allowedProcesses.some(p=>p.executable===e.executable&&canonical(p.argv)===canonical(e.argv)),'Unreviewed child executable/argv');requireInvariant(!policy.forbiddenExecutables.includes(e.executable.split('/').at(-1))&&!e.argv.some(v=>policy.forbiddenTokens.includes(v)),'Forbidden child process');}if(e.type==='probe')requireInvariant(e.result==='denied'&&policy.probeIds.includes(e.id),'Forbidden network evidence');}return audit;
+  requireInvariant(Number.isSafeInteger(audit.supervisorPid)&&audit.supervisorPid>0,'Supervisor PID');
+  const processes=new Map(),roots=[];
+  for(const e of audit.events){
+    requireInvariant(['exec','exit','probe'].includes(e.type)&&Number.isSafeInteger(e.pid)&&e.pid>0&&Array.isArray(e.argv),'Malformed process event');
+    requireInvariant(!policy.forbiddenExecutables.includes(e.executable.split('/').at(-1))&&!e.argv.some(v=>policy.forbiddenTokens.includes(v))&&!policy.sensitiveStages.some(s=>s.id===e.id),'Forbidden process/stage evidence');
+    const parent=processes.get(e.parentPid),parentActive=e.parentPid===audit.supervisorPid||(parent&&!parent.exit);
+    requireInvariant(parentActive,'Unknown/exited/reparented process');
+    if(e.type==='exec'){
+      requireInvariant(e.pid!==audit.supervisorPid&&!processes.has(e.pid)&&e.result==='success'&&!Object.hasOwn(e,'exitCode')&&!Object.hasOwn(e,'signal'),'Duplicate/malformed exec');
+      requireInvariant(policy.allowedProcesses.some(p=>p.executable===e.executable&&canonical(p.argv)===canonical(e.argv)),'Unreviewed child executable/argv');
+      if(e.parentPid===audit.supervisorPid){const c=policy.commands[roots.length];requireInvariant(c&&roots.every(pid=>processes.get(pid).exit)&&e.id===c.id&&e.executable===c.argv[0]&&canonical(e.argv)===canonical(c.argv.slice(1)),'Missing/reordered/concurrent command dispatch');roots.push(e.pid);}else requireInvariant(e.id===parent.exec.id,'Child command identity');
+      processes.set(e.pid,{exec:e,exit:null});
+    }else if(e.type==='exit'){
+      const record=processes.get(e.pid);requireInvariant(record&&!record.exit&&e.parentPid===record.exec.parentPid&&e.id===record.exec.id&&e.executable===record.exec.executable&&canonical(e.argv)===canonical(record.exec.argv),'Orphan/duplicate/substituted exit');
+      requireInvariant(![...processes.values()].some(p=>p.exec.parentPid===e.pid&&!p.exit),'Exit with live child');
+      requireInvariant((Number.isSafeInteger(e.exitCode)&&e.exitCode>=0&&e.signal===null)||(e.exitCode===null&&typeof e.signal==='string'&&e.signal.length>0),'Missing process exit status');
+      requireInvariant(e.result===(e.exitCode===0&&e.signal===null?'success':'failure'),'Contradictory process result');record.exit=e;
+    }else requireInvariant(e.result==='denied'&&policy.probeIds.includes(e.id)&&(e.pid===audit.supervisorPid||processes.has(e.pid)&&!processes.get(e.pid).exit),'Forbidden/orphan network evidence');
+  }
+  requireInvariant(roots.length>0&&[...processes.values()].every(p=>p.exit),'Missing/incomplete process lifecycle');
+  if(commands!==undefined){requireInvariant(Array.isArray(commands)&&roots.length===commands.length,'Command/process evidence count');for(const [i,pid]of roots.entries()){const {exec,exit}=processes.get(pid),c=commands[i];requireInvariant(c.seq===i+1&&exec.id===c.id&&exec.executable===c.argv[0]&&canonical(exec.argv)===canonical(c.argv.slice(1))&&exit.result===c.status&&exit.exitCode===c.exitCode&&exit.signal===c.signal,'Command/process result mismatch');}}
+  return audit;
 }
 // Only a separately provisioned supervisor with a pinned public key can return
 // authenticated receipts. Synthetic adapters use this same protocol in tests.
@@ -100,6 +124,7 @@ export async function executeTrusted({binding,policy,layout,transport,publicKey,
   const results=[],during=[];let failed=false;
   try{for(const c of commands){const r=await call('execute',{command:c});validateIsolation(r.isolation,binding,policy,'during');during.push(r.isolation);requireInvariant(canonical(r.command.argv)===canonical(c.argv)&&r.command.id===c.id&&r.command.seq===results.length+1,'Command substitution');requireInvariant((Number.isSafeInteger(r.command.exitCode)&&r.command.exitCode>=0&&r.command.signal===null)||(r.command.exitCode===null&&typeof r.command.signal==='string'&&r.command.signal.length>0),'Missing exit status');r.command.status=r.command.exitCode===0&&r.command.signal===null?'success':'failure';results.push(r.command);if(r.command.exitCode!==0||r.command.signal!==null){failed=true;break;}}}
   finally{const finished=await call('finish');validateIsolation(finished.isolation,binding,policy,'after');validateSuppression(finished.audit,policy);first.final=finished;}
+  validateSuppression(first.final.audit,policy,results);
   return {binding,isolation:[first.isolation,...during,first.final.isolation],commands:results,audit:first.final.audit,outcome:failed?'APPLICATION FAIL':'PASS'};
 }
 export function activationStatus(policy){

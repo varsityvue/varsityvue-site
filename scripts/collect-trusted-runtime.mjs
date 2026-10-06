@@ -1,5 +1,5 @@
-import {readFileSync,writeFileSync,openSync,closeSync,constants,lstatSync,readdirSync} from 'node:fs';
-import {resolve} from 'node:path';
+import {readFileSync,writeFileSync,openSync,closeSync,constants,lstatSync,readdirSync,mkdirSync} from 'node:fs';
+import {resolve,dirname} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {canonical,bytes,hash,parseCanonical,validateSchema,validateBinding,validateIsolation,validateSuppression,noSymlinks,safePath,requireInvariant,RuntimeError} from './run-trusted-runtime.mjs';
 export const REQUIRED_FILES=['envelope.json','commands.json','process-events.json','files.json','manifest.json','attestation.json'];
@@ -9,7 +9,7 @@ export function validateRuntime(runtime,policy,schema,{allowApplicationFailure=f
   requireInvariant(runtime.stages.filter(s=>s.id!=='application').every(s=>s.status==='success'),'Incomplete/skipped required stage');
   const applicationStage=runtime.stages.find(s=>s.id==='application');requireInvariant(['success','failure'].includes(applicationStage.status),'Skipped/incomplete application stage');
   requireInvariant(runtime.isolation.length===runtime.commands.length+2,'Missing isolation window');validateIsolation(runtime.isolation[0],runtime.binding,policy,'before');for(const c of runtime.isolation.slice(1,-1))validateIsolation(c,runtime.binding,policy,'during');validateIsolation(runtime.isolation.at(-1),runtime.binding,policy,'after');
-  validateSuppression(runtime.audit,policy);
+  validateSuppression(runtime.audit,policy,runtime.commands);
   requireInvariant(runtime.commands.length>0&&runtime.commands.length<=policy.commands.length,'Missing mandatory command');let applicationFailed=false;
   for(const [i,c] of runtime.commands.entries()){const expected=policy.commands[i];requireInvariant(c.seq===i+1&&c.id===expected.id&&canonical(c.argv)===canonical(expected.argv)&&c.cwdClass==='candidate'&&c.envKeysHash===policy.environmentKeysHash,'Command identity/env');if(c.status!=='success'||c.exitCode!==0||c.signal!==null){requireInvariant(c.status==='failure'&&((Number.isSafeInteger(c.exitCode)&&c.exitCode!==0&&c.signal===null)||(c.exitCode===null&&typeof c.signal==='string'))&&i===runtime.commands.length-1,'Malformed failure/commands after failure');applicationFailed=true;}}
   requireInvariant(runtime.collectorComplete===true,'Incomplete collector');if(applicationFailed){requireInvariant(runtime.outcome==='APPLICATION FAIL'&&applicationStage.status==='failure','Fake PASS failure result');requireInvariant(allowApplicationFailure,'Application command failed','APPLICATION FAIL');}else requireInvariant(runtime.outcome==='PASS'&&applicationStage.status==='success'&&runtime.commands.length===policy.commands.length,'Fake PASS/missing command');return true;
@@ -31,13 +31,19 @@ export function sealEvidence(runtime,artifacts,policy,schema){
 }
 export function appendAttestation(sealed,attestation){requireInvariant(!sealed.members.some(m=>m.path==='attestation.json'),'Attestation already present');return [...sealed.members,{path:'attestation.json',type:'file',bytes:bytes(attestation)}];}
 export function writeEvidence(directory,members,{protectedStorage=false}={}){
-  noSymlinks(directory,{directory:true,...(protectedStorage?{ownerUid:0}:{})});validateMembers(members,{maxMembers:1000,maxMemberBytes:16*1024*1024,maxArchiveBytes:100*1024*1024});requireInvariant(readdirSync(directory).length===0,'Evidence output must be fresh');
-  // Operational artifact subdirectories must be provisioned separately, never
-  // recursively created through candidate-controlled paths.
-  for(const m of members){const target=resolve(directory,m.path);const parent=target.slice(0,target.lastIndexOf('/'));noSymlinks(parent,{directory:true,...(protectedStorage?{ownerUid:0}:{})});const fd=openSync(target,constants.O_WRONLY|constants.O_CREAT|constants.O_EXCL|constants.O_NOFOLLOW,0o400);try{writeFileSync(fd,m.bytes);}finally{closeSync(fd);}requireInvariant(lstatSync(target).isFile(),'Nonregular output');}return true;
+  const ownership=protectedStorage?{ownerUid:0}:{};
+  noSymlinks(directory,{directory:true,...ownership});validateMembers(members,{maxMembers:1000,maxMemberBytes:16*1024*1024,maxArchiveBytes:100*1024*1024});
+  const directories=new Set();
+  for(const m of members){requireInvariant(m.path.length<=4096&&(REQUIRED_FILES.includes(m.path)||m.path.startsWith('artifacts/')),'Unexpected output namespace');let parent=dirname(m.path);while(parent!=='.'){directories.add(parent);parent=dirname(parent);}}
+  requireInvariant(members.every(m=>!directories.has(m.path)),'File/directory output collision');
+  // Preflight the entire existing tree before writing. Only empty required
+  // artifact directories may be pre-provisioned; no files are reusable.
+  const visit=(dir,prefix='')=>{for(const name of readdirSync(dir)){const relative=prefix+name,target=resolve(dir,name);requireInvariant(directories.has(relative),'Evidence output must be fresh');noSymlinks(target,{directory:true,...ownership});visit(target,relative+'/');}};visit(directory);
+  for(const relative of [...directories].sort((a,b)=>a.split('/').length-b.split('/').length||a.localeCompare(b))){const target=resolve(directory,relative);let exists;try{exists=lstatSync(target);}catch(error){if(error.code!=='ENOENT')throw error;}if(!exists){noSymlinks(dirname(target),{directory:true,...ownership});mkdirSync(target,{mode:0o700});}noSymlinks(target,{directory:true,...ownership});}
+  for(const m of members){const target=resolve(directory,m.path);noSymlinks(dirname(target),{directory:true,...ownership});const fd=openSync(target,constants.O_WRONLY|constants.O_CREAT|constants.O_EXCL|constants.O_NOFOLLOW,0o400);try{writeFileSync(fd,m.bytes);}finally{closeSync(fd);}requireInvariant(lstatSync(target).isFile(),'Nonregular output');}return true;
 }
 export function readEvidence(directory,policy){
   noSymlinks(directory,{directory:true,ownerUid:0});const out=[];
-  const visit=(dir,prefix='')=>{for(const name of readdirSync(dir)){const path=prefix+name,target=resolve(dir,name),s=lstatSync(target);requireInvariant(!s.isSymbolicLink(),'Evidence symlink');if(s.isDirectory()){requireInvariant(path==='artifacts','Unexpected directory');visit(target,path+'/');}else{requireInvariant(s.isFile()&&s.size<=policy.limits.maxMemberBytes,'Special/oversized file');out.push({path,type:'file',bytes:readFileSync(target)});}}};visit(directory);return validateMembers(out,policy.limits);
+  const visit=(dir,prefix='')=>{for(const name of readdirSync(dir)){const path=safePath(prefix+name),target=resolve(dir,name),s=lstatSync(target);requireInvariant(!s.isSymbolicLink(),'Evidence symlink');if(s.isDirectory()){requireInvariant(path==='artifacts'||path.startsWith('artifacts/'),'Unexpected directory');visit(target,path+'/');}else{requireInvariant(s.isFile()&&s.size<=policy.limits.maxMemberBytes,'Special/oversized file');out.push({path,type:'file',bytes:readFileSync(target)});}}};visit(directory);return validateMembers(out,policy.limits);
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){console.error('BLOCKED — TRUST: collection requires a trusted supervisor result and protected output; no candidate-input CLI');process.exitCode=1;}

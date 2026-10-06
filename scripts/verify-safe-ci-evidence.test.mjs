@@ -46,3 +46,40 @@ test('P010 complete live tree/tool/merge snapshot expected=PASS SYNTHETIC ONLY',
 test('W002 every required producer conclusion fails closed expected=PASS SYNTHETIC ONLY',()=>{
  const {load}=createRequire(import.meta.url)('js-yaml'),w=load(readFileSync(new URL('../.github/workflows/varsityvue-safe-required.yml',import.meta.url),'utf8'));const step=w.jobs['safe-verification'].steps[0];for(const variable of ['READINESS','RUNTIME','ATTESTATION'])assert.ok(step.run.includes('test "$'+variable+'" = success'));for(const nonpass of ['skipped','cancelled','neutral','timed_out','action_required','missing','stale','expired','malformed'])assert.notEqual(nonpass,'success');assert.equal(policy.activation,false);assert.equal(policy.runner.publicKey,null);assert.equal(policy.attestation.publicKey,null);
 });
+
+// F3 exercises the actual API adapter, not just the normalized run selector.
+function historyFixture(){
+ const h=c=>c.repeat(40),binding={repository:policy.repository,repositoryId:policy.repositoryId,pr:1,event:'pull_request',action:'opened',baseRef:'main',head:h('a'),base:h('b'),headTree:h('c'),baseTree:h('d'),bootstrap:h('b'),bootstrapTree:h('d'),merge:h('e'),mergeParents:[h('b'),h('a')],toolBlobs:Object.fromEntries(['.github/workflows/varsityvue-safe-required.yml','scripts/run-trusted-runtime.mjs'].map(p=>[p,h('f')])),workflowPath:'.github/workflows/varsityvue-safe-required.yml',workflowId:10,runId:20,attempt:2,jobId:200};
+ const current={id:20,run_attempt:2,path:binding.workflowPath,event:'pull_request',workflow_id:10,head_sha:binding.head,pull_requests:[{number:1,head:{sha:binding.head},base:{sha:binding.base}}]};
+ return {binding,current,rows:[current],pagesComplete:true,jobs:[{id:200,name:'Trusted isolated producer',status:'completed',conclusion:'success',check_run_url:'https://api.github.com/check/200'}],check:{app:{id:15368},head_sha:binding.merge},jobPagesComplete:true,calls:[]};
+}
+function historyReader(f){const b=f.binding;return {
+ async json(url){f.calls.push(url);if(url.endsWith('/pulls/1'))return {number:1,head:{sha:b.head},base:{sha:b.base,ref:'main'}};if(url.endsWith('/git/ref/heads/main'))return {object:{sha:b.base}};if(url.includes('/git/trees/'))return {truncated:false,tree:Object.entries(b.toolBlobs).map(([path,sha])=>({path,sha,type:'blob',mode:'100644'}))};if(url.includes('/git/commits/')){const sha=url.split('/').at(-1);return {sha,tree:{sha:sha===b.head?b.headTree:b.baseTree},parents:b.mergeParents.map(sha=>({sha}))};}if(url.includes('/check/'))return f.check;throw Error('Unexpected TEST-ONLY URL');},
+ async pages(url,key){f.calls.push(url);if(key==='workflow_runs')return {items:f.rows,pagesComplete:f.pagesComplete};if(key==='jobs')return {items:f.jobs,pagesComplete:f.jobPagesComplete};if(key==='artifacts')return {pagesComplete:true,items:[{id:5,name:'safe-evidence-20-2',expired:false,workflow_run:{id:20},digest:'sha256:'+'a'.repeat(64),archive_download_url:'https://api.github.com/archive'}]};throw Error('Unexpected TEST-ONLY page');},
+ async archive(){return [{path:'envelope.json',type:'file',bytes:bytes({syntheticOnly:true})}];}
+};}
+async function historyRun(f){const {fetchCurrentEvidence}=await import('./verify-safe-ci-evidence.mjs');return fetchCurrentEvidence(historyReader(f),f.binding,policy,{includeAttestation:false});}
+test('F3-01-benign-older-head expected=PASS SYNTHETIC ONLY',async()=>{const f=historyFixture();f.rows.push({...f.current,id:19,head_sha:'f'.repeat(40),pull_requests:[{number:1}]});const result=await historyRun(f);assert.equal(result.platform.runs[0].runId,20);assert.equal(result.platform.runs[0].head,f.binding.head);assert.equal(f.calls.some(url=>url.includes('/runs/19/')),false);});
+test('F3-02-benign-older-base expected=PASS SYNTHETIC ONLY',async()=>{const f=historyFixture();f.rows.push({...f.current,id:19,pull_requests:[{number:1,base:{sha:'f'.repeat(40)}}]});assert.equal((await historyRun(f)).platform.runs[0].base,f.binding.base);assert.equal(f.calls.some(url=>url.includes('/runs/19/')),false);});
+test('F3-03-merge-head-and-optional-pr-fields expected=PASS SYNTHETIC ONLY',async()=>{const f=historyFixture();f.current.head_sha=f.binding.merge;f.current.pull_requests=[{number:1}];assert.equal((await historyRun(f)).platform.runs[0].head,f.binding.head);});
+test('F3-04-unrelated-pr expected=PASS SYNTHETIC ONLY',async()=>{const f=historyFixture();f.rows.push({...f.current,id:21,pull_requests:[{number:2}]});assert.equal((await historyRun(f)).platform.runs[0].runId,20);});
+for(const status of ['failure','cancelled','in_progress','queued','timed_out','neutral'])test('F3-newer-'+status+'-no-green-fallback expected=BLOCKED — IDENTITY MISMATCH',async()=>{const f=historyFixture();f.rows.push({...f.current,id:21,status:status==='in_progress'||status==='queued'?status:'completed',conclusion:status});await assert.rejects(historyRun(f),e=>e.outcome==='BLOCKED — IDENTITY MISMATCH');assert.equal(f.calls.some(url=>url.includes('/artifacts')),false);});
+test('F3-05-newer-attempt-no-green-fallback expected=BLOCKED — IDENTITY MISMATCH',async()=>{const f=historyFixture();f.current.run_attempt=3;await assert.rejects(historyRun(f),e=>e.outcome==='BLOCKED — IDENTITY MISMATCH');});
+for(const status of ['failure','cancelled','in_progress','queued','timed_out','neutral','skipped'])test('F3-selected-'+status+'-nonpass expected=VERIFICATION FAIL',async()=>{const f=historyFixture();f.jobs[0].conclusion=status;f.jobs[0].status=status==='in_progress'||status==='queued'?status:'completed';await assert.rejects(historyRun(f),e=>e.outcome==='VERIFICATION FAIL');assert.equal(f.calls.some(url=>url.includes('/artifacts')),false);});
+for(const [id,mutate,outcome]of [
+ ['F3-06-incomplete-run-pages',f=>f.pagesComplete=false,'VERIFICATION FAIL'],
+ ['F3-07-incomplete-job-pages',f=>f.jobPagesComplete=false,'VERIFICATION FAIL'],
+ ['F3-08-ambiguous-latest',f=>f.rows.push(f.current),'VERIFICATION FAIL'],
+ ['F3-09-missing-latest-producer',f=>f.jobs=[],'VERIFICATION FAIL'],
+ ['F3-10-duplicate-latest-producer',f=>f.jobs.push(f.jobs[0]),'VERIFICATION FAIL'],
+ ['F3-11-missing-current',f=>f.current.head_sha='f'.repeat(40),'BLOCKED — MISSING ARTIFACT'],
+ ['F3-12-wrong-check-merge',f=>f.check.head_sha='f'.repeat(40),'BLOCKED — IDENTITY MISMATCH'],
+ ['F3-13-wrong-check-app',f=>f.check.app.id=999,'BLOCKED — IDENTITY MISMATCH'],
+ ['F3-14-contradictory-pr-head',f=>f.current.pull_requests[0].head.sha='f'.repeat(40),'BLOCKED — IDENTITY MISMATCH'],
+ ['F3-15-ambiguous-pr',f=>f.current.pull_requests.push(f.current.pull_requests[0]),'VERIFICATION FAIL'],
+ ['F3-16-missing-head',f=>delete f.current.head_sha,'VERIFICATION FAIL'],
+ ['F3-17-wrong-workflow-id',f=>f.current.workflow_id=99,'VERIFICATION FAIL'],
+ ['F3-18-missing-attempt',f=>delete f.current.run_attempt,'VERIFICATION FAIL'],
+ ['F3-19-zero-head',f=>f.current.head_sha='0'.repeat(40),'VERIFICATION FAIL'],
+ ['F3-20-zero-base',f=>f.current.pull_requests[0].base.sha='0'.repeat(40),'VERIFICATION FAIL']
+])test(id+' expected='+outcome,async()=>{const f=historyFixture();mutate(f);await assert.rejects(historyRun(f),e=>e.outcome===outcome);});
