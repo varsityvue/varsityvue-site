@@ -36,6 +36,9 @@ let mode = "normal";
 let writes = 0;
 let scoreCalls = 0;
 let telemetryRequests = 0;
+let browserMutations = 0;
+let devDiagnosticReads = 0;
+const browserRequestAudit = [];
 const rows = [
   {
     game_id: "de-leon-at-hawley-2026-week-7",
@@ -93,12 +96,12 @@ const api = http.createServer((req, res) => {
   res.setHeader("Content-Type", "application/json");
   const path = req.url;
   const send = (x) => res.end(JSON.stringify(x));
-  if (path.startsWith("/auth/v1/user")) return send(session.user);
   if (
-    req.method === "POST" &&
-    !path.startsWith("/rest/v1/rpc/public_score_states")
+    ["POST", "PUT", "PATCH", "DELETE"].includes(req.method) &&
+    !(req.method === "POST" && new URL(path,"http://127.0.0.1:54329").pathname === "/rest/v1/rpc/public_score_states")
   )
     writes++;
+  if (path.startsWith("/auth/v1/user")) return send(session.user);
   if (
     mode === "failure" &&
     (path.includes("public_score_states") ||
@@ -114,6 +117,9 @@ const api = http.createServer((req, res) => {
   }
   if (path.includes("pickem_weeks")) return send({id:"fixture-week", title:"Week 6 Pick ’Em",season:2026,week:6,status:"open",closes_at:"2026-10-03T00:00:01Z"});
   if (path.includes("pickem_games")) return send({lock_at:"2026-10-03T00:00:00Z"});
+  if (mode === "following-failure" && path.includes("school_follows")) {
+    res.statusCode = 503; return send({message:"Isolated following-only failure"});
+  }
   if (path.includes("school_follows")) {
     const school = new URL(path, "http://127.0.0.1").searchParams.get("school_slug");
     return send([{ school_slug: "de-leon" }, { school_slug: "hawley" }].filter(row => !school || school === `eq.${row.school_slug}`));
@@ -128,6 +134,7 @@ let app,
   browser,
   log = "";
 const results = [];
+const controlledOrdering = [];
 const pass = (name) => {
   results.push({ name, status: "PASS" });
   console.log("PASS", name);
@@ -177,6 +184,16 @@ async function context(options = {}) {
   await c.route(/https?:\/\/(?!127\.0\.0\.1|localhost)/, (r) => r.abort());
   c.on("page", page => page.on("request", request => {
     if (new URL(request.url()).pathname === "/api/coverage-demand") telemetryRequests++;
+    if (["POST","PUT","PATCH","DELETE"].includes(request.method())) {
+      const url=new URL(request.url());
+      // Next 16's installed devtools/shared/stack-frame.js uses POST to read
+      // source frames. This exact local diagnostic endpoint does not mutate
+      // application data; every other mutating-method request stays counted.
+      const diagnostic=request.method()==="POST" && url.origin===origin && url.pathname==="/__nextjs_original-stack-frames";
+      if(diagnostic) devDiagnosticReads++; else browserMutations++;
+      browserRequestAudit.push({method:request.method(),origin:url.origin,path:url.pathname,classification:diagnostic?"read-only-dev-diagnostic":"mutation"});
+      if(!diagnostic) console.log("UNEXPECTED_BROWSER_MUTATION",request.method(),url.origin,url.pathname);
+    }
   }));
   await c.addInitScript(() => {
     localStorage.setItem("coverage_measurement_v2", "disabled");
@@ -204,11 +221,16 @@ async function authenticated(c) {
     },
   ]);
 }
-async function chooseStatus(page, value) {
+async function nativeGet(page, action) {
+  const navigation=page.waitForEvent("framenavigated",{predicate:frame=>frame===page.mainFrame()});
+  await action(); await navigation; await page.waitForLoadState("domcontentloaded");
+}
+async function chooseStatus(page, value, native = false) {
   const filters = page.locator(".weekly-filters");
   if ((await filters.getAttribute("open")) === null) await filters.locator("summary").click();
   await page.getByRole("combobox", {name:"Game status", exact:true}).selectOption(value);
-  await page.getByRole("button", {name:"Apply filters", exact:true}).click();
+  const apply=()=>page.getByRole("button", {name:"Apply filters", exact:true}).click();
+  if(native) await nativeGet(page,apply); else await apply();
 }
 async function settled(page) {
   try {
@@ -266,18 +288,14 @@ async function nearMePresentation(page, route) {
     assert.match(await page.locator('main').innerText(),/Last available results remain/);
     await page.unroute('**/api/games/snapshot**');
     await page.goto(origin + route + '?season=2026&week=7&mode=nearby');await settled(page);
-    // Enabled preference is an isolated storage fixture, not hosted consent or telemetry.
+    // Keep measurement declined throughout this discovery suite. Activation
+    // and withdrawal transitions remain covered by pure preference tests.
     await page.locator('.weekly-measurement summary').click();
-    await page.getByRole('button',{name:'Allow regional measurement',exact:true}).click();
-    await page.locator('.weekly-measurement summary').click();
-    await page.waitForFunction(()=>document.querySelector('.weekly-measurement [role=status]')?.textContent.includes('Preference: allow regional sharing'));
-    assert.match(await page.locator('.weekly-measurement').innerText(), /Collection is currently off.*Preference: allow regional sharing/);
-    assert.equal(await page.locator('.weekly-measurement details').getAttribute('open'),null);
-    const withdraw = page.getByRole('button',{name:'Don’t share regional usage',exact:true});
-    assert.equal(await withdraw.isVisible(),true);await withdraw.focus();await page.keyboard.press('Enter');
-    assert.match(await page.locator('.weekly-measurement').innerText(),/Preference: don’t share/);
+    const decline=page.getByRole('button',{name:'Don’t share regional usage',exact:true});
+    await decline.focus(); await page.keyboard.press('Enter');
+    assert.match(await page.locator('.weekly-measurement').innerText(),/Collection is currently off.*Preference: don’t share/);
     assert.equal(await page.evaluate(()=>localStorage.getItem('coverage_measurement_v2')),'disabled');
-    assert.equal(await page.locator('.weekly-measurement summary').evaluate(e=>e===document.activeElement),true);
+    await page.locator('.weekly-measurement summary').click();
     await page.getByLabel('Or choose a school').selectOption('de-leon');
     await page.screenshot({path:`${evidence}/near-me-compact-${label}-${width}.png`,fullPage:true});
     await page.evaluate(()=>document.documentElement.style.fontSize='200%');
@@ -286,7 +304,7 @@ async function nearMePresentation(page, route) {
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth),true);
     await page.screenshot({path:`${evidence}/near-me-text-200-${label}-${width}.png`,fullPage:true});
   }
-  pass(`${route}: concise gated/missing/empty states; privacy, immediate withdrawal, dormant preference, keyboard, 390/430/1280 and 200% text; failed refresh retains center/results`);
+  pass(`${route}: concise gated/missing/empty states; privacy, declined dormant preference, keyboard, 390/430/1280 and 200% text; failed refresh retains center/results`);
 }
 
 async function statusRegressions(page, route, noJavaScript = false) {
@@ -307,13 +325,13 @@ async function statusRegressions(page, route, noJavaScript = false) {
     await page.goto(origin + route + "?season=2026&week=7&" + legacy);
     if (!noJavaScript) await settled(page);
     assert.match(await status.locator("option:checked").textContent(), new RegExp(text.replaceAll("+", "\\+")));
-    assert.match(await page.locator(".weekly-filters summary").innerText(), /active/);
+    assert.match(await page.locator(".weekly-filters summary").getAttribute("aria-label"), /active/);
     const original = await ids();
     if (current) assert.ok(!original.includes("albany-at-stamford-2026-week-7"));
     if (verified) assert.ok(!original.includes("comanche-at-millsap-2026-week-7"));
     if (current && verified) assert.deepEqual(original, []);
     // Merely applying the panel must preserve the selected exact legacy scope.
-    await chooseStatus(page, await status.inputValue());
+    await chooseStatus(page, await status.inputValue(),noJavaScript);
     if (!noJavaScript) await settled(page);
     assert.deepEqual(await ids(), original);
     const retained = new URL(page.url()).searchParams;
@@ -322,7 +340,7 @@ async function statusRegressions(page, route, noJavaScript = false) {
     for (const target of ["all", "upcoming", "completed"]) {
       await page.goto(origin + route + "?season=2026&week=7&" + legacy);
       if (!noJavaScript) await settled(page);
-      await chooseStatus(page, target);
+      await chooseStatus(page, target,noJavaScript);
       if (!noJavaScript) await settled(page);
       assert.equal(await status.inputValue(), target);
       if (!noJavaScript) {
@@ -353,7 +371,7 @@ async function statusRegressions(page, route, noJavaScript = false) {
     await settled(page);
     await page.getByLabel("Or choose a school").selectOption("de-leon");
   }
-  await chooseStatus(page, "all");
+  await chooseStatus(page, "all",noJavaScript);
   if (!noJavaScript) await settled(page);
   const q = new URL(page.url()).searchParams;
   for (const [key, value] of Object.entries(refinements)) assert.equal(q.get(key), value);
@@ -379,7 +397,7 @@ async function nearbyStatusRegression(page, route) {
     if (legacy) {
       await page.locator(".weekly-filters summary").click();
       assert.equal(await page.locator('select[name="filter"]').inputValue(), "legacy-all-verified");
-      assert.match(await page.locator(".weekly-filters summary").innerText(), /active/);
+      assert.match(await page.locator(".weekly-filters summary").getAttribute("aria-label"), /active/);
       await page.screenshot({ path: `${evidence}/${label}-de-leon-verified-empty.png`, fullPage: true });
       await chooseStatus(page, "legacy-all-verified");
       assert.equal(await page.locator("[data-game-id]").count(), 0);
@@ -458,7 +476,228 @@ async function stressCardText(page) {
     card.querySelectorAll(".weekly-meta")[1].textContent = "Illustrative Extremely Long Community Memorial Football Stadium · Long Venue City, Texas";
   });
 }
+async function refinementRegressions(page, route) {
+  const label = route.slice(1);
+  const unknown = 'Unknown fixture classification';
+  const params = new URLSearchParams({season:'2026',week:'7',filter:'legacy-completed-current-verified',q:'Hawley',classification:unknown,district:'1',following:'1',mode:'nearby',radius:'100'});
+  const link = origin + route + '?' + params;
+  for (const width of [390,400,430,1280]) {
+    await page.setViewportSize({width,height:900});
+    await page.goto(link); await settled(page);
+    await page.getByLabel('Or choose a school').selectOption('de-leon');
+    assert.match(await page.locator('.weekly-filters summary').getAttribute('aria-label'), /8 active refinements/);
+    await page.locator('.weekly-filters summary').click();
+    assert.equal(await page.locator('select[name="classification"]').inputValue(),unknown);
+    const before = new URL(page.url()).search;
+    await page.getByRole('button',{name:'Apply filters',exact:true}).click();
+    assert.equal(new URL(page.url()).search,before);
+    assert.equal(await page.getByLabel('Or choose a school').inputValue(),'de-leon');
+    for (const zoom of ['100%','200%']) {
+      await page.evaluate(value=>document.documentElement.style.fontSize=value,zoom);
+      assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth),true, `${route} ${width} ${zoom}`);
+    }
+    await page.screenshot({path:`${evidence}/${label}-refinements-${width}.png`,fullPage:true});
+    await page.evaluate(()=>document.documentElement.style.fontSize='100%');
+  }
+  const clears = [
+    ['Search: Hawley','q'],['Completed','filter'],['Current and unresolved games','current'],['Verified finals only','verified'],
+    [`Classification: ${unknown}`,'classification'],['District games only','district'],['Following only','following'],['Radius: 100 miles','radius']
+  ];
+  for (const [name,key] of clears) {
+    await page.goto(link); await settled(page);
+    await page.getByLabel('Or choose a school').selectOption('de-leon');
+    const before = Object.fromEntries(new URL(page.url()).searchParams);
+    const clear = page.getByRole('link',{name:`Clear ${name}`,exact:true});
+    await clear.focus(); await page.keyboard.press('Enter');
+    assert.match(await page.locator('.weekly-filters summary').getAttribute('aria-label'),/7 active refinements/);
+    assert.equal(await page.locator('.weekly-filters summary').evaluate(e=>e===document.activeElement),true);
+    assert.equal(await page.getByLabel('Or choose a school').inputValue(),'de-leon');
+    const after = new URL(page.url()).searchParams;
+    for (const field of ['q','classification','district','following','radius']) if(field !== key) assert.equal(after.get(field),before[field]);
+    if(key !== 'current') assert.equal(after.get('state'),'current');
+    if(key !== 'verified') assert.equal(after.get('result'),'verified');
+    if(route === '/scoreboard') assert.equal(after.get('intent'),'scores');
+    await page.goBack(); await settled(page);
+    assert.match(await page.locator('.weekly-filters summary').getAttribute('aria-label'),/8 active refinements/);
+    assert.equal(await page.locator('[data-game-id]').count(),0);
+    await page.goForward(); await settled(page);
+    assert.match(await page.locator('.weekly-filters summary').getAttribute('aria-label'),/7 active refinements/);
+    const shared = page.url(); await page.goto(shared); await settled(page);
+    assert.equal(page.url(),shared);
+  }
+  await page.goto(origin+route+'?season=2026&week=7&result=current'); await settled(page);
+  assert.equal(await page.locator('select[name="filter"]').inputValue(),'all');
+  assert.equal(await page.getByRole('navigation',{name:'Applied refinements'}).count(),0);
+  await page.goto(origin+route+'?season=2026&week=7&q=nonexistent-fixture'); await settled(page);
+  assert.equal(await page.getByRole('heading',{name:'No games match these filters',exact:true}).count(),1);
+  assert.match(await page.locator('.weekly-refresh').innerText(),/0 games/);
+  mode='failure';
+  for (const nearby of [false,true]) {
+    await page.goto(origin+route+'?season=2026&week=7&q=nonexistent-fixture'+(nearby?'&mode=nearby':'')); await settled(page);
+    if(nearby) await page.getByLabel('Or choose a school').selectOption('de-leon');
+    assert.match(await page.locator('main').innerText(),/Live scores (are unavailable|could not be loaded)/);
+    assert.equal(await page.getByRole('heading',{name:'No games match these filters',exact:true}).count(),0);
+    assert.doesNotMatch(await page.locator('.weekly-refresh').innerText(),/0 games/);
+  }
+  mode='normal';
+  assert.equal(await page.evaluate(()=>window.locationCalls),0);
+  for (const week of [6,7,8,9,10,11]) {
+    await page.goto(origin+route+`?season=2026&week=${week}&mode=nearby&result=verified`); await settled(page);
+    assert.match(await page.locator('.weekly-filters summary').getAttribute('aria-label'),/1 active refinement/);
+    assert.equal(await page.getByRole('button',{name:'Use my location',exact:true}).count(),[7,8,9].includes(week)?1:0);
+    assert.doesNotMatch(await page.locator('.weekly-refresh').innerText(),/0 games/);
+    assert.match(await page.locator('.weekly-measurement').innerText(),/Preference: don’t share/);
+  }
+  pass(`${route}: counts, unknown classification unchanged Apply, all individual clears, keyboard focus, shared/history restoration, result=current ignored, genuine empty versus failure, supported/unsupported weeks, mobile and 200% text; measurement declined`);
+}
+
+async function allGamesRefinements(page, route) {
+  const gameId = 'de-leon-at-hawley-2026-week-7';
+  for (const width of [390,400,430,1280]) for (const text of ['100%','200%']) {
+    await page.setViewportSize({width,height:900});
+    await page.goto(origin+route+'?season=2026&week=7&q=Hawley&following=1'); await settled(page);
+    await page.evaluate(value => document.documentElement.style.fontSize=value,text);
+    const your = page.locator('section[aria-labelledby="your-teams"]');
+    assert.equal(await your.locator(`[data-game-id="${gameId}"]`).count(),1);
+    assert.equal(await page.locator(`[data-game-id="${gameId}"]`).count(),1,'Two followed schools must produce one canonical game');
+    assert.match(await page.locator('.weekly-filters summary').getAttribute('aria-label'),/2 active refinements/);
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth),true);
+    // Bring each clear into the viewport and verify its focus/click target is
+    // unobscured, rather than treating lack of horizontal overflow as usability.
+    for (const label of ['Clear Search: Hawley','Clear Following only']) {
+      const link=page.getByRole('link',{name:label,exact:true}); await link.focus();
+      await link.evaluate(e=>e.scrollIntoView({block:'center',behavior:'instant'}));
+      await page.evaluate(()=>new Promise(done=>requestAnimationFrame(()=>requestAnimationFrame(done))));
+      await page.screenshot({path:`${evidence}/${route.slice(1)}-clear-focus-${width}-${text.replace('%','')}.png`});
+      assert.equal(await link.evaluate(e=>{const r=e.getBoundingClientRect();const hit=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);return e===document.activeElement && (hit===e || e.contains(hit));}),true);
+    }
+    const clear=page.getByRole('link',{name:'Clear Search: Hawley',exact:true});
+    await clear.focus(); await page.keyboard.press('Enter');
+    assert.equal(new URL(page.url()).searchParams.has('q'),false);
+    assert.equal(new URL(page.url()).searchParams.get('following'),'1');
+    assert.equal(await page.locator(`[data-game-id="${gameId}"]`).count(),1);
+    assert.equal(await page.locator('.weekly-filters summary').evaluate(e=>e===document.activeElement),true);
+    await page.getByRole('link',{name:'Clear Following only',exact:true}).focus(); await page.keyboard.press('Enter');
+    assert.equal(new URL(page.url()).searchParams.has('following'),false);
+    assert.equal(await page.locator(`[data-game-id="${gameId}"]`).count(),1);
+    assert.equal(await your.locator(`[data-game-id="${gameId}"]`).count(),1);
+    const ids=await page.locator('[data-game-id]').evaluateAll(es=>es.map(e=>e.dataset.gameId));
+    assert.equal(new Set(ids).size,ids.length);
+    await page.screenshot({path:`${evidence}/${route.slice(1)}-all-teams-${width}-${text.replace('%','')}.png`,fullPage:true});
+    await chooseStatus(page,'live');
+    assert.equal(await page.locator(`[data-game-id="${gameId}"]`).count(),1);
+    assert.equal(await page.locator('[data-game-id]').count(),2);
+    const row=page.locator(`[data-game-id="${gameId}"]`); await row.locator('summary').focus(); await page.keyboard.press('Enter');
+    const detail=row.getByRole('link',{name:'Game Center →'}); await detail.focus(); await page.keyboard.press('Enter');
+    await page.getByRole('link',{name:'← Back to Games'}).waitFor();
+    await page.getByRole('link',{name:'← Back to Games'}).focus(); await page.keyboard.press('Enter'); await settled(page);
+    assert.equal(new URL(page.url()).pathname,route);
+    assert.equal(new URL(page.url()).searchParams.get('filter'),'live');
+    if(route==='/scoreboard') assert.equal(new URL(page.url()).searchParams.get('intent'),'scores');
+    await page.getByRole('link',{name:'Week 8',exact:true}).focus(); await page.keyboard.press('Enter');
+    assert.equal(new URL(page.url()).searchParams.get('week'),'8');
+    await page.goBack(); await settled(page); assert.equal(new URL(page.url()).searchParams.get('week'),'7');
+    await page.evaluate(()=>document.documentElement.style.fontSize='100%');
+  }
+  // Seed an unavailable season through a shared link; both options are native
+  // server-rendered controls, not injected fake UI.
+  await page.goto(origin+route+'?season=2025&week=all&classification=Unavailable&result=verified'); await settled(page);
+  await page.getByLabel('Season',{exact:true}).selectOption('2026');
+  assert.equal(new URL(page.url()).searchParams.get('season'),'2026');
+  assert.equal(new URL(page.url()).searchParams.get('classification'),'Unavailable');
+  assert.equal(new URL(page.url()).searchParams.get('result'),'verified');
+  await page.goBack(); await settled(page); assert.equal(new URL(page.url()).searchParams.get('season'),'2025');
+  pass(`${route}: All Games/Your Teams 390/400/430/1280 at 100/200% text, unobscured keyboard clears, canonical dedupe, filter/navigation/Game Center and season history`);
+}
+async function followingFailure(page,route) {
+  mode='following-failure';
+  for(const nearby of [false,true]) {
+    const url=origin+route+'?season=2026&week=7&following=1'+(nearby?'&mode=nearby':'');
+    await page.goto(url); await settled(page);
+    if(nearby) {
+      await page.waitForFunction(()=>document.querySelector('.weekly-measurement [role=status]')?.textContent.includes('Preference: don’t share'));
+      await page.getByLabel('Or choose a school').selectOption('hawley');
+    }
+    assert.match(await page.locator('main').innerText(),/Your Teams could not be loaded/);
+    assert.doesNotMatch(await page.locator('main').innerText(),/No followed matchups|Follow schools to|Live scores (are unavailable|could not be loaded)/);
+    assert.equal(await page.locator('.weekly-follow-prompt').count(),0);
+    assert.equal(await page.getByRole('heading',{name:'No games match these filters',exact:true}).count(),0);
+    assert.doesNotMatch(await page.locator('.weekly-refresh').innerText(),/0 games/);
+    const retry=page.getByRole('link',{name:'retry Your Teams',exact:true});
+    assert.equal(new URL(await retry.getAttribute('href'),origin).pathname,route);
+    assert.equal(new URL(await retry.getAttribute('href'),origin).searchParams.get('following'),'1');
+    await page.screenshot({path:`${evidence}/${route.slice(1)}-following-only-failure-${nearby?'nearby':'all'}.png`,fullPage:true});
+    mode='normal'; await retry.focus(); await nativeGet(page,()=>page.keyboard.press('Enter')); await settled(page);
+    if(nearby) {
+      await page.waitForFunction(()=>document.querySelector('.weekly-measurement [role=status]')?.textContent.includes('Preference: don’t share'));
+      await page.getByLabel('Or choose a school').selectOption('hawley');
+    }
+    assert.doesNotMatch(await page.locator('main').innerText(),/Your Teams could not be loaded/);
+    assert.equal(await page.locator('[data-game-id="de-leon-at-hawley-2026-week-7"]').count(),1);
+    assert.equal(new URL(page.url()).searchParams.get('following'),'1');
+    if(route==='/scoreboard') assert.equal(new URL(page.url()).searchParams.get('intent'),'scores');
+    mode='following-failure';
+  }
+  mode='normal';
+  pass(`${route}: following-only failure with successful scores has no false empty/team prompt; keyboard native GET retry recovers the same scope`);
+}
+async function orderedRefreshes(page,route) {
+  for(const change of ['refinement','location','week','mode','history','season','fragment']) for(const obsolete of ['success','failure']) for(const order of ['newer-first','obsolete-first']) {
+    await page.goto(origin+route+(change==='season'?'?season=2025&week=all&state=current':'?season=2026&week=7&mode=nearby&state=current')); await settled(page);
+    if(change!=='season') await page.getByLabel('Or choose a school').selectOption('de-leon');
+    // A controlled fetch that intentionally ignores AbortSignal models a
+    // transport already completing. Every completion is acknowledged, and
+    // success JSON consumption proves the generation guard was reached.
+    await page.evaluate(async()=>{
+      const realFetch=window.fetch.bind(window);
+      const baseline=await (await realFetch('/api/games/snapshot')).json();
+      window.refreshFixture={baseline,requests:[]};
+      window.fetch=(input,options)=>{
+        if(String(input)!=='/api/games/snapshot') return realFetch(input,options);
+        const record={signal:options.signal,jsonRead:false,outcome:null};
+        window.refreshFixture.requests.push(record);
+        return new Promise((resolve,reject)=>{
+          record.complete=(outcome,at)=>new Promise(done=>{
+            record.outcome=outcome;
+            if(outcome==='failure') reject(new Error('Controlled obsolete failure'));
+            else resolve({ok:true,json:async()=>{record.jsonRead=true;return {...baseline,games:window.refreshFixture.requests[0]===record?[]:baseline.games,fetchedAt:at};}});
+            // Acknowledgement occurs after async fetch/json continuations;
+            // frames flush React rendering. No fixed timing assumption.
+            setTimeout(()=>requestAnimationFrame(()=>requestAnimationFrame(done)),0);
+          });
+        });
+      };
+    });
+    await page.getByRole('button',{name:'Refresh scores',exact:true}).click();
+    await page.waitForFunction(()=>window.refreshFixture.requests.length===1);
+    if(change==='refinement') await page.getByRole('link',{name:'Clear Current and unresolved games',exact:true}).click();
+    if(change==='location') await page.getByLabel('Or choose a school').selectOption('hawley');
+    if(change==='week') await page.getByRole('link',{name:'Week 8',exact:true}).click();
+    if(change==='mode') await page.getByRole('link',{name:'All Games',exact:true}).click();
+    if(change==='history') {await page.getByRole('link',{name:'Week 8',exact:true}).click();await page.goBack();await settled(page);}
+    if(change==='season') await page.getByLabel('Season',{exact:true}).selectOption('2026');
+    if(change==='fragment') {await page.evaluate(()=>location.hash='upcoming');await page.waitForFunction(()=>document.querySelector('select[name="filter"]').value==='upcoming');}
+    assert.equal(await page.evaluate(()=>window.refreshFixture.requests[0].signal.aborted),true,`${change}: invalidate obsolete request`);
+    await page.getByRole('button',{name:'Refresh scores',exact:true}).click();
+    await page.waitForFunction(()=>window.refreshFixture.requests.length===2);
+    const snapshot=()=>page.evaluate(()=>({url:location.href,rows:[...document.querySelectorAll('[data-game-id]')].map(e=>[e.dataset.gameId,e.innerText]),refresh:document.querySelector('.weekly-refresh').innerText,busy:document.querySelector('.weekly-refresh-icon').disabled,notices:[...document.querySelectorAll('.weekly-notice')].map(e=>e.innerText),status:document.querySelector('select[name="filter"]').value}));
+    if(order==='newer-first') await page.evaluate(()=>window.refreshFixture.requests[1].complete('success','2026-10-05T20:00:00Z'));
+    const current=await snapshot();
+    assert.equal(current.busy,order==='obsolete-first');
+    await page.evaluate(outcome=>window.refreshFixture.requests[0].complete(outcome,'2026-10-10T00:00:00Z'),obsolete);
+    assert.equal(await page.evaluate(()=>window.refreshFixture.requests[0].outcome),obsolete);
+    if(obsolete==='success') assert.equal(await page.evaluate(()=>window.refreshFixture.requests[0].jsonRead),true);
+    assert.deepEqual(await snapshot(),current,`${route} ${change} ${order}: obsolete ${obsolete} cannot replace current results/loading/state`);
+    if(order==='obsolete-first') await page.evaluate(()=>window.refreshFixture.requests[1].complete('success','2026-10-05T20:00:00Z'));
+    assert.equal((await snapshot()).busy,false);
+    assert.equal(await page.evaluate(()=>window.refreshFixture.requests[1].jsonRead),true);
+    controlledOrdering.push({route,change,obsolete,completionOrder:order==='newer-first'?['newer-success',`obsolete-${obsolete}`]:[`obsolete-${obsolete}`,'newer-success'],aborted:true,jsonConsumed:obsolete==='success',preserved:true});
+  }
+  pass(`${route}: deterministic both completion orders for obsolete success/failure, including current loading state, after refinement/location/week/mode/history/season/fragment; abort and JSON consumption acknowledged`);
+}
+
 try {
+ {
   start();
   await ready();
   browser = await chromium.launch({ args: ["--no-sandbox"], executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH });
@@ -471,10 +710,33 @@ try {
     console.error("BROWSER RUNTIME ERROR", e.message);
   });
   for (const route of ["/games", "/scoreboard"]) {
+    await allGamesRefinements(page, route);
+    await followingFailure(page, route);
+    await orderedRefreshes(page, route);
+  }
+  for (const route of ["/games", "/scoreboard"]) {
     await nearMePresentation(page, route);
     await page.setViewportSize({ width: 390, height: 900 });
     await statusRegressions(page, route);
     await nearbyStatusRegression(page, route);
+  }
+  {
+    for (const route of ["/games", "/scoreboard"]) await refinementRegressions(page, route);
+    const nativeContext = await context({javaScriptEnabled:false});
+    await authenticated(nativeContext);
+    const native = await nativeContext.newPage();
+    for (const route of ["/games", "/scoreboard"]) {
+      await statusRegressions(native, route, true);
+      await native.goto(origin+route+'?season=2026&week=7&result=verified&classification=Unknown%20fixture%20classification');
+      await native.locator('.weekly-filters summary').click();
+      assert.equal(await native.locator('select[name="classification"]').inputValue(),'Unknown fixture classification');
+      await nativeGet(native,()=>native.getByRole('button',{name:'Apply filters',exact:true}).click());
+      assert.equal(new URL(native.url()).searchParams.get('classification'),'Unknown fixture classification');
+      await nativeGet(native,()=>native.getByRole('link',{name:'Clear Verified finals only',exact:true}).click());
+      assert.equal(new URL(native.url()).searchParams.get('classification'),'Unknown fixture classification');
+      assert.equal(new URL(native.url()).searchParams.has('result'),false);
+    }
+    await nativeContext.close();
   }
   for (const route of ["/games", "/scoreboard"]) {
   const label = route.slice(1);
@@ -1110,6 +1372,7 @@ try {
   pass("School heroes/directory 390/430/1280; follow states; canonical native/cancel/clipboard sharing; status panel and followed empty scope");
   assert.equal(writes, 0);
   assert.equal(telemetryRequests, 0);
+  assert.equal(browserMutations, 0);
   const promotionsContext = await context();
   const promotions = await promotionsContext.newPage();
   await promotions.setViewportSize({width:390,height:900});
@@ -1136,6 +1399,7 @@ try {
   assert.match(await promotions.locator('.weekly-membership').innerText(),/Save your teams. Keep your picks/);
   await promotionsContext.close();
   pass('Near Me promotions shrink on client mode transitions; All Games restores original copy/layout; truthful closed contest; signed-out 200% text');
+  assert.equal(writes,0); assert.equal(browserMutations,0); assert.equal(telemetryRequests,0);
   pass("Synthetic read-only backend: zero writes; declined measurement and zero telemetry requests");
   writeFileSync(
     `${evidence}/results.json`,
@@ -1144,9 +1408,13 @@ try {
         head: execFileSync("git", ["rev-parse", "HEAD"], {encoding: "utf8"}).trim(),
         tree: execFileSync("git", ["rev-parse", "HEAD^{tree}"], {encoding: "utf8"}).trim(),
         results,
+        controlledOrdering,
         scoreCalls,
         writes,
         telemetryRequests,
+        browserMutations,
+        devDiagnosticReads,
+        browserRequestAudit,
         fixture:
           "All scores/statuses are illustrative. Local synthetic Supabase only.",
       },
@@ -1158,6 +1426,7 @@ try {
     console.log("FIXTURE_READY");
     await new Promise(() => {});
   }
+ }
 } finally {
   if (browser) await browser.close();
   if (app) {

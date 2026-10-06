@@ -66,4 +66,58 @@ export const stamfordGameStats: GameStats[] = [
       { player: "Christopher McCann", schoolSlug: "stamford", receptions: 1, yards: 15 },
     ],
   },
+  {
+    gameId: "stamford-at-hamlin-2026-week-6",
+    season: 2026,
+    sourceStatus: "verified",
+    sourceLabel: "Owner-supplied Week 6 offensive box score",
+    quarterScores: [
+      { schoolSlug: "stamford", quarters: [], total: 56 },
+      { schoolSlug: "hamlin", quarters: [], total: 0 },
+    ],
+    scoringPlays: [],
+    teamStats: [
+      { schoolSlug: "stamford", rushingAttempts: 13, rushingYards: 63, passingYards: 246, totalYards: 309, completions: 13, passAttempts: 14 },
+    ],
+    rushing: [
+      { player: "Josh Andruch", schoolSlug: "stamford", attempts: 3, yards: 12 },
+      { player: "Slayden Young", schoolSlug: "stamford", attempts: 6, yards: 25 },
+      { player: "Christopher McCann", schoolSlug: "stamford", attempts: 2, yards: 21 },
+      { player: "Brenham Walker", schoolSlug: "stamford", attempts: 2, yards: 5 },
+    ],
+    passing: [
+      { player: "Miles Follis", schoolSlug: "stamford", completions: 13, attempts: 14, yards: 246, touchdowns: 4 },
+    ],
+    receiving: [
+      { player: "Karsten Hall", schoolSlug: "stamford", receptions: 1, yards: 12 },
+      { player: "Brennan Armstrong", schoolSlug: "stamford", receptions: 2, yards: 71 },
+      { player: "Slayden Young", schoolSlug: "stamford", receptions: 4, yards: 68 },
+      { player: "Levi Vahlenkamp", schoolSlug: "stamford", receptions: 5, yards: 77 },
+      { player: "Ace Martinez", schoolSlug: "stamford", receptions: 1, yards: 18 },
+    ],
+    completeness: [
+      {
+        schoolSlug: "hamlin",
+        categories: {
+          quarterScoring: { status: "unavailable", note: "The retained source establishes the final score but does not provide quarter-by-quarter splits." },
+          scoringPlays: { status: "unavailable", note: "The retained source does not provide a scoring-play summary." },
+          teamStats: { status: "unavailable", note: "The retained source does not provide Hamlin box-score statistics." },
+          rushing: { status: "unavailable", note: "The retained source does not provide Hamlin rushing statistics." },
+          passing: { status: "unavailable", note: "The retained source does not provide Hamlin passing statistics." },
+          receiving: { status: "unavailable", note: "The retained source does not provide Hamlin receiving statistics." },
+        },
+      },
+      {
+        schoolSlug: "stamford",
+        categories: {
+          quarterScoring: { status: "unavailable", note: "The retained source establishes the final score but does not provide quarter-by-quarter splits." },
+          scoringPlays: { status: "unavailable", note: "The retained source does not provide a scoring-play summary." },
+          teamStats: { status: "complete", note: "The supplied offensive totals reconcile to 309 total yards." },
+          rushing: { status: "partial", note: "All 13 carries and 63 rushing yards are attributed; rushing touchdown attribution was not supplied." },
+          passing: { status: "partial", note: "Miles Follis's completions, attempts, yards, and touchdowns are supplied; interceptions were not supplied." },
+          receiving: { status: "partial", note: "All 13 receptions and 246 receiving yards are attributed; receiving touchdown attribution was not supplied." },
+        },
+      },
+    ],
+  },
 ];
