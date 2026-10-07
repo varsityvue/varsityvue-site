@@ -56,7 +56,7 @@ export const statCompletenessByGame: Record<string, TeamStatCompleteness[]> = {
     {
       schoolSlug: "stamford",
       categories: {
-        receiving: partial("Team totals are 21 receptions for 271 yards; represented receiver lines total 14 receptions for 241 yards."),
+        receiving: partial("Available individual receiving lines account for 20 of 21 reported completions and all 271 passing yards; one reported completion remains unattributed in the source. Source values are preserved without inventing receiver attribution."),
       },
     },
   ],
