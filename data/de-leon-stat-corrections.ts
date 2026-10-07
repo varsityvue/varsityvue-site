@@ -75,6 +75,7 @@ export function applyDeLeonStatCorrections(game: GameStats): GameStats {
         { player: "Levi Vahlenkamp", schoolSlug: "stamford", receptions: 5, yards: 118 },
         { player: "Ace Martinez", schoolSlug: "stamford", receptions: 4, yards: 79 },
         { player: "Brenham Walker", schoolSlug: "stamford", receptions: 1, yards: -4 },
+        { player: "Slayden Young", schoolSlug: "stamford", receptions: 6, yards: 30 },
         { player: "Trenton Zmeskal", schoolSlug: "de-leon", receptions: 4, yards: 44, touchdowns: 2 },
         { player: "Bryce Burkeen", schoolSlug: "de-leon", receptions: 5, yards: 57, touchdowns: 1 },
       ],
