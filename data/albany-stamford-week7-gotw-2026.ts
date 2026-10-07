@@ -175,7 +175,7 @@ Friday night, they get to write the next chapter.`,
   featuredImageCaption: "Photos: Amanda Tabor (Albany) / Jones County Clicks (Stamford)",
   type: "preview",
   author: "VarsityVue",
-  publishedAt: "2026-10-07T14:29:54-05:00",
+  publishedAt: "2026-10-07T15:08:09-05:00",
   schoolIds: ["albany", "stamford"],
   districtIds: ["2a-d2-district-7"],
   gameId: "albany-at-stamford-2026-week-7",
@@ -187,3 +187,4 @@ Friday night, they get to write the next chapter.`,
   aiAssisted: true,
   humanReviewed: true,
 };
+
