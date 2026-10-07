@@ -17,6 +17,7 @@
     "test:pickem-admin-outcomes": "node --import tsx --test lib/admin-outcome.test.ts",
     "test:pickem-admin-submissions": "node --import tsx --test lib/admin-pickem-submissions.test.ts",
     "test:pickem-lifecycle": "node --import tsx --test lib/pickem-lifecycle.test.ts",
+    "test:pickem-rules": "node --import tsx --test lib/pickem-finalization.test.ts lib/pickem-database-boundaries.test.mjs",
     "test:pickem-week-summary": "node --import tsx --test lib/pickem-week-summary.test.ts",
     "test:pickem-logos": "node --import tsx --test scripts/normalize-pickem-logos.test.ts",
     "validate:stats": "node --import tsx scripts/validate-stat-reconciliation.ts",
@@ -38,6 +39,7 @@
     "svix": "2.5.0"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "0.3.14",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
