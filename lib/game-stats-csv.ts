@@ -1,3 +1,4 @@
+import { parseGameStatsValue } from "@/lib/game-stats-shape";
 import type {
   CoreStatCategory,
   GameStats,
@@ -185,9 +186,9 @@ export function parseGameStatsCsv(input: string): GameStatsCsvResult {
       const completions = parseRequiredInteger(row.completions, `row ${lineNumber} completions`, errors);
       const attempts = parseRequiredInteger(row.attempts, `row ${lineNumber} attempts`, errors);
       const yards = parseRequiredInteger(row.yards, `row ${lineNumber} yards`, errors);
-      const interceptions = parseRequiredInteger(row.interceptions, `row ${lineNumber} interceptions`, errors);
+      const interceptions = optionalNumber(row.interceptions, `row ${lineNumber} interceptions`, errors);
       const touchdowns = optionalNumber(row.touchdowns, `row ${lineNumber} touchdowns`, errors);
-      if (schoolSlug && player && completions !== undefined && attempts !== undefined && yards !== undefined && interceptions !== undefined) {
+      if (schoolSlug && player && completions !== undefined && attempts !== undefined && yards !== undefined) {
         passing.push({ player, playerId: row.playerId || undefined, schoolSlug, completions, attempts, yards, interceptions, touchdowns });
       }
       return;
@@ -211,9 +212,7 @@ export function parseGameStatsCsv(input: string): GameStatsCsvResult {
   if (errors.length || season === undefined) return { ok: false, errors };
 
   notices.push(`Imported ${rows.length} CSV data rows.`);
-  return {
-    ok: true,
-    stats: {
+  const result = parseGameStatsValue({
       gameId,
       season,
       sourceStatus: "verified",
@@ -225,9 +224,8 @@ export function parseGameStatsCsv(input: string): GameStatsCsvResult {
       rushing,
       passing,
       receiving,
-    },
-    notices,
-  };
+  });
+  return result.ok ? { ...result, notices } : result;
 }
 
 function normalizeSection(value = "") {

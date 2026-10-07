@@ -57,7 +57,7 @@ The route is disabled unless the server environment includes:
 
 The tool accepts one game at a time by pasted JSON, uploaded JSON, or VarsityVue-format CSV. Every format is converted into the same `GameStats` object before review. The workflow:
 
-1. checks the basic object shape
+1. checks the complete nested object shape, school-slug syntax and finite integer/count fields before accepting JSON/CSV
 2. suggests canonical games from the live VarsityVue schedule using season, existing game ID, and school overlap
 3. requires an explicit canonical-game confirmation before approval
 4. replaces the draft `gameId` with the selected canonical game ID
@@ -151,4 +151,69 @@ Do not describe a player as the definitive district or area leader unless the st
 
 ## Future import target
 
-The next evolution should add native XLSX support, then adapters for PDF, screenshot, or email-derived data. Every format should convert into the same structured review screen. After authenticated internal access and a real persistence layer exist, approval can become a controlled production write rather than a manual code change.
+The approved Trusted Data Ingestion & Review Console evolves this foundation into one persistent authenticated workflow. Intake priority is screenshot/image, pasted text and structured forms, preserving JSON/CSV; native XLSX/PDF and other adapters follow only when justified. Manual staging and the administrator roster-publication pilot precede extraction; detailed statistics and parity-gated schedules migrate later. AI produces drafts only. Each publication phase requires separate authorization.
+
+
+## Phase 0 deterministic ingestion foundation
+
+The version-1 contracts in `lib/ingestion-contracts.ts` are the shared intake
+boundary for schedule, roster, core game-stat and underlying-class correction
+drafts. `normalizeIngestionDraft` validates structured drafts and detaches them
+from mutable adapter input. It does not persist, approve or publish anything.
+Schedule/roster optional fields explicitly distinguish known, unknown, omitted
+and unavailable values. Core statistics retain the existing `GameStats` value
+layout and completeness semantics, without the canonical `sourceStatus` marker.
+An unresolved game is represented by `gameId: null`, not an invented canonical ID.
+Absent optional numeric metrics remain absent; `availability` can additionally
+record unknown/omitted/unavailable status by category/row/metric path. Supplied
+zero is a known value and cannot be masked by absent-metric metadata. Required
+numeric metrics must be resolved before normalization; invalid input returns
+reviewable errors rather than a fabricated line. Future extraction must retain
+its raw representation separately until that deterministic boundary succeeds.
+
+`lib/ingestion-adapters.ts` routes existing JSON/CSV to those same contracts.
+Existing export APIs and valid supported fixtures remain compatible. CSV
+interceptions are optional, matching the domain; blank touchdowns/interceptions
+are not zero. Malformed nested rows, null numeric values, fractional count fields,
+non-finite/unsafe numbers and unsupported keys now produce errors. Unknown-key
+rejection intentionally catches misspelled fields instead of silently dropping
+source information. Negative yards and finite decimal punt averages remain valid.
+
+`lib/ingestion-matching.ts` offers exact scoped school/game/player candidates;
+unique candidates still require explicit confirmation. Static profiles and
+managed roster references bridge only through explicit profile links. Managed
+IDs stay internal, and unmatched statistical identities remain deterministic
+and explicitly temporary. Same-name distinct candidates are never auto-selected; statistical `identityMatches`
+bind explicit row confirmation to the scoped canonical candidate and supplied ID.
+Existing public identity helpers and player URLs are unchanged.
+
+`lib/ingestion-stats-review.ts` previews the affected effective core/extended
+catalog through the existing `reconcileStatCatalogs` engine. Supply resolved
+canonical/effective catalogs, not raw pre-correction files. It separates blocking
+shape/domain/revision checks, reconciliation conflicts, completeness limitations
+and documented partial-source notes. The wrapper explicitly reports missing passing
+interceptions rather than treating the legacy engine's zero fallback as evidence
+of a complete total; the global engine is unchanged. Corrections replace exactly one affected
+record in memory and require its expected hash/current snapshot. It never
+rewrites statistics to satisfy a total. `reviewable` is a preview result, not
+approval or publication permission. This reusable boundary is not yet wired
+into the legacy review UI; its existing approval-copy workflow is unchanged.
+
+`lib/ingestion-review-identity.ts` is server-side only. Versioned SHA-256 review
+bindings cover normalized values, target/revision, evidence, matching and reason.
+Source/catalog row order is canonicalized where irrelevant; scoring chronology
+and quarter order are preserved. Positional evidence binds to stable row identity.
+Correction diffs preserve before/proposed values and omission; edited drafts or
+changed canonical snapshots invalidate prior bindings. Review disposition and
+regenerated validation issues are not source content. Human authorization,
+validation recomputation and transactional compare-and-swap remain mandatory in
+later phases; a hash or `confirmedBy` string is not authorization.
+
+Phase 0 adds no persistence, source uploads, AI adapter, authenticated console,
+canonical writer or new permissions. Schedule identity/parity gates, roster
+read/write authority and public statistics remain unchanged. Phase 1 must add
+persistent sources/review events, scoped server authorization and conflict UX;
+canonical publication follows separate roster, statistics and schedule gates.
+
+Focused foundation checks: `node --import tsx --test lib/ingestion-foundation.test.ts`.
+Keep the repository reconciliation/completeness/touchdown checks alongside them.
