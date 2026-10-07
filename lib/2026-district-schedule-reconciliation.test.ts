@@ -88,7 +88,7 @@ test("owner corrections retain canonical IDs and explicit timing and overtime de
   assert.equal(realSchedule("tolar").some((game) => game.kickoff?.startsWith("2026-10-02")), false);
   assert.equal(realSchedule("comanche").some((game) => game.kickoff?.startsWith("2026-10-02")), false);
 
-  assert.equal(games.find((game) => game.id === "comanche-at-cisco-2026-week-2")?.kickoff, "2026-09-04T22:00:00-05:00");
+  assert.equal(games.find((game) => game.id === "comanche-at-cisco-2026-week-2")?.kickoff, "2026-09-04T19:00:00-05:00");
   assert.equal(games.find((game) => game.id === "reagan-county-at-miles-2026-week-3")?.score?.period, "Final (OT)");
   assert.equal(games.find((game) => game.id === "bruceville-eddy-at-cross-plains-2026-week-1")?.score?.period, "Final (OT)");
   assert.equal(games.find((game) => game.id === "hawley-at-abilene-tlca-2026-week-11")?.kickoff, "2026-11-05T19:00:00-06:00");

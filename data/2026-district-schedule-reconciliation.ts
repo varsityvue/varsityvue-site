@@ -54,7 +54,9 @@ const g = (input: GameInput) => game(input);
 export const ownerVerifiedScheduleCorrections: Game[] = [
   g({ id: "bruceville-eddy-at-cross-plains-2026-week-1", week: 1, kickoff: "2026-08-28T19:00:00-05:00", homeSchoolSlug: "cross-plains", homeTeam: "Cross Plains", awaySchoolSlug: "bruceville-eddy", awayTeam: "Bruceville-Eddy", homeScore: 27, awayScore: 26, period: "Final (OT)" }),
   g({ id: "baird-vs-abilene-tlca-2026-week-1", week: 1, kickoff: "2026-08-28T19:00:00-05:00", homeSchoolSlug: "abilene-texas-leadership", homeTeam: "Abilene Texas Leadership", awaySchoolSlug: "baird", awayTeam: "Baird", homeScore: 46, awayScore: 22 }),
-  g({ id: "comanche-at-cisco-2026-week-2", week: 2, kickoff: "2026-09-04T22:00:00-05:00", homeSchoolSlug: "cisco", homeTeam: "Cisco", awaySchoolSlug: "comanche", awayTeam: "Comanche", homeScore: 38, awayScore: 6 }),
+  // Cisco ISD varsity schedule: 9/4 vs Comanche, 7:00 PM Central.
+  // https://files.smartsites.parentsquare.com/4888/2026_lobo_schedule__1.pdf
+  g({ id: "comanche-at-cisco-2026-week-2", week: 2, kickoff: "2026-09-04T19:00:00-05:00", homeSchoolSlug: "cisco", homeTeam: "Cisco", awaySchoolSlug: "comanche", awayTeam: "Comanche", homeScore: 38, awayScore: 6 }),
   g({ id: "reagan-county-at-miles-2026-week-3", week: 3, kickoff: "2026-09-11T19:00:00-05:00", homeSchoolSlug: "miles", homeTeam: "Miles", awaySchoolSlug: "reagan-county", awayTeam: "Reagan County", homeScore: 43, awayScore: 45, period: "Final (OT)" }),
   g({ id: "winters-at-san-angelo-tlca-2026-week-3", week: 3, kickoff: "2026-09-10T19:00:00-05:00", homeSchoolSlug: "san-angelo-texas-leadership", homeTeam: "San Angelo Texas Leadership Charter Academy", awaySchoolSlug: "winters", awayTeam: "Winters", homeScore: 42, awayScore: 0 }),
   g({ id: "albany-at-coleman-2026-week-4", week: 4, kickoff: "2026-09-18T19:00:00-05:00", homeSchoolSlug: "coleman", homeTeam: "Coleman", awaySchoolSlug: "albany", awayTeam: "Albany", homeScore: 8, awayScore: 31 }),
