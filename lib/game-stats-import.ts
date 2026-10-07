@@ -1,72 +1,28 @@
-import { CORE_STAT_CATEGORIES, type GameStats } from "@/data/game-stats";
-import { getPlayerId } from "@/lib/player-identity";
+import { type GameStats } from "@/data/game-stats";
+import { parseGameStatsValue } from "@/lib/game-stats-shape";
+import { matchPlayerIdentity } from "@/lib/ingestion-matching";
 import { getSchoolPlayerProfiles } from "@/lib/player-profiles";
 
 export type GameStatsImportResult =
   | { ok: true; stats: GameStats; notices: string[] }
   | { ok: false; errors: string[] };
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-function isArray(value: unknown): value is unknown[] {
-  return Array.isArray(value);
-}
-
 export function parseGameStatsDraft(input: string): GameStatsImportResult {
   let parsed: unknown;
   try { parsed = JSON.parse(input); } catch { return { ok: false, errors: ["The pasted content is not valid JSON."] }; }
-  if (!isRecord(parsed)) return { ok: false, errors: ["The import must be a single game-stat object."] };
-
-  const requiredStrings = ["gameId", "sourceStatus", "sourceLabel"] as const;
-  const errors: string[] = [];
-  for (const key of requiredStrings) {
-    if (typeof parsed[key] !== "string" || !String(parsed[key]).trim()) errors.push(`${key} is required.`);
-  }
-  if (!Number.isInteger(parsed.season)) errors.push("season must be an integer year.");
-  if (parsed.sourceStatus !== "verified") errors.push('sourceStatus must be "verified" before review can be approved.');
-
-  const arrayFields = ["quarterScores", "scoringPlays", "teamStats", "rushing", "passing", "receiving"] as const;
-  for (const key of arrayFields) if (!isArray(parsed[key])) errors.push(`${key} must be an array.`);
-  if (parsed.completeness !== undefined) {
-    if (!isArray(parsed.completeness)) {
-      errors.push("completeness must be an array when provided.");
-    } else {
-      for (const [index, entry] of parsed.completeness.entries()) {
-        if (!isRecord(entry) || typeof entry.schoolSlug !== "string" || !entry.schoolSlug.trim() || !isRecord(entry.categories)) {
-          errors.push(`completeness[${index}] must include schoolSlug and a categories object.`);
-          continue;
-        }
-        for (const [category, detail] of Object.entries(entry.categories)) {
-          if (!CORE_STAT_CATEGORIES.includes(category as (typeof CORE_STAT_CATEGORIES)[number])) {
-            errors.push(`completeness[${index}] uses unsupported category ${category}.`);
-          }
-          if (!isRecord(detail) || !["complete", "partial", "unavailable", "unknown"].includes(String(detail.status))) {
-            errors.push(`completeness[${index}].categories.${category} must use complete, partial, unavailable, or unknown.`);
-          }
-        }
-      }
-    }
-  }
-  if (errors.length > 0) return { ok: false, errors };
-  return { ok: true, stats: parsed as GameStats, notices: [] };
+  const result = parseGameStatsValue(parsed);
+  return result.ok ? { ...result, notices: [] } : result;
 }
 
 export function resolveKnownPlayerIds(stats: GameStats) {
   const notices: string[] = [];
-  const profileLookup = new Map<string, string>();
-  const schoolSlugs = new Set([...stats.rushing.map((line) => line.schoolSlug), ...stats.passing.map((line) => line.schoolSlug), ...stats.receiving.map((line) => line.schoolSlug)]);
-
-  for (const schoolSlug of schoolSlugs) {
-    for (const profile of getSchoolPlayerProfiles(schoolSlug, stats.season)) profileLookup.set(`${schoolSlug}:${profile.name.trim().toLowerCase()}`, profile.playerId);
-  }
-
   function resolveLine<T extends { player: string; schoolSlug: string; playerId?: string }>(line: T): T {
     if (line.playerId) return line;
-    const rosterId = profileLookup.get(`${line.schoolSlug}:${line.player.trim().toLowerCase()}`);
+    const identity = matchPlayerIdentity({ schoolSlug: line.schoolSlug, season: stats.season, name: line.player }, getSchoolPlayerProfiles(line.schoolSlug, stats.season));
+    if (identity.match.state === "ambiguous") { notices.push(`Ambiguous roster identity for ${line.player}; manual resolution required.`); return line; }
+    const rosterId = identity.identities[0]?.publicPlayerId;
     if (rosterId) { notices.push(`Matched ${line.player} to roster playerId ${rosterId}.`); return { ...line, playerId: rosterId }; }
-    const fallbackId = getPlayerId(line.schoolSlug, line.player, stats.season);
+    const fallbackId = identity.temporary!.publicPlayerId!;
     notices.push(`No roster match for ${line.player}; using temporary derived playerId ${fallbackId}.`);
     return { ...line, playerId: fallbackId };
   }
