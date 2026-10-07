@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireActiveMember } from "@/lib/member-access";
+import { finalizePickemWithCutoffResolution } from "@/lib/pickem-finalization";
 
 function weekId(formData: FormData) {
   const value = String(formData.get("week_id") ?? "");
@@ -26,8 +27,18 @@ export async function finalizeContestResults(formData: FormData) {
   const week = weekId(formData);
   if (!week) return;
   const { supabase } = await requireActiveMember();
-  const { error } = await supabase.rpc("admin_finalize_pickem_contest_results", { p_week_id: week });
-  if (!error) revalidatePath("/internal/pickem/submissions");
+  const { data: contest, error: weekError } = await supabase.from("pickem_weeks")
+    .select("outcome_resolution_at").eq("id", week).maybeSingle();
+  if (weekError || !contest) redirect(destination(week, "error"));
+  const { error } = await finalizePickemWithCutoffResolution({
+    outcomeResolutionAt: contest.outcome_resolution_at,
+    nowMs: Date.now(),
+    resolve: () => supabase.rpc("admin_resolve_pickem_contest_week", { p_week_id: week }),
+    finalize: () => supabase.rpc("admin_finalize_pickem_contest_results", { p_week_id: week }),
+  });
+  // Resolution may have changed VOID presentation even if finalization failed.
+  revalidatePath("/pickem");
+  revalidatePath("/internal/pickem/submissions");
   redirect(destination(week, error ? "error" : "recorded"));
 }
 
