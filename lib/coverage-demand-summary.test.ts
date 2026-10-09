@@ -14,6 +14,7 @@ test("allowlist rejects every extra field, identity, query text, aliases and sel
  assert.equal(validSummary(null),false); assert.equal(validSummary([]),false);
 });
 test("invalid ranges, impossible stage counts, versions and enums are rejected",()=>{
+ assert.equal(validSummary({...fixtureSummary,schedule_catalog_version:'schedule-1692cf167930'}),false,'previous schedule fingerprint is rejected for new summaries');
  for(const patch of [{final_radius_miles:20},{radius_expansion_steps:5},{radius_expansion_steps:-1},{radius_expanded:true},{week:12},{week:2.5},{season:2027},{grid_version:'bad'},{coarse_bucket_id:'bad'},{location_catalog_version:'bad'},{schedule_catalog_version:'bad'},{returned_game_count:-1},{returned_game_count:513},{in_radius_real_game_count:100},{week_located_game_count:1},{returned_game_count:0},{center_source:'home'},{filter_scope:'unknown'},{zero_result_reason:'coverage_gap'},{query_present:'true'}]) assert.equal(validSummary({...fixtureSummary,...patch}),false,JSON.stringify(patch));
 });
 test("honest stage counts distinguish no nearby games, status and query filters; disabled weeks emit nothing",()=>{
