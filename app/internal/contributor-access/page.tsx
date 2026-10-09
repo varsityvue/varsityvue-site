@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 
 import { getSchools } from "@/lib/schools";
 import { requireActiveMember } from "@/lib/member-access";
+import { loadContributorMembers } from "@/lib/contributor-members";
 import { assignContributorSchool, clearContributorRecruitment, removeContributorSchool, reviewContributorApplication, updateContributorRecruitment } from "./actions";
 
 export const metadata: Metadata = {
@@ -35,11 +36,8 @@ export default async function ContributorAccessPage({ searchParams }: PageProps)
   if (!roles?.some((row) => row.role === "admin")) redirect("/account");
 
   const params = await searchParams;
-  const [{ data: profiles }, { data: assignments }, { data: recruitmentRows }, { data: applications }] = await Promise.all([
-    supabase
-      .from("profiles")
-      .select("id, display_name, username, email")
-      .order("display_name", { ascending: true, nullsFirst: false }),
+  const [{ profiles, error: memberError }, { data: assignments, error: assignmentError }, { data: recruitmentRows, error: recruitmentError }, { data: applications, error: applicationError }] = await Promise.all([
+    loadContributorMembers(supabase),
     supabase
       .from("contributor_school_assignments")
       .select("user_id, school_slug, assignment_role, active, created_at")
@@ -55,6 +53,10 @@ export default async function ContributorAccessPage({ searchParams }: PageProps)
       .in("status", ["pending", "deferred"])
       .order("submitted_at", { ascending: true }),
   ]);
+
+  if (memberError || assignmentError || recruitmentError || applicationError) {
+    return <main className="min-h-screen bg-[#050505] px-4 py-10 text-white"><div className="mx-auto max-w-6xl"><h1 className="text-3xl font-black">Contributor access</h1><p role="alert" className="mt-6 rounded-2xl border border-red-300/20 bg-red-500/10 p-4 text-sm text-red-50">Contributor access data could not be loaded. Please retry. No member or assignment results are available.</p><Link href="/internal/contributor-access" className="mt-4 inline-block text-sm font-bold">Retry contributor access</Link></div></main>;
+  }
 
   const schools = getSchools()
     .filter((school) => school.status !== "archived")
