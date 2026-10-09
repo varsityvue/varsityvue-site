@@ -6,7 +6,7 @@ import TrackedSignupLink from "@/components/TrackedSignupLink";
 
 const navItems = [
   { href: "/games", label: "Games" },
-  { href: "/schools", label: "Schools" },
+  { href: "/schools", label: "Teams" },
   { href: "/coverage", label: "Coverage" },
   { href: "/pickem", label: "Pick ’Em" },
 ];

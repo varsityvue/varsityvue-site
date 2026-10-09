@@ -34,6 +34,10 @@ const session = {
 };
 let mode = "normal";
 let writes = 0;
+let directoryFollowFixture = false;
+let fixtureCiscoFollow = false;
+let fixtureFollowWrites = 0;
+let fixtureFollowActions = 0;
 let scoreCalls = 0;
 let telemetryRequests = 0;
 let browserMutations = 0;
@@ -101,6 +105,17 @@ const api = http.createServer((req, res) => {
     !(req.method === "POST" && new URL(path,"http://127.0.0.1:54329").pathname === "/rest/v1/rpc/public_score_states")
   )
     writes++;
+  if (directoryFollowFixture && path.includes('/rest/v1/school_follows') && req.method === 'POST') {
+    let body = ''; req.on('data', chunk => body += chunk); req.on('end', () => {
+      const row = JSON.parse(body);
+      assert.equal(row.user_id, id); assert.equal(row.school_slug, 'cisco');
+      fixtureCiscoFollow = true; fixtureFollowWrites++; send([]);
+    }); return;
+  }
+  if (directoryFollowFixture && path.includes('/rest/v1/school_follows') && req.method === 'DELETE') {
+    assert.equal(new URL(path, origin).searchParams.get('school_slug'), 'eq.cisco');
+    fixtureCiscoFollow = false; fixtureFollowWrites++; return send([]);
+  }
   if (path.startsWith("/auth/v1/user")) return send(session.user);
   if (
     mode === "failure" &&
@@ -122,7 +137,7 @@ const api = http.createServer((req, res) => {
   }
   if (path.includes("school_follows")) {
     const school = new URL(path, "http://127.0.0.1").searchParams.get("school_slug");
-    return send([{ school_slug: "de-leon" }, { school_slug: "hawley" }].filter(row => !school || school === `eq.${row.school_slug}`));
+    return send([{ school_slug: "de-leon" }, { school_slug: "hawley" }, ...(fixtureCiscoFollow ? [{ school_slug: "cisco" }] : [])].filter(row => !school || school.startsWith("in.") || school === `eq.${row.school_slug}`));
   }
   if (path.includes("member_account_status"))
     return send([{ status: "active" }]);
@@ -190,7 +205,7 @@ async function context(options = {}) {
       // source frames. This exact local diagnostic endpoint does not mutate
       // application data; every other mutating-method request stays counted.
       const diagnostic=request.method()==="POST" && url.origin===origin && url.pathname==="/__nextjs_original-stack-frames";
-      if(diagnostic) devDiagnosticReads++; else browserMutations++;
+      if(diagnostic) devDiagnosticReads++; else { browserMutations++; if(directoryFollowFixture && url.origin === origin && url.pathname.startsWith("/schools")) fixtureFollowActions++; }
       browserRequestAudit.push({method:request.method(),origin:url.origin,path:url.pathname,classification:diagnostic?"read-only-dev-diagnostic":"mutation"});
       if(!diagnostic) console.log("UNEXPECTED_BROWSER_MUTATION",request.method(),url.origin,url.pathname);
     }
@@ -1322,7 +1337,35 @@ try {
       console.log("SCHOOL TEXT 200",slug,width,await sharePage.evaluate(() => [...document.querySelectorAll("body *")].filter(e => {const b=e.getBoundingClientRect();return b.right > innerWidth+1 && b.width && getComputedStyle(e).position !== "absolute";}).slice(0,8).map(e=>({tag:e.tagName,class:e.className,text:e.textContent.slice(0,60)}))));
     }
     await sharePage.goto(origin+"/schools");
+    await sharePage.getByRole('heading', {name:'Find your team',exact:true}).waitFor();
+    await sharePage.getByRole('searchbox').fill('Cisco');
+    const cisco = sharePage.locator('[data-team-slug="cisco"]');
+    await cisco.getByRole('button', {name:'Follow Cisco',exact:true}).waitFor();
+    assert.equal(await sharePage.locator('[data-team-slug]').count(),1);
+    assert.equal(await cisco.locator('a button, a form').count(),0);
+    assert.equal(await sharePage.evaluate(() => document.documentElement.scrollWidth <= innerWidth),true);
     await sharePage.screenshot({path:`${evidence}/directory-${width}.png`,fullPage:true});
+    await sharePage.goto(origin + '/coverage');
+    const storyButtons = sharePage.getByRole('button', {name:/^Share /});
+    assert.ok(await storyButtons.count() > 1);
+    for(const button of (await storyButtons.all()).slice(0,2)) {
+      await button.click();
+      const shared = await sharePage.evaluate(() => window.shared.at(-1));
+      assert.match(shared.url, /^https:\/\/varsityvue\.com\/coverage\/[a-z0-9-]+$/);
+      assert.equal(new URL(sharePage.url()).pathname,'/coverage');
+    }
+    assert.equal(await sharePage.locator('a button').count(),0);
+    assert.equal(await sharePage.evaluate(() => document.documentElement.scrollWidth <= innerWidth),true);
+    await sharePage.evaluate(() => window.shareMode='cancel');
+    const beforeCancel = await sharePage.evaluate(() => window.copied.length);
+    await storyButtons.first().click();
+    assert.equal(await sharePage.evaluate(() => window.copied.length),beforeCancel);
+    await sharePage.evaluate(() => window.shareMode='copy');
+    await storyButtons.first().click();
+    await sharePage.getByRole('status').filter({hasText:'Link copied'}).waitFor();
+    assert.match(await sharePage.evaluate(() => window.copied.at(-1)), /https:\/\/varsityvue\.com\/coverage\//);
+    await sharePage.evaluate(() => window.shareMode='native');
+    await sharePage.screenshot({path:`${evidence}/coverage-sharing-${width}.png`,fullPage:true});
     await sharePage.goto(origin+"/games?week=7"); await settled(sharePage);
     assert.equal(await sharePage.locator(".weekly-status-filters").count(),0);
     assert.equal(await sharePage.getByRole("button",{name:"Share",exact:true}).count(),0);
@@ -1433,7 +1476,7 @@ try {
   pass("School heroes/directory 390/430/1280; follow states; canonical native/cancel/clipboard sharing; status panel and followed empty scope");
   assert.equal(writes, 0);
   assert.equal(telemetryRequests, 0);
-  assert.equal(browserMutations, 0);
+  assert.equal(browserMutations, fixtureFollowActions);
   const promotionsContext = await context();
   const promotions = await promotionsContext.newPage();
   await promotions.setViewportSize({width:390,height:900});
@@ -1459,9 +1502,36 @@ try {
   assert.equal(await full.isVisible(),true);
   assert.match(await promotions.locator('.weekly-membership').innerText(),/Save your teams. Keep your picks/);
   await promotionsContext.close();
+  directoryFollowFixture = true;
+  const directoryContext = await context(); await authenticated(directoryContext);
+  const directoryPage = await directoryContext.newPage();
+  await directoryPage.goto(origin + '/schools');
+  await directoryPage.getByRole('searchbox').fill('Cisco');
+  await directoryPage.locator('[data-team-slug="cisco"]').getByRole('button',{name:'Follow Cisco',exact:true}).click();
+  await directoryPage.waitForURL('**/schools/cisco?followed=cisco');
+  assert.equal(fixtureCiscoFollow,true);
+  await directoryPage.goto(origin + '/schools');
+  await directoryPage.getByRole('searchbox').fill('Cisco');
+  await directoryPage.locator('[data-team-slug="cisco"]').getByRole('button',{name:'Unfollow Cisco',exact:true}).click();
+  await directoryPage.waitForURL('**/schools/cisco?unfollowed=cisco');
+  assert.equal(fixtureCiscoFollow,false);
+  assert.equal(fixtureFollowWrites,2);
+  mode = 'following-failure'; await directoryPage.goto(origin + '/schools');
+  await directoryPage.getByRole('searchbox').fill('Cisco');
+  await directoryPage.locator('[data-team-slug="cisco"]').getByRole('alert').waitFor();
+  assert.equal(await directoryPage.locator('[data-team-slug="cisco"]').getByRole('button',{name:/Follow/}).count(),0);
+  mode = 'normal'; await directoryContext.close();
+  const guestDirectory = await context(); const guestPage = await guestDirectory.newPage();
+  await guestPage.goto(origin + '/schools'); await guestPage.getByRole('searchbox').fill('Cisco');
+  await guestPage.locator('[data-team-slug="cisco"]').getByRole('button',{name:'Follow Cisco',exact:true}).click();
+  await guestPage.waitForURL('**/login?**');
+  assert.match(new URL(guestPage.url()).searchParams.get('next'), /cisco/);
+  assert.equal(fixtureFollowWrites,2,'Signed-out follow must not write a database follow');
+  await guestDirectory.close(); directoryFollowFixture = false;
+  pass('Teams: Cisco search with direct follow at 390/400/430/1280, saved Following and Unfollow, read failure, signed-out intent; Coverage native sharing, cancellation and clipboard without card navigation');
   pass('Near Me promotions shrink on client mode transitions; All Games restores original copy/layout; truthful closed contest; signed-out 200% text');
-  assert.equal(writes,0); assert.equal(browserMutations,0); assert.equal(telemetryRequests,0);
-  pass("Synthetic read-only backend: zero writes; declined measurement and zero telemetry requests");
+  assert.equal(writes,fixtureFollowWrites); assert.equal(browserMutations,fixtureFollowActions); assert.equal(telemetryRequests,0);
+  pass("Synthetic backend: only explicit directory follow/unfollow fixture writes; declined measurement and zero telemetry requests");
   writeFileSync(
     `${evidence}/results.json`,
     JSON.stringify(
@@ -1472,6 +1542,8 @@ try {
         controlledOrdering,
         scoreCalls,
         writes,
+        fixtureFollowWrites,
+        fixtureFollowActions,
         telemetryRequests,
         browserMutations,
         devDiagnosticReads,

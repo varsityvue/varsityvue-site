@@ -64,7 +64,7 @@ export default function Footer() {
               links={[
                 { href: "/games?intent=scores", label: "Scoreboard" },
                 { href: "/pickem", label: "Pick ’Em" },
-                { href: "/schools", label: "Schools" },
+                { href: "/schools", label: "Teams" },
                 { href: "/districts", label: "Districts" },
                 { href: "/coverage", label: "Coverage" },
                 { href: "/stats", label: "Stats" },

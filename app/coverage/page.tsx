@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import PageHero from "@/components/PageHero";
+import ShareAction from "@/components/ShareAction";
 import { getArticles } from "@/lib/articles";
 import type { Article } from "@/types/platform";
 
@@ -100,9 +101,10 @@ export default async function CoveragePage({ searchParams }: { searchParams: Pro
             <>
               <section>
                 {featuredArticle && (
+                  <article className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#151515] shadow-xl sm:rounded-[2rem]">
                   <Link
                     href={`/coverage/${featuredArticle.slug}`}
-                    className={`group grid overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#151515] shadow-xl transition hover:-translate-y-1 hover:border-[color:var(--vv-accent)]/40 sm:rounded-[2rem] ${featuredArticle.featuredImageUrl ? "md:grid-cols-[minmax(0,42%)_minmax(0,1fr)]" : ""}`}
+                    className={`group grid transition hover:bg-white/[0.025] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white ${featuredArticle.featuredImageUrl ? "md:grid-cols-[minmax(0,42%)_minmax(0,1fr)]" : ""}`}
                   >
                     {featuredArticle.featuredImageUrl && (
                       <figure className="relative min-h-[210px] overflow-hidden bg-black sm:min-h-[260px]">
@@ -128,6 +130,8 @@ export default async function CoveragePage({ searchParams }: { searchParams: Pro
                       <p className="mt-5 text-[10px] font-black uppercase tracking-[0.12em] text-[var(--vv-accent)] sm:mt-6 sm:text-sm sm:tracking-[0.14em]">Read full story →</p>
                     </div>
                   </Link>
+                  <div className="flex justify-end px-5 pb-5 sm:px-7 sm:pb-7"><StoryShare article={featuredArticle} /></div>
+                  </article>
                 )}
               </section>
 
@@ -179,9 +183,10 @@ function LaunchCard({ title, body }: { title: string; body: string }) {
 
 function ArticleCard({ article }: { article: Article }) {
   return (
-    <Link href={`/coverage/${article.slug}`} className="group relative overflow-hidden rounded-[1.4rem] border border-white/10 bg-white/[0.045] p-4 shadow-xl transition hover:-translate-y-1 hover:border-[color:var(--vv-accent)]/40 hover:bg-white/[0.065] sm:rounded-[1.75rem] sm:p-5">
+    <article data-story-slug={article.slug} className="group relative overflow-hidden rounded-[1.4rem] border border-white/10 bg-white/[0.045] p-4 shadow-xl transition hover:-translate-y-1 hover:border-[color:var(--vv-accent)]/40 hover:bg-white/[0.065] sm:rounded-[1.75rem] sm:p-5">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(122,16,34,0.18),transparent_52%)] opacity-35 transition group-hover:opacity-55" />
       <div className="relative">
+        <Link href={`/coverage/${article.slug}`} className="block rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
         <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.2em]">{formatArticleType(article.type)}</p>
         <h3 className="mt-2.5 text-xl font-black leading-tight text-white sm:mt-4 sm:text-2xl">{article.title}</h3>
         {article.subtitle && <p className="mt-2 text-xs font-semibold leading-5 text-white/50 sm:mt-3 sm:text-sm sm:leading-6">{article.subtitle}</p>}
@@ -189,9 +194,15 @@ function ArticleCard({ article }: { article: Article }) {
           <p className="text-[10px] font-black uppercase tracking-[0.12em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.14em]">Read story</p>
           <p className="text-[10px] font-bold text-white/35 sm:text-xs">{formatArticleDate(article.publishedAt)}</p>
         </div>
+        </Link>
+        <div className="mt-3 flex justify-end"><StoryShare article={article} /></div>
       </div>
-    </Link>
+    </article>
   );
+}
+
+function StoryShare({ article }: { article: Article }) {
+  return <ShareAction title={article.title} text={article.excerpt} url={`https://varsityvue.com/coverage/${article.slug}`} label="Share story" />;
 }
 
 function FilterPill({ href, label, active = false }: { href: string; label: string; active?: boolean }) {
