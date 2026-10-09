@@ -1,10 +1,11 @@
 import { attachImage } from '../../actions';
+import {ingestionRequest} from '@/lib/ingestion-runtime';
+import {IngestionRequestError} from '@/lib/ingestion-pilot-config';
 import { ingestionAccess } from '@/lib/ingestion-persistence';
 // Dedicated bounded multipart route preserves the shared Server Action limit.
 export async function POST(request:Request,{params}:{params:Promise<{id:string}>}) {
- await ingestionAccess();
- let origin:URL;try {origin=new URL(request.headers.get('origin')??'');}catch{return Response.json({error:'Same-origin upload required.'},{status:403});}
- if(origin.host!==request.headers.get('host') || !['127.0.0.1','localhost'].includes(origin.hostname)) return Response.json({error:'Same-origin upload required.'},{status:403});
+ try {await ingestionRequest(true);}catch(error){if(error instanceof IngestionRequestError)return Response.json({error:'Same-origin upload required.'},{status:403});throw error;}
+ await ingestionAccess(true);
  const limit=6*1024*1024;
  if(Number(request.headers.get('content-length')??0)>limit) return Response.json({error:'Upload exceeds the bounded request limit.'},{status:413});
  const reader=request.body?.getReader();if(!reader)return Response.json({error:'Upload required.'},{status:400});
