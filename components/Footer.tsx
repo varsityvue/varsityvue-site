@@ -32,7 +32,7 @@ export default function Footer() {
 
             <p className="mt-3 max-w-sm text-xs leading-5 text-white/55 sm:mt-4 sm:text-sm sm:leading-6">
               Texas high school football scores, schedules, district standings,
-              school hubs, matchup pages, verified statistics, legacy archives,
+              team hubs, matchup pages, verified statistics, legacy archives,
               and local coverage.
             </p>
 
@@ -80,7 +80,7 @@ export default function Footer() {
                 { href: "/privacy", label: "Privacy" },
                 { href: "/submit", label: "Submit to VarsityVue" },
                 { href: "/contributors", label: "Become a Contributor" },
-                { href: "/school-request", label: "Request a School" },
+                { href: "/school-request", label: "Request a Team" },
                 { href: "/sponsor-inquiry", label: "Partner With VarsityVue" },
               ]}
             />
