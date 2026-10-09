@@ -257,6 +257,15 @@ export default async function Home() {
       <FeaturedSchoolSpotlight />
       <FeaturedMatchups />
       <FeaturedCoverage />
+      <section className="border-t border-white/10 bg-[#090909] px-4 py-5 sm:px-6 lg:px-8" aria-labelledby="home-screen-heading">
+        <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-4">
+          <div>
+            <h2 id="home-screen-heading" className="text-lg font-black text-white">Keep VarsityVue one tap away.</h2>
+            <p className="mt-1 text-sm text-white/60">Add it to your phone&apos;s Home Screen for quick access on game night.</p>
+          </div>
+          <Link href="/add-to-home-screen" className="inline-flex min-h-11 items-center rounded-full border border-white/20 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">Add to Home Screen →</Link>
+        </div>
+      </section>
     </main>
   );
 }

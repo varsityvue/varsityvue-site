@@ -76,6 +76,7 @@ export default function Footer() {
               title="VarsityVue"
               links={[
                 { href: "/about", label: "About" },
+                { href: "/add-to-home-screen", label: "Add to Home Screen" },
                 { href: "/contact", label: "Contact" },
                 { href: "/privacy", label: "Privacy" },
                 { href: "/submit", label: "Submit to VarsityVue" },
