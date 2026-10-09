@@ -13,7 +13,7 @@ const str=(f:FormData,k:string)=>String(f.get(k)??'').trim();
 const creationId=(actor:string,request:string,part:string)=>{const h=createHash('sha256').update(`${actor}/${request}/${part}`).digest('hex');return `${h.slice(0,8)}-${h.slice(8,12)}-8${h.slice(13,16)}-a${h.slice(17,20)}-${h.slice(20,32)}`;};
 const known=<T>(value:T)=>({state:'known' as const,value});
 export async function createSubmission(form:FormData):Promise<{id:string}|{error:string}> {
- const {userId,supabase}=await ingestionAccess();
+ const {userId,supabase}=await ingestionAccess(true);
  let prepared:Awaited<ReturnType<typeof prepareCreation>>;
  // These errors occur before any creation mutation, so the form may be edited.
  try {prepared=await prepareCreation(form,userId,supabase);} catch(error) {return {error:error instanceof Error?error.message:'Invalid creation input.'};}
@@ -30,8 +30,7 @@ async function prepareCreation(form:FormData,userId:string,supabase:Awaited<Retu
  const creationInputHash=canonicalRevisionHash({fields:Object.fromEntries(['school','season','class','operation','target','reason','player','label','format','source','sourceAcknowledged'].map(k=>[k,String(form.get(k)??'')])),file:file instanceof File&&file.size?{name:file.name,type:file.type,size:file.size,sha256:createHash('sha256').update(Buffer.from(await file.arrayBuffer())).digest('hex')}:null});
  const {data:existing,error:readError}=await supabase.rpc('ingestion_read',{p_id:id});if(readError)throw new Error('Could not reconcile creation request.');
  if(existing) {
-  const event=existing.history.find((e:{request_id:string;command:string})=>e.request_id===request&&e.command==='create');
-  if(existing.creator!==userId||event?.snapshot?.request?.payload?.creationInputHash!==creationInputHash)throw new Error('Creation request reused with different input. Recover the original submission before editing.');
+  if(existing.creator!==userId||existing.creationRequestId!==request||existing.creationInputHash!==creationInputHash)throw new Error('Creation request reused with different input. Recover the original submission before editing.');
   return {existing:id};
  }
  const catalog=await reviewCatalog(),school=str(form,'school'),season=Number(str(form,'season')),dataClass=str(form,'class'),operation=str(form,'operation');
@@ -42,6 +41,7 @@ async function prepareCreation(form:FormData,userId:string,supabase:Awaited<Retu
  const format=str(form,'format');let sourceKind='form';let body=String(form.get('source')??'');
  const importFile=form.get('importFile');
  if(importFile instanceof File&&importFile.size){if(!['json','csv'].includes(format)||body.trim())throw new Error('Choose JSON/CSV and supply either pasted import or one file.');if(importFile.size>262144)throw new Error('Import file exceeds 256 KB.');body=new TextDecoder('utf-8',{fatal:true}).decode(await importFile.arrayBuffer());}
+ if(Buffer.byteLength(body,'utf8')>262144)throw new Error('Original source exceeds 256 KiB.');
  let candidate:unknown={...base,dataClass,values};
  if(format==='json'||format==='csv') {
   if(dataClass!=='game_stats') throw new Error('Legacy JSON/CSV imports are core game statistics.');
@@ -65,7 +65,9 @@ async function prepareCreation(form:FormData,userId:string,supabase:Awaited<Retu
  return {id,request,payload:{school,season,class:dataClass,operation,creationInputHash,draft:prepared.draft,validation:prepared.validation,source:{id:sourceId,kind:sourceKind,label,body}}};
 }
 export async function saveSubmission(id:string,revision:number,hash:string|null,input:unknown,request:string) {
- const {userId}=await ingestionAccess();const existing=await readSubmission(id);
+ const {userId}=await ingestionAccess(true);
+ if(Buffer.byteLength(JSON.stringify(input),'utf8')>1048576)throw new Error('Pilot draft exceeds 1 MiB.');
+ const existing=await readSubmission(id);
  if(!existing.current) throw new Error('Source changed. Reopen the editor by retaining a new source.');
  const parsed=normalizeIngestionDraft(input);if(!parsed.ok) throw new Error(parsed.errors.join('\n'));
  if(parsed.draft.dataClass==='correction'&&existing.current.draft.dataClass==='correction') parsed.draft.values.current=existing.current.draft.values.current as never;
@@ -75,14 +77,14 @@ export async function saveSubmission(id:string,revision:number,hash:string|null,
 }
 export async function decideSubmission(id:string,revision:number,hash:string|null,command:string,request:string,reason:string) {
  if(!['ready','approve','reject','reopen','export'].includes(command)) throw new Error('Unsupported review decision.');
- const {userId}=await ingestionAccess();const current=await readSubmission(id);
+ const {userId}=await ingestionAccess(true);const current=await readSubmission(id);
  const validation=current.current?validatePersistentDraft(current.current.draft,await reviewCatalog()).validation:null;
  if(['ready','approve','export'].includes(command)&&(!validation||!validation.reviewable||validation.validationHash!==current.current?.validation.validationHash)) throw new Error('Validation/catalog changed; save and review again.');
  const result=await mutate(userId,id,command,revision,hash,request,{validationHash:validation?.validationHash},reason||null);
  revalidatePath(`/internal/data-ingestion/${id}`);revalidatePath('/internal/data-ingestion');return result;
 }
 export async function attachImage(id:string,revision:number,hash:string|null,form:FormData) {
- const {userId,supabase}=await ingestionAccess();const current=await readSubmission(id);
+ const {userId,supabase}=await ingestionAccess(true);const current=await readSubmission(id);
  if(!current.current) throw new Error('Save a draft first.');
  const file=form.get('image');if(!(file instanceof File)) throw new Error('Choose an image.');
  const processed=await validateIngestionImage(file),sourceId=randomUUID(),label=str(form,'label');
@@ -106,9 +108,30 @@ export async function attachImage(id:string,revision:number,hash:string|null,for
  }
 }
 export async function deleteSource(id:string,revision:number,hash:string|null,sourceId:string,reason:string) {
- const {userId}=await ingestionAccess();const current=await readSubmission(id);const source=current.sources.find(s=>s.id===sourceId);
+ const {userId}=await ingestionAccess(true);const current=await readSubmission(id);const source=current.sources.find(s=>s.id===sourceId);
  if(!source) throw new Error('Source not found.');
  const result=await mutate(userId,id,source.state==='reserved'?'fail_source':'delete_source',revision,hash,randomUUID(),{id:sourceId},reason);
  if(source.object_path) {const {error}=await ingestionService().storage.from('ingestion-evidence').remove([source.object_path,source.preview_path!]);if(error) throw new Error('Deletion audited; private object cleanup needs retry.');}
  revalidatePath(`/internal/data-ingestion/${id}`);return result;
+}
+
+export async function cleanupEvidence(form:FormData) {
+ const {userId,isAdmin}=await ingestionAccess(true);
+ if(!isAdmin)throw new Error('Active ingestion admin required.');
+ const id=str(form,'submission'),sourceId=str(form,'source'),reason=str(form,'reason');
+ if(!reason||reason.length>2000)throw new Error('Bounded cleanup reason required.');
+ const current=await readSubmission(id),source=current.sources.find(s=>s.id===sourceId&&s.kind==='image');
+ if(!source)throw new Error('Image source not found.');
+ if(source.state==='reserved') {
+  throw new Error('Cancel the abandoned reservation from its submission before physical cleanup.');
+ }
+ if(!['failed','deleted'].includes(source.state))throw new Error('Tombstone evidence from its submission before physical cleanup.');
+ const attempt=randomUUID(),service=ingestionService();
+ const args={p_actor:userId,p_source:sourceId,p_attempt:attempt,p_reason:reason};
+ const {data:plan,error}=await service.rpc('ingestion_cleanup_audit',args);
+ if(error)throw new Error('Could not audit cleanup attempt.');
+ const {error:removeError}=await service.storage.from('ingestion-evidence').remove(plan.paths);
+ const {error:auditError}=await service.rpc('ingestion_cleanup_audit',{...args,p_complete:true,p_failed:!!removeError});
+ if(removeError||auditError)throw new Error('Cleanup outcome requires retry; immutable attempt retained.');
+ revalidatePath('/internal/data-ingestion/cleanup');revalidatePath(`/internal/data-ingestion/${id}`);
 }

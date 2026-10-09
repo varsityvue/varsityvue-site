@@ -11,7 +11,10 @@ const admin=createClient(env.API_URL,env.SERVICE_ROLE_KEY,{auth:{persistSession:
 const sql=s=>execFileSync('docker',['exec','-i','supabase_db_varsityvue-phase1','psql','-X','-v','ON_ERROR_STOP=1','-U','postgres','-d','postgres','-At','-c',s],{encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();
 const q=s=>"'"+String(s).replaceAll("'","''")+"'";
 const canonical=()=>sql("select jsonb_object_agg(name,fingerprint) from (select 'roster' name,md5(coalesce(jsonb_agg(to_jsonb(t) order by id)::text,'')) fingerprint from public.school_roster_players t union all select 'scores',md5(coalesce(jsonb_agg(to_jsonb(t) order by game_id)::text,'')) from public.game_state t union all select 'pickem',md5(coalesce(jsonb_agg(to_jsonb(t) order by id)::text,'')) from public.pickem_weeks t union all select 'feed',md5(coalesce(jsonb_agg(to_jsonb(t) order by id)::text,'')) from public.team_feed_posts t) s;");
-const before=canonical();const accounts=[];
+const before=canonical();
+assert.equal(sql('select enabled from private.ingestion_pilot_control where singleton;'),'f');
+sql('update private.ingestion_pilot_control set enabled=true where singleton;');
+const accounts=[];
 for(const [name,role,status] of [['admin','admin','active'],['moderator','moderator','active'],['member','member','active'],['coach','member','active'],['suspended','admin','suspended'],['inactive','moderator',null]]) {
  const email=`ingestion-${name}@local.example`,password='Disposable-Review-2026!';
  const {data,error}=await admin.auth.admin.createUser({email,password,email_confirm:true});assert.equal(error,null);
@@ -86,5 +89,5 @@ assert.equal(canonical(),before);console.log('PASS append-only protections, dele
 writeFileSync('/tmp/vv-phase1-db-results.json',JSON.stringify({result:'PASS',overlap,canonicalBefore:before,canonicalAfter:canonical(),accounts:accounts.map(a=>({name:a.name,id:a.id,email:a.email}))},null,2));
 writeFileSync('/tmp/vv-phase1-local-accounts.json',JSON.stringify(accounts.map(a=>({name:a.name,id:a.id,email:a.email,password:a.password}))),{mode:0o600});
 if(process.argv.includes('--serve')){
- const child=spawn('npm',['run','dev','--','--hostname','127.0.0.1','--port','3100'],{env:{...process.env,ENABLE_INTERNAL_TOOLS:'true',NEXT_PUBLIC_SUPABASE_URL:env.API_URL,NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:env.ANON_KEY,INGESTION_LOCAL_SERVICE_KEY:env.SERVICE_ROLE_KEY,NEXT_PUBLIC_TURNSTILE_SITE_KEY:'',NEXT_TELEMETRY_DISABLED:'1'},stdio:'inherit'});await new Promise(resolve=>child.on('exit',resolve));
+ const child=spawn('npm',['run','dev','--','--hostname','127.0.0.1','--port','3100'],{env:{...process.env,ENABLE_INTERNAL_TOOLS:'false',ENABLE_DATA_INGESTION:'true',INGESTION_BACKEND:'local',INGESTION_ORIGIN:'http://127.0.0.1:3100',INGESTION_SUPABASE_URL:env.API_URL,INGESTION_SUPABASE_PUBLISHABLE_KEY:env.ANON_KEY,NEXT_PUBLIC_SUPABASE_URL:env.API_URL,NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:env.ANON_KEY,INGESTION_SERVICE_KEY:env.SERVICE_ROLE_KEY,NEXT_PUBLIC_TURNSTILE_SITE_KEY:'',NEXT_TELEMETRY_DISABLED:'1'},stdio:'inherit'});await new Promise(resolve=>child.on('exit',resolve));
 }
