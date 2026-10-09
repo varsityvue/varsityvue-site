@@ -56,10 +56,10 @@ export default function SchoolsOpenGraphImage() {
               textTransform: "uppercase",
             }}
           >
-            School Directory
+            Team Directory
           </div>
           <div style={{ display: "flex", fontSize: "64px", lineHeight: 1.02, fontWeight: 900, letterSpacing: "-2px" }}>
-            Texas High School Football School Hubs
+            Find your team
           </div>
           <div style={{ display: "flex", fontSize: "27px", lineHeight: 1.35, color: "rgba(255,255,255,0.68)" }}>
             Find schedules, scores, standings, districts, rosters, and game-day information for programs tracked by VarsityVue.

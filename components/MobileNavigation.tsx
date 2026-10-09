@@ -1,10 +1,10 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CalendarDays, School, Newspaper, Trophy } from "lucide-react";
+import { CalendarDays, UsersRound, Newspaper, Trophy } from "lucide-react";
 const items = [
   { href: "/games", label: "Games", Icon: CalendarDays },
-  { href: "/schools", label: "Schools", Icon: School },
+  { href: "/schools", label: "Teams", Icon: UsersRound },
   { href: "/coverage", label: "Coverage", Icon: Newspaper },
   { href: "/pickem", label: "Pick ’Em", Icon: Trophy },
 ];

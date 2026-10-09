@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import SchoolFollowControl from "@/components/SchoolFollowControl";
 import type { UILClassification } from "@/types/platform";
 import { getProgramLogoPath } from "@/components/SchoolBadge";
 
@@ -66,7 +67,9 @@ function getClassificationCount(
   ).length;
 }
 
-export default function SchoolDirectory({ schools, additionalTeams = [] }: { schools: DirectorySchool[]; additionalTeams?: { slug: string; name: string }[] }) {
+type DirectoryFollowProps = { isAuthenticated: boolean; followedSchoolSlugs: string[]; followLoadFailed: boolean };
+
+export default function SchoolDirectory({ schools, additionalTeams = [], ...followProps }: { schools: DirectorySchool[]; additionalTeams?: { slug: string; name: string }[] } & DirectoryFollowProps) {
   const [search, setSearch] = useState("");
   const [classificationFilter, setClassificationFilter] =
     useState<ClassificationFilter>("all");
@@ -111,12 +114,12 @@ export default function SchoolDirectory({ schools, additionalTeams = [] }: { sch
       <section className="mb-5 rounded-[1.3rem] border border-white/10 bg-white/[0.045] p-4 shadow-2xl sm:mb-8 sm:rounded-[1.75rem] sm:p-6">
         <div>
           <label htmlFor="school-directory-search" className="sr-only">
-            Search tracked teams by school, mascot, district, classification, or stadium
+            Search tracked teams by team, mascot, district, classification, or stadium
           </label>
           <input
             id="school-directory-search"
             type="search"
-            placeholder="Search school, mascot, district, class, or stadium..."
+            placeholder="Search team, mascot, district, class, or stadium..."
             value={search}
             onChange={(event) => setSearch(event.target.value)}
             autoComplete="off"
@@ -149,28 +152,28 @@ export default function SchoolDirectory({ schools, additionalTeams = [] }: { sch
 
       {filteredSchools.length + filteredTeams.length === 0 ? (
         <div className="rounded-[1.3rem] border border-white/10 bg-white/[0.045] p-6 text-center shadow-2xl sm:rounded-[1.75rem] sm:p-10">
-          <h2 className="text-2xl font-black text-white sm:text-3xl">No schools found.</h2>
+          <h2 className="text-2xl font-black text-white sm:text-3xl">No teams found.</h2>
           <p className="mt-2 text-sm text-white/50 sm:mt-3">
-            Try searching by school name, mascot, abbreviation, district,
+            Try searching by team name, mascot, abbreviation, district,
             classification, or stadium.
           </p>
           <Link
             href="/school-request"
             className="mt-4 inline-flex rounded-full border border-white/15 bg-white/5 px-4 py-2.5 text-xs font-black uppercase tracking-[0.12em] text-white/75 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:mt-5 sm:px-5 sm:py-3 sm:text-sm sm:tracking-[0.14em]"
           >
-            Request a School →
+            Request a Team →
           </Link>
         </div>
       ) : <>
-        {featuredSchools.length > 0 && <><h2 className="mb-2 text-xl font-black sm:text-2xl">Featured Schools</h2><p className="mb-4 text-sm text-white/50">Programs with expanded VarsityVue coverage and school hubs.</p><SchoolCards schools={featuredSchools} /></>}
-        {otherSchools.length > 0 && <><h2 className="mb-2 mt-8 text-xl font-black sm:text-2xl">All Schools</h2><p className="mb-4 text-sm text-white/50">Tracked programs with schedules and scores; coverage and statistics vary by school.</p><SchoolCards schools={otherSchools} /></>}
-        {filteredTeams.length > 0 && <section className="mt-8"><h2 className="text-xl font-black sm:text-2xl">More Teams on the Scoreboard</h2><p className="mt-2 text-sm text-white/50">These teams appear in tracked matchups. A full School Hub is not yet on file.</p><div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{filteredTeams.map((team) => <Link key={team.slug} href={`/games?q=${encodeURIComponent(team.name)}#all-matchups`} className="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-black transition hover:border-white/25 hover:bg-white/[0.07]">{team.name} <span className="float-right text-white/40">Scores →</span></Link>)}</div></section>}
+        {featuredSchools.length > 0 && <><h2 className="mb-2 text-xl font-black sm:text-2xl">Featured Teams</h2><p className="mb-4 text-sm text-white/50">Programs with expanded VarsityVue coverage and team hubs.</p><SchoolCards schools={featuredSchools} {...followProps} /></>}
+        {otherSchools.length > 0 && <><h2 className="mb-2 mt-8 text-xl font-black sm:text-2xl">All Teams</h2><p className="mb-4 text-sm text-white/50">Tracked programs with schedules and scores; coverage and statistics vary by team.</p><SchoolCards schools={otherSchools} {...followProps} /></>}
+        {filteredTeams.length > 0 && <section className="mt-8"><h2 className="text-xl font-black sm:text-2xl">More Teams on the Scoreboard</h2><p className="mt-2 text-sm text-white/50">These teams appear in tracked matchups. A full Team Hub is not yet on file.</p><div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{filteredTeams.map((team) => <Link key={team.slug} href={`/games?q=${encodeURIComponent(team.name)}#all-matchups`} className="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-black transition hover:border-white/25 hover:bg-white/[0.07]">{team.name} <span className="float-right text-white/40">Scores →</span></Link>)}</div></section>}
       </>}
     </>
   );
 }
 
-function SchoolCards({ schools }: { schools: DirectorySchool[] }) {
+function SchoolCards({ schools, isAuthenticated, followedSchoolSlugs, followLoadFailed }: { schools: DirectorySchool[] } & DirectoryFollowProps) {
   return <div className="grid gap-3 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
           {schools.map((school) => {
             const classification = formatClassification(school.classification);
@@ -178,9 +181,9 @@ function SchoolCards({ schools }: { schools: DirectorySchool[] }) {
             const programLogo = getProgramLogoPath(school.slug);
 
             return (
-              <Link
+              <article
                 key={school.slug}
-                href={`/schools/${school.slug}`}
+                data-team-slug={school.slug}
                 className="group relative overflow-hidden rounded-[1.3rem] border border-white/10 bg-white/[0.045] p-4 shadow-xl transition-all duration-200 hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.075] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:rounded-[1.75rem] sm:p-5"
                 style={{
                   boxShadow: `0 18px 50px ${school.colors.primary}24`,
@@ -199,7 +202,7 @@ function SchoolCards({ schools }: { schools: DirectorySchool[] }) {
                       <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-black/35 p-1.5 shadow-lg sm:h-16 sm:w-16 sm:rounded-2xl">
                         <img
                           src={programLogo}
-                          alt={`${school.fullName} logo`}
+                          alt={`${school.name} team logo`}
                           className="h-full w-full object-contain drop-shadow-lg"
                           loading="lazy"
                           decoding="async"
@@ -220,17 +223,21 @@ function SchoolCards({ schools }: { schools: DirectorySchool[] }) {
                     )}
 
                     <span className="rounded-full border border-white/15 bg-white/10 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.14em] text-white/70 sm:px-3 sm:py-1.5 sm:text-[10px] sm:tracking-[0.18em]">
-                      {school.featured ? "Featured Hub" : "Tracked School"}
+                      {school.featured ? "Featured Hub" : "Tracked Team"}
                     </span>
                   </div>
 
                   <h2 className="text-xl font-black leading-tight text-white transition group-hover:text-white/80 sm:text-2xl">
-                    {school.name}
+                    <Link href={`/schools/${school.slug}`} className="rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">{school.name}</Link>
                   </h2>
 
                   <p className="mt-1.5 text-xs font-bold uppercase tracking-[0.12em] text-white/45 sm:mt-2 sm:text-sm sm:tracking-[0.14em]">
                     {school.mascot}
                   </p>
+
+                  <div className="mt-3">
+                    {followLoadFailed ? <p role="alert" className="text-xs text-amber-100">Follow status unavailable. Reload to try again.</p> : <SchoolFollowControl schoolName={school.name} schoolSlug={school.slug} isAuthenticated={isAuthenticated} isFollowing={followedSchoolSlugs.includes(school.slug)} />}
+                  </div>
 
                   <div className="mt-3 flex flex-wrap gap-1.5 sm:mt-6 sm:gap-2">
                     <MiniPill label={classification} />
@@ -255,9 +262,9 @@ function SchoolCards({ schools }: { schools: DirectorySchool[] }) {
                     )}
                   </div>
 
-                  <div className="mt-3 flex items-center justify-between gap-3 sm:mt-6 sm:gap-4">
+                  <Link href={`/schools/${school.slug}`} className="mt-3 flex items-center justify-between gap-3 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:mt-6 sm:gap-4">
                     <p className="text-[11px] font-black uppercase tracking-[0.12em] text-white/70 transition group-hover:text-white sm:text-sm sm:tracking-[0.14em]">
-                      View school hub
+                      View team hub
                     </p>
 
                     <span
@@ -269,9 +276,9 @@ function SchoolCards({ schools }: { schools: DirectorySchool[] }) {
                     >
                       →
                     </span>
-                  </div>
+                  </Link>
                 </div>
-              </Link>
+              </article>
             );
           })}
         </div>;
