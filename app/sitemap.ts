@@ -41,6 +41,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/stats",
     "/legacy",
     "/about",
+    "/add-to-home-screen",
     "/contact",
     "/submit",
     "/school-request",
