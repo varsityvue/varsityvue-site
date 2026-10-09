@@ -35,7 +35,7 @@ export async function assignContributorSchool(formData: FormData) {
 
   const { error: roleError } = await supabase
     .from("user_roles")
-    .upsert({ user_id: targetUserId, role: "scorekeeper", granted_by: userId }, { onConflict: "user_id,role" });
+    .upsert({ user_id: targetUserId, role: "scorekeeper", granted_by: userId }, { onConflict: "user_id,role", ignoreDuplicates: true });
 
   if (roleError) {
     redirect(`/internal/contributor-access?message=${encodeURIComponent(roleError.message)}`);
