@@ -173,6 +173,7 @@ function start() {
         NEXT_PUBLIC_SUPABASE_URL: "http://127.0.0.1:54329",
         NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "fixture-public-key",
         SUPABASE_SERVICE_ROLE_KEY: "",
+        FOLLOW_INTENT_SECRET: "isolated-browser-fixture-follow-intent-secret",
         RESEND_API_KEY: "",
         CRON_SECRET: "",
         NEXT_PUBLIC_COVERAGE_DEMAND_ENABLED: "false",
