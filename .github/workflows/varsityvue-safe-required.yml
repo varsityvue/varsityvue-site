@@ -1,0 +1,106 @@
+name: VarsityVue safe required verification
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, edited, ready_for_review, converted_to_draft]
+permissions: {}
+concurrency:
+  group: safe-${{ github.repository_id }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  readiness:
+    name: Trusted bootstrap readiness
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout immutable trusted base
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: .trusted
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Reject unprovisioned runtime activation
+        run: node "$GITHUB_WORKSPACE/.trusted/scripts/verify-safe-ci-evidence.mjs" inspect
+  runtime:
+    name: Trusted isolated producer
+    needs: [readiness]
+    runs-on: [self-hosted, linux, varsityvue-ephemeral-default-deny-v1]
+    timeout-minutes: 30
+    permissions: {}
+    steps:
+      # Provisioning owns the immutable target, paths, supervisor and credentials
+      # boundary. This job neither checks out nor executes candidate workflows.
+      - name: Execute trusted supervisor protocol
+        run: /usr/bin/node /opt/varsityvue/trusted/scripts/run-trusted-runtime.mjs run
+      - name: Upload sealed evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: safe-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: /var/lib/varsityvue/runtime-evidence
+          if-no-files-found: error
+  attestation:
+    name: Independent attestation boundary
+    needs: [runtime]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    steps:
+      - name: Checkout immutable trusted base
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: .trusted
+          fetch-depth: 0
+          persist-credentials: false
+      # This adapter is intentionally inactive until independent service and
+      # current-run artifact bindings are separately accepted. No candidate runs
+      # in this job; OIDC authority exists only on this attestation boundary.
+      - name: Authenticate sealed current-run evidence
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node "$GITHUB_WORKSPACE/.trusted/scripts/verify-safe-ci-evidence.mjs" attest
+      - name: Upload independent attestation
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: safe-attestation-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .attestation/attestation.json
+          if-no-files-found: error
+  safe-verification:
+    name: VarsityVue safe verification
+    needs: [readiness, runtime, attestation]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      actions: read
+      checks: read
+      pull-requests: read
+    steps:
+      - name: Require every prerequisite success
+        env:
+          READINESS: ${{ needs.readiness.result }}
+          RUNTIME: ${{ needs.runtime.result }}
+          ATTESTATION: ${{ needs.attestation.result }}
+        run: |
+          test "$READINESS" = success
+          test "$RUNTIME" = success
+          test "$ATTESTATION" = success
+      - name: Checkout immutable trusted base
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: .trusted
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Trusted final evidence verification
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node "$GITHUB_WORKSPACE/.trusted/scripts/verify-safe-ci-evidence.mjs" verify
