@@ -36,7 +36,7 @@ do $$ begin
     perform public.submit_trusted_score_update('__friday_ops__',7,7,'live','2nd','03:00',null,
       (select updated_at from first_view),(select revision from first_view),false);
     raise exception 'Stale live editor overwrote the newer score';
-  exception when serialization_failure then null; end;
+  exception when sqlstate 'PT409' then null; end;
 end $$;
 reset role;
 do $$ begin
@@ -76,7 +76,7 @@ do $$ begin
       expected_state_revision=(select revision from pending_view),expected_state_absent=false
     where id=(select id from pending_view);
     raise exception 'Stale report approval was accepted';
-  exception when serialization_failure then null; end;
+  exception when sqlstate 'PT409' then null; end;
 end $$;
 reset role;
 do $$ begin if not exists(select 1 from public.score_submissions where id=(select id from pending_view) and status='pending') then

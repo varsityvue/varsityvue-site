@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-export PGPASSWORD=postgres
+export PGPASSWORD="${PGPASSWORD:-postgres}"
 PSQL=(psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres)
 GAME_ID="__score_lock_race__"
 MARKER=$(mktemp)

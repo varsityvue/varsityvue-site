@@ -1,0 +1,322 @@
+[
+  {
+    "version": "20260914041856",
+    "name": "participation_foundation"
+  },
+  {
+    "version": "20260914041944",
+    "name": "harden_participation_security"
+  },
+  {
+    "version": "20260914042024",
+    "name": "move_role_helpers_private"
+  },
+  {
+    "version": "20260914044126",
+    "name": "score_moderation_triggers"
+  },
+  {
+    "version": "20260914183621",
+    "name": "contributor_school_assignments"
+  },
+  {
+    "version": "20260914183802",
+    "name": "admin_contributor_role_management"
+  },
+  {
+    "version": "20260914184252",
+    "name": "admin_only_contributor_assignment_management"
+  },
+  {
+    "version": "20260914224444",
+    "name": "school_roster_foundation"
+  },
+  {
+    "version": "20260915003404",
+    "name": "link_roster_players_to_verified_profiles"
+  },
+  {
+    "version": "20260915185814",
+    "name": "admin_manage_user_roles"
+  },
+  {
+    "version": "20260915190828",
+    "name": "fix_admin_role_helper_schema"
+  },
+  {
+    "version": "20260915192219",
+    "name": "allow_moderators_manage_rosters"
+  },
+  {
+    "version": "20260916041921",
+    "name": "protect_verified_terminal_game_state"
+  },
+  {
+    "version": "20260916043557",
+    "name": "restrict_public_game_state_reads"
+  },
+  {
+    "version": "20260916184241",
+    "name": "durable_member_notification_outbox"
+  },
+  {
+    "version": "20260916192427",
+    "name": "school_follows"
+  },
+  {
+    "version": "20260917024253",
+    "name": "admin_member_lifecycle"
+  },
+  {
+    "version": "20260917024735",
+    "name": "optimize_admin_member_lifecycle"
+  },
+  {
+    "version": "20260917025109",
+    "name": "enforce_suspension_on_member_reads"
+  },
+  {
+    "version": "20260917043224",
+    "name": "member_notification_preferences"
+  },
+  {
+    "version": "20260917045630",
+    "name": "moderator_trusted_score_submission"
+  },
+  {
+    "version": "20260917052521",
+    "name": "member_product_email_foundation"
+  },
+  {
+    "version": "20260917134403",
+    "name": "verified_final_score_email"
+  },
+  {
+    "version": "20260917134817",
+    "name": "index_final_score_activation_actor"
+  },
+  {
+    "version": "20260918045330",
+    "name": "allow_roster_managers_read_inactive_players"
+  },
+  {
+    "version": "20260918050645",
+    "name": "normalize_de_leon_managed_roster"
+  },
+  {
+    "version": "20260918051141",
+    "name": "add_cisco_2026_managed_roster"
+  },
+  {
+    "version": "20260918051405",
+    "name": "add_stamford_2026_managed_roster"
+  },
+  {
+    "version": "20260918052518",
+    "name": "add_albany_2026_managed_roster"
+  },
+  {
+    "version": "20260918151642",
+    "name": "add_verified_game_kickoff_override"
+  },
+  {
+    "version": "20260920152221",
+    "name": "pickem_member_foundation"
+  },
+  {
+    "version": "20260920152327",
+    "name": "automate_pickem_grading"
+  },
+  {
+    "version": "20260920152708",
+    "name": "tighten_pickem_lock_guard"
+  },
+  {
+    "version": "20260920155953",
+    "name": "pickem_email_reminder_preferences"
+  },
+  {
+    "version": "20260920160012",
+    "name": "pickem_email_reminder_enqueue"
+  },
+  {
+    "version": "20260920160020",
+    "name": "pickem_email_reminder_claim"
+  },
+  {
+    "version": "20260920160025",
+    "name": "pickem_email_reminder_delivery"
+  },
+  {
+    "version": "20260920160038",
+    "name": "pickem_email_reminder_preference_grant"
+  },
+  {
+    "version": "20260920162152",
+    "name": "admin_conversion_dashboard_base"
+  },
+  {
+    "version": "20260920162206",
+    "name": "admin_conversion_dashboard_summary"
+  },
+  {
+    "version": "20260920162237",
+    "name": "admin_conversion_dashboard_intent"
+  },
+  {
+    "version": "20260920162306",
+    "name": "admin_conversion_dashboard_daily_fixed"
+  },
+  {
+    "version": "20260920162323",
+    "name": "admin_conversion_dashboard_complete_v2"
+  },
+  {
+    "version": "20260920163048",
+    "name": "extend_conversion_campaign_attribution"
+  },
+  {
+    "version": "20260920164305",
+    "name": "missing_score_intelligence_queue"
+  },
+  {
+    "version": "20260920165922",
+    "name": "add_score_evidence_confidence"
+  },
+  {
+    "version": "20260920170609",
+    "name": "automate_score_evidence_discovery"
+  },
+  {
+    "version": "20260920174939",
+    "name": "complete_score_scout_review"
+  },
+  {
+    "version": "20260920180021",
+    "name": "contributor_recruitment_pipeline"
+  },
+  {
+    "version": "20260920180736",
+    "name": "contributor_applications"
+  },
+  {
+    "version": "20260920192017",
+    "name": "track_header_signup_source"
+  },
+  {
+    "version": "20260920194156",
+    "name": "track_pickem_signup_source"
+  },
+  {
+    "version": "20260920195159",
+    "name": "track_follow_signup_sources"
+  },
+  {
+    "version": "20260920204947",
+    "name": "extend_conversion_activation_attribution"
+  },
+  {
+    "version": "20260920210410",
+    "name": "track_signup_school_attribution"
+  },
+  {
+    "version": "20260920211850",
+    "name": "track_notification_opt_in_conversions"
+  },
+  {
+    "version": "20260921041810",
+    "name": "clear_ineligible_pickem_grades"
+  },
+  {
+    "version": "20260921052934",
+    "name": "canonical_pickem_outcome_schedule_foundation"
+  },
+  {
+    "version": "20260921195006",
+    "name": "administrator_canonical_outcome_workflow"
+  },
+  {
+    "version": "20260923072611",
+    "name": "register_week5_final_score_notifications"
+  },
+  {
+    "version": "20260923141851",
+    "name": "originate_scoreless_exceptional_outcomes"
+  },
+  {
+    "version": "20260924040507",
+    "name": "admin_pickem_submission_visibility"
+  },
+  {
+    "version": "20260926043038",
+    "name": "pickem_week_close_and_tiebreaker"
+  },
+  {
+    "version": "20260926051734",
+    "name": "pickem_week6_cash_entry"
+  },
+  {
+    "version": "20260926192210",
+    "name": "game_score_corrections"
+  },
+  {
+    "version": "20260926193000",
+    "name": "pickem_correction_claim_reconciliation"
+  },
+  {
+    "version": "20260927001250",
+    "name": "exclude_pickem_operator_account"
+  },
+  {
+    "version": "20260927180106",
+    "name": "homepage_editorial_feature"
+  },
+  {
+    "version": "20260928051950",
+    "name": "team_feed_phase1"
+  },
+  {
+    "version": "20260928223000",
+    "name": "friday_scoring_operations_v1"
+  },
+  {
+    "version": "20260929150112",
+    "name": "account_username_management"
+  },
+  {
+    "version": "20260930202339",
+    "name": "pickem_future_week_administration"
+  },
+  {
+    "version": "20261001200435",
+    "name": "pickem_conversion_retention_report"
+  },
+  {
+    "version": "20261002044651",
+    "name": "public_live_score_attribution"
+  },
+  {
+    "version": "20261002112156",
+    "name": "score_scout_approval_repair"
+  },
+  {
+    "version": "20261002144649",
+    "name": "assigned_scorekeeper_live_v1"
+  },
+  {
+    "version": "20261002200220",
+    "name": "public_uuid_safe_contracts"
+  },
+  {
+    "version": "20261002200333",
+    "name": "public_uuid_restrict_legacy_reads"
+  },
+  {
+    "version": "20261009204159",
+    "name": "historical_final_identity_reconciliation"
+  },
+  {
+    "version": "20261010010618",
+    "name": "emergency_score_review_nonretryable_conflict"
+  }
+]

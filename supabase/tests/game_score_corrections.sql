@@ -68,7 +68,7 @@ do $$ begin
   begin
     perform public.correct_game_score('__score_correction__','2020-01-01'::timestamptz,0,'live',7,7,'Q2','05:00','Stale request');
     raise exception 'Stale update was accepted';
-  exception when serialization_failure then null; end;
+  exception when sqlstate 'PT409' then null; end;
   begin
     perform public.correct_game_score('__score_correction__',(select updated_at from public.game_state where game_id='__score_correction__'),1,'final',7,3,'Q4','00:00','Moderator final attempt');
     raise exception 'Moderator final was accepted';

@@ -364,7 +364,7 @@ begin
       '__schedule_future__', 0, '2096-09-15 01:00+00',
       '2096-09-14 18:00'::timestamp, 'Stale competing update', 'away-s', 'home-s'
     );
-  exception when serialization_failure then blocked := true;
+  exception when sqlstate 'PT409' then blocked := true;
   end;
   if not blocked then raise exception 'Stale schedule revision was accepted'; end if;
 
@@ -495,7 +495,7 @@ begin
   end if;
   blocked := false;
   begin perform public.admin_reopen_pickem_game(passed_game, now()+interval '3 hours', 0, 'Stale');
-  exception when serialization_failure then blocked := true;
+  exception when sqlstate 'PT409' then blocked := true;
   end;
   if not blocked then raise exception 'Stale manual reopen revision was accepted'; end if;
 

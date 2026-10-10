@@ -1,5 +1,7 @@
 "use server";
 
+import { isBusinessConflict } from "@/lib/business-conflict";
+
 import { isScoreConflict, scoreConflictMessage } from "@/lib/score-conflict";
 
 import { revalidatePath } from "next/cache";
@@ -24,7 +26,7 @@ function scheduleSelection(formData: FormData) {
 }
 
 function scheduleErrorMessage(code?: string, message?: string) {
-  if (code === "40001" || message?.includes("Stale schedule revision")) {
+  if (isBusinessConflict({ code, message }) || message?.includes("Stale schedule revision")) {
     return "This schedule changed after the page loaded. Refresh and try again.";
   }
   if (code === "22007") return message ?? "Enter a valid, unambiguous Central Time kickoff.";
@@ -86,7 +88,7 @@ async function requireAdministrator() {
 }
 
 function outcomeErrorMessage(code?: string, message?: string) {
-  if (code === "40001" || message?.includes("Stale outcome revision")) {
+  if (isBusinessConflict({ code, message }) || message?.includes("Stale outcome revision")) {
     return "This outcome changed after the page loaded. Refresh and review the authoritative state before trying again.";
   }
   if (code === "42501") return "Only an active administrator can change a canonical outcome.";
@@ -94,7 +96,7 @@ function outcomeErrorMessage(code?: string, message?: string) {
 }
 
 function scorelessOutcomeErrorMessage(code?: string, message?: string) {
-  if (code === "40001" || message?.includes("Stale outcome revision")) {
+  if (isBusinessConflict({ code, message }) || message?.includes("Stale outcome revision")) {
     return "This outcome changed after the page loaded. Refresh and review the authoritative state before trying again.";
   }
   if (code === "42501") return "Only an active administrator can originate an exceptional outcome.";
@@ -308,7 +310,7 @@ export async function rescheduleGame(formData: FormData) {
     p_reason: reason,
     p_away_school_slug: currentGame.awaySchoolSlug,
     p_home_school_slug: currentGame.homeSchoolSlug,
-  });
+  }).retry(false);
   if (error) {
     redirect(`/internal/score-review?message=${encodeURIComponent(scheduleErrorMessage(error.code, error.message))}`);
   }
@@ -356,7 +358,7 @@ export async function setCanonicalGameOutcome(formData: FormData) {
     p_reason: reason,
     p_away_score: ["played", "tie"].includes(resultType) ? awayScore : null,
     p_home_score: ["played", "tie"].includes(resultType) ? homeScore : null,
-  });
+  }).retry(false);
 
   if (error) {
     redirect(`/internal/score-review?message=${encodeURIComponent(outcomeErrorMessage(error.code, error.message))}`);
@@ -424,7 +426,7 @@ export async function originateScorelessOutcome(formData: FormData) {
     p_reason: reason,
     p_away_school_slug: currentGame.awaySchoolSlug,
     p_home_school_slug: currentGame.homeSchoolSlug,
-  });
+  }).retry(false);
 
   if (error) {
     redirect(`/internal/score-review?message=${encodeURIComponent(scorelessOutcomeErrorMessage(error.code, error.message))}`);

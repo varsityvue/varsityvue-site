@@ -1,3 +1,4 @@
+import { isBusinessConflict } from "./business-conflict";
 export type ScoutEvidence = {
   id: string; away_score: number | null; home_score: number | null;
   source_name: string; source_type: string; source_url: string | null;
@@ -45,6 +46,6 @@ const messages = new Set([
 export function scoutReviewError(error: { code?: string; message?: string }) {
   if (error.code === "42501") return "An active moderator or administrator is required to review evidence.";
   if (error.message && messages.has(error.message)) return error.message;
-  if (error.code === "40001") return "Game changed — review the current score.";
+  if (isBusinessConflict(error)) return "Game changed — review the current score.";
   return "Score Scout review could not be completed. Refresh and review the current evidence.";
 }

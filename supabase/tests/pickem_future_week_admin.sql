@@ -1,5 +1,11 @@
 -- Isolated database only. No Week 6 fixture. All identities and mutations roll back.
 begin;
+-- Keep synthetic setup kickoffs in the future as the real calendar advances.
+-- This fixture-only catalog replacement is rolled back with the test.
+do $$ begin
+ execute regexp_replace(pg_get_functiondef('private.pickem_admin_catalog()'::regprocedure),
+   '2026-([0-9]{2}-[0-9]{2})', '2096-\1', 'g');
+end $$;
 create temporary table setup_actors(label text primary key,id uuid) on commit drop;
 insert into setup_actors values
  ('admin','00000000-0000-4000-8000-000000007701'),
@@ -35,7 +41,7 @@ select set_config('request.jwt.claim.sub',(select id::text from setup_actors whe
 do $$ declare n integer; w public.pickem_weeks; original jsonb; g uuid; feature_before jsonb; begin
  -- Failure after creating the week and first game must erase both.
  perform pg_temp.check_error(format('select public.configure_pickem_draft(2026,11,-1,''Rollback fixture'',%L::jsonb,%L::text[])',
-   jsonb_set(pg_temp.payload(11,0,true),'{1,schedule_revision}','1'),pg_temp.tb(11)),'40001');
+   jsonb_set(pg_temp.payload(11,0,true),'{1,schedule_revision}','1'),pg_temp.tb(11)),'PT409');
  if exists(select 1 from public.pickem_weeks where season=2026 and week=11) then raise exception 'Partial initial draft survived'; end if;
  insert into setup_results values('initial creation rollback');
  for n in 7..11 loop
@@ -62,14 +68,14 @@ do $$ declare n integer; w public.pickem_weeks; original jsonb; g uuid; feature_
  insert into setup_results values('invalid canonical games and missing revisions rejected');
  original:=(select to_jsonb(x) from public.internal_pickem_weeks x where season=2026 and week=8);
  perform pg_temp.check_error(format('select public.configure_pickem_draft(2026,8,1,''Partial'',%L::jsonb,%L::text[])',
-   jsonb_set(pg_temp.payload(8,0,true),'{1,schedule_revision}','1'),pg_temp.tb(8)),'40001');
+   jsonb_set(pg_temp.payload(8,0,true),'{1,schedule_revision}','1'),pg_temp.tb(8)),'PT409');
  if (select to_jsonb(x) from public.internal_pickem_weeks x where season=2026 and week=8) is distinct from original
    or (select count(*) from public.pickem_games where week_id=(original->>'id')::uuid)<>1 then raise exception 'Partial edit survived'; end if;
  insert into setup_results values('existing draft rollback on intermediate schedule failure');
  select * into w from public.configure_pickem_draft(2026,8,1,'Changed title',pg_temp.payload(8),pg_temp.tb(8));
  if w.configuration_revision<>2 then raise exception 'Revision did not advance'; end if;
- perform pg_temp.check_error(format('select public.configure_pickem_draft(2026,8,1,''Stale'',%L::jsonb,%L::text[])',pg_temp.payload(8),pg_temp.tb(8)),'40001');
- perform pg_temp.check_error(format('select public.configure_pickem_draft(2026,8,-1,''Stale create'',%L::jsonb,%L::text[])',pg_temp.payload(8),pg_temp.tb(8)),'40001');
+ perform pg_temp.check_error(format('select public.configure_pickem_draft(2026,8,1,''Stale'',%L::jsonb,%L::text[])',pg_temp.payload(8),pg_temp.tb(8)),'PT409');
+ perform pg_temp.check_error(format('select public.configure_pickem_draft(2026,8,-1,''Stale create'',%L::jsonb,%L::text[])',pg_temp.payload(8),pg_temp.tb(8)),'PT409');
  insert into setup_results values('stale edit and stale creation rejected');
  -- Retained ID survives addition, order changes and replacement of the former tiebreaker.
  select id into g from public.pickem_games where week_id=w.id;
@@ -131,8 +137,8 @@ end $$;
 do $$ declare w public.pickem_weeks; revisions jsonb; begin
  select * into w from public.internal_pickem_weeks where season=2026 and week=7;
  select jsonb_object_agg(game_id,0) into revisions from public.pickem_games where week_id=w.id;
- perform pg_temp.check_error(format('select public.open_pickem_draft(%L,1,%L::jsonb)',w.id,revisions),'40001');
- perform pg_temp.check_error(format('select public.open_pickem_draft(%L,%s,%L::jsonb)',w.id,w.configuration_revision,jsonb_set(revisions,array[(select game_id from public.pickem_games where week_id=w.id limit 1)],'1')),'40001');
+ perform pg_temp.check_error(format('select public.open_pickem_draft(%L,1,%L::jsonb)',w.id,revisions),'PT409');
+ perform pg_temp.check_error(format('select public.open_pickem_draft(%L,%s,%L::jsonb)',w.id,w.configuration_revision,jsonb_set(revisions,array[(select game_id from public.pickem_games where week_id=w.id limit 1)],'1')),'PT409');
  select * into w from public.open_pickem_draft(w.id,w.configuration_revision,revisions);
  if w.status<>'open' or w.entry_deadline_at<>(select min(lock_at) from public.pickem_games where week_id=w.id)
    or w.closes_at<>(select max(lock_at)+interval '1 second' from public.pickem_games where week_id=w.id)

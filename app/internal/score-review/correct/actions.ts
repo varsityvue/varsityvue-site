@@ -1,5 +1,7 @@
 "use server";
 
+import { isBusinessConflict } from "@/lib/business-conflict";
+
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getGameById } from "@/lib/games";
@@ -38,9 +40,9 @@ export async function correctScore(formData: FormData) {
     p_period: value("period"),
     p_clock: value("clock"),
     p_reason: reason,
-  });
+  }).retry(false);
   if (error) {
-    const message = error.code === "40001" ? "The game changed after you opened the editor. Refresh and review the current score." : error.message;
+    const message = isBusinessConflict(error) ? "The game changed after you opened the editor. Refresh and review the current score." : error.message;
     redirect(`${path}&message=${encodeURIComponent(message)}`);
   }
   const game = getGameById(gameId);

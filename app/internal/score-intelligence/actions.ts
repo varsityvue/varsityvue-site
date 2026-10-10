@@ -92,7 +92,7 @@ export async function reviewScoreEvidence(formData: FormData) {
     game.homeSchoolSlug !== args.p_evidence_snapshot.home_school_slug) {
     redirect("/internal/score-intelligence?message=Game%20mapping%20changed%20%E2%80%94%20review%20the%20evidence%20again.");
   }
-  const { error } = await supabase.rpc("review_missing_score_evidence", args);
+  const { error } = await supabase.rpc("review_missing_score_evidence", args).retry(false);
   if (error) redirect(`/internal/score-intelligence?message=${encodeURIComponent(scoutReviewError(error))}`);
   for (const path of ["/internal/score-intelligence", "/internal/score-review", "/internal/scoring", "/scoreboard", "/games", "/", "/pickem", `/games/${game.id}`, `/schools/${game.awaySchoolSlug}`, `/schools/${game.homeSchoolSlug}`]) revalidatePath(path);
   redirect(`/internal/score-intelligence?updated=${encodeURIComponent(`evidence-${args.decision}d`)}`);

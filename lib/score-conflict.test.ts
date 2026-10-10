@@ -5,7 +5,7 @@ import { createClient } from "@supabase/supabase-js";
 
 test("recognizes HTTP conflict, transitional hotfix, and legacy failures", () => {
   assert.equal(isScoreConflict({ code: "PT409" }), true);
-  assert.equal(isScoreConflict({ code: "40001" }), true);
+  assert.equal(isScoreConflict({ code: "40001", message: "Game changed — review the current score." }), true);
   assert.equal(isScoreConflict({ code: "P0001", message: "Game changed — review the current score." }), true);
 });
 

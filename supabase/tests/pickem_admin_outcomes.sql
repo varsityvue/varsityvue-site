@@ -239,7 +239,7 @@ begin
   blocked := false;
   begin perform * from public.admin_set_canonical_game_outcome(
     '__admin_outcome_game__', 1, 'no_contest', null, 'Stale edit'
-  ); exception when serialization_failure then blocked := true; end;
+  ); exception when sqlstate 'PT409' then blocked := true; end;
   if not blocked then raise exception 'Stale outcome revision was accepted'; end if;
 
 end
@@ -389,7 +389,7 @@ declare blocked boolean := false;
 begin
   begin perform * from public.admin_set_canonical_game_outcome(
     '__admin_outcome_game__', 6, 'forfeit', 'home-a', 'Second competing correction'
-  ); exception when serialization_failure then blocked := true; end;
+  ); exception when sqlstate 'PT409' then blocked := true; end;
   if not blocked then raise exception 'Second competing edit silently succeeded'; end if;
 end
 $competing$;

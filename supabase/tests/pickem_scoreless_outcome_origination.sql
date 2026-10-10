@@ -296,7 +296,7 @@ declare blocked boolean := false;
 begin
   begin perform * from public.admin_originate_canonical_game_outcome(
     '__scoreless_forfeit__', 0, 'forfeit', 'away-f', 'Source', 'Stale attempt', 'away-f', 'home-f'
-  ); exception when serialization_failure then blocked := true; end;
+  ); exception when sqlstate 'PT409' then blocked := true; end;
   if not blocked then raise exception 'Stale scoreless request was accepted'; end if;
 
   blocked := false;
