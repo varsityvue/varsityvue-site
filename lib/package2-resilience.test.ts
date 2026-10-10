@@ -4,7 +4,7 @@ import { createServer } from "node:http";
 import { createClient } from "@supabase/supabase-js";
 import { publicReadFetch, optionalRead } from "./public-read";
 import { loadPublicScoreStatesResult } from "./public-score-loader";
-import { evaluateHealth, type HealthWindow } from "./resilience-monitor";
+import { evaluateHealth, evaluateMonitoring, type HealthWindow } from "./resilience-monitor";
 
 test("real HTTP 503/504/pool errors are single attempts without fallback; recovery preserves verified zero", async () => {
   let status = 503, calls = 0;
@@ -34,4 +34,31 @@ test("single visitor connection failure does not qualify as public outage",()=>{
  assert.deepEqual(evaluateHealth(w),[]);
  assert.deepEqual(evaluateHealth({...w,failedVantages:2}),['public_availability']);
  assert.ok(evaluateHealth({...w,poolTimeouts:1}).includes('pool_timeout_investigate'));
+});
+
+test("Request cancellation and no-store are preserved", async()=>{
+ const ac=new AbortController();ac.abort();
+ await assert.rejects(publicReadFetch()(new Request('http://127.0.0.1:1',{signal:ac.signal})));
+ let cache: RequestCache|undefined;
+ await publicReadFetch(async (_input,init)=>{cache=init?.cache;return new Response('ok');})('http://127.0.0.1:1');
+ assert.equal(cache,'no-store');
+});
+
+test("missing, invalid and stale monitoring observations remain unknown",()=>{
+ assert.equal(evaluateMonitoring({},Date.now()).status,'unknown');
+ assert.equal(evaluateMonitoring({poolTimeouts:1},Date.now()-121000).status,'unknown');
+ assert.deepEqual(evaluateMonitoring({poolTimeouts:1},Date.now()).alerts,['pool_timeout_investigate']);
+ assert.equal(evaluateMonitoring({poolTimeouts:NaN},Date.now()).status,'unknown');
+});
+
+test('all proposed alert thresholds distinguish boundaries',()=>{
+ const base:HealthWindow={observations:20,failedVantages:0,availabilityFailedWindows:0,dataApiRequests:20,dataApiFailures:0,poolTimeouts:0,postgresRepeatedErrors:0,connectionUsedPercent:0,connectionPressureMinutes:0,submissionAttempts:5,submissionFailures:0,accountChecks:5,accountFailures:0,overdueJobs:0,pageP95Ms:100};
+ assert.equal(evaluateMonitoring(base,Date.now()).status,'healthy');
+ for(const [patch,expected] of [
+  [{dataApiFailures:5},'data_api_errors'],[{postgresRepeatedErrors:20},'postgres_repeat_storm'],
+  [{connectionUsedPercent:70,connectionPressureMinutes:5},'connection_pressure'],
+  [{submissionFailures:3},'submission_failures'],[{accountFailures:3},'account_status_failures'],
+  [{overdueJobs:1},'scheduled_job_overdue'],[{pageP95Ms:3001},'page_latency']
+ ] as const)assert.ok(evaluateHealth({...base,...patch}).includes(expected));
+ assert.deepEqual(evaluateHealth({...base,postgresRepeatedErrors:19,connectionUsedPercent:69,connectionPressureMinutes:5,pageP95Ms:3000,submissionFailures:2,accountFailures:2}),[]);
 });

@@ -1,0 +1,32 @@
+PASS trusted production 80-migration baseline replay
+PASS emergency hotfix compatibility and 11 deployed baseline fingerprints
+PASS guarded upgrade, exact signature/ACL/owner/security/search_path/RLS preservation
+PASS duplicate direct migration rejected atomically by fingerprint guards
+PASS complete fresh repository migration replay, including dormant schemas (not production release scope)
+PASS SQL public_score_attribution
+PASS SQL assigned_scorekeeper_live
+PASS SQL score_scout_approval
+PASS SQL friday_scoring_operations
+PASS SQL game_score_corrections
+PASS SQL pickem_score_integration
+PASS SQL pickem_scoreless_outcome_origination
+PASS SQL pickem_outcome_schedule
+PASS SQL pickem_admin_outcomes
+PASS SQL pickem_future_week_admin
+PASS SQL public_uuid_hardening
+PASS SQL pickem_rls
+PASS independent-connection race friday_scoring Concurrent editor waited 3s, rejected stale state, and preserved 21–7
+
+PASS independent-connection race assigned_scorekeeper le/authorization rejection PASS (no deadlock)
+publication_role: shared lock, winning publisher, stale/authorization rejection PASS (no deadlock)
+publication_suspension: shared lock, winning publisher, stale/authorization rejection PASS (no deadlock)
+
+PASS independent-connection race score_scout reviewers: concurrent review waited, failed safely, and preserved the winning state without deadlock
+scoring: concurrent review waited, failed safely, and preserved the winning state without deadlock
+
+PASS independent-connection race game_score_correction Concurrent editor waited 3 seconds and rejected the stale save without overwriting the newer score
+
+PASS genuine engine 40001 preserved; losing transaction cannot overwrite committed value
+PASS distinct-game publication proceeds while another game's advisory lock is held
+
+PASS ALL PACKAGE 1 DATABASE VERIFICATION

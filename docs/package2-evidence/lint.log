@@ -1,0 +1,40 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> varsityvue-app@0.1.0 lint
+> eslint
+
+
+/workspace/scratch/77298f26664f/varsityvue/app/account/page.tsx
+  107:9  warning  'isContributor' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/workspace/scratch/77298f26664f/varsityvue/app/games/[gameId]/page.tsx
+  172:501  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/workspace/scratch/77298f26664f/varsityvue/app/internal/scoring/ScoringBoard.tsx
+  106:434  warning  Do not use `window.location.href` to navigate to internal Next.js pages. Use `redirect()` in the render phase, or `useRouter().push()` in Client Components' event handlers instead. See: https://nextjs.org/docs/messages/no-location-assign-relative-destination  @next/next/no-location-assign-relative-destination
+
+/workspace/scratch/77298f26664f/varsityvue/app/players/[playerId]/page.tsx
+  26:9  warning  'hasRushing' is assigned a value but never used    @typescript-eslint/no-unused-vars
+  27:9  warning  'hasPassing' is assigned a value but never used    @typescript-eslint/no-unused-vars
+  28:9  warning  'hasReceiving' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/workspace/scratch/77298f26664f/varsityvue/app/report-score/ScoreReportForm.tsx
+  54:9  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/workspace/scratch/77298f26664f/varsityvue/components/ProgramLogo.tsx
+  31:7  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/workspace/scratch/77298f26664f/varsityvue/components/SchoolBadge.tsx
+  97:9  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/workspace/scratch/77298f26664f/varsityvue/components/SchoolDirectory.tsx
+  203:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/workspace/scratch/77298f26664f/varsityvue/components/SponsorBanner.tsx
+   9:10  warning  '_theme' is defined but never used     @typescript-eslint/no-unused-vars
+  10:13  warning  '_schoolId' is defined but never used  @typescript-eslint/no-unused-vars
+
+/workspace/scratch/77298f26664f/varsityvue/lib/scoreboard.ts
+  296:41  warning  '_limit' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+✖ 13 problems (0 errors, 13 warnings)

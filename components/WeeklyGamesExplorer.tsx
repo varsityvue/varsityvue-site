@@ -161,7 +161,8 @@ export default function WeeklyGamesExplorer(props: Props) {
       if (id !== generation.current) return;
       if (
         !Array.isArray(data.games) ||
-        !Number.isFinite(Date.parse(data.fetchedAt))
+        !Number.isFinite(Date.parse(data.fetchedAt)) ||
+        !["primary", "fallback"].includes(data.scoreLoadStatus)
       )
         throw new Error("invalid");
       setHeldIds((old) => old ?? rows.map((r) => r.game.id));

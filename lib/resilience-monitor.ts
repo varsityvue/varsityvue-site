@@ -29,3 +29,23 @@ export function evaluateHealth(w: HealthWindow) {
   if ((w.pageP95Ms ?? 0) > 3000 && w.observations >= 20) alerts.push("page_latency");
   return alerts;
 }
+
+// A collector must explicitly supply each metric. Missing/stale data is never green.
+export function evaluateMonitoring(input: Partial<HealthWindow>, collectedAt: number, now = Date.now()) {
+  const groups: Record<string, (keyof HealthWindow)[]> = {
+    availability: ["failedVantages", "availabilityFailedWindows"],
+    dataApi: ["dataApiRequests", "dataApiFailures", "poolTimeouts"],
+    postgres: ["postgresRepeatedErrors"],
+    connections: ["connectionUsedPercent", "connectionPressureMinutes"],
+    submissions: ["submissionAttempts", "submissionFailures"],
+    accounts: ["accountChecks", "accountFailures"],
+    jobs: ["overdueJobs"],
+    latency: ["observations", "pageP95Ms"],
+  };
+  const stale = !Number.isFinite(collectedAt) || now - collectedAt > 120000 || collectedAt > now;
+  const unknown = Object.entries(groups).filter(([, keys]) => stale || keys.some(key =>
+    typeof input[key] !== "number" || !Number.isFinite(input[key]) || input[key]! < 0)).map(([name]) => name);
+  const valid = Object.fromEntries(Object.entries(input).filter(([,value]) => typeof value === "number" && Number.isFinite(value) && value >= 0));
+  const alerts = stale ? [] : evaluateHealth(valid as HealthWindow);
+  return { status: alerts.length ? "alert" : unknown.length ? "unknown" : "healthy", alerts, unknown, stale };
+}

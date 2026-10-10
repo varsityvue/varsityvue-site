@@ -1,0 +1,561 @@
+✔ Jacksboro at Cisco has a concise preview linked to the published article (3.355197ms)
+✔ existing coverage and games without articles retain their behavior (0.428399ms)
+✔ all four district membership groups are exact (15.588809ms)
+✔ all 27 featured district schools have ten real games and no fake bye (21.765214ms)
+✔ every district pairing exists once as one reciprocal canonical game (7.291151ms)
+✔ owner corrections retain canonical IDs and explicit timing and overtime details (0.812431ms)
+✔ Cross Plains at Baird is a scoreless official-winner forfeit (0.198158ms)
+✔ overall and district records derive from the reconciled games (13.203712ms)
+✔ target schedules have no duplicate IDs or reversed same-date matchups (0.739156ms)
+✔ external opponent identities remain controlled and distinct (0.395548ms)
+✖ Week 4 quarter scores and offensive statistics reconcile without invented unknowns (4.080064ms)
+✔ username input retains only supported ASCII and canonicalizes case and whitespace (2.048429ms)
+✔ reserved exact names and case-only changes are rejected (0.31484ms)
+✔ played accepts unequal scores and rejects ties or missing scores (1.350173ms)
+✔ tie accepts only equal complete scores (0.275626ms)
+✔ forfeit winner is restricted to the participating schools (1.319792ms)
+✔ reason and verified-final prerequisites are enforced (0.418145ms)
+✔ confirmation summary states grading effects and selection preservation (0.275586ms)
+✔ scoreless origination requires source, reason, and an unplayed canonical game (0.246407ms)
+✔ scoreless forfeit accepts only an explicit participating-school winner (0.173705ms)
+✔ scoreless confirmation explains Pick Em and notification effects (0.302376ms)
+✔ renders independent member cards as collapsed native disclosures (1.261436ms)
+✔ keeps an open-game selection concealed (0.42833ms)
+✔ shows post-lock grades, including a numeric zero-point result (0.432047ms)
+✔ keeps pending points distinct from a graded zero (0.240175ms)
+✔ labels voids and incomplete entries without manufacturing grades (0.242056ms)
+✔ groups games by entrant and preserves completeness and game order (2.126407ms)
+✔ target statistics attach once to the existing canonical finals (48.395164ms)
+✔ Albany Week 4 offense reconciles while interceptions remain unknown (1.493734ms)
+✔ Comanche Week 3 offense reconciles without fabricated quarter scoring (0.269124ms)
+✔ Comanche Week 4 offense and quarter scoring reconcile explicit zero touchdowns (0.59082ms)
+✔ either assigned participant finds Week 7–11 and later 2026 playable weeks (5.368782ms)
+✔ 2026 historical floor, canonical scope, identity and playable status remain bounded (0.559698ms)
+✔ LIVE first, upcoming nearest first, TBD last, unresolved newest first; no six-game truncation (0.346709ms)
+✔ real 2026 catalog makes Friday Week 7 discoverable before kickoff without opening reporting (30.107163ms)
+✔ elapsed unverified Week 7 stays discoverable without being presented as upcoming or verified LIVE (43.994001ms)
+✔ kickoff order compares instants across offsets and treats invalid time as TBD (0.347243ms)
+✔ role AND current matching active scorekeeper assignment qualify either participant (2.08639ms)
+✔ only existing verified numeric LIVE played state displays trusted controls (0.334453ms)
+✔ page-origin microsecond timestamp and revision forwarded exactly; orientation preserved (1.327922ms)
+✔ no client actor, school, status, result, assignment, or source claim is forwarded (2.227905ms)
+✔ empty/invalid scores, missing tokens, invalid period and clock rejected (1.038837ms)
+✔ bounded optional clock; existing quarter and overtime semantics (1.028499ms)
+✔ score decrease confirmation explicit; bounded stale/revoked/suspended errors (0.982915ms)
+✔ UI keeps pending FINAL reporting separate, decrease confirmation and no private snapshots (0.838935ms)
+✔ business conflict contracts accept PT409 and exact legacy messages (1.912002ms)
+✔ genuine engine serialization failures are not business conflicts (0.24082ms)
+✔ Cisco Week 4 offensive statistics reconcile to the MaxPreps totals (3.164963ms)
+✔ Cisco Week 4 has no duplicate player lines within an offensive category (0.47679ms)
+✔ Cisco ISD's September 4 varsity kickoff survives schedule precedence for every game selector (109.371785ms)
+✔ kickoff correction preserves verified quarter scores and team statistics (1.065414ms)
+✔ loads all RPC pages including members and emails beyond page one (17.725745ms)
+✔ a later query failure discards partial results (0.310847ms)
+✔ empty results are successful; rejected and incomplete pages are failures (0.624959ms)
+✔ one summary per episode, expansion counts capped with no chronological trail, first selection finalizes (2.334105ms)
+✔ center and week changes finalize/reset; Clear, declined and unavailable discard safely (0.559265ms)
+✔ delivery explicitly omits credentials/referrer, has a timeout, no retry, and failure never throws (1.959912ms)
+✔ preference reconciliation revokes stale consent, invalid/removal values, and preserves unreadable-storage memory (1.038829ms)
+✔ activation preference is versioned and no legacy key is read or transferred (1.060217ms)
+✔ strict credential-free ingestion, size bound (including streamed body), failures and approval gate (31.718796ms)
+✔ anonymous budget is global, transient and bounded; route bypasses auth and has no payload logging (0.717342ms)
+✔ same-origin validation uses incoming Host when Next has an internal listener URL (0.966771ms)
+✔ bounded SQLSTATE classification and sanitized operational categories do not alter ingestion responses (44.743528ms)
+✔ allowlist rejects every extra field, identity, query text, aliases and selected identity (8.309921ms)
+✖ invalid ranges, impossible stage counts, versions and enums are rejected (10.018357ms)
+✖ honest stage counts distinguish no nearby games, status and query filters; disabled weeks emit nothing (1.174024ms)
+✔ catalog fingerprints cover public venue sources and canonical merged schedule geometry, without score state (42.376778ms)
+✔ confirmed LIVE and schedule-inferred kickoff windows are counted separately (1.803686ms)
+✔ unified summaries count actual all/strict LIVE/completed rows and bounded filter modifiers (140.209722ms)
+✖ held rows preserve honest presentation counts while strict status rules apply to unheld results (0.760621ms)
+✔ strict aggregate REST contract, destination/header isolation, no retries, bounded response (23.937004ms)
+✔ collector coalesces only counters, cold resets lose buffered deltas, ambiguous writes are not replayed (0.9917ms)
+✔ in-flight flush has bounded pending memory and does not await ingestion (0.302272ms)
+✔ disabled, invalid and unapproved requests never count; enabled validated DB/capacity failures do (8.758969ms)
+✔ route auth and disabled flags preclude store/notification calls; strict recovery has no free text (3.220458ms)
+✔ separate evaluator liveness and latched incident notification; failed delivery remains pending (7.455468ms)
+✔ server integration cannot send instance recovery, change discovery, install schedules or disclose secrets (0.548048ms)
+✔ regional grid is deterministic, versioned, bounded and has no encoded raw coordinates (2.451428ms)
+✔ meter boundaries use floor, including negative easting, and deterministic 4x4 parents (0.431833ms)
+✔ projection uses physical meters rather than equal latitude/longitude degrees (0.241639ms)
+✔ retention authentication, strict input, absent config and invalid results fail safely (14.160781ms)
+✔ heartbeat failure cannot undo maintenance; uncertain delivery retries, recovery and strict redacted response (4.959971ms)
+✔ monitor adapter restricts destination and emits empty bounded signals with no redirects or credentials (1.554821ms)
+✔ operations have no sensitive console logs, public status route, active schedule or client secret reference (1.146016ms)
+✔ independent deadman fixture detects absent run at 09:00 UTC, empty fail signal and delivery recovery (0.330628ms)
+✔ District 8 has 49 unique canonical games and ten real games per school (193.543105ms)
+✔ all 28 completed games retain canonical scores, winners, times, and identities (21.946462ms)
+✖ the 21 district games have exact orientation and kickoff once each (33.325908ms)
+✔ district byes are absences, not game rows (228.351218ms)
+✔ records and District 8 standings derive from canonical games (4.093141ms)
+✔ no reversed-pair duplicates or synthetic bye opponents exist (88.72142ms)
+✔ existing Santo statistics remain attached to preserved game IDs (0.595196ms)
+✔ empty follows, one follow, and both teams followed yield one game (2.027243ms)
+✔ followed games order live, nearest upcoming, latest final, then stable fallback (9.532556ms)
+✔ equal kickoff and unknown kickoff have deterministic matchup/id fallback (0.497674ms)
+✔ homepage handles many follows, unknown slug, no game, and state transitions (0.982836ms)
+✔ Scores Following spans dates and excludes old finals and distant upcoming games (14.086447ms)
+✔ Scores Following deduplicates both-team matches and many follows within the window (0.938686ms)
+✔ timing-derived live games do not outrank verified LIVE games (0.373475ms)
+✔ scheduled pages start checking near kickoff, without calling timing LIVE (0.976198ms)
+✔ LIVE keeps refreshing; final, exceptional and unknown kickoffs do not auto-poll (0.201902ms)
+✔ venue IDs unique; bounded 35 school mappings and 36 physical venues (2.356042ms)
+✔ verified coordinate ranges and research provenance (0.94192ms)
+✔ every school mapping resolves; all 10 Featured Schools verified (1.218638ms)
+✔ Week 7 exact canonical 17-of-17 complete, IDs unchanged (3.204039ms)
+✔ missing venue, unverified venue and invalid coordinates fail closed (0.617188ms)
+✔ explicit override precedence; broken explicit override never falls back (0.437097ms)
+✔ neutral and playoff games require verified explicit override (0.352698ms)
+✔ incomplete/changed/duplicate slate and unverified weeks are disabled (6.2936ms)
+✔ current Central schedule week is independent of Pick Em and does not auto-enable Week 10 (21.214818ms)
+✔ Haversine known fixtures, identical points and antipodes (2.421942ms)
+✔ radius uses exact distance before display rounding (0.835317ms)
+✔ LIVE first then upcoming, nearest, kickoff and stable canonical ID (2.408622ms)
+✔ byes and scrimmages excluded, FINAL separately, filters distinguish no matches (0.452106ms)
+✔ public DTO allowlist strips member/provenance and repository sources (0.621724ms)
+✔ kickoff inferred LIVE never claims verified score coverage (0.903652ms)
+✔ client location is transient and discovery does not transmit it (1.036304ms)
+✔ Week 8 exact canonical 17-of-17 slate fails closed on missing, changed, duplicate or unresolved games (0.88678ms)
+✔ all mappings and overrides reference canonical schools, games and unique verified venues (1.262339ms)
+✔ Week 9 exact canonical district slate has no historical bye or scrimmage inflation (0.812398ms)
+✔ Week 9 approval fails closed on missing, extra, duplicate, changed or unresolved games (0.460976ms)
+✔ all five new Week 9 home venues resolve; invalid or unverified records disable approval (23.315335ms)
+✔ Week 9 reuses all twelve approved venue identities without game overrides (0.572729ms)
+✔ Week 10 remains disabled despite 17 verified locations; Week 11 remains unapproved (0.461893ms)
+✔ future kickoff is scheduled for upcoming and scheduled source states (1.277832ms)
+✔ timing-only kickoff window never claims live authority or score (0.214615ms)
+✔ verified live 0-0 remains a legitimate authoritative score (0.15278ms)
+✔ verified LIVE remains live beyond the four-hour window (0.131978ms)
+✔ date-only kickoff does not infer live status (30.629216ms)
+✔ elapsed exact kickoff becomes result awaiting verification after the window (0.29821ms)
+✔ verified final and exceptional outcomes are distinct (0.37287ms)
+✔ postponed and cancelled are preserved (0.223283ms)
+✔ pending or contributor-derived numeric scores remain non-authoritative without verified public state (0.314766ms)
+✔ upcoming shares canonical game, Central kickoff and available venue (47.421826ms)
+✔ only authoritative scores and live context enter share text, including zero (0.994419ms)
+✔ ties and exceptional outcomes do not invent a winner or a played score (0.917351ms)
+✔ date-only and unknown kickoffs are not fabricated and IDs are encoded (1.584593ms)
+✔ default excludes all completed kinds and later slate, retains unresolved (4.307991ms)
+✔ completed contains finals, scoreless exceptional outcomes and cancelled (10.960499ms)
+✔ search spans weeks and reports matching other view (0.678559ms)
+✔ week selection and incompatible view week are explicit (0.279463ms)
+✔ following both participants never repeats immutable ID (0.597994ms)
+✔ legacy final links and validated URL parameters (0.504296ms)
+✔ explicit views normalize incompatible legacy status filters (0.237287ms)
+✔ Week 5 has exactly one Game of the Week (51.861769ms)
+✔ Tolar at Comanche remains a normal Week 5 matchup (24.32965ms)
+✔ every designated Game of the Week has a short, written pregame matchup summary (112.889923ms)
+✔ Goldthwaite coach reports reconcile without duplicate matchups (8.90676ms)
+✔ De Leon statistics remain unchanged and Goldthwaite uses the approved correction (2.695712ms)
+✔ Winters and Miles imports contain Goldthwaite player statistics only (0.854403ms)
+✔ Hamilton is the only tenth Featured School and keeps canonical identity (5.190163ms)
+✔ Hamilton crops only transparent padding and preserves original artwork and contest asset (56.827302ms)
+✔ Hamilton schedule, standings and home venue reuse existing canonical data (26.265842ms)
+✔ Hamilton inherits Featured feed eligibility and canonical follow/directory paths (26.474633ms)
+✔ district feature needs neither a game nor a premature link (13.616101ms)
+✔ published article and explicit local destination render an actionable CTA (7.300925ms)
+✔ a traditional editorial matchup links to its canonical game independently of Pick Em (32.600192ms)
+✔ legacy static fixture round-trips without modifying its values (5.748388ms)
+✔ all legacy base fixtures satisfy nested structural contract (0.600244ms)
+✔ malformed nested team returns deterministic review errors (0.436489ms)
+✔ malformed nested rushing returns deterministic review errors (0.393634ms)
+✔ malformed nested passing returns deterministic review errors (0.436331ms)
+✔ malformed nested receiving returns deterministic review errors (0.477267ms)
+✔ malformed nested quarters returns deterministic review errors (3.144335ms)
+✔ malformed nested scoring returns deterministic review errors (0.440704ms)
+✔ malformed nested school returns deterministic review errors (0.721554ms)
+✔ malformed nested negativeCount returns deterministic review errors (0.60597ms)
+✔ malformed nested fraction returns deterministic review errors (0.40572ms)
+✔ malformed nested unsafeInteger returns deterministic review errors (0.346817ms)
+✔ malformed nested optionalNull returns deterministic review errors (0.348875ms)
+✔ malformed nested completeness returns deterministic review errors (0.248579ms)
+✔ malformed nested unknownKey returns deterministic review errors (0.284864ms)
+✔ structured NaN/Infinity are rejected; signed yards remain valid (2.858461ms)
+✔ CSV template remains supported (2.134419ms)
+✔ optional CSV interceptions and touchdowns remain unknown/omitted (0.321648ms)
+✔ CSV uses shared safe numeric shape boundary (0.134823ms)
+✔ JSON and CSV converge through common draft boundary (1.919425ms)
+✔ zero, unknown, omitted and unavailable remain distinct (22.116745ms)
+✔ strict schema version and malformed contracts are rejected (1.168803ms)
+✔ schedule/roster forms normalize through the same contracts (5.693812ms)
+✔ ambiguous school/game match never selects a canonical record (12.841758ms)
+✔ same-name players never silently merge; unknown temporary identity is explicit (0.391519ms)
+✔ roster and player public identity helpers remain compatible (0.316271ms)
+✔ hashes ignore source/object order, preserve scoring chronology and invalidate edits (4.889775ms)
+✔ stale review detects both draft edits and canonical revision changes (1.995461ms)
+✔ corrections preserve immutable target, differences and reviewed revision (2.323583ms)
+✔ normalization detaches adapter-owned objects and checks source hooks (0.609366ms)
+✔ review boundary invokes real affected reconciliation without mutating catalogs (3.477317ms)
+✔ existing target, missing confirmation and ambiguous identities block review (2.501698ms)
+✔ correction replaces affected record once and rejects stale canonical snapshots (3.280108ms)
+✔ impossible completions block; complete reconciliation contradictions remain errors (0.862178ms)
+✔ sparse structured arrays are rejected before normalization (0.332765ms)
+✔ unresolved game is representable without an invented canonical ID (0.958105ms)
+✔ duplicate managed records are ambiguous even with identical profile links (0.174419ms)
+✔ hash binds positional evidence to stable statistical row identity (0.755543ms)
+✔ ambiguous player requires explicit scoped candidate confirmation (1.970509ms)
+✔ omitted interceptions never prove a complete passing total of zero (1.864739ms)
+✔ isolated total-yardage warning is preserved alongside full reconciliation (0.788236ms)
+✔ correction snapshots preserve unavailable/unknown optional metric semantics (0.815767ms)
+✔ schedule and roster corrections cannot retarget a confirmed row (0.549875ms)
+✔ malformed nested optional metrics and school slug syntax are rejected (0.411228ms)
+✔ hash boundary rejects values that JSON would silently collapse (0.749181ms)
+✔ canonical source-backed schedule stays a draft preview and preserves TBD (57.156341ms)
+✔ unknown/same opponent, missing confirmation and duplicate schedules block readiness (37.848354ms)
+✔ review report binds source, fields and catalog; supplied actor is replaced (43.716145ms)
+✔ empty source and incomplete identity remain blockers; unknown never becomes zero (16.683881ms)
+✔ decoded image validation preserves original, strips preview metadata and rejects disguised/oversized files (171.566511ms)
+✔ managed roster authority blocks conflicting new provisional identity (24.206124ms)
+✔ schedule correction binds captured values and current canonical revision (30.383696ms)
+✔ F1 football dates belong to August–December of the selected season; TBD stays unknown (91.710526ms)
+✔ F2 different-opponent draft rows conflict independently on date or week (114.577629ms)
+✔ F2 canonical commitments use local kickoff dates and week, without opponent matching (36.799243ms)
+✔ F2 correction excludes its own commitment but not another game in the week (24.67683ms)
+✔ F3 normalized jersey sharing is visible, reviewable and preserves strings/unknown/zero (55.465857ms)
+✔ F3 active scoped roster conflicts exclude linked self and inactive/other scopes (70.107644ms)
+✔ dedicated gate defaults closed independent of shared flag (6.006817ms)
+✔ local selection rejects deployed, remote and mixed account backends (1.844867ms)
+✔ hosted adaptation validates explicit HTTPS backend without making a request (0.789893ms)
+✔ origin guard ignores attacker forwarded-host and denies missing/cross origin mutations (2.920771ms)
+✔ bounded cursors reject invalid and oversized input (3.697995ms)
+✔ pilot decoder rejects a small compressed image exceeding ten million pixels (434.154542ms)
+✔ Jacksboro uses the Texas UIL District 4-3A Division II identity (2.06034ms)
+✔ Jacksboro schedule derives a 4-0 record and six upcoming games (52.801ms)
+✔ the upcoming count drops to five after Cisco becomes final (35.826671ms)
+✔ Jacksboro District Race is scoped and excludes Santo (19.697517ms)
+✔ the opponent sentinel cannot produce pooled standings (16.638045ms)
+✔ Data API 503 is one attempt, denies protected work, preserves session, then recovers (17.281214ms)
+✔ active contributors, moderators, administrators and members share the bounded eligibility gate (7.427947ms)
+✔ suspended and missing account rows still deny access and invoke suspension policy (3.331792ms)
+✔ network failures are unavailable, never authority (8.486535ms)
+✔ slow account-status read aborts within its budget without retry (3003.891216ms)
+✔ dormant choice distinguishes preference from collection and leaves withdrawal outside collapsed options (14.881773ms)
+✔ real HTTP 503/504/pool errors are single attempts without fallback; recovery preserves verified zero (116.896435ms)
+✔ optional exception is contained without forwarding private error (1.316442ms)
+✔ public transport aborts slow service and respects caller cancellation (3007.181247ms)
+✔ single visitor connection failure does not qualify as public outage (0.709044ms)
+✔ Request cancellation and no-store are preserved (1.467717ms)
+✔ missing, invalid and stale monitoring observations remain unknown (0.553668ms)
+✔ Week 7 has canonical draft inputs and approved logo (67.473742ms)
+✔ Week 8 has canonical draft inputs and approved logo (36.036853ms)
+✔ Week 9 has canonical draft inputs and approved logo (33.11513ms)
+✔ Week 10 has canonical draft inputs and approved logo (32.226476ms)
+✔ Week 11 has canonical draft inputs and approved logo (35.683061ms)
+✔ exactly one selected-slate tiebreaker is required (77.019715ms)
+✔ invalid slate IDs, duplicates, missing revisions and out-of-scope weeks are rejected (87.210408ms)
+✔ editorial flags cannot infer or change the explicit contest designation (36.786835ms)
+✔ database catalog exactly matches the approved eligible application IDs, weeks, times and schools (152.049065ms)
+✔ rendered reopened draft retains selected games, tiebreaker, revision and separate opening confirmation (38.57211ms)
+✔ published, locked, graded and unavailable setup render no mutation forms (72.594622ms)
+✔ selected indicator follows the current selection (3.029759ms)
+✔ dirty count tracks multiple changes (0.91989ms)
+✔ reverting a selection removes that matchup from the dirty count (0.356875ms)
+✔ mobile save bar appears only while dirty (0.729431ms)
+✔ successful save resets dirty state (0.411846ms)
+✔ failed save preserves selections and exposes retry (0.198659ms)
+✔ duplicate submission is prevented while pending (0.327967ms)
+✔ progress count updates with current selections (0.517985ms)
+✔ locked games cannot be changed (1.145984ms)
+✔ locked selected picks remain visibly selected (0.418712ms)
+✔ beforeunload protection follows dirty state (0.289131ms)
+✔ guest selection behavior remains local and respects locks (1.077349ms)
+✔ frozen UTC instants display their exact Central clock time across DST (31.611287ms)
+✔ unopened reporting displays cohort and not-yet-measurable retention without a zero rate (31.007692ms)
+✔ measurable zero-repeat and nonzero-repeat rates render honestly (6.214807ms)
+✔ unavailable report does not fabricate zero counts or a prize (0.73088ms)
+✔ finalization and correction-review prize states remain distinct (0.273538ms)
+✔ only explicit aggregate fields are rendered, even if unexpected identity data arrives (9.586181ms)
+✔ dashboard preserves existing member RPC, active-member guard, and separate reporting failure (0.468978ms)
+✔ Week 6 displays the same canonical tiebreaker first and retains other relative order (1.779341ms)
+✔ a saved selection stays attached to its game ID after display reordering (0.417296ms)
+✔ Monday 11:59:59.999 CDT remains in the result window (3.238367ms)
+✔ exact Tuesday midnight resolves missing results first (0.300244ms)
+✔ after the cutoff resolves missing results first (0.185276ms)
+✔ resolution failure prevents finalization and preserves its error (0.296257ms)
+✔ finalization retains database rejection after successful resolution (0.32118ms)
+✔ missing or malformed cutoff fails closed without calling either RPC (0.374905ms)
+✔ submission accepts a canonical pick one second before kickoff (2.707916ms)
+✔ submission rejects exact and post-kickoff picks (0.553105ms)
+✔ submission compares absolute kickoff instants across Central daylight-saving offsets (0.375066ms)
+✔ stale mixed submission reports the locked game instead of silently partially saving (0.294158ms)
+✔ submission rejects a team outside the canonical matchup (0.301564ms)
+✔ leaderboard shares point ranks and deterministically orders exact ties (13.659774ms)
+✔ counter renders authoritative accepted-entry and capped prize values (13.339091ms)
+✔ sponsor logo is per-week and falls back to the name without a missing image (7.680415ms)
+✔ compact header shows the frozen Central deadline and sponsor without entry statistics (48.501995ms)
+✔ fully pending week has saved picks but no eligible denominator or phantom losses (2.39094ms)
+✔ partially graded week reports graded picks over eligible games (0.28355ms)
+✔ fully graded week counts correct picks as points (0.271842ms)
+✔ missing picks receive no point and remain visible in the eligible denominator (0.240343ms)
+✔ played and explicit-winner forfeit results are eligible (0.429134ms)
+✔ tie, no-contest, cancellation, postponed, and unclassified results are excluded (0.276035ms)
+✔ a corrected grade replaces points instead of duplicating them (0.336443ms)
+✔ no picks produce no graded results, points, or phantom totals (0.28469ms)
+✔ weeks remain isolated (0.286148ms)
+✔ another member's picks are ignored (0.61882ms)
+✔ collapsed disclosure labels preserve View picks and Hide picks behavior (0.239216ms)
+✔ no eligible results display pending results and a dash for points (0.300781ms)
+✔ eligible results display graded progress and numeric points (0.178645ms)
+✔ zero points after eligible grading remain numeric zero (0.121793ms)
+✔ public page consumes database ranks and contextual ordinals without member IDs (2.418377ms)
+✔ point rank and accuracy tie ordering match the preserved legacy rule (1.498042ms)
+✔ report status and reviewer reads use distinct contracts (1.40872ms)
+✔ public score fallback remains explicit and attribution is not fetched separately (0.531483ms)
+✔ public feed and roster readers do not require creator identity (0.368489ms)
+✔ primary public score contract reports primary success (1.910098ms)
+✔ verified fallback remains distinguishable from primary success (0.487956ms)
+✔ failure of both public score reads is explicit (1.116999ms)
+✔ LIVE public publisher and fallback copy; unsafe usernames never become handles (13.44617ms)
+✔ FINAL compact cards omit all bylines; detail only allows neutral lines (1.91691ms)
+✔ 30 character handle remains complete, readable and wraps without live-region announcements (0.840491ms)
+✔ explicit public projection strips all private payload fields (1.374373ms)
+✔ loader keeps score and attribution in one RPC; unavailable RPC preserves score without a byline (0.89053ms)
+✔ only approved full surfaces mount attribution; excluded compact surfaces stay unchanged (1.136788ms)
+✔ submitted school records are canonical, complete, and uniquely identified (2.398626ms)
+✔ Abilene TLCA aliases resolve to the canonical school (0.341385ms)
+✔ district reconciliation preserves existing valid members (0.527749ms)
+✔ the assembled game catalog contains only unique real games (20.631187ms)
+✔ maps points for and allowed correctly at home and away (1.770495ms)
+✔ uses the current corrected final once when a canonical ID is overlaid (0.308844ms)
+✔ excludes scoreless forfeits, missing scores, pending games, and exceptional outcomes (0.254583ms)
+✔ Cisco's four current finals reconcile to 27.8 PPG and 16.5 Allowed/G (31.928321ms)
+✔ recognizes HTTP conflict, transitional hotfix, and legacy failures (1.259202ms)
+✔ score RPC conflict reaches the caller after one HTTP execution (15.253354ms)
+✔ terminal-state and unrelated application errors are not stale-score conflicts (0.248818ms)
+✔ page-origin state is forwarded exactly; absent state is explicit (2.663231ms)
+✔ only locked-evidence snapshot is supplied, never arbitrary publication scores or actor (2.116957ms)
+✔ confirmation and consistent revision are required for publication (1.288933ms)
+✔ changed mapping cannot be silently submitted (0.199765ms)
+✔ reject/defer preserve evidence and mapping without final confirmation (0.30521ms)
+✔ bounded error messages preserve stale/evidence/mapping/resolved/terminal/tie semantics (0.449036ms)
+✔ rendered approval preserves orientation, required ordinary FINAL confirmation and snapshots (8.827218ms)
+✔ reject/defer forms do not require publication confirmation (2.578205ms)
+✔ upcoming: server-rendered strip contains each matchup exactly once (19.115747ms)
+✔ finals: server-rendered strip contains each matchup exactly once (5.158565ms)
+✔ signed out (1.465099ms)
+✔ active member (0.309837ms)
+✔ pending (0.236683ms)
+✔ deferred (0.205993ms)
+✔ declined (0.175588ms)
+✔ withdrawn (0.138555ms)
+✔ historical approval (0.091591ms)
+✔ current keeper (0.158402ms)
+✔ coach only (1.915575ms)
+✔ revoked assignment (0.352469ms)
+✔ removed role (0.142354ms)
+✔ suspended (0.092822ms)
+✔ account unavailable (0.108305ms)
+✔ read failure (0.059931ms)
+✔ different school pending (0.066684ms)
+✔ different school assigned (0.089493ms)
+✔ current access over history (0.083818ms)
+✔ presentation uses existing routes without private identifiers (0.338196ms)
+✔ school and role are validated against actual application programs (11.507153ms)
+✔ login and signup preserve validated context and safe return path (1.551953ms)
+✔ Monday in Central Time selects the coming Friday slate (37.559424ms)
+✔ attention reasons distinguish evidence from elapsed-time guesses (14.885862ms)
+✔ missing canonical identity is visible even when the repository matchup is known (13.33719ms)
+✔ database identity snapshot agrees with every playable repository matchup (16.868707ms)
+✔ pending native share ignores repeated handler calls before rerender, then clears guard (23.666792ms)
+✔ clipboard feedback expires, resets on another attempt and cleans up on unmount (16.009874ms)
+✔ unmounted pending share does not fall back or publish stale feedback (6.352506ms)
+✔ clipboard rejection retains encoded email fallback and releases guard (7.793796ms)
+✔ content change during pending share keeps guard and rejects obsolete fallback (7.317306ms)
+✔ Young's corrected Week 2 line survives the De Leon replacement without changing other receivers (2.338758ms)
+✔ Week 2 preserves the source's 20 receptions versus 21 completions with partial attribution (0.639325ms)
+✔ Young's six distinct effective games derive one 34/474 season identity and 13.9 average (15.933369ms)
+✔ sumVerifiedStats preserves exact totals when every component is known (2.248305ms)
+✔ sumVerifiedStats returns a verified lower bound when a component is unknown (0.242858ms)
+✔ sumVerifiedStats does not invent a total when every component is unknown (0.508732ms)
+✔ published derivative preserves ratio and strips EXIF/GPS (48.779212ms)
+✔ rejects spoofed image content (1.404252ms)
+✔ accepts PNG and WebP inputs (16.61835ms)
+✔ rejects oversize files and dimensions (13.850137ms)
+✔ featured schools and canonical matchup validate without requiring a game (47.893158ms)
+✔ forged school and unrelated game combinations are rejected (27.178236ms)
+✔ Central current week wins over next upcoming; scores intent prefers verified live (32.797115ms)
+✔ explicit empty week stays selected; legacy search/result/current context is seasonwide (2.736052ms)
+✔ strict LIVE excludes inferred kickoff and preserves 0-0; completed includes cancelled, verified-only excludes it (2.891222ms)
+✔ combined filters intersect and canonical games dedupe even when both schools followed (0.922979ms)
+✔ Nearby is distance-first, never pulls followed out-of-radius games; completed discoverable (1.399786ms)
+✔ links round-trip public context and discard coordinates, unknown identifiers, and open redirects (2.596212ms)
+✔ scores links preserve existing valid campaign tokens without private or arbitrary context (0.619715ms)
+✔ both aliases preserve collection and safe Game Center return context (5.804933ms)
+✔ week date label collapses equal Central dates while retaining distinct ranges (5.698993ms)
+✔ legacy status selection and URL round trips preserve exact intersections on both aliases (27.944125ms)
+✔ explicit modern status wins over all contradictory legacy forms without losing refinements (87.325857ms)
+✔ canonical legacy base filters retain exact conjunctions; malformed status is not an explicit selection (24.906743ms)
+✖ the canonical catalog retains exactly the 21 operable Week 5 games (7.380714ms)
+✔ the five formerly blocked games have complete identities on both sides (0.755464ms)
+✔ the reviewed migrations register every Week 5 game exactly once (0.857501ms)
+✖ homepage next-up selection follows canonical kickoff ordering (1.200724ms)
+✔ Last 5 is oldest to newest, independent of source order (107.089812ms)
+✔ weekly close is an absolute Central Friday 7 PM instant across DST (4.457466ms)
+✔ live period is canonical and unknown clocks are omitted (0.467349ms)
+✔ applied refinement count includes independent legacy scopes, search and Nearby radius (44.604122ms)
+✔ independent scope clears preserve intentional status intersections (2.275445ms)
+✔ week season mode and shared-link restoration retain exact refinements and scores intent (15.559779ms)
+✔ filter clearing preserves combinations, combined status, classification, following and Nearby selection (1.970056ms)
+ℹ tests 398
+ℹ suites 0
+ℹ pass 391
+ℹ fail 7
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7269.918818
+
+✖ failing tests:
+
+test at lib/2026-district-schedule-reconciliation.test.ts:2:8700
+✖ Week 4 quarter scores and offensive statistics reconcile without invented unknowns (4.080064ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  24 !== undefined
+
+      at TestContext.<anonymous> (/workspace/scratch/77298f26664f/varsityvue/lib/2026-district-schedule-reconciliation.test.ts:180:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 24,
+    expected: undefined,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at lib/coverage-demand-summary.test.ts:2:2549
+✖ invalid ranges, impossible stage counts, versions and enums are rejected (10.018357ms)
+  AssertionError [ERR_ASSERTION]: {"returned_game_count":0}
+
+  true !== false
+
+      at TestContext.<anonymous> (/workspace/scratch/77298f26664f/varsityvue/lib/coverage-demand-summary.test.ts:18:522)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at lib/coverage-demand-summary.test.ts:2:3593
+✖ honest stage counts distinguish no nearby games, status and query filters; disabled weeks emit nothing (1.174024ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + 'status_filter_excluded'
+  - 'query_filter_excluded'
+
+      at TestContext.<anonymous> (/workspace/scratch/77298f26664f/varsityvue/lib/coverage-demand-summary.test.ts:23:79)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'status_filter_excluded',
+    expected: 'query_filter_excluded',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at lib/coverage-demand-summary.test.ts:2:10272
+✖ held rows preserve honest presentation counts while strict status rules apply to unheld results (0.760621ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  true !== false
+
+      at TestContext.<anonymous> (/workspace/scratch/77298f26664f/varsityvue/lib/coverage-demand-summary.test.ts:68:39)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at lib/district-8-schedules.test.ts:2:6403
+✖ the 21 district games have exact orientation and kickoff once each (33.325908ms)
+  AssertionError [ERR_ASSERTION]: crawford-at-santo-2026-week-5
+  + actual - expected
+
+  + 'scheduled'
+  - 'upcoming'
+
+      at TestContext.<anonymous> (/workspace/scratch/77298f26664f/varsityvue/lib/district-8-schedules.test.ts:137:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'scheduled',
+    expected: 'upcoming',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at lib/week5-operations.test.ts:2:2835
+✖ the canonical catalog retains exactly the 21 operable Week 5 games (7.380714ms)
+  AssertionError [ERR_ASSERTION]: bowie-at-city-view-2026-week-5
+  + actual - expected
+
+  + 'scheduled'
+  - 'upcoming'
+
+      at TestContext.<anonymous> (/workspace/scratch/77298f26664f/varsityvue/lib/week5-operations.test.ts:72:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'scheduled',
+    expected: 'upcoming',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at lib/week5-operations.test.ts:2:5016
+✖ homepage next-up selection follows canonical kickoff ordering (1.200724ms)
+  AssertionError [ERR_ASSERTION]: de-leon
+  + actual - expected
+
+  + 'hico-at-de-leon-2026-week-8'
+  - 'early-at-de-leon-2026-week-5'
+
+      at TestContext.<anonymous> (/workspace/scratch/77298f26664f/varsityvue/lib/week5-operations.test.ts:117:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'hico-at-de-leon-2026-week-8',
+    expected: 'early-at-de-leon-2026-week-5',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

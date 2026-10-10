@@ -12,7 +12,8 @@ import SchoolBadge from "@/components/SchoolBadge";
 import SchoolFollowControl from "@/components/SchoolFollowControl";
 import { getDynamicGames } from "@/lib/dynamic-games";
 import { getDistrictById } from "@/lib/districts";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicReadClient, readPublicClaims } from "@/lib/supabase/server";
+import { getCurrentUserFollowedSchoolSlugs } from "@/lib/followed-schools";
 
 type ArticlePageProps = {
   params: Promise<{ slug: string }>;
@@ -122,26 +123,20 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
 }
 
 export default async function ArticlePage({ params, searchParams }: ArticlePageProps) {
-  const [{ slug }, followParams, followSupabase] = await Promise.all([params, searchParams, createClient()]);
+  const [{ slug }, followParams, followSupabase] = await Promise.all([params, searchParams, createPublicReadClient()]);
   const article = getArticleBySlug(slug);
   if (!article) notFound();
 
   const relatedSchools = article.schoolIds?.map((schoolSlug) => getSchoolBySlug(schoolSlug)).filter((school): school is NonNullable<typeof school> => Boolean(school)) ?? [];
   const articleFollowSchools = relatedSchools.length <= 2 ? relatedSchools : [];
-  const [{ data: followClaims }, scoreboardGamesResult] = await Promise.all([
-    followSupabase.auth.getClaims(),
+  const [{ data: followClaims, error: followClaimsError }, scoreboardGamesResult] = await Promise.all([
+    readPublicClaims(),
     getDynamicGames(),
   ]);
   const followUserId = followClaims?.claims?.sub;
-  const followedSchoolSlugs = new Set<string>();
-  if (followUserId && articleFollowSchools.length > 0) {
-    const { data: followRows } = await followSupabase
-      .from("school_follows")
-      .select("school_slug")
-      .eq("user_id", followUserId)
-      .in("school_slug", articleFollowSchools.map((school) => school.slug));
-    for (const row of followRows ?? []) followedSchoolSlugs.add(row.school_slug);
-  }
+  const follows = await getCurrentUserFollowedSchoolSlugs({ supabase: followSupabase, userId: followUserId });
+  const followedSchoolSlugs = follows.schoolSlugs;
+  const followUnavailable = follows.unavailable || Boolean(followClaimsError);
   const relatedDistricts = article.districtIds?.map((districtId) => getDistrictById(districtId)).filter(Boolean) ?? [];
   const relatedArticles = getArticles()
     .filter((item) => item.slug !== article.slug)
@@ -249,7 +244,7 @@ export default async function ArticlePage({ params, searchParams }: ArticlePageP
                     const isFollowing = followedSchoolSlugs.has(school.slug);
                     const finishFollowing = Boolean(followUserId) && !isFollowing && followParams.finishFollow === school.slug;
                     const message = isFollowing && followParams.followed === school.slug ? `You’re now following ${school.name}.` : !isFollowing && followParams.unfollowed === school.slug ? `You are no longer following ${school.name}.` : finishFollowing ? followParams.followError === "1" ? "Authentication succeeded, but the follow still needs your confirmation." : `Authentication succeeded. Select Finish Following to follow ${school.name}.` : "";
-                    return <div key={school.slug} className="min-w-0 rounded-xl border border-white/10 bg-black/25 p-2.5 text-center sm:p-3"><p className="mb-2 truncate text-[10px] font-black text-white/65 sm:text-xs">{school.name}</p><SchoolFollowControl schoolName={school.name} schoolSlug={school.slug} isAuthenticated={Boolean(followUserId)} isFollowing={isFollowing} finishFollowing={finishFollowing} initialMessage={message} sourceSurface="article" sourceId={article.slug} compact /></div>;
+                    return <div key={school.slug} className="min-w-0 rounded-xl border border-white/10 bg-black/25 p-2.5 text-center sm:p-3"><p className="mb-2 truncate text-[10px] font-black text-white/65 sm:text-xs">{school.name}</p><SchoolFollowControl schoolName={school.name} schoolSlug={school.slug} isAuthenticated={Boolean(followUserId)} isFollowing={isFollowing} finishFollowing={finishFollowing} initialMessage={message} sourceSurface="article" sourceId={article.slug} compact unavailable={followUnavailable} /></div>;
                   })}
                 </div>
               </section>

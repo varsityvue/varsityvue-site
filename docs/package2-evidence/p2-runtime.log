@@ -1,0 +1,14 @@
+PASS real browser public pages normal: anonymous + authenticated; no diagnostic disclosure
+PASS real browser public pages follows-503: anonymous + authenticated; no diagnostic disclosure
+PASS real browser public pages editorial-503: anonymous + authenticated; no diagnostic disclosure
+PASS real browser public pages feed-503: anonymous + authenticated; no diagnostic disclosure
+PASS real browser public pages follows-slow: anonymous + authenticated; no diagnostic disclosure
+PASS real browser public pages editorial-slow: anonymous + authenticated; no diagnostic disclosure
+PASS real browser public pages all-503: anonymous + authenticated; no diagnostic disclosure
+PASS real browser public pages all-504: anonymous + authenticated; no diagnostic disclosure
+PASS real browser public pages score-503: anonymous + authenticated; no diagnostic disclosure
+PASS real browser public pages normal: anonymous + authenticated; no diagnostic disclosure
+PASS eight concurrent isolated public requests; bounded score reads
+PASS recovery, anonymous protected-route denial, authenticated RLS privacy/write protection
+PASS local one-shot availability runner with real production build and Data API
+PASS ALL PACKAGE 2 REAL PLATFORM/BROWSER CHECKS
