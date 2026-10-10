@@ -19,6 +19,7 @@ type SchoolFollowControlProps = {
   sourceSurface?: FollowSourceSurface;
   sourceId?: string;
   compact?: boolean;
+  unavailable?: boolean;
 };
 
 const buttonClass =
@@ -34,6 +35,7 @@ export default function SchoolFollowControl({
   sourceSurface = "school_hub",
   sourceId,
   compact = false,
+  unavailable = false,
 }: SchoolFollowControlProps) {
   const initialState: SchoolFollowActionState = {
     following: isFollowing,
@@ -64,6 +66,8 @@ export default function SchoolFollowControl({
       authenticated: isAuthenticated,
     });
   };
+
+  if (unavailable) return <p role="status" className="text-xs text-white/60">Your followed teams are temporarily unavailable.</p>;
 
   if (!isAuthenticated) {
     const beginFollow = beginSignedOutSchoolFollow.bind(

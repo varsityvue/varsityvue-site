@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicReadClient, readPublicClaims } from "@/lib/supabase/server";
 
 import { getSchools } from "@/lib/schools";
 import { getGames } from "@/lib/games";
@@ -40,15 +40,15 @@ export const metadata: Metadata = {
 };
 
 export default async function SchoolsPage() {
-  const supabase = await createClient();
-  const { data: claims, error: claimsError } = await supabase.auth.getClaims();
+  const supabase = await createPublicReadClient();
+  const { data: claims, error: claimsError } = await readPublicClaims();
   const userId = claims?.claims?.sub;
   const trackedSlugs = new Set(getGames().flatMap((game) => [game.homeSchoolSlug, game.awaySchoolSlug].filter((slug): slug is string => Boolean(slug))));
   const liveSchools = getSchools().filter((school) => school.status === "pilot" || trackedSlugs.has(school.slug));
   const followedSchoolSlugs: string[] = [];
   let followLoadFailed = Boolean(claimsError);
   if (userId) {
-    const { data: follows, error } = await supabase.from("school_follows").select("school_slug").eq("user_id", userId).in("school_slug", liveSchools.map((school) => school.slug));
+    const { data: follows, error } = await supabase.from("school_follows").select("school_slug").eq("user_id", userId).in("school_slug", liveSchools.map((school) => school.slug)).retry(false);
     followLoadFailed = Boolean(error);
     if (!error) followedSchoolSlugs.push(...(follows ?? []).map((row) => row.school_slug));
   }

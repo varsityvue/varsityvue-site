@@ -5,10 +5,10 @@ import { loadPublicScoreStatesResult } from "@/lib/public-score-loader";
 
 function client(primary: { data: unknown; error: unknown }, fallback: { data: unknown; error: unknown }) {
   return {
-    rpc: async () => primary,
+    rpc: () => builder(primary),
     from: () => ({
       select: () => ({
-        eq: async () => fallback,
+        eq: () => builder(fallback),
       }),
     }),
   } as unknown as SupabaseClient;
@@ -37,7 +37,7 @@ test("primary public score contract reports primary success", async () => {
 });
 
 test("verified fallback remains distinguishable from primary success", async () => {
-  const result = await loadPublicScoreStatesResult(client({ data: null, error: { message: "rpc unavailable" } }, { data: [row], error: null }));
+  const result = await loadPublicScoreStatesResult(client({ data: null, error: { code: "PGRST202", message: "rpc unavailable" } }, { data: [row], error: null }));
   assert.equal(result.status, "fallback");
   assert.equal(result.states.length, 1);
   assert.equal(result.states[0].attribution_type, "none");
@@ -45,9 +45,11 @@ test("verified fallback remains distinguishable from primary success", async () 
 
 test("failure of both public score reads is explicit", async () => {
   const result = await loadPublicScoreStatesResult(client(
-    { data: null, error: { message: "rpc unavailable" } },
+    { data: null, error: { code: "PGRST202", message: "rpc unavailable" } },
     { data: null, error: { message: "fallback unavailable" } },
   ));
   assert.equal(result.status, "failed");
   assert.deepEqual(result.states, []);
 });
+
+function builder(result: unknown) { return { abortSignal() { return this; }, retry() { return Promise.resolve(result); } }; }

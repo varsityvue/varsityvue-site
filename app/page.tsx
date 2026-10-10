@@ -99,9 +99,10 @@ function getMatchupTeamNameSize(teamNames: string[]) {
 
 export default async function Home() {
   const schools = getSchools();
-  const [dynamicGames, followState] = await Promise.all([
+  const [dynamicGames, followState, feature] = await Promise.all([
     getDynamicGames(),
     getCurrentUserFollowedSchoolSlugs(),
+    getActiveHomepageFeature(),
   ]);
   const followedTeams = followState.schoolSlugs.size
     ? orderFollowedSchoolsForHome(schools, dynamicGames.filter((game) => game.gameType !== "bye" && game.gameType !== "scrimmage"), followState.schoolSlugs, followState.loadedAt)
@@ -122,7 +123,7 @@ export default async function Home() {
         official_winner_school_slug: game.officialWinnerSchoolSlug ?? null,
       }]),
   );
-  const feature = await getActiveHomepageFeature();
+
   const featuredGame = feature?.feature_type === "game_of_the_week"
     ? getScoreboardGames(dynamicState).find((game) => game.id === feature.game_id)
     : undefined;
@@ -249,7 +250,8 @@ export default async function Home() {
         </div>
       </section>
 
-      {followState.isAuthenticated && (followedTeams.length > 0
+      {followState.unavailable && <p role="status" className="px-4 py-2 text-center text-xs text-white/60">Your followed teams are temporarily unavailable.</p>}
+      {!followState.unavailable && followState.isAuthenticated && (followedTeams.length > 0
         ? <YourTeams teams={followedTeams} />
         : <section className="border-b border-white/10 bg-[#090909] px-4 py-4 text-white sm:px-6 lg:px-8"><div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-3"><p className="text-sm text-white/70">Follow your teams to see their games and coverage first.</p><Link href="/schools" className="rounded-full border border-white/20 px-4 py-2.5 text-xs font-black text-white hover:bg-white/10">Browse Schools →</Link></div></section>)}
       <ScoreStrip />
