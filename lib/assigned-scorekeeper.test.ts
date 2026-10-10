@@ -30,7 +30,7 @@ test("bounded optional clock; existing quarter and overtime semantics", () => {
 });
 test("score decrease confirmation explicit; bounded stale/revoked/suspended errors", () => {
   const f = form(); assert.equal(assignedLivePayload(f).p_confirm_score_decrease, false); f.set("confirm_score_decrease", "on"); assert.equal(assignedLivePayload(f).p_confirm_score_decrease, true);
-  assert.match(assignedLiveError({ code: "40001" }), /Game changed/); assert.match(assignedLiveError({ code: "42501" }), /role, assignment, or account status/); assert.match(assignedLiveError({ code: "55000" }), /already exist/); assert.doesNotMatch(assignedLiveError({ message: "Private detail" }), /Private/);
+  assert.match(assignedLiveError({ code: "40001", message: "Game changed — review the current score." }), /Another scorekeeper/); assert.match(assignedLiveError({ code: "42501" }), /role, assignment, or account status/); assert.match(assignedLiveError({ code: "55000" }), /already exist/); assert.doesNotMatch(assignedLiveError({ message: "Private detail" }), /Private/);
 });
 test("UI keeps pending FINAL reporting separate, decrease confirmation and no private snapshots", () => {
   const page = readFileSync("app/report-score/page.tsx", "utf8"); const client = readFileSync("app/report-score/TrustedLiveScoreForm.tsx", "utf8"); const action = readFileSync("app/report-score/actions.ts", "utf8");

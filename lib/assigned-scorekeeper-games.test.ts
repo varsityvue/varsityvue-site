@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { assignedScorekeeperGames } from "./assigned-scorekeeper-games";
-import { getGameById, getGames, normalizeGameStatus } from "./games";
+import { getGameById, getGamesForSchool } from "./games";
 import type { Game } from "@/types/platform";
 
 const base = getGameById("albany-at-stamford-2026-week-7")!;
@@ -44,12 +44,20 @@ test("LIVE first, upcoming nearest first, TBD last, unresolved newest first; no 
   assert.equal(games[0].id, "old-pending", "input order is not mutated");
 });
 test("real 2026 catalog makes Friday Week 7 discoverable before kickoff without opening reporting", () => {
-  const games = getGames().map(game => normalizeGameStatus(game, new Date("2026-10-05T20:00:00Z")));
+  // Normalize the raw catalog once at the scenario's time, never at the runner's date first.
+  const games = getGamesForSchool("albany", new Date("2026-10-05T20:00:00Z"));
   const results = assignedScorekeeperGames(games, assigned, ready);
   const week7 = results.find(g => g.id === base.id);
   assert.ok(week7);
   assert.equal(week7.status, "upcoming");
   assert.equal(results[0].id, base.id);
+});
+test("elapsed unverified Week 7 stays discoverable without being presented as upcoming or verified LIVE", () => {
+  const games = getGamesForSchool("albany", new Date("2026-10-10T05:00:00Z"));
+  const week7 = assignedScorekeeperGames(games, assigned, ready).find(g => g.id === base.id);
+  assert.ok(week7);
+  assert.equal(week7.status, "scheduled");
+  assert.notEqual(week7.publicScoreVerified, true);
 });
 test("kickoff order compares instants across offsets and treats invalid time as TBD", () => {
   const games = [fixture("later", { kickoff: "2026-11-01T01:15:00-06:00" }),

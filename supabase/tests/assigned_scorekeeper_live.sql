@@ -53,9 +53,9 @@ reset role;
 select set_config('request.jwt.claim.sub',(select id::text from keeper_actors where label='keeper'),true);
 set local role authenticated;
 select pg_temp.keeper_failure(n,'55000') from unnest(array['absent','scheduled','final','postponed','cancelled','unverified','forfeit','numeric']) n;
-select pg_temp.keeper_failure('live','40001','{"time":"2000-01-01T00:00:00Z"}');
-select pg_temp.keeper_failure('live','40001','{"revision":99}');
-select pg_temp.keeper_failure('live','40001','{"time":null}');
+select pg_temp.keeper_failure('live','PT409','{"time":"2000-01-01T00:00:00Z"}');
+select pg_temp.keeper_failure('live','PT409','{"revision":99}');
+select pg_temp.keeper_failure('live','PT409','{"time":null}');
 select pg_temp.keeper_failure('live','22023','{"period":"half"}');
 select pg_temp.keeper_failure('live','22023','{"clock":"15:01"}');
 select pg_temp.keeper_failure('live','22023','{}',151);
@@ -83,7 +83,7 @@ end $$;
 do $$ begin if exists(select 1 from public.pickem_games where week_id=(select id from keeper_week) and (graded_at is not null or result_winner_school_slug is not null)) then raise exception 'LIVE keeper publication graded Pick Em';end if;end $$;
 -- Stale update cannot change attribution. Direct actor/event writes remain denied.
 set local role authenticated;
-select pg_temp.keeper_failure('live','40001');
+select pg_temp.keeper_failure('live','PT409');
 do $$ begin
  begin update public.game_state set updated_by=(select id from keeper_actors where label='moderator') where game_id='__keeper_live__'; if found then raise exception 'Forged state write';end if; exception when insufficient_privilege then null;end;
  begin update public.score_submissions set status='approved',reviewed_by=(select id from keeper_actors where label='moderator') where game_id='__keeper_live__';if found then raise exception 'Forged review';end if;exception when insufficient_privilege then null;end;
@@ -120,7 +120,7 @@ select public.submit_trusted_score_update('__keeper_live__',21,35,'live','4th','
 reset role;
 do $$ begin if not exists(select 1 from public.public_score_states() where game_id='__keeper_live__' and attribution_type='publisher' and attribution_username is null) then raise exception 'Moderator did not own current attribution';end if;end $$;
 select set_config('request.jwt.claim.sub',(select id::text from keeper_actors where label='opposite'),true);
-set local role authenticated;select pg_temp.keeper_failure('live','40001');reset role;
+set local role authenticated;select pg_temp.keeper_failure('live','PT409');reset role;
 update keeper_tokens t set updated_at=g.updated_at,revision=g.score_revision from public.game_state g where t.name='live' and g.game_id='__keeper_live__';
 set local role authenticated;select pg_temp.keeper_update('live',21,42);reset role;
 -- Inject post-publication failure to prove whole transaction rollback.

@@ -74,7 +74,8 @@ export async function login(formData: FormData) {
 
   if (data.user) {
     const status = await memberAccountStatus(supabase, data.user.id);
-    if (status !== "active") {
+    if (status === "unavailable") redirect("/account-unavailable");
+    if (status === "suspended") {
       await supabase.auth.signOut({ scope: "global" });
       redirect(loginUrl("Account suspended. Contact VarsityVue for account assistance.", "/account"));
     }

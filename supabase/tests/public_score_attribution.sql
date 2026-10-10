@@ -48,7 +48,7 @@ do $$ begin
  perform public.submit_trusted_score_update('__attribution_live__',7,0,'live','1st','07:00',null,
  (select updated_at from attribution_stale),(select score_revision from attribution_stale),false);
  raise exception 'Stale update unexpectedly succeeded';
- exception when serialization_failure then null; end;
+ exception when sqlstate 'PT409' then null; end;
 end $$;
 reset role;
 select pg_temp.assert_attribution('__attribution_live__','publisher');

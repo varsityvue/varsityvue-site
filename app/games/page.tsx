@@ -6,4 +6,8 @@ export const metadata: Metadata = {
     "Browse weekly Texas high school football matchups, verified live scores, completed games and games near you.",
   alternates: { canonical: "/games" },
 };
-export default UnifiedGamesPage;
+export default function GamesPage({ searchParams }: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  return <UnifiedGamesPage searchParams={searchParams} />;
+}

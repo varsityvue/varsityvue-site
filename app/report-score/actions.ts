@@ -1,5 +1,7 @@
 "use server";
 
+import { isScoreConflict, scoreConflictMessage } from "@/lib/score-conflict";
+
 import type { OwnScoreReport } from "@/lib/public-read-contracts";
 
 import { revalidatePath } from "next/cache";
@@ -143,10 +145,10 @@ export async function submitScore(formData: FormData) {
     p_period: period,
     p_clock: clock,
     p_source_note: sourceNote,
-  });
+  }).retry(false);
 
   if (error) {
-    const message = error.message.includes("verified terminal state")
+    const message = isScoreConflict(error) ? scoreConflictMessage : error.message.includes("verified terminal state")
       ? "This game already has a verified final result and cannot be changed from score reporting."
       : "The score could not be saved. Check the game state and try again.";
     reportRedirect(gameId, message);
@@ -164,7 +166,7 @@ export async function submitAssignedLiveScore(formData: FormData) {
   let payload: ReturnType<typeof assignedLivePayload>;
   try { payload = assignedLivePayload(formData); }
   catch (error) { reportRedirect(gameId, error instanceof Error ? error.message : "Check the LIVE update."); }
-  const { error } = await supabase.rpc("submit_assigned_scorekeeper_update", payload);
+  const { error } = await supabase.rpc("submit_assigned_scorekeeper_update", payload).retry(false);
   if (error) reportRedirect(gameId, assignedLiveError(error));
   revalidatePath("/scoreboard");
   revalidatePath("/games");

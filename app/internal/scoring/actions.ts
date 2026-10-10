@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { isScoreConflict } from "@/lib/score-conflict";
 import { getGameById } from "@/lib/games";
 import { requireActiveMember } from "@/lib/member-access";
 import { normalizeLivePeriod } from "@/lib/live-period";
@@ -48,8 +49,8 @@ export async function submitOperationalScore(form: FormData) {
     p_expected_state_updated_at: absent ? null : expected,
     p_expected_state_revision: absent ? null : revision,
     p_expected_state_absent: absent,
-  });
-  if (error) redirect(`${base}&${error.code === "40001" ? "stale" : "error"}=1`);
+  }).retry(false);
+  if (error) redirect(`${base}&${isScoreConflict(error) ? "stale" : "error"}=1`);
   for (const path of ["/", "/scores", "/scoreboard", "/games", `/games/${gameId}`, "/internal/scoring", "/internal/score-review", "/pickem", `/schools/${game.awaySchoolSlug}`, `/schools/${game.homeSchoolSlug}`]) {
     revalidatePath(path);
   }

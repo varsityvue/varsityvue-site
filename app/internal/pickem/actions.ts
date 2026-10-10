@@ -1,5 +1,7 @@
 "use server";
 
+import { isBusinessConflict } from "@/lib/business-conflict";
+
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getDynamicGames } from "@/lib/dynamic-games";
@@ -17,8 +19,8 @@ async function requireModerator() {
   return supabase;
 }
 
-function saveError(code?: string) {
-  if (code === "40001") return "The draft or schedule changed. Refresh and review before trying again.";
+function saveError(code?: string, message?: string) {
+  if (isBusinessConflict({ code, message })) return "The draft or schedule changed. Refresh and review before trying again.";
   if (code === "55000") return "Published, locked or participated contests are read-only in setup.";
   return "The request was rejected. Refresh and check the draft, tiebreaker and schedule. No partial changes were saved.";
 }
@@ -31,8 +33,8 @@ export async function savePickemWeek(formData: FormData) {
   } catch (error) {
     redirect(resultUrl(error instanceof Error ? error.message : "Invalid draft configuration."));
   }
-  const { error } = await supabase.rpc("configure_pickem_draft", configuration);
-  if (error) redirect(resultUrl(saveError(error.code)));
+  const { error } = await supabase.rpc("configure_pickem_draft", configuration).retry(false);
+  if (error) redirect(resultUrl(saveError(error.code, error.message)));
   revalidatePath("/internal/pickem");
   redirect(resultUrl(`Week ${configuration.p_week} draft saved. It has not been opened.`));
 }
@@ -54,8 +56,8 @@ export async function openPickemWeek(formData: FormData) {
   }
   const { error } = await supabase.rpc("open_pickem_draft", {
     p_week_id: id, p_expected_revision: revision, p_schedule_revisions: revisions,
-  });
-  if (error) redirect(resultUrl(saveError(error.code)));
+  }).retry(false);
+  if (error) redirect(resultUrl(saveError(error.code, error.message)));
   revalidatePath("/internal/pickem");
   revalidatePath("/pickem");
   redirect(resultUrl("The saved draft is now open. Its contest configuration is read-only."));

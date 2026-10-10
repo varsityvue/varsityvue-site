@@ -8,6 +8,22 @@ on:
       - 'app/report-score/**'
       - 'app/account/page.tsx'
       - 'lib/assigned-scorekeeper*'
+      - 'lib/member-access.ts'
+      - 'lib/member-status*'
+      - 'lib/business-conflict*'
+      - 'lib/score-conflict*'
+      - 'lib/score-scout-review*'
+      - 'app/account-unavailable/**'
+      - 'app/login/actions.ts'
+      - 'app/internal/pickem/actions.ts'
+      - 'app/internal/score-review/**'
+      - 'app/internal/score-intelligence/actions.ts'
+      - 'supabase/migrations/*week8_p0_nonretryable_business_conflicts.sql'
+      - 'supabase/migrations/*emergency_score_review_nonretryable_conflict.sql'
+      - 'supabase/tests/week8_p0*'
+      - 'supabase/tests/*.sql'
+      - 'supabase/tests/*race.sh'
+      - 'scripts/test-week8-p0-migration.mjs'
       - 'supabase/migrations/*assigned_scorekeeper_live_v1.sql'
       - 'supabase/tests/assigned_scorekeeper*'
       - 'scripts/test-assigned-scorekeeper-browser.mjs'
@@ -24,6 +40,8 @@ jobs:
       - run: npm ci
       - run: node --import tsx --test lib/assigned-scorekeeper.test.ts lib/assigned-scorekeeper-games.test.ts lib/score-scout-review.test.tsx lib/public-score-state.test.tsx lib/scoring-operations.test.ts lib/games.test.ts lib/school-scoring-averages.test.ts lib/pickem-lifecycle.test.ts lib/pickem-client-state.test.ts lib/pickem-week-summary.test.ts lib/pickem-contest-display.test.ts
       - run: npx tsc --noEmit
+      - run: node --import tsx --test lib/member-status.test.ts lib/business-conflict.test.ts lib/score-conflict.test.ts
+      - run: node scripts/test-week8-p0-migration.mjs
       - uses: supabase/setup-cli@v2
         with:
           version: 2.119.0
@@ -51,6 +69,12 @@ jobs:
       - name: Existing concurrent scoring regressions
         run: |
           PGPASSWORD=postgres bash supabase/tests/friday_scoring_race.sh
+          PGHOST=127.0.0.1 PGPORT=54322 PGPASSWORD=postgres timeout 60s python3 supabase/tests/week8_p0_native.py
+      - name: Complete conflict classification regressions
+        run: |
+          for file in pickem_future_week_admin pickem_outcome_schedule pickem_admin_outcomes public_uuid_hardening; do
+            PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f "supabase/tests/$file.sql" || exit 1
+          done
 
       - name: Score Scout disposable database tests
         run: PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f supabase/tests/score_scout_approval.sql
@@ -61,6 +85,12 @@ jobs:
       - name: Targeted lint and full build
         run: |
           npx eslint app/report-score/actions.ts app/report-score/page.tsx app/report-score/TrustedLiveScoreForm.tsx lib/assigned-scorekeeper.ts lib/assigned-scorekeeper.test.ts lib/assigned-scorekeeper-games.ts lib/assigned-scorekeeper-games.test.ts app/account/page.tsx
+          # Build against the local fixture and resolve the OG logo from the repository.
+          # Never fetch the production site or use fallback production API configuration.
+          NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321 \
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=isolated-build-placeholder \
+          NODE_OPTIONS="--import=$PWD/scripts/week8-p0-build-network-guard.mjs" \
+          P1_LOGO_FIXTURE="$PWD/public/logos/varsityvue-logo.png" \
           npm run build
           git diff --check
       - name: Authenticated browser dependencies

@@ -1,6 +1,8 @@
 import "server-only";
 
 import { redirect } from "next/navigation";
+import { cache } from "react";
+import { enforceMemberStatus, readMemberAccountStatus } from "@/lib/member-status";
 
 import { createClient } from "@/lib/supabase/server";
 
@@ -8,25 +10,9 @@ type ActiveMemberOptions = {
   loginPath?: string;
 };
 
-export async function memberAccountStatus(
-  supabase: Awaited<ReturnType<typeof createClient>>,
-  userId: string,
-) {
-  const { data, error } = await supabase
-    .from("member_account_status")
-    .select("status")
-    .eq("user_id", userId)
-    .maybeSingle();
-
-  if (error) {
-    console.error("Unable to verify member account status.", {
-      code: error.code,
-    });
-    return "unavailable" as const;
-  }
-
-  return data?.status === "active" ? "active" as const : "suspended" as const;
-}
+// React cache is scoped to the server render, never shared across requests.
+// Actions also perform a fresh bounded read; database authorization stays authoritative.
+export const memberAccountStatus = cache(readMemberAccountStatus);
 
 export async function requireActiveMember(options: ActiveMemberOptions = {}) {
   const supabase = await createClient();
@@ -37,13 +23,7 @@ export async function requireActiveMember(options: ActiveMemberOptions = {}) {
   if (!userId) redirect(options.loginPath ?? "/login");
 
   const status = await memberAccountStatus(supabase, userId);
-  if (status !== "active") {
-    // Revoking the current user's Auth sessions prevents future refreshes.
-    // The database status/RLS checks remain the immediate boundary because
-    // an already-issued access token stays valid until its normal expiry.
-    await supabase.auth.signOut({ scope: "global" }).catch(() => undefined);
-    redirect("/account-suspended");
-  }
+  await enforceMemberStatus(status, () => supabase.auth.signOut({ scope: "global" }), redirect);
 
   return { supabase, userId, claims };
 }
