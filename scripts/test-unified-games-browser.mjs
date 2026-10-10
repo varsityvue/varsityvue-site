@@ -1249,6 +1249,8 @@ try {
   assert.match(await page.locator("main").innerText(), /Cancelled/);
   assert.equal(new URL(page.url()).pathname, route);
   }
+  // Native-GET legacy transitions also require the raw catalog's pre-kickoff Upcoming game.
+  writeFileSync(clockFile, "2026-10-05T20:00:00Z");
   for (const route of ["/games", "/scoreboard"]) {
     page = await c.newPage();
     const ids = () => page.locator("[data-game-id]").evaluateAll(es => es.map(e => e.dataset.gameId).sort());
@@ -1281,6 +1283,7 @@ try {
     await page.close();
   }
   await c.close();
+  writeFileSync(clockFile, "");
   pass("F2: Both aliases without JavaScript: legacy current/verified transitions match expected ordinary games; unrelated public context preserved");
   c = await context();
   await authenticated(c);
