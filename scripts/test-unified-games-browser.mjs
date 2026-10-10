@@ -646,7 +646,6 @@ async function allGamesRefinements(page, route) {
         return query.get('season') === expected &&
           document.querySelector('select[name="season"]')?.value === expected;
       }, season, { timeout: 5000 });
-      await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
       const restored = new URL(page.url());
       assert.equal(restored.searchParams.get('season'), season);
       assert.equal(await page.getByLabel('Season', { exact: true }).inputValue(), season);
