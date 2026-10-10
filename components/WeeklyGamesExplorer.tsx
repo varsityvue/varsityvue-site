@@ -188,6 +188,11 @@ export default function WeeklyGamesExplorer(props: Props) {
   const finishCoverageFromEvent = useEffectEvent(coverage.finish);
   useEffect(() => {
     const restore = () => {
+      // A pending Next router commit can otherwise overwrite a rapid Back/Forward
+      // traversal. Re-sync its canonical URL through the supported history API;
+      // preserve the exact restored query/hash without adding an entry or a read.
+      const restoredHref = window.location.href;
+      window.history.replaceState(null, "", restoredHref);
       generation.current++;
       request.current?.abort();
       request.current = null;

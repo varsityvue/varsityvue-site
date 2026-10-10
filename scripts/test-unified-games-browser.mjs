@@ -636,6 +636,29 @@ async function allGamesRefinements(page, route) {
   assert.equal(new URL(page.url()).searchParams.get('classification'),'Unavailable');
   assert.equal(new URL(page.url()).searchParams.get('result'),'verified');
   await page.goBack(); await settled(page); assert.equal(new URL(page.url()).searchParams.get('season'),'2025');
+  // Exercise rapid traversals while Next may still have a pending router commit.
+  // The restored URL and controls must agree, including shared-link refinements.
+  for (let traversal = 0; traversal < 5; traversal++) {
+    for (const [direction, season] of [['goForward', '2026'], ['goBack', '2025']]) {
+      await page[direction]();
+      await page.waitForFunction(expected => {
+        const query = new URLSearchParams(location.search);
+        return query.get('season') === expected &&
+          document.querySelector('select[name="season"]')?.value === expected;
+      }, season, { timeout: 5000 });
+      await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+      const restored = new URL(page.url());
+      assert.equal(restored.searchParams.get('season'), season);
+      assert.equal(await page.getByLabel('Season', { exact: true }).inputValue(), season);
+      assert.equal(restored.searchParams.get('classification'), 'Unavailable');
+      assert.equal(restored.searchParams.get('result'), 'verified');
+      assert.equal(restored.searchParams.get('week'), 'all');
+    }
+  }
+  // A late router commit must not overwrite the final restored entry.
+  await page.waitForTimeout(1000);
+  assert.equal(new URL(page.url()).searchParams.get('season'), '2025');
+  assert.equal(await page.getByLabel('Season', { exact: true }).inputValue(), '2025');
   pass(`${route}: All Games/Your Teams 390/400/430/1280 at 100/200% text, unobscured keyboard clears, canonical dedupe, filter/navigation/Game Center and season history`);
 }
 async function followingFailure(page,route) {
