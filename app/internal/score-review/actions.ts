@@ -1,5 +1,7 @@
 "use server";
 
+import { isScoreConflict, scoreConflictMessage } from "@/lib/score-conflict";
+
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -170,10 +172,10 @@ export async function approveScoreSubmission(formData: FormData) {
     .eq("id", submissionId)
     .eq("status", "pending")
     .select("id")
-    .maybeSingle();
+    .maybeSingle().retry(false);
 
   if (error) {
-    redirect(`/internal/score-review?message=${encodeURIComponent(error.code === "40001" ? "Game changed — review the current score before approving." : error.message)}`);
+    redirect(`/internal/score-review?message=${encodeURIComponent(isScoreConflict(error) ? scoreConflictMessage : error.message)}`);
   }
   if (!approved) {
     redirect(`/internal/score-review?message=${encodeURIComponent("Report changed during review — refresh the queue and check the current canonical score.")}`);

@@ -1,3 +1,4 @@
+import { isScoreConflict, scoreConflictMessage } from "./score-conflict";
 import { normalizeLivePeriod } from "./live-period";
 
 export type LiveScoreState = {
@@ -42,7 +43,7 @@ export function assignedLivePayload(form: FormData) {
   };
 }
 export function assignedLiveError(error: { code?: string; message?: string }) {
-  if (error.code === "40001") return "Game changed — review the current score.";
+  if (isScoreConflict(error)) return scoreConflictMessage;
   if (error.code === "42501") return "Your active scorekeeper access no longer covers this game. Ask an administrator to review your role, assignment, or account status.";
   if (error.code === "55000") return "A verified numeric LIVE game must already exist. Ask a moderator to start or finalize this game.";
   if (error.code === "22023") return "Check the scores, period, clock, and score-decrease confirmation before publishing.";
