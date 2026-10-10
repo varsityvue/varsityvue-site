@@ -2,10 +2,15 @@ import assert from "node:assert/strict";
 import http from "node:http";
 import { createHmac } from "node:crypto";
 import { spawn, execFileSync } from "node:child_process";
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync, mkdtempSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 const evidence = "unified-games-browser-evidence";
 mkdirSync(evidence, { recursive: true });
+const clockDirectory = mkdtempSync(`${tmpdir()}/varsityvue-browser-clock-`);
+const clockFile = `${clockDirectory}/time`;
+writeFileSync(clockFile, "");
 const origin = "http://127.0.0.1:3019";
 const id = "00000000-0000-4000-8000-000000000001";
 const payload = {
@@ -158,6 +163,7 @@ function start() {
   app = spawn(
     process.execPath,
     [
+      "--import", fileURLToPath(new URL("./test-browser-clock.mjs", import.meta.url)),
       "node_modules/next/dist/bin/next",
       "dev",
       "--hostname",
@@ -170,6 +176,7 @@ function start() {
       detached: process.platform !== "win32",
       env: {
         ...process.env,
+        VARSITYVUE_BROWSER_CLOCK_FILE: clockFile,
         NEXT_PUBLIC_SUPABASE_URL: "http://127.0.0.1:54329",
         NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "fixture-public-key",
         SUPABASE_SERVICE_ROLE_KEY: "",
@@ -401,6 +408,10 @@ async function statusRegressions(page, route, noJavaScript = false) {
 }
 async function nearbyStatusRegression(page, route) {
   const label = route.slice(1);
+  // The seven-Upcoming assertion is explicitly a pre-kickoff scenario.
+  // Pin server-rendered fetchedAt as well as browser time; keep timers real.
+  writeFileSync(clockFile, "2026-10-05T20:00:00Z");
+  await page.clock.setFixedTime(new Date("2026-10-05T20:00:00Z"));
   mode = "schedule";
   // Real catalog, no dynamic score overrides: reproduce both the clean and restricted sequences.
   for (const legacy of [false, true]) {
@@ -463,6 +474,8 @@ async function nearbyStatusRegression(page, route) {
   assert.equal(await page.locator("[data-game-id]").count(), 0);
   assert.equal(await page.evaluate(() => window.locationCalls), 0);
   pass(`${label}: clean seven-game and legacy-zero sequence; explicit statuses preserve center; failed refresh retains seven rows/timestamp; history and detail returns clear center only`);
+  writeFileSync(clockFile, "");
+  await page.clock.setSystemTime(new Date());
   mode = "normal";
 }
 // Inspect the controls and rendered text, not just document overflow.
@@ -1574,4 +1587,5 @@ try {
   api.closeAllConnections();
   api.close();
   writeFileSync(`${evidence}/server.log`, log);
+  rmSync(clockDirectory, { recursive: true, force: true });
 }

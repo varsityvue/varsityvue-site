@@ -69,7 +69,7 @@ try {
  await page.goto(`http://127.0.0.1:3000/report-score?game=${game}`);await page.getByRole('heading',{name:'Trusted LIVE Update',exact:true}).waitFor();
  const revision=await trusted().locator('[name=expected_state_revision]').inputValue();const updated=await trusted().locator('[name=expected_state_updated_at]').inputValue();
  sql(`select set_config('request.jwt.claim.sub','${admin}',false);set role authenticated;select public.submit_trusted_score_update('${game}',14,28,'live','4th','02:00',null,'${updated}',${revision},false)`);
- await trusted().locator('[name=away_score]').fill('21');await trusted().getByRole('button').click();await page.getByText('Game changed — review the current score.',{exact:true}).waitFor();
+ await trusted().locator('[name=away_score]').fill('21');await trusted().getByRole('button').click();await page.getByText('Another scorekeeper updated this game. Refresh to review the latest score, then submit your update again.',{exact:true}).waitFor();
  assert.equal(sql(`select away_score from public.game_state where game_id='${game}'`),'28');
  // Connection loss does not fabricate success; reconnect/reload reconciles the
  // latest authoritative tokens before another publication attempt.
