@@ -85,6 +85,12 @@ jobs:
       - name: Targeted lint and full build
         run: |
           npx eslint app/report-score/actions.ts app/report-score/page.tsx app/report-score/TrustedLiveScoreForm.tsx lib/assigned-scorekeeper.ts lib/assigned-scorekeeper.test.ts lib/assigned-scorekeeper-games.ts lib/assigned-scorekeeper-games.test.ts app/account/page.tsx
+          # Build against the local fixture and resolve the OG logo from the repository.
+          # Never fetch the production site or use fallback production API configuration.
+          NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321 \
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=isolated-build-placeholder \
+          NODE_OPTIONS="--import=$PWD/scripts/week8-p0-build-network-guard.mjs" \
+          P1_LOGO_FIXTURE="$PWD/public/logos/varsityvue-logo.png" \
           npm run build
           git diff --check
       - name: Authenticated browser dependencies

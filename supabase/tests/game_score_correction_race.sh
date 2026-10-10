@@ -3,6 +3,8 @@ set -euo pipefail
 export PGPASSWORD="${PGPASSWORD:-postgres}"
 PSQL=(psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres)
 GAME_ID="__score_lock_race__"
+ACTOR=$("${PSQL[@]}" -At -c "select user_id from public.user_roles where role in ('admin','moderator') order by user_id limit 1")
+[[ "$ACTOR" =~ ^[0-9a-f-]{36}$ ]] || { echo 'Synthetic moderator/admin fixture required'; exit 1; }
 MARKER=$(mktemp)
 rm -f "$MARKER"
 A_LOG=$(mktemp)
@@ -31,7 +33,7 @@ START=$(date +%s)
 set +e
 "${PSQL[@]}" >"$B_LOG" 2>&1 <<SQL
 set role authenticated;
-select set_config('request.jwt.claim.sub','00000000-0000-4000-8000-000000000402',false);
+select set_config('request.jwt.claim.sub','$ACTOR',false);
 select public.correct_game_score('$GAME_ID','$EXPECTED'::timestamptz,0,'live',7,10,'Q2','03:00','Stale concurrent edit');
 SQL
 B_RESULT=$?

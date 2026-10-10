@@ -4,10 +4,11 @@ begin;
 insert into private.canonical_game_identity(game_id,away_school_slug,home_school_slug)
 values('__score_correction__','away-a','home-a');
 create temporary table correction_ids (key text primary key, value uuid not null) on commit preserve rows;
-insert into correction_ids select 'admin', user_id from public.user_roles where role='admin' order by user_id limit 1;
-insert into correction_ids select 'moderator', user_id from public.user_roles where role='moderator' order by user_id limit 1;
-insert into correction_ids select 'member', user_id from public.member_account_status
-  where status='active' and user_id not in (select value from correction_ids) order by user_id limit 1;
+-- Own actors prevent persisted contest-number bindings from other suites affecting this fixture.
+insert into auth.users(id,instance_id,aud,role,email,encrypted_password,email_confirmed_at,raw_app_meta_data,raw_user_meta_data,created_at,updated_at)
+select ('00000000-0000-4000-8000-00000000039'||n)::uuid,'00000000-0000-0000-0000-000000000000','authenticated','authenticated','correction-'||n||'@example.invalid','!',now(),'{}','{}',now(),now() from generate_series(1,3) n;
+insert into public.user_roles(user_id,role) values('00000000-0000-4000-8000-000000000391','admin'),('00000000-0000-4000-8000-000000000392','moderator');
+insert into correction_ids values('admin','00000000-0000-4000-8000-000000000391'),('moderator','00000000-0000-4000-8000-000000000392'),('member','00000000-0000-4000-8000-000000000393');
 do $$ begin if (select count(*) from correction_ids) <> 3 then raise exception 'Admin, moderator and active member fixtures required'; end if; end $$;
 grant select on correction_ids to authenticated;
 
@@ -28,10 +29,10 @@ do $$ declare week_id uuid; selected_id uuid; begin
   select id into week_id from public.pickem_weeks where season=2097 and week=27;
   select id into selected_id from public.pickem_games where game_id='__score_correction__';
   perform set_config('request.jwt.claim.sub',(select value::text from correction_ids where key='member'),true);
-  perform public.submit_pickem_contest_entry(week_id,'2545550491',35,
+  perform public.submit_pickem_contest_entry(week_id,'2545550391',35,
     jsonb_build_object(selected_id::text,'away-a'),true);
   perform set_config('request.jwt.claim.sub',(select value::text from correction_ids where key='moderator'),true);
-  perform public.submit_pickem_contest_entry(week_id,'2545550492',42,
+  perform public.submit_pickem_contest_entry(week_id,'2545550392',42,
     jsonb_build_object(selected_id::text,'home-a'),true);
 end $$;
 reset role;
@@ -158,4 +159,5 @@ delete from public.pickem_contest_entries where week_id =
 delete from public.pickem_weeks where season=2097 and week=27 and title='__correction__';
 delete from public.game_state where game_id='__score_correction__';
 delete from private.canonical_game_identity where game_id='__score_correction__';
+delete from auth.users where id in (select value from correction_ids);
 commit;
