@@ -35,3 +35,11 @@ The temporary sandbox used only synthetic data, no production credentials and no
 No production load testing occurred. Existing native-platform RLS/scoring evidence remains attached to the original Package2 tree; the correction changes only browser history restoration and its test, with no database/auth/publication changes.
 
 Fresh exact-head authorization and passing required checks (or an explicitly approved baseline-remediation decision) are required before any release. Monitoring remains disabled.
+
+## Follow-up CI evidence (2026-10-11)
+
+Correction head3aa9b97708b3e80c8aee34782aaafdd5d9a404dc, treeac6316e861b17f45682d5bc4c3d48b31a835de80, passed the full Unified Games CI run38096124420 (91unit tests,64prebuild tests and the complete browser matrix). Near Me passed in that run; the isolated failure is not established as a product regression.
+
+Headb44a5240874193c4ca4c13260b6e021932df6016 removed an unbounded test-only animation-frame wait, preserving bounded URL/control and delayed persistence assertions. Unified Games run38096614773 passed season history and Near Me, then failed a separate selected-school assertion in refinementRegressions: expectedde-leon, actualempty, after clearing a refinement. This is unresolved; a prior passing run does not waive it. The app's correction is identical across those heads.
+
+A PR76-branch-only diagnostic job now compares existing history and refinement assertions against the PR's exact main/base and candidate, with independent main npmci, identical Playwright, synthetic loopback APIs, no production credentials,240seconds per fixture and15minutes total. Original required verification remains unchanged. Evidence is retained separately for each revision. The added job is verification, not monitoring activation or a new service. Existing GitHub runner quota is consumed.
