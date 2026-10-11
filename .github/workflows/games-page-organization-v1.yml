@@ -5,6 +5,31 @@ on:
   push:
     branches: [codex/unified-games-scores-v1]
 jobs:
+  package2-baseline-comparison:
+    if: github.event_name == 'pull_request' && github.head_ref == 'fix/package2-public-resilience'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm install --no-save --package-lock=false playwright@1.63.0
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/compare-package2-browser-baseline.mjs
+        env:
+          PACKAGE2_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: package2-baseline-comparison-evidence
+          path: package2-baseline-comparison-evidence
   verify:
     runs-on: ubuntu-latest
     timeout-minutes: 20

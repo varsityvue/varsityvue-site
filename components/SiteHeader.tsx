@@ -1,7 +1,7 @@
 import Link from "next/link";
 import MobileNavigation from "@/components/MobileNavigation";
 import Image from "next/image";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicReadClient, readPublicClaims } from "@/lib/supabase/server";
 import TrackedSignupLink from "@/components/TrackedSignupLink";
 
 const navItems = [
@@ -12,22 +12,22 @@ const navItems = [
 ];
 
 export default async function SiteHeader() {
-  const supabase = await createClient();
-  const { data: claimsData } = await supabase.auth.getClaims();
+  const supabase = await createPublicReadClient();
+  const { data: claimsData } = await readPublicClaims();
   const signedIn = Boolean(claimsData?.claims?.sub);
   let pendingScoreReports = 0;
   if (signedIn) {
     const { data: roles } = await supabase
       .from("user_roles")
       .select("role")
-      .eq("user_id", claimsData!.claims!.sub);
+      .eq("user_id", claimsData!.claims!.sub).retry(false);
     if (
       roles?.some((row) => row.role === "admin" || row.role === "moderator")
     ) {
       const { count } = await supabase
         .from("score_submissions")
         .select("id", { count: "exact", head: true })
-        .eq("status", "pending");
+        .eq("status", "pending").retry(false);
       pendingScoreReports = count ?? 0;
     }
   }

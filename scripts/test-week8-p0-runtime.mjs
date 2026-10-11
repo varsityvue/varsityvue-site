@@ -68,7 +68,7 @@ try{
  console.log('PASS HTTP ordinary-member publication rejection and row-level privacy/write enforcement');
  const probe=net.createServer();await new Promise((resolve,reject)=>{probe.once('error',reject);probe.listen(3000,'127.0.0.1',resolve);});await new Promise(resolve=>probe.close(resolve));
  browser=await chromium.launch();
- app=spawn(process.execPath,['node_modules/next/dist/bin/next','dev','--hostname','127.0.0.1','--port','3000'],{detached:true,env:{...process.env,NEXT_PUBLIC_SUPABASE_URL:api,NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:v.ANON_KEY,NEXT_TELEMETRY_DISABLED:'1'},stdio:['ignore',fs.openSync('/tmp/p0-app.log','w'),'pipe']});
+ app=spawn(process.execPath,['node_modules/next/dist/bin/next',process.env.P1_PRODUCTION_BUILD === '1' ? 'start' : 'dev','--hostname','127.0.0.1','--port','3000'],{detached:true,env:{...process.env,NEXT_PUBLIC_SUPABASE_URL:api,NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:v.ANON_KEY,NEXT_TELEMETRY_DISABLED:'1'},stdio:['ignore',fs.openSync('/tmp/p0-app.log','w'),'pipe']});
  for(let i=0;i<90;i++){try{if((await fetch('http://127.0.0.1:3000/login')).ok)break;}catch{}await new Promise(r=>setTimeout(r,500));assert.notEqual(i,89);}
  assert.equal(app.exitCode,null,'Application process must be running');
  async function context(actor){const c=await browser.newContext();const session=(await actor.client.auth.getSession()).data.session;const encoded='base64-'+Buffer.from(JSON.stringify(session)).toString('base64url');const chunks=encoded.match(/.{1,3180}/g);await c.addCookies(chunks.map((value,i)=>({name:chunks.length===1?'sb-127-auth-token':`sb-127-auth-token.${i}`,value,url:'http://127.0.0.1:3000',sameSite:'Lax'})));return c;}

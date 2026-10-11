@@ -1,3 +1,4 @@
+import { publicReadFetch } from "@/lib/public-read";
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { getSupabaseConfig } from "@/lib/supabase/config";
@@ -8,6 +9,7 @@ export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
 
   const supabase = createServerClient(url, publishableKey, {
+    global: { fetch: publicReadFetch() },
     cookies: {
       getAll() {
         return request.cookies.getAll();
@@ -28,7 +30,8 @@ export async function updateSession(request: NextRequest) {
     },
   });
 
-  await supabase.auth.getClaims();
+  // Refresh failure is not authority. Protected pages/actions independently validate access.
+  await supabase.auth.getClaims().catch(() => undefined);
 
   if (!request.cookies.has(ATTRIBUTION_COOKIE)) {
     const attribution = normalizedAttribution({

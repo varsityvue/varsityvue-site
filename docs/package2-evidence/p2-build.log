@@ -1,0 +1,209 @@
+
+> varsityvue-app@0.1.0 prebuild
+> node --import tsx --test lib/games.test.ts data/game-previews.test.ts lib/game-discovery.test.ts lib/game-presentation.test.ts lib/follow-personalization.test.ts lib/public-score-loader.test.ts lib/unified-games.test.ts lib/stat-values.test.ts lib/score-strip.test.tsx
+
+✔ Jacksboro at Cisco has a concise preview linked to the published article (1.9348ms)
+✔ existing coverage and games without articles retain their behavior (0.173627ms)
+✔ empty follows, one follow, and both teams followed yield one game (2.349584ms)
+✔ followed games order live, nearest upcoming, latest final, then stable fallback (12.386707ms)
+✔ equal kickoff and unknown kickoff have deterministic matchup/id fallback (0.264811ms)
+✔ homepage handles many follows, unknown slug, no game, and state transitions (0.610046ms)
+✔ Scores Following spans dates and excludes old finals and distant upcoming games (20.245328ms)
+✔ Scores Following deduplicates both-team matches and many follows within the window (0.626191ms)
+✔ timing-derived live games do not outrank verified LIVE games (0.338168ms)
+✔ venue IDs unique; bounded 35 school mappings and 36 physical venues (1.338029ms)
+✔ verified coordinate ranges and research provenance (0.565195ms)
+✔ every school mapping resolves; all 10 Featured Schools verified (0.510692ms)
+✔ Week 7 exact canonical 17-of-17 complete, IDs unchanged (1.193871ms)
+✔ missing venue, unverified venue and invalid coordinates fail closed (0.309085ms)
+✔ explicit override precedence; broken explicit override never falls back (0.19392ms)
+✔ neutral and playoff games require verified explicit override (0.223111ms)
+✔ incomplete/changed/duplicate slate and unverified weeks are disabled (0.45365ms)
+✔ current Central schedule week is independent of Pick Em and does not auto-enable Week 10 (10.227132ms)
+✔ Haversine known fixtures, identical points and antipodes (0.91569ms)
+✔ radius uses exact distance before display rounding (0.555219ms)
+✔ LIVE first then upcoming, nearest, kickoff and stable canonical ID (1.562254ms)
+✔ byes and scrimmages excluded, FINAL separately, filters distinguish no matches (0.303745ms)
+✔ public DTO allowlist strips member/provenance and repository sources (0.386862ms)
+✔ kickoff inferred LIVE never claims verified score coverage (0.155046ms)
+✔ client location is transient and discovery does not transmit it (0.486465ms)
+✔ Week 8 exact canonical 17-of-17 slate fails closed on missing, changed, duplicate or unresolved games (0.559211ms)
+✔ all mappings and overrides reference canonical schools, games and unique verified venues (0.692949ms)
+✔ Week 9 exact canonical district slate has no historical bye or scrimmage inflation (0.419877ms)
+✔ Week 9 approval fails closed on missing, extra, duplicate, changed or unresolved games (0.314894ms)
+✔ all five new Week 9 home venues resolve; invalid or unverified records disable approval (11.486046ms)
+✔ Week 9 reuses all twelve approved venue identities without game overrides (0.480183ms)
+✔ Week 10 remains disabled despite 17 verified locations; Week 11 remains unapproved (0.277119ms)
+✔ future kickoff is scheduled for upcoming and scheduled source states (1.270827ms)
+✔ timing-only kickoff window never claims live authority or score (0.217587ms)
+✔ verified live 0-0 remains a legitimate authoritative score (0.155835ms)
+✔ verified LIVE remains live beyond the four-hour window (0.183537ms)
+✔ date-only kickoff does not infer live status (22.307091ms)
+✔ elapsed exact kickoff becomes result awaiting verification after the window (0.211901ms)
+✔ verified final and exceptional outcomes are distinct (0.259155ms)
+✔ postponed and cancelled are preserved (0.171153ms)
+✔ pending or contributor-derived numeric scores remain non-authoritative without verified public state (0.212671ms)
+✔ Week 5 has exactly one Game of the Week (42.938398ms)
+✔ Tolar at Comanche remains a normal Week 5 matchup (14.743392ms)
+✔ every designated Game of the Week has a short, written pregame matchup summary (84.41293ms)
+✔ primary public score contract reports primary success (1.531233ms)
+✔ verified fallback remains distinguishable from primary success (0.426026ms)
+✔ failure of both public score reads is explicit (0.885393ms)
+✔ upcoming: server-rendered strip contains each matchup exactly once (15.083598ms)
+✔ finals: server-rendered strip contains each matchup exactly once (3.487018ms)
+✔ sumVerifiedStats preserves exact totals when every component is known (2.605363ms)
+✔ sumVerifiedStats returns a verified lower bound when a component is unknown (1.769744ms)
+✔ sumVerifiedStats does not invent a total when every component is unknown (0.271736ms)
+✔ Central current week wins over next upcoming; scores intent prefers verified live (27.251537ms)
+✔ explicit empty week stays selected; legacy search/result/current context is seasonwide (1.551364ms)
+✔ strict LIVE excludes inferred kickoff and preserves 0-0; completed includes cancelled, verified-only excludes it (1.697417ms)
+✔ combined filters intersect and canonical games dedupe even when both schools followed (0.654474ms)
+✔ Nearby is distance-first, never pulls followed out-of-radius games; completed discoverable (0.913036ms)
+✔ links round-trip public context and discard coordinates, unknown identifiers, and open redirects (1.626543ms)
+✔ scores links preserve existing valid campaign tokens without private or arbitrary context (0.261385ms)
+✔ both aliases preserve collection and safe Game Center return context (0.598425ms)
+✔ week date label collapses equal Central dates while retaining distinct ranges (1.548085ms)
+✔ legacy status selection and URL round trips preserve exact intersections on both aliases (24.332055ms)
+✔ explicit modern status wins over all contradictory legacy forms without losing refinements (55.460502ms)
+✔ canonical legacy base filters retain exact conjunctions; malformed status is not an explicit selection (12.835057ms)
+ℹ tests 64
+ℹ suites 0
+ℹ pass 64
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3413.173227
+
+> varsityvue-app@0.1.0 build
+> next build
+
+▲ Next.js 16.4.0 (Turbopack)
+✓ Running next.config.ts took 56ms
+- Experiments (use with caution):
+  · serverActions
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 15.3s
+  Running TypeScript ...
+  Finished TypeScript in 17.9s ...
+  Collecting page data using 1 worker ...
+  Generating static pages using 1 worker (0/80) ...
+  Generating static pages using 1 worker (20/80)
+  Generating static pages using 1 worker (40/80)
+Invalid value "104" for "height". Expected a number, "auto", or a percentage value (e.g., "50%").
+Invalid value "104" for "width". Expected a number, "auto", or a percentage value (e.g., "50%").
+  Generating static pages using 1 worker (60/80)
+Invalid value "104" for "height". Expected a number, "auto", or a percentage value (e.g., "50%").
+Invalid value "104" for "width". Expected a number, "auto", or a percentage value (e.g., "50%").
+✓ Generating static pages using 1 worker (80/80) in 2.3s
+  Finalizing page optimization ...
+
+Route (app)
+┌ ƒ /
+├ ƒ /_not-found
+├ ƒ /about
+├ ƒ /account
+├ ƒ /account-suspended
+├ ƒ /account-unavailable
+├ ƒ /add-to-home-screen
+├ ƒ /api/coverage-demand
+├ ƒ /api/coverage-demand-fleet/recovery
+├ ƒ /api/cron/coverage-demand-fleet
+├ ƒ /api/cron/coverage-demand-retention
+├ ƒ /api/cron/member-notifications
+├ ƒ /api/cron/product-emails
+├ ƒ /api/email/unsubscribe
+├ ƒ /api/games/snapshot
+├ ƒ /api/webhooks/resend/product-email
+├ ○ /apple-icon
+├ ƒ /auth/confirm
+├ ƒ /auth/recovery
+├ ƒ /auth/signout
+├ ƒ /contact
+├ ƒ /contributors
+├ ƒ /coverage
+├ ƒ /coverage/[slug]
+├ ○ /coverage/opengraph-image
+├ ○ /coverage/twitter-image
+├ ƒ /districts
+├ ƒ /districts/[slug]
+├ ○ /districts/opengraph-image
+├ ○ /districts/twitter-image
+├ ƒ /email/unsubscribe
+├ ƒ /follow/complete
+├ ƒ /forgot-password
+├ ƒ /games
+├ ƒ /games/[gameId]
+├ ƒ /games/[gameId]/opengraph-image
+├ ƒ /games/[gameId]/twitter-image
+├ ○ /games/opengraph-image
+├ ○ /games/twitter-image
+├ ○ /icon
+├ ƒ /internal/contributor-access
+├ ƒ /internal/conversions
+├ ƒ /internal/data-ingestion
+├ ƒ /internal/data-ingestion/[id]
+├ ƒ /internal/data-ingestion/[id]/export
+├ ƒ /internal/data-ingestion/[id]/history
+├ ƒ /internal/data-ingestion/[id]/image
+├ ƒ /internal/data-ingestion/[id]/source/[source]
+├ ƒ /internal/data-ingestion/cleanup
+├ ƒ /internal/data-ingestion/new
+├ ƒ /internal/homepage-feature
+├ ƒ /internal/members
+├ ƒ /internal/pickem
+├ ƒ /internal/pickem/submissions
+├ ƒ /internal/product-email
+├ ƒ /internal/score-intelligence
+├ ƒ /internal/score-review
+├ ƒ /internal/score-review/correct
+├ ƒ /internal/score-review/history
+├ ƒ /internal/scoring
+├ ƒ /internal/stats-import
+├ ƒ /internal/team-feed
+├ ƒ /legacy
+├ ƒ /login
+├ ƒ /manage-roster
+├ ƒ /manage-roster/edit/[playerId]
+├ ○ /manifest.webmanifest
+├ ○ /opengraph-image
+├ ƒ /pickem
+├ ○ /pickem/opengraph-image
+├ ƒ /pickem/privacy
+├ ƒ /pickem/rules
+├ ○ /pickem/twitter-image
+├ ƒ /players/[playerId]
+├ ○ /players/opengraph-image
+├ ○ /players/twitter-image
+├ ƒ /privacy
+├ ƒ /recommend-school
+├ ƒ /report-score
+├ ƒ /reset-password
+├ ○ /robots.txt
+├ ƒ /school-request
+├ ƒ /schools
+├ ƒ /schools/[slug]
+├ ƒ /schools/[slug]/feed
+├ ƒ /schools/[slug]/feed/more
+├ ƒ /schools/[slug]/roster
+├ ƒ /schools/[slug]/schedule
+├ ○ /schools/opengraph-image
+├ ○ /schools/twitter-image
+├ ƒ /scoreboard
+├ ○ /scoreboard/opengraph-image
+├ ○ /scoreboard/twitter-image
+├ ƒ /sitemap.xml
+├ ƒ /sponsor-inquiry
+├ ƒ /sponsor-inquiry/success
+├ ƒ /sponsors
+├ ƒ /stats
+├ ƒ /stats/districts/[districtSlug]
+├ ƒ /submit
+└ ○ /twitter-image
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand

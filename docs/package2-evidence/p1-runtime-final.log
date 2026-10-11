@@ -1,0 +1,15 @@
+assigned argument contract ["p_game_id","p_home_score","p_away_score","p_period","p_clock","p_expected_state_updated_at","p_expected_state_revision","p_confirm_score_decrease"]
+PASS HTTP assigned PT409 single client request; score/history/audit unchanged
+PASS real PostgREST PT409 executes losing transaction exactly once
+PASS real Auth session preserved/recovered and protected gate closed: member
+PASS real Auth session preserved/recovered and protected gate closed: scorekeeper
+PASS real Auth session preserved/recovered and protected gate closed: moderator
+PASS real Auth session preserved/recovered and protected gate closed: admin
+PASS real HTTP account-status timeout bounded; no SDK retry
+PASS HTTP ordinary-member publication rejection and row-level privacy/write enforcement
+PASS browser assigned stale conflict message; losing save cannot overwrite winner
+PASS browser mutation fails closed before score RPC during temporary failure; recoverable page/cookie/scoring form recovery
+PASS revoked assignment denied in HTTP RPC and browser
+PASS explicitly suspended account denied and browser session removed
+PASS browser anonymous denial and moderator/admin scoring access
+PASS ALL PACKAGE 1 AUTH/HTTP/BROWSER VERIFICATION

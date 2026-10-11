@@ -1,3 +1,4 @@
+import { cache } from "react";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { projectPublicScoreState, type PublicScoreState } from "@/lib/public-score-state";
 
@@ -10,8 +11,9 @@ export type PublicScoreLoadResult = {
 
 // Both score and byline come from one database statement when the primary RPC is available.
 // The fallback preserves verified public scores during additive rollout, but never invents attribution.
-export async function loadPublicScoreStatesResult(supabase: SupabaseClient): Promise<PublicScoreLoadResult> {
-  const { data, error } = await supabase.rpc("public_score_states");
+export const loadPublicScoreStatesResult = cache(async (supabase: SupabaseClient): Promise<PublicScoreLoadResult> => {
+  try {
+  const { data, error } = await supabase.rpc("public_score_states").abortSignal(AbortSignal.timeout(3000)).retry(false);
   if (!error && Array.isArray(data)) {
     return {
       states: (data as PublicScoreState[]).map(projectPublicScoreState),
@@ -19,9 +21,12 @@ export async function loadPublicScoreStatesResult(supabase: SupabaseClient): Pro
     };
   }
 
+  // Never amplify capacity/transport/permission failures with a second read.
+  if (error?.code !== "PGRST202") return { states: [], status: "failed" };
+
   const fallback = await supabase.from("public_game_state")
     .select("game_id,status,home_score,away_score,period,clock,verified,kickoff_override,result_type,official_winner_school_slug")
-    .eq("verified", true);
+    .eq("verified", true).abortSignal(AbortSignal.timeout(3000)).retry(false);
 
   if (!fallback.error) {
     return {
@@ -33,7 +38,8 @@ export async function loadPublicScoreStatesResult(supabase: SupabaseClient): Pro
   }
 
   return { states: [], status: "failed" };
-}
+  } catch { return { states: [], status: "failed" }; }
+});
 
 export async function loadPublicScoreStates(supabase: SupabaseClient): Promise<PublicScoreState[]> {
   return (await loadPublicScoreStatesResult(supabase)).states;

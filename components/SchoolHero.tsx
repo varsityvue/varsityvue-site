@@ -31,7 +31,7 @@ function getGameMapUrl(game: { venue?: string; venueAddress?: string; homeTeam?:
   return query ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}` : undefined;
 }
 
-export default function SchoolHero({ school, games, isAuthenticated, isFollowing, finishFollowing = false, followMessage = "" }: { school: School; games: Game[]; isAuthenticated: boolean; isFollowing: boolean; finishFollowing?: boolean; followMessage?: string }) {
+export default function SchoolHero({ school, games, isAuthenticated, isFollowing, finishFollowing = false, followMessage = "", followUnavailable = false }: { school: School; games: Game[]; isAuthenticated: boolean; isFollowing: boolean; finishFollowing?: boolean; followMessage?: string; followUnavailable?: boolean }) {
   const upcomingGames = filterUpcomingGamesForSchool(games, school.slug);
   const nextGame = upcomingGames[0];
   const standing = getStandingForSchoolFromGames(school.slug, games); const seasonRecord = `${standing?.overallWins ?? 0}-${standing?.overallLosses ?? 0}`;
@@ -62,7 +62,7 @@ export default function SchoolHero({ school, games, isAuthenticated, isFollowing
               <p className="mt-1 truncate text-[9px] font-black uppercase tracking-[0.14em] text-white/55 sm:mt-2 sm:text-xs sm:tracking-[0.24em]">{school.fullName}</p>
             </div>
             <div className="col-span-2 mt-1 sm:col-span-1 sm:col-start-2 sm:mt-0">
-              <SchoolFollowControl schoolName={school.name} schoolSlug={school.slug} isAuthenticated={isAuthenticated} isFollowing={isFollowing} finishFollowing={finishFollowing} initialMessage={followMessage} />
+              <SchoolFollowControl unavailable={followUnavailable} schoolName={school.name} schoolSlug={school.slug} isAuthenticated={isAuthenticated} isFollowing={isFollowing} finishFollowing={finishFollowing} initialMessage={followMessage} />
             </div>
             <div className="col-span-2 mt-1 text-[10px] font-semibold leading-5 text-white/50 sm:col-span-1 sm:col-start-2 sm:mt-0 sm:text-xs sm:leading-6">
               {school.headCoach && <p><span className="text-white/55">Head coach:</span> {school.headCoach}</p>}

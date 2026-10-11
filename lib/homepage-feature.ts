@@ -1,6 +1,7 @@
+import { optionalRead } from "@/lib/public-read";
 import { getArticleBySlug } from "@/lib/articles";
 import { getGameById } from "@/lib/games";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicReadClient } from "@/lib/supabase/server";
 
 export const featureTypes = ["game_of_the_week", "district_preview", "district_predictions", "rivalry_week", "playoff_preview", "rankings", "general_feature"] as const;
 export type FeatureType = (typeof featureTypes)[number];
@@ -35,12 +36,14 @@ export function featureDestination(feature: HomepageFeature) {
   return null;
 }
 
-export async function getActiveHomepageFeature(): Promise<HomepageFeature | null> {
-  const supabase = await createClient();
-  const { data, error } = await supabase.from("homepage_editorial_features").select("*").eq("active", true).maybeSingle();
+async function readActiveHomepageFeature(): Promise<HomepageFeature | null> {
+  const supabase = await createPublicReadClient();
+  const { data, error } = await supabase.from("homepage_editorial_features").select("*").eq("active", true).maybeSingle().retry(false);
   if (error) {
     console.error("Homepage editorial feature unavailable", error.code);
     return null;
   }
   return data as HomepageFeature | null;
 }
+
+export const getActiveHomepageFeature = () => optionalRead(readActiveHomepageFeature, null);

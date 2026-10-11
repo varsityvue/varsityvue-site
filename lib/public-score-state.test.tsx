@@ -52,10 +52,10 @@ test("explicit public projection strips all private payload fields", () => {
 
 test("loader keeps score and attribution in one RPC; unavailable RPC preserves score without a byline", async () => {
   let reads = 0;
-  const client = { rpc: async () => ({ data: [state], error: null }), from: () => { reads++; throw Error("Separate score read"); } };
+  const client = { rpc: () => builder({ data: [state], error: null }), from: () => { reads++; throw Error("Separate score read"); } };
   assert.deepEqual(await loadPublicScoreStates(client as unknown as SupabaseClient), [state]);
   assert.equal(reads, 0);
-  const fallback = { rpc: async () => ({ data: null, error: { code: "PGRST202" } }), from: () => ({ select: () => ({ eq: async () => ({ data: [state] }) }) }) };
+  const fallback = { rpc: () => builder({ data: null, error: { code: "PGRST202" } }), from: () => ({ select: () => ({ eq: () => builder({ data: [state] }) }) }) };
   const [row] = await loadPublicScoreStates(fallback as unknown as SupabaseClient);
   assert.equal(row.away_score, 7);
   assert.equal(getScoreAttribution(row), undefined);
@@ -78,3 +78,5 @@ test("only approved full surfaces mount attribution; excluded compact surfaces s
     catch (error) { if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error; }
   }
 });
+
+function builder(result: unknown) { return { abortSignal() { return this; }, retry() { return Promise.resolve(result); } }; }
