@@ -260,8 +260,13 @@ async function settled(page) {
     await page.waitForFunction(() => {
       const q = new URLSearchParams(location.search);
       const active = document.querySelector('select[name="filter"]');
-      return q.has("season") && active?.value === (q.get("filter") ?? "all");
-    });
+      // SSR controls alone do not prove hydration. Every synthetic context
+      // seeds a declined preference; this visible status appears only after
+      // the Nearby owner mounts and reconciles that preference.
+      const nearbyReady = q.get('mode') !== 'nearby' ||
+        document.querySelector('.weekly-measurement [role="status"]')?.textContent.includes('Preference: don’t share');
+      return q.has("season") && active?.value === (q.get("filter") ?? "all") && nearbyReady;
+    }, null, { timeout: 15000 });
   } catch (error) {
     console.error("HYDRATION FAILURE", await page.locator("body").innerText());
     await page.screenshot({ path: `${evidence}/failure.png`, fullPage: true });
