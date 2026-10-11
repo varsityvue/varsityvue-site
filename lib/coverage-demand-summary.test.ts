@@ -5,7 +5,19 @@ import { createHash } from "node:crypto";
 import { getGames } from "./games";
 import { buildSearchSummary,validSummary,SUMMARY_FIELDS } from "./coverage-demand-summary";
 import { LOCATION_CATALOG_VERSION,SCHEDULE_CATALOG_VERSION } from "./coverage-catalog-versions";
-import { fixtureGames,fixtureSummary } from "./coverage-demand-test-fixture";
+import { fixtureGames as catalogFixtureGames } from "./coverage-demand-test-fixture";
+
+// Validation scenarios must not depend on the catalog's evolving game status.
+// The real Week 7 slate may be entirely FINAL after Friday, leaving no
+// default-eligible rows and weakening the tests' impossible-count assertions.
+// Keep the exact real locations, identities and pilot gate; only fix test-only
+// Week 7 presentation states to an eligible, unverified UPCOMING baseline.
+const fixtureGames = catalogFixtureGames.map(g => g.season === 2026 && g.week === 7
+  ? { ...g, status: "upcoming" as const, livePresentation: null }
+  : g);
+const fixtureSummary = buildSearchSummary(fixtureGames,
+  {latitude:32.123456789,longitude:-98.543210987}, "browser_location", 7, 50, "", "all")!;
+
 
 test("allowlist rejects every extra field, identity, query text, aliases and selected identity",()=>{
  assert.ok(validSummary(fixtureSummary)); assert.equal(Object.keys(fixtureSummary).length,SUMMARY_FIELDS.length);
