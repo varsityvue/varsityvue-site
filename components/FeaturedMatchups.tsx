@@ -5,7 +5,8 @@ import {
   type DynamicScoreState,
 } from "@/lib/scoreboard";
 import { getSchoolBySlug } from "@/lib/schools";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicReadClient } from "@/lib/supabase/server";
+import { loadPublicScoreStatesResult } from "@/lib/public-score-loader";
 import SchoolBadge from "./SchoolBadge";
 
 function parseGameDate(kickoff?: string) {
@@ -82,11 +83,8 @@ function BroadcastIcon({ type }: { type: string }) {
 }
 
 export default async function FeaturedMatchups() {
-  const supabase = await createClient();
-  const { data: dynamicRows } = await supabase
-    .from("public_game_state")
-    .select("game_id, status, home_score, away_score, period, clock, verified, kickoff_override")
-    .eq("verified", true);
+  const supabase = await createPublicReadClient();
+  const { states: dynamicRows } = await loadPublicScoreStatesResult(supabase);
   const dynamicState = new Map(
     ((dynamicRows ?? []) as DynamicScoreState[]).map((state) => [state.game_id, state]),
   );

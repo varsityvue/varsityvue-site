@@ -1,0 +1,31 @@
+✔ Data API 503 is one attempt, denies protected work, preserves session, then recovers (14.986687ms)
+✔ active contributors, moderators, administrators and members share the bounded eligibility gate (9.787432ms)
+✔ suspended and missing account rows still deny access and invoke suspension policy (2.138043ms)
+✔ network failures are unavailable, never authority (6.345697ms)
+✔ slow account-status read aborts within its budget without retry (3009.228391ms)
+✔ monitor cannot activate production while disabled (1.366708ms)
+✔ monitor is sequential and rejects stale/failed score snapshots (15.999072ms)
+✔ real HTTP 503/504/pool errors are single attempts without fallback; recovery preserves verified zero (76.115593ms)
+✔ optional exception is contained without forwarding private error (0.449578ms)
+✔ public transport aborts slow service and respects caller cancellation (3004.905807ms)
+✔ single visitor connection failure does not qualify as public outage (0.430395ms)
+✔ Request cancellation and no-store are preserved (1.551925ms)
+✔ missing, invalid and stale monitoring observations remain unknown (0.515013ms)
+✔ all proposed alert thresholds distinguish boundaries (0.29162ms)
+✔ primary public score contract reports primary success (7.866686ms)
+✔ verified fallback remains distinguishable from primary success (0.506455ms)
+✔ failure of both public score reads is explicit (8.857112ms)
+✔ LIVE public publisher and fallback copy; unsafe usernames never become handles (9.950066ms)
+✔ FINAL compact cards omit all bylines; detail only allows neutral lines (0.937498ms)
+✔ 30 character handle remains complete, readable and wraps without live-region announcements (1.007612ms)
+✔ explicit public projection strips all private payload fields (1.050752ms)
+✔ loader keeps score and attribution in one RPC; unavailable RPC preserves score without a byline (0.80141ms)
+✔ only approved full surfaces mount attribution; excluded compact surfaces stay unchanged (2.415611ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4551.451173

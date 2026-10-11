@@ -4,11 +4,11 @@ import {
   getHomepageScoreboardGames,
   type DynamicScoreState,
 } from "@/lib/scoreboard";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicReadClient } from "@/lib/supabase/server";
 import { loadPublicScoreStatesResult } from "@/lib/public-score-loader";
 
 export default async function ScoreStrip() {
-  const supabase = await createClient();
+  const supabase = await createPublicReadClient();
   const scoreLoad = await loadPublicScoreStatesResult(supabase);
   const dynamicState = new Map(
     (scoreLoad.states as DynamicScoreState[]).map((state) => [state.game_id, state]),

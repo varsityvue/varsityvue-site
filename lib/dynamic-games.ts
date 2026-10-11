@@ -1,4 +1,5 @@
-import { createClient } from "@/lib/supabase/server";
+import { cache } from "react";
+import { createPublicReadClient } from "@/lib/supabase/server";
 import { getGames, normalizeGameStatus } from "@/lib/games";
 import { clearInheritedSchoolBroadcasts } from "@/data/school-broadcasts";
 import { loadPublicScoreStatesResult, type PublicScoreLoadStatus } from "@/lib/public-score-loader";
@@ -47,9 +48,9 @@ export type DynamicGamesSnapshot = {
   scoreLoadStatus: PublicScoreLoadStatus;
 };
 
-export async function getDynamicGamesSnapshot(): Promise<DynamicGamesSnapshot> {
+export const getDynamicGamesSnapshot = cache(async (): Promise<DynamicGamesSnapshot> => {
   const baseGames = getGames();
-  const supabase = await createClient();
+  const supabase = await createPublicReadClient();
   const result = await loadPublicScoreStatesResult(supabase);
   if (!result.states.length) return { games: baseGames, scoreLoadStatus: result.status };
   const states = new Map(result.states.map((state) => [state.game_id, state]));
@@ -58,7 +59,7 @@ export async function getDynamicGamesSnapshot(): Promise<DynamicGamesSnapshot> {
     games: baseGames.map((game) => applyGameState(game, states.get(game.id))),
     scoreLoadStatus: result.status,
   };
-}
+});
 
 export async function getDynamicGames(): Promise<Game[]> {
   return (await getDynamicGamesSnapshot()).games;

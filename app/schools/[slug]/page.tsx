@@ -8,7 +8,7 @@ import { getSchoolBySlug } from "@/lib/schools";
 import { getDynamicGames } from "@/lib/dynamic-games";
 import { getDistrictById } from "@/lib/districts";
 import { getStandingsForDistrictIdFromGames } from "@/lib/standings";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicReadClient, readPublicClaims } from "@/lib/supabase/server";
 import { getSchoolBroadcastLinks } from "@/data/school-broadcasts";
 import SchoolHero from "../../../components/SchoolHero";
 import UpcomingSchedulePreview from "../../../components/UpcomingSchedulePreview";
@@ -35,7 +35,7 @@ export default async function SchoolPage({ params, searchParams }: { params: Pro
   const school = getSchoolBySlug(slug);
   if (!school) notFound();
   const feedEnabled = isTeamFeedEnabled(school.slug);
-  const feedPreview = feedEnabled ? await getFeedPosts(school.id, undefined, 2) : null;
+  const feedPreview = feedEnabled ? await getFeedPosts(school.id, undefined, 2).catch(() => null) : null;
   const district = getDistrictById(school.districtId);
   const districtSlug = district?.slug ?? school.districtId;
   const theme: SchoolTheme = { primary: school.colors.primary, secondary: school.colors.secondary, accent: school.colors.accent };
@@ -52,17 +52,19 @@ export default async function SchoolPage({ params, searchParams }: { params: Pro
 
   let canManageRoster = false;
   let isFollowing = false;
-  const supabase = await createClient();
-  const { data: claimsData } = await supabase.auth.getClaims();
+  const supabase = await createPublicReadClient();
+  const { data: claimsData, error: claimsError } = await readPublicClaims();
   const userId = claimsData?.claims?.sub;
+  let followFailed = Boolean(claimsError);
   if (userId) {
-    const [{ data: adminRole }, { data: coachAssignment }, { data: schoolFollow }] = await Promise.all([
-      supabase.from("user_roles").select("role").eq("user_id", userId).eq("role", "admin").maybeSingle(),
-      supabase.from("contributor_school_assignments").select("school_slug").eq("user_id", userId).eq("school_slug", school.slug).eq("assignment_role", "coach").eq("active", true).maybeSingle(),
-      supabase.from("school_follows").select("school_slug").eq("user_id", userId).eq("school_slug", school.slug).maybeSingle(),
+    const [{ data: adminRole }, { data: coachAssignment }, { data: schoolFollow, error: followError }] = await Promise.all([
+      supabase.from("user_roles").select("role").eq("user_id", userId).eq("role", "admin").maybeSingle().retry(false),
+      supabase.from("contributor_school_assignments").select("school_slug").eq("user_id", userId).eq("school_slug", school.slug).eq("assignment_role", "coach").eq("active", true).maybeSingle().retry(false),
+      supabase.from("school_follows").select("school_slug").eq("user_id", userId).eq("school_slug", school.slug).maybeSingle().retry(false),
     ]);
     canManageRoster = Boolean(adminRole || coachAssignment);
     isFollowing = Boolean(schoolFollow);
+    followFailed = Boolean(followError);
   }
 
   const schoolSchema = {
@@ -76,11 +78,11 @@ export default async function SchoolPage({ params, searchParams }: { params: Pro
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] text-white">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schoolSchema) }} />
-      <SchoolHero school={school} games={dynamicGames} isAuthenticated={Boolean(userId)} isFollowing={isFollowing} finishFollowing={Boolean(userId) && !isFollowing && followParams.finishFollow === school.slug} followMessage={isFollowing && followParams.followed === school.slug ? `You’re now following ${school.name}.` : !isFollowing && followParams.unfollowed === school.slug ? `You are no longer following ${school.name}.` : Boolean(userId) && !isFollowing && followParams.finishFollow === school.slug ? followParams.followError === "1" ? "Authentication succeeded, but the follow still needs your confirmation." : `Authentication succeeded. Select Finish Following to follow ${school.name}.` : ""} />
+      <SchoolHero followUnavailable={followFailed} school={school} games={dynamicGames} isAuthenticated={Boolean(userId)} isFollowing={isFollowing} finishFollowing={Boolean(userId) && !isFollowing && followParams.finishFollow === school.slug} followMessage={isFollowing && followParams.followed === school.slug ? `You’re now following ${school.name}.` : !isFollowing && followParams.unfollowed === school.slug ? `You are no longer following ${school.name}.` : Boolean(userId) && !isFollowing && followParams.finishFollow === school.slug ? followParams.followError === "1" ? "Authentication succeeded, but the follow still needs your confirmation." : `Authentication succeeded. Select Finish Following to follow ${school.name}.` : ""} />
       <SchoolSubnav schoolSlug={school.slug} districtSlug={districtSlug} theme={theme} />
       {canManageRoster ? <div className="mx-auto w-full max-w-6xl px-4 pt-4 sm:px-6 lg:px-8"><div className="flex items-center justify-between gap-3 rounded-xl border border-amber-300/15 bg-amber-300/[0.07] px-3 py-2.5 sm:px-4"><div className="min-w-0"><p className="text-[8px] font-black uppercase tracking-[0.14em] text-amber-100/55">Team Management</p><p className="mt-0.5 text-xs font-black leading-4 text-amber-50 sm:text-sm sm:leading-5">You can manage {school.name}&apos;s 2026 roster.</p></div><Link href={`/manage-roster?school=${encodeURIComponent(school.slug)}`} className="shrink-0 rounded-lg border border-amber-200/15 bg-amber-200/10 px-3 py-2 text-[9px] font-black uppercase tracking-[0.1em] text-amber-50 transition hover:bg-amber-200/15 sm:text-[10px]">Manage Roster →</Link></div></div> : null}
       <div className="mx-auto w-full max-w-6xl px-4 pt-5 sm:px-6 sm:pt-6 lg:px-8"><SchoolSeasonPulse schoolSlug={school.slug} theme={theme} /></div>
-      {feedEnabled && <section className="mx-auto w-full max-w-6xl px-4 pt-5 sm:px-6 lg:px-8" aria-label="Team Feed preview"><div className="flex items-center justify-between gap-3"><h2 className="text-xl font-black">Team Feed</h2><Link className="text-sm font-bold text-white/60 transition hover:text-white focus-visible:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70" href={`/schools/${school.slug}/feed`}>View Team Feed →</Link></div>{feedPreview?.posts.length ? <div className="mt-4 grid gap-4 md:grid-cols-2">{feedPreview.posts.map(post => <TeamFeedCard key={post.id} post={post} />)}</div> : <p className="mt-3 rounded-xl border border-white/10 p-4 text-sm text-white/60">Team Feed is just getting started. VarsityVue graphics and game-night media will appear here.</p>}</section>}
+      {feedEnabled && <section className="mx-auto w-full max-w-6xl px-4 pt-5 sm:px-6 lg:px-8" aria-label="Team Feed preview"><div className="flex items-center justify-between gap-3"><h2 className="text-xl font-black">Team Feed</h2><Link className="text-sm font-bold text-white/60 transition hover:text-white focus-visible:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70" href={`/schools/${school.slug}/feed`}>View Team Feed →</Link></div>{feedPreview?.posts.length ? <div className="mt-4 grid gap-4 md:grid-cols-2">{feedPreview.posts.map(post => <TeamFeedCard key={post.id} post={post} />)}</div> : <p className="mt-3 rounded-xl border border-white/10 p-4 text-sm text-white/60">{feedPreview ? "Team Feed is just getting started. VarsityVue graphics and game-night media will appear here." : "Team Feed is temporarily unavailable. Schedules and team information remain available."}</p>}</section>}
       <div className="mx-auto w-full max-w-6xl px-4 py-5 sm:px-6 sm:py-6 lg:px-8">
         <div className="min-w-0 space-y-5 sm:space-y-6">
           {recentScores.length > 0 && <RecentScores scores={recentScores} theme={theme} schoolSlug={slug} />}

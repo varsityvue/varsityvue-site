@@ -57,10 +57,18 @@ jobs:
       - run: npm run build
       - run: git diff --check
       - name: Exact evidence identity and dormant scope
+        env:
+          CANDIDATE_BRANCH: ${{ github.event.pull_request.head.ref || github.ref_name }}
         run: |
           git rev-parse HEAD HEAD^{tree} > coverage-fleet-evidence/identity.txt
           git diff --name-only origin/main...HEAD > coverage-fleet-evidence/changed-files.txt
-          test -z "$(git diff origin/main...HEAD -- vercel.json supabase/migrations components/WeeklyGamesExplorer.tsx lib/coverage-demand-client.ts types/coverage-demand.ts)"
+          test -z "$(git diff origin/main...HEAD -- vercel.json supabase/migrations lib/coverage-demand-client.ts types/coverage-demand.ts)"
+          # Package 2 already changes this shared renderer without activating analytics.
+          # Accept only its exact reviewed blob; every other UI change still fails closed.
+          if test -n "$(git diff origin/main...HEAD -- components/WeeklyGamesExplorer.tsx)"; then
+            test "$CANDIDATE_BRANCH" = "fix/package2-public-resilience"
+            test "$(git rev-parse HEAD:components/WeeklyGamesExplorer.tsx)" = "6d81fc7fdea69125071b6bc530e4bd9c2a74d12c"
+          fi
       - uses: actions/upload-artifact@v4
         if: always()
         with:

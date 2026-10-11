@@ -1,0 +1,190 @@
+✔ all four district membership groups are exact (2.531219ms)
+✔ all 27 featured district schools have ten real games and no fake bye (3.416285ms)
+✔ every district pairing exists once as one reciprocal canonical game (0.534622ms)
+✔ owner corrections retain canonical IDs and explicit timing and overtime details (0.33394ms)
+✔ Cross Plains at Baird is a scoreless official-winner forfeit (0.166932ms)
+✔ overall and district records derive from the reconciled games (5.442103ms)
+✔ target schedules have no duplicate IDs or reversed same-date matchups (0.533858ms)
+✔ external opponent identities remain controlled and distinct (0.192088ms)
+✖ Week 4 quarter scores and offensive statistics reconcile without invented unknowns (3.786749ms)
+✔ allowlist rejects every extra field, identity, query text, aliases and selected identity (1.673111ms)
+✖ invalid ranges, impossible stage counts, versions and enums are rejected (3.147733ms)
+✖ honest stage counts distinguish no nearby games, status and query filters; disabled weeks emit nothing (1.163797ms)
+✔ catalog fingerprints cover public venue sources and canonical merged schedule geometry, without score state (15.389097ms)
+✔ confirmed LIVE and schedule-inferred kickoff windows are counted separately (1.07228ms)
+✔ unified summaries count actual all/strict LIVE/completed rows and bounded filter modifiers (85.123255ms)
+✖ held rows preserve honest presentation counts while strict status rules apply to unheld results (0.847296ms)
+✔ District 8 has 49 unique canonical games and ten real games per school (128.413145ms)
+✔ all 28 completed games retain canonical scores, winners, times, and identities (24.034153ms)
+✖ the 21 district games have exact orientation and kickoff once each (28.492157ms)
+✔ district byes are absences, not game rows (78.652539ms)
+✔ records and District 8 standings derive from canonical games (2.315657ms)
+✔ no reversed-pair duplicates or synthetic bye opponents exist (28.999767ms)
+✔ existing Santo statistics remain attached to preserved game IDs (0.257045ms)
+✖ the canonical catalog retains exactly the 21 operable Week 5 games (14.926835ms)
+✔ the five formerly blocked games have complete identities on both sides (1.522176ms)
+✔ the reviewed migrations register every Week 5 game exactly once (2.182418ms)
+✖ homepage next-up selection follows canonical kickoff ordering (1.433528ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 20
+ℹ fail 7
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1144.719745
+
+✖ failing tests:
+
+test at lib/2026-district-schedule-reconciliation.test.ts:2:8700
+✖ Week 4 quarter scores and offensive statistics reconcile without invented unknowns (3.786749ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  24 !== undefined
+
+      at TestContext.<anonymous> (/tmp/varsityvue-p2-baseline/lib/2026-district-schedule-reconciliation.test.ts:180:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 24,
+    expected: undefined,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at lib/coverage-demand-summary.test.ts:2:2549
+✖ invalid ranges, impossible stage counts, versions and enums are rejected (3.147733ms)
+  AssertionError [ERR_ASSERTION]: {"returned_game_count":0}
+
+  true !== false
+
+      at TestContext.<anonymous> (/tmp/varsityvue-p2-baseline/lib/coverage-demand-summary.test.ts:18:522)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at lib/coverage-demand-summary.test.ts:2:3593
+✖ honest stage counts distinguish no nearby games, status and query filters; disabled weeks emit nothing (1.163797ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + 'status_filter_excluded'
+  - 'query_filter_excluded'
+
+      at TestContext.<anonymous> (/tmp/varsityvue-p2-baseline/lib/coverage-demand-summary.test.ts:23:79)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'status_filter_excluded',
+    expected: 'query_filter_excluded',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at lib/coverage-demand-summary.test.ts:2:10272
+✖ held rows preserve honest presentation counts while strict status rules apply to unheld results (0.847296ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  true !== false
+
+      at TestContext.<anonymous> (/tmp/varsityvue-p2-baseline/lib/coverage-demand-summary.test.ts:68:39)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at lib/district-8-schedules.test.ts:2:6403
+✖ the 21 district games have exact orientation and kickoff once each (28.492157ms)
+  AssertionError [ERR_ASSERTION]: crawford-at-santo-2026-week-5
+  + actual - expected
+
+  + 'scheduled'
+  - 'upcoming'
+
+      at TestContext.<anonymous> (/tmp/varsityvue-p2-baseline/lib/district-8-schedules.test.ts:137:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'scheduled',
+    expected: 'upcoming',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at lib/week5-operations.test.ts:2:2835
+✖ the canonical catalog retains exactly the 21 operable Week 5 games (14.926835ms)
+  AssertionError [ERR_ASSERTION]: bowie-at-city-view-2026-week-5
+  + actual - expected
+
+  + 'scheduled'
+  - 'upcoming'
+
+      at TestContext.<anonymous> (/tmp/varsityvue-p2-baseline/lib/week5-operations.test.ts:72:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'scheduled',
+    expected: 'upcoming',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at lib/week5-operations.test.ts:2:5016
+✖ homepage next-up selection follows canonical kickoff ordering (1.433528ms)
+  AssertionError [ERR_ASSERTION]: de-leon
+  + actual - expected
+
+  + 'hico-at-de-leon-2026-week-8'
+  - 'early-at-de-leon-2026-week-5'
+
+      at TestContext.<anonymous> (/tmp/varsityvue-p2-baseline/lib/week5-operations.test.ts:117:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'hico-at-de-leon-2026-week-8',
+    expected: 'early-at-de-leon-2026-week-5',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -260,8 +260,13 @@ async function settled(page) {
     await page.waitForFunction(() => {
       const q = new URLSearchParams(location.search);
       const active = document.querySelector('select[name="filter"]');
-      return q.has("season") && active?.value === (q.get("filter") ?? "all");
-    });
+      // SSR controls alone do not prove hydration. Every synthetic context
+      // seeds a declined preference; this visible status appears only after
+      // the Nearby owner mounts and reconciles that preference.
+      const nearbyReady = q.get('mode') !== 'nearby' ||
+        document.querySelector('.weekly-measurement [role="status"]')?.textContent.includes('Preference: don’t share');
+      return q.has("season") && active?.value === (q.get("filter") ?? "all") && nearbyReady;
+    }, null, { timeout: 15000 });
   } catch (error) {
     console.error("HYDRATION FAILURE", await page.locator("body").innerText());
     await page.screenshot({ path: `${evidence}/failure.png`, fullPage: true });
@@ -636,6 +641,28 @@ async function allGamesRefinements(page, route) {
   assert.equal(new URL(page.url()).searchParams.get('classification'),'Unavailable');
   assert.equal(new URL(page.url()).searchParams.get('result'),'verified');
   await page.goBack(); await settled(page); assert.equal(new URL(page.url()).searchParams.get('season'),'2025');
+  // Exercise rapid traversals while Next may still have a pending router commit.
+  // The restored URL and controls must agree, including shared-link refinements.
+  for (let traversal = 0; traversal < 5; traversal++) {
+    for (const [direction, season] of [['goForward', '2026'], ['goBack', '2025']]) {
+      await page[direction]();
+      await page.waitForFunction(expected => {
+        const query = new URLSearchParams(location.search);
+        return query.get('season') === expected &&
+          document.querySelector('select[name="season"]')?.value === expected;
+      }, season, { timeout: 5000 });
+      const restored = new URL(page.url());
+      assert.equal(restored.searchParams.get('season'), season);
+      assert.equal(await page.getByLabel('Season', { exact: true }).inputValue(), season);
+      assert.equal(restored.searchParams.get('classification'), 'Unavailable');
+      assert.equal(restored.searchParams.get('result'), 'verified');
+      assert.equal(restored.searchParams.get('week'), 'all');
+    }
+  }
+  // A late router commit must not overwrite the final restored entry.
+  await page.waitForTimeout(1000);
+  assert.equal(new URL(page.url()).searchParams.get('season'), '2025');
+  assert.equal(await page.getByLabel('Season', { exact: true }).inputValue(), '2025');
   pass(`${route}: All Games/Your Teams 390/400/430/1280 at 100/200% text, unobscured keyboard clears, canonical dedupe, filter/navigation/Game Center and season history`);
 }
 async function followingFailure(page,route) {

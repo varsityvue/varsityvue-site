@@ -1,0 +1,14 @@
+{
+  "enabled": false,
+  "intervalSeconds": 60,
+  "timeoutMs": 8000,
+  "concurrency": 1,
+  "vantagesRequired": 2,
+  "consecutiveWindowsRequired": 2,
+  "publicPaths": ["/", "/games", "/games/anson-at-cisco-2026-week-7", "/api/games/snapshot"],
+  "activationRequiresOwnerApproval": true,
+  "notificationsConfigured": false,
+  "windowSeconds": 300,
+  "jobGrace": "two expected intervals plus five minutes",
+  "connectionThresholdRequiresMeasuredUsableCapacity": true
+}

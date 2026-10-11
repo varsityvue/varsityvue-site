@@ -1,7 +1,7 @@
 import { getDynamicGamesSnapshot } from "@/lib/dynamic-games";
 import { weeklyGameDto, weeklyCenters } from "@/lib/weekly-game-dto";
 import { parseWeeklyParams } from "@/lib/unified-games";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicReadClient, readPublicClaims } from "@/lib/supabase/server";
 import { getCurrentUserFollowedSchoolSlugs } from "@/lib/followed-schools";
 import { getScorekeeperCtaState } from "@/lib/scorekeeper-cta-server";
 import WeeklyGamesExplorer from "@/components/WeeklyGamesExplorer";
@@ -19,18 +19,17 @@ export default async function UnifiedGamesPage({
     getDynamicGamesSnapshot(),
     searchParams,
     getScorekeeperCtaState(),
-    createClient(),
+    createPublicReadClient(),
   ]);
-  const { data: claims, error: authError } = await supabase.auth.getClaims();
+  const { data: claims, error: authError } = await readPublicClaims();
   const userId = claims?.claims?.sub;
   let followedSlugs: string[] = [],
     followFailed = Boolean(authError);
   try {
     if (authError) throw new Error("Session unavailable");
-    followedSlugs = [
-      ...(await getCurrentUserFollowedSchoolSlugs({ supabase, userId }))
-        .schoolSlugs,
-    ];
+    const follows = await getCurrentUserFollowedSchoolSlugs({ supabase, userId });
+    followedSlugs = [...follows.schoolSlugs];
+    followFailed = Boolean(follows.unavailable);
   } catch {
     followFailed = true;
   }
@@ -41,7 +40,7 @@ export default async function UnifiedGamesPage({
       .from("score_submissions")
       .select("game_id")
       .eq("submitted_by", userId)
-      .eq("status", "pending");
+      .eq("status", "pending").retry(false);
     pendingFailed = Boolean(error);
     for (const row of data ?? []) pendingIds.push(row.game_id);
   }
