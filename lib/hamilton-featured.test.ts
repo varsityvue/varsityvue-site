@@ -1,7 +1,9 @@
 import sharp from "sharp";
+import { createHash } from "node:crypto";
+import { analyzeVisibleArtwork, normalizeLogoBuffer } from "../scripts/normalize-pickem-logos";
 import assert from "node:assert/strict";
 import test from "node:test";
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { getFeaturedSchools, getSchools, getSchoolBySlug } from "./schools";
 import { getGames } from "./games";
 import { getSchoolLogoPath, getPickemLogoPath } from "@/data/school-logos";
@@ -22,16 +24,18 @@ test("Hamilton is the only tenth Featured School and keeps canonical identity", 
   assert.deepEqual(s.colors, { primary: "#CE2123", secondary: "#000000", accent: "#FFFFFF" });
   assert.equal(s.officialWebsite, "https://www.hamiltonisd.org/");
 });
-test("Hamilton crops only transparent padding and preserves original artwork and contest asset", async () => {
+test("Hamilton preserves shared artwork and normalizes only its Pick Em derivative", async () => {
   assert.equal(getSchoolLogoPath("hamilton"), "/logos/schools/hamilton.png");
   assert.equal(getPickemLogoPath("hamilton"), "/logos/schools/pickem/hamilton.png");
-  assert.ok(existsSync("public/logos/schools/hamilton.png"));
-  const original = sharp("public/logos/schools/pickem/hamilton.png");
-  assert.deepEqual(await original.metadata().then(({width,height}) => [width,height]), [1200,800]);
-  const expected = await original.extract({left:209,top:20,width:782,height:760}).raw().toBuffer();
-  const actual = await sharp("public/logos/schools/hamilton.png").raw().toBuffer();
-  assert.deepEqual(actual, expected);
-
+  const source = readFileSync("public/logos/schools/hamilton.png");
+  assert.equal(createHash("sha256").update(source).digest("hex"), "eeae55938e5285e91612f9f5c5fb14f8a654a64b68d594aef8c2c3bd240445fc");
+  const derivative = readFileSync("public/logos/schools/pickem/hamilton.png");
+  assert.deepEqual(await sharp(derivative).metadata().then(({width,height}) => [width,height]), [192,192]);
+  const artwork = await analyzeVisibleArtwork(derivative);
+  assert.ok(Math.max(artwork.width, artwork.height) >= 156);
+  assert.ok(artwork.left >= 8 && artwork.top >= 8);
+  assert.ok(artwork.left + artwork.width <= 184 && artwork.top + artwork.height <= 184);
+  assert.deepEqual(derivative, (await normalizeLogoBuffer(source)).output);
 });
 test("Hamilton schedule, standings and home venue reuse existing canonical data", () => {
   const games = getGames().filter(g => g.homeSchoolSlug === "hamilton" || g.awaySchoolSlug === "hamilton");
