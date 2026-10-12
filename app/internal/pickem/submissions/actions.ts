@@ -1,77 +1,69 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { runAdminWrite, type AdminActionState } from "@/lib/pickem-admin-recovery";
 import { requireActiveMember } from "@/lib/member-access";
 import { finalizePickemWithCutoffResolution } from "@/lib/pickem-finalization";
 
 function weekId(formData: FormData) {
   const value = String(formData.get("week_id") ?? "");
-  return /^[0-9a-f-]{36}$/i.test(value) ? value : null;
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value) ? value : null;
 }
 
-function destination(week: string, outcome: "recorded" | "error") {
-  return `/internal/pickem/submissions?week=${encodeURIComponent(week)}&claim=${outcome}`;
-}
-
-export async function recordWinnerNotice(formData: FormData) {
+export async function recordWinnerNotice(_state: AdminActionState, formData: FormData): Promise<AdminActionState> {
   const week = weekId(formData);
-  if (!week) return;
+  if (!week) return { status: "rejected", message: "Choose a valid contest week." };
   const { supabase } = await requireActiveMember();
-  const { error } = await supabase.rpc("admin_record_pickem_winner_notice", { p_week_id: week });
-  if (!error) revalidatePath("/internal/pickem/submissions");
-  redirect(destination(week, error ? "error" : "recorded"));
+  return runAdminWrite(() => supabase.rpc("admin_record_pickem_winner_notice", { p_week_id: week }));
 }
 
-export async function finalizeContestResults(formData: FormData) {
+export async function finalizeContestResults(_state: AdminActionState, formData: FormData): Promise<AdminActionState> {
   const week = weekId(formData);
-  if (!week) return;
+  if (!week) return { status: "rejected", message: "Choose a valid contest week." };
   const { supabase } = await requireActiveMember();
-  const { data: contest, error: weekError } = await supabase.from("pickem_weeks")
-    .select("outcome_resolution_at").eq("id", week).maybeSingle();
-  if (weekError || !contest) redirect(destination(week, "error"));
-  const { error } = await finalizePickemWithCutoffResolution({
+  const settings = await supabase.from("pickem_weeks")
+    .select("outcome_resolution_at").eq("id", week).maybeSingle().then(result => result, () => ({ data: null, error: true }));
+  const { data: contest, error: weekError } = settings;
+  if (weekError || !contest) return { status: "rejected", message: "Contest settings could not be loaded. Refresh status before retrying." };
+  const result = await runAdminWrite(() => finalizePickemWithCutoffResolution({
     outcomeResolutionAt: contest.outcome_resolution_at,
     nowMs: Date.now(),
     resolve: () => supabase.rpc("admin_resolve_pickem_contest_week", { p_week_id: week }),
     finalize: () => supabase.rpc("admin_finalize_pickem_contest_results", { p_week_id: week }),
-  });
+  }));
   // Resolution may have changed VOID presentation even if finalization failed.
-  revalidatePath("/pickem");
-  revalidatePath("/internal/pickem/submissions");
-  redirect(destination(week, error ? "error" : "recorded"));
+  try { revalidatePath("/pickem"); } catch {
+    return { ...result, message: `${result.message} Public status refresh failed; reload status before continuing.` };
+  }
+  return result;
 }
 
-export async function recordWinnerResponse(formData: FormData) {
+export async function recordWinnerResponse(_state: AdminActionState, formData: FormData): Promise<AdminActionState> {
   const week = weekId(formData);
-  if (!week) return;
+  if (!week) return { status: "rejected", message: "Choose a valid contest week." };
   const { supabase } = await requireActiveMember();
-  const { error } = await supabase.rpc("admin_record_pickem_winner_response", { p_week_id: week });
-  if (!error) revalidatePath("/internal/pickem/submissions");
-  redirect(destination(week, error ? "error" : "recorded"));
+  return runAdminWrite(() => supabase.rpc("admin_record_pickem_winner_response", { p_week_id: week }));
 }
 
-export async function decideWinnerClaim(formData: FormData) {
+export async function decideWinnerClaim(_state: AdminActionState, formData: FormData): Promise<AdminActionState> {
   const week = weekId(formData);
-  if (!week) return;
+  if (!week) return { status: "rejected", message: "Choose a valid contest week." };
   const { supabase } = await requireActiveMember();
   const decision = String(formData.get("decision") ?? "");
   const reason = String(formData.get("reason") ?? "").trim();
   if (!reason || !["confirmed", "ineligible", "cannot_contact", "no_response"].includes(decision)) {
-    redirect(destination(week, "error"));
+    return { status: "rejected", message: "Choose a decision and provide a review note." };
   }
-  const { error } = await supabase.rpc("admin_decide_pickem_winner_claim", {
+  return runAdminWrite(() => supabase.rpc("admin_decide_pickem_winner_claim_reviewed", {
     p_week_id: week, p_decision: decision, p_reason: reason,
-  });
-  if (!error) revalidatePath("/internal/pickem/submissions");
-  redirect(destination(week, error ? "error" : "recorded"));
+    p_expected_winner_id: String(formData.get("expected_winner_id") ?? ""),
+    p_expected_generation: Number(formData.get("expected_generation")),
+  }));
 }
 
-export async function recordPrizePaid(formData: FormData) {
+export async function recordPrizePaid(_state: AdminActionState, formData: FormData): Promise<AdminActionState> {
   const week = weekId(formData);
-  if (!week) return;
+  if (!week) return { status: "rejected", message: "Choose a valid contest week." };
   const { supabase } = await requireActiveMember();
-  const { error } = await supabase.rpc("admin_record_pickem_prize_paid", { p_week_id: week });
-  if (!error) revalidatePath("/internal/pickem/submissions");
-  redirect(destination(week, error ? "error" : "recorded"));
+  return runAdminWrite(() => supabase.rpc("admin_record_pickem_prize_paid", { p_week_id: week }));
 }
