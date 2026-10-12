@@ -5,7 +5,7 @@ export PGPASSWORD=postgres
 ops_dir=$(mktemp -d)
 trap 'rm -rf "$ops_dir"' EXIT
 psql_local=(psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres)
-node --import tsx -e 'const {fixtureSummary}=require("./lib/coverage-demand-test-fixture.ts");console.log("select public.server_record_coverage_demand_summary($summary$"+JSON.stringify({...fixtureSummary,coarse_bucket_id:"tx25-v1:c17r36"})+"$summary$::jsonb);");' > "$ops_dir/ingest.sql"
+node scripts/coverage-historical-summary-fixture.mjs > "$ops_dir/ingest.sql"
 "${psql_local[@]}" -c 'begin;select pg_advisory_xact_lock(730026001);select pg_sleep(2);commit;' > "$ops_dir/lock.log" 2>&1 &
 lock_pid=$!
 # Wait for the isolated lock owner rather than relying on a scheduling race.

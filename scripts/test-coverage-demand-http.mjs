@@ -11,6 +11,8 @@ const origin='http://127.0.0.1:3002', summary={...fixtureSummary,coarse_bucket_i
 const app=spawn('npm',['run','start','--','--hostname','127.0.0.1','--port','3002'],{detached:true,stdio:['ignore','pipe','pipe'],env:{...process.env,
  NEXT_PUBLIC_SUPABASE_URL:vars.API_URL,NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:vars.ANON_KEY,
  COVERAGE_DEMAND_ENABLED:'true',COVERAGE_DEMAND_SUPABASE_URL:vars.API_URL,COVERAGE_DEMAND_SERVICE_ROLE_KEY:vars.SERVICE_ROLE_KEY}});
+const historicalDefinition=sql("select pg_get_functiondef('public.server_record_coverage_demand_summary(jsonb)'::regprocedure)");
+let fixtureDefinitionInstalled=false;
 let logs='';app.stdout.on('data',b=>{logs+=b;});app.stderr.on('data',b=>{logs+=b;});
 const post=(body,extra={})=>fetch(origin+'/api/coverage-demand',{method:'POST',headers:{origin,'Content-Type':'application/json',...extra},body:JSON.stringify(body)});
 try{
@@ -29,6 +31,20 @@ try{
  assert.equal((await repeat.json()).skipped,true);
  console.log('PASS real isolated PostgREST maintenance bridge, Central date, repeated delivery, and unauthenticated route denial');
  sql('truncate private.coverage_demand_monthly,private.coverage_demand_season,private.coverage_demand_maintenance;');
+ // Prove the dormant historical database rejects the new catalog before installing
+ // an exact two-literal compatibility fixture in this disposable database only.
+ const rpcHeaders={apikey:vars.SERVICE_ROLE_KEY,Authorization:'Bearer '+vars.SERVICE_ROLE_KEY,'Content-Type':'application/json'};
+ const before=await fetch(vars.API_URL+'/rest/v1/rpc/server_record_coverage_demand_summary',{method:'POST',headers:rpcHeaders,body:JSON.stringify({p_summary:summary})});
+ assert.equal(before.status,400);
+ assert.equal(sql("select count(*) from private.coverage_demand_daily where coarse_bucket_id='tx25-v1:c16r35'"),'0');
+ let compatibleDefinition=historicalDefinition;
+ for(const [oldVersion,newVersion] of [['locations-edc8867688bf',summary.location_catalog_version],['schedule-b0c0555adaf6',summary.schedule_catalog_version]]){
+   assert.equal(compatibleDefinition.split("'"+oldVersion+"'").length,2,'Exact historical catalog predicate');
+   compatibleDefinition=compatibleDefinition.replace("'"+oldVersion+"'","'"+newVersion+"'");
+ }
+ assert.notEqual(compatibleDefinition,historicalDefinition);
+ sql(compatibleDefinition);fixtureDefinitionInstalled=true;
+ console.log('PASS immutable historical catalog rejects new fingerprints; disposable compatibility changes only two catalog literals, preserving all authorization and validation logic');
  assert.equal((await post(summary,{Cookie:'fake_member_uuid=00000000-0000-4000-8000-000000000999'})).status,204);
  assert.equal((await post(summary)).status,204);
  assert.equal((await post({...summary,latitude:32.123456789})).status,400);
@@ -40,4 +56,4 @@ try{
  for(const value of ['32.123456789','-98.543210987','00000000-0000-4000-8000-000000000999',vars.SERVICE_ROLE_KEY]){assert.ok(!rows.includes(value));assert.ok(!logs.includes(value));}
  assert.ok(!logs.includes('coarse_bucket_id'));assert.ok(!logs.includes('coverage_summary'));
  console.log('PASS real HTTP -> server-only RPC -> one aggregate row/count 2; unknown GPS, unapproved week and anonymous RPC rejected; no payload/credential/identity logs');
-}finally{try{process.kill(-app.pid,'SIGTERM');}catch{}sql("delete from private.coverage_demand_daily where coarse_bucket_id='tx25-v1:c16r35'");}
+}finally{try{process.kill(-app.pid,'SIGTERM');}catch{}if(fixtureDefinitionInstalled)sql(historicalDefinition);sql("delete from private.coverage_demand_daily where coarse_bucket_id='tx25-v1:c16r35'");}
