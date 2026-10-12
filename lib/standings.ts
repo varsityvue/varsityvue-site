@@ -1,3 +1,4 @@
+import { sortStandingsForDisplay } from "./standings-display";
 import { getGames } from "@/lib/games";
 import { getSchoolBySlug, getSchoolsByDistrictId } from "@/lib/schools";
 import type { Game } from "@/types/platform";
@@ -132,19 +133,6 @@ function applyVerifiedStandingOverride(standing: Standing, games: StandingGame[]
   standing.districtLosses = override.districtLosses;
 }
 
-function hasDistrictResults(standings: Standing[]) {
-  return standings.some((standing) => standing.districtWins > 0 || standing.districtLosses > 0);
-}
-
-function sortStandings(standings: Standing[]) {
-  if (!hasDistrictResults(standings)) return [...standings].sort((a, b) => a.team.localeCompare(b.team));
-  return [...standings].sort((a, b) => {
-    if (b.districtWins !== a.districtWins) return b.districtWins - a.districtWins;
-    if (a.districtLosses !== b.districtLosses) return a.districtLosses - b.districtLosses;
-    return a.team.localeCompare(b.team);
-  });
-}
-
 function addScheduledDistrictOpponents(standingsMap: Map<string, Standing>, districtSchoolSlugs: Set<string>, games: StandingGame[]) {
   for (const game of games) {
     if (!game.districtGame) continue;
@@ -168,7 +156,10 @@ function buildStandingsForDistrict(districtId: string, games: StandingGame[]): S
   addScheduledDistrictOpponents(standingsMap, new Set(districtSchools.map((school) => school.slug)), games);
   games.forEach((game) => standingsMap.forEach((standing, schoolSlug) => applyGameToStanding(standing, schoolSlug, game)));
   standingsMap.forEach((standing) => applyVerifiedStandingOverride(standing, games));
-  return sortStandings(Array.from(standingsMap.values()));
+  const standings = Array.from(standingsMap.values());
+  return standings.some((team) => team.districtWins > 0 || team.districtLosses > 0)
+    ? sortStandingsForDisplay(standings)
+    : standings.sort((a, b) => a.team.localeCompare(b.team));
 }
 
 function buildStandaloneStanding(slug: string, games: StandingGame[]): Standing | undefined {
