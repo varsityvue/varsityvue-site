@@ -1,5 +1,6 @@
 // One mapping to the canonical physical-venue registry; no campus/city approximation.
 export const schoolFootballVenues: Readonly<Record<string, string>> = {
+  "china-spring": "tx-china-spring-cougar-stadium",
   "stephenville": "tx-stephenville-art-briles-stadium",
   "cisco": "tx-cisco-chesley-stadium",
   "millsap": "tx-millsap-bulldog-stadium",

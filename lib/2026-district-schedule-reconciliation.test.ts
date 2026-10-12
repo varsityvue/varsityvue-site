@@ -177,7 +177,7 @@ test("Week 4 quarter scores and offensive statistics reconcile without invented 
   const goldPass = deLeonGoldthwaite.passing.find((line) => line.schoolSlug === "goldthwaite");
   assert.deepEqual(goldPass && { completions: goldPass.completions, attempts: goldPass.attempts, yards: goldPass.yards, touchdowns: goldPass.touchdowns, interceptions: goldPass.interceptions }, { completions: 6, attempts: 11, yards: 61, touchdowns: 0, interceptions: 1 });
   const goldTeam = deLeonGoldthwaite.teamStats.find((line) => line.schoolSlug === "goldthwaite");
-  assert.equal(goldTeam?.rushingAttempts, undefined);
-  assert.equal(goldTeam?.rushingYards, undefined);
-  assert.equal(goldTeam?.totalYards, undefined);
+  assert.equal(goldTeam?.rushingAttempts, 24);
+  assert.equal(goldTeam?.rushingYards, 259);
+  assert.equal(goldTeam?.totalYards, 320);
 });

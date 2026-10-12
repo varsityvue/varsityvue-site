@@ -11,6 +11,10 @@ const origin='http://127.0.0.1:3002', summary={...fixtureSummary,coarse_bucket_i
 const app=spawn('npm',['run','start','--','--hostname','127.0.0.1','--port','3002'],{detached:true,stdio:['ignore','pipe','pipe'],env:{...process.env,
  NEXT_PUBLIC_SUPABASE_URL:vars.API_URL,NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:vars.ANON_KEY,
  COVERAGE_DEMAND_ENABLED:'true',COVERAGE_DEMAND_SUPABASE_URL:vars.API_URL,COVERAGE_DEMAND_SERVICE_ROLE_KEY:vars.SERVICE_ROLE_KEY}});
+const historicalDefinition=sql("select pg_get_functiondef('private.record_coverage_demand_summary(jsonb)'::regprocedure)");
+const metadataQuery="select (to_jsonb(p)-'prosrc')::text from pg_proc p where oid='private.record_coverage_demand_summary(jsonb)'::regprocedure";
+const historicalMetadata=sql(metadataQuery);
+let fixtureDefinitionInstalled=false;
 let logs='';app.stdout.on('data',b=>{logs+=b;});app.stderr.on('data',b=>{logs+=b;});
 const post=(body,extra={})=>fetch(origin+'/api/coverage-demand',{method:'POST',headers:{origin,'Content-Type':'application/json',...extra},body:JSON.stringify(body)});
 try{
@@ -29,6 +33,27 @@ try{
  assert.equal((await repeat.json()).skipped,true);
  console.log('PASS real isolated PostgREST maintenance bridge, Central date, repeated delivery, and unauthenticated route denial');
  sql('truncate private.coverage_demand_monthly,private.coverage_demand_season,private.coverage_demand_maintenance;');
+ // Prove the dormant historical database rejects the new catalog before installing
+ // an exact fingerprint/Week 7 compatibility fixture in this disposable database only.
+ const rpcHeaders={apikey:vars.SERVICE_ROLE_KEY,Authorization:'Bearer '+vars.SERVICE_ROLE_KEY,'Content-Type':'application/json'};
+ const before=await fetch(vars.API_URL+'/rest/v1/rpc/server_record_coverage_demand_summary',{method:'POST',headers:rpcHeaders,body:JSON.stringify({p_summary:summary})});
+ assert.equal(before.status,400);
+ assert.equal(sql("select count(*) from private.coverage_demand_daily where coarse_bucket_id='tx25-v1:c16r35'"),'0');
+ let compatibleDefinition=historicalDefinition;
+ for(const [oldVersion,newVersion] of [['locations-edc8867688bf',summary.location_catalog_version],['schedule-b0c0555adaf6',summary.schedule_catalog_version]]){
+   assert.equal(compatibleDefinition.split("'"+oldVersion+"'").length,2,'Exact historical catalog predicate');
+   compatibleDefinition=compatibleDefinition.replace("'"+oldVersion+"'","'"+newVersion+"'");
+ }
+ assert.equal(summary.week,7);assert.equal(summary.week_real_game_count,19);assert.equal(summary.week_located_game_count,19);
+ for(const field of ['week_real_game_count','week_located_game_count']){
+   const oldPredicate="(s->>'"+field+"')::integer<>17";
+   assert.equal(compatibleDefinition.split(oldPredicate).length,2,'Exact historical 17-game predicate');
+   compatibleDefinition=compatibleDefinition.replace(oldPredicate,"(s->>'"+field+"')::integer<>(case when (s->>'week')::integer=7 then 19 else 17 end)");
+ }
+ assert.notEqual(compatibleDefinition,historicalDefinition);
+ sql(compatibleDefinition);fixtureDefinitionInstalled=true;assert.equal(sql(metadataQuery),historicalMetadata);
+ console.log('PASS immutable historical catalog rejects new fingerprints; disposable fixture changes only fingerprints and exact Week 7 count 19, retaining Week 8/9 count 17 and authorization logic');
+ const incomplete=await fetch(vars.API_URL+'/rest/v1/rpc/server_record_coverage_demand_summary',{method:'POST',headers:rpcHeaders,body:JSON.stringify({p_summary:{...summary,week_real_game_count:18,week_located_game_count:18}})});assert.equal(incomplete.status,400,'Expanded catalog must remain exactly complete');
  assert.equal((await post(summary,{Cookie:'fake_member_uuid=00000000-0000-4000-8000-000000000999'})).status,204);
  assert.equal((await post(summary)).status,204);
  assert.equal((await post({...summary,latitude:32.123456789})).status,400);
@@ -40,4 +65,4 @@ try{
  for(const value of ['32.123456789','-98.543210987','00000000-0000-4000-8000-000000000999',vars.SERVICE_ROLE_KEY]){assert.ok(!rows.includes(value));assert.ok(!logs.includes(value));}
  assert.ok(!logs.includes('coarse_bucket_id'));assert.ok(!logs.includes('coverage_summary'));
  console.log('PASS real HTTP -> server-only RPC -> one aggregate row/count 2; unknown GPS, unapproved week and anonymous RPC rejected; no payload/credential/identity logs');
-}finally{try{process.kill(-app.pid,'SIGTERM');}catch{}sql("delete from private.coverage_demand_daily where coarse_bucket_id='tx25-v1:c16r35'");}
+}finally{try{process.kill(-app.pid,'SIGTERM');}catch{}if(fixtureDefinitionInstalled){sql(historicalDefinition);assert.equal(sql(metadataQuery),historicalMetadata);}sql("delete from private.coverage_demand_daily where coarse_bucket_id='tx25-v1:c16r35'");}

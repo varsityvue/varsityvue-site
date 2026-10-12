@@ -1,0 +1,59 @@
+name: District 12 reconciliation verification
+on:
+  pull_request:
+    paths:
+      - 'data/district-12-results.ts'
+      - 'data/live-game-additions.ts'
+      - 'data/game-location-pilot.ts'
+      - 'data/venues.ts'
+      - 'data/school-football-venues.ts'
+      - 'lib/games.ts'
+      - 'lib/coverage-catalog-versions.ts'
+      - 'lib/district-12*'
+      - 'scripts/test-district12-browser.mjs'
+      - '.github/workflows/district12-reconciliation.yml'
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Full repository and focused reconciliation tests
+        run: node --import tsx --test lib/*.test.ts lib/*.test.tsx data/*.test.ts scripts/coverage-integration-scope.test.mjs
+      - run: npx tsc --noEmit
+      - name: Reconciliation source lint
+        run: npx eslint data/district-12-results.ts data/live-game-additions.ts data/game-location-pilot.ts data/venues.ts data/school-football-venues.ts lib/games.ts lib/coverage-catalog-versions.ts lib/district-12-test-fixture.ts lib/district-12-reconciliation.test.tsx scripts/test-district12-browser.mjs
+      - name: Isolated application build
+        run: npm run build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: http://127.0.0.1:54329
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: isolated-public
+          NODE_OPTIONS: --import=${{ github.workspace }}/scripts/week8-p0-build-network-guard.mjs
+          P1_LOGO_FIXTURE: ${{ github.workspace }}/public/logos/varsityvue-logo.png
+          NEXT_TELEMETRY_DISABLED: '1'
+      - name: Disposable browser tools
+        run: |
+          npm install --no-save --package-lock=false playwright@1.58.2
+          npx playwright install --with-deps chromium
+      - name: Mounted standings, schedules and Nearby acceptance
+        run: node scripts/test-district12-browser.mjs
+        env:
+          NODE_OPTIONS: --import=${{ github.workspace }}/scripts/week8-p0-build-network-guard.mjs
+          P1_LOGO_FIXTURE: ${{ github.workspace }}/public/logos/varsityvue-logo.png
+      - run: git diff --check
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: district12-browser-evidence
+          path: district12-browser-evidence
+          if-no-files-found: error

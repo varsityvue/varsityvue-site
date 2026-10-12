@@ -20,12 +20,12 @@ const location = resolveGameLocation(original, venues, schoolFootballVenues, {})
 const fixture = (id: string, status: Game["status"] = "upcoming", lon = 0): DiscoveryGame => ({ ...toDiscoveryGame(original, location), gameId: id, status, kickoff: "2026-10-09T19:00:00-05:00", location: { locationQuality: "verified", locationSource: "home_venue", venueName: "Test field", city: "Test", latitude: 0, longitude: lon } });
 const center = { latitude: 0, longitude: 0 };
 
-test("venue IDs unique; bounded 35 school mappings and 36 physical venues", () => {
-  assert.equal(venues.length, 36); assert.equal(new Set(venues.map(v => v.id)).size, venues.length);
-  assert.equal(Object.keys(schoolFootballVenues).length, 35);
+test("venue IDs unique; bounded 36 school mappings and 37 physical venues", () => {
+  assert.equal(venues.length, 37); assert.equal(new Set(venues.map(v => v.id)).size, venues.length);
+  assert.equal(Object.keys(schoolFootballVenues).length, 36);
 });
 test("verified coordinate ranges and research provenance", () => {
-  for (const v of venues) { assert.ok(validPoint(v)); assert.equal(v.verificationStatus, "verified"); assert.ok(v.sourceReferences.length >= 2); assert.equal(v.verifiedAt, "2026-10-03"); assert.match(v.zip, /^\d{5}$/); }
+  for (const v of venues) { assert.ok(validPoint(v)); assert.equal(v.verificationStatus, "verified"); assert.ok(v.sourceReferences.length >= 2); assert.equal(v.verifiedAt, v.id === "tx-china-spring-cougar-stadium" ? "2026-10-12" : "2026-10-03"); assert.match(v.zip, /^\d{5}$/); }
   assert.equal(validPoint({ latitude: NaN, longitude: 0 }), false);
   assert.equal(validPoint({ latitude: 91, longitude: 0 }), false);
   assert.equal(validPoint({ latitude: 0, longitude: Infinity }), false);
@@ -37,10 +37,10 @@ test("every school mapping resolves; all 10 Featured Schools verified", () => {
     assert.ok(venues.find(v => v.id === schoolFootballVenues[slug] && v.verificationStatus === "verified"));
   }
 });
-test("Week 7 exact canonical 17-of-17 complete, IDs unchanged", () => {
+test("Week 7 exact canonical 19-of-19 includes both independently reconciled district finals", () => {
   const slate = games.filter(g => g.season === 2026 && g.week === 7 && realGame(g));
   assert.deepEqual(slate.map(g => g.id).sort(), [...weekSevenPilotGameIds]);
-  assert.equal(slate.length, 17); assert.deepEqual(pilotGate(dto, 7), { enabled: true, total: 17, unresolved: 0 });
+  assert.equal(slate.length, 19); assert.deepEqual(pilotGate(dto, 7), { enabled: true, total: 19, unresolved: 0 });
 });
 test("missing venue, unverified venue and invalid coordinates fail closed", () => {
   assert.deepEqual(resolveGameLocation(original, [], schoolFootballVenues, {}), { locationQuality: "unavailable", reason: "missing_venue" });

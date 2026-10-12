@@ -74,9 +74,13 @@ jobs:
       - name: Operational maintenance backlog, status, postcondition rollback and retries
         if: steps.scope.outputs.integration == 'true'
         run: PGPASSWORD=postgres psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 54322 -U postgres -d postgres -f supabase/tests/coverage_demand_operations.sql
-      - name: Maintenance locking and concurrent ingestion
+      - name: Maintenance locking, concurrent ingestion and unchanged main comparison
         if: steps.scope.outputs.integration == 'true'
-        run: bash supabase/tests/coverage_demand_operations_race.sh
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          bash supabase/tests/coverage_demand_baseline_catalog.sh "$BASE_SHA"
+          bash supabase/tests/coverage_demand_operations_race.sh
       - name: Concurrent aggregate increment
         if: steps.scope.outputs.integration == 'true'
         run: bash supabase/tests/coverage_demand_race.sh
