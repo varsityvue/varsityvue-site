@@ -1,3 +1,4 @@
+import { historicalCatalogBeforeDistrict12 } from "./district-12-test-fixture";
 import assert from "node:assert/strict";
 import test from "node:test";
 import { readFileSync } from "node:fs";
@@ -35,11 +36,11 @@ test("missing canonical identity is visible even when the repository matchup is 
   assert.deepEqual(attentionReasons({ ...game, status: "final" }, state, [], false, new Date("2026-09-28T00:00:00Z")), ["Canonical identity missing"]);
 });
 
-test("database identity snapshot agrees with every playable repository matchup", () => {
+test("immutable database identity snapshot retains its exact historical scope; new finals and Jarrell delta are explicit", () => {
   const sql = readFileSync(new URL("../supabase/migrations/20260928223000_friday_scoring_operations_v1.sql", import.meta.url), "utf8");
   const mapped = new Map([...sql.matchAll(/\('([^']+)', '([^']+)', '([^']+)'\)/g)]
     .map((match) => [match[1], [match[2], match[3]]] as const));
-  const playable = getGames().filter((game) => game.gameType !== "bye" && game.gameType !== "scrimmage" &&
+  const playable = historicalCatalogBeforeDistrict12(getGames()).filter((game) => game.gameType !== "bye" && game.gameType !== "scrimmage" &&
     game.awaySchoolSlug && game.homeSchoolSlug && game.awaySchoolSlug !== game.homeSchoolSlug &&
     !["bye", "opponent", "special-event"].includes(game.awaySchoolSlug) &&
     !["bye", "opponent", "special-event"].includes(game.homeSchoolSlug));

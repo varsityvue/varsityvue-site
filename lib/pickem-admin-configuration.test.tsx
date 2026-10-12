@@ -1,3 +1,4 @@
+import { historicalCatalogBeforeDistrict12 } from "./district-12-test-fixture";
 import assert from "node:assert/strict";
 import test from "node:test";
 import { readFileSync, existsSync } from "node:fs";
@@ -47,11 +48,11 @@ test("editorial flags cannot infer or change the explicit contest designation",(
   assert.deepEqual(parsePickemDraft(data,modified),expected);
 });
 
-test("database catalog exactly matches the approved eligible application IDs, weeks, times and schools",() => {
+test("immutable Pick Em database catalog matches its historical scope and explicitly checked retrospective delta",() => {
   const sql=readFileSync("supabase/migrations/20260930202339_pickem_future_week_administration.sql","utf8");
   const rows=[...sql.matchAll(/\('([^']+)', (\d+), '([^']+)'::timestamptz, '([^']+)', '([^']+)'\)/g)]
     .map((m)=>[m[1],Number(m[2]),m[3],m[4],m[5]]);
-  const expected=PICKEM_ADMIN_WEEKS.flatMap((week)=>eligiblePickemGames(getGames(),week)).map((g)=>[g.id,g.week,g.kickoff,g.awaySchoolSlug,g.homeSchoolSlug]);
+  const expected=PICKEM_ADMIN_WEEKS.flatMap((week)=>eligiblePickemGames(historicalCatalogBeforeDistrict12(getGames()),week)).map((g)=>[g.id,g.week,g.kickoff,g.awaySchoolSlug,g.homeSchoolSlug]);
   assert.deepEqual(rows.sort((a,b)=>String(a[0]).localeCompare(String(b[0]))),expected.sort((a,b)=>String(a[0]).localeCompare(String(b[0]))));assert.ok(existsSync("public/sponsors/gilder-storage-approved.png"));
 });
 

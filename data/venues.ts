@@ -670,5 +670,24 @@ export const venues: readonly Venue[] = [
     "aliases": [
       "Merkel ISD Football Field"
     ]
-  }
+  },
+  {
+    "id": "tx-china-spring-cougar-stadium",
+    "name": "Cougar Stadium",
+    "address": "7301 N River Crossing",
+    "city": "China Spring",
+    "state": "TX",
+    "zip": "76633",
+    "latitude": 31.6306014,
+    "longitude": -97.2902843,
+    "verificationStatus": "verified",
+    "sourceReferences": [
+      "https://www.uilmusicregion18.com/uploads/1/3/5/3/13535811/uil_area_d_3a_marching_contest_information.pdf",
+      "https://texasbob.com/stadium/stadium.php?id=56",
+      "https://goo.gl/maps/xQdJ4WmwN6obeSU96",
+      "https://www.openstreetmap.org/way/1274410122"
+    ],
+    "verifiedAt": "2026-10-12",
+    "aliases": []
+  },
 ];

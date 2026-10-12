@@ -73,7 +73,7 @@ const districtGames = [
 ] as const;
 
 function relevantGames() {
-  return getGames().filter(
+  return Array.from(new Map(districtSchools.flatMap(slug => getGamesForSchool(slug, new Date("2026-09-23T12:00:00-05:00"))).map(g => [g.id, g])).values()).filter(
     (game) =>
       game.season === 2026 &&
       game.gameType !== "scrimmage" &&

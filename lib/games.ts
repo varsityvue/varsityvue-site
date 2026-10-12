@@ -7,6 +7,7 @@ import { lateWeek3Results } from "@/data/late-week3-results";
 import { followedDistrictResults } from "@/data/followed-district-results";
 import { followedDistrictResultsPhase2 } from "@/data/followed-district-results-phase2";
 import { jacksboroGames } from "@/data/jacksboro-games";
+import { district12Results } from "@/data/district-12-results";
 import { district8Games } from "@/data/district-8-games";
 import {
   ownerVerifiedScheduleAdditions,
@@ -57,6 +58,7 @@ for (const verifiedGame of [
   ...liveGameAdditions,
   ...lateWeek3Results,
   ...district8Games,
+  ...district12Results,
 ]) {
   const existing = gamesById.get(verifiedGame.id);
   gamesById.set(

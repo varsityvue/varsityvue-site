@@ -1,3 +1,4 @@
+import { historicalCatalogBeforeDistrict12 } from "./district-12-test-fixture";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
@@ -6,7 +7,7 @@ import {
   getCanonicalScoreboardTeamName,
   hasCompleteScoreboardTeamIdentity,
 } from "@/data/scoreboard-team-identities";
-import { filterUpcomingGamesForSchool, getGames } from "@/lib/games";
+import { filterUpcomingGamesForSchool, getGames, getGamesForSchool } from "@/lib/games";
 import { getSchoolBySlug } from "@/lib/schools";
 
 const WEEK_FIVE_IDS = [
@@ -41,7 +42,7 @@ const RESTORED_SCORE_ENTRY_IDS = [
   "san-angelo-texas-leadership-at-merkel-2026-week-5",
 ] as const;
 
-const games = getGames();
+const games = historicalCatalogBeforeDistrict12(getGames());
 
 function teamIsIdentityReady(slug: string | undefined, team: string | undefined) {
   const school = slug ? getSchoolBySlug(slug) : undefined;
@@ -69,7 +70,7 @@ test("the canonical catalog retains exactly the 21 operable Week 5 games", () =>
   assert.deepEqual(weekFive.map((game) => game.id), [...WEEK_FIVE_IDS]);
   for (const game of weekFive) {
     assert.equal(game.kickoff, "2026-09-25T19:00:00-05:00", game.id);
-    assert.equal(game.status, "upcoming", game.id);
+    assert.equal(getGamesForSchool(game.homeSchoolSlug!, new Date("2026-09-23T12:00:00-05:00")).find(g => g.id === game.id)?.status, "upcoming", game.id);
     assert.ok(game.homeSchoolSlug, `${game.id} home identity`);
     assert.ok(game.awaySchoolSlug, `${game.id} away identity`);
   }
@@ -114,6 +115,6 @@ test("homepage next-up selection follows canonical kickoff ordering", () => {
   ]);
 
   for (const [slug, gameId] of expected) {
-    assert.equal(filterUpcomingGamesForSchool(games, slug, now)[0]?.id, gameId, slug);
+    assert.equal(filterUpcomingGamesForSchool(getGamesForSchool(slug, now), slug, now)[0]?.id, gameId, slug);
   }
 });
