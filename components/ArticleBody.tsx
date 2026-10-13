@@ -5,13 +5,21 @@ import { getArticleBySlug } from "@/lib/articles";
 
 const articleLink = /\[([^\]\n]+)\]\(\/coverage\/([a-z0-9-]+)\)/g;
 
+function boldText(text: string, keyPrefix: string): ReactNode[] {
+  return text.split(/(\\*\\*[^*\\n]+\\*\\*)/g).filter(Boolean).map((part, index) =>
+    part.startsWith("**") && part.endsWith("**")
+      ? <strong key={`${keyPrefix}-${index}`} className="font-bold text-white">{part.slice(2, -2)}</strong>
+      : part
+  );
+}
+
 function linkedText(text: string): ReactNode[] {
   const parts: ReactNode[] = [];
   let lastIndex = 0;
 
   for (const match of text.matchAll(articleLink)) {
     const index = match.index ?? 0;
-    if (index > lastIndex) parts.push(text.slice(lastIndex, index));
+    if (index > lastIndex) parts.push(...boldText(text.slice(lastIndex, index), `text-${lastIndex}`));
 
     const article = getArticleBySlug(match[2]);
     parts.push(article ? (
@@ -22,7 +30,7 @@ function linkedText(text: string): ReactNode[] {
     lastIndex = index + match[0].length;
   }
 
-  if (lastIndex < text.length) parts.push(text.slice(lastIndex));
+  if (lastIndex < text.length) parts.push(...boldText(text.slice(lastIndex), `tail-${lastIndex}`));
   return parts;
 }
 
