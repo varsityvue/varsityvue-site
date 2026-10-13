@@ -7,6 +7,7 @@ import { getSchools, getSchoolBySlug } from "@/lib/schools";
 import { getScoreboardGames, type DynamicScoreState } from "@/lib/scoreboard";
 import { getDynamicGames } from "@/lib/dynamic-games";
 import { getGamePreview } from "@/data/game-previews";
+import { getPublishedGamePreview } from "@/lib/articles";
 import { getStandingForSchoolFromGames } from "@/lib/standings";
 import DistrictSpotlight from "@/components/DistrictSpotlight";
 import ScoreStrip from "@/components/ScoreStrip";
@@ -127,7 +128,8 @@ export default async function Home() {
   const featuredGame = feature?.feature_type === "game_of_the_week"
     ? getScoreboardGames(dynamicState).find((game) => game.id === feature.game_id)
     : undefined;
-  const featureHref = feature ? featureDestination(feature) : null;
+  const featuredArticle = featuredGame ? getPublishedGamePreview(featuredGame.id) : undefined;
+  const featureHref = featuredArticle ? `/coverage/${featuredArticle.slug}` : feature ? featureDestination(feature) : null;
   const featuredPreview = featuredGame ? getGamePreview(featuredGame.id) : undefined;
 
   const featuredHomeSchool = featuredGame?.homeSchoolSlug
@@ -226,7 +228,7 @@ export default async function Home() {
 
                   {featureHref && <div className="mt-4 flex justify-center sm:mt-6">
                     <Link href={featureHref} className="rounded-full bg-white px-5 py-2 text-center text-[10px] font-black uppercase tracking-[0.14em] text-black transition hover:bg-white/85 sm:px-6 sm:py-3 sm:text-xs sm:tracking-[0.16em]">
-                      {feature?.cta_label ?? (featuredGameFinal ? "View Final Result" : "View Game of the Week")}
+                      {featuredArticle ? "Read Article" : feature?.cta_label ?? (featuredGameFinal ? "View Final Result" : "View Game of the Week")}
                     </Link>
                   </div>}
                 </>
