@@ -56,7 +56,7 @@ async function measure(c, width, condition) {
     new MutationObserver(()=>{
       const t=window.__navigationTiming; if(t.started===null)return;
       if(t.feedback===null && (document.querySelector('[data-pending]') ||
-        [...document.querySelectorAll('main [role="status"]')].some(e=>/Loading Pick/.test(e.textContent)))) t.feedback=performance.now()-t.started;
+        [...document.querySelectorAll('[aria-busy="true"] [role="status"]')].some(e=>/Loading Pick/.test(e.textContent)))) t.feedback=performance.now()-t.started;
       if(t.ready===null && document.querySelector('main input[name^="pick_"]:not(:disabled)')) t.ready=performance.now()-t.started;
     }).observe(document.body,{childList:true,subtree:true,attributes:true});
   });
