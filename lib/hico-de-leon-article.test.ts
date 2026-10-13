@@ -9,12 +9,12 @@ import { getGames } from "@/lib/games";
 import { getSchoolBySlug } from "@/lib/schools";
 import { getDistrictById } from "@/lib/districts";
 
-test("Week 8 draft stays absent from every public article selector", () => {
-  assert.equal(draft.humanReviewed, false);
-  assert.equal(draft.publishedAt, "");
-  assert.equal(getArticleBySlug(draft.slug), undefined);
-  assert.equal(getPublishedGamePreview(draft.gameId!), undefined);
-  for (const list of [getArticles(), getLatestArticles(100), ...draft.schoolIds!.map(getArticlesForSchool), ...draft.districtIds!.map(getArticlesForDistrict)]) assert.ok(list.every(a => a.id !== draft.id));
+test("Week 8 published article appears in every appropriate public selector", () => {
+  assert.equal(draft.humanReviewed, true);
+  assert.ok(Number.isFinite(Date.parse(draft.publishedAt)));
+  assert.equal(getArticleBySlug(draft.slug)?.id, draft.id);
+  assert.equal(getPublishedGamePreview(draft.gameId!)?.id, draft.id);
+  for (const list of [getArticles(), getLatestArticles(100), ...draft.schoolIds!.map(getArticlesForSchool), ...draft.districtIds!.map(getArticlesForDistrict)]) assert.ok(list.some(a => a.id === draft.id));
   assert.equal(getArticleBySlug(previous.slug)?.id, previous.id);
 });
 
