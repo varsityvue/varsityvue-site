@@ -4,7 +4,8 @@ import { readFileSync } from "node:fs";
 import { rankPickemStandings } from "./pickem-lifecycle";
 const read = (name: string) => readFileSync(new URL(`../${name}`, import.meta.url), "utf8");
 test("public page consumes database ranks and contextual ordinals without member IDs", () => {
- const page = read("app/pickem/page.tsx");
+ const page = [read("app/pickem/page.tsx"), read("lib/pickem-page-loader.ts"),
+  read("components/PickemOptionalSections.tsx")].join("\n");
  assert.match(page, /public_pickem_season_standings/);
  assert.match(page, /public_pickem_week_standings/);
  assert.match(page, /own_pickem_season_summary/);
