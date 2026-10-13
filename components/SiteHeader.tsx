@@ -1,4 +1,4 @@
-import Link from "next/link";
+import NavigationLink from "@/components/NavigationLink";
 import MobileNavigation from "@/components/MobileNavigation";
 import Image from "next/image";
 import { createPublicReadClient, readPublicClaims } from "@/lib/supabase/server";
@@ -36,8 +36,8 @@ export default async function SiteHeader() {
     <>
       <header className="sticky top-0 z-50 border-b border-white/10 bg-[var(--vv-bg)]/95 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-3.5 sm:h-24 sm:px-6 lg:h-20 lg:px-8">
-          <Link
-            href="/"
+          <NavigationLink
+            pendingLabel="Home" href="/"
             aria-label="VarsityVue home"
             className="group flex min-w-0 items-center gap-2 transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:gap-4 lg:gap-3"
           >
@@ -60,7 +60,7 @@ export default async function SiteHeader() {
                 <span className="h-px w-3 bg-white/25" aria-hidden="true" />
               </div>
             </div>
-          </Link>
+          </NavigationLink>
 
           <nav
             aria-label="Primary navigation"
@@ -73,8 +73,8 @@ export default async function SiteHeader() {
 
           <div className="flex shrink-0 items-center gap-1.5 sm:gap-3 lg:gap-2">
             {signedIn ? (
-              <Link
-                href="/account"
+              <NavigationLink
+                pendingLabel="Account" href="/account"
                 className="rounded-full border border-white/15 bg-white/[0.06] px-3 py-2 text-[8px] font-black uppercase tracking-[0.08em] text-white/80 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:px-5 sm:py-3 sm:text-xs sm:tracking-[0.14em] lg:px-4 lg:py-2.5 lg:text-[10px] xl:px-5 xl:text-xs"
               >
                 Account
@@ -86,15 +86,15 @@ export default async function SiteHeader() {
                     {pendingScoreReports}
                   </span>
                 ) : null}
-              </Link>
+              </NavigationLink>
             ) : (
               <div className="flex items-center gap-1 sm:gap-2">
-                <Link
-                  href="/login"
+                <NavigationLink
+                  pendingLabel="Log In" href="/login"
                   className="rounded-full px-2 py-2 text-[8px] font-black uppercase tracking-[0.06em] text-white/65 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:border sm:border-white/15 sm:px-4 sm:py-3 sm:text-xs sm:tracking-[0.12em] lg:px-3 lg:py-2.5 lg:text-[10px] xl:px-4 xl:text-xs"
                 >
                   Log In
-                </Link>
+                </NavigationLink>
                 <TrackedSignupLink
                   surface="header"
                   className="rounded-full border border-[color:var(--vv-accent)] bg-[var(--vv-primary)] px-2.5 py-2 text-[8px] font-black uppercase tracking-[0.06em] text-white transition hover:bg-[var(--vv-primary-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:px-4 sm:py-3 sm:text-xs sm:tracking-[0.12em] lg:px-3 lg:py-2.5 lg:text-[10px] xl:px-4 xl:text-xs"
@@ -115,11 +115,12 @@ export default async function SiteHeader() {
 
 function NavLink({ href, label }: { href: string; label: string }) {
   return (
-    <Link
+    <NavigationLink
       href={href}
+      pendingLabel={label}
       className="rounded-full px-3 py-2 text-[11px] font-black uppercase tracking-[0.13em] text-white/60 transition hover:bg-white/[0.07] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 xl:px-4 xl:text-[12px] xl:tracking-[0.16em]"
     >
       {label}
-    </Link>
+    </NavigationLink>
   );
 }

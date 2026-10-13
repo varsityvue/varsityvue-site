@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link";
+import NavigationLink from "@/components/NavigationLink";
 import { usePathname } from "next/navigation";
 import { CalendarDays, UsersRound, Newspaper, Trophy } from "lucide-react";
 const items = [
@@ -13,9 +13,10 @@ export default function MobileNavigation() {
   return (
     <nav className="weekly-mobile-nav" aria-label="Mobile navigation">
       {items.map(({ href, label, Icon }) => (
-        <Link
+        <NavigationLink
           key={href}
           href={href}
+          pendingLabel={label}
           aria-current={
             pathname === href || (href === "/games" && pathname === "/scoreboard") || pathname.startsWith(href + "/")
               ? "page"
@@ -24,7 +25,7 @@ export default function MobileNavigation() {
         >
           <Icon size={20} aria-hidden="true" />
           <span>{label}</span>
-        </Link>
+        </NavigationLink>
       ))}
     </nav>
   );
