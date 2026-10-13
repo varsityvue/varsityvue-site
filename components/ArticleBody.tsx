@@ -6,7 +6,7 @@ import { getArticleBySlug } from "@/lib/articles";
 const articleLink = /\[([^\]\n]+)\]\(\/coverage\/([a-z0-9-]+)\)/g;
 
 function boldText(text: string, keyPrefix: string): ReactNode[] {
-  return text.split(/(\\*\\*[^*\\n]+\\*\\*)/g).filter(Boolean).map((part, index) =>
+  return text.split(/(\*\*[^*\n]+\*\*)/g).filter(Boolean).map((part, index) =>
     part.startsWith("**") && part.endsWith("**")
       ? <strong key={`${keyPrefix}-${index}`} className="font-bold text-white">{part.slice(2, -2)}</strong>
       : part
