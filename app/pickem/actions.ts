@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { isUncertainWriteError } from "@/lib/pickem-write-recovery";
 
 import { trackConversion } from "@/lib/conversion-analytics";
 import { requireActiveMember } from "@/lib/member-access";
@@ -8,7 +9,7 @@ import { evaluatePickemSubmission } from "@/lib/pickem-lifecycle";
 import { isPickemWeekClosed } from "@/lib/pickem-week-state";
 
 export type PickemActionState = {
-  status: "idle" | "success" | "error";
+  status: "idle" | "success" | "error" | "unknown";
   message: string;
 };
 
@@ -35,11 +36,12 @@ export async function savePickemDraft(
   if (Object.keys(selections).length === 0 && !rawPrediction) {
     return { status: "error", message: "Select a game or enter a prediction to save a draft." };
   }
-  const { data: savedCount, error } = await supabase.rpc("save_pickem_contest_draft", {
+  const { data: savedCount, error, status } = await supabase.rpc("save_pickem_contest_draft", {
     p_week_id: weekId, p_selections: selections,
     p_predicted_total: rawPrediction ? Number(rawPrediction) : null,
-  });
+  }).retry(false);
   if (error) {
+    if (isUncertainWriteError(error, status)) return { status: "unknown", message: "The save response was interrupted. Check saved state before trying another save." };
     console.error("Pick Em draft save failed.", { code: error.code });
     return { status: "error", message: "Your draft could not be saved. Check the entry deadline and try again." };
   }
@@ -93,14 +95,15 @@ export async function savePickemSlate(
       return choice === null ? [] : [[game.id, String(choice)]];
     }));
     const phone = String(formData.get("mobile_phone") ?? "").trim();
-    const { data: completedAt, error } = await supabase.rpc("submit_pickem_contest_entry", {
+    const { data: completedAt, error, status } = await supabase.rpc("submit_pickem_contest_entry", {
       p_week_id: week.id,
       p_phone: phone || null,
       p_predicted_total: gotwVoid ? null : predictedTotal,
       p_selections: selections,
       p_eligibility_attested: formData.get("eligibility_attested") === "yes",
-    });
+    }).retry(false);
     if (error) {
+      if (isUncertainWriteError(error, status)) return { status: "unknown", message: "The entry response was interrupted. Check saved state before trying another submission." };
       const detail = error.message.toLowerCase();
       const message = detail.includes("already used") ? "This number is already used for another entrant."
         : detail.includes("attestation") ? "Confirm eligibility and agreement to the Official Rules before entering."
@@ -165,24 +168,16 @@ export async function savePickemSlate(
     if (!/^\d{1,3}$/.test(rawPrediction) || !Number.isInteger(prediction) || prediction > 300) {
       return { status: "error", message: "Enter your Game of the Week combined-points prediction (0–300)." };
     }
-    const { error: predictionError } = await supabase.from("pickem_week_tiebreakers")
-      .upsert({ week_id: week.id, user_id: userId, predicted_total: prediction }, { onConflict: "week_id,user_id" });
-    if (predictionError) return { status: "error", message: "Your tiebreaker prediction could not be saved. Refresh and try again." };
+    const { error: predictionError, status: predictionStatus } = await supabase.from("pickem_week_tiebreakers")
+      .upsert({ week_id: week.id, user_id: userId, predicted_total: prediction }, { onConflict: "week_id,user_id" }).retry(false);
+    if (predictionError) return { status: isUncertainWriteError(predictionError, predictionStatus) ? "unknown" : "error", message: "Check your saved tiebreaker before trying again." };
   }
 
   const { error } = await supabase
     .from("pickem_picks")
-    .upsert(rows, { onConflict: "pickem_game_id,user_id" });
+    .upsert(rows, { onConflict: "pickem_game_id,user_id" }).retry(false);
 
-  if (error) {
-    console.error("Pick Em slate save failed.", { code: error.code });
-    return {
-      status: "error",
-      message: error.message.includes("locked")
-        ? "A game locked while you were submitting. Review the slate and try again."
-        : "Your picks were not saved. Review the slate and try again.",
-    };
-  }
+  if (error) return { status: "unknown", message: "Check your saved picks and prediction before trying another save." };
 
   trackConversion("Pick Submitted", {
     season: week.season,

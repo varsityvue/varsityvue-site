@@ -16,7 +16,7 @@ export default function PickemPrizeCounter({ weekId, initialPrize }: {
     const supabase = createClient();
     const refresh = async () => {
       const { data, error } = await supabase.from("pickem_contest_prize")
-        .select("valid_entries, prize_dollars").eq("week_id", weekId).maybeSingle();
+        .select("valid_entries, prize_dollars").eq("week_id", weekId).abortSignal(AbortSignal.timeout(3000)).maybeSingle().retry(false);
       if (active && !error && data) setPrize(data);
     };
     void refresh();

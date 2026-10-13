@@ -186,3 +186,10 @@ div[class~="mb-6"]:has(a[href="/submit"]):has(a[href="/coverage"]) > div > h2 {
 
 .weekly-measurement .weekly-control { max-width: 100%; white-space: normal; }
 .weekly-measurement-actions details { min-width: 0; }
+
+/* Fixed-size feedback, visible without an animation delay. */
+.vv-navigation-feedback {display:inline-flex;position:relative;width:0.65rem;height:0.65rem;flex-shrink:0;align-items:center;justify-content:center}
+.vv-navigation-dot {width:0.5rem;height:0.5rem;border-radius:50%;background:currentColor;opacity:0}
+.vv-navigation-feedback[data-pending] .vv-navigation-dot {opacity:1}
+.weekly-mobile-nav a {position:relative}
+.weekly-mobile-nav .vv-navigation-feedback {position:absolute;right:8px;top:8px}
