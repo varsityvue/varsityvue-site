@@ -1,5 +1,7 @@
 "use server";
 
+import { pickemEntryErrorMessage } from "@/lib/pickem-entry-error";
+
 import { revalidatePath } from "next/cache";
 import { isUncertainWriteError } from "@/lib/pickem-write-recovery";
 
@@ -104,14 +106,7 @@ export async function savePickemSlate(
     }).retry(false);
     if (error) {
       if (isUncertainWriteError(error, status)) return { status: "unknown", message: "The entry response was interrupted. Check saved state before trying another submission." };
-      const detail = error.message.toLowerCase();
-      const message = detail.includes("already used") ? "This number is already used for another entrant."
-        : detail.includes("attestation") ? "Confirm eligibility and agreement to the Official Rules before entering."
-        : detail.includes("phone") || detail.includes("mobile") ? "Enter a valid U.S. mobile number."
-        : detail.includes("frozen first-kickoff") ? "New entries closed at the frozen first-kickoff deadline."
-        : detail.includes("locked") ? "A game or prediction locked while saving. Refresh and try again."
-        : detail.includes("every game") ? "Select every game before entering."
-        : "Your entry could not be saved. Refresh and review the slate.";
+      const message = pickemEntryErrorMessage(error.message);
       console.error("Pick Em contest entry failed.", { code: error.code });
       return { status: "error", message };
     }
