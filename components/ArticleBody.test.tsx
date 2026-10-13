@@ -20,3 +20,10 @@ test("unpublished and external destinations cannot become links", () => {
   assert.doesNotMatch(html, /href=/);
   assert.match(html, /Missing/);
 });
+
+test("inline bold renders as emphasis without visible Markdown delimiters", () => {
+  const html = renderToStaticMarkup(<ArticleBody body={"But one question remains.\n\n**Just how good is Hico?**\n\nKickoff **7 p.m. Friday** at Bearcat Stadium."} />);
+  assert.match(html, /<strong[^>]*>Just how good is Hico\?<\/strong>/);
+  assert.match(html, /Kickoff <strong[^>]*>7 p\.m\. Friday<\/strong> at Bearcat Stadium/);
+  assert.doesNotMatch(html, /\*\*/);
+});
