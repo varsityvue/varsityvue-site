@@ -1,7 +1,7 @@
 import type { Article } from "@/types/platform";
 
-// Editorially approved text staged for publication. Keep this entry unregistered until
-// the supplied composite image is added and publication is separately authorized.
+// Registered draft with owner-approved wording and original photograph.
+// Keep humanReviewed false and publishedAt empty until release is authorized.
 export const hicoDeLeonWeek8Gotw2026: Article = {
   id: "hico-de-leon-week8-gotw-2026",
   slug: "hico-at-de-leon-week-8-2026",
@@ -15,7 +15,7 @@ export const hicoDeLeonWeek8Gotw2026: Article = {
   featuredImageCaption: "Photos: Dixie Watson (Hico) / Tedra Zmeskal (De Leon)",
   type: "preview",
   author: "VarsityVue",
-  publishedAt: "2026-10-13T15:00:00-05:00",
+  publishedAt: "", // Set the actual publication timestamp during authorized release.
   schoolIds: ["hico", "de-leon"],
   districtIds: ["2a-d1-district-5"],
   gameId: "hico-at-de-leon-2026-week-8",
