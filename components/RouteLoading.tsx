@@ -8,7 +8,7 @@ export default function RouteLoading({ label = "page" }: { label?: string }) {
     const timer = window.setTimeout(() => setSlow(true), 8000);
     return () => window.clearTimeout(timer);
   }, []);
-  return <main className="min-h-[60vh] px-4 py-8 text-white" aria-busy="true">
+  return <section className="min-h-[60vh] px-4 py-8 text-white" aria-label={`Loading ${label}`} aria-busy="true">
     <div className="mx-auto max-w-[1200px]">
       <p role="status" className="text-sm font-bold">Loading {label}…</p>
       {slow && <div className="mt-4 text-sm">
@@ -17,5 +17,5 @@ export default function RouteLoading({ label = "page" }: { label?: string }) {
       </div>}
       <div aria-hidden="true" className="mt-5 h-32 rounded-2xl border border-white/10 bg-white/[0.04]" />
     </div>
-  </main>;
+  </section>;
 }
