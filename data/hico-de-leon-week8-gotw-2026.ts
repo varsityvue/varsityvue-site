@@ -1,7 +1,6 @@
 import type { Article } from "@/types/platform";
 
-// Registered draft with owner-approved wording and original photograph.
-// Keep humanReviewed false and publishedAt empty until release is authorized.
+// Owner-reviewed Week 8 Game of the Week article and original credited photograph.
 export const hicoDeLeonWeek8Gotw2026: Article = {
   id: "hico-de-leon-week8-gotw-2026",
   slug: "hico-at-de-leon-week-8-2026",
@@ -15,7 +14,7 @@ export const hicoDeLeonWeek8Gotw2026: Article = {
   featuredImageCaption: "Photos: Dixie Watson (Hico) / Tedra Zmeskal (De Leon)",
   type: "preview",
   author: "VarsityVue",
-  publishedAt: "", // Set the actual publication timestamp during authorized release.
+  publishedAt: "2026-10-13T16:11:00-05:00",
   schoolIds: ["hico", "de-leon"],
   districtIds: ["2a-d1-district-5"],
   gameId: "hico-at-de-leon-2026-week-8",
@@ -25,5 +24,5 @@ export const hicoDeLeonWeek8Gotw2026: Article = {
     description: "Hico takes its 6-0 record to No. 10 De Leon in a District 5-2A Division I matchup featuring Tyler Rainwater and Lane Couch.",
   },
   aiAssisted: true,
-  humanReviewed: false,
+  humanReviewed: true,
 };
