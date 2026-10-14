@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { isScoreConflict } from "@/lib/score-conflict";
 import { getGameById } from "@/lib/games";
 import { requireActiveMember } from "@/lib/member-access";
-import { normalizeLivePeriod } from "@/lib/live-period";
+import { normalizeLivePeriod, livePeriodClock } from "@/lib/live-period";
 
 function value(form: FormData, key: string) { return String(form.get(key) ?? "").trim(); }
 
@@ -44,7 +44,7 @@ export async function submitOperationalScore(form: FormData) {
     p_away_score: away,
     p_game_status: intent,
     p_period: intent === "live" ? period : null,
-    p_clock: intent === "live" ? value(form, "clock") : null,
+    p_clock: intent === "live" ? livePeriodClock(period, value(form, "clock")) : null,
     p_source_note: sourceNote || null,
     p_expected_state_updated_at: absent ? null : expected,
     p_expected_state_revision: absent ? null : revision,

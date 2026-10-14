@@ -13,7 +13,7 @@ import { hasCompleteScoreboardTeamIdentity } from "@/data/scoreboard-team-identi
 import { getDynamicGameById } from "@/lib/dynamic-games";
 import { requireActiveMember } from "@/lib/member-access";
 import { getSchoolBySlug } from "@/lib/schools";
-import { normalizeLivePeriod } from "@/lib/live-period";
+import { normalizeLivePeriod, livePeriodClock } from "@/lib/live-period";
 
 function text(formData: FormData, key: string) {
   return String(formData.get(key) ?? "").trim();
@@ -117,8 +117,8 @@ export async function submitScore(formData: FormData) {
 
   const rawPeriod = text(formData, "period");
   const period = gameStatus === "live" && rawPeriod ? normalizeLivePeriod(rawPeriod) : null;
-  if (gameStatus === "live" && rawPeriod && !period) reportRedirect(gameId, "Choose a valid quarter or overtime period.");
-  const clock = gameStatus === "live" ? (text(formData, "clock") || null) : null;
+  if (gameStatus === "live" && rawPeriod && !period) reportRedirect(gameId, "Choose a valid quarter, halftime, or overtime period.");
+  const clock = gameStatus === "live" ? livePeriodClock(period, text(formData, "clock")) : null;
 
   const { data: pendingReports } = await supabase
     .rpc("own_score_report_status")

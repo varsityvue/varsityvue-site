@@ -37,3 +37,10 @@ test("UI keeps pending FINAL reporting separate, decrease confirmation and no pr
   assert.match(page, /Pending Score Report \/ FINAL Request/); assert.match(client, /Trusted LIVE Update/); assert.match(client, /confirm_score_decrease/); assert.match(client, /expected_state_updated_at/); assert.match(client, /useFormStatus/);
   assert.doesNotMatch(client, /actor_id|reviewed_by|assignment_id|assigned_scorekeeper_authority_v1/); assert.match(action, /submit_score_submission/); assert.match(action, /submit_assigned_scorekeeper_update/);
 });
+
+test("halftime normalizes period and drops a stale running clock", () => {
+  const f = form(); f.set("period", "halftime"); f.set("clock", "04:00");
+  const p = assignedLivePayload(f);
+  assert.equal(p.p_period, "Halftime"); assert.equal(p.p_clock, null);
+  assert.equal(p.p_expected_state_revision, 7);
+});

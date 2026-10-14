@@ -1,5 +1,6 @@
 "use client";
 
+import { LIVE_PERIODS, normalizeLivePeriod } from "@/lib/live-period";
 import { useState } from "react";
 import { useFormStatus } from "react-dom";
 import { submitAssignedLiveScore } from "./actions";
@@ -16,6 +17,9 @@ function PublishButton({ confirmationRequired }: { confirmationRequired: boolean
 function LiveForm({ game }: { game: TrustedLiveGame }) {
   const [away, setAway] = useState(String(game.awayScore));
   const [home, setHome] = useState(String(game.homeScore));
+  const [period, setPeriod] = useState(game.period ?? "");
+  const [clock, setClock] = useState(game.clock ?? "");
+  const halftime = normalizeLivePeriod(period) === "Halftime";
   const [confirmed, setConfirmed] = useState(false);
   const decreased = Number(away) < game.awayScore || Number(home) < game.homeScore;
   return <form action={submitAssignedLiveScore} className="mt-4 space-y-4">
@@ -26,8 +30,9 @@ function LiveForm({ game }: { game: TrustedLiveGame }) {
     <div className="grid gap-4 sm:grid-cols-2">
       <label className="min-w-0 text-sm">{game.awayName} (away)<input required name="away_score" type="number" min="0" max="150" value={away} onChange={(e) => { setAway(e.target.value); setConfirmed(false); }} className="mt-1 w-full rounded-lg border border-white/20 bg-black/30 p-3" /></label>
       <label className="min-w-0 text-sm">{game.homeName} (home)<input required name="home_score" type="number" min="0" max="150" value={home} onChange={(e) => { setHome(e.target.value); setConfirmed(false); }} className="mt-1 w-full rounded-lg border border-white/20 bg-black/30 p-3" /></label>
-      <label className="text-sm">Quarter / overtime<input name="period" defaultValue={game.period ?? ""} placeholder="1st, 2nd, 3rd, 4th, OT, OT2…" maxLength={30} className="mt-1 w-full rounded-lg border border-white/20 bg-black/30 p-3" /></label>
-      <label className="text-sm">Clock<input name="clock" defaultValue={game.clock ?? ""} placeholder="12:00" pattern="((0?[0-9]|1[0-4]):[0-5][0-9]|15:00)" className="mt-1 w-full rounded-lg border border-white/20 bg-black/30 p-3" /><span className="text-xs text-white/60">Optional; 0:00 through 15:00.</span></label>
+      <label className="text-sm">Quarter / period<input name="period" list="trusted-live-periods" value={period} onChange={(e) => { setPeriod(e.target.value); if (normalizeLivePeriod(e.target.value) === "Halftime") setClock(""); }} placeholder="1st, 2nd, Halftime, 3rd, 4th, OT…" maxLength={30} className="mt-1 w-full rounded-lg border border-white/20 bg-black/30 p-3" /></label>
+      <datalist id="trusted-live-periods">{LIVE_PERIODS.map((value) => <option key={value} value={value} />)}</datalist>
+      <label className="text-sm">Clock<input name="clock" disabled={halftime} value={clock} onChange={(e) => setClock(e.target.value)} placeholder={halftime ? "No clock at halftime" : "12:00"} pattern="((0?[0-9]|1[0-4]):[0-5][0-9]|15:00)" className="mt-1 w-full rounded-lg border border-white/20 bg-black/30 p-3" /><span className="text-xs text-white/60">Optional; 0:00 through 15:00.</span></label>
     </div>
     {decreased ? <label className="flex items-start gap-3 rounded-xl border border-amber-300/30 bg-amber-300/10 p-3 text-sm text-amber-100"><input required type="checkbox" name="confirm_score_decrease" checked={confirmed} onChange={(e) => setConfirmed(e.target.checked)} className="mt-1" />I confirm that a score is being reduced from the current LIVE score shown above.</label> : null}
     <PublishButton confirmationRequired={decreased && !confirmed} />
