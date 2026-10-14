@@ -1,5 +1,5 @@
 import type { School } from "@/types/platform";
-import { getSchoolLogoPath } from "@/data/school-logos";
+import { getSchoolLogoPath, getSchoolLogoImageStyle } from "@/data/school-logos";
 import SchoolBadge from "./SchoolBadge";
 
 type ProgramLogoProps = {
@@ -30,6 +30,7 @@ export default function ProgramLogo({ school, size = "md", className = "" }: Pro
     >
       <img
         src={src}
+        style={getSchoolLogoImageStyle(school.slug)}
         alt={`${school.fullName} logo`}
         className="h-full w-full object-contain drop-shadow-xl"
         loading="lazy"
