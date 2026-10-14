@@ -8,7 +8,7 @@ export type SchoolLogo = {
 };
 
 export const schoolLogoBySlug: Record<string, SchoolLogo> = {
-  "abilene-texas-leadership": { path: "/logos/schools/abilene-texas-leadership.png", optical: { directoryWidth: 76 } },
+  "abilene-texas-leadership": { path: "/logos/schools/abilene-texas-leadership.png", optical: { directoryScale: 1.08 } },
   "abilene-wylie": { path: "/logos/schools/abilene-wylie.png" },
   "bangs": { path: "/logos/schools/bangs.png" },
   "blooming-grove": { path: "/logos/schools/blooming-grove.png" },
@@ -43,7 +43,7 @@ export const schoolLogoBySlug: Record<string, SchoolLogo> = {
   "valley-mills": { path: "/logos/schools/valley-mills.png" },
   "city-view": { path: "/logos/schools/city-view.png" },
   albany: { path: "/logos/schools/albany.png" },
-  "anson": { path: "/logos/schools/anson.png", optical: { scale: 1.05, directoryWidth: 76 } },
+  "anson": { path: "/logos/schools/anson.png", optical: { scale: 1.05, directoryScale: 1.1025 } },
   "canyon-west-plains": { path: "/logos/schools/canyon-west-plains.png", optical: { scale: 1.2 } },
   "china-spring": { path: "/logos/schools/china-spring.png", optical: { scale: 1.52 } },
   cisco: { path: "/logos/schools/cisco.png" },
@@ -74,7 +74,7 @@ export const schoolLogoBySlug: Record<string, SchoolLogo> = {
   santo: { path: "/logos/schools/santo-final.webp" },
   stamford: { path: "/logos/schools/stamford.png" },
   stephenville: { path: "/logos/schools/stephenville.png" },
-  tolar: { path: "/logos/schools/tolar.png", optical: { scale: 1.08, directoryWidth: 76 }, glow: "subtle" },
+  tolar: { path: "/logos/schools/tolar.png", optical: { scale: 1.08 }, glow: "subtle" },
   winters: { path: "/logos/schools/winters.png", optical: { scale: 1.35 } },
   wortham: { path: "/logos/schools/wortham.png", optical: { scale: 1.22 } },
 };
