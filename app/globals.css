@@ -193,3 +193,21 @@ div[class~="mb-6"]:has(a[href="/submit"]):has(a[href="/coverage"]) > div > h2 {
 .vv-navigation-feedback[data-pending] .vv-navigation-dot {opacity:1}
 .weekly-mobile-nav a {position:relative}
 .weekly-mobile-nav .vv-navigation-feedback {position:absolute;right:8px;top:8px}
+
+/* Neutral backplates for supplied dark marks; keep official artwork colors intact.
+   Scope to these exact assets so all other school logos retain their styling. */
+img[src="/logos/schools/brownwood.png"],
+img[src="/logos/schools/pickem/brownwood.png"],
+img[src="/logos/schools/colorado-city.png"],
+img[src="/logos/schools/pickem/colorado-city.png"],
+img[src="/logos/schools/jarrell.png"],
+img[src="/logos/schools/pickem/jarrell.png"],
+img[src="/logos/schools/marble-falls.png"],
+img[src="/logos/schools/pickem/marble-falls.png"],
+img[src="/logos/schools/mason.png"],
+img[src="/logos/schools/pickem/mason.png"],
+img[src="/logos/schools/moody.png"],
+img[src="/logos/schools/pickem/moody.png"] {
+  background-color: #f3f4f6;
+  border-radius: 0.375rem;
+}
