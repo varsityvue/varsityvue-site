@@ -5,6 +5,7 @@ import Link from "next/link";
 import SchoolFollowControl from "@/components/SchoolFollowControl";
 import type { UILClassification } from "@/types/platform";
 import { getProgramLogoPath } from "@/components/SchoolBadge";
+import { getDirectoryLogoFrameStyle, getSchoolLogoImageStyle } from "@/data/school-logos";
 
 export type DirectorySchool = {
   featured: boolean;
@@ -199,9 +200,10 @@ function SchoolCards({ schools, isAuthenticated, followedSchoolSlugs, followLoad
                 <div className="relative">
                   <div className="mb-3 flex items-start justify-between gap-3 sm:mb-6 sm:gap-4">
                     {programLogo ? (
-                      <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-black/35 p-1.5 shadow-lg sm:h-16 sm:w-16 sm:rounded-2xl">
+                      <div style={getDirectoryLogoFrameStyle(school.slug)} className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-black/35 p-1.5 shadow-lg sm:h-16 sm:w-16 sm:rounded-2xl">
                         <img
                           src={programLogo}
+                          style={getSchoolLogoImageStyle(school.slug, "directory")}
                           alt={`${school.name} team logo`}
                           className="h-full w-full object-contain drop-shadow-lg"
                           loading="lazy"
