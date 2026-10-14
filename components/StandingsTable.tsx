@@ -1,3 +1,4 @@
+import { sortStandingsForDisplay } from "@/lib/standings-display";
 import Link from "next/link";
 import type { SchoolTheme } from "../types/school-theme";
 import { getSchoolBySlug } from "@/lib/schools";
@@ -47,7 +48,8 @@ function overallWinPct(team: Standing) {
 }
 
 function displayStandings(standings: Standing[], districtStarted: boolean, seasonStarted: boolean) {
-  if (districtStarted || !seasonStarted) return standings;
+  if (districtStarted) return sortStandingsForDisplay(standings);
+  if (!seasonStarted) return standings;
 
   return [...standings].sort((a, b) => {
     if (a.overallRecordKnown !== b.overallRecordKnown) {
@@ -127,7 +129,7 @@ export default function StandingsTable({ standings, theme, currentSchoolSlug, di
               })}</tbody>
             </table>
           </div>
-          {districtStarted && <p className="mt-4 text-xs leading-5 text-white/35">Teams with the same verified district record are shown as tied. VarsityVue does not apply unofficial district tiebreakers or project playoff qualifiers.</p>}
+          {districtStarted && <p className="mt-4 text-xs leading-5 text-white/35">Teams with the same verified district record are shown as tied. Overall winning percentage, then overall wins, then team name determine display order within ties, not official district rank. VarsityVue does not apply unofficial district tiebreakers or project playoff qualifiers.</p>}
         </>
       )}
     </section>
