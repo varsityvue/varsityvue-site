@@ -43,6 +43,21 @@ test("network failures are unavailable, never authority", async () => {
   assert.equal(await readMemberAccountStatus(c, "actor"), "unavailable");
 });
 
+test("failed checks emit only fixed diagnostic fields, without provider data", async (t) => {
+  const warnings: string[] = [];
+  t.mock.method(console, "warn", (value: string) => warnings.push(value));
+  const privateText = "private-user-token-and-email";
+  const c = client(async () => new Response(JSON.stringify({ code: privateText, message: privateText }), { status: 403 }));
+  assert.equal(await readMemberAccountStatus(c, privateText), "unavailable");
+  assert.equal(warnings.length, 1);
+  const diagnostic = JSON.parse(warnings[0]);
+  assert.deepEqual(Object.keys(diagnostic).sort(), ["duration_ms", "event", "reason"]);
+  assert.equal(diagnostic.event, "member_access_check_failed");
+  assert.equal(diagnostic.reason, "request_rejected");
+  assert.ok(diagnostic.duration_ms >= 0);
+  assert.ok(!warnings[0].includes(privateText));
+});
+
 test("slow account-status read aborts within its budget without retry", async () => {
   let reads = 0;
   const keepAlive = setTimeout(() => undefined, 5000);
