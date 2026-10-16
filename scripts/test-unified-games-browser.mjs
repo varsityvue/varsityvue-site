@@ -769,7 +769,7 @@ try {
     for (const width of [390, 1280]) {
       await center.setViewportSize({ width, height: 900 });
       await center.goto(origin + '/games/albany-at-stamford-2026-week-7');
-      const story = center.getByRole('link', { name: 'Read the Albany–Stamford rivalry story →', exact: true });
+      const story = center.getByRole('link', { name: 'Read Game Preview →', exact: true });
       assert.equal(await story.getAttribute('href'), '/coverage/albany-stamford-century-old-rivalry-week-7-2026');
       await story.scrollIntoViewIfNeeded();
       assert.equal(await story.isVisible(), true);
@@ -780,7 +780,7 @@ try {
     }
     await center.setViewportSize({ width: 390, height: 900 });
     await center.goto(origin + '/games/' + original.game_id);
-    assert.equal(await center.getByRole('link', { name: 'Read the Albany–Stamford rivalry story →', exact: true }).count(), 0);
+    assert.equal(await center.getByRole('link', { name: 'Read Game Preview →', exact: true }).count(), 0);
     const score = () => center.locator('a[href="/schools/hawley"] p.text-3xl');
     await center.getByRole('button', { name: 'Refresh scores', exact: true }).waitFor();
     await center.waitForFunction(() => document.body.innerText.includes('Scores checked'));
