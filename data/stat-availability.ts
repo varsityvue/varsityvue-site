@@ -10,7 +10,7 @@ const DEFAULT_PENDING_NOTE =
 
 export const gameStatAvailability: Record<string, GameStatAvailability> = {
   "cisco-at-hawley-2026-week-8": { status: "pending", note: "Quarter scores are available. Cisco's Week 8 team and player statistics have not yet been provided; no Hawley offensive statistics were included in this batch." },
-  "goldthwaite-at-albany-2026-week-8": { status: "pending", note: "Quarter scores are available. Week 8 team and player statistics are still needed from Albany and Goldthwaite." },
+  "goldthwaite-at-albany-2026-week-8": { status: "partial", note: "Coach-supplied offense and quarter scores are available for Goldthwaite and Albany. Other statistical categories were not supplied." },
 
   "santo-at-chilton-2026-week-1": {
     status: "pending",
