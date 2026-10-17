@@ -11,6 +11,7 @@ import { deLeonWeek3GameStats } from "@/data/de-leon-week3-game-stats";
 import { goldthwaiteSanSabaGameStats } from "@/data/goldthwaite-san-saba-game-stats";
 import { ownerWeek4OffensiveStats } from "@/data/owner-week4-offensive-stats";
 import { ownerWeek5OffensiveStats } from "@/data/owner-week5-offensive-stats";
+import { ownerWeek8GameStats } from "@/data/owner-week8-game-stats";
 import { ownerWeek7GameStats } from "@/data/owner-week7-game-stats";
 import { applyDeLeonStatCorrections } from "@/data/de-leon-stat-corrections";
 import { applyStatCompleteness } from "@/data/stat-completeness";
@@ -33,6 +34,7 @@ const combinedGameStats = [
   ...ownerWeek5OffensiveStats,
   ...goldthwaiteCoachWeek5Week6Stats,
   ...ownerWeek7GameStats,
+  ...ownerWeek8GameStats,
 ];
 
 function getGameIdentity(game: (typeof combinedGameStats)[number]) {
