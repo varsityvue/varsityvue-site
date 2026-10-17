@@ -690,4 +690,62 @@ export const venues: readonly Venue[] = [
     "verifiedAt": "2026-10-12",
     "aliases": []
   },
+{
+  "id": "tx-burnet-bulldog-stadium",
+  "name": "Bulldog Stadium",
+  "address": "1401 N Main St",
+  "city": "Burnet",
+  "state": "TX",
+  "zip": "78611",
+  "latitude": 30.7737932,
+  "longitude": -98.2285237,
+  "verificationStatus": "verified",
+  "sourceReferences": [
+    "https://texasbob.com/stadium/stadium.php?id=41",
+    "https://goo.gl/maps/gYTcJS46eZMusH2C8"
+  ],
+  "verifiedAt": "2026-10-17",
+  "aliases": [
+    "Bulldog Field"
+  ]
+},
+{
+  "id": "tx-marble-falls-mustang-stadium",
+  "name": "Mustang Stadium",
+  "address": "2101 Mustang Dr",
+  "city": "Marble Falls",
+  "state": "TX",
+  "zip": "78654",
+  "latitude": 30.5857997,
+  "longitude": -98.251861,
+  "verificationStatus": "verified",
+  "sourceReferences": [
+    "https://texasbob.com/stadium/stadium.php?id=1302",
+    "https://www.mfmustangs.org/mfstadium",
+    "https://goo.gl/maps/DaAzxTwE5FQ6cb2K7"
+  ],
+  "verifiedAt": "2026-10-17",
+  "aliases": []
+},
+{
+  "id": "tx-lampasas-badger-field",
+  "name": "Badger Field",
+  "address": "300-398 N Chestnut St",
+  "city": "Lampasas",
+  "state": "TX",
+  "zip": "76550",
+  "latitude": 31.0704199,
+  "longitude": -98.1830657,
+  "verificationStatus": "verified",
+  "sourceReferences": [
+    "https://www.waze.com/live-map/directions/us/tx/lampasas/lampasas-football-stadium?to=place.ChIJe3IG9kmUWoYRrlpKEAuHZvY",
+    "https://www.pigskinprep.com/archive/Schedulespdf/Lampasas.pdf",
+    "https://www.dailytrib.com/2025/10/30/high-school-football/"
+  ],
+  "verifiedAt": "2026-10-17",
+  "aliases": [
+    "Lampasas Football Stadium",
+    "Badger Stadium"
+  ]
+}
 ];

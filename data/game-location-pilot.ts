@@ -23,6 +23,7 @@ export const weekSevenPilotGameIds = [
 
 export const weekEightPilotGameIds = [
   "anson-at-abilene-tlca-2026-week-8",
+  "burnet-at-marble-falls-2026-week-8",
   "china-spring-at-stephenville-2026-week-8",
   "cisco-at-hawley-2026-week-8",
   "clifton-at-hamilton-2026-week-8",
@@ -32,6 +33,7 @@ export const weekEightPilotGameIds = [
   "holliday-at-city-view-2026-week-8",
   "hubbard-at-frost-2026-week-8",
   "jacksboro-at-breckenridge-2026-week-8",
+  "jarrell-at-lampasas-2026-week-8",
   "mart-at-santo-2026-week-8",
   "meridian-at-crawford-2026-week-8",
   "merkel-at-henrietta-2026-week-8",
@@ -56,6 +58,8 @@ export const weekNinePilotGameIds = [
   "hamlin-at-miles-2026-week-9",
   "hawley-at-hico-2026-week-9",
   "henrietta-at-jacksboro-2026-week-9",
+  "lampasas-at-burnet-2026-week-9",
+  "marble-falls-at-china-spring-2026-week-9",
   "rio-vista-at-comanche-2026-week-9",
   "santo-at-hubbard-2026-week-9",
   "stephenville-at-jarrell-2026-week-9"

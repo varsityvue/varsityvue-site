@@ -1,6 +1,19 @@
 import assert from "node:assert/strict";
 import type { Game } from "@/types/platform";
 
+// Explicit additions after the frozen migration catalogs; checked before exclusion.
+const october17Delta = [
+  ["jarrell-at-lampasas-2026-week-8",8,"jarrell","lampasas"],
+  ["burnet-at-marble-falls-2026-week-8",8,"burnet","marble-falls"],
+  ["lampasas-at-burnet-2026-week-9",9,"lampasas","burnet"],
+  ["marble-falls-at-china-spring-2026-week-9",9,"marble-falls","china-spring"],
+  ["china-spring-at-jarrell-2026-week-10",10,"china-spring","jarrell"],
+  ["marble-falls-at-lampasas-2026-week-10",10,"marble-falls","lampasas"],
+  ["jarrell-at-burnet-2026-week-11",11,"jarrell","burnet"],
+  ["lampasas-at-china-spring-2026-week-11",11,"lampasas","china-spring"],
+] as const;
+const october17Ids = new Set<string>(october17Delta.map(g => g[0]));
+
 // Frozen expectations from the approved District 12 evidence package.
 // Used only by tests; never imported by runtime code or installed into a database.
 export const retrospectiveDistrict12Results: Game[] = [
@@ -287,6 +300,12 @@ export const retrospectiveDistrict12Ids = new Set(retrospectiveDistrict12Results
 // Immutable migration catalogs describe the application at their original dates.
 // Assert every newly published historical final before comparing that legacy scope.
 export function historicalCatalogBeforeDistrict12(games: Game[]): Game[] {
+  for (const [id,week,away,home] of october17Delta) {
+    const rows=games.filter(g=>g.id===id);assert.equal(rows.length,1,id);
+    assert.deepEqual([rows[0].week,rows[0].awaySchoolSlug,rows[0].homeSchoolSlug,rows[0].districtGame],[week,away,home,true]);
+    const dates: Record<number,string>={8:"2026-10-16",9:"2026-10-23",10:"2026-10-30",11:"2026-11-06"};
+    assert.equal(rows[0].kickoff,dates[week]+"T19:00:00"+(week===11?"-06:00":"-05:00"));
+  }
   for (const expected of retrospectiveDistrict12Results) {
     const rows = games.filter(g => g.id === expected.id);
     assert.equal(rows.length, 1, expected.id);
@@ -304,6 +323,6 @@ export function historicalCatalogBeforeDistrict12(games: Game[]): Game[] {
   assert.equal(jarrell.awayScore, 32);
   assert.deepEqual(jarrell.score, { home: 13, away: 32, period: "Final" });
   assert.equal(jarrell.kickoff, "2026-09-11T19:00:00-05:00");
-  return games.filter(g => !retrospectiveDistrict12Ids.has(g.id)).map(g =>
+  return games.filter(g => !retrospectiveDistrict12Ids.has(g.id) && !october17Ids.has(g.id)).map(g =>
     g.id === jarrell.id ? { ...g, homeSchoolSlug: "jarrell", awaySchoolSlug: "austin", homeTeam: "Jarrell", awayTeam: "Austin", homeScore: 32, awayScore: 13, score: { home: 32, away: 13, period: "Final" } } : g);
 }

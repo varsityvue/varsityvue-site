@@ -38,8 +38,8 @@ test("Week 2 preserves the source's 20 receptions versus 21 completions with par
   assert.match(completeness.note ?? "", /unattributed in the source/);
 });
 
-test("Young's six distinct effective games derive one 34/474 season identity and 13.9 average", () => {
-  const stamfordGames = gameStats.filter((game) => game.season === 2026 && game.quarterScores.some((line) => line.schoolSlug === "stamford"));
+test("Young's corrected six-game baseline remains intact after the Week 7 addition", () => {
+  const stamfordGames = gameStats.filter((game) => game.season === 2026 && Number(game.gameId.match(/-week-(\d+)/)?.[1]) <= 6 && game.quarterScores.some((line) => line.schoolSlug === "stamford"));
   assert.equal(stamfordGames.length, 6);
   const identities = stamfordGames.map((game) => `${game.season}|${game.gameId.match(/-week-(\d+)/)?.[1]}|${game.quarterScores.map((line) => line.schoolSlug).sort().join("|")}`);
   assert.equal(new Set(identities).size, 6);
@@ -54,12 +54,16 @@ test("Young's six distinct effective games derive one 34/474 season identity and
     ["miles-at-stamford-2026-week-5", 3, 36],
     ["stamford-at-hamlin-2026-week-6", 4, 68],
   ].sort());
+  // Owner Week 7 source adds five catches for 73 yards; current totals must include it once.
+  const week7=gameStats.find(g=>g.gameId==="albany-at-stamford-2026-week-7")!;
+  const added=week7.receiving.find(line=>line.schoolSlug==="stamford"&&line.player==="Slayden Young")!;
+  assert.deepEqual([added.receptions,added.yards],[5,73]);
   const players = getPlayerSeasonStats(2026).filter((player) => player.schoolSlug === "stamford" && player.player === "Slayden Young");
   assert.equal(players.length, 1);
   assert.equal(players[0].playerId, getPlayerId("stamford", "Slayden Young", 2026));
-  assert.equal(players[0].gamesRecorded, 6);
-  assert.equal(players[0].receiving.receptions, 34);
-  assert.equal(players[0].receiving.yards, 474);
-  assert.equal(players[0].receiving.yardsPerReception, 13.9);
+  assert.equal(players[0].gamesRecorded, 7);
+  assert.equal(players[0].receiving.receptions, 39);
+  assert.equal(players[0].receiving.yards, 547);
+  assert.equal(players[0].receiving.yardsPerReception, 14.0);
   assert.equal(players[0].completeness.receiving.status, "partial");
 });
