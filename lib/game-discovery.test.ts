@@ -20,12 +20,12 @@ const location = resolveGameLocation(original, venues, schoolFootballVenues, {})
 const fixture = (id: string, status: Game["status"] = "upcoming", lon = 0): DiscoveryGame => ({ ...toDiscoveryGame(original, location), gameId: id, status, kickoff: "2026-10-09T19:00:00-05:00", location: { locationQuality: "verified", locationSource: "home_venue", venueName: "Test field", city: "Test", latitude: 0, longitude: lon } });
 const center = { latitude: 0, longitude: 0 };
 
-test("venue IDs unique; bounded 36 school mappings and 37 physical venues", () => {
-  assert.equal(venues.length, 37); assert.equal(new Set(venues.map(v => v.id)).size, venues.length);
-  assert.equal(Object.keys(schoolFootballVenues).length, 36);
+test("venue IDs unique; bounded 39 school mappings and 40 physical venues", () => {
+  assert.equal(venues.length, 40); assert.equal(new Set(venues.map(v => v.id)).size, venues.length);
+  assert.equal(Object.keys(schoolFootballVenues).length, 39);
 });
 test("verified coordinate ranges and research provenance", () => {
-  for (const v of venues) { assert.ok(validPoint(v)); assert.equal(v.verificationStatus, "verified"); assert.ok(v.sourceReferences.length >= 2); assert.equal(v.verifiedAt, v.id === "tx-china-spring-cougar-stadium" ? "2026-10-12" : "2026-10-03"); assert.match(v.zip, /^\d{5}$/); }
+  for (const v of venues) { assert.ok(validPoint(v)); assert.equal(v.verificationStatus, "verified"); assert.ok(v.sourceReferences.length >= 2); assert.equal(v.verifiedAt, ["tx-burnet-bulldog-stadium", "tx-marble-falls-mustang-stadium", "tx-lampasas-badger-field"].includes(v.id) ? "2026-10-17" : v.id === "tx-china-spring-cougar-stadium" ? "2026-10-12" : "2026-10-03"); assert.match(v.zip, /^\d{5}$/); }
   assert.equal(validPoint({ latitude: NaN, longitude: 0 }), false);
   assert.equal(validPoint({ latitude: 91, longitude: 0 }), false);
   assert.equal(validPoint({ latitude: 0, longitude: Infinity }), false);
@@ -119,13 +119,13 @@ test("client location is transient and discovery does not transmit it", () => {
   assert.match(page, /weeklyGameDto/); assert.match(page, /prefetch=\{false\}/);
 });
 
-test("Week 8 exact canonical 17-of-17 slate fails closed on missing, changed, duplicate or unresolved games", () => {
+test("Week 8 exact canonical 19-of-19 slate fails closed on missing, changed, duplicate or unresolved games", () => {
   const slate = games.filter(g => g.season === 2026 && g.week === 8 && realGame(g));
-  assert.equal(slate.length, 17);
+  assert.equal(slate.length, 19);
   assert.deepEqual(slate.map(g => g.id).sort(), [...weekEightPilotGameIds]);
-  assert.equal(new Set(slate.map(g => g.id)).size, 17);
+  assert.equal(new Set(slate.map(g => g.id)).size, 19);
   assert.ok(slate.every(g => g.districtGame && !g.isNeutralSite && g.gameType !== "playoff"));
-  assert.deepEqual(pilotGate(dto, 8), { enabled: true, total: 17, unresolved: 0 });
+  assert.deepEqual(pilotGate(dto, 8), { enabled: true, total: 19, unresolved: 0 });
   const first = slate[0].id;
   assert.equal(pilotGate(dto.filter(g => g.gameId !== first), 8).enabled, false);
   assert.equal(pilotGate([...dto, dto.find(g => g.gameId === first)!], 8).enabled, false);
@@ -151,17 +151,17 @@ test("all mappings and overrides reference canonical schools, games and unique v
 
 test("Week 9 exact canonical district slate has no historical bye or scrimmage inflation", () => {
   const rows = games.filter(g => g.season === 2026 && g.week === 9);
-  assert.equal(rows.length, 17);
-  assert.equal(rows.filter(realGame).length, 17);
-  assert.equal(rows.filter(g => g.districtGame).length, 17);
+  assert.equal(rows.length, 19);
+  assert.equal(rows.filter(realGame).length, 19);
+  assert.equal(rows.filter(g => g.districtGame).length, 19);
   assert.ok(rows.every(g => !g.isNeutralSite && g.gameType !== "playoff" && g.kickoff?.startsWith("2026-10-23")));
-  assert.equal(new Set(rows.map(g => g.id)).size, 17);
-  assert.equal(new Set(rows.flatMap(g => [g.homeSchoolSlug, g.awaySchoolSlug])).size, 34);
-  assert.equal(new Set(rows.map(g => g.homeSchoolSlug)).size, 17);
+  assert.equal(new Set(rows.map(g => g.id)).size, 19);
+  assert.equal(new Set(rows.flatMap(g => [g.homeSchoolSlug, g.awaySchoolSlug])).size, 38);
+  assert.equal(new Set(rows.map(g => g.homeSchoolSlug)).size, 19);
   assert.ok(!games.some(g => g.id === "stamford-bye-2026-week-9"));
   assert.deepEqual(rows.map(g => g.id).sort(), [...weekNinePilotGameIds]);
   assert.deepEqual([...weekNinePilotGameIds].sort(), [...weekNinePilotGameIds]);
-  assert.deepEqual(pilotGate(dto, 9), { enabled: true, total: 17, unresolved: 0 });
+  assert.deepEqual(pilotGate(dto, 9), { enabled: true, total: 19, unresolved: 0 });
 });
 test("Week 9 approval fails closed on missing, extra, duplicate, changed or unresolved games", () => {
   const first = dto.find(g => g.gameId === weekNinePilotGameIds[0])!;
@@ -211,8 +211,8 @@ test("Week 9 reuses all twelve approved venue identities without game overrides"
   assert.equal(Object.keys(gameVenueOverrides).length, 1);
   assert.equal(gameVenueOverrides["anson-at-abilene-tlca-2026-week-8"], "tx-abilene-wilford-moore-stadium");
 });
-test("Week 10 remains disabled despite 17 verified locations; Week 11 remains unapproved", () => {
-  assert.deepEqual(pilotGate(dto, 10), { enabled: false, total: 17, unresolved: 0 });
+test("Week 10 remains disabled despite 19 verified locations; Week 11 remains unapproved", () => {
+  assert.deepEqual(pilotGate(dto, 10), { enabled: false, total: 19, unresolved: 0 });
   assert.equal(pilotGate(dto, 11).enabled, false);
   assert.equal(pilotGate(dto, 12).enabled, false);
   assert.equal(schoolFootballVenues.hamilton, "tx-hamilton-kooken-field");

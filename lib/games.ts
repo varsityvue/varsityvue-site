@@ -7,6 +7,7 @@ import { lateWeek3Results } from "@/data/late-week3-results";
 import { followedDistrictResults } from "@/data/followed-district-results";
 import { followedDistrictResultsPhase2 } from "@/data/followed-district-results-phase2";
 import { jacksboroGames } from "@/data/jacksboro-games";
+import { district12RemainingGames } from "@/data/district-12-remaining-2026";
 import { district12Results } from "@/data/district-12-results";
 import { district8Games } from "@/data/district-8-games";
 import {
@@ -26,6 +27,9 @@ const santoGameIds = new Set(santoGames.map((game) => game.id));
 const AUTO_LIVE_WINDOW_MS = 4 * 60 * 60 * 1000;
 
 function applyEditorialGameFlags(game: Game): Game {
+  if (game.id === "stephenville-at-jarrell-2026-week-9") {
+    return { ...game, featured: true, specialEvent: "Game of the Week", coverageStatus: "planned" };
+  }
   if (!GAME_OF_THE_WEEK_IDS.has(game.id)) return game;
 
   return {
@@ -59,6 +63,7 @@ for (const verifiedGame of [
   ...lateWeek3Results,
   ...district8Games,
   ...district12Results,
+  ...district12RemainingGames,
 ]) {
   const existing = gamesById.get(verifiedGame.id);
   gamesById.set(

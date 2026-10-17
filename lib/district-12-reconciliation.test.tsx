@@ -28,7 +28,7 @@ const games = base.map(g => { const s = captured.get(g.id); return s ? {...g,sta
 test("District 12 has six independently reconciled records, PF/PA and six completed historical games each", () => {
   historicalCatalogBeforeDistrict12(base);
   assert.equal(retrospectiveDistrict12Results.length, 12);
-  const standings = getStandingsForDistrictIdFromGames("4a-d1-district-12", games);
+  const standings = getStandingsForDistrictIdFromGames("4a-d1-district-12", games.filter(g => (g.week ?? 0) <= 7));
   assert.equal(standings.length, 6);
   for (const s of standings) {
     assert.deepEqual([s.overallWins,s.overallLosses,s.districtWins,s.districtLosses,s.pointsFor,s.pointsAgainst], expected[s.schoolSlug as keyof typeof expected]);
@@ -41,7 +41,7 @@ test("District 12 has six independently reconciled records, PF/PA and six comple
 });
 
 test("mounted standings renderer emits tied positions and precise district/overall/PF/PA values", () => {
-  const standings=getStandingsForDistrictIdFromGames("4a-d1-district-12",games);
+  const standings=getStandingsForDistrictIdFromGames("4a-d1-district-12",games.filter(g => (g.week ?? 0) <= 7));
   const html=renderToStaticMarkup(<StandingsTable standings={standings} theme={{primary:"#6c122d",secondary:"#ffffff",accent:"#000000"}}/>);
   assert.equal((html.match(/>T-1</g)??[]).length,6);
   assert.equal((html.match(/>T-4</g)??[]).length,6);
@@ -49,9 +49,9 @@ test("mounted standings renderer emits tied positions and precise district/overa
   assert.match(html,/does not apply unofficial district tiebreakers/);
 });
 
-test("Week 7 exact 19-game gate and unchanged Week 8/9 exact gates reject omissions, duplicates and unverifiable locations", () => {
+test("Week 7 exact 19-game gate and expanded Week 8/9 exact gates reject omissions, duplicates and unverifiable locations", () => {
   const dto=base.map(g=>toDiscoveryGame(g,resolveGameLocation(g,venues,schoolFootballVenues,gameVenueOverrides)));
-  for(const [week,total] of [[7,19],[8,17],[9,17]]){
+  for(const [week,total] of [[7,19],[8,19],[9,19]]){
     assert.deepEqual(pilotGate(dto,week),{enabled:true,total,unresolved:0});
     const g=dto.find(g=>g.week===week)!;
     assert.equal(pilotGate(dto.filter(x=>x.gameId!==g.gameId),week).enabled,false);
@@ -61,5 +61,5 @@ test("Week 7 exact 19-game gate and unchanged Week 8/9 exact gates reject omissi
   const china=dto.find(g=>g.gameId==="burnet-at-china-spring-2026-week-7")!;
   assert.equal(china.location.locationQuality,"verified");
   assert.ok(schoolFootballVenues["china-spring"]);
-  assert.equal(base.filter(g=>g.week===8&&["china-spring","burnet","jarrell","marble-falls","lampasas","stephenville"].includes(g.homeSchoolSlug??"")&&["china-spring","burnet","jarrell","marble-falls","lampasas","stephenville"].includes(g.awaySchoolSlug??"")).length,1,"eight future matchups remain outside scope");
+  assert.equal(base.filter(g=>g.week===8&&["china-spring","burnet","jarrell","marble-falls","lampasas","stephenville"].includes(g.homeSchoolSlug??"")&&["china-spring","burnet","jarrell","marble-falls","lampasas","stephenville"].includes(g.awaySchoolSlug??"")).length,3,"all Week 8 district matchups are present");
 });

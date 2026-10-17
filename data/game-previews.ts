@@ -13,6 +13,13 @@ export type GamePreview = {
 
 export const gamePreviews: GamePreview[] = [
   {
+    gameId: "stephenville-at-jarrell-2026-week-9",
+    eyebrow: "Week 9 Game of the Week",
+    title: "Stephenville at Jarrell: Two Perfect Seasons, One District Lead",
+    excerpt: "Stephenville and Jarrell meet at 7 p.m. Friday with both teams 7-0 overall and 2-0 in District 12-4A Division I. The winner takes sole possession of the district lead with two regular-season games remaining.",
+    paragraphs: [],
+  },
+  {
     gameId: "jacksboro-at-cisco-2026-week-5",
     eyebrow: "Week 5 Game of the Week",
     title: "Jacksboro at Cisco: Who Has More to Prove?",
