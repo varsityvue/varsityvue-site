@@ -76,12 +76,12 @@ test("Goldthwaite touchdown-only plays are partial and preserve nine PATs as evi
   assert.equal(g.quarterScores.find(q=>q.schoolSlug==="goldthwaite")?.total,63);
 });
 
-test("season leaders and existing player IDs incorporate Week 7 exactly once", async () => {
-  assert.deepEqual(getPassingLeaders({minAttempts:1}).slice(0,3).map(p=>[p.player,p.passing.yards]),[["Miles Follis",2043],["Trot Jordan",1536],["Colby McIlroy",1124]]);
-  assert.deepEqual(getRushingLeaders({minAttempts:1}).slice(0,3).map(p=>[p.player,p.rushing.yards]),[["Lane Couch",1332],["Landry Sanderson",923],["Zyler McClendon",682]]);
-  assert.deepEqual(getReceivingLeaders({minReceptions:1}).slice(0,3).map(p=>[p.player,p.receiving.yards]),[["Caden Monk",804],["Levi Vahlenkamp",774],["Slayden Young",547]]);
+test("season leaders incorporate weekly additions and retain existing player IDs", async () => {
+  assert.deepEqual(getPassingLeaders({minAttempts:1}).slice(0,3).map(p=>[p.player,p.passing.yards]),[["Miles Follis",2388],["Trot Jordan",1926],["Colby McIlroy",1124]]);
+  assert.deepEqual(getRushingLeaders({minAttempts:1}).slice(0,3).map(p=>[p.player,p.rushing.yards]),[["Lane Couch",1440],["Landry Sanderson",923],["Zyler McClendon",682]]);
+  assert.deepEqual(getReceivingLeaders({minReceptions:1}).slice(0,3).map(p=>[p.player,p.receiving.yards]),[["Caden Monk",940],["Levi Vahlenkamp",868],["Slayden Young",704]]);
   const id=getPlayerId("de-leon","Lane Couch",2026),player=getPlayerSeasonStat(id)!;
-  assert.equal(player.rushing.yards+player.receiving.yards,1335);
+  assert.equal(player.rushing.yards+player.receiving.yards,1447);
   const log=await getPlayerGameLog(id,2026,getGames());
   const week7=log.filter(g=>g.gameId==="de-leon-at-hawley-2026-week-7");assert.equal(week7.length,1);
   assert.equal(week7[0].rushing?.yards,291);assert.equal(week7[0].rushing?.touchdowns,5);
@@ -91,7 +91,7 @@ test("season leaders and existing player IDs incorporate Week 7 exactly once", a
 
 test("homepage Area Leaders renders calculated all-purpose and partial total TD values", () => {
   const html=renderToStaticMarkup(AreaLeaders());
-  for(const value of ["Area Leaders","All-Purpose","Total TDs","Hayes Greenway","Miles Follis","Trot Jordan","1,335","1,018","879","25+"]) assert.ok(html.includes(value),value);
+  for(const value of ["Area Leaders","All-Purpose","Total TDs","Hayes Greenway","Miles Follis","Trot Jordan","1,447","1,018","1,048","29+"]) assert.ok(html.includes(value),value);
   assert.match(html,/Partial coverage/);
 });
 

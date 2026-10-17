@@ -37,6 +37,10 @@ const scoringUnavailable = (schoolSlug: string, quarterScoring = false): TeamSta
 });
 
 export const statCompletenessByGame: Record<string, TeamStatCompleteness[]> = {
+  "cross-plains-at-albany-2026-week-6": [{ schoolSlug: "albany", categories: {
+    passing: partial("Passing values are supplied, but cross-category touchdown attribution cannot be fully reconciled while receiver touchdown fields remain blank."),
+    receiving: partial("All seven catches and 189 yards are supplied; blank receiving touchdown fields remain unreported rather than inferred zero."),
+  } }],
   "hawley-at-albany-2026-week-1": [
     noBoxScore("hawley"),
     {

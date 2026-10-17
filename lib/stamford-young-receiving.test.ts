@@ -38,7 +38,7 @@ test("Week 2 preserves the source's 20 receptions versus 21 completions with par
   assert.match(completeness.note ?? "", /unattributed in the source/);
 });
 
-test("Young's corrected six-game baseline remains intact after the Week 7 addition", () => {
+test("Young's corrected six-game baseline remains intact after later weekly additions", () => {
   const stamfordGames = gameStats.filter((game) => game.season === 2026 && Number(game.gameId.match(/-week-(\d+)/)?.[1]) <= 6 && game.quarterScores.some((line) => line.schoolSlug === "stamford"));
   assert.equal(stamfordGames.length, 6);
   const identities = stamfordGames.map((game) => `${game.season}|${game.gameId.match(/-week-(\d+)/)?.[1]}|${game.quarterScores.map((line) => line.schoolSlug).sort().join("|")}`);
@@ -61,9 +61,9 @@ test("Young's corrected six-game baseline remains intact after the Week 7 additi
   const players = getPlayerSeasonStats(2026).filter((player) => player.schoolSlug === "stamford" && player.player === "Slayden Young");
   assert.equal(players.length, 1);
   assert.equal(players[0].playerId, getPlayerId("stamford", "Slayden Young", 2026));
-  assert.equal(players[0].gamesRecorded, 7);
-  assert.equal(players[0].receiving.receptions, 39);
-  assert.equal(players[0].receiving.yards, 547);
-  assert.equal(players[0].receiving.yardsPerReception, 14.0);
+  assert.equal(players[0].gamesRecorded, 8);
+  assert.equal(players[0].receiving.receptions, 45);
+  assert.equal(players[0].receiving.yards, 704);
+  assert.equal(players[0].receiving.yardsPerReception, 15.6);
   assert.equal(players[0].completeness.receiving.status, "partial");
 });

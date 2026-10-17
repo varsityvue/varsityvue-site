@@ -1,0 +1,22 @@
+name: Week 8 coach statistics verification
+on:
+  pull_request:
+    paths:
+      - 'data/owner-week8-game-stats.ts'
+      - 'lib/owner-week8-game-stats.test.ts'
+      - '.github/workflows/week8-coach-stats.yml'
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: node --import tsx --test lib/*.test.ts lib/*.test.tsx data/*.test.ts scripts/coverage-integration-scope.test.mjs
+      - run: npm run validate:stats && npm run validate:public-stats && npm run validate:touchdowns
+      - run: npx tsc --noEmit
+      - run: npm run build

@@ -5,6 +5,7 @@ export type ExtendedStatTable = { title: string; headers: string[]; rows: Extend
 export type ExtendedTeamMetric = { label: string; away: string | number; home: string | number; };
 export type ExtendedGameStats = { gameId: string; sourceLabel: string; sourceUrl?: string; teamMetrics: ExtendedTeamMetric[]; tables: ExtendedStatTable[]; notes?: string[]; };
 
+import { ownerWeek8DetailedStats } from "@/data/owner-week8-game-stats";
 import { ownerWeek5DetailedStats } from "@/data/owner-week5-detailed-stats";
 
 import { goldthwaiteCoachDetailedStats } from "@/data/goldthwaite-coach-detailed-stats";
@@ -40,4 +41,4 @@ const historicalExtendedGameStats: ExtendedGameStats[] = [
   },
 ];
 
-export const extendedGameStats: ExtendedGameStats[] = [...historicalExtendedGameStats, ...ownerWeek5DetailedStats, ...goldthwaiteCoachDetailedStats];
+export const extendedGameStats: ExtendedGameStats[] = [...historicalExtendedGameStats, ...ownerWeek5DetailedStats, ...goldthwaiteCoachDetailedStats, ...ownerWeek8DetailedStats];
