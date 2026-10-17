@@ -10,11 +10,11 @@ import { getPlayerId } from "@/lib/player-identity";
 import { getPassingLeaders, getReceivingLeaders, getRushingLeaders } from "@/lib/player-stats";
 import { getSchoolBySlug } from "@/data/schools";
 
-test("Week 8 integrates six games once and only four supplied offenses", () => {
+test("Week 8 integrates six games once and only six supplied offenses", () => {
   assert.equal(ownerWeek8GameStats.length,6);
-  assert.equal(ownerWeek8DetailedStats.length,4);
-  assert.equal(ownerWeek8GameStats.reduce((n,g)=>n+g.passing.length+g.rushing.length+g.receiving.length,0),43);
-  const supplied = new Set(["stephenville","de-leon","stamford","comanche"]);
+  assert.equal(ownerWeek8DetailedStats.length,5);
+  assert.equal(ownerWeek8GameStats.reduce((n,g)=>n+g.passing.length+g.rushing.length+g.receiving.length,0),65);
+  const supplied = new Set(["stephenville","de-leon","stamford","comanche","goldthwaite","albany"]);
   for (const g of ownerWeek8GameStats) {
     assert.equal(gameStats.filter(s=>s.gameId===g.gameId).length,1);
     assert.equal(getGames().find(s=>s.id===g.gameId)?.week,8);
@@ -63,14 +63,14 @@ test("team, district and area leaderboards share updated identities and one Week
   }
 });
 
-test("pending Albany, Cisco and Goldthwaite reporting is visible without invented lines", () => {
-  for(const id of ["cisco-at-hawley-2026-week-8","goldthwaite-at-albany-2026-week-8"]) {
+test("pending Cisco reporting is visible without invented lines", () => {
+  for(const id of ["cisco-at-hawley-2026-week-8"]) {
     assert.equal(getGameStatAvailability(id)?.status,"pending");
     const g=ownerWeek8GameStats.find(g=>g.gameId===id)!;
     assert.deepEqual([g.passing,g.rushing,g.receiving,g.teamStats],[[],[],[],[]]);
   }
   assert.match(getGameStatAvailability("cisco-at-hawley-2026-week-8")!.note!,/Cisco/);
-  assert.match(getGameStatAvailability("goldthwaite-at-albany-2026-week-8")!.note!,/Albany and Goldthwaite/);
+  assert.equal(getGameStatAvailability("goldthwaite-at-albany-2026-week-8")!.status,"partial");
 });
 
 test("detailed game tables preserve source metrics beyond leaderboard columns", () => {
@@ -82,4 +82,41 @@ test("detailed game tables preserve source metrics beyond leaderboard columns", 
   assert.deepEqual(stamford.tables[2].rows.find(r=>r.player==="Slayden Young")!.values,[11,"Jr",6,157,"26.2",86,"—"]);
   const comanche=ownerWeek8DetailedStats.find(g=>g.gameId.startsWith("comanche"))!;
   assert.equal(comanche.teamMetrics[2].away,"8/93/11.6/—/1");
+});
+
+test("Goldthwaite and Albany offense reconcile with owner-approved corrections", async () => {
+  const id="goldthwaite-at-albany-2026-week-8";
+  const g=ownerWeek8GameStats.find(g=>g.gameId===id)!;
+  for(const school of ["goldthwaite","albany"]) {
+    const team=g.teamStats.find(t=>t.schoolSlug===school)!;
+    const pass=g.passing.filter(r=>r.schoolSlug===school),rush=g.rushing.filter(r=>r.schoolSlug===school),rec=g.receiving.filter(r=>r.schoolSlug===school);
+    assert.equal(pass.reduce((n,r)=>n+r.attempts,0),team.passAttempts);
+    assert.equal(pass.reduce((n,r)=>n+r.completions,0),rec.reduce((n,r)=>n+r.receptions,0));
+    assert.equal(pass.reduce((n,r)=>n+r.yards,0),team.passingYards);
+    assert.equal(rec.reduce((n,r)=>n+r.yards,0),team.passingYards);
+    assert.equal(rush.reduce((n,r)=>n+r.yards,0),team.rushingYards);
+    assert.equal(rush.reduce((n,r)=>n+r.attempts,0),team.rushingAttempts);
+  }
+  assert.equal(g.teamStats[0].passAttempts,17);
+  assert.equal(g.teamStats[1].rushingYards,-16);
+  assert.equal(g.teamStats[1].totalYards,70);
+  assert.equal(g.scoringPlays.length,8);
+  assert.match(g.scoringPlays[3].description,/61-yard touchdown pass.*28–0/);
+  const detail=ownerWeek8DetailedStats.find(s=>s.gameId===id)!;
+  assert.ok(!detail.teamMetrics.some(m=>/possession/i.test(m.label)));
+  assert.deepEqual(detail.tables.find(t=>t.title==="Kicking")!.rows[0].values,[8,8]);
+  for(const [school,name,category,weekYards,total] of [
+    ["goldthwaite","Landry Sanderson","rushing",232,1155],
+    ["albany","Clay Chapman","passing",86,1208],
+  ] as const) {
+    const playerId=getPlayerId(school,name,2026);
+    const leaders=category==="rushing"?getRushingLeaders:getPassingLeaders;
+    for(const scope of [{},{schoolSlug:school},{districtId:getSchoolBySlug(school)!.districtId}]) {
+      const rows=leaders(scope).filter(p=>p.playerId===playerId);
+      assert.equal(rows.length,1);
+      assert.equal("rushing" in rows[0]?rows[0].rushing.yards:rows[0].passing.yards,total);
+    }
+    const log=(await getPlayerGameLog(playerId,2026,getGames())).filter(l=>l.gameId===id);
+    assert.equal(log.length,1);assert.equal(log[0][category]?.yards,weekYards);
+  }
 });

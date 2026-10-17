@@ -13,6 +13,16 @@ export type StatCorrectionAudit = {
 // Add an entry here whenever an existing GameStats record is intentionally replaced.
 export const statCorrectionAudits: StatCorrectionAudit[] = [
   {
+    auditId: "goldthwaite-albany-week8-offense-2026-10-17",
+    gameId: "goldthwaite-at-albany-2026-week-8",
+    season: 2026,
+    reviewedAt: "2026-10-17T23:32:10.238390+00:00",
+    reviewedBy: "Owner (Blaine Garcia)",
+    promptedBy: "Owner-supplied coach game report and explicit corrections",
+    note: "Replace quarter-score-only record with both teams' offense and scoring summary. Owner confirmed Goldthwaite 9/17 passing (not 9/18), Sanderson's 61-yard reception as a touchdown, and omission of time of possession. Quarter scores remain unchanged; Cisco reporting remains pending.",
+    changedSections: ["sourceLabel", "scoringPlays", "teamStats", "rushing", "passing", "receiving", "completeness"],
+  },
+  {
     auditId: "stamford-slayden-young-week2-receiving-2026-10-07",
     gameId: "de-leon-at-stamford-2026-week-2",
     season: 2026,

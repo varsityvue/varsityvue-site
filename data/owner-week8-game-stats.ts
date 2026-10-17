@@ -770,7 +770,7 @@ export const ownerWeek8GameStats: GameStats[] = [
     "gameId": "goldthwaite-at-albany-2026-week-8",
     "season": 2026,
     "sourceStatus": "verified",
-    "sourceLabel": "Owner-supplied Week 8 quarter scores, October 17, 2026; offensive statistics pending",
+    "sourceLabel": "Coach-supplied game report via owner October 17, 2026; owner confirmed 9/17 passing and 61-yard receiving TD",
     "quarterScores": [
       {
         "schoolSlug": "goldthwaite",
@@ -793,67 +793,302 @@ export const ownerWeek8GameStats: GameStats[] = [
         "total": 0
       }
     ],
-    "scoringPlays": [],
-    "teamStats": [],
-    "passing": [],
-    "rushing": [],
-    "receiving": [],
+    "scoringPlays": [
+      {
+        "quarter": 1,
+        "schoolSlug": "goldthwaite",
+        "description": "Hayes Greenway 10-yard touchdown run (Blake Howard kick); 7\u20130"
+      },
+      {
+        "quarter": 1,
+        "schoolSlug": "goldthwaite",
+        "description": "Landry Sanderson 47-yard touchdown run (Blake Howard kick); 14\u20130"
+      },
+      {
+        "quarter": 1,
+        "schoolSlug": "goldthwaite",
+        "description": "Landry Sanderson 4-yard touchdown run (Blake Howard kick); 21\u20130"
+      },
+      {
+        "quarter": 2,
+        "schoolSlug": "goldthwaite",
+        "description": "Landry Sanderson 61-yard touchdown pass from Hayes Greenway (Blake Howard kick); 28\u20130"
+      },
+      {
+        "quarter": 2,
+        "schoolSlug": "goldthwaite",
+        "description": "Landry Sanderson 33-yard touchdown run (Blake Howard kick); 35\u20130"
+      },
+      {
+        "quarter": 3,
+        "schoolSlug": "goldthwaite",
+        "description": "Landry Sanderson 6-yard touchdown run (Blake Howard kick); 42\u20130"
+      },
+      {
+        "quarter": 3,
+        "schoolSlug": "goldthwaite",
+        "description": "Landry Sanderson 14-yard touchdown run (Blake Howard kick); 49\u20130"
+      },
+      {
+        "quarter": 4,
+        "schoolSlug": "goldthwaite",
+        "description": "Owen Campbell 3-yard touchdown run (Blake Howard kick); 56\u20130"
+      }
+    ],
+    "teamStats": [
+      {
+        "schoolSlug": "goldthwaite",
+        "firstDowns": 24,
+        "rushingAttempts": 35,
+        "rushingYards": 299,
+        "passingYards": 157,
+        "totalYards": 456,
+        "completions": 9,
+        "passAttempts": 17,
+        "interceptionsThrown": 0,
+        "fumbles": 0,
+        "fumblesLost": 0,
+        "penalties": 6,
+        "penaltyYards": 32
+      },
+      {
+        "schoolSlug": "albany",
+        "firstDowns": 6,
+        "rushingAttempts": 23,
+        "rushingYards": -16,
+        "passingYards": 86,
+        "totalYards": 70,
+        "completions": 13,
+        "passAttempts": 21,
+        "interceptionsThrown": 1,
+        "fumbles": 0,
+        "fumblesLost": 0,
+        "penalties": 2,
+        "penaltyYards": 10
+      }
+    ],
+    "passing": [
+      {
+        "player": "Hayes Greenway",
+        "schoolSlug": "goldthwaite",
+        "completions": 8,
+        "attempts": 15,
+        "yards": 144,
+        "touchdowns": 1,
+        "interceptions": 0
+      },
+      {
+        "player": "Blake Howard",
+        "schoolSlug": "goldthwaite",
+        "completions": 1,
+        "attempts": 2,
+        "yards": 13,
+        "touchdowns": 0,
+        "interceptions": 0
+      },
+      {
+        "player": "Clay Chapman",
+        "schoolSlug": "albany",
+        "completions": 13,
+        "attempts": 21,
+        "yards": 86,
+        "touchdowns": 0,
+        "interceptions": 1
+      }
+    ],
+    "rushing": [
+      {
+        "player": "Landry Sanderson",
+        "schoolSlug": "goldthwaite",
+        "attempts": 21,
+        "yards": 232,
+        "touchdowns": 5
+      },
+      {
+        "player": "Luke Patrick",
+        "schoolSlug": "goldthwaite",
+        "attempts": 3,
+        "yards": 19,
+        "touchdowns": 0
+      },
+      {
+        "player": "Owen Campbell",
+        "schoolSlug": "goldthwaite",
+        "attempts": 3,
+        "yards": 16,
+        "touchdowns": 1
+      },
+      {
+        "player": "Hayes Greenway",
+        "schoolSlug": "goldthwaite",
+        "attempts": 6,
+        "yards": 14,
+        "touchdowns": 1
+      },
+      {
+        "player": "Aidyn Lee",
+        "schoolSlug": "goldthwaite",
+        "attempts": 1,
+        "yards": 9,
+        "touchdowns": 0
+      },
+      {
+        "player": "Blake Howard",
+        "schoolSlug": "goldthwaite",
+        "attempts": 1,
+        "yards": 9,
+        "touchdowns": 0
+      },
+      {
+        "player": "Sam Tidwell",
+        "schoolSlug": "albany",
+        "attempts": 5,
+        "yards": 20,
+        "touchdowns": 0
+      },
+      {
+        "player": "Jakobi Roberson",
+        "schoolSlug": "albany",
+        "attempts": 8,
+        "yards": -11,
+        "touchdowns": 0
+      },
+      {
+        "player": "Clay Chapman",
+        "schoolSlug": "albany",
+        "attempts": 10,
+        "yards": -25,
+        "touchdowns": 0
+      }
+    ],
+    "receiving": [
+      {
+        "player": "Landry Sanderson",
+        "schoolSlug": "goldthwaite",
+        "receptions": 1,
+        "yards": 61,
+        "touchdowns": 1
+      },
+      {
+        "player": "Blake Howard",
+        "schoolSlug": "goldthwaite",
+        "receptions": 3,
+        "yards": 56,
+        "touchdowns": 0
+      },
+      {
+        "player": "Luke Patrick",
+        "schoolSlug": "goldthwaite",
+        "receptions": 1,
+        "yards": 18,
+        "touchdowns": 0
+      },
+      {
+        "player": "Aidyn Lee",
+        "schoolSlug": "goldthwaite",
+        "receptions": 3,
+        "yards": 16,
+        "touchdowns": 0
+      },
+      {
+        "player": "Scott Reynolds",
+        "schoolSlug": "goldthwaite",
+        "receptions": 1,
+        "yards": 6,
+        "touchdowns": 0
+      },
+      {
+        "player": "Jakobi Roberson",
+        "schoolSlug": "albany",
+        "receptions": 4,
+        "yards": 30,
+        "touchdowns": 0
+      },
+      {
+        "player": "Blake Britting",
+        "schoolSlug": "albany",
+        "receptions": 2,
+        "yards": 23,
+        "touchdowns": 0
+      },
+      {
+        "player": "Wesley Gleitz",
+        "schoolSlug": "albany",
+        "receptions": 3,
+        "yards": 19,
+        "touchdowns": 0
+      },
+      {
+        "player": "Lyle Wheeler",
+        "schoolSlug": "albany",
+        "receptions": 1,
+        "yards": 15,
+        "touchdowns": 0
+      },
+      {
+        "player": "Aiden Vickers",
+        "schoolSlug": "albany",
+        "receptions": 3,
+        "yards": -1,
+        "touchdowns": 0
+      }
+    ],
     "completeness": [
       {
         "schoolSlug": "goldthwaite",
         "categories": {
-          "teamStats": {
-            "status": "unavailable",
-            "note": "Week 8 team and player statistics have not yet been provided."
-          },
-          "passing": {
-            "status": "unavailable",
-            "note": "Week 8 team and player statistics have not yet been provided."
-          },
-          "rushing": {
-            "status": "unavailable",
-            "note": "Week 8 team and player statistics have not yet been provided."
-          },
-          "receiving": {
-            "status": "unavailable",
-            "note": "Week 8 team and player statistics have not yet been provided."
-          },
-          "scoringPlays": {
-            "status": "unavailable",
-            "note": "Scoring plays were not supplied."
-          },
           "quarterScoring": {
             "status": "complete",
-            "note": "All four quarter scores were supplied."
+            "note": "Coach-supplied values reconcile to team totals; owner confirmed Goldthwaite passing attempts as 17."
+          },
+          "scoringPlays": {
+            "status": "partial",
+            "note": "Reported scoring sequence; play clocks were not supplied."
+          },
+          "teamStats": {
+            "status": "partial",
+            "note": "Supplied game summary; punting and defensive coverage not supplied."
+          },
+          "rushing": {
+            "status": "complete",
+            "note": "Coach-supplied values reconcile to team totals; owner confirmed Goldthwaite passing attempts as 17."
+          },
+          "passing": {
+            "status": "complete",
+            "note": "Coach-supplied values reconcile to team totals; owner confirmed Goldthwaite passing attempts as 17."
+          },
+          "receiving": {
+            "status": "complete",
+            "note": "Coach-supplied values reconcile to team totals; owner confirmed Goldthwaite passing attempts as 17."
           }
         }
       },
       {
         "schoolSlug": "albany",
         "categories": {
-          "teamStats": {
-            "status": "unavailable",
-            "note": "Week 8 team and player statistics have not yet been provided."
-          },
-          "passing": {
-            "status": "unavailable",
-            "note": "Week 8 team and player statistics have not yet been provided."
-          },
-          "rushing": {
-            "status": "unavailable",
-            "note": "Week 8 team and player statistics have not yet been provided."
-          },
-          "receiving": {
-            "status": "unavailable",
-            "note": "Week 8 team and player statistics have not yet been provided."
-          },
-          "scoringPlays": {
-            "status": "unavailable",
-            "note": "Scoring plays were not supplied."
-          },
           "quarterScoring": {
             "status": "complete",
-            "note": "All four quarter scores were supplied."
+            "note": "Coach-supplied values reconcile to team totals; owner confirmed Goldthwaite passing attempts as 17."
+          },
+          "scoringPlays": {
+            "status": "partial",
+            "note": "Reported scoring sequence; play clocks were not supplied."
+          },
+          "teamStats": {
+            "status": "partial",
+            "note": "Supplied game summary; punting and defensive coverage not supplied."
+          },
+          "rushing": {
+            "status": "complete",
+            "note": "Coach-supplied values reconcile to team totals; owner confirmed Goldthwaite passing attempts as 17."
+          },
+          "passing": {
+            "status": "complete",
+            "note": "Coach-supplied values reconcile to team totals; owner confirmed Goldthwaite passing attempts as 17."
+          },
+          "receiving": {
+            "status": "complete",
+            "note": "Coach-supplied values reconcile to team totals; owner confirmed Goldthwaite passing attempts as 17."
           }
         }
       }
@@ -1839,6 +2074,367 @@ export const ownerWeek8DetailedStats: ExtendedGameStats[] = [
     "notes": [
       "Coach-supplied totals contain 82 passing yards and 93 receiving yards, with eight completions and eight receptions. Source values retained without adjustment.",
       "Only this team's offensive statistics were supplied. No defensive, kicking or opponent player statistics are inferred."
+    ]
+  },
+  {
+    "gameId": "goldthwaite-at-albany-2026-week-8",
+    "sourceLabel": "Coach-supplied game report via owner October 17, 2026; owner confirmed 9/17 passing and 61-yard receiving TD",
+    "teamMetrics": [
+      {
+        "label": "3rd Down",
+        "away": "6-8",
+        "home": "2-13"
+      },
+      {
+        "label": "4th Down",
+        "away": "0-1",
+        "home": "0-9"
+      },
+      {
+        "label": "Field Goals",
+        "away": "0-0",
+        "home": "0-0"
+      },
+      {
+        "label": "Passing TD / INT",
+        "away": "1 / 0",
+        "home": "0 / 1"
+      }
+    ],
+    "tables": [
+      {
+        "title": "Passing detail",
+        "headers": [
+          "Player",
+          "#",
+          "C",
+          "Att",
+          "Yds",
+          "TD",
+          "INT"
+        ],
+        "rows": [
+          {
+            "player": "Hayes Greenway",
+            "schoolSlug": "goldthwaite",
+            "values": [
+              4,
+              8,
+              15,
+              144,
+              1,
+              0
+            ]
+          },
+          {
+            "player": "Blake Howard",
+            "schoolSlug": "goldthwaite",
+            "values": [
+              3,
+              1,
+              2,
+              13,
+              0,
+              0
+            ]
+          },
+          {
+            "player": "Clay Chapman",
+            "schoolSlug": "albany",
+            "values": [
+              10,
+              13,
+              21,
+              86,
+              0,
+              1
+            ]
+          }
+        ],
+        "completeness": {
+          "goldthwaite": {
+            "status": "complete",
+            "note": "Coach-supplied individual offense."
+          },
+          "albany": {
+            "status": "complete",
+            "note": "Coach-supplied individual offense."
+          }
+        }
+      },
+      {
+        "title": "Rushing detail",
+        "headers": [
+          "Player",
+          "#",
+          "Car",
+          "Yds",
+          "TD",
+          "Fumbles"
+        ],
+        "rows": [
+          {
+            "player": "Landry Sanderson",
+            "schoolSlug": "goldthwaite",
+            "values": [
+              30,
+              21,
+              232,
+              5,
+              0
+            ]
+          },
+          {
+            "player": "Luke Patrick",
+            "schoolSlug": "goldthwaite",
+            "values": [
+              12,
+              3,
+              19,
+              0,
+              0
+            ]
+          },
+          {
+            "player": "Owen Campbell",
+            "schoolSlug": "goldthwaite",
+            "values": [
+              25,
+              3,
+              16,
+              1,
+              0
+            ]
+          },
+          {
+            "player": "Hayes Greenway",
+            "schoolSlug": "goldthwaite",
+            "values": [
+              4,
+              6,
+              14,
+              1,
+              0
+            ]
+          },
+          {
+            "player": "Aidyn Lee",
+            "schoolSlug": "goldthwaite",
+            "values": [
+              2,
+              1,
+              9,
+              0,
+              0
+            ]
+          },
+          {
+            "player": "Blake Howard",
+            "schoolSlug": "goldthwaite",
+            "values": [
+              3,
+              1,
+              9,
+              0,
+              0
+            ]
+          },
+          {
+            "player": "Sam Tidwell",
+            "schoolSlug": "albany",
+            "values": [
+              29,
+              5,
+              20,
+              0,
+              0
+            ]
+          },
+          {
+            "player": "Jakobi Roberson",
+            "schoolSlug": "albany",
+            "values": [
+              7,
+              8,
+              -11,
+              0,
+              0
+            ]
+          },
+          {
+            "player": "Clay Chapman",
+            "schoolSlug": "albany",
+            "values": [
+              10,
+              10,
+              -25,
+              0,
+              0
+            ]
+          }
+        ],
+        "completeness": {
+          "goldthwaite": {
+            "status": "complete",
+            "note": "Coach-supplied individual offense."
+          },
+          "albany": {
+            "status": "complete",
+            "note": "Coach-supplied individual offense."
+          }
+        }
+      },
+      {
+        "title": "Receiving detail",
+        "headers": [
+          "Player",
+          "#",
+          "Rec",
+          "Yds",
+          "TD"
+        ],
+        "rows": [
+          {
+            "player": "Landry Sanderson",
+            "schoolSlug": "goldthwaite",
+            "values": [
+              30,
+              1,
+              61,
+              1
+            ]
+          },
+          {
+            "player": "Blake Howard",
+            "schoolSlug": "goldthwaite",
+            "values": [
+              3,
+              3,
+              56,
+              0
+            ]
+          },
+          {
+            "player": "Luke Patrick",
+            "schoolSlug": "goldthwaite",
+            "values": [
+              12,
+              1,
+              18,
+              0
+            ]
+          },
+          {
+            "player": "Aidyn Lee",
+            "schoolSlug": "goldthwaite",
+            "values": [
+              2,
+              3,
+              16,
+              0
+            ]
+          },
+          {
+            "player": "Scott Reynolds",
+            "schoolSlug": "goldthwaite",
+            "values": [
+              10,
+              1,
+              6,
+              0
+            ]
+          },
+          {
+            "player": "Jakobi Roberson",
+            "schoolSlug": "albany",
+            "values": [
+              7,
+              4,
+              30,
+              0
+            ]
+          },
+          {
+            "player": "Blake Britting",
+            "schoolSlug": "albany",
+            "values": [
+              1,
+              2,
+              23,
+              0
+            ]
+          },
+          {
+            "player": "Wesley Gleitz",
+            "schoolSlug": "albany",
+            "values": [
+              4,
+              3,
+              19,
+              0
+            ]
+          },
+          {
+            "player": "Lyle Wheeler",
+            "schoolSlug": "albany",
+            "values": [
+              3,
+              1,
+              15,
+              0
+            ]
+          },
+          {
+            "player": "Aiden Vickers",
+            "schoolSlug": "albany",
+            "values": [
+              2,
+              3,
+              -1,
+              0
+            ]
+          }
+        ],
+        "completeness": {
+          "goldthwaite": {
+            "status": "complete",
+            "note": "Coach-supplied individual offense."
+          },
+          "albany": {
+            "status": "complete",
+            "note": "Coach-supplied individual offense."
+          }
+        }
+      },
+      {
+        "title": "Kicking",
+        "headers": [
+          "Player",
+          "XP",
+          "XPA"
+        ],
+        "rows": [
+          {
+            "player": "Blake Howard",
+            "schoolSlug": "goldthwaite",
+            "values": [
+              8,
+              8
+            ]
+          }
+        ],
+        "completeness": {
+          "goldthwaite": {
+            "status": "partial",
+            "note": "Eight successful PATs supplied in the scoring summary; other individual kicking fields not supplied."
+          }
+        }
+      }
+    ],
+    "notes": [
+      "Owner confirmed Goldthwaite completed 9 of 17 passes, correcting the report's 18 team attempts to the individual quarterback total.",
+      "Owner confirmed Landry Sanderson's 61-yard reception was a touchdown, not a conversion.",
+      "Time of possession omitted at owner direction. No defensive or sack statistics inferred from summary zeroes."
     ]
   }
 ];

@@ -8,12 +8,12 @@ The owner supplied these coach statistics directly and instructed that reported 
 | Hico at De Leon, 7–49 | Both quarter scores; De Leon offense only |
 | Stamford at Cross Plains, 49–13 | Stamford offense only; no quarter splits supplied |
 | Cisco at Hawley, 31–35 | Both quarter scores only |
-| Goldthwaite at Albany, 56–0 | Both quarter scores only |
+| Goldthwaite at Albany, 56–0 | Both quarter scores; both teams’ offense and Goldthwaite scoring summary |
 | Comanche at Dublin, 40–0 | Comanche offense only; no quarter splits supplied |
 
 ## Outstanding reporting
 
-**Still need Week 8 team and individual statistics from Albany, Cisco and Goldthwaite.** These games display pending-stat notes. No offensive data was supplied for China Spring, Hico, Cross Plains, Hawley or Dublin in this batch. No opponent player statistics, scoring-play chronology, photographs or credits were invented.
+**Still need Week 8 team and individual statistics from Cisco.** Albany and Goldthwaite offense received later October 17 and imported with owner corrections. No offensive data was supplied for China Spring, Hico, Cross Plains, Hawley or Dublin in this batch. No opponent player statistics, scoring-play chronology, photographs or credits were invented.
 
 ## Source handling
 
@@ -25,3 +25,7 @@ The owner supplied these coach statistics directly and instructed that reported 
 - Reconciliation also exposed an older Week 6 Cross Plains–Albany completeness claim: receiving TD blanks had been labeled complete. Its passing/receiving metadata is now partial; no older statistic was changed.
 
 Week 8 remains the featured Game of the Week through the weekend. This statistics import does not change the homepage feature or the separately scheduled Monday switch to Stephenville at Jarrell.
+
+## Goldthwaite–Albany follow-up
+
+Owner supplied the full offensive report for both teams. Goldthwaite team passing is corrected to 9/17 (individual QBs 8/15 and 1/2), with 157 yards, one TD and zero INT. Landry Sanderson’s 61-yard reception is a touchdown, followed by Blake Howard’s PAT for 28–0. Time of possession is omitted. Goldthwaite total yards: 456; Albany: 70, including -16 rushing. All individual zero TD/INT fields are explicit source values. Eight successful Blake Howard PATs are supported by the scoring summary. No play clocks or individual defense were supplied. Replacement recorded in data/stat-corrections.ts.
