@@ -10,6 +10,8 @@ type RecentScoresProps = {
   scores: Game[];
   theme: SchoolTheme;
   schoolSlug: string;
+  compact?: boolean;
+  earlier?: boolean;
 };
 
 const MAX_RESULTS = 4;
@@ -87,7 +89,7 @@ function StatStatusBadge({ gameId }: { gameId: string }) {
   );
 }
 
-export default function RecentScores({ scores, theme, schoolSlug }: RecentScoresProps) {
+export default function RecentScores({ scores, theme, schoolSlug, compact = false, earlier = false }: RecentScoresProps) {
   const visibleScores = scores.slice(0, MAX_RESULTS);
   const [latest, ...previous] = visibleScores;
 
@@ -99,7 +101,7 @@ export default function RecentScores({ scores, theme, schoolSlug }: RecentScores
       <div className="flex items-end justify-between gap-3 border-b border-white/10 px-4 py-4 sm:px-6 sm:py-5">
         <div className="min-w-0">
           <p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/40 sm:text-xs sm:tracking-[0.24em]">Recent Results</p>
-          <h2 className="mt-1.5 text-2xl font-black text-white sm:mt-2 sm:text-3xl">Latest scores</h2>
+          <h2 className="mt-1.5 text-2xl font-black text-white sm:mt-2 sm:text-3xl">{earlier ? "Earlier results" : "Latest scores"}</h2>
           <p className="mt-2 hidden text-sm text-white/45 sm:block">Verified VarsityVue finals for this program.</p>
         </div>
         <Link href={`/schools/${schoolSlug}/schedule`} className="shrink-0 text-[10px] font-black uppercase tracking-[0.12em] text-white/50 transition hover:text-white sm:text-xs sm:tracking-[0.16em]">Schedule →</Link>
@@ -114,8 +116,8 @@ export default function RecentScores({ scores, theme, schoolSlug }: RecentScores
         </div>
       ) : (
         <div className="p-4 sm:p-6">
-          <FeaturedResult game={latest} schoolSlug={schoolSlug} theme={theme} />
-          {previous.length > 0 && (
+          {compact ? <div className="grid gap-3 sm:grid-cols-3">{visibleScores.map(game => <CompactResult key={game.id} game={game} schoolSlug={schoolSlug} theme={theme} />)}</div> : <FeaturedResult game={latest} schoolSlug={schoolSlug} theme={theme} />}
+          {!compact && previous.length > 0 && (
             <div className="mt-3 grid gap-2.5 sm:mt-4 sm:grid-cols-3 sm:gap-3">
               {previous.map((game) => (
                 <CompactResult key={game.id} game={game} schoolSlug={schoolSlug} theme={theme} />
