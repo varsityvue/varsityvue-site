@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { requireActiveMember } from "@/lib/member-access";
 import { getSchoolById } from "@/lib/schools";
 import { validateFeedRelationships } from "@/lib/team-feed-validation";
+import { parseFeedVisibility } from "@/lib/team-feed-visibility";
 import { processTeamFeedImage } from "@/lib/team-feed-image";
 
 const field = (form: FormData, key: string) => String(form.get(key) ?? "").trim();
@@ -33,6 +34,8 @@ export async function saveTeamFeedPost(form: FormData) {
   const primary = field(form, "primary_school_id");
   const secondary = field(form, "secondary_school_id") || null;
   const gameId = field(form, "game_id") || null;
+  const visibility = parseFeedVisibility(field(form, "feed_visibility"));
+  if (visibility === null) redirect(destination("Choose primary-school-only or both-school visibility."));
   const caption = field(form, "caption") || null;
   const alt = field(form, "alt_text");
   const intent = field(form, "intent");
@@ -54,7 +57,7 @@ export async function saveTeamFeedPost(form: FormData) {
     if (error) redirect(destination("Private image upload failed."));
   }
   if (!existing) {
-    const { error } = await supabase.from("team_feed_posts").insert({ id: postId, primary_school_id: primary, secondary_school_id: secondary, game_id: gameId, source_type: "varsityvue", caption, status: "draft", created_by: userId });
+    const { error } = await supabase.from("team_feed_posts").insert({ id: postId, primary_school_id: primary, secondary_school_id: secondary, game_id: gameId, show_on_secondary_school: visibility, source_type: "varsityvue", caption, status: "draft", created_by: userId });
     if (error) { await supabase.storage.from("team-feed-private").remove([objectPath]); redirect(destination("Could not save post.")); }
     const { error: mediaError } = await supabase.from("team_feed_media").insert({ id: mediaId, post_id: postId, alt_text: alt, width: processed!.width, height: processed!.height, byte_size: processed!.output.length, mime_type: "image/webp" });
     if (mediaError) redirect(destination("Image record failed; draft needs administrator cleanup."));
@@ -68,7 +71,7 @@ export async function saveTeamFeedPost(form: FormData) {
   }
   const status = intent === "publish" ? "published" : intent === "unpublish" ? "unpublished" : existing?.status === "published" ? "published" : existing?.status === "unpublished" ? "unpublished" : "draft";
   const publishedAt = intent === "publish" ? existing?.status === "published" ? existing.published_at : new Date().toISOString() : existing?.published_at ?? null;
-  const { error: updateError } = await supabase.from("team_feed_posts").update({ primary_school_id: primary, secondary_school_id: secondary, game_id: gameId, caption, status, published_at: publishedAt }).eq("id", postId);
+  const { error: updateError } = await supabase.from("team_feed_posts").update({ primary_school_id: primary, secondary_school_id: secondary, game_id: gameId, show_on_secondary_school: visibility, caption, status, published_at: publishedAt }).eq("id", postId);
   if (updateError) {
     if (newPublication) await supabase.storage.from("team-feed-public").remove([objectPath]);
     redirect(destination("Could not update post; publication was cancelled."));
