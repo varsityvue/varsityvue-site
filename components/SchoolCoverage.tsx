@@ -17,7 +17,7 @@ export default function SchoolCoverage({ schoolSlug, enhanced = false }: Props) 
       <div className="p-4 sm:p-6 md:p-7">
         <div className="flex items-end justify-between gap-3">
           <div className="min-w-0">
-            <p className="text-[9px] font-black uppercase tracking-[0.2em] text-white/40 sm:text-xs sm:tracking-[0.22em]">Program Coverage</p>
+            <p className={`text-[9px] font-black uppercase tracking-[0.2em] ${enhanced ? "text-white/70" : "text-white/40"} sm:text-xs sm:tracking-[0.22em]`}>Program Coverage</p>
             <h2 className="mt-1.5 break-words text-xl font-black text-white sm:mt-2 sm:text-2xl">Latest {school?.name ?? "School"} stories</h2>
             <p className="mt-2 hidden max-w-2xl text-sm leading-6 text-white/45 sm:block">Game coverage, program updates, and local stories connected to this team.</p>
           </div>
@@ -45,12 +45,12 @@ export default function SchoolCoverage({ schoolSlug, enhanced = false }: Props) 
           {(enhanced ? remaining : articles).map((article) => (
             <Link key={article.id} href={`/coverage/${article.slug}`} className="group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-xl border border-white/10 bg-black/35 p-3.5 transition hover:border-white/20 hover:bg-white/[0.07] sm:block sm:rounded-2xl sm:p-5">
               <div className="min-w-0">
-                <p className="text-[8px] font-black uppercase tracking-[0.14em] text-white/35 sm:text-[10px] sm:tracking-[0.16em]">{article.type}</p>
+                <p className={`text-[8px] font-black uppercase tracking-[0.14em] ${enhanced ? "text-white/70" : "text-white/35"} sm:text-[10px] sm:tracking-[0.16em]`}>{article.type}</p>
                 {enhanced && <time dateTime={article.publishedAt} className="mt-1 block text-xs text-white/70">{new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "America/Chicago" }).format(new Date(article.publishedAt))}</time>}
                 <h3 className="mt-1.5 break-words text-sm font-black leading-5 text-white transition group-hover:text-white/80 sm:mt-2 sm:text-base sm:leading-6">{article.title}</h3>
               </div>
               <span className="text-lg text-white/30 sm:hidden">→</span>
-              <p className="mt-4 hidden text-xs font-black uppercase tracking-[0.12em] text-white/35 sm:block">Read Story →</p>
+              <p className={`mt-4 hidden text-xs font-black uppercase tracking-[0.12em] ${enhanced ? "text-white/70" : "text-white/35"} sm:block`}>Read Story →</p>
             </Link>
           ))}
         </div>}

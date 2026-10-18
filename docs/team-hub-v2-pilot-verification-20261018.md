@@ -1,5 +1,7 @@
 # Team Hub V2 pilot — October 18, 2026
 
+The initial verification limitations below are superseded by [the final verification report](team-hub-v2-final-verification-20261018.md), which records real mobile/tablet browser checks and demonstrated presentation fixes.
+
 ## Scope and baseline
 
 Continues `feature/team-hub-v2-pilot`, preserving c55dbcdb and 72d28d7. Main was refreshed and remains d163799b863056c424cbca41e64d48f6220ba858. No intervening changes required reconciliation. Existing unrelated scratch checkouts were left intact. Read AGENTS.md, the installed Next.js 16.4 Server and Client Components guide, ROADMAP.md and team-feed-plan.md.
