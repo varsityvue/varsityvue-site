@@ -10,6 +10,8 @@ type RecentScoresProps = {
   scores: Game[];
   theme: SchoolTheme;
   schoolSlug: string;
+  compact?: boolean;
+  earlier?: boolean;
 };
 
 const MAX_RESULTS = 4;
@@ -77,17 +79,17 @@ function getResultClass(result: "W" | "L" | "T" | null) {
   return "border-white/10 bg-white/10 text-white/60";
 }
 
-function StatStatusBadge({ gameId }: { gameId: string }) {
+function StatStatusBadge({ gameId, enhanced = false }: { gameId: string; enhanced?: boolean }) {
   const availability = getGameStatAvailability(gameId);
   if (!availability || availability.status === "verified") return null;
   return (
-    <span className="rounded-full border border-white/10 bg-white/[0.06] px-2.5 py-1 text-[8px] font-black uppercase tracking-[0.1em] text-white/40 sm:text-[9px]">
+    <span className={`rounded-full border border-white/10 bg-white/[0.06] px-2.5 py-1 text-[8px] font-black uppercase tracking-[0.1em] ${enhanced ? "text-white/70" : "text-white/40"} sm:text-[9px]`}>
       {getStatAvailabilityLabel(availability.status)}
     </span>
   );
 }
 
-export default function RecentScores({ scores, theme, schoolSlug }: RecentScoresProps) {
+export default function RecentScores({ scores, theme, schoolSlug, compact = false, earlier = false }: RecentScoresProps) {
   const visibleScores = scores.slice(0, MAX_RESULTS);
   const [latest, ...previous] = visibleScores;
 
@@ -98,9 +100,9 @@ export default function RecentScores({ scores, theme, schoolSlug }: RecentScores
     >
       <div className="flex items-end justify-between gap-3 border-b border-white/10 px-4 py-4 sm:px-6 sm:py-5">
         <div className="min-w-0">
-          <p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/40 sm:text-xs sm:tracking-[0.24em]">Recent Results</p>
-          <h2 className="mt-1.5 text-2xl font-black text-white sm:mt-2 sm:text-3xl">Latest scores</h2>
-          <p className="mt-2 hidden text-sm text-white/45 sm:block">Verified VarsityVue finals for this program.</p>
+          <p className={`text-[9px] font-black uppercase tracking-[0.22em] ${compact ? "text-white/70" : "text-white/40"} sm:text-xs sm:tracking-[0.24em]`}>Recent Results</p>
+          <h2 className="mt-1.5 text-2xl font-black text-white sm:mt-2 sm:text-3xl">{earlier ? "Earlier results" : "Latest scores"}</h2>
+          <p className={`mt-2 hidden text-sm ${compact ? "text-white/70" : "text-white/45"} sm:block`}>Verified VarsityVue finals for this program.</p>
         </div>
         <Link href={`/schools/${schoolSlug}/schedule`} className="shrink-0 text-[10px] font-black uppercase tracking-[0.12em] text-white/50 transition hover:text-white sm:text-xs sm:tracking-[0.16em]">Schedule →</Link>
       </div>
@@ -114,8 +116,8 @@ export default function RecentScores({ scores, theme, schoolSlug }: RecentScores
         </div>
       ) : (
         <div className="p-4 sm:p-6">
-          <FeaturedResult game={latest} schoolSlug={schoolSlug} theme={theme} />
-          {previous.length > 0 && (
+          {compact ? <div className="grid gap-3 sm:grid-cols-3">{visibleScores.map(game => <CompactResult key={game.id} game={game} schoolSlug={schoolSlug} theme={theme} enhanced />)}</div> : <FeaturedResult game={latest} schoolSlug={schoolSlug} theme={theme} />}
+          {!compact && previous.length > 0 && (
             <div className="mt-3 grid gap-2.5 sm:mt-4 sm:grid-cols-3 sm:gap-3">
               {previous.map((game) => (
                 <CompactResult key={game.id} game={game} schoolSlug={schoolSlug} theme={theme} />
@@ -174,21 +176,21 @@ function FeaturedResult({ game, schoolSlug, theme }: { game: Game; schoolSlug: s
   );
 }
 
-function CompactResult({ game, schoolSlug, theme }: { game: Game; schoolSlug: string; theme: SchoolTheme }) {
+function CompactResult({ game, schoolSlug, theme, enhanced = false }: { game: Game; schoolSlug: string; theme: SchoolTheme; enhanced?: boolean }) {
   const result = getResult(game, schoolSlug);
   const opponent = getOpponent(game, schoolSlug);
   return (
     <Link href={`/games/${game.id}`} className="rounded-xl border bg-black/30 p-3.5 transition hover:bg-white/[0.05] sm:rounded-2xl sm:p-4" style={{ borderColor: `${theme.secondary}25` }}>
       <div className="flex items-center justify-between gap-2">
         <span className={`rounded-full border px-2.5 py-1 text-[9px] font-black sm:text-[10px] ${getResultClass(result)}`}>{result ?? "FINAL"}</span>
-        <span className="text-[9px] font-bold text-white/30 sm:text-[10px]">{formatScoreDate(game.kickoff)}</span>
+        <span className={`text-[9px] font-bold ${enhanced ? "text-white/70" : "text-white/30"} sm:text-[10px]`}>{formatScoreDate(game.kickoff)}</span>
       </div>
       <div className="mt-2.5 flex items-end justify-between gap-3 sm:block sm:mt-3">
         <p className="min-w-0 break-words text-sm font-black leading-tight text-white">{opponent.prefix} {opponent.name}</p>
         <p className="shrink-0 text-2xl font-black tracking-tight text-white sm:mt-2">{getScoreDisplay(game, schoolSlug)}</p>
       </div>
       <div className="mt-2">
-        <StatStatusBadge gameId={game.id} />
+        <StatStatusBadge gameId={game.id} enhanced={enhanced} />
       </div>
     </Link>
   );
