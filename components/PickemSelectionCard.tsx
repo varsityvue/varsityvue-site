@@ -29,14 +29,14 @@ export function PickemGameHeader({
   return (
     <>
       <div className="flex items-center justify-between gap-3">
-        <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[9px] font-black uppercase tracking-[0.16em] text-white/35">Game {index + 1}{isTiebreaker ? <span className="rounded-full border border-amber-300/25 px-1.5 py-0.5 text-[8px] tracking-[0.1em] text-amber-200/80">Tiebreaker</span> : null}</p>
+        <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[9px] font-black uppercase tracking-[0.16em] text-white/65">Game {index + 1}{isTiebreaker ? <span className="rounded-full border border-amber-300/25 px-1.5 py-0.5 text-[8px] tracking-[0.1em] text-amber-200/80">Tiebreaker</span> : null}</p>
         {locked ? (
           <div className="flex items-center gap-2">
             <span className="rounded-full border border-white/15 bg-white/[0.06] px-2 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white/75">Locked</span>
-            <span className="hidden text-[9px] font-black uppercase tracking-[0.12em] text-white/35 sm:inline">{kickoffLabel}</span>
+            <span className="hidden text-[9px] font-black uppercase tracking-[0.12em] text-white/65 sm:inline">{kickoffLabel}</span>
           </div>
         ) : (
-          <p className="text-[9px] font-black uppercase tracking-[0.12em] text-white/45">{kickoffLabel}</p>
+          <p className="text-[9px] font-black uppercase tracking-[0.12em] text-white/65">{kickoffLabel}</p>
         )}
       </div>
       {locked ? <p id={lockedMessageId} className="sr-only">This matchup is locked. Selections can no longer be changed.</p> : null}
@@ -85,7 +85,7 @@ export function PickemChoice({
       <span className="relative flex min-h-24 flex-col items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] px-2 py-3 text-center transition group-hover:bg-white/[0.08] peer-checked:border-[var(--vv-accent)] peer-checked:bg-[var(--vv-primary)]/35 peer-checked:shadow-[inset_0_0_0_1px_rgba(242,184,75,0.16)] peer-focus-visible:ring-2 peer-focus-visible:ring-white/70 peer-disabled:group-hover:bg-white/[0.04]">
         {checked ? <span aria-hidden="true" className="absolute right-2 top-2 text-[8px] font-black uppercase tracking-[0.08em] text-white/80">✓ Selected</span> : null}
         <TeamMark mark={mark} color={color} logoUrl={logoUrl} logoFilter={logoFilter} />
-        <span className="mt-2 text-[8px] font-black uppercase tracking-[0.14em] text-white/35">{label}</span>
+        <span className="mt-2 text-[8px] font-black uppercase tracking-[0.14em] text-white/65">{label}</span>
         <span className="mt-0.5 text-sm font-black leading-tight text-white sm:text-base">{team}</span>
       </span>
     </label>
