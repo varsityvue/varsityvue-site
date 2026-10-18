@@ -60,7 +60,12 @@ function emailOrigin() {
 }
 
 function renderPickemReminder(delivery: ClaimedPickemReminder) {
-  const remaining = Math.max(delivery.game_count - delivery.picked_count, 0);
+  const completeSelections = delivery.game_count > 0 && delivery.picked_count >= delivery.game_count;
+  const entryMessage = completeSelections
+    ? "Your selections are saved, but your contest entry is not yet accepted. Complete any remaining entry requirements, including the tiebreaker prediction (if required), mobile number, and eligibility and Official Rules attestation."
+    : delivery.picked_count === 0
+      ? "Start your picks and complete entry requirements, including the tiebreaker prediction (if required), mobile number, and eligibility and Official Rules attestation."
+      : "Finish your picks and complete entry requirements, including the tiebreaker prediction (if required), mobile number, and eligibility and Official Rules attestation.";
   const lockLabel = new Date(delivery.lock_at).toLocaleString("en-US", {
     weekday: "long",
     hour: "numeric",
@@ -73,9 +78,9 @@ function renderPickemReminder(delivery: ClaimedPickemReminder) {
   const unsubscribeUrl = `${emailOrigin()}/email/unsubscribe?token=${encodeURIComponent(token)}`;
   const oneClickUrl = `${emailOrigin()}/api/email/unsubscribe?token=${encodeURIComponent(token)}`;
   const preferenceUrl = `${emailOrigin()}/account#email-preferences`;
-  const subject = `${remaining} Pick ’Em pick${remaining === 1 ? "" : "s"} left before ${lockLabel}`;
-  const html = `<!doctype html><html><body style="margin:0;background:#070707;color:#f7f7f7;font-family:Arial,Helvetica,sans-serif"><div style="display:none;max-height:0;overflow:hidden">Finish your ${delivery.week_title} slate before the next game locks.</div><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#070707"><tr><td align="center" style="padding:28px 14px"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:620px;border:1px solid #2b2b2b;border-radius:18px;background:#111111"><tr><td style="padding:28px"><p style="margin:0 0 18px;color:#f2b84b;font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase">VarsityVue Pick ’Em</p><h1 style="margin:0;color:#ffffff;font-size:28px;line-height:1.2">Your slate is not finished</h1><p style="margin:18px 0 0;color:#d1d1d1;font-size:16px;line-height:1.6">You have <strong>${remaining} pick${remaining === 1 ? "" : "s"}</strong> left in ${delivery.week_title}. The next game locks ${lockLabel}.</p><p style="margin:24px 0"><a href="${pickemUrl}" style="display:inline-block;border-radius:999px;background:#7a1022;color:#ffffff;padding:13px 20px;text-decoration:none;font-size:14px;font-weight:800">Finish My Picks</a></p><p style="margin:24px 0 0;border-top:1px solid #2b2b2b;padding-top:18px;color:#858585;font-size:12px;line-height:1.6">You enabled Pick ’Em reminders. <a href="${preferenceUrl}" style="color:#c8c8c8">Manage preferences</a> · <a href="${unsubscribeUrl}" style="color:#c8c8c8">Unsubscribe from Pick ’Em reminders</a>.</p></td></tr></table></td></tr></table></body></html>`;
-  const text = `VARSITYVUE PICK ’EM\n\nYour slate is not finished.\n\nYou have ${remaining} pick${remaining === 1 ? "" : "s"} left in ${delivery.week_title}. The next game locks ${lockLabel}.\n\nFinish My Picks: ${pickemUrl}\n\nManage preferences: ${preferenceUrl}\nUnsubscribe from Pick ’Em reminders: ${unsubscribeUrl}`;
+  const subject = `Complete your Pick ’Em entry before ${lockLabel}`;
+  const html = `<!doctype html><html><body style="margin:0;background:#070707;color:#f7f7f7;font-family:Arial,Helvetica,sans-serif"><div style="display:none;max-height:0;overflow:hidden">Complete your Pick ’Em entry before the entry deadline.</div><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#070707"><tr><td align="center" style="padding:28px 14px"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:620px;border:1px solid #2b2b2b;border-radius:18px;background:#111111"><tr><td style="padding:28px"><p style="margin:0 0 18px;color:#f2b84b;font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase">VarsityVue Pick ’Em</p><h1 style="margin:0;color:#ffffff;font-size:28px;line-height:1.2">Your contest entry is not yet accepted</h1><p style="margin:18px 0 0;color:#d1d1d1;font-size:16px;line-height:1.6">${entryMessage} The entry deadline is ${lockLabel}.</p><p style="margin:24px 0"><a href="${pickemUrl}" style="display:inline-block;border-radius:999px;background:#7a1022;color:#ffffff;padding:13px 20px;text-decoration:none;font-size:14px;font-weight:800">Complete My Entry</a></p><p style="margin:24px 0 0;border-top:1px solid #2b2b2b;padding-top:18px;color:#858585;font-size:12px;line-height:1.6">You enabled Pick ’Em reminders. <a href="${preferenceUrl}" style="color:#c8c8c8">Manage preferences</a> · <a href="${unsubscribeUrl}" style="color:#c8c8c8">Unsubscribe from Pick ’Em reminders</a>.</p></td></tr></table></td></tr></table></body></html>`;
+  const text = `VARSITYVUE PICK ’EM\n\nYour contest entry is not yet accepted.\n\n${entryMessage} The entry deadline is ${lockLabel}.\n\nComplete My Entry: ${pickemUrl}\n\nManage preferences: ${preferenceUrl}\nUnsubscribe from Pick ’Em reminders: ${unsubscribeUrl}`;
   return { subject, html, text, oneClickUrl };
 }
 
@@ -242,6 +247,14 @@ export async function deliverNextPickemEmailReminder() {
   const delivery = (data?.[0] ?? null) as ClaimedPickemReminder | null;
   if (!delivery) return { outcome: "idle" as const };
   const rendered = renderPickemReminder(delivery);
+  const { data: authorized, error: authorizationError } = await client.rpc(
+    "authorize_pickem_email_reminder_send",
+    { worker_secret: workerSecret, target_delivery_id: delivery.delivery_id, target_claim_token: delivery.claim_token },
+  );
+  if (authorizationError || authorized !== true) return { outcome: "suppressed" as const };
+  // DB authorization can be delayed in transit. Fail closed against its frozen timestamp too.
+  const deadline = Date.parse(delivery.lock_at);
+  if (!Number.isFinite(deadline) || Date.now() >= deadline) return { outcome: "suppressed" as const };
 
   let response: Response;
   try {
