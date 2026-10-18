@@ -1,7 +1,9 @@
 import { Suspense } from "react";
 import ReadRecovery from "@/components/ReadRecovery";
-import { PickemHistory, PickemStandings } from "@/components/PickemOptionalSections";
-import { createPickemReadScope, loadPickemCore, loadPickemWeek, isContestWeek, PickemReadUnavailable, type PickemReadScope } from "@/lib/pickem-page-loader";
+import PickemEntryStatus from "@/components/PickemEntryStatus";
+import PickemLocalNavigation from "@/components/PickemLocalNavigation";
+import { PickemHistory, PickemStandings, PickemMemberOverview } from "@/components/PickemOptionalSections";
+import { createPickemReadScope, loadPickemCore, loadPickemWeek, loadPickemHistory, isContestWeek, PickemReadUnavailable, type PickemReadScope } from "@/lib/pickem-page-loader";
 import type { Metadata } from "next";
 import Link from "next/link";
 import ShareAction from "@/components/ShareAction";
@@ -138,6 +140,12 @@ async function PickemContent({ searchParams }: PageProps) {
   });
   const tiebreakerGame = games.find((game) => game.id === week?.tiebreaker_game_id);
 
+  // Share one optional read between the compact overview and full history.
+  // A contained failure must never block the authoritative entry form.
+  const historyData = isActiveMember && userId && week
+    ? loadPickemHistory(scope, userId, week.season).catch(() => null) : null;
+  const entryAvailable = Boolean(week && !newEntriesClosed && !weekClosed);
+
   return (
     <main className="min-h-screen bg-[var(--vv-bg)] px-4 py-4 text-white sm:px-6 sm:py-12 lg:px-8">
       <div className="mx-auto max-w-[1200px]">
@@ -151,6 +159,9 @@ async function PickemContent({ searchParams }: PageProps) {
         </section>
         )}
 
+        {week && <PickemLocalNavigation member={isActiveMember} />}
+        {historyData && <Suspense fallback={<p role="status" className="mt-3">Loading your season rank…</p>}><PickemMemberOverview dataPromise={historyData} /></Suspense>}
+        {contestWeek && isActiveMember && !memberEntry && (newEntriesClosed || weekClosed) && <div className="mt-4"><PickemEntryStatus title="Entry closed — not entered" detail="Saved drafts do not qualify as accepted entries. You can review available results below." /></div>}
         {week && weekClosed ? <div className="mt-5 rounded-xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm font-bold text-amber-50">{contestWeek ? `Week ${week.week}: ALL PICKS LOCKED. Saved picks remain visible while verified results are graded.` : `Week ${week.week} Pick ’Em is CLOSED. Saved picks remain visible while verified results are graded.`}</div> : null}
 
         {voidGames?.length ? <div className="mt-5 rounded-xl border border-sky-300/20 bg-sky-300/10 p-4 text-sm text-sky-50">{voidGames.length} included {voidGames.length === 1 ? "matchup is" : "matchups are"} VOID for this contest. No pick is required or graded for {voidGames.length === 1 ? "it" : "them"}.{voidGameIds.has(week?.tiebreaker_game_id ?? "") ? " The Tiebreaker Game prediction is skipped." : ""}</div> : null}
@@ -159,8 +170,8 @@ async function PickemContent({ searchParams }: PageProps) {
           <section className="mt-5 rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-center text-white/55">The next Pick ’Em slate is not open yet.</section>
         ) : isActiveMember ? (
           <>
-            {intendedPicks.size > 0 ? <div className="mt-5 rounded-2xl border border-emerald-300/20 bg-emerald-300/10 p-4 text-sm text-emerald-50">Your pre-registration picks were restored. Select <strong>{contestWeek && !memberEntry ? `Submit Week ${week.week} Picks` : "Save My Picks"}</strong> below to add them to your account.</div> : null}
-            {(!newEntriesClosed || memberEntry || !contestWeek) && <PickemSlateForm key={`${week.id}:${userId}`} weekNumber={week.week} weekId={week.id} games={games} contest={contestWeek ? { entered: Boolean(memberEntry), completedAt: memberEntry?.completed_at, status: memberEntry?.status } : undefined} tiebreaker={week.tiebreaker_game_id && !voidGameIds.has(week.tiebreaker_game_id) ? { matchup: (() => { const selected = games.find((game) => game.id === week.tiebreaker_game_id); return selected ? `${selected.awayName} at ${selected.homeName}` : "Game of the Week"; })(), savedPrediction: memberPrediction?.predicted_total ?? draftPrediction ?? undefined, locked: games.find((game) => game.id === week.tiebreaker_game_id)?.locked ?? false } : undefined} />}
+            {intendedPicks.size > 0 ? <div className="mt-5 rounded-2xl border border-emerald-300/20 bg-emerald-300/10 p-4 text-sm text-emerald-50">Your pre-registration picks were restored. {memberEntry?.status === "valid" ? "Your existing valid entry remains accepted; restored changes are not saved automatically." : "Restored selections are not an accepted entry."} {weekClosed ? "Picks are locked. Review your saved picks and available results below." : newEntriesClosed && !memberEntry ? "New entries are closed. Review available results below." : <>Select <strong>{contestWeek && !memberEntry ? `Submit Week ${week.week} Picks` : "Save My Picks"}</strong> below to save your selections.</>}</div> : null}
+            {(!newEntriesClosed || memberEntry || !contestWeek) && <PickemSlateForm key={`${week.id}:${userId}`} weekNumber={week.week} weekId={week.id} games={games} entryClosed={newEntriesClosed} contest={contestWeek ? { entered: Boolean(memberEntry), completedAt: memberEntry?.completed_at, status: memberEntry?.status } : undefined} tiebreaker={week.tiebreaker_game_id && !voidGameIds.has(week.tiebreaker_game_id) ? { matchup: (() => { const selected = games.find((game) => game.id === week.tiebreaker_game_id); return selected ? `${selected.awayName} at ${selected.homeName}` : "Game of the Week"; })(), savedPrediction: memberPrediction?.predicted_total ?? draftPrediction ?? undefined, locked: games.find((game) => game.id === week.tiebreaker_game_id)?.locked ?? false } : undefined} />}
           </>
         ) : (
           !newEntriesClosed ? <PickemGuestSlate games={games} /> : null
@@ -179,10 +190,10 @@ async function PickemContent({ searchParams }: PageProps) {
         </details> : null}
         {week && <>
           {isActiveMember && userId && <Suspense fallback={<p role="status" className="mt-5">Loading your Pick ’Em history…</p>}>
-            <PickemHistory scope={scope} userId={userId} week={week} games={games} voidGameIds={voidGameIds} weekClosed={weekClosed} />
+            <PickemHistory scope={scope} userId={userId} week={week} games={games} voidGameIds={voidGameIds} weekClosed={weekClosed} entryAvailable={entryAvailable} dataPromise={historyData ?? undefined} />
           </Suspense>}
           <Suspense fallback={<p role="status" className="mt-5">Loading standings…</p>}>
-            <PickemStandings scope={scope} week={week} weekClosed={weekClosed} />
+            <PickemStandings scope={scope} week={week} weekClosed={weekClosed} entryAvailable={entryAvailable} />
           </Suspense>
         </>}
       </div>

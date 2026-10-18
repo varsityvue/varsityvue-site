@@ -1,3 +1,4 @@
+import { pickemRecoveryCopy } from "@/lib/pickem-entry-presentation";
 import type { OwnPickemSummary } from "@/lib/public-read-contracts";
 import PickemWeekDisclosure from "@/components/PickemWeekDisclosure";
 import ReadRecovery from "@/components/ReadRecovery";
@@ -6,10 +7,17 @@ import { loadPickemHistory, loadPickemStandings, type PickemReadScope, type Pick
 import { summarizePickemWeeks } from "@/lib/pickem-week-summary";
 import { getGameById } from "@/lib/games";
 function pickResultLabel(isCorrect: boolean | null, editable: boolean) { return isCorrect === true ? "Correct" : isCorrect === false ? "Incorrect" : editable ? "Saved · Editable" : "Saved · Locked"; }
-export async function PickemHistory({ scope, userId, week, games, voidGameIds, weekClosed }: { scope: PickemReadScope; userId: string; week: PickemWeek; games: PickemSlateGame[]; voidGameIds: Set<string>; weekClosed: boolean }) {
+export type PickemHistoryData = Awaited<ReturnType<typeof loadPickemHistory>>;
+export async function PickemMemberOverview({ dataPromise }: { dataPromise: Promise<PickemHistoryData | null> }) {
+  const data = await dataPromise;
+  const rank = data?.rawMemberTotal?.season_rank;
+  return <p className="mt-3 text-sm text-white/80">Your season rank: <strong>{rank ? `#${rank}` : "Not available yet"}</strong> · <a href="#my-picks" className="underline underline-offset-4">My picks and record</a></p>;
+}
+export async function PickemHistory({ scope, userId, week, games, voidGameIds, weekClosed, entryAvailable = false, dataPromise }: { scope: PickemReadScope; userId: string; week: PickemWeek; games: PickemSlateGame[]; voidGameIds: Set<string>; weekClosed: boolean; entryAvailable?: boolean; dataPromise?: Promise<PickemHistoryData | null> }) {
   let data;
-  try { data = await loadPickemHistory(scope, userId, week.season); }
-  catch { return <ReadRecovery message="Your Pick ’Em history is temporarily unavailable. Your current entry remains above." />; }
+  try { data = dataPromise ? await dataPromise : await loadPickemHistory(scope, userId, week.season); }
+  catch { data = null; }
+  if (!data) return <section id="my-picks" className="scroll-mt-24"><h2 className="mt-5 text-xl font-black">My Pick ’Em</h2><ReadRecovery message={pickemRecoveryCopy("history", entryAvailable)} /></section>;
   const { memberPickRows, rawMemberTotal, memberGameRows, memberWeekRows, memberWeekGameRows } = data;
   const memberTotal = rawMemberTotal as OwnPickemSummary | null;
   const correctPicks = memberTotal?.correct_picks ?? 0;
@@ -85,10 +93,10 @@ export async function PickemHistory({ scope, userId, week, games, voidGameIds, w
           <section id="my-picks" className="mt-5 scroll-mt-24 rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-5 sm:mt-7 sm:p-7">
             <div className="flex flex-wrap items-end justify-between gap-3">
               <div>
-                <p className="text-[9px] font-black uppercase tracking-[0.18em] text-[var(--vv-accent)]">Member Season</p>
+                <p className="text-[9px] font-black uppercase tracking-[0.18em] text-white/75">Member Season</p>
                 <h2 className="mt-1 text-2xl font-black sm:text-3xl">My Pick ’Em</h2>
               </div>
-              <p className="text-[10px] text-white/35">Only you can see your picks</p>
+              <p className="text-[10px] text-white/65">Only you can see your picks</p>
             </div>
 
             {gradedPicks > 0 ? (
@@ -101,15 +109,15 @@ export async function PickemHistory({ scope, userId, week, games, voidGameIds, w
                     ["Season Rank", seasonRank ? `#${seasonRank}` : "—"],
                   ].map(([label, value]) => (
                     <div key={label} className="rounded-xl border border-white/10 bg-black/25 p-3">
-                      <p className="text-[9px] font-black uppercase tracking-[0.12em] text-white/35">{label}</p>
+                      <p className="text-[9px] font-black uppercase tracking-[0.12em] text-white/65">{label}</p>
                       <p className="mt-1 text-xl font-black">{value}</p>
                     </div>
                   ))}
                 </div>
-                <p className="mt-2 text-[10px] text-white/30">Season rank is based on correct picks; tied scores share the same position.</p>
+                <p className="mt-2 text-[10px] text-white/65">Season rank is based on correct picks; tied scores share the same position.</p>
               </>
             ) : (
-              <p className="mt-4 rounded-xl border border-white/10 bg-black/25 p-4 text-sm text-white/45">Season results will appear after the first verified final grades your picks.</p>
+              <p className="mt-4 rounded-xl border border-white/10 bg-black/25 p-4 text-sm text-white/65">Season results will appear after the first verified final grades your picks.</p>
             )}
 
             {memberHistory.length > 0 ? (
@@ -132,7 +140,7 @@ export async function PickemHistory({ scope, userId, week, games, voidGameIds, w
                             <p className="truncate text-xs font-bold text-white/60">{pick.matchup}</p>
                             <p className="mt-1 text-sm font-black">Picked {pick.pickedTeam}</p>
                           </div>
-                          <span className={`shrink-0 rounded-full border px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.1em] ${pick.isCorrect === true ? "border-emerald-300/20 bg-emerald-300/10 text-emerald-100" : pick.isCorrect === false ? "border-red-300/20 bg-red-300/10 text-red-100" : pick.editable ? "border-sky-300/20 bg-sky-300/10 text-sky-100" : "border-white/10 bg-white/[0.04] text-white/45"}`}>
+                          <span className={`shrink-0 rounded-full border px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.1em] ${pick.isCorrect === true ? "border-emerald-300/20 bg-emerald-300/10 text-emerald-100" : pick.isCorrect === false ? "border-red-300/20 bg-red-300/10 text-red-100" : pick.editable ? "border-sky-300/20 bg-sky-300/10 text-sky-100" : "border-white/10 bg-white/[0.04] text-white/65"}`}>
                             {voidGameIds.has(pick.id) ? "Void" : pickResultLabel(pick.isCorrect, pick.editable)}
                           </span>
                         </div>
@@ -142,25 +150,25 @@ export async function PickemHistory({ scope, userId, week, games, voidGameIds, w
                 ))}
               </div>
             ) : (
-              <p className="mt-5 rounded-xl border border-white/10 bg-black/25 p-4 text-sm text-white/45">Save your first slate to start your season history.</p>
+              <p className="mt-5 rounded-xl border border-white/10 bg-black/25 p-4 text-sm text-white/65">Save your first slate to start your season history.</p>
             )}
           </section>
         ) : null}
 
  </>;
 }
-export async function PickemStandings({ scope, week, weekClosed }: { scope: PickemReadScope; week: PickemWeek; weekClosed: boolean }) {
+export async function PickemStandings({ scope, week, weekClosed, entryAvailable = false }: { scope: PickemReadScope; week: PickemWeek; weekClosed: boolean; entryAvailable?: boolean }) {
  let data;
  try { data = await loadPickemStandings(scope, week, weekClosed); }
- catch { return <ReadRecovery message="Pick ’Em standings are temporarily unavailable. Contest entry is still available above." />; }
+ catch { return <><section id="weekly-standings" className="scroll-mt-24"><h2 className="mt-5 text-xl font-black">Weekly standings</h2><ReadRecovery message={pickemRecoveryCopy("standings", entryAvailable)} /></section><section id="season-leaderboard" className="mt-5 scroll-mt-24"><h2 className="text-xl font-black">Season leaderboard</h2><p className="mt-2 text-sm text-white/70">Season standings are temporarily unavailable. Try loading again above.</p></section></>; }
  const { leaderboardRows: rankedLeaderboard, weeklyStandings } = data;
  return <>
 
-        {weekClosed && weeklyStandings && weeklyStandings.length > 0 && <section className="mt-5 rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-5 sm:mt-7 sm:p-7"><h2 className="text-2xl font-black">Week {week?.week} standings</h2><p className="mt-1 text-xs text-white/45">{week?.status === "graded" ? "Final weekly results" : "Provisional while results are graded"}{week?.tiebreaker_game_id ? " · Pick ’Em Tiebreaker Game combined points break ties when a verified played final is available." : " · No tiebreaker was collected for this week."}</p><div className="mt-4 divide-y divide-white/10">{weeklyStandings.map((entry) => <div key={entry.ordinal} className="grid grid-cols-[2rem_1fr_auto] items-center gap-3 py-3"><span className="font-black text-white/45">{entry.weekly_rank}</span><div className="min-w-0"><p className="truncate text-sm font-black">{entry.display_name || entry.username || "VarsityVue Member"}</p><p className="text-[10px] text-white/45">{entry.graded_picks} graded{entry.distance !== null ? ` · ${entry.distance} points from total` : ""}</p></div><span className="text-xl font-black">{entry.correct_picks}</span></div>)}</div></section>}
+        {weekClosed && weeklyStandings && weeklyStandings.length > 0 ? <section id="weekly-standings" className="scroll-mt-24 mt-5 rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-5 sm:mt-7 sm:p-7"><h2 className="text-2xl font-black">Week {week?.week} standings</h2><p className="mt-1 text-xs text-white/65">{week?.status === "graded" ? "Game results graded; prize finalization is separate" : "Provisional while results are graded"}{week?.tiebreaker_game_id ? " · Pick ’Em Tiebreaker Game combined points break ties when a verified played final is available." : " · No tiebreaker was collected for this week."}</p><div className="mt-4 divide-y divide-white/10">{weeklyStandings.map((entry) => <div key={entry.ordinal} className="grid grid-cols-[2rem_1fr_auto] items-center gap-3 py-3"><span className="font-black text-white/65">{entry.weekly_rank}</span><div className="min-w-0"><p className="truncate text-sm font-black">{entry.display_name || entry.username || "VarsityVue Member"}</p><p className="text-[10px] text-white/65">{entry.graded_picks} graded{entry.distance !== null ? ` · ${entry.distance} points from total` : ""}</p></div><span className="text-xl font-black">{entry.correct_picks}</span></div>)}</div></section> : <section id="weekly-standings" className="mt-5 scroll-mt-24 rounded-xl border border-white/10 p-5"><h2 className="text-xl font-black">Week {week.week} standings</h2><p className="mt-2 text-sm text-white/70">{weekClosed ? "Weekly results are not available yet. Try loading again later." : "Weekly standings appear after picks lock. Grading and prize finalization are separate."}</p></section>}
 
-        <section className="mt-5 rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-5 sm:mt-7 sm:p-7">
-          <div className="flex items-end justify-between gap-3"><div><p className="text-[9px] font-black uppercase tracking-[0.18em] text-[var(--vv-accent)]">Season Standings</p><h2 className="mt-1 text-2xl font-black sm:text-3xl">Leaderboard</h2></div><p className="text-[10px] text-white/35">Verified finals only</p></div>
-          {rankedLeaderboard.length > 0 ? <div className="mt-4 divide-y divide-white/10">{rankedLeaderboard.map((entry) => <div key={entry.ordinal} className="grid grid-cols-[2rem_1fr_auto] items-center gap-3 py-3"><span className="text-sm font-black text-white/35">{entry.rank}</span><div className="min-w-0"><p className="truncate text-sm font-black">{entry.display_name || entry.username || "VarsityVue Member"}</p><p className="mt-0.5 text-[10px] text-white/35">{entry.graded_picks} graded · {entry.accuracy_pct}% correct</p></div><p className="text-xl font-black">{entry.correct_picks}</p></div>)}</div> : <p className="mt-4 rounded-xl border border-white/10 bg-black/25 p-4 text-sm text-white/45">Standings will appear as Week {week?.week ?? "—"} games are graded.</p>}
+        <section id="season-leaderboard" className="mt-5 scroll-mt-24 rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-5 sm:mt-7 sm:p-7">
+          <div className="flex items-end justify-between gap-3"><div><p className="text-[9px] font-black uppercase tracking-[0.18em] text-white/75">Season Standings</p><h2 className="mt-1 text-2xl font-black sm:text-3xl">Leaderboard</h2></div><p className="text-[10px] text-white/65">Verified finals only</p></div>
+          {rankedLeaderboard.length > 0 ? <div className="mt-4 divide-y divide-white/10">{rankedLeaderboard.map((entry) => <div key={entry.ordinal} className="grid grid-cols-[2rem_1fr_auto] items-center gap-3 py-3"><span className="text-sm font-black text-white/65">{entry.rank}</span><div className="min-w-0"><p className="truncate text-sm font-black">{entry.display_name || entry.username || "VarsityVue Member"}</p><p className="mt-0.5 text-[10px] text-white/65">{entry.graded_picks} graded · {entry.accuracy_pct}% correct</p></div><p className="text-xl font-black">{entry.correct_picks}</p></div>)}</div> : <p className="mt-4 rounded-xl border border-white/10 bg-black/25 p-4 text-sm text-white/65">Standings will appear as Week {week?.week ?? "—"} games are graded.</p>}
         </section>
  </>;
 }

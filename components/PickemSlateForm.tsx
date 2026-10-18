@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import PickemEntryStatus from "./PickemEntryStatus";
+import { pickemEntrySummary } from "@/lib/pickem-entry-presentation";
 import { reconcilePickemWrite } from "@/app/pickem/recovery";
 import type { PickemWriteIntent } from "@/lib/pickem-write-recovery";
 import { useEffect, useReducer, useRef, useState, useTransition, type FormEvent } from "react";
@@ -47,12 +49,14 @@ export default function PickemSlateForm({
   games,
   contest,
   tiebreaker,
+  entryClosed = false,
   saveAction = savePickemSlate,
   saveDraftAction = savePickemDraft,
 }: {
   weekId: string;
   weekNumber?: number;
   games: PickemSlateGame[];
+  entryClosed?: boolean;
   contest?: { entered: boolean; completedAt?: string; status?: string };
   tiebreaker?: { matchup: string; savedPrediction?: number; locked?: boolean };
   saveAction?: (previousState: PickemActionState, formData: FormData) => Promise<PickemActionState>;
@@ -68,6 +72,7 @@ export default function PickemSlateForm({
   const statusRef = useRef<HTMLParagraphElement>(null);
   const [prediction, setPrediction] = useState(tiebreaker?.savedPrediction?.toString() ?? "");
   const [savedPrediction, setSavedPrediction] = useState(tiebreaker?.savedPrediction?.toString() ?? "");
+  const [phone, setPhone] = useState("");
   const [attested, setAttested] = useState(false);
   const [state, dispatch] = useReducer(
     pickemClientReducer,
@@ -175,6 +180,13 @@ export default function PickemSlateForm({
     });
   };
 
+  const entrySummary = contest ? pickemEntrySummary({
+    entered: contest.entered, status: contest.status, entryClosed,
+    allLocked: games.length > 0 && games.every(game => game.locked),
+    uncertain, reconciled: confirmed, selected: derived.selectedCount, total: derived.totalGames,
+    needsPrediction: Boolean(tiebreaker && prediction.trim() === ""), hasPhone: phone.trim() !== "", attested,
+  }) : null;
+
   const statusMessage = pending
     ? "Saving your picks…"
     : state.message || (derived.savedPickCount > 0
@@ -189,12 +201,13 @@ export default function PickemSlateForm({
         : "Save My Picks";
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit} className={`mt-5 sm:mt-7 ${showMobileSaveBar ? "pb-24 sm:pb-0" : ""}`}>
+    <form ref={formRef} onSubmit={handleSubmit} className={`mt-5 sm:mt-7 ${showMobileSaveBar ? "pb-40 sm:pb-0" : ""}`}>
+      {entrySummary && <PickemEntryStatus {...entrySummary} />}
       <input type="hidden" name="week_id" value={weekId} />
       <p className="mb-2 text-xs text-white/60">Pick one winner in each matchup.</p>
       <div className="mb-4 flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.035] px-4 py-3">
         <PickemProgress selectedCount={derived.selectedCount} totalGames={derived.totalGames} />
-        {hasUnsavedChanges ? <span className="text-[9px] font-black uppercase tracking-[0.1em] text-[var(--vv-accent)]">Not saved</span> : null}
+        {hasUnsavedChanges ? <span className="text-[9px] font-black uppercase tracking-[0.1em] text-white/75">Not saved</span> : null}
       </div>
       <div className="grid gap-3 lg:grid-cols-2">
         {games.map((game, index) => {
@@ -213,12 +226,12 @@ export default function PickemSlateForm({
 
       {tiebreaker && <div className="mt-4 rounded-xl border border-white/15 bg-black/35 p-4"><label htmlFor="predicted_total" className="block text-sm font-black">Pick ’Em Tiebreaker Game total points · {tiebreaker.matchup}</label><p className="mt-1 text-xs text-white/50">Predict both teams’ combined score. Closest prediction breaks a weekly points tie.{tiebreaker.locked ? " Prediction locked at kickoff." : ""}</p><input id="predicted_total" name="predicted_total" type="number" min="0" max="300" step="1" required disabled={pending || uncertain} readOnly={tiebreaker.locked} value={prediction} onChange={(event) => setPrediction(event.target.value)} className="mt-3 w-full max-w-xs rounded-xl border border-white/15 bg-[#161616] px-4 py-3 text-base text-white" /></div>}
       {contest && <div className="mt-4 rounded-xl border border-white/15 bg-black/35 p-4">
-        {contest.entered ? <p className="text-sm font-bold text-emerald-200">Entry completed {contest.completedAt ? new Date(contest.completedAt).toLocaleString("en-US", { timeZone: "America/Chicago", timeZoneName: "short" }) : ""}. Edits do not change your entry time.</p> : <><label htmlFor="mobile_phone" className="block text-sm font-black">Mobile phone number required to enter</label><input id="mobile_phone" name="mobile_phone" disabled={pending || uncertain} type="tel" autoComplete="tel-national" inputMode="tel" required placeholder="(254) 555-1234" className="mt-3 w-full max-w-xs rounded-xl border border-white/15 bg-[#161616] px-4 py-3 text-base text-white" /><p className="mt-2 text-xs text-white/60">Private. Used to prevent duplicate entries and contact the winner. Entering does not consent to marketing texts. <Link href="/pickem/privacy" target="_blank" rel="noopener noreferrer" className="font-bold text-white underline underline-offset-2">Privacy Notice</Link></p><label className="mt-4 flex items-start gap-3 text-sm leading-5 text-white/80"><input type="checkbox" disabled={pending || uncertain} name="eligibility_attested" value="yes" required checked={attested} onChange={(event) => setAttested(event.target.checked)} className="mt-1 size-4 shrink-0 accent-[var(--vv-accent)]" /><span>I confirm that I am 18 or older, a Texas resident, and agree to the <Link href="/pickem/rules" target="_blank" rel="noopener noreferrer" className="font-bold text-white underline underline-offset-2">Official Rules</Link>.</span></label></>}
+        {contest.entered ? <p className="text-sm font-bold text-emerald-200">{contest.status === "valid" ? "Entry accepted" : "Entry receipt recorded"} {contest.completedAt ? new Date(contest.completedAt).toLocaleString("en-US", { timeZone: "America/Chicago", timeZoneName: "short" }) : ""}. Edits do not change your entry time.</p> : <><label htmlFor="mobile_phone" className="block text-sm font-black">Mobile phone number required to enter</label><input id="mobile_phone" name="mobile_phone" disabled={pending || uncertain} type="tel" value={phone} onChange={event => setPhone(event.target.value)} autoComplete="tel-national" inputMode="tel" required placeholder="(254) 555-1234" className="mt-3 w-full max-w-xs rounded-xl border border-white/15 bg-[#161616] px-4 py-3 text-base text-white" /><p className="mt-2 text-xs text-white/60">Private. Used to prevent duplicate entries and contact the winner. Entering does not consent to marketing texts. <Link href="/pickem/privacy" target="_blank" rel="noopener noreferrer" className="font-bold text-white underline underline-offset-2">Privacy Notice</Link></p><label className="mt-4 flex items-start gap-3 text-sm leading-5 text-white/80"><input type="checkbox" disabled={pending || uncertain} name="eligibility_attested" value="yes" required checked={attested} onChange={(event) => setAttested(event.target.checked)} className="mt-1 size-4 shrink-0 accent-[var(--vv-accent)]" /><span>I confirm that I am 18 or older, a Texas resident, and agree to the <Link href="/pickem/rules" target="_blank" rel="noopener noreferrer" className="font-bold text-white underline underline-offset-2">Official Rules</Link>.</span></label></>}
         {contest.status === "disqualified" && <p role="alert" className="mt-2 text-sm text-red-200">This entry is ineligible. Contact VarsityVue for review.</p>}
       </div>}
 
       {showMobileSaveBar ? (
-        <div className="fixed inset-x-4 bottom-[calc(env(safe-area-inset-bottom)+0.75rem)] z-30 flex items-center justify-between gap-3 rounded-2xl border border-white/15 bg-[#080808]/95 p-3 shadow-2xl backdrop-blur-xl sm:hidden">
+        <div className="pickem-mobile-actions fixed inset-x-4 z-30 flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-white/15 bg-[#080808]/95 p-3 shadow-2xl backdrop-blur-xl sm:hidden">
           <p className="text-xs font-bold text-white/70">{derived.pendingChangeCount} change{derived.pendingChangeCount === 1 ? "" : "s"} pending</p>
           {contest && !contest.entered && <button type="button" onClick={saveDraft} disabled={pending || uncertain || !hasUnsavedChanges} className="shrink-0 rounded-xl border border-white/25 px-3 py-2.5 text-[10px] font-black text-white disabled:opacity-50">Save Draft</button>}
           <button type="submit" disabled={!canSubmit} className="shrink-0 rounded-xl bg-white px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.1em] text-black transition hover:bg-white/85 disabled:cursor-not-allowed disabled:opacity-50">
@@ -232,7 +245,7 @@ export default function PickemSlateForm({
           <button type="button" disabled={checking} onClick={() => void checkSaved()} className="rounded-xl border border-white/25 px-4 py-3 disabled:opacity-50">{checking ? "Checking saved state…" : "Check saved state"}</button>
           {confirmed && <a href="/pickem" className="ml-3 underline">Review latest saved entry</a>}
         </div>}
-        <p ref={statusRef} tabIndex={-1} role={state.saveStatus === "error" ? "alert" : "status"} aria-live={state.saveStatus === "error" ? "assertive" : "polite"} className={`col-span-2 text-xs leading-5 focus:outline-none ${state.saveStatus === "error" ? "text-red-200" : state.saveStatus === "success" ? "text-emerald-200" : "text-white/45"}`}>
+        <p ref={statusRef} tabIndex={-1} role={state.saveStatus === "error" ? "alert" : "status"} aria-live={state.saveStatus === "error" ? "assertive" : "polite"} className={`col-span-2 text-xs leading-5 focus:outline-none ${state.saveStatus === "error" ? "text-red-200" : state.saveStatus === "success" ? "text-emerald-200" : "text-white/65"}`}>
           {statusMessage}
         </p>
         {contest && !contest.entered && <button type="button" onClick={saveDraft} disabled={pending || uncertain || !hasUnsavedChanges} className="w-full rounded-xl border border-white/25 px-5 py-3 text-xs font-black uppercase tracking-[0.12em] text-white disabled:opacity-50 sm:mt-0 sm:w-auto">Save Draft</button>}
