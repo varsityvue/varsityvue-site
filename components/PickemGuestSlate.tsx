@@ -39,7 +39,7 @@ export default function PickemGuestSlate({ games }: { games: PickemSlateGame[] }
 
   return (
     <section className="mt-4">
-      <PickemEntryStatus title="Guest selections — not entered" detail="Choose your winners, then sign in and complete the entry requirements before the deadline." />
+      <PickemEntryStatus title="Your entry isn’t submitted yet." detail="Choose your winners, then sign in to complete and submit your entry before the deadline." />
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 className="text-sm font-bold">{unlockedCount > 0 ? "Choose Your Winners" : "This Week’s Matchups"}</h2>
         <p className="sr-only">{unlockedCount > 0 ? "Pick one winner in each matchup. Sign in to submit." : "Selections are closed. Review the matchups and weekly standings below."}</p>

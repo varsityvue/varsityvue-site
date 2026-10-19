@@ -48,7 +48,7 @@ export async function savePickemDraft(
     return { status: "error", message: "Your draft could not be saved. Check the entry deadline and try again." };
   }
   revalidatePath("/pickem");
-  return { status: "success", message: `Draft saved — ${savedCount} picks${rawPrediction ? " and a total-points prediction" : ""}. You are not entered. Complete the slate, prediction, phone number, and eligibility attestation before the frozen deadline.` };
+  return { status: "success", message: `Draft saved: ${savedCount} picks${rawPrediction ? " and a tiebreaker prediction" : ""}. Your entry isn’t submitted yet.` };
 }
 
 export async function savePickemSlate(

@@ -5,8 +5,8 @@ import { pickemViewForHash, type PickemView } from "@/lib/pickem-view";
 
 const views = [{ id: "picks", label: "Picks" }, { id: "results", label: "My Results" }, { id: "standings", label: "Standings" }] as const;
 
-export default function PickemLocalNavigation({ picks, results, standings, defaultView = "picks" }: {
-  picks: ReactNode; results: ReactNode; standings: ReactNode; defaultView?: PickemView;
+export default function PickemLocalNavigation({ picks, results, standings, overview, defaultView = "picks" }: {
+  picks: ReactNode; results: ReactNode; standings: ReactNode; overview?: ReactNode; defaultView?: PickemView;
 }) {
   const [selected, setSelected] = useState<PickemView>(defaultView);
   const [anchor, setAnchor] = useState("");
@@ -64,6 +64,7 @@ export default function PickemLocalNavigation({ picks, results, standings, defau
           }}>{view.label}</a>)}
       </div>
     </nav>
+    {overview}
     {views.map(view => <section key={view.id} id={`pickem-panel-${view.id}`} role="tabpanel" aria-labelledby={`pickem-tab-${view.id}`} tabIndex={0} hidden={selected !== view.id} className="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
       {view.id === "picks" ? picks : view.id === "results" ? results : standings}
     </section>)}
