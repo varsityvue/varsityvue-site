@@ -49,6 +49,22 @@ test("fewer than five, score-only values, missing, unverified, exceptional and u
  for (const game of invalid.slice(0,5)) assert.doesNotMatch(render(game), /Final score, away team first/);
  assert.doesNotMatch(render(final,[]), /Last 5/);
 });
-test("Hico and Cisco retain previous scorecard and do not gain De Leon form", () => {
- for(const slug of ["hico","cisco"]) { const html=render(final,[final],slug);assert.doesNotMatch(html,/Final score, away team first|Last 5 results/);assert.match(html,/Verified by VarsityVue/); }
+test("Non-pilot Hico and Hamilton retain previous scorecard and do not gain pilot form", () => {
+ for(const slug of ["hico","hamilton"]) { const html=render(final,[final],slug);assert.doesNotMatch(html,/Final score, away team first|Last 5 results/);assert.match(html,/Verified by VarsityVue/); }
 });
+
+for (const slug of ["de-leon", "cisco", "goldthwaite", "albany", "stephenville"]) {
+ test(`${slug} shares labeled finals and school-perspective Last 5`, () => {
+  const school = getSchoolBySlug(slug)!;
+  const home = { ...final, homeSchoolSlug: slug, homeTeam: school.name };
+  const away = { ...final, awaySchoolSlug: slug, awayTeam: school.name, homeSchoolSlug: "hico", homeTeam: "Hico", awayScore: 49, homeScore: 7 };
+  for (const game of [home, away]) {
+   const html = render(game, [game], slug);
+   assert.match(html, /Final score, away team first/);
+   assert.match(html, /Last 5 results, oldest to newest/);
+   assert.equal(getSchoolRecentForm([game], slug)[0].result, "W");
+   assert.doesNotMatch(render({ ...game, publicScoreVerified: false }, [], slug), /Final score, away team first|FINAL · verified/);
+   assert.doesNotMatch(render({ ...game, homeScore: undefined }, [], slug), /Final score, away team first/);
+  }
+ });
+}
