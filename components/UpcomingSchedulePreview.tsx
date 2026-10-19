@@ -108,8 +108,9 @@ export default async function UpcomingSchedulePreview({ schoolSlug, theme }: Pro
         .filter((game) => isStillUpcoming(game, todayKey))
         .sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b));
 
-    // Season Overview owns the immediate next matchup unless it is currently showing a live game.
-    const games = hasLiveGame ? upcoming.slice(0, 3) : upcoming.slice(1, 4);
+    // De Leon repeats its next matchup here so this section remains a complete upcoming schedule.
+    // Other schools retain the Season Overview convention of skipping that matchup when not live.
+    const games = schoolSlug === "de-leon" || hasLiveGame ? upcoming.slice(0, 3) : upcoming.slice(1, 4);
 
     if (games.length === 0) return null;
 
