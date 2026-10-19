@@ -47,22 +47,20 @@ Read-only check `2026-10-19T03:39:47Z`: Week9 open, revision3, 0 valid entries, 
 
 Exact-candidate preview and PR evidence are recorded in the PR/final report after publication. Release is separately unauthorized. No migration required. After approval, refresh main/checks and exact tree, deploy through normal reviewed release, then verify all three views, direct legacy hashes, guest/member state preservation and unchanged production contest rows. Rollback is an application revert; never alter contest data or restore old reminder functions as part of UI rollback.
 
-## PR #103 final entry/prize refinement — October 19 UTC
+## PR #103 final state-neutral label refinement — October 19 UTC
 
-The existing authoritative accepted-entry count/prize counter now appears at the top of Picks, above the entry status and ten cards, as a compact two-column definition list. No new query, polling mechanism, calculation, submission behavior or database access was added. Open contests show “Current prize”; closed/locked/graded contests conservatively show “Provisional prize”. The single native rules disclosure remains collapsed by default with formula, eligibility, deadline and official-rules/privacy access. The header retains sponsor prominence and the $1-per-valid-entry / $100-cap terms.
+Owner-approved state-neutral labels “Valid entries” and “Calculated prize” replace state-dependent labels. The existing authoritative valid accepted-entry count and calculated dollars appear above Picks in the compact two-column definition list. Neither label claims finalization, winner eligibility, a claim or payment. No finalization read infrastructure is needed. The prior finalization-label blocker is superseded by this approved requirement.
 
-### Material incomplete requirement: finalized labels
+The single native rules disclosure remains collapsed by default with formula ($1 per valid accepted entry, capped at $100), eligibility, deadline and official-rules/privacy access. Its explanation retains the distinction between grading and official prize finalization. Sponsor branding, three persistent views, form state, receipt semantics, tiebreaker-first ordering and recovery behavior remain intact.
 
-The existing public `pickem_contest_prize` view exposes only week ID, valid accepted-entry count and calculated prize dollars. `private.pickem_contest_finalizations` is inaccessible to anon/authenticated roles; `admin_pickem_contest_finalization` is administrator-only. Production catalog inspection confirms public standings do not return finalization state. Graded status and entry closure do not establish finalization. Accordingly this candidate does NOT claim “Final entries”/“Final prize”, even for a finalized fixture: it retains a conservative provisional label. Finalized-state end-to-end behavior cannot pass the requested acceptance gate without an authorized public-safe authoritative finalization contract. No migration or privilege expansion was prepared. Release recommendation: BLOCKED on that requirement; do not infer finalization or broaden access merely to change a label.
+No query, polling mechanism, calculation, database access, migration or production change was added. Existing public prize read and 30-second refresh are unchanged. Missing counts remain unavailable rather than fabricated zero.
 
-### Refinement validation
+### Final validation
 
-- 38 targeted tests PASS (35 presentation/state/loader/order/navigation tests plus 3 existing sponsor/presentation tests).
-- TypeScript and relevant ESLint PASS; production build PASS with 67 prebuild tests. Build also emits existing unrelated numeric image-dimension warnings; no unrelated repair.
-- Actual-component browser fixtures at 375/390/768/1280: open/guest/draft/accepted/locked/graded/finalized/disqualified/optional failure/closed draft plus zero and 143-entry/$100-cap scenarios. Existing authoritative numbers are rendered without client recalculation. Single initial refresh verified; no duplicate polling counter in disclosure.
-- Native rules disclosure opens/closes with Enter/Space; definition list labels/values exposed to accessibility tree; polite atomic live updates. Axe WCAG A/AA automated scans zero violations across tested views. No hardware screen-reader or full WCAG certification claimed.
-- Existing form values, panel mounting, tab keyboard/Back/deep links, action visibility and uncertain-write recovery remain covered.
-- Matched 375px accepted-member fixtures using previous candidate counter versus new counter: first-card top 405 -> 462px (+57px); first-card height unchanged 141.5px; Picks page height 2609 -> 2666px (+57px). Counts previously hidden inside rules; now both visible above the first card. Metrics are isolated component fixtures with synthetic 80/$80 data and sponsor text fallback, not live page measurements.
-- Independent review found a test adapter callback typo; corrected before final candidate. Production safety review passed. Finalization coverage gap remains a release blocker.
+- Targeted tests cover identical state-neutral labels for open/closed/graded/finalized contexts, 0/$0, 80/$80 and 143/$100; unavailable data, a single counter above the form, collapsed rules and retained official-rules/eligibility/deadline content.
+- Browser harness checks actual components at 375/390/768/1280 across guest/draft/accepted/locked/graded/finalized/disqualified/optional-failure states plus zero and capped counts. Tests include one reused initial refresh, disclosure Enter/Space, form values, mounted panels, Back/deep links, action visibility and uncertain-write recovery without replay.
+- Axe WCAG A/AA scans and keyboard checks are partial accessibility evidence, not hardware screen-reader testing or full WCAG certification.
+- Previous matched375px fixtures: first card405→462px (+57), card height141.5px unchanged; Picks height2609→2666px. This label-only refinement retains the compact geometry; current metrics are recorded in the final report.
+- Exact-candidate TypeScript, lint, targeted tests, build, browser results, independent review, CI and preview identities are recorded in PR #103 and final report after publication.
 
-Candidate/preview identities and final independent review are recorded in PR #103 and final report. Production, homepage, entries, configuration, migrations and other PRs remain untouched. Rollback remains an application-only revert after separately authorized release.
+Production, homepage, entries, configuration, migrations and unrelated PRs remain untouched. Keep draft/unmerged. Any production release requires separate authorization. Rollback is an application-only revert, without contest data changes.

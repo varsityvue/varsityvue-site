@@ -163,7 +163,7 @@ async function PickemContent({ searchParams }: PageProps) {
         )}
 
         <PickemLocalNavigation key={week?.id ?? "no-contest"} defaultView={week && (weekClosed || (newEntriesClosed && !memberEntry)) ? "standings" : "picks"} picks={<>
-        {contestWeek && week ? <Suspense fallback={<p role="status" className="mt-2 text-sm">Loading entry count and prize…</p>}><PickemPrize scope={scope} weekId={week.id} entryClosed={newEntriesClosed || weekClosed} /></Suspense> : null}
+        {contestWeek && week ? <Suspense fallback={<p role="status" className="mt-2 text-sm">Loading entry count and prize…</p>}><PickemPrize scope={scope} weekId={week.id} /></Suspense> : null}
         {contestWeek && isActiveMember && !memberEntry && (newEntriesClosed || weekClosed) && <div className="mt-4"><PickemEntryStatus title="Entry closed — not entered" detail="Saved drafts do not qualify as accepted entries. You can review available results below." /></div>}
         {week && weekClosed ? <div className="mt-5 rounded-xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm font-bold text-amber-50">{contestWeek ? `Week ${week.week}: ALL PICKS LOCKED. Saved picks remain visible while verified results are graded.` : `Week ${week.week} Pick ’Em is CLOSED. Saved picks remain visible while verified results are graded.`}</div> : null}
 
@@ -200,12 +200,12 @@ async function PickemContent({ searchParams }: PageProps) {
   );
 }
 
-async function PickemPrize({ scope, weekId, entryClosed }: { scope: PickemReadScope; weekId: string; entryClosed: boolean }) {
+async function PickemPrize({ scope, weekId }: { scope: PickemReadScope; weekId: string }) {
  let prize;
  try {
   prize = await scope.read(scope.client.from("pickem_contest_prize").select("valid_entries,prize_dollars").eq("week_id", weekId).maybeSingle());
  } catch { return <p role="status">Entry count and prize are temporarily unavailable.</p>; }
- return <PickemPrizeCounter weekId={weekId} initialPrize={prize} entryClosed={entryClosed} />;
+ return <PickemPrizeCounter weekId={weekId} initialPrize={prize} />;
 }
 export default async function PickemPage(props: PageProps) {
  try { return await PickemContent(props); }

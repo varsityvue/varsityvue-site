@@ -41,7 +41,7 @@ async function render(){
  const history=await PickemHistory({scope:{},userId:'fixture-member',week,games,voidGameIds:new Set(),weekClosed:locked,entryAvailable:!locked,dataPromise});
  const standings=await PickemStandings({scope:{},week,weekClosed:locked,entryAvailable:!locked});
  const picks=state==='closed-draft'?<EntryStatus title="Entry closed — not entered" detail="Saved drafts do not qualify as accepted entries."/>:state==='guest'?<Guest games={games}/>:<Form weekId="fixture" weekNumber={9} games={games} entryClosed={locked} contest={{entered,status:state==='disqualified'?'disqualified':'valid',completedAt:'2026-10-18T18:00:00Z'}} tiebreaker={{matchup:'Stephenville at Jarrell',locked,savedPrediction:state==='draft'?undefined:42}} saveAction={action} saveDraftAction={action}/>;
- const prize=<Prize weekId="fixture" initialPrize={window.prizeData} entryClosed={locked}/>;
+ const prize=<Prize weekId="fixture" initialPrize={window.prizeData}/>;
  const disclosure=<details><summary className="min-h-11 cursor-pointer">Contest rules &amp; prize details</summary>{previousV2?prize:null}<p>$1 per valid accepted entry · up to $100 this week</p><a href="/pickem/rules">Official Rules</a></details>;
  const pickView=<>{!previousV2?prize:null}{picks}{disclosure}</>;
  const header=<Header season={2026} week={9} deadline="2026-10-24T00:00:00Z" sponsorName="Gilder Storage" sponsorLogo={null}/>;
@@ -63,7 +63,6 @@ try{
  const page=await browser.newPage();page.on('dialog',dialog=>dialog.accept());
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  const origin='http://127.0.0.1:'+server.address().port;
- const lockedState=state=>['locked','graded','finalized','closed-draft','sections-error'].includes(state);
  const load=async(state,width=375,height=844)=>{await page.setViewportSize({width,height});await page.goto(origin+'/?state='+state);await page.getByRole('heading',{name:'Pick ’Em fixture'}).waitFor();if(!process.argv.includes('--baseline'))await page.getByRole('tab',{name:'Picks',exact:true}).click()};
  for(const width of [375,390]){
   await load('draft',width);
@@ -83,8 +82,8 @@ try{
     await load(state,width);
     const stats=page.locator('dl[aria-label="Contest participation and prize"]');
     assert.equal(await stats.isVisible(),true);
-    assert.match(await stats.innerText(),new RegExp(lockedState(state)?'Provisional prize':'Current prize'));
-    assert.match(await stats.innerText(),state==='zero'?/0\s+Current prize\s+\$0/:state==='cap'?/143\s+Current prize\s+\$100/:/80\s+(Current|Provisional) prize\s+\$80/);
+    assert.match(await stats.innerText(),/Valid entries\s+\d+\s+Calculated prize/);
+    assert.match(await stats.innerText(),state==='zero'?/0\s+Calculated prize\s+\$0/:state==='cap'?/143\s+Calculated prize\s+\$100/:/80\s+Calculated prize\s+\$80/);
     assert.equal(await page.evaluate(()=>window.prizeReads),1,'only one existing refresh');
     const details=page.locator('details').filter({has:page.getByText('Contest rules & prize details',{exact:true})});
     assert.equal(await details.getAttribute('open'),null);
