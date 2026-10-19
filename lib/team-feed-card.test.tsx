@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { renderToStaticMarkup } from "react-dom/server";
 import TeamFeedCard from "@/components/TeamFeedCard";
+import SchoolFeedHeader from "@/components/SchoolFeedHeader";
 import TeamFeedList from "@/components/TeamFeedList";
 import type { FeedPost } from "@/lib/team-feed";
 import { getSchoolBySlug } from "@/lib/schools";
@@ -28,4 +29,30 @@ test("empty feed remains useful and ordinary cards keep their publication date",
   const html = renderToStaticMarkup(<TeamFeedCard post={post} />);
   assert.match(html, /<time/);
   assert.doesNotMatch(html, /Share team feed/);
+});
+
+test("all five pilots use the social feed with school-specific identity; non-pilots keep ordinary cards", () => {
+  for (const slug of ["de-leon", "cisco", "goldthwaite", "albany", "stephenville"]) {
+    const school = getSchoolBySlug(slug)!;
+    const sample = { ...post, primary_school_id: school.id, secondary_school_id: null };
+    const html = renderToStaticMarkup(<TeamFeedList initial={[sample]} hasMore={false} slug={slug} />);
+    assert.match(html, new RegExp(school.name));
+    assert.match(html, /Share team feed/);
+    assert.match(html, /Photo: Approved Photographer/);
+    assert.match(html, /object-contain/);
+  }
+  for (const slug of ["hico", "hamilton"]) {
+    assert.doesNotMatch(renderToStaticMarkup(<TeamFeedList initial={[post]} hasMore={false} slug={slug} />), /Share team feed/);
+  }
+});
+
+test("shared feed header uses each school's mascot, branding, hub link and share URL even when empty", () => {
+ for (const slug of ["de-leon", "cisco", "goldthwaite", "albany", "stephenville"]) {
+  const school = getSchoolBySlug(slug)!;
+  const html = renderToStaticMarkup(<SchoolFeedHeader school={school} />);
+  assert.ok(html.includes(`${school.mascot} football, in the moment.`));
+  assert.ok(html.includes(school.colors.primary));
+  assert.ok(html.includes(`/schools/${slug}`));
+  if (slug !== "de-leon") assert.doesNotMatch(html, /Bearcats|De Leon/);
+ }
 });

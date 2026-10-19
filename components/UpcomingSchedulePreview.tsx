@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { isTeamHubV2Pilot } from "@/lib/team-hub-pilot";
 import { getDynamicGamesForSchool } from "@/lib/dynamic-games";
 import type { Game } from "@/types/platform";
 import type { SchoolTheme } from "@/types/school-theme";
@@ -77,8 +78,8 @@ function getCentralDateKey(date: Date) {
     return year && month && day ? `${year}-${month}-${day}` : "";
 }
 
-function isStillUpcoming(game: SchoolGame, todayKey: string) {
-    if (game.status !== "upcoming" || game.gameType === "bye") return false;
+function isStillUpcoming(game: SchoolGame, todayKey: string, enhanced: boolean) {
+    if ((game.status !== "upcoming" && !(enhanced && game.status === "scheduled")) || game.gameType === "bye") return false;
     if (!game.kickoff || !todayKey) return true;
 
     const gameDateKey = game.kickoff.slice(0, 10);
@@ -101,16 +102,17 @@ function getOpponent(game: SchoolGame, schoolSlug: string) {
 }
 
 export default async function UpcomingSchedulePreview({ schoolSlug, theme }: Props) {
+    const enhanced = isTeamHubV2Pilot(schoolSlug);
     const todayKey = getCentralDateKey(new Date());
     const schoolGames = await getDynamicGamesForSchool(schoolSlug);
     const hasLiveGame = schoolGames.some((game) => game.status === "live");
     const upcoming = schoolGames
-        .filter((game) => isStillUpcoming(game, todayKey))
+        .filter((game) => isStillUpcoming(game, todayKey, enhanced))
         .sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b));
 
-    // De Leon repeats its next matchup here so this section remains a complete upcoming schedule.
-    // Other schools retain the Season Overview convention of skipping that matchup when not live.
-    const games = schoolSlug === "de-leon" || hasLiveGame ? upcoming.slice(0, 3) : upcoming.slice(1, 4);
+    // Pilot hubs show the complete road ahead, including the highlighted next game.
+    // Non-pilots retain the existing Season Overview selection.
+    const games = enhanced || hasLiveGame ? upcoming.slice(0, 3) : upcoming.slice(1, 4);
 
     if (games.length === 0) return null;
 
@@ -166,7 +168,7 @@ export default async function UpcomingSchedulePreview({ schoolSlug, theme }: Pro
                             </div>
 
                             <div className="shrink-0 text-right">
-                                <p className="text-[11px] font-black text-white/65 sm:text-sm">{formatKickoffTime(game.kickoff)}</p>
+                                <p className="text-[11px] font-black text-white/65 sm:text-sm">{formatKickoffTime(game.kickoff)}{enhanced && game.kickoff?.includes("T") ? " CT" : ""}</p>
                                 <p className="mt-1 hidden text-[10px] font-black uppercase tracking-[0.1em] text-white/30 sm:block">Game Center →</p>
                                 <p className="mt-1 text-sm font-black text-white/25 sm:hidden">→</p>
                             </div>
