@@ -1,11 +1,10 @@
-/** Keep the open Week 6 slate's database order and game identities intact. */
+/** Display the saved tiebreaker first without changing stored order or game identities. */
 export function orderPickemSlateRows<T extends { id: string }>(
   rows: T[],
-  season: number,
-  week: number,
   tiebreakerGameId: string | null,
 ): T[] {
-  if (season !== 2026 || week !== 6 || !tiebreakerGameId) return rows;
-  const tiebreaker = rows.find((row) => row.id === tiebreakerGameId);
-  return tiebreaker ? [tiebreaker, ...rows.filter((row) => row.id !== tiebreakerGameId)] : rows;
+  if (!tiebreakerGameId) return rows;
+  const index = rows.findIndex((row) => row.id === tiebreakerGameId);
+  if (index <= 0) return rows;
+  return [rows[index], ...rows.slice(0, index), ...rows.slice(index + 1)];
 }

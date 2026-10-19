@@ -18,6 +18,7 @@ import Form from './components/PickemSlateForm'; import Guest from './components
 import MobileNavigation from './components/MobileNavigation';
 import LocalNavigation from './components/PickemLocalNavigation';
 import EntryStatus from './components/PickemEntryStatus';
+import {orderPickemSlateRows} from './lib/pickem-display-order';
 import {PickemHistory,PickemStandings,PickemMemberOverview} from './components/PickemOptionalSections';
 const state=new URLSearchParams(location.search).get('state')||'draft';
 window.writes=0;window.reconciliations=0;window.refreshes=0;
@@ -26,15 +27,15 @@ const entered=['valid','locked','graded','finalized','disqualified'].includes(st
 window.fixtureHistory={memberPickRows:[{pickem_game_id:'g0',picked_school_slug:'away',is_correct:true}],rawMemberTotal:{correct_picks:8,incorrect_picks:2,graded_picks:10,season_rank:42},memberGameRows:[{id:'g0',game_id:'game0',week_id:'fixture'}],memberWeekRows:[{id:'fixture',season:2026,week:9,title:'Week 9',status:'graded'}],memberWeekGameRows:[{id:'g0',week_id:'fixture',result_winner_school_slug:'away',graded_at:'2026-10-18'}]};
 window.fixtureStandings={leaderboardRows:[{ordinal:1,rank:1,display_name:'Fixture fan',graded_picks:10,correct_picks:8,accuracy_pct:80}],weeklyStandings:locked?[{ordinal:1,weekly_rank:1,display_name:'Fixture fan',graded_picks:10,correct_picks:8,distance:2}]:[]};
 window.failSections=state==='sections-error';
-const games=Array.from({length:10},(_,i)=>({id:'g'+i,gameId:'game'+i,awaySlug:'away',homeSlug:'home',awayName:'Canyon West Plains',homeName:'Stephenville',awayMark:'CWP',homeMark:'STV',awayColor:'#800000',homeColor:'#0055aa',kickoffLabel:'Fri 7:00 PM',locked,selectedSlug:state==='draft'?undefined:'away',savedSlug:['draft','error'].includes(state)?undefined:'away'}));
+const games=orderPickemSlateRows(Array.from({length:10},(_,i)=>({id:'g'+i,gameId:'game'+i,isTiebreaker:i===8,awaySlug:'away',homeSlug:'home',awayName:i===8?'Stephenville':'Canyon West Plains',homeName:i===8?'Jarrell':'Stephenville',awayMark:'CWP',homeMark:'STV',awayColor:'#800000',homeColor:'#0055aa',kickoffLabel:'Fri 7:00 PM',locked,selectedSlug:state==='draft'?undefined:'away',savedSlug:['draft','error'].includes(state)?undefined:'away'})), 'g8');
 const action=async()=>{window.writes++;await new Promise(r=>setTimeout(r,30));return state==='error'?{status:'unknown',message:'Interrupted'}:{status:'success',message:'Fixture save accepted'};};
-const week={id:'fixture',season:2026,week:9,title:'Week 9',status:['graded','finalized'].includes(state)?'graded':'open',tiebreaker_game_id:'g0'};
+const week={id:'fixture',season:2026,week:9,title:'Week 9',status:['graded','finalized'].includes(state)?'graded':'open',tiebreaker_game_id:'g8'};
 async function render(){
  const dataPromise=Promise.resolve(window.failSections?null:window.fixtureHistory);
  const history=await PickemHistory({scope:{},userId:'fixture-member',week,games,voidGameIds:new Set(),weekClosed:locked,entryAvailable:!locked,dataPromise});
  const standings=await PickemStandings({scope:{},week,weekClosed:locked,entryAvailable:!locked});
  const overview=await PickemMemberOverview({dataPromise});
- createRoot(document.getElementById('root')).render(<><main className="px-4 py-4 text-white"><h1>Pick ’Em fixture</h1><LocalNavigation member={state!=='guest'}/>{state!=='guest'&&overview}{state==='closed-draft'?<EntryStatus title="Entry closed — not entered" detail="Saved drafts do not qualify as accepted entries."/>:state==='guest'?<Guest games={games}/>:<Form weekId="fixture" weekNumber={9} games={games} entryClosed={locked} contest={{entered,status:state==='disqualified'?'disqualified':'valid',completedAt:'2026-10-18T18:00:00Z'}} tiebreaker={{matchup:'Canyon West Plains at Stephenville',locked,savedPrediction:state==='draft'?undefined:42}} saveAction={action} saveDraftAction={action}/>} {state!=='guest'&&history}{standings}</main><MobileNavigation/></>);
+ createRoot(document.getElementById('root')).render(<><main className="px-4 py-4 text-white"><h1>Pick ’Em fixture</h1><LocalNavigation member={state!=='guest'}/>{state!=='guest'&&overview}{state==='closed-draft'?<EntryStatus title="Entry closed — not entered" detail="Saved drafts do not qualify as accepted entries."/>:state==='guest'?<Guest games={games}/>:<Form weekId="fixture" weekNumber={9} games={games} entryClosed={locked} contest={{entered,status:state==='disqualified'?'disqualified':'valid',completedAt:'2026-10-18T18:00:00Z'}} tiebreaker={{matchup:'Stephenville at Jarrell',locked,savedPrediction:state==='draft'?undefined:42}} saveAction={action} saveDraftAction={action}/>} {state!=='guest'&&history}{standings}</main><MobileNavigation/></>);
 }render();
 `;
 const bundle=await build({stdin:{contents:fixture,resolveDir:process.cwd(),loader:'tsx'},bundle:true,write:false,platform:'browser',jsx:'automatic',define:{'process.env.NODE_ENV':'"production"'},plugins:[{name:'isolated-boundaries',setup(b){
@@ -62,6 +63,17 @@ try{
   for(const width of [375,390,768,1280]){
    for(const state of ['guest','draft','valid','locked','graded','finalized','disqualified','closed-draft','sections-error']){
     await load(state,width);
+    if(state!=='closed-draft'){
+     const cards=page.locator('fieldset');
+     await cards.first().waitFor();
+     assert.equal(await cards.count(),10);
+     assert.match(await cards.first().innerText(),/Game 1/i);
+     assert.match(await cards.first().innerText(),/Tiebreaker/i);
+     assert.equal(await cards.first().locator('legend').textContent(),'Stephenville at Jarrell');
+     const radioNames=await cards.evaluateAll(nodes=>nodes.map(n=>n.querySelector('input[type=radio]')?.name));
+     assert.deepEqual(radioNames,['8','0','1','2','3','4','5','6','7','9'].map(i=>state==='guest'?'guest_game'+i:'pick_g'+i));
+     if(state==='valid')assert.equal(await cards.first().locator('input[value=away]').isChecked(),true);
+    }
     const status=page.getByRole('region',{name:'Contest entry status'});
     if(state==='guest')await status.getByText('Guest selections — not entered',{exact:true}).waitFor();
     if(state==='draft')await status.getByText('Draft — not entered',{exact:true}).waitFor();

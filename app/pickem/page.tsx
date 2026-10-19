@@ -103,8 +103,11 @@ async function PickemContent({ searchParams }: PageProps) {
     ...(memberPickRows ?? []).map((pick) => [pick.pickem_game_id, pick.picked_school_slug] as const),
     ...typedDraftPicks.map((pick) => [pick.pickem_game_id, pick.picked_school_slug] as const),
   ]);
+  if (contestWeek && week && (!week.tiebreaker_game_id || !slateRows?.some(row => row.id === week.tiebreaker_game_id))) {
+    console.error("Pick ’Em tiebreaker configuration missing or outside the slate", { season: week.season, week: week.week });
+  }
   const displayRows = week
-    ? orderPickemSlateRows(slateRows ?? [], week.season, week.week, week.tiebreaker_game_id)
+    ? orderPickemSlateRows(slateRows ?? [], week.tiebreaker_game_id)
     : slateRows ?? [];
   const games: PickemSlateGame[] = displayRows.flatMap((row) => {
     if (voidGameIds.has(row.id)) return [];
