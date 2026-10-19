@@ -10,12 +10,12 @@ import { logoForPickemWeek, pickemSponsorLogos } from "../data/pickem-sponsor-lo
 
 test("counter renders authoritative accepted-entry and capped prize values", () => {
   for (const [valid_entries, prize_dollars] of [[0, 0], [1, 1], [42, 42], [100, 100], [117, 100]]) {
-    const html = renderToStaticMarkup(<PickemPrizeCounter weekId="synthetic" initialPrize={{ valid_entries, prize_dollars }} />);
+    const html = renderToStaticMarkup(<PickemPrizeCounter weekId="synthetic" entryClosed={false} initialPrize={{ valid_entries, prize_dollars }} />);
     assert.match(html, new RegExp(`>${valid_entries}<`));
     assert.match(html, new RegExp(`>\\$${prize_dollars}<`));
     assert.doesNotMatch(html, /phone|email|user_id/i);
   }
-  const unavailable = renderToStaticMarkup(<PickemPrizeCounter weekId="synthetic" initialPrize={null} />);
+  const unavailable = renderToStaticMarkup(<PickemPrizeCounter weekId="synthetic" entryClosed={false} initialPrize={null} />);
   assert.match(unavailable, /temporarily unavailable/);
   assert.doesNotMatch(unavailable, /\$0/);
 });

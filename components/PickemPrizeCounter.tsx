@@ -5,9 +5,10 @@ import { createClient } from "@/lib/supabase/client";
 
 export type PickemPrize = { valid_entries: number; prize_dollars: number };
 
-export default function PickemPrizeCounter({ weekId, initialPrize }: {
+export default function PickemPrizeCounter({ weekId, initialPrize, entryClosed }: {
   weekId: string;
   initialPrize: PickemPrize | null;
+  entryClosed: boolean;
 }) {
   const [prize, setPrize] = useState(initialPrize);
 
@@ -24,15 +25,17 @@ export default function PickemPrizeCounter({ weekId, initialPrize }: {
     return () => { active = false; window.clearInterval(timer); };
   }, [weekId]);
 
-  if (!prize) return <p className="mt-3 text-sm text-white/60">Provisional prize details are temporarily unavailable.</p>;
-  return <div className="mt-3 rounded-xl border border-white/15 bg-black/25 p-4 sm:flex sm:items-center sm:justify-between sm:gap-5" aria-live="polite">
+  // Grading is not prize finalization. The public prize view exposes no finalization receipt.
+  const prizeLabel = entryClosed ? "Provisional prize" : "Current prize";
+  if (!prize) return <p role="status" className="mt-2 text-sm text-white/70">Entry count and prize are temporarily unavailable.</p>;
+  return <dl aria-label="Contest participation and prize" aria-live="polite" aria-atomic="true" className="mt-2 grid grid-cols-2 gap-3 border-b border-white/10 pb-2">
     <div>
-      <p className="text-[10px] font-black uppercase tracking-[0.14em] text-white/50">Accepted completed entries</p>
-      <p className="mt-1 text-2xl font-black tabular-nums sm:text-3xl">{prize.valid_entries}</p>
+      <dt className="text-xs font-bold text-white/75">Accepted entries</dt>
+      <dd className="text-xl font-black leading-6 tabular-nums">{prize.valid_entries}</dd>
     </div>
-    <div className="mt-3 sm:mt-0 sm:text-right">
-      <p className="text-[10px] font-black uppercase tracking-[0.14em] text-white/50">Provisional cash prize</p>
-      <p className="mt-1 text-2xl font-black tabular-nums text-white sm:text-3xl">${prize.prize_dollars}</p>
+    <div>
+      <dt className="text-xs font-bold text-white/75">{prizeLabel}</dt>
+      <dd className="text-xl font-black leading-6 tabular-nums">${prize.prize_dollars}</dd>
     </div>
-  </div>;
+  </dl>;
 }
