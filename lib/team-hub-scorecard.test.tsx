@@ -5,7 +5,6 @@ import SchoolGameNight from "@/components/SchoolGameNight";
 import { getSchoolRecentForm } from "@/lib/team-hub-form";
 import { getSchoolBySlug } from "@/lib/schools";
 import type { Game } from "@/types/platform";
-const school = getSchoolBySlug("de-leon")!;
 const final = { id: "hico-at-de-leon-2026-week-8", status: "final", gameType: "regular", homeSchoolSlug: "de-leon", awaySchoolSlug: "hico", homeTeam: "De Leon", awayTeam: "Hico", homeScore: 49, awayScore: 7, kickoff: "2026-10-16T00:00:00Z", publicScoreVerified: true, scoreAttribution: { type: "verified" } } as Game;
 function render(game = final, games = [game], slug = "de-leon") { return renderToStaticMarkup(<SchoolGameNight school={getSchoolBySlug(slug)!} focus={{ featured: game, next: undefined }} games={games} />); }
 test("Hico away 7 and De Leon home 49 stay paired; final, Game Center and no summary attribution", () => {
