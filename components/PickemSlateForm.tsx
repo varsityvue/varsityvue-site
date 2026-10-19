@@ -204,8 +204,8 @@ export default function PickemSlateForm({
     <form ref={formRef} onSubmit={handleSubmit} className={`mt-5 sm:mt-7 ${showMobileSaveBar ? "pb-40 sm:pb-0" : ""}`}>
       {entrySummary && <PickemEntryStatus {...entrySummary} />}
       <input type="hidden" name="week_id" value={weekId} />
-      <p className="mb-2 text-xs text-white/60">Pick one winner in each matchup.</p>
-      <div className="mb-4 flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.035] px-4 py-3">
+
+      <div className="mb-3 flex items-center justify-between gap-3 py-1">
         <PickemProgress selectedCount={derived.selectedCount} totalGames={derived.totalGames} />
         {hasUnsavedChanges ? <span className="text-[9px] font-black uppercase tracking-[0.1em] text-white/75">Not saved</span> : null}
       </div>
@@ -213,10 +213,10 @@ export default function PickemSlateForm({
         {games.map((game, index) => {
           const lockedMessageId = `pickem-${game.id}-locked`;
           return (
-          <fieldset key={game.id} disabled={game.locked || pending || uncertain} className={`min-w-0 rounded-[1.2rem] border p-3.5 sm:rounded-[1.5rem] sm:p-5 ${game.locked ? "border-white/15 bg-white/[0.025]" : "border-white/10 bg-black/25"}`}>
+          <fieldset key={game.id} disabled={game.locked || pending || uncertain} className={`min-w-0 rounded-xl border p-3 sm:p-4 ${game.locked ? "border-white/15 bg-white/[0.025]" : "border-white/10 bg-black/25"}`}>
             <legend className="sr-only">{game.awayName} at {game.homeName}</legend>
             <PickemGameHeader index={index} isTiebreaker={game.isTiebreaker} kickoffLabel={game.kickoffLabel} locked={game.locked} lockedMessageId={lockedMessageId} />
-            <div className="mt-3 grid grid-cols-2 gap-2">
+            <div className="mt-2 grid grid-cols-2 gap-2">
               <PickemChoice name={`pick_${game.id}`} slug={game.awaySlug} team={game.awayName} label="Away" mark={game.awayMark} color={game.awayColor} logoUrl={game.awayLogoUrl} logoFilter={game.awayLogoFilter} checked={isPickSelected(state.selections, game.id, game.awaySlug)} locked={game.locked} lockedMessageId={lockedMessageId} onSelect={() => dispatch({ type: "select", gameId: game.id, schoolSlug: game.awaySlug, locked: game.locked })} />
               <PickemChoice name={`pick_${game.id}`} slug={game.homeSlug} team={game.homeName} label="Home" mark={game.homeMark} color={game.homeColor} logoUrl={game.homeLogoUrl} logoFilter={game.homeLogoFilter} checked={isPickSelected(state.selections, game.id, game.homeSlug)} locked={game.locked} lockedMessageId={lockedMessageId} onSelect={() => dispatch({ type: "select", gameId: game.id, schoolSlug: game.homeSlug, locked: game.locked })} />
             </div>
