@@ -13,7 +13,7 @@ export function pickemEntrySummary(input: {
     detail: "This receipt is not a valid entry. Contact VarsityVue for review.",
   };
   if (input.entered) return {
-    title: "Valid entry accepted",
+    title: "Entry accepted.",
     detail: input.allLocked ? "Picks are locked. Review your saved picks and results below. Prize eligibility remains subject to review."
       : "Your original acceptance time is preserved. Only unlocked picks can be edited; save any changes. Prize eligibility remains subject to review.",
   };
@@ -21,15 +21,19 @@ export function pickemEntrySummary(input: {
     title: "Entry closed — not entered",
     detail: "The new-entry deadline has passed. Saved draft selections do not qualify as an accepted entry.",
   };
-  const remaining = [
-    ...(input.selected < input.total ? [`Choose ${input.total - input.selected} remaining winner${input.total - input.selected === 1 ? "" : "s"}`] : []),
-    ...(input.needsPrediction ? ["enter the combined-points prediction"] : []),
-    ...(!input.hasPhone ? ["provide your mobile number"] : []),
-    ...(!input.attested ? ["confirm eligibility and rules"] : []),
-  ];
-  return { title: "Draft — not entered", detail: remaining.length
-    ? `Still required: ${remaining.join("; ")}. Then submit your entry before the deadline.`
-    : "Required fields have values. Submit your entry before the deadline; the server validates eligibility and accepts the entry. Selections alone do not enter the contest." };
+  const detail = input.selected === 0
+    ? `Pick all ${input.total} winners, predict the tiebreaker score, and complete the entry requirements before the deadline.`
+    : input.selected < input.total
+      ? `Pick ${input.total - input.selected} more winner${input.total - input.selected === 1 ? "" : "s"} to complete your slate.`
+      : input.needsPrediction
+        ? "Predict the tiebreaker score: both teams’ combined points."
+        : !input.hasPhone
+          ? "Add your mobile number below to continue."
+          : !input.attested
+            ? "Confirm your eligibility and agree to the rules below."
+            : "Submit your entry before the deadline. Acceptance is confirmed after validation.";
+  return { title: "Your entry isn’t submitted yet.", detail };
+
 }
 
 export function pickemRecoveryCopy(section: "history" | "standings", entryAvailable: boolean) {

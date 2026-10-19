@@ -25,7 +25,7 @@ export default function PickemPrizeCounter({ weekId, initialPrize }: {
   }, [weekId]);
 
   if (!prize) return <p role="status" className="mt-2 text-sm text-white/70">Entry count and prize are temporarily unavailable.</p>;
-  return <dl aria-label="Contest participation and prize" aria-live="polite" aria-atomic="true" className="mt-2 grid grid-cols-2 gap-3 border-b border-white/10 pb-2">
+  return <dl aria-label="Contest participation and prize" aria-live="polite" aria-atomic="true" className="mt-2 grid grid-cols-2 gap-3 text-center border-b border-white/10 pb-2">
     <div>
       <dt className="text-xs font-bold text-white/75">Valid entries</dt>
       <dd className="text-xl font-black leading-6 tabular-nums">{prize.valid_entries}</dd>

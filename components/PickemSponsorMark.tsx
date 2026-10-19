@@ -4,7 +4,7 @@ export default function PickemSponsorMark({ name, logo, compact = false }: { nam
   if (compact) return (
     <div className="flex shrink-0 flex-col items-center text-white/65">
       <p className="text-[9px] font-bold">Presented by{logo ? null : <> <span className="text-white">{name}</span></>}</p>
-      {logo ? <div className="relative h-14 w-20 sm:h-20 sm:w-36"><Image src={logo} alt={`${name} logo`} fill sizes="(min-width: 640px) 144px, 80px" className="object-contain" /></div> : null}
+      {logo ? <div className="relative h-[5.25rem] w-28 sm:h-24 sm:w-36"><Image src={logo} alt={`${name} logo`} fill sizes="(min-width: 640px) 144px, 112px" className="object-contain" /></div> : null}
     </div>
   );
   return (
