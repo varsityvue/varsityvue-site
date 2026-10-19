@@ -94,7 +94,7 @@ export async function PickemHistory({ scope, userId, week, games, voidGameIds, w
             <div className="flex flex-wrap items-end justify-between gap-3">
               <div>
                 <p className="text-[9px] font-black uppercase tracking-[0.18em] text-white/75">Member Season</p>
-                <h2 className="mt-1 text-2xl font-black sm:text-3xl">My Pick ’Em</h2>
+                <h2 className="mt-1 text-2xl font-black sm:text-3xl">My Results</h2>
               </div>
               <p className="text-[10px] text-white/65">Only you can see your picks</p>
             </div>

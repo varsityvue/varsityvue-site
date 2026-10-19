@@ -38,22 +38,22 @@ export default function PickemGuestSlate({ games }: { games: PickemSlateGame[] }
   };
 
   return (
-    <section className="mt-5 rounded-[1.5rem] border border-[var(--vv-accent)]/25 bg-white/[0.045] p-4 shadow-xl sm:mt-7 sm:p-7">
-      <PickemEntryStatus title="Guest selections — not entered" detail="Create an account and confirm your email to restore these selections. Then complete the entry requirements and explicitly submit before the deadline." />
-      <div className="text-center">
-        <h2 className="text-xl font-black sm:text-2xl">{unlockedCount > 0 ? "Choose Your Winners" : "This Week’s Matchups"}</h2>
-        <p className="mx-auto mt-1 max-w-2xl text-xs leading-5 text-white/50">{unlockedCount > 0 ? "Pick one winner in each matchup. Sign in to submit." : "Selections are closed. Review the matchups and weekly standings below."}</p>
-        {unlockedCount > 0 && <div className="mt-3 flex justify-center"><PickemProgress selectedCount={derived.selectedCount} totalGames={derived.totalGames} /></div>}
+    <section className="mt-4">
+      <PickemEntryStatus title="Guest selections — not entered" detail="Choose your winners, then sign in and complete the entry requirements before the deadline." />
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h2 className="text-sm font-bold">{unlockedCount > 0 ? "Choose Your Winners" : "This Week’s Matchups"}</h2>
+        <p className="sr-only">{unlockedCount > 0 ? "Pick one winner in each matchup. Sign in to submit." : "Selections are closed. Review the matchups and weekly standings below."}</p>
+        {unlockedCount > 0 && <div className="flex justify-center"><PickemProgress selectedCount={derived.selectedCount} totalGames={derived.totalGames} /></div>}
       </div>
 
       <div className="mt-3 grid gap-3 lg:grid-cols-2">
         {games.map((game, index) => {
           const lockedMessageId = `guest-pickem-${game.id}-locked`;
           return (
-          <fieldset key={game.id} disabled={game.locked} className={`min-w-0 rounded-[1.2rem] border p-3.5 sm:rounded-[1.5rem] sm:p-5 ${game.locked ? "border-white/15 bg-white/[0.025]" : "border-white/10 bg-black/25"}`}>
+          <fieldset key={game.id} disabled={game.locked} className={`min-w-0 rounded-xl border p-3 sm:p-4 ${game.locked ? "border-white/15 bg-white/[0.025]" : "border-white/10 bg-black/25"}`}>
             <legend className="sr-only">{game.awayName} at {game.homeName}</legend>
             <PickemGameHeader index={index} isTiebreaker={game.isTiebreaker} kickoffLabel={game.kickoffLabel} locked={game.locked} lockedMessageId={lockedMessageId} />
-            <div className="mt-3 grid grid-cols-2 gap-2">
+            <div className="mt-2 grid grid-cols-2 gap-2">
               <PickemChoice name={`guest_${game.gameId}`} slug={game.awaySlug} team={game.awayName} label="Away" mark={game.awayMark} color={game.awayColor} logoUrl={game.awayLogoUrl} logoFilter={game.awayLogoFilter} checked={isPickSelected(state.selections, game.gameId, game.awaySlug)} locked={game.locked} lockedMessageId={lockedMessageId} onSelect={() => dispatch({ type: "select", gameId: game.gameId, schoolSlug: game.awaySlug, locked: game.locked })} />
               <PickemChoice name={`guest_${game.gameId}`} slug={game.homeSlug} team={game.homeName} label="Home" mark={game.homeMark} color={game.homeColor} logoUrl={game.homeLogoUrl} logoFilter={game.homeLogoFilter} checked={isPickSelected(state.selections, game.gameId, game.homeSlug)} locked={game.locked} lockedMessageId={lockedMessageId} onSelect={() => dispatch({ type: "select", gameId: game.gameId, schoolSlug: game.homeSlug, locked: game.locked })} />
             </div>

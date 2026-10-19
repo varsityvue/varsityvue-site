@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import ReadRecovery from "@/components/ReadRecovery";
 import PickemEntryStatus from "@/components/PickemEntryStatus";
 import PickemLocalNavigation from "@/components/PickemLocalNavigation";
-import { PickemHistory, PickemStandings, PickemMemberOverview } from "@/components/PickemOptionalSections";
+import { PickemHistory, PickemStandings } from "@/components/PickemOptionalSections";
 import { createPickemReadScope, loadPickemCore, loadPickemWeek, loadPickemHistory, isContestWeek, PickemReadUnavailable, type PickemReadScope } from "@/lib/pickem-page-loader";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -162,8 +162,7 @@ async function PickemContent({ searchParams }: PageProps) {
         </section>
         )}
 
-        {week && <PickemLocalNavigation member={isActiveMember} />}
-        {historyData && <Suspense fallback={<p role="status" className="mt-3">Loading your season rank…</p>}><PickemMemberOverview dataPromise={historyData} /></Suspense>}
+        <PickemLocalNavigation key={week?.id ?? "no-contest"} defaultView={week && (weekClosed || (newEntriesClosed && !memberEntry)) ? "standings" : "picks"} picks={<>
         {contestWeek && isActiveMember && !memberEntry && (newEntriesClosed || weekClosed) && <div className="mt-4"><PickemEntryStatus title="Entry closed — not entered" detail="Saved drafts do not qualify as accepted entries. You can review available results below." /></div>}
         {week && weekClosed ? <div className="mt-5 rounded-xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm font-bold text-amber-50">{contestWeek ? `Week ${week.week}: ALL PICKS LOCKED. Saved picks remain visible while verified results are graded.` : `Week ${week.week} Pick ’Em is CLOSED. Saved picks remain visible while verified results are graded.`}</div> : null}
 
@@ -191,14 +190,11 @@ async function PickemContent({ searchParams }: PageProps) {
           <p className="mt-1 text-xs text-white/70">One entry per person · Mobile number and eligibility attestation required · No purchase necessary</p>
           <p className="mt-2 text-xs text-white/70"><Link href="/pickem/rules" className="font-bold text-white underline underline-offset-2">Official Rules</Link> · <Link href="/pickem/privacy" className="font-bold text-white underline underline-offset-2">Privacy Notice</Link> · Questions: <a href="mailto:info@varsityvue.com" className="font-bold text-white underline underline-offset-2">info@varsityvue.com</a></p>
         </details> : null}
-        {week && <>
-          {isActiveMember && userId && <Suspense fallback={<p role="status" className="mt-5">Loading your Pick ’Em history…</p>}>
-            <PickemHistory scope={scope} userId={userId} week={week} games={games} voidGameIds={voidGameIds} weekClosed={weekClosed} entryAvailable={entryAvailable} dataPromise={historyData ?? undefined} />
-          </Suspense>}
-          <Suspense fallback={<p role="status" className="mt-5">Loading standings…</p>}>
-            <PickemStandings scope={scope} week={week} weekClosed={weekClosed} entryAvailable={entryAvailable} />
-          </Suspense>
-        </>}
+        </>} results={isActiveMember && userId && week ? <Suspense fallback={<p role="status" className="mt-5">Loading your Pick ’Em history…</p>}>
+          <PickemHistory scope={scope} userId={userId} week={week} games={games} voidGameIds={voidGameIds} weekClosed={weekClosed} entryAvailable={entryAvailable} dataPromise={historyData ?? undefined} />
+        </Suspense> : <section id="my-picks" className="py-6"><h2 className="text-xl font-black">My Results</h2><p className="mt-2 text-sm text-white/80">Sign in to see your picks, weekly results and season rank. You can explore this week’s picks and public standings without an account.</p><Link href="/login?next=%2Fpickem%23results" className="mt-4 inline-flex min-h-11 items-center rounded-full bg-white px-5 font-bold text-black">Sign in</Link></section>} standings={week ? <Suspense fallback={<p role="status" className="mt-5">Loading standings…</p>}>
+          <PickemStandings scope={scope} week={week} weekClosed={weekClosed} entryAvailable={entryAvailable} />
+        </Suspense> : <p className="py-6">Standings will appear when a contest is available.</p>} />
       </div>
     </main>
   );
