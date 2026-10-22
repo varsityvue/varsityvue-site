@@ -1,3 +1,4 @@
+import { stephenvilleJarrellWeek9Gotw2026 } from "@/data/stephenville-jarrell-week9-gotw-2026";
 import { articles as baseArticles } from "@/data/articles";
 import { deLeonAlbanyFeature2026 } from "@/data/de-leon-albany-feature-2026";
 import { district5Preview2026 } from "@/data/district-5-preview-2026";
@@ -54,4 +55,11 @@ export function getArticlesForDistrict(districtId: string) {
       article.districtIds?.includes(districtId)
     )
   );
+}
+
+// Direct editorial review only; never include this draft in public collections.
+export function getEditorialPreviewBySlug(slug: string) {
+  return process.env.VERCEL_ENV === "preview" && slug === stephenvilleJarrellWeek9Gotw2026.slug
+    ? stephenvilleJarrellWeek9Gotw2026
+    : undefined;
 }
