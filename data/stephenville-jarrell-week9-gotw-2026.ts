@@ -1,6 +1,6 @@
 import type { Article } from "@/types/platform";
 
-// Owner-approved narrative. Publication remains unauthorized.
+// Owner-approved narrative and publication, October 21, 2026.
 export const stephenvilleJarrellWeek9Gotw2026: Article = {
   "id": "stephenville-jarrell-week9-gotw-2026",
   "slug": "stephenville-at-jarrell-week-9-2026",
@@ -13,9 +13,8 @@ export const stephenvilleJarrellWeek9Gotw2026: Article = {
   "featuredImageAlt": "Stephenville Yellow Jackets take the field alongside a Jarrell Cougars team photograph.",
   "featuredImageCaption": "Stephenville photo: Kimmie McKinney Photography. Jarrell photo: Keyseri Young Photography.",
   "type": "preview",
-  "editorialLabel": "Unpublished preview · Game of the Week",
-  "author": "VarsityVue",
-  "publishedAt": "",
+    "author": "VarsityVue",
+  "publishedAt": "2026-10-21T20:19:00-05:00",
   "schoolIds": [
     "stephenville",
     "jarrell"
@@ -36,5 +35,5 @@ export const stephenvilleJarrellWeek9Gotw2026: Article = {
     "description": "No. 1 Stephenville visits No. 10 Jarrell on October 23 at 7 p.m. Central. Both teams enter 7–0 overall and 2–0 in District 12-4A Division I."
   },
   "aiAssisted": true,
-  "humanReviewed": false
+  "humanReviewed": true
 };

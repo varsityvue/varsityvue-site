@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { getArticleBySlug, getArticles, getEditorialPreviewBySlug } from "@/lib/articles";
+import { getArticleBySlug, getArticles } from "@/lib/articles";
 import { getSchoolBySlug } from "@/lib/schools";
 import type { Article } from "@/types/platform";
 import ArticleShare from "@/components/ArticleShare";
@@ -88,14 +88,10 @@ function stripVarsityVueBranding(title: string) {
 
 export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
   const { slug } = await params;
-  const article = getArticleBySlug(slug) ?? getEditorialPreviewBySlug(slug);
+  const article = getArticleBySlug(slug);
 
   if (!article) {
     return { title: "Article Not Found", robots: { index: false, follow: false } };
-  }
-
-  if (!article.humanReviewed) {
-    return { title: article.title, description: article.seo.description, robots: { index: false, follow: false } };
   }
 
   const title = stripVarsityVueBranding(article.seo.title || article.title);
@@ -128,7 +124,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
 
 export default async function ArticlePage({ params, searchParams }: ArticlePageProps) {
   const [{ slug }, followParams, followSupabase] = await Promise.all([params, searchParams, createPublicReadClient()]);
-  const article = getArticleBySlug(slug) ?? getEditorialPreviewBySlug(slug);
+  const article = getArticleBySlug(slug);
   if (!article) notFound();
 
   const relatedSchools = article.schoolIds?.map((schoolSlug) => getSchoolBySlug(schoolSlug)).filter((school): school is NonNullable<typeof school> => Boolean(school)) ?? [];
@@ -203,7 +199,7 @@ export default async function ArticlePage({ params, searchParams }: ArticlePageP
 
   return (
     <main className="min-h-screen bg-[#050505] text-white">
-      {article.humanReviewed && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
 
       <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(122,16,34,0.62),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] px-4 py-3.5 sm:px-6 sm:py-7 lg:px-8">
         <div className="mx-auto max-w-5xl">
@@ -218,8 +214,8 @@ export default async function ArticlePage({ params, searchParams }: ArticlePageP
             <h1 className="mt-2 text-[1.72rem] font-black leading-[1.05] tracking-tight sm:mt-4 sm:text-5xl md:text-6xl">{article.title}</h1>
             {article.subtitle && <p className="mt-2.5 max-w-3xl text-sm font-semibold leading-[1.45] text-white/55 sm:mt-5 sm:text-xl sm:leading-8">{article.subtitle}</p>}
             <div className="mt-3.5 flex flex-wrap items-center gap-x-2.5 gap-y-1.5 text-[10px] font-bold text-white/45 sm:mt-6 sm:gap-x-3 sm:gap-y-2 sm:text-sm">
-              <span>{article.humanReviewed ? formatArticleDate(article.publishedAt) : "Unpublished — owner review"}</span><span>•</span><span>{article.author}</span><span className="hidden sm:inline">•</span>
-              {article.humanReviewed && <ArticleShare title={article.title} url={articleUrl} />}
+              <span>{formatArticleDate(article.publishedAt)}</span><span>•</span><span>{article.author}</span><span className="hidden sm:inline">•</span>
+              <ArticleShare title={article.title} url={articleUrl} />
             </div>
           </div>
         </div>
@@ -289,7 +285,7 @@ export default async function ArticlePage({ params, searchParams }: ArticlePageP
 
             <div className="mt-5 border-t border-white/10 pt-4 sm:mt-12 sm:pt-7">
               <div className="flex items-center">
-                {article.humanReviewed && <ArticleShare title={article.title} url={articleUrl} />}
+                <ArticleShare title={article.title} url={articleUrl} />
               </div>
               {topicTags.length > 0 && (
                 <div className="mt-4 flex flex-wrap gap-1.5 sm:mt-6 sm:gap-2">

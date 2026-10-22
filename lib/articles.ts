@@ -6,7 +6,7 @@ import { week6DistrictRacesGuide2026 } from "@/data/week-6-district-races-guide-
 import { hicoDeLeonWeek8Gotw2026 } from "@/data/hico-de-leon-week8-gotw-2026";
 import { albanyStamfordWeek7Gotw2026 } from "@/data/albany-stamford-week7-gotw-2026";
 
-const articles = [hicoDeLeonWeek8Gotw2026, albanyStamfordWeek7Gotw2026, week6DistrictRacesGuide2026, district5Preview2026, deLeonAlbanyFeature2026, ...baseArticles];
+const articles = [stephenvilleJarrellWeek9Gotw2026, hicoDeLeonWeek8Gotw2026, albanyStamfordWeek7Gotw2026, week6DistrictRacesGuide2026, district5Preview2026, deLeonAlbanyFeature2026, ...baseArticles];
 
 function getPublishedTimestamp(publishedAt: string) {
   const timestamp = new Date(publishedAt).getTime();
@@ -55,11 +55,4 @@ export function getArticlesForDistrict(districtId: string) {
       article.districtIds?.includes(districtId)
     )
   );
-}
-
-// Direct editorial review only; never include this draft in public collections.
-export function getEditorialPreviewBySlug(slug: string) {
-  return process.env.VERCEL_ENV === "preview" && slug === stephenvilleJarrellWeek9Gotw2026.slug
-    ? stephenvilleJarrellWeek9Gotw2026
-    : undefined;
 }
