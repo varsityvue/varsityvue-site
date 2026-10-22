@@ -14,8 +14,6 @@ Do not set humanReviewed=true, publish timestamp, or include in lib/articles.ts 
 
 # No. 1 Stephenville, No. 10 Jarrell Set for Showdown of Unbeatens
 
-**Friday, October 23, 2026 | 7:00 PM | Jarrell, Texas**
-
 Seven state championship appearances. Seven victories on the state's biggest stage. Twenty-three consecutive wins.
 
 Stephenville's place among Texas high school football's most accomplished programs has been secured for decades. Jarrell, meanwhile, is determined to build a legacy of its own.
