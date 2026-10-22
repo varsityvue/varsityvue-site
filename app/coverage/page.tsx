@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import PageHero from "@/components/PageHero";
 import ShareAction from "@/components/ShareAction";
-import { getArticles } from "@/lib/articles";
+import { getArticles, getEditorialPreviewBySlug } from "@/lib/articles";
 import type { Article } from "@/types/platform";
 
 const coverageTitle = "Texas High School Football Coverage, Previews & Recaps";
@@ -59,9 +59,10 @@ function formatArticleType(type: Article["type"]) {
   return labels[type];
 }
 
-export default async function CoveragePage({ searchParams }: { searchParams: Promise<{ type?: string }> }) {
-  const { type } = await searchParams;
-  const sortedArticles = getArticles();
+export default async function CoveragePage({ searchParams }: { searchParams: Promise<{ type?: string; editorialPreview?: string }> }) {
+  const { type, editorialPreview } = await searchParams;
+  const draft = editorialPreview === "week9" ? getEditorialPreviewBySlug("stephenville-at-jarrell-week-9-2026") : undefined;
+  const sortedArticles = draft ? [draft, ...getArticles()] : getArticles();
   const validTypes: Article["type"][] = ["preview", "recap", "news", "feature", "legacy"];
   const activeType = validTypes.includes(type as Article["type"]) ? (type as Article["type"]) : undefined;
   const filteredArticles = activeType ? sortedArticles.filter((article) => article.type === activeType) : sortedArticles;
@@ -124,13 +125,13 @@ export default async function CoveragePage({ searchParams }: { searchParams: Pro
                     )}
                     <div className="flex min-w-0 flex-col justify-center border-l-4 border-[var(--vv-accent)] p-5 sm:p-7 md:p-8">
                       <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--vv-accent)] sm:text-xs sm:tracking-[0.3em]">Featured Story</p>
-                      <p className="mt-3 text-[10px] font-black uppercase tracking-[0.16em] text-white/45 sm:text-xs sm:tracking-[0.2em]">{formatArticleType(featuredArticle.type)} · {formatArticleDate(featuredArticle.publishedAt)}</p>
+                      <p className="mt-3 text-[10px] font-black uppercase tracking-[0.16em] text-white/45 sm:text-xs sm:tracking-[0.2em]">{formatArticleType(featuredArticle.type)} · {featuredArticle.humanReviewed ? formatArticleDate(featuredArticle.publishedAt) : "Unpublished preview"}</p>
                       <h2 className="mt-3 text-[1.8rem] font-black leading-[1.08] text-white sm:mt-4 sm:text-4xl sm:leading-tight">{featuredArticle.title}</h2>
                       {featuredArticle.subtitle && <p className="mt-3 text-sm font-semibold leading-6 text-white/60 sm:mt-4 sm:text-base sm:leading-7">{featuredArticle.subtitle}</p>}
                       <p className="mt-5 text-[10px] font-black uppercase tracking-[0.12em] text-[var(--vv-accent)] sm:mt-6 sm:text-sm sm:tracking-[0.14em]">Read full story →</p>
                     </div>
                   </Link>
-                  <div className="flex justify-end px-5 pb-5 sm:px-7 sm:pb-7"><StoryShare article={featuredArticle} /></div>
+                  <div className="flex justify-end px-5 pb-5 sm:px-7 sm:pb-7">{featuredArticle.humanReviewed && <StoryShare article={featuredArticle} />}</div>
                   </article>
                 )}
               </section>

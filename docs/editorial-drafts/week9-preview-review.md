@@ -9,3 +9,5 @@ Review path: `/coverage/stephenville-at-jarrell-week-9-2026`.
 The original 1600 × 900 PNG is unchanged (SHA-256 `749eb83c86877fa7f35f9602774742fa1bee8bc8a03dd3c4c69594fb1b61dc30`). Caption credits: Kimmie McKinney Photography (Stephenville), Keyseri Young Photography (Jarrell). Associations use `stephenville`, `jarrell`, and `stephenville-at-jarrell-2026-week-9` (October 23, 2026, 7 p.m. Central).
 
 Publication requires separate owner authorization and an explicit registration change. Do not merge this draft for publication as-is. Vercel deployment protection controls preview access; noindex is not authentication.
+
+Owner format correction: headline omits the Game of the Week prefix. Subtitle and excerpt provide a brief narrative teaser. Review the existing Featured Story card at `/coverage?editorialPreview=week9` on the Vercel preview only. Normal coverage indexes remain unchanged; this explicit review query is ignored outside preview. Vercel preview responses carry noindex.

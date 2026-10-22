@@ -1,6 +1,6 @@
 STATUS: UNPUBLISHED EDITORIAL DRAFT — NOT CONNECTED TO PUBLIC ARTICLE INDEX
 
-Title: Game of the Week: No. 1 Stephenville, No. 10 Jarrell Set for Showdown of Unbeatens
+Title: No. 1 Stephenville, No. 10 Jarrell Set for Showdown of Unbeatens
 Type: preview
 Schools: stephenville, jarrell
 Game: Stephenville at Jarrell, October 23, 2026, 7:00 PM
@@ -12,7 +12,7 @@ Do not set humanReviewed=true, publish timestamp, or include in lib/articles.ts 
 
 ---
 
-# Game of the Week: No. 1 Stephenville, No. 10 Jarrell Set for Showdown of Unbeatens
+# No. 1 Stephenville, No. 10 Jarrell Set for Showdown of Unbeatens
 
 **Friday, October 23, 2026 | 7:00 PM | Jarrell, Texas**
 
