@@ -1,4 +1,4 @@
-# District Championship Chase: Title Showdowns Loom as Regular Season Nears Its Finish
+# District Championship Chase: Title Showdowns Loom
 
 Stephenville takes control of its district race, Goldthwaite and Stamford prepare for a pivotal showdown, and De Leon and Cisco remain on a collision course.
 
