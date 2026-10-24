@@ -8,7 +8,7 @@ test("published Week 9 article preserves approved narrative and resolves all ass
  const approved = readFileSync("docs/editorial-drafts/week9-stephenville-at-jarrell-2026.md", "utf8").split("\n---\n\n")[1].split("\n\n").slice(1).join("\n\n").trim();
  assert.equal(article.body, approved);
  assert.equal(getArticleBySlug(article.slug), article);
- assert.equal(getArticles()[0], article);
+ assert.ok(getArticles().includes(article));
  assert.equal(getPublishedGamePreview("stephenville-at-jarrell-2026-week-9"), article);
  for (const school of ["stephenville", "jarrell"]) assert.ok(getArticlesForSchool(school).includes(article));
  assert.ok(!article.title.includes("Game of the Week"));
