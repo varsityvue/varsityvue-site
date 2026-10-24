@@ -1,7 +1,6 @@
 import type { Article } from "@/types/platform";
 
-// Copy approved by owner; publication and proposed graphic await separate approval.
-// humanReviewed stays false as the established publication gate.
+// Owner approved publication October 24, 2026.
 export const districtChampionshipChaseWeek9_2026: Article = {
   "id": "district-championship-chase-week-9-2026",
   "slug": "district-championship-chase-week-9-2026",
@@ -47,5 +46,5 @@ export const districtChampionshipChaseWeek9_2026: Article = {
     "description": "Texas high school football district title races heat up as Goldthwaite faces Stamford, De Leon prepares for Cisco, and Stephenville takes control."
   },
   "aiAssisted": true,
-  "humanReviewed": false
+  "humanReviewed": true
 };
