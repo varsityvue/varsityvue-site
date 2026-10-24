@@ -1,3 +1,4 @@
+import { districtChampionshipChaseWeek9_2026 } from "@/data/district-championship-chase-week9-2026";
 import { stephenvilleJarrellWeek9Gotw2026 } from "@/data/stephenville-jarrell-week9-gotw-2026";
 import { articles as baseArticles } from "@/data/articles";
 import { deLeonAlbanyFeature2026 } from "@/data/de-leon-albany-feature-2026";
@@ -55,4 +56,11 @@ export function getArticlesForDistrict(districtId: string) {
       article.districtIds?.includes(districtId)
     )
   );
+}
+
+// Direct editorial review only; draft never enters public collections.
+export function getEditorialPreviewBySlug(slug: string) {
+  return process.env.VERCEL_ENV === "preview" && slug === districtChampionshipChaseWeek9_2026.slug
+    ? districtChampionshipChaseWeek9_2026
+    : undefined;
 }
