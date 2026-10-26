@@ -27,7 +27,7 @@ const santoGameIds = new Set(santoGames.map((game) => game.id));
 const AUTO_LIVE_WINDOW_MS = 4 * 60 * 60 * 1000;
 
 function applyEditorialGameFlags(game: Game): Game {
-  if (game.id === "stephenville-at-jarrell-2026-week-9") {
+  if (game.id === "stephenville-at-jarrell-2026-week-9" || game.id === "goldthwaite-at-stamford-2026-week-10") {
     return { ...game, featured: true, specialEvent: "Game of the Week", coverageStatus: "planned" };
   }
   if (!GAME_OF_THE_WEEK_IDS.has(game.id)) return game;

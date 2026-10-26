@@ -13,6 +13,13 @@ export type GamePreview = {
 
 export const gamePreviews: GamePreview[] = [
   {
+    gameId: "goldthwaite-at-stamford-2026-week-10",
+    eyebrow: "Week 10 Game of the Week",
+    title: "Goldthwaite at Stamford",
+    excerpt: "Goldthwaite (9–0, 5–0 district) visits Stamford (6–2, 4–0 district) at 7 p.m. Friday at Bill Anderson Stadium. The unbeaten district contenders meet with the District 7-2A Division II championship at stake.",
+    paragraphs: [],
+  },
+  {
     gameId: "stephenville-at-jarrell-2026-week-9",
     eyebrow: "Week 9 Game of the Week",
     title: "Stephenville at Jarrell: Two Perfect Seasons, One District Lead",
