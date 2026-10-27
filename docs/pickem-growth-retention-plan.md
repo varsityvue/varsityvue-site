@@ -1,39 +1,42 @@
 # Pick ’Em administration, conversion and retention
 
-Status: ACTIVE — NOW / NEXT under [ROADMAP.md](ROADMAP.md). Reconciled September 30, 2026. No contest mechanics changes are proposed here.
+Status: SHIPPED foundations / ACTIVE OPERATIONS, October 26. [Roadmap](ROADMAP.md) | [Operations](2026-season-operations-plan.md).
 
-## Existing foundation and immediate administration audit
+Weeks 8–11 administration, independent tiebreaker selection, valid-entry and retention reporting, mobile entry/status improvements and recovery are shipped. The old Weeks 5–7 admin cap and unfinished reporting claims are historical. Preserve eligibility, original acceptance timestamp, frozen deadlines, locks, grading, corrections and claim procedures.
 
-Weeks 6–11 cash-contest rules/entry/lifecycle foundation is SHIPPED. Week 6 is OPEN at the snapshot; Week 7 is not yet configured. Preserve eligibility, phone/attestation, entry acceptance, frozen earliest included kickoff, per-game locks, tiebreakers, prize calculation, Monday cutoff and correction/claim behavior. Current public policy is `/pickem/rules`, backed by current implementation; older rules drafts are historical.
+October 25 baseline: 232 registrations, 204 confirmed, 112 members following schools, 293 follows; 500 goal leaves 268. Limited October 26 read-only checks confirmed these totals. Counts are observations, not live data.
 
-Known bounded issue: `app/internal/pickem/page.tsx` filters weeks 5–7 and uses `[5, 6, 7]` for forms. Do not misdescribe this as a database restriction. The save action accepts broader nonnegative weeks but derives the tiebreaker from `specialEvent === "Game of the Week"`. Read-only baseline shows Week 6’s stored tiebreaker is Goldthwaite–Miles even though current repository Week 6 records have no such flag. Audit safe configuration/resave before proposing any UI extension; adding week options alone is insufficient evidence.
+| Week | Valid entries | First-time in Weeks 6+ cohort | Returning from any earlier measured week | Direct previous-week return |
+| --- | ---: | ---: | ---: | ---: |
+| 6 | 37 | 37 | 0 | N/A |
+| 7 | 66 | 44 | 22 | 22/37 = 59.5% |
+| 8 | 80 | 34 | 46 | 44/66 = 66.7% |
+| 9 | 62 | 6 | 56 | 51/80 = 63.8% |
 
-Focused next audit: available canonical real-game slates for Weeks 8–11; independent tiebreaker selection; admin/moderator boundaries and database authority; draft versus OPEN transitions; preservation of accepted entries, frozen deadlines and locks on edits; schedule revisions/earlier-moved kickoff VOID behavior; rules/sponsor configuration; outcomes/grading/finalization/correction/claim relationships. Use isolated fixtures only for future verification, then a bounded draft implementation PR under separate authorization. Never resave an active production slate merely to test it.
+There were 121 distinct valid entrants. First-time means first valid entry in the measured 2026 Weeks 6+ cohort, not lifetime first. Week 9's 56 returning includes entrants from any previous measured week.
 
-## Measurement definitions
+## Weekly owner scorecard
 
-- Saved draft: at least one saved pick/draft state; not a valid accepted entry.
-- Complete selections: every required game choice exists; still not sufficient without tiebreaker, phone and attestation/deadline acceptance.
-- Valid accepted entry: authoritative accepted cash-contest entry meeting the existing complete-entry rules, initially accepted before the frozen deadline. Later invalidation/disqualification must be reported separately. Edits do not reset its original acceptance timestamp.
+Use America/Chicago calendar windows [Monday midnight, next Monday midnight), including the daylight-saving change on November 1. Windows: Oct 26–Nov 2, Nov 2–9, Nov 9–16, Nov 16–23, and Nov 23–25 partial. Capture Mondays at 9 a.m. Central and closeout Nov 25; label actual capture time, data cutoff and provisional/final status. Contest cohorts use their actual deadlines, not calendar-week signup boundaries. Append finalized revisions after results are settled.
 
-Existing conversions UI counts participants with at least one pick and complete slates with all games selected. Those metrics are useful but must not be relabeled as valid entries. Reconcile any dashboard extension to existing authoritative entry records and current eligibility status.
+| Metric | Definition / source | Target or baseline | Current / prior |
+| --- | --- | --- | --- |
+| New registrations; cumulative; remaining | Auth account creation in window; total accounts separately | 232 baseline; target 500 | NOT MEASURED |
+| New confirmations | Confirmation timestamp in window; separately newly registered cohort confirmed | 204 cumulative baseline | NOT MEASURED |
+| Valid accepted entries | Existing receipt-based administrator reporting; disqualified separately | >=80 in Week 10 or 11 | NOT MEASURED |
+| First-time / returning | First valid week in 2026 Weeks 6+ / any earlier valid week | >=15 first-time in a week | W9 6 / 56 |
+| Previous-week retention | Valid entrants in both adjacent weeks / prior week valid entrants; report numerator and denominator | Approximately >=60% | W9 51/80 |
+| Follow adoption | Distinct current followers / registered accounts and school-level counts; distinguish net change | 112/232; 293 total follows | NOT MEASURED |
+| School content | Published unique items and accurate school associations; source/rights gaps | One useful cleared item per school/week, experimental | NOT MEASURED |
+| Campaign-attributed registrations | Existing signup source/campaign metadata; untagged separately | No causal claim | UNAVAILABLE |
+| Facebook reach / link clicks | Existing Insights export with window and definitions | Exposure is not site visits | UNAVAILABLE |
+| Website visitors / visits / pageviews | Existing analytics export with provider definitions | No fabricated traffic | UNAVAILABLE |
+| Repeat visits | Existing sufficient telemetry only; repeat entrants do not prove visits | No invented value | UNAVAILABLE |
+| Owner workload | Hours for pilot, scoring, reporting and editorial work separately | 3–4 pilot hours/week proposed | NOT LOGGED |
+| Contributor coverage / reliability | Confirmed primary, backup and verifier per game; incidents and unresolved finals | Six active assignments do not prove coverage | NOT CONFIRMED |
 
-Define each observation window, numerator and denominator before reporting:
+Saved drafts and complete picks are not accepted valid entries. If denominator or source is unavailable, use N/A or unavailable rather than zero. Targets are experiments, not forecasts. Track 500 registrations independently. After regular season, contest metrics may be N/A while other measures continue.
 
-- Signup → valid entry: distinct newly registered cohort members with a valid accepted entry in the target week / distinct registrations in the stated acquisition window. Also report confirmed accounts separately and time remaining before deadline; an all-time account count is not this denominator.
-- Week 6 → Week 7 repeat: distinct stable account IDs valid in both weeks / distinct Week 6 valid entrants at the declared snapshot. Report later disqualifications/cohort changes. Account ID is an analysis key, not public output; enforce one-person rules separately.
-- Leaderboard return: distinct eligible cohort members who revisit the leaderboard after grading/finalization in a stated interval / cohort size. Audit existing telemetry; NOT VERIFIED until sufficient events exist. Do not infer a return from pick rows.
-- Follow adoption: distinct cohort members adding or already holding a follow / distinct eligible cohort, distinguishing newly added from preexisting follows. Selection remains optional and never blocks Pick ’Em.
-- Winner/admin funnel where useful: finalization → actual notice sent → timely response → decision → actual payment. Record timestamps and delays; a button/record does not prove external notice or payment occurred.
+Existing attribution captures `utm_source` and `utm_campaign` using a first-touch cookie. Proposed school URLs use `utm_source=facebook&utm_medium=organic_social&utm_campaign=seven_school_2026w10_<school>`. Confirm landing and return paths before approval. Prior cookies, device changes and untagged users limit attribution; recorded tags do not establish causation. Use aggregate reporting and protect member identities.
 
-Operations takes entry snapshots at opening/promotion, deadline and grading/finalization, with observation time and query definition. Week-over-week repeat requires Week 7’s actual acceptance window; no repeat result can be declared yet. Preserve phone/email/UUID privacy and existing consent; do not add tracking solely to fill a chart.
-
-## Bounded conversion and personalization
-
-Followed-Team Personalization V1: SHIPPED. NOW: evaluate current-week return, entry-status clarity and leaderboard discoverability using observed friction. NEXT: optional skippable followed-team onboarding, contextual school return paths and post-grading/repeat-week participation. Do not require team selection before entry or change display_name’s primary identity role.
-
-Acceptance: mobile members find the open contest, understand draft versus accepted entry and can return after grading; cohort measurements show adoption/retention or honestly state insufficient evidence. Avoid broad redesign, mandatory onboarding, unsolicited notification opt-in or a new rewards system.
-
-## Sponsor and growth reporting
-
-NEXT: give the owner aggregated valid entries, repeat rate, signup conversion, follow adoption and verified tagged traffic with dates/limitations. Separate visits/impressions from registered members, saved picks and accepted entries. Use stated campaign/source tags; do not claim causation from correlation. No sponsor access to private entrant data/contact information. The 500-member goal remains a growth target, not a substitute for retained users. Use observed 2026 traction for 2027 sponsorship proposals.
+Week 10 is open with Goldthwaite at Stamford tiebreaker and October 30 7 p.m. Central deadline. Week 11 is draft; owner confirmation and separate opening authorization required. No automatic playoff contests.
