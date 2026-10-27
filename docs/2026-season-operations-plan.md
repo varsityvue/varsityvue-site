@@ -4,7 +4,17 @@ Status: ACTIVE OPERATIONS, reconciled October 26, 2026. Product horizons: [roadm
 
 ## Operating safeguards
 
-Editorial homepage feature, Game of the Week and contest tiebreaker are independently selected. Freeze the contest entry deadline at the earliest included kickoff, preserve individual locks and existing VOID rules. Monday unresolved-result cutoff remains 11:59 p.m. Central. Verify results and handle corrections through the existing workflow. Winner finalization, actual notice, claim and actual payment are separate events; keep private evidence in restricted systems.
+Record each task’s owner, status, evidence and actual timestamp; mark unknowns unverified. Confirm a primary scorekeeper, backup and authorized final verifier for each priority game before Friday. Existing assignments do not establish availability.
+
+Editorial homepage feature, Game of the Week and the independently stored Pick ’Em tiebreaker are separate decisions. Check the chosen tiebreaker against the approved slate; one selection does not automatically set the other.
+
+Before opening a contest, confirm the actual slate, opening time and deadline; opening requires its own authorization. The new-entry deadline freezes at the then-scheduled earliest included kickoff and is displayed in Central Time. Later postponements do not extend it; a game moved before the frozen deadline becomes VOID under the existing rules. Check each individual game lock and the tiebreaker prediction lock independently. Never resave a live contest merely to test it.
+
+Verify official final scores before grading. A result not verified by Monday 11:59 p.m. Central is VOID under the rules. Review score corrections, grading and winner consequences through existing controls; a pre-payment correction may require re-finalization, while post-payment correction does not automatically require repayment.
+
+Winner finalization, actual notification, response/eligibility decision and actual payment are separate events. The published rules aim for notice within 24 hours after finalization, provide 72 hours from actual notice to respond, and end reallocation 30 days after finalization. Recording a notice or payment is not proof it happened: verify external evidence and retain private details in restricted systems.
+
+Record weekly measurement, support and game-night incidents, including time, evidence, unresolved finals, owner and follow-up. Capture drafts, complete selections and accepted valid entries separately. Use the [scorecard](pickem-growth-retention-plan.md) for windows and definitions; report unavailable evidence honestly.
 
 ## Historical and current contest state
 
@@ -24,7 +34,7 @@ Use [October 26 00:00, November 25 00:00) America/Chicago for 30 days; close out
 | Nov 16–22 | Continue relevant school coverage, registration and follows; compare acquisition and workload |
 | Nov 23–25 | Record partial final window, consolidate season evidence and recommend continuation or adjustment |
 
-Weekly rhythm: Monday measure and choose themes; Tuesday batch sources, rights, captions and links; Wednesday–Thursday seek owner approval and confirm staffing; Friday verify public paths, locks and score coverage; weekend verify finals and record effort. Proposed incremental owner workload is 3–4 hours weekly excluding normal scoring and long-form reporting; log actual time and skip unsupported items.
+Weekly rhythm: Monday measure and choose themes; Tuesday batch sources, rights, captions and links; Wednesday–Thursday seek owner approval and confirm staffing; Friday verify public paths, locks and score coverage; weekend verify finals and record effort. The proposed 3–4 additional hours per week is an experimental estimate, not a staffing requirement; measure actual time separately from normal scoring and long-form article production. One useful item per school per week is a proposed target, not a quota; a single relevant article may serve multiple schools. Quality, sourcing and verification take priority over volume. Reduce or adjust the cadence if it exceeds available capacity or produces little engagement; skip unsupported items.
 
 Playoff coverage requires verified opponents, dates, sources and rights. Preserve 2026 identities, results, stats, contests and URLs. Additional contests, coverage expansion and new features require separate authorization.
 
