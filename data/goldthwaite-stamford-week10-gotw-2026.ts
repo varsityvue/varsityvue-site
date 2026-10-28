@@ -1,6 +1,6 @@
 import type { Article } from "@/types/platform";
 
-// Owner-approved copy; held out of lib/articles.ts until the final graphic and credits arrive.
+// Owner-approved copy, artwork and publication, October 28, 2026.
 // See docs/editorial-drafts/week10-goldthwaite-at-stamford-2026.md for release steps.
 export const goldthwaiteStamfordWeek10Gotw2026: Article = {
   id: "goldthwaite-stamford-week10-gotw-2026",
@@ -73,7 +73,7 @@ At Bill Anderson Stadium, two of the state’s top 10 teams will meet with distr
   featuredImageCaption: "Goldthwaite photo: Terry Thompson. Stamford photo: Jones County Clicks.",
   type: "preview",
   author: "VarsityVue",
-  publishedAt: "", // Set to the actual publication time when releasing the article.
+  publishedAt: "2026-10-28T18:00:00-05:00",
   schoolIds: ["goldthwaite", "stamford"],
   districtIds: ["2a-d2-district-7"],
   gameId: "goldthwaite-at-stamford-2026-week-10",

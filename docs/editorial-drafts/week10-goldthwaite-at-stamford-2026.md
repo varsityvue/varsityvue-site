@@ -1,10 +1,10 @@
 # Week 10 Game of the Week — publication handoff
 
-Status: Copy approved by owner; staged in the repository, unpublished pending owner release approval. The final graphic and photo credits were supplied October 28, 2026. Do not publish an image-free version.
+Status: Owner authorized release October 28, 2026. The approved article, final graphic and confirmed credits are now registered for publication.
 
 Article source: `data/goldthwaite-stamford-week10-gotw-2026.ts`.
 
-The source is deliberately **not imported or registered in `lib/articles.ts`**. `humanReviewed: true` records the owner's copy approval; it does not publish this unregistered object. The public coverage index, school pages and Game Center cannot discover it yet. The blank publication timestamp must be filled at release.
+The article is registered in `lib/articles.ts` with its publication timestamp and `humanReviewed: true`. The standard article lookup connects it to coverage listings, school pages and the Week 10 Game Center.
 
 ## Final artwork received
 
@@ -18,13 +18,9 @@ Use the existing coverage article theme without a custom layout. Its full-width,
 
 The article has no added date/location line in its body. The existing theme will show its normal publication metadata once released.
 
-## Release when the graphic arrives
+## Release
 
-1. Obtain the final graphic, accurate image description and confirmed credit for each photograph, including permission to use it. Do not assume credits or reuse rights from previous articles.
-2. Add the graphic under `public/images/coverage/` and populate the four commented image fields in the article source. Use the correct file extension; use the same graphic for social sharing unless a separate approved image is supplied.
-3. Set `publishedAt` to the actual publication time with the Central time offset.
-4. Import `goldthwaiteStamfordWeek10Gotw2026` into `lib/articles.ts` and add it to the article array. The existing game-preview lookup automatically connects this article to the Week 10 Game Center and homepage feature.
-5. Run the relevant editorial/game checks and inspect the article on phone and desktop, including the complete graphic, credit caption, sharing metadata and Game Center link. Publish the prepared release and verify the public page and homepage CTA.
+Owner approved publication after supplying the final graphic and credits. The existing theme and Game Center lookup are used without a page redesign or production database changes.
 
 Expected public path after release: `/coverage/goldthwaite-at-stamford-week-10-2026`.
 

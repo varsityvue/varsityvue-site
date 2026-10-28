@@ -1,3 +1,4 @@
+import { goldthwaiteStamfordWeek10Gotw2026 } from "@/data/goldthwaite-stamford-week10-gotw-2026";
 import { districtChampionshipChaseWeek9_2026 } from "@/data/district-championship-chase-week9-2026";
 import { stephenvilleJarrellWeek9Gotw2026 } from "@/data/stephenville-jarrell-week9-gotw-2026";
 import { articles as baseArticles } from "@/data/articles";
@@ -7,7 +8,7 @@ import { week6DistrictRacesGuide2026 } from "@/data/week-6-district-races-guide-
 import { hicoDeLeonWeek8Gotw2026 } from "@/data/hico-de-leon-week8-gotw-2026";
 import { albanyStamfordWeek7Gotw2026 } from "@/data/albany-stamford-week7-gotw-2026";
 
-const articles = [districtChampionshipChaseWeek9_2026, stephenvilleJarrellWeek9Gotw2026, hicoDeLeonWeek8Gotw2026, albanyStamfordWeek7Gotw2026, week6DistrictRacesGuide2026, district5Preview2026, deLeonAlbanyFeature2026, ...baseArticles];
+const articles = [goldthwaiteStamfordWeek10Gotw2026, districtChampionshipChaseWeek9_2026, stephenvilleJarrellWeek9Gotw2026, hicoDeLeonWeek8Gotw2026, albanyStamfordWeek7Gotw2026, week6DistrictRacesGuide2026, district5Preview2026, deLeonAlbanyFeature2026, ...baseArticles];
 
 function getPublishedTimestamp(publishedAt: string) {
   const timestamp = new Date(publishedAt).getTime();
