@@ -67,11 +67,10 @@ Those stakes give Friday’s meeting a significance beyond the rankings or contr
 Five district opponents have been unable to score against the Eagles. The Bulldogs bring the firepower to challenge that streak.
 
 At Bill Anderson Stadium, two of the state’s top 10 teams will meet with district supremacy waiting on the other side.`,
-  // Fill these existing theme fields only after receiving the final graphic and credits.
-  // featuredImageUrl: "/images/coverage/goldthwaite-stamford-week10-2026.png",
-  // featuredImageSocialUrl: "/images/coverage/goldthwaite-stamford-week10-2026.png",
-  // featuredImageAlt: "Describe the supplied final graphic.",
-  // featuredImageCaption: "Goldthwaite photo: [confirmed credit]. Stamford photo: [confirmed credit].",
+  featuredImageUrl: "/images/coverage/goldthwaite-stamford-week10-2026.png",
+  featuredImageSocialUrl: "/images/coverage/goldthwaite-stamford-week10-2026.png",
+  featuredImageAlt: "Goldthwaite defenders make a tackle at left, alongside Stamford quarterback Miles Follis preparing to throw at right.",
+  featuredImageCaption: "Goldthwaite photo: Terry Thompson. Stamford photo: Jones County Clicks.",
   type: "preview",
   author: "VarsityVue",
   publishedAt: "", // Set to the actual publication time when releasing the article.

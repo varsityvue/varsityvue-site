@@ -1,10 +1,16 @@
 # Week 10 Game of the Week — publication handoff
 
-Status: Copy approved by owner; staged in the repository, unpublished pending the final graphic and confirmed photo credits. Do not publish an image-free version.
+Status: Copy approved by owner; staged in the repository, unpublished pending owner release approval. The final graphic and photo credits were supplied October 28, 2026. Do not publish an image-free version.
 
 Article source: `data/goldthwaite-stamford-week10-gotw-2026.ts`.
 
 The source is deliberately **not imported or registered in `lib/articles.ts`**. `humanReviewed: true` records the owner's copy approval; it does not publish this unregistered object. The public coverage index, school pages and Game Center cannot discover it yet. The blank publication timestamp must be filled at release.
+
+## Final artwork received
+
+Asset: `public/images/coverage/goldthwaite-stamford-week10-2026.png` (1600×900), copied unchanged from the owner-supplied Canva export.
+
+Credits: Goldthwaite — Terry Thompson. Stamford — Jones County Clicks. Both are attached in the standard image caption. The image and social-image fields are populated; no further image generation or retouching was performed.
 
 ## Presentation
 
