@@ -131,7 +131,7 @@ export default async function Home() {
   const featuredArticle = featuredGame ? getPublishedGamePreview(featuredGame.id) : undefined;
   // Owner-confirmed Week 10 DCTF rankings; tied to this matchup, not global team data.
   const featuredRankings = featuredGame?.id === "goldthwaite-at-stamford-2026-week-10"
-    ? { away: 6, home: 10, label: "DCTF · Class 2A Division II" }
+    ? { away: 6, home: 10 }
     : undefined;
   const featureHref = featuredArticle ? `/coverage/${featuredArticle.slug}` : feature ? featureDestination(feature) : null;
   const featuredPreview = featuredGame ? getGamePreview(featuredGame.id) : undefined;
@@ -201,12 +201,6 @@ export default async function Home() {
                     </div>
                     <HeroTeam school={featuredHomeSchool} team={featuredGame.homeTeam ?? "Home"} standing={featuredHomeStanding} align="right" rank={featuredRankings?.home} result={homeResult} teamNameSize={featuredTeamNameSize} />
                   </div>
-
-                  {featuredRankings && (
-                    <p className="mt-3 text-center text-[9px] font-semibold tracking-wide text-white/50 sm:mt-4 sm:text-xs">
-                      {featuredRankings.label}
-                    </p>
-                  )}
 
                   <div className="mt-4 text-center sm:mt-6">
                     <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/45 sm:text-xs sm:tracking-[0.22em]">
