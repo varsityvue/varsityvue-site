@@ -129,6 +129,10 @@ export default async function Home() {
     ? getScoreboardGames(dynamicState).find((game) => game.id === feature.game_id)
     : undefined;
   const featuredArticle = featuredGame ? getPublishedGamePreview(featuredGame.id) : undefined;
+  // Owner-confirmed Week 10 DCTF rankings; tied to this matchup, not global team data.
+  const featuredRankings = featuredGame?.id === "goldthwaite-at-stamford-2026-week-10"
+    ? { away: 6, home: 10, label: "DCTF · Class 2A Division II" }
+    : undefined;
   const featureHref = featuredArticle ? `/coverage/${featuredArticle.slug}` : feature ? featureDestination(feature) : null;
   const featuredPreview = featuredGame ? getGamePreview(featuredGame.id) : undefined;
 
@@ -180,7 +184,7 @@ export default async function Home() {
               ) : featuredGame ? (
                 <>
                   <div className="mt-4 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 sm:mt-6 sm:gap-4">
-                    <HeroTeam school={featuredAwaySchool} team={featuredGame.awayTeam ?? "Away"} standing={featuredAwayStanding} align="left" result={awayResult} teamNameSize={featuredTeamNameSize} />
+                    <HeroTeam school={featuredAwaySchool} team={featuredGame.awayTeam ?? "Away"} standing={featuredAwayStanding} align="left" rank={featuredRankings?.away} result={awayResult} teamNameSize={featuredTeamNameSize} />
                     <div className="flex min-w-[54px] flex-col items-center justify-center py-1 sm:min-w-[90px] sm:py-2 md:px-4">
                       {featuredGameFinal && awayScore !== undefined && homeScore !== undefined ? (
                         <>
@@ -195,8 +199,14 @@ export default async function Home() {
                         <p className="text-[11px] font-black uppercase tracking-[0.2em] text-white/35 sm:text-sm sm:tracking-[0.3em]">VS</p>
                       )}
                     </div>
-                    <HeroTeam school={featuredHomeSchool} team={featuredGame.homeTeam ?? "Home"} standing={featuredHomeStanding} align="right" result={homeResult} teamNameSize={featuredTeamNameSize} />
+                    <HeroTeam school={featuredHomeSchool} team={featuredGame.homeTeam ?? "Home"} standing={featuredHomeStanding} align="right" rank={featuredRankings?.home} result={homeResult} teamNameSize={featuredTeamNameSize} />
                   </div>
+
+                  {featuredRankings && (
+                    <p className="mt-3 text-center text-[9px] font-semibold tracking-wide text-white/50 sm:mt-4 sm:text-xs">
+                      {featuredRankings.label}
+                    </p>
+                  )}
 
                   <div className="mt-4 text-center sm:mt-6">
                     <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/45 sm:text-xs sm:tracking-[0.22em]">
@@ -296,17 +306,23 @@ function HomePathCard({ eyebrow, title, description, href, action }: {
   );
 }
 
-function HeroTeam({ school, team, standing, align, result, teamNameSize }: {
+function HeroTeam({ school, team, standing, align, rank, result, teamNameSize }: {
   school?: ReturnType<typeof getSchoolBySlug>;
   team: string;
   standing?: ReturnType<typeof getStandingForSchoolFromGames>;
   align: "left" | "right";
+  rank?: number;
   result?: "W" | "L";
   teamNameSize: string;
 }) {
   const identity = (
     <>
       {school && <div className="mb-1.5 flex justify-center sm:mb-4"><ProgramLogo school={school} size="sm" /></div>}
+      {rank !== undefined && (
+        <p className="mb-1.5 sm:mb-2">
+          <span className="inline-flex rounded-full border border-white/20 bg-white/[0.08] px-2.5 py-1 text-[10px] font-black leading-none text-white sm:px-3 sm:text-xs">No. {rank}</span>
+        </p>
+      )}
       <div className="flex items-center justify-center gap-1.5 sm:gap-3">
         <h2 className={`${teamNameSize} min-w-0 text-balance break-normal font-black uppercase leading-[0.95] tracking-tight text-white [hyphens:none]`}>{team}</h2>
         {result && (
