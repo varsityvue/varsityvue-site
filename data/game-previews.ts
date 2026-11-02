@@ -13,6 +13,13 @@ export type GamePreview = {
 
 export const gamePreviews: GamePreview[] = [
   {
+    gameId: "de-leon-at-cisco-2026-week-11",
+    eyebrow: "Week 11 Game of the Week",
+    title: "De Leon at Cisco",
+    excerpt: "De Leon visits Cisco for the regular-season finale in District 5-2A Division I. Kickoff is 7 p.m. Friday, November 6, at Chesley Field in Cisco.",
+    paragraphs: [],
+  },
+  {
     gameId: "goldthwaite-at-stamford-2026-week-10",
     eyebrow: "Week 10 Game of the Week",
     title: "Goldthwaite at Stamford",

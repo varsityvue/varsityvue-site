@@ -1,6 +1,14 @@
 # VarsityVue 2026 Season Operations Plan
 
-Status: ACTIVE OPERATIONS, reconciled October 26, 2026. Product horizons: [roadmap](ROADMAP.md); content inventory: [Team Feed](team-feed-plan.md); scorecard: [growth plan](pickem-growth-retention-plan.md). This plan does not authorize publication, contest changes or payments.
+Status: ACTIVE OPERATIONS, editorial handoff updated November 1, 2026. Product horizons: [roadmap](ROADMAP.md); content inventory: [Team Feed](team-feed-plan.md); scorecard: [growth plan](pickem-growth-retention-plan.md). This plan does not authorize publication, contest changes or payments.
+
+## Week 11 editorial handoff — November 1
+
+The owner selected **De Leon at Cisco** as the Week 11 Game of the Week and authorized advancing the website's public-facing weekly feature. The homepage matchup graphic and Game Center summary use the canonical game `de-leon-at-cisco-2026-week-11`: Friday, November 6, 7 p.m. CST, Chesley Field, Cisco. Schedule and venue source: the uploaded Cisco Football 2026 Schedule represented in `data/games.ts`; designation source: owner confirmation November 1. No new rankings, player statistics or full preview article are asserted.
+
+Production inspection found Week 11 Pick ’Em already OPEN with ten games and a frozen entry deadline of November 6 at 7 p.m. CST. This editorial handoff does not open, resave, grade or complete either contest, and does not change either tiebreaker, deadline or game lock.
+
+**Keep Week 10 operationally unfinished.** The owner still needs to add stats and mark Pick ’Em completed. The owner has contacted Week 10 winner Scott Stuart and is awaiting a response. Do not record a response, claim or payment as complete without evidence. Retain the Week 10 feature and coverage history; only its homepage promotion becomes inactive.
 
 ## Operating safeguards
 
@@ -20,7 +28,7 @@ Record weekly measurement, support and game-night incidents, including time, evi
 
 The September 30 register's Week 8–11 admin blocker, zero-feed and zero-assignment assumptions are historical. Week 6–9 valid entries were 37, 66, 80 and 62 respectively. Week 6 winner/payment and Week 7 claim records require external evidence; a missing record does not establish nonpayment. Preserve historical records and URLs.
 
-Week 10 is OPEN with ten games; Goldthwaite at Stamford is the editorial Game of the Week and independent tiebreaker. Entry deadline: Friday October 30, 7 p.m. CDT. Week 11 has a ten-game DRAFT and a provisional stored tiebreaker; opening and frozen deadline are unset. Owner must confirm slate, tiebreaker, opening, deadline and locks; do not open without separate authorization.
+October 26 snapshot (superseded by the November 1 handoff above): Week 10 was OPEN with ten games; Goldthwaite at Stamford was the editorial Game of the Week and independent tiebreaker. Entry deadline: Friday October 30, 7 p.m. CDT. Week 11 had a ten-game DRAFT and a provisional stored tiebreaker; opening and frozen deadline were unset.
 
 ## Seven-school pilot: October 26–November 25
 
@@ -49,7 +57,8 @@ Confirm homepage feature, editorial Game of the Week and independent contest tie
 | Review documentation PR | Owner review; merge not authorized |
 | Seven-school inventory, rights and content | Verify assets and approve each item and destination |
 | Week 6 payment / Week 7 claim gaps | Verify external evidence before any record change |
-| Week 11 | Confirm slate, tiebreaker, opening, frozen deadline and locks; separate authorization to open |
+| Week 11 | Already OPEN when inspected November 1; advance De Leon–Cisco editorial feature without changing contest settings |
+| Week 10 closeout | Owner stats and Pick ’Em completion pending; Scott Stuart contacted, response pending; no claim/payment completion inferred |
 | Weekly scorekeepers and backups | Confirm actual availability and access |
 | Website/Facebook analytics | Obtain existing exports if available; do not assume unavailable is zero |
 | PR #98, PR #58, monitoring, ingestion, coverage demand | Blocked/deferred per roadmap; no installation or restart |
