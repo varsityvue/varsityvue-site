@@ -4,7 +4,7 @@ import { buildRegionalRounds } from "@/lib/playoff-bracket-advancement";
 import { brackets } from "@/data/playoff-bracket-fields";
 
 const featured = new Set(["Cisco", "Hawley", "Anson", "De Leon", "Goldthwaite", "Santo", "Albany", "Stephenville"]);
-const rounds = ["Bi-district", "Area", "Regional", "Quarterfinal"] as const;
+const rounds = ["Bi-district", "Area", "Regional semifinal", "Regional final"] as const;
 
 export default function LivePlayoffBrackets({ games }: { games: Game[] }) {
   return (
