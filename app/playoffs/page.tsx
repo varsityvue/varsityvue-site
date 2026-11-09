@@ -90,7 +90,6 @@ export default async function PlayoffsPage() {
             <Link href="/games?intent=scores" className="inline-flex min-h-11 items-center rounded-xl border border-white/25 bg-white/[0.06] px-5 text-xs font-black uppercase tracking-wider">Full scoreboard</Link>
           </div>
         </header>
-        <LivePlayoffBrackets games={games} />
         {scoreLoadStatus === "failed" && <p role="status" className="mt-4 text-sm text-[#ffffff]">Score updates are temporarily unavailable. The published schedule is shown below.</p>}
         {sections.map(({ title, id, kinds }) => {
           const entries = schedule.filter(({ presentation }) => kinds.includes(presentation.kind));
@@ -104,6 +103,7 @@ export default async function PlayoffsPage() {
             </section>
           );
         })}
+        <LivePlayoffBrackets games={games} />
         <section className="mt-9 rounded-2xl border border-white/15 p-5" aria-labelledby="follow-schools">
           <h2 id="follow-schools" className="text-xl font-black">Follow your schools</h2>
           <p className="mt-2 text-sm text-white/75">Open a school hub to follow the team and find its schedule, results and coverage.</p>
