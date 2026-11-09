@@ -61,3 +61,21 @@ test("blocks downstream advancement when an area final is unverified", () => {
   assert.deepEqual(roundTeams[1][0], ["A", "D"]);
   assert.deepEqual(roundTeams[2][0], [null, null]);
 });
+
+test("no-contest cannot advance a team even if a numeric score exists", () => {
+  const game = { ...fixture("A", "B", 21, 0), resultType: "no_contest" as const };
+  assert.equal(verifiedWinner(game), null);
+});
+
+test("forfeit advances only the verified official winner, never a numeric-score guess", () => {
+  const game = {
+    ...fixture("A", "B", 0, 1),
+    resultType: "forfeit" as const,
+    homeSchoolSlug: "a",
+    awaySchoolSlug: "b",
+    officialWinnerSchoolSlug: "a",
+  };
+  assert.equal(verifiedWinner(game), "A");
+  assert.equal(verifiedWinner({ ...game, officialWinnerSchoolSlug: undefined }), null);
+  assert.equal(verifiedWinner({ ...game, officialWinnerSchoolSlug: "unknown" }), null);
+});

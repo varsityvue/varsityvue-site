@@ -2,6 +2,12 @@ import type { Game } from "@/types/platform";
 
 export function verifiedWinner(game: Game | undefined): string | null {
   if (!game || !game.publicScoreVerified || game.status !== "final") return null;
+  if (game.resultType === "no_contest") return null;
+  if (game.resultType === "forfeit") {
+    if (game.officialWinnerSchoolSlug === game.homeSchoolSlug && game.homeSchoolSlug) return game.homeTeam ?? null;
+    if (game.officialWinnerSchoolSlug === game.awaySchoolSlug && game.awaySchoolSlug) return game.awayTeam ?? null;
+    return null;
+  }
   const home = game.homeScore ?? game.score?.home;
   const away = game.awayScore ?? game.score?.away;
   if (typeof home !== "number" || typeof away !== "number" || home === away) return null;
