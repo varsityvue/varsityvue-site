@@ -86,3 +86,10 @@ test("division-scoped bracket ignores identical matchup from another division", 
   const { roundTeams } = buildRegionalRounds(field, [wrong, right], 2026, "2A-D1");
   assert.deepEqual(roundTeams[1][0], ["B", null]);
 });
+
+test("region-scoped bracket rejects same-division result from another region", () => {
+  const wrong = { ...fixture("A", "B", 21, 7), playoff: { round: "Bi-District" as const, division: "2A D1", region: "I" } };
+  const right = { ...fixture("A", "B", 7, 21), playoff: { round: "Bi-District" as const, division: "2A D1", region: "II" } };
+  const { roundTeams } = buildRegionalRounds(field, [wrong, right], 2026, "2A-D1", "II");
+  assert.deepEqual(roundTeams[1][0], ["B", null]);
+});
