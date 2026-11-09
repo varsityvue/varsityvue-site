@@ -38,9 +38,10 @@ function PlayoffCard({ game, presentation }: PlayoffEntry) {
         </div>
         <h3 className="sr-only">{game.homeTeam} vs. {game.awayTeam}</h3>
         <div className="mt-5 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2">
-          {teams.map((team, index) => {
+          {teams.map((team) => {
             const school = team.slug ? getSchoolBySlug(team.slug) : undefined;
-            const logo = school ? getSchoolLogoPath(school.slug) : null;
+            const logoSlug = school?.slug ?? team.slug;
+            const logo = logoSlug ? getSchoolLogoPath(logoSlug) : undefined;
             return (
               <div key={team.name} className="flex min-w-0 flex-col items-center gap-2 text-center">
                 <div className="relative flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-white/[0.045] sm:h-20 sm:w-20">
