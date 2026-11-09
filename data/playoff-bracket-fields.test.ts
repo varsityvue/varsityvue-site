@@ -25,7 +25,7 @@ test("featured VarsityVue schools are represented in their correct region", () =
     ["Stephenville"],
   ];
   brackets.forEach((bracket, index) => {
-    const names = new Set(bracket.teams.flat());
+    const names: Set<string> = new Set(bracket.teams.flat());
     for (const school of expectedFeatured[index]) assert.ok(names.has(school), `${school} absent from ${bracket.title}`);
   });
 });
