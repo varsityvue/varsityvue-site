@@ -7,6 +7,7 @@ import { formatPlayoffKickoff, getPlayoffSchedule } from "@/lib/playoffs";
 import { getSchoolBySlug } from "@/lib/schools";
 import LivePlayoffBrackets from "@/components/LivePlayoffBrackets";
 import StatewideBracketExplorer from "@/components/StatewideBracketExplorer";
+import TeamPlayoffPath from "@/components/TeamPlayoffPath";
 
 export const metadata: Metadata = {
   title: "2026 Playoff Central | VarsityVue",
@@ -104,6 +105,7 @@ export default async function PlayoffsPage() {
             </section>
           );
         })}
+        <TeamPlayoffPath games={games} />
         <LivePlayoffBrackets games={games} />
         <StatewideBracketExplorer games={games} />
         <section className="mt-9 rounded-2xl border border-white/15 p-5" aria-labelledby="follow-schools">
