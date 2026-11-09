@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 function formatKickoff(kickoff?: string | null) {
   if (!kickoff) return "Kickoff TBD";
-  if (/^\\d{4}-\\d{2}-\\d{2}$/.test(kickoff)) {
+  if (/^\d{4}-\d{2}-\d{2}$/.test(kickoff)) {
     const [year, month, day] = kickoff.split("-").map(Number);
     const date = new Date(Date.UTC(year, month - 1, day, 12));
     return new Intl.DateTimeFormat("en-US", { timeZone: "America/Chicago", month: "short", day: "numeric" }).format(date) + " · Time TBD";
@@ -46,7 +46,7 @@ export default async function PlayoffsPage() {
             <div className="mt-5 grid gap-3 sm:grid-cols-2">{upcoming.map((game) =>
               <Link key={game.id} href={`/games/${game.id}`} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 transition hover:bg-white/[0.08]">
                 <p className="text-xs font-bold uppercase tracking-wide text-white/50">Playoff matchup</p>
-                <h3 className="mt-2 text-xl font-black">{game.awayTeam} {game.isNeutralSite ? "vs." : "at"} {game.homeTeam}</h3>
+                <h3 className="mt-2 text-xl font-black">{game.homeTeam} vs. {game.awayTeam}</h3>
                 <p className="mt-2 text-sm text-white/60">{formatKickoff(game.kickoff)}</p>
                 {game.venue && <p className="mt-1 text-sm text-white/50">{game.venue}</p>}
               </Link>
@@ -58,7 +58,7 @@ export default async function PlayoffsPage() {
             <div className="mt-5 grid gap-3 sm:grid-cols-2">{completed.map((game) =>
               <Link key={game.id} href={`/games/${game.id}`} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
                 <p className="text-xs font-bold uppercase text-white/50">Final</p>
-                <h3 className="mt-2 text-xl font-black">{game.awayTeam} {game.isNeutralSite ? "vs." : "at"} {game.homeTeam}</h3>
+                <h3 className="mt-2 text-xl font-black">{game.homeTeam} vs. {game.awayTeam}</h3>
                 <p className="mt-2 text-sm text-white/60">View verified result and matchup details</p>
               </Link>
             )}</div>}
