@@ -21,7 +21,7 @@ export default function StatewideBracketExplorer({ games, selectedSchool }: { ga
   const field = regionIndex === null ? null : division.regions[regionIndex];
   const verified = field && validateRegionalField(field).length === 0;
   const path = getStateChampionshipPath(division.id, games);
-  const regional = verified && field ? buildRegionalRounds(field, games, 2026, division.id) : null;
+  const regional = verified && field ? buildRegionalRounds(field, games, 2026, division.id, ["I", "II", "III", "IV"][regionIndex ?? 0]) : null;
   const roundNames = ["Bi-district", "Area", "Regional semifinal", "Regional final · State quarterfinal"] as const;
 
   return (
