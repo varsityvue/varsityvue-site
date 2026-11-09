@@ -31,7 +31,6 @@ const brackets = [
   { title: "4A Division I · Region III", teams: regionThree4AD1, featured: "Stephenville" },
 ] as const;
 const featured = new Set(["Cisco", "Hawley", "Anson", "De Leon", "Goldthwaite", "Santo", "Albany", "Stephenville"]);
-const slug = (name: string) => name.toLowerCase().replace(/\s+/g, "-");
 const rounds = ["Bi-district", "Area", "Regional", "Quarterfinal"] as const;
 
 function winner(game: Game | undefined): string | null {
@@ -57,14 +56,26 @@ function RegionalBracket({ games, title, teams, featuredLabel }: { games: Game[]
     games.find((g) => g.season === 2026 && g.gameType === "playoff" &&
       ((g.homeTeam === a && g.awayTeam === b) || (g.homeTeam === b && g.awayTeam === a))),
   );
-  const winners = firstRound.map(winner);
-  const area = Array.from({ length: 4 }, (_, i) => [winners[2 * i] ?? null, winners[2 * i + 1] ?? null]);
+  const roundGames: (Game | undefined)[][] = [firstRound];
+  const roundTeams: (string | null)[][][] = [teams.map(([a, b]) => [a, b])];
+  for (let round = 1; round < rounds.length; round++) {
+    const previousWinners = roundGames[round - 1].map(winner);
+    const slots = Array.from({ length: previousWinners.length / 2 }, (_, i) =>
+      [previousWinners[2 * i] ?? null, previousWinners[2 * i + 1] ?? null] as (string | null)[]
+    );
+    roundTeams.push(slots);
+    roundGames.push(slots.map(([a, b]) => {
+      if (!a || !b) return undefined;
+      return games.find((g) => g.season === 2026 && g.gameType === "playoff" &&
+        ((g.homeTeam === a && g.awayTeam === b) || (g.homeTeam === b && g.awayTeam === a)));
+    }));
+  }
 
   return (
     <div className="mt-5 rounded-2xl border border-white/15 bg-[#111114] p-4 sm:p-6">
       <h3 className="text-xl font-black">{title}</h3>
       <p className="mt-1 text-xs text-white/55">Featuring {featuredLabel} · Swipe sideways to follow the bracket</p>
-        <div className="mt-5 overflow-x-auto pb-3" tabIndex={0} aria-label="Scrollable 2A Division I Region II playoff bracket">
+        <div className="mt-5 overflow-x-auto pb-3" tabIndex={0} aria-label={`Scrollable ${title} playoff bracket`}>
           <div className="grid min-w-[840px] grid-cols-4 gap-4">
             {rounds.map((round, roundIndex) => {
               const count = 8 / (2 ** roundIndex);
@@ -73,14 +84,14 @@ function RegionalBracket({ games, title, teams, featuredLabel }: { games: Game[]
                   <h4 className="mb-3 border-b border-white/15 pb-2 text-xs font-black uppercase tracking-widest text-white/65">{round}</h4>
                   <div className="flex flex-1 flex-col justify-around gap-3">
                     {Array.from({ length: count }, (_, i) => {
-                      const names: (string | null)[] = roundIndex === 0 ? [...teams[i]] : roundIndex === 1 ? area[i] : [null, null];
-                      const game = roundIndex === 0 ? firstRound[i] : undefined;
+                      const names = roundTeams[roundIndex][i];
+                      const game = roundGames[roundIndex][i];
                       return (
                         <div key={i} className="rounded-xl border border-white/15 bg-[#1c1c21] p-2.5">
                           {names.map((name, index) => (
                             <div key={index} className={`flex min-h-8 items-center justify-between gap-2 rounded-md px-2 py-1 text-xs ${name && featured.has(name) ? "bg-[#8B1020]/40 font-black text-white" : "text-white/75"}`}>
                               {name ? <span>{name}</span> : <span className="italic text-white/35">TBD</span>}
-                              {roundIndex === 0 && game?.publicScoreVerified && (game.homeScore != null || game.score) &&
+                              {game?.publicScoreVerified && (game.homeScore != null || game.score) &&
                                 <span className="tabular-nums">{name === game.homeTeam ? (game.homeScore ?? game.score?.home) : (game.awayScore ?? game.score?.away)}</span>}
                             </div>
                           ))}
