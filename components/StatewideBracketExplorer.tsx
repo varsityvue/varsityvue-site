@@ -2,13 +2,16 @@
 
 import { useState } from "react";
 import { regionLabels, statewideDivisions, validateRegionalField } from "@/data/statewide-playoff-brackets";
+import { getStateChampionshipPath } from "@/lib/state-championship-path";
+import type { Game } from "@/types/platform";
 
-export default function StatewideBracketExplorer() {
+export default function StatewideBracketExplorer({ games }: { games: Game[] }) {
   const [divisionId, setDivisionId] = useState<string>("2A-D1");
   const [regionIndex, setRegionIndex] = useState<number | null>(1);
   const division = statewideDivisions.find((item) => item.id === divisionId) ?? statewideDivisions[0];
   const field = regionIndex === null ? null : division.regions[regionIndex];
   const verified = field && validateRegionalField(field).length === 0;
+  const path = getStateChampionshipPath(division.id, games);
 
   return (
     <section id="statewide-brackets" aria-labelledby="statewide-brackets-title" className="mt-11 scroll-mt-24 rounded-2xl border border-white/15 bg-[#111114] p-4 sm:p-6">
@@ -40,8 +43,8 @@ export default function StatewideBracketExplorer() {
       </div>}
       <div className="mt-5 rounded-xl border border-white/15 p-3">
         <h3 className="text-sm font-black uppercase tracking-wide">Road to the state championship</h3>
-        <p className="mt-2 text-sm text-white/70">Region I winner vs. Region II winner · Region III winner vs. Region IV winner</p>
-        <p className="mt-1 text-sm text-white/70">State semifinal winners meet in the championship. Regional champions remain TBD until verified.</p>
+        <div className="mt-3 grid gap-2 sm:grid-cols-2">{path?.semifinals.map(([a,b],index) => <div key={index} className="rounded-lg border border-white/10 bg-[#202025] p-3"><p className="text-xs font-bold uppercase text-white/55">State semifinal {index+1}</p><p className="mt-2 text-sm font-semibold">{a ?? "Region "+(index===0?"I":"III")+" winner TBD"}</p><p className="mt-1 text-sm font-semibold">{b ?? "Region "+(index===0?"II":"IV")+" winner TBD"}</p></div>)}</div>
+        <div className="mt-2 rounded-lg border border-white/10 bg-[#202025] p-3"><p className="text-xs font-bold uppercase text-white/55">State championship</p><p className="mt-2 text-sm font-semibold">{path?.final[0] ?? "Semifinal 1 winner TBD"} vs. {path?.final[1] ?? "Semifinal 2 winner TBD"}</p>{path?.champion && <p className="mt-2 font-black text-white">Champion: {path.champion}</p>}</div>
       </div>
     </section>
   );
