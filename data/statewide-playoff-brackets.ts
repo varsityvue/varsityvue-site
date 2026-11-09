@@ -1,7 +1,14 @@
 import { regionTwoD1, regionTwoD2, regionThree4AD1 } from "@/data/playoff-bracket-fields";
 
+export const regionOne2AD1 = [
+  ["Panhandle", "Floydada"], ["Forsan", "Abernathy"],
+  ["Tulia", "Sanford-Fritch"], ["New Home", "Ballinger"],
+  ["Post", "Ozona"], ["Olton", "Highland Park"],
+  ["Sonora", "New Deal"], ["Spearman", "Farwell"],
+] as const;
+
 export const statewideDivisions = [
-  { id: "2A-D1", label: "2A Division I", regions: [null, regionTwoD1, null, null] },
+  { id: "2A-D1", label: "2A Division I", regions: [regionOne2AD1, regionTwoD1, null, null] },
   { id: "2A-D2", label: "2A Division II", regions: [null, regionTwoD2, null, null] },
   { id: "3A-D1", label: "3A Division I", regions: [null, null, null, null] },
   { id: "3A-D2", label: "3A Division II", regions: [null, null, null, null] },
