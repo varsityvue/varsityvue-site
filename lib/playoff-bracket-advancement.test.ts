@@ -79,3 +79,10 @@ test("forfeit advances only the verified official winner, never a numeric-score 
   assert.equal(verifiedWinner({ ...game, officialWinnerSchoolSlug: undefined }), null);
   assert.equal(verifiedWinner({ ...game, officialWinnerSchoolSlug: "unknown" }), null);
 });
+
+test("division-scoped bracket ignores identical matchup from another division", () => {
+  const wrong = { ...fixture("A", "B", 21, 7), playoff: { round: "Bi-District" as const, division: "3A D1" } };
+  const right = { ...fixture("A", "B", 7, 21), playoff: { round: "Bi-District" as const, division: "2A D1" } };
+  const { roundTeams } = buildRegionalRounds(field, [wrong, right], 2026, "2A-D1");
+  assert.deepEqual(roundTeams[1][0], ["B", null]);
+});
