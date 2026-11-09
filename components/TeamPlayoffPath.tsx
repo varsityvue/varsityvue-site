@@ -8,8 +8,10 @@ import { buildRegionalRounds, verifiedWinner } from "@/lib/playoff-bracket-advan
 const featured = ["De Leon", "Cisco", "Stephenville", "Goldthwaite", "Santo", "Albany", "Anson", "Hawley"] as const;
 const labels = ["Bi-district", "Area", "Regional semifinal", "Regional final · State quarterfinal"] as const;
 
-export default function TeamPlayoffPath({ games }: { games: Game[] }) {
-  const [school, setSchool] = useState<string>("De Leon");
+export default function TeamPlayoffPath({ games, selectedSchool, onSelectSchool }: { games: Game[]; selectedSchool?: string; onSelectSchool?: (school: string) => void }) {
+  const [localSchool, setLocalSchool] = useState<string>("De Leon");
+  const school = selectedSchool ?? localSchool;
+  const setSchool = onSelectSchool ?? setLocalSchool;
   const bracket = brackets.find((entry) => entry.teams.some((pair) => pair.includes(school as never)));
   if (!bracket) return null;
   const firstIndex = bracket.teams.findIndex((pair) => pair.includes(school as never));
