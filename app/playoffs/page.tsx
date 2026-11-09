@@ -44,8 +44,8 @@ function PlayoffCard({ game, presentation }: PlayoffEntry) {
             const logo = logoSlug ? getSchoolLogoPath(logoSlug) : undefined;
             return (
               <div key={team.name} className="flex min-w-0 flex-col items-center gap-2 text-center">
-                <div className="relative flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-white/[0.045] sm:h-20 sm:w-20">
-                  {logo ? <Image src={logo} alt={`${team.name} logo`} fill sizes="80px" className={`object-contain p-2 ${team.slug === "hawley" ? "drop-shadow-[0_0_9px_rgba(255,255,255,0.95)]" : ""}`} /> : <span className="text-2xl font-black text-white/35">{team.name?.slice(0, 1)}</span>}
+                <div className={`relative flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl border sm:h-20 sm:w-20 ${team.slug === "hawley" ? "border-white/70 bg-[#f5f3f0] shadow-[0_0_20px_rgba(255,255,255,0.24)]" : "border-white/10 bg-white/[0.045]"}`}>
+                  {logo ? <Image src={logo} alt={`${team.name} logo`} fill sizes="80px" className="object-contain p-2" /> : <span className="text-2xl font-black text-white/35">{team.name?.slice(0, 1)}</span>}
                 </div>
                 {school ? <Link href={`/schools/${team.slug}`} className="w-full break-words text-sm font-black leading-tight text-white hover:text-[#ffffff] sm:text-lg">{team.name}</Link> : <span className="w-full break-words text-sm font-black leading-tight sm:text-lg">{team.name}</span>}
                 {presentation.showScore && <span className="text-2xl font-black tabular-nums">{team.score ?? "—"}</span>}
