@@ -16,7 +16,7 @@ export function getStateChampionshipPath(divisionId: string, games: Game[]): Sta
   if (!division) return null;
   const regionalChampions = division.regions.map((field) => {
     if (!field) return null;
-    const { roundGames } = buildRegionalRounds(field, games);
+    const { roundGames } = buildRegionalRounds(field, games, 2026, division.id);
     return verifiedWinner(roundGames[3][0]);
   });
   const semifinals = stateSemifinalRegionPairs.map(([a, b]) =>
