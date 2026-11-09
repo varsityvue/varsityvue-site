@@ -33,7 +33,8 @@ test("empty summary has useful public fallback and schedule access", () => {
 });
 test("enhanced coverage has dates, existing photo credits, and no duplicate article links", () => {
   const html = renderToStaticMarkup(<SchoolCoverage schoolSlug="de-leon" enhanced />);
-  assert.match(html, /Dixie Watson/);
+  assert.match(html, /Gary Stennett/);
+  assert.match(html, /href="\/coverage\/de-leon-at-cisco-week-11-2026"/);
   assert.match(html, /Tedra Zmeskal/);
   assert.match(html, /datetime="2026-/i);
   const links = [...html.matchAll(/href="(\/coverage\/[^"?]+)"/g)].map(match => match[1]);
