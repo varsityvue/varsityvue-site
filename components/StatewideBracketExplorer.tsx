@@ -1,14 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { regionLabels, statewideDivisions, validateRegionalField } from "@/data/statewide-playoff-brackets";
 import { getStateChampionshipPath } from "@/lib/state-championship-path";
 import { buildRegionalRounds, verifiedWinner } from "@/lib/playoff-bracket-advancement";
 import type { Game } from "@/types/platform";
 
-export default function StatewideBracketExplorer({ games }: { games: Game[] }) {
+export default function StatewideBracketExplorer({ games, selectedSchool }: { games: Game[]; selectedSchool?: string }) {
   const [divisionId, setDivisionId] = useState<string>("2A-D1");
   const [regionIndex, setRegionIndex] = useState<number | null>(1);
+  useEffect(() => {
+    if (!selectedSchool) return;
+    const division = statewideDivisions.find((item) => item.regions.some((field) => field?.some((pair) => pair.some((team) => team === selectedSchool))));
+    if (!division) return;
+    const index = division.regions.findIndex((field) => field?.some((pair) => pair.some((team) => team === selectedSchool)));
+    setDivisionId(division.id);
+    setRegionIndex(index);
+  }, [selectedSchool]);
   const division = statewideDivisions.find((item) => item.id === divisionId) ?? statewideDivisions[0];
   const field = regionIndex === null ? null : division.regions[regionIndex];
   const verified = field && validateRegionalField(field).length === 0;
@@ -47,7 +55,7 @@ export default function StatewideBracketExplorer({ games }: { games: Game[] }) {
                   {regional.roundTeams[roundIndex].map(([a,b],i) => {
                     const game = regional.roundGames[roundIndex][i];
                     const winner = verifiedWinner(game);
-                    return <div key={i} className="rounded-lg border border-white/10 bg-black/30 p-3 text-sm">
+                    return <div key={i} className={`rounded-lg border p-3 text-sm ${selectedSchool && (a === selectedSchool || b === selectedSchool) ? "border-[#b83a50] bg-[#8B1020]/25" : "border-white/10 bg-black/30"}`}>
                       <p className={winner === a ? "font-black text-white" : "text-white/80"}>{a ?? "TBD"}</p>
                       <p className={winner === b ? "mt-1 font-black text-white" : "mt-1 text-white/80"}>{b ?? "TBD"}</p>
                       {game && <a href={`/games/${game.id}`} className="mt-2 inline-block text-xs font-bold underline underline-offset-4">Game Center</a>}
