@@ -7,8 +7,22 @@ export const regionOne2AD1 = [
   ["Sonora", "New Deal"], ["Spearman", "Farwell"],
 ] as const;
 
+// UIL-linked MaxPreps 2026 2A Division I bracket, games G17-G32.
+export const regionThree2AD1 = [
+  ["Cooper", "Como-Pickton"], ["Shelbyville", "Waskom"],
+  ["Carlisle", "Honey Grove"], ["Beckville", "Garrison"],
+  ["Pewitt", "Joaquin"], ["Frankston", "Whitewright"],
+  ["San Augustine", "Union Grove"], ["Tom Bean", "Hawkins"],
+] as const;
+export const regionFour2AD1 = [
+  ["Thorndale", "Groveton"], ["Refugio", "Weimar"],
+  ["Leon", "Bruceville-Eddy"], ["Ganado", "Taft"],
+  ["Shiner", "Freer"], ["Lovelady", "Granger"],
+  ["Dilley", "Flatonia"], ["Rosebud-Lott", "Corrigan-Camden"],
+] as const;
+
 export const statewideDivisions = [
-  { id: "2A-D1", label: "2A Division I", regions: [regionOne2AD1, regionTwoD1, null, null] },
+  { id: "2A-D1", label: "2A Division I", regions: [regionOne2AD1, regionTwoD1, regionThree2AD1, regionFour2AD1] },
   { id: "2A-D2", label: "2A Division II", regions: [null, regionTwoD2, null, null] },
   { id: "3A-D1", label: "3A Division I", regions: [null, null, null, null] },
   { id: "3A-D2", label: "3A Division II", regions: [null, null, null, null] },
