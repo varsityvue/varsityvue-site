@@ -53,7 +53,6 @@ function RegionalBracket({ games, title, teams, featuredLabel }: { games: Game[]
             })}
           </div>
         </div>
-        <p className="mt-3 text-xs text-white/55">First-round placement: 2026 UIL / MaxPreps. Later-round slots remain TBD until results and matchups are verified.</p>
     </div>
   );
 }
