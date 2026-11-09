@@ -6,7 +6,7 @@ import { brackets } from "@/data/playoff-bracket-fields";
 import { buildRegionalRounds, verifiedWinner } from "@/lib/playoff-bracket-advancement";
 
 const featured = ["De Leon", "Cisco", "Stephenville", "Goldthwaite", "Santo", "Albany", "Anson", "Hawley"] as const;
-const labels = ["Bi-district", "Area", "Regional semifinal", "Regional final"] as const;
+const labels = ["Bi-district", "Area", "Regional semifinal", "Regional final · State quarterfinal"] as const;
 
 export default function TeamPlayoffPath({ games }: { games: Game[] }) {
   const [school, setSchool] = useState<string>("De Leon");
