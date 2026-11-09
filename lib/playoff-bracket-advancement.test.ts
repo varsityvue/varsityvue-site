@@ -93,3 +93,11 @@ test("region-scoped bracket rejects same-division result from another region", (
   const { roundTeams } = buildRegionalRounds(field, [wrong, right], 2026, "2A-D1", "II");
   assert.deepEqual(roundTeams[1][0], ["B", null]);
 });
+
+test("duplicate matching playoff records cannot advance a winner", () => {
+  const first = { ...fixture("A", "B", 21, 7), id: "first" };
+  const duplicate = { ...fixture("A", "B", 7, 21), id: "second" };
+  const { roundTeams, roundGames } = buildRegionalRounds(field, [first, duplicate]);
+  assert.equal(roundGames[0][0], undefined);
+  assert.deepEqual(roundTeams[1][0], [null, null]);
+});
