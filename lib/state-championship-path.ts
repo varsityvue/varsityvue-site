@@ -26,6 +26,7 @@ export function getStateChampionshipPath(divisionId: string, games: Game[]): Sta
     const matches = games.filter((game) =>
       game.season === 2026 && game.gameType === "playoff" &&
       game.playoff?.round === round &&
+      game.playoff?.division.replace(/[^a-z0-9]/gi, "").toUpperCase() === divisionId.replace(/[^a-z0-9]/gi, "").toUpperCase() &&
       ((game.homeTeam === a && game.awayTeam === b) ||
        (game.homeTeam === b && game.awayTeam === a)));
     // Ambiguous duplicate records must not produce a winner.
