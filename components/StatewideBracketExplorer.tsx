@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { regionLabels, statewideDivisions, validateRegionalField } from "@/data/statewide-playoff-brackets";
 import { getStateChampionshipPath } from "@/lib/state-championship-path";
+import { buildRegionalRounds, verifiedWinner } from "@/lib/playoff-bracket-advancement";
 import type { Game } from "@/types/platform";
 
 export default function StatewideBracketExplorer({ games }: { games: Game[] }) {
@@ -12,6 +13,8 @@ export default function StatewideBracketExplorer({ games }: { games: Game[] }) {
   const field = regionIndex === null ? null : division.regions[regionIndex];
   const verified = field && validateRegionalField(field).length === 0;
   const path = getStateChampionshipPath(division.id, games);
+  const regional = verified && field ? buildRegionalRounds(field, games) : null;
+  const roundNames = ["Bi-district", "Area", "Regional semifinal", "Regional final · State quarterfinal"] as const;
 
   return (
     <section id="statewide-brackets" aria-labelledby="statewide-brackets-title" className="mt-11 scroll-mt-24 rounded-2xl border border-white/15 bg-[#111114] p-4 sm:p-6">
@@ -35,9 +38,24 @@ export default function StatewideBracketExplorer({ games }: { games: Game[] }) {
       </div>
       {regionIndex !== null && <div className="mt-4 rounded-xl border border-white/15 bg-black/25 p-3 sm:p-4">
         <h3 className="font-black">{division.label} · {regionLabels[regionIndex]}</h3>
-        {verified && field ? (
-          <div className="mt-3 grid gap-2 sm:grid-cols-2">
-            {field.map(([a,b],i) => <div key={i} className="rounded-lg border border-white/10 bg-[#202025] px-3 py-2 text-sm"><p className="font-semibold">{a}</p><p className="mt-1 text-white/70">{b}</p></div>)}
+        {regional ? (
+          <div className="mt-3 space-y-2">
+            {roundNames.map((round, roundIndex) => (
+              <details key={round} open={roundIndex === 0} className="rounded-xl border border-white/15 bg-[#202025]">
+                <summary className="cursor-pointer px-3 py-3 text-sm font-black">{round} · {regional.roundTeams[roundIndex].length} {regional.roundTeams[roundIndex].length === 1 ? "game" : "games"}</summary>
+                <div className="grid gap-2 border-t border-white/10 p-3 sm:grid-cols-2">
+                  {regional.roundTeams[roundIndex].map(([a,b],i) => {
+                    const game = regional.roundGames[roundIndex][i];
+                    const winner = verifiedWinner(game);
+                    return <div key={i} className="rounded-lg border border-white/10 bg-black/30 p-3 text-sm">
+                      <p className={winner === a ? "font-black text-white" : "text-white/80"}>{a ?? "TBD"}</p>
+                      <p className={winner === b ? "mt-1 font-black text-white" : "mt-1 text-white/80"}>{b ?? "TBD"}</p>
+                      {game && <a href={`/games/${game.id}`} className="mt-2 inline-block text-xs font-bold underline underline-offset-4">Game Center</a>}
+                    </div>;
+                  })}
+                </div>
+              </details>
+            ))}
           </div>
         ) : <p className="mt-2 text-sm text-white/65">This regional field is not yet verified. No matchups are being projected.</p>}
       </div>}
