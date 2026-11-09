@@ -36,7 +36,7 @@ export default function TeamPlayoffPath({ games }: { games: Game[] }) {
           const opponent = involved ? pair.find((name) => name !== school) : null;
           const previousEliminated = eliminated;
           if (involved && winner && winner !== school) eliminated = true;
-          const status = previousEliminated || !involved ? "Not reached" : winner === school ? "Advanced" : winner ? "Eliminated" : round === 0 || pair.every(Boolean) ? "Awaiting result" : "To be determined";
+          const status = previousEliminated || !involved ? "Not reached" : winner === school ? "Advanced" : winner ? "Eliminated" : game?.status === "live" && game.publicScoreVerified ? "In progress" : game?.status === "final" ? "Awaiting verification" : game ? "Scheduled" : round === 0 ? "Matchup pending" : "To be determined";
           return (
             <div key={label} className="rounded-xl border border-white/15 bg-black/30 p-3">
               <p className="text-[11px] font-black uppercase tracking-wide text-white/55">{label}</p>
