@@ -105,7 +105,7 @@ export default async function PlayoffsPage() {
           );
         })}
         <LivePlayoffBrackets games={games} />
-        <StatewideBracketExplorer />
+        <StatewideBracketExplorer games={games} />
         <section className="mt-9 rounded-2xl border border-white/15 p-5" aria-labelledby="follow-schools">
           <h2 id="follow-schools" className="text-xl font-black">Follow your schools</h2>
           <p className="mt-2 text-sm text-white/75">Open a school hub to follow the team and find its schedule, results and coverage.</p>
