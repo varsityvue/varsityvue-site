@@ -6,7 +6,7 @@ const items = [
   { href: "/games", label: "Games", Icon: CalendarDays },
   { href: "/schools", label: "Teams", Icon: UsersRound },
   { href: "/coverage", label: "Coverage", Icon: Newspaper },
-  { href: "/pickem", label: "Pick ’Em", Icon: Trophy },
+  { href: "/playoffs", label: "Playoffs", Icon: Trophy },
 ];
 export default function MobileNavigation() {
   const pathname = usePathname();
