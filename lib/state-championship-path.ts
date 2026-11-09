@@ -1,4 +1,5 @@
 import type { Game } from "@/types/platform";
+import { normalizePlayoffDivision } from "@/lib/playoff-division";
 import { buildRegionalRounds, verifiedWinner } from "@/lib/playoff-bracket-advancement";
 import { statewideDivisions, stateSemifinalRegionPairs } from "@/data/statewide-playoff-brackets";
 
@@ -26,7 +27,7 @@ export function getStateChampionshipPath(divisionId: string, games: Game[]): Sta
     const matches = games.filter((game) =>
       game.season === 2026 && game.gameType === "playoff" &&
       game.playoff?.round === round &&
-      game.playoff?.division.replace(/[^a-z0-9]/gi, "").toUpperCase() === divisionId.replace(/[^a-z0-9]/gi, "").toUpperCase() &&
+      normalizePlayoffDivision(game.playoff?.division) === normalizePlayoffDivision(divisionId) &&
       ((game.homeTeam === a && game.awayTeam === b) ||
        (game.homeTeam === b && game.awayTeam === a)));
     // Ambiguous duplicate records must not produce a winner.
