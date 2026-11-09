@@ -5,7 +5,6 @@ import { getSchoolLogoPath } from "@/data/school-logos";
 import { getDynamicGamesSnapshot } from "@/lib/dynamic-games";
 import { formatPlayoffKickoff, getPlayoffSchedule } from "@/lib/playoffs";
 import { getSchoolBySlug } from "@/lib/schools";
-import LivePlayoffBrackets from "@/components/LivePlayoffBrackets";
 import StatewideBracketExplorer from "@/components/StatewideBracketExplorer";
 import TeamPlayoffPath from "@/components/TeamPlayoffPath";
 
@@ -106,7 +105,6 @@ export default async function PlayoffsPage() {
           );
         })}
         <TeamPlayoffPath games={games} />
-        <LivePlayoffBrackets games={games} />
         <StatewideBracketExplorer games={games} />
         <section className="mt-9 rounded-2xl border border-white/15 p-5" aria-labelledby="follow-schools">
           <h2 id="follow-schools" className="text-xl font-black">Follow your schools</h2>
