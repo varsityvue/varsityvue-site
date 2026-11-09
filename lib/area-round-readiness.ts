@@ -1,6 +1,6 @@
 import type { Game } from "@/types/platform";
 import { brackets } from "@/data/playoff-bracket-fields";
-import { buildRegionalRounds, verifiedWinner } from "@/lib/playoff-bracket-advancement";
+import { buildRegionalRounds } from "@/lib/playoff-bracket-advancement";
 
 export type AreaRoundReadiness = {
   region: string;
