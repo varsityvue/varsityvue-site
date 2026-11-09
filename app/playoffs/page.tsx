@@ -8,6 +8,18 @@ export const metadata: Metadata = {
   alternates: { canonical: "/playoffs" },
 };
 
+function formatKickoff(kickoff?: string | null) {
+  if (!kickoff) return "Kickoff TBD";
+  if (/^\\d{4}-\\d{2}-\\d{2}$/.test(kickoff)) {
+    const [year, month, day] = kickoff.split("-").map(Number);
+    const date = new Date(Date.UTC(year, month - 1, day, 12));
+    return new Intl.DateTimeFormat("en-US", { timeZone: "America/Chicago", month: "short", day: "numeric" }).format(date) + " · Time TBD";
+  }
+  const date = new Date(kickoff);
+  if (Number.isNaN(date.getTime())) return "Kickoff TBD";
+  return new Intl.DateTimeFormat("en-US", { timeZone: "America/Chicago", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }).format(date);
+}
+
 export default async function PlayoffsPage() {
   const games = (await getDynamicGames())
     .filter((game) => game.season === 2026 && game.gameType === "playoff")
@@ -35,7 +47,7 @@ export default async function PlayoffsPage() {
               <Link key={game.id} href={`/games/${game.id}`} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 transition hover:bg-white/[0.08]">
                 <p className="text-xs font-bold uppercase tracking-wide text-white/50">Playoff matchup</p>
                 <h3 className="mt-2 text-xl font-black">{game.awayTeam} at {game.homeTeam}</h3>
-                <p className="mt-2 text-sm text-white/60">{game.kickoff ? new Intl.DateTimeFormat("en-US", { timeZone: "America/Chicago", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }).format(new Date(game.kickoff)) : "Kickoff TBD"}</p>
+                <p className="mt-2 text-sm text-white/60">{formatKickoff(game.kickoff)}</p>
                 {game.venue && <p className="mt-1 text-sm text-white/50">{game.venue}</p>}
               </Link>
             )}</div>}
