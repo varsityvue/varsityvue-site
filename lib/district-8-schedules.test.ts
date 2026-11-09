@@ -76,7 +76,7 @@ function relevantGames() {
   return Array.from(new Map(districtSchools.flatMap(slug => getGamesForSchool(slug, new Date("2026-09-23T12:00:00-05:00"))).map(g => [g.id, g])).values()).filter(
     (game) =>
       game.season === 2026 &&
-      game.gameType !== "scrimmage" &&
+      game.gameType !== "playoff" && game.gameType !== "scrimmage" &&
       (districtSchoolSet.has(game.homeSchoolSlug ?? "") ||
         districtSchoolSet.has(game.awaySchoolSlug ?? "")),
   );
@@ -89,7 +89,7 @@ test("District 8 has 49 unique canonical games and ten real games per school", (
 
   for (const school of districtSchools) {
     const schedule = getGamesForSchool(school).filter(
-      (game) => game.season === 2026 && game.gameType !== "scrimmage",
+      (game) => game.season === 2026 && game.gameType !== "playoff" && game.gameType !== "scrimmage",
     );
     assert.equal(schedule.length, 10, `${school} should have ten real games`);
     assert.equal(schedule.some((game) => game.gameType === "bye"), false);

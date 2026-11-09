@@ -31,9 +31,10 @@ const districts = [
   },
 ] as const;
 
-function realSchedule(slug: string) {
+function regularSeasonSchedule(slug: string) {
   return games.filter((game) =>
     game.season === 2026 &&
+    game.gameType !== "playoff" &&
     game.gameType !== "scrimmage" &&
     game.gameType !== "bye" &&
     (game.homeSchoolSlug === slug || game.awaySchoolSlug === slug)
@@ -53,7 +54,7 @@ test("all four district membership groups are exact", () => {
 test("all 27 featured district schools have ten real games and no fake bye", () => {
   for (const district of districts) {
     for (const slug of district.schools) {
-      assert.equal(realSchedule(slug).length, 10, slug);
+      assert.equal(regularSeasonSchedule(slug).length, 10, slug);
       assert.equal(
         games.some((game) => game.season === 2026 && game.gameType === "bye" && (game.homeSchoolSlug === slug || game.awaySchoolSlug === slug)),
         false,
@@ -85,8 +86,8 @@ test("owner corrections retain canonical IDs and explicit timing and overtime de
   const tolarComanche = games.find((game) => game.id === "tolar-at-comanche-2026-week-5");
   assert.equal(tolarComanche?.kickoff, "2026-09-25T19:00:00-05:00");
   assert.equal(tolarComanche?.districtGame, true);
-  assert.equal(realSchedule("tolar").some((game) => game.kickoff?.startsWith("2026-10-02")), false);
-  assert.equal(realSchedule("comanche").some((game) => game.kickoff?.startsWith("2026-10-02")), false);
+  assert.equal(regularSeasonSchedule("tolar").some((game) => game.kickoff?.startsWith("2026-10-02")), false);
+  assert.equal(regularSeasonSchedule("comanche").some((game) => game.kickoff?.startsWith("2026-10-02")), false);
 
   assert.equal(games.find((game) => game.id === "comanche-at-cisco-2026-week-2")?.kickoff, "2026-09-04T19:00:00-05:00");
   assert.equal(games.find((game) => game.id === "reagan-county-at-miles-2026-week-3")?.score?.period, "Final (OT)");

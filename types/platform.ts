@@ -142,6 +142,11 @@ export type Game = {
   week?: number;
 
   gameType: GameType;
+  playoff?: {
+    round: "Bi-District" | "Area" | "Regional Semifinal" | "Regional Final" | "State Semifinal" | "State Championship";
+    division: string;
+    region?: string;
+  };
   status: GameStatus;
 
   coverageStatus?: GameCoverageStatus;

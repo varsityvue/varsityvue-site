@@ -13,7 +13,7 @@ const captured = new Map([
 const games = getGames().map(g => { const s=captured.get(g.id);return s?{...g,status:"final" as const,homeScore:s[0],awayScore:s[1],score:{home:s[0],away:s[1],period:"Final"}}:g; });
 test("six complete ten-game schedules, seven finals and three future district games per team",()=>{
   for(const slug of slugs){
-    const rows=games.filter(g=>g.season===2026&&g.gameType!=="bye"&&g.gameType!=="scrimmage"&&(g.homeSchoolSlug===slug||g.awaySchoolSlug===slug));
+    const rows=games.filter(g=>g.season===2026&&g.gameType!=="playoff"&&g.gameType!=="bye"&&g.gameType!=="scrimmage"&&(g.homeSchoolSlug===slug||g.awaySchoolSlug===slug));
     assert.equal(rows.length,10,slug);assert.equal(rows.filter(g=>g.status==="final").length,7,slug);
     assert.deepEqual(rows.filter(g=>(g.week??0)>=9).map(g=>g.week).sort((a,b)=>a!-b!),[9,10,11],slug);
     assert.equal(rows.filter(g=>g.districtGame).length,5,slug);

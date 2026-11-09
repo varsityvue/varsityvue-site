@@ -63,7 +63,8 @@ export default function Footer() {
               title="Platform"
               links={[
                 { href: "/games?intent=scores", label: "Scoreboard" },
-                { href: "/pickem", label: "Pick ’Em" },
+                { href: "/playoffs", label: "Playoff Central" },
+                { href: "/pickem", label: "Pick ’Em Archive" },
                 { href: "/schools", label: "Teams" },
                 { href: "/districts", label: "Districts" },
                 { href: "/coverage", label: "Coverage" },
