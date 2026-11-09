@@ -19,10 +19,12 @@ export function buildRegionalRounds(
   games: Game[],
   season = 2026,
   division?: string,
+  region?: string,
 ) {
   const findGame = (a: string, b: string) =>
     games.find((game) => game.season === season && game.gameType === "playoff" &&
       (!division || game.playoff?.division.replace(/[^a-z0-9]/gi, "").toUpperCase() === division.replace(/[^a-z0-9]/gi, "").toUpperCase()) &&
+      (!region || game.playoff?.region?.replace(/[^a-z0-9]/gi, "").toUpperCase() === region.replace(/[^a-z0-9]/gi, "").toUpperCase()) &&
       ((game.homeTeam === a && game.awayTeam === b) || (game.homeTeam === b && game.awayTeam === a)));
 
   const roundGames: (Game | undefined)[][] = [teams.map(([a, b]) => findGame(a, b))];
