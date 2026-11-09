@@ -6,6 +6,7 @@ import { getDynamicGamesSnapshot } from "@/lib/dynamic-games";
 import { formatPlayoffKickoff, getPlayoffSchedule } from "@/lib/playoffs";
 import { getSchoolBySlug } from "@/lib/schools";
 import LivePlayoffBrackets from "@/components/LivePlayoffBrackets";
+import TeamPlayoffPath from "@/components/TeamPlayoffPath";
 
 export const metadata: Metadata = {
   title: "2026 Playoff Central | VarsityVue",
@@ -103,6 +104,7 @@ export default async function PlayoffsPage() {
             </section>
           );
         })}
+        <TeamPlayoffPath games={games} />
         <LivePlayoffBrackets games={games} />
         <section className="mt-9 rounded-2xl border border-white/15 p-5" aria-labelledby="follow-schools">
           <h2 id="follow-schools" className="text-xl font-black">Follow your schools</h2>
