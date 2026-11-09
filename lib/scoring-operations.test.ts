@@ -40,7 +40,7 @@ test("immutable database identity snapshot retains its exact historical scope; n
   const sql = readFileSync(new URL("../supabase/migrations/20260928223000_friday_scoring_operations_v1.sql", import.meta.url), "utf8");
   const mapped = new Map([...sql.matchAll(/\('([^']+)', '([^']+)', '([^']+)'\)/g)]
     .map((match) => [match[1], [match[2], match[3]]] as const));
-  const playable = historicalCatalogBeforeDistrict12(getGames()).filter((game) => game.gameType !== "bye" && game.gameType !== "scrimmage" &&
+  const playable = historicalCatalogBeforeDistrict12(getGames()).filter((game) => game.gameType !== "playoff" && game.gameType !== "bye" && game.gameType !== "scrimmage" &&
     game.awaySchoolSlug && game.homeSchoolSlug && game.awaySchoolSlug !== game.homeSchoolSlug &&
     !["bye", "opponent", "special-event"].includes(game.awaySchoolSlug) &&
     !["bye", "opponent", "special-event"].includes(game.homeSchoolSlug));

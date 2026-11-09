@@ -1,3 +1,4 @@
+import { formatPlayoffKickoff, getPlayoffSchedule } from "@/lib/playoffs";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { featureDestination, getActiveHomepageFeature } from "@/lib/homepage-feature";
@@ -105,6 +106,9 @@ export default async function Home() {
     getCurrentUserFollowedSchoolSlugs(),
     getActiveHomepageFeature(),
   ]);
+  const upcomingPlayoffs = getPlayoffSchedule(dynamicGames)
+    .filter(({ presentation }) => presentation.kind === "scheduled")
+    .slice(0, 3);
   const followedTeams = followState.schoolSlugs.size
     ? orderFollowedSchoolsForHome(schools, dynamicGames.filter((game) => game.gameType !== "bye" && game.gameType !== "scrimmage"), followState.schoolSlugs, followState.loadedAt)
     : [];
@@ -268,9 +272,28 @@ export default async function Home() {
             </div>
           </div>
 
+          {upcomingPlayoffs.length > 0 && (
+            <section className="mt-4 rounded-2xl border border-white/15 bg-white/[0.04] p-4" aria-labelledby="home-playoff-schedule">
+              <div className="flex flex-wrap items-center justify-between gap-x-4">
+                <h2 id="home-playoff-schedule" className="text-lg font-black">Next playoff games</h2>
+                <Link href="/playoffs#schedule" className="inline-flex min-h-11 items-center text-sm font-bold underline underline-offset-4">Full playoff schedule →</Link>
+              </div>
+              <ul className="grid gap-2 sm:grid-cols-3">
+                {upcomingPlayoffs.map(({ game }) => (
+                  <li key={game.id}>
+                    <Link href={`/games/${game.id}`} className="block rounded-xl border border-white/10 p-3 hover:bg-white/10 focus-visible:outline-2">
+                      <span className="block text-sm font-bold">{game.homeTeam} vs. {game.awayTeam}</span>
+                      <span className="mt-1 block text-xs text-white/70">{formatPlayoffKickoff(game.kickoff)}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
           <section className="mt-3 grid gap-2 sm:mt-4 sm:gap-3 md:grid-cols-2" aria-label="Schedule and standings navigation">
             <HomePathCard eyebrow="Full Season" title="Full Schedule" description="Search matchups and browse results from every week." href="/games#all-matchups" action="Browse Schedule" />
-            <HomePathCard eyebrow="District Race" title="District Standings" description="Browse classifications, district records, and teams." href="/districts" action="View Standings" />
+            <HomePathCard eyebrow="Regular Season" title="District Standings" description="Browse classifications, district records, and teams." href="/districts" action="View Standings" />
           </section>
 
           <div className="mt-3 sm:mt-4"><SchoolSearch schools={schools} /></div>

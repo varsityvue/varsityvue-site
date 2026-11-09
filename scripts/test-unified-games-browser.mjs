@@ -1527,7 +1527,7 @@ try {
   await promotions.goto(origin+'/games?season=2026&week=7');await settled(promotions);
   const full = promotions.locator('.weekly-scorekeeper .weekly-promo-description');
   assert.equal(await full.isVisible(),true);
-  assert.match(await promotions.locator('.weekly-membership').innerText(),/Save your teams. Keep your picks/);
+  assert.match(await promotions.locator('.weekly-membership').innerText(),/Follow your teams through the playoffs./);
   assert.match(await promotions.locator('.weekly-pickem').innerText(),/Closed.*Week 6 Pick/si);
   const allHeight = await promotions.locator('.weekly-scorekeeper').evaluate(e=>e.getBoundingClientRect().height);
   await promotions.getByRole('link',{name:'Near Me',exact:true}).click();
@@ -1544,7 +1544,7 @@ try {
   }
   await promotions.getByRole('link',{name:'All Games',exact:true}).click();
   assert.equal(await full.isVisible(),true);
-  assert.match(await promotions.locator('.weekly-membership').innerText(),/Save your teams. Keep your picks/);
+  assert.match(await promotions.locator('.weekly-membership').innerText(),/Follow your teams through the playoffs./);
   await promotionsContext.close();
   directoryFollowFixture = true;
   const directoryContext = await context(); await authenticated(directoryContext);

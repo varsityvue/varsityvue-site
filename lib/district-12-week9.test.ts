@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getGames, normalizeGameStatus } from "./games";
+import { getGames, getGamesForSchool, normalizeGameStatus } from "./games";
 import { getStandingsForDistrictIdFromGames } from "./standings";
 import { getGamePreview } from "@/data/game-previews";
 const slugs = ["stephenville", "jarrell", "burnet", "china-spring", "lampasas", "marble-falls"];
@@ -13,7 +13,7 @@ const captured = new Map([
 const games = getGames().map(g => { const s=captured.get(g.id);return s?{...g,status:"final" as const,homeScore:s[0],awayScore:s[1],score:{home:s[0],away:s[1],period:"Final"}}:g; });
 test("six complete ten-game schedules, seven finals and three future district games per team",()=>{
   for(const slug of slugs){
-    const rows=games.filter(g=>g.season===2026&&g.gameType!=="bye"&&g.gameType!=="scrimmage"&&(g.homeSchoolSlug===slug||g.awaySchoolSlug===slug));
+    const rows=games.filter(g=>g.season===2026&&g.gameType!=="playoff"&&g.gameType!=="bye"&&g.gameType!=="scrimmage"&&(g.homeSchoolSlug===slug||g.awaySchoolSlug===slug));
     assert.equal(rows.length,10,slug);assert.equal(rows.filter(g=>g.status==="final").length,7,slug);
     assert.deepEqual(rows.filter(g=>(g.week??0)>=9).map(g=>g.week).sort((a,b)=>a!-b!),[9,10,11],slug);
     assert.equal(rows.filter(g=>g.districtGame).length,5,slug);
@@ -27,15 +27,16 @@ test("Oct 16 results produce independently reconciled district standings and poi
   for(const s of getStandingsForDistrictIdFromGames("4a-d1-district-12",games))assert.deepEqual([s.overallWins,s.overallLosses,s.districtWins,s.districtLosses,s.pointsFor,s.pointsAgainst],expected[s.schoolSlug],s.schoolSlug);
 });
 test("all remaining district games enter the game-night window, with CST after DST ends",()=>{
-  for(const g of games.filter(g=>(g.week??0)>=9&&slugs.includes(g.homeSchoolSlug??"")&&slugs.includes(g.awaySchoolSlug??""))){
+  const scheduled = new Map(slugs.flatMap(slug => getGamesForSchool(slug, new Date("2026-10-17T12:00:00-05:00"))).map(game => [game.id, game]));
+  for(const g of [...scheduled.values()].filter(g=>(g.week??0)>=9&&slugs.includes(g.homeSchoolSlug??"")&&slugs.includes(g.awaySchoolSlug??""))){
     assert.equal(new Intl.DateTimeFormat("en-US",{timeZone:"America/Chicago",hour:"numeric",minute:"2-digit"}).format(new Date(g.kickoff!)),"7:00 PM");
     assert.equal(normalizeGameStatus(g,new Date(Date.parse(g.kickoff!)+60000)).status,"live",g.id);
     if(g.week===11)assert.ok(g.kickoff?.endsWith("-06:00"));
   }
 });
-test("owner designated GOTW has a factual summary and does not claim a published article",()=>{
+test("owner designated GOTW has a factual summary and links the published article",()=>{
  const game=games.find(g=>g.id==="stephenville-at-jarrell-2026-week-9")!;
  assert.equal(game.specialEvent,"Game of the Week");assert.equal(game.coverageStatus,"planned");
  assert.equal(game.kickoff,"2026-10-23T19:00:00-05:00");
- const p=getGamePreview(game.id)!;assert.match(p.excerpt,/7-0 overall and 2-0/);assert.equal(p.coverageHref,undefined);
+ const p=getGamePreview(game.id)!;assert.match(p.excerpt,/7-0 overall and 2-0/);assert.equal(p.coverageHref,"/coverage/stephenville-at-jarrell-week-9-2026");
 });
