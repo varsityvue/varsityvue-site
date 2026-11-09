@@ -125,6 +125,27 @@ export default async function Home() {
       }]),
   );
 
+  // During the postseason, retire the regular-season hero without mutating
+  // the production editorial-feature record. Preserve historical game pages.
+  const playoffFeature = {
+    id: -1,
+    season: 2026,
+    week: 12,
+    feature_type: "playoff_preview" as const,
+    eyebrow: "2026 Texas High School Football",
+    headline: "Playoff Central",
+    description: "The regular season is over. Follow postseason matchups, schedules and results for VarsityVue schools on the road to state.",
+    image_path: null,
+    article_slug: null,
+    destination_path: "/playoffs",
+    cta_label: "Explore Playoffs",
+    game_id: null,
+    active: true,
+  };
+  const activeFeature = !feature || feature.feature_type === "game_of_the_week"
+    ? playoffFeature
+    : feature;
+
   const featuredGame = feature?.feature_type === "game_of_the_week"
     ? getScoreboardGames(dynamicState).find((game) => game.id === feature.game_id)
     : undefined;
@@ -133,7 +154,7 @@ export default async function Home() {
   const featuredRankings = featuredGame?.id === "goldthwaite-at-stamford-2026-week-10"
     ? { away: 6, home: 10 }
     : undefined;
-  const featureHref = featuredArticle ? `/coverage/${featuredArticle.slug}` : feature ? featureDestination(feature) : null;
+  const featureHref = activeFeature === playoffFeature ? "/playoffs" : featuredArticle ? `/coverage/${featuredArticle.slug}` : feature ? featureDestination(feature) : null;
   const featuredPreview = featuredGame ? getGamePreview(featuredGame.id) : undefined;
 
   const featuredHomeSchool = featuredGame?.homeSchoolSlug
@@ -176,11 +197,11 @@ export default async function Home() {
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(139,16,32,0.18),transparent_34%),linear-gradient(115deg,rgba(0,0,0,0.98),rgba(0,0,0,0.82)_55%,rgba(0,0,0,0.96))]" />
             <div className="relative z-10 p-3.5 sm:p-7 lg:p-9">
               <div className="flex justify-center">
-                <p className="inline-flex items-center justify-center rounded-full border border-white/15 bg-black/50 px-3 py-1.5 text-center text-[10px] font-black uppercase tracking-[0.18em] text-white/75 sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.22em]">{feature?.eyebrow ?? "VarsityVue"}</p>
+                <p className="inline-flex items-center justify-center rounded-full border border-white/15 bg-black/50 px-3 py-1.5 text-center text-[10px] font-black uppercase tracking-[0.18em] text-white/75 sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.22em]">{activeFeature.eyebrow}</p>
               </div>
 
-              {feature?.active && feature.feature_type !== "game_of_the_week" ? (
-                <HomeEditorialSpotlight feature={feature} href={featureHref} />
+              {activeFeature.active && activeFeature.feature_type !== "game_of_the_week" ? (
+                <HomeEditorialSpotlight feature={activeFeature} href={featureHref} />
               ) : featuredGame ? (
                 <>
                   <div className="mt-4 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 sm:mt-6 sm:gap-4">
