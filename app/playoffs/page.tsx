@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import { getSchoolLogoPath } from "@/data/school-logos";
 import { getDynamicGamesSnapshot } from "@/lib/dynamic-games";
 import { formatPlayoffKickoff, getPlayoffSchedule } from "@/lib/playoffs";
 import { getSchoolBySlug } from "@/lib/schools";
@@ -39,7 +40,7 @@ function PlayoffCard({ game, presentation }: PlayoffEntry) {
         <div className="mt-5 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2">
           {teams.map((team, index) => {
             const school = team.slug ? getSchoolBySlug(team.slug) : undefined;
-            const logo = school?.badgeImageUrl;
+            const logo = school ? getSchoolLogoPath(school.slug) : null;
             return (
               <div key={team.name} className="flex min-w-0 flex-col items-center gap-2 text-center">
                 <div className="relative flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-white/[0.045] sm:h-20 sm:w-20">
