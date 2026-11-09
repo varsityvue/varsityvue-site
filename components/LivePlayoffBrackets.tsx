@@ -58,7 +58,7 @@ function RegionalBracket({ games, title, teams, featuredLabel }: { games: Game[]
       ((g.homeTeam === a && g.awayTeam === b) || (g.homeTeam === b && g.awayTeam === a))),
   );
   const winners = firstRound.map(winner);
-  const area = Array.from({ length: 4 }, (_, i) => [winners[2 * i], winners[2 * i + 1]]);
+  const area = Array.from({ length: 4 }, (_, i) => [winners[2 * i] ?? null, winners[2 * i + 1] ?? null]);
 
   return (
     <div className="mt-5 rounded-2xl border border-white/15 bg-[#111114] p-4 sm:p-6">
