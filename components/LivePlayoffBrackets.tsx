@@ -39,7 +39,7 @@ function winner(game: Game | undefined): string | null {
   const home = game.homeScore ?? game.score?.home;
   const away = game.awayScore ?? game.score?.away;
   if (typeof home !== "number" || typeof away !== "number" || home === away) return null;
-  return home > away ? game.homeTeam : game.awayTeam;
+  return (home > away ? game.homeTeam : game.awayTeam) ?? null;
 }
 
 export default function LivePlayoffBrackets({ games }: { games: Game[] }) {
