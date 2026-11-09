@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Game } from "@/types/platform";
+import { buildRegionalRounds } from "@/lib/playoff-bracket-advancement";
 
 const regionTwoD1 = [
   ["Cisco", "Nocona"],
@@ -33,14 +34,6 @@ const brackets = [
 const featured = new Set(["Cisco", "Hawley", "Anson", "De Leon", "Goldthwaite", "Santo", "Albany", "Stephenville"]);
 const rounds = ["Bi-district", "Area", "Regional", "Quarterfinal"] as const;
 
-function winner(game: Game | undefined): string | null {
-  if (!game || !game.publicScoreVerified || game.status !== "final") return null;
-  const home = game.homeScore ?? game.score?.home;
-  const away = game.awayScore ?? game.score?.away;
-  if (typeof home !== "number" || typeof away !== "number" || home === away) return null;
-  return (home > away ? game.homeTeam : game.awayTeam) ?? null;
-}
-
 export default function LivePlayoffBrackets({ games }: { games: Game[] }) {
   return (
     <section id="brackets" className="mt-11 scroll-mt-24" aria-labelledby="brackets-heading">
@@ -52,24 +45,7 @@ export default function LivePlayoffBrackets({ games }: { games: Game[] }) {
 }
 
 function RegionalBracket({ games, title, teams, featuredLabel }: { games: Game[]; title: string; teams: readonly (readonly [string, string])[]; featuredLabel: string }) {
-  const firstRound = teams.map(([a, b]) =>
-    games.find((g) => g.season === 2026 && g.gameType === "playoff" &&
-      ((g.homeTeam === a && g.awayTeam === b) || (g.homeTeam === b && g.awayTeam === a))),
-  );
-  const roundGames: (Game | undefined)[][] = [firstRound];
-  const roundTeams: (string | null)[][][] = [teams.map(([a, b]) => [a, b])];
-  for (let round = 1; round < rounds.length; round++) {
-    const previousWinners = roundGames[round - 1].map(winner);
-    const slots = Array.from({ length: previousWinners.length / 2 }, (_, i) =>
-      [previousWinners[2 * i] ?? null, previousWinners[2 * i + 1] ?? null] as (string | null)[]
-    );
-    roundTeams.push(slots);
-    roundGames.push(slots.map(([a, b]) => {
-      if (!a || !b) return undefined;
-      return games.find((g) => g.season === 2026 && g.gameType === "playoff" &&
-        ((g.homeTeam === a && g.awayTeam === b) || (g.homeTeam === b && g.awayTeam === a)));
-    }));
-  }
+  const { roundGames, roundTeams } = buildRegionalRounds(teams, games);
 
   return (
     <div className="mt-5 rounded-2xl border border-white/15 bg-[#111114] p-4 sm:p-6">
