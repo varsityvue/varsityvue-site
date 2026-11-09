@@ -1,36 +1,8 @@
 import Link from "next/link";
 import type { Game } from "@/types/platform";
 import { buildRegionalRounds } from "@/lib/playoff-bracket-advancement";
+import { brackets } from "@/data/playoff-bracket-fields";
 
-const regionTwoD1 = [
-  ["Cisco", "Nocona"],
-  ["Bosqueville", "Johnson City"],
-  ["Muenster", "Hawley"],
-  ["San Saba", "Valley Mills"],
-  ["Mason", "Itasca"],
-  ["Tioga", "Anson"],
-  ["Axtell", "Bangs"],
-  ["De Leon", "Alvord"],
-] as const;
-
-
-const regionTwoD2 = [
-  ["Wellington", "Munday"], ["Crawford", "Albany"],
-  ["Windthorst", "Quanah"], ["Stamford", "Mart"],
-  ["Goldthwaite", "Hubbard"], ["Haskell", "Clarendon"],
-  ["Santo", "Miles"], ["Wheeler", "Seymour"],
-] as const;
-const regionThree4AD1 = [
-  ["Little Cypress-Mauriceville", "Austin"], ["Jarrell", "El Campo"],
-  ["Stafford", "Bridge City"], ["Sealy", "China Spring"],
-  ["Bay City", "Lampasas"], ["Fort Bend Willowridge", "Hargrave"],
-  ["Stephenville", "Navasota"], ["Vidor", "Sterling"],
-] as const;
-const brackets = [
-  { title: "2A Division I · Region II", teams: regionTwoD1, featured: "Cisco · Hawley · Anson · De Leon" },
-  { title: "2A Division II · Region II", teams: regionTwoD2, featured: "Goldthwaite · Santo · Albany" },
-  { title: "4A Division I · Region III", teams: regionThree4AD1, featured: "Stephenville" },
-] as const;
 const featured = new Set(["Cisco", "Hawley", "Anson", "De Leon", "Goldthwaite", "Santo", "Albany", "Stephenville"]);
 const rounds = ["Bi-district", "Area", "Regional", "Quarterfinal"] as const;
 
