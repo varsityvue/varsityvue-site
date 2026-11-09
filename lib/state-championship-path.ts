@@ -14,9 +14,9 @@ export type StateChampionshipPath = {
 export function getStateChampionshipPath(divisionId: string, games: Game[]): StateChampionshipPath | null {
   const division = statewideDivisions.find((item) => item.id === divisionId);
   if (!division) return null;
-  const regionalChampions = division.regions.map((field) => {
+  const regionalChampions = division.regions.map((field, regionIndex) => {
     if (!field) return null;
-    const { roundGames } = buildRegionalRounds(field, games, 2026, division.id);
+    const { roundGames } = buildRegionalRounds(field, games, 2026, division.id, ["I", "II", "III", "IV"][regionIndex]);
     return verifiedWinner(roundGames[3][0]);
   });
   const semifinals = stateSemifinalRegionPairs.map(([a, b]) =>
