@@ -33,3 +33,31 @@ test("does not advance a tie or an unpublished later-round result", () => {
   assert.deepEqual(roundTeams[1][0], [null, "C"]);
   assert.deepEqual(roundTeams[2][0], [null, null]);
 });
+
+test("advances a complete verified four-round regional path", () => {
+  const games = [
+    fixture("A", "B", 21, 7), fixture("C", "D", 10, 20),
+    fixture("E", "F", 14, 6), fixture("G", "H", 3, 24),
+    fixture("I", "J", 28, 0), fixture("K", "L", 7, 14),
+    fixture("M", "N", 10, 9), fixture("O", "P", 14, 21),
+    fixture("A", "D", 31, 14), fixture("E", "H", 7, 20),
+    fixture("I", "L", 14, 3), fixture("M", "P", 3, 17),
+    fixture("A", "H", 24, 10), fixture("I", "P", 7, 28),
+    fixture("A", "P", 21, 17),
+  ];
+  const { roundTeams, roundGames } = buildRegionalRounds(field, games);
+  assert.deepEqual(roundTeams[1], [["A", "D"], ["E", "H"], ["I", "L"], ["M", "P"]]);
+  assert.deepEqual(roundTeams[2], [["A", "H"], ["I", "P"]]);
+  assert.deepEqual(roundTeams[3], [["A", "P"]]);
+  assert.equal(verifiedWinner(roundGames[3][0]), "A");
+});
+
+test("blocks downstream advancement when an area final is unverified", () => {
+  const games = [
+    fixture("A", "B", 21, 7), fixture("C", "D", 10, 20),
+    fixture("A", "D", 31, 14, false),
+  ];
+  const { roundTeams } = buildRegionalRounds(field, games);
+  assert.deepEqual(roundTeams[1][0], ["A", "D"]);
+  assert.deepEqual(roundTeams[2][0], [null, null]);
+});
