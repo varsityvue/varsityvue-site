@@ -5,6 +5,7 @@ import { createPublicReadClient, readPublicClaims } from "@/lib/supabase/server"
 import TrackedSignupLink from "@/components/TrackedSignupLink";
 
 const navItems = [
+  { href: "/playoffs", label: "Playoffs" },
   { href: "/games", label: "Games" },
   { href: "/schools", label: "Teams" },
   { href: "/coverage", label: "Coverage" },
