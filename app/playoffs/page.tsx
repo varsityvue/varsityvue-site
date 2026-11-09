@@ -46,7 +46,7 @@ export default async function PlayoffsPage() {
             <div className="mt-5 grid gap-3 sm:grid-cols-2">{upcoming.map((game) =>
               <Link key={game.id} href={`/games/${game.id}`} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 transition hover:bg-white/[0.08]">
                 <p className="text-xs font-bold uppercase tracking-wide text-white/50">Playoff matchup</p>
-                <h3 className="mt-2 text-xl font-black">{game.awayTeam} at {game.homeTeam}</h3>
+                <h3 className="mt-2 text-xl font-black">{game.awayTeam} {game.isNeutralSite ? "vs." : "at"} {game.homeTeam}</h3>
                 <p className="mt-2 text-sm text-white/60">{formatKickoff(game.kickoff)}</p>
                 {game.venue && <p className="mt-1 text-sm text-white/50">{game.venue}</p>}
               </Link>
@@ -58,7 +58,7 @@ export default async function PlayoffsPage() {
             <div className="mt-5 grid gap-3 sm:grid-cols-2">{completed.map((game) =>
               <Link key={game.id} href={`/games/${game.id}`} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
                 <p className="text-xs font-bold uppercase text-white/50">Final</p>
-                <h3 className="mt-2 text-xl font-black">{game.awayTeam} at {game.homeTeam}</h3>
+                <h3 className="mt-2 text-xl font-black">{game.awayTeam} {game.isNeutralSite ? "vs." : "at"} {game.homeTeam}</h3>
                 <p className="mt-2 text-sm text-white/60">View verified result and matchup details</p>
               </Link>
             )}</div>}
