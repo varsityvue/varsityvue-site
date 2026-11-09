@@ -130,7 +130,11 @@ contestWeek
     ? supabase.rpc("admin_pickem_correction_review_status", { p_week_id: selectedWeek!.id })
     : { data: null, error: null }
   ]);
-  const contestReadError = prizeError || contestWeekTimesError || voidGamesError || contestStandingsError || winnerContactError || claimRowsError || finalizationRowsError || correctionRowsError;
+  const { data: historicalPayments, error: historicalPaymentError } = contestWeek
+    ? await supabase.rpc("admin_pickem_historical_payment_status", { p_week_id: selectedWeek!.id })
+    : { data: null, error: null };
+  const historicalPayment = historicalPayments?.[0];
+  const contestReadError = prizeError || contestWeekTimesError || voidGamesError || contestStandingsError || winnerContactError || claimRowsError || finalizationRowsError || correctionRowsError || historicalPaymentError;
   const finalization = finalizationRows?.[0];
   const correctionReview = correctionRows?.[0];
   const currentClaim = (claimRows ?? []).find((claim: { user_id: string; generation: number }) =>
@@ -168,9 +172,13 @@ contestWeek
                 </div>
               ))}
             </section>
-            {contestReadError && <p role="alert" className="mt-4">Contest status could not be loaded. Reload this week before performing any administrative operation.</p>}
+            {contestReadError && <p role="alert" className="mt-4">Contest status could not be loaded. Reload this week before performing any administrative operation. {[
+              ["prize", prizeError], ["week settings", contestWeekTimesError], ["void games", voidGamesError],
+              ["standings", contestStandingsError], ["winner contact", winnerContactError], ["claims", claimRowsError],
+              ["finalization", finalizationRowsError], ["correction review", correctionRowsError], ["historical payment", historicalPaymentError],
+            ].filter(([, issue]) => Boolean(issue)).map(([label]) => label).join(", ")} unavailable.</p>}
             {contestWeek && !contestReadError && contestPrize && <section className="mt-4 rounded-2xl border border-white/10 bg-white/[0.04] p-4 sm:p-5">
-              <h2 className="text-lg font-black">Cash contest status · Week {selectedWeek.week}</h2>
+              <h2 className="text-lg font-black">Cash contest status · Week {selectedWeek.week}</h2>\n              {historicalPayment && <p role="status" className="mt-3 rounded-xl border border-emerald-300/30 bg-emerald-300/10 p-3 text-sm text-emerald-100">Paid — reconciled · ${historicalPayment.prize_dollars} · {historicalPayment.paid_on}. Owner-confirmed historical payment; original contact and response audit timestamps have not been reconstructed.</p>}
               {contestWeekTimes?.presenting_sponsor_name && <p className="mt-1 text-xs text-white/60">Presented by {contestWeekTimes.presenting_sponsor_name}. VarsityVue administers entries, winner review, and payment; sponsor recognition does not grant access to entrant records.</p>}
               <p className="mt-2 text-sm text-white/70">{contestPrize.valid_entries} accepted completed entries · ${contestPrize.prize_dollars} provisional prize (maximum $100), subject to eligibility/disqualification review. {Math.max(0, entrants.length - contestPrize.valid_entries)} members with saved picks do not currently count.</p>
               <p className="mt-2 text-xs text-white/60">Frozen entry deadline: {dateTimeLabel(contestWeekTimes?.entry_deadline_at ?? null)} · Monday result cutoff: {dateTimeLabel(contestWeekTimes?.outcome_resolution_at ?? null)} (exclusive Tuesday midnight).</p>
@@ -183,7 +191,7 @@ contestWeek
               {winnerContact?.[0] && <p className="mt-2 text-sm text-white/70">Provisional leader contact: {winnerContact[0].phone_e164}. Confirm eligibility and corrected scores before notifying anyone.</p>}
               {params.claim === "error" && <p role="alert" className="mt-3 text-sm text-red-200">The claim action was rejected. Check the candidate, response deadline, and required reason.</p>}
               {params.claim === "recorded" && <p role="status" className="mt-3 text-sm text-emerald-200">Claim action recorded.</p>}
-              {winnerContact?.[0] && <div className="mt-4 border-t border-white/10 pt-4">
+              {winnerContact?.[0] && !historicalPayment && <div className="mt-4 border-t border-white/10 pt-4">
                 <h3 className="text-sm font-black">Winner contact and 72-hour response</h3>
                 <p className="mt-1 text-xs text-white/50">Initiate contact within 24 hours of the recorded results-finalization time using the account email or supplied number. This page does not send or enforce the first contact. Record notice immediately after it was actually sent; the recorded time starts a fixed 72-hour response period. A replacement candidate receives the same 72 hours. No reallocation continues beyond 30 days after finalization.</p>
                 {currentClaim ? <p className="mt-2 text-xs text-white/70">Notice: {currentClaim.notified_at ? dateTimeLabel(currentClaim.notified_at) : "Not sent"} · Respond by: {currentClaim.respond_by ? dateTimeLabel(currentClaim.respond_by) : "—"} · Response: {currentClaim.responded_at ? dateTimeLabel(currentClaim.responded_at) : "Not recorded"} · Decision: {currentClaim.decision}</p> : null}
