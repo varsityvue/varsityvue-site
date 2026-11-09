@@ -200,8 +200,8 @@ export default async function Home() {
                 <p className="inline-flex items-center justify-center rounded-full border border-white/15 bg-black/50 px-3 py-1.5 text-center text-[10px] font-black uppercase tracking-[0.18em] text-white/75 sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.22em]">{activeFeature.eyebrow}</p>
               </div>
 
-              {feature?.active && feature.feature_type !== "game_of_the_week" ? (
-                <HomeEditorialSpotlight feature={feature} href={featureHref} />
+              {activeFeature.active && activeFeature.feature_type !== "game_of_the_week" ? (
+                <HomeEditorialSpotlight feature={activeFeature} href={featureHref} />
               ) : featuredGame ? (
                 <>
                   <div className="mt-4 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 sm:mt-6 sm:gap-4">
