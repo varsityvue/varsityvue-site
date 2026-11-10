@@ -5,7 +5,7 @@ import { statewideDivisions, statewideCoverage, stateSemifinalRegionPairs, valid
 test("six UIL divisions each reserve four regions without invented games", () => {
   assert.equal(statewideDivisions.length, 6);
   assert.ok(statewideDivisions.every((division) => division.regions.length === 4));
-  assert.deepEqual(statewideCoverage().map((row) => row.verifiedRegions), [4, 4, 4, 4, 3, 0]);
+  assert.deepEqual(statewideCoverage().map((row) => row.verifiedRegions), [4, 4, 4, 4, 4, 0]);
 });
 test("verified regional fields contain exactly sixteen unique teams", () => {
   for (const division of statewideDivisions) {
