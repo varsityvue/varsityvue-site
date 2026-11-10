@@ -6,7 +6,7 @@ test("featured school selection resolves to the same statewide field as the expl
   for (const school of ["De Leon", "Cisco", "Stephenville", "Goldthwaite", "Santo", "Albany", "Anson", "Hawley"]) {
     const location = findSchoolBracketLocation(school);
     assert.ok(location, school);
-    assert.ok(location.field[location.firstIndex].includes(school), school);
+    assert.ok(location.field[location.firstIndex].some((name) => name === school), school);
   }
   assert.equal(findSchoolBracketLocation("Unknown School"), null);
 });
