@@ -6,7 +6,7 @@ import type { Game } from "@/types/platform";
 const fixture = (homeTeam: string, awayTeam: string, homeScore: number, awayScore: number, verified = true): Game => ({
   id: `${homeTeam}-${awayTeam}`, season: 2026, gameType: "playoff", homeTeam, awayTeam,
   homeScore, awayScore, publicScoreVerified: verified, status: "final",
-  playoff: { round: ({"A-D":"Area","E-H":"Area","I-L":"Area","M-P":"Area","A-H":"Regionals","I-P":"Regionals","A-P":"Quarterfinals"} as Record<string,string>)[`${homeTeam}-${awayTeam}`] ?? "Bi-District" },
+  playoff: { round: ({"A-D":"Area","E-H":"Area","I-L":"Area","M-P":"Area","A-H":"Regional Semifinal","I-P":"Regional Semifinal","A-P":"Regional Final"} as Record<string,string>)[`${homeTeam}-${awayTeam}`] ?? "Bi-District", division: "2A D1" },
 } as Game);
 
 const field = [
@@ -104,7 +104,7 @@ test("duplicate matching playoff records cannot advance a winner", () => {
 });
 
 test("a verified result from a different playoff round never advances a first-round slot", () => {
-  const mislabeled = { ...fixture("A", "B", 35, 7), playoff: { round: "Area" as const } };
+  const mislabeled = { ...fixture("A", "B", 35, 7), playoff: { round: "Area" as const, division: "2A D1" } };
   const { roundTeams } = buildRegionalRounds(field, [mislabeled]);
   assert.deepEqual(roundTeams[1][0], [null, null]);
 });
