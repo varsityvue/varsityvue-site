@@ -107,12 +107,21 @@ export const regionOne4AD1 = [
   ["Aubrey", "Andrews"], ["Riverside", "Canyon"],
 ] as const;
 
+// 4A D1 Region II: UIL-linked MaxPreps G9-G16, verified Nov 9, 2026.
+// https://www.maxpreps.com/tournament/T9IzeuJN60OqN3mH1cM0qw/JKMjB4e-2kmUYUBjwilOkA/football-26/2026-uil-texas-football-state-championships-2026-football-conference-4a-d1.htm
+export const regionTwo4AD1 = [
+  ["Kennedale", "Carter"], ["Pine Tree", "Caddo Mills"],
+  ["Lincoln", "Southwest"], ["Paris", "Kilgore"],
+  ["Sulphur Springs", "Henderson"], ["Kimball", "Benbrook"],
+  ["Lindale", "Kaufman"], ["Eastern Hills", "Wilmer-Hutchins"],
+] as const;
+
 export const statewideDivisions = [
   { id: "2A-D1", label: "2A Division I", regions: [regionOne2AD1, regionTwoD1, regionThree2AD1, regionFour2AD1] },
   { id: "2A-D2", label: "2A Division II", regions: [regionOne2AD2, regionTwoD2, regionThree2AD2, regionFour2AD2] },
   { id: "3A-D1", label: "3A Division I", regions: [regionOne3AD1, regionTwo3AD1, regionThree3AD1, regionFour3AD1] },
   { id: "3A-D2", label: "3A Division II", regions: [regionOne3AD2, regionTwo3AD2, regionThree3AD2, regionFour3AD2] },
-  { id: "4A-D1", label: "4A Division I", regions: [regionOne4AD1, null, regionThree4AD1, null] },
+  { id: "4A-D1", label: "4A Division I", regions: [regionOne4AD1, regionTwo4AD1, regionThree4AD1, null] },
   { id: "4A-D2", label: "4A Division II", regions: [null, null, null, null] },
 ] as const;
 
