@@ -7,7 +7,7 @@ export type AreaRoundReadiness = {
   region: string;
   slot: number;
   teams: readonly [string | null, string | null];
-  status: "awaiting-results" | "needs-schedule" | "scheduled" | "duplicate-schedule";
+  status: "awaiting-results" | "needs-schedule" | "needs-details" | "scheduled" | "duplicate-schedule";
   gameId?: string;
   missing: string[];
 };
@@ -48,7 +48,7 @@ export function getAreaRoundReadiness(games: Game[]): AreaRoundReadiness[] {
       if (!game.sourceLabel || game.sourceStatus === "mock") missing.push("source attribution");
       return {
         region: regionTitle, slot: index + 1, teams,
-        status: "scheduled" as const, gameId: game.id, missing,
+        status: (missing.length ? "needs-details" : "scheduled") as "needs-details" | "scheduled", gameId: game.id, missing,
       };
     });
   }));
