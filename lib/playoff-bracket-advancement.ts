@@ -22,7 +22,7 @@ export function buildRegionalRounds(
   division?: string,
   region?: string,
 ) {
-  const roundNames = ["Bi-District", "Area", "Regionals", "Quarterfinals"] as const;
+  const roundNames = ["Bi-District", "Area", "Regional Semifinal", "Regional Final"] as const;
   const findGame = (a: string, b: string, round: number) => {
     const matches = games.filter((game) => game.season === season && game.gameType === "playoff" &&
       game.playoff?.round === roundNames[round] &&
