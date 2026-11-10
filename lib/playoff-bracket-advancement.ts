@@ -22,15 +22,17 @@ export function buildRegionalRounds(
   division?: string,
   region?: string,
 ) {
-  const findGame = (a: string, b: string) => {
+  const roundNames = ["Bi-District", "Area", "Regional Semifinal", "Regional Final"] as const;
+  const findGame = (a: string, b: string, round: number) => {
     const matches = games.filter((game) => game.season === season && game.gameType === "playoff" &&
+      game.playoff?.round === roundNames[round] &&
       (!division || normalizePlayoffDivision(game.playoff?.division) === normalizePlayoffDivision(division)) &&
       (!region || game.playoff?.region?.replace(/[^a-z0-9]/gi, "").toUpperCase() === region.replace(/[^a-z0-9]/gi, "").toUpperCase()) &&
       ((game.homeTeam === a && game.awayTeam === b) || (game.homeTeam === b && game.awayTeam === a)));
     return matches.length === 1 ? matches[0] : undefined;
   };
 
-  const roundGames: (Game | undefined)[][] = [teams.map(([a, b]) => findGame(a, b))];
+  const roundGames: (Game | undefined)[][] = [teams.map(([a, b]) => findGame(a, b, 0))];
   const roundTeams: (string | null)[][][] = [teams.map(([a, b]) => [a, b])];
 
   for (let round = 1; round < 4; round++) {
@@ -39,7 +41,7 @@ export function buildRegionalRounds(
       [winners[2 * i] ?? null, winners[2 * i + 1] ?? null] as (string | null)[]
     );
     roundTeams.push(slots);
-    roundGames.push(slots.map(([a, b]) => a && b ? findGame(a, b) : undefined));
+    roundGames.push(slots.map(([a, b]) => a && b ? findGame(a, b, round) : undefined));
   }
   return { roundTeams, roundGames };
 }

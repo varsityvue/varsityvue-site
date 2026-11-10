@@ -6,6 +6,7 @@ import type { Game } from "@/types/platform";
 const fixture = (homeTeam: string, awayTeam: string, homeScore: number, awayScore: number, verified = true): Game => ({
   id: `${homeTeam}-${awayTeam}`, season: 2026, gameType: "playoff", homeTeam, awayTeam,
   homeScore, awayScore, publicScoreVerified: verified, status: "final",
+  playoff: { round: ({"A-D":"Area","E-H":"Area","I-L":"Area","M-P":"Area","A-H":"Regional Semifinal","I-P":"Regional Semifinal","A-P":"Regional Final"} as Record<string,string>)[`${homeTeam}-${awayTeam}`] ?? "Bi-District", division: "2A D1" },
 } as Game);
 
 const field = [
@@ -100,4 +101,17 @@ test("duplicate matching playoff records cannot advance a winner", () => {
   const { roundTeams, roundGames } = buildRegionalRounds(field, [first, duplicate]);
   assert.equal(roundGames[0][0], undefined);
   assert.deepEqual(roundTeams[1][0], [null, null]);
+});
+
+test("a verified result from a different playoff round never advances a first-round slot", () => {
+  const mislabeled = { ...fixture("A", "B", 35, 7), playoff: { round: "Area" as const, division: "2A D1" } };
+  const { roundTeams } = buildRegionalRounds(field, [mislabeled]);
+  assert.deepEqual(roundTeams[1][0], [null, null]);
+});
+
+test("a duplicate opponent pairing in another round does not block a valid bi-district result", () => {
+  const first = fixture("A", "B", 21, 7);
+  const unrelatedRound = { ...fixture("A", "B", 7, 21), id: "other-round", playoff: { round: "Area" as const, division: "2A D1" } };
+  const { roundTeams } = buildRegionalRounds(field, [first, unrelatedRound]);
+  assert.deepEqual(roundTeams[1][0], ["A", null]);
 });
