@@ -12,7 +12,7 @@ const final = (a: string, b: string, home: number, away: number): Game => ({
 
 test("unverified or absent first-round results never create a publishable pairing", () => {
   const queue = getAreaRoundReadiness([]);
-  assert.equal(queue.length, 12);
+  assert.equal(queue.length, 96);
   assert.ok(queue.every((item) => item.status === "awaiting-results"));
 });
 
