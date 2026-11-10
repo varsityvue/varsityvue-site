@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { regionLabels, statewideDivisions, validateRegionalField } from "@/data/statewide-playoff-brackets";
+import { findSchoolBracketLocation } from "@/lib/playoff-school-location";
 import { getStateChampionshipPath } from "@/lib/state-championship-path";
 import { buildRegionalRounds, verifiedWinner } from "@/lib/playoff-bracket-advancement";
 import type { Game } from "@/types/platform";
@@ -11,11 +12,10 @@ export default function StatewideBracketExplorer({ games, selectedSchool }: { ga
   const [regionIndex, setRegionIndex] = useState<number | null>(1);
   useEffect(() => {
     if (!selectedSchool) return;
-    const division = statewideDivisions.find((item) => item.regions.some((field) => field?.some((pair) => pair.some((team) => team === selectedSchool))));
-    if (!division) return;
-    const index = division.regions.findIndex((field) => field?.some((pair) => pair.some((team) => team === selectedSchool)));
-    setDivisionId(division.id);
-    setRegionIndex(index);
+    const location = findSchoolBracketLocation(selectedSchool);
+    if (!location) return;
+    setDivisionId(location.division.id);
+    setRegionIndex(location.regionIndex);
   }, [selectedSchool]);
   const division = statewideDivisions.find((item) => item.id === divisionId) ?? statewideDivisions[0];
   const field = regionIndex === null ? null : division.regions[regionIndex];
