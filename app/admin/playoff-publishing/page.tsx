@@ -6,6 +6,7 @@ import { requireActiveMember } from "@/lib/member-access";
 import { getDynamicGamesSnapshot } from "@/lib/dynamic-games";
 import { getAreaRoundReadiness } from "@/lib/area-round-readiness";
 import { canViewPlayoffPublishing } from "@/lib/playoff-publishing-access";
+import { getBracketSchoolSlots, bracketSlotMatchesSchool } from "@/lib/playoff-publishing-school-search";
 
 export const dynamic = "force-dynamic";
 
@@ -28,9 +29,10 @@ export default async function PlayoffPublishingPage({
   const snapshot = await getDynamicGamesSnapshot();
   const queue = getAreaRoundReadiness(snapshot.games);
   const regions = [...new Set(queue.map((item) => item.region))];
+  const bracketSchoolSlots = getBracketSchoolSlots();
   const filtered = queue.filter((item) =>
     (!region || item.region === region) && (!status || item.status === status) &&
-    (!school || item.teams.some((team) => team?.toLowerCase().includes(school.trim().toLowerCase()))));
+    (!school || bracketSlotMatchesSchool(item.region, item.slot, school, bracketSchoolSlots)));
   const statuses = ["awaiting-results", "needs-schedule", "needs-details", "scheduled", "duplicate-schedule"] as const;
   const counts = Object.fromEntries(statuses.map((key) => [
     key, queue.filter((item) => item.status === key).length,
@@ -86,7 +88,7 @@ export default async function PlayoffPublishingPage({
           </label>
           <label className="space-y-1 text-sm">
             <span className="block text-white/70">School name</span>
-            <input name="school" type="search" defaultValue={school ?? ""} placeholder="Search confirmed winners"
+            <input name="school" type="search" defaultValue={school ?? ""} placeholder="Search any bracket school"
               className="w-full rounded-lg border border-white/20 bg-[#201b20] p-3 text-white placeholder:text-white/40" />
           </label>
           <div className="flex items-end gap-2">
@@ -103,6 +105,7 @@ export default async function PlayoffPublishingPage({
                 <span className="text-xs text-white/60">{item.status.replaceAll("-", " ")}</span>
               </div>
               <p className="mt-3">{item.teams[0] ?? "Winner TBD"} vs {item.teams[1] ?? "Winner TBD"}</p>
+              <p className="mt-2 text-xs text-white/60">Bi-district field: {bracketSchoolSlots.find((slot) => slot.region === item.region && slot.slot === item.slot)?.schools.join(" · ")}</p>
               {item.gameId && <p className="mt-2 break-all text-xs text-white/60">Game: {item.gameId}</p>}
               {item.missing.length > 0 && <p className="mt-2 text-sm text-amber-200">Needs: {item.missing.join(", ")}</p>}
             </article>
