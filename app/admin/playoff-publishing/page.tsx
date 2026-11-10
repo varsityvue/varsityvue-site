@@ -52,6 +52,7 @@ export default async function PlayoffPublishingPage({
         <header>
           <Link href="/playoffs" className="text-sm text-white/70 underline">Playoff Central</Link>
           <h1 className="mt-4 text-3xl font-bold">Playoff publishing readiness</h1>
+          <Link href="/admin/playoff-publishing/bi-district" className="mt-3 inline-flex min-h-11 items-center rounded-lg border border-white/20 px-4 text-sm font-semibold text-white">View bi-district readiness (192 games)</Link>
           <p className="mt-2 text-sm text-white/70">Admin only · Read-only audit · 2026 statewide area round</p>
           <p className="mt-1 text-sm text-white/60">Score feed: {snapshot.scoreLoadStatus}</p>
           {snapshot.scoreLoadStatus === "failed" && (
