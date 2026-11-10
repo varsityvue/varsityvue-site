@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { requireActiveMember } from "@/lib/member-access";
 import { getDynamicGamesSnapshot } from "@/lib/dynamic-games";
 import { getAreaRoundReadiness } from "@/lib/area-round-readiness";
+import { canViewPlayoffPublishing } from "@/lib/playoff-publishing-access";
 
 export const dynamic = "force-dynamic";
 
@@ -21,7 +22,7 @@ export default async function PlayoffPublishingPage({
     .from("user_roles")
     .select("role")
     .eq("user_id", userId);
-  if (error || !roleRows?.some((row) => row.role === "admin")) notFound();
+  if (!canViewPlayoffPublishing(roleRows, Boolean(error))) notFound();
 
   const { region, status } = await searchParams;
   const snapshot = await getDynamicGamesSnapshot();
