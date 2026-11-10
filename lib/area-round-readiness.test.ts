@@ -29,7 +29,7 @@ test("published area game retains missing kickoff and venue as review requiremen
     { id: "area-1", season: 2026, gameType: "playoff", playoff: { round: "Area", division: "2A D1", region: "II" },
       homeTeam: "Cisco", awayTeam: "Bosqueville", status: "scheduled", districtGame: false, sourceLabel: "School confirmation" } as Game,
   ];
-  const entry = getAreaRoundReadiness(games)[0];
+  const entry = getAreaRoundReadiness(games).find((item) => item.region === "2A Division I · Region II" && item.slot === 1)!;
   assert.equal(entry.status, "scheduled");
   assert.deepEqual(entry.missing, ["confirmed kickoff", "confirmed venue"]);
 });
