@@ -125,13 +125,40 @@ export const regionFour4AD1 = [
   ["Alice", "Tuloso-Midway"], ["Tivy", "La Vernia"],
 ] as const;
 
+// UIL-linked 2026 MaxPreps 4A Division II bracket, G1–G32 in official order.
+// https://www.maxpreps.com/tournament/T9IzeuJN60OqN3mH1cM0qw/Qa_WshJMxEaACBr4Xd5zQQ/football-26/2026-uil-texas-football-state-championships-2026-football-conference-4a-d2.htm
+export const regionOne4AD2 = [
+  ["Irvin", "Pecos"], ["Graham", "Estacado"],
+  ["Seminole", "Bowie"], ["Levelland", "Mineral Wells"],
+  ["Liberty", "Burkburnett"], ["Monahans", "Clint"],
+  ["Brock", "Perryton"], ["Mountain View", "Big Spring"],
+] as const;
+export const regionTwo4AD2 = [
+  ["Glen Rose", "Ponder"], ["Carthage", "Ford"],
+  ["Van Alstyne", "Venus"], ["Farmersville", "Pleasant Grove"],
+  ["Sunnyvale", "Pittsburg"], ["Krum", "Kemp"],
+  ["Gilmer", "North Lamar"], ["Hillsboro", "Sanger"],
+] as const;
+export const regionThree4AD2 = [
+  ["Canton", "Shepherd"], ["La Marque", "North Forest"],
+  ["West Orange-Stark", "Van"], ["Wheatley", "Hitchcock"],
+  ["Yates", "La Grange"], ["Silsbee", "Madisonville"],
+  ["Bellville", "Worthing"], ["Athens", "Hamshire-Fannett"],
+] as const;
+export const regionFour4AD2 = [
+  ["La Vega", "Manor New Tech"], ["London", "Navarro"],
+  ["Wimberley", "Salado"], ["Bandera", "King"],
+  ["Cuero", "Ingleside"], ["Lago Vista", "Brownwood"],
+  ["Rockport-Fulton", "Gonzales"], ["Robinson", "Giddings"],
+] as const;
+
 export const statewideDivisions = [
   { id: "2A-D1", label: "2A Division I", regions: [regionOne2AD1, regionTwoD1, regionThree2AD1, regionFour2AD1] },
   { id: "2A-D2", label: "2A Division II", regions: [regionOne2AD2, regionTwoD2, regionThree2AD2, regionFour2AD2] },
   { id: "3A-D1", label: "3A Division I", regions: [regionOne3AD1, regionTwo3AD1, regionThree3AD1, regionFour3AD1] },
   { id: "3A-D2", label: "3A Division II", regions: [regionOne3AD2, regionTwo3AD2, regionThree3AD2, regionFour3AD2] },
   { id: "4A-D1", label: "4A Division I", regions: [regionOne4AD1, regionTwo4AD1, regionThree4AD1, regionFour4AD1] },
-  { id: "4A-D2", label: "4A Division II", regions: [null, null, null, null] },
+  { id: "4A-D2", label: "4A Division II", regions: [regionOne4AD2, regionTwo4AD2, regionThree4AD2, regionFour4AD2] },
 ] as const;
 
 export const regionLabels = ["Region I", "Region II", "Region III", "Region IV"] as const;
