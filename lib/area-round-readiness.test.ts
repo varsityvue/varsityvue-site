@@ -18,7 +18,7 @@ test("unverified or absent first-round results never create a publishable pairin
 
 test("two verified first-round winners require a separately confirmed area schedule", () => {
   const games = [final("Cisco", "Nocona", 24, 7), final("Bosqueville", "Johnson City", 14, 3)];
-  const entry = getAreaRoundReadiness(games)[0];
+  const entry = getAreaRoundReadiness(games).find((item) => item.region === "2A Division I · Region II" && item.slot === 1)!;
   assert.deepEqual(entry.teams, ["Cisco", "Bosqueville"]);
   assert.equal(entry.status, "needs-schedule");
 });
