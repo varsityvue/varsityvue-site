@@ -9,7 +9,7 @@ import { canViewPlayoffPublishing } from "@/lib/playoff-publishing-access";
 
 export const dynamic = "force-dynamic";
 
-type Query = { region?: string; status?: string };
+type Query = { region?: string; status?: string; school?: string };
 
 export default async function PlayoffPublishingPage({
   searchParams,
@@ -24,12 +24,13 @@ export default async function PlayoffPublishingPage({
     .eq("user_id", userId);
   if (!canViewPlayoffPublishing(roleRows, Boolean(error))) notFound();
 
-  const { region, status } = await searchParams;
+  const { region, status, school } = await searchParams;
   const snapshot = await getDynamicGamesSnapshot();
   const queue = getAreaRoundReadiness(snapshot.games);
   const regions = [...new Set(queue.map((item) => item.region))];
   const filtered = queue.filter((item) =>
-    (!region || item.region === region) && (!status || item.status === status));
+    (!region || item.region === region) && (!status || item.status === status) &&
+    (!school || item.teams.some((team) => team?.toLowerCase().includes(school.trim().toLowerCase()))));
   const statuses = ["awaiting-results", "needs-schedule", "needs-details", "scheduled", "duplicate-schedule"] as const;
   const counts = Object.fromEntries(statuses.map((key) => [
     key, queue.filter((item) => item.status === key).length,
@@ -39,6 +40,7 @@ export default async function PlayoffPublishingPage({
     const params = new URLSearchParams();
     if (nextRegion) params.set("region", nextRegion);
     if (nextStatus) params.set("status", nextStatus);
+    if (school) params.set("school", school);
     return `/admin/playoff-publishing${params.size ? `?${params.toString()}` : ""}`;
   };
 
@@ -60,17 +62,33 @@ export default async function PlayoffPublishingPage({
             </Link>
           ))}
         </section>
-        <nav aria-label="Region filters" className="flex flex-wrap gap-2">
-          <Link href={href("", status ?? "")} className="rounded border border-white/20 px-3 py-2 text-sm">All regions</Link>
-          {regions.map((value) => (
-            <Link key={value} href={href(value, status ?? "")}
-              aria-current={region === value ? "page" : undefined}
-              className={`rounded border px-3 py-2 text-sm ${region === value ? "border-[#8B1020] bg-[#8B1020]" : "border-white/20"}`}>
-              {value}
-            </Link>
-          ))}
-          {status && <Link href={href(region ?? "", "")} className="rounded border border-white/20 px-3 py-2 text-sm">Clear status</Link>}
-        </nav>
+        <form method="get" action="/admin/playoff-publishing"
+          aria-label="Filter area-round matchups"
+          className="grid gap-3 rounded-xl border border-white/15 bg-white/5 p-4 sm:grid-cols-2 lg:grid-cols-4">
+          <label className="space-y-1 text-sm">
+            <span className="block text-white/70">Division and region</span>
+            <select name="region" defaultValue={region ?? ""} className="w-full rounded-lg border border-white/20 bg-[#201b20] p-3 text-white">
+              <option value="">All regions</option>
+              {regions.map((value) => <option key={value} value={value}>{value}</option>)}
+            </select>
+          </label>
+          <label className="space-y-1 text-sm">
+            <span className="block text-white/70">Readiness status</span>
+            <select name="status" defaultValue={status ?? ""} className="w-full rounded-lg border border-white/20 bg-[#201b20] p-3 text-white">
+              <option value="">All statuses</option>
+              {statuses.map((value) => <option key={value} value={value}>{value.replaceAll("-", " ")}</option>)}
+            </select>
+          </label>
+          <label className="space-y-1 text-sm">
+            <span className="block text-white/70">School name</span>
+            <input name="school" type="search" defaultValue={school ?? ""} placeholder="Search verified teams"
+              className="w-full rounded-lg border border-white/20 bg-[#201b20] p-3 text-white placeholder:text-white/40" />
+          </label>
+          <div className="flex items-end gap-2">
+            <button type="submit" className="min-h-11 flex-1 rounded-lg bg-[#8B1020] px-4 py-3 font-semibold text-white">Apply filters</button>
+            <Link href="/admin/playoff-publishing" className="rounded-lg border border-white/20 px-3 py-3 text-sm">Reset</Link>
+          </div>
+        </form>
         <p className="text-sm text-white/70">{filtered.length} of {queue.length} area-round slots</p>
         <div className="grid gap-3 md:grid-cols-2">
           {filtered.map((item) => (
