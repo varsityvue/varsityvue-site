@@ -104,14 +104,14 @@ test("duplicate matching playoff records cannot advance a winner", () => {
 });
 
 test("a verified result from a different playoff round never advances a first-round slot", () => {
-  const mislabeled = { ...fixture("A", "B", 35, 7), playoff: { round: "Area" } };
+  const mislabeled = { ...fixture("A", "B", 35, 7), playoff: { round: "Area" as const } };
   const { roundTeams } = buildRegionalRounds(field, [mislabeled]);
   assert.deepEqual(roundTeams[1][0], [null, null]);
 });
 
 test("a duplicate opponent pairing in another round does not block a valid bi-district result", () => {
   const first = fixture("A", "B", 21, 7);
-  const unrelatedRound = { ...fixture("A", "B", 7, 21), id: "other-round", playoff: { round: "Area" } };
+  const unrelatedRound = { ...fixture("A", "B", 7, 21), id: "other-round", playoff: { round: "Area" as const } };
   const { roundTeams } = buildRegionalRounds(field, [first, unrelatedRound]);
   assert.deepEqual(roundTeams[1][0], ["A", null]);
 });
