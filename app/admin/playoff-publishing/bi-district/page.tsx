@@ -34,6 +34,7 @@ export default async function BiDistrictReadinessPage({ searchParams }: { search
         <header className="space-y-2">
           <Link href="/admin/playoff-publishing" className="text-sm text-white/70 underline">Area-round publishing dashboard</Link>
           <h1 className="text-3xl font-bold">Bi-District Readiness</h1>
+          <a href="/api/admin/bi-district-readiness-export" className="inline-flex min-h-11 items-center rounded-lg border border-white/20 px-4 text-sm font-semibold">Export 192-game research CSV</a>
           <p className="text-sm text-white/70">Private · Read-only · 192 first-round bracket positions</p>
           <p className="text-sm text-white/60">Verified-score feed: {snapshot.scoreLoadStatus}</p>
           {snapshot.scoreLoadStatus === "failed" && (
