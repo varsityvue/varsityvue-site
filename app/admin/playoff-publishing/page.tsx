@@ -52,6 +52,11 @@ export default async function PlayoffPublishingPage({
           <h1 className="mt-4 text-3xl font-bold">Playoff publishing readiness</h1>
           <p className="mt-2 text-sm text-white/70">Admin only · Read-only audit · 2026 statewide area round</p>
           <p className="mt-1 text-sm text-white/60">Score feed: {snapshot.scoreLoadStatus}</p>
+          {snapshot.scoreLoadStatus === "failed" && (
+            <p role="alert" className="mt-3 rounded-lg border border-amber-400/40 bg-amber-400/10 p-3 text-sm text-amber-100">
+              Verified score data is temporarily unavailable. Readiness totals may be incomplete; do not use this view to approve publication.
+            </p>
+          )}
         </header>
         <section aria-label="Readiness totals" className="grid grid-cols-2 gap-3 md:grid-cols-5">
           {statuses.map((key) => (
@@ -81,7 +86,7 @@ export default async function PlayoffPublishingPage({
           </label>
           <label className="space-y-1 text-sm">
             <span className="block text-white/70">School name</span>
-            <input name="school" type="search" defaultValue={school ?? ""} placeholder="Search verified teams"
+            <input name="school" type="search" defaultValue={school ?? ""} placeholder="Search confirmed winners"
               className="w-full rounded-lg border border-white/20 bg-[#201b20] p-3 text-white placeholder:text-white/40" />
           </label>
           <div className="flex items-end gap-2">
