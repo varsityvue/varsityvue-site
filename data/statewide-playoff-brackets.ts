@@ -42,10 +42,37 @@ export const regionFour2AD2 = [
   ["La Villa", "Pettus"], ["Chilton", "Brackett"],
 ] as const;
 
+// 2026 UIL-linked MaxPreps 3A Division I: G1–G32 in exact bracket order.
+// https://www.maxpreps.com/tournament/T9IzeuJN60OqN3mH1cM0qw/il2A4x778EusgRk6t5UYDQ/football-26/2026-uil-texas-football-state-championships-2026-football-conference-3a-d1.htm
+export const regionOne3AD1 = [
+  ["Shallowater", "Compass Academy"], ["Peaster", "Early"],
+  ["Clyde", "Denver City"], ["Ingram Moore", "Vernon"],
+  ["Wall", "Bowie"], ["Sweetwater", "Dalhart"],
+  ["Paradise", "Llano"], ["Bushland", "Jim Ned"],
+] as const;
+export const regionTwo3AD1 = [
+  ["Gunter", "Groesbeck"], ["Liberty-Eylau", "Commerce"],
+  ["Whitney", "Life Oak Cliff"], ["Winnsboro", "Tatum"],
+  ["Malakoff", "Gladewater"], ["Mexia", "Pilot Point"],
+  ["Atlanta", "Mount Vernon"], ["Whitesboro", "Grandview"],
+] as const;
+export const regionThree3AD1 = [
+  ["Diboll", "Buna"], ["Lorena", "Sweeny"],
+  ["Orangefield", "Trinity"], ["Edna", "C.H. Yoe"],
+  ["Columbus", "Little River Academy"], ["Anahuac", "Westwood"],
+  ["Franklin", "Hempstead"], ["Fairfield", "East Chambers"],
+] as const;
+export const regionFour3AD1 = [
+  ["Yoakum", "Carrizo Springs"], ["Rio Hondo", "Goliad"],
+  ["Devine", "Randolph"], ["Orange Grove", "Raymondville"],
+  ["Sinton", "Lyford"], ["Jourdanton", "Hallettsville"],
+  ["San Diego", "Mathis"], ["Marion", "Hondo"],
+] as const;
+
 export const statewideDivisions = [
   { id: "2A-D1", label: "2A Division I", regions: [regionOne2AD1, regionTwoD1, regionThree2AD1, regionFour2AD1] },
   { id: "2A-D2", label: "2A Division II", regions: [regionOne2AD2, regionTwoD2, regionThree2AD2, regionFour2AD2] },
-  { id: "3A-D1", label: "3A Division I", regions: [null, null, null, null] },
+  { id: "3A-D1", label: "3A Division I", regions: [regionOne3AD1, regionTwo3AD1, regionThree3AD1, regionFour3AD1] },
   { id: "3A-D2", label: "3A Division II", regions: [null, null, null, null] },
   { id: "4A-D1", label: "4A Division I", regions: [null, null, regionThree4AD1, null] },
   { id: "4A-D2", label: "4A Division II", regions: [null, null, null, null] },
