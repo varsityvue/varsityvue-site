@@ -21,9 +21,30 @@ export const regionFour2AD1 = [
   ["Dilley", "Flatonia"], ["Rosebud-Lott", "Corrigan-Camden"],
 ] as const;
 
+// 2026 UIL-linked MaxPreps 2A Division II: G1-G8, G17-G24, G25-G32.
+// https://www.maxpreps.com/tournament/T9IzeuJN60OqN3mH1cM0qw/XZGmaAD6qk-NrhqmU1Ar5A/football-26/2026-uil-texas-football-state-championships-2026-football-conference-2a-d2.htm
+export const regionOne2AD2 = [
+  ["Gruver", "Plains"], ["McCamey", "Tahoka"],
+  ["Ropes", "Vega"], ["Lockney", "Iraan"],
+  ["Roscoe", "Eldorado"], ["Sudan", "West Texas"],
+  ["Wink", "Ralls"], ["Stratford", "Seagraves"],
+] as const;
+export const regionThree2AD2 = [
+  ["Collinsville", "Maud"], ["Colmesneil", "Cushing"],
+  ["Clarksville", "Boles"], ["Grapeland", "West Hardin"],
+  ["Overton", "Evadale"], ["Detroit", "Era"],
+  ["West Sabine", "Tenaha"], ["Lindsay", "Bowie"],
+] as const;
+export const regionFour2AD2 = [
+  ["Bremond", "D'Hanis"], ["Ben Bolt", "Three Rivers"],
+  ["Junction", "Bartlett"], ["Yorktown", "Santa Maria"],
+  ["Falls City", "Agua Dulce"], ["Harper", "Burton"],
+  ["La Villa", "Pettus"], ["Chilton", "Brackett"],
+] as const;
+
 export const statewideDivisions = [
   { id: "2A-D1", label: "2A Division I", regions: [regionOne2AD1, regionTwoD1, regionThree2AD1, regionFour2AD1] },
-  { id: "2A-D2", label: "2A Division II", regions: [null, regionTwoD2, null, null] },
+  { id: "2A-D2", label: "2A Division II", regions: [regionOne2AD2, regionTwoD2, regionThree2AD2, regionFour2AD2] },
   { id: "3A-D1", label: "3A Division I", regions: [null, null, null, null] },
   { id: "3A-D2", label: "3A Division II", regions: [null, null, null, null] },
   { id: "4A-D1", label: "4A Division I", regions: [null, null, regionThree4AD1, null] },
