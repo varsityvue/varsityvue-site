@@ -6,6 +6,7 @@ import { findSchoolBracketLocation } from "@/lib/playoff-school-location";
 import { getStateChampionshipPath } from "@/lib/state-championship-path";
 import { buildRegionalRounds, verifiedWinner } from "@/lib/playoff-bracket-advancement";
 import type { Game } from "@/types/platform";
+import { regionalPlayoffRoundLabels, playoffRoundLabels } from "@/lib/playoff-round-labels";
 
 export default function StatewideBracketExplorer({ games, selectedSchool }: { games: Game[]; selectedSchool?: string }) {
   const [divisionId, setDivisionId] = useState<string>("2A-D1");
@@ -22,7 +23,7 @@ export default function StatewideBracketExplorer({ games, selectedSchool }: { ga
   const verified = field && validateRegionalField(field).length === 0;
   const path = getStateChampionshipPath(division.id, games);
   const regional = verified && field ? buildRegionalRounds(field, games, 2026, division.id, ["I", "II", "III", "IV"][regionIndex ?? 0]) : null;
-  const roundNames = ["Bi-district", "Area", "Regional semifinal", "Regional final · State quarterfinal"] as const;
+  const roundNames = regionalPlayoffRoundLabels;
 
   return (
     <section id="statewide-brackets" aria-labelledby="statewide-brackets-title" className="mt-11 scroll-mt-24 rounded-2xl border border-white/15 bg-[#111114] p-4 sm:p-6">
@@ -69,8 +70,8 @@ export default function StatewideBracketExplorer({ games, selectedSchool }: { ga
       </div>}
       <div className="mt-5 rounded-xl border border-white/15 p-3">
         <h3 className="text-sm font-black uppercase tracking-wide">Road to the state championship</h3>
-        <div className="mt-3 grid gap-2 sm:grid-cols-2">{path?.semifinals.map(([a,b],index) => <div key={index} className="rounded-lg border border-white/10 bg-[#202025] p-3"><p className="text-xs font-bold uppercase text-white/55">State semifinal {index+1}</p><p className="mt-2 text-sm font-semibold">{a ?? "Region "+(index===0?"I":"III")+" winner TBD"}</p><p className="mt-1 text-sm font-semibold">{b ?? "Region "+(index===0?"II":"IV")+" winner TBD"}</p></div>)}</div>
-        <div className="mt-2 rounded-lg border border-white/10 bg-[#202025] p-3"><p className="text-xs font-bold uppercase text-white/55">State championship</p><p className="mt-2 text-sm font-semibold">{path?.final[0] ?? "Semifinal 1 winner TBD"} vs. {path?.final[1] ?? "Semifinal 2 winner TBD"}</p>{path?.champion && <p className="mt-2 font-black text-white">Champion: {path.champion}</p>}</div>
+        <div className="mt-3 grid gap-2 sm:grid-cols-2">{path?.semifinals.map(([a,b],index) => <div key={index} className="rounded-lg border border-white/10 bg-[#202025] p-3"><p className="text-xs font-bold uppercase text-white/55">{playoffRoundLabels[4]} {index+1}</p><p className="mt-2 text-sm font-semibold">{a ?? "Region "+(index===0?"I":"III")+" winner TBD"}</p><p className="mt-1 text-sm font-semibold">{b ?? "Region "+(index===0?"II":"IV")+" winner TBD"}</p></div>)}</div>
+        <div className="mt-2 rounded-lg border border-white/10 bg-[#202025] p-3"><p className="text-xs font-bold uppercase text-white/55">{playoffRoundLabels[5]}</p><p className="mt-2 text-sm font-semibold">{path?.final[0] ?? "Semifinal 1 winner TBD"} vs. {path?.final[1] ?? "Semifinal 2 winner TBD"}</p>{path?.champion && <p className="mt-2 font-black text-white">Champion: {path.champion}</p>}</div>
       </div>
     </section>
   );
