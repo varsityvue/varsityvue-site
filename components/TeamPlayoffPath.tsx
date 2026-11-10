@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import type { Game } from "@/types/platform";
-import { statewideDivisions, regionLabels } from "@/data/statewide-playoff-brackets";
+import { regionLabels } from "@/data/statewide-playoff-brackets";
+import { findSchoolBracketLocation } from "@/lib/playoff-school-location";
 import { buildRegionalRounds, verifiedWinner } from "@/lib/playoff-bracket-advancement";
 
 const featured = ["De Leon", "Cisco", "Stephenville", "Goldthwaite", "Santo", "Albany", "Anson", "Hawley"] as const;
@@ -12,12 +13,9 @@ export default function TeamPlayoffPath({ games, selectedSchool, onSelectSchool 
   const [localSchool, setLocalSchool] = useState<string>("De Leon");
   const school = selectedSchool ?? localSchool;
   const setSchool = onSelectSchool ?? setLocalSchool;
-  const division = statewideDivisions.find((entry) => entry.regions.some((field) => field?.some((pair) => pair.some((name) => name === school))));
-  if (!division) return null;
-  const regionIndex = division.regions.findIndex((field) => field?.some((pair) => pair.some((name) => name === school)));
-  const field = division.regions[regionIndex];
-  if (!field) return null;
-  const firstIndex = field.findIndex((pair) => pair.some((name) => name === school));
+  const location = findSchoolBracketLocation(school);
+  if (!location) return null;
+  const { division, regionIndex, field, firstIndex } = location;
   const { roundTeams, roundGames } = buildRegionalRounds(field, games, 2026, division.id, ["I", "II", "III", "IV"][regionIndex]);
   let eliminated = false;
 
