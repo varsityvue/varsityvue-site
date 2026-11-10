@@ -28,7 +28,7 @@ export default function StatewideBracketExplorer({ games, selectedSchool }: { ga
     <section id="statewide-brackets" aria-labelledby="statewide-brackets-title" className="mt-11 scroll-mt-24 rounded-2xl border border-white/15 bg-[#111114] p-4 sm:p-6">
       <p className="text-xs font-black uppercase tracking-[0.2em] text-white/55">2026 UIL playoffs</p>
       <h2 id="statewide-brackets-title" className="mt-1 text-2xl font-black uppercase italic sm:text-3xl">State championship brackets</h2>
-      <p className="mt-2 text-sm leading-6 text-white/70">Browse 2A–4A by division and region. Only verified first-round fields are displayed; remaining regions are being prepared.</p>
+      <p className="mt-2 text-sm leading-6 text-white/70">Browse 2A–4A by division and region. Explore all 24 regional fields across six divisions. Later-round opponents appear only when verified results establish them.</p>
       <label htmlFor="statewide-division" className="mt-5 block text-xs font-bold uppercase tracking-wider text-white/70">Classification and division</label>
       <select id="statewide-division" className="mt-2 min-h-11 w-full max-w-sm rounded-xl border border-white/25 bg-[#242428] px-3 text-base font-semibold text-white" value={divisionId} onChange={(event) => { setDivisionId(event.target.value); setRegionIndex(null); }}>
         {statewideDivisions.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}
