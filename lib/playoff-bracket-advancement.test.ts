@@ -111,7 +111,7 @@ test("a verified result from a different playoff round never advances a first-ro
 
 test("a duplicate opponent pairing in another round does not block a valid bi-district result", () => {
   const first = fixture("A", "B", 21, 7);
-  const unrelatedRound = { ...fixture("A", "B", 7, 21), id: "other-round", playoff: { round: "Area" as const } };
+  const unrelatedRound = { ...fixture("A", "B", 7, 21), id: "other-round", playoff: { round: "Area" as const, division: "2A D1" } };
   const { roundTeams } = buildRegionalRounds(field, [first, unrelatedRound]);
   assert.deepEqual(roundTeams[1][0], ["A", null]);
 });
