@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 import type { Game } from "@/types/platform";
+import { regionalPlayoffRoundLabels } from "@/lib/playoff-round-labels";
 import { regionLabels } from "@/data/statewide-playoff-brackets";
 import { findSchoolBracketLocation } from "@/lib/playoff-school-location";
 import { buildRegionalRounds, verifiedWinner } from "@/lib/playoff-bracket-advancement";
 
 const featured = ["De Leon", "Cisco", "Stephenville", "Goldthwaite", "Santo", "Albany", "Anson", "Hawley"] as const;
-const labels = ["Bi-district", "Area", "Regional semifinal", "Regional final · State quarterfinal"] as const;
+const labels = regionalPlayoffRoundLabels;
 
 export default function TeamPlayoffPath({ games, selectedSchool, onSelectSchool }: { games: Game[]; selectedSchool?: string; onSelectSchool?: (school: string) => void }) {
   const [localSchool, setLocalSchool] = useState<string>("De Leon");
