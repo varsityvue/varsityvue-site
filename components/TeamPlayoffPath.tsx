@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { Game } from "@/types/platform";
-import { brackets } from "@/data/playoff-bracket-fields";
+import { statewideDivisions, regionLabels } from "@/data/statewide-playoff-brackets";
 import { buildRegionalRounds, verifiedWinner } from "@/lib/playoff-bracket-advancement";
 
 const featured = ["De Leon", "Cisco", "Stephenville", "Goldthwaite", "Santo", "Albany", "Anson", "Hawley"] as const;
@@ -12,10 +12,13 @@ export default function TeamPlayoffPath({ games, selectedSchool, onSelectSchool 
   const [localSchool, setLocalSchool] = useState<string>("De Leon");
   const school = selectedSchool ?? localSchool;
   const setSchool = onSelectSchool ?? setLocalSchool;
-  const bracket = brackets.find((entry) => entry.teams.some((pair) => pair.includes(school as never)));
-  if (!bracket) return null;
-  const firstIndex = bracket.teams.findIndex((pair) => pair.includes(school as never));
-  const { roundTeams, roundGames } = buildRegionalRounds(bracket.teams, games);
+  const division = statewideDivisions.find((entry) => entry.regions.some((field) => field?.some((pair) => pair.some((name) => name === school))));
+  if (!division) return null;
+  const regionIndex = division.regions.findIndex((field) => field?.some((pair) => pair.some((name) => name === school)));
+  const field = division.regions[regionIndex];
+  if (!field) return null;
+  const firstIndex = field.findIndex((pair) => pair.some((name) => name === school));
+  const { roundTeams, roundGames } = buildRegionalRounds(field, games, 2026, division.id, ["I", "II", "III", "IV"][regionIndex]);
   let eliminated = false;
 
   return (
@@ -27,7 +30,7 @@ export default function TeamPlayoffPath({ games, selectedSchool, onSelectSchool 
       <select id="playoff-team-select" value={school} onChange={(event) => setSchool(event.target.value)} className="mt-2 min-h-11 w-full max-w-sm rounded-xl border border-white/25 bg-[#292027] px-3 text-base font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
         {featured.map((name) => <option key={name} value={name}>{name}</option>)}
       </select>
-      <p className="mt-3 text-xs font-semibold text-white/55">{bracket.title} · Confirmed opponents only after verified results</p>
+      <p className="mt-3 text-xs font-semibold text-white/55">{division.label} · {regionLabels[regionIndex]} · Confirmed opponents only after verified results</p>
       <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {labels.map((label, round) => {
           const slot = Math.floor(firstIndex / (2 ** round));
