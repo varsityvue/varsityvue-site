@@ -69,11 +69,38 @@ export const regionFour3AD1 = [
   ["San Diego", "Mathis"], ["Marion", "Hondo"],
 ] as const;
 
+// 2026 UIL-linked MaxPreps 3A Division II bracket, G1–G32 in official order.
+// https://www.maxpreps.com/tournament/T9IzeuJN60OqN3mH1cM0qw/49_sTsweqEqmuXEnk5KIrg/football-26/2026-uil-texas-football-state-championships-2026-football-conference-3a-d2.htm
+export const regionOne3AD2 = [
+  ["Canadian", "Muleshoe"], ["Merkel", "Crane"],
+  ["Idalou", "Dimmitt"], ["Coahoma", "Holliday"],
+  ["Stanton", "Henrietta"], ["Slaton", "Friona"],
+  ["Jacksboro", "Grape Creek"], ["Childress", "Littlefield"],
+] as const;
+export const regionTwo3AD2 = [
+  ["Millsap", "Trinity Leadership"], ["Edgewood", "Valley View"],
+  ["Maypearl", "Clifton"], ["Howe", "Quitman"],
+  ["Bells", "Lone Oak"], ["Madison", "Hamilton"],
+  ["Grand Saline", "Leonard"], ["Tolar", "Scurry-Rosser"],
+] as const;
+export const regionThree3AD2 = [
+  ["Hooks", "Arp"], ["New Waverly", "Buffalo"],
+  ["Jefferson", "Redwater"], ["Teague", "Hardin"],
+  ["Mildred", "Woodville"], ["West Rusk", "New Boston"],
+  ["Newton", "Elkhart"], ["De Kalb", "Troup"],
+] as const;
+export const regionFour3AD2 = [
+  ["Thrall", "Brazos"], ["Hebbronville", "Blanco"],
+  ["East Bernard", "Anderson-Shiro"], ["Stockdale", "Cotulla"],
+  ["Poth", "Santa Rosa"], ["Rice Consolidated", "Rogers"],
+  ["George West", "Nixon-Smiley"], ["Lexington", "Boling"],
+] as const;
+
 export const statewideDivisions = [
   { id: "2A-D1", label: "2A Division I", regions: [regionOne2AD1, regionTwoD1, regionThree2AD1, regionFour2AD1] },
   { id: "2A-D2", label: "2A Division II", regions: [regionOne2AD2, regionTwoD2, regionThree2AD2, regionFour2AD2] },
   { id: "3A-D1", label: "3A Division I", regions: [regionOne3AD1, regionTwo3AD1, regionThree3AD1, regionFour3AD1] },
-  { id: "3A-D2", label: "3A Division II", regions: [null, null, null, null] },
+  { id: "3A-D2", label: "3A Division II", regions: [regionOne3AD2, regionTwo3AD2, regionThree3AD2, regionFour3AD2] },
   { id: "4A-D1", label: "4A Division I", regions: [null, null, regionThree4AD1, null] },
   { id: "4A-D2", label: "4A Division II", regions: [null, null, null, null] },
 ] as const;
