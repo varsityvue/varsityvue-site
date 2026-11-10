@@ -96,12 +96,23 @@ export const regionFour3AD2 = [
   ["George West", "Nixon-Smiley"], ["Lexington", "Boling"],
 ] as const;
 
+// 4A D1 Region I: MaxPreps G1-G8 order; unresolved seed-name cells cross-checked
+// against published bi-district pairings (High School Football America, Nov 2026).
+// https://www.maxpreps.com/m/tournament/view.aspx?bracketid=0723a324-be87-49da-9461-4063c2294e90&ssid=2286cd80-c46d-4739-8dd1-92a67ca8daa7&tournamentid=7a33d24f-4de2-43eb-aa37-7987d5c334ab
+// https://highschoolfootballamerica.com/2026-texas-high-school-football-uil-opening-round-playoff-pairings/
+export const regionOne4AD1 = [
+  ["Andress", "Dumas"], ["Decatur", "Lake View"],
+  ["Randall", "Austin"], ["Plainview", "Lake Dallas"],
+  ["Midland Greenwood", "Springtown"], ["West Plains", "Ysleta"],
+  ["Aubrey", "Andrews"], ["Riverside", "Canyon"],
+] as const;
+
 export const statewideDivisions = [
   { id: "2A-D1", label: "2A Division I", regions: [regionOne2AD1, regionTwoD1, regionThree2AD1, regionFour2AD1] },
   { id: "2A-D2", label: "2A Division II", regions: [regionOne2AD2, regionTwoD2, regionThree2AD2, regionFour2AD2] },
   { id: "3A-D1", label: "3A Division I", regions: [regionOne3AD1, regionTwo3AD1, regionThree3AD1, regionFour3AD1] },
   { id: "3A-D2", label: "3A Division II", regions: [regionOne3AD2, regionTwo3AD2, regionThree3AD2, regionFour3AD2] },
-  { id: "4A-D1", label: "4A Division I", regions: [null, null, regionThree4AD1, null] },
+  { id: "4A-D1", label: "4A Division I", regions: [regionOne4AD1, null, regionThree4AD1, null] },
   { id: "4A-D2", label: "4A Division II", regions: [null, null, null, null] },
 ] as const;
 
