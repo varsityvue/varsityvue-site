@@ -5,7 +5,7 @@ import { getSchoolLogoPath } from "@/data/school-logos";
 import { getDynamicGamesSnapshot } from "@/lib/dynamic-games";
 import { formatPlayoffKickoff, getPlayoffSchedule } from "@/lib/playoffs";
 import { getSchoolBySlug } from "@/lib/schools";
-import LivePlayoffBrackets from "@/components/LivePlayoffBrackets";
+import PlayoffBracketExperience from "@/components/PlayoffBracketExperience";
 
 export const metadata: Metadata = {
   title: "2026 Playoff Central | VarsityVue",
@@ -46,7 +46,7 @@ function PlayoffCard({ game, presentation }: PlayoffEntry) {
             return (
               <div key={team.name} className="flex min-w-0 flex-col items-center gap-2 text-center">
                 <div className="relative flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-white/[0.045] sm:h-20 sm:w-20">
-                  {logo ? <Image src={logo} alt={`${team.name} logo`} fill sizes="80px" className={`object-contain p-2 ${team.slug === "hawley" ? "[filter:drop-shadow(1px_0_0_white)_drop-shadow(-1px_0_0_white)_drop-shadow(0_1px_0_white)_drop-shadow(0_-1px_0_white)_drop-shadow(0_0_5px_rgba(255,255,255,0.95))]" : ""}`} /> : <span className="text-2xl font-black text-white/35">{team.name?.slice(0, 1)}</span>}
+                  {logo ? <Image src={logo} alt={`${team.name} logo`} fill sizes="80px" className={`object-contain ${team.slug === "hubbard" ? "p-0 scale-110" : "p-2"} ${team.slug === "hawley" ? "[filter:drop-shadow(1px_0_0_white)_drop-shadow(-1px_0_0_white)_drop-shadow(0_1px_0_white)_drop-shadow(0_-1px_0_white)_drop-shadow(0_0_5px_rgba(255,255,255,0.95))]" : ""}`} /> : <span className="text-2xl font-black text-white/35">{team.name?.slice(0, 1)}</span>}
                 </div>
                 {school ? <Link href={`/schools/${team.slug}`} className="w-full break-words text-sm font-black leading-tight text-white hover:text-[#ffffff] sm:text-lg">{team.name}</Link> : <span className="w-full break-words text-sm font-black leading-tight sm:text-lg">{team.name}</span>}
                 {presentation.showScore && <span className="text-2xl font-black tabular-nums">{team.score ?? "—"}</span>}
@@ -103,7 +103,7 @@ export default async function PlayoffsPage() {
             </section>
           );
         })}
-        <LivePlayoffBrackets games={games} />
+        <PlayoffBracketExperience games={games} />
         <section className="mt-9 rounded-2xl border border-white/15 p-5" aria-labelledby="follow-schools">
           <h2 id="follow-schools" className="text-xl font-black">Follow your schools</h2>
           <p className="mt-2 text-sm text-white/75">Open a school hub to follow the team and find its schedule, results and coverage.</p>

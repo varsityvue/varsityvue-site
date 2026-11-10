@@ -79,3 +79,25 @@ test("forfeit advances only the verified official winner, never a numeric-score 
   assert.equal(verifiedWinner({ ...game, officialWinnerSchoolSlug: undefined }), null);
   assert.equal(verifiedWinner({ ...game, officialWinnerSchoolSlug: "unknown" }), null);
 });
+
+test("division-scoped bracket ignores identical matchup from another division", () => {
+  const wrong = { ...fixture("A", "B", 21, 7), playoff: { round: "Bi-District" as const, division: "3A D1" } };
+  const right = { ...fixture("A", "B", 7, 21), playoff: { round: "Bi-District" as const, division: "2A D1" } };
+  const { roundTeams } = buildRegionalRounds(field, [wrong, right], 2026, "2A-D1");
+  assert.deepEqual(roundTeams[1][0], ["B", null]);
+});
+
+test("region-scoped bracket rejects same-division result from another region", () => {
+  const wrong = { ...fixture("A", "B", 21, 7), playoff: { round: "Bi-District" as const, division: "2A D1", region: "I" } };
+  const right = { ...fixture("A", "B", 7, 21), playoff: { round: "Bi-District" as const, division: "2A D1", region: "II" } };
+  const { roundTeams } = buildRegionalRounds(field, [wrong, right], 2026, "2A-D1", "II");
+  assert.deepEqual(roundTeams[1][0], ["B", null]);
+});
+
+test("duplicate matching playoff records cannot advance a winner", () => {
+  const first = { ...fixture("A", "B", 21, 7), id: "first" };
+  const duplicate = { ...fixture("A", "B", 7, 21), id: "second" };
+  const { roundTeams, roundGames } = buildRegionalRounds(field, [first, duplicate]);
+  assert.equal(roundGames[0][0], undefined);
+  assert.deepEqual(roundTeams[1][0], [null, null]);
+});

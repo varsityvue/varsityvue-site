@@ -1,4 +1,5 @@
 import type { Game } from "@/types/platform";
+import { normalizePlayoffDivision } from "@/lib/playoff-division";
 
 export function verifiedWinner(game: Game | undefined): string | null {
   if (!game || !game.publicScoreVerified || game.status !== "final") return null;
@@ -18,10 +19,16 @@ export function buildRegionalRounds(
   teams: readonly (readonly [string, string])[],
   games: Game[],
   season = 2026,
+  division?: string,
+  region?: string,
 ) {
-  const findGame = (a: string, b: string) =>
-    games.find((game) => game.season === season && game.gameType === "playoff" &&
+  const findGame = (a: string, b: string) => {
+    const matches = games.filter((game) => game.season === season && game.gameType === "playoff" &&
+      (!division || normalizePlayoffDivision(game.playoff?.division) === normalizePlayoffDivision(division)) &&
+      (!region || game.playoff?.region?.replace(/[^a-z0-9]/gi, "").toUpperCase() === region.replace(/[^a-z0-9]/gi, "").toUpperCase()) &&
       ((game.homeTeam === a && game.awayTeam === b) || (game.homeTeam === b && game.awayTeam === a)));
+    return matches.length === 1 ? matches[0] : undefined;
+  };
 
   const roundGames: (Game | undefined)[][] = [teams.map(([a, b]) => findGame(a, b))];
   const roundTeams: (string | null)[][][] = [teams.map(([a, b]) => [a, b])];
