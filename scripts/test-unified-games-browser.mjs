@@ -1572,6 +1572,27 @@ try {
   assert.match(new URL(guestPage.url()).searchParams.get('next'), /cisco/);
   assert.equal(fixtureFollowWrites,2,'Signed-out follow must not write a database follow');
   await guestDirectory.close(); directoryFollowFixture = false;
+  const catalogContext = await context();
+  const catalogPage = await catalogContext.newPage();
+  for (const width of [390, 1280]) {
+    await catalogPage.setViewportSize({ width, height: 900 });
+    await catalogPage.goto(origin + '/schools/panhandle'); await settled(catalogPage);
+    await catalogPage.getByRole('heading', { name: 'Panhandle', exact: true }).waitFor();
+    const recordTile = catalogPage.getByText('2026 Record', { exact: true }).locator('..');
+    assert.equal(await recordTile.locator('p').first().innerText(), '—', 'untracked school record stays unknown');
+    assert.match(await catalogPage.locator('main').innerText(), /No game is currently listed/);
+    assert.equal(await catalogPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `catalog hub overflow at ${width}`);
+    await catalogPage.screenshot({ path: `${evidence}/playoff-catalog-hub-${width}.png`, fullPage: true });
+    await catalogPage.goto(origin + '/districts/2a-d1-district-1'); await settled(catalogPage);
+    const districtText = await catalogPage.locator('main').innerText();
+    assert.match(districtText, /District membership and 2026 results may be incomplete/);
+    assert.match(districtText, /Results Pending/i);
+    assert.doesNotMatch(districtText, /Not Started/i);
+    assert.equal(await catalogPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `planned district overflow at ${width}`);
+    await catalogPage.screenshot({ path: `${evidence}/playoff-catalog-district-${width}.png`, fullPage: true });
+  }
+  await catalogContext.close();
+  pass('Playoff catalog: planned hub unknown record and empty schedule; partial district membership/results notice; no horizontal overflow at 390/1280; read-only fixture screenshots');
   pass('Teams: Cisco search with direct follow at 390/400/430/1280, saved Following and Unfollow, read failure, signed-out intent; Coverage native sharing, cancellation and clipboard without card navigation');
   pass('Near Me promotions shrink on client mode transitions; All Games restores original copy/layout; truthful closed contest; signed-out 200% text');
   assert.equal(writes,fixtureFollowWrites); assert.equal(browserMutations,fixtureFollowActions); assert.equal(telemetryRequests,0);
