@@ -4,6 +4,7 @@ import { getDistrictById } from "@/lib/districts";
 import { filterUpcomingGamesForSchool } from "@/lib/games";
 import { getSchoolBySlug } from "@/lib/schools";
 import { formatScoringAverage, getSchoolScoringAverages } from "@/lib/school-scoring-averages";
+import { formatOverallRecord } from "@/lib/school-record-presentation";
 import { getStandingForSchoolFromGames } from "@/lib/standings";
 import SchoolBadge from "./SchoolBadge";
 import ProgramLogo from "./ProgramLogo";
@@ -34,7 +35,7 @@ function getGameMapUrl(game: { venue?: string; venueAddress?: string; homeTeam?:
 export default function SchoolHero({ school, games, isAuthenticated, isFollowing, finishFollowing = false, followMessage = "", followUnavailable = false, enhanced = false }: { school: School; games: Game[]; isAuthenticated: boolean; isFollowing: boolean; finishFollowing?: boolean; followMessage?: string; followUnavailable?: boolean; enhanced?: boolean }) {
   const upcomingGames = filterUpcomingGamesForSchool(games, school.slug);
   const nextGame = upcomingGames[0];
-  const standing = getStandingForSchoolFromGames(school.slug, games); const seasonRecord = `${standing?.overallWins ?? 0}-${standing?.overallLosses ?? 0}`;
+  const standing = getStandingForSchoolFromGames(school.slug, games); const seasonRecord = formatOverallRecord(standing);
   const district = getDistrictById(school.districtId); const districtName = district?.name ?? school.districtId;
   const scoringAverages = getSchoolScoringAverages(school.slug, games);
   const scoredGamesLabel = scoringAverages.scoredGames === 0 ? "No scored finals" : `${scoringAverages.scoredGames} scored ${scoringAverages.scoredGames === 1 ? "game" : "games"}`;

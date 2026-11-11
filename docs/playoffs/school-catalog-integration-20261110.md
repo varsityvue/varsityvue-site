@@ -8,7 +8,7 @@ This application branch consumes the review packet preserved in PR #133 at `474f
 - Add 85 planned districts to the existing 11, for 96 districts. These records provide references for covered playoff schools, not complete district membership or verified season records.
 - Resolve 383 of 384 bracket identities by exact bracket name, division and region. The private Bi-District Readiness dashboard links them to school hubs. Houston Sterling has an explicit null mapping and stays excluded because its secondary color value is unresolved.
 - Preserve public directory eligibility: pilot schools or schools with a game in the catalog. Metadata alone does not establish tracked coverage. Planned records stay outside the existing featured sitemap policy.
-- Keep schools without results unranked with unknown district/overall records, even after other district members have results. No inferred 0–0 record or rank is added.
+- Keep schools without results unranked with unknown district/overall records, even after other district members have results. Shared record formatting also keeps hub and schedule-header summaries unknown instead of defaulting to 0–0. Explicitly known zero records remain valid.
 
 No games, schedules, scores, winners, verified results, database schema, security settings or editorial records change. All 296 game records retain their school references, kickoff, venue, scores, verification and playoff metadata. The seven published bi-district games and 185 missing games are unchanged.
 

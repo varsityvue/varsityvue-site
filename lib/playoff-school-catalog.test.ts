@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import test from "node:test";
 import { getSchoolBySlug, getSchools, getFeaturedSchools } from "./schools";
+import { getStandingForSchoolFromGames } from "./standings";
+import { formatOverallRecord, formatDistrictRecord } from "./school-record-presentation";
 import { getGames } from "./games";
 import { getBiDistrictReadiness } from "./bidistrict-readiness";
 import { getTrackedDirectorySchools } from "./school-directory";
@@ -83,4 +85,18 @@ test("catalog expansion does not turn untracked planned schools into directory c
   assert.equal(slugs.has("panhandle"), false, "a metadata record alone is not coverage");
   assert.equal(slugs.has("nocona"), true, "the existing Cisco–Nocona game establishes coverage");
   assert.ok(directory.length < catalog.length);
+});
+
+
+test("new hubs and schedule summaries never infer zero records from an empty game feed", () => {
+  for (const school of playoffSchoolAdditions) {
+    const standing = getStandingForSchoolFromGames(school.slug, []);
+    if (!standing?.overallRecordKnown) {
+      assert.equal(formatOverallRecord(standing), "—", school.slug);
+      assert.equal(formatDistrictRecord(standing), "—", school.slug);
+    }
+  }
+  assert.equal(formatOverallRecord(undefined), "—");
+  assert.equal(formatDistrictRecord(undefined), "—");
+  assert.equal(formatOverallRecord({ overallRecordKnown: true, overallWins: 0, overallLosses: 0 }), "0-0", "an explicitly known zero record is retained");
 });
