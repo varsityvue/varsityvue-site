@@ -3,7 +3,7 @@ import path from "node:path";
 import { getBiDistrictReadiness } from "../lib/bidistrict-readiness";
 import { reviewBiDistrictScheduleCandidates } from "../lib/bidistrict-schedule-candidate-review";
 import { getGames } from "../lib/games";
-import { getSchools } from "../lib/schools";
+import { getResearchBaselineSchools as getSchools } from "./playoff-research-catalog-baseline";
 
 // Offline research only. No Supabase client, network request, or game-writing API.
 const root = path.resolve(process.cwd(), "docs/playoffs/research-20261110");

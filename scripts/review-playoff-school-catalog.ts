@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import type { School, District } from "../types/platform";
-import { getSchools } from "../lib/schools";
-import { districts } from "../data/districts";
+import { getResearchBaselineSchools as getSchools } from "./playoff-research-catalog-baseline";
+import { researchBaselineDistricts as districts } from "./playoff-research-catalog-baseline";
 
 type Identity = { officialName: string; division: string; region: string; district: number; catalogAction: string; sourceUrl: string };
 type Link = { officialName: string; division: string; region: string; district: number; schoolId: string; seed: string; teamUrl: string; bracketSourceUrl: string };

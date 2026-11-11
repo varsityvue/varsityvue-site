@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import { getBiDistrictReadiness } from "../lib/bidistrict-readiness";
-import { getSchools } from "../lib/schools";
+import { getResearchBaselineSchools as getSchools } from "./playoff-research-catalog-baseline";
 
 type AlignmentSchool = { officialName: string; district: number; region: number };
 type AlignmentSource = { division: string; sourceUrl: string; schools: AlignmentSchool[] };

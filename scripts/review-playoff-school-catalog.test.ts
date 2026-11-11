@@ -4,8 +4,8 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { districts } from "../data/districts";
-import { getSchools } from "../lib/schools";
+import { researchBaselineDistricts as districts } from "./playoff-research-catalog-baseline";
+import { getResearchBaselineSchools as getSchools } from "./playoff-research-catalog-baseline";
 import type { School, District } from "../types/platform";
 
 type Proposal = { sourceSchoolId: string; proposedRecord: School | null; proposedFields: { id: string; districtId: string; mascot: string | null; colors: unknown }; structurallyComplete: boolean; metadataIssues: string[]; readyForCatalogIntegration: boolean; readyForPublication: boolean };

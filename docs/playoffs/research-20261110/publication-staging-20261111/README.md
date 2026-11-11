@@ -68,3 +68,7 @@ A future owner decision could allow unknown neutrality to remain nullable, suppr
 6. Resolve formal neutrality policy or obtain primary evidence, then prepare an exact approved publication payload in a separate step.
 
 No merge, production release, score/result/winner change, database mutation, schema change, access change, or message to another person was performed to prepare this packet.
+
+## Catalog release compatibility
+
+The three legacy offline review scripts now read `catalog-baseline-20261111.json` through the script-only `playoff-research-catalog-baseline.ts` loader. The snapshot contains the exact 70 schools and 11 districts from released main `ea1b4a5`. All three original generated JSON outputs reproduce byte-for-byte. This prevents PR #137's 341 added school records from being mistaken for pre-existing identities or collisions when regenerating the historical proposals. Runtime school pages never import this snapshot or loader. A combined checkout verifies the same research tests against the new runtime catalog.
