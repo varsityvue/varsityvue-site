@@ -1,0 +1,2062 @@
+{
+  "researchDate": "2026-11-10",
+  "scope": "remaining64 3A/4A slots; no publication approval",
+  "definitions": {
+    "source-verified": "selected credible source explicitly supplies date/time/venue/CST; not owner publication approval or independent two-source verification",
+    "partial": "date/time/venue found; explicit timezone remains unresolved or conflicting time found",
+    "proposedKickoff": "inferred draft only when kickoff is null; must not publish until missing fields cleared"
+  },
+  "sources": {
+    "kwtx": {
+      "name": "KWTX",
+      "url": "https://www.kwtx.com/2026/11/09/2026-central-texas-hsfb-playoff-pairings/"
+    },
+    "kwhi": {
+      "name": "KWHI",
+      "url": "https://kwhi.com/2026/11/09/high-school-football-bi-district-playoff-schedule/"
+    },
+    "wp": {
+      "name": "Associated Press / Winnipeg Free Press",
+      "url": "https://www.winnipegfreepress.com/uncategorized/2026/11/08/texas-high-school-football-playoff-pairings-12"
+    },
+    "caps3a1": {
+      "name": "txhsfb.net 3A DI capsules",
+      "url": "https://txhsfb.net/?p=29377"
+    },
+    "caps3a2": {
+      "name": "txhsfb.net 3A DII capsules",
+      "url": "https://txhsfb.net/?p=29378"
+    },
+    "caps4a1": {
+      "name": "txhsfb.net 4A DI capsules",
+      "url": "https://txhsfb.net/?p=29354"
+    },
+    "caps4a2": {
+      "name": "txhsfb.net 4A DII capsules",
+      "url": "https://txhsfb.net/?p=29358"
+    },
+    "sched": {
+      "name": "txhsfb.net Week12 schedule",
+      "url": "https://txhsfb.net/?p=29290"
+    },
+    "hsfa": {
+      "name": "High School Football America",
+      "url": "https://highschoolfootballamerica.com/2026-texas-high-school-football-uil-opening-round-playoff-pairings/"
+    },
+    "blanco": {
+      "name": "Blanco ISD",
+      "url": "https://www.blancoisd.com/index.php?articleID=96229635&pageID=smartSiteFeed&psqFeed=true"
+    },
+    "nisd": {
+      "name": "Northside ISD host athletics",
+      "url": "https://www.nisd.net/district/athletics/schedules"
+    },
+    "canton": {
+      "name": "Canton ISD",
+      "url": "https://www.cantonisd.net/apps/events/2026/11/13/60998776/?id=0"
+    },
+    "fnp": {
+      "name": "Friday Night Picks",
+      "url": "https://www.fridaynightpicks.com/playoffs/4a-d2"
+    }
+  },
+  "candidates": [
+    {
+      "division": "3A Division I",
+      "region": "Region III",
+      "slot": 2,
+      "teams": [
+        "Lorena",
+        "Sweeny"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Mustang Stadium",
+      "city": "Magnolia",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "KWTX",
+      "sourceUrl": "https://www.kwtx.com/2026/11/09/2026-central-texas-hsfb-playoff-pairings/",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "3A Division I",
+      "region": "Region III",
+      "slot": 4,
+      "teams": [
+        "Edna",
+        "C.H. Yoe"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Eagle Stadium",
+      "city": "Luling",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "KWTX",
+      "sourceUrl": "https://www.kwtx.com/2026/11/09/2026-central-texas-hsfb-playoff-pairings/",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "3A Division I",
+      "region": "Region III",
+      "slot": 5,
+      "teams": [
+        "Columbus",
+        "Little River Academy"
+      ],
+      "date": "2026-11-12",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-12T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Hornet Field",
+      "city": "Caldwell",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "KWHI",
+      "sourceUrl": "https://kwhi.com/2026/11/09/high-school-football-bi-district-playoff-schedule/",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "3A Division I",
+      "region": "Region III",
+      "slot": 7,
+      "teams": [
+        "Franklin",
+        "Hempstead"
+      ],
+      "date": "2026-11-12",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-12T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Tiger Stadium",
+      "city": "Rockdale",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "KWHI",
+      "sourceUrl": "https://kwhi.com/2026/11/09/high-school-football-bi-district-playoff-schedule/",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "3A Division I",
+      "region": "Region III",
+      "slot": 8,
+      "teams": [
+        "Fairfield",
+        "East Chambers"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Berton A. Yates Stadium",
+      "city": "Willis",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "KWTX",
+      "sourceUrl": "https://www.kwtx.com/2026/11/09/2026-central-texas-hsfb-playoff-pairings/",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "3A Division I",
+      "region": "Region IV",
+      "slot": 1,
+      "teams": [
+        "Yoakum",
+        "Carrizo Springs"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Gustafson Stadium",
+      "city": "San Antonio",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "Northside ISD host athletics",
+      "sourceUrl": "https://www.nisd.net/district/athletics/schedules",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation",
+        "resolve conflicting information"
+      ],
+      "conflicts": [
+        {
+          "field": "date",
+          "value": "2026-11-12",
+          "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-playoff-200604439.html",
+          "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "division": "3A Division I",
+      "region": "Region IV",
+      "slot": 2,
+      "teams": [
+        "Rio Hondo",
+        "Goliad"
+      ],
+      "date": "2026-11-12",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-12T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Warrior Stadium",
+      "city": "Corpus Christi",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "Associated Press / Winnipeg Free Press",
+      "sourceUrl": "https://www.winnipegfreepress.com/uncategorized/2026/11/08/texas-high-school-football-playoff-pairings-12",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "3A Division I",
+      "region": "Region IV",
+      "slot": 3,
+      "teams": [
+        "Devine",
+        "Randolph"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Warhorse Stadium",
+      "city": "Devine",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net 3A DI capsules",
+      "sourceUrl": "https://txhsfb.net/?p=29377",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation",
+        "resolve conflicting information"
+      ],
+      "conflicts": [
+        {
+          "field": "date",
+          "value": "2026-11-12",
+          "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-playoff-200604439.html",
+          "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "division": "3A Division I",
+      "region": "Region IV",
+      "slot": 4,
+      "teams": [
+        "Orange Grove",
+        "Raymondville"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:30",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:30:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Jersey Bull Stadium",
+      "city": "Falfurrias",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "Associated Press / Winnipeg Free Press",
+      "sourceUrl": "https://www.winnipegfreepress.com/uncategorized/2026/11/08/texas-high-school-football-playoff-pairings-12",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "3A Division I",
+      "region": "Region IV",
+      "slot": 5,
+      "teams": [
+        "Sinton",
+        "Lyford"
+      ],
+      "date": "2026-11-12",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-12T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Pirate Stadium",
+      "city": "Sinton",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "Associated Press / Winnipeg Free Press",
+      "sourceUrl": "https://www.winnipegfreepress.com/uncategorized/2026/11/08/texas-high-school-football-playoff-pairings-12",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "3A Division I",
+      "region": "Region IV",
+      "slot": 6,
+      "teams": [
+        "Jourdanton",
+        "Hallettsville"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Dragon Stadium",
+      "city": "New Braunfels",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net 3A DI capsules",
+      "sourceUrl": "https://txhsfb.net/?p=29377",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation",
+        "resolve conflicting information"
+      ],
+      "conflicts": [
+        {
+          "field": "date",
+          "value": "2026-11-12",
+          "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-playoff-200604439.html",
+          "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "division": "3A Division I",
+      "region": "Region IV",
+      "slot": 7,
+      "teams": [
+        "San Diego",
+        "Mathis"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:30",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:30:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Owl Stadium",
+      "city": "Odem",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net 3A DI capsules",
+      "sourceUrl": "https://txhsfb.net/?p=29377",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation",
+        "resolve conflicting information"
+      ],
+      "conflicts": [
+        {
+          "field": "date",
+          "value": "2026-11-12",
+          "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-playoff-200604439.html",
+          "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "division": "3A Division I",
+      "region": "Region IV",
+      "slot": 8,
+      "teams": [
+        "Marion",
+        "Hondo"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Veterans Stadium",
+      "city": "Marion",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net 3A DI capsules",
+      "sourceUrl": "https://txhsfb.net/?p=29377",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation",
+        "resolve conflicting information"
+      ],
+      "conflicts": [
+        {
+          "field": "date",
+          "value": "2026-11-12",
+          "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-playoff-200604439.html",
+          "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "division": "3A Division II",
+      "region": "Region II",
+      "slot": 1,
+      "teams": [
+        "Millsap",
+        "Trinity Leadership"
+      ],
+      "date": "2026-11-12",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-12T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Knight Stadium",
+      "city": "Fort Worth",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "Associated Press / Winnipeg Free Press",
+      "sourceUrl": "https://www.winnipegfreepress.com/uncategorized/2026/11/08/texas-high-school-football-playoff-pairings-12",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation",
+        "resolve conflicting information"
+      ],
+      "conflicts": [
+        {
+          "field": "date/time",
+          "value": "Thu11/13 19:30",
+          "sourceUrl": "https://txhsfb.net/?p=29290",
+          "note": "Internally inconsistent weekday/date; AP says ThursdayNov12 19:00. Do not guess."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "division": "3A Division II",
+      "region": "Region II",
+      "slot": 3,
+      "teams": [
+        "Maypearl",
+        "Clifton"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Wildcat Stadium",
+      "city": "Godley",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "Associated Press / Winnipeg Free Press",
+      "sourceUrl": "https://www.winnipegfreepress.com/uncategorized/2026/11/08/texas-high-school-football-playoff-pairings-12",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "3A Division II",
+      "region": "Region II",
+      "slot": 5,
+      "teams": [
+        "Bells",
+        "Lone Oak"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:30",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:30:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Kimbrough Stadium",
+      "city": "Murphy",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "Associated Press / Winnipeg Free Press",
+      "sourceUrl": "https://www.winnipegfreepress.com/uncategorized/2026/11/08/texas-high-school-football-playoff-pairings-12",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation",
+        "resolve conflicting information"
+      ],
+      "conflicts": [
+        {
+          "field": "city",
+          "value": "Plano",
+          "sourceUrl": "https://txhsfb.net/?p=29290",
+          "note": "AP lists Murphy; schedule lists Plano. Verify stadium identity/city."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "division": "3A Division II",
+      "region": "Region II",
+      "slot": 6,
+      "teams": [
+        "Madison",
+        "Hamilton"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Charles Head Stadium",
+      "city": "Alvarado",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "Associated Press / Winnipeg Free Press",
+      "sourceUrl": "https://www.winnipegfreepress.com/uncategorized/2026/11/08/texas-high-school-football-playoff-pairings-12",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "3A Division II",
+      "region": "Region II",
+      "slot": 8,
+      "teams": [
+        "Tolar",
+        "Scurry-Rosser"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Burleson ISD Stadium",
+      "city": "Burleson",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net 3A DII capsules",
+      "sourceUrl": "https://txhsfb.net/?p=29378",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "3A Division II",
+      "region": "Region III",
+      "slot": 2,
+      "teams": [
+        "New Waverly",
+        "Buffalo"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Tiger Stadium",
+      "city": "Centerville",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net 3A DII capsules",
+      "sourceUrl": "https://txhsfb.net/?p=29378",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "3A Division II",
+      "region": "Region III",
+      "slot": 4,
+      "teams": [
+        "Teague",
+        "Hardin"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Dragon Stadium",
+      "city": "Nacogdoches",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net 3A DII capsules",
+      "sourceUrl": "https://txhsfb.net/?p=29378",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "3A Division II",
+      "region": "Region IV",
+      "slot": 1,
+      "teams": [
+        "Thrall",
+        "Brazos"
+      ],
+      "date": "2026-11-12",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-12T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Tiger Stadium",
+      "city": "Smithville",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "KWHI",
+      "sourceUrl": "https://kwhi.com/2026/11/09/high-school-football-bi-district-playoff-schedule/",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "3A Division II",
+      "region": "Region IV",
+      "slot": 2,
+      "teams": [
+        "Hebbronville",
+        "Blanco"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Natalia High School",
+      "city": "Natalia",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "Blanco ISD",
+      "sourceUrl": "https://www.blancoisd.com/index.php?articleID=96229635&pageID=smartSiteFeed&psqFeed=true",
+      "sourcePublicationDate": "2026-11-09",
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "3A Division II",
+      "region": "Region IV",
+      "slot": 3,
+      "teams": [
+        "East Bernard",
+        "Anderson-Shiro"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Bobcat Stadium",
+      "city": "Hempstead",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "KWHI",
+      "sourceUrl": "https://kwhi.com/2026/11/09/high-school-football-bi-district-playoff-schedule/",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "3A Division II",
+      "region": "Region IV",
+      "slot": 4,
+      "teams": [
+        "Stockdale",
+        "Cotulla"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Bulldog Stadium",
+      "city": "Bandera",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net 3A DII capsules",
+      "sourceUrl": "https://txhsfb.net/?p=29378",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "3A Division II",
+      "region": "Region IV",
+      "slot": 5,
+      "teams": [
+        "Poth",
+        "Santa Rosa"
+      ],
+      "date": "2026-11-12",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-12T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Memorial Stadium",
+      "city": "Alice",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net 3A DII capsules",
+      "sourceUrl": "https://txhsfb.net/?p=29378",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "3A Division II",
+      "region": "Region IV",
+      "slot": 6,
+      "teams": [
+        "Rice Consolidated",
+        "Rogers"
+      ],
+      "date": "2026-11-12",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-12T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Memorial Stadium",
+      "city": "Bastrop",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net 3A DII capsules",
+      "sourceUrl": "https://txhsfb.net/?p=29378",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "3A Division II",
+      "region": "Region IV",
+      "slot": 7,
+      "teams": [
+        "George West",
+        "Nixon-Smiley"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:30",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:30:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Longhorn Stadium",
+      "city": "George West",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net 3A DII capsules",
+      "sourceUrl": "https://txhsfb.net/?p=29378",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "3A Division II",
+      "region": "Region IV",
+      "slot": 8,
+      "teams": [
+        "Lexington",
+        "Boling"
+      ],
+      "date": "2026-11-12",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-12T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Leopard Stadium",
+      "city": "La Grange",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "KWHI",
+      "sourceUrl": "https://kwhi.com/2026/11/09/high-school-football-bi-district-playoff-schedule/",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region II",
+      "slot": 1,
+      "teams": [
+        "Kennedale",
+        "Carter"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Kincaide Stadium",
+      "city": "Dallas",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net 4A DI capsules",
+      "sourceUrl": "https://txhsfb.net/?p=29354",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region II",
+      "slot": 3,
+      "teams": [
+        "Lincoln",
+        "Southwest"
+      ],
+      "date": "2026-11-12",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-12T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Clark Stadium",
+      "city": "Fort Worth",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net 4A DI capsules",
+      "sourceUrl": "https://txhsfb.net/?p=29354",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation",
+        "resolve conflicting information"
+      ],
+      "conflicts": [
+        {
+          "field": "city",
+          "value": "Plano",
+          "sourceUrl": "https://txhsfb.net/?p=29354",
+          "note": "Capsule says Clark Stadium Plano; DCTF says Clark Stadium Fort Worth. Resolve venue before publication."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region II",
+      "slot": 6,
+      "teams": [
+        "Kimball",
+        "Benbrook"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Loos Stadium",
+      "city": "Dallas",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net 4A DI capsules",
+      "sourceUrl": "https://txhsfb.net/?p=29354",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region II",
+      "slot": 8,
+      "teams": [
+        "Eastern Hills",
+        "Wilmer-Hutchins"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:30",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:30:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Ellis Stadium",
+      "city": "Irving",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net 4A DI capsules",
+      "sourceUrl": "https://txhsfb.net/?p=29354",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region III",
+      "slot": 1,
+      "teams": [
+        "Little Cypress-Mauriceville",
+        "Austin"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:30",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:30:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Doggett Family Stadium",
+      "city": "Beaumont",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "High School Football America",
+      "sourceUrl": "https://highschoolfootballamerica.com/2026-texas-high-school-football-uil-opening-round-playoff-pairings/",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region III",
+      "slot": 2,
+      "teams": [
+        "Jarrell",
+        "El Campo"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Toyota Rattler Stadium",
+      "city": "San Marcos",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "High School Football America",
+      "sourceUrl": "https://highschoolfootballamerica.com/2026-texas-high-school-football-uil-opening-round-playoff-pairings/",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region III",
+      "slot": 3,
+      "teams": [
+        "Stafford",
+        "Bridge City"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:30",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:30:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Abshier Stadium",
+      "city": "Deer Park",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "High School Football America",
+      "sourceUrl": "https://highschoolfootballamerica.com/2026-texas-high-school-football-uil-opening-round-playoff-pairings/",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region III",
+      "slot": 4,
+      "teams": [
+        "Sealy",
+        "China Spring"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Matador Stadium",
+      "city": "Seguin",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "High School Football America",
+      "sourceUrl": "https://highschoolfootballamerica.com/2026-texas-high-school-football-uil-opening-round-playoff-pairings/",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region III",
+      "slot": 5,
+      "teams": [
+        "Bay City",
+        "Lampasas"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Tiger Stadium",
+      "city": "Smithville",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "High School Football America",
+      "sourceUrl": "https://highschoolfootballamerica.com/2026-texas-high-school-football-uil-opening-round-playoff-pairings/",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region III",
+      "slot": 6,
+      "teams": [
+        "Fort Bend Willowridge",
+        "Hargrave"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Maddry Memorial Stadium",
+      "city": "Channelview",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "High School Football America",
+      "sourceUrl": "https://highschoolfootballamerica.com/2026-texas-high-school-football-uil-opening-round-playoff-pairings/",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region III",
+      "slot": 7,
+      "teams": [
+        "Stephenville",
+        "Navasota"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Wildcat Stadium",
+      "city": "Temple",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "High School Football America",
+      "sourceUrl": "https://highschoolfootballamerica.com/2026-texas-high-school-football-uil-opening-round-playoff-pairings/",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region III",
+      "slot": 8,
+      "teams": [
+        "Vidor",
+        "Sterling"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:30",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:30:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Stallworth Stadium",
+      "city": "Baytown",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net 4A DI capsules",
+      "sourceUrl": "https://txhsfb.net/?p=29354",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region IV",
+      "slot": 1,
+      "teams": [
+        "Canyon Lake",
+        "Pleasanton"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Creek View Cougar Stadium",
+      "city": "San Antonio",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "High School Football America",
+      "sourceUrl": "https://highschoolfootballamerica.com/2026-texas-high-school-football-uil-opening-round-playoff-pairings/",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region IV",
+      "slot": 2,
+      "teams": [
+        "Edcouch-Elsa",
+        "Calhoun"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Cotton Picker Stadium",
+      "city": "Robstown",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "High School Football America",
+      "sourceUrl": "https://highschoolfootballamerica.com/2026-texas-high-school-football-uil-opening-round-playoff-pairings/",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region IV",
+      "slot": 3,
+      "teams": [
+        "Somerset",
+        "Davenport"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Heroes Stadium",
+      "city": "San Antonio",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "High School Football America",
+      "sourceUrl": "https://highschoolfootballamerica.com/2026-texas-high-school-football-uil-opening-round-playoff-pairings/",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region IV",
+      "slot": 4,
+      "teams": [
+        "Zapata",
+        "Miller"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Javelina Stadium",
+      "city": "Kingsville",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "High School Football America",
+      "sourceUrl": "https://highschoolfootballamerica.com/2026-texas-high-school-football-uil-opening-round-playoff-pairings/",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region IV",
+      "slot": 5,
+      "teams": [
+        "Calallen",
+        "Hidalgo Early College"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Danaher Stadium",
+      "city": "Corpus Christi",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "High School Football America",
+      "sourceUrl": "https://highschoolfootballamerica.com/2026-texas-high-school-football-uil-opening-round-playoff-pairings/",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region IV",
+      "slot": 6,
+      "teams": [
+        "Floresville",
+        "Fredericksburg"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Battlin Billie Stadium",
+      "city": "Fredericksburg",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "High School Football America",
+      "sourceUrl": "https://highschoolfootballamerica.com/2026-texas-high-school-football-uil-opening-round-playoff-pairings/",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region IV",
+      "slot": 7,
+      "teams": [
+        "Alice",
+        "Tuloso-Midway"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:30",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:30:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Memorial Stadium",
+      "city": "Alice",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "High School Football America",
+      "sourceUrl": "https://highschoolfootballamerica.com/2026-texas-high-school-football-uil-opening-round-playoff-pairings/",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region IV",
+      "slot": 8,
+      "teams": [
+        "Tivy",
+        "La Vernia"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Bear Stadium",
+      "city": "La Vernia",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "High School Football America",
+      "sourceUrl": "https://highschoolfootballamerica.com/2026-texas-high-school-football-uil-opening-round-playoff-pairings/",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region III",
+      "slot": 1,
+      "teams": [
+        "Canton",
+        "Shepherd"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Mustang Stadium",
+      "city": "Madisonville",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net Week12 schedule",
+      "sourceUrl": "https://txhsfb.net/?p=29290",
+      "sourcePublicationDate": "2026-11-08",
+      "sourceUpdatedDate": "2026-11-08T17:07:00-06:00",
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region III",
+      "slot": 2,
+      "teams": [
+        "La Marque",
+        "North Forest"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Veterans Memorial Stadium",
+      "city": "Pasadena",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net Week12 schedule",
+      "sourceUrl": "https://txhsfb.net/?p=29290",
+      "sourcePublicationDate": "2026-11-08",
+      "sourceUpdatedDate": "2026-11-08T17:07:00-06:00",
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region III",
+      "slot": 3,
+      "teams": [
+        "West Orange-Stark",
+        "Van"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:30",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:30:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Randall Reed Stadium",
+      "city": "New Caney",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net Week12 schedule",
+      "sourceUrl": "https://txhsfb.net/?p=29290",
+      "sourcePublicationDate": "2026-11-08",
+      "sourceUpdatedDate": "2026-11-08T17:07:00-06:00",
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region III",
+      "slot": 4,
+      "teams": [
+        "Wheatley",
+        "Hitchcock"
+      ],
+      "date": "2026-11-12",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-12T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Veterans Memorial Stadium",
+      "city": "Pasadena",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net Week12 schedule",
+      "sourceUrl": "https://txhsfb.net/?p=29290",
+      "sourcePublicationDate": "2026-11-08",
+      "sourceUpdatedDate": "2026-11-08T17:07:00-06:00",
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region III",
+      "slot": 5,
+      "teams": [
+        "Yates",
+        "La Grange"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Rhodes Stadium",
+      "city": "Katy",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net 4A DII capsules",
+      "sourceUrl": "https://txhsfb.net/?p=29358",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region III",
+      "slot": 6,
+      "teams": [
+        "Silsbee",
+        "Madisonville"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:30",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:30:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Martin Stadium",
+      "city": "Lufkin",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net 4A DII capsules",
+      "sourceUrl": "https://txhsfb.net/?p=29358",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region III",
+      "slot": 7,
+      "teams": [
+        "Bellville",
+        "Worthing"
+      ],
+      "date": "2026-11-12",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-12T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Pridgeon Stadium",
+      "city": "Cypress",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net 4A DII capsules",
+      "sourceUrl": "https://txhsfb.net/?p=29358",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region III",
+      "slot": 8,
+      "teams": [
+        "Athens",
+        "Hamshire-Fannett"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:30",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:30:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Green Stadium",
+      "city": "Bryan",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "Friday Night Picks",
+      "sourceUrl": "https://www.fridaynightpicks.com/playoffs/4a-d2",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation",
+        "resolve conflicting information"
+      ],
+      "conflicts": [
+        {
+          "field": "date",
+          "value": "01/13",
+          "sourceUrl": "https://txhsfb.net/?p=29358",
+          "note": "Capsule/schedule month typo; KLTV and AP say Nov13. School confirmation before publication."
+        }
+      ],
+      "notes": [
+        {
+          "note": "Time from KLTV original schedule; selected FNP confirms date/venue.",
+          "sourceUrl": "https://www.kltv.com/2026/11/08/football-bi-district-round-schedule/"
+        }
+      ]
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region IV",
+      "slot": 1,
+      "teams": [
+        "La Vega",
+        "Manor New Tech"
+      ],
+      "date": "2026-11-12",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-12T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Buckley Stadium",
+      "city": "Killeen",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net Week12 schedule",
+      "sourceUrl": "https://txhsfb.net/?p=29290",
+      "sourcePublicationDate": "2026-11-08",
+      "sourceUpdatedDate": "2026-11-08T17:07:00-06:00",
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region IV",
+      "slot": 2,
+      "teams": [
+        "London",
+        "Navarro"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Johnson Field",
+      "city": "Karnes City",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net Week12 schedule",
+      "sourceUrl": "https://txhsfb.net/?p=29290",
+      "sourcePublicationDate": "2026-11-08",
+      "sourceUpdatedDate": "2026-11-08T17:07:00-06:00",
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region IV",
+      "slot": 3,
+      "teams": [
+        "Wimberley",
+        "Salado"
+      ],
+      "date": "2026-11-12",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-12T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Gupton Stadium",
+      "city": "Cedar Park",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net Week12 schedule",
+      "sourceUrl": "https://txhsfb.net/?p=29290",
+      "sourcePublicationDate": "2026-11-08",
+      "sourceUpdatedDate": "2026-11-08T17:07:00-06:00",
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region IV",
+      "slot": 4,
+      "teams": [
+        "Bandera",
+        "King"
+      ],
+      "date": "2026-11-12",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-12T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Eagle Stadium",
+      "city": "Pleasanton",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net Week12 schedule",
+      "sourceUrl": "https://txhsfb.net/?p=29290",
+      "sourcePublicationDate": "2026-11-08",
+      "sourceUpdatedDate": "2026-11-08T17:07:00-06:00",
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region IV",
+      "slot": 5,
+      "teams": [
+        "Cuero",
+        "Ingleside"
+      ],
+      "date": "2026-11-12",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-12T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Memorial Stadium",
+      "city": "Beeville",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net Week12 schedule",
+      "sourceUrl": "https://txhsfb.net/?p=29290",
+      "sourcePublicationDate": "2026-11-08",
+      "sourceUpdatedDate": "2026-11-08T17:07:00-06:00",
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region IV",
+      "slot": 6,
+      "teams": [
+        "Lago Vista",
+        "Brownwood"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:30",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:30:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Crusader Stadium",
+      "city": "Belton",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net Week12 schedule",
+      "sourceUrl": "https://txhsfb.net/?p=29290",
+      "sourcePublicationDate": "2026-11-08",
+      "sourceUpdatedDate": "2026-11-08T17:07:00-06:00",
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region IV",
+      "slot": 7,
+      "teams": [
+        "Rockport-Fulton",
+        "Gonzales"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Memorial Stadium",
+      "city": "Beeville",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "txhsfb.net Week12 schedule",
+      "sourceUrl": "https://txhsfb.net/?p=29290",
+      "sourcePublicationDate": "2026-11-08",
+      "sourceUpdatedDate": "2026-11-08T17:07:00-06:00",
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region IV",
+      "slot": 8,
+      "teams": [
+        "Robinson",
+        "Giddings"
+      ],
+      "date": "2026-11-13",
+      "localTime": "19:00",
+      "kickoff": null,
+      "proposedKickoff": "2026-11-13T19:00:00-06:00",
+      "timeZone": null,
+      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "venue": "Memorial Stadium",
+      "city": "Hutto",
+      "neutralSite": null,
+      "neutralSiteBasis": "not explicitly verified",
+      "sourceLabel": "KWHI",
+      "sourceUrl": "https://kwhi.com/2026/11/09/high-school-football-bi-district-playoff-schedule/",
+      "sourcePublicationDate": null,
+      "sourceUpdatedDate": null,
+      "retrievedDate": "2026-11-10",
+      "verificationStatus": "partial",
+      "missingInformation": [
+        "explicit timezone confirmation"
+      ],
+      "conflicts": [],
+      "notes": []
+    }
+  ]
+}

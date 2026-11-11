@@ -1,0 +1,2437 @@
+[
+  {
+    "division": "2A Division I",
+    "region": "Region I",
+    "slot": 1,
+    "teams": [
+      "Panhandle",
+      "Floydada"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Wildcat Stadium, Amarillo, TX",
+    "city": "Amarillo",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "Press Pass Sports",
+    "sourceUrl": "https://www.presspass.news/2026/11/08/uil-region-i-high-school-football-bi-district-playoff-pairings-4/",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "Press Pass Sports",
+        "url": "https://www.presspass.news/2026/11/08/uil-region-i-high-school-football-bi-district-playoff-pairings-4/",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145202+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region I",
+    "slot": 2,
+    "teams": [
+      "Forsan",
+      "Abernathy"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "venue": "Wigwam Stadium, Seminole, TX",
+    "city": "Seminole",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "Press Pass Sports",
+    "sourceUrl": "https://www.presspass.news/2026/11/08/uil-region-i-high-school-football-bi-district-playoff-pairings-4/",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "Press Pass Sports",
+        "url": "https://www.presspass.news/2026/11/08/uil-region-i-high-school-football-bi-district-playoff-pairings-4/",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145220+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region I",
+    "slot": 3,
+    "teams": [
+      "Tulia",
+      "Sanford-Fritch"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-13T19:30:00-06:00",
+    "venue": "Happy State Bank Stadium, Canyon, TX",
+    "city": "Canyon",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "Press Pass Sports",
+    "sourceUrl": "https://www.presspass.news/2026/11/08/uil-region-i-high-school-football-bi-district-playoff-pairings-4/",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "Press Pass Sports",
+        "url": "https://www.presspass.news/2026/11/08/uil-region-i-high-school-football-bi-district-playoff-pairings-4/",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145224+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region I",
+    "slot": 4,
+    "teams": [
+      "New Home",
+      "Ballinger"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "venue": "Bearcat Stadium, Ballinger, TX",
+    "city": "Ballinger",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "Press Pass Sports",
+    "sourceUrl": "https://www.presspass.news/2026/11/08/uil-region-i-high-school-football-bi-district-playoff-pairings-4/",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "Press Pass Sports",
+        "url": "https://www.presspass.news/2026/11/08/uil-region-i-high-school-football-bi-district-playoff-pairings-4/",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145226+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region I",
+    "slot": 5,
+    "teams": [
+      "Post",
+      "Ozona"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Ratliff Stadium, Odessa, TX",
+    "city": "Odessa",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "Press Pass Sports",
+    "sourceUrl": "https://www.presspass.news/2026/11/08/uil-region-i-high-school-football-bi-district-playoff-pairings-4/",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "Press Pass Sports",
+        "url": "https://www.presspass.news/2026/11/08/uil-region-i-high-school-football-bi-district-playoff-pairings-4/",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145228+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region I",
+    "slot": 6,
+    "teams": [
+      "Olton",
+      "Highland Park"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Whiteface Stadium, Hereford, TX",
+    "city": "Hereford",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "Press Pass Sports",
+    "sourceUrl": "https://www.presspass.news/2026/11/08/uil-region-i-high-school-football-bi-district-playoff-pairings-4/",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "Press Pass Sports",
+        "url": "https://www.presspass.news/2026/11/08/uil-region-i-high-school-football-bi-district-playoff-pairings-4/",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145232+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region I",
+    "slot": 7,
+    "teams": [
+      "Sonora",
+      "New Deal"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-13T18:30:00-06:00",
+    "venue": "Wolf Stadium, Colorado City, TX",
+    "city": "Colorado City",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "Press Pass Sports",
+    "sourceUrl": "https://www.presspass.news/2026/11/08/uil-region-i-high-school-football-bi-district-playoff-pairings-4/",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "Press Pass Sports",
+        "url": "https://www.presspass.news/2026/11/08/uil-region-i-high-school-football-bi-district-playoff-pairings-4/",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145234+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region I",
+    "slot": 8,
+    "teams": [
+      "Spearman",
+      "Farwell"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-13T16:00:00-06:00",
+    "venue": "Happy State Bank Stadium, Canyon, TX",
+    "city": "Canyon",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "Press Pass Sports",
+    "sourceUrl": "https://www.presspass.news/2026/11/08/uil-region-i-high-school-football-bi-district-playoff-pairings-4/",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "Press Pass Sports",
+        "url": "https://www.presspass.news/2026/11/08/uil-region-i-high-school-football-bi-district-playoff-pairings-4/",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145236+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region II",
+    "slot": 1,
+    "teams": [
+      "Cisco",
+      "Nocona"
+    ],
+    "status": "scheduled",
+    "gameId": "cisco-vs-nocona-2026-bi-district",
+    "missing": [],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Newton Field, Graham, TX",
+    "city": "Graham",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "corroborated",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "Big Country UIL schedule \u2014 Yahoo Sports",
+    "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "Big Country UIL schedule \u2014 Yahoo Sports",
+        "url": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+        "publishedDate": null
+      },
+      {
+        "name": "Cisco ISD",
+        "url": "https://www.ciscoisd.net/",
+        "publishedDate": null
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145238+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region II",
+    "slot": 2,
+    "teams": [
+      "Bosqueville",
+      "Johnson City"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "venue": "Lion Stadium, Granger, TX",
+    "city": "Granger",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "corroborated",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [
+      {
+        "field": "venue",
+        "alternative": "La Grange in TXHSFB capsule",
+        "resolution": "Prefer Bosqueville ISD official Granger announcement, corroborated by KWTX; stadium name from KWTX",
+        "resolved": true
+      }
+    ],
+    "sourceLabel": "KWTX \u2014 Central Texas pairings",
+    "sourceUrl": "https://www.kwtx.com/2026/11/09/2026-central-texas-hsfb-playoff-pairings/",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "KWTX \u2014 Central Texas pairings",
+        "url": "https://www.kwtx.com/2026/11/09/2026-central-texas-hsfb-playoff-pairings/",
+        "publishedDate": "2026-11-09"
+      },
+      {
+        "name": "Bosqueville ISD Athletics",
+        "url": "https://www.bosquevilleisd.org/live-feed/",
+        "publishedDate": null
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145240+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region II",
+    "slot": 3,
+    "teams": [
+      "Muenster",
+      "Hawley"
+    ],
+    "status": "scheduled",
+    "gameId": "muenster-vs-hawley-2026-bi-district",
+    "missing": [],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Ram Stadium, Mineral Wells, TX",
+    "city": "Mineral Wells",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "corroborated",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "Big Country UIL schedule \u2014 Yahoo Sports",
+    "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "Big Country UIL schedule \u2014 Yahoo Sports",
+        "url": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+        "publishedDate": null
+      },
+      {
+        "name": "KXII \u2014 playoff pairings",
+        "url": "https://www.kxii.com/2026/11/07/high-school-football-playoff-pairings-week-1/?outputType=amp",
+        "publishedDate": "2026-11-07"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145241+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region II",
+    "slot": 4,
+    "teams": [
+      "San Saba",
+      "Valley Mills"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "venue": "Joseph Searles III Stadium, Killeen, TX",
+    "city": "Killeen",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "corroborated",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "San Angelo LIVE!",
+    "sourceUrl": "https://sanangelolive.com/news/sports/2026-11-07/west-texas-high-school-football-uil-playoff-schedule",
+    "sourcePublishedDate": "2026-11-07",
+    "sources": [
+      {
+        "name": "San Angelo LIVE!",
+        "url": "https://sanangelolive.com/news/sports/2026-11-07/west-texas-high-school-football-uil-playoff-schedule",
+        "publishedDate": "2026-11-07"
+      },
+      {
+        "name": "KWTX \u2014 Central Texas pairings",
+        "url": "https://www.kwtx.com/2026/11/09/2026-central-texas-hsfb-playoff-pairings/",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145244+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region II",
+    "slot": 5,
+    "teams": [
+      "Mason",
+      "Itasca"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Joseph Searles III Stadium, Killeen, TX",
+    "city": "Killeen",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "corroborated",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "San Angelo LIVE!",
+    "sourceUrl": "https://sanangelolive.com/news/sports/2026-11-07/west-texas-high-school-football-uil-playoff-schedule",
+    "sourcePublishedDate": "2026-11-07",
+    "sources": [
+      {
+        "name": "San Angelo LIVE!",
+        "url": "https://sanangelolive.com/news/sports/2026-11-07/west-texas-high-school-football-uil-playoff-schedule",
+        "publishedDate": "2026-11-07"
+      },
+      {
+        "name": "KWTX \u2014 Central Texas pairings",
+        "url": "https://www.kwtx.com/2026/11/09/2026-central-texas-hsfb-playoff-pairings/",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145246+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region II",
+    "slot": 6,
+    "teams": [
+      "Tioga",
+      "Anson"
+    ],
+    "status": "scheduled",
+    "gameId": "tioga-vs-anson-2026-bi-district",
+    "missing": [],
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "venue": "Newton Field, Graham, TX",
+    "city": "Graham",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "corroborated",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "Big Country UIL schedule \u2014 Yahoo Sports",
+    "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "Big Country UIL schedule \u2014 Yahoo Sports",
+        "url": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+        "publishedDate": null
+      },
+      {
+        "name": "KXII \u2014 playoff pairings",
+        "url": "https://www.kxii.com/2026/11/07/high-school-football-playoff-pairings-week-1/?outputType=amp",
+        "publishedDate": "2026-11-07"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145247+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region II",
+    "slot": 7,
+    "teams": [
+      "Axtell",
+      "Bangs"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Cub Stadium, Clifton, TX",
+    "city": "Clifton",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "corroborated",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [
+      {
+        "field": "kickoff",
+        "alternative": "KWTX says Thursday November 13 (weekday/date mismatch)",
+        "resolution": "Yahoo Big Country and San Angelo LIVE both say Thursday; use November 12",
+        "resolved": true
+      }
+    ],
+    "sourceLabel": "Big Country UIL schedule \u2014 Yahoo Sports",
+    "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "Big Country UIL schedule \u2014 Yahoo Sports",
+        "url": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+        "publishedDate": null
+      },
+      {
+        "name": "San Angelo LIVE!",
+        "url": "https://sanangelolive.com/news/sports/2026-11-07/west-texas-high-school-football-uil-playoff-schedule",
+        "publishedDate": "2026-11-07"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145250+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region II",
+    "slot": 8,
+    "teams": [
+      "De Leon",
+      "Alvord"
+    ],
+    "status": "scheduled",
+    "gameId": "de-leon-vs-alvord-2026-bi-district",
+    "missing": [],
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "venue": "Tiger Stadium, Jacksboro, TX",
+    "city": "Jacksboro",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "corroborated",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "Big Country UIL schedule \u2014 Yahoo Sports",
+    "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "Big Country UIL schedule \u2014 Yahoo Sports",
+        "url": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+        "publishedDate": null
+      },
+      {
+        "name": "High School Football America",
+        "url": "https://highschoolfootballamerica.com/2026-texas-high-school-football-uil-opening-round-playoff-pairings/",
+        "publishedDate": null
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145251+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region III",
+    "slot": 1,
+    "teams": [
+      "Cooper",
+      "Como-Pickton"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Prim Stadium, Sulphur Springs, TX",
+    "city": "Sulphur Springs",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "TXHSFB.net \u2014 2A DI capsules",
+    "sourceUrl": "https://txhsfb.net/?p=29384",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "TXHSFB.net \u2014 2A DI capsules",
+        "url": "https://txhsfb.net/?p=29384",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145253+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region III",
+    "slot": 2,
+    "teams": [
+      "Shelbyville",
+      "Waskom"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-13T19:30:00-06:00",
+    "venue": "Bulldog Stadium, Carthage, TX",
+    "city": "Carthage",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "conflict",
+    "missingInformation": [
+      "explicit neutral-site designation",
+      "primary-source kickoff confirmation"
+    ],
+    "conflicts": [
+      {
+        "field": "kickoff",
+        "alternative": "TXHSFB / AP: November 13 19:00; MaxPreps and KLTV: November 13 19:30",
+        "resolution": "Unresolved without school or venue announcement; retain 19:30 as proposed only",
+        "resolved": false
+      }
+    ],
+    "sourceLabel": "MaxPreps \u2014 Shelbyville schedule",
+    "sourceUrl": "https://www.maxpreps.com/tx/shelbyville/shelbyville-dragons/football/schedule/",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "MaxPreps \u2014 Shelbyville schedule",
+        "url": "https://www.maxpreps.com/tx/shelbyville/shelbyville-dragons/football/schedule/",
+        "publishedDate": "2026-11-09"
+      },
+      {
+        "name": "KLTV",
+        "url": "https://www.kltv.com/2026/11/08/football-bi-district-round-schedule/",
+        "publishedDate": "2026-11-07"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145255+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region III",
+    "slot": 3,
+    "teams": [
+      "Carlisle",
+      "Honey Grove"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Elliott Field, Grand Saline, TX",
+    "city": "Grand Saline",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "TXHSFB.net \u2014 2A DI capsules",
+    "sourceUrl": "https://txhsfb.net/?p=29384",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "TXHSFB.net \u2014 2A DI capsules",
+        "url": "https://txhsfb.net/?p=29384",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145256+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region III",
+    "slot": 4,
+    "teams": [
+      "Beckville",
+      "Garrison"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "venue": "Lion Stadium, Henderson, TX",
+    "city": "Henderson",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "TXHSFB.net \u2014 2A DI capsules",
+    "sourceUrl": "https://txhsfb.net/?p=29384",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "TXHSFB.net \u2014 2A DI capsules",
+        "url": "https://txhsfb.net/?p=29384",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145258+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region III",
+    "slot": 5,
+    "teams": [
+      "Pewitt",
+      "Joaquin"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "venue": "Panther Stadium, Longview, TX",
+    "city": "Longview",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "TXHSFB.net \u2014 2A DI capsules",
+    "sourceUrl": "https://txhsfb.net/?p=29384",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "TXHSFB.net \u2014 2A DI capsules",
+        "url": "https://txhsfb.net/?p=29384",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145260+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region III",
+    "slot": 6,
+    "teams": [
+      "Frankston",
+      "Whitewright"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Panther Stadium, Mabank, TX",
+    "city": "Mabank",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "TXHSFB.net \u2014 2A DI capsules",
+    "sourceUrl": "https://txhsfb.net/?p=29384",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "TXHSFB.net \u2014 2A DI capsules",
+        "url": "https://txhsfb.net/?p=29384",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145262+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region III",
+    "slot": 7,
+    "teams": [
+      "San Augustine",
+      "Union Grove"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Lion Stadium, Henderson, TX",
+    "city": "Henderson",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "TXHSFB.net \u2014 2A DI capsules",
+    "sourceUrl": "https://txhsfb.net/?p=29384",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "TXHSFB.net \u2014 2A DI capsules",
+        "url": "https://txhsfb.net/?p=29384",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145263+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region III",
+    "slot": 8,
+    "teams": [
+      "Tom Bean",
+      "Hawkins"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Norville Field, Kaufman, TX",
+    "city": "Kaufman",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "TXHSFB.net \u2014 2A DI capsules",
+    "sourceUrl": "https://txhsfb.net/?p=29384",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "TXHSFB.net \u2014 2A DI capsules",
+        "url": "https://txhsfb.net/?p=29384",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145265+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region IV",
+    "slot": 1,
+    "teams": [
+      "Thorndale",
+      "Groveton"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Green Stadium, Bryan, TX",
+    "city": "Bryan",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "TXHSFB.net \u2014 2A DI capsules",
+    "sourceUrl": "https://txhsfb.net/?p=29384",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "TXHSFB.net \u2014 2A DI capsules",
+        "url": "https://txhsfb.net/?p=29384",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145267+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region IV",
+    "slot": 2,
+    "teams": [
+      "Refugio",
+      "Weimar"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "venue": "Gobbler Stadium, Cuero, TX",
+    "city": "Cuero",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "TXHSFB.net \u2014 2A DI capsules",
+    "sourceUrl": "https://txhsfb.net/?p=29384",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "TXHSFB.net \u2014 2A DI capsules",
+        "url": "https://txhsfb.net/?p=29384",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145269+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region IV",
+    "slot": 3,
+    "teams": [
+      "Leon",
+      "Bruceville-Eddy"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Rocket Field, Robinson, TX",
+    "city": "Robinson",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "TXHSFB.net \u2014 2A DI capsules",
+    "sourceUrl": "https://txhsfb.net/?p=29384",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "TXHSFB.net \u2014 2A DI capsules",
+        "url": "https://txhsfb.net/?p=29384",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145270+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region IV",
+    "slot": 4,
+    "teams": [
+      "Ganado",
+      "Taft"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Greyhound Stadium, Taft, TX",
+    "city": "Taft",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "TXHSFB.net \u2014 2A DI capsules",
+    "sourceUrl": "https://txhsfb.net/?p=29384",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "TXHSFB.net \u2014 2A DI capsules",
+        "url": "https://txhsfb.net/?p=29384",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145273+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region IV",
+    "slot": 5,
+    "teams": [
+      "Shiner",
+      "Freer"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Johnson Field, Karnes City, TX",
+    "city": "Karnes City",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "TXHSFB.net \u2014 2A DI capsules",
+    "sourceUrl": "https://txhsfb.net/?p=29384",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "TXHSFB.net \u2014 2A DI capsules",
+        "url": "https://txhsfb.net/?p=29384",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145275+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region IV",
+    "slot": 6,
+    "teams": [
+      "Lovelady",
+      "Granger"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Cougar Stadium, College Station, TX",
+    "city": "College Station",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "TXHSFB.net \u2014 2A DI capsules",
+    "sourceUrl": "https://txhsfb.net/?p=29384",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "TXHSFB.net \u2014 2A DI capsules",
+        "url": "https://txhsfb.net/?p=29384",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145277+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region IV",
+    "slot": 7,
+    "teams": [
+      "Dilley",
+      "Flatonia"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-13T19:30:00-06:00",
+    "venue": "San Antonio ISD Sports Complex, San Antonio, TX",
+    "city": "San Antonio",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "TXHSFB.net \u2014 2A DI capsules",
+    "sourceUrl": "https://txhsfb.net/?p=29384",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "TXHSFB.net \u2014 2A DI capsules",
+        "url": "https://txhsfb.net/?p=29384",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145279+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region IV",
+    "slot": 8,
+    "teams": [
+      "Rosebud-Lott",
+      "Corrigan-Camden"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Tigerland Stadium, College Station, TX",
+    "city": "College Station",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "TXHSFB.net \u2014 2A DI capsules",
+    "sourceUrl": "https://txhsfb.net/?p=29384",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "TXHSFB.net \u2014 2A DI capsules",
+        "url": "https://txhsfb.net/?p=29384",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145283+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region I",
+    "slot": 1,
+    "teams": [
+      "Gruver",
+      "Plains"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Mustang Stadium, Bovina, TX",
+    "city": "Bovina",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "TXHSFB.net \u2014 2A DII capsules",
+    "sourceUrl": "https://txhsfb.net/?p=29385",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "TXHSFB.net \u2014 2A DII capsules",
+        "url": "https://txhsfb.net/?p=29385",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145284+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region I",
+    "slot": 2,
+    "teams": [
+      "McCamey",
+      "Tahoka"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "venue": "Memorial Stadium, Big Spring, TX",
+    "city": "Big Spring",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "TXHSFB.net \u2014 2A DII capsules",
+    "sourceUrl": "https://txhsfb.net/?p=29385",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "TXHSFB.net \u2014 2A DII capsules",
+        "url": "https://txhsfb.net/?p=29385",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145286+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region I",
+    "slot": 3,
+    "teams": [
+      "Ropes",
+      "Vega"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T18:00:00-06:00",
+    "venue": "Bobcat Stadium, Dimmitt, TX",
+    "city": "Dimmitt",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "TXHSFB.net \u2014 2A DII capsules",
+    "sourceUrl": "https://txhsfb.net/?p=29385",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "TXHSFB.net \u2014 2A DII capsules",
+        "url": "https://txhsfb.net/?p=29385",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145288+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region I",
+    "slot": 4,
+    "teams": [
+      "Lockney",
+      "Iraan"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "venue": "Mustang Bowl, Andrews, TX",
+    "city": "Andrews",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": true,
+    "verificationStatus": "corroborated",
+    "missingInformation": [],
+    "conflicts": [
+      {
+        "field": "kickoff",
+        "alternative": "TXHSFB says Thursday November 12",
+        "resolution": "MaxPreps and Pigskin Prep agree Friday November 13; AP listing also Friday",
+        "resolved": true
+      }
+    ],
+    "sourceLabel": "Pigskin Prep \u2014 Lockney schedule",
+    "sourceUrl": "https://www.pigskinprep.com/showfreeschedules.asp?distID=116&yr=2026",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "Pigskin Prep \u2014 Lockney schedule",
+        "url": "https://www.pigskinprep.com/showfreeschedules.asp?distID=116&yr=2026",
+        "publishedDate": null
+      },
+      {
+        "name": "MaxPreps \u2014 Iraan at Lockney",
+        "url": "https://www.maxpreps.com/tx/football/game/iraan-vs-lockney/11-13-2026/?c=5adfbc69-de9a-4bfa-bef0-427fab1733f6",
+        "publishedDate": null
+      },
+      {
+        "name": "NBC DFW / AP / Texas Football",
+        "url": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+        "publishedDate": null
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145290+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region I",
+    "slot": 5,
+    "teams": [
+      "Roscoe",
+      "Eldorado"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "venue": "San Angelo Stadium, San Angelo, TX",
+    "city": "San Angelo",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "TXHSFB.net \u2014 2A DII capsules",
+    "sourceUrl": "https://txhsfb.net/?p=29385",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "TXHSFB.net \u2014 2A DII capsules",
+        "url": "https://txhsfb.net/?p=29385",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145293+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region I",
+    "slot": 6,
+    "teams": [
+      "Sudan",
+      "West Texas"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:30:00-06:00",
+    "venue": "Happy State Bank Stadium, Canyon, TX",
+    "city": "Canyon",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "TXHSFB.net \u2014 2A DII capsules",
+    "sourceUrl": "https://txhsfb.net/?p=29385",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "TXHSFB.net \u2014 2A DII capsules",
+        "url": "https://txhsfb.net/?p=29385",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145294+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region I",
+    "slot": 7,
+    "teams": [
+      "Wink",
+      "Ralls"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Tornado Stadium, Lamesa, TX",
+    "city": "Lamesa",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "TXHSFB.net \u2014 2A DII capsules",
+    "sourceUrl": "https://txhsfb.net/?p=29385",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "TXHSFB.net \u2014 2A DII capsules",
+        "url": "https://txhsfb.net/?p=29385",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145296+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region I",
+    "slot": 8,
+    "teams": [
+      "Stratford",
+      "Seagraves"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "venue": "Whiteface Stadium, Hereford, TX",
+    "city": "Hereford",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "TXHSFB.net \u2014 2A DII capsules",
+    "sourceUrl": "https://txhsfb.net/?p=29385",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "TXHSFB.net \u2014 2A DII capsules",
+        "url": "https://txhsfb.net/?p=29385",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145298+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region II",
+    "slot": 1,
+    "teams": [
+      "Wellington",
+      "Munday"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Fair Park Stadium, Childress, TX",
+    "city": "Childress",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "corroborated",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "Big Country UIL schedule \u2014 Yahoo Sports",
+    "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "Big Country UIL schedule \u2014 Yahoo Sports",
+        "url": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+        "publishedDate": null
+      },
+      {
+        "name": "Wichita Falls Times Record News (Blue Water syndication)",
+        "url": "https://bluewaterhealthyliving.com/news/national-news/texas/texoma-high-school-football-playoff-pairings-dates-times-and-locations/",
+        "publishedDate": null
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145300+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region II",
+    "slot": 2,
+    "teams": [
+      "Crawford",
+      "Albany"
+    ],
+    "status": "scheduled",
+    "gameId": "albany-vs-crawford-2026-bi-district",
+    "missing": [],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Kangaroo Stadium, Weatherford, TX",
+    "city": "Weatherford",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "corroborated",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "Big Country UIL schedule \u2014 Yahoo Sports",
+    "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "Big Country UIL schedule \u2014 Yahoo Sports",
+        "url": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+        "publishedDate": null
+      },
+      {
+        "name": "KWTX \u2014 Central Texas pairings",
+        "url": "https://www.kwtx.com/2026/11/09/2026-central-texas-hsfb-playoff-pairings/",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145302+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region II",
+    "slot": 3,
+    "teams": [
+      "Windthorst",
+      "Quanah"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Hawk Stadium, Iowa Park, TX",
+    "city": "Iowa Park",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "corroborated",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "TXHSFB.net \u2014 2A DII capsules",
+    "sourceUrl": "https://txhsfb.net/?p=29385",
+    "sourcePublishedDate": "2026-11-09",
+    "sources": [
+      {
+        "name": "TXHSFB.net \u2014 2A DII capsules",
+        "url": "https://txhsfb.net/?p=29385",
+        "publishedDate": "2026-11-09"
+      },
+      {
+        "name": "Wichita Falls Times Record News (Blue Water syndication)",
+        "url": "https://bluewaterhealthyliving.com/news/national-news/texas/texoma-high-school-football-playoff-pairings-dates-times-and-locations/",
+        "publishedDate": null
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145304+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region II",
+    "slot": 4,
+    "teams": [
+      "Stamford",
+      "Mart"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Porcupine Stadium, Springtown, TX",
+    "city": "Springtown",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "corroborated",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "Big Country UIL schedule \u2014 Yahoo Sports",
+    "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "Big Country UIL schedule \u2014 Yahoo Sports",
+        "url": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+        "publishedDate": null
+      },
+      {
+        "name": "KWTX \u2014 Central Texas pairings",
+        "url": "https://www.kwtx.com/2026/11/09/2026-central-texas-hsfb-playoff-pairings/",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145306+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region II",
+    "slot": 5,
+    "teams": [
+      "Goldthwaite",
+      "Hubbard"
+    ],
+    "status": "scheduled",
+    "gameId": "goldthwaite-vs-hubbard-2026-bi-district",
+    "missing": [],
+    "kickoff": "2026-11-12T19:30:00-06:00",
+    "venue": "Crusader Stadium, Belton, TX",
+    "city": "Belton",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "corroborated",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "Big Country UIL schedule \u2014 Yahoo Sports",
+    "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "Big Country UIL schedule \u2014 Yahoo Sports",
+        "url": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+        "publishedDate": null
+      },
+      {
+        "name": "KWTX \u2014 Central Texas pairings",
+        "url": "https://www.kwtx.com/2026/11/09/2026-central-texas-hsfb-playoff-pairings/",
+        "publishedDate": "2026-11-09"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145308+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region II",
+    "slot": 6,
+    "teams": [
+      "Haskell",
+      "Clarendon"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "venue": "Fair Park Stadium, Childress, TX",
+    "city": "Childress",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "corroborated",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "Big Country UIL schedule \u2014 Yahoo Sports",
+    "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "Big Country UIL schedule \u2014 Yahoo Sports",
+        "url": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+        "publishedDate": null
+      },
+      {
+        "name": "TXHSFB.net \u2014 Week 12 schedule",
+        "url": "https://txhsfb.net/?p=29290",
+        "publishedDate": null
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145310+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region II",
+    "slot": 7,
+    "teams": [
+      "Santo",
+      "Miles"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Bob and Norma Cervetto Stadium, Dublin, TX",
+    "city": "Dublin",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "corroborated",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "Big Country UIL schedule \u2014 Yahoo Sports",
+    "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "Big Country UIL schedule \u2014 Yahoo Sports",
+        "url": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+        "publishedDate": null
+      },
+      {
+        "name": "Wichita Falls Times Record News (Blue Water syndication)",
+        "url": "https://bluewaterhealthyliving.com/news/national-news/texas/texoma-high-school-football-playoff-pairings-dates-times-and-locations/",
+        "publishedDate": null
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145311+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region II",
+    "slot": 8,
+    "teams": [
+      "Wheeler",
+      "Seymour"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Lion Stadium, Vernon, TX",
+    "city": "Vernon",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "corroborated",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "Big Country UIL schedule \u2014 Yahoo Sports",
+    "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "Big Country UIL schedule \u2014 Yahoo Sports",
+        "url": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+        "publishedDate": null
+      },
+      {
+        "name": "Wichita Falls Times Record News (Blue Water syndication)",
+        "url": "https://bluewaterhealthyliving.com/news/national-news/texas/texoma-high-school-football-playoff-pairings-dates-times-and-locations/",
+        "publishedDate": null
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145313+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region III",
+    "slot": 1,
+    "teams": [
+      "Collinsville",
+      "Maud"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Wildcat Stadium, Paris, TX",
+    "city": "Paris",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "corroborated",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "NBC DFW / AP / Texas Football",
+    "sourceUrl": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "NBC DFW / AP / Texas Football",
+        "url": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+        "publishedDate": null
+      },
+      {
+        "name": "KXII \u2014 playoff pairings",
+        "url": "https://www.kxii.com/2026/11/07/high-school-football-playoff-pairings-week-1/?outputType=amp",
+        "publishedDate": "2026-11-07"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145315+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region III",
+    "slot": 2,
+    "teams": [
+      "Colmesneil",
+      "Cushing"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "venue": "Roughrider Stadium, Center, TX",
+    "city": "Center",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "NBC DFW / AP / Texas Football",
+    "sourceUrl": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "NBC DFW / AP / Texas Football",
+        "url": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+        "publishedDate": null
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145317+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region III",
+    "slot": 3,
+    "teams": [
+      "Clarksville",
+      "Boles"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "venue": "Red Raider Stadium, Winnsboro, TX",
+    "city": "Winnsboro",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "NBC DFW / AP / Texas Football",
+    "sourceUrl": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "NBC DFW / AP / Texas Football",
+        "url": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+        "publishedDate": null
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145318+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region III",
+    "slot": 4,
+    "teams": [
+      "Grapeland",
+      "West Hardin"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Berton A. Yates Stadium, Willis, TX",
+    "city": "Willis",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "NBC DFW / AP / Texas Football",
+    "sourceUrl": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "NBC DFW / AP / Texas Football",
+        "url": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+        "publishedDate": null
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145320+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region III",
+    "slot": 5,
+    "teams": [
+      "Overton",
+      "Evadale"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Lumberjack Stadium, Diboll, TX",
+    "city": "Diboll",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "NBC DFW / AP / Texas Football",
+    "sourceUrl": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "NBC DFW / AP / Texas Football",
+        "url": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+        "publishedDate": null
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145322+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region III",
+    "slot": 6,
+    "teams": [
+      "Detroit",
+      "Era"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Tiger Stadium, Blue Ridge, TX",
+    "city": "Blue Ridge",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "corroborated",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "NBC DFW / AP / Texas Football",
+    "sourceUrl": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "NBC DFW / AP / Texas Football",
+        "url": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+        "publishedDate": null
+      },
+      {
+        "name": "KXII \u2014 playoff pairings",
+        "url": "https://www.kxii.com/2026/11/07/high-school-football-playoff-pairings-week-1/?outputType=amp",
+        "publishedDate": "2026-11-07"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145324+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region III",
+    "slot": 7,
+    "teams": [
+      "West Sabine",
+      "Tenaha"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "venue": "Wolf Stadium, San Augustine, TX",
+    "city": "San Augustine",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "NBC DFW / AP / Texas Football",
+    "sourceUrl": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "NBC DFW / AP / Texas Football",
+        "url": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+        "publishedDate": null
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145326+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region III",
+    "slot": 8,
+    "teams": [
+      "Lindsay",
+      "Bowie"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Patriot Stadium, Pattonville, TX",
+    "city": "Pattonville",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "corroborated",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "NBC DFW / AP / Texas Football",
+    "sourceUrl": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "NBC DFW / AP / Texas Football",
+        "url": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+        "publishedDate": null
+      },
+      {
+        "name": "KXII \u2014 playoff pairings",
+        "url": "https://www.kxii.com/2026/11/07/high-school-football-playoff-pairings-week-1/?outputType=amp",
+        "publishedDate": "2026-11-07"
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145328+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region IV",
+    "slot": 1,
+    "teams": [
+      "Bremond",
+      "D'Hanis"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:30:00-06:00",
+    "venue": "Bulldog Stadium, Yoakum, TX",
+    "city": "Yoakum",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "NBC DFW / AP / Texas Football",
+    "sourceUrl": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "NBC DFW / AP / Texas Football",
+        "url": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+        "publishedDate": null
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145329+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region IV",
+    "slot": 2,
+    "teams": [
+      "Ben Bolt",
+      "Three Rivers"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "venue": "Pirate Stadium, Sinton, TX",
+    "city": "Sinton",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "NBC DFW / AP / Texas Football",
+    "sourceUrl": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "NBC DFW / AP / Texas Football",
+        "url": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+        "publishedDate": null
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145331+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region IV",
+    "slot": 3,
+    "teams": [
+      "Junction",
+      "Bartlett"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "venue": "Shelton Stadium, Buda, TX",
+    "city": "Buda",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "NBC DFW / AP / Texas Football",
+    "sourceUrl": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "NBC DFW / AP / Texas Football",
+        "url": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+        "publishedDate": null
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145333+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region IV",
+    "slot": 4,
+    "teams": [
+      "Yorktown",
+      "Santa Maria"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "venue": "Bear Stadium, Corpus Christi, TX",
+    "city": "Corpus Christi",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "NBC DFW / AP / Texas Football",
+    "sourceUrl": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "NBC DFW / AP / Texas Football",
+        "url": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+        "publishedDate": null
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145335+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region IV",
+    "slot": 5,
+    "teams": [
+      "Falls City",
+      "Agua Dulce"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Beauchamp Stadium, Pettus, TX",
+    "city": "Pettus",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "NBC DFW / AP / Texas Football",
+    "sourceUrl": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "NBC DFW / AP / Texas Football",
+        "url": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+        "publishedDate": null
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145336+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region IV",
+    "slot": 6,
+    "teams": [
+      "Harper",
+      "Burton"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Matador Stadium, Seguin, TX",
+    "city": "Seguin",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "NBC DFW / AP / Texas Football",
+    "sourceUrl": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "NBC DFW / AP / Texas Football",
+        "url": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+        "publishedDate": null
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145338+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region IV",
+    "slot": 7,
+    "teams": [
+      "La Villa",
+      "Pettus"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "venue": "Cowboy Stadium, Premont, TX",
+    "city": "Premont",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "NBC DFW / AP / Texas Football",
+    "sourceUrl": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "NBC DFW / AP / Texas Football",
+        "url": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+        "publishedDate": null
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145340+00:00",
+    "readyForPublication": false
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region IV",
+    "slot": 8,
+    "teams": [
+      "Chilton",
+      "Brackett"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ],
+    "kickoff": "2026-11-14T17:00:00-06:00",
+    "venue": "Eschenberg Field, Floresville, TX",
+    "city": "Floresville",
+    "timeZone": "America/Chicago",
+    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "neutralSite": null,
+    "verificationStatus": "single-source",
+    "missingInformation": [
+      "explicit neutral-site designation"
+    ],
+    "conflicts": [],
+    "sourceLabel": "NBC DFW / AP / Texas Football",
+    "sourceUrl": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+    "sourcePublishedDate": null,
+    "sources": [
+      {
+        "name": "NBC DFW / AP / Texas Football",
+        "url": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-2a-texas-high-school-football-bi-district-playoff-schedule/4103108/",
+        "publishedDate": null
+      }
+    ],
+    "researchedAt": "2026-11-11T00:33:52.145342+00:00",
+    "readyForPublication": false
+  }
+]
