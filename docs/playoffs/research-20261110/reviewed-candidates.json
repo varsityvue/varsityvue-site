@@ -12,6 +12,1731 @@
   "structurallyValidNewCandidates": 185,
   "sourceVerifiedSchedules": 16,
   "readyForPublication": 0,
+  "identityAudit": {
+    "catalogSchools": 70,
+    "teamReferences": 384,
+    "exactMatchedTeamReferences": 40,
+    "unresolvedTeamReferences": 344,
+    "unresolvedDistinctIdentities": 343,
+    "fullyMatchedGames": 7,
+    "unresolved": [
+      {
+        "name": "Panhandle",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Floydada",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Forsan",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Abernathy",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Tulia",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Sanford-Fritch",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "New Home",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Ballinger",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Ozona",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Olton",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Highland Park",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Sonora",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "New Deal",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Spearman",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Farwell",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Nocona",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Bosqueville",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Johnson City",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Muenster",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Tioga",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Axtell",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Alvord",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Cooper",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Como-Pickton",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Shelbyville",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Waskom",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Carlisle",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Honey Grove",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Beckville",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Garrison",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Pewitt",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Joaquin",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Frankston",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Whitewright",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "San Augustine",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Union Grove",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Tom Bean",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Hawkins",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Thorndale",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Groveton",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Refugio",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Weimar",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Leon",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Bruceville-Eddy",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Ganado",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Taft",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Shiner",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Freer",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Lovelady",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Dilley",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Flatonia",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Rosebud-Lott",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Corrigan-Camden",
+        "division": "2A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Gruver",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Plains",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "McCamey",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Tahoka",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Ropes",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Vega",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Lockney",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Iraan",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Eldorado",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Sudan",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "West Texas",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Wink",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Ralls",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Stratford",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Seagraves",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Wellington",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Munday",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Windthorst",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Quanah",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Clarendon",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Wheeler",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Collinsville",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Maud",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Colmesneil",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Cushing",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Clarksville",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Boles",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Grapeland",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "West Hardin",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Overton",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Evadale",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Detroit",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Era",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "West Sabine",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Tenaha",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Lindsay",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Bowie",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Bremond",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "D'Hanis",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Ben Bolt",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Three Rivers",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Bartlett",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Yorktown",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Santa Maria",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Falls City",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Agua Dulce",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Harper",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Burton",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "La Villa",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Pettus",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Chilton",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Brackett",
+        "division": "2A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Shallowater",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Compass Academy",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Denver City",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Ingram Moore",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Vernon",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Wall",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Bowie",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Sweetwater",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Dalhart",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Paradise",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Llano",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Bushland",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Jim Ned",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Gunter",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Groesbeck",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Liberty-Eylau",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Commerce",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Whitney",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Life Oak Cliff",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Winnsboro",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Tatum",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Malakoff",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Gladewater",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Mexia",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Pilot Point",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Atlanta",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Mount Vernon",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Whitesboro",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Grandview",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Diboll",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Buna",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Orangefield",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Trinity",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Anahuac",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Westwood",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Canadian",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Muleshoe",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Crane",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Idalou",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Dimmitt",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Coahoma",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Stanton",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Slaton",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Friona",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Grape Creek",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Childress",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Littlefield",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Edgewood",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Valley View",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Howe",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Quitman",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Grand Saline",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Leonard",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Hooks",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Arp",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Jefferson",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Redwater",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Mildred",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Woodville",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "West Rusk",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "New Boston",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Newton",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Elkhart",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "De Kalb",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Troup",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Andress",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Dumas",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Decatur",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Lake View",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Randall",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Austin",
+        "division": "4A Division I",
+        "bracketReferences": 2
+      },
+      {
+        "name": "Plainview",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Lake Dallas",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Midland Greenwood",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Springtown",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "West Plains",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Ysleta",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Aubrey",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Andrews",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Riverside",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Canyon",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Pine Tree",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Caddo Mills",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Paris",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Kilgore",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Sulphur Springs",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Henderson",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Lindale",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Kaufman",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Irvin",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Pecos",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Graham",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Estacado",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Seminole",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Bowie",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Levelland",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Mineral Wells",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Liberty",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Burkburnett",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Monahans",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Clint",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Perryton",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Mountain View",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Big Spring",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Glen Rose",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Ponder",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Carthage",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Ford",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Van Alstyne",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Venus",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Farmersville",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Pleasant Grove",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Sunnyvale",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Pittsburg",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Krum",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Kemp",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Gilmer",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "North Lamar",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Hillsboro",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Sanger",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Lorena",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Sweeny",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Edna",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "C.H. Yoe",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Columbus",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Little River Academy",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Franklin",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Hempstead",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Fairfield",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "East Chambers",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Yoakum",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Carrizo Springs",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Rio Hondo",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Goliad",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Devine",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Randolph",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Orange Grove",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Raymondville",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Sinton",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Lyford",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Jourdanton",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Hallettsville",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "San Diego",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Mathis",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Marion",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Hondo",
+        "division": "3A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Trinity Leadership",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Maypearl",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Bells",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Lone Oak",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Madison",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Scurry-Rosser",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "New Waverly",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Buffalo",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Teague",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Hardin",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Thrall",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Brazos",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Hebbronville",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Blanco",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "East Bernard",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Anderson-Shiro",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Stockdale",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Cotulla",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Poth",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Santa Rosa",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Rice Consolidated",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Rogers",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "George West",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Nixon-Smiley",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Lexington",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Boling",
+        "division": "3A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Kennedale",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Carter",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Lincoln",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Southwest",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Kimball",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Benbrook",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Eastern Hills",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Wilmer-Hutchins",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Little Cypress-Mauriceville",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "El Campo",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Stafford",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Bridge City",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Sealy",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Bay City",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Fort Bend Willowridge",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Hargrave",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Navasota",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Vidor",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Sterling",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Canyon Lake",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Pleasanton",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Edcouch-Elsa",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Calhoun",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Somerset",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Davenport",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Zapata",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Miller",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Calallen",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Hidalgo Early College",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Floresville",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Fredericksburg",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Alice",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Tuloso-Midway",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Tivy",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "La Vernia",
+        "division": "4A Division I",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Canton",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Shepherd",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "La Marque",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "North Forest",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "West Orange-Stark",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Van",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Wheatley",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Hitchcock",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Yates",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "La Grange",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Silsbee",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Madisonville",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Bellville",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Worthing",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Athens",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Hamshire-Fannett",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "La Vega",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Manor New Tech",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "London",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Navarro",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Wimberley",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Salado",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Bandera",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "King",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Cuero",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Ingleside",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Lago Vista",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Rockport-Fulton",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Gonzales",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Robinson",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      },
+      {
+        "name": "Giddings",
+        "division": "4A Division II",
+        "bracketReferences": 1
+      }
+    ]
+  },
   "candidates": [
     {
       "bracket": {
@@ -6940,18 +8665,29 @@
         "retrievedDate": "2026-11-10",
         "verificationStatus": "partial",
         "missingInformation": [
-          "explicit timezone confirmation",
-          "resolve conflicting kickoff"
+          "explicit timezone confirmation"
         ],
         "conflicts": [
           {
             "field": "localTime",
             "value": "19:00",
             "sourceUrl": "https://txhsfb.net/?p=29377",
-            "note": "DCTF/NBC/MaxPreps say 18:00; capsule says 19:00. Needs school confirmation."
+            "note": "DCTF/NBC/MaxPreps say 18:00; capsule says 19:00. Needs school confirmation.",
+            "resolved": true,
+            "resolution": "Prefer participating-school announcement for 18:00 Friday in Cisco; retain capsule 19:00 as superseded evidence.",
+            "resolutionSourceUrl": "https://www.wallisd.net/live-feed"
           }
         ],
         "notes": [],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-10",
+            "sourceLabel": "Wall ISD official announcement",
+            "sourceUrl": "https://www.wallisd.net/live-feed",
+            "retrievalStatus": "page-reviewed",
+            "summary": "School lists Friday versus Bowie at Cisco High School, 6 p.m. No explicit timezone or neutral-site designation."
+          }
+        ],
         "schoolSlugs": [
           null,
           null
@@ -6982,23 +8718,33 @@
         "retrievedDate": "2026-11-10",
         "verificationStatus": "partial",
         "missingInformation": [
-          "explicit timezone confirmation",
-          "resolve conflicting kickoff"
+          "explicit timezone confirmation"
         ],
         "conflicts": [
           {
             "field": "localTime",
             "value": "19:00",
             "sourceUrl": "https://txhsfb.net/?p=29377",
-            "note": "DCTF/NBC/MaxPreps say 18:00; capsule says 19:00. Needs school confirmation."
+            "note": "DCTF/NBC/MaxPreps say 18:00; capsule says 19:00. Needs school confirmation.",
+            "resolved": true,
+            "resolution": "Prefer participating-school announcement for 18:00 Friday in Cisco; retain capsule 19:00 as superseded evidence.",
+            "resolutionSourceUrl": "https://www.wallisd.net/live-feed"
           }
         ],
-        "notes": []
+        "notes": [],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-10",
+            "sourceLabel": "Wall ISD official announcement",
+            "sourceUrl": "https://www.wallisd.net/live-feed",
+            "retrievalStatus": "page-reviewed",
+            "summary": "School lists Friday versus Bowie at Cisco High School, 6 p.m. No explicit timezone or neutral-site designation."
+          }
+        ]
       },
       "structuralValidationPassed": true,
       "publicationIssues": [
         "explicit timezone confirmation",
-        "resolve conflicting kickoff",
         "timezone offset is inferred; confirm source timezone",
         "independent source verification still required",
         "explicit neutral-site designation not verified",
@@ -9204,18 +10950,35 @@
         "retrievedDate": "2026-11-10",
         "verificationStatus": "partial",
         "missingInformation": [
-          "explicit timezone confirmation",
-          "resolve conflicting kickoff"
+          "explicit timezone confirmation"
         ],
         "conflicts": [
           {
             "field": "localTime",
             "value": "19:00",
             "sourceUrl": "https://txhsfb.net/?p=29290",
-            "note": "KLTV lists19:30; AP/NBC and txhsfb list19:00. School confirmation required."
+            "note": "KLTV lists19:30; AP/NBC and txhsfb list19:00. School confirmation required.",
+            "resolved": true,
+            "resolution": "Participating-school football itinerary supports Nov. 13 19:30 at Hallsville. Timezone and neutral-site status remain unconfirmed.",
+            "resolutionSourceUrl": "https://sites.google.com/a/arpisd.org/arp-bands/home/high-school-band-announcements"
           }
         ],
         "notes": [],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-10",
+            "sourceLabel": "Arp ISD band game itinerary",
+            "sourceUrl": "https://sites.google.com/a/arpisd.org/arp-bands/home/high-school-band-announcements",
+            "retrievalStatus": "page-reviewed",
+            "summary": "School itinerary identifies Nov. 13 kickoff at 7:30 p.m., Hallsville Bobcat Stadium, with Arp designated home. Nearby twirling dates contain an inconsistent weekday/date; those are not football evidence."
+          }
+        ],
+        "homeAwayEvidence": {
+          "homeTeam": "Arp",
+          "awayTeam": "Hooks",
+          "sourceUrl": "https://sites.google.com/a/arpisd.org/arp-bands/home/high-school-band-announcements",
+          "reviewStatus": "school-designation-confirmed"
+        },
         "schoolSlugs": [
           null,
           null
@@ -9246,23 +11009,39 @@
         "retrievedDate": "2026-11-10",
         "verificationStatus": "partial",
         "missingInformation": [
-          "explicit timezone confirmation",
-          "resolve conflicting kickoff"
+          "explicit timezone confirmation"
         ],
         "conflicts": [
           {
             "field": "localTime",
             "value": "19:00",
             "sourceUrl": "https://txhsfb.net/?p=29290",
-            "note": "KLTV lists19:30; AP/NBC and txhsfb list19:00. School confirmation required."
+            "note": "KLTV lists19:30; AP/NBC and txhsfb list19:00. School confirmation required.",
+            "resolved": true,
+            "resolution": "Participating-school football itinerary supports Nov. 13 19:30 at Hallsville. Timezone and neutral-site status remain unconfirmed.",
+            "resolutionSourceUrl": "https://sites.google.com/a/arpisd.org/arp-bands/home/high-school-band-announcements"
           }
         ],
-        "notes": []
+        "notes": [],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-10",
+            "sourceLabel": "Arp ISD band game itinerary",
+            "sourceUrl": "https://sites.google.com/a/arpisd.org/arp-bands/home/high-school-band-announcements",
+            "retrievalStatus": "page-reviewed",
+            "summary": "School itinerary identifies Nov. 13 kickoff at 7:30 p.m., Hallsville Bobcat Stadium, with Arp designated home. Nearby twirling dates contain an inconsistent weekday/date; those are not football evidence."
+          }
+        ],
+        "homeAwayEvidence": {
+          "homeTeam": "Arp",
+          "awayTeam": "Hooks",
+          "sourceUrl": "https://sites.google.com/a/arpisd.org/arp-bands/home/high-school-band-announcements",
+          "reviewStatus": "school-designation-confirmed"
+        }
       },
       "structuralValidationPassed": true,
       "publicationIssues": [
         "explicit timezone confirmation",
-        "resolve conflicting kickoff",
         "timezone offset is inferred; confirm source timezone",
         "independent source verification still required",
         "explicit neutral-site designation not verified",
@@ -12480,18 +14259,29 @@
         "retrievedDate": "2026-11-10",
         "verificationStatus": "partial",
         "missingInformation": [
-          "explicit timezone confirmation",
-          "resolve conflicting information"
+          "explicit timezone confirmation"
         ],
         "conflicts": [
           {
             "field": "date",
             "value": "2026-11-12",
             "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-playoff-200604439.html",
-            "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication."
+            "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication.",
+            "resolved": true,
+            "resolution": "Host district confirms Nov. 13 rather than syndicated Nov. 12; explicit timezone still absent.",
+            "resolutionSourceUrl": "https://www.nisd.net/district/athletics/schedules"
           }
         ],
         "notes": [],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-10",
+            "sourceLabel": "Northside ISD host schedule",
+            "sourceUrl": "https://www.nisd.net/district/athletics/schedules",
+            "retrievalStatus": "page-reviewed",
+            "summary": "Host district lists this game Friday Nov. 13, 2026, 7 p.m. at Gustafson Stadium; stadium address is in San Antonio."
+          }
+        ],
         "schoolSlugs": [
           null,
           null
@@ -12522,23 +14312,33 @@
         "retrievedDate": "2026-11-10",
         "verificationStatus": "partial",
         "missingInformation": [
-          "explicit timezone confirmation",
-          "resolve conflicting information"
+          "explicit timezone confirmation"
         ],
         "conflicts": [
           {
             "field": "date",
             "value": "2026-11-12",
             "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-playoff-200604439.html",
-            "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication."
+            "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication.",
+            "resolved": true,
+            "resolution": "Host district confirms Nov. 13 rather than syndicated Nov. 12; explicit timezone still absent.",
+            "resolutionSourceUrl": "https://www.nisd.net/district/athletics/schedules"
           }
         ],
-        "notes": []
+        "notes": [],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-10",
+            "sourceLabel": "Northside ISD host schedule",
+            "sourceUrl": "https://www.nisd.net/district/athletics/schedules",
+            "retrievalStatus": "page-reviewed",
+            "summary": "Host district lists this game Friday Nov. 13, 2026, 7 p.m. at Gustafson Stadium; stadium address is in San Antonio."
+          }
+        ]
       },
       "structuralValidationPassed": true,
       "publicationIssues": [
         "explicit timezone confirmation",
-        "resolve conflicting information",
         "timezone offset is inferred; confirm source timezone",
         "independent source verification still required",
         "explicit neutral-site designation not verified",
@@ -13051,7 +14851,8 @@
         "verificationStatus": "partial",
         "missingInformation": [
           "explicit timezone confirmation",
-          "resolve conflicting information"
+          "resolve conflicting information",
+          "resolve conflicting kickoff"
         ],
         "conflicts": [
           {
@@ -13059,9 +14860,25 @@
             "value": "2026-11-12",
             "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-playoff-200604439.html",
             "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication."
+          },
+          {
+            "field": "localTime",
+            "value": "19:00 CST",
+            "sourceUrl": "https://www.maxpreps.com/tx/football/game/mathis-vs-san-diego/11-13-2026/?c=a7b77c90-65e5-424f-ad2f-3a8df22e55d4",
+            "note": "New kickoff discrepancy: selected AP/capsule is 19:30; school or ticketing confirmation required.",
+            "resolved": false
           }
         ],
         "notes": [],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-10",
+            "sourceLabel": "MaxPreps matchup",
+            "sourceUrl": "https://www.maxpreps.com/tx/football/game/mathis-vs-san-diego/11-13-2026/?c=a7b77c90-65e5-424f-ad2f-3a8df22e55d4",
+            "retrievalStatus": "search-result-reviewed",
+            "summary": "Game listing gives Nov. 13 at 19:00 CST at Odem Owl Stadium, contrary to selected 19:30. Do not resolve this kickoff by majority vote."
+          }
+        ],
         "schoolSlugs": [
           null,
           null
@@ -13093,7 +14910,8 @@
         "verificationStatus": "partial",
         "missingInformation": [
           "explicit timezone confirmation",
-          "resolve conflicting information"
+          "resolve conflicting information",
+          "resolve conflicting kickoff"
         ],
         "conflicts": [
           {
@@ -13101,14 +14919,31 @@
             "value": "2026-11-12",
             "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-playoff-200604439.html",
             "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication."
+          },
+          {
+            "field": "localTime",
+            "value": "19:00 CST",
+            "sourceUrl": "https://www.maxpreps.com/tx/football/game/mathis-vs-san-diego/11-13-2026/?c=a7b77c90-65e5-424f-ad2f-3a8df22e55d4",
+            "note": "New kickoff discrepancy: selected AP/capsule is 19:30; school or ticketing confirmation required.",
+            "resolved": false
           }
         ],
-        "notes": []
+        "notes": [],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-10",
+            "sourceLabel": "MaxPreps matchup",
+            "sourceUrl": "https://www.maxpreps.com/tx/football/game/mathis-vs-san-diego/11-13-2026/?c=a7b77c90-65e5-424f-ad2f-3a8df22e55d4",
+            "retrievalStatus": "search-result-reviewed",
+            "summary": "Game listing gives Nov. 13 at 19:00 CST at Odem Owl Stadium, contrary to selected 19:30. Do not resolve this kickoff by majority vote."
+          }
+        ]
       },
       "structuralValidationPassed": true,
       "publicationIssues": [
         "explicit timezone confirmation",
         "resolve conflicting information",
+        "resolve conflicting kickoff",
         "timezone offset is inferred; confirm source timezone",
         "independent source verification still required",
         "explicit neutral-site designation not verified",
@@ -13267,9 +15102,25 @@
             "value": "Thu11/13 19:30",
             "sourceUrl": "https://txhsfb.net/?p=29290",
             "note": "Internally inconsistent weekday/date; AP says ThursdayNov12 19:00. Do not guess."
+          },
+          {
+            "field": "localTime",
+            "value": "19:30",
+            "sourceUrl": "https://www.maxpreps.com/tx/cedar-hill/trinity-leadership-tigers/football/schedule/",
+            "note": "Current team schedule agrees with 19:30 but selected AP says 19:00; unresolved without primary confirmation.",
+            "resolved": false
           }
         ],
         "notes": [],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-10",
+            "sourceLabel": "MaxPreps team schedule",
+            "sourceUrl": "https://www.maxpreps.com/tx/cedar-hill/trinity-leadership-tigers/football/schedule/",
+            "retrievalStatus": "search-result-reviewed",
+            "summary": "Current schedule lists Nov. 12 at 19:30 and labels the game neutral; this conflicts with selected AP 19:00. Participating school or host confirmation still required."
+          }
+        ],
         "schoolSlugs": [
           "millsap",
           null
@@ -13309,9 +15160,25 @@
             "value": "Thu11/13 19:30",
             "sourceUrl": "https://txhsfb.net/?p=29290",
             "note": "Internally inconsistent weekday/date; AP says ThursdayNov12 19:00. Do not guess."
+          },
+          {
+            "field": "localTime",
+            "value": "19:30",
+            "sourceUrl": "https://www.maxpreps.com/tx/cedar-hill/trinity-leadership-tigers/football/schedule/",
+            "note": "Current team schedule agrees with 19:30 but selected AP says 19:00; unresolved without primary confirmation.",
+            "resolved": false
           }
         ],
-        "notes": []
+        "notes": [],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-10",
+            "sourceLabel": "MaxPreps team schedule",
+            "sourceUrl": "https://www.maxpreps.com/tx/cedar-hill/trinity-leadership-tigers/football/schedule/",
+            "retrievalStatus": "search-result-reviewed",
+            "summary": "Current schedule lists Nov. 12 at 19:30 and labels the game neutral; this conflicts with selected AP 19:00. Participating school or host confirmation still required."
+          }
+        ]
       },
       "structuralValidationPassed": true,
       "publicationIssues": [
@@ -13460,6 +15327,15 @@
           }
         ],
         "notes": [],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-10",
+            "sourceLabel": "Lone Oak official athletics indexed announcement",
+            "sourceUrl": "https://www.loneoakbuffaloes.com/sport/football/boys/",
+            "retrievalStatus": "search-index-only; opened-page-stale",
+            "summary": "Indexed Nov. 9 announcement supports Nov. 13 19:30, Tom Kimbrough Stadium, 700 N. Murphy Road, Murphy. Opened page returned older content without this announcement; direct current-page confirmation remains required."
+          }
+        ],
         "schoolSlugs": [
           null,
           null
@@ -13501,7 +15377,16 @@
             "note": "AP lists Murphy; schedule lists Plano. Verify stadium identity/city."
           }
         ],
-        "notes": []
+        "notes": [],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-10",
+            "sourceLabel": "Lone Oak official athletics indexed announcement",
+            "sourceUrl": "https://www.loneoakbuffaloes.com/sport/football/boys/",
+            "retrievalStatus": "search-index-only; opened-page-stale",
+            "summary": "Indexed Nov. 9 announcement supports Nov. 13 19:30, Tom Kimbrough Stadium, 700 N. Murphy Road, Murphy. Opened page returned older content without this announcement; direct current-page confirmation remains required."
+          }
+        ]
       },
       "structuralValidationPassed": true,
       "publicationIssues": [
@@ -16912,8 +18797,8 @@
         "localTime": "19:30",
         "kickoff": "2026-11-13T19:30:00-06:00",
         "proposedKickoff": "2026-11-13T19:30:00-06:00",
-        "timeZone": null,
-        "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+        "timeZone": "America/Chicago",
+        "timeZoneBasis": "NFHS event explicitly states CST; November CST is UTC-06:00",
         "venue": "Green Stadium",
         "city": "Bryan",
         "neutralSite": null,
@@ -16924,22 +18809,31 @@
         "sourceUpdatedDate": null,
         "retrievedDate": "2026-11-10",
         "verificationStatus": "partial",
-        "missingInformation": [
-          "explicit timezone confirmation",
-          "resolve conflicting information"
-        ],
+        "missingInformation": [],
         "conflicts": [
           {
             "field": "date",
             "value": "01/13",
             "sourceUrl": "https://txhsfb.net/?p=29358",
-            "note": "Capsule/schedule month typo; KLTV and AP say Nov13. School confirmation before publication."
+            "note": "Capsule/schedule month typo; KLTV and AP say Nov13. School confirmation before publication.",
+            "resolved": true,
+            "resolution": "Scheduled broadcaster confirms November 13; January listing retained as superseded typo evidence.",
+            "resolutionSourceUrl": "https://www.nfhsnetwork.com/events/uil/gam0e2b8fd5f4"
           }
         ],
         "notes": [
           {
             "note": "Time from KLTV original schedule; selected FNP confirms date/venue.",
             "sourceUrl": "https://www.kltv.com/2026/11/08/football-bi-district-round-schedule/"
+          }
+        ],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-10",
+            "sourceLabel": "NFHS Network scheduled broadcast",
+            "sourceUrl": "https://www.nfhsnetwork.com/events/uil/gam0e2b8fd5f4",
+            "retrievalStatus": "page-reviewed",
+            "summary": "Event lists Nov. 13, 2026 at 7:30 p.m. CST in Bryan. Exact stadium and neutral-site designation are not supplied on this page."
           }
         ],
         "schoolSlugs": [
@@ -16957,10 +18851,10 @@
         ],
         "date": "2026-11-13",
         "localTime": "19:30",
-        "kickoff": null,
+        "kickoff": "2026-11-13T19:30:00-06:00",
         "proposedKickoff": "2026-11-13T19:30:00-06:00",
-        "timeZone": null,
-        "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+        "timeZone": "America/Chicago",
+        "timeZoneBasis": "NFHS event explicitly states CST; November CST is UTC-06:00",
         "venue": "Green Stadium",
         "city": "Bryan",
         "neutralSite": null,
@@ -16971,16 +18865,16 @@
         "sourceUpdatedDate": null,
         "retrievedDate": "2026-11-10",
         "verificationStatus": "partial",
-        "missingInformation": [
-          "explicit timezone confirmation",
-          "resolve conflicting information"
-        ],
+        "missingInformation": [],
         "conflicts": [
           {
             "field": "date",
             "value": "01/13",
             "sourceUrl": "https://txhsfb.net/?p=29358",
-            "note": "Capsule/schedule month typo; KLTV and AP say Nov13. School confirmation before publication."
+            "note": "Capsule/schedule month typo; KLTV and AP say Nov13. School confirmation before publication.",
+            "resolved": true,
+            "resolution": "Scheduled broadcaster confirms November 13; January listing retained as superseded typo evidence.",
+            "resolutionSourceUrl": "https://www.nfhsnetwork.com/events/uil/gam0e2b8fd5f4"
           }
         ],
         "notes": [
@@ -16988,13 +18882,19 @@
             "note": "Time from KLTV original schedule; selected FNP confirms date/venue.",
             "sourceUrl": "https://www.kltv.com/2026/11/08/football-bi-district-round-schedule/"
           }
+        ],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-10",
+            "sourceLabel": "NFHS Network scheduled broadcast",
+            "sourceUrl": "https://www.nfhsnetwork.com/events/uil/gam0e2b8fd5f4",
+            "retrievalStatus": "page-reviewed",
+            "summary": "Event lists Nov. 13, 2026 at 7:30 p.m. CST in Bryan. Exact stadium and neutral-site designation are not supplied on this page."
+          }
         ]
       },
       "structuralValidationPassed": true,
       "publicationIssues": [
-        "explicit timezone confirmation",
-        "resolve conflicting information",
-        "timezone offset is inferred; confirm source timezone",
         "independent source verification still required",
         "explicit neutral-site designation not verified",
         "review recorded source discrepancies and resolution notes",

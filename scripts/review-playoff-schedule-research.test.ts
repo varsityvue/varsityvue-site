@@ -32,6 +32,15 @@ test("offline review never approves publication and reconciles existing records"
   assert.equal(output.missingRecordsResearched, 185);
   assert.equal(output.unresearched.length, 0);
   assert.equal(output.readyForPublication, 0);
+  assert.equal(output.identityAudit.teamReferences, 384);
+  assert.equal(output.identityAudit.exactMatchedTeamReferences + output.identityAudit.unresolvedTeamReferences, 384);
+  assert.equal(output.identityAudit.unresolved.reduce((sum: number, item: { bracketReferences: number }) => sum + item.bracketReferences, 0), output.identityAudit.unresolvedTeamReferences);
+  // Substrings collide with established schools: Leon is not De Leon,
+  // Plains is not Cross Plains, and Cooper is not Lubbock Cooper.
+  for (const name of ["Leon", "Plains", "Cooper", "Ford", "Canyon"]) {
+    const row = output.candidates.find((item: { bracket: { teams: string[] } }) => item.bracket.teams.includes(name));
+    assert.equal(row.proposed.schoolSlugs[row.bracket.teams.indexOf(name)], null, name);
+  }
   for (const row of output.candidates) {
     assert.equal(row.readyForPublication, false);
     assert.ok(row.publicationIssues.length > 0);

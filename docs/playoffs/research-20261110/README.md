@@ -14,6 +14,8 @@ No file here is imported by a public page, game catalog, API, or database writer
 - `inventory.json`: bracket readiness snapshot, including the seven existing game IDs.
 - `reviewed-candidates.json`: reproducible review output; 185 structurally valid new-record proposals and seven existing-record reconciliation entries. Structural validity is not factual verification.
 
+The catalog contains 70 schools. Of 384 bracket team references, 40 match an exact catalog name and classification; 344 references representing 343 distinct name/classification identities remain unresolved. The generated `identityAudit` lists every unresolved identity without fuzzy matching. Some are aliases (Johnson City / Johnson City LBJ and West Plains / Canyon West Plains); others need new catalog records. Do not mistake Leon for De Leon, Plains for Cross Plains, Cooper for Lubbock Cooper, Ford for Stamford or Crawford, or Canyon for Canyon West Plains.
+
 Only seven rows currently resolve both school identities to existing catalog slugs by exact name and classification. Unknown or ambiguous identities remain null; no statewide slugs were invented. Of 192 rows, 191 lack an explicit neutral-site designation in the research evidence. No row is publication-ready.
 
 ## Reproduce
@@ -37,13 +39,13 @@ The script reads repository files and writes only to stdout. It has no database 
 ## Priority discrepancies
 
 1. Shelbyville–Waskom: Nov 13, 7 versus 7:30 p.m.; local Shelby County announcement, KLTV and MaxPreps support 7:30, but contrary reports are preserved.
-2. Wall–Bowie: Nov 13, 6 versus 7 p.m., Cisco; school confirmation needed.
-3. Hooks–Arp: 7 versus 7:30 p.m.; source confirmation needed.
+2. Wall–Bowie: Wall ISD confirms Friday at 6 p.m. in Cisco; retain 7 p.m. report as superseded. Explicit timezone and site status still needed.
+3. Hooks–Arp: Arp ISD itinerary supports Nov. 13 at 7:30 p.m., Arp home; retain 7 p.m. report as superseded. Timezone and site status still needed.
 4. Millsap–Trinity Leadership: internally inconsistent “Thu 11/13” and 7:30 versus Nov 12 at 7; do not resolve by guessing.
 5. Bells–Lone Oak: Murphy versus Plano venue-city listing.
 6. Lincoln–Southwest: Clark Stadium in Fort Worth versus Plano; stadium identity unresolved.
-7. Athens–Hamshire-Fannett: one source prints January rather than November.
-8. Five Class 3A DI Region IV games have conflicting broad-source dates.
+7. Athens–Hamshire-Fannett: NFHS event confirms Nov. 13 at 7:30 p.m. CST; January typo retained as superseded. Exact venue/site status still needed.
+8. Five Class 3A DI Region IV games had conflicting broad-source dates. Host NISD resolves Yoakum–Carrizo Springs to Nov. 13; the other four remain unresolved. San Diego–Mathis also has a newly recorded 7 versus 7:30 p.m. kickoff conflict.
 9. Resolved-preference notes remain for Bosqueville–Johnson City (official Granger, not La Grange), Axtell–Bangs (weekday/date typo), and Lockney–Iraan (Thursday versus Friday).
 10. Coahoma–Holliday stadium naming needs identity review (Eagle versus Don Lacy).
 
@@ -52,3 +54,19 @@ Do not trust broad SI/syndicated date groupings over school announcements. Keep 
 ## Next publication work
 
 Confirm conflicting details with schools or venues; reconcile exact school identities, home/away order, timezone and neutral designation; recheck existing games and verified results; then request explicit approval of an exact publication batch. No production insertion, schema change, score change or merge is authorized by this packet.
+
+## Follow-up reconciliation — November 10
+
+Follow-up evidence is preserved on seven candidate rows. A resolved discrepancy confirms only the stated field; all candidates remain publication-blocked. Original reports and conflicting values are retained.
+
+| Matchup | Finding | Remaining limitation |
+| --- | --- | --- |
+| Wall–Bowie | Wall ISD announcement supports Friday at 6 p.m. in Cisco; earlier 7 p.m. report marked superseded. | Explicit timezone and neutral-site evidence absent. |
+| Hooks–Arp | Arp ISD band itinerary supports Nov. 13, 7:30 p.m., Hallsville Bobcat Stadium; Arp is designated home. | Timezone and neutral-site evidence absent; nearby band-event weekday typo recorded separately. |
+| Yoakum–Carrizo Springs | Host Northside ISD confirms Nov. 13, 7 p.m., Gustafson Stadium, San Antonio; Nov. 12 report marked superseded. | Explicit timezone and neutral designation absent. |
+| Athens–Hamshire-Fannett | NFHS scheduled broadcast confirms Nov. 13 at 7:30 p.m. CST in Bryan, resolving the January typo and timezone gap. | Exact venue and neutral-site evidence require reconciliation. |
+| Bells–Lone Oak | Indexed official athletics announcement supports Tom Kimbrough Stadium in Murphy. | Opened page returned older content; indexed evidence alone does not close the venue discrepancy. |
+| Millsap–Trinity Leadership | Current MaxPreps schedule adds Nov. 12, 7:30 p.m. as another conflicting report. | Selected AP says 7 p.m.; no primary confirmation found. Proposed time remains unchanged. |
+| San Diego–Mathis | Current MaxPreps matchup adds a new 7 p.m. CST report. | Existing AP/capsule says 7:30 p.m.; both date and kickoff discrepancies remain blocked. |
+
+Evidence links and retrieval limitations are recorded in each row's `followUpEvidence`. Search-index-only evidence is explicitly distinguished from an opened page. School and host announcements are preferred for disputed fields; a generic home/away label from a sports aggregator is insufficient to settle venue neutrality. This follow-up does not create schools, assign aliases, publish schedules, or change production data.

@@ -236,18 +236,29 @@
       "retrievedDate": "2026-11-10",
       "verificationStatus": "partial",
       "missingInformation": [
-        "explicit timezone confirmation",
-        "resolve conflicting information"
+        "explicit timezone confirmation"
       ],
       "conflicts": [
         {
           "field": "date",
           "value": "2026-11-12",
           "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-playoff-200604439.html",
-          "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication."
+          "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication.",
+          "resolved": true,
+          "resolution": "Host district confirms Nov. 13 rather than syndicated Nov. 12; explicit timezone still absent.",
+          "resolutionSourceUrl": "https://www.nisd.net/district/athletics/schedules"
         }
       ],
-      "notes": []
+      "notes": [],
+      "followUpEvidence": [
+        {
+          "reviewedDate": "2026-11-10",
+          "sourceLabel": "Northside ISD host schedule",
+          "sourceUrl": "https://www.nisd.net/district/athletics/schedules",
+          "retrievalStatus": "page-reviewed",
+          "summary": "Host district lists this game Friday Nov. 13, 2026, 7 p.m. at Gustafson Stadium; stadium address is in San Antonio."
+        }
+      ]
     },
     {
       "division": "3A Division I",
@@ -441,7 +452,8 @@
       "verificationStatus": "partial",
       "missingInformation": [
         "explicit timezone confirmation",
-        "resolve conflicting information"
+        "resolve conflicting information",
+        "resolve conflicting kickoff"
       ],
       "conflicts": [
         {
@@ -449,9 +461,25 @@
           "value": "2026-11-12",
           "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-playoff-200604439.html",
           "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication."
+        },
+        {
+          "field": "localTime",
+          "value": "19:00 CST",
+          "sourceUrl": "https://www.maxpreps.com/tx/football/game/mathis-vs-san-diego/11-13-2026/?c=a7b77c90-65e5-424f-ad2f-3a8df22e55d4",
+          "note": "New kickoff discrepancy: selected AP/capsule is 19:30; school or ticketing confirmation required.",
+          "resolved": false
         }
       ],
-      "notes": []
+      "notes": [],
+      "followUpEvidence": [
+        {
+          "reviewedDate": "2026-11-10",
+          "sourceLabel": "MaxPreps matchup",
+          "sourceUrl": "https://www.maxpreps.com/tx/football/game/mathis-vs-san-diego/11-13-2026/?c=a7b77c90-65e5-424f-ad2f-3a8df22e55d4",
+          "retrievalStatus": "search-result-reviewed",
+          "summary": "Game listing gives Nov. 13 at 19:00 CST at Odem Owl Stadium, contrary to selected 19:30. Do not resolve this kickoff by majority vote."
+        }
+      ]
     },
     {
       "division": "3A Division I",
@@ -525,9 +553,25 @@
           "value": "Thu11/13 19:30",
           "sourceUrl": "https://txhsfb.net/?p=29290",
           "note": "Internally inconsistent weekday/date; AP says ThursdayNov12 19:00. Do not guess."
+        },
+        {
+          "field": "localTime",
+          "value": "19:30",
+          "sourceUrl": "https://www.maxpreps.com/tx/cedar-hill/trinity-leadership-tigers/football/schedule/",
+          "note": "Current team schedule agrees with 19:30 but selected AP says 19:00; unresolved without primary confirmation.",
+          "resolved": false
         }
       ],
-      "notes": []
+      "notes": [],
+      "followUpEvidence": [
+        {
+          "reviewedDate": "2026-11-10",
+          "sourceLabel": "MaxPreps team schedule",
+          "sourceUrl": "https://www.maxpreps.com/tx/cedar-hill/trinity-leadership-tigers/football/schedule/",
+          "retrievalStatus": "search-result-reviewed",
+          "summary": "Current schedule lists Nov. 12 at 19:30 and labels the game neutral; this conflicts with selected AP 19:00. Participating school or host confirmation still required."
+        }
+      ]
     },
     {
       "division": "3A Division II",
@@ -595,7 +639,16 @@
           "note": "AP lists Murphy; schedule lists Plano. Verify stadium identity/city."
         }
       ],
-      "notes": []
+      "notes": [],
+      "followUpEvidence": [
+        {
+          "reviewedDate": "2026-11-10",
+          "sourceLabel": "Lone Oak official athletics indexed announcement",
+          "sourceUrl": "https://www.loneoakbuffaloes.com/sport/football/boys/",
+          "retrievalStatus": "search-index-only; opened-page-stale",
+          "summary": "Indexed Nov. 9 announcement supports Nov. 13 19:30, Tom Kimbrough Stadium, 700 N. Murphy Road, Murphy. Opened page returned older content without this announcement; direct current-page confirmation remains required."
+        }
+      ]
     },
     {
       "division": "3A Division II",
@@ -1785,10 +1838,10 @@
       ],
       "date": "2026-11-13",
       "localTime": "19:30",
-      "kickoff": null,
+      "kickoff": "2026-11-13T19:30:00-06:00",
       "proposedKickoff": "2026-11-13T19:30:00-06:00",
-      "timeZone": null,
-      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "timeZone": "America/Chicago",
+      "timeZoneBasis": "NFHS event explicitly states CST; November CST is UTC-06:00",
       "venue": "Green Stadium",
       "city": "Bryan",
       "neutralSite": null,
@@ -1799,22 +1852,31 @@
       "sourceUpdatedDate": null,
       "retrievedDate": "2026-11-10",
       "verificationStatus": "partial",
-      "missingInformation": [
-        "explicit timezone confirmation",
-        "resolve conflicting information"
-      ],
+      "missingInformation": [],
       "conflicts": [
         {
           "field": "date",
           "value": "01/13",
           "sourceUrl": "https://txhsfb.net/?p=29358",
-          "note": "Capsule/schedule month typo; KLTV and AP say Nov13. School confirmation before publication."
+          "note": "Capsule/schedule month typo; KLTV and AP say Nov13. School confirmation before publication.",
+          "resolved": true,
+          "resolution": "Scheduled broadcaster confirms November 13; January listing retained as superseded typo evidence.",
+          "resolutionSourceUrl": "https://www.nfhsnetwork.com/events/uil/gam0e2b8fd5f4"
         }
       ],
       "notes": [
         {
           "note": "Time from KLTV original schedule; selected FNP confirms date/venue.",
           "sourceUrl": "https://www.kltv.com/2026/11/08/football-bi-district-round-schedule/"
+        }
+      ],
+      "followUpEvidence": [
+        {
+          "reviewedDate": "2026-11-10",
+          "sourceLabel": "NFHS Network scheduled broadcast",
+          "sourceUrl": "https://www.nfhsnetwork.com/events/uil/gam0e2b8fd5f4",
+          "retrievalStatus": "page-reviewed",
+          "summary": "Event lists Nov. 13, 2026 at 7:30 p.m. CST in Bryan. Exact stadium and neutral-site designation are not supplied on this page."
         }
       ]
     },

@@ -184,18 +184,29 @@
       "retrievedDate": "2026-11-10",
       "verificationStatus": "partial",
       "missingInformation": [
-        "explicit timezone confirmation",
-        "resolve conflicting kickoff"
+        "explicit timezone confirmation"
       ],
       "conflicts": [
         {
           "field": "localTime",
           "value": "19:00",
           "sourceUrl": "https://txhsfb.net/?p=29377",
-          "note": "DCTF/NBC/MaxPreps say 18:00; capsule says 19:00. Needs school confirmation."
+          "note": "DCTF/NBC/MaxPreps say 18:00; capsule says 19:00. Needs school confirmation.",
+          "resolved": true,
+          "resolution": "Prefer participating-school announcement for 18:00 Friday in Cisco; retain capsule 19:00 as superseded evidence.",
+          "resolutionSourceUrl": "https://www.wallisd.net/live-feed"
         }
       ],
-      "notes": []
+      "notes": [],
+      "followUpEvidence": [
+        {
+          "reviewedDate": "2026-11-10",
+          "sourceLabel": "Wall ISD official announcement",
+          "sourceUrl": "https://www.wallisd.net/live-feed",
+          "retrievalStatus": "page-reviewed",
+          "summary": "School lists Friday versus Bowie at Cisco High School, 6 p.m. No explicit timezone or neutral-site designation."
+        }
+      ]
     },
     {
       "division": "3A Division I",
@@ -977,18 +988,35 @@
       "retrievedDate": "2026-11-10",
       "verificationStatus": "partial",
       "missingInformation": [
-        "explicit timezone confirmation",
-        "resolve conflicting kickoff"
+        "explicit timezone confirmation"
       ],
       "conflicts": [
         {
           "field": "localTime",
           "value": "19:00",
           "sourceUrl": "https://txhsfb.net/?p=29290",
-          "note": "KLTV lists19:30; AP/NBC and txhsfb list19:00. School confirmation required."
+          "note": "KLTV lists19:30; AP/NBC and txhsfb list19:00. School confirmation required.",
+          "resolved": true,
+          "resolution": "Participating-school football itinerary supports Nov. 13 19:30 at Hallsville. Timezone and neutral-site status remain unconfirmed.",
+          "resolutionSourceUrl": "https://sites.google.com/a/arpisd.org/arp-bands/home/high-school-band-announcements"
         }
       ],
-      "notes": []
+      "notes": [],
+      "followUpEvidence": [
+        {
+          "reviewedDate": "2026-11-10",
+          "sourceLabel": "Arp ISD band game itinerary",
+          "sourceUrl": "https://sites.google.com/a/arpisd.org/arp-bands/home/high-school-band-announcements",
+          "retrievalStatus": "page-reviewed",
+          "summary": "School itinerary identifies Nov. 13 kickoff at 7:30 p.m., Hallsville Bobcat Stadium, with Arp designated home. Nearby twirling dates contain an inconsistent weekday/date; those are not football evidence."
+        }
+      ],
+      "homeAwayEvidence": {
+        "homeTeam": "Arp",
+        "awayTeam": "Hooks",
+        "sourceUrl": "https://sites.google.com/a/arpisd.org/arp-bands/home/high-school-band-announcements",
+        "reviewStatus": "school-designation-confirmed"
+      }
     },
     {
       "division": "3A Division II",

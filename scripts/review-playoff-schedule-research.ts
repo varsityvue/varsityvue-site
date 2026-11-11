@@ -47,6 +47,21 @@ const output = reviews.map((review, index) => {
     readyForPublication: false,
   };
 });
+// Report catalog coverage without guessing aliases or creating school identities.
+const unresolvedIdentities = new Map<string, { name: string; division: string; bracketReferences: number }>();
+let exactMatchedTeamReferences = 0;
+for (const item of output) {
+  item.bracket.teams.forEach((name, index) => {
+    if (item.proposed.schoolSlugs[index]) {
+      exactMatchedTeamReferences += 1;
+      return;
+    }
+    const key = `${item.bracket.division}|${name}`;
+    const pending = unresolvedIdentities.get(key);
+    if (pending) pending.bracketReferences += 1;
+    else unresolvedIdentities.set(key, { name, division: item.bracket.division, bracketReferences: 1 });
+  });
+}
 console.log(JSON.stringify({
   researchDate: "2026-11-10", mode: "offline-read-only", productionWrites: false,
   inventory: { total: inventory.length, scheduled: inventory.filter((item) => item.status === "scheduled").length, missing: inventory.filter((item) => item.status === "missing-record").length },
@@ -55,6 +70,15 @@ console.log(JSON.stringify({
   structurallyValidNewCandidates: output.filter((item) => item.structuralValidationPassed).length,
   sourceVerifiedSchedules: rows.filter((row) => row.verificationStatus === "source-verified").length,
   readyForPublication: 0,
+  identityAudit: {
+    catalogSchools: schools.length,
+    teamReferences: output.length * 2,
+    exactMatchedTeamReferences,
+    unresolvedTeamReferences: output.length * 2 - exactMatchedTeamReferences,
+    unresolvedDistinctIdentities: unresolvedIdentities.size,
+    fullyMatchedGames: output.filter((item) => item.proposed.schoolSlugs.every(Boolean)).length,
+    unresolved: [...unresolvedIdentities.values()],
+  },
   candidates: output,
   unresearched: inventory.filter((item) => !rows.some((row) => row.division === item.division && row.region === item.region && row.slot === item.slot)),
 }, null, 2));
