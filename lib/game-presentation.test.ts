@@ -84,3 +84,14 @@ test("pending or contributor-derived numeric scores remain non-authoritative wit
   assert.equal(presentation.authoritativeScore, false);
   assert.equal(presentation.showScore, false);
 });
+
+
+test("unverified playoff finals remain pending consistently across public surfaces", () => {
+  const final = { ...base, gameType: "playoff" as const, status: "final" as const, homeScore: 28, awayScore: 21 };
+  const pending = getGamePresentation(final);
+  assert.equal(pending.kind, "awaiting_verification");
+  assert.equal(pending.showScore, false);
+  assert.equal(pending.authoritativeScore, false);
+  assert.equal(getGamePresentation({ ...final, publicScoreVerified: true }).kind, "verified_final");
+  assert.equal(getGamePresentation({ ...final, resultType: "forfeit" }).kind, "awaiting_verification");
+});

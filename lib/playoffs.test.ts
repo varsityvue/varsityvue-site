@@ -21,7 +21,7 @@ test("playoff presentation separates verified scores from scheduled and unresolv
   const [pending] = getPlayoffSchedule([stephenville], new Date("2026-11-14T07:00:00Z"));
   assert.equal(pending.presentation.kind, "awaiting_verification");
   assert.equal(pending.presentation.showScore, false);
-  const [final] = getPlayoffSchedule([{ ...stephenville, status: "final", homeScore: 0, awayScore: 7 }]);
+  const [final] = getPlayoffSchedule([{ ...stephenville, status: "final", publicScoreVerified: true, homeScore: 0, awayScore: 7 }]);
   assert.equal(final.presentation.kind, "verified_final");
   assert.equal(final.presentation.showScore, true);
   const [postponed] = getPlayoffSchedule([{ ...stephenville, status: "postponed" }]);

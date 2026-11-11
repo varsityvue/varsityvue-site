@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { getGamePresentation } from "@/lib/game-presentation";
 import type { Game } from "@/types/platform";
 import type { SchoolTheme } from "../types/school-theme";
 import { getSchoolBySlug } from "@/lib/schools";
@@ -90,7 +91,7 @@ function StatStatusBadge({ gameId, enhanced = false }: { gameId: string; enhance
 }
 
 export default function RecentScores({ scores, theme, schoolSlug, compact = false, earlier = false }: RecentScoresProps) {
-  const visibleScores = scores.slice(0, MAX_RESULTS);
+  const visibleScores = scores.filter((game) => game.gameType !== "playoff" || getGamePresentation(game).kind === "verified_final" || getGamePresentation(game).kind === "verified_exceptional").slice(0, MAX_RESULTS);
   const [latest, ...previous] = visibleScores;
 
   return (

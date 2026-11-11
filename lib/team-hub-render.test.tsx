@@ -40,3 +40,13 @@ test("enhanced coverage has dates, existing photo credits, and no duplicate arti
   const links = [...html.matchAll(/href="(\/coverage\/[^"?]+)"/g)].map(match => match[1]);
   assert.equal(new Set(links).size, links.length);
 });
+
+
+test("recent school results hide unverified playoff finals", () => {
+  const game = { ...final, gameType: "playoff" as const };
+  const pending = renderToStaticMarkup(<RecentScores scores={[game]} theme={school.colors} schoolSlug={school.slug} />);
+  assert.match(pending, /No final scores available yet/);
+  assert.doesNotMatch(pending, /49-7/);
+  const verified = renderToStaticMarkup(<RecentScores scores={[{ ...game, publicScoreVerified: true }]} theme={school.colors} schoolSlug={school.slug} />);
+  assert.match(verified, /49-7/);
+});

@@ -31,3 +31,10 @@ test("duplicates and wrong-round records fail closed", () => {
   assert.equal(target([game(), game({ id: "duplicate" })]).status, "duplicate-record");
   assert.equal(target([game({ playoff: { round: "Area", division: "2A D1", region: "II" } })]).status, "missing-record");
 });
+
+
+test("readiness and advancement reject malformed verified finals", () => {
+  for (const homeScore of [NaN, Infinity, -1, 1.5]) {
+    assert.equal(target([game({ status: "final", homeScore, awayScore: 7, publicScoreVerified: true })]).status, "awaiting-verification");
+  }
+});
