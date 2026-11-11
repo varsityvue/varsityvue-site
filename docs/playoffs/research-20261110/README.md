@@ -93,3 +93,26 @@ Reproduce and test from repository root:
 The reviewer fails on absent or ambiguous official identities, duplicate qualified expansions, source mismatches, inconsistent district/region evidence, duplicate official bracket identities or incompatible opponent district pairs. Regression tests exercise cross-region substitutions, duplicate mappings, source substitutions and incorrect district evidence using isolated temporary fixtures.
 
 Next integration work: verify the required catalog metadata, review canonical IDs and district registry handling, and prepare a separate application change. This packet changes no runtime catalog, public page, database, score, result or schedule.
+
+## Missing-school catalog proposals — November 10
+
+The metadata pass follows all 384 school links in the six UIL-linked MaxPreps brackets. Each bracket label and seed district is matched to its qualified UIL identity; the 384 external school IDs are unique. One additional label correspondence is recorded by the links: bracket `Greenwood` is UIL `Midland Greenwood`, with the same District 3 identity. Profiles for all 342 missing schools were retrieved successfully and their embedded school IDs were checked against those bracket links; deleted, pseudo-school and non-Texas profiles were rejected during collection.
+
+- `bracket-school-profile-links.json` preserves the link, external school ID, bracket label, seed and game number for every team. Seeds are source evidence only and do not change the bracket or a game's home/away order.
+- `publisher-school-metadata.json` preserves the selected public profile fields and HTML hashes: reported mascot, abbreviation, color names and hex values, city, canonical profile and school website link. These are publisher reports, not blanket confirmation by the schools. Reported website links have not been tested and are not inserted into the proposed runtime records. No logos, coaches, student data or full HTML pages are copied.
+- `primary-branding-checks.json` records limited UIL/school corroboration for Panhandle, Muenster, Nocona, Bosqueville and Houston Sterling. Panhandle's named palette is corroborated; exact hex values remain publisher-listed. Muenster's older UIL palette includes black, which its current publisher profile omits. Houston Sterling has historical Royal Blue versus current publisher Columbia Blue wording; no exact replacement hex value was inferred. Historical team classifications are not reused.
+- `school-catalog-proposals.json` contains 342 proposed field sets, including 341 structurally complete `School` records. Houston Sterling remains incomplete because the profile omits its secondary color hex value. That record stays null, with known fields and the missing value reported explicitly. No placeholder color is supplied.
+- The packet also stages 85 missing `District` records so every school proposal references either an existing district or a proposed district with matching classification and region. The 11 existing district records are not modified.
+
+Proposed IDs/slugs are engineering choices derived from the qualified UIL name, with `H`, `Ft Worth`, `CC` and `Tex.` location prefixes expanded to Houston, Fort Worth, Corpus Christi and Texarkana. Apostrophes are removed and other separators become hyphens. These IDs are checked against all existing IDs, slugs and aliases and against one another. They still require adoption review. Display full names combine that school label with the reported mascot; they are not asserted legal school names. Abbreviations and the first two color values preserve publisher fields. A valid third color is used for the display accent; otherwise the secondary color is reused as an explicitly documented presentation fallback. `planned` is a proposed internal coverage setting, not a fact sourced from the school.
+
+All school and district proposals remain `readyForCatalogIntegration:false`, and every publication flag remains false. The packet creates no runtime school or district record and changes no logo, public page, schedule, database record or result.
+
+Reproduce and test:
+
+    node --import tsx scripts/review-playoff-school-catalog.ts > docs/playoffs/research-20261110/school-catalog-proposals.json
+    node --import tsx --test scripts/review-playoff-school-catalog.test.ts
+
+The reviewer rejects missing/duplicate qualified evidence, wrong school IDs, unexpected publisher URLs and identifier collisions. Missing required metadata blocks a complete record. Tests cover district references, publication boundaries, wrong-school substitutions, duplicate reports and missing mascot/color values.
+
+Remaining integration work is now concrete: review generated identifiers and publisher-listed branding, resolve Houston Sterling's missing secondary hex value and the recorded palette differences, then prepare a separate application integration branch. Structural completeness is not release or publication approval.
