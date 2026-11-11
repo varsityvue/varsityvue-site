@@ -10,7 +10,7 @@
   "researched": 192,
   "missingRecordsResearched": 185,
   "structurallyValidNewCandidates": 185,
-  "sourceVerifiedSchedules": 19,
+  "sourceVerifiedSchedules": 21,
   "readyForPublication": 0,
   "identityAudit": {
     "catalogSchools": 70,
@@ -3536,24 +3536,24 @@
         "venue": "Bulldog Stadium, Carthage, TX",
         "city": "Carthage",
         "timeZone": "America/Chicago",
-        "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+        "timezoneBasis": "Host school ticket event explicitly states CST; November CST is UTC-06:00",
         "neutralSite": null,
-        "verificationStatus": "conflict",
+        "verificationStatus": "source-verified",
         "missingInformation": [
-          "explicit neutral-site designation",
-          "primary-source kickoff confirmation"
+          "explicit neutral-site designation"
         ],
         "conflicts": [
           {
             "field": "kickoff",
             "alternative": "TXHSFB / AP: November 13 19:00; MaxPreps and KLTV: November 13 19:30",
-            "resolution": "Unresolved without school or venue announcement; retain 19:30 as proposed only",
-            "resolved": false
+            "resolution": "Carthage ISD host ticket event explicitly confirms Friday Nov. 13, 2026 at 7:30 p.m. CST, Bulldog Stadium, 1600 W. Panola St., Carthage TX 75633. This resolves the selected 7 versus 7:30 p.m. kickoff conflict. The page separately says gates open at 6 p.m.; the Shelby County Today announcement says 6:30. Gate-opening information remains inconsistent and is not a kickoff time. Neither source explicitly identifies designated home/visitor or neutral-site status.",
+            "resolved": true,
+            "resolutionSourceUrl": "https://events.hometownticketing.com/boxoffice/carthageisd/L2VtYmVkL2V2ZW50LzU3"
           }
         ],
-        "sourceLabel": "MaxPreps — Shelbyville schedule",
-        "sourceUrl": "https://www.maxpreps.com/tx/shelbyville/shelbyville-dragons/football/schedule/",
-        "sourcePublishedDate": "2026-11-09",
+        "sourceLabel": "Carthage ISD host box office event 57",
+        "sourceUrl": "https://events.hometownticketing.com/boxoffice/carthageisd/L2VtYmVkL2V2ZW50LzU3",
+        "sourcePublishedDate": null,
         "sources": [
           {
             "name": "MaxPreps — Shelbyville schedule",
@@ -3568,6 +3568,52 @@
         ],
         "researchedAt": "2026-11-11T00:33:52.145255+00:00",
         "readyForPublication": false,
+        "previousSelectedSource": {
+          "sourceLabel": "MaxPreps — Shelbyville schedule",
+          "sourceUrl": "https://www.maxpreps.com/tx/shelbyville/shelbyville-dragons/football/schedule/",
+          "sourcePublishedDate": "2026-11-09",
+          "sourcePublicationDate": null,
+          "retrievedDate": null,
+          "date": null,
+          "localTime": null,
+          "venue": "Bulldog Stadium, Carthage, TX",
+          "city": "Carthage",
+          "verificationStatus": "conflict"
+        },
+        "retrievedDate": "2026-11-11",
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Carthage ISD host box office event 57",
+            "sourceUrl": "https://events.hometownticketing.com/boxoffice/carthageisd/L2VtYmVkL2V2ZW50LzU3",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Carthage ISD host ticket event explicitly confirms Friday Nov. 13, 2026 at 7:30 p.m. CST, Bulldog Stadium, 1600 W. Panola St., Carthage TX 75633. This resolves the selected 7 versus 7:30 p.m. kickoff conflict. The page separately says gates open at 6 p.m.; the Shelby County Today announcement says 6:30. Gate-opening information remains inconsistent and is not a kickoff time. Neither source explicitly identifies designated home/visitor or neutral-site status."
+          },
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Shelby County Today announcement submitted by Lisa Eaves",
+            "sourceUrl": "https://scttx.com/articles/shelbyville-dragons-football-playoffs-game-information",
+            "retrievalStatus": "page-reviewed",
+            "summary": "Nov. 9 announcement links the exact Carthage host event and supports Nov. 13 at 7:30 p.m.; its 6:30 gate opening conflicts with the host event’s 6 p.m. gate opening. This secondary report is not substituted for host confirmation."
+          }
+        ],
+        "operationalCaveats": [
+          {
+            "field": "gatesOpen",
+            "unresolved": true,
+            "reports": [
+              {
+                "value": "18:00",
+                "sourceUrl": "https://events.hometownticketing.com/boxoffice/carthageisd/L2VtYmVkL2V2ZW50LzU3"
+              },
+              {
+                "value": "18:30",
+                "sourceUrl": "https://scttx.com/articles/shelbyville-dragons-football-playoffs-game-information"
+              }
+            ],
+            "publicationScope": "Not part of proposed game schema. Do not publish gate-opening guidance without reconciliation; kickoff itself is confirmed as 19:30 CST."
+          }
+        ],
         "schoolSlugs": [
           null,
           null
@@ -3589,24 +3635,24 @@
         "venue": "Bulldog Stadium, Carthage, TX",
         "city": "Carthage",
         "timeZone": "America/Chicago",
-        "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+        "timezoneBasis": "Host school ticket event explicitly states CST; November CST is UTC-06:00",
         "neutralSite": null,
-        "verificationStatus": "conflict",
+        "verificationStatus": "source-verified",
         "missingInformation": [
-          "explicit neutral-site designation",
-          "primary-source kickoff confirmation"
+          "explicit neutral-site designation"
         ],
         "conflicts": [
           {
             "field": "kickoff",
             "alternative": "TXHSFB / AP: November 13 19:00; MaxPreps and KLTV: November 13 19:30",
-            "resolution": "Unresolved without school or venue announcement; retain 19:30 as proposed only",
-            "resolved": false
+            "resolution": "Carthage ISD host ticket event explicitly confirms Friday Nov. 13, 2026 at 7:30 p.m. CST, Bulldog Stadium, 1600 W. Panola St., Carthage TX 75633. This resolves the selected 7 versus 7:30 p.m. kickoff conflict. The page separately says gates open at 6 p.m.; the Shelby County Today announcement says 6:30. Gate-opening information remains inconsistent and is not a kickoff time. Neither source explicitly identifies designated home/visitor or neutral-site status.",
+            "resolved": true,
+            "resolutionSourceUrl": "https://events.hometownticketing.com/boxoffice/carthageisd/L2VtYmVkL2V2ZW50LzU3"
           }
         ],
-        "sourceLabel": "MaxPreps — Shelbyville schedule",
-        "sourceUrl": "https://www.maxpreps.com/tx/shelbyville/shelbyville-dragons/football/schedule/",
-        "sourcePublishedDate": "2026-11-09",
+        "sourceLabel": "Carthage ISD host box office event 57",
+        "sourceUrl": "https://events.hometownticketing.com/boxoffice/carthageisd/L2VtYmVkL2V2ZW50LzU3",
+        "sourcePublishedDate": null,
         "sources": [
           {
             "name": "MaxPreps — Shelbyville schedule",
@@ -3620,14 +3666,57 @@
           }
         ],
         "researchedAt": "2026-11-11T00:33:52.145255+00:00",
-        "readyForPublication": false
+        "readyForPublication": false,
+        "previousSelectedSource": {
+          "sourceLabel": "MaxPreps — Shelbyville schedule",
+          "sourceUrl": "https://www.maxpreps.com/tx/shelbyville/shelbyville-dragons/football/schedule/",
+          "sourcePublishedDate": "2026-11-09",
+          "sourcePublicationDate": null,
+          "retrievedDate": null,
+          "date": null,
+          "localTime": null,
+          "venue": "Bulldog Stadium, Carthage, TX",
+          "city": "Carthage",
+          "verificationStatus": "conflict"
+        },
+        "retrievedDate": "2026-11-11",
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Carthage ISD host box office event 57",
+            "sourceUrl": "https://events.hometownticketing.com/boxoffice/carthageisd/L2VtYmVkL2V2ZW50LzU3",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Carthage ISD host ticket event explicitly confirms Friday Nov. 13, 2026 at 7:30 p.m. CST, Bulldog Stadium, 1600 W. Panola St., Carthage TX 75633. This resolves the selected 7 versus 7:30 p.m. kickoff conflict. The page separately says gates open at 6 p.m.; the Shelby County Today announcement says 6:30. Gate-opening information remains inconsistent and is not a kickoff time. Neither source explicitly identifies designated home/visitor or neutral-site status."
+          },
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Shelby County Today announcement submitted by Lisa Eaves",
+            "sourceUrl": "https://scttx.com/articles/shelbyville-dragons-football-playoffs-game-information",
+            "retrievalStatus": "page-reviewed",
+            "summary": "Nov. 9 announcement links the exact Carthage host event and supports Nov. 13 at 7:30 p.m.; its 6:30 gate opening conflicts with the host event’s 6 p.m. gate opening. This secondary report is not substituted for host confirmation."
+          }
+        ],
+        "operationalCaveats": [
+          {
+            "field": "gatesOpen",
+            "unresolved": true,
+            "reports": [
+              {
+                "value": "18:00",
+                "sourceUrl": "https://events.hometownticketing.com/boxoffice/carthageisd/L2VtYmVkL2V2ZW50LzU3"
+              },
+              {
+                "value": "18:30",
+                "sourceUrl": "https://scttx.com/articles/shelbyville-dragons-football-playoffs-game-information"
+              }
+            ],
+            "publicationScope": "Not part of proposed game schema. Do not publish gate-opening guidance without reconciliation; kickoff itself is confirmed as 19:30 CST."
+          }
+        ]
       },
       "structuralValidationPassed": true,
       "publicationIssues": [
         "explicit neutral-site designation",
-        "primary-source kickoff confirmation",
-        "timezone offset is inferred; confirm source timezone",
-        "independent source verification still required",
         "explicit neutral-site designation not verified",
         "review recorded source discrepancies and resolution notes",
         "school slug requires manual identity reconciliation"
@@ -14457,31 +14546,54 @@
         "localTime": "19:00",
         "kickoff": "2026-11-13T19:00:00-06:00",
         "proposedKickoff": "2026-11-13T19:00:00-06:00",
-        "timeZone": null,
-        "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+        "timeZone": "America/Chicago",
+        "timeZoneBasis": "Host school ticket event explicitly states CST; November CST is UTC-06:00",
         "venue": "Warhorse Stadium",
         "city": "Devine",
         "neutralSite": null,
         "neutralSiteBasis": "not explicitly verified",
-        "sourceLabel": "txhsfb.net 3A DI capsules",
-        "sourceUrl": "https://txhsfb.net/?p=29377",
+        "sourceLabel": "Devine ISD school box office event 175",
+        "sourceUrl": "https://events.hometownticketing.com/event/9b9b09ae-00ef-4cd0-918d-2e670aa1183b",
         "sourcePublicationDate": null,
         "sourceUpdatedDate": null,
-        "retrievedDate": "2026-11-10",
-        "verificationStatus": "partial",
-        "missingInformation": [
-          "explicit timezone confirmation",
-          "resolve conflicting information"
-        ],
+        "retrievedDate": "2026-11-11",
+        "verificationStatus": "source-verified",
+        "missingInformation": [],
         "conflicts": [
           {
             "field": "date",
             "value": "2026-11-12",
             "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-playoff-200604439.html",
-            "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication."
+            "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication.",
+            "resolved": true,
+            "resolution": "Devine ISD box office event 175 explicitly confirms WARHORSES vs Randolph BI-DISTRICT PLAYOFFS on Friday Nov. 13, 2026 at 7 p.m. CST, Warhorse Stadium, 1100 West Warhorse Drive, Devine Texas 78016. The description separately confirms 7 p.m. kickoff and 6:15 p.m. gates. Home and visitor ticket sections are listed without explicitly mapping each side to a team; those sections alone do not settle home/away designation or venue-neutral status.",
+            "resolutionSourceUrl": "https://events.hometownticketing.com/event/9b9b09ae-00ef-4cd0-918d-2e670aa1183b"
           }
         ],
         "notes": [],
+        "previousSelectedSource": {
+          "sourceLabel": "txhsfb.net 3A DI capsules",
+          "sourceUrl": "https://txhsfb.net/?p=29377",
+          "sourcePublishedDate": null,
+          "sourcePublicationDate": null,
+          "retrievedDate": "2026-11-10",
+          "date": "2026-11-13",
+          "localTime": "19:00",
+          "venue": "Warhorse Stadium",
+          "city": "Devine",
+          "verificationStatus": "partial"
+        },
+        "sourcePublishedDate": null,
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Devine ISD school box office event 175",
+            "sourceUrl": "https://events.hometownticketing.com/event/9b9b09ae-00ef-4cd0-918d-2e670aa1183b",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Devine ISD box office event 175 explicitly confirms WARHORSES vs Randolph BI-DISTRICT PLAYOFFS on Friday Nov. 13, 2026 at 7 p.m. CST, Warhorse Stadium, 1100 West Warhorse Drive, Devine Texas 78016. The description separately confirms 7 p.m. kickoff and 6:15 p.m. gates. Home and visitor ticket sections are listed without explicitly mapping each side to a team; those sections alone do not settle home/away designation or venue-neutral status."
+          }
+        ],
+        "readyForPublication": false,
         "schoolSlugs": [
           null,
           null
@@ -14497,40 +14609,59 @@
         ],
         "date": "2026-11-13",
         "localTime": "19:00",
-        "kickoff": null,
+        "kickoff": "2026-11-13T19:00:00-06:00",
         "proposedKickoff": "2026-11-13T19:00:00-06:00",
-        "timeZone": null,
-        "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+        "timeZone": "America/Chicago",
+        "timeZoneBasis": "Host school ticket event explicitly states CST; November CST is UTC-06:00",
         "venue": "Warhorse Stadium",
         "city": "Devine",
         "neutralSite": null,
         "neutralSiteBasis": "not explicitly verified",
-        "sourceLabel": "txhsfb.net 3A DI capsules",
-        "sourceUrl": "https://txhsfb.net/?p=29377",
+        "sourceLabel": "Devine ISD school box office event 175",
+        "sourceUrl": "https://events.hometownticketing.com/event/9b9b09ae-00ef-4cd0-918d-2e670aa1183b",
         "sourcePublicationDate": null,
         "sourceUpdatedDate": null,
-        "retrievedDate": "2026-11-10",
-        "verificationStatus": "partial",
-        "missingInformation": [
-          "explicit timezone confirmation",
-          "resolve conflicting information"
-        ],
+        "retrievedDate": "2026-11-11",
+        "verificationStatus": "source-verified",
+        "missingInformation": [],
         "conflicts": [
           {
             "field": "date",
             "value": "2026-11-12",
             "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-playoff-200604439.html",
-            "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication."
+            "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication.",
+            "resolved": true,
+            "resolution": "Devine ISD box office event 175 explicitly confirms WARHORSES vs Randolph BI-DISTRICT PLAYOFFS on Friday Nov. 13, 2026 at 7 p.m. CST, Warhorse Stadium, 1100 West Warhorse Drive, Devine Texas 78016. The description separately confirms 7 p.m. kickoff and 6:15 p.m. gates. Home and visitor ticket sections are listed without explicitly mapping each side to a team; those sections alone do not settle home/away designation or venue-neutral status.",
+            "resolutionSourceUrl": "https://events.hometownticketing.com/event/9b9b09ae-00ef-4cd0-918d-2e670aa1183b"
           }
         ],
-        "notes": []
+        "notes": [],
+        "previousSelectedSource": {
+          "sourceLabel": "txhsfb.net 3A DI capsules",
+          "sourceUrl": "https://txhsfb.net/?p=29377",
+          "sourcePublishedDate": null,
+          "sourcePublicationDate": null,
+          "retrievedDate": "2026-11-10",
+          "date": "2026-11-13",
+          "localTime": "19:00",
+          "venue": "Warhorse Stadium",
+          "city": "Devine",
+          "verificationStatus": "partial"
+        },
+        "sourcePublishedDate": null,
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Devine ISD school box office event 175",
+            "sourceUrl": "https://events.hometownticketing.com/event/9b9b09ae-00ef-4cd0-918d-2e670aa1183b",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Devine ISD box office event 175 explicitly confirms WARHORSES vs Randolph BI-DISTRICT PLAYOFFS on Friday Nov. 13, 2026 at 7 p.m. CST, Warhorse Stadium, 1100 West Warhorse Drive, Devine Texas 78016. The description separately confirms 7 p.m. kickoff and 6:15 p.m. gates. Home and visitor ticket sections are listed without explicitly mapping each side to a team; those sections alone do not settle home/away designation or venue-neutral status."
+          }
+        ],
+        "readyForPublication": false
       },
       "structuralValidationPassed": true,
       "publicationIssues": [
-        "explicit timezone confirmation",
-        "resolve conflicting information",
-        "timezone offset is inferred; confirm source timezone",
-        "independent source verification still required",
         "explicit neutral-site designation not verified",
         "review recorded source discrepancies and resolution notes",
         "school slug requires manual identity reconciliation"

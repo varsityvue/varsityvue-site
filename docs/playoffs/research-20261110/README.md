@@ -8,9 +8,9 @@ No file here is imported by a public page, game catalog, API, or database writer
 - Authoritative inventory: `data/statewide-playoff-brackets.ts`, `data/playoff-bracket-fields.ts`, and `getBiDistrictReadiness(getGames())`.
 - Snapshot: 192 positions; seven scheduled records; 185 missing records. A read-only production query found no bi-district `public_game_state` overrides at review time.
 - Research covers all 192 positions exactly once: all 64 Class 2A, all 64 Class 3A, all 64 Class 4A. Every region has eight positions per division.
-- `class-2a.json`: 64 rows, 20 corroborated reports, 43 single-source rows, one unresolved kickoff conflict. Corroboration does not prove independent reporting. Its timezone offsets are geographically inferred.
+- `class-2a.json`: 64 rows: one now source-verified by host ticketing, 20 corroborated reports and 43 single-source rows. Corroboration does not prove independent reporting. All timezone offsets except Shelbyville–Waskom remain geographically inferred.
 - `class-3a-4a.json`: 64 rows, 16 with explicit CST schedule evidence, 48 partial rows; two conflict rows.
-- `remaining-3a-4a.json`: remaining 64 rows (three now source-verified, 61 partial); nine rows with recorded conflicts, including the later San Diego–Mathis kickoff discrepancy.
+- `remaining-3a-4a.json`: remaining 64 rows (four now source-verified, 60 partial); nine rows with recorded conflicts, including the later San Diego–Mathis kickoff discrepancy.
 - `inventory.json`: bracket readiness snapshot, including the seven existing game IDs.
 - `reviewed-candidates.json`: reproducible review output; 185 structurally valid new-record proposals and seven existing-record reconciliation entries. Structural validity is not factual verification.
 
@@ -38,14 +38,14 @@ The script reads repository files and writes only to stdout. It has no database 
 
 ## Priority discrepancies
 
-1. Shelbyville–Waskom: Nov 13, 7 versus 7:30 p.m.; local Shelby County announcement, KLTV and MaxPreps support 7:30, but contrary reports are preserved.
+1. Shelbyville–Waskom: host Carthage ticket event confirms Nov. 13, 7:30 p.m. CST at Bulldog Stadium. Contrary 7 p.m. kickoff is superseded; a separate gate-opening discrepancy remains explicitly held.
 2. Wall–Bowie: Wall ISD confirms Friday at 6 p.m. in Cisco; retain 7 p.m. report as superseded. Explicit timezone and site status still needed.
 3. Hooks–Arp: Arp ISD itinerary supports Nov. 13 at 7:30 p.m., Arp home; retain 7 p.m. report as superseded. Timezone and site status still needed.
 4. Millsap–Trinity Leadership: host ticket event now confirms Thursday Nov. 12, 7:30 p.m. CST at Knight Stadium; contradictory date/time reports remain preserved.
 5. Bells–Lone Oak: host ticket event confirms Tom Kimbrough Stadium in Murphy, Nov. 13 at 7:30 p.m. CST, Lone Oak home.
 6. Lincoln–Southwest: school-linked ticket event confirms Clark at 5201 Ca Roberson, Fort Worth; Plano report is superseded. Timezone remains unconfirmed.
 7. Athens–Hamshire-Fannett: NFHS event confirms Nov. 13 at 7:30 p.m. CST; January typo retained as superseded. Exact venue/site status still needed.
-8. Of five Class 3A DI Region IV date discrepancies, only Devine–Randolph remains unresolved. Host NISD resolves Yoakum–Carrizo Springs; host ticketing resolves Jourdanton–Hallettsville and San Diego–Mathis; Hondo’s school calendar resolves Marion–Hondo. Odem host ticketing confirms San Diego–Mathis at 7:30 p.m. CST rather than 7.
+8. All five Class 3A DI Region IV date discrepancies now have field-level resolution. Devine’s school-issued ticket event confirms Nov. 13; Host NISD resolves Yoakum–Carrizo Springs; host ticketing resolves Jourdanton–Hallettsville and San Diego–Mathis; Hondo’s school calendar resolves Marion–Hondo. Odem host ticketing confirms San Diego–Mathis at 7:30 p.m. CST rather than 7.
 9. Resolved-preference notes remain for Bosqueville–Johnson City (official Granger, not La Grange), Axtell–Bangs (weekday/date typo), and Lockney–Iraan (Thursday versus Friday).
 10. Coahoma–Holliday stadium naming needs identity review (Eagle versus Don Lacy).
 
@@ -138,3 +138,19 @@ Three additional rows now meet the packet’s narrow `source-verified` date/time
 The follow-up review also checked current school announcements and calendars. No new primary confirmation was obtained for Shelbyville–Waskom or Devine–Randolph, so those conflicts are retained. New Braunfels host ticketing and Southwest school-linked GoFan supplied the previously missing Jourdanton and Lincoln evidence; a majority of aggregator reports was not used as a substitute.
 
 PR #137 separately stages application catalog integration from the preceding research head. This research update changes no identifiers or catalog proposals and does not alter that draft integration. It does not imply that either PR is approved for release.
+
+
+## Final two recorded schedule conflicts — November 11
+
+The two remaining date/kickoff conflicts now have host-school ticket confirmation:
+
+| Matchup | Primary evidence | Held details |
+| --- | --- | --- |
+| Shelbyville–Waskom | [Carthage ISD event 57](https://events.hometownticketing.com/boxoffice/carthageisd/L2VtYmVkL2V2ZW50LzU3): Friday Nov. 13, 2026, **7:30 p.m. CST**, Bulldog Stadium, 1600 W. Panola St., Carthage TX 75633. The [Nov. 9 announcement](https://scttx.com/articles/shelbyville-dragons-football-playoffs-game-information) links this exact event. | Explicit team-side designation and neutral-site status remain unconfirmed. A separate operational caveat preserves host gates at 6 p.m. versus announcement gates at 6:30; no gate guidance is approved. |
+| Devine–Randolph | [Devine ISD event 175](https://events.hometownticketing.com/event/9b9b09ae-00ef-4cd0-918d-2e670aa1183b): Friday Nov. 13, 2026, **7 p.m. CST**, Warhorse Stadium, 1100 West Warhorse Drive, Devine TX 78016. | Home/visitor ticket sections do not explicitly map teams. Exact team-side designation and neutral-site status remain unconfirmed. |
+
+The Devine event was located using HomeTown’s public search for Devine, then opening the exact WARHORSES vs Randolph BI-DISTRICT PLAYOFFS result. Its embedded school box office identifies event 175. The general search preview displayed the event in UTC; the detail page explicitly supplies Friday evening CST and governs the proposed kickoff. No timezone conversion was inferred from a generic search timestamp. Both ticket pages were read in a live browser; no tickets were selected or purchased.
+
+All 15 recorded date, kickoff, and venue conflict rows now have field-level resolutions. This does **not** close all missing information, operational caveats, or publication requirements. The count of rows with explicit date/time/venue/CST evidence is now **21**, up from 19. All 192 publication flags remain false; 191 rows still lack an explicit neutral-site designation. Stadium naming caveats, home/away designations, catalog release review and the separate application draft PR #137 remain outstanding. No runtime catalog, production schedule, result, score, schema or release state changed.
+
+The earlier dated follow-up sections are historical checkpoints. This final section records the current conflict-resolution totals and should govern the next review pass.

@@ -677,24 +677,24 @@
     "venue": "Bulldog Stadium, Carthage, TX",
     "city": "Carthage",
     "timeZone": "America/Chicago",
-    "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+    "timezoneBasis": "Host school ticket event explicitly states CST; November CST is UTC-06:00",
     "neutralSite": null,
-    "verificationStatus": "conflict",
+    "verificationStatus": "source-verified",
     "missingInformation": [
-      "explicit neutral-site designation",
-      "primary-source kickoff confirmation"
+      "explicit neutral-site designation"
     ],
     "conflicts": [
       {
         "field": "kickoff",
         "alternative": "TXHSFB / AP: November 13 19:00; MaxPreps and KLTV: November 13 19:30",
-        "resolution": "Unresolved without school or venue announcement; retain 19:30 as proposed only",
-        "resolved": false
+        "resolution": "Carthage ISD host ticket event explicitly confirms Friday Nov. 13, 2026 at 7:30 p.m. CST, Bulldog Stadium, 1600 W. Panola St., Carthage TX 75633. This resolves the selected 7 versus 7:30 p.m. kickoff conflict. The page separately says gates open at 6 p.m.; the Shelby County Today announcement says 6:30. Gate-opening information remains inconsistent and is not a kickoff time. Neither source explicitly identifies designated home/visitor or neutral-site status.",
+        "resolved": true,
+        "resolutionSourceUrl": "https://events.hometownticketing.com/boxoffice/carthageisd/L2VtYmVkL2V2ZW50LzU3"
       }
     ],
-    "sourceLabel": "MaxPreps \u2014 Shelbyville schedule",
-    "sourceUrl": "https://www.maxpreps.com/tx/shelbyville/shelbyville-dragons/football/schedule/",
-    "sourcePublishedDate": "2026-11-09",
+    "sourceLabel": "Carthage ISD host box office event 57",
+    "sourceUrl": "https://events.hometownticketing.com/boxoffice/carthageisd/L2VtYmVkL2V2ZW50LzU3",
+    "sourcePublishedDate": null,
     "sources": [
       {
         "name": "MaxPreps \u2014 Shelbyville schedule",
@@ -708,7 +708,53 @@
       }
     ],
     "researchedAt": "2026-11-11T00:33:52.145255+00:00",
-    "readyForPublication": false
+    "readyForPublication": false,
+    "previousSelectedSource": {
+      "sourceLabel": "MaxPreps \u2014 Shelbyville schedule",
+      "sourceUrl": "https://www.maxpreps.com/tx/shelbyville/shelbyville-dragons/football/schedule/",
+      "sourcePublishedDate": "2026-11-09",
+      "sourcePublicationDate": null,
+      "retrievedDate": null,
+      "date": null,
+      "localTime": null,
+      "venue": "Bulldog Stadium, Carthage, TX",
+      "city": "Carthage",
+      "verificationStatus": "conflict"
+    },
+    "retrievedDate": "2026-11-11",
+    "followUpEvidence": [
+      {
+        "reviewedDate": "2026-11-11",
+        "sourceLabel": "Carthage ISD host box office event 57",
+        "sourceUrl": "https://events.hometownticketing.com/boxoffice/carthageisd/L2VtYmVkL2V2ZW50LzU3",
+        "retrievalStatus": "live-browser-page-reviewed",
+        "summary": "Carthage ISD host ticket event explicitly confirms Friday Nov. 13, 2026 at 7:30 p.m. CST, Bulldog Stadium, 1600 W. Panola St., Carthage TX 75633. This resolves the selected 7 versus 7:30 p.m. kickoff conflict. The page separately says gates open at 6 p.m.; the Shelby County Today announcement says 6:30. Gate-opening information remains inconsistent and is not a kickoff time. Neither source explicitly identifies designated home/visitor or neutral-site status."
+      },
+      {
+        "reviewedDate": "2026-11-11",
+        "sourceLabel": "Shelby County Today announcement submitted by Lisa Eaves",
+        "sourceUrl": "https://scttx.com/articles/shelbyville-dragons-football-playoffs-game-information",
+        "retrievalStatus": "page-reviewed",
+        "summary": "Nov. 9 announcement links the exact Carthage host event and supports Nov. 13 at 7:30 p.m.; its 6:30 gate opening conflicts with the host event\u2019s 6 p.m. gate opening. This secondary report is not substituted for host confirmation."
+      }
+    ],
+    "operationalCaveats": [
+      {
+        "field": "gatesOpen",
+        "unresolved": true,
+        "reports": [
+          {
+            "value": "18:00",
+            "sourceUrl": "https://events.hometownticketing.com/boxoffice/carthageisd/L2VtYmVkL2V2ZW50LzU3"
+          },
+          {
+            "value": "18:30",
+            "sourceUrl": "https://scttx.com/articles/shelbyville-dragons-football-playoffs-game-information"
+          }
+        ],
+        "publicationScope": "Not part of proposed game schema. Do not publish gate-opening guidance without reconciliation; kickoff itself is confirmed as 19:30 CST."
+      }
+    ]
   },
   {
     "division": "2A Division I",

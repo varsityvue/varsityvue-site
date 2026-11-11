@@ -300,33 +300,56 @@
       ],
       "date": "2026-11-13",
       "localTime": "19:00",
-      "kickoff": null,
+      "kickoff": "2026-11-13T19:00:00-06:00",
       "proposedKickoff": "2026-11-13T19:00:00-06:00",
-      "timeZone": null,
-      "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+      "timeZone": "America/Chicago",
+      "timeZoneBasis": "Host school ticket event explicitly states CST; November CST is UTC-06:00",
       "venue": "Warhorse Stadium",
       "city": "Devine",
       "neutralSite": null,
       "neutralSiteBasis": "not explicitly verified",
-      "sourceLabel": "txhsfb.net 3A DI capsules",
-      "sourceUrl": "https://txhsfb.net/?p=29377",
+      "sourceLabel": "Devine ISD school box office event 175",
+      "sourceUrl": "https://events.hometownticketing.com/event/9b9b09ae-00ef-4cd0-918d-2e670aa1183b",
       "sourcePublicationDate": null,
       "sourceUpdatedDate": null,
-      "retrievedDate": "2026-11-10",
-      "verificationStatus": "partial",
-      "missingInformation": [
-        "explicit timezone confirmation",
-        "resolve conflicting information"
-      ],
+      "retrievedDate": "2026-11-11",
+      "verificationStatus": "source-verified",
+      "missingInformation": [],
       "conflicts": [
         {
           "field": "date",
           "value": "2026-11-12",
           "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-playoff-200604439.html",
-          "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication."
+          "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication.",
+          "resolved": true,
+          "resolution": "Devine ISD box office event 175 explicitly confirms WARHORSES vs Randolph BI-DISTRICT PLAYOFFS on Friday Nov. 13, 2026 at 7 p.m. CST, Warhorse Stadium, 1100 West Warhorse Drive, Devine Texas 78016. The description separately confirms 7 p.m. kickoff and 6:15 p.m. gates. Home and visitor ticket sections are listed without explicitly mapping each side to a team; those sections alone do not settle home/away designation or venue-neutral status.",
+          "resolutionSourceUrl": "https://events.hometownticketing.com/event/9b9b09ae-00ef-4cd0-918d-2e670aa1183b"
         }
       ],
-      "notes": []
+      "notes": [],
+      "previousSelectedSource": {
+        "sourceLabel": "txhsfb.net 3A DI capsules",
+        "sourceUrl": "https://txhsfb.net/?p=29377",
+        "sourcePublishedDate": null,
+        "sourcePublicationDate": null,
+        "retrievedDate": "2026-11-10",
+        "date": "2026-11-13",
+        "localTime": "19:00",
+        "venue": "Warhorse Stadium",
+        "city": "Devine",
+        "verificationStatus": "partial"
+      },
+      "sourcePublishedDate": null,
+      "followUpEvidence": [
+        {
+          "reviewedDate": "2026-11-11",
+          "sourceLabel": "Devine ISD school box office event 175",
+          "sourceUrl": "https://events.hometownticketing.com/event/9b9b09ae-00ef-4cd0-918d-2e670aa1183b",
+          "retrievalStatus": "live-browser-page-reviewed",
+          "summary": "Devine ISD box office event 175 explicitly confirms WARHORSES vs Randolph BI-DISTRICT PLAYOFFS on Friday Nov. 13, 2026 at 7 p.m. CST, Warhorse Stadium, 1100 West Warhorse Drive, Devine Texas 78016. The description separately confirms 7 p.m. kickoff and 6:15 p.m. gates. Home and visitor ticket sections are listed without explicitly mapping each side to a team; those sections alone do not settle home/away designation or venue-neutral status."
+        }
+      ],
+      "readyForPublication": false
     },
     {
       "division": "3A Division I",
