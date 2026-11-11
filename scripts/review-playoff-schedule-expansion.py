@@ -21,6 +21,8 @@ def normalize():
         rows.append({**row, 'selectedSchedule': {name: row['selectedSchedule'][name] for name in ('kickoff', 'venue', 'city')},
                      'designatedSides': side if side and side.get('homeTeam') else None,
                      'remainingGaps': row.get('publicationBlockers', [])})
+    for filename in ('schedule-expansion-4a-20261111.json', 'schedule-expansion-host-20261111.json'):
+        rows.extend(json.loads((ROOT / filename).read_text())['rows'])
     return {
         'reviewedDate': '2026-11-11', 'baseResearchHead': '5da0176f88ff06dfba9001b28b61d5dbb3191f17',
         'mode': 'offline-field-evidence-expansion', 'productionWrites': False, 'runtimeChanges': False,

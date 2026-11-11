@@ -6,7 +6,7 @@ This packet prepares exact offline review records. It does not authorize or exec
 
 - Released main: `ea1b4a57da0dc07e1b5418772ca2f3a2842ebe0f` (PR #136 is already released).
 - Research PR #133: `feat/playoff-schedule-research-staging-20261110`; this checkpoint extends parent `5da0176f88ff06dfba9001b28b61d5dbb3191f17`.
-- Application/catalog PR #137: `feat/playoff-school-catalog-integration-20261110`, reviewed head `57c715eae70d5aa3679d35213dcf12023da38697`.
+- Application/catalog PR #137: `feat/playoff-school-catalog-integration-20261110`, reviewed head `058e54e0d71960f791e7b7b65ef04d87ab91f0bc`.
 - Refresh GitHub heads before use; the final PR description identifies the committed research checkpoint SHA.
 - Catalog integration remains unmerged; its 341 schools and 85 districts are release dependencies, not published catalog records.
 - Houston Sterling remains held for an unverified secondary color; no color was invented.
@@ -15,9 +15,9 @@ This packet prepares exact offline review records. It does not authorize or exec
 
 All 192 authoritative bracket slots have qualified identities, source provenance, proposed schedule fields, an explicit operation, and blockers. Seven are existing-record reconciliations; 185 are proposed new records.
 
-A new 24-game batch expands the previous 21 selected-source-complete schedules to 45. These are source-supported core schedules, not blanket primary confirmation. The packet distinguishes exact-stadium, campus-only, date/time-only, and city-only corroboration. Original candidate values, contrary reports, existing-record operations, and all publication flags remain unchanged.
+A new 33-game evidence batch (12 Class 2A, 13 Class 3A, eight Class 4A) adds 31 core confirmations and retains two held rows, expanding the previous 21 selected-source-complete schedules to 52. These are source-supported core schedules, not blanket primary confirmation. The packet distinguishes exact-stadium, campus-only, date/time-only, and city-only corroboration. Original candidate values, contrary reports, existing-record operations, and all publication flags remain unchanged.
 
-- 21 supported side mappings across the 45 schedules.
+- 21 supported side mappings across the 52 schedules.
 - 16 explicitly name both roles, including the ten previously reviewed pairs.
 - Five name one role and infer the complementary participant's role; these remain explicitly held.
 - Zero adopted primary formal neutral-site confirmations.
@@ -32,8 +32,8 @@ The Class 2A school feed cards for Highland Park (13762950), Granger (13753294),
 | all-candidates.json | 192 | Complete offline master with fingerprints and evidence |
 | core-and-both-sides-explicit-held.json | 16 | Core evidence and both designated roles explicitly named; other blockers remain |
 | core-and-one-side-explicit-held.json | 5 | Core evidence and one explicit role; complementary role remains held |
-| core-supported-sides-held.json | 24 | Core evidence complete; no adopted explicit side mapping |
-| partial-evidence-held.json | 140 | New-record proposals retaining broader evidence gaps |
+| core-supported-sides-held.json | 31 | Core evidence complete; no adopted explicit side mapping |
+| partial-evidence-held.json | 133 | New-record proposals retaining broader evidence gaps |
 | existing-record-reconciliation.json | 7 | Existing IDs preserved; insertion forbidden |
 
 All manifests set executionEnabled:false and approval:null. Each record sets insertAllowed:false, readyForPublication:false, writePayload:null. A proposed manifest ID is an offline engineering identifier, not a created game record.
@@ -49,13 +49,13 @@ Run from the repository root:
     PYTHONDONTWRITEBYTECODE=1 python -m unittest discover -s scripts -p test_playoff_publication_manifests.py -v
     node --import tsx --test scripts/review-playoff-schedule-research.test.ts scripts/review-playoff-school-identities.test.ts scripts/review-playoff-school-catalog.test.ts
 
-The Python scripts use only standard-library local file operations. They contain no database client, network access, credentials, publication endpoint, or execute switch. Repeated generation must be byte-identical. The original reviewed-candidates.json still reports the preserved 21-game baseline; this supplemental master reports the expanded 45 without silently rewriting earlier research.
+The Python scripts use only standard-library local file operations. They contain no database client, network access, credentials, publication endpoint, or execute switch. Repeated generation must be byte-identical. The original reviewed-candidates.json still reports the preserved 21-game baseline; this supplemental master reports the expanded 52 without silently rewriting earlier research.
 
 Tests reject duplicate slots, cross-qualified identities, incorrect districts and opponent side assignments; preserve seven existing IDs; hold complementary roles and incomplete Sterling; reject --execute; verify reproducibility and unchanged selected schedules.
 
 ## Policy decision isolated once
 
-Existing review safeguards require formal neutral-site status. All 45 core-supported rows remain held because that field is unconfirmed. A third-party location or designated home team does not prove neutrality.
+Existing review safeguards require formal neutral-site status. All 52 core-supported rows remain held because that field is unconfirmed. A third-party location or designated home team does not prove neutrality.
 
 A future owner decision could allow unknown neutrality to remain nullable, suppressing any Neutral site label. That would require a separately reviewed safeguard change and an exact publication batch. This sprint does not make that decision or relax the rule. Continue other field verification instead of repeatedly searching the same unresolved neutrality or eleven old side assignments.
 
@@ -73,3 +73,5 @@ No merge, production release, score/result/winner change, database mutation, sch
 ## Catalog release compatibility
 
 The three legacy offline review scripts now read `catalog-baseline-20261111.json` through the script-only `playoff-research-catalog-baseline.ts` loader. The snapshot contains the exact 70 schools and 11 districts from released main `ea1b4a5`. All three original generated JSON outputs reproduce byte-for-byte. This prevents PR #137's 341 added school records from being mistaken for pre-existing identities or collisions when regenerating the historical proposals. Runtime school pages never import this snapshot or loader. A combined checkout verifies the same research tests against the new runtime catalog.
+
+The final additional batch retains Aubrey–Andrews as timezone-held and Stafford–Bridge City as kickoff-conflict-held; neither is promoted. Randall's contrary bracket date and excluded January 1, 1900 placeholders remain recorded. Smithville host events 202/203 were read directly for Thrall–Brazos and Bay City–Lampasas, including CST and full venue address; generic AT does not supply designated roles.

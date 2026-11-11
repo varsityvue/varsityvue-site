@@ -26,7 +26,7 @@ class PublicationManifestTests(unittest.TestCase):
     def test_full_inventory_no_execution_or_duplicates(self):
         result = m.build(*self.inputs)
         self.assertEqual(result['summary']['total'], 192)
-        self.assertEqual(result['summary']['coreScheduleEvidenceComplete'], 45)
+        self.assertEqual(result['summary']['coreScheduleEvidenceComplete'], 52)
         self.assertEqual(result['summary']['supportedSideMappings'], 21)
         self.assertEqual(result['summary']['bothDesignatedSidesExplicit'], 16)
         self.assertEqual(result['summary']['formalNeutralityConfirmed'], 0)

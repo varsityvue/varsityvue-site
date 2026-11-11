@@ -1,0 +1,99 @@
+{
+  "reviewedDate": "2026-11-11",
+  "mode": "offline-primary-host-evidence",
+  "productionWrites": false,
+  "runtimeChanges": false,
+  "rows": [
+    {
+      "bracket": {
+        "division": "3A Division II",
+        "region": "Region IV",
+        "slot": 1,
+        "teams": [
+          "Thrall",
+          "Brazos"
+        ]
+      },
+      "qualifiedIdentities": [
+        {
+          "bracketName": "Thrall",
+          "officialName": "Thrall",
+          "division": "3A Division II",
+          "region": "Region IV",
+          "district": 13,
+          "alignmentRegion": 4,
+          "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf",
+          "nameMatch": "exact-official-name",
+          "catalogAction": "new-catalog-record-required",
+          "existingCatalog": null,
+          "proposedSlug": null,
+          "requiredNextWork": [
+            "review canonical ID and slug",
+            "verify mascot and full display name",
+            "verify abbreviation and school colors",
+            "review district registry integration",
+            "choose coverage status"
+          ],
+          "readyForCatalogIntegration": false,
+          "readyForPublication": false
+        },
+        {
+          "bracketName": "Brazos",
+          "officialName": "Wallis Brazos",
+          "division": "3A Division II",
+          "region": "Region IV",
+          "district": 14,
+          "alignmentRegion": 4,
+          "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf",
+          "nameMatch": "explicit-reviewed-expansion",
+          "catalogAction": "new-catalog-record-required",
+          "existingCatalog": null,
+          "proposedSlug": null,
+          "requiredNextWork": [
+            "review canonical ID and slug",
+            "verify mascot and full display name",
+            "verify abbreviation and school colors",
+            "review district registry integration",
+            "choose coverage status"
+          ],
+          "readyForCatalogIntegration": false,
+          "readyForPublication": false
+        }
+      ],
+      "selectedSchedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Tiger Stadium",
+        "city": "Smithville"
+      },
+      "coreScheduleEvidenceComplete": true,
+      "selectedScheduleEvidence": {
+        "sourceUrl": "https://events.hometownticketing.com/boxoffice/sisdtigers/L2VtYmVkL2V2ZW50LzIwMg%3D%3D",
+        "sourceLabel": "Smithville ISD host event202",
+        "retrievedDate": "2026-11-11",
+        "retrievalMethod": "live-browser-page-reviewed",
+        "fields": {
+          "pairing": [
+            "Wallis Brazos",
+            "Thrall"
+          ],
+          "date": "2026-11-12",
+          "localTime": "19:00",
+          "timezone": "CST",
+          "venue": "Tiger Stadium",
+          "address": "285 State Hwy95, Smithville TX78957"
+        },
+        "limitations": [
+          "Generic AT event title is not an explicit designated-side assignment. Full event description names the playoff opponents but does not state sides or formal neutrality."
+        ]
+      },
+      "designatedSides": null,
+      "neutralSite": null,
+      "remainingGaps": [
+        "explicit designated sides unconfirmed",
+        "formal neutral-site status unconfirmed",
+        "catalog release and exact publication approval required"
+      ],
+      "readyForPublication": false
+    }
+  ]
+}

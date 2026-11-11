@@ -1,332 +1,8 @@
 {
   "executionEnabled": false,
   "approval": null,
-  "count": 140,
+  "count": 133,
   "records": [
-    {
-      "manifestId": "2026-bi-district-4a-d1-i-3",
-      "bracket": {
-        "division": "4A Division I",
-        "region": "Region I",
-        "slot": 3,
-        "teams": [
-          "Randall",
-          "Austin"
-        ]
-      },
-      "qualifiedSchools": [
-        {
-          "bracketName": "Randall",
-          "officialName": "Canyon Randall",
-          "qualifiedIdentity": {
-            "division": "4A Division I",
-            "region": "Region I",
-            "uilDistrict": 2
-          },
-          "schoolId": "canyon-randall",
-          "schoolSlug": "canyon-randall",
-          "catalogDistrictId": "4a-d1-district-2",
-          "catalogState": "proposed-complete-held-for-release",
-          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf"
-        },
-        {
-          "bracketName": "Austin",
-          "officialName": "El Paso Austin",
-          "qualifiedIdentity": {
-            "division": "4A Division I",
-            "region": "Region I",
-            "uilDistrict": 1
-          },
-          "schoolId": "el-paso-austin",
-          "schoolSlug": "el-paso-austin",
-          "catalogDistrictId": "4a-d1-district-1",
-          "catalogState": "proposed-complete-held-for-release",
-          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf"
-        }
-      ],
-      "operation": "proposed-new-record",
-      "existingGameId": null,
-      "insertAllowed": false,
-      "executionEnabled": false,
-      "readyForPublication": false,
-      "tier": "partial-evidence-held",
-      "coreScheduleEvidenceComplete": false,
-      "schedule": {
-        "kickoff": "2026-11-12T18:00:00-06:00",
-        "venue": "Yellowjacket Stadium",
-        "city": "Kermit",
-        "neutralSite": null,
-        "designatedSides": null
-      },
-      "reportedNeutralSiteClaim": {
-        "value": null,
-        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
-      },
-      "originalSelectedSchedule": {
-        "kickoff": "2026-11-12T18:00:00-06:00",
-        "venue": "Yellowjacket Stadium",
-        "city": "Kermit"
-      },
-      "supplementalScheduleDifferences": {},
-      "sourceEvidence": {
-        "original": {
-          "division": "4A Division I",
-          "region": "Region I",
-          "slot": 3,
-          "teams": [
-            "Randall",
-            "Austin"
-          ],
-          "date": "2026-11-12",
-          "localTime": "18:00",
-          "kickoff": null,
-          "proposedKickoff": "2026-11-12T18:00:00-06:00",
-          "timeZone": null,
-          "timeZoneBasis": "geographic inference only; not explicitly stated in selected source",
-          "venue": "Yellowjacket Stadium",
-          "city": "Kermit",
-          "neutralSite": null,
-          "neutralSiteBasis": "not explicitly verified",
-          "sourceLabel": "Press Pass Sports",
-          "sourceUrl": "https://www.presspass.news/2026/11/08/uil-region-i-high-school-football-bi-district-playoff-pairings-4/",
-          "sourcePublicationDate": "2026-11-09",
-          "sourceUpdatedDate": null,
-          "retrievedDate": "2026-11-10",
-          "verificationStatus": "partial",
-          "missingInformation": [
-            "explicit timezone confirmation"
-          ],
-          "conflicts": [],
-          "notes": []
-        },
-        "existingSideReview": null,
-        "newEvidence": null
-      },
-      "publicationBlockers": [
-        "exact publication approval not granted",
-        "catalog integration release required",
-        "complete source-backed date/time/timezone/venue evidence required",
-        "explicit designated home/visitor assignment required",
-        "formal neutral-site status unconfirmed; existing safeguard retained"
-      ],
-      "writePayload": null
-    },
-    {
-      "manifestId": "2026-bi-district-4a-d1-i-6",
-      "bracket": {
-        "division": "4A Division I",
-        "region": "Region I",
-        "slot": 6,
-        "teams": [
-          "West Plains",
-          "Ysleta"
-        ]
-      },
-      "qualifiedSchools": [
-        {
-          "bracketName": "West Plains",
-          "officialName": "Canyon West Plains",
-          "qualifiedIdentity": {
-            "division": "4A Division I",
-            "region": "Region I",
-            "uilDistrict": 2
-          },
-          "schoolId": "canyon-west-plains",
-          "schoolSlug": "canyon-west-plains",
-          "catalogDistrictId": "opponent",
-          "catalogState": "existing-record",
-          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf"
-        },
-        {
-          "bracketName": "Ysleta",
-          "officialName": "El Paso Ysleta",
-          "qualifiedIdentity": {
-            "division": "4A Division I",
-            "region": "Region I",
-            "uilDistrict": 1
-          },
-          "schoolId": "el-paso-ysleta",
-          "schoolSlug": "el-paso-ysleta",
-          "catalogDistrictId": "4a-d1-district-1",
-          "catalogState": "proposed-complete-held-for-release",
-          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf"
-        }
-      ],
-      "operation": "proposed-new-record",
-      "existingGameId": null,
-      "insertAllowed": false,
-      "executionEnabled": false,
-      "readyForPublication": false,
-      "tier": "partial-evidence-held",
-      "coreScheduleEvidenceComplete": false,
-      "schedule": {
-        "kickoff": "2026-11-12T18:00:00-06:00",
-        "venue": "Astound Broadband Stadium",
-        "city": "Midland",
-        "neutralSite": null,
-        "designatedSides": null
-      },
-      "reportedNeutralSiteClaim": {
-        "value": null,
-        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
-      },
-      "originalSelectedSchedule": {
-        "kickoff": "2026-11-12T18:00:00-06:00",
-        "venue": "Astound Broadband Stadium",
-        "city": "Midland"
-      },
-      "supplementalScheduleDifferences": {},
-      "sourceEvidence": {
-        "original": {
-          "division": "4A Division I",
-          "region": "Region I",
-          "slot": 6,
-          "teams": [
-            "West Plains",
-            "Ysleta"
-          ],
-          "date": "2026-11-12",
-          "localTime": "18:00",
-          "kickoff": null,
-          "proposedKickoff": "2026-11-12T18:00:00-06:00",
-          "timeZone": null,
-          "timeZoneBasis": "geographic inference only; not explicitly stated in selected source",
-          "venue": "Astound Broadband Stadium",
-          "city": "Midland",
-          "neutralSite": null,
-          "neutralSiteBasis": "not explicitly verified",
-          "sourceLabel": "Press Pass Sports",
-          "sourceUrl": "https://www.presspass.news/2026/11/08/uil-region-i-high-school-football-bi-district-playoff-pairings-4/",
-          "sourcePublicationDate": "2026-11-09",
-          "sourceUpdatedDate": null,
-          "retrievedDate": "2026-11-10",
-          "verificationStatus": "partial",
-          "missingInformation": [
-            "explicit timezone confirmation"
-          ],
-          "conflicts": [],
-          "notes": []
-        },
-        "existingSideReview": null,
-        "newEvidence": null
-      },
-      "publicationBlockers": [
-        "exact publication approval not granted",
-        "catalog integration release required",
-        "complete source-backed date/time/timezone/venue evidence required",
-        "explicit designated home/visitor assignment required",
-        "formal neutral-site status unconfirmed; existing safeguard retained"
-      ],
-      "writePayload": null
-    },
-    {
-      "manifestId": "2026-bi-district-4a-d1-i-8",
-      "bracket": {
-        "division": "4A Division I",
-        "region": "Region I",
-        "slot": 8,
-        "teams": [
-          "Riverside",
-          "Canyon"
-        ]
-      },
-      "qualifiedSchools": [
-        {
-          "bracketName": "Riverside",
-          "officialName": "El Paso Riverside",
-          "qualifiedIdentity": {
-            "division": "4A Division I",
-            "region": "Region I",
-            "uilDistrict": 1
-          },
-          "schoolId": "el-paso-riverside",
-          "schoolSlug": "el-paso-riverside",
-          "catalogDistrictId": "4a-d1-district-1",
-          "catalogState": "proposed-complete-held-for-release",
-          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf"
-        },
-        {
-          "bracketName": "Canyon",
-          "officialName": "Canyon",
-          "qualifiedIdentity": {
-            "division": "4A Division I",
-            "region": "Region I",
-            "uilDistrict": 2
-          },
-          "schoolId": "canyon",
-          "schoolSlug": "canyon",
-          "catalogDistrictId": "4a-d1-district-2",
-          "catalogState": "proposed-complete-held-for-release",
-          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf"
-        }
-      ],
-      "operation": "proposed-new-record",
-      "existingGameId": null,
-      "insertAllowed": false,
-      "executionEnabled": false,
-      "readyForPublication": false,
-      "tier": "partial-evidence-held",
-      "coreScheduleEvidenceComplete": false,
-      "schedule": {
-        "kickoff": "2026-11-12T18:00:00-06:00",
-        "venue": "Mustang Bowl",
-        "city": "Andrews",
-        "neutralSite": null,
-        "designatedSides": null
-      },
-      "reportedNeutralSiteClaim": {
-        "value": null,
-        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
-      },
-      "originalSelectedSchedule": {
-        "kickoff": "2026-11-12T18:00:00-06:00",
-        "venue": "Mustang Bowl",
-        "city": "Andrews"
-      },
-      "supplementalScheduleDifferences": {},
-      "sourceEvidence": {
-        "original": {
-          "division": "4A Division I",
-          "region": "Region I",
-          "slot": 8,
-          "teams": [
-            "Riverside",
-            "Canyon"
-          ],
-          "date": "2026-11-12",
-          "localTime": "18:00",
-          "kickoff": null,
-          "proposedKickoff": "2026-11-12T18:00:00-06:00",
-          "timeZone": null,
-          "timeZoneBasis": "geographic inference only; not explicitly stated in selected source",
-          "venue": "Mustang Bowl",
-          "city": "Andrews",
-          "neutralSite": null,
-          "neutralSiteBasis": "not explicitly verified",
-          "sourceLabel": "Press Pass Sports",
-          "sourceUrl": "https://www.presspass.news/2026/11/08/uil-region-i-high-school-football-bi-district-playoff-pairings-4/",
-          "sourcePublicationDate": "2026-11-09",
-          "sourceUpdatedDate": null,
-          "retrievedDate": "2026-11-10",
-          "verificationStatus": "partial",
-          "missingInformation": [
-            "explicit timezone confirmation"
-          ],
-          "conflicts": [],
-          "notes": []
-        },
-        "existingSideReview": null,
-        "newEvidence": null
-      },
-      "publicationBlockers": [
-        "exact publication approval not granted",
-        "catalog integration release required",
-        "complete source-backed date/time/timezone/venue evidence required",
-        "explicit designated home/visitor assignment required",
-        "formal neutral-site status unconfirmed; existing safeguard retained"
-      ],
-      "writePayload": null
-    },
     {
       "manifestId": "2026-bi-district-2a-d1-i-1",
       "bracket": {
@@ -3957,114 +3633,6 @@
       "writePayload": null
     },
     {
-      "manifestId": "2026-bi-district-3a-d2-iv-1",
-      "bracket": {
-        "division": "3A Division II",
-        "region": "Region IV",
-        "slot": 1,
-        "teams": [
-          "Thrall",
-          "Brazos"
-        ]
-      },
-      "qualifiedSchools": [
-        {
-          "bracketName": "Thrall",
-          "officialName": "Thrall",
-          "qualifiedIdentity": {
-            "division": "3A Division II",
-            "region": "Region IV",
-            "uilDistrict": 13
-          },
-          "schoolId": "thrall",
-          "schoolSlug": "thrall",
-          "catalogDistrictId": "3a-d2-district-13",
-          "catalogState": "proposed-complete-held-for-release",
-          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf"
-        },
-        {
-          "bracketName": "Brazos",
-          "officialName": "Wallis Brazos",
-          "qualifiedIdentity": {
-            "division": "3A Division II",
-            "region": "Region IV",
-            "uilDistrict": 14
-          },
-          "schoolId": "wallis-brazos",
-          "schoolSlug": "wallis-brazos",
-          "catalogDistrictId": "3a-d2-district-14",
-          "catalogState": "proposed-complete-held-for-release",
-          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf"
-        }
-      ],
-      "operation": "proposed-new-record",
-      "existingGameId": null,
-      "insertAllowed": false,
-      "executionEnabled": false,
-      "readyForPublication": false,
-      "tier": "partial-evidence-held",
-      "coreScheduleEvidenceComplete": false,
-      "schedule": {
-        "kickoff": "2026-11-12T19:00:00-06:00",
-        "venue": "Tiger Stadium",
-        "city": "Smithville",
-        "neutralSite": null,
-        "designatedSides": null
-      },
-      "reportedNeutralSiteClaim": {
-        "value": null,
-        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
-      },
-      "originalSelectedSchedule": {
-        "kickoff": "2026-11-12T19:00:00-06:00",
-        "venue": "Tiger Stadium",
-        "city": "Smithville"
-      },
-      "supplementalScheduleDifferences": {},
-      "sourceEvidence": {
-        "original": {
-          "division": "3A Division II",
-          "region": "Region IV",
-          "slot": 1,
-          "teams": [
-            "Thrall",
-            "Brazos"
-          ],
-          "date": "2026-11-12",
-          "localTime": "19:00",
-          "kickoff": null,
-          "proposedKickoff": "2026-11-12T19:00:00-06:00",
-          "timeZone": null,
-          "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
-          "venue": "Tiger Stadium",
-          "city": "Smithville",
-          "neutralSite": null,
-          "neutralSiteBasis": "not explicitly verified",
-          "sourceLabel": "KWHI",
-          "sourceUrl": "https://kwhi.com/2026/11/09/high-school-football-bi-district-playoff-schedule/",
-          "sourcePublicationDate": null,
-          "sourceUpdatedDate": null,
-          "retrievedDate": "2026-11-10",
-          "verificationStatus": "partial",
-          "missingInformation": [
-            "explicit timezone confirmation"
-          ],
-          "conflicts": [],
-          "notes": []
-        },
-        "existingSideReview": null,
-        "newEvidence": null
-      },
-      "publicationBlockers": [
-        "exact publication approval not granted",
-        "catalog integration release required",
-        "complete source-backed date/time/timezone/venue evidence required",
-        "explicit designated home/visitor assignment required",
-        "formal neutral-site status unconfirmed; existing safeguard retained"
-      ],
-      "writePayload": null
-    },
-    {
       "manifestId": "2026-bi-district-3a-d2-iv-5",
       "bracket": {
         "division": "3A Division II",
@@ -4485,13 +4053,144 @@
           "notes": []
         },
         "existingSideReview": null,
-        "newEvidence": null
+        "newEvidence": {
+          "bracket": {
+            "division": "4A Division I",
+            "region": "Region I",
+            "slot": 7,
+            "teams": [
+              "Aubrey",
+              "Andrews"
+            ]
+          },
+          "qualifiedIdentities": [
+            {
+              "bracketName": "Aubrey",
+              "officialName": "Aubrey",
+              "division": "4A Division I",
+              "region": "Region I",
+              "district": 4,
+              "alignmentRegion": 1,
+              "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+              "nameMatch": "exact-official-name",
+              "catalogAction": "new-catalog-record-required",
+              "existingCatalog": null,
+              "proposedSlug": null,
+              "requiredNextWork": [
+                "review canonical ID and slug",
+                "verify mascot and full display name",
+                "verify abbreviation and school colors",
+                "review district registry integration",
+                "choose coverage status"
+              ],
+              "readyForCatalogIntegration": false,
+              "readyForPublication": false
+            },
+            {
+              "bracketName": "Andrews",
+              "officialName": "Andrews",
+              "division": "4A Division I",
+              "region": "Region I",
+              "district": 3,
+              "alignmentRegion": 1,
+              "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+              "nameMatch": "exact-official-name",
+              "catalogAction": "new-catalog-record-required",
+              "existingCatalog": null,
+              "proposedSlug": null,
+              "requiredNextWork": [
+                "review canonical ID and slug",
+                "verify mascot and full display name",
+                "verify abbreviation and school colors",
+                "review district registry integration",
+                "choose coverage status"
+              ],
+              "readyForCatalogIntegration": false,
+              "readyForPublication": false
+            }
+          ],
+          "previousVerificationStatus": "partial",
+          "selectedSchedule": {
+            "kickoff": "2026-11-12T19:00:00-06:00",
+            "venue": "Mustang Bowl",
+            "city": "Sweetwater"
+          },
+          "coreScheduleEvidenceComplete": false,
+          "selectedScheduleEvidence": [
+            {
+              "sourceLabel": "TXHSFB 4A DI capsules",
+              "sourceUrl": "https://txhsfb.net/?p=29354",
+              "sourcePublishedDate": "2026-11-09",
+              "retrievedDate": "2026-11-11",
+              "retrievalMethod": "current-web-search-extract",
+              "fields": [
+                "opponents",
+                "date",
+                "localTime",
+                "venue",
+                "city"
+              ],
+              "summary": "Current selected game capsule supplies the retained venue and city; timezone is separately supported, not assumed.",
+              "limitations": []
+            }
+          ],
+          "primaryCorroboration": [
+            {
+              "sourceLabel": "AubreyISD official live feed",
+              "sourceUrl": "https://www.aubreyisd.net/o/ahs/live-feed/",
+              "sourcePublishedDate": null,
+              "retrievedDate": "2026-11-11",
+              "retrievalMethod": "current-web-search-extract",
+              "fields": [
+                "opponents",
+                "date",
+                "localTime",
+                "venueOrCampus"
+              ],
+              "summary": "Current primary-origin index says Andrews opponent,ThursdayNov12,2026,7pm,SweetwaterHighSchool. Open-page confirmation not claimed.",
+              "limitations": [
+                "Campus-only location; timezone not stated in retrieved excerpt."
+              ]
+            }
+          ],
+          "sideAssignment": {
+            "status": "unresolved",
+            "homeTeam": null,
+            "awayTeam": null,
+            "sourceUrl": null,
+            "basis": "No explicit primary designated roles adopted. Generic VS/AT and publisher home/away labels excluded."
+          },
+          "designatedSides": null,
+          "neutralSite": null,
+          "formalNeutralSiteEvidence": null,
+          "conflicts": [
+            {
+              "field": "date/time",
+              "contraryValue": "January1,1900/midnightCST",
+              "sourceUrl": "https://www.maxpreps.com/tx/football/game/andrews-vs-aubrey/11-12-2026/?c=a7578d96-9584-47f2-8339-9f78bbb5668a",
+              "resolution": "Placeholder excluded, including its timezone: cannot borrow CST from unset-date entry."
+            }
+          ],
+          "remainingGaps": [
+            "formal neutral-site designation unconfirmed",
+            "explicit designated home/visitor roles unconfirmed",
+            "catalog release and exact publication approval required",
+            "explicit timezone confirmation remains missing",
+            "SweetwaterHS primary campus statement does not independently verify MustangBowl stadium name"
+          ],
+          "readyForPublication": false
+        }
       },
       "publicationBlockers": [
         "exact publication approval not granted",
         "catalog integration release required",
         "complete source-backed date/time/timezone/venue evidence required",
         "explicit designated home/visitor assignment required",
+        "formal neutral-site designation unconfirmed",
+        "explicit designated home/visitor roles unconfirmed",
+        "catalog release and exact publication approval required",
+        "explicit timezone confirmation remains missing",
+        "SweetwaterHS primary campus statement does not independently verify MustangBowl stadium name",
         "formal neutral-site status unconfirmed; existing safeguard retained"
       ],
       "writePayload": null
@@ -11456,330 +11155,6 @@
       "writePayload": null
     },
     {
-      "manifestId": "2026-bi-district-4a-d1-iii-2",
-      "bracket": {
-        "division": "4A Division I",
-        "region": "Region III",
-        "slot": 2,
-        "teams": [
-          "Jarrell",
-          "El Campo"
-        ]
-      },
-      "qualifiedSchools": [
-        {
-          "bracketName": "Jarrell",
-          "officialName": "Jarrell",
-          "qualifiedIdentity": {
-            "division": "4A Division I",
-            "region": "Region III",
-            "uilDistrict": 12
-          },
-          "schoolId": "jarrell",
-          "schoolSlug": "jarrell",
-          "catalogDistrictId": "4a-d1-district-12",
-          "catalogState": "existing-record",
-          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf"
-        },
-        {
-          "bracketName": "El Campo",
-          "officialName": "El Campo",
-          "qualifiedIdentity": {
-            "division": "4A Division I",
-            "region": "Region III",
-            "uilDistrict": 11
-          },
-          "schoolId": "el-campo",
-          "schoolSlug": "el-campo",
-          "catalogDistrictId": "4a-d1-district-11",
-          "catalogState": "proposed-complete-held-for-release",
-          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf"
-        }
-      ],
-      "operation": "proposed-new-record",
-      "existingGameId": null,
-      "insertAllowed": false,
-      "executionEnabled": false,
-      "readyForPublication": false,
-      "tier": "partial-evidence-held",
-      "coreScheduleEvidenceComplete": false,
-      "schedule": {
-        "kickoff": "2026-11-13T19:00:00-06:00",
-        "venue": "Toyota Rattler Stadium",
-        "city": "San Marcos",
-        "neutralSite": null,
-        "designatedSides": null
-      },
-      "reportedNeutralSiteClaim": {
-        "value": null,
-        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
-      },
-      "originalSelectedSchedule": {
-        "kickoff": "2026-11-13T19:00:00-06:00",
-        "venue": "Toyota Rattler Stadium",
-        "city": "San Marcos"
-      },
-      "supplementalScheduleDifferences": {},
-      "sourceEvidence": {
-        "original": {
-          "division": "4A Division I",
-          "region": "Region III",
-          "slot": 2,
-          "teams": [
-            "Jarrell",
-            "El Campo"
-          ],
-          "date": "2026-11-13",
-          "localTime": "19:00",
-          "kickoff": null,
-          "proposedKickoff": "2026-11-13T19:00:00-06:00",
-          "timeZone": null,
-          "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
-          "venue": "Toyota Rattler Stadium",
-          "city": "San Marcos",
-          "neutralSite": null,
-          "neutralSiteBasis": "not explicitly verified",
-          "sourceLabel": "High School Football America",
-          "sourceUrl": "https://highschoolfootballamerica.com/2026-texas-high-school-football-uil-opening-round-playoff-pairings/",
-          "sourcePublicationDate": null,
-          "sourceUpdatedDate": null,
-          "retrievedDate": "2026-11-10",
-          "verificationStatus": "partial",
-          "missingInformation": [
-            "explicit timezone confirmation"
-          ],
-          "conflicts": [],
-          "notes": []
-        },
-        "existingSideReview": null,
-        "newEvidence": null
-      },
-      "publicationBlockers": [
-        "exact publication approval not granted",
-        "catalog integration release required",
-        "complete source-backed date/time/timezone/venue evidence required",
-        "explicit designated home/visitor assignment required",
-        "formal neutral-site status unconfirmed; existing safeguard retained"
-      ],
-      "writePayload": null
-    },
-    {
-      "manifestId": "2026-bi-district-4a-d1-iii-4",
-      "bracket": {
-        "division": "4A Division I",
-        "region": "Region III",
-        "slot": 4,
-        "teams": [
-          "Sealy",
-          "China Spring"
-        ]
-      },
-      "qualifiedSchools": [
-        {
-          "bracketName": "Sealy",
-          "officialName": "Sealy",
-          "qualifiedIdentity": {
-            "division": "4A Division I",
-            "region": "Region III",
-            "uilDistrict": 11
-          },
-          "schoolId": "sealy",
-          "schoolSlug": "sealy",
-          "catalogDistrictId": "4a-d1-district-11",
-          "catalogState": "proposed-complete-held-for-release",
-          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf"
-        },
-        {
-          "bracketName": "China Spring",
-          "officialName": "China Spring",
-          "qualifiedIdentity": {
-            "division": "4A Division I",
-            "region": "Region III",
-            "uilDistrict": 12
-          },
-          "schoolId": "china-spring",
-          "schoolSlug": "china-spring",
-          "catalogDistrictId": "4a-d1-district-12",
-          "catalogState": "existing-record",
-          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf"
-        }
-      ],
-      "operation": "proposed-new-record",
-      "existingGameId": null,
-      "insertAllowed": false,
-      "executionEnabled": false,
-      "readyForPublication": false,
-      "tier": "partial-evidence-held",
-      "coreScheduleEvidenceComplete": false,
-      "schedule": {
-        "kickoff": "2026-11-13T19:00:00-06:00",
-        "venue": "Matador Stadium",
-        "city": "Seguin",
-        "neutralSite": null,
-        "designatedSides": null
-      },
-      "reportedNeutralSiteClaim": {
-        "value": null,
-        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
-      },
-      "originalSelectedSchedule": {
-        "kickoff": "2026-11-13T19:00:00-06:00",
-        "venue": "Matador Stadium",
-        "city": "Seguin"
-      },
-      "supplementalScheduleDifferences": {},
-      "sourceEvidence": {
-        "original": {
-          "division": "4A Division I",
-          "region": "Region III",
-          "slot": 4,
-          "teams": [
-            "Sealy",
-            "China Spring"
-          ],
-          "date": "2026-11-13",
-          "localTime": "19:00",
-          "kickoff": null,
-          "proposedKickoff": "2026-11-13T19:00:00-06:00",
-          "timeZone": null,
-          "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
-          "venue": "Matador Stadium",
-          "city": "Seguin",
-          "neutralSite": null,
-          "neutralSiteBasis": "not explicitly verified",
-          "sourceLabel": "High School Football America",
-          "sourceUrl": "https://highschoolfootballamerica.com/2026-texas-high-school-football-uil-opening-round-playoff-pairings/",
-          "sourcePublicationDate": null,
-          "sourceUpdatedDate": null,
-          "retrievedDate": "2026-11-10",
-          "verificationStatus": "partial",
-          "missingInformation": [
-            "explicit timezone confirmation"
-          ],
-          "conflicts": [],
-          "notes": []
-        },
-        "existingSideReview": null,
-        "newEvidence": null
-      },
-      "publicationBlockers": [
-        "exact publication approval not granted",
-        "catalog integration release required",
-        "complete source-backed date/time/timezone/venue evidence required",
-        "explicit designated home/visitor assignment required",
-        "formal neutral-site status unconfirmed; existing safeguard retained"
-      ],
-      "writePayload": null
-    },
-    {
-      "manifestId": "2026-bi-district-4a-d1-iii-5",
-      "bracket": {
-        "division": "4A Division I",
-        "region": "Region III",
-        "slot": 5,
-        "teams": [
-          "Bay City",
-          "Lampasas"
-        ]
-      },
-      "qualifiedSchools": [
-        {
-          "bracketName": "Bay City",
-          "officialName": "Bay City",
-          "qualifiedIdentity": {
-            "division": "4A Division I",
-            "region": "Region III",
-            "uilDistrict": 11
-          },
-          "schoolId": "bay-city",
-          "schoolSlug": "bay-city",
-          "catalogDistrictId": "4a-d1-district-11",
-          "catalogState": "proposed-complete-held-for-release",
-          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf"
-        },
-        {
-          "bracketName": "Lampasas",
-          "officialName": "Lampasas",
-          "qualifiedIdentity": {
-            "division": "4A Division I",
-            "region": "Region III",
-            "uilDistrict": 12
-          },
-          "schoolId": "lampasas",
-          "schoolSlug": "lampasas",
-          "catalogDistrictId": "4a-d1-district-12",
-          "catalogState": "existing-record",
-          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf"
-        }
-      ],
-      "operation": "proposed-new-record",
-      "existingGameId": null,
-      "insertAllowed": false,
-      "executionEnabled": false,
-      "readyForPublication": false,
-      "tier": "partial-evidence-held",
-      "coreScheduleEvidenceComplete": false,
-      "schedule": {
-        "kickoff": "2026-11-13T19:00:00-06:00",
-        "venue": "Tiger Stadium",
-        "city": "Smithville",
-        "neutralSite": null,
-        "designatedSides": null
-      },
-      "reportedNeutralSiteClaim": {
-        "value": null,
-        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
-      },
-      "originalSelectedSchedule": {
-        "kickoff": "2026-11-13T19:00:00-06:00",
-        "venue": "Tiger Stadium",
-        "city": "Smithville"
-      },
-      "supplementalScheduleDifferences": {},
-      "sourceEvidence": {
-        "original": {
-          "division": "4A Division I",
-          "region": "Region III",
-          "slot": 5,
-          "teams": [
-            "Bay City",
-            "Lampasas"
-          ],
-          "date": "2026-11-13",
-          "localTime": "19:00",
-          "kickoff": null,
-          "proposedKickoff": "2026-11-13T19:00:00-06:00",
-          "timeZone": null,
-          "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
-          "venue": "Tiger Stadium",
-          "city": "Smithville",
-          "neutralSite": null,
-          "neutralSiteBasis": "not explicitly verified",
-          "sourceLabel": "High School Football America",
-          "sourceUrl": "https://highschoolfootballamerica.com/2026-texas-high-school-football-uil-opening-round-playoff-pairings/",
-          "sourcePublicationDate": null,
-          "sourceUpdatedDate": null,
-          "retrievedDate": "2026-11-10",
-          "verificationStatus": "partial",
-          "missingInformation": [
-            "explicit timezone confirmation"
-          ],
-          "conflicts": [],
-          "notes": []
-        },
-        "existingSideReview": null,
-        "newEvidence": null
-      },
-      "publicationBlockers": [
-        "exact publication approval not granted",
-        "catalog integration release required",
-        "complete source-backed date/time/timezone/venue evidence required",
-        "explicit designated home/visitor assignment required",
-        "formal neutral-site status unconfirmed; existing safeguard retained"
-      ],
-      "writePayload": null
-    },
-    {
       "manifestId": "2026-bi-district-4a-d1-iii-6",
       "bracket": {
         "division": "4A Division I",
@@ -14871,13 +14246,144 @@
           "notes": []
         },
         "existingSideReview": null,
-        "newEvidence": null
+        "newEvidence": {
+          "bracket": {
+            "division": "4A Division I",
+            "region": "Region III",
+            "slot": 3,
+            "teams": [
+              "Stafford",
+              "Bridge City"
+            ]
+          },
+          "qualifiedIdentities": [
+            {
+              "bracketName": "Stafford",
+              "officialName": "Stafford",
+              "division": "4A Division I",
+              "region": "Region III",
+              "district": 10,
+              "alignmentRegion": 3,
+              "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+              "nameMatch": "exact-official-name",
+              "catalogAction": "new-catalog-record-required",
+              "existingCatalog": null,
+              "proposedSlug": null,
+              "requiredNextWork": [
+                "review canonical ID and slug",
+                "verify mascot and full display name",
+                "verify abbreviation and school colors",
+                "review district registry integration",
+                "choose coverage status"
+              ],
+              "readyForCatalogIntegration": false,
+              "readyForPublication": false
+            },
+            {
+              "bracketName": "Bridge City",
+              "officialName": "Bridge City",
+              "division": "4A Division I",
+              "region": "Region III",
+              "district": 9,
+              "alignmentRegion": 3,
+              "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+              "nameMatch": "exact-official-name",
+              "catalogAction": "new-catalog-record-required",
+              "existingCatalog": null,
+              "proposedSlug": null,
+              "requiredNextWork": [
+                "review canonical ID and slug",
+                "verify mascot and full display name",
+                "verify abbreviation and school colors",
+                "review district registry integration",
+                "choose coverage status"
+              ],
+              "readyForCatalogIntegration": false,
+              "readyForPublication": false
+            }
+          ],
+          "previousVerificationStatus": "partial",
+          "selectedSchedule": {
+            "kickoff": "2026-11-13T19:30:00-06:00",
+            "venue": "Abshier Stadium",
+            "city": "Deer Park"
+          },
+          "coreScheduleEvidenceComplete": false,
+          "selectedScheduleEvidence": [
+            {
+              "sourceLabel": "SETXsports broadcast listing",
+              "sourceUrl": "https://www.setxsports.com/?broadcast=stafford-bridge-city",
+              "sourcePublishedDate": null,
+              "retrievedDate": "2026-11-11",
+              "retrievalMethod": "current-web-search-extract",
+              "fields": [
+                "opponents",
+                "date",
+                "localTime",
+                "venue",
+                "city"
+              ],
+              "summary": "Broadcast listing says Nov13,7:30pm,ClydeAbshierStadiumDeerPark; retained selected value is not elevated over contrary primary report.",
+              "limitations": []
+            }
+          ],
+          "primaryCorroboration": [
+            {
+              "sourceLabel": "StaffordMunicipalSchoolDistrict official athletic teams calendar",
+              "sourceUrl": "https://www.staffordmsd.org/activities-athletics/teams",
+              "sourcePublishedDate": null,
+              "retrievedDate": "2026-11-11",
+              "retrievalMethod": "current-web-search-extract",
+              "fields": [
+                "opponents",
+                "date",
+                "localTime"
+              ],
+              "summary": "Current primary-origin indexed VarsityFootball entry says PlayoffsBi-DistrictRound1vsBridgeCity,Nov13,2026,7pm.",
+              "limitations": [
+                "Travel Away label excluded from designated-side evidence."
+              ]
+            }
+          ],
+          "sideAssignment": {
+            "status": "unresolved",
+            "homeTeam": null,
+            "awayTeam": null,
+            "sourceUrl": null,
+            "basis": "No explicit primary designated roles adopted. Generic VS/AT and publisher home/away labels excluded."
+          },
+          "designatedSides": null,
+          "neutralSite": null,
+          "formalNeutralSiteEvidence": null,
+          "conflicts": [
+            {
+              "field": "localTime",
+              "contraryValue": "19:00",
+              "sourceUrl": "https://www.staffordmsd.org/activities-athletics/teams",
+              "selectedValueRetained": "19:30",
+              "resolution": "Unresolved primary7pm versus broadcaster/capsule7:30pm. Hold, do not automatically prefer selected value."
+            }
+          ],
+          "remainingGaps": [
+            "formal neutral-site designation unconfirmed",
+            "explicit designated home/visitor roles unconfirmed",
+            "catalog release and exact publication approval required",
+            "primary-versus-broadcaster kickoff conflict unresolved",
+            "explicit timezone confirmation remains missing"
+          ],
+          "readyForPublication": false
+        }
       },
       "publicationBlockers": [
         "exact publication approval not granted",
         "catalog integration release required",
         "complete source-backed date/time/timezone/venue evidence required",
         "explicit designated home/visitor assignment required",
+        "formal neutral-site designation unconfirmed",
+        "explicit designated home/visitor roles unconfirmed",
+        "catalog release and exact publication approval required",
+        "primary-versus-broadcaster kickoff conflict unresolved",
+        "explicit timezone confirmation remains missing",
         "formal neutral-site status unconfirmed; existing safeguard retained"
       ],
       "writePayload": null
