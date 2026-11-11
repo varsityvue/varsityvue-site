@@ -12644,6 +12644,15 @@
             "note": "Kickoff is CST; El Paso venue local MST clock is one hour earlier. Do not reinterpret as 19:30 MST."
           }
         ],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "El Paso ISD host ticket event 3435",
+            "sourceUrl": "https://events.hometownticketing.com/event/bf46dbdf-28be-4b6b-8ea4-20958e723187",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Host confirms Pecos vs Irvin at Irvin High School, 9465 Roanoke Dr., El Paso, Nov. 13 at 6:30 p.m. MST, equivalent to the selected 7:30 p.m. CST instant. Exact stadium name remains the earlier selected-source label. General-admission tickets do not designate teams to sides."
+          }
+        ],
         "schoolSlugs": [
           null,
           null
@@ -12679,6 +12688,15 @@
           {
             "note": "Kickoff is CST; El Paso venue local MST clock is one hour earlier. Do not reinterpret as 19:30 MST."
           }
+        ],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "El Paso ISD host ticket event 3435",
+            "sourceUrl": "https://events.hometownticketing.com/event/bf46dbdf-28be-4b6b-8ea4-20958e723187",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Host confirms Pecos vs Irvin at Irvin High School, 9465 Roanoke Dr., El Paso, Nov. 13 at 6:30 p.m. MST, equivalent to the selected 7:30 p.m. CST instant. Exact stadium name remains the earlier selected-source label. General-admission tickets do not designate teams to sides."
+          }
         ]
       },
       "structuralValidationPassed": true,
@@ -12727,6 +12745,21 @@
         "missingInformation": [],
         "conflicts": [],
         "notes": [],
+        "homeAwayEvidence": {
+          "homeTeam": "Graham",
+          "awayTeam": "Estacado",
+          "sourceUrl": "https://ghs.grahamisd.com/index.php?articleID=96264215&pageID=smartSiteFeed&psqFeed=true",
+          "reviewStatus": "explicit-primary-designation-confirmed"
+        },
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Graham High School official announcement",
+            "sourceUrl": "https://ghs.grahamisd.com/index.php?articleID=96264215&pageID=smartSiteFeed&psqFeed=true",
+            "retrievalStatus": "page-reviewed",
+            "summary": "Nov. 9 school announcement explicitly designates Graham the home team for Estacado at Mustang Bowl in Sweetwater."
+          }
+        ],
         "schoolSlugs": [
           null,
           null
@@ -12758,7 +12791,22 @@
         "verificationStatus": "source-verified",
         "missingInformation": [],
         "conflicts": [],
-        "notes": []
+        "notes": [],
+        "homeAwayEvidence": {
+          "homeTeam": "Graham",
+          "awayTeam": "Estacado",
+          "sourceUrl": "https://ghs.grahamisd.com/index.php?articleID=96264215&pageID=smartSiteFeed&psqFeed=true",
+          "reviewStatus": "explicit-primary-designation-confirmed"
+        },
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Graham High School official announcement",
+            "sourceUrl": "https://ghs.grahamisd.com/index.php?articleID=96264215&pageID=smartSiteFeed&psqFeed=true",
+            "retrievalStatus": "page-reviewed",
+            "summary": "Nov. 9 school announcement explicitly designates Graham the home team for Estacado at Mustang Bowl in Sweetwater."
+          }
+        ]
       },
       "structuralValidationPassed": true,
       "publicationIssues": [
@@ -12806,6 +12854,15 @@
         "missingInformation": [],
         "conflicts": [],
         "notes": [],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Seminole ISD official calendar",
+            "sourceUrl": "https://www.seminoleisd.net/apps/events/2026/11/12/61012380/?id=8",
+            "retrievalStatus": "page-reviewed",
+            "summary": "Official school event confirms El Paso Bowie at Wigwam Stadium Nov. 12 at 7 p.m. No explicit designated-side or neutral-site statement."
+          }
+        ],
         "schoolSlugs": [
           null,
           null
@@ -12837,7 +12894,16 @@
         "verificationStatus": "source-verified",
         "missingInformation": [],
         "conflicts": [],
-        "notes": []
+        "notes": [],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Seminole ISD official calendar",
+            "sourceUrl": "https://www.seminoleisd.net/apps/events/2026/11/12/61012380/?id=8",
+            "retrievalStatus": "page-reviewed",
+            "summary": "Official school event confirms El Paso Bowie at Wigwam Stadium Nov. 12 at 7 p.m. No explicit designated-side or neutral-site statement."
+          }
+        ]
       },
       "structuralValidationPassed": true,
       "publicationIssues": [
@@ -12885,6 +12951,21 @@
         "missingInformation": [],
         "conflicts": [],
         "notes": [],
+        "homeAwayEvidence": {
+          "homeTeam": "Mineral Wells",
+          "awayTeam": "Levelland",
+          "sourceUrl": "https://www.mwisd.net/index.php?articleID=96157097&pageID=smartSiteFeed&psqFeed=true",
+          "reviewStatus": "explicit-primary-designation-confirmed"
+        },
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Mineral Wells ISD official announcement",
+            "sourceUrl": "https://www.mwisd.net/index.php?articleID=96157097&pageID=smartSiteFeed&psqFeed=true",
+            "retrievalStatus": "page-reviewed",
+            "summary": "Nov. 9 school announcement explicitly designates Mineral Wells the HOME team against Levelland at Shotwell Stadium in Abilene."
+          }
+        ],
         "schoolSlugs": [
           null,
           null
@@ -12916,7 +12997,22 @@
         "verificationStatus": "source-verified",
         "missingInformation": [],
         "conflicts": [],
-        "notes": []
+        "notes": [],
+        "homeAwayEvidence": {
+          "homeTeam": "Mineral Wells",
+          "awayTeam": "Levelland",
+          "sourceUrl": "https://www.mwisd.net/index.php?articleID=96157097&pageID=smartSiteFeed&psqFeed=true",
+          "reviewStatus": "explicit-primary-designation-confirmed"
+        },
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Mineral Wells ISD official announcement",
+            "sourceUrl": "https://www.mwisd.net/index.php?articleID=96157097&pageID=smartSiteFeed&psqFeed=true",
+            "retrievalStatus": "page-reviewed",
+            "summary": "Nov. 9 school announcement explicitly designates Mineral Wells the HOME team against Levelland at Shotwell Stadium in Abilene."
+          }
+        ]
       },
       "structuralValidationPassed": true,
       "publicationIssues": [
@@ -13043,6 +13139,15 @@
         "missingInformation": [],
         "conflicts": [],
         "notes": [],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Monahans-Wickett-Pyote ISD ticket event 488",
+            "sourceUrl": "https://events.hometownticketing.com/event/e85aee9b-cb3d-4d40-8bf3-f2a99311f10a",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Host confirms Clint playoff at Estes Memorial Stadium, 700 W. 10th, Monahans, Nov. 12 at 7 p.m. CST. No explicit team-side or neutral-site statement adopted."
+          }
+        ],
         "schoolSlugs": [
           null,
           null
@@ -13074,7 +13179,16 @@
         "verificationStatus": "source-verified",
         "missingInformation": [],
         "conflicts": [],
-        "notes": []
+        "notes": [],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Monahans-Wickett-Pyote ISD ticket event 488",
+            "sourceUrl": "https://events.hometownticketing.com/event/e85aee9b-cb3d-4d40-8bf3-f2a99311f10a",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Host confirms Clint playoff at Estes Memorial Stadium, 700 W. 10th, Monahans, Nov. 12 at 7 p.m. CST. No explicit team-side or neutral-site statement adopted."
+          }
+        ]
       },
       "structuralValidationPassed": true,
       "publicationIssues": [
@@ -13122,6 +13236,21 @@
         "missingInformation": [],
         "conflicts": [],
         "notes": [],
+        "homeAwayEvidence": {
+          "homeTeam": "Brock",
+          "awayTeam": "Perryton",
+          "sourceUrl": "https://events.hometownticketing.com/boxoffice/lubbockisd/L2VtYmVkL2V2ZW50LzE0NjM%3D",
+          "reviewStatus": "explicit-primary-designation-confirmed"
+        },
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Lubbock ISD host ticket event 1463",
+            "sourceUrl": "https://events.hometownticketing.com/boxoffice/lubbockisd/L2VtYmVkL2V2ZW50LzE0NjM%3D",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Event description explicitly maps Perryton Visitor and Brock Home at PlainsCapital Park/Lowrey Field. Conflicting incidental conference/division text is not adopted; UIL identity/classification is retained."
+          }
+        ],
         "schoolSlugs": [
           "brock",
           null
@@ -13153,7 +13282,22 @@
         "verificationStatus": "source-verified",
         "missingInformation": [],
         "conflicts": [],
-        "notes": []
+        "notes": [],
+        "homeAwayEvidence": {
+          "homeTeam": "Brock",
+          "awayTeam": "Perryton",
+          "sourceUrl": "https://events.hometownticketing.com/boxoffice/lubbockisd/L2VtYmVkL2V2ZW50LzE0NjM%3D",
+          "reviewStatus": "explicit-primary-designation-confirmed"
+        },
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Lubbock ISD host ticket event 1463",
+            "sourceUrl": "https://events.hometownticketing.com/boxoffice/lubbockisd/L2VtYmVkL2V2ZW50LzE0NjM%3D",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Event description explicitly maps Perryton Visitor and Brock Home at PlainsCapital Park/Lowrey Field. Conflicting incidental conference/division text is not adopted; UIL identity/classification is retained."
+          }
+        ]
       },
       "structuralValidationPassed": true,
       "publicationIssues": [
@@ -13205,6 +13349,15 @@
             "note": "Kickoff is CST; El Paso venue local MST clock is one hour earlier. Do not reinterpret as 19:30 MST."
           }
         ],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Clint ISD ticket event 512",
+            "sourceUrl": "https://events.hometownticketing.com/event/6ded696b-eb92-4801-b128-7e924cea9cd1",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Host confirms Mountain View vs Big Spring at Mountain View High School, 14964 Greg Dr., El Paso, Nov. 13 at 6:30 p.m. MST, equivalent to selected 7:30 p.m. CST. Exact Lobo Stadium naming remains earlier-source evidence. General admission does not identify designated sides."
+          }
+        ],
         "schoolSlugs": [
           null,
           null
@@ -13239,6 +13392,15 @@
         "notes": [
           {
             "note": "Kickoff is CST; El Paso venue local MST clock is one hour earlier. Do not reinterpret as 19:30 MST."
+          }
+        ],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Clint ISD ticket event 512",
+            "sourceUrl": "https://events.hometownticketing.com/event/6ded696b-eb92-4801-b128-7e924cea9cd1",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Host confirms Mountain View vs Big Spring at Mountain View High School, 14964 Greg Dr., El Paso, Nov. 13 at 6:30 p.m. MST, equivalent to selected 7:30 p.m. CST. Exact Lobo Stadium naming remains earlier-source evidence. General admission does not identify designated sides."
           }
         ]
       },
@@ -13288,6 +13450,15 @@
         "missingInformation": [],
         "conflicts": [],
         "notes": [],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Glen Rose official athletics schedule",
+            "sourceUrl": "https://www.grisdtigers.com/sport/football/boys",
+            "retrievalStatus": "page-reviewed",
+            "summary": "Official schedule confirms Ponder at Crowley on Nov. 12 at 7 p.m., with location 9900 Hemphill St, Fort Worth. Its AWAY label establishes travel only; no designated home side is adopted."
+          }
+        ],
         "schoolSlugs": [
           null,
           null
@@ -13319,7 +13490,16 @@
         "verificationStatus": "source-verified",
         "missingInformation": [],
         "conflicts": [],
-        "notes": []
+        "notes": [],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Glen Rose official athletics schedule",
+            "sourceUrl": "https://www.grisdtigers.com/sport/football/boys",
+            "retrievalStatus": "page-reviewed",
+            "summary": "Official schedule confirms Ponder at Crowley on Nov. 12 at 7 p.m., with location 9900 Hemphill St, Fort Worth. Its AWAY label establishes travel only; no designated home side is adopted."
+          }
+        ]
       },
       "structuralValidationPassed": true,
       "publicationIssues": [
@@ -13367,6 +13547,21 @@
         "missingInformation": [],
         "conflicts": [],
         "notes": [],
+        "homeAwayEvidence": {
+          "homeTeam": "Carthage",
+          "awayTeam": "Ford",
+          "sourceUrl": "https://www.carthageisd.org/live-feed",
+          "reviewStatus": "explicit-primary-designation-confirmed"
+        },
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Carthage ISD official playoff announcement",
+            "sourceUrl": "https://www.carthageisd.org/live-feed",
+            "retrievalStatus": "page-reviewed",
+            "summary": "School explicitly designates Carthage home against Quinlan Ford, Nov. 12 at 7 p.m. at Lindale Eagles Stadium; subsequent ticket guidance tells Carthage supporters to select HOME."
+          }
+        ],
         "schoolSlugs": [
           null,
           null
@@ -13398,7 +13593,22 @@
         "verificationStatus": "source-verified",
         "missingInformation": [],
         "conflicts": [],
-        "notes": []
+        "notes": [],
+        "homeAwayEvidence": {
+          "homeTeam": "Carthage",
+          "awayTeam": "Ford",
+          "sourceUrl": "https://www.carthageisd.org/live-feed",
+          "reviewStatus": "explicit-primary-designation-confirmed"
+        },
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Carthage ISD official playoff announcement",
+            "sourceUrl": "https://www.carthageisd.org/live-feed",
+            "retrievalStatus": "page-reviewed",
+            "summary": "School explicitly designates Carthage home against Quinlan Ford, Nov. 12 at 7 p.m. at Lindale Eagles Stadium; subsequent ticket guidance tells Carthage supporters to select HOME."
+          }
+        ]
       },
       "structuralValidationPassed": true,
       "publicationIssues": [
@@ -13446,6 +13656,21 @@
         "missingInformation": [],
         "conflicts": [],
         "notes": [],
+        "homeAwayEvidence": {
+          "homeTeam": "Van Alstyne",
+          "awayTeam": "Venus",
+          "sourceUrl": "https://events.hometownticketing.com/event/8cf8f5d5-5df8-4eee-a314-0f9d625c4025",
+          "reviewStatus": "explicit-primary-designation-confirmed"
+        },
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Plano ISD host ticket event 8774",
+            "sourceUrl": "https://events.hometownticketing.com/event/8cf8f5d5-5df8-4eee-a314-0f9d625c4025",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Exact event title explicitly maps Van Alstyne HOME and Venus Visitor; Nov. 12 at 7 p.m. CST, Tom Kimbrough Stadium, 700 N. Murphy Road, Murphy."
+          }
+        ],
         "schoolSlugs": [
           null,
           null
@@ -13477,7 +13702,22 @@
         "verificationStatus": "source-verified",
         "missingInformation": [],
         "conflicts": [],
-        "notes": []
+        "notes": [],
+        "homeAwayEvidence": {
+          "homeTeam": "Van Alstyne",
+          "awayTeam": "Venus",
+          "sourceUrl": "https://events.hometownticketing.com/event/8cf8f5d5-5df8-4eee-a314-0f9d625c4025",
+          "reviewStatus": "explicit-primary-designation-confirmed"
+        },
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Plano ISD host ticket event 8774",
+            "sourceUrl": "https://events.hometownticketing.com/event/8cf8f5d5-5df8-4eee-a314-0f9d625c4025",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Exact event title explicitly maps Van Alstyne HOME and Venus Visitor; Nov. 12 at 7 p.m. CST, Tom Kimbrough Stadium, 700 N. Murphy Road, Murphy."
+          }
+        ]
       },
       "structuralValidationPassed": true,
       "publicationIssues": [
@@ -13525,6 +13765,15 @@
         "missingInformation": [],
         "conflicts": [],
         "notes": [],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Farmersville ISD ticket event 218",
+            "sourceUrl": "https://events.hometownticketing.com/event/ed2af7b3-1dbe-4f19-998f-67f8a16ca4e4",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "School box office confirms Pleasant Grove playoff at Farmers Football Stadium, 1198 S State Hwy 78, Farmersville, Nov. 12 at 7 p.m. CST. No explicit team-side or neutral-site statement adopted."
+          }
+        ],
         "schoolSlugs": [
           null,
           null
@@ -13556,7 +13805,16 @@
         "verificationStatus": "source-verified",
         "missingInformation": [],
         "conflicts": [],
-        "notes": []
+        "notes": [],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Farmersville ISD ticket event 218",
+            "sourceUrl": "https://events.hometownticketing.com/event/ed2af7b3-1dbe-4f19-998f-67f8a16ca4e4",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "School box office confirms Pleasant Grove playoff at Farmers Football Stadium, 1198 S State Hwy 78, Farmersville, Nov. 12 at 7 p.m. CST. No explicit team-side or neutral-site statement adopted."
+          }
+        ]
       },
       "structuralValidationPassed": true,
       "publicationIssues": [
@@ -13683,6 +13941,21 @@
         "missingInformation": [],
         "conflicts": [],
         "notes": [],
+        "homeAwayEvidence": {
+          "homeTeam": "Krum",
+          "awayTeam": "Kemp",
+          "sourceUrl": "https://events.hometownticketing.com/event/8c4fa4da-9d86-4111-8a05-d956f356e137",
+          "reviewStatus": "explicit-primary-designation-confirmed"
+        },
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Royse City ISD host ticket event 1186",
+            "sourceUrl": "https://events.hometownticketing.com/event/8c4fa4da-9d86-4111-8a05-d956f356e137",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Event description and ticket products explicitly map Krum HOME and Kemp VISITOR; Nov. 13 at 7 p.m. CST, Royse City ISD Stadium, 650 FM 2642. Stale image alternative text says 5A/regional; the current title and UIL 4A DII bi-district identity govern. The Krum school calendar (A) is a travel label, not a designated-side instruction."
+          }
+        ],
         "schoolSlugs": [
           null,
           null
@@ -13714,7 +13987,22 @@
         "verificationStatus": "source-verified",
         "missingInformation": [],
         "conflicts": [],
-        "notes": []
+        "notes": [],
+        "homeAwayEvidence": {
+          "homeTeam": "Krum",
+          "awayTeam": "Kemp",
+          "sourceUrl": "https://events.hometownticketing.com/event/8c4fa4da-9d86-4111-8a05-d956f356e137",
+          "reviewStatus": "explicit-primary-designation-confirmed"
+        },
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Royse City ISD host ticket event 1186",
+            "sourceUrl": "https://events.hometownticketing.com/event/8c4fa4da-9d86-4111-8a05-d956f356e137",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Event description and ticket products explicitly map Krum HOME and Kemp VISITOR; Nov. 13 at 7 p.m. CST, Royse City ISD Stadium, 650 FM 2642. Stale image alternative text says 5A/regional; the current title and UIL 4A DII bi-district identity govern. The Krum school calendar (A) is a travel label, not a designated-side instruction."
+          }
+        ]
       },
       "structuralValidationPassed": true,
       "publicationIssues": [
@@ -13762,6 +14050,21 @@
         "missingInformation": [],
         "conflicts": [],
         "notes": [],
+        "homeAwayEvidence": {
+          "homeTeam": "Gilmer",
+          "awayTeam": "North Lamar",
+          "sourceUrl": "https://events.hometownticketing.com/event/570abce6-ca07-4caa-ba0b-91686861104d",
+          "reviewStatus": "explicit-primary-designation-confirmed"
+        },
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Mesquite ISD host ticket event 5923",
+            "sourceUrl": "https://events.hometownticketing.com/event/570abce6-ca07-4caa-ba0b-91686861104d",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Host event title and description explicitly map Gilmer Home Team and Paris North Lamar Visitor; Nov. 13 at 7 p.m. CST at Hanby Stadium, 410 East Davis, Mesquite. Title misspells Gimer; description spells Gilmer correctly and matchup identity is qualified by UIL."
+          }
+        ],
         "schoolSlugs": [
           null,
           null
@@ -13793,7 +14096,22 @@
         "verificationStatus": "source-verified",
         "missingInformation": [],
         "conflicts": [],
-        "notes": []
+        "notes": [],
+        "homeAwayEvidence": {
+          "homeTeam": "Gilmer",
+          "awayTeam": "North Lamar",
+          "sourceUrl": "https://events.hometownticketing.com/event/570abce6-ca07-4caa-ba0b-91686861104d",
+          "reviewStatus": "explicit-primary-designation-confirmed"
+        },
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Mesquite ISD host ticket event 5923",
+            "sourceUrl": "https://events.hometownticketing.com/event/570abce6-ca07-4caa-ba0b-91686861104d",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Host event title and description explicitly map Gilmer Home Team and Paris North Lamar Visitor; Nov. 13 at 7 p.m. CST at Hanby Stadium, 410 East Davis, Mesquite. Title misspells Gimer; description spells Gilmer correctly and matchup identity is qualified by UIL."
+          }
+        ]
       },
       "structuralValidationPassed": true,
       "publicationIssues": [
@@ -13841,6 +14159,21 @@
         "missingInformation": [],
         "conflicts": [],
         "notes": [],
+        "homeAwayEvidence": {
+          "homeTeam": "Hillsboro",
+          "awayTeam": "Sanger",
+          "sourceUrl": "https://events.hometownticketing.com/event/6aa3f60b-8ceb-4419-bd2b-9aa0aaf8feab",
+          "reviewStatus": "explicit-primary-designation-confirmed"
+        },
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Aledo ISD host ticket event 738",
+            "sourceUrl": "https://events.hometownticketing.com/event/6aa3f60b-8ceb-4419-bd2b-9aa0aaf8feab",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Exact host ticket title specifies Hillsboro Home Side against Sanger. Event description confirms Nov. 12 at 7 p.m. CST, Aledo ISD Tim Buchanan Stadium, 1000 Bailey Ranch Rd. Title Hillsoboro typo is not a new school identity."
+          }
+        ],
         "schoolSlugs": [
           null,
           null
@@ -13872,7 +14205,22 @@
         "verificationStatus": "source-verified",
         "missingInformation": [],
         "conflicts": [],
-        "notes": []
+        "notes": [],
+        "homeAwayEvidence": {
+          "homeTeam": "Hillsboro",
+          "awayTeam": "Sanger",
+          "sourceUrl": "https://events.hometownticketing.com/event/6aa3f60b-8ceb-4419-bd2b-9aa0aaf8feab",
+          "reviewStatus": "explicit-primary-designation-confirmed"
+        },
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Aledo ISD host ticket event 738",
+            "sourceUrl": "https://events.hometownticketing.com/event/6aa3f60b-8ceb-4419-bd2b-9aa0aaf8feab",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Exact host ticket title specifies Hillsboro Home Side against Sanger. Event description confirms Nov. 12 at 7 p.m. CST, Aledo ISD Tim Buchanan Stadium, 1000 Bailey Ranch Rd. Title Hillsoboro typo is not a new school identity."
+          }
+        ]
       },
       "structuralValidationPassed": true,
       "publicationIssues": [

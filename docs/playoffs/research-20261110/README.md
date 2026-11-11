@@ -154,3 +154,10 @@ The Devine event was located using HomeTown’s public search for Devine, then o
 All 15 recorded date, kickoff, and venue conflict rows now have field-level resolutions. This does **not** close all missing information, operational caveats, or publication requirements. The count of rows with explicit date/time/venue/CST evidence is now **21**, up from 19. All 192 publication flags remain false; 191 rows still lack an explicit neutral-site designation. Stadium naming caveats, home/away designations, catalog release review and the separate application draft PR #137 remain outstanding. No runtime catalog, production schedule, result, score, schema or release state changed.
 
 The earlier dated follow-up sections are historical checkpoints. This final section records the current conflict-resolution totals and should govern the next review pass.
+
+
+## Designated sides and venues — November 11
+
+See [the 21-game review table](designated-sides-and-venues-review.md) and `designated-sides-and-venues-review.json`. The review covers every currently source-verified candidate exactly once: nine explicit designated-side mappings (up from one in that batch), 12 mappings still unconfirmed, 19 school/host location corroborations and two location gaps. Site assessments distinguish 13 third-party locations, six participant locations and two unknowns; they are labeled inferences and do not replace explicit neutral-site evidence. No candidate neutral-site flag or publication approval changed.
+
+Eight newly confirmed side mappings are also preserved in `class-3a-4a.json` and the regenerated candidates: Graham, Mineral Wells, Brock, Carthage, Van Alstyne, Krum, Gilmer and Hillsboro are designated home in their respective matchups. The El Paso host events separately corroborate MST kickoff times equivalent to the selected CST instants. Role evidence and location evidence are kept separate; away travel is not treated as a designated visitor assignment.

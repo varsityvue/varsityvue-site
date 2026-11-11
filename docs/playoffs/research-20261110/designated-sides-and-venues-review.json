@@ -1,0 +1,793 @@
+{
+  "reviewedDate": "2026-11-11",
+  "mode": "offline-field-review",
+  "productionWrites": false,
+  "runtimeChanges": false,
+  "sourceResearchBaseHead": "47d3325cfcfcd2a479a6440f46872880b5d18705",
+  "summary": {
+    "reviewedSchedules": 21,
+    "explicitDesignatedSides": 9,
+    "designatedSidesUnresolved": 12,
+    "primaryLocationCorroborated": 19,
+    "primaryLocationCorroborationMissing": 2,
+    "thirdPartyLocationAssessments": 13,
+    "participantLocationAssessments": 6,
+    "unconfirmedLocationAssessments": 2,
+    "explicitNeutralSiteDesignations": 0,
+    "readyForPublication": 0
+  },
+  "rules": [
+    "Only explicit school/host team-side statements populate designatedSides.",
+    "Travel AWAY and generic VS/AT labels do not establish designated sides.",
+    "Primary location corroboration includes campus-level confirmation and does not necessarily settle exact stadium aliases.",
+    "Site assessments are marked inferences and do not change candidate neutralSite values.",
+    "Unknown roles and neutrality remain null. Publication is never approved by this review."
+  ],
+  "rows": [
+    {
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region III",
+        "slot": 2,
+        "teams": [
+          "Shelbyville",
+          "Waskom"
+        ]
+      },
+      "kickoff": "2026-11-13T19:30:00-06:00",
+      "venue": "Bulldog Stadium, Carthage, TX",
+      "city": "Carthage",
+      "designatedSides": null,
+      "primaryLocationCorroborated": true,
+      "locationEvidence": {
+        "sourceUrl": "https://events.hometownticketing.com/boxoffice/carthageisd/L2VtYmVkL2V2ZW50LzU3",
+        "sourceLabel": "Carthage ISD host box office event 57",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "siteAssessment": {
+        "kind": "third-party-location",
+        "isInference": true,
+        "neutralSiteConfirmed": null,
+        "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+      },
+      "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer.",
+      "publicationBlockers": [
+        "explicit neutral-site designation remains unverified",
+        "catalog integration/release review remains required",
+        "final publication approval remains required",
+        "explicit designated home/visitor mapping remains unverified"
+      ],
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region I",
+        "slot": 1,
+        "teams": [
+          "Irvin",
+          "Pecos"
+        ]
+      },
+      "kickoff": "2026-11-13T19:30:00-06:00",
+      "venue": "Irvin Memorial Stadium",
+      "city": "El Paso",
+      "designatedSides": null,
+      "primaryLocationCorroborated": true,
+      "locationEvidence": {
+        "sourceUrl": "https://events.hometownticketing.com/event/bf46dbdf-28be-4b6b-8ea4-20958e723187",
+        "sourceLabel": "El Paso ISD host event 3435",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "siteAssessment": {
+        "kind": "participant-location",
+        "isInference": true,
+        "neutralSiteConfirmed": null,
+        "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+      },
+      "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer. Host detail explicitly states 6:30 p.m. MST, which equals 7:30 p.m. CST. Stadium naming is retained from prior selected source, not claimed from the campus-only host label.",
+      "publicationBlockers": [
+        "explicit neutral-site designation remains unverified",
+        "catalog integration/release review remains required",
+        "final publication approval remains required",
+        "explicit designated home/visitor mapping remains unverified"
+      ],
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region I",
+        "slot": 2,
+        "teams": [
+          "Graham",
+          "Estacado"
+        ]
+      },
+      "kickoff": "2026-11-13T19:00:00-06:00",
+      "venue": "Mustang Bowl",
+      "city": "Sweetwater",
+      "designatedSides": {
+        "homeTeam": "Graham",
+        "awayTeam": "Estacado",
+        "sourceUrl": "https://ghs.grahamisd.com/index.php?articleID=96264215&pageID=smartSiteFeed&psqFeed=true",
+        "reviewStatus": "explicit-primary-designation-confirmed"
+      },
+      "primaryLocationCorroborated": true,
+      "locationEvidence": {
+        "sourceUrl": "https://ghs.grahamisd.com/index.php?articleID=96264215&pageID=smartSiteFeed&psqFeed=true",
+        "sourceLabel": "Primary designated-side evidence",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "siteAssessment": {
+        "kind": "third-party-location",
+        "isInference": true,
+        "neutralSiteConfirmed": null,
+        "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+      },
+      "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer.",
+      "publicationBlockers": [
+        "explicit neutral-site designation remains unverified",
+        "catalog integration/release review remains required",
+        "final publication approval remains required"
+      ],
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region I",
+        "slot": 3,
+        "teams": [
+          "Seminole",
+          "Bowie"
+        ]
+      },
+      "kickoff": "2026-11-12T19:00:00-06:00",
+      "venue": "Wigwam Stadium",
+      "city": "Seminole",
+      "designatedSides": null,
+      "primaryLocationCorroborated": true,
+      "locationEvidence": {
+        "sourceUrl": "https://www.seminoleisd.net/apps/events/2026/11/12/61012380/?id=8",
+        "sourceLabel": "Seminole ISD calendar",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "siteAssessment": {
+        "kind": "participant-location",
+        "isInference": true,
+        "neutralSiteConfirmed": null,
+        "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+      },
+      "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer.",
+      "publicationBlockers": [
+        "explicit neutral-site designation remains unverified",
+        "catalog integration/release review remains required",
+        "final publication approval remains required",
+        "explicit designated home/visitor mapping remains unverified"
+      ],
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region I",
+        "slot": 4,
+        "teams": [
+          "Levelland",
+          "Mineral Wells"
+        ]
+      },
+      "kickoff": "2026-11-13T19:00:00-06:00",
+      "venue": "Shotwell Stadium",
+      "city": "Abilene",
+      "designatedSides": {
+        "homeTeam": "Mineral Wells",
+        "awayTeam": "Levelland",
+        "sourceUrl": "https://www.mwisd.net/index.php?articleID=96157097&pageID=smartSiteFeed&psqFeed=true",
+        "reviewStatus": "explicit-primary-designation-confirmed"
+      },
+      "primaryLocationCorroborated": true,
+      "locationEvidence": {
+        "sourceUrl": "https://www.mwisd.net/index.php?articleID=96157097&pageID=smartSiteFeed&psqFeed=true",
+        "sourceLabel": "Primary designated-side evidence",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "siteAssessment": {
+        "kind": "third-party-location",
+        "isInference": true,
+        "neutralSiteConfirmed": null,
+        "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+      },
+      "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer.",
+      "publicationBlockers": [
+        "explicit neutral-site designation remains unverified",
+        "catalog integration/release review remains required",
+        "final publication approval remains required"
+      ],
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region I",
+        "slot": 5,
+        "teams": [
+          "Liberty",
+          "Burkburnett"
+        ]
+      },
+      "kickoff": "2026-11-13T18:00:00-06:00",
+      "venue": "Wildcat Stadium",
+      "city": "Abilene",
+      "designatedSides": null,
+      "primaryLocationCorroborated": false,
+      "locationEvidence": null,
+      "siteAssessment": {
+        "kind": "unconfirmed-location-assessment",
+        "isInference": true,
+        "neutralSiteConfirmed": null,
+        "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+      },
+      "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer. Public Burkburnett ticket search returned no matching playoff football event; no role inferred from list order or publisher home labels.",
+      "publicationBlockers": [
+        "explicit neutral-site designation remains unverified",
+        "catalog integration/release review remains required",
+        "final publication approval remains required",
+        "explicit designated home/visitor mapping remains unverified",
+        "primary school/host location corroboration remains missing"
+      ],
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region I",
+        "slot": 6,
+        "teams": [
+          "Monahans",
+          "Clint"
+        ]
+      },
+      "kickoff": "2026-11-12T19:00:00-06:00",
+      "venue": "Estes Memorial Stadium",
+      "city": "Monahans",
+      "designatedSides": null,
+      "primaryLocationCorroborated": true,
+      "locationEvidence": {
+        "sourceUrl": "https://events.hometownticketing.com/event/e85aee9b-cb3d-4d40-8bf3-f2a99311f10a",
+        "sourceLabel": "Monahans ISD host event 488",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "siteAssessment": {
+        "kind": "participant-location",
+        "isInference": true,
+        "neutralSiteConfirmed": null,
+        "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+      },
+      "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer.",
+      "publicationBlockers": [
+        "explicit neutral-site designation remains unverified",
+        "catalog integration/release review remains required",
+        "final publication approval remains required",
+        "explicit designated home/visitor mapping remains unverified"
+      ],
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region I",
+        "slot": 7,
+        "teams": [
+          "Brock",
+          "Perryton"
+        ]
+      },
+      "kickoff": "2026-11-12T17:00:00-06:00",
+      "venue": "Lowrey Field",
+      "city": "Lubbock",
+      "designatedSides": {
+        "homeTeam": "Brock",
+        "awayTeam": "Perryton",
+        "sourceUrl": "https://events.hometownticketing.com/boxoffice/lubbockisd/L2VtYmVkL2V2ZW50LzE0NjM%3D",
+        "reviewStatus": "explicit-primary-designation-confirmed"
+      },
+      "primaryLocationCorroborated": true,
+      "locationEvidence": {
+        "sourceUrl": "https://events.hometownticketing.com/boxoffice/lubbockisd/L2VtYmVkL2V2ZW50LzE0NjM%3D",
+        "sourceLabel": "Primary designated-side evidence",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "siteAssessment": {
+        "kind": "third-party-location",
+        "isInference": true,
+        "neutralSiteConfirmed": null,
+        "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+      },
+      "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer. Lubbock host explicitly maps Brock HOME, despite publisher listings putting Perryton home. Host conference/division typos are not adopted.",
+      "publicationBlockers": [
+        "explicit neutral-site designation remains unverified",
+        "catalog integration/release review remains required",
+        "final publication approval remains required"
+      ],
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region I",
+        "slot": 8,
+        "teams": [
+          "Mountain View",
+          "Big Spring"
+        ]
+      },
+      "kickoff": "2026-11-13T19:30:00-06:00",
+      "venue": "Lobo Stadium",
+      "city": "El Paso",
+      "designatedSides": null,
+      "primaryLocationCorroborated": true,
+      "locationEvidence": {
+        "sourceUrl": "https://events.hometownticketing.com/event/6ded696b-eb92-4801-b128-7e924cea9cd1",
+        "sourceLabel": "Clint ISD host event 512",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "siteAssessment": {
+        "kind": "participant-location",
+        "isInference": true,
+        "neutralSiteConfirmed": null,
+        "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+      },
+      "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer. Host detail explicitly states 6:30 p.m. MST, which equals 7:30 p.m. CST. Stadium naming is retained from prior selected source, not claimed from the campus-only host label.",
+      "publicationBlockers": [
+        "explicit neutral-site designation remains unverified",
+        "catalog integration/release review remains required",
+        "final publication approval remains required",
+        "explicit designated home/visitor mapping remains unverified"
+      ],
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region II",
+        "slot": 1,
+        "teams": [
+          "Glen Rose",
+          "Ponder"
+        ]
+      },
+      "kickoff": "2026-11-12T19:00:00-06:00",
+      "venue": "Crowley ISD Stadium",
+      "city": "Fort Worth",
+      "designatedSides": null,
+      "primaryLocationCorroborated": true,
+      "locationEvidence": {
+        "sourceUrl": "https://www.grisdtigers.com/sport/football/boys",
+        "sourceLabel": "Glen Rose school athletics schedule",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "siteAssessment": {
+        "kind": "third-party-location",
+        "isInference": true,
+        "neutralSiteConfirmed": null,
+        "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+      },
+      "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer.",
+      "publicationBlockers": [
+        "explicit neutral-site designation remains unverified",
+        "catalog integration/release review remains required",
+        "final publication approval remains required",
+        "explicit designated home/visitor mapping remains unverified"
+      ],
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region II",
+        "slot": 2,
+        "teams": [
+          "Carthage",
+          "Ford"
+        ]
+      },
+      "kickoff": "2026-11-12T19:00:00-06:00",
+      "venue": "Eagle Stadium",
+      "city": "Lindale",
+      "designatedSides": {
+        "homeTeam": "Carthage",
+        "awayTeam": "Ford",
+        "sourceUrl": "https://www.carthageisd.org/live-feed",
+        "reviewStatus": "explicit-primary-designation-confirmed"
+      },
+      "primaryLocationCorroborated": true,
+      "locationEvidence": {
+        "sourceUrl": "https://www.carthageisd.org/live-feed",
+        "sourceLabel": "Primary designated-side evidence",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "siteAssessment": {
+        "kind": "third-party-location",
+        "isInference": true,
+        "neutralSiteConfirmed": null,
+        "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+      },
+      "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer.",
+      "publicationBlockers": [
+        "explicit neutral-site designation remains unverified",
+        "catalog integration/release review remains required",
+        "final publication approval remains required"
+      ],
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region II",
+        "slot": 3,
+        "teams": [
+          "Van Alstyne",
+          "Venus"
+        ]
+      },
+      "kickoff": "2026-11-12T19:00:00-06:00",
+      "venue": "Kimbrough Stadium",
+      "city": "Murphy",
+      "designatedSides": {
+        "homeTeam": "Van Alstyne",
+        "awayTeam": "Venus",
+        "sourceUrl": "https://events.hometownticketing.com/event/8cf8f5d5-5df8-4eee-a314-0f9d625c4025",
+        "reviewStatus": "explicit-primary-designation-confirmed"
+      },
+      "primaryLocationCorroborated": true,
+      "locationEvidence": {
+        "sourceUrl": "https://events.hometownticketing.com/event/8cf8f5d5-5df8-4eee-a314-0f9d625c4025",
+        "sourceLabel": "Primary designated-side evidence",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "siteAssessment": {
+        "kind": "third-party-location",
+        "isInference": true,
+        "neutralSiteConfirmed": null,
+        "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+      },
+      "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer.",
+      "publicationBlockers": [
+        "explicit neutral-site designation remains unverified",
+        "catalog integration/release review remains required",
+        "final publication approval remains required"
+      ],
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region II",
+        "slot": 4,
+        "teams": [
+          "Farmersville",
+          "Pleasant Grove"
+        ]
+      },
+      "kickoff": "2026-11-12T19:00:00-06:00",
+      "venue": "Farmer Stadium",
+      "city": "Farmersville",
+      "designatedSides": null,
+      "primaryLocationCorroborated": true,
+      "locationEvidence": {
+        "sourceUrl": "https://events.hometownticketing.com/event/ed2af7b3-1dbe-4f19-998f-67f8a16ca4e4",
+        "sourceLabel": "Farmersville ISD host event 218",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "siteAssessment": {
+        "kind": "participant-location",
+        "isInference": true,
+        "neutralSiteConfirmed": null,
+        "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+      },
+      "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer.",
+      "publicationBlockers": [
+        "explicit neutral-site designation remains unverified",
+        "catalog integration/release review remains required",
+        "final publication approval remains required",
+        "explicit designated home/visitor mapping remains unverified"
+      ],
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region II",
+        "slot": 5,
+        "teams": [
+          "Sunnyvale",
+          "Pittsburg"
+        ]
+      },
+      "kickoff": "2026-11-13T19:00:00-06:00",
+      "venue": "Bulldog Stadium",
+      "city": "Tyler",
+      "designatedSides": null,
+      "primaryLocationCorroborated": false,
+      "locationEvidence": null,
+      "siteAssessment": {
+        "kind": "unconfirmed-location-assessment",
+        "isInference": true,
+        "neutralSiteConfirmed": null,
+        "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+      },
+      "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer. Band booster site reports travel to Chapel Hill High School; not treated as school-issued designated-side proof. Public host ticket search returned no matching football event.",
+      "publicationBlockers": [
+        "explicit neutral-site designation remains unverified",
+        "catalog integration/release review remains required",
+        "final publication approval remains required",
+        "explicit designated home/visitor mapping remains unverified",
+        "primary school/host location corroboration remains missing"
+      ],
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region II",
+        "slot": 6,
+        "teams": [
+          "Krum",
+          "Kemp"
+        ]
+      },
+      "kickoff": "2026-11-13T19:00:00-06:00",
+      "venue": "Royse City ISD Stadium",
+      "city": "Royse City",
+      "designatedSides": {
+        "homeTeam": "Krum",
+        "awayTeam": "Kemp",
+        "sourceUrl": "https://events.hometownticketing.com/event/8c4fa4da-9d86-4111-8a05-d956f356e137",
+        "reviewStatus": "explicit-primary-designation-confirmed"
+      },
+      "primaryLocationCorroborated": true,
+      "locationEvidence": {
+        "sourceUrl": "https://events.hometownticketing.com/event/8c4fa4da-9d86-4111-8a05-d956f356e137",
+        "sourceLabel": "Primary designated-side evidence",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "siteAssessment": {
+        "kind": "third-party-location",
+        "isInference": true,
+        "neutralSiteConfirmed": null,
+        "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+      },
+      "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer. Krum calendar (A) is travel evidence; host explicitly maps Krum HOME and Kemp VISITOR.",
+      "publicationBlockers": [
+        "explicit neutral-site designation remains unverified",
+        "catalog integration/release review remains required",
+        "final publication approval remains required"
+      ],
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region II",
+        "slot": 7,
+        "teams": [
+          "Gilmer",
+          "North Lamar"
+        ]
+      },
+      "kickoff": "2026-11-13T19:00:00-06:00",
+      "venue": "Hanby Stadium",
+      "city": "Mesquite",
+      "designatedSides": {
+        "homeTeam": "Gilmer",
+        "awayTeam": "North Lamar",
+        "sourceUrl": "https://events.hometownticketing.com/event/570abce6-ca07-4caa-ba0b-91686861104d",
+        "reviewStatus": "explicit-primary-designation-confirmed"
+      },
+      "primaryLocationCorroborated": true,
+      "locationEvidence": {
+        "sourceUrl": "https://events.hometownticketing.com/event/570abce6-ca07-4caa-ba0b-91686861104d",
+        "sourceLabel": "Primary designated-side evidence",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "siteAssessment": {
+        "kind": "third-party-location",
+        "isInference": true,
+        "neutralSiteConfirmed": null,
+        "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+      },
+      "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer. Host description spells Gilmer correctly; title Gimer typo is not a distinct identity.",
+      "publicationBlockers": [
+        "explicit neutral-site designation remains unverified",
+        "catalog integration/release review remains required",
+        "final publication approval remains required"
+      ],
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region II",
+        "slot": 8,
+        "teams": [
+          "Hillsboro",
+          "Sanger"
+        ]
+      },
+      "kickoff": "2026-11-12T19:00:00-06:00",
+      "venue": "Buchanan Stadium",
+      "city": "Aledo",
+      "designatedSides": {
+        "homeTeam": "Hillsboro",
+        "awayTeam": "Sanger",
+        "sourceUrl": "https://events.hometownticketing.com/event/6aa3f60b-8ceb-4419-bd2b-9aa0aaf8feab",
+        "reviewStatus": "explicit-primary-designation-confirmed"
+      },
+      "primaryLocationCorroborated": true,
+      "locationEvidence": {
+        "sourceUrl": "https://events.hometownticketing.com/event/6aa3f60b-8ceb-4419-bd2b-9aa0aaf8feab",
+        "sourceLabel": "Primary designated-side evidence",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "siteAssessment": {
+        "kind": "third-party-location",
+        "isInference": true,
+        "neutralSiteConfirmed": null,
+        "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+      },
+      "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer. Host description supplies full Tim Buchanan Stadium name; title Hillsoboro typo is not a distinct identity.",
+      "publicationBlockers": [
+        "explicit neutral-site designation remains unverified",
+        "catalog integration/release review remains required",
+        "final publication approval remains required"
+      ],
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "3A Division I",
+        "region": "Region IV",
+        "slot": 3,
+        "teams": [
+          "Devine",
+          "Randolph"
+        ]
+      },
+      "kickoff": "2026-11-13T19:00:00-06:00",
+      "venue": "Warhorse Stadium",
+      "city": "Devine",
+      "designatedSides": null,
+      "primaryLocationCorroborated": true,
+      "locationEvidence": {
+        "sourceUrl": "https://events.hometownticketing.com/event/9b9b09ae-00ef-4cd0-918d-2e670aa1183b",
+        "sourceLabel": "Devine ISD school box office event 175",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "siteAssessment": {
+        "kind": "participant-location",
+        "isInference": true,
+        "neutralSiteConfirmed": null,
+        "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+      },
+      "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer.",
+      "publicationBlockers": [
+        "explicit neutral-site designation remains unverified",
+        "catalog integration/release review remains required",
+        "final publication approval remains required",
+        "explicit designated home/visitor mapping remains unverified"
+      ],
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "3A Division I",
+        "region": "Region IV",
+        "slot": 6,
+        "teams": [
+          "Jourdanton",
+          "Hallettsville"
+        ]
+      },
+      "kickoff": "2026-11-13T19:00:00-06:00",
+      "venue": "Dragon Stadium",
+      "city": "New Braunfels",
+      "designatedSides": null,
+      "primaryLocationCorroborated": true,
+      "locationEvidence": {
+        "sourceUrl": "https://brushfire.com/new-braunfels-isd/lchs-vfb/644420",
+        "sourceLabel": "NBISD official athletics linked Brushfire event",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "siteAssessment": {
+        "kind": "third-party-location",
+        "isInference": true,
+        "neutralSiteConfirmed": null,
+        "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+      },
+      "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer.",
+      "publicationBlockers": [
+        "explicit neutral-site designation remains unverified",
+        "catalog integration/release review remains required",
+        "final publication approval remains required",
+        "explicit designated home/visitor mapping remains unverified"
+      ],
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "3A Division II",
+        "region": "Region II",
+        "slot": 1,
+        "teams": [
+          "Millsap",
+          "Trinity Leadership"
+        ]
+      },
+      "kickoff": "2026-11-12T19:30:00-06:00",
+      "venue": "Knight Stadium",
+      "city": "Fort Worth",
+      "designatedSides": null,
+      "primaryLocationCorroborated": true,
+      "locationEvidence": {
+        "sourceUrl": "https://events.hometownticketing.com/boxoffice/eaglemountain/L2VtYmVkL2V2ZW50LzMyNjc%3D",
+        "sourceLabel": "Eagle Mountain-Saginaw ISD host box office",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "siteAssessment": {
+        "kind": "third-party-location",
+        "isInference": true,
+        "neutralSiteConfirmed": null,
+        "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+      },
+      "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer.",
+      "publicationBlockers": [
+        "explicit neutral-site designation remains unverified",
+        "catalog integration/release review remains required",
+        "final publication approval remains required",
+        "explicit designated home/visitor mapping remains unverified"
+      ],
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "3A Division II",
+        "region": "Region II",
+        "slot": 5,
+        "teams": [
+          "Bells",
+          "Lone Oak"
+        ]
+      },
+      "kickoff": "2026-11-13T19:30:00-06:00",
+      "venue": "Tom Kimbrough Stadium",
+      "city": "Murphy",
+      "designatedSides": {
+        "homeTeam": "Lone Oak",
+        "awayTeam": "Bells",
+        "sourceUrl": "https://events.hometownticketing.com/boxoffice/planoisd/L2VtYmVkL2V2ZW50Lzg3NzU=",
+        "reviewStatus": "school-linked-ticket-designation-confirmed"
+      },
+      "primaryLocationCorroborated": true,
+      "locationEvidence": {
+        "sourceUrl": "https://events.hometownticketing.com/boxoffice/planoisd/L2VtYmVkL2V2ZW50Lzg3NzU=",
+        "sourceLabel": "Primary designated-side evidence",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "siteAssessment": {
+        "kind": "third-party-location",
+        "isInference": true,
+        "neutralSiteConfirmed": null,
+        "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+      },
+      "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer.",
+      "publicationBlockers": [
+        "explicit neutral-site designation remains unverified",
+        "catalog integration/release review remains required",
+        "final publication approval remains required"
+      ],
+      "readyForPublication": false
+    }
+  ]
+}
