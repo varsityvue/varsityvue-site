@@ -63,8 +63,14 @@ function displayStandings(standings: Standing[], districtStarted: boolean, seaso
   });
 }
 
-function getStandingPosition(standings: Standing[], index: number) {
-  const team = standings[index];
+function hasKnownStandingRecord(team: Standing) {
+  return team.overallRecordKnown || team.districtWins > 0 || team.districtLosses > 0;
+}
+
+function getStandingPosition(allStandings: Standing[], index: number) {
+  const team = allStandings[index];
+  if (!hasKnownStandingRecord(team)) return "—";
+  const standings = allStandings.filter(hasKnownStandingRecord);
   const isSameRecord = (candidate: Standing) =>
     candidate.districtWins === team.districtWins && candidate.districtLosses === team.districtLosses;
   const firstIndex = standings.findIndex(isSameRecord);
@@ -103,7 +109,7 @@ export default function StandingsTable({ standings, theme, currentSchoolSlug, di
                     <div className="flex min-w-0 items-start gap-1.5">{districtStarted && <span className="mt-0.5 w-7 shrink-0 text-[9px] font-black text-white/30">{getStandingPosition(displayed, index)}</span>}<p className="min-w-0 break-words text-[13px] font-black leading-[1.15] text-white">{displayName}</p></div>
                     {mascot && <p className={`mt-1 min-w-0 truncate text-[8px] font-bold uppercase tracking-[0.1em] text-white/25 ${districtStarted ? "pl-[34px]" : ""}`}>{mascot}</p>}
                   </div>
-                  <span className="text-center text-[13px] font-black tabular-nums text-white/70">{districtStarted ? `${team.districtWins}-${team.districtLosses}` : "—"}</span>
+                  <span className="text-center text-[13px] font-black tabular-nums text-white/70">{districtStarted && hasKnownStandingRecord(team) ? `${team.districtWins}-${team.districtLosses}` : "—"}</span>
                   <span className="text-right text-[13px] font-black tabular-nums text-white/55">{team.overallRecordKnown ? `${team.overallWins}-${team.overallLosses}` : "—"}</span>
                 </div>;
                 return school ? <Link key={team.schoolSlug} href={`/schools/${team.schoolSlug}`} aria-label={`${displayName}${isCurrent ? ", current team" : ""}`} className="block transition hover:bg-white/[0.05]">{teamRow}</Link> : <div key={team.schoolSlug}>{teamRow}</div>;
@@ -124,7 +130,7 @@ export default function StandingsTable({ standings, theme, currentSchoolSlug, di
                 return <tr key={team.schoolSlug} className="border-t border-white/10 transition hover:bg-white/[0.06]" style={isCurrent ? { background: `${theme.primary}14`, boxShadow: `inset 4px 0 0 ${theme.primary}` } : undefined}>
                   {districtStarted && <td className="px-5 py-4 font-black tabular-nums text-white"><span>{getStandingPosition(displayed, index)}</span></td>}
                   <td className="px-5 py-4">{school ? <Link href={`/schools/${team.schoolSlug}`} className="block text-white transition hover:text-white/70">{teamContent}</Link> : teamContent}</td>
-                  <td className="px-5 py-4 font-black tabular-nums text-white">{districtStarted ? `${team.districtWins}-${team.districtLosses}` : "—"}</td><td className="px-5 py-4 font-black tabular-nums text-white/70">{team.overallRecordKnown ? `${team.overallWins}-${team.overallLosses}` : "—"}</td><td className="px-5 py-4 font-black tabular-nums text-white/70">{team.pointsFor || team.pointsAgainst ? team.pointsFor : "—"}</td><td className="px-5 py-4 font-black tabular-nums text-white/70">{team.pointsFor || team.pointsAgainst ? team.pointsAgainst : "—"}</td><td className="px-5 py-4 font-black tabular-nums text-white">{team.pointsFor || team.pointsAgainst ? `${differential > 0 ? "+" : ""}${differential}` : "—"}</td>
+                  <td className="px-5 py-4 font-black tabular-nums text-white">{districtStarted && hasKnownStandingRecord(team) ? `${team.districtWins}-${team.districtLosses}` : "—"}</td><td className="px-5 py-4 font-black tabular-nums text-white/70">{team.overallRecordKnown ? `${team.overallWins}-${team.overallLosses}` : "—"}</td><td className="px-5 py-4 font-black tabular-nums text-white/70">{team.pointsFor || team.pointsAgainst ? team.pointsFor : "—"}</td><td className="px-5 py-4 font-black tabular-nums text-white/70">{team.pointsFor || team.pointsAgainst ? team.pointsAgainst : "—"}</td><td className="px-5 py-4 font-black tabular-nums text-white">{team.pointsFor || team.pointsAgainst ? `${differential > 0 ? "+" : ""}${differential}` : "—"}</td>
                 </tr>;
               })}</tbody>
             </table>

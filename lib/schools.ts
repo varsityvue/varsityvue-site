@@ -1,3 +1,4 @@
+import { playoffSchoolAdditions } from "@/data/playoff-school-additions";
 import { districts } from "@/data/districts";
 import { districtSchoolAdditions } from "@/data/district-school-additions";
 import { scoreboardOpponentSchools } from "@/data/scoreboard-opponent-schools";
@@ -8,6 +9,7 @@ const supplementalSchools = [
   ...districtSchoolAdditions,
   ...scoreboardOpponentSchools,
   santoSchool,
+  ...playoffSchoolAdditions,
 ];
 const supplementalSchoolSlugs = new Set(supplementalSchools.map((school) => school.slug));
 const supplementalSchoolIds = new Set(supplementalSchools.map((school) => school.id));

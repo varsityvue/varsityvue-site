@@ -46,3 +46,13 @@ test("distinct winless district records remain separate; unknown overall records
   const unknown = {...row("Unknown",1,0,0,0),overallRecordKnown:false};
   assert.deepEqual(names([unknown,row("Known",1,0,0,6)]),["Known","Unknown"]);
 });
+
+test("new catalog schools without records stay unranked after district play has begun", () => {
+  const unknown = { ...row("New catalog school", 0, 0, 0, 0), overallRecordKnown: false };
+  const html = renderToStaticMarkup(<StandingsTable standings={[row("Known winner", 1, 0, 1, 0), row("Known loser", 0, 1, 0, 1), unknown]} theme={{ primary: "#000000", secondary: "#FFFFFF", accent: "#FFFFFF" }} />);
+  assert.doesNotMatch(html, />0-0</);
+  assert.match(html, />#1</);
+  assert.match(html, />#2</);
+  assert.doesNotMatch(html, />#3<|>T-3</);
+  assert.equal((html.match(/>New catalog school</g) ?? []).length, 2);
+});

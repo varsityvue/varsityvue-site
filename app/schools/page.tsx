@@ -3,6 +3,7 @@ import Link from "next/link";
 import { createPublicReadClient, readPublicClaims } from "@/lib/supabase/server";
 
 import { getSchools } from "@/lib/schools";
+import { getTrackedDirectorySchools } from "@/lib/school-directory";
 import { getGames } from "@/lib/games";
 import PageHero from "@/components/PageHero";
 import SchoolDirectory, { type DirectorySchool } from "../../components/SchoolDirectory";
@@ -43,8 +44,7 @@ export default async function SchoolsPage() {
   const supabase = await createPublicReadClient();
   const { data: claims, error: claimsError } = await readPublicClaims();
   const userId = claims?.claims?.sub;
-  const trackedSlugs = new Set(getGames().flatMap((game) => [game.homeSchoolSlug, game.awaySchoolSlug].filter((slug): slug is string => Boolean(slug))));
-  const liveSchools = getSchools().filter((school) => school.status === "pilot" || trackedSlugs.has(school.slug));
+  const liveSchools = getTrackedDirectorySchools(getSchools(), getGames());
   const followedSchoolSlugs: string[] = [];
   let followLoadFailed = Boolean(claimsError);
   if (userId) {

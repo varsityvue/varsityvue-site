@@ -1,6 +1,7 @@
+import { playoffDistrictAdditions } from "@/data/playoff-district-additions";
 import type { District } from "@/types/platform";
 
-export const districts: District[] = [
+const baseDistricts: District[] = [
   {
     id: "2a-d1-district-5",
     slug: "2a-d1-district-5",
@@ -102,3 +103,5 @@ export const districts: District[] = [
     status: "watchlist",
   },
 ];
+
+export const districts: District[] = [...baseDistricts, ...playoffDistrictAdditions];
