@@ -8,6 +8,8 @@ This application branch consumes the review packet preserved in PR #133 at `474f
 - Add 85 planned districts to the existing 11, for 96 districts. These records provide references for covered playoff schools, not complete district membership or verified season records.
 - Resolve 383 of 384 bracket identities by exact bracket name, division and region. The private Bi-District Readiness dashboard links them to school hubs. Houston Sterling has an explicit null mapping and stays excluded because its secondary color value is unresolved.
 - Preserve public directory eligibility: pilot schools or schools with a game in the catalog. Metadata alone does not establish tracked coverage. Planned records stay outside the existing featured sitemap policy.
+- Planned district hubs identify their school list as partial catalog coverage and show Results Pending instead of implying the 2026 season has not started.
+- Playoff results affect overall records only after the same valid, verified-outcome guard used by bracket advancement; pending finals, no-contests and malformed scores cannot alter standings.
 - Keep schools without results unranked with unknown district/overall records, even after other district members have results. Shared record formatting also keeps hub and schedule-header summaries unknown instead of defaulting to 0–0. Explicitly known zero records remain valid.
 
 No games, schedules, scores, winners, verified results, database schema, security settings or editorial records change. All 296 game records retain their school references, kickoff, venue, scores, verification and playoff metadata. The seven published bi-district games and 185 missing games are unchanged.
@@ -29,3 +31,7 @@ Stable schedule/result fields for all 296 games: `4d814ac7cf5c8f32271f0615e02a4e
 ## Release boundary
 
 Keep this PR draft and unmerged until record/branding review, deployment checks and owner release approval. Merging would expose new catalog records and their direct school/district pages; it would not publish researched games. Schedule publication remains a separate factual reconciliation and approval step.
+
+## Completion-sprint verification — November 11, 2026
+
+The 341 school and 85 district runtime additions exactly match PR #133's latest catalog proposals at `5da0176f88ff06dfba9001b28b61d5dbb3191f17`. No identity or branding proposals changed in that research update. Five additional regressions cover pending/valid/no-contest/malformed/forfeit playoff outcomes and partial planned-district coverage. The current full standard suite passes 584 tests; preservation fingerprints remain unchanged.
