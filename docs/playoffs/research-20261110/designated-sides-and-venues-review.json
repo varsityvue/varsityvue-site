@@ -6,8 +6,8 @@
   "sourceResearchBaseHead": "47d3325cfcfcd2a479a6440f46872880b5d18705",
   "summary": {
     "reviewedSchedules": 21,
-    "explicitDesignatedSides": 9,
-    "designatedSidesUnresolved": 12,
+    "explicitDesignatedSides": 10,
+    "designatedSidesUnresolved": 11,
     "primaryLocationCorroborated": 21,
     "primaryLocationCorroborationMissing": 0,
     "thirdPartyLocationAssessments": 15,
@@ -699,7 +699,12 @@
       "kickoff": "2026-11-13T19:00:00-06:00",
       "venue": "Dragon Stadium",
       "city": "New Braunfels",
-      "designatedSides": null,
+      "designatedSides": {
+        "homeTeam": "Jourdanton",
+        "awayTeam": "Hallettsville",
+        "sourceUrl": "https://brushfire.com/new-braunfels-isd/lchs-vfb/644420/tickets",
+        "reviewStatus": "explicit-primary-designation-confirmed"
+      },
       "primaryLocationCorroborated": true,
       "locationEvidence": {
         "sourceUrl": "https://brushfire.com/new-braunfels-isd/lchs-vfb/644420",
@@ -712,12 +717,11 @@
         "neutralSiteConfirmed": null,
         "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
       },
-      "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer.",
+      "reviewNote": "NBISD host ticket products explicitly assign Jourdanton HOME and Hallettsville VISITOR. Earlier details-tab-only side observation is superseded by this ticket-types review. No neutrality designation.",
       "publicationBlockers": [
         "explicit neutral-site designation remains unverified",
         "catalog integration/release review remains required",
-        "final publication approval remains required",
-        "explicit designated home/visitor mapping remains unverified"
+        "final publication approval remains required"
       ],
       "readyForPublication": false
     },
@@ -797,5 +801,6 @@
     }
   ],
   "followUpDate": "2026-11-11",
-  "followUpResearchBaseHead": "0bc17e6ae2f3e44d1f0859100eb8543256640db4"
+  "followUpResearchBaseHead": "0bc17e6ae2f3e44d1f0859100eb8543256640db4",
+  "designatedSidesFollowUpResearchBaseHead": "0e7272f95822860433559c5c0d4f9ba52f5479d1"
 }

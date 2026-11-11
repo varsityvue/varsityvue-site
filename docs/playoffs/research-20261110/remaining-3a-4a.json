@@ -443,7 +443,7 @@
           "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-playoff-200604439.html",
           "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication.",
           "resolved": true,
-          "resolution": "NBISD Athletics Brushfire event 644420 explicitly lists Jourdanton vs Hallettsville Varsity Football Playoff on Friday Nov. 13, 2026, 7 to 11 p.m. CST, Dragon Stadium, 4150 Klein Meadows, New Braunfels TX 78130. Doors open at 6 p.m. NBISD official 2026 Dragon Gameday Info links the ticket provider. No designated home/visitor or explicit neutral-site statement appears.",
+          "resolution": "NBISD Athletics Brushfire event 644420 explicitly lists Jourdanton vs Hallettsville Varsity Football Playoff on Friday Nov. 13, 2026, 7 to 11 p.m. CST, Dragon Stadium, 4150 Klein Meadows, New Braunfels TX 78130. Doors open at 6 p.m. NBISD official 2026 Dragon Gameday Info links the ticket provider. The details tab has no side designation; a later ticket-types review confirms Jourdanton HOME and Hallettsville VISITOR. Formal neutrality remains unverified.",
           "resolutionSourceUrl": "https://brushfire.com/new-braunfels-isd/lchs-vfb/644420"
         }
       ],
@@ -454,7 +454,14 @@
           "sourceLabel": "NBISD official athletics linked Brushfire event",
           "sourceUrl": "https://brushfire.com/new-braunfels-isd/lchs-vfb/644420",
           "retrievalStatus": "live-browser-page-reviewed",
-          "summary": "NBISD Athletics Brushfire event 644420 explicitly lists Jourdanton vs Hallettsville Varsity Football Playoff on Friday Nov. 13, 2026, 7 to 11 p.m. CST, Dragon Stadium, 4150 Klein Meadows, New Braunfels TX 78130. Doors open at 6 p.m. NBISD official 2026 Dragon Gameday Info links the ticket provider. No designated home/visitor or explicit neutral-site statement appears."
+          "summary": "NBISD Athletics Brushfire event 644420 explicitly lists Jourdanton vs Hallettsville Varsity Football Playoff on Friday Nov. 13, 2026, 7 to 11 p.m. CST, Dragon Stadium, 4150 Klein Meadows, New Braunfels TX 78130. Doors open at 6 p.m. NBISD official 2026 Dragon Gameday Info links the ticket provider. No designated home/visitor or explicit neutral-site statement appears on the initially reviewed details tab; the later ticket-types review separately confirms sides."
+        },
+        {
+          "reviewedDate": "2026-11-11",
+          "sourceLabel": "NBISD Brushfire event 644420 ticket types",
+          "sourceUrl": "https://brushfire.com/new-braunfels-isd/lchs-vfb/644420/tickets",
+          "retrievalStatus": "live-browser-page-reviewed",
+          "summary": "Public ticket products explicitly label Jourdanton HOME and Hallettsville VISITOR. All quantities remained zero; no tickets selected or purchased. Event details tab supplies Friday November 13 at 7 p.m. CST at Dragon Stadium. No formal neutrality statement."
         }
       ],
       "readyForPublication": false,
@@ -467,6 +474,12 @@
         "localTime": "19:00",
         "venue": "Dragon Stadium",
         "city": "New Braunfels"
+      },
+      "homeAwayEvidence": {
+        "homeTeam": "Jourdanton",
+        "awayTeam": "Hallettsville",
+        "sourceUrl": "https://brushfire.com/new-braunfels-isd/lchs-vfb/644420/tickets",
+        "reviewStatus": "explicit-primary-designation-confirmed"
       }
     },
     {

@@ -1637,7 +1637,18 @@
       "retrievedDate": "2026-11-10",
       "verificationStatus": "source-verified",
       "missingInformation": [],
-      "conflicts": [],
+      "conflicts": [
+        {
+          "field": "kickoff",
+          "value": "2026-11-12T18:00:00-06:00",
+          "sourceUrl": "https://www.aol.com/articles/20-el-paso-teams-compete-222256000.html",
+          "note": "El Paso Times syndicated report lists Bowie at Seminole at 5 p.m. MT/6 p.m. CT.",
+          "resolved": true,
+          "resolution": "Retain 7 p.m. CST. Seminole ISD official November 12 event states 7 p.m. at Wigwam Stadium, and the current Seminole athletics schedule independently lists the Bowie matchup at 7 p.m. Neither supplies explicit designated team sides.",
+          "resolutionSourceUrl": "https://www.seminoleisd.net/apps/events/2026/11/12/61012380/?id=8",
+          "corroboratingSourceUrl": "https://www.seminoleathletics.org/sport/football/boys/?tab=schedule"
+        }
+      ],
       "notes": [],
       "followUpEvidence": [
         {
@@ -1895,6 +1906,18 @@
           "sourceUrl": "https://www.grisdtigers.com/sport/football/boys",
           "retrievalStatus": "page-reviewed",
           "summary": "Official schedule confirms Ponder at Crowley on Nov. 12 at 7 p.m., with location 9900 Hemphill St, Fort Worth. Its AWAY label establishes travel only; no designated home side is adopted."
+        },
+        {
+          "reviewedDate": "2026-11-11",
+          "sourceLabel": "Crowley ISD GoFan host event 7049853",
+          "sourceUrl": "https://gofan.co/event/7049853?utm_campaign=team-schedule&utm_content=pre&utm_medium=referral&utm_source=maxpreps",
+          "retrievalStatus": "live-browser-page-reviewed",
+          "summary": "Crowley ISD host page confirms Glen Rose Tigers vs Ponder Lions, Thursday November 12 2026 at 7 p.m., CISD Stadium, 9900 Hemphill Street, Fort Worth 76134. General-admission products give no HOME/VISITOR assignment or timezone. Title says Region 1, while the authoritative UIL-qualified bracket is Region II; title geography is not adopted as identity evidence. All ticket quantities remain zero.",
+          "limitations": [
+            "No designated team-side assignment.",
+            "Region 1 title conflicts with authoritative Region II bracket placement.",
+            "Local time shown without explicit timezone; selected CST evidence remains the earlier source."
+          ]
         }
       ]
     },

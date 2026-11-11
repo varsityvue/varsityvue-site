@@ -2,7 +2,7 @@
 
 This offline review covers all 21 candidates with selected-source date/time/venue/CST evidence. It approves no catalog release or schedule publication. Exact source links, limitations and flags are in `designated-sides-and-venues-review.json` and each candidate’s `followUpEvidence`.
 
-Nine candidates now have explicit school/host home/visitor assignments, up from one in this batch. Twelve remain unresolved. School/host evidence now corroborates all 21 locations, including campus-level corroboration for Liberty–Burkburnett. The follow-up below records the limits of those confirmations. The location assessments below are **inferences**, not explicit neutral-site declarations. None changes the candidate `neutralSite:null` value.
+Ten candidates now have explicit school/host home/visitor assignments, up from one in this batch. Eleven remain unresolved. School/host evidence now corroborates all 21 locations, including campus-level corroboration for Liberty–Burkburnett. The follow-up below records the limits of those confirmations. The location assessments below are **inferences**, not explicit neutral-site declarations. None changes the candidate `neutralSite:null` value.
 
 | Matchup | Designated home / visitor | Location assessment | Primary location evidence |
 | --- | --- | --- | --- |
@@ -24,7 +24,7 @@ Nine candidates now have explicit school/host home/visitor assignments, up from 
 | Gilmer vs North Lamar | Gilmer / North Lamar | third-party-location | [Source](https://events.hometownticketing.com/event/570abce6-ca07-4caa-ba0b-91686861104d) |
 | Hillsboro vs Sanger | Hillsboro / Sanger | third-party-location | [Source](https://events.hometownticketing.com/event/6aa3f60b-8ceb-4419-bd2b-9aa0aaf8feab) |
 | Devine vs Randolph | Unconfirmed | participant-location | [Source](https://events.hometownticketing.com/event/9b9b09ae-00ef-4cd0-918d-2e670aa1183b) |
-| Jourdanton vs Hallettsville | Unconfirmed | third-party-location | [Source](https://brushfire.com/new-braunfels-isd/lchs-vfb/644420) |
+| Jourdanton vs Hallettsville | Jourdanton / Hallettsville | third-party-location | [Source](https://brushfire.com/new-braunfels-isd/lchs-vfb/644420) |
 | Millsap vs Trinity Leadership | Unconfirmed | third-party-location | [Source](https://events.hometownticketing.com/boxoffice/eaglemountain/L2VtYmVkL2V2ZW50LzMyNjc%3D) |
 | Bells vs Lone Oak | Lone Oak / Bells | third-party-location | [Source](https://events.hometownticketing.com/boxoffice/planoisd/L2VtYmVkL2V2ZW50Lzg3NzU=) |
 
@@ -41,8 +41,14 @@ Nine candidates now have explicit school/host home/visitor assignments, up from 
 
 There are now 15 third-party-location assessments, six participant-location assessments and no unconfirmed location assessments. These are explicit research judgments based on the cited school/host locations. An assessment does not prove the game’s formal neutral-site designation. All 21 neutrality fields remain unconfirmed; statewide, 191 of 192 candidate neutrality fields remain unconfirmed. All 192 publication flags remain false.
 
-The concrete next review set consists of the nine rows with explicit designated sides. They still need venue-status adoption, catalog/release review and approval of an exact publication batch. The other twelve need an explicit school/host side assignment as well. No school was contacted and no ticket was selected or purchased.
+The concrete next review set consists of the ten rows with explicit designated sides. They still need venue-status adoption, catalog/release review and approval of an exact publication batch. The other eleven need an explicit school/host side assignment as well. No school was contacted and no ticket was selected or purchased.
 
 ## Venue-status follow-up
 
-See `venue-status-follow-up.json` for the nine-game review. Publisher neutrality labels remain secondary reports, not primary confirmation. Several publisher pages retain a January 1, 1900 placeholder or disagree with their own team schedule labels. None changes a candidate neutrality value or publication flag.
+See `venue-status-follow-up.json` for the earlier nine-game review and `remaining-designated-sides-follow-up.json` for the subsequent review of all twelve then-unresolved assignments. Publisher neutrality labels remain secondary reports, not primary confirmation. Several publisher pages retain a January 1, 1900 placeholder or disagree with their own team schedule labels. None changes a candidate neutrality value or publication flag.
+
+## Remaining-side follow-up
+
+NBISD Brushfire event 644420 ticket products explicitly assign Jourdanton HOME and Hallettsville VISITOR. Crowley ISD GoFan event 7049853 additionally corroborates Glen Rose–Ponder at CISD Stadium, 9900 Hemphill Street, Fort Worth, November 12 at 7 p.m.; it does not assign sides or state timezone. Its Region 1 title is not adopted over the UIL-qualified Region II identity. The review of all twelve previously unresolved rows confirms one assignment and leaves eleven unresolved. This is a public-evidence limit, not permission to infer assignments.
+
+A newly encountered El Paso Times syndicated report gives Seminole–Bowie at 6 p.m. CT. The packet retains the school calendar and current school athletics schedule’s 7 p.m. selected time, with the contrary report recorded as a resolved discrepancy. There are now 16 candidate rows with recorded resolved schedule discrepancies. All 192 publication flags remain false.
