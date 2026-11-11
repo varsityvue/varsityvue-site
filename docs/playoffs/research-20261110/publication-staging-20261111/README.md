@@ -6,7 +6,7 @@ This packet prepares exact offline review records. It does not authorize or exec
 
 - Released main: `ea1b4a57da0dc07e1b5418772ca2f3a2842ebe0f` (PR #136 is already released).
 - Research PR #133: `feat/playoff-schedule-research-staging-20261110`; this checkpoint extends parent `5da0176f88ff06dfba9001b28b61d5dbb3191f17`.
-- Application/catalog PR #137: `feat/playoff-school-catalog-integration-20261110`, reviewed head `058e54e0d71960f791e7b7b65ef04d87ab91f0bc`.
+- Application/catalog PR #137: `feat/playoff-school-catalog-integration-20261110`, reviewed head `7b37aa6e7c4f534930ec6f17789b41141bda5bbb`.
 - Refresh GitHub heads before use; the final PR description identifies the committed research checkpoint SHA.
 - Catalog integration remains unmerged; its 341 schools and 85 districts are release dependencies, not published catalog records.
 - Houston Sterling remains held for an unverified secondary color; no color was invented.
@@ -75,3 +75,8 @@ No merge, production release, score/result/winner change, database mutation, sch
 The three legacy offline review scripts now read `catalog-baseline-20261111.json` through the script-only `playoff-research-catalog-baseline.ts` loader. The snapshot contains the exact 70 schools and 11 districts from released main `ea1b4a5`. All three original generated JSON outputs reproduce byte-for-byte. This prevents PR #137's 341 added school records from being mistaken for pre-existing identities or collisions when regenerating the historical proposals. Runtime school pages never import this snapshot or loader. A combined checkout verifies the same research tests against the new runtime catalog.
 
 The final additional batch retains Aubrey–Andrews as timezone-held and Stafford–Bridge City as kickoff-conflict-held; neither is promoted. Randall's contrary bracket date and excluded January 1, 1900 placeholders remain recorded. Smithville host events 202/203 were read directly for Thrall–Brazos and Bay City–Lampasas, including CST and full venue address; generic AT does not supply designated roles.
+
+
+## Final application verification follow-up
+
+Final visual review caught a second unknown-record display in the Season Overview card. PR #137 head `7b37aa6e7c4f534930ec6f17789b41141bda5bbb` uses the same known-record formatter as the header, preserves legitimate known 0–0 records, and filters playoff PF/PA/Last 5 through verified-outcome safeguards. Planned-school desktop title sizing avoids a single-letter wrap without changing established school sizing. The final local application checks passed 587 standard tests, 21 focused tests, TypeScript, full lint (zero errors, 13 existing warnings), and an optimized production build. Exact-head CI, preview and refreshed screenshot evidence are recorded in the final PR descriptions. No schedule value or publication boundary was changed by this follow-up.
