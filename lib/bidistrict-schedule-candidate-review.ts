@@ -46,8 +46,8 @@ export function reviewBiDistrictScheduleCandidates(
     }
     if ((counts.get(key) ?? 0) > 1) issues.push("duplicate candidate for bracket slot");
     const kickoff = Date.parse(candidate.kickoff);
-    if (!/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}/.test(candidate.kickoff) ||
-        !/(?:Z|[+-]\\d{2}:\\d{2})$/.test(candidate.kickoff) ||
+    if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(candidate.kickoff) ||
+        !/(?:Z|[+-]\d{2}:\d{2})$/.test(candidate.kickoff) ||
         !Number.isFinite(kickoff)) issues.push("kickoff requires a valid timezone-aware timestamp");
     if (!candidate.venue.trim() || /^(?:tbd|unknown|venue tbd)$/i.test(candidate.venue.trim())) issues.push("confirmed venue required");
     if (!candidate.sourceLabel.trim()) issues.push("source attribution required");
