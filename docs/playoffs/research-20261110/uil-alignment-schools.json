@@ -1,0 +1,3109 @@
+{
+  "mode": "offline-research-only",
+  "sources": [
+    {
+      "division": "2A Division I",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf",
+      "season": "2026-28",
+      "retrievedDate": "2026-11-10",
+      "pdfSha256": "a294653d37159a08c855dca41633a12f5ef0b9cde782837ea29bc3ad0e692b1e",
+      "schools": [
+        {
+          "officialName": "Amarillo Highland Park",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "Panhandle",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "Sanford-Fritch",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "Spearman",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "Sunray",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "Farwell",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Floydada",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Hale Center",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Olton",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Tulia",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Abernathy",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "New Deal",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "New Home",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "Post",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "Sundown",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "Ballinger",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Big Lake Reagan Co.",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Christoval",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Colorado City Colorado",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Forsan",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Ozona",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Sonora",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Abilene Texas Leadership",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Anson",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Cisco",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "De Leon",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Hawley",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Hico",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Alvord",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Chico",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Muenster",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Nocona",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Olney",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Tioga",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Bangs",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Brady",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Coleman",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Johnson City LBJ",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Mason",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "San Saba",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Axtell",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Bosqueville",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Dawson",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Italy",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Itasca",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Riesel",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Valley Mills",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Bogata Rivercrest",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Cooper",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Honey Grove",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Tom Bean",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Trenton",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Whitewright",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Wolfe City",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Alba-Golden",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Cayuga",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Como-Pickton",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Frankston",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Hawkins",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Kerens",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Price Carlisle",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Beckville",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Elysian Fields",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Gladewater Union Grove",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Harleton",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Omaha Pewitt",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Ore City",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Waskom",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Garrison",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Hemphill",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Joaquin",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "San Augustine",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Shelbyville",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Timpson",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Bruceville-Eddy",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Granger",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Hearne",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Marlin",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Moody",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Rosebud-Lott",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Thorndale",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Centerville",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Corrigan-Camden",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Groveton",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Iola",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Jewett Leon",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Lovelady",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Normangee",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Bloomington",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Danbury",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Flatonia",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Ganado",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Kenedy",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Shiner",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Weimar",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Banquete",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Dilley",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Freer",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Monte Alto",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Premont",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Refugio",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Skidmore-Tynan",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Taft",
+          "district": 16,
+          "region": 4
+        }
+      ]
+    },
+    {
+      "division": "2A Division II",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/FB2AD2_Rvsd10-19.pdf",
+      "season": "2026-28",
+      "retrievedDate": "2026-11-10",
+      "pdfSha256": "1801bf4e1cecd5d9e143251290f265c7feebe6056dcd9208ef2b48eae6305290",
+      "schools": [
+        {
+          "officialName": "Bovina",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "Gruver",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "Stinnett West Texas",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "Stratford",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "Vega",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "Morton",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Plains",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Ropes",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Seagraves",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Smyer",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Sudan",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Lockney",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "Roscoe Collegiate",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "Tahoka",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "Crosbyton",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "Ralls",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "Eldorado",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "McCamey",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Van Horn",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Wink",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Iraan",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Clarendon",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Memphis",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Quanah",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Wellington",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Wheeler",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Shamrock",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Archer City",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Electra",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Haskell",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Munday",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Petrolia",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Seymour",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Windthorst",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Albany",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Cross Plains",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Goldthwaite",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Hamlin",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Miles",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Stamford",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Winters",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Crawford",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Frost",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Hubbard",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Mart",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Meridian",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Santo",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Wortham",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Celeste",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Collinsville",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Cumby",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Era",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Lindsay",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Quinlan Boles",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Big Sandy",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Clarksville",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Detroit",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Linden-Kildare",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Maud",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Simms Bowie",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Alto",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Cushing",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Grapeland",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Malakoff Cross Roads",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Mount Enterprise",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Overton",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Tenaha",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Colmesneil",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Deweyville",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Evadale",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Sabine Pass",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Saratoga West Hardin",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "West Sabine",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Hull-Daisetta",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Bartlett",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Bremond",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Burton",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Chilton",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Holland",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Milano",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Snook",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Somerville",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Brackettville Brackett",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Center Point",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Harper",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Junction",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "La Pryor",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Sabinal",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "D'Hanis",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Charlotte",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Falls City",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Louise",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Pettus",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Three Rivers",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Yorktown",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Agua Dulce",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Ben Bolt-Palito Blanco",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "La Villa",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Riviera Kaufer",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Santa Maria",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Woodsboro",
+          "district": 16,
+          "region": 4
+        }
+      ]
+    },
+    {
+      "division": "3A Division I",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf",
+      "season": "2026-28",
+      "retrievedDate": "2026-11-10",
+      "pdfSha256": "f8a99b717115ba9592deba64cb3bc4eb27e75aaad517a27c87e1b5f3f35cfe8a",
+      "schools": [
+        {
+          "officialName": "Brownfield",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "Bushland",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "Dalhart",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "Denver City",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "Shallowater",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "Clyde",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Kermit",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Lamesa",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Odessa Compass Academy",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Sweetwater",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Tuscola Jim Ned",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Early",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "Ingram Moore",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "Llano",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "San Angelo Texas Leadership",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "Wall",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "Bowie",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Boyd",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Paradise",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Peaster",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Vernon",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Dallas A+",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Dallas Life Oak Cliff",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Gunter",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Pilot Point",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Pottsboro",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Whitesboro",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Grandview",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Groesbeck",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Mexia",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Palmer",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "West",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Whitney",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Commerce",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Eustace",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Malakoff",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Mineola",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Mount Vernon",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Rains",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Winnsboro",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Atlanta",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Gladewater",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Gladewater Sabine",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Tatum",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Tex. Liberty-Eylau",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "White Oak",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Crockett",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Diboll",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Fairfield",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Huntington",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Palestine Westwood",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Trinity",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Anahuac",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Buna",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Cleveland Tarkington",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Coldspring-Oakhurst",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "East Chambers",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Kirbyville",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Orangefield",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Columbus",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Edna",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Hempstead",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Palacios",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Sweeny",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Wharton",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Caldwell",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Cameron Yoe",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Franklin",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Little River Academy",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Lorena",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "McGregor",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Rockdale",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Troy",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Hallettsville",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Luling",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Marion",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "San Antonio Cole",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Smithville",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Universal City Randolph",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Yoakum",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Carrizo Springs",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Crystal City",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Devine",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Hondo",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Jourdanton",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Lytle",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Natalia",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Poteet",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Aransas Pass",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Corpus Christi West Oso",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Goliad",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Mathis",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Orange Grove",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Sinton",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Bishop",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Lyford",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Progreso",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Raymondville",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Rio Hondo",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "San Diego",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Santa Gertrudis Acad",
+          "district": 16,
+          "region": 4
+        }
+      ]
+    },
+    {
+      "division": "3A Division II",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf",
+      "season": "2026-28",
+      "retrievedDate": "2026-11-10",
+      "pdfSha256": "c1ca8b0e5777a7c3d6222b27211d7896e209714cd917f1f68d675a6aaba78ee0",
+      "schools": [
+        {
+          "officialName": "Amarillo River Road",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "Canadian",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "Childress",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "Dimmitt",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "Friona",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "Idalou",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Littlefield",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Lubbock Roosevelt",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Muleshoe",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Slaton",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Alpine",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "Anthony",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "Coahoma",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "Crane",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "San Angelo Grape Creek",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "Stanton",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "Breckenridge",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Henrietta",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Holliday",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Jacksboro",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Merkel",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Wichita Falls City View",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Clifton",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Comanche",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Dublin",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Eastland",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Hamilton",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Millsap",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Rio Vista",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Tolar",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Dallas Gateway Charter Academy",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Dallas Madison",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Inspired Vision Academy Dallas",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Maypearl",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Scurry-Rosser",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Trinity Leadership Cedar Hill",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Bells",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Blue Ridge",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Callisburg",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Howe",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Leonard",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Sadler S & S Cons.",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Valley View",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Big Sandy Harmony",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Edgewood",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Grand Saline",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Lone Oak",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Paris Chisum",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Pattonville Prairiland",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Quitman",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Daingerfield",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "De Kalb",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Hooks",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Hughes Springs",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "New Boston",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Queen City",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Redwater",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Arp",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Diana New Diana",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Jefferson",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "New London West Rusk",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Troup",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Winona",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Blooming Grove",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Buffalo",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Elkhart",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Mildred",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Rice",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Teague",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Hardin",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Kountze",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "New Waverly",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Newton",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Warren",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Woodville",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Anderson-Shiro",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Florence",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Lexington",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Rogers",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Schulenburg",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Thrall",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Altair Rice",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Boling",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "East Bernard",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "El Maton Tidehaven",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Van Vleck",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Vanderbilt Industrial",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Wallis Brazos",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Blanco",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Comfort",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Karnes City",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Nixon Smiley",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Poth",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "SA Young Men's Leadership",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Stockdale",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Cotulla",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Falfurrias",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "George West",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Hebbronville",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Odem",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Santa Rosa",
+          "district": 16,
+          "region": 4
+        }
+      ]
+    },
+    {
+      "division": "4A Division I",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+      "season": "2026-28",
+      "retrievedDate": "2026-11-10",
+      "pdfSha256": "3b59c00395d831559221fd053beb38c21ed752e93665d8fc88d6912fbead0dba",
+      "schools": [
+        {
+          "officialName": "El Paso Andress",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "El Paso Austin",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "El Paso Riverside",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "El Paso Ysleta",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "San Elizario",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "Canyon",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Canyon Randall",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Canyon West Plains",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Dumas",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Hereford",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Pampa",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Andrews",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "Midland Greenwood",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "Plainview",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "San Angelo Lake View",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "Alvarado",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Aubrey",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Carrollton Ranchview",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Decatur",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Godley",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Lake Dallas",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "River Oaks Castleberry",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Springtown",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Ft Worth Benbrook",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Ft Worth Carter-Riverside",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Ft Worth Dunbar",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Ft Worth Eastern Hills",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Ft Worth Southwest",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Ft Worth Western Hills",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "FW Diamond Hill-Jarvis",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Kennedale",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Dallas Carter",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Dallas Conrad",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Dallas Hutchins",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Dallas Kimball",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Dallas Lincoln",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Dallas Pinkston",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Dallas Roosevelt",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Dallas Spruce",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "North Dallas",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Caddo Mills",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Ferris",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Kaufman",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Mabank",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Paris",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Sulphur Springs",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Waxahachie Life",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Bullard",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Henderson",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Jacksonville",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Kilgore",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Lindale",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Longview Pine Tree",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Palestine",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Tyler Chapel Hill",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Bridge City",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Huffman Hargrave",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Liberty",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Livingston",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Lumberton",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Orange Little Cypress-Mauriceville",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Vidor",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Fort Bend Willowridge",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "H Austin",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "H Northside",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "H Sterling",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Harmony School of Innovation",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Stafford",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Bay City",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "El Campo",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Navasota",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Needville",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Royal",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Sealy",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "West Columbia Columbia",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Burnet",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "China Spring",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Jarrell",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Lampasas",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Marble Falls",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Stephenville",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Austin Johnson",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Austin Northeast",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Austin Travis",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Comal Canyon Lake",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Comal Davenport",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Fredericksburg",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Kerrville Tivy",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Taylor",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Floresville",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "La Vernia",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Medina Valley Creek View",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Pleasanton",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "San Antonio Kennedy",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Somerset",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Uvalde",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Beeville Jones",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "CC Calallen",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "CC Tuloso-Midway",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Corpus Christi King",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Corpus Christi Miller",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Corpus Christi Moody",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Port Lavaca Calhoun",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Alice",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Edcouch-Elsa",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Hidalgo Early College",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Pharr Valley View",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Zapata",
+          "district": 16,
+          "region": 4
+        }
+      ]
+    },
+    {
+      "division": "4A Division II",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf",
+      "season": "2026-28",
+      "retrievedDate": "2026-11-10",
+      "pdfSha256": "2376af1e2ceee971f7e7e65f329cc05029ed8c5fadfc765eb215573a859f0027",
+      "schools": [
+        {
+          "officialName": "Clint",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "Clint Mountain View",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "El Paso Bowie",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "El Paso Irvin",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "Fabens",
+          "district": 1,
+          "region": 1
+        },
+        {
+          "officialName": "Big Spring",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Fort Stockton",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Monahans",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Pecos",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Seminole",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Snyder",
+          "district": 2,
+          "region": 1
+        },
+        {
+          "officialName": "Borger",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "Levelland",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "Lubbock Cooper Liberty",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "Lubbock Estacado",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "Perryton",
+          "district": 3,
+          "region": 1
+        },
+        {
+          "officialName": "Bridgeport",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Brock",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Burkburnett",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Graham",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Iowa Park",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Mineral Wells",
+          "district": 4,
+          "region": 1
+        },
+        {
+          "officialName": "Glen Rose",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Hillsboro",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Kemp",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Venus",
+          "district": 5,
+          "region": 2
+        },
+        {
+          "officialName": "Gainesville",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Krum",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Lake Worth",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Ponder",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Sanger",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Van Alstyne",
+          "district": 6,
+          "region": 2
+        },
+        {
+          "officialName": "Bonham",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Farmersville",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Paris North Lamar",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Quinlan Ford",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Sunnyvale",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Wills Point",
+          "district": 7,
+          "region": 2
+        },
+        {
+          "officialName": "Carthage",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Center",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Gilmer",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Longview Spring Hill",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Pittsburg",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Texarkana Pleasant Grove",
+          "district": 8,
+          "region": 2
+        },
+        {
+          "officialName": "Athens",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Brownsboro",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Canton",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Madisonville",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Rusk",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Van",
+          "district": 9,
+          "region": 3
+        },
+        {
+          "officialName": "Hamshire-Fannett",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Hardin-Jefferson",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Jasper",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Shepherd",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "Silsbee",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "West Orange-Stark",
+          "district": 10,
+          "region": 3
+        },
+        {
+          "officialName": "H Furr",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "H Kashmere",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "H North Forest",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "H Scarborough",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "H Washington",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "H Wheatley",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "H Worthing",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "H Yates",
+          "district": 11,
+          "region": 3
+        },
+        {
+          "officialName": "Bellville",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Freeport Brazosport",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Hitchcock",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Katy Harmony",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "La Grange",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "La Marque",
+          "district": 12,
+          "region": 3
+        },
+        {
+          "officialName": "Brownwood",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Gatesville",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Robinson",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Salado",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Waco Connally",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Waco La Vega",
+          "district": 13,
+          "region": 4
+        },
+        {
+          "officialName": "Austin Achieve",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Austin Eastside",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Giddings",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Lago Vista",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Manor New Tech",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Wimberley",
+          "district": 14,
+          "region": 4
+        },
+        {
+          "officialName": "Bandera",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Cuero",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Geronimo Navarro",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Gonzales",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Pearsall",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "San Antonio Memorial",
+          "district": 15,
+          "region": 4
+        },
+        {
+          "officialName": "Corpus Christi London",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Ingleside",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Kingsville King",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "La Feria",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Port Isabel",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Rio Grande City Grulla",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Robstown",
+          "district": 16,
+          "region": 4
+        },
+        {
+          "officialName": "Rockport-Fulton",
+          "district": 16,
+          "region": 4
+        }
+      ]
+    }
+  ]
+}

@@ -70,3 +70,26 @@ Follow-up evidence is preserved on seven candidate rows. A resolved discrepancy 
 | San Diego–Mathis | Current MaxPreps matchup adds a new 7 p.m. CST report. | Existing AP/capsule says 7:30 p.m.; both date and kickoff discrepancies remain blocked. |
 
 Evidence links and retrieval limitations are recorded in each row's `followUpEvidence`. Search-index-only evidence is explicitly distinguished from an opened page. School and host announcements are preferred for disputed fields; a generic home/away label from a sports aggregator is insufficient to settle venue neutrality. This follow-up does not create schools, assign aliases, publish schedules, or change production data.
+
+## UIL school identity staging — November 10
+
+`school-identity-review.json` reviews all 384 team references across all 192 games against the six UIL 2026–28 football alignment files linked from the official playoff page. This is an identity evidence packet, not an expansion of the runtime school catalog.
+
+- `uil-alignment-schools.json`: source transcriptions, division/district/region membership, retrieval date and SHA-256 of each downloaded PDF. Wrapped school names were joined explicitly; abbreviations such as `H Austin`, `CC Calallen` and `Tex. Liberty-Eylau` are retained as printed by UIL.
+- `school-identity-name-expansions.json`: 69 explicit, reviewed expansions qualified by division and region. No substring or fuzzy matching. These are proposed research correspondences, not runtime aliases or new schools.
+- `school-identity-review.json`: 315 exact official names and 69 reviewed expansions; all 384 official identities are distinct when qualified by division and region. All 192 opponent pairs belong to adjacent paired UIL districts. This checks district membership, not district seeds or playoff qualification.
+- 42 references can point to existing catalog records after integration review: 40 exact bracket/catalog names and two reviewed names (`Johnson City` → `Johnson City LBJ`, `West Plains` → `Canyon West Plains`). Their known region/district metadata does not conflict with the UIL snapshot. An existing `opponent` district remains an explicit limitation rather than being treated as a verified district assignment.
+- 342 identities require new school records. Required ID/slug, mascot/display name, abbreviation, colors, district registry integration and coverage status remain listed for review. No placeholder mascots or colors were invented; `proposedSlug` stays null and every integration/publication flag stays false.
+
+The earlier 343 unresolved name/classification keys were not 343 unique schools: the two 4A DI `Austin` references shared one key but identify different schools. Resolving two existing-name variants and separating the Austin schools yields the 342 missing catalog records above. The original exact-name audit remains unchanged as a baseline.
+
+Collision examples are explicit: 4A DI Region I `Austin` is `El Paso Austin`, while Region III `Austin` is `H Austin`. `Bowie` resolves separately to `Simms Bowie` (2A DII), `Bowie` (3A DI) and `El Paso Bowie` (4A DII). `Liberty` in 4A DII is `Lubbock Cooper Liberty`, which must not reuse the existing Lubbock Cooper 5A school. `Leon`, `Plains`, `Cooper`, `Ford` and `Canyon` remain separate from misleading catalog substrings.
+
+Reproduce and test from repository root:
+
+    node --import tsx scripts/review-playoff-school-identities.ts > docs/playoffs/research-20261110/school-identity-review.json
+    node --import tsx --test scripts/review-playoff-school-identities.test.ts
+
+The reviewer fails on absent or ambiguous official identities, duplicate qualified expansions, source mismatches, inconsistent district/region evidence, duplicate official bracket identities or incompatible opponent district pairs. Regression tests exercise cross-region substitutions, duplicate mappings, source substitutions and incorrect district evidence using isolated temporary fixtures.
+
+Next integration work: verify the required catalog metadata, review canonical IDs and district registry handling, and prepare a separate application change. This packet changes no runtime catalog, public page, database, score, result or schedule.

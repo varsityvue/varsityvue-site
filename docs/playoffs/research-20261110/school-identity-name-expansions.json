@@ -1,0 +1,558 @@
+{
+  "mode": "offline-research-only",
+  "reviewedDate": "2026-11-10",
+  "nameExpansions": [
+    {
+      "division": "2A Division I",
+      "region": "Region I",
+      "bracketName": "Highland Park",
+      "officialName": "Amarillo Highland Park",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "2A Division I",
+      "region": "Region II",
+      "bracketName": "Johnson City",
+      "officialName": "Johnson City LBJ",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "2A Division I",
+      "region": "Region III",
+      "bracketName": "Carlisle",
+      "officialName": "Price Carlisle",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "2A Division I",
+      "region": "Region III",
+      "bracketName": "Pewitt",
+      "officialName": "Omaha Pewitt",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "2A Division I",
+      "region": "Region III",
+      "bracketName": "Union Grove",
+      "officialName": "Gladewater Union Grove",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "2A Division I",
+      "region": "Region IV",
+      "bracketName": "Leon",
+      "officialName": "Jewett Leon",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "2A Division II",
+      "region": "Region I",
+      "bracketName": "Roscoe",
+      "officialName": "Roscoe Collegiate",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/FB2AD2_Rvsd10-19.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "2A Division II",
+      "region": "Region I",
+      "bracketName": "West Texas",
+      "officialName": "Stinnett West Texas",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/FB2AD2_Rvsd10-19.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "2A Division II",
+      "region": "Region III",
+      "bracketName": "Boles",
+      "officialName": "Quinlan Boles",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/FB2AD2_Rvsd10-19.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "2A Division II",
+      "region": "Region III",
+      "bracketName": "West Hardin",
+      "officialName": "Saratoga West Hardin",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/FB2AD2_Rvsd10-19.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "2A Division II",
+      "region": "Region III",
+      "bracketName": "Bowie",
+      "officialName": "Simms Bowie",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/FB2AD2_Rvsd10-19.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "2A Division II",
+      "region": "Region IV",
+      "bracketName": "Ben Bolt",
+      "officialName": "Ben Bolt-Palito Blanco",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/FB2AD2_Rvsd10-19.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "2A Division II",
+      "region": "Region IV",
+      "bracketName": "Brackett",
+      "officialName": "Brackettville Brackett",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/FB2AD2_Rvsd10-19.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "3A Division I",
+      "region": "Region I",
+      "bracketName": "Compass Academy",
+      "officialName": "Odessa Compass Academy",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "3A Division I",
+      "region": "Region I",
+      "bracketName": "Jim Ned",
+      "officialName": "Tuscola Jim Ned",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "3A Division I",
+      "region": "Region II",
+      "bracketName": "Liberty-Eylau",
+      "officialName": "Tex. Liberty-Eylau",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "3A Division I",
+      "region": "Region II",
+      "bracketName": "Life Oak Cliff",
+      "officialName": "Dallas Life Oak Cliff",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "3A Division I",
+      "region": "Region III",
+      "bracketName": "Westwood",
+      "officialName": "Palestine Westwood",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "3A Division II",
+      "region": "Region I",
+      "bracketName": "Grape Creek",
+      "officialName": "San Angelo Grape Creek",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "3A Division II",
+      "region": "Region III",
+      "bracketName": "West Rusk",
+      "officialName": "New London West Rusk",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region I",
+      "bracketName": "Andress",
+      "officialName": "El Paso Andress",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region I",
+      "bracketName": "Lake View",
+      "officialName": "San Angelo Lake View",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region I",
+      "bracketName": "Randall",
+      "officialName": "Canyon Randall",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region I",
+      "bracketName": "Austin",
+      "officialName": "El Paso Austin",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region I",
+      "bracketName": "West Plains",
+      "officialName": "Canyon West Plains",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region I",
+      "bracketName": "Ysleta",
+      "officialName": "El Paso Ysleta",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region I",
+      "bracketName": "Riverside",
+      "officialName": "El Paso Riverside",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region II",
+      "bracketName": "Pine Tree",
+      "officialName": "Longview Pine Tree",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region I",
+      "bracketName": "Irvin",
+      "officialName": "El Paso Irvin",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region I",
+      "bracketName": "Estacado",
+      "officialName": "Lubbock Estacado",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region I",
+      "bracketName": "Bowie",
+      "officialName": "El Paso Bowie",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region I",
+      "bracketName": "Liberty",
+      "officialName": "Lubbock Cooper Liberty",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region I",
+      "bracketName": "Mountain View",
+      "officialName": "Clint Mountain View",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region II",
+      "bracketName": "Ford",
+      "officialName": "Quinlan Ford",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region II",
+      "bracketName": "Pleasant Grove",
+      "officialName": "Texarkana Pleasant Grove",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region II",
+      "bracketName": "North Lamar",
+      "officialName": "Paris North Lamar",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "3A Division I",
+      "region": "Region III",
+      "bracketName": "C.H. Yoe",
+      "officialName": "Cameron Yoe",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "3A Division I",
+      "region": "Region IV",
+      "bracketName": "Randolph",
+      "officialName": "Universal City Randolph",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "3A Division II",
+      "region": "Region II",
+      "bracketName": "Trinity Leadership",
+      "officialName": "Trinity Leadership Cedar Hill",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "3A Division II",
+      "region": "Region II",
+      "bracketName": "Madison",
+      "officialName": "Dallas Madison",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "3A Division II",
+      "region": "Region IV",
+      "bracketName": "Brazos",
+      "officialName": "Wallis Brazos",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "3A Division II",
+      "region": "Region IV",
+      "bracketName": "Rice Consolidated",
+      "officialName": "Altair Rice",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "3A Division II",
+      "region": "Region IV",
+      "bracketName": "Nixon-Smiley",
+      "officialName": "Nixon Smiley",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region II",
+      "bracketName": "Carter",
+      "officialName": "Dallas Carter",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region II",
+      "bracketName": "Lincoln",
+      "officialName": "Dallas Lincoln",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region II",
+      "bracketName": "Southwest",
+      "officialName": "Ft Worth Southwest",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region II",
+      "bracketName": "Kimball",
+      "officialName": "Dallas Kimball",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region II",
+      "bracketName": "Benbrook",
+      "officialName": "Ft Worth Benbrook",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region II",
+      "bracketName": "Eastern Hills",
+      "officialName": "Ft Worth Eastern Hills",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region II",
+      "bracketName": "Wilmer-Hutchins",
+      "officialName": "Dallas Hutchins",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region III",
+      "bracketName": "Little Cypress-Mauriceville",
+      "officialName": "Orange Little Cypress-Mauriceville",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region III",
+      "bracketName": "Austin",
+      "officialName": "H Austin",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region III",
+      "bracketName": "Hargrave",
+      "officialName": "Huffman Hargrave",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region III",
+      "bracketName": "Sterling",
+      "officialName": "H Sterling",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region IV",
+      "bracketName": "Canyon Lake",
+      "officialName": "Comal Canyon Lake",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region IV",
+      "bracketName": "Calhoun",
+      "officialName": "Port Lavaca Calhoun",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region IV",
+      "bracketName": "Davenport",
+      "officialName": "Comal Davenport",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region IV",
+      "bracketName": "Miller",
+      "officialName": "Corpus Christi Miller",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region IV",
+      "bracketName": "Calallen",
+      "officialName": "CC Calallen",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region IV",
+      "bracketName": "Tuloso-Midway",
+      "officialName": "CC Tuloso-Midway",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region IV",
+      "bracketName": "Tivy",
+      "officialName": "Kerrville Tivy",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region III",
+      "bracketName": "North Forest",
+      "officialName": "H North Forest",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region III",
+      "bracketName": "Wheatley",
+      "officialName": "H Wheatley",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region III",
+      "bracketName": "Yates",
+      "officialName": "H Yates",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region III",
+      "bracketName": "Worthing",
+      "officialName": "H Worthing",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region IV",
+      "bracketName": "La Vega",
+      "officialName": "Waco La Vega",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region IV",
+      "bracketName": "London",
+      "officialName": "Corpus Christi London",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region IV",
+      "bracketName": "Navarro",
+      "officialName": "Geronimo Navarro",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region IV",
+      "bracketName": "King",
+      "officialName": "Kingsville King",
+      "sourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf",
+      "basis": "Explicit reviewed name expansion using UIL alignment membership in this division and region; not a runtime alias or publication approval."
+    }
+  ]
+}
