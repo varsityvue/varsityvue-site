@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { regionLabels, statewideDivisions, validateRegionalField } from "@/data/statewide-playoff-brackets";
 import { findSchoolBracketLocation } from "@/lib/playoff-school-location";
 import { getStateChampionshipPath } from "@/lib/state-championship-path";
@@ -9,15 +9,13 @@ import type { Game } from "@/types/platform";
 import { regionalPlayoffRoundLabels, playoffRoundLabels } from "@/lib/playoff-round-labels";
 
 export default function StatewideBracketExplorer({ games, selectedSchool }: { games: Game[]; selectedSchool?: string }) {
-  const [divisionId, setDivisionId] = useState<string>("2A-D1");
-  const [regionIndex, setRegionIndex] = useState<number | null>(1);
-  useEffect(() => {
-    if (!selectedSchool) return;
-    const location = findSchoolBracketLocation(selectedSchool);
-    if (!location) return;
-    setDivisionId(location.division.id);
-    setRegionIndex(location.regionIndex);
-  }, [selectedSchool]);
+  return <BracketSelection key={selectedSchool ?? "browse"} games={games} selectedSchool={selectedSchool} />;
+}
+
+function BracketSelection({ games, selectedSchool }: { games: Game[]; selectedSchool?: string }) {
+  const location = selectedSchool ? findSchoolBracketLocation(selectedSchool) : null;
+  const [divisionId, setDivisionId] = useState<string>(location?.division.id ?? "2A-D1");
+  const [regionIndex, setRegionIndex] = useState<number | null>(location?.regionIndex ?? 1);
   const division = statewideDivisions.find((item) => item.id === divisionId) ?? statewideDivisions[0];
   const field = regionIndex === null ? null : division.regions[regionIndex];
   const verified = field && validateRegionalField(field).length === 0;

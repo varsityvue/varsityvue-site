@@ -18,7 +18,6 @@ export default function TeamPlayoffPath({ games, selectedSchool, onSelectSchool 
   if (!location) return null;
   const { division, regionIndex, field, firstIndex } = location;
   const { roundTeams, roundGames } = buildRegionalRounds(field, games, 2026, division.id, ["I", "II", "III", "IV"][regionIndex]);
-  let eliminated = false;
 
   return (
     <section id="team-path" aria-labelledby="team-path-heading" className="mt-11 scroll-mt-24 rounded-2xl border border-[#8B1020]/65 bg-[#170d12] p-4 sm:p-6">
@@ -38,8 +37,11 @@ export default function TeamPlayoffPath({ games, selectedSchool, onSelectSchool 
           const winner = verifiedWinner(game);
           const involved = pair.includes(school);
           const opponent = involved ? pair.find((name) => name !== school) : null;
-          const previousEliminated = eliminated;
-          if (involved && winner && winner !== school) eliminated = true;
+          const previousEliminated = roundGames.slice(0, round).some((games, priorRound) => {
+            const priorSlot = Math.floor(firstIndex / (2 ** priorRound));
+            const priorWinner = verifiedWinner(games[priorSlot]);
+            return roundTeams[priorRound][priorSlot].includes(school) && Boolean(priorWinner && priorWinner !== school);
+          });
           const status = previousEliminated || !involved ? "Not reached" : winner === school ? "Advanced" : winner ? "Eliminated" : game?.status === "live" && game.publicScoreVerified ? "In progress" : game?.status === "final" ? "Awaiting verification" : game ? "Scheduled" : round === 0 ? "Matchup pending" : "To be determined";
           return (
             <div key={label} className="rounded-xl border border-white/15 bg-black/30 p-3">
