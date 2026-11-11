@@ -26,7 +26,7 @@ export function reviewBiDistrictScheduleCandidates(
   candidates: readonly BiDistrictScheduleCandidate[],
   bracket: readonly BiDistrictReadiness[],
 ): ScheduleCandidateReview[] {
-  const slotKey = (division: string, region: string, slot: number) => `${division}|\${region}|\${slot}`;
+  const slotKey = (division: string, region: string, slot: number) => `${division}|${region}|${slot}`;
   const bySlot = new Map(bracket.map((entry) => [slotKey(entry.division, entry.region, entry.slot), entry]));
   const counts = new Map<string, number>();
   for (const candidate of candidates) {
