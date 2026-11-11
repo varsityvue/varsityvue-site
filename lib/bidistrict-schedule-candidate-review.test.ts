@@ -39,3 +39,28 @@ test("rejects unknown bracket positions", () => {
   const [review] = reviewBiDistrictScheduleCandidates([{ ...valid, slot: 99 }], bracket);
   assert.ok(review.issues.includes("unknown bracket slot"));
 });
+
+
+test("rejects impossible calendar dates, normalized midnight, and trailing content", () => {
+  for (const kickoff of ["2026-02-30T19:00:00-06:00", "2026-11-12T24:00:00-06:00", "2026-11-12T19:00junkZ", "2026-11-12T19:00:00+25:00"]) {
+    const [review] = reviewBiDistrictScheduleCandidates([{ ...valid, kickoff }], bracket);
+    assert.ok(review.issues.includes("kickoff requires a valid timezone-aware timestamp"), kickoff);
+  }
+  for (const kickoff of ["2026-11-12T19:00-06:00", "2026-11-13T01:00:00Z"]) {
+    assert.equal(reviewBiDistrictScheduleCandidates([{ ...valid, kickoff }], bracket)[0].readyForHumanReview, true);
+  }
+});
+
+test("every existing record requires reconciliation, including incomplete schedules and verified finals", () => {
+  for (const status of ["needs-details", "scheduled", "verified-final", "awaiting-verification", "duplicate-record"] as const) {
+    const existing = bracket.map((entry) => entry.division === valid.division && entry.region === valid.region && entry.slot === valid.slot
+      ? { ...entry, status, gameId: "existing-game" } : entry);
+    assert.ok(reviewBiDistrictScheduleCandidates([valid], existing)[0].issues.includes("existing game requires manual reconciliation"));
+  }
+});
+
+test("division and region mismatches cannot use another bracket's matchup", () => {
+  for (const candidate of [{ ...valid, division: "3A Division I" }, { ...valid, region: "Region I" }]) {
+    assert.equal(reviewBiDistrictScheduleCandidates([candidate], bracket)[0].readyForHumanReview, false);
+  }
+});

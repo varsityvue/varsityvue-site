@@ -42,13 +42,18 @@ export function reviewBiDistrictScheduleCandidates(
       const actualTeams = [...candidate.teams].map((team) => team.trim().toLowerCase()).sort();
       const expectedTeams = [...expected.teams].map((team) => team.trim().toLowerCase()).sort();
       if (actualTeams.join("|") !== expectedTeams.join("|")) issues.push("teams do not match bracket");
-      if (expected.status !== "missing-record" && expected.status !== "needs-details") issues.push("existing game requires manual reconciliation");
+      if (expected.status !== "missing-record" || Boolean(expected.gameId)) issues.push("existing game requires manual reconciliation");
     }
     if ((counts.get(key) ?? 0) > 1) issues.push("duplicate candidate for bracket slot");
+    const timestamp = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::(\d{2}))?(Z|[+-]\d{2}:\d{2})$/.exec(candidate.kickoff);
     const kickoff = Date.parse(candidate.kickoff);
-    if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(candidate.kickoff) ||
-        !/(?:Z|[+-]\d{2}:\d{2})$/.test(candidate.kickoff) ||
-        !Number.isFinite(kickoff)) issues.push("kickoff requires a valid timezone-aware timestamp");
+    const calendar = timestamp ? new Date(Date.UTC(Number(timestamp[1]), Number(timestamp[2]) - 1, Number(timestamp[3]))) : null;
+    const validCalendar = Boolean(timestamp && calendar &&
+      calendar.getUTCFullYear() === Number(timestamp[1]) &&
+      calendar.getUTCMonth() === Number(timestamp[2]) - 1 &&
+      calendar.getUTCDate() === Number(timestamp[3]) &&
+      Number(timestamp[4]) < 24 && Number(timestamp[5]) < 60 && Number(timestamp[6] ?? 0) < 60);
+    if (!validCalendar || !Number.isFinite(kickoff)) issues.push("kickoff requires a valid timezone-aware timestamp");
     if (!candidate.venue.trim() || /^(?:tbd|unknown|venue tbd)$/i.test(candidate.venue.trim())) issues.push("confirmed venue required");
     if (!candidate.sourceLabel.trim()) issues.push("source attribution required");
     try {
