@@ -57,6 +57,9 @@ export function getGamePresentation(game: Game, now = new Date()): GamePresentat
   if (game.status === "cancelled") {
     return { kind: "cancelled", label: "Cancelled", authoritativeLive: false, authoritativeScore: false, showScore: false };
   }
+  if (game.status === "final" && game.gameType === "playoff" && game.publicScoreVerified !== true) {
+    return { kind: "awaiting_verification", label: "Result awaiting verification", authoritativeLive: false, authoritativeScore: false, showScore: false };
+  }
   if (game.status === "final") {
     const exceptional = isExceptionalFinal(game);
     const score = hasNumericScore(game);

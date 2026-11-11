@@ -115,3 +115,14 @@ test("a duplicate opponent pairing in another round does not block a valid bi-di
   const { roundTeams } = buildRegionalRounds(field, [first, unrelatedRound]);
   assert.deepEqual(roundTeams[1][0], ["A", null]);
 });
+
+
+test("malformed verified scores never advance teams", () => {
+  for (const score of [NaN, Infinity, -1, 1.5]) {
+    assert.equal(verifiedWinner(fixture("A", "B", score, 7)), null);
+    assert.equal(verifiedWinner(fixture("A", "B", 7, score)), null);
+  }
+  for (const status of ["scheduled", "upcoming", "live"] as const) {
+    assert.equal(verifiedWinner({ ...fixture("A", "B", 21, 7), status }), null);
+  }
+});

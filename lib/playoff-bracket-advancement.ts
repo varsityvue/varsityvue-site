@@ -11,7 +11,8 @@ export function verifiedWinner(game: Game | undefined): string | null {
   }
   const home = game.homeScore ?? game.score?.home;
   const away = game.awayScore ?? game.score?.away;
-  if (typeof home !== "number" || typeof away !== "number" || home === away) return null;
+  if (typeof home !== "number" || typeof away !== "number" ||
+      !Number.isSafeInteger(home) || !Number.isSafeInteger(away) || home < 0 || away < 0 || home === away) return null;
   return (home > away ? game.homeTeam : game.awayTeam) ?? null;
 }
 

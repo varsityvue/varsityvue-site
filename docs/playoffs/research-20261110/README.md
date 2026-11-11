@@ -23,7 +23,7 @@ Run from repository root after installing locked dependencies:
     node --import tsx scripts/review-playoff-schedule-research.ts > docs/playoffs/research-20261110/reviewed-candidates.json
     node --import tsx --test scripts/review-playoff-schedule-research.test.ts
 
-The script reads repository files and writes only to stdout. It has no database client, no network access, and no publishing operation. It uses PR #131's validator. Regenerate against the latest inventory immediately before any later publication review.
+The script reads repository files and writes only to stdout. It has no database client, no network access, and no publishing operation. It uses the validator released through PR #136. Regenerate against the latest inventory immediately before any later publication review.
 
 ## Meaning of fields
 

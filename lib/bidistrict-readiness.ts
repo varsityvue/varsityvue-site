@@ -1,5 +1,6 @@
 import type { Game } from "@/types/platform";
 import { statewideDivisions, regionLabels } from "@/data/statewide-playoff-brackets";
+import { verifiedWinner } from "@/lib/playoff-bracket-advancement";
 import { normalizePlayoffDivision } from "@/lib/playoff-division";
 
 export type BiDistrictReadiness = {
@@ -28,15 +29,7 @@ export function getBiDistrictReadiness(games: Game[]): BiDistrictReadiness[] {
       if (matches.length > 1) return { ...base, status: "duplicate-record", missing: ["duplicate game records"] };
       const game = matches[0];
       if (game.status === "final") {
-        if (game.publicScoreVerified && (
-          game.resultType === "forfeit"
-            ? Boolean(game.officialWinnerSchoolSlug &&
-                [game.homeSchoolSlug, game.awaySchoolSlug].includes(game.officialWinnerSchoolSlug))
-            : game.resultType !== "no_contest" &&
-              typeof (game.homeScore ?? game.score?.home) === "number" &&
-              typeof (game.awayScore ?? game.score?.away) === "number" &&
-              (game.homeScore ?? game.score?.home) !== (game.awayScore ?? game.score?.away)
-        )) return { ...base, status: "verified-final", gameId: game.id, missing: [] };
+        if (verifiedWinner(game)) return { ...base, status: "verified-final", gameId: game.id, missing: [] };
         return { ...base, status: "awaiting-verification", gameId: game.id, missing: ["verified final result"] };
       }
       const missing: string[] = [];
