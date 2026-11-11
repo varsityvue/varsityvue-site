@@ -8,7 +8,7 @@
     "main": "ea1b4a57da0dc07e1b5418772ca2f3a2842ebe0f",
     "researchBaseHead": "5da0176f88ff06dfba9001b28b61d5dbb3191f17",
     "catalogPr": 137,
-    "catalogHead": "be865ec2e8da1e9063a762b0ff5d4aa3ece54229",
+    "catalogHead": "57c715eae70d5aa3679d35213dcf12023da38697",
     "catalogReleaseApproved": false,
     "schedulePublicationApproved": false,
     "existingSchoolIdsBySlug": {
@@ -100,7 +100,8 @@
     "supplementalScheduleDifferences": 0,
     "readyForPublication": 0,
     "tiers": {
-      "core-and-sides-supported-held": 21,
+      "core-and-both-sides-explicit-held": 16,
+      "core-and-one-side-explicit-held": 5,
       "core-supported-sides-held": 24,
       "partial-evidence-held": 147
     }
@@ -157,7 +158,7 @@
       "insertAllowed": false,
       "executionEnabled": false,
       "readyForPublication": false,
-      "tier": "core-and-sides-supported-held",
+      "tier": "core-and-both-sides-explicit-held",
       "coreScheduleEvidenceComplete": true,
       "schedule": {
         "kickoff": "2026-11-12T16:00:00-06:00",
@@ -383,7 +384,7 @@
       "insertAllowed": false,
       "executionEnabled": false,
       "readyForPublication": false,
-      "tier": "core-and-sides-supported-held",
+      "tier": "core-and-both-sides-explicit-held",
       "coreScheduleEvidenceComplete": true,
       "schedule": {
         "kickoff": "2026-11-12T17:00:00-06:00",
@@ -545,7 +546,7 @@
       "insertAllowed": false,
       "executionEnabled": false,
       "readyForPublication": false,
-      "tier": "core-and-sides-supported-held",
+      "tier": "core-and-both-sides-explicit-held",
       "coreScheduleEvidenceComplete": true,
       "schedule": {
         "kickoff": "2026-11-12T18:00:00-06:00",
@@ -1435,7 +1436,7 @@
       "insertAllowed": false,
       "executionEnabled": false,
       "readyForPublication": false,
-      "tier": "core-and-sides-supported-held",
+      "tier": "core-and-both-sides-explicit-held",
       "coreScheduleEvidenceComplete": true,
       "schedule": {
         "kickoff": "2026-11-12T19:00:00-06:00",
@@ -1660,7 +1661,7 @@
       "insertAllowed": false,
       "executionEnabled": false,
       "readyForPublication": false,
-      "tier": "core-and-sides-supported-held",
+      "tier": "core-and-one-side-explicit-held",
       "coreScheduleEvidenceComplete": true,
       "schedule": {
         "kickoff": "2026-11-12T19:00:00-06:00",
@@ -2935,7 +2936,7 @@
       "insertAllowed": false,
       "executionEnabled": false,
       "readyForPublication": false,
-      "tier": "core-and-sides-supported-held",
+      "tier": "core-and-one-side-explicit-held",
       "coreScheduleEvidenceComplete": true,
       "schedule": {
         "kickoff": "2026-11-12T19:00:00-06:00",
@@ -3293,7 +3294,7 @@
       "insertAllowed": false,
       "executionEnabled": false,
       "readyForPublication": false,
-      "tier": "core-and-sides-supported-held",
+      "tier": "core-and-both-sides-explicit-held",
       "coreScheduleEvidenceComplete": true,
       "schedule": {
         "kickoff": "2026-11-12T19:00:00-06:00",
@@ -4072,7 +4073,7 @@
       "insertAllowed": false,
       "executionEnabled": false,
       "readyForPublication": false,
-      "tier": "core-and-sides-supported-held",
+      "tier": "core-and-both-sides-explicit-held",
       "coreScheduleEvidenceComplete": true,
       "schedule": {
         "kickoff": "2026-11-12T19:00:00-06:00",
@@ -6519,7 +6520,7 @@
       "insertAllowed": false,
       "executionEnabled": false,
       "readyForPublication": false,
-      "tier": "core-and-sides-supported-held",
+      "tier": "core-and-both-sides-explicit-held",
       "coreScheduleEvidenceComplete": true,
       "schedule": {
         "kickoff": "2026-11-12T19:00:00-06:00",
@@ -6745,7 +6746,7 @@
       "insertAllowed": false,
       "executionEnabled": false,
       "readyForPublication": false,
-      "tier": "core-and-sides-supported-held",
+      "tier": "core-and-one-side-explicit-held",
       "coreScheduleEvidenceComplete": true,
       "schedule": {
         "kickoff": "2026-11-12T19:00:00-06:00",
@@ -8472,7 +8473,7 @@
       "insertAllowed": false,
       "executionEnabled": false,
       "readyForPublication": false,
-      "tier": "core-and-sides-supported-held",
+      "tier": "core-and-one-side-explicit-held",
       "coreScheduleEvidenceComplete": true,
       "schedule": {
         "kickoff": "2026-11-12T19:00:00-06:00",
@@ -10281,7 +10282,7 @@
       "insertAllowed": false,
       "executionEnabled": false,
       "readyForPublication": false,
-      "tier": "core-and-sides-supported-held",
+      "tier": "core-and-both-sides-explicit-held",
       "coreScheduleEvidenceComplete": true,
       "schedule": {
         "kickoff": "2026-11-12T19:00:00-06:00",
@@ -10443,7 +10444,7 @@
       "insertAllowed": false,
       "executionEnabled": false,
       "readyForPublication": false,
-      "tier": "core-and-sides-supported-held",
+      "tier": "core-and-both-sides-explicit-held",
       "coreScheduleEvidenceComplete": true,
       "schedule": {
         "kickoff": "2026-11-12T19:00:00-06:00",
@@ -10753,7 +10754,7 @@
       "insertAllowed": false,
       "executionEnabled": false,
       "readyForPublication": false,
-      "tier": "core-and-sides-supported-held",
+      "tier": "core-and-both-sides-explicit-held",
       "coreScheduleEvidenceComplete": true,
       "schedule": {
         "kickoff": "2026-11-12T19:00:00-06:00",
@@ -15580,7 +15581,7 @@
       "insertAllowed": false,
       "executionEnabled": false,
       "readyForPublication": false,
-      "tier": "core-and-sides-supported-held",
+      "tier": "core-and-one-side-explicit-held",
       "coreScheduleEvidenceComplete": true,
       "schedule": {
         "kickoff": "2026-11-13T19:00:00-06:00",
@@ -16867,7 +16868,7 @@
       "insertAllowed": false,
       "executionEnabled": false,
       "readyForPublication": false,
-      "tier": "core-and-sides-supported-held",
+      "tier": "core-and-both-sides-explicit-held",
       "coreScheduleEvidenceComplete": true,
       "schedule": {
         "kickoff": "2026-11-13T19:00:00-06:00",
@@ -20972,7 +20973,7 @@
       "insertAllowed": false,
       "executionEnabled": false,
       "readyForPublication": false,
-      "tier": "core-and-sides-supported-held",
+      "tier": "core-and-both-sides-explicit-held",
       "coreScheduleEvidenceComplete": true,
       "schedule": {
         "kickoff": "2026-11-13T19:00:00-06:00",
@@ -21134,7 +21135,7 @@
       "insertAllowed": false,
       "executionEnabled": false,
       "readyForPublication": false,
-      "tier": "core-and-sides-supported-held",
+      "tier": "core-and-both-sides-explicit-held",
       "coreScheduleEvidenceComplete": true,
       "schedule": {
         "kickoff": "2026-11-13T19:00:00-06:00",
@@ -21455,7 +21456,7 @@
       "insertAllowed": false,
       "executionEnabled": false,
       "readyForPublication": false,
-      "tier": "core-and-sides-supported-held",
+      "tier": "core-and-both-sides-explicit-held",
       "coreScheduleEvidenceComplete": true,
       "schedule": {
         "kickoff": "2026-11-13T19:00:00-06:00",
@@ -21617,7 +21618,7 @@
       "insertAllowed": false,
       "executionEnabled": false,
       "readyForPublication": false,
-      "tier": "core-and-sides-supported-held",
+      "tier": "core-and-both-sides-explicit-held",
       "coreScheduleEvidenceComplete": true,
       "schedule": {
         "kickoff": "2026-11-13T19:00:00-06:00",
@@ -23335,7 +23336,7 @@
       "insertAllowed": false,
       "executionEnabled": false,
       "readyForPublication": false,
-      "tier": "core-and-sides-supported-held",
+      "tier": "core-and-both-sides-explicit-held",
       "coreScheduleEvidenceComplete": true,
       "schedule": {
         "kickoff": "2026-11-13T19:30:00-06:00",

@@ -140,7 +140,8 @@ def build(candidates, identities, proposals, side_review, expansion, context):
         existing_game_id = row.get('existingGameId')
         if existing_game_id:
             blockers.append('existing game requires reconciliation; insertion forbidden')
-        tier = 'core-and-sides-supported-held' if core_supported and side else 'core-supported-sides-held' if core_supported else 'partial-evidence-held'
+        both_sides_explicit = bool(side and side.get('homeExplicit', True) and side.get('awayExplicit', True))
+        tier = ('core-and-both-sides-explicit-held' if both_sides_explicit else 'core-and-one-side-explicit-held') if core_supported and side else 'core-supported-sides-held' if core_supported else 'partial-evidence-held'
         record_id = existing_game_id or f"2026-bi-district-{bracket['division'].split()[0].lower()}-{'d2' if bracket['division'].endswith(' II') else 'd1'}-{bracket['region'].replace('Region ', '').lower()}-{bracket['slot']}"
         records.append({
             'manifestId': record_id,
@@ -189,7 +190,7 @@ def generate(packet=PACKET, output=OUTPUT):
                    read('schedule-expansion-20261111.json'), read('release-candidate-context-20261111.json'))
     output.mkdir(parents=True, exist_ok=True)
     files = {'all-candidates.json': master}
-    for tier in ('core-and-sides-supported-held', 'core-supported-sides-held', 'partial-evidence-held'):
+    for tier in ('core-and-both-sides-explicit-held', 'core-and-one-side-explicit-held', 'core-supported-sides-held', 'partial-evidence-held'):
         rows = [row for row in master['records'] if row['tier'] == tier and not row['existingGameId']]
         files[tier + '.json'] = {'executionEnabled': False, 'approval': None, 'count': len(rows), 'records': rows}
     reconciliations = [row for row in master['records'] if row['existingGameId']]

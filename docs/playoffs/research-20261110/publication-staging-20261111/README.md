@@ -6,7 +6,7 @@ This packet prepares exact offline review records. It does not authorize or exec
 
 - Released main: `ea1b4a57da0dc07e1b5418772ca2f3a2842ebe0f` (PR #136 is already released).
 - Research PR #133: `feat/playoff-schedule-research-staging-20261110`; this checkpoint extends parent `5da0176f88ff06dfba9001b28b61d5dbb3191f17`.
-- Application/catalog PR #137: `feat/playoff-school-catalog-integration-20261110`, reviewed head `be865ec2e8da1e9063a762b0ff5d4aa3ece54229`.
+- Application/catalog PR #137: `feat/playoff-school-catalog-integration-20261110`, reviewed head `57c715eae70d5aa3679d35213dcf12023da38697`.
 - Refresh GitHub heads before use; the final PR description identifies the committed research checkpoint SHA.
 - Catalog integration remains unmerged; its 341 schools and 85 districts are release dependencies, not published catalog records.
 - Houston Sterling remains held for an unverified secondary color; no color was invented.
@@ -30,7 +30,8 @@ The Class 2A school feed cards for Highland Park (13762950), Granger (13753294),
 | File | Records | Meaning |
 |---|---:|---|
 | all-candidates.json | 192 | Complete offline master with fingerprints and evidence |
-| core-and-sides-supported-held.json | 21 | Core evidence plus supported side mapping; five complementary-role inferences remain held |
+| core-and-both-sides-explicit-held.json | 16 | Core evidence and both designated roles explicitly named; other blockers remain |
+| core-and-one-side-explicit-held.json | 5 | Core evidence and one explicit role; complementary role remains held |
 | core-supported-sides-held.json | 24 | Core evidence complete; no adopted explicit side mapping |
 | partial-evidence-held.json | 140 | New-record proposals retaining broader evidence gaps |
 | existing-record-reconciliation.json | 7 | Existing IDs preserved; insertion forbidden |
