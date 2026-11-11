@@ -8,11 +8,11 @@
     "reviewedSchedules": 21,
     "explicitDesignatedSides": 9,
     "designatedSidesUnresolved": 12,
-    "primaryLocationCorroborated": 19,
-    "primaryLocationCorroborationMissing": 2,
-    "thirdPartyLocationAssessments": 13,
+    "primaryLocationCorroborated": 21,
+    "primaryLocationCorroborationMissing": 0,
+    "thirdPartyLocationAssessments": 15,
     "participantLocationAssessments": 6,
-    "unconfirmedLocationAssessments": 2,
+    "unconfirmedLocationAssessments": 0,
     "explicitNeutralSiteDesignations": 0,
     "readyForPublication": 0
   },
@@ -221,21 +221,24 @@
       "venue": "Wildcat Stadium",
       "city": "Abilene",
       "designatedSides": null,
-      "primaryLocationCorroborated": false,
-      "locationEvidence": null,
+      "primaryLocationCorroborated": true,
+      "locationEvidence": {
+        "sourceUrl": "https://www.burkburnettisd.org/o/athletics/live-feed/",
+        "sourceLabel": "Burkburnett ISD Athletics school-issued weekly schedule graphic, live-feed post 13770056",
+        "retrieval": "live-browser-image-reviewed"
+      },
       "siteAssessment": {
-        "kind": "unconfirmed-location-assessment",
+        "kind": "third-party-location",
         "isInference": true,
         "neutralSiteConfirmed": null,
         "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
       },
-      "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer. Public Burkburnett ticket search returned no matching playoff football event; no role inferred from list order or publisher home labels.",
+      "reviewNote": "Primary follow-up corroborates location only; no designated sides or neutrality inferred. Graphic does not name opponent; linkage to Liberty matchup relies on existing selected schedule and qualified bracket evidence. Graphic states ACU, not the exact Wildcat Stadium name. No timezone, designated home/visitor mapping or formal neutral-site statement in graphic.",
       "publicationBlockers": [
         "explicit neutral-site designation remains unverified",
         "catalog integration/release review remains required",
         "final publication approval remains required",
-        "explicit designated home/visitor mapping remains unverified",
-        "primary school/host location corroboration remains missing"
+        "explicit designated home/visitor mapping remains unverified"
       ],
       "readyForPublication": false
     },
@@ -510,21 +513,24 @@
       "venue": "Bulldog Stadium",
       "city": "Tyler",
       "designatedSides": null,
-      "primaryLocationCorroborated": false,
-      "locationEvidence": null,
+      "primaryLocationCorroborated": true,
+      "locationEvidence": {
+        "sourceUrl": "https://www.vancoevents.com/us/events/landing/70376",
+        "sourceLabel": "Chapel Hill ISD Vanco host event 70376",
+        "retrieval": "live-browser-page-reviewed"
+      },
       "siteAssessment": {
-        "kind": "unconfirmed-location-assessment",
+        "kind": "third-party-location",
         "isInference": true,
         "neutralSiteConfirmed": null,
         "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
       },
-      "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer. Band booster site reports travel to Chapel Hill High School; not treated as school-issued designated-side proof. Public host ticket search returned no matching football event.",
+      "reviewNote": "Primary follow-up corroborates location only; no designated sides or neutrality inferred. Public ticket labels identify each team but do not designate HOME or VISITOR. No explicit neutral-site statement. No tickets selected or purchased.",
       "publicationBlockers": [
         "explicit neutral-site designation remains unverified",
         "catalog integration/release review remains required",
         "final publication approval remains required",
-        "explicit designated home/visitor mapping remains unverified",
-        "primary school/host location corroboration remains missing"
+        "explicit designated home/visitor mapping remains unverified"
       ],
       "readyForPublication": false
     },
@@ -789,5 +795,7 @@
       ],
       "readyForPublication": false
     }
-  ]
+  ],
+  "followUpDate": "2026-11-11",
+  "followUpResearchBaseHead": "0bc17e6ae2f3e44d1f0859100eb8543256640db4"
 }

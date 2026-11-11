@@ -1718,7 +1718,27 @@
       "verificationStatus": "source-verified",
       "missingInformation": [],
       "conflicts": [],
-      "notes": []
+      "notes": [],
+      "followUpEvidence": [
+        {
+          "sourceUrl": "https://www.burkburnettisd.org/o/athletics/live-feed/",
+          "sourceLabel": "Burkburnett ISD Athletics school-issued weekly schedule graphic, live-feed post 13770056",
+          "retrievedDate": "2026-11-11",
+          "retrieval": "live-browser-image-reviewed",
+          "imageUrl": "https://core-docs.s3.amazonaws.com/burkburnett_isd_ar/live_feed_image/image/31972248/large_Week_Ahead__Newspaper__-_Landscape__16_9_.jpg",
+          "supports": [
+            "Friday November 13 football bi-district event",
+            "6 p.m.",
+            "ACU campus location"
+          ],
+          "limitations": [
+            "Graphic does not name opponent; linkage to Liberty matchup relies on existing selected schedule and qualified bracket evidence.",
+            "Graphic states ACU, not the exact Wildcat Stadium name.",
+            "No timezone, designated home/visitor mapping or formal neutral-site statement in graphic."
+          ],
+          "reviewStatus": "primary-campus-location-corroborated"
+        }
+      ]
     },
     {
       "division": "4A Division II",
@@ -2027,7 +2047,27 @@
       "verificationStatus": "source-verified",
       "missingInformation": [],
       "conflicts": [],
-      "notes": []
+      "notes": [],
+      "followUpEvidence": [
+        {
+          "sourceUrl": "https://www.vancoevents.com/us/events/landing/70376",
+          "sourceLabel": "Chapel Hill ISD Vanco host event 70376",
+          "retrievedDate": "2026-11-11",
+          "retrieval": "live-browser-page-reviewed",
+          "hostListingUrl": "https://www.vancoevents.com/us/eventlist/chapelhill",
+          "supports": [
+            "Pittsburg vs Sunnyvale",
+            "Friday November 13 2026 at 7 p.m. UTC-06",
+            "Chapel Hill Bulldog Stadium, 13172 Hwy 64E, Tyler TX 75707"
+          ],
+          "limitations": [
+            "Public ticket labels identify each team but do not designate HOME or VISITOR.",
+            "No explicit neutral-site statement.",
+            "No tickets selected or purchased."
+          ],
+          "reviewStatus": "primary-event-location-corroborated"
+        }
+      ]
     },
     {
       "division": "4A Division II",
