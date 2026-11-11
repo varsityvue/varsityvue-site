@@ -10,7 +10,7 @@ No file here is imported by a public page, game catalog, API, or database writer
 - Research covers all 192 positions exactly once: all 64 Class 2A, all 64 Class 3A, all 64 Class 4A. Every region has eight positions per division.
 - `class-2a.json`: 64 rows, 20 corroborated reports, 43 single-source rows, one unresolved kickoff conflict. Corroboration does not prove independent reporting. Its timezone offsets are geographically inferred.
 - `class-3a-4a.json`: 64 rows, 16 with explicit CST schedule evidence, 48 partial rows; two conflict rows.
-- `remaining-3a-4a.json`: remaining 64 partial rows; nine conflict rows.
+- `remaining-3a-4a.json`: remaining 64 rows (three now source-verified, 61 partial); nine rows with recorded conflicts, including the later San Diego–Mathis kickoff discrepancy.
 - `inventory.json`: bracket readiness snapshot, including the seven existing game IDs.
 - `reviewed-candidates.json`: reproducible review output; 185 structurally valid new-record proposals and seven existing-record reconciliation entries. Structural validity is not factual verification.
 
@@ -41,11 +41,11 @@ The script reads repository files and writes only to stdout. It has no database 
 1. Shelbyville–Waskom: Nov 13, 7 versus 7:30 p.m.; local Shelby County announcement, KLTV and MaxPreps support 7:30, but contrary reports are preserved.
 2. Wall–Bowie: Wall ISD confirms Friday at 6 p.m. in Cisco; retain 7 p.m. report as superseded. Explicit timezone and site status still needed.
 3. Hooks–Arp: Arp ISD itinerary supports Nov. 13 at 7:30 p.m., Arp home; retain 7 p.m. report as superseded. Timezone and site status still needed.
-4. Millsap–Trinity Leadership: internally inconsistent “Thu 11/13” and 7:30 versus Nov 12 at 7; do not resolve by guessing.
-5. Bells–Lone Oak: Murphy versus Plano venue-city listing.
-6. Lincoln–Southwest: Clark Stadium in Fort Worth versus Plano; stadium identity unresolved.
+4. Millsap–Trinity Leadership: host ticket event now confirms Thursday Nov. 12, 7:30 p.m. CST at Knight Stadium; contradictory date/time reports remain preserved.
+5. Bells–Lone Oak: host ticket event confirms Tom Kimbrough Stadium in Murphy, Nov. 13 at 7:30 p.m. CST, Lone Oak home.
+6. Lincoln–Southwest: school-linked ticket event confirms Clark at 5201 Ca Roberson, Fort Worth; Plano report is superseded. Timezone remains unconfirmed.
 7. Athens–Hamshire-Fannett: NFHS event confirms Nov. 13 at 7:30 p.m. CST; January typo retained as superseded. Exact venue/site status still needed.
-8. Five Class 3A DI Region IV games had conflicting broad-source dates. Host NISD resolves Yoakum–Carrizo Springs to Nov. 13; the other four remain unresolved. San Diego–Mathis also has a newly recorded 7 versus 7:30 p.m. kickoff conflict.
+8. Of five Class 3A DI Region IV date discrepancies, only Devine–Randolph remains unresolved. Host NISD resolves Yoakum–Carrizo Springs; host ticketing resolves Jourdanton–Hallettsville and San Diego–Mathis; Hondo’s school calendar resolves Marion–Hondo. Odem host ticketing confirms San Diego–Mathis at 7:30 p.m. CST rather than 7.
 9. Resolved-preference notes remain for Bosqueville–Johnson City (official Granger, not La Grange), Axtell–Bangs (weekday/date typo), and Lockney–Iraan (Thursday versus Friday).
 10. Coahoma–Holliday stadium naming needs identity review (Eagle versus Don Lacy).
 
@@ -116,3 +116,25 @@ Reproduce and test:
 The reviewer rejects missing/duplicate qualified evidence, wrong school IDs, unexpected publisher URLs and identifier collisions. Missing required metadata blocks a complete record. Tests cover district references, publication boundaries, wrong-school substitutions, duplicate reports and missing mascot/color values.
 
 Remaining integration work is now concrete: review generated identifiers and publisher-listed branding, resolve Houston Sterling's missing secondary hex value and the recorded palette differences, then prepare a separate application integration branch. Structural completeness is not release or publication approval.
+
+
+## Host and school follow-up — November 11
+
+Live browser review closed discrepancies on six more matchup rows. Of the 15 rows with recorded source discrepancies, 13 now have field-level resolutions and two remain unresolved: Shelbyville–Waskom kickoff and Devine–Randolph date. Original contradictory reports remain in `conflicts`; when a selected source changes, `previousSelectedSource` preserves its URL and original values. None of these resolutions establishes publication readiness.
+
+| Matchup | Confirmed evidence | Remaining limitation |
+| --- | --- | --- |
+| Millsap–Trinity Leadership | [EMS ISD host event 3267](https://events.hometownticketing.com/boxoffice/eaglemountain/L2VtYmVkL2V2ZW50LzMyNjc%3D): Thursday Nov. 12, 7:30 p.m. CST, Eagle Mountain High School Knight Stadium, 3451 Bonds Ranch Rd. Proposed kickoff corrected from 7 to 7:30. | Home/visitor designation and explicit neutral-site status absent. |
+| Bells–Lone Oak | [Plano ISD host event 8775](https://events.hometownticketing.com/boxoffice/planoisd/L2VtYmVkL2V2ZW50Lzg3NzU=), linked by [Lone Oak athletics](https://www.loneoakbuffaloes.com/sport/football/boys/): Friday Nov. 13, 7:30 p.m. CST, Tom Kimbrough Stadium, 700 N. Murphy Road, Murphy. Lone Oak HOME; Bells Visitor. | Explicit neutral-site status absent. The previously stale school announcement is now directly visible. |
+| San Diego–Mathis | [Odem-Edroy ISD box office](https://events.hometownticketing.com/boxoffice/odemedroy/L2VtYmVkL2FsbA==), linked from the [Mathis ISD homepage](https://www.mathisisd.org/), event 354: Friday Nov. 13, 7:30 p.m. CST, Odem HS, 1 Owl Square. San Diego HOME; Mathis VISITOR. | Ticket page names Odem HS; Owl Stadium name remains earlier-source evidence. Explicit neutral-site status absent. |
+| Jourdanton–Hallettsville | [NBISD host event 644420](https://brushfire.com/new-braunfels-isd/lchs-vfb/644420), provider linked from [official Dragon gameday information](https://nbisd.org/news/2026-dragon-gameday-info/): Friday Nov. 13, 7 p.m. CST, Dragon Stadium, 4150 Klein Meadows, New Braunfels. | Home/visitor designation and explicit neutral-site status absent. Doors open at 6 p.m.; that is not kickoff. |
+| Lincoln–Southwest | [School-linked GoFan event 7050655](https://gofan.co/event/7050655?schoolId=TX16169), reached through [Southwest athletics](https://www.fwsouthwestraiders.com/sport/football/boys/): Thursday Nov. 12, 7 p.m., Clark, 5201 Ca Roberson, Fort Worth. School ticket list designates Southwest Home. | Explicit timezone and neutral-site status absent. |
+| Marion–Hondo | [Hondo school calendar event 61303091](https://hs.hondoisd.net/apps/events/2026/11/13/61303091/?id=0): Friday Nov. 13, 7 p.m., Marion High School, 506 Bulldog Ln, Marion. Calendar export explicitly encodes `ctz=US/Central`. | Exact Veterans Stadium name remains earlier-source evidence; no explicit neutral-site designation. |
+
+The Odem listing requires opening GET TICKETS for event 354 to display its explicit CST detail. This was read-only; no quantity was selected, no checkout was submitted, and no school was contacted. Session-bound iframe query strings are excluded from the packet. The ticket providers were read in a live browser because search extraction did not render their event content.
+
+Three additional rows now meet the packet’s narrow `source-verified` date/time/venue/CST definition (Millsap, Bells, Jourdanton), taking that count from 16 to 19. San Diego and Marion remain partial because exact stadium naming is not fully reconciled with the newer primary evidence. Designated home and visitor sides do not prove venue neutrality. All 192 candidates remain blocked, including the seven existing-record reconciliations; all 185 missing games remain unpublished.
+
+The follow-up review also checked current school announcements and calendars. No new primary confirmation was obtained for Shelbyville–Waskom or Devine–Randolph, so those conflicts are retained. New Braunfels host ticketing and Southwest school-linked GoFan supplied the previously missing Jourdanton and Lincoln evidence; a majority of aggregator reports was not used as a substitute.
+
+PR #137 separately stages application catalog integration from the preceding research head. This research update changes no identifiers or catalog proposals and does not alter that draft integration. It does not imply that either PR is approved for release.

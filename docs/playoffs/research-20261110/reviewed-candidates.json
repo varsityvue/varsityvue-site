@@ -10,7 +10,7 @@
   "researched": 192,
   "missingRecordsResearched": 185,
   "structurallyValidNewCandidates": 185,
-  "sourceVerifiedSchedules": 16,
+  "sourceVerifiedSchedules": 19,
   "readyForPublication": 0,
   "identityAudit": {
     "catalogSchools": 70,
@@ -14733,31 +14733,51 @@
         "localTime": "19:00",
         "kickoff": "2026-11-13T19:00:00-06:00",
         "proposedKickoff": "2026-11-13T19:00:00-06:00",
-        "timeZone": null,
-        "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+        "timeZone": "America/Chicago",
+        "timeZoneBasis": "Host ticket event explicitly states CST; November CST is UTC-06:00",
         "venue": "Dragon Stadium",
         "city": "New Braunfels",
         "neutralSite": null,
         "neutralSiteBasis": "not explicitly verified",
-        "sourceLabel": "txhsfb.net 3A DI capsules",
-        "sourceUrl": "https://txhsfb.net/?p=29377",
+        "sourceLabel": "NBISD official athletics linked Brushfire event",
+        "sourceUrl": "https://brushfire.com/new-braunfels-isd/lchs-vfb/644420",
         "sourcePublicationDate": null,
         "sourceUpdatedDate": null,
-        "retrievedDate": "2026-11-10",
-        "verificationStatus": "partial",
-        "missingInformation": [
-          "explicit timezone confirmation",
-          "resolve conflicting information"
-        ],
+        "retrievedDate": "2026-11-11",
+        "verificationStatus": "source-verified",
+        "missingInformation": [],
         "conflicts": [
           {
             "field": "date",
             "value": "2026-11-12",
             "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-playoff-200604439.html",
-            "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication."
+            "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication.",
+            "resolved": true,
+            "resolution": "NBISD Athletics Brushfire event 644420 explicitly lists Jourdanton vs Hallettsville Varsity Football Playoff on Friday Nov. 13, 2026, 7 to 11 p.m. CST, Dragon Stadium, 4150 Klein Meadows, New Braunfels TX 78130. Doors open at 6 p.m. NBISD official 2026 Dragon Gameday Info links the ticket provider. No designated home/visitor or explicit neutral-site statement appears.",
+            "resolutionSourceUrl": "https://brushfire.com/new-braunfels-isd/lchs-vfb/644420"
           }
         ],
         "notes": [],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "NBISD official athletics linked Brushfire event",
+            "sourceUrl": "https://brushfire.com/new-braunfels-isd/lchs-vfb/644420",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "NBISD Athletics Brushfire event 644420 explicitly lists Jourdanton vs Hallettsville Varsity Football Playoff on Friday Nov. 13, 2026, 7 to 11 p.m. CST, Dragon Stadium, 4150 Klein Meadows, New Braunfels TX 78130. Doors open at 6 p.m. NBISD official 2026 Dragon Gameday Info links the ticket provider. No designated home/visitor or explicit neutral-site statement appears."
+          }
+        ],
+        "readyForPublication": false,
+        "previousSelectedSource": {
+          "sourceLabel": "txhsfb.net 3A DI capsules",
+          "sourceUrl": "https://txhsfb.net/?p=29377",
+          "sourcePublicationDate": null,
+          "retrievedDate": "2026-11-10",
+          "date": "2026-11-13",
+          "localTime": "19:00",
+          "venue": "Dragon Stadium",
+          "city": "New Braunfels"
+        },
         "schoolSlugs": [
           null,
           null
@@ -14773,40 +14793,56 @@
         ],
         "date": "2026-11-13",
         "localTime": "19:00",
-        "kickoff": null,
+        "kickoff": "2026-11-13T19:00:00-06:00",
         "proposedKickoff": "2026-11-13T19:00:00-06:00",
-        "timeZone": null,
-        "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+        "timeZone": "America/Chicago",
+        "timeZoneBasis": "Host ticket event explicitly states CST; November CST is UTC-06:00",
         "venue": "Dragon Stadium",
         "city": "New Braunfels",
         "neutralSite": null,
         "neutralSiteBasis": "not explicitly verified",
-        "sourceLabel": "txhsfb.net 3A DI capsules",
-        "sourceUrl": "https://txhsfb.net/?p=29377",
+        "sourceLabel": "NBISD official athletics linked Brushfire event",
+        "sourceUrl": "https://brushfire.com/new-braunfels-isd/lchs-vfb/644420",
         "sourcePublicationDate": null,
         "sourceUpdatedDate": null,
-        "retrievedDate": "2026-11-10",
-        "verificationStatus": "partial",
-        "missingInformation": [
-          "explicit timezone confirmation",
-          "resolve conflicting information"
-        ],
+        "retrievedDate": "2026-11-11",
+        "verificationStatus": "source-verified",
+        "missingInformation": [],
         "conflicts": [
           {
             "field": "date",
             "value": "2026-11-12",
             "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-playoff-200604439.html",
-            "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication."
+            "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication.",
+            "resolved": true,
+            "resolution": "NBISD Athletics Brushfire event 644420 explicitly lists Jourdanton vs Hallettsville Varsity Football Playoff on Friday Nov. 13, 2026, 7 to 11 p.m. CST, Dragon Stadium, 4150 Klein Meadows, New Braunfels TX 78130. Doors open at 6 p.m. NBISD official 2026 Dragon Gameday Info links the ticket provider. No designated home/visitor or explicit neutral-site statement appears.",
+            "resolutionSourceUrl": "https://brushfire.com/new-braunfels-isd/lchs-vfb/644420"
           }
         ],
-        "notes": []
+        "notes": [],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "NBISD official athletics linked Brushfire event",
+            "sourceUrl": "https://brushfire.com/new-braunfels-isd/lchs-vfb/644420",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "NBISD Athletics Brushfire event 644420 explicitly lists Jourdanton vs Hallettsville Varsity Football Playoff on Friday Nov. 13, 2026, 7 to 11 p.m. CST, Dragon Stadium, 4150 Klein Meadows, New Braunfels TX 78130. Doors open at 6 p.m. NBISD official 2026 Dragon Gameday Info links the ticket provider. No designated home/visitor or explicit neutral-site statement appears."
+          }
+        ],
+        "readyForPublication": false,
+        "previousSelectedSource": {
+          "sourceLabel": "txhsfb.net 3A DI capsules",
+          "sourceUrl": "https://txhsfb.net/?p=29377",
+          "sourcePublicationDate": null,
+          "retrievedDate": "2026-11-10",
+          "date": "2026-11-13",
+          "localTime": "19:00",
+          "venue": "Dragon Stadium",
+          "city": "New Braunfels"
+        }
       },
       "structuralValidationPassed": true,
       "publicationIssues": [
-        "explicit timezone confirmation",
-        "resolve conflicting information",
-        "timezone offset is inferred; confirm source timezone",
-        "independent source verification still required",
         "explicit neutral-site designation not verified",
         "review recorded source discrepancies and resolution notes",
         "school slug requires manual identity reconciliation"
@@ -14837,8 +14873,8 @@
         "localTime": "19:30",
         "kickoff": "2026-11-13T19:30:00-06:00",
         "proposedKickoff": "2026-11-13T19:30:00-06:00",
-        "timeZone": null,
-        "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+        "timeZone": "America/Chicago",
+        "timeZoneBasis": "Host ticket event explicitly states CST; November CST is UTC-06:00",
         "venue": "Owl Stadium",
         "city": "Odem",
         "neutralSite": null,
@@ -14850,23 +14886,26 @@
         "retrievedDate": "2026-11-10",
         "verificationStatus": "partial",
         "missingInformation": [
-          "explicit timezone confirmation",
-          "resolve conflicting information",
-          "resolve conflicting kickoff"
+          "exact stadium name not corroborated by current primary event"
         ],
         "conflicts": [
           {
             "field": "date",
             "value": "2026-11-12",
             "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-playoff-200604439.html",
-            "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication."
+            "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication.",
+            "resolved": true,
+            "resolution": "School-linked Odem-Edroy ISD box office event 354 confirms Friday Nov. 13, 2026 at 7:30 p.m. CST, Odem HS, 1 Owl Square, Odem; San Diego is HOME and Mathis VISITOR. Gates open at 6:30, separately from kickoff. The selected Owl Stadium name remains from the earlier schedule; the ticket page names Odem HS rather than the stadium. The Mathis ISD homepage links this box office. Open GET TICKETS for event 354 to read the explicit CST label; no tickets were selected or purchased.",
+            "resolutionSourceUrl": "https://events.hometownticketing.com/boxoffice/odemedroy/L2VtYmVkL2FsbA=="
           },
           {
             "field": "localTime",
             "value": "19:00 CST",
             "sourceUrl": "https://www.maxpreps.com/tx/football/game/mathis-vs-san-diego/11-13-2026/?c=a7b77c90-65e5-424f-ad2f-3a8df22e55d4",
             "note": "New kickoff discrepancy: selected AP/capsule is 19:30; school or ticketing confirmation required.",
-            "resolved": false
+            "resolved": true,
+            "resolution": "School-linked Odem-Edroy ISD box office event 354 confirms Friday Nov. 13, 2026 at 7:30 p.m. CST, Odem HS, 1 Owl Square, Odem; San Diego is HOME and Mathis VISITOR. Gates open at 6:30, separately from kickoff. The selected Owl Stadium name remains from the earlier schedule; the ticket page names Odem HS rather than the stadium. The Mathis ISD homepage links this box office. Open GET TICKETS for event 354 to read the explicit CST label; no tickets were selected or purchased.",
+            "resolutionSourceUrl": "https://events.hometownticketing.com/boxoffice/odemedroy/L2VtYmVkL2FsbA=="
           }
         ],
         "notes": [],
@@ -14877,8 +14916,22 @@
             "sourceUrl": "https://www.maxpreps.com/tx/football/game/mathis-vs-san-diego/11-13-2026/?c=a7b77c90-65e5-424f-ad2f-3a8df22e55d4",
             "retrievalStatus": "search-result-reviewed",
             "summary": "Game listing gives Nov. 13 at 19:00 CST at Odem Owl Stadium, contrary to selected 19:30. Do not resolve this kickoff by majority vote."
+          },
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Odem-Edroy ISD host box office linked by Mathis ISD",
+            "sourceUrl": "https://events.hometownticketing.com/boxoffice/odemedroy/L2VtYmVkL2FsbA==",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "School-linked Odem-Edroy ISD box office event 354 confirms Friday Nov. 13, 2026 at 7:30 p.m. CST, Odem HS, 1 Owl Square, Odem; San Diego is HOME and Mathis VISITOR. Gates open at 6:30, separately from kickoff. The selected Owl Stadium name remains from the earlier schedule; the ticket page names Odem HS rather than the stadium. The Mathis ISD homepage links this box office. Open GET TICKETS for event 354 to read the explicit CST label; no tickets were selected or purchased."
           }
         ],
+        "homeAwayEvidence": {
+          "homeTeam": "San Diego",
+          "awayTeam": "Mathis",
+          "sourceUrl": "https://events.hometownticketing.com/boxoffice/odemedroy/L2VtYmVkL2FsbA==",
+          "reviewStatus": "school-linked-ticket-designation-confirmed"
+        },
+        "readyForPublication": false,
         "schoolSlugs": [
           null,
           null
@@ -14894,10 +14947,10 @@
         ],
         "date": "2026-11-13",
         "localTime": "19:30",
-        "kickoff": null,
+        "kickoff": "2026-11-13T19:30:00-06:00",
         "proposedKickoff": "2026-11-13T19:30:00-06:00",
-        "timeZone": null,
-        "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+        "timeZone": "America/Chicago",
+        "timeZoneBasis": "Host ticket event explicitly states CST; November CST is UTC-06:00",
         "venue": "Owl Stadium",
         "city": "Odem",
         "neutralSite": null,
@@ -14909,23 +14962,26 @@
         "retrievedDate": "2026-11-10",
         "verificationStatus": "partial",
         "missingInformation": [
-          "explicit timezone confirmation",
-          "resolve conflicting information",
-          "resolve conflicting kickoff"
+          "exact stadium name not corroborated by current primary event"
         ],
         "conflicts": [
           {
             "field": "date",
             "value": "2026-11-12",
             "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-playoff-200604439.html",
-            "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication."
+            "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication.",
+            "resolved": true,
+            "resolution": "School-linked Odem-Edroy ISD box office event 354 confirms Friday Nov. 13, 2026 at 7:30 p.m. CST, Odem HS, 1 Owl Square, Odem; San Diego is HOME and Mathis VISITOR. Gates open at 6:30, separately from kickoff. The selected Owl Stadium name remains from the earlier schedule; the ticket page names Odem HS rather than the stadium. The Mathis ISD homepage links this box office. Open GET TICKETS for event 354 to read the explicit CST label; no tickets were selected or purchased.",
+            "resolutionSourceUrl": "https://events.hometownticketing.com/boxoffice/odemedroy/L2VtYmVkL2FsbA=="
           },
           {
             "field": "localTime",
             "value": "19:00 CST",
             "sourceUrl": "https://www.maxpreps.com/tx/football/game/mathis-vs-san-diego/11-13-2026/?c=a7b77c90-65e5-424f-ad2f-3a8df22e55d4",
             "note": "New kickoff discrepancy: selected AP/capsule is 19:30; school or ticketing confirmation required.",
-            "resolved": false
+            "resolved": true,
+            "resolution": "School-linked Odem-Edroy ISD box office event 354 confirms Friday Nov. 13, 2026 at 7:30 p.m. CST, Odem HS, 1 Owl Square, Odem; San Diego is HOME and Mathis VISITOR. Gates open at 6:30, separately from kickoff. The selected Owl Stadium name remains from the earlier schedule; the ticket page names Odem HS rather than the stadium. The Mathis ISD homepage links this box office. Open GET TICKETS for event 354 to read the explicit CST label; no tickets were selected or purchased.",
+            "resolutionSourceUrl": "https://events.hometownticketing.com/boxoffice/odemedroy/L2VtYmVkL2FsbA=="
           }
         ],
         "notes": [],
@@ -14936,15 +14992,26 @@
             "sourceUrl": "https://www.maxpreps.com/tx/football/game/mathis-vs-san-diego/11-13-2026/?c=a7b77c90-65e5-424f-ad2f-3a8df22e55d4",
             "retrievalStatus": "search-result-reviewed",
             "summary": "Game listing gives Nov. 13 at 19:00 CST at Odem Owl Stadium, contrary to selected 19:30. Do not resolve this kickoff by majority vote."
+          },
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Odem-Edroy ISD host box office linked by Mathis ISD",
+            "sourceUrl": "https://events.hometownticketing.com/boxoffice/odemedroy/L2VtYmVkL2FsbA==",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "School-linked Odem-Edroy ISD box office event 354 confirms Friday Nov. 13, 2026 at 7:30 p.m. CST, Odem HS, 1 Owl Square, Odem; San Diego is HOME and Mathis VISITOR. Gates open at 6:30, separately from kickoff. The selected Owl Stadium name remains from the earlier schedule; the ticket page names Odem HS rather than the stadium. The Mathis ISD homepage links this box office. Open GET TICKETS for event 354 to read the explicit CST label; no tickets were selected or purchased."
           }
-        ]
+        ],
+        "homeAwayEvidence": {
+          "homeTeam": "San Diego",
+          "awayTeam": "Mathis",
+          "sourceUrl": "https://events.hometownticketing.com/boxoffice/odemedroy/L2VtYmVkL2FsbA==",
+          "reviewStatus": "school-linked-ticket-designation-confirmed"
+        },
+        "readyForPublication": false
       },
       "structuralValidationPassed": true,
       "publicationIssues": [
-        "explicit timezone confirmation",
-        "resolve conflicting information",
-        "resolve conflicting kickoff",
-        "timezone offset is inferred; confirm source timezone",
+        "exact stadium name not corroborated by current primary event",
         "independent source verification still required",
         "explicit neutral-site designation not verified",
         "review recorded source discrepancies and resolution notes",
@@ -14976,8 +15043,8 @@
         "localTime": "19:00",
         "kickoff": "2026-11-13T19:00:00-06:00",
         "proposedKickoff": "2026-11-13T19:00:00-06:00",
-        "timeZone": null,
-        "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+        "timeZone": "America/Chicago",
+        "timeZoneBasis": "Official school calendar export explicitly sets ctz=US/Central for Nov. 13, 2026; November Central Standard Time is UTC-06:00",
         "venue": "Veterans Stadium",
         "city": "Marion",
         "neutralSite": null,
@@ -14989,18 +15056,30 @@
         "retrievedDate": "2026-11-10",
         "verificationStatus": "partial",
         "missingInformation": [
-          "explicit timezone confirmation",
-          "resolve conflicting information"
+          "exact stadium name not corroborated by current primary event"
         ],
         "conflicts": [
           {
             "field": "date",
             "value": "2026-11-12",
             "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-playoff-200604439.html",
-            "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication."
+            "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication.",
+            "resolved": true,
+            "resolution": "Participating-school Hondo calendar event 61303091 explicitly lists V FB Playoff @ Marion (7pm), Nov. 13, 2026, 7 to 10 p.m., Marion High School, 506 Bulldog Ln, Marion TX 78124. Its Copy to Google Calendar link encodes the same 19:00 local start with ctz=US/Central. This confirms date/time and school location, not the exact Veterans Stadium name or an explicit neutral-site designation.",
+            "resolutionSourceUrl": "https://hs.hondoisd.net/apps/events/2026/11/13/61303091/?id=0"
           }
         ],
         "notes": [],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Hondo High School official calendar event",
+            "sourceUrl": "https://hs.hondoisd.net/apps/events/2026/11/13/61303091/?id=0",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Participating-school Hondo calendar event 61303091 explicitly lists V FB Playoff @ Marion (7pm), Nov. 13, 2026, 7 to 10 p.m., Marion High School, 506 Bulldog Ln, Marion TX 78124. Its Copy to Google Calendar link encodes the same 19:00 local start with ctz=US/Central. This confirms date/time and school location, not the exact Veterans Stadium name or an explicit neutral-site designation."
+          }
+        ],
+        "readyForPublication": false,
         "schoolSlugs": [
           null,
           null
@@ -15016,10 +15095,10 @@
         ],
         "date": "2026-11-13",
         "localTime": "19:00",
-        "kickoff": null,
+        "kickoff": "2026-11-13T19:00:00-06:00",
         "proposedKickoff": "2026-11-13T19:00:00-06:00",
-        "timeZone": null,
-        "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+        "timeZone": "America/Chicago",
+        "timeZoneBasis": "Official school calendar export explicitly sets ctz=US/Central for Nov. 13, 2026; November Central Standard Time is UTC-06:00",
         "venue": "Veterans Stadium",
         "city": "Marion",
         "neutralSite": null,
@@ -15031,24 +15110,34 @@
         "retrievedDate": "2026-11-10",
         "verificationStatus": "partial",
         "missingInformation": [
-          "explicit timezone confirmation",
-          "resolve conflicting information"
+          "exact stadium name not corroborated by current primary event"
         ],
         "conflicts": [
           {
             "field": "date",
             "value": "2026-11-12",
             "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-playoff-200604439.html",
-            "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication."
+            "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication.",
+            "resolved": true,
+            "resolution": "Participating-school Hondo calendar event 61303091 explicitly lists V FB Playoff @ Marion (7pm), Nov. 13, 2026, 7 to 10 p.m., Marion High School, 506 Bulldog Ln, Marion TX 78124. Its Copy to Google Calendar link encodes the same 19:00 local start with ctz=US/Central. This confirms date/time and school location, not the exact Veterans Stadium name or an explicit neutral-site designation.",
+            "resolutionSourceUrl": "https://hs.hondoisd.net/apps/events/2026/11/13/61303091/?id=0"
           }
         ],
-        "notes": []
+        "notes": [],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Hondo High School official calendar event",
+            "sourceUrl": "https://hs.hondoisd.net/apps/events/2026/11/13/61303091/?id=0",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Participating-school Hondo calendar event 61303091 explicitly lists V FB Playoff @ Marion (7pm), Nov. 13, 2026, 7 to 10 p.m., Marion High School, 506 Bulldog Ln, Marion TX 78124. Its Copy to Google Calendar link encodes the same 19:00 local start with ctz=US/Central. This confirms date/time and school location, not the exact Veterans Stadium name or an explicit neutral-site designation."
+          }
+        ],
+        "readyForPublication": false
       },
       "structuralValidationPassed": true,
       "publicationIssues": [
-        "explicit timezone confirmation",
-        "resolve conflicting information",
-        "timezone offset is inferred; confirm source timezone",
+        "exact stadium name not corroborated by current primary event",
         "independent source verification still required",
         "explicit neutral-site designation not verified",
         "review recorded source discrepancies and resolution notes",
@@ -15077,38 +15166,40 @@
           "Trinity Leadership"
         ],
         "date": "2026-11-12",
-        "localTime": "19:00",
-        "kickoff": "2026-11-12T19:00:00-06:00",
-        "proposedKickoff": "2026-11-12T19:00:00-06:00",
-        "timeZone": null,
-        "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+        "localTime": "19:30",
+        "kickoff": "2026-11-12T19:30:00-06:00",
+        "proposedKickoff": "2026-11-12T19:30:00-06:00",
+        "timeZone": "America/Chicago",
+        "timeZoneBasis": "Host ticket event explicitly states CST; November CST is UTC-06:00",
         "venue": "Knight Stadium",
         "city": "Fort Worth",
         "neutralSite": null,
         "neutralSiteBasis": "not explicitly verified",
-        "sourceLabel": "Associated Press / Winnipeg Free Press",
-        "sourceUrl": "https://www.winnipegfreepress.com/uncategorized/2026/11/08/texas-high-school-football-playoff-pairings-12",
+        "sourceLabel": "Eagle Mountain-Saginaw ISD host box office",
+        "sourceUrl": "https://events.hometownticketing.com/boxoffice/eaglemountain/L2VtYmVkL2V2ZW50LzMyNjc%3D",
         "sourcePublicationDate": null,
         "sourceUpdatedDate": null,
-        "retrievedDate": "2026-11-10",
-        "verificationStatus": "partial",
-        "missingInformation": [
-          "explicit timezone confirmation",
-          "resolve conflicting information"
-        ],
+        "retrievedDate": "2026-11-11",
+        "verificationStatus": "source-verified",
+        "missingInformation": [],
         "conflicts": [
           {
             "field": "date/time",
             "value": "Thu11/13 19:30",
             "sourceUrl": "https://txhsfb.net/?p=29290",
-            "note": "Internally inconsistent weekday/date; AP says ThursdayNov12 19:00. Do not guess."
+            "note": "Internally inconsistent weekday/date; AP says ThursdayNov12 19:00. Do not guess.",
+            "resolved": true,
+            "resolution": "Eagle Mountain-Saginaw ISD host box office event 3267 confirms Thursday Nov. 12, 2026 at 7:30 p.m. CST at Eagle Mountain High School Knight Stadium, 3451 Bonds Ranch Rd. The event description separately states varsity at 7:30 p.m. No designated home/visitor or explicit neutral-site statement is supplied.",
+            "resolutionSourceUrl": "https://events.hometownticketing.com/boxoffice/eaglemountain/L2VtYmVkL2V2ZW50LzMyNjc%3D"
           },
           {
             "field": "localTime",
             "value": "19:30",
             "sourceUrl": "https://www.maxpreps.com/tx/cedar-hill/trinity-leadership-tigers/football/schedule/",
             "note": "Current team schedule agrees with 19:30 but selected AP says 19:00; unresolved without primary confirmation.",
-            "resolved": false
+            "resolved": true,
+            "resolution": "Eagle Mountain-Saginaw ISD host box office event 3267 confirms Thursday Nov. 12, 2026 at 7:30 p.m. CST at Eagle Mountain High School Knight Stadium, 3451 Bonds Ranch Rd. The event description separately states varsity at 7:30 p.m. No designated home/visitor or explicit neutral-site statement is supplied.",
+            "resolutionSourceUrl": "https://events.hometownticketing.com/boxoffice/eaglemountain/L2VtYmVkL2V2ZW50LzMyNjc%3D"
           }
         ],
         "notes": [],
@@ -15119,8 +15210,26 @@
             "sourceUrl": "https://www.maxpreps.com/tx/cedar-hill/trinity-leadership-tigers/football/schedule/",
             "retrievalStatus": "search-result-reviewed",
             "summary": "Current schedule lists Nov. 12 at 19:30 and labels the game neutral; this conflicts with selected AP 19:00. Participating school or host confirmation still required."
+          },
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Eagle Mountain-Saginaw ISD host box office",
+            "sourceUrl": "https://events.hometownticketing.com/boxoffice/eaglemountain/L2VtYmVkL2V2ZW50LzMyNjc%3D",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Eagle Mountain-Saginaw ISD host box office event 3267 confirms Thursday Nov. 12, 2026 at 7:30 p.m. CST at Eagle Mountain High School Knight Stadium, 3451 Bonds Ranch Rd. The event description separately states varsity at 7:30 p.m. No designated home/visitor or explicit neutral-site statement is supplied."
           }
         ],
+        "readyForPublication": false,
+        "previousSelectedSource": {
+          "sourceLabel": "Associated Press / Winnipeg Free Press",
+          "sourceUrl": "https://www.winnipegfreepress.com/uncategorized/2026/11/08/texas-high-school-football-playoff-pairings-12",
+          "sourcePublicationDate": null,
+          "retrievedDate": "2026-11-10",
+          "date": "2026-11-12",
+          "localTime": "19:00",
+          "venue": "Knight Stadium",
+          "city": "Fort Worth"
+        },
         "schoolSlugs": [
           "millsap",
           null
@@ -15135,38 +15244,40 @@
           "Trinity Leadership"
         ],
         "date": "2026-11-12",
-        "localTime": "19:00",
-        "kickoff": null,
-        "proposedKickoff": "2026-11-12T19:00:00-06:00",
-        "timeZone": null,
-        "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+        "localTime": "19:30",
+        "kickoff": "2026-11-12T19:30:00-06:00",
+        "proposedKickoff": "2026-11-12T19:30:00-06:00",
+        "timeZone": "America/Chicago",
+        "timeZoneBasis": "Host ticket event explicitly states CST; November CST is UTC-06:00",
         "venue": "Knight Stadium",
         "city": "Fort Worth",
         "neutralSite": null,
         "neutralSiteBasis": "not explicitly verified",
-        "sourceLabel": "Associated Press / Winnipeg Free Press",
-        "sourceUrl": "https://www.winnipegfreepress.com/uncategorized/2026/11/08/texas-high-school-football-playoff-pairings-12",
+        "sourceLabel": "Eagle Mountain-Saginaw ISD host box office",
+        "sourceUrl": "https://events.hometownticketing.com/boxoffice/eaglemountain/L2VtYmVkL2V2ZW50LzMyNjc%3D",
         "sourcePublicationDate": null,
         "sourceUpdatedDate": null,
-        "retrievedDate": "2026-11-10",
-        "verificationStatus": "partial",
-        "missingInformation": [
-          "explicit timezone confirmation",
-          "resolve conflicting information"
-        ],
+        "retrievedDate": "2026-11-11",
+        "verificationStatus": "source-verified",
+        "missingInformation": [],
         "conflicts": [
           {
             "field": "date/time",
             "value": "Thu11/13 19:30",
             "sourceUrl": "https://txhsfb.net/?p=29290",
-            "note": "Internally inconsistent weekday/date; AP says ThursdayNov12 19:00. Do not guess."
+            "note": "Internally inconsistent weekday/date; AP says ThursdayNov12 19:00. Do not guess.",
+            "resolved": true,
+            "resolution": "Eagle Mountain-Saginaw ISD host box office event 3267 confirms Thursday Nov. 12, 2026 at 7:30 p.m. CST at Eagle Mountain High School Knight Stadium, 3451 Bonds Ranch Rd. The event description separately states varsity at 7:30 p.m. No designated home/visitor or explicit neutral-site statement is supplied.",
+            "resolutionSourceUrl": "https://events.hometownticketing.com/boxoffice/eaglemountain/L2VtYmVkL2V2ZW50LzMyNjc%3D"
           },
           {
             "field": "localTime",
             "value": "19:30",
             "sourceUrl": "https://www.maxpreps.com/tx/cedar-hill/trinity-leadership-tigers/football/schedule/",
             "note": "Current team schedule agrees with 19:30 but selected AP says 19:00; unresolved without primary confirmation.",
-            "resolved": false
+            "resolved": true,
+            "resolution": "Eagle Mountain-Saginaw ISD host box office event 3267 confirms Thursday Nov. 12, 2026 at 7:30 p.m. CST at Eagle Mountain High School Knight Stadium, 3451 Bonds Ranch Rd. The event description separately states varsity at 7:30 p.m. No designated home/visitor or explicit neutral-site statement is supplied.",
+            "resolutionSourceUrl": "https://events.hometownticketing.com/boxoffice/eaglemountain/L2VtYmVkL2V2ZW50LzMyNjc%3D"
           }
         ],
         "notes": [],
@@ -15177,15 +15288,29 @@
             "sourceUrl": "https://www.maxpreps.com/tx/cedar-hill/trinity-leadership-tigers/football/schedule/",
             "retrievalStatus": "search-result-reviewed",
             "summary": "Current schedule lists Nov. 12 at 19:30 and labels the game neutral; this conflicts with selected AP 19:00. Participating school or host confirmation still required."
+          },
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Eagle Mountain-Saginaw ISD host box office",
+            "sourceUrl": "https://events.hometownticketing.com/boxoffice/eaglemountain/L2VtYmVkL2V2ZW50LzMyNjc%3D",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Eagle Mountain-Saginaw ISD host box office event 3267 confirms Thursday Nov. 12, 2026 at 7:30 p.m. CST at Eagle Mountain High School Knight Stadium, 3451 Bonds Ranch Rd. The event description separately states varsity at 7:30 p.m. No designated home/visitor or explicit neutral-site statement is supplied."
           }
-        ]
+        ],
+        "readyForPublication": false,
+        "previousSelectedSource": {
+          "sourceLabel": "Associated Press / Winnipeg Free Press",
+          "sourceUrl": "https://www.winnipegfreepress.com/uncategorized/2026/11/08/texas-high-school-football-playoff-pairings-12",
+          "sourcePublicationDate": null,
+          "retrievedDate": "2026-11-10",
+          "date": "2026-11-12",
+          "localTime": "19:00",
+          "venue": "Knight Stadium",
+          "city": "Fort Worth"
+        }
       },
       "structuralValidationPassed": true,
       "publicationIssues": [
-        "explicit timezone confirmation",
-        "resolve conflicting information",
-        "timezone offset is inferred; confirm source timezone",
-        "independent source verification still required",
         "explicit neutral-site designation not verified",
         "review recorded source discrepancies and resolution notes",
         "school slug requires manual identity reconciliation"
@@ -15302,28 +15427,28 @@
         "localTime": "19:30",
         "kickoff": "2026-11-13T19:30:00-06:00",
         "proposedKickoff": "2026-11-13T19:30:00-06:00",
-        "timeZone": null,
-        "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
-        "venue": "Kimbrough Stadium",
+        "timeZone": "America/Chicago",
+        "timeZoneBasis": "Host ticket event explicitly states CST; November CST is UTC-06:00",
+        "venue": "Tom Kimbrough Stadium",
         "city": "Murphy",
         "neutralSite": null,
         "neutralSiteBasis": "not explicitly verified",
-        "sourceLabel": "Associated Press / Winnipeg Free Press",
-        "sourceUrl": "https://www.winnipegfreepress.com/uncategorized/2026/11/08/texas-high-school-football-playoff-pairings-12",
+        "sourceLabel": "Plano ISD host box office and Lone Oak official athletics",
+        "sourceUrl": "https://events.hometownticketing.com/boxoffice/planoisd/L2VtYmVkL2V2ZW50Lzg3NzU=",
         "sourcePublicationDate": null,
         "sourceUpdatedDate": null,
-        "retrievedDate": "2026-11-10",
-        "verificationStatus": "partial",
-        "missingInformation": [
-          "explicit timezone confirmation",
-          "resolve conflicting information"
-        ],
+        "retrievedDate": "2026-11-11",
+        "verificationStatus": "source-verified",
+        "missingInformation": [],
         "conflicts": [
           {
             "field": "city",
             "value": "Plano",
             "sourceUrl": "https://txhsfb.net/?p=29290",
-            "note": "AP lists Murphy; schedule lists Plano. Verify stadium identity/city."
+            "note": "AP lists Murphy; schedule lists Plano. Verify stadium identity/city.",
+            "resolved": true,
+            "resolution": "Plano ISD host box office event 8775 confirms Friday Nov. 13, 2026 at 7:30 p.m. CST at Tom Kimbrough Stadium, 700 N. Murphy Road, Murphy TX 75094. The title explicitly designates Lone Oak HOME and Bells Visitor. Lone Oak official athletics links the exact event. The school announcement is now directly visible and agrees with the host. Neither labels the game neutral.",
+            "resolutionSourceUrl": "https://events.hometownticketing.com/boxoffice/planoisd/L2VtYmVkL2V2ZW50Lzg3NzU="
           }
         ],
         "notes": [],
@@ -15334,8 +15459,32 @@
             "sourceUrl": "https://www.loneoakbuffaloes.com/sport/football/boys/",
             "retrievalStatus": "search-index-only; opened-page-stale",
             "summary": "Indexed Nov. 9 announcement supports Nov. 13 19:30, Tom Kimbrough Stadium, 700 N. Murphy Road, Murphy. Opened page returned older content without this announcement; direct current-page confirmation remains required."
+          },
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Plano ISD host box office and Lone Oak official athletics",
+            "sourceUrl": "https://events.hometownticketing.com/boxoffice/planoisd/L2VtYmVkL2V2ZW50Lzg3NzU=",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Plano ISD host box office event 8775 confirms Friday Nov. 13, 2026 at 7:30 p.m. CST at Tom Kimbrough Stadium, 700 N. Murphy Road, Murphy TX 75094. The title explicitly designates Lone Oak HOME and Bells Visitor. Lone Oak official athletics links the exact event. The school announcement is now directly visible and agrees with the host. Neither labels the game neutral."
           }
         ],
+        "homeAwayEvidence": {
+          "homeTeam": "Lone Oak",
+          "awayTeam": "Bells",
+          "sourceUrl": "https://events.hometownticketing.com/boxoffice/planoisd/L2VtYmVkL2V2ZW50Lzg3NzU=",
+          "reviewStatus": "school-linked-ticket-designation-confirmed"
+        },
+        "readyForPublication": false,
+        "previousSelectedSource": {
+          "sourceLabel": "Associated Press / Winnipeg Free Press",
+          "sourceUrl": "https://www.winnipegfreepress.com/uncategorized/2026/11/08/texas-high-school-football-playoff-pairings-12",
+          "sourcePublicationDate": null,
+          "retrievedDate": "2026-11-10",
+          "date": "2026-11-13",
+          "localTime": "19:30",
+          "venue": "Kimbrough Stadium",
+          "city": "Murphy"
+        },
         "schoolSlugs": [
           null,
           null
@@ -15351,30 +15500,30 @@
         ],
         "date": "2026-11-13",
         "localTime": "19:30",
-        "kickoff": null,
+        "kickoff": "2026-11-13T19:30:00-06:00",
         "proposedKickoff": "2026-11-13T19:30:00-06:00",
-        "timeZone": null,
-        "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
-        "venue": "Kimbrough Stadium",
+        "timeZone": "America/Chicago",
+        "timeZoneBasis": "Host ticket event explicitly states CST; November CST is UTC-06:00",
+        "venue": "Tom Kimbrough Stadium",
         "city": "Murphy",
         "neutralSite": null,
         "neutralSiteBasis": "not explicitly verified",
-        "sourceLabel": "Associated Press / Winnipeg Free Press",
-        "sourceUrl": "https://www.winnipegfreepress.com/uncategorized/2026/11/08/texas-high-school-football-playoff-pairings-12",
+        "sourceLabel": "Plano ISD host box office and Lone Oak official athletics",
+        "sourceUrl": "https://events.hometownticketing.com/boxoffice/planoisd/L2VtYmVkL2V2ZW50Lzg3NzU=",
         "sourcePublicationDate": null,
         "sourceUpdatedDate": null,
-        "retrievedDate": "2026-11-10",
-        "verificationStatus": "partial",
-        "missingInformation": [
-          "explicit timezone confirmation",
-          "resolve conflicting information"
-        ],
+        "retrievedDate": "2026-11-11",
+        "verificationStatus": "source-verified",
+        "missingInformation": [],
         "conflicts": [
           {
             "field": "city",
             "value": "Plano",
             "sourceUrl": "https://txhsfb.net/?p=29290",
-            "note": "AP lists Murphy; schedule lists Plano. Verify stadium identity/city."
+            "note": "AP lists Murphy; schedule lists Plano. Verify stadium identity/city.",
+            "resolved": true,
+            "resolution": "Plano ISD host box office event 8775 confirms Friday Nov. 13, 2026 at 7:30 p.m. CST at Tom Kimbrough Stadium, 700 N. Murphy Road, Murphy TX 75094. The title explicitly designates Lone Oak HOME and Bells Visitor. Lone Oak official athletics links the exact event. The school announcement is now directly visible and agrees with the host. Neither labels the game neutral.",
+            "resolutionSourceUrl": "https://events.hometownticketing.com/boxoffice/planoisd/L2VtYmVkL2V2ZW50Lzg3NzU="
           }
         ],
         "notes": [],
@@ -15385,15 +15534,35 @@
             "sourceUrl": "https://www.loneoakbuffaloes.com/sport/football/boys/",
             "retrievalStatus": "search-index-only; opened-page-stale",
             "summary": "Indexed Nov. 9 announcement supports Nov. 13 19:30, Tom Kimbrough Stadium, 700 N. Murphy Road, Murphy. Opened page returned older content without this announcement; direct current-page confirmation remains required."
+          },
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Plano ISD host box office and Lone Oak official athletics",
+            "sourceUrl": "https://events.hometownticketing.com/boxoffice/planoisd/L2VtYmVkL2V2ZW50Lzg3NzU=",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Plano ISD host box office event 8775 confirms Friday Nov. 13, 2026 at 7:30 p.m. CST at Tom Kimbrough Stadium, 700 N. Murphy Road, Murphy TX 75094. The title explicitly designates Lone Oak HOME and Bells Visitor. Lone Oak official athletics links the exact event. The school announcement is now directly visible and agrees with the host. Neither labels the game neutral."
           }
-        ]
+        ],
+        "homeAwayEvidence": {
+          "homeTeam": "Lone Oak",
+          "awayTeam": "Bells",
+          "sourceUrl": "https://events.hometownticketing.com/boxoffice/planoisd/L2VtYmVkL2V2ZW50Lzg3NzU=",
+          "reviewStatus": "school-linked-ticket-designation-confirmed"
+        },
+        "readyForPublication": false,
+        "previousSelectedSource": {
+          "sourceLabel": "Associated Press / Winnipeg Free Press",
+          "sourceUrl": "https://www.winnipegfreepress.com/uncategorized/2026/11/08/texas-high-school-football-playoff-pairings-12",
+          "sourcePublicationDate": null,
+          "retrievedDate": "2026-11-10",
+          "date": "2026-11-13",
+          "localTime": "19:30",
+          "venue": "Kimbrough Stadium",
+          "city": "Murphy"
+        }
       },
       "structuralValidationPassed": true,
       "publicationIssues": [
-        "explicit timezone confirmation",
-        "resolve conflicting information",
-        "timezone offset is inferred; confirm source timezone",
-        "independent source verification still required",
         "explicit neutral-site designation not verified",
         "review recorded source discrepancies and resolution notes",
         "school slug requires manual identity reconciliation"
@@ -16555,18 +16724,36 @@
         "retrievedDate": "2026-11-10",
         "verificationStatus": "partial",
         "missingInformation": [
-          "explicit timezone confirmation",
-          "resolve conflicting information"
+          "explicit timezone confirmation"
         ],
         "conflicts": [
           {
             "field": "city",
             "value": "Plano",
             "sourceUrl": "https://txhsfb.net/?p=29354",
-            "note": "Capsule says Clark Stadium Plano; DCTF says Clark Stadium Fort Worth. Resolve venue before publication."
+            "note": "Capsule says Clark Stadium Plano; DCTF says Clark Stadium Fort Worth. Resolve venue before publication.",
+            "resolved": true,
+            "resolution": "Southwest official athletics links its GoFan school page TX16169; that page lists Southwest Raiders vs Lincoln Tigers as a Home varsity football event Thursday Nov. 12 at 7 p.m. The exact event 7050655 confirms Nov. 12, 2026 at 7 p.m., Clark, 5201 Ca Roberson, Fort Worth TX 76112. No explicit timezone or neutral-site statement appears on the event.",
+            "resolutionSourceUrl": "https://gofan.co/event/7050655?schoolId=TX16169"
           }
         ],
         "notes": [],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Southwest official athletics linked GoFan event",
+            "sourceUrl": "https://gofan.co/event/7050655?schoolId=TX16169",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Southwest official athletics links its GoFan school page TX16169; that page lists Southwest Raiders vs Lincoln Tigers as a Home varsity football event Thursday Nov. 12 at 7 p.m. The exact event 7050655 confirms Nov. 12, 2026 at 7 p.m., Clark, 5201 Ca Roberson, Fort Worth TX 76112. No explicit timezone or neutral-site statement appears on the event."
+          }
+        ],
+        "homeAwayEvidence": {
+          "homeTeam": "Southwest",
+          "awayTeam": "Lincoln",
+          "sourceUrl": "https://gofan.co/event/7050655?schoolId=TX16169",
+          "reviewStatus": "school-linked-ticket-designation-confirmed"
+        },
+        "readyForPublication": false,
         "schoolSlugs": [
           null,
           null
@@ -16597,23 +16784,40 @@
         "retrievedDate": "2026-11-10",
         "verificationStatus": "partial",
         "missingInformation": [
-          "explicit timezone confirmation",
-          "resolve conflicting information"
+          "explicit timezone confirmation"
         ],
         "conflicts": [
           {
             "field": "city",
             "value": "Plano",
             "sourceUrl": "https://txhsfb.net/?p=29354",
-            "note": "Capsule says Clark Stadium Plano; DCTF says Clark Stadium Fort Worth. Resolve venue before publication."
+            "note": "Capsule says Clark Stadium Plano; DCTF says Clark Stadium Fort Worth. Resolve venue before publication.",
+            "resolved": true,
+            "resolution": "Southwest official athletics links its GoFan school page TX16169; that page lists Southwest Raiders vs Lincoln Tigers as a Home varsity football event Thursday Nov. 12 at 7 p.m. The exact event 7050655 confirms Nov. 12, 2026 at 7 p.m., Clark, 5201 Ca Roberson, Fort Worth TX 76112. No explicit timezone or neutral-site statement appears on the event.",
+            "resolutionSourceUrl": "https://gofan.co/event/7050655?schoolId=TX16169"
           }
         ],
-        "notes": []
+        "notes": [],
+        "followUpEvidence": [
+          {
+            "reviewedDate": "2026-11-11",
+            "sourceLabel": "Southwest official athletics linked GoFan event",
+            "sourceUrl": "https://gofan.co/event/7050655?schoolId=TX16169",
+            "retrievalStatus": "live-browser-page-reviewed",
+            "summary": "Southwest official athletics links its GoFan school page TX16169; that page lists Southwest Raiders vs Lincoln Tigers as a Home varsity football event Thursday Nov. 12 at 7 p.m. The exact event 7050655 confirms Nov. 12, 2026 at 7 p.m., Clark, 5201 Ca Roberson, Fort Worth TX 76112. No explicit timezone or neutral-site statement appears on the event."
+          }
+        ],
+        "homeAwayEvidence": {
+          "homeTeam": "Southwest",
+          "awayTeam": "Lincoln",
+          "sourceUrl": "https://gofan.co/event/7050655?schoolId=TX16169",
+          "reviewStatus": "school-linked-ticket-designation-confirmed"
+        },
+        "readyForPublication": false
       },
       "structuralValidationPassed": true,
       "publicationIssues": [
         "explicit timezone confirmation",
-        "resolve conflicting information",
         "timezone offset is inferred; confirm source timezone",
         "independent source verification still required",
         "explicit neutral-site designation not verified",
