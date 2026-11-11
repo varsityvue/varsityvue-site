@@ -3,6 +3,8 @@ import test from "node:test";
 import { getStandingForSchoolFromGames } from "./standings";
 import { verifiedWinner } from "./playoff-bracket-advancement";
 import { getGamePresentation } from "./game-presentation";
+import { orderPlayedFinals } from "./recent-results";
+import { getSchoolScoringAverages } from "./school-scoring-averages";
 import { getDistrictCoveragePresentation } from "./district-coverage-presentation";
 import type { Game } from "../types/platform";
 
@@ -57,4 +59,20 @@ test("planned district coverage distinguishes missing results from an unstarted 
   assert.equal(getDistrictCoveragePresentation("planned", true).statusValue, "Partial Results");
   assert.equal(getDistrictCoveragePresentation("pilot", false).statusValue, "Not Started");
   assert.equal(getDistrictCoveragePresentation("pilot", true).notice, null);
+});
+
+
+test("pending and exceptional playoff outcomes never leak into played-result summaries or scoring averages", () => {
+  for (const game of [
+    final,
+    { ...final, publicScoreVerified: true, resultType: "no_contest" as const },
+    { ...final, publicScoreVerified: true, resultType: "forfeit" as const, officialWinnerSchoolSlug: "floydada" },
+    ...[NaN, Infinity, -1, 1.5].map((homeScore) => ({ ...final, publicScoreVerified: true, homeScore })),
+  ]) {
+    assert.equal(orderPlayedFinals([game]).length, 0);
+    assert.equal(getSchoolScoringAverages("panhandle", [game]).scoredGames, 0);
+  }
+  const verified = { ...final, publicScoreVerified: true };
+  assert.equal(orderPlayedFinals([verified]).length, 1);
+  assert.equal(getSchoolScoringAverages("panhandle", [verified]).pointsPerGame, 21);
 });

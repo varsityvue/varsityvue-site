@@ -10,6 +10,7 @@ import { getGamePresentation } from "@/lib/game-presentation";
 import type { Game } from "@/types/platform";
 import type { SchoolTheme } from "@/types/school-theme";
 import SchoolBadge from "./SchoolBadge";
+import SchoolSeasonOverview from "./SchoolSeasonOverview";
 
 const CENTRAL_TIME_ZONE = "America/Chicago";
 
@@ -86,8 +87,6 @@ export default async function SchoolSeasonPulse({
   const verifiedStanding = getStandingForSchoolFromGames(schoolSlug, games);
 
   const summary = finals.reduce<{
-    calculatedWins: number;
-    calculatedLosses: number;
     pointsFor: number;
     pointsAgainst: number;
     recentResults: ("W" | "L" | "T")[];
@@ -97,18 +96,14 @@ export default async function SchoolSeasonPulse({
       if (score.team === undefined || score.opponent === undefined) return current;
       const result = score.team > score.opponent ? "W" : score.team < score.opponent ? "L" : "T";
       return {
-        calculatedWins: current.calculatedWins + (result === "W" ? 1 : 0),
-        calculatedLosses: current.calculatedLosses + (result === "L" ? 1 : 0),
         pointsFor: current.pointsFor + score.team,
         pointsAgainst: current.pointsAgainst + score.opponent,
         recentResults: [...current.recentResults, result],
       };
     },
-    { calculatedWins: 0, calculatedLosses: 0, pointsFor: 0, pointsAgainst: 0, recentResults: [] }
+    { pointsFor: 0, pointsAgainst: 0, recentResults: [] }
   );
 
-  const wins = verifiedStanding?.overallWins ?? summary.calculatedWins;
-  const losses = verifiedStanding?.overallLosses ?? summary.calculatedLosses;
   const hasScoringData = finals.length > 0;
 
   const featuredOpponent = featuredGame ? getOpponent(featuredGame, schoolSlug) : null;
@@ -123,10 +118,7 @@ export default async function SchoolSeasonPulse({
 
   return (
     <section className="grid gap-3 sm:gap-4 lg:block">
-      <div className="overflow-hidden rounded-[1.5rem] border p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6 lg:max-w-lg" style={{ borderColor: `${theme.primary}55`, background: `linear-gradient(145deg, ${theme.primary}24, rgba(255,255,255,0.035) 42%, rgba(0,0,0,0.98) 78%)`, boxShadow: `inset 4px 0 0 ${theme.primary}, 0 18px 50px rgba(0,0,0,0.4)` }}>
-        <div className="flex items-end justify-between gap-4"><div><p className="text-[9px] font-black uppercase tracking-[0.22em] text-white/45 sm:text-[10px] sm:tracking-[0.24em]">Season Overview</p><p className="mt-1.5 text-4xl font-black tracking-tight text-white sm:mt-3 sm:text-5xl">{wins}-{losses}</p></div>{summary.recentResults.length > 0 && <div className="text-right"><p className="text-[8px] font-black uppercase tracking-[0.14em] text-white/30 sm:text-[10px] sm:tracking-[0.18em]">Last 5</p><div className="mt-1.5 flex justify-end gap-1.5 sm:mt-3 sm:gap-2">{summary.recentResults.slice(-5).map((result, index) => <span key={`${result}-${index}`} className={`flex h-7 w-7 items-center justify-center rounded-full border text-[10px] font-black sm:h-8 sm:w-8 sm:text-xs ${result === "W" ? "border-green-400/30 bg-green-500/15 text-green-300" : result === "L" ? "border-red-400/30 bg-red-500/15 text-red-300" : "border-yellow-400/30 bg-yellow-500/15 text-yellow-200"}`}>{result}</span>)}</div></div>}</div>
-        <div className="mt-3 grid grid-cols-3 gap-2 sm:mt-5"><PulseStat label="PF" value={hasScoringData ? summary.pointsFor.toString() : "—"} /><PulseStat label="PA" value={hasScoringData ? summary.pointsAgainst.toString() : "—"} /><PulseStat label="Diff" value={hasScoringData ? `${summary.pointsFor - summary.pointsAgainst > 0 ? "+" : ""}${summary.pointsFor - summary.pointsAgainst}` : "—"} /></div>
-      </div>
+      <SchoolSeasonOverview theme={theme} standing={verifiedStanding} recentResults={summary.recentResults} pointsFor={summary.pointsFor} pointsAgainst={summary.pointsAgainst} hasScoringData={hasScoringData} />
 
       <div className="relative overflow-hidden rounded-[1.5rem] border p-4 shadow-2xl sm:rounded-[1.75rem] sm:p-6 lg:hidden" style={{ borderColor: featuredPresentation?.kind === "verified_live" ? `${theme.primary}88` : `${theme.secondary}33`, background: featuredPresentation?.kind === "verified_live" ? `linear-gradient(135deg, ${theme.primary}2e, rgba(255,255,255,0.055), rgba(0,0,0,0.96) 66%)` : "linear-gradient(135deg, rgba(255,255,255,0.055), rgba(0,0,0,0.96) 62%)", boxShadow: `0 18px 50px ${theme.primary}18` }}>
         <div className="pointer-events-none absolute inset-0 opacity-20" style={{ background: `radial-gradient(circle at top right, ${theme.primary}, transparent 55%)` }} />
@@ -139,10 +131,6 @@ export default async function SchoolSeasonPulse({
       </div>
     </section>
   );
-}
-
-function PulseStat({ label, value }: { label: string; value: string }) {
-  return <div className="rounded-xl border border-white/10 bg-black/30 p-2.5 sm:rounded-2xl sm:p-3"><p className="text-base font-black text-white sm:text-lg">{value}</p><p className="mt-0.5 text-[8px] font-black uppercase tracking-[0.14em] text-white/30 sm:mt-1 sm:text-[9px] sm:tracking-[0.16em]">{label}</p></div>;
 }
 
 function InfoStat({ label, value }: { label: string; value: string }) {

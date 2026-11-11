@@ -34,4 +34,6 @@ Keep this PR draft and unmerged until record/branding review, deployment checks 
 
 ## Completion-sprint verification — November 11, 2026
 
-The 341 school and 85 district runtime additions exactly match PR #133's latest catalog proposals at `5da0176f88ff06dfba9001b28b61d5dbb3191f17`. No identity or branding proposals changed in that research update. Five additional regressions cover pending/valid/no-contest/malformed/forfeit playoff outcomes and partial planned-district coverage. The planned school and district tables also identify missing results honestly rather than calling the season pre-district. The current full standard suite passes 585 tests; preservation fingerprints remain unchanged.
+The 341 school and 85 district runtime additions exactly match PR #133's latest catalog proposals at `5da0176f88ff06dfba9001b28b61d5dbb3191f17`. No identity or branding proposals changed in that research update. Five additional regressions cover pending/valid/no-contest/malformed/forfeit playoff outcomes and partial planned-district coverage. The planned school and district tables also identify missing results honestly rather than calling the season pre-district. The current full standard suite passes 587 tests; preservation fingerprints remain unchanged.
+
+Final visual QA also verifies the Season Overview unknown-record dash and planned-only responsive school-title sizing. Pending or invalid playoff scores are excluded from played-result summaries and scoring averages, matching standings and bracket safeguards.

@@ -765,6 +765,12 @@ try {
     await catalogPage.getByRole('heading', { name: 'Panhandle', exact: true }).waitFor();
     const recordTile = catalogPage.getByText('2026 Record', { exact: true }).locator('..');
     assert.equal(await recordTile.locator('p').first().innerText(), '—', 'untracked school record stays unknown');
+    const overview = catalogPage.getByText('Season Overview', { exact: true }).locator('..');
+    assert.equal(await overview.locator('p').last().innerText(), '—', 'season overview record stays unknown');
+    if (width === 1280) {
+      const heading = catalogPage.getByRole('heading', { name: 'Panhandle', exact: true });
+      assert.equal(await heading.evaluate(element => element.getBoundingClientRect().height <= Number.parseFloat(getComputedStyle(element).lineHeight) * 1.25), true, 'single-word planned school title fits one desktop line');
+    }
     assert.match(await catalogPage.locator('main').innerText(), /No upcoming game is currently listed/);
     assert.doesNotMatch(await catalogPage.locator('main').innerText(), /Pre-district standings|until district play begins/i);
     assert.equal(await catalogPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `catalog hub overflow at ${width}`);
