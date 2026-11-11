@@ -1580,7 +1580,7 @@ try {
     await catalogPage.getByRole('heading', { name: 'Panhandle', exact: true }).waitFor();
     const recordTile = catalogPage.getByText('2026 Record', { exact: true }).locator('..');
     assert.equal(await recordTile.locator('p').first().innerText(), '—', 'untracked school record stays unknown');
-    assert.match(await catalogPage.locator('main').innerText(), /No game is currently listed/);
+    assert.match(await catalogPage.locator('main').innerText(), /No upcoming game is currently listed/);
     assert.equal(await catalogPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `catalog hub overflow at ${width}`);
     await catalogPage.screenshot({ path: `${evidence}/playoff-catalog-hub-${width}.png`, fullPage: true });
     await catalogPage.goto(origin + '/districts/2a-d1-district-1'); await settled(catalogPage);
