@@ -22,6 +22,7 @@ type StandingsTableProps = {
   theme: SchoolTheme;
   currentSchoolSlug?: string;
   districtHref?: string;
+  coverageIncomplete?: boolean;
 };
 
 // Verified mascot labels for schedule-only District 8 teams that do not yet
@@ -75,7 +76,7 @@ function getStandingPosition(allStandings: Standing[], index: number) {
   return tiedTeams > 1 ? `T-${firstIndex + 1}` : `#${firstIndex + 1}`;
 }
 
-export default function StandingsTable({ standings, theme, currentSchoolSlug, districtHref }: StandingsTableProps) {
+export default function StandingsTable({ standings, theme, currentSchoolSlug, districtHref, coverageIncomplete = false }: StandingsTableProps) {
   const districtStarted = hasDistrictResults(standings);
   const seasonStarted = hasOverallResults(standings);
   const displayed = displayStandings(standings, districtStarted, seasonStarted);
@@ -91,7 +92,7 @@ export default function StandingsTable({ standings, theme, currentSchoolSlug, di
         <div className="rounded-2xl border bg-black/35 p-5 sm:rounded-3xl sm:p-6" style={{ borderColor: `${theme.secondary}33` }}><p className="text-base font-black text-white sm:text-lg">No standings available yet.</p><p className="mt-2 text-sm leading-6 text-white/50">District standings will appear here once verified results are on file.</p></div>
       ) : (
         <>
-          {!districtStarted && <div className="mb-3 flex items-center gap-2.5 rounded-xl border bg-black/30 px-3 py-2.5 sm:mb-4 sm:block sm:rounded-2xl sm:p-4" style={{ borderColor: `${theme.secondary}33` }}><span className="h-2 w-2 shrink-0 rounded-full bg-white/35 sm:hidden" /><div className="min-w-0"><p className="text-xs font-black text-white/80 sm:text-sm sm:text-white">Pre-district standings</p><p className="mt-0.5 text-[10px] leading-4 text-white/40 sm:mt-1 sm:text-sm sm:leading-6">{seasonStarted ? "Ordered by verified overall record where available until district play begins." : "Teams are listed alphabetically until district play begins."}<span className="hidden sm:inline">{seasonStarted ? " Unknown overall records remain unranked rather than being shown as 0-0." : " Rankings will appear once verified district results are available."}</span></p></div></div>}
+          {!districtStarted && <div className="mb-3 flex items-center gap-2.5 rounded-xl border bg-black/30 px-3 py-2.5 sm:mb-4 sm:block sm:rounded-2xl sm:p-4" style={{ borderColor: `${theme.secondary}33` }}><span className="h-2 w-2 shrink-0 rounded-full bg-white/35 sm:hidden" /><div className="min-w-0"><p className="text-xs font-black text-white/80 sm:text-sm sm:text-white">{coverageIncomplete ? "District results pending" : "Pre-district standings"}</p><p className="mt-0.5 text-[10px] leading-4 text-white/40 sm:mt-1 sm:text-sm sm:leading-6">{coverageIncomplete ? "Verified district results are not available for these listed schools. School lists and season records may be incomplete." : seasonStarted ? "Ordered by verified overall record where available until district play begins." : "Teams are listed alphabetically until district play begins."}<span className="hidden sm:inline">{coverageIncomplete ? " Unknown records remain unranked." : seasonStarted ? " Unknown overall records remain unranked rather than being shown as 0-0." : " Rankings will appear once verified district results are available."}</span></p></div></div>}
 
           <div className="overflow-hidden rounded-2xl border bg-black/35 md:hidden" style={{ borderColor: `${theme.secondary}33` }}>
             <div className="grid grid-cols-[minmax(0,1fr)_48px_48px] items-center gap-2 px-3 py-2.5 text-[8px] font-black uppercase tracking-[0.12em] text-white/35" style={{ borderBottom: `2px solid ${theme.primary}` }}><span>Team</span><span className="text-center">Dist</span><span className="text-right">Ovr</span></div>

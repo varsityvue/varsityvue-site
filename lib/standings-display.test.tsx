@@ -56,3 +56,15 @@ test("new catalog schools without records stay unranked after district play has 
   assert.doesNotMatch(html, />#3<|>T-3</);
   assert.equal((html.match(/>New catalog school</g) ?? []).length, 2);
 });
+
+
+test("planned school and district tables do not describe unknown coverage as pre-district play", () => {
+  const unknown = { ...row("Listed school", 0, 0, 0, 0), overallRecordKnown: false };
+  const theme = { primary: "#000000", secondary: "#FFFFFF", accent: "#FFFFFF" };
+  const planned = renderToStaticMarkup(<StandingsTable standings={[unknown]} theme={theme} coverageIncomplete />);
+  assert.match(planned, /District results pending/);
+  assert.match(planned, /School lists and season records may be incomplete/);
+  assert.doesNotMatch(planned, /Pre-district standings|until district play begins|>0-0</);
+  const existing = renderToStaticMarkup(<StandingsTable standings={[unknown]} theme={theme} />);
+  assert.match(existing, /Pre-district standings/);
+});

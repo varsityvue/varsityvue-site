@@ -259,7 +259,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
                 District standings will begin once verified district results are on file. Overall records are shown for context in the meantime.
               </p>
             ) : null}
-            <StandingsTable standings={districtStandings} theme={districtTheme} />
+            <StandingsTable standings={districtStandings} theme={districtTheme} coverageIncomplete={district.status === "planned"} />
 
             <DistrictCoverage districtId={district.id} />
 
