@@ -19,7 +19,7 @@ class CompletionTests(unittest.TestCase):
         master = json.loads((output / 'all-candidates.json').read_text())
         self.assertEqual(master['summary']['total'], 192)
         self.assertEqual(master['summary']['coreScheduleEvidenceComplete'], 53)
-        self.assertEqual(master['summary']['supportedSideMappings'], 22)
+        self.assertEqual(master['summary']['supportedSideMappings'], 23)
         self.assertEqual(sum(bool(r['existingGameId']) for r in master['records']), 7)
         for r in master['records']:
             self.assertFalse(r['executionEnabled'])

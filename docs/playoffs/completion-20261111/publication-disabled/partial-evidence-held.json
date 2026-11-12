@@ -1053,13 +1053,65 @@
           "readyForPublication": false
         },
         "existingSideReview": null,
-        "newEvidence": null
+        "newEvidence": null,
+        "completionSprint": {
+          "bracket": {
+            "division": "2A Division II",
+            "region": "Region II",
+            "slot": 1,
+            "teams": [
+              "Wellington",
+              "Munday"
+            ]
+          },
+          "existingGameId": null,
+          "operation": "proposed-new-record",
+          "coreScheduleEvidenceComplete": false,
+          "supportedFields": {
+            "date": "2026-11-12",
+            "localTime": "19:00",
+            "city": "Childress"
+          },
+          "designatedSides": null,
+          "sources": [
+            {
+              "url": "https://www.wellingtonisd.net/live-feed",
+              "publisher": "Wellington ISD",
+              "author": "Wellington High School",
+              "retrievedDate": "2026-11-11",
+              "publicationDate": null,
+              "publicationRelativeText": "4 days ago (search index)",
+              "retrievalMethod": "search-index-only for playoff post; web open returned stale October feed",
+              "supports": [
+                "indexed school post pairing",
+                "indexed Thursday November 12 at 7 PM",
+                "indexed Childress city"
+              ],
+              "limit": "Current playoff post not independently retrieved by web open; remain held."
+            }
+          ],
+          "conflicts": [],
+          "remainingGaps": [
+            "direct retrieval of primary playoff post",
+            "explicit timezone",
+            "exact stadium primary confirmation",
+            "explicit designated sides",
+            "formal neutrality confirmation",
+            "exact publication approval"
+          ]
+        }
       },
       "publicationBlockers": [
         "exact publication approval not granted",
         "complete source-backed date/time/timezone/venue evidence required",
         "explicit designated home/visitor assignment required",
-        "formal neutral-site status unconfirmed; existing safeguard retained"
+        "formal neutral-site status unconfirmed; existing safeguard retained",
+        "direct retrieval of primary playoff post",
+        "explicit timezone",
+        "exact stadium primary confirmation",
+        "explicit designated sides",
+        "formal neutrality confirmation",
+        "exact publication approval"
       ],
       "writePayload": null
     },
@@ -6131,7 +6183,13 @@
         "venue": "Lion Stadium, Granger, TX",
         "city": "Granger",
         "neutralSite": null,
-        "designatedSides": null
+        "designatedSides": {
+          "homeTeam": "Johnson City",
+          "awayTeam": "Bosqueville",
+          "homeExplicit": false,
+          "awayExplicit": true,
+          "sourceUrl": "https://www.bosquevilleisd.org/live-feed/"
+        }
       },
       "reportedNeutralSiteClaim": {
         "value": null,
@@ -6193,13 +6251,91 @@
           "readyForPublication": false
         },
         "existingSideReview": null,
-        "newEvidence": null
+        "newEvidence": null,
+        "completionSprint": {
+          "bracket": {
+            "division": "2A Division I",
+            "region": "Region II",
+            "slot": 2,
+            "teams": [
+              "Bosqueville",
+              "Johnson City"
+            ]
+          },
+          "existingGameId": null,
+          "operation": "proposed-new-record",
+          "coreScheduleEvidenceComplete": false,
+          "supportedFields": {
+            "localTime": "19:00",
+            "venueScope": "Granger High School campus",
+            "city": "Granger",
+            "awayTeam": "Bosqueville"
+          },
+          "designatedSides": {
+            "homeTeam": "Johnson City",
+            "awayTeam": "Bosqueville",
+            "homeExplicit": false,
+            "awayExplicit": true,
+            "sourceUrl": "https://www.bosquevilleisd.org/live-feed/"
+          },
+          "sources": [
+            {
+              "url": "https://www.bosquevilleisd.org/live-feed/",
+              "publisher": "Bosqueville ISD",
+              "author": "Bosqueville Athletics",
+              "retrievedDate": "2026-11-11",
+              "publicationDate": null,
+              "publicationRelativeText": "1 day ago",
+              "retrievalMethod": "web open; school feed text",
+              "supports": [
+                "pairing",
+                "Granger High School campus location",
+                "7:00 PM local time",
+                "Bosqueville explicitly visiting"
+              ]
+            },
+            {
+              "url": "https://fan.hudl.com/tickets/VGlja2V0ZWRFdmVudDZhZjIwNTMxZTQ2ZjhlYmFmZmM2MDdhZQ==",
+              "publisher": "Granger High School host Hudl ticket event",
+              "retrievedDate": "2026-11-11",
+              "publicationDate": null,
+              "retrievalMethod": "school-linked event web open; JavaScript text only",
+              "supports": [
+                "event title from retrieval metadata only"
+              ],
+              "limit": "No date/time/side fields retrieved on event."
+            },
+            {
+              "url": "https://www.jc.txed.net/events",
+              "publisher": "Johnson City ISD",
+              "retrievedDate": "2026-11-11",
+              "publicationDate": null,
+              "retrievalMethod": "search index then web open",
+              "limit": "Search index names Bi-District Football Playoff vs Bosqueville; web open lacks event content. Do not promote schedule fields."
+            }
+          ],
+          "conflicts": [],
+          "remainingGaps": [
+            "explicit calendar date in new primary source",
+            "explicit timezone",
+            "exact stadium rather than campus",
+            "Johnson City home role explicit confirmation",
+            "formal neutrality confirmation",
+            "exact publication approval"
+          ]
+        }
       },
       "publicationBlockers": [
         "exact publication approval not granted",
         "complete source-backed date/time/timezone/venue evidence required",
         "explicit designated home/visitor assignment required",
-        "formal neutral-site status unconfirmed; existing safeguard retained"
+        "formal neutral-site status unconfirmed; existing safeguard retained",
+        "explicit calendar date in new primary source",
+        "explicit timezone",
+        "exact stadium rather than campus",
+        "Johnson City home role explicit confirmation",
+        "formal neutrality confirmation",
+        "exact publication approval"
       ],
       "writePayload": null
     },
