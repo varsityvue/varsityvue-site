@@ -2917,5 +2917,91 @@
       "reason": "Conflicting November 12/13 date; primary resolution still required."
     }
   ],
-  "runtimeFileSha256": "2b183df93d41c5fdb5eb668d2cba1d9c15a72d54d0060bf2a791b85dfb70cf8f"
+  "existingSiteReconciliations": [
+    {
+      "gameId": "cisco-vs-nocona-2026-bi-district",
+      "before": {
+        "isNeutralSite": true,
+        "designatedSidesConfirmed": null
+      },
+      "after": {
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false
+      },
+      "preservedFields": "All other fields including IDs, opponents, kickoff, venue, scores and results"
+    },
+    {
+      "gameId": "muenster-vs-hawley-2026-bi-district",
+      "before": {
+        "isNeutralSite": true,
+        "designatedSidesConfirmed": null
+      },
+      "after": {
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false
+      },
+      "preservedFields": "All other fields including IDs, opponents, kickoff, venue, scores and results"
+    },
+    {
+      "gameId": "albany-vs-crawford-2026-bi-district",
+      "before": {
+        "isNeutralSite": true,
+        "designatedSidesConfirmed": null
+      },
+      "after": {
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false
+      },
+      "preservedFields": "All other fields including IDs, opponents, kickoff, venue, scores and results"
+    },
+    {
+      "gameId": "goldthwaite-vs-hubbard-2026-bi-district",
+      "before": {
+        "isNeutralSite": true,
+        "designatedSidesConfirmed": null
+      },
+      "after": {
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false
+      },
+      "preservedFields": "All other fields including IDs, opponents, kickoff, venue, scores and results"
+    },
+    {
+      "gameId": "tioga-vs-anson-2026-bi-district",
+      "before": {
+        "isNeutralSite": true,
+        "designatedSidesConfirmed": null
+      },
+      "after": {
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false
+      },
+      "preservedFields": "All other fields including IDs, opponents, kickoff, venue, scores and results"
+    },
+    {
+      "gameId": "de-leon-vs-alvord-2026-bi-district",
+      "before": {
+        "isNeutralSite": true,
+        "designatedSidesConfirmed": null
+      },
+      "after": {
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false
+      },
+      "preservedFields": "All other fields including IDs, opponents, kickoff, venue, scores and results"
+    },
+    {
+      "gameId": "stephenville-vs-navasota-2026-bi-district",
+      "before": {
+        "isNeutralSite": true,
+        "designatedSidesConfirmed": null
+      },
+      "after": {
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false
+      },
+      "preservedFields": "All other fields including IDs, opponents, kickoff, venue, scores and results"
+    }
+  ],
+  "runtimeFileSha256": "724ee6bad9714126c6f62973b9175f06a59ef08646a4f375fa64137074c3049c"
 }

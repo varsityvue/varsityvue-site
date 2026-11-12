@@ -4,8 +4,9 @@ type Site = Pick<Game, "isNeutralSite" | "designatedSidesConfirmed">;
 export function gameSiteLabel(game: Site, isHome: boolean): string {
   if (game.isNeutralSite === true) return "Neutral site";
   if (game.designatedSidesConfirmed === false) return "Matchup";
+  if (game.isNeutralSite === null) return isHome ? "Designated home" : "Designated away";
   return isHome ? "Home" : "Away";
 }
 export function gameOpponentPrefix(game: Site, isHome = false): string {
-  return game.isNeutralSite === true || game.designatedSidesConfirmed === false || isHome ? "vs." : "at";
+  return game.isNeutralSite === true || game.isNeutralSite === null || game.designatedSidesConfirmed === false || isHome ? "vs." : "at";
 }

@@ -42,13 +42,16 @@ def build():
      'unknownFields':[f for f,v in [('formalNeutrality',None),('designatedRoles',True if explicit else None),('exactStadium',s.get('venue'))] if v is None],
      'conflictDisposition':'Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten.'})
  rows.sort(key=lambda r:(r['game']['kickoff'],r['game']['id']))
+ corrections=[{'id':r['existingGameId'],'isNeutralSite':None,'designatedSidesConfirmed':False} for r in master['records'] if r['existingGameId']]
  OUT.mkdir(exist_ok=True)
  packet={'approval':None,'executionEnabled':False,'productionWrites':False,'requiresExactOwnerPublicationApproval':True,
          'neutralityPolicy':'true confirmed neutral; false confirmed non-neutral; null unknown; no neutrality publication hold',
          'internalResearchPresumption':'Playoffs presumptively neutral; not adopted as public fact',
-         'records':rows,'materialConflictHeld':held}
+         'records':rows,'materialConflictHeld':held,
+         'existingSiteReconciliations':[{'gameId':c['id'],'before':{'isNeutralSite':True,'designatedSidesConfirmed':None},'after':{'isNeutralSite':None,'designatedSidesConfirmed':False},'preservedFields':'All other fields including IDs, opponents, kickoff, venue, scores and results'} for c in corrections]}
  (OUT/'publication-review.json').write_text(json.dumps(packet,indent=2)+'\n')
  text='// Branch-only proposed publication. Requires owner approval of this exact file before merge.\nimport type { Game } from "@/types/platform";\nexport const playoffScheduleAdditions: Game[] = '+json.dumps([r['game'] for r in rows],indent=2)+';\n'
+ text += 'export const playoffSiteReconciliations: Pick<Game, "id" | "isNeutralSite" | "designatedSidesConfirmed">[] = '+json.dumps(corrections,indent=2)+';\n'
  (ROOT/'data/playoff-schedule-additions-20261112.ts').write_text(text)
  packet['runtimeFileSha256']=hashlib.sha256(text.encode()).hexdigest()
  (OUT/'publication-review.json').write_text(json.dumps(packet,indent=2)+'\n')

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { playoffScheduleAdditions } from "../data/playoff-schedule-additions-20261112";
+import { playoffScheduleAdditions, playoffSiteReconciliations } from "../data/playoff-schedule-additions-20261112";
 import { games as historicalGames } from "../data/games";
 import { getGames } from "./games";
 import { getBiDistrictReadiness } from "./bidistrict-readiness";
@@ -34,7 +34,7 @@ test("nullable neutrality never manufactures a Neutral label or home designation
   assert.equal(gameOpponentPrefix(g),'vs.');
  }
  assert.equal(gameSiteLabel({isNeutralSite:false,designatedSidesConfirmed:true},true),'Home');
- assert.equal(gameSiteLabel({isNeutralSite:null,designatedSidesConfirmed:true},false),'Away');
+ assert.equal(gameSiteLabel({isNeutralSite:null,designatedSidesConfirmed:true},false),'Designated away');
 });
 test("all bracket schools selectable, Austin identities resolve independently",()=>{
  const html=renderToStaticMarkup(createElement(TeamPlayoffPath,{games:[],selectedSchool:'4A-D1|2|Austin'}));
@@ -42,4 +42,14 @@ test("all bracket schools selectable, Austin identities resolve independently",(
  assert.equal(findSchoolBracketLocation('4A-D1|2|Austin')?.regionIndex,2);
  assert.equal(findSchoolBracketLocation('4A-D1|0|Austin')?.regionIndex,0);
  assert.match(html,/4A Division I · Region III/);
+});
+
+test("seven explicit site reconciliations preserve all other existing game facts",()=>{
+ assert.equal(playoffSiteReconciliations.length,7);
+ for(const correction of playoffSiteReconciliations){
+   const before=historicalGames.find(g=>g.id===correction.id)!;
+   const after=getGames().find(g=>g.id===correction.id)!;
+   assert.ok(before);assert.equal(after.isNeutralSite,null);assert.equal(after.designatedSidesConfirmed,false);
+   for(const key of ['kickoff','venue','homeSchoolSlug','awaySchoolSlug','homeTeam','awayTeam','homeScore','awayScore','officialWinnerSchoolSlug'] as const) assert.deepEqual(after[key],before[key]);
+ }
 });

@@ -1466,3 +1466,40 @@ export const playoffScheduleAdditions: Game[] = [
     "venue": "Lobo Stadium"
   }
 ];
+export const playoffSiteReconciliations: Pick<Game, "id" | "isNeutralSite" | "designatedSidesConfirmed">[] = [
+  {
+    "id": "cisco-vs-nocona-2026-bi-district",
+    "isNeutralSite": null,
+    "designatedSidesConfirmed": false
+  },
+  {
+    "id": "muenster-vs-hawley-2026-bi-district",
+    "isNeutralSite": null,
+    "designatedSidesConfirmed": false
+  },
+  {
+    "id": "albany-vs-crawford-2026-bi-district",
+    "isNeutralSite": null,
+    "designatedSidesConfirmed": false
+  },
+  {
+    "id": "goldthwaite-vs-hubbard-2026-bi-district",
+    "isNeutralSite": null,
+    "designatedSidesConfirmed": false
+  },
+  {
+    "id": "tioga-vs-anson-2026-bi-district",
+    "isNeutralSite": null,
+    "designatedSidesConfirmed": false
+  },
+  {
+    "id": "de-leon-vs-alvord-2026-bi-district",
+    "isNeutralSite": null,
+    "designatedSidesConfirmed": false
+  },
+  {
+    "id": "stephenville-vs-navasota-2026-bi-district",
+    "isNeutralSite": null,
+    "designatedSidesConfirmed": false
+  }
+];
