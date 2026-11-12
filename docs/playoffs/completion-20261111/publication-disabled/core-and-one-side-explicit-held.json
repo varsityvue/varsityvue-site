@@ -1,0 +1,1185 @@
+{
+  "executionEnabled": false,
+  "approval": null,
+  "count": 5,
+  "records": [
+    {
+      "manifestId": "2026-bi-district-2a-d1-i-6",
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region I",
+        "slot": 6,
+        "teams": [
+          "Olton",
+          "Highland Park"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "Olton",
+          "officialName": "Olton",
+          "qualifiedIdentity": {
+            "division": "2A Division I",
+            "region": "Region I",
+            "uilDistrict": 2
+          },
+          "schoolId": "olton",
+          "schoolSlug": "olton",
+          "catalogDistrictId": "2a-d1-district-2",
+          "catalogState": "released-record",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+        },
+        {
+          "bracketName": "Highland Park",
+          "officialName": "Amarillo Highland Park",
+          "qualifiedIdentity": {
+            "division": "2A Division I",
+            "region": "Region I",
+            "uilDistrict": 1
+          },
+          "schoolId": "amarillo-highland-park",
+          "schoolSlug": "amarillo-highland-park",
+          "catalogDistrictId": "2a-d1-district-1",
+          "catalogState": "released-record",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+        }
+      ],
+      "operation": "proposed-new-record",
+      "existingGameId": null,
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "core-and-one-side-explicit-held",
+      "coreScheduleEvidenceComplete": true,
+      "schedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Whiteface Stadium, Hereford, TX",
+        "city": "Hereford",
+        "neutralSite": null,
+        "designatedSides": {
+          "homeTeam": "Olton",
+          "awayTeam": "Highland Park",
+          "sourceUrl": "https://www.hpisd.net/live-feed",
+          "retrievalMethod": "live-browser-page-reviewed",
+          "homeExplicit": false,
+          "awayExplicit": true,
+          "basis": "Highland Park explicitly visiting; Olton home is the complementary participant, not a separately stated role."
+        }
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Whiteface Stadium, Hereford, TX",
+        "city": "Hereford"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "2A Division I",
+          "region": "Region I",
+          "slot": 6,
+          "teams": [
+            "Olton",
+            "Highland Park"
+          ],
+          "status": "missing-record",
+          "missing": [
+            "published game record"
+          ],
+          "kickoff": "2026-11-12T19:00:00-06:00",
+          "venue": "Whiteface Stadium, Hereford, TX",
+          "city": "Hereford",
+          "timeZone": "America/Chicago",
+          "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+          "neutralSite": null,
+          "verificationStatus": "single-source",
+          "missingInformation": [
+            "explicit neutral-site designation"
+          ],
+          "conflicts": [],
+          "sourceLabel": "Press Pass Sports",
+          "sourceUrl": "https://www.presspass.news/2026/11/08/uil-region-i-high-school-football-bi-district-playoff-pairings-4/",
+          "sourcePublishedDate": "2026-11-09",
+          "sources": [
+            {
+              "name": "Press Pass Sports",
+              "url": "https://www.presspass.news/2026/11/08/uil-region-i-high-school-football-bi-district-playoff-pairings-4/",
+              "publishedDate": "2026-11-09"
+            }
+          ],
+          "researchedAt": "2026-11-11T00:33:52.145232+00:00",
+          "readyForPublication": false
+        },
+        "existingSideReview": null,
+        "newEvidence": {
+          "bracket": {
+            "division": "2A Division I",
+            "region": "Region I",
+            "slot": 6,
+            "teams": [
+              "Olton",
+              "Highland Park"
+            ]
+          },
+          "qualifiedIdentities": [
+            {
+              "officialName": "Olton",
+              "division": "2A Division I",
+              "region": "Region I",
+              "district": 2,
+              "alignmentSourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+            },
+            {
+              "officialName": "Amarillo Highland Park",
+              "division": "2A Division I",
+              "region": "Region I",
+              "district": 1,
+              "alignmentSourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+            }
+          ],
+          "baselineSelected": {
+            "kickoff": "2026-11-12T19:00:00-06:00",
+            "venue": "Whiteface Stadium, Hereford, TX",
+            "city": "Hereford",
+            "sourceLabel": "Press Pass Sports",
+            "sourceUrl": "https://www.presspass.news/2026/11/08/uil-region-i-high-school-football-bi-district-playoff-pairings-4/",
+            "verificationStatus": "single-source"
+          },
+          "selectedSchedule": {
+            "kickoff": "2026-11-12T19:00:00-06:00",
+            "venue": "Whiteface Stadium, Hereford, TX",
+            "city": "Hereford"
+          },
+          "sourceComplete": true,
+          "primaryLocationCorroborated": true,
+          "primaryLocationScope": "exact-stadium-and-city-from-primary-index",
+          "designatedSides": {
+            "homeTeam": "Olton",
+            "awayTeam": "Highland Park",
+            "sourceUrl": "https://www.hpisd.net/live-feed",
+            "retrievalMethod": "live-browser-page-reviewed",
+            "homeExplicit": false,
+            "awayExplicit": true,
+            "basis": "Highland Park explicitly visiting; Olton home is the complementary participant, not a separately stated role."
+          },
+          "neutralSite": null,
+          "sourceEvidence": [
+            {
+              "sourceLabel": "Dave Campbell's / Matt Stepp",
+              "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+              "retrievedDate": "2026-11-11",
+              "sourcePublishedDate": "2026-11-08",
+              "retrievalMethod": "web-page-reviewed",
+              "fields": {
+                "pairing": [
+                  "Olton",
+                  "Highland Park"
+                ],
+                "kickoff": "2026-11-12T19:00:00-06:00",
+                "venue": "Whiteface Stadium, Hereford, TX",
+                "city": "Hereford",
+                "timezone": "CST explicitly declared for all listings"
+              },
+              "limitations": [
+                "Credible selected-source reporting, not primary school/host confirmation. Existing selected venue spelling retained; publisher list sometimes uses abbreviated names."
+              ]
+            },
+            {
+              "sourceLabel": "Amarillo Highland Park ISD live feed",
+              "sourceUrl": "https://www.hpisd.net/live-feed",
+              "retrievedDate": "2026-11-11",
+              "sourcePublishedDate": null,
+              "retrievalMethod": "search-index-excerpt",
+              "fields": {
+                "pairing": [
+                  "Olton",
+                  "Highland Park"
+                ],
+                "weekday": "Thursday",
+                "localTime": "19:00",
+                "venue": "Whiteface Stadium",
+                "city": "Hereford",
+                "visitor": "Highland Park"
+              },
+              "limitations": [
+                "Current November playoff excerpt found in search index; direct web open returned an older October snapshot. Not claimed as fresh live-page verification. No explicit timezone. Olton home side follows explicit visitor assignment in a two-team event."
+              ]
+            },
+            {
+              "sourceLabel": "Current school announcement directly inspected in live browser",
+              "sourceUrl": "https://www.hpisd.net/live-feed",
+              "retrievedDate": "2026-11-11",
+              "retrievalMethod": "live-browser-page-reviewed",
+              "postOrArticleId": "13762950",
+              "fields": [
+                "designated-side",
+                "opponents",
+                "date",
+                "localTime",
+                "location"
+              ],
+              "limitations": [
+                "Timezone and exact stadium name remain selected-source evidence where the school provides only local time/campus. No formal neutral designation observed."
+              ],
+              "summary": "Highland Park explicitly visiting; Olton home is the complementary participant, not a separately stated role."
+            }
+          ],
+          "conflicts": [],
+          "remainingGaps": [
+            "formal neutral-site designation remains unconfirmed",
+            "catalog integration/release approval",
+            "exact publication approval"
+          ],
+          "readyForPublication": false,
+          "coreScheduleEvidenceComplete": true
+        }
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "one designated role is complementary inference; explicit confirmation still held",
+        "formal neutral-site designation remains unconfirmed",
+        "catalog integration/release approval",
+        "exact publication approval",
+        "formal neutral-site status unconfirmed; existing safeguard retained"
+      ],
+      "writePayload": null
+    },
+    {
+      "manifestId": "2026-bi-district-2a-d1-iii-7",
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region III",
+        "slot": 7,
+        "teams": [
+          "San Augustine",
+          "Union Grove"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "San Augustine",
+          "officialName": "San Augustine",
+          "qualifiedIdentity": {
+            "division": "2A Division I",
+            "region": "Region III",
+            "uilDistrict": 12
+          },
+          "schoolId": "san-augustine",
+          "schoolSlug": "san-augustine",
+          "catalogDistrictId": "2a-d1-district-12",
+          "catalogState": "released-record",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+        },
+        {
+          "bracketName": "Union Grove",
+          "officialName": "Gladewater Union Grove",
+          "qualifiedIdentity": {
+            "division": "2A Division I",
+            "region": "Region III",
+            "uilDistrict": 11
+          },
+          "schoolId": "gladewater-union-grove",
+          "schoolSlug": "gladewater-union-grove",
+          "catalogDistrictId": "2a-d1-district-11",
+          "catalogState": "released-record",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+        }
+      ],
+      "operation": "proposed-new-record",
+      "existingGameId": null,
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "core-and-one-side-explicit-held",
+      "coreScheduleEvidenceComplete": true,
+      "schedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Lion Stadium, Henderson, TX",
+        "city": "Henderson",
+        "neutralSite": null,
+        "designatedSides": {
+          "homeTeam": "San Augustine",
+          "awayTeam": "Union Grove",
+          "sourceUrl": "https://hs.saisd.us/apps/news/",
+          "retrievalMethod": "live-browser-page-reviewed",
+          "homeExplicit": true,
+          "awayExplicit": false,
+          "basis": "School explicitly home; Union Grove visitor is complementary."
+        }
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Lion Stadium, Henderson, TX",
+        "city": "Henderson"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "2A Division I",
+          "region": "Region III",
+          "slot": 7,
+          "teams": [
+            "San Augustine",
+            "Union Grove"
+          ],
+          "status": "missing-record",
+          "missing": [
+            "published game record"
+          ],
+          "kickoff": "2026-11-12T19:00:00-06:00",
+          "venue": "Lion Stadium, Henderson, TX",
+          "city": "Henderson",
+          "timeZone": "America/Chicago",
+          "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+          "neutralSite": null,
+          "verificationStatus": "single-source",
+          "missingInformation": [
+            "explicit neutral-site designation"
+          ],
+          "conflicts": [],
+          "sourceLabel": "TXHSFB.net \u2014 2A DI capsules",
+          "sourceUrl": "https://txhsfb.net/?p=29384",
+          "sourcePublishedDate": "2026-11-09",
+          "sources": [
+            {
+              "name": "TXHSFB.net \u2014 2A DI capsules",
+              "url": "https://txhsfb.net/?p=29384",
+              "publishedDate": "2026-11-09"
+            }
+          ],
+          "researchedAt": "2026-11-11T00:33:52.145263+00:00",
+          "readyForPublication": false
+        },
+        "existingSideReview": null,
+        "newEvidence": {
+          "bracket": {
+            "division": "2A Division I",
+            "region": "Region III",
+            "slot": 7,
+            "teams": [
+              "San Augustine",
+              "Union Grove"
+            ]
+          },
+          "qualifiedIdentities": [
+            {
+              "officialName": "San Augustine",
+              "division": "2A Division I",
+              "region": "Region III",
+              "district": 12,
+              "alignmentSourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+            },
+            {
+              "officialName": "Gladewater Union Grove",
+              "division": "2A Division I",
+              "region": "Region III",
+              "district": 11,
+              "alignmentSourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+            }
+          ],
+          "baselineSelected": {
+            "kickoff": "2026-11-12T19:00:00-06:00",
+            "venue": "Lion Stadium, Henderson, TX",
+            "city": "Henderson",
+            "sourceLabel": "TXHSFB.net \u2014 2A DI capsules",
+            "sourceUrl": "https://txhsfb.net/?p=29384",
+            "verificationStatus": "single-source"
+          },
+          "selectedSchedule": {
+            "kickoff": "2026-11-12T19:00:00-06:00",
+            "venue": "Lion Stadium, Henderson, TX",
+            "city": "Henderson"
+          },
+          "sourceComplete": true,
+          "primaryLocationCorroborated": true,
+          "primaryLocationScope": "campus-only-from-primary-index",
+          "designatedSides": {
+            "homeTeam": "San Augustine",
+            "awayTeam": "Union Grove",
+            "sourceUrl": "https://hs.saisd.us/apps/news/",
+            "retrievalMethod": "live-browser-page-reviewed",
+            "homeExplicit": true,
+            "awayExplicit": false,
+            "basis": "School explicitly home; Union Grove visitor is complementary."
+          },
+          "neutralSite": null,
+          "sourceEvidence": [
+            {
+              "sourceLabel": "Dave Campbell's / Matt Stepp",
+              "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+              "retrievedDate": "2026-11-11",
+              "sourcePublishedDate": "2026-11-08",
+              "retrievalMethod": "web-page-reviewed",
+              "fields": {
+                "pairing": [
+                  "San Augustine",
+                  "Union Grove"
+                ],
+                "kickoff": "2026-11-12T19:00:00-06:00",
+                "venue": "Lion Stadium, Henderson, TX",
+                "city": "Henderson",
+                "timezone": "CST explicitly declared for all listings"
+              },
+              "limitations": [
+                "Credible selected-source reporting, not primary school/host confirmation. Existing selected venue spelling retained; publisher list sometimes uses abbreviated names."
+              ]
+            },
+            {
+              "sourceLabel": "San Augustine High School official news, Nov 7 announcement",
+              "sourceUrl": "https://hs.saisd.us/apps/news/",
+              "retrievedDate": "2026-11-11",
+              "sourcePublishedDate": "2026-11-07",
+              "retrievalMethod": "search-index-excerpt",
+              "fields": {
+                "pairing": [
+                  "San Augustine",
+                  "Union Grove"
+                ],
+                "date": "2026-11-12",
+                "localTime": "19:00",
+                "venue": "Henderson high school",
+                "home": "San Augustine"
+              },
+              "limitations": [
+                "Official November announcement found in index; direct web open returned October snapshot. Campus-only, not exact stadium name or timezone."
+              ]
+            },
+            {
+              "sourceLabel": "Current school announcement directly inspected in live browser",
+              "sourceUrl": "https://hs.saisd.us/apps/news/",
+              "retrievedDate": "2026-11-11",
+              "retrievalMethod": "live-browser-page-reviewed",
+              "postOrArticleId": "2253403",
+              "fields": [
+                "designated-side",
+                "opponents",
+                "date",
+                "localTime",
+                "location"
+              ],
+              "limitations": [
+                "Timezone and exact stadium name remain selected-source evidence where the school provides only local time/campus. No formal neutral designation observed."
+              ],
+              "summary": "School explicitly home; Union Grove visitor is complementary."
+            }
+          ],
+          "conflicts": [],
+          "remainingGaps": [
+            "formal neutral-site designation remains unconfirmed",
+            "catalog integration/release approval",
+            "exact publication approval"
+          ],
+          "readyForPublication": false,
+          "coreScheduleEvidenceComplete": true
+        }
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "one designated role is complementary inference; explicit confirmation still held",
+        "formal neutral-site designation remains unconfirmed",
+        "catalog integration/release approval",
+        "exact publication approval",
+        "formal neutral-site status unconfirmed; existing safeguard retained"
+      ],
+      "writePayload": null
+    },
+    {
+      "manifestId": "2026-bi-district-3a-d1-ii-1",
+      "bracket": {
+        "division": "3A Division I",
+        "region": "Region II",
+        "slot": 1,
+        "teams": [
+          "Gunter",
+          "Groesbeck"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "Gunter",
+          "officialName": "Gunter",
+          "qualifiedIdentity": {
+            "division": "3A Division I",
+            "region": "Region II",
+            "uilDistrict": 5
+          },
+          "schoolId": "gunter",
+          "schoolSlug": "gunter",
+          "catalogDistrictId": "3a-d1-district-5",
+          "catalogState": "released-record",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+        },
+        {
+          "bracketName": "Groesbeck",
+          "officialName": "Groesbeck",
+          "qualifiedIdentity": {
+            "division": "3A Division I",
+            "region": "Region II",
+            "uilDistrict": 6
+          },
+          "schoolId": "groesbeck",
+          "schoolSlug": "groesbeck",
+          "catalogDistrictId": "3a-d1-district-6",
+          "catalogState": "released-record",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+        }
+      ],
+      "operation": "proposed-new-record",
+      "existingGameId": null,
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "core-and-one-side-explicit-held",
+      "coreScheduleEvidenceComplete": true,
+      "schedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Memorial Stadium",
+        "city": "Mesquite",
+        "neutralSite": null,
+        "designatedSides": {
+          "status": "explicit-home-confirmed",
+          "homeTeam": "Groesbeck",
+          "awayTeam": "Gunter",
+          "sourceUrl": "https://www.gunterisd.org/o/gms/live_feeds/13759644/",
+          "basis": "Primary school explicitly names home team; visitor is explicit for Sweetwater/Canadian, otherwise complementary other participant.",
+          "homeExplicit": true,
+          "awayExplicit": false
+        }
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Memorial Stadium",
+        "city": "Mesquite"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "3A Division I",
+          "region": "Region II",
+          "slot": 1,
+          "teams": [
+            "Gunter",
+            "Groesbeck"
+          ],
+          "date": "2026-11-12",
+          "localTime": "19:00",
+          "kickoff": null,
+          "proposedKickoff": "2026-11-12T19:00:00-06:00",
+          "timeZone": null,
+          "timeZoneBasis": "geographic inference only; not explicitly stated in selected source",
+          "venue": "Memorial Stadium",
+          "city": "Mesquite",
+          "neutralSite": null,
+          "neutralSiteBasis": "not explicitly verified",
+          "sourceLabel": "NBC DFW / Associated Press / Dave Campbell schedules",
+          "sourceUrl": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-3a-texas-high-school-football-bi-district-playoff-schedule/4103105/",
+          "sourcePublicationDate": null,
+          "sourceUpdatedDate": null,
+          "retrievedDate": "2026-11-10",
+          "verificationStatus": "partial",
+          "missingInformation": [
+            "explicit timezone confirmation"
+          ],
+          "conflicts": [],
+          "notes": []
+        },
+        "existingSideReview": null,
+        "newEvidence": {
+          "bracket": {
+            "division": "3A Division I",
+            "region": "Region II",
+            "slot": 1,
+            "teams": [
+              "Gunter",
+              "Groesbeck"
+            ]
+          },
+          "qualifiedIdentities": [
+            {
+              "bracketName": "Gunter",
+              "officialName": "Gunter",
+              "division": "3A Division I",
+              "region": "Region II",
+              "district": 5,
+              "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+            },
+            {
+              "bracketName": "Groesbeck",
+              "officialName": "Groesbeck",
+              "division": "3A Division I",
+              "region": "Region II",
+              "district": 6,
+              "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+            }
+          ],
+          "previousVerificationStatus": "partial",
+          "selectedSchedule": {
+            "kickoff": "2026-11-12T19:00:00-06:00",
+            "venue": "Memorial Stadium",
+            "city": "Mesquite"
+          },
+          "selectedScheduleEvidence": {
+            "sourceLabel": "Dave Campbell's Texas Football / Matt Stepp",
+            "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+            "sourcePublishedDate": "2026-11-08",
+            "retrievedDate": "2026-11-11",
+            "retrievalStatus": "opened-page-relevant-section-reviewed",
+            "fields": [
+              "opponents",
+              "date",
+              "localTime",
+              "timezone",
+              "venue",
+              "city"
+            ],
+            "summary": "Selected published schedule identifies this matchup/date/time/venue/city; source header explicitly states all times CST. This is selected publisher evidence, not blanket primary confirmation."
+          },
+          "primaryCorroboration": [
+            {
+              "sourceLabel": "Gunter ISD dated official playoff announcement",
+              "sourceUrl": "https://www.gunterisd.org/o/gms/live_feeds/13759644/",
+              "sourcePublishedDate": "2026-11-09",
+              "retrievedDate": "2026-11-11",
+              "retrievalStatus": "opened-page-relevant-section-reviewed",
+              "fields": [
+                "opponents",
+                "date",
+                "localTime",
+                "venue",
+                "city",
+                "designatedHome"
+              ],
+              "summary": "Nov12 2026 7pm Mesquite Memorial Stadium; event text identifies Groesbeck Goats(Home).",
+              "limitations": [
+                "No explicit timezone/formal neutral designation; Groesbeck home is explicit, Gunter visitor follows complementary assignment of two named teams."
+              ]
+            }
+          ],
+          "designatedSides": {
+            "status": "explicit-home-confirmed",
+            "homeTeam": "Groesbeck",
+            "awayTeam": "Gunter",
+            "sourceUrl": "https://www.gunterisd.org/o/gms/live_feeds/13759644/",
+            "basis": "Primary school explicitly names home team; visitor is explicit for Sweetwater/Canadian, otherwise complementary other participant.",
+            "homeExplicit": true,
+            "awayExplicit": false
+          },
+          "neutralSite": null,
+          "neutralSiteBasis": "No formal primary neutral-site designation adopted",
+          "readyForPublication": false,
+          "coreScheduleEvidenceComplete": true,
+          "operation": "proposed-new-record",
+          "sideAssignment": {
+            "status": "explicit-home-confirmed",
+            "homeTeam": "Groesbeck",
+            "awayTeam": "Gunter",
+            "sourceUrl": "https://www.gunterisd.org/o/gms/live_feeds/13759644/",
+            "basis": "Primary school explicitly names home team; visitor is explicit for Sweetwater/Canadian, otherwise complementary other participant.",
+            "homeExplicit": true,
+            "awayExplicit": false
+          },
+          "publicationBlockers": [
+            "formal neutral-site designation unconfirmed",
+            "exact publication approval absent"
+          ],
+          "proposedCandidatePatch": {
+            "verificationStatus": "source-verified",
+            "kickoff": "2026-11-12T19:00:00-06:00",
+            "timeZone": "America/Chicago",
+            "timeZoneBasis": "Selected source explicitly supplies CST/UTC-06; primary corroboration limitations retained",
+            "readyForPublication": false
+          },
+          "remainingGaps": [
+            "formal neutral-site designation unconfirmed",
+            "exact publication approval absent"
+          ]
+        }
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "one designated role is complementary inference; explicit confirmation still held",
+        "formal neutral-site designation unconfirmed",
+        "exact publication approval absent",
+        "formal neutral-site status unconfirmed; existing safeguard retained"
+      ],
+      "writePayload": null
+    },
+    {
+      "manifestId": "2026-bi-district-3a-d2-i-2",
+      "bracket": {
+        "division": "3A Division II",
+        "region": "Region I",
+        "slot": 2,
+        "teams": [
+          "Merkel",
+          "Crane"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "Merkel",
+          "officialName": "Merkel",
+          "qualifiedIdentity": {
+            "division": "3A Division II",
+            "region": "Region I",
+            "uilDistrict": 4
+          },
+          "schoolId": "merkel",
+          "schoolSlug": "merkel",
+          "catalogDistrictId": "3a-d2-district-4",
+          "catalogState": "released-record",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf"
+        },
+        {
+          "bracketName": "Crane",
+          "officialName": "Crane",
+          "qualifiedIdentity": {
+            "division": "3A Division II",
+            "region": "Region I",
+            "uilDistrict": 3
+          },
+          "schoolId": "crane",
+          "schoolSlug": "crane",
+          "catalogDistrictId": "3a-d2-district-3",
+          "catalogState": "released-record",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf"
+        }
+      ],
+      "operation": "proposed-new-record",
+      "existingGameId": null,
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "core-and-one-side-explicit-held",
+      "coreScheduleEvidenceComplete": true,
+      "schedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "San Angelo Stadium",
+        "city": "San Angelo",
+        "neutralSite": null,
+        "designatedSides": {
+          "status": "explicit-home-confirmed",
+          "homeTeam": "Crane",
+          "awayTeam": "Merkel",
+          "sourceUrl": "https://core-docs.s3.amazonaws.com/crane_independent_school_district_ar/live_feed_image/image/31918322/large_photo_1794068946612.jpg",
+          "basis": "Primary school explicitly names home team; visitor is explicit for Sweetwater/Canadian, otherwise complementary other participant.",
+          "homeExplicit": true,
+          "awayExplicit": false
+        }
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "San Angelo Stadium",
+        "city": "San Angelo"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "3A Division II",
+          "region": "Region I",
+          "slot": 2,
+          "teams": [
+            "Merkel",
+            "Crane"
+          ],
+          "date": "2026-11-12",
+          "localTime": "19:00",
+          "kickoff": null,
+          "proposedKickoff": "2026-11-12T19:00:00-06:00",
+          "timeZone": null,
+          "timeZoneBasis": "geographic inference only; not explicitly stated in selected source",
+          "venue": "San Angelo Stadium",
+          "city": "San Angelo",
+          "neutralSite": null,
+          "neutralSiteBasis": "not explicitly verified",
+          "sourceLabel": "NBC DFW / Associated Press / Dave Campbell schedules",
+          "sourceUrl": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-3a-texas-high-school-football-bi-district-playoff-schedule/4103105/",
+          "sourcePublicationDate": null,
+          "sourceUpdatedDate": null,
+          "retrievedDate": "2026-11-10",
+          "verificationStatus": "partial",
+          "missingInformation": [
+            "explicit timezone confirmation"
+          ],
+          "conflicts": [],
+          "notes": []
+        },
+        "existingSideReview": null,
+        "newEvidence": {
+          "bracket": {
+            "division": "3A Division II",
+            "region": "Region I",
+            "slot": 2,
+            "teams": [
+              "Merkel",
+              "Crane"
+            ]
+          },
+          "qualifiedIdentities": [
+            {
+              "bracketName": "Merkel",
+              "officialName": "Merkel",
+              "division": "3A Division II",
+              "region": "Region I",
+              "district": 4,
+              "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf"
+            },
+            {
+              "bracketName": "Crane",
+              "officialName": "Crane",
+              "division": "3A Division II",
+              "region": "Region I",
+              "district": 3,
+              "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf"
+            }
+          ],
+          "previousVerificationStatus": "partial",
+          "selectedSchedule": {
+            "kickoff": "2026-11-12T19:00:00-06:00",
+            "venue": "San Angelo Stadium",
+            "city": "San Angelo"
+          },
+          "selectedScheduleEvidence": {
+            "sourceLabel": "Dave Campbell's Texas Football / Matt Stepp",
+            "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+            "sourcePublishedDate": "2026-11-08",
+            "retrievedDate": "2026-11-11",
+            "retrievalStatus": "opened-page-relevant-section-reviewed",
+            "fields": [
+              "opponents",
+              "date",
+              "localTime",
+              "timezone",
+              "venue",
+              "city"
+            ],
+            "summary": "Selected published schedule identifies this matchup/date/time/venue/city; source header explicitly states all times CST. This is selected publisher evidence, not blanket primary confirmation."
+          },
+          "primaryCorroboration": [
+            {
+              "sourceLabel": "Crane ISD official live-feed playoff announcement",
+              "sourceUrl": "https://www.craneisd.com/live-feed/",
+              "sourcePublishedDate": null,
+              "retrievedDate": "2026-11-11",
+              "retrievalStatus": "opened-page-relevant-section-reviewed",
+              "fields": [
+                "opponents",
+                "weekday",
+                "city"
+              ],
+              "summary": "Current school post says football playoffs against Merkel in San Angelo this Thursday; attached school-issued graphic supplies precise event fields.",
+              "limitations": [
+                "Text alone lacks exact date/time/stadium/sides."
+              ]
+            },
+            {
+              "sourceLabel": "Crane ISD school-issued playoff graphic",
+              "sourceUrl": "https://core-docs.s3.amazonaws.com/crane_independent_school_district_ar/live_feed_image/image/31918322/large_photo_1794068946612.jpg",
+              "sourcePublishedDate": null,
+              "retrievedDate": "2026-11-11",
+              "retrievalStatus": "downloaded-and-visually-reviewed-image",
+              "fields": [
+                "opponents",
+                "date",
+                "localTime",
+                "venue",
+                "designatedHome"
+              ],
+              "summary": "Visually inspected graphic says Crane vs Merkel,San Angelo Stadium,Nov12,7pm,CRANE WILL BE THE HOME TEAM.",
+              "limitations": [
+                "Year established by2026 post context and image EXIF2026-11-07; no explicit timezone or formal neutral designation."
+              ],
+              "sha256": "54402f91fbf3e256cb404f980d86a6291bc31b61bf4069dfcb971afbce72eca4"
+            }
+          ],
+          "designatedSides": {
+            "status": "explicit-home-confirmed",
+            "homeTeam": "Crane",
+            "awayTeam": "Merkel",
+            "sourceUrl": "https://core-docs.s3.amazonaws.com/crane_independent_school_district_ar/live_feed_image/image/31918322/large_photo_1794068946612.jpg",
+            "basis": "Primary school explicitly names home team; visitor is explicit for Sweetwater/Canadian, otherwise complementary other participant.",
+            "homeExplicit": true,
+            "awayExplicit": false
+          },
+          "neutralSite": null,
+          "neutralSiteBasis": "No formal primary neutral-site designation adopted",
+          "readyForPublication": false,
+          "coreScheduleEvidenceComplete": true,
+          "operation": "proposed-new-record",
+          "sideAssignment": {
+            "status": "explicit-home-confirmed",
+            "homeTeam": "Crane",
+            "awayTeam": "Merkel",
+            "sourceUrl": "https://core-docs.s3.amazonaws.com/crane_independent_school_district_ar/live_feed_image/image/31918322/large_photo_1794068946612.jpg",
+            "basis": "Primary school explicitly names home team; visitor is explicit for Sweetwater/Canadian, otherwise complementary other participant.",
+            "homeExplicit": true,
+            "awayExplicit": false
+          },
+          "publicationBlockers": [
+            "formal neutral-site designation unconfirmed",
+            "exact publication approval absent"
+          ],
+          "proposedCandidatePatch": {
+            "verificationStatus": "source-verified",
+            "kickoff": "2026-11-12T19:00:00-06:00",
+            "timeZone": "America/Chicago",
+            "timeZoneBasis": "Selected source explicitly supplies CST/UTC-06; primary corroboration limitations retained",
+            "readyForPublication": false
+          },
+          "remainingGaps": [
+            "formal neutral-site designation unconfirmed",
+            "exact publication approval absent"
+          ]
+        }
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "one designated role is complementary inference; explicit confirmation still held",
+        "formal neutral-site designation unconfirmed",
+        "exact publication approval absent",
+        "formal neutral-site status unconfirmed; existing safeguard retained"
+      ],
+      "writePayload": null
+    },
+    {
+      "manifestId": "2026-bi-district-3a-d1-i-4",
+      "bracket": {
+        "division": "3A Division I",
+        "region": "Region I",
+        "slot": 4,
+        "teams": [
+          "Ingram Moore",
+          "Vernon"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "Ingram Moore",
+          "officialName": "Ingram Moore",
+          "qualifiedIdentity": {
+            "division": "3A Division I",
+            "region": "Region I",
+            "uilDistrict": 3
+          },
+          "schoolId": "ingram-moore",
+          "schoolSlug": "ingram-moore",
+          "catalogDistrictId": "3a-d1-district-3",
+          "catalogState": "released-record",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+        },
+        {
+          "bracketName": "Vernon",
+          "officialName": "Vernon",
+          "qualifiedIdentity": {
+            "division": "3A Division I",
+            "region": "Region I",
+            "uilDistrict": 4
+          },
+          "schoolId": "vernon",
+          "schoolSlug": "vernon",
+          "catalogDistrictId": "3a-d1-district-4",
+          "catalogState": "released-record",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+        }
+      ],
+      "operation": "proposed-new-record",
+      "existingGameId": null,
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "core-and-one-side-explicit-held",
+      "coreScheduleEvidenceComplete": true,
+      "schedule": {
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "venue": "Gordon Wood Stadium",
+        "city": "Brownwood",
+        "neutralSite": null,
+        "designatedSides": {
+          "status": "explicit-home-confirmed",
+          "homeTeam": "Vernon",
+          "awayTeam": "Ingram Moore",
+          "sourceUrl": "https://www.vernonisd.org/o/vhs/live-feed",
+          "basis": "Primary school explicitly names home team; visitor is explicit for Sweetwater/Canadian, otherwise complementary other participant.",
+          "homeExplicit": true,
+          "awayExplicit": false
+        }
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "venue": "Gordon Wood Stadium",
+        "city": "Brownwood"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "3A Division I",
+          "region": "Region I",
+          "slot": 4,
+          "teams": [
+            "Ingram Moore",
+            "Vernon"
+          ],
+          "date": "2026-11-13",
+          "localTime": "19:00",
+          "kickoff": null,
+          "proposedKickoff": "2026-11-13T19:00:00-06:00",
+          "timeZone": null,
+          "timeZoneBasis": "geographic inference only; not explicitly stated in selected source",
+          "venue": "Gordon Wood Stadium",
+          "city": "Brownwood",
+          "neutralSite": null,
+          "neutralSiteBasis": "not explicitly verified",
+          "sourceLabel": "NBC DFW / Associated Press / Dave Campbell schedules",
+          "sourceUrl": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-3a-texas-high-school-football-bi-district-playoff-schedule/4103105/",
+          "sourcePublicationDate": null,
+          "sourceUpdatedDate": null,
+          "retrievedDate": "2026-11-10",
+          "verificationStatus": "partial",
+          "missingInformation": [
+            "explicit timezone confirmation"
+          ],
+          "conflicts": [],
+          "notes": []
+        },
+        "existingSideReview": null,
+        "newEvidence": {
+          "bracket": {
+            "division": "3A Division I",
+            "region": "Region I",
+            "slot": 4,
+            "teams": [
+              "Ingram Moore",
+              "Vernon"
+            ]
+          },
+          "qualifiedIdentities": [
+            {
+              "bracketName": "Ingram Moore",
+              "officialName": "Ingram Moore",
+              "division": "3A Division I",
+              "region": "Region I",
+              "district": 3,
+              "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+            },
+            {
+              "bracketName": "Vernon",
+              "officialName": "Vernon",
+              "division": "3A Division I",
+              "region": "Region I",
+              "district": 4,
+              "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+            }
+          ],
+          "previousVerificationStatus": "partial",
+          "selectedSchedule": {
+            "kickoff": "2026-11-13T19:00:00-06:00",
+            "venue": "Gordon Wood Stadium",
+            "city": "Brownwood"
+          },
+          "selectedScheduleEvidence": {
+            "sourceLabel": "Dave Campbell's Texas Football / Matt Stepp",
+            "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+            "sourcePublishedDate": "2026-11-08",
+            "retrievedDate": "2026-11-11",
+            "retrievalStatus": "opened-page-relevant-section-reviewed",
+            "fields": [
+              "opponents",
+              "date",
+              "localTime",
+              "timezone",
+              "venue",
+              "city"
+            ],
+            "summary": "Selected published schedule identifies this matchup/date/time/venue/city; source header explicitly states all times CST. This is selected publisher evidence, not blanket primary confirmation."
+          },
+          "primaryCorroboration": [
+            {
+              "sourceLabel": "Vernon ISD official high-school live feed",
+              "sourceUrl": "https://www.vernonisd.org/o/vhs/live-feed",
+              "sourcePublishedDate": null,
+              "retrievedDate": "2026-11-11",
+              "retrievalStatus": "opened-page-relevant-section-reviewed",
+              "fields": [
+                "opponents",
+                "date",
+                "localTime",
+                "venue",
+                "city",
+                "designatedHome"
+              ],
+              "summary": "School posts confirm Friday Nov13 at7pm Gordon Wood Stadium,Brownwood; Vernon serves as home team.",
+              "limitations": [
+                "No explicit timezone or formal neutral designation in inspected posts."
+              ]
+            }
+          ],
+          "designatedSides": {
+            "status": "explicit-home-confirmed",
+            "homeTeam": "Vernon",
+            "awayTeam": "Ingram Moore",
+            "sourceUrl": "https://www.vernonisd.org/o/vhs/live-feed",
+            "basis": "Primary school explicitly names home team; visitor is explicit for Sweetwater/Canadian, otherwise complementary other participant.",
+            "homeExplicit": true,
+            "awayExplicit": false
+          },
+          "neutralSite": null,
+          "neutralSiteBasis": "No formal primary neutral-site designation adopted",
+          "readyForPublication": false,
+          "coreScheduleEvidenceComplete": true,
+          "operation": "proposed-new-record",
+          "sideAssignment": {
+            "status": "explicit-home-confirmed",
+            "homeTeam": "Vernon",
+            "awayTeam": "Ingram Moore",
+            "sourceUrl": "https://www.vernonisd.org/o/vhs/live-feed",
+            "basis": "Primary school explicitly names home team; visitor is explicit for Sweetwater/Canadian, otherwise complementary other participant.",
+            "homeExplicit": true,
+            "awayExplicit": false
+          },
+          "publicationBlockers": [
+            "formal neutral-site designation unconfirmed",
+            "exact publication approval absent"
+          ],
+          "proposedCandidatePatch": {
+            "verificationStatus": "source-verified",
+            "kickoff": "2026-11-13T19:00:00-06:00",
+            "timeZone": "America/Chicago",
+            "timeZoneBasis": "Selected source explicitly supplies CST/UTC-06; primary corroboration limitations retained",
+            "readyForPublication": false
+          },
+          "remainingGaps": [
+            "formal neutral-site designation unconfirmed",
+            "exact publication approval absent"
+          ]
+        }
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "one designated role is complementary inference; explicit confirmation still held",
+        "formal neutral-site designation unconfirmed",
+        "exact publication approval absent",
+        "formal neutral-site status unconfirmed; existing safeguard retained"
+      ],
+      "writePayload": null
+    }
+  ]
+}

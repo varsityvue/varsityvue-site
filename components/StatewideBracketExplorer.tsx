@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { regionLabels, statewideDivisions, validateRegionalField } from "@/data/statewide-playoff-brackets";
 import { findSchoolBracketLocation } from "@/lib/playoff-school-location";
+import { resolveBracketSchool } from "@/lib/playoff-school-catalog";
 import { getStateChampionshipPath } from "@/lib/state-championship-path";
 import { buildRegionalRounds, verifiedWinner } from "@/lib/playoff-bracket-advancement";
 import type { Game } from "@/types/platform";
@@ -55,8 +56,13 @@ function BracketSelection({ games, selectedSchool }: { games: Game[]; selectedSc
                     const game = regional.roundGames[roundIndex][i];
                     const winner = verifiedWinner(game);
                     return <div key={i} className={`rounded-lg border p-3 text-sm ${selectedSchool && (a === selectedSchool || b === selectedSchool) ? "border-[#b83a50] bg-[#8B1020]/25" : "border-white/10 bg-black/30"}`}>
-                      <p className={winner === a ? "font-black text-white" : "text-white/80"}>{a ?? "TBD"}</p>
-                      <p className={winner === b ? "mt-1 font-black text-white" : "mt-1 text-white/80"}>{b ?? "TBD"}</p>
+                      {[a, b].map((name, teamIndex) => {
+                        const school = name ? resolveBracketSchool(name, division.id, regionLabels[regionIndex]) : undefined;
+                        return <p key={teamIndex} className={`${teamIndex ? "mt-1 " : ""}${winner === name ? "font-black text-white" : "text-white/80"}`}>
+                          {school ? <a href={`/schools/${school.slug}`} className="underline underline-offset-4 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2">{name}</a> : name ?? "TBD"}
+                        </p>;
+                      })}
+                      {roundIndex === 0 && !game && <p className="mt-2 text-xs text-white/60">Schedule details pending verification.</p>}
                       {game && <a href={`/games/${game.id}`} className="mt-2 inline-block text-xs font-bold underline underline-offset-4">Game Center</a>}
                     </div>;
                   })}

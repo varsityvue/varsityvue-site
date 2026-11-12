@@ -1,0 +1,221 @@
+{
+  "note": "D includes insufficient field evidence; no claim that a failed search proves absence.",
+  "rows": [
+    {
+      "division": "2A Division I",
+      "region": "Region I",
+      "A_published_fully_verified": 0,
+      "B_published_reconciliation": 0,
+      "C_core_supported_unpublished": 2,
+      "D_partial_evidence": 6,
+      "E_no_evidence": 0
+    },
+    {
+      "division": "2A Division I",
+      "region": "Region II",
+      "A_published_fully_verified": 0,
+      "B_published_reconciliation": 4,
+      "C_core_supported_unpublished": 0,
+      "D_partial_evidence": 4,
+      "E_no_evidence": 0
+    },
+    {
+      "division": "2A Division I",
+      "region": "Region III",
+      "A_published_fully_verified": 0,
+      "B_published_reconciliation": 0,
+      "C_core_supported_unpublished": 4,
+      "D_partial_evidence": 4,
+      "E_no_evidence": 0
+    },
+    {
+      "division": "2A Division I",
+      "region": "Region IV",
+      "A_published_fully_verified": 0,
+      "B_published_reconciliation": 0,
+      "C_core_supported_unpublished": 5,
+      "D_partial_evidence": 3,
+      "E_no_evidence": 0
+    },
+    {
+      "division": "2A Division II",
+      "region": "Region I",
+      "A_published_fully_verified": 0,
+      "B_published_reconciliation": 0,
+      "C_core_supported_unpublished": 2,
+      "D_partial_evidence": 6,
+      "E_no_evidence": 0
+    },
+    {
+      "division": "2A Division II",
+      "region": "Region II",
+      "A_published_fully_verified": 0,
+      "B_published_reconciliation": 2,
+      "C_core_supported_unpublished": 1,
+      "D_partial_evidence": 5,
+      "E_no_evidence": 0
+    },
+    {
+      "division": "2A Division II",
+      "region": "Region III",
+      "A_published_fully_verified": 0,
+      "B_published_reconciliation": 0,
+      "C_core_supported_unpublished": 0,
+      "D_partial_evidence": 8,
+      "E_no_evidence": 0
+    },
+    {
+      "division": "2A Division II",
+      "region": "Region IV",
+      "A_published_fully_verified": 0,
+      "B_published_reconciliation": 0,
+      "C_core_supported_unpublished": 0,
+      "D_partial_evidence": 8,
+      "E_no_evidence": 0
+    },
+    {
+      "division": "3A Division I",
+      "region": "Region I",
+      "A_published_fully_verified": 0,
+      "B_published_reconciliation": 0,
+      "C_core_supported_unpublished": 5,
+      "D_partial_evidence": 3,
+      "E_no_evidence": 0
+    },
+    {
+      "division": "3A Division I",
+      "region": "Region II",
+      "A_published_fully_verified": 0,
+      "B_published_reconciliation": 0,
+      "C_core_supported_unpublished": 3,
+      "D_partial_evidence": 5,
+      "E_no_evidence": 0
+    },
+    {
+      "division": "3A Division I",
+      "region": "Region III",
+      "A_published_fully_verified": 0,
+      "B_published_reconciliation": 0,
+      "C_core_supported_unpublished": 0,
+      "D_partial_evidence": 8,
+      "E_no_evidence": 0
+    },
+    {
+      "division": "3A Division I",
+      "region": "Region IV",
+      "A_published_fully_verified": 0,
+      "B_published_reconciliation": 0,
+      "C_core_supported_unpublished": 2,
+      "D_partial_evidence": 6,
+      "E_no_evidence": 0
+    },
+    {
+      "division": "3A Division II",
+      "region": "Region I",
+      "A_published_fully_verified": 0,
+      "B_published_reconciliation": 0,
+      "C_core_supported_unpublished": 4,
+      "D_partial_evidence": 4,
+      "E_no_evidence": 0
+    },
+    {
+      "division": "3A Division II",
+      "region": "Region II",
+      "A_published_fully_verified": 0,
+      "B_published_reconciliation": 0,
+      "C_core_supported_unpublished": 2,
+      "D_partial_evidence": 6,
+      "E_no_evidence": 0
+    },
+    {
+      "division": "3A Division II",
+      "region": "Region III",
+      "A_published_fully_verified": 0,
+      "B_published_reconciliation": 0,
+      "C_core_supported_unpublished": 0,
+      "D_partial_evidence": 8,
+      "E_no_evidence": 0
+    },
+    {
+      "division": "3A Division II",
+      "region": "Region IV",
+      "A_published_fully_verified": 0,
+      "B_published_reconciliation": 0,
+      "C_core_supported_unpublished": 1,
+      "D_partial_evidence": 7,
+      "E_no_evidence": 0
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region I",
+      "A_published_fully_verified": 0,
+      "B_published_reconciliation": 0,
+      "C_core_supported_unpublished": 3,
+      "D_partial_evidence": 5,
+      "E_no_evidence": 0
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region II",
+      "A_published_fully_verified": 0,
+      "B_published_reconciliation": 0,
+      "C_core_supported_unpublished": 0,
+      "D_partial_evidence": 8,
+      "E_no_evidence": 0
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region III",
+      "A_published_fully_verified": 0,
+      "B_published_reconciliation": 1,
+      "C_core_supported_unpublished": 3,
+      "D_partial_evidence": 4,
+      "E_no_evidence": 0
+    },
+    {
+      "division": "4A Division I",
+      "region": "Region IV",
+      "A_published_fully_verified": 0,
+      "B_published_reconciliation": 0,
+      "C_core_supported_unpublished": 0,
+      "D_partial_evidence": 8,
+      "E_no_evidence": 0
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region I",
+      "A_published_fully_verified": 0,
+      "B_published_reconciliation": 0,
+      "C_core_supported_unpublished": 8,
+      "D_partial_evidence": 0,
+      "E_no_evidence": 0
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region II",
+      "A_published_fully_verified": 0,
+      "B_published_reconciliation": 0,
+      "C_core_supported_unpublished": 8,
+      "D_partial_evidence": 0,
+      "E_no_evidence": 0
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region III",
+      "A_published_fully_verified": 0,
+      "B_published_reconciliation": 0,
+      "C_core_supported_unpublished": 0,
+      "D_partial_evidence": 8,
+      "E_no_evidence": 0
+    },
+    {
+      "division": "4A Division II",
+      "region": "Region IV",
+      "A_published_fully_verified": 0,
+      "B_published_reconciliation": 0,
+      "C_core_supported_unpublished": 0,
+      "D_partial_evidence": 8,
+      "E_no_evidence": 0
+    }
+  ]
+}

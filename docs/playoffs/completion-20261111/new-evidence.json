@@ -1,0 +1,235 @@
+{
+  "retrievedDate": "2026-11-11",
+  "retrievedTimezone": "America/Chicago",
+  "mode": "read-only-research",
+  "executionEnabled": false,
+  "approval": null,
+  "records": [
+    {
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region II",
+        "slot": 5,
+        "teams": [
+          "Mason",
+          "Itasca"
+        ]
+      },
+      "existingGameId": null,
+      "operation": "proposed-new-record",
+      "coreScheduleEvidenceComplete": false,
+      "supportedFields": {
+        "date": "2026-11-12",
+        "localTime": "19:00",
+        "city": "Killeen",
+        "reportedVenue": "Joseph L. Sears III Stadium",
+        "awayTeam": "Itasca"
+      },
+      "designatedSides": {
+        "awayTeam": "Itasca",
+        "awayExplicit": true,
+        "homeTeam": "Mason",
+        "homeExplicit": false,
+        "sourceUrl": "https://www.itascaisd.org/live-feed/"
+      },
+      "sources": [
+        {
+          "url": "https://www.itascaisd.org/live-feed/",
+          "publisher": "Itasca ISD",
+          "author": "Joshua Hayes",
+          "retrievedDate": "2026-11-11",
+          "publicationDate": null,
+          "publicationRelativeText": "3 days ago",
+          "retrievalMethod": "web open; school feed text",
+          "supports": [
+            "pairing",
+            "date",
+            "local time",
+            "venue and city",
+            "Itasca explicitly visiting"
+          ]
+        },
+        {
+          "url": "https://events.hometownticketing.com/boxoffice/killeenisd/L2VtYmVkL2V2ZW50LzIwODQ=",
+          "publisher": "Killeen ISD host box office",
+          "retrievedDate": "2026-11-11",
+          "publicationDate": null,
+          "retrievalMethod": "school-linked event opened; sparse text",
+          "supports": [
+            "school-linked event title only"
+          ],
+          "limit": "Do not claim unobserved event fields."
+        }
+      ],
+      "conflicts": [
+        {
+          "field": "venue spelling",
+          "staged": "Joseph Searles III Stadium, Killeen, TX",
+          "newSchoolText": "Joseph L. Sears III Stadium Killeen, TX",
+          "resolution": "held; no silent normalization"
+        }
+      ],
+      "remainingGaps": [
+        "explicit timezone",
+        "Mason home role explicit confirmation",
+        "venue spelling reconciliation",
+        "formal neutrality confirmation",
+        "exact publication approval"
+      ]
+    },
+    {
+      "bracket": {
+        "division": "2A Division II",
+        "region": "Region II",
+        "slot": 8,
+        "teams": [
+          "Wheeler",
+          "Seymour"
+        ]
+      },
+      "existingGameId": null,
+      "operation": "proposed-new-record",
+      "coreScheduleEvidenceComplete": true,
+      "supportedFields": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "timezone": "America/Chicago",
+        "timezoneLabel": "CST",
+        "utcOffset": "-06:00",
+        "venue": "Leo Brittain Field at Lion Stadium",
+        "city": "Vernon"
+      },
+      "designatedSides": null,
+      "formalNeutralSiteEvidence": null,
+      "sources": [
+        {
+          "url": "https://events.hometownticketing.com/boxoffice/vernonisd",
+          "publisher": "Vernon ISD host box office",
+          "retrievedDate": "2026-11-11",
+          "publicationDate": null,
+          "retrievalMethod": "web open; host listing text",
+          "supports": [
+            "Wheeler vs Seymour pairing",
+            "Thursday November 12",
+            "7:00 PM CST",
+            "Leo Brittain Field at Lion Stadium",
+            "Vernon ISD host"
+          ]
+        },
+        {
+          "url": "https://events.hometownticketing.com/boxoffice/vernonisd/L2VtYmVkL2V2ZW50LzQ2NQ==",
+          "publisher": "Vernon ISD host box office",
+          "retrievedDate": "2026-11-11",
+          "publicationDate": null,
+          "retrievalMethod": "host-linked event opened; sparse text",
+          "supports": [
+            "event title only"
+          ],
+          "limit": "Parent organization listing supplies observed schedule fields."
+        }
+      ],
+      "remainingGaps": [
+        "explicit designated sides",
+        "formal neutrality confirmation",
+        "exact publication approval"
+      ]
+    },
+    {
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region II",
+        "slot": 7,
+        "teams": [
+          "Axtell",
+          "Bangs"
+        ]
+      },
+      "existingGameId": null,
+      "operation": "proposed-new-record",
+      "coreScheduleEvidenceComplete": false,
+      "sources": [
+        {
+          "url": "https://www.kwtx.com/2026/11/09/2026-central-texas-hsfb-playoff-pairings/",
+          "publisher": "KWTX",
+          "author": "Chad Vautherine",
+          "publicationDate": "2026-11-09T13:41:00-06:00",
+          "retrievedDate": "2026-11-11",
+          "retrievalMethod": "web open",
+          "supports": [
+            "pairing",
+            "7:00 PM",
+            "Cub Stadium Clifton"
+          ],
+          "reportedDateText": "Thursday, November 13th"
+        }
+      ],
+      "conflicts": [
+        {
+          "field": "date",
+          "reported": "Thursday, November 13th",
+          "issue": "November 13 2026 is Friday; weekday and date internally conflict",
+          "selectedHistoricalKickoff": "2026-11-12T19:00:00-06:00",
+          "resolution": "preserve contradictory report; do not promote or silently correct"
+        }
+      ],
+      "remainingGaps": [
+        "primary date confirmation",
+        "explicit timezone",
+        "explicit designated sides",
+        "formal neutrality confirmation",
+        "exact publication approval"
+      ]
+    }
+  ],
+  "pilotPostseasonStatus": [
+    {
+      "schoolSlug": "hico",
+      "status": "did-not-qualify",
+      "confidence": "corroborated final standings plus authoritative bracket absence; no direct school announcement retrieved",
+      "districtPosition": 5,
+      "districtRecord": "1-4",
+      "overallRecord": "6-4",
+      "sources": [
+        {
+          "url": "https://www.maxpreps.com/tx/football/26-27/district/2a-1-region-ii-district-5/?leagueid=753cd6ca-14ce-4b84-9fc5-f056b0458df8",
+          "publisher": "MaxPreps",
+          "retrievedDate": "2026-11-11",
+          "publicationDate": null,
+          "updatedDate": "2026-11-10T20:31:00Z",
+          "retrievalMethod": "web open; final district table"
+        }
+      ]
+    },
+    {
+      "schoolSlug": "comanche",
+      "status": "did-not-qualify",
+      "confidence": "corroborated final standings plus authoritative bracket absence; no direct school announcement retrieved",
+      "districtPosition": 6,
+      "districtRecord": "3-4",
+      "overallRecord": "4-6",
+      "sources": [
+        {
+          "url": "https://www.brownwoodnews.com/2026/11/07/final-2026-local-high-school-football-standings/",
+          "publisher": "Brownwood News",
+          "author": "Derrick Stuckly",
+          "publicationDateText": "November 7, 2026 at 10:09 am",
+          "publicationTimezone": null,
+          "retrievedDate": "2026-11-11",
+          "retrievalMethod": "web open; final standings",
+          "qualifiersMarked": [
+            "Millsap",
+            "Tolar",
+            "Hamilton",
+            "Clifton"
+          ]
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "No designated roles inferred from VS/AT notation or bracket order.",
+    "No formal neutrality inferred from third-party stadium.",
+    "No production writes or publication authorization.",
+    "No primary school nonqualification announcements retrieved in bounded attempts.",
+    "Historical files unchanged."
+  ]
+}
