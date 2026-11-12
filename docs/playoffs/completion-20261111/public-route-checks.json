@@ -1,0 +1,103 @@
+{
+  "anonymous": true,
+  "checks": [
+    {
+      "path": "/playoffs",
+      "status": 200,
+      "finalUrl": "https://varsityvue.com/playoffs",
+      "sterlingInSitemap": null
+    },
+    {
+      "path": "/schools",
+      "status": 200,
+      "finalUrl": "https://varsityvue.com/schools",
+      "sterlingInSitemap": null
+    },
+    {
+      "path": "/sitemap.xml",
+      "status": 200,
+      "finalUrl": "https://varsityvue.com/sitemap.xml",
+      "sterlingInSitemap": false
+    },
+    {
+      "path": "/games",
+      "status": 200,
+      "finalUrl": "https://varsityvue.com/games",
+      "sterlingInSitemap": null
+    },
+    {
+      "path": "/schools/panhandle/schedule",
+      "status": 200,
+      "finalUrl": "https://varsityvue.com/schools/panhandle/schedule",
+      "sterlingInSitemap": null
+    },
+    {
+      "path": "/districts/2a-d1-district-1",
+      "status": 200,
+      "finalUrl": "https://varsityvue.com/districts/2a-d1-district-1",
+      "sterlingInSitemap": null
+    },
+    {
+      "path": "/schools/houston-sterling",
+      "status": 404
+    },
+    {
+      "path": "/schools/de-leon",
+      "status": 200,
+      "finalUrl": "https://varsityvue.com/schools/de-leon",
+      "sterlingInSitemap": null
+    },
+    {
+      "path": "/schools/cisco",
+      "status": 200,
+      "finalUrl": "https://varsityvue.com/schools/cisco",
+      "sterlingInSitemap": null
+    },
+    {
+      "path": "/schools/goldthwaite",
+      "status": 200,
+      "finalUrl": "https://varsityvue.com/schools/goldthwaite",
+      "sterlingInSitemap": null
+    },
+    {
+      "path": "/schools/albany",
+      "status": 200,
+      "finalUrl": "https://varsityvue.com/schools/albany",
+      "sterlingInSitemap": null
+    },
+    {
+      "path": "/schools/stephenville",
+      "status": 200,
+      "finalUrl": "https://varsityvue.com/schools/stephenville",
+      "sterlingInSitemap": null
+    },
+    {
+      "path": "/schools/hico",
+      "status": 200,
+      "finalUrl": "https://varsityvue.com/schools/hico",
+      "sterlingInSitemap": null
+    },
+    {
+      "path": "/schools/comanche",
+      "status": 200,
+      "finalUrl": "https://varsityvue.com/schools/comanche",
+      "sterlingInSitemap": null
+    },
+    {
+      "path": "/games/cisco-vs-nocona-2026-bi-district",
+      "status": 200,
+      "finalUrl": "https://varsityvue.com/games/cisco-vs-nocona-2026-bi-district",
+      "sterlingInSitemap": null
+    },
+    {
+      "path": "/admin/playoff-publishing",
+      "status": 200,
+      "finalUrl": "https://varsityvue.com/login",
+      "sterlingInSitemap": null
+    },
+    {
+      "path": "/api/admin/bi-district-readiness-export",
+      "status": 401
+    }
+  ]
+}

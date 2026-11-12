@@ -1,0 +1,2242 @@
+{
+  "main": "17e180f282decf7a77745974b90373f922dd7cb7",
+  "deployment": "dpl_HRtecLqY95GYRfNkkZJVqV3WWsE1",
+  "readOnlyProductionScoreQuery": {
+    "retrievedAt": "2026-11-12T05:09:25.762738+00:00",
+    "filter": "game_id like %2026-bi-district%",
+    "rows": [],
+    "note": "No dynamic states for seven static playoff IDs; runtime maps only static IDs."
+  },
+  "schools": [
+    {
+      "id": "de-leon",
+      "slug": "de-leon",
+      "districtId": "2a-d1-district-5"
+    },
+    {
+      "id": "abilene-texas-leadership",
+      "slug": "abilene-texas-leadership",
+      "districtId": "2a-d1-district-5"
+    },
+    {
+      "id": "anson",
+      "slug": "anson",
+      "districtId": "2a-d1-district-5"
+    },
+    {
+      "id": "cisco",
+      "slug": "cisco",
+      "districtId": "2a-d1-district-5"
+    },
+    {
+      "id": "hawley",
+      "slug": "hawley",
+      "districtId": "2a-d1-district-5"
+    },
+    {
+      "id": "hico",
+      "slug": "hico",
+      "districtId": "2a-d1-district-5"
+    },
+    {
+      "id": "bangs",
+      "slug": "bangs",
+      "districtId": "2a-d1-district-7"
+    },
+    {
+      "id": "brady",
+      "slug": "brady",
+      "districtId": "2a-d1-district-7"
+    },
+    {
+      "id": "coleman",
+      "slug": "coleman",
+      "districtId": "2a-d1-district-7"
+    },
+    {
+      "id": "johnson-city-lbj",
+      "slug": "johnson-city-lbj",
+      "districtId": "2a-d1-district-7"
+    },
+    {
+      "id": "mason",
+      "slug": "mason",
+      "districtId": "2a-d1-district-7"
+    },
+    {
+      "id": "san-saba",
+      "slug": "san-saba",
+      "districtId": "2a-d1-district-7"
+    },
+    {
+      "id": "comanche",
+      "slug": "comanche",
+      "districtId": "3a-d2-district-5"
+    },
+    {
+      "id": "goldthwaite",
+      "slug": "goldthwaite",
+      "districtId": "2a-d2-district-7"
+    },
+    {
+      "id": "albany",
+      "slug": "albany",
+      "districtId": "2a-d2-district-7"
+    },
+    {
+      "id": "cross-plains",
+      "slug": "cross-plains",
+      "districtId": "2a-d2-district-7"
+    },
+    {
+      "id": "hamlin",
+      "slug": "hamlin",
+      "districtId": "2a-d2-district-7"
+    },
+    {
+      "id": "miles",
+      "slug": "miles",
+      "districtId": "2a-d2-district-7"
+    },
+    {
+      "id": "stamford",
+      "slug": "stamford",
+      "districtId": "2a-d2-district-7"
+    },
+    {
+      "id": "winters",
+      "slug": "winters",
+      "districtId": "2a-d2-district-7"
+    },
+    {
+      "id": "stephenville",
+      "slug": "stephenville",
+      "districtId": "4a-d1-district-12"
+    },
+    {
+      "id": "brownwood",
+      "slug": "brownwood",
+      "districtId": "4a-d2-district-13"
+    },
+    {
+      "id": "brock",
+      "slug": "brock",
+      "districtId": "4a-d2-district-4"
+    },
+    {
+      "id": "clyde",
+      "slug": "clyde",
+      "districtId": "3a-d1-district-2"
+    },
+    {
+      "id": "early",
+      "slug": "early",
+      "districtId": "3a-d1-district-3"
+    },
+    {
+      "id": "breckenridge",
+      "slug": "breckenridge",
+      "districtId": "3a-d2-district-4"
+    },
+    {
+      "id": "midlothian-heritage",
+      "slug": "midlothian-heritage",
+      "districtId": "opponent"
+    },
+    {
+      "id": "abilene-wylie",
+      "slug": "abilene-wylie",
+      "districtId": "opponent"
+    },
+    {
+      "id": "lubbock-cooper",
+      "slug": "lubbock-cooper",
+      "districtId": "opponent"
+    },
+    {
+      "id": "canyon-west-plains",
+      "slug": "canyon-west-plains",
+      "districtId": "opponent"
+    },
+    {
+      "id": "junction",
+      "slug": "junction",
+      "districtId": "opponent"
+    },
+    {
+      "id": "granger",
+      "slug": "granger",
+      "districtId": "opponent"
+    },
+    {
+      "id": "haskell",
+      "slug": "haskell",
+      "districtId": "opponent"
+    },
+    {
+      "id": "merkel",
+      "slug": "merkel",
+      "districtId": "3a-d2-district-4"
+    },
+    {
+      "id": "holland",
+      "slug": "holland",
+      "districtId": "opponent"
+    },
+    {
+      "id": "moody",
+      "slug": "moody",
+      "districtId": "opponent"
+    },
+    {
+      "id": "meridian",
+      "slug": "meridian",
+      "districtId": "2a-d2-district-8"
+    },
+    {
+      "id": "florence",
+      "slug": "florence",
+      "districtId": "opponent"
+    },
+    {
+      "id": "christoval",
+      "slug": "christoval",
+      "districtId": "opponent"
+    },
+    {
+      "id": "colorado-city",
+      "slug": "colorado-city",
+      "districtId": "opponent"
+    },
+    {
+      "id": "henrietta",
+      "slug": "henrietta",
+      "districtId": "3a-d2-district-4"
+    },
+    {
+      "id": "jacksboro",
+      "slug": "jacksboro",
+      "districtId": "3a-d2-district-4"
+    },
+    {
+      "id": "olney",
+      "slug": "olney",
+      "districtId": "opponent"
+    },
+    {
+      "id": "peaster",
+      "slug": "peaster",
+      "districtId": "opponent"
+    },
+    {
+      "id": "post",
+      "slug": "post",
+      "districtId": "opponent"
+    },
+    {
+      "id": "roscoe",
+      "slug": "roscoe",
+      "districtId": "opponent"
+    },
+    {
+      "id": "seymour",
+      "slug": "seymour",
+      "districtId": "opponent"
+    },
+    {
+      "id": "burnet",
+      "slug": "burnet",
+      "districtId": "4a-d1-district-12"
+    },
+    {
+      "id": "china-spring",
+      "slug": "china-spring",
+      "districtId": "4a-d1-district-12"
+    },
+    {
+      "id": "jarrell",
+      "slug": "jarrell",
+      "districtId": "4a-d1-district-12"
+    },
+    {
+      "id": "lampasas",
+      "slug": "lampasas",
+      "districtId": "4a-d1-district-12"
+    },
+    {
+      "id": "marble-falls",
+      "slug": "marble-falls",
+      "districtId": "4a-d1-district-12"
+    },
+    {
+      "id": "clifton",
+      "slug": "clifton",
+      "districtId": "3a-d2-district-5"
+    },
+    {
+      "id": "dublin",
+      "slug": "dublin",
+      "districtId": "3a-d2-district-5"
+    },
+    {
+      "id": "eastland",
+      "slug": "eastland",
+      "districtId": "3a-d2-district-5"
+    },
+    {
+      "id": "hamilton",
+      "slug": "hamilton",
+      "districtId": "3a-d2-district-5"
+    },
+    {
+      "id": "millsap",
+      "slug": "millsap",
+      "districtId": "3a-d2-district-5"
+    },
+    {
+      "id": "rio-vista",
+      "slug": "rio-vista",
+      "districtId": "3a-d2-district-5"
+    },
+    {
+      "id": "tolar",
+      "slug": "tolar",
+      "districtId": "3a-d2-district-5"
+    },
+    {
+      "id": "crawford",
+      "slug": "crawford",
+      "districtId": "2a-d2-district-8"
+    },
+    {
+      "id": "frost",
+      "slug": "frost",
+      "districtId": "2a-d2-district-8"
+    },
+    {
+      "id": "hubbard",
+      "slug": "hubbard",
+      "districtId": "2a-d2-district-8"
+    },
+    {
+      "id": "mart",
+      "slug": "mart",
+      "districtId": "2a-d2-district-8"
+    },
+    {
+      "id": "wortham",
+      "slug": "wortham",
+      "districtId": "2a-d2-district-8"
+    },
+    {
+      "id": "holliday",
+      "slug": "holliday",
+      "districtId": "3a-d2-district-4"
+    },
+    {
+      "id": "city-view",
+      "slug": "city-view",
+      "districtId": "3a-d2-district-4"
+    },
+    {
+      "id": "valley-mills",
+      "slug": "valley-mills",
+      "districtId": "opponent"
+    },
+    {
+      "id": "blooming-grove",
+      "slug": "blooming-grove",
+      "districtId": "opponent"
+    },
+    {
+      "id": "itasca",
+      "slug": "itasca",
+      "districtId": "opponent"
+    },
+    {
+      "id": "santo",
+      "slug": "santo",
+      "districtId": "2a-d2-district-8"
+    },
+    {
+      "id": "panhandle",
+      "slug": "panhandle",
+      "districtId": "2a-d1-district-1"
+    },
+    {
+      "id": "floydada",
+      "slug": "floydada",
+      "districtId": "2a-d1-district-2"
+    },
+    {
+      "id": "forsan",
+      "slug": "forsan",
+      "districtId": "2a-d1-district-4"
+    },
+    {
+      "id": "abernathy",
+      "slug": "abernathy",
+      "districtId": "2a-d1-district-3"
+    },
+    {
+      "id": "tulia",
+      "slug": "tulia",
+      "districtId": "2a-d1-district-2"
+    },
+    {
+      "id": "sanford-fritch",
+      "slug": "sanford-fritch",
+      "districtId": "2a-d1-district-1"
+    },
+    {
+      "id": "new-home",
+      "slug": "new-home",
+      "districtId": "2a-d1-district-3"
+    },
+    {
+      "id": "ballinger",
+      "slug": "ballinger",
+      "districtId": "2a-d1-district-4"
+    },
+    {
+      "id": "ozona",
+      "slug": "ozona",
+      "districtId": "2a-d1-district-4"
+    },
+    {
+      "id": "olton",
+      "slug": "olton",
+      "districtId": "2a-d1-district-2"
+    },
+    {
+      "id": "amarillo-highland-park",
+      "slug": "amarillo-highland-park",
+      "districtId": "2a-d1-district-1"
+    },
+    {
+      "id": "sonora",
+      "slug": "sonora",
+      "districtId": "2a-d1-district-4"
+    },
+    {
+      "id": "new-deal",
+      "slug": "new-deal",
+      "districtId": "2a-d1-district-3"
+    },
+    {
+      "id": "spearman",
+      "slug": "spearman",
+      "districtId": "2a-d1-district-1"
+    },
+    {
+      "id": "farwell",
+      "slug": "farwell",
+      "districtId": "2a-d1-district-2"
+    },
+    {
+      "id": "nocona",
+      "slug": "nocona",
+      "districtId": "2a-d1-district-6"
+    },
+    {
+      "id": "bosqueville",
+      "slug": "bosqueville",
+      "districtId": "2a-d1-district-8"
+    },
+    {
+      "id": "muenster",
+      "slug": "muenster",
+      "districtId": "2a-d1-district-6"
+    },
+    {
+      "id": "tioga",
+      "slug": "tioga",
+      "districtId": "2a-d1-district-6"
+    },
+    {
+      "id": "axtell",
+      "slug": "axtell",
+      "districtId": "2a-d1-district-8"
+    },
+    {
+      "id": "alvord",
+      "slug": "alvord",
+      "districtId": "2a-d1-district-6"
+    },
+    {
+      "id": "cooper",
+      "slug": "cooper",
+      "districtId": "2a-d1-district-9"
+    },
+    {
+      "id": "como-pickton",
+      "slug": "como-pickton",
+      "districtId": "2a-d1-district-10"
+    },
+    {
+      "id": "shelbyville",
+      "slug": "shelbyville",
+      "districtId": "2a-d1-district-12"
+    },
+    {
+      "id": "waskom",
+      "slug": "waskom",
+      "districtId": "2a-d1-district-11"
+    },
+    {
+      "id": "price-carlisle",
+      "slug": "price-carlisle",
+      "districtId": "2a-d1-district-10"
+    },
+    {
+      "id": "honey-grove",
+      "slug": "honey-grove",
+      "districtId": "2a-d1-district-9"
+    },
+    {
+      "id": "beckville",
+      "slug": "beckville",
+      "districtId": "2a-d1-district-11"
+    },
+    {
+      "id": "garrison",
+      "slug": "garrison",
+      "districtId": "2a-d1-district-12"
+    },
+    {
+      "id": "omaha-pewitt",
+      "slug": "omaha-pewitt",
+      "districtId": "2a-d1-district-11"
+    },
+    {
+      "id": "joaquin",
+      "slug": "joaquin",
+      "districtId": "2a-d1-district-12"
+    },
+    {
+      "id": "frankston",
+      "slug": "frankston",
+      "districtId": "2a-d1-district-10"
+    },
+    {
+      "id": "whitewright",
+      "slug": "whitewright",
+      "districtId": "2a-d1-district-9"
+    },
+    {
+      "id": "san-augustine",
+      "slug": "san-augustine",
+      "districtId": "2a-d1-district-12"
+    },
+    {
+      "id": "gladewater-union-grove",
+      "slug": "gladewater-union-grove",
+      "districtId": "2a-d1-district-11"
+    },
+    {
+      "id": "tom-bean",
+      "slug": "tom-bean",
+      "districtId": "2a-d1-district-9"
+    },
+    {
+      "id": "hawkins",
+      "slug": "hawkins",
+      "districtId": "2a-d1-district-10"
+    },
+    {
+      "id": "thorndale",
+      "slug": "thorndale",
+      "districtId": "2a-d1-district-13"
+    },
+    {
+      "id": "groveton",
+      "slug": "groveton",
+      "districtId": "2a-d1-district-14"
+    },
+    {
+      "id": "refugio",
+      "slug": "refugio",
+      "districtId": "2a-d1-district-16"
+    },
+    {
+      "id": "weimar",
+      "slug": "weimar",
+      "districtId": "2a-d1-district-15"
+    },
+    {
+      "id": "jewett-leon",
+      "slug": "jewett-leon",
+      "districtId": "2a-d1-district-14"
+    },
+    {
+      "id": "bruceville-eddy",
+      "slug": "bruceville-eddy",
+      "districtId": "2a-d1-district-13"
+    },
+    {
+      "id": "ganado",
+      "slug": "ganado",
+      "districtId": "2a-d1-district-15"
+    },
+    {
+      "id": "taft",
+      "slug": "taft",
+      "districtId": "2a-d1-district-16"
+    },
+    {
+      "id": "shiner",
+      "slug": "shiner",
+      "districtId": "2a-d1-district-15"
+    },
+    {
+      "id": "freer",
+      "slug": "freer",
+      "districtId": "2a-d1-district-16"
+    },
+    {
+      "id": "lovelady",
+      "slug": "lovelady",
+      "districtId": "2a-d1-district-14"
+    },
+    {
+      "id": "dilley",
+      "slug": "dilley",
+      "districtId": "2a-d1-district-16"
+    },
+    {
+      "id": "flatonia",
+      "slug": "flatonia",
+      "districtId": "2a-d1-district-15"
+    },
+    {
+      "id": "rosebud-lott",
+      "slug": "rosebud-lott",
+      "districtId": "2a-d1-district-13"
+    },
+    {
+      "id": "corrigan-camden",
+      "slug": "corrigan-camden",
+      "districtId": "2a-d1-district-14"
+    },
+    {
+      "id": "gruver",
+      "slug": "gruver",
+      "districtId": "2a-d2-district-1"
+    },
+    {
+      "id": "plains",
+      "slug": "plains",
+      "districtId": "2a-d2-district-2"
+    },
+    {
+      "id": "mccamey",
+      "slug": "mccamey",
+      "districtId": "2a-d2-district-4"
+    },
+    {
+      "id": "tahoka",
+      "slug": "tahoka",
+      "districtId": "2a-d2-district-3"
+    },
+    {
+      "id": "ropes",
+      "slug": "ropes",
+      "districtId": "2a-d2-district-2"
+    },
+    {
+      "id": "vega",
+      "slug": "vega",
+      "districtId": "2a-d2-district-1"
+    },
+    {
+      "id": "lockney",
+      "slug": "lockney",
+      "districtId": "2a-d2-district-3"
+    },
+    {
+      "id": "iraan",
+      "slug": "iraan",
+      "districtId": "2a-d2-district-4"
+    },
+    {
+      "id": "eldorado",
+      "slug": "eldorado",
+      "districtId": "2a-d2-district-4"
+    },
+    {
+      "id": "sudan",
+      "slug": "sudan",
+      "districtId": "2a-d2-district-2"
+    },
+    {
+      "id": "stinnett-west-texas",
+      "slug": "stinnett-west-texas",
+      "districtId": "2a-d2-district-1"
+    },
+    {
+      "id": "wink",
+      "slug": "wink",
+      "districtId": "2a-d2-district-4"
+    },
+    {
+      "id": "ralls",
+      "slug": "ralls",
+      "districtId": "2a-d2-district-3"
+    },
+    {
+      "id": "stratford",
+      "slug": "stratford",
+      "districtId": "2a-d2-district-1"
+    },
+    {
+      "id": "seagraves",
+      "slug": "seagraves",
+      "districtId": "2a-d2-district-2"
+    },
+    {
+      "id": "wellington",
+      "slug": "wellington",
+      "districtId": "2a-d2-district-5"
+    },
+    {
+      "id": "munday",
+      "slug": "munday",
+      "districtId": "2a-d2-district-6"
+    },
+    {
+      "id": "windthorst",
+      "slug": "windthorst",
+      "districtId": "2a-d2-district-6"
+    },
+    {
+      "id": "quanah",
+      "slug": "quanah",
+      "districtId": "2a-d2-district-5"
+    },
+    {
+      "id": "clarendon",
+      "slug": "clarendon",
+      "districtId": "2a-d2-district-5"
+    },
+    {
+      "id": "wheeler",
+      "slug": "wheeler",
+      "districtId": "2a-d2-district-5"
+    },
+    {
+      "id": "collinsville",
+      "slug": "collinsville",
+      "districtId": "2a-d2-district-9"
+    },
+    {
+      "id": "maud",
+      "slug": "maud",
+      "districtId": "2a-d2-district-10"
+    },
+    {
+      "id": "colmesneil",
+      "slug": "colmesneil",
+      "districtId": "2a-d2-district-12"
+    },
+    {
+      "id": "cushing",
+      "slug": "cushing",
+      "districtId": "2a-d2-district-11"
+    },
+    {
+      "id": "clarksville",
+      "slug": "clarksville",
+      "districtId": "2a-d2-district-10"
+    },
+    {
+      "id": "quinlan-boles",
+      "slug": "quinlan-boles",
+      "districtId": "2a-d2-district-9"
+    },
+    {
+      "id": "grapeland",
+      "slug": "grapeland",
+      "districtId": "2a-d2-district-11"
+    },
+    {
+      "id": "saratoga-west-hardin",
+      "slug": "saratoga-west-hardin",
+      "districtId": "2a-d2-district-12"
+    },
+    {
+      "id": "overton",
+      "slug": "overton",
+      "districtId": "2a-d2-district-11"
+    },
+    {
+      "id": "evadale",
+      "slug": "evadale",
+      "districtId": "2a-d2-district-12"
+    },
+    {
+      "id": "detroit",
+      "slug": "detroit",
+      "districtId": "2a-d2-district-10"
+    },
+    {
+      "id": "era",
+      "slug": "era",
+      "districtId": "2a-d2-district-9"
+    },
+    {
+      "id": "west-sabine",
+      "slug": "west-sabine",
+      "districtId": "2a-d2-district-12"
+    },
+    {
+      "id": "tenaha",
+      "slug": "tenaha",
+      "districtId": "2a-d2-district-11"
+    },
+    {
+      "id": "lindsay",
+      "slug": "lindsay",
+      "districtId": "2a-d2-district-9"
+    },
+    {
+      "id": "simms-bowie",
+      "slug": "simms-bowie",
+      "districtId": "2a-d2-district-10"
+    },
+    {
+      "id": "bremond",
+      "slug": "bremond",
+      "districtId": "2a-d2-district-13"
+    },
+    {
+      "id": "dhanis",
+      "slug": "dhanis",
+      "districtId": "2a-d2-district-14"
+    },
+    {
+      "id": "ben-bolt-palito-blanco",
+      "slug": "ben-bolt-palito-blanco",
+      "districtId": "2a-d2-district-16"
+    },
+    {
+      "id": "three-rivers",
+      "slug": "three-rivers",
+      "districtId": "2a-d2-district-15"
+    },
+    {
+      "id": "bartlett",
+      "slug": "bartlett",
+      "districtId": "2a-d2-district-13"
+    },
+    {
+      "id": "yorktown",
+      "slug": "yorktown",
+      "districtId": "2a-d2-district-15"
+    },
+    {
+      "id": "santa-maria",
+      "slug": "santa-maria",
+      "districtId": "2a-d2-district-16"
+    },
+    {
+      "id": "falls-city",
+      "slug": "falls-city",
+      "districtId": "2a-d2-district-15"
+    },
+    {
+      "id": "agua-dulce",
+      "slug": "agua-dulce",
+      "districtId": "2a-d2-district-16"
+    },
+    {
+      "id": "harper",
+      "slug": "harper",
+      "districtId": "2a-d2-district-14"
+    },
+    {
+      "id": "burton",
+      "slug": "burton",
+      "districtId": "2a-d2-district-13"
+    },
+    {
+      "id": "la-villa",
+      "slug": "la-villa",
+      "districtId": "2a-d2-district-16"
+    },
+    {
+      "id": "pettus",
+      "slug": "pettus",
+      "districtId": "2a-d2-district-15"
+    },
+    {
+      "id": "chilton",
+      "slug": "chilton",
+      "districtId": "2a-d2-district-13"
+    },
+    {
+      "id": "brackettville-brackett",
+      "slug": "brackettville-brackett",
+      "districtId": "2a-d2-district-14"
+    },
+    {
+      "id": "shallowater",
+      "slug": "shallowater",
+      "districtId": "3a-d1-district-1"
+    },
+    {
+      "id": "odessa-compass-academy",
+      "slug": "odessa-compass-academy",
+      "districtId": "3a-d1-district-2"
+    },
+    {
+      "id": "denver-city",
+      "slug": "denver-city",
+      "districtId": "3a-d1-district-1"
+    },
+    {
+      "id": "ingram-moore",
+      "slug": "ingram-moore",
+      "districtId": "3a-d1-district-3"
+    },
+    {
+      "id": "vernon",
+      "slug": "vernon",
+      "districtId": "3a-d1-district-4"
+    },
+    {
+      "id": "wall",
+      "slug": "wall",
+      "districtId": "3a-d1-district-3"
+    },
+    {
+      "id": "bowie",
+      "slug": "bowie",
+      "districtId": "3a-d1-district-4"
+    },
+    {
+      "id": "sweetwater",
+      "slug": "sweetwater",
+      "districtId": "3a-d1-district-2"
+    },
+    {
+      "id": "dalhart",
+      "slug": "dalhart",
+      "districtId": "3a-d1-district-1"
+    },
+    {
+      "id": "paradise",
+      "slug": "paradise",
+      "districtId": "3a-d1-district-4"
+    },
+    {
+      "id": "llano",
+      "slug": "llano",
+      "districtId": "3a-d1-district-3"
+    },
+    {
+      "id": "bushland",
+      "slug": "bushland",
+      "districtId": "3a-d1-district-1"
+    },
+    {
+      "id": "tuscola-jim-ned",
+      "slug": "tuscola-jim-ned",
+      "districtId": "3a-d1-district-2"
+    },
+    {
+      "id": "gunter",
+      "slug": "gunter",
+      "districtId": "3a-d1-district-5"
+    },
+    {
+      "id": "groesbeck",
+      "slug": "groesbeck",
+      "districtId": "3a-d1-district-6"
+    },
+    {
+      "id": "texarkana-liberty-eylau",
+      "slug": "texarkana-liberty-eylau",
+      "districtId": "3a-d1-district-8"
+    },
+    {
+      "id": "commerce",
+      "slug": "commerce",
+      "districtId": "3a-d1-district-7"
+    },
+    {
+      "id": "whitney",
+      "slug": "whitney",
+      "districtId": "3a-d1-district-6"
+    },
+    {
+      "id": "dallas-life-oak-cliff",
+      "slug": "dallas-life-oak-cliff",
+      "districtId": "3a-d1-district-5"
+    },
+    {
+      "id": "winnsboro",
+      "slug": "winnsboro",
+      "districtId": "3a-d1-district-7"
+    },
+    {
+      "id": "tatum",
+      "slug": "tatum",
+      "districtId": "3a-d1-district-8"
+    },
+    {
+      "id": "malakoff",
+      "slug": "malakoff",
+      "districtId": "3a-d1-district-7"
+    },
+    {
+      "id": "gladewater",
+      "slug": "gladewater",
+      "districtId": "3a-d1-district-8"
+    },
+    {
+      "id": "mexia",
+      "slug": "mexia",
+      "districtId": "3a-d1-district-6"
+    },
+    {
+      "id": "pilot-point",
+      "slug": "pilot-point",
+      "districtId": "3a-d1-district-5"
+    },
+    {
+      "id": "atlanta",
+      "slug": "atlanta",
+      "districtId": "3a-d1-district-8"
+    },
+    {
+      "id": "mount-vernon",
+      "slug": "mount-vernon",
+      "districtId": "3a-d1-district-7"
+    },
+    {
+      "id": "whitesboro",
+      "slug": "whitesboro",
+      "districtId": "3a-d1-district-5"
+    },
+    {
+      "id": "grandview",
+      "slug": "grandview",
+      "districtId": "3a-d1-district-6"
+    },
+    {
+      "id": "diboll",
+      "slug": "diboll",
+      "districtId": "3a-d1-district-9"
+    },
+    {
+      "id": "buna",
+      "slug": "buna",
+      "districtId": "3a-d1-district-10"
+    },
+    {
+      "id": "lorena",
+      "slug": "lorena",
+      "districtId": "3a-d1-district-12"
+    },
+    {
+      "id": "sweeny",
+      "slug": "sweeny",
+      "districtId": "3a-d1-district-11"
+    },
+    {
+      "id": "orangefield",
+      "slug": "orangefield",
+      "districtId": "3a-d1-district-10"
+    },
+    {
+      "id": "trinity",
+      "slug": "trinity",
+      "districtId": "3a-d1-district-9"
+    },
+    {
+      "id": "edna",
+      "slug": "edna",
+      "districtId": "3a-d1-district-11"
+    },
+    {
+      "id": "cameron-yoe",
+      "slug": "cameron-yoe",
+      "districtId": "3a-d1-district-12"
+    },
+    {
+      "id": "columbus",
+      "slug": "columbus",
+      "districtId": "3a-d1-district-11"
+    },
+    {
+      "id": "little-river-academy",
+      "slug": "little-river-academy",
+      "districtId": "3a-d1-district-12"
+    },
+    {
+      "id": "anahuac",
+      "slug": "anahuac",
+      "districtId": "3a-d1-district-10"
+    },
+    {
+      "id": "palestine-westwood",
+      "slug": "palestine-westwood",
+      "districtId": "3a-d1-district-9"
+    },
+    {
+      "id": "franklin",
+      "slug": "franklin",
+      "districtId": "3a-d1-district-12"
+    },
+    {
+      "id": "hempstead",
+      "slug": "hempstead",
+      "districtId": "3a-d1-district-11"
+    },
+    {
+      "id": "fairfield",
+      "slug": "fairfield",
+      "districtId": "3a-d1-district-9"
+    },
+    {
+      "id": "east-chambers",
+      "slug": "east-chambers",
+      "districtId": "3a-d1-district-10"
+    },
+    {
+      "id": "yoakum",
+      "slug": "yoakum",
+      "districtId": "3a-d1-district-13"
+    },
+    {
+      "id": "carrizo-springs",
+      "slug": "carrizo-springs",
+      "districtId": "3a-d1-district-14"
+    },
+    {
+      "id": "rio-hondo",
+      "slug": "rio-hondo",
+      "districtId": "3a-d1-district-16"
+    },
+    {
+      "id": "goliad",
+      "slug": "goliad",
+      "districtId": "3a-d1-district-15"
+    },
+    {
+      "id": "devine",
+      "slug": "devine",
+      "districtId": "3a-d1-district-14"
+    },
+    {
+      "id": "universal-city-randolph",
+      "slug": "universal-city-randolph",
+      "districtId": "3a-d1-district-13"
+    },
+    {
+      "id": "orange-grove",
+      "slug": "orange-grove",
+      "districtId": "3a-d1-district-15"
+    },
+    {
+      "id": "raymondville",
+      "slug": "raymondville",
+      "districtId": "3a-d1-district-16"
+    },
+    {
+      "id": "sinton",
+      "slug": "sinton",
+      "districtId": "3a-d1-district-15"
+    },
+    {
+      "id": "lyford",
+      "slug": "lyford",
+      "districtId": "3a-d1-district-16"
+    },
+    {
+      "id": "jourdanton",
+      "slug": "jourdanton",
+      "districtId": "3a-d1-district-14"
+    },
+    {
+      "id": "hallettsville",
+      "slug": "hallettsville",
+      "districtId": "3a-d1-district-13"
+    },
+    {
+      "id": "san-diego",
+      "slug": "san-diego",
+      "districtId": "3a-d1-district-16"
+    },
+    {
+      "id": "mathis",
+      "slug": "mathis",
+      "districtId": "3a-d1-district-15"
+    },
+    {
+      "id": "marion",
+      "slug": "marion",
+      "districtId": "3a-d1-district-13"
+    },
+    {
+      "id": "hondo",
+      "slug": "hondo",
+      "districtId": "3a-d1-district-14"
+    },
+    {
+      "id": "canadian",
+      "slug": "canadian",
+      "districtId": "3a-d2-district-1"
+    },
+    {
+      "id": "muleshoe",
+      "slug": "muleshoe",
+      "districtId": "3a-d2-district-2"
+    },
+    {
+      "id": "crane",
+      "slug": "crane",
+      "districtId": "3a-d2-district-3"
+    },
+    {
+      "id": "idalou",
+      "slug": "idalou",
+      "districtId": "3a-d2-district-2"
+    },
+    {
+      "id": "dimmitt",
+      "slug": "dimmitt",
+      "districtId": "3a-d2-district-1"
+    },
+    {
+      "id": "coahoma",
+      "slug": "coahoma",
+      "districtId": "3a-d2-district-3"
+    },
+    {
+      "id": "stanton",
+      "slug": "stanton",
+      "districtId": "3a-d2-district-3"
+    },
+    {
+      "id": "slaton",
+      "slug": "slaton",
+      "districtId": "3a-d2-district-2"
+    },
+    {
+      "id": "friona",
+      "slug": "friona",
+      "districtId": "3a-d2-district-1"
+    },
+    {
+      "id": "san-angelo-grape-creek",
+      "slug": "san-angelo-grape-creek",
+      "districtId": "3a-d2-district-3"
+    },
+    {
+      "id": "childress",
+      "slug": "childress",
+      "districtId": "3a-d2-district-1"
+    },
+    {
+      "id": "littlefield",
+      "slug": "littlefield",
+      "districtId": "3a-d2-district-2"
+    },
+    {
+      "id": "trinity-leadership-cedar-hill",
+      "slug": "trinity-leadership-cedar-hill",
+      "districtId": "3a-d2-district-6"
+    },
+    {
+      "id": "edgewood",
+      "slug": "edgewood",
+      "districtId": "3a-d2-district-8"
+    },
+    {
+      "id": "valley-view",
+      "slug": "valley-view",
+      "districtId": "3a-d2-district-7"
+    },
+    {
+      "id": "maypearl",
+      "slug": "maypearl",
+      "districtId": "3a-d2-district-6"
+    },
+    {
+      "id": "howe",
+      "slug": "howe",
+      "districtId": "3a-d2-district-7"
+    },
+    {
+      "id": "quitman",
+      "slug": "quitman",
+      "districtId": "3a-d2-district-8"
+    },
+    {
+      "id": "bells",
+      "slug": "bells",
+      "districtId": "3a-d2-district-7"
+    },
+    {
+      "id": "lone-oak",
+      "slug": "lone-oak",
+      "districtId": "3a-d2-district-8"
+    },
+    {
+      "id": "dallas-madison",
+      "slug": "dallas-madison",
+      "districtId": "3a-d2-district-6"
+    },
+    {
+      "id": "grand-saline",
+      "slug": "grand-saline",
+      "districtId": "3a-d2-district-8"
+    },
+    {
+      "id": "leonard",
+      "slug": "leonard",
+      "districtId": "3a-d2-district-7"
+    },
+    {
+      "id": "scurry-rosser",
+      "slug": "scurry-rosser",
+      "districtId": "3a-d2-district-6"
+    },
+    {
+      "id": "hooks",
+      "slug": "hooks",
+      "districtId": "3a-d2-district-9"
+    },
+    {
+      "id": "arp",
+      "slug": "arp",
+      "districtId": "3a-d2-district-10"
+    },
+    {
+      "id": "new-waverly",
+      "slug": "new-waverly",
+      "districtId": "3a-d2-district-12"
+    },
+    {
+      "id": "buffalo",
+      "slug": "buffalo",
+      "districtId": "3a-d2-district-11"
+    },
+    {
+      "id": "jefferson",
+      "slug": "jefferson",
+      "districtId": "3a-d2-district-10"
+    },
+    {
+      "id": "redwater",
+      "slug": "redwater",
+      "districtId": "3a-d2-district-9"
+    },
+    {
+      "id": "teague",
+      "slug": "teague",
+      "districtId": "3a-d2-district-11"
+    },
+    {
+      "id": "hardin",
+      "slug": "hardin",
+      "districtId": "3a-d2-district-12"
+    },
+    {
+      "id": "mildred",
+      "slug": "mildred",
+      "districtId": "3a-d2-district-11"
+    },
+    {
+      "id": "woodville",
+      "slug": "woodville",
+      "districtId": "3a-d2-district-12"
+    },
+    {
+      "id": "new-london-west-rusk",
+      "slug": "new-london-west-rusk",
+      "districtId": "3a-d2-district-10"
+    },
+    {
+      "id": "new-boston",
+      "slug": "new-boston",
+      "districtId": "3a-d2-district-9"
+    },
+    {
+      "id": "newton",
+      "slug": "newton",
+      "districtId": "3a-d2-district-12"
+    },
+    {
+      "id": "elkhart",
+      "slug": "elkhart",
+      "districtId": "3a-d2-district-11"
+    },
+    {
+      "id": "de-kalb",
+      "slug": "de-kalb",
+      "districtId": "3a-d2-district-9"
+    },
+    {
+      "id": "troup",
+      "slug": "troup",
+      "districtId": "3a-d2-district-10"
+    },
+    {
+      "id": "thrall",
+      "slug": "thrall",
+      "districtId": "3a-d2-district-13"
+    },
+    {
+      "id": "wallis-brazos",
+      "slug": "wallis-brazos",
+      "districtId": "3a-d2-district-14"
+    },
+    {
+      "id": "hebbronville",
+      "slug": "hebbronville",
+      "districtId": "3a-d2-district-16"
+    },
+    {
+      "id": "blanco",
+      "slug": "blanco",
+      "districtId": "3a-d2-district-15"
+    },
+    {
+      "id": "east-bernard",
+      "slug": "east-bernard",
+      "districtId": "3a-d2-district-14"
+    },
+    {
+      "id": "anderson-shiro",
+      "slug": "anderson-shiro",
+      "districtId": "3a-d2-district-13"
+    },
+    {
+      "id": "stockdale",
+      "slug": "stockdale",
+      "districtId": "3a-d2-district-15"
+    },
+    {
+      "id": "cotulla",
+      "slug": "cotulla",
+      "districtId": "3a-d2-district-16"
+    },
+    {
+      "id": "poth",
+      "slug": "poth",
+      "districtId": "3a-d2-district-15"
+    },
+    {
+      "id": "santa-rosa",
+      "slug": "santa-rosa",
+      "districtId": "3a-d2-district-16"
+    },
+    {
+      "id": "altair-rice",
+      "slug": "altair-rice",
+      "districtId": "3a-d2-district-14"
+    },
+    {
+      "id": "rogers",
+      "slug": "rogers",
+      "districtId": "3a-d2-district-13"
+    },
+    {
+      "id": "george-west",
+      "slug": "george-west",
+      "districtId": "3a-d2-district-16"
+    },
+    {
+      "id": "nixon-smiley",
+      "slug": "nixon-smiley",
+      "districtId": "3a-d2-district-15"
+    },
+    {
+      "id": "lexington",
+      "slug": "lexington",
+      "districtId": "3a-d2-district-13"
+    },
+    {
+      "id": "boling",
+      "slug": "boling",
+      "districtId": "3a-d2-district-14"
+    },
+    {
+      "id": "el-paso-andress",
+      "slug": "el-paso-andress",
+      "districtId": "4a-d1-district-1"
+    },
+    {
+      "id": "dumas",
+      "slug": "dumas",
+      "districtId": "4a-d1-district-2"
+    },
+    {
+      "id": "decatur",
+      "slug": "decatur",
+      "districtId": "4a-d1-district-4"
+    },
+    {
+      "id": "san-angelo-lake-view",
+      "slug": "san-angelo-lake-view",
+      "districtId": "4a-d1-district-3"
+    },
+    {
+      "id": "canyon-randall",
+      "slug": "canyon-randall",
+      "districtId": "4a-d1-district-2"
+    },
+    {
+      "id": "el-paso-austin",
+      "slug": "el-paso-austin",
+      "districtId": "4a-d1-district-1"
+    },
+    {
+      "id": "plainview",
+      "slug": "plainview",
+      "districtId": "4a-d1-district-3"
+    },
+    {
+      "id": "lake-dallas",
+      "slug": "lake-dallas",
+      "districtId": "4a-d1-district-4"
+    },
+    {
+      "id": "midland-greenwood",
+      "slug": "midland-greenwood",
+      "districtId": "4a-d1-district-3"
+    },
+    {
+      "id": "springtown",
+      "slug": "springtown",
+      "districtId": "4a-d1-district-4"
+    },
+    {
+      "id": "el-paso-ysleta",
+      "slug": "el-paso-ysleta",
+      "districtId": "4a-d1-district-1"
+    },
+    {
+      "id": "aubrey",
+      "slug": "aubrey",
+      "districtId": "4a-d1-district-4"
+    },
+    {
+      "id": "andrews",
+      "slug": "andrews",
+      "districtId": "4a-d1-district-3"
+    },
+    {
+      "id": "el-paso-riverside",
+      "slug": "el-paso-riverside",
+      "districtId": "4a-d1-district-1"
+    },
+    {
+      "id": "canyon",
+      "slug": "canyon",
+      "districtId": "4a-d1-district-2"
+    },
+    {
+      "id": "kennedale",
+      "slug": "kennedale",
+      "districtId": "4a-d1-district-5"
+    },
+    {
+      "id": "dallas-carter",
+      "slug": "dallas-carter",
+      "districtId": "4a-d1-district-6"
+    },
+    {
+      "id": "longview-pine-tree",
+      "slug": "longview-pine-tree",
+      "districtId": "4a-d1-district-8"
+    },
+    {
+      "id": "caddo-mills",
+      "slug": "caddo-mills",
+      "districtId": "4a-d1-district-7"
+    },
+    {
+      "id": "dallas-lincoln",
+      "slug": "dallas-lincoln",
+      "districtId": "4a-d1-district-6"
+    },
+    {
+      "id": "fort-worth-southwest",
+      "slug": "fort-worth-southwest",
+      "districtId": "4a-d1-district-5"
+    },
+    {
+      "id": "paris",
+      "slug": "paris",
+      "districtId": "4a-d1-district-7"
+    },
+    {
+      "id": "kilgore",
+      "slug": "kilgore",
+      "districtId": "4a-d1-district-8"
+    },
+    {
+      "id": "sulphur-springs",
+      "slug": "sulphur-springs",
+      "districtId": "4a-d1-district-7"
+    },
+    {
+      "id": "henderson",
+      "slug": "henderson",
+      "districtId": "4a-d1-district-8"
+    },
+    {
+      "id": "dallas-kimball",
+      "slug": "dallas-kimball",
+      "districtId": "4a-d1-district-6"
+    },
+    {
+      "id": "fort-worth-benbrook",
+      "slug": "fort-worth-benbrook",
+      "districtId": "4a-d1-district-5"
+    },
+    {
+      "id": "lindale",
+      "slug": "lindale",
+      "districtId": "4a-d1-district-8"
+    },
+    {
+      "id": "kaufman",
+      "slug": "kaufman",
+      "districtId": "4a-d1-district-7"
+    },
+    {
+      "id": "fort-worth-eastern-hills",
+      "slug": "fort-worth-eastern-hills",
+      "districtId": "4a-d1-district-5"
+    },
+    {
+      "id": "dallas-hutchins",
+      "slug": "dallas-hutchins",
+      "districtId": "4a-d1-district-6"
+    },
+    {
+      "id": "orange-little-cypress-mauriceville",
+      "slug": "orange-little-cypress-mauriceville",
+      "districtId": "4a-d1-district-9"
+    },
+    {
+      "id": "houston-austin",
+      "slug": "houston-austin",
+      "districtId": "4a-d1-district-10"
+    },
+    {
+      "id": "el-campo",
+      "slug": "el-campo",
+      "districtId": "4a-d1-district-11"
+    },
+    {
+      "id": "stafford",
+      "slug": "stafford",
+      "districtId": "4a-d1-district-10"
+    },
+    {
+      "id": "bridge-city",
+      "slug": "bridge-city",
+      "districtId": "4a-d1-district-9"
+    },
+    {
+      "id": "sealy",
+      "slug": "sealy",
+      "districtId": "4a-d1-district-11"
+    },
+    {
+      "id": "bay-city",
+      "slug": "bay-city",
+      "districtId": "4a-d1-district-11"
+    },
+    {
+      "id": "fort-bend-willowridge",
+      "slug": "fort-bend-willowridge",
+      "districtId": "4a-d1-district-10"
+    },
+    {
+      "id": "huffman-hargrave",
+      "slug": "huffman-hargrave",
+      "districtId": "4a-d1-district-9"
+    },
+    {
+      "id": "navasota",
+      "slug": "navasota",
+      "districtId": "4a-d1-district-11"
+    },
+    {
+      "id": "vidor",
+      "slug": "vidor",
+      "districtId": "4a-d1-district-9"
+    },
+    {
+      "id": "comal-canyon-lake",
+      "slug": "comal-canyon-lake",
+      "districtId": "4a-d1-district-13"
+    },
+    {
+      "id": "pleasanton",
+      "slug": "pleasanton",
+      "districtId": "4a-d1-district-14"
+    },
+    {
+      "id": "edcouch-elsa",
+      "slug": "edcouch-elsa",
+      "districtId": "4a-d1-district-16"
+    },
+    {
+      "id": "port-lavaca-calhoun",
+      "slug": "port-lavaca-calhoun",
+      "districtId": "4a-d1-district-15"
+    },
+    {
+      "id": "somerset",
+      "slug": "somerset",
+      "districtId": "4a-d1-district-14"
+    },
+    {
+      "id": "comal-davenport",
+      "slug": "comal-davenport",
+      "districtId": "4a-d1-district-13"
+    },
+    {
+      "id": "zapata",
+      "slug": "zapata",
+      "districtId": "4a-d1-district-16"
+    },
+    {
+      "id": "corpus-christi-miller",
+      "slug": "corpus-christi-miller",
+      "districtId": "4a-d1-district-15"
+    },
+    {
+      "id": "corpus-christi-calallen",
+      "slug": "corpus-christi-calallen",
+      "districtId": "4a-d1-district-15"
+    },
+    {
+      "id": "hidalgo-early-college",
+      "slug": "hidalgo-early-college",
+      "districtId": "4a-d1-district-16"
+    },
+    {
+      "id": "floresville",
+      "slug": "floresville",
+      "districtId": "4a-d1-district-14"
+    },
+    {
+      "id": "fredericksburg",
+      "slug": "fredericksburg",
+      "districtId": "4a-d1-district-13"
+    },
+    {
+      "id": "alice",
+      "slug": "alice",
+      "districtId": "4a-d1-district-16"
+    },
+    {
+      "id": "corpus-christi-tuloso-midway",
+      "slug": "corpus-christi-tuloso-midway",
+      "districtId": "4a-d1-district-15"
+    },
+    {
+      "id": "kerrville-tivy",
+      "slug": "kerrville-tivy",
+      "districtId": "4a-d1-district-13"
+    },
+    {
+      "id": "la-vernia",
+      "slug": "la-vernia",
+      "districtId": "4a-d1-district-14"
+    },
+    {
+      "id": "el-paso-irvin",
+      "slug": "el-paso-irvin",
+      "districtId": "4a-d2-district-1"
+    },
+    {
+      "id": "pecos",
+      "slug": "pecos",
+      "districtId": "4a-d2-district-2"
+    },
+    {
+      "id": "graham",
+      "slug": "graham",
+      "districtId": "4a-d2-district-4"
+    },
+    {
+      "id": "lubbock-estacado",
+      "slug": "lubbock-estacado",
+      "districtId": "4a-d2-district-3"
+    },
+    {
+      "id": "seminole",
+      "slug": "seminole",
+      "districtId": "4a-d2-district-2"
+    },
+    {
+      "id": "el-paso-bowie",
+      "slug": "el-paso-bowie",
+      "districtId": "4a-d2-district-1"
+    },
+    {
+      "id": "levelland",
+      "slug": "levelland",
+      "districtId": "4a-d2-district-3"
+    },
+    {
+      "id": "mineral-wells",
+      "slug": "mineral-wells",
+      "districtId": "4a-d2-district-4"
+    },
+    {
+      "id": "lubbock-cooper-liberty",
+      "slug": "lubbock-cooper-liberty",
+      "districtId": "4a-d2-district-3"
+    },
+    {
+      "id": "burkburnett",
+      "slug": "burkburnett",
+      "districtId": "4a-d2-district-4"
+    },
+    {
+      "id": "monahans",
+      "slug": "monahans",
+      "districtId": "4a-d2-district-2"
+    },
+    {
+      "id": "clint",
+      "slug": "clint",
+      "districtId": "4a-d2-district-1"
+    },
+    {
+      "id": "perryton",
+      "slug": "perryton",
+      "districtId": "4a-d2-district-3"
+    },
+    {
+      "id": "clint-mountain-view",
+      "slug": "clint-mountain-view",
+      "districtId": "4a-d2-district-1"
+    },
+    {
+      "id": "big-spring",
+      "slug": "big-spring",
+      "districtId": "4a-d2-district-2"
+    },
+    {
+      "id": "glen-rose",
+      "slug": "glen-rose",
+      "districtId": "4a-d2-district-5"
+    },
+    {
+      "id": "ponder",
+      "slug": "ponder",
+      "districtId": "4a-d2-district-6"
+    },
+    {
+      "id": "carthage",
+      "slug": "carthage",
+      "districtId": "4a-d2-district-8"
+    },
+    {
+      "id": "quinlan-ford",
+      "slug": "quinlan-ford",
+      "districtId": "4a-d2-district-7"
+    },
+    {
+      "id": "van-alstyne",
+      "slug": "van-alstyne",
+      "districtId": "4a-d2-district-6"
+    },
+    {
+      "id": "venus",
+      "slug": "venus",
+      "districtId": "4a-d2-district-5"
+    },
+    {
+      "id": "farmersville",
+      "slug": "farmersville",
+      "districtId": "4a-d2-district-7"
+    },
+    {
+      "id": "texarkana-pleasant-grove",
+      "slug": "texarkana-pleasant-grove",
+      "districtId": "4a-d2-district-8"
+    },
+    {
+      "id": "sunnyvale",
+      "slug": "sunnyvale",
+      "districtId": "4a-d2-district-7"
+    },
+    {
+      "id": "pittsburg",
+      "slug": "pittsburg",
+      "districtId": "4a-d2-district-8"
+    },
+    {
+      "id": "krum",
+      "slug": "krum",
+      "districtId": "4a-d2-district-6"
+    },
+    {
+      "id": "kemp",
+      "slug": "kemp",
+      "districtId": "4a-d2-district-5"
+    },
+    {
+      "id": "gilmer",
+      "slug": "gilmer",
+      "districtId": "4a-d2-district-8"
+    },
+    {
+      "id": "paris-north-lamar",
+      "slug": "paris-north-lamar",
+      "districtId": "4a-d2-district-7"
+    },
+    {
+      "id": "hillsboro",
+      "slug": "hillsboro",
+      "districtId": "4a-d2-district-5"
+    },
+    {
+      "id": "sanger",
+      "slug": "sanger",
+      "districtId": "4a-d2-district-6"
+    },
+    {
+      "id": "canton",
+      "slug": "canton",
+      "districtId": "4a-d2-district-9"
+    },
+    {
+      "id": "shepherd",
+      "slug": "shepherd",
+      "districtId": "4a-d2-district-10"
+    },
+    {
+      "id": "la-marque",
+      "slug": "la-marque",
+      "districtId": "4a-d2-district-12"
+    },
+    {
+      "id": "houston-north-forest",
+      "slug": "houston-north-forest",
+      "districtId": "4a-d2-district-11"
+    },
+    {
+      "id": "west-orange-stark",
+      "slug": "west-orange-stark",
+      "districtId": "4a-d2-district-10"
+    },
+    {
+      "id": "van",
+      "slug": "van",
+      "districtId": "4a-d2-district-9"
+    },
+    {
+      "id": "houston-wheatley",
+      "slug": "houston-wheatley",
+      "districtId": "4a-d2-district-11"
+    },
+    {
+      "id": "hitchcock",
+      "slug": "hitchcock",
+      "districtId": "4a-d2-district-12"
+    },
+    {
+      "id": "houston-yates",
+      "slug": "houston-yates",
+      "districtId": "4a-d2-district-11"
+    },
+    {
+      "id": "la-grange",
+      "slug": "la-grange",
+      "districtId": "4a-d2-district-12"
+    },
+    {
+      "id": "silsbee",
+      "slug": "silsbee",
+      "districtId": "4a-d2-district-10"
+    },
+    {
+      "id": "madisonville",
+      "slug": "madisonville",
+      "districtId": "4a-d2-district-9"
+    },
+    {
+      "id": "bellville",
+      "slug": "bellville",
+      "districtId": "4a-d2-district-12"
+    },
+    {
+      "id": "houston-worthing",
+      "slug": "houston-worthing",
+      "districtId": "4a-d2-district-11"
+    },
+    {
+      "id": "athens",
+      "slug": "athens",
+      "districtId": "4a-d2-district-9"
+    },
+    {
+      "id": "hamshire-fannett",
+      "slug": "hamshire-fannett",
+      "districtId": "4a-d2-district-10"
+    },
+    {
+      "id": "waco-la-vega",
+      "slug": "waco-la-vega",
+      "districtId": "4a-d2-district-13"
+    },
+    {
+      "id": "manor-new-tech",
+      "slug": "manor-new-tech",
+      "districtId": "4a-d2-district-14"
+    },
+    {
+      "id": "corpus-christi-london",
+      "slug": "corpus-christi-london",
+      "districtId": "4a-d2-district-16"
+    },
+    {
+      "id": "geronimo-navarro",
+      "slug": "geronimo-navarro",
+      "districtId": "4a-d2-district-15"
+    },
+    {
+      "id": "wimberley",
+      "slug": "wimberley",
+      "districtId": "4a-d2-district-14"
+    },
+    {
+      "id": "salado",
+      "slug": "salado",
+      "districtId": "4a-d2-district-13"
+    },
+    {
+      "id": "bandera",
+      "slug": "bandera",
+      "districtId": "4a-d2-district-15"
+    },
+    {
+      "id": "kingsville-king",
+      "slug": "kingsville-king",
+      "districtId": "4a-d2-district-16"
+    },
+    {
+      "id": "cuero",
+      "slug": "cuero",
+      "districtId": "4a-d2-district-15"
+    },
+    {
+      "id": "ingleside",
+      "slug": "ingleside",
+      "districtId": "4a-d2-district-16"
+    },
+    {
+      "id": "lago-vista",
+      "slug": "lago-vista",
+      "districtId": "4a-d2-district-14"
+    },
+    {
+      "id": "rockport-fulton",
+      "slug": "rockport-fulton",
+      "districtId": "4a-d2-district-16"
+    },
+    {
+      "id": "gonzales",
+      "slug": "gonzales",
+      "districtId": "4a-d2-district-15"
+    },
+    {
+      "id": "robinson",
+      "slug": "robinson",
+      "districtId": "4a-d2-district-13"
+    },
+    {
+      "id": "giddings",
+      "slug": "giddings",
+      "districtId": "4a-d2-district-14"
+    }
+  ],
+  "games": [
+    {
+      "id": "de-leon-vs-alvord-2026-bi-district",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "2A Division I",
+        "region": "II"
+      },
+      "homeSchoolSlug": "de-leon",
+      "awaySchoolSlug": "alvord",
+      "homeTeam": "De Leon",
+      "awayTeam": "Alvord",
+      "kickoff": "2026-11-13T19:00:00-06:00",
+      "venue": "Tiger Stadium, Jacksboro, TX",
+      "isNeutralSite": true,
+      "status": "upcoming",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "De Leon team schedule and AP/Dave Campbell\u2019s 2026 bi-district pairings",
+      "mediaLinks": [
+        {
+          "label": "KWBY Bearcat Radio",
+          "url": "http://kwbyradio.com/de-leon-bearcats/",
+          "type": "radio"
+        },
+        {
+          "label": "De Leon on Hudl Fan",
+          "url": "https://fan.hudl.com/usa/tx/de-leon/organization/7677/de-leon-high-school/schedule",
+          "type": "stream"
+        }
+      ]
+    },
+    {
+      "id": "cisco-vs-nocona-2026-bi-district",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "2A Division I",
+        "region": "II"
+      },
+      "homeSchoolSlug": "cisco",
+      "awaySchoolSlug": "nocona",
+      "homeTeam": "Cisco",
+      "awayTeam": "Nocona",
+      "kickoff": "2026-11-12T19:00:00-06:00",
+      "venue": "Newton Field, Graham",
+      "isNeutralSite": true,
+      "status": "upcoming",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "NBC DFW 2026 Class 2A bi-district schedule (Nov 8, 2026)"
+    },
+    {
+      "id": "goldthwaite-vs-hubbard-2026-bi-district",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "2A Division II",
+        "region": "II"
+      },
+      "homeSchoolSlug": "goldthwaite",
+      "awaySchoolSlug": "hubbard",
+      "homeTeam": "Goldthwaite",
+      "awayTeam": "Hubbard",
+      "kickoff": "2026-11-12T19:30:00-06:00",
+      "venue": "Crusader Stadium, Belton",
+      "isNeutralSite": true,
+      "status": "upcoming",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "NBC DFW 2026 Class 2A bi-district schedule (Nov 8, 2026)"
+    },
+    {
+      "id": "albany-vs-crawford-2026-bi-district",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "2A Division II",
+        "region": "II"
+      },
+      "homeSchoolSlug": "albany",
+      "awaySchoolSlug": "crawford",
+      "homeTeam": "Albany",
+      "awayTeam": "Crawford",
+      "kickoff": "2026-11-12T19:00:00-06:00",
+      "venue": "Kangaroo Stadium, Weatherford",
+      "isNeutralSite": true,
+      "status": "upcoming",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "NBC DFW 2026 Class 2A bi-district schedule (Nov 8, 2026)"
+    },
+    {
+      "id": "stephenville-vs-navasota-2026-bi-district",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "4A Division I",
+        "region": "III"
+      },
+      "homeSchoolSlug": "stephenville",
+      "awaySchoolSlug": "navasota",
+      "homeTeam": "Stephenville",
+      "awayTeam": "Navasota",
+      "kickoff": "2026-11-13T19:00:00-06:00",
+      "venue": "Wildcat Stadium, Temple",
+      "isNeutralSite": true,
+      "status": "upcoming",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "UIL 4A Division I bracket and KBTX 2026 Brazos Valley playoff schedule"
+    },
+    {
+      "id": "tioga-vs-anson-2026-bi-district",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "2A Division I",
+        "region": "II"
+      },
+      "homeSchoolSlug": "tioga",
+      "awaySchoolSlug": "anson",
+      "homeTeam": "Tioga",
+      "awayTeam": "Anson",
+      "kickoff": "2026-11-13T19:00:00-06:00",
+      "venue": "Newton Field, Graham",
+      "isNeutralSite": true,
+      "status": "upcoming",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "UIL 2A Division I bracket and AP/Dave Campbell\u2019s 2026 bi-district pairings"
+    },
+    {
+      "id": "muenster-vs-hawley-2026-bi-district",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "2A Division I",
+        "region": "II"
+      },
+      "homeSchoolSlug": "muenster",
+      "awaySchoolSlug": "hawley",
+      "homeTeam": "Muenster",
+      "awayTeam": "Hawley",
+      "kickoff": "2026-11-12T19:00:00-06:00",
+      "venue": "Ram Stadium, Mineral Wells",
+      "isNeutralSite": true,
+      "status": "upcoming",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "UIL 2A Division I bracket and AP/Dave Campbell\u2019s 2026 bi-district pairings"
+    }
+  ]
+}

@@ -1,0 +1,996 @@
+{
+  "executionEnabled": false,
+  "approval": null,
+  "count": 7,
+  "records": [
+    {
+      "manifestId": "cisco-vs-nocona-2026-bi-district",
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region II",
+        "slot": 1,
+        "teams": [
+          "Cisco",
+          "Nocona"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "Cisco",
+          "officialName": "Cisco",
+          "qualifiedIdentity": {
+            "division": "2A Division I",
+            "region": "Region II",
+            "uilDistrict": 5
+          },
+          "schoolId": "cisco",
+          "schoolSlug": "cisco",
+          "catalogDistrictId": "2a-d1-district-5",
+          "catalogState": "released-record",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+        },
+        {
+          "bracketName": "Nocona",
+          "officialName": "Nocona",
+          "qualifiedIdentity": {
+            "division": "2A Division I",
+            "region": "Region II",
+            "uilDistrict": 6
+          },
+          "schoolId": "nocona",
+          "schoolSlug": "nocona",
+          "catalogDistrictId": "2a-d1-district-6",
+          "catalogState": "released-record",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+        }
+      ],
+      "operation": "reconcile-existing-only",
+      "existingGameId": "cisco-vs-nocona-2026-bi-district",
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "partial-evidence-held",
+      "coreScheduleEvidenceComplete": false,
+      "schedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Newton Field, Graham, TX",
+        "city": "Graham",
+        "neutralSite": null,
+        "designatedSides": null
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Newton Field, Graham, TX",
+        "city": "Graham"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "2A Division I",
+          "region": "Region II",
+          "slot": 1,
+          "teams": [
+            "Cisco",
+            "Nocona"
+          ],
+          "status": "scheduled",
+          "gameId": "cisco-vs-nocona-2026-bi-district",
+          "missing": [],
+          "kickoff": "2026-11-12T19:00:00-06:00",
+          "venue": "Newton Field, Graham, TX",
+          "city": "Graham",
+          "timeZone": "America/Chicago",
+          "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+          "neutralSite": null,
+          "verificationStatus": "corroborated",
+          "missingInformation": [
+            "explicit neutral-site designation"
+          ],
+          "conflicts": [],
+          "sourceLabel": "Big Country UIL schedule \u2014 Yahoo Sports",
+          "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+          "sourcePublishedDate": null,
+          "sources": [
+            {
+              "name": "Big Country UIL schedule \u2014 Yahoo Sports",
+              "url": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+              "publishedDate": null
+            },
+            {
+              "name": "Cisco ISD",
+              "url": "https://www.ciscoisd.net/",
+              "publishedDate": null
+            }
+          ],
+          "researchedAt": "2026-11-11T00:33:52.145238+00:00",
+          "readyForPublication": false
+        },
+        "existingSideReview": null,
+        "newEvidence": null
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "complete source-backed date/time/timezone/venue evidence required",
+        "explicit designated home/visitor assignment required",
+        "formal neutral-site status unconfirmed; existing safeguard retained",
+        "existing game requires reconciliation; insertion forbidden"
+      ],
+      "writePayload": null,
+      "currentProductionRecord": {
+        "id": "cisco-vs-nocona-2026-bi-district",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division I",
+          "region": "II"
+        },
+        "homeSchoolSlug": "cisco",
+        "awaySchoolSlug": "nocona",
+        "homeTeam": "Cisco",
+        "awayTeam": "Nocona",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Newton Field, Graham",
+        "isNeutralSite": true,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "NBC DFW 2026 Class 2A bi-district schedule (Nov 8, 2026)"
+      }
+    },
+    {
+      "manifestId": "muenster-vs-hawley-2026-bi-district",
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region II",
+        "slot": 3,
+        "teams": [
+          "Muenster",
+          "Hawley"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "Muenster",
+          "officialName": "Muenster",
+          "qualifiedIdentity": {
+            "division": "2A Division I",
+            "region": "Region II",
+            "uilDistrict": 6
+          },
+          "schoolId": "muenster",
+          "schoolSlug": "muenster",
+          "catalogDistrictId": "2a-d1-district-6",
+          "catalogState": "released-record",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+        },
+        {
+          "bracketName": "Hawley",
+          "officialName": "Hawley",
+          "qualifiedIdentity": {
+            "division": "2A Division I",
+            "region": "Region II",
+            "uilDistrict": 5
+          },
+          "schoolId": "hawley",
+          "schoolSlug": "hawley",
+          "catalogDistrictId": "2a-d1-district-5",
+          "catalogState": "released-record",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+        }
+      ],
+      "operation": "reconcile-existing-only",
+      "existingGameId": "muenster-vs-hawley-2026-bi-district",
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "partial-evidence-held",
+      "coreScheduleEvidenceComplete": false,
+      "schedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Ram Stadium, Mineral Wells, TX",
+        "city": "Mineral Wells",
+        "neutralSite": null,
+        "designatedSides": null
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Ram Stadium, Mineral Wells, TX",
+        "city": "Mineral Wells"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "2A Division I",
+          "region": "Region II",
+          "slot": 3,
+          "teams": [
+            "Muenster",
+            "Hawley"
+          ],
+          "status": "scheduled",
+          "gameId": "muenster-vs-hawley-2026-bi-district",
+          "missing": [],
+          "kickoff": "2026-11-12T19:00:00-06:00",
+          "venue": "Ram Stadium, Mineral Wells, TX",
+          "city": "Mineral Wells",
+          "timeZone": "America/Chicago",
+          "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+          "neutralSite": null,
+          "verificationStatus": "corroborated",
+          "missingInformation": [
+            "explicit neutral-site designation"
+          ],
+          "conflicts": [],
+          "sourceLabel": "Big Country UIL schedule \u2014 Yahoo Sports",
+          "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+          "sourcePublishedDate": null,
+          "sources": [
+            {
+              "name": "Big Country UIL schedule \u2014 Yahoo Sports",
+              "url": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+              "publishedDate": null
+            },
+            {
+              "name": "KXII \u2014 playoff pairings",
+              "url": "https://www.kxii.com/2026/11/07/high-school-football-playoff-pairings-week-1/?outputType=amp",
+              "publishedDate": "2026-11-07"
+            }
+          ],
+          "researchedAt": "2026-11-11T00:33:52.145241+00:00",
+          "readyForPublication": false
+        },
+        "existingSideReview": null,
+        "newEvidence": null
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "complete source-backed date/time/timezone/venue evidence required",
+        "explicit designated home/visitor assignment required",
+        "formal neutral-site status unconfirmed; existing safeguard retained",
+        "existing game requires reconciliation; insertion forbidden"
+      ],
+      "writePayload": null,
+      "currentProductionRecord": {
+        "id": "muenster-vs-hawley-2026-bi-district",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division I",
+          "region": "II"
+        },
+        "homeSchoolSlug": "muenster",
+        "awaySchoolSlug": "hawley",
+        "homeTeam": "Muenster",
+        "awayTeam": "Hawley",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Ram Stadium, Mineral Wells",
+        "isNeutralSite": true,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "UIL 2A Division I bracket and AP/Dave Campbell\u2019s 2026 bi-district pairings"
+      }
+    },
+    {
+      "manifestId": "albany-vs-crawford-2026-bi-district",
+      "bracket": {
+        "division": "2A Division II",
+        "region": "Region II",
+        "slot": 2,
+        "teams": [
+          "Crawford",
+          "Albany"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "Crawford",
+          "officialName": "Crawford",
+          "qualifiedIdentity": {
+            "division": "2A Division II",
+            "region": "Region II",
+            "uilDistrict": 8
+          },
+          "schoolId": "crawford",
+          "schoolSlug": "crawford",
+          "catalogDistrictId": "2a-d2-district-8",
+          "catalogState": "released-record",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/FB2AD2_Rvsd10-19.pdf"
+        },
+        {
+          "bracketName": "Albany",
+          "officialName": "Albany",
+          "qualifiedIdentity": {
+            "division": "2A Division II",
+            "region": "Region II",
+            "uilDistrict": 7
+          },
+          "schoolId": "albany",
+          "schoolSlug": "albany",
+          "catalogDistrictId": "2a-d2-district-7",
+          "catalogState": "released-record",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/FB2AD2_Rvsd10-19.pdf"
+        }
+      ],
+      "operation": "reconcile-existing-only",
+      "existingGameId": "albany-vs-crawford-2026-bi-district",
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "partial-evidence-held",
+      "coreScheduleEvidenceComplete": false,
+      "schedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Kangaroo Stadium, Weatherford, TX",
+        "city": "Weatherford",
+        "neutralSite": null,
+        "designatedSides": null
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Kangaroo Stadium, Weatherford, TX",
+        "city": "Weatherford"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "2A Division II",
+          "region": "Region II",
+          "slot": 2,
+          "teams": [
+            "Crawford",
+            "Albany"
+          ],
+          "status": "scheduled",
+          "gameId": "albany-vs-crawford-2026-bi-district",
+          "missing": [],
+          "kickoff": "2026-11-12T19:00:00-06:00",
+          "venue": "Kangaroo Stadium, Weatherford, TX",
+          "city": "Weatherford",
+          "timeZone": "America/Chicago",
+          "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+          "neutralSite": null,
+          "verificationStatus": "corroborated",
+          "missingInformation": [
+            "explicit neutral-site designation"
+          ],
+          "conflicts": [],
+          "sourceLabel": "Big Country UIL schedule \u2014 Yahoo Sports",
+          "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+          "sourcePublishedDate": null,
+          "sources": [
+            {
+              "name": "Big Country UIL schedule \u2014 Yahoo Sports",
+              "url": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+              "publishedDate": null
+            },
+            {
+              "name": "KWTX \u2014 Central Texas pairings",
+              "url": "https://www.kwtx.com/2026/11/09/2026-central-texas-hsfb-playoff-pairings/",
+              "publishedDate": "2026-11-09"
+            }
+          ],
+          "researchedAt": "2026-11-11T00:33:52.145302+00:00",
+          "readyForPublication": false
+        },
+        "existingSideReview": null,
+        "newEvidence": null
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "complete source-backed date/time/timezone/venue evidence required",
+        "explicit designated home/visitor assignment required",
+        "formal neutral-site status unconfirmed; existing safeguard retained",
+        "existing game requires reconciliation; insertion forbidden"
+      ],
+      "writePayload": null,
+      "currentProductionRecord": {
+        "id": "albany-vs-crawford-2026-bi-district",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division II",
+          "region": "II"
+        },
+        "homeSchoolSlug": "albany",
+        "awaySchoolSlug": "crawford",
+        "homeTeam": "Albany",
+        "awayTeam": "Crawford",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Kangaroo Stadium, Weatherford",
+        "isNeutralSite": true,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "NBC DFW 2026 Class 2A bi-district schedule (Nov 8, 2026)"
+      }
+    },
+    {
+      "manifestId": "goldthwaite-vs-hubbard-2026-bi-district",
+      "bracket": {
+        "division": "2A Division II",
+        "region": "Region II",
+        "slot": 5,
+        "teams": [
+          "Goldthwaite",
+          "Hubbard"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "Goldthwaite",
+          "officialName": "Goldthwaite",
+          "qualifiedIdentity": {
+            "division": "2A Division II",
+            "region": "Region II",
+            "uilDistrict": 7
+          },
+          "schoolId": "goldthwaite",
+          "schoolSlug": "goldthwaite",
+          "catalogDistrictId": "2a-d2-district-7",
+          "catalogState": "released-record",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/FB2AD2_Rvsd10-19.pdf"
+        },
+        {
+          "bracketName": "Hubbard",
+          "officialName": "Hubbard",
+          "qualifiedIdentity": {
+            "division": "2A Division II",
+            "region": "Region II",
+            "uilDistrict": 8
+          },
+          "schoolId": "hubbard",
+          "schoolSlug": "hubbard",
+          "catalogDistrictId": "2a-d2-district-8",
+          "catalogState": "released-record",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/FB2AD2_Rvsd10-19.pdf"
+        }
+      ],
+      "operation": "reconcile-existing-only",
+      "existingGameId": "goldthwaite-vs-hubbard-2026-bi-district",
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "partial-evidence-held",
+      "coreScheduleEvidenceComplete": false,
+      "schedule": {
+        "kickoff": "2026-11-12T19:30:00-06:00",
+        "venue": "Crusader Stadium, Belton, TX",
+        "city": "Belton",
+        "neutralSite": null,
+        "designatedSides": null
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-12T19:30:00-06:00",
+        "venue": "Crusader Stadium, Belton, TX",
+        "city": "Belton"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "2A Division II",
+          "region": "Region II",
+          "slot": 5,
+          "teams": [
+            "Goldthwaite",
+            "Hubbard"
+          ],
+          "status": "scheduled",
+          "gameId": "goldthwaite-vs-hubbard-2026-bi-district",
+          "missing": [],
+          "kickoff": "2026-11-12T19:30:00-06:00",
+          "venue": "Crusader Stadium, Belton, TX",
+          "city": "Belton",
+          "timeZone": "America/Chicago",
+          "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+          "neutralSite": null,
+          "verificationStatus": "corroborated",
+          "missingInformation": [
+            "explicit neutral-site designation"
+          ],
+          "conflicts": [],
+          "sourceLabel": "Big Country UIL schedule \u2014 Yahoo Sports",
+          "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+          "sourcePublishedDate": null,
+          "sources": [
+            {
+              "name": "Big Country UIL schedule \u2014 Yahoo Sports",
+              "url": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+              "publishedDate": null
+            },
+            {
+              "name": "KWTX \u2014 Central Texas pairings",
+              "url": "https://www.kwtx.com/2026/11/09/2026-central-texas-hsfb-playoff-pairings/",
+              "publishedDate": "2026-11-09"
+            }
+          ],
+          "researchedAt": "2026-11-11T00:33:52.145308+00:00",
+          "readyForPublication": false
+        },
+        "existingSideReview": null,
+        "newEvidence": null
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "complete source-backed date/time/timezone/venue evidence required",
+        "explicit designated home/visitor assignment required",
+        "formal neutral-site status unconfirmed; existing safeguard retained",
+        "existing game requires reconciliation; insertion forbidden"
+      ],
+      "writePayload": null,
+      "currentProductionRecord": {
+        "id": "goldthwaite-vs-hubbard-2026-bi-district",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division II",
+          "region": "II"
+        },
+        "homeSchoolSlug": "goldthwaite",
+        "awaySchoolSlug": "hubbard",
+        "homeTeam": "Goldthwaite",
+        "awayTeam": "Hubbard",
+        "kickoff": "2026-11-12T19:30:00-06:00",
+        "venue": "Crusader Stadium, Belton",
+        "isNeutralSite": true,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "NBC DFW 2026 Class 2A bi-district schedule (Nov 8, 2026)"
+      }
+    },
+    {
+      "manifestId": "tioga-vs-anson-2026-bi-district",
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region II",
+        "slot": 6,
+        "teams": [
+          "Tioga",
+          "Anson"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "Tioga",
+          "officialName": "Tioga",
+          "qualifiedIdentity": {
+            "division": "2A Division I",
+            "region": "Region II",
+            "uilDistrict": 6
+          },
+          "schoolId": "tioga",
+          "schoolSlug": "tioga",
+          "catalogDistrictId": "2a-d1-district-6",
+          "catalogState": "released-record",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+        },
+        {
+          "bracketName": "Anson",
+          "officialName": "Anson",
+          "qualifiedIdentity": {
+            "division": "2A Division I",
+            "region": "Region II",
+            "uilDistrict": 5
+          },
+          "schoolId": "anson",
+          "schoolSlug": "anson",
+          "catalogDistrictId": "2a-d1-district-5",
+          "catalogState": "released-record",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+        }
+      ],
+      "operation": "reconcile-existing-only",
+      "existingGameId": "tioga-vs-anson-2026-bi-district",
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "partial-evidence-held",
+      "coreScheduleEvidenceComplete": false,
+      "schedule": {
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "venue": "Newton Field, Graham, TX",
+        "city": "Graham",
+        "neutralSite": null,
+        "designatedSides": null
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "venue": "Newton Field, Graham, TX",
+        "city": "Graham"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "2A Division I",
+          "region": "Region II",
+          "slot": 6,
+          "teams": [
+            "Tioga",
+            "Anson"
+          ],
+          "status": "scheduled",
+          "gameId": "tioga-vs-anson-2026-bi-district",
+          "missing": [],
+          "kickoff": "2026-11-13T19:00:00-06:00",
+          "venue": "Newton Field, Graham, TX",
+          "city": "Graham",
+          "timeZone": "America/Chicago",
+          "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+          "neutralSite": null,
+          "verificationStatus": "corroborated",
+          "missingInformation": [
+            "explicit neutral-site designation"
+          ],
+          "conflicts": [],
+          "sourceLabel": "Big Country UIL schedule \u2014 Yahoo Sports",
+          "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+          "sourcePublishedDate": null,
+          "sources": [
+            {
+              "name": "Big Country UIL schedule \u2014 Yahoo Sports",
+              "url": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+              "publishedDate": null
+            },
+            {
+              "name": "KXII \u2014 playoff pairings",
+              "url": "https://www.kxii.com/2026/11/07/high-school-football-playoff-pairings-week-1/?outputType=amp",
+              "publishedDate": "2026-11-07"
+            }
+          ],
+          "researchedAt": "2026-11-11T00:33:52.145247+00:00",
+          "readyForPublication": false
+        },
+        "existingSideReview": null,
+        "newEvidence": null
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "complete source-backed date/time/timezone/venue evidence required",
+        "explicit designated home/visitor assignment required",
+        "formal neutral-site status unconfirmed; existing safeguard retained",
+        "existing game requires reconciliation; insertion forbidden"
+      ],
+      "writePayload": null,
+      "currentProductionRecord": {
+        "id": "tioga-vs-anson-2026-bi-district",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division I",
+          "region": "II"
+        },
+        "homeSchoolSlug": "tioga",
+        "awaySchoolSlug": "anson",
+        "homeTeam": "Tioga",
+        "awayTeam": "Anson",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "venue": "Newton Field, Graham",
+        "isNeutralSite": true,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "UIL 2A Division I bracket and AP/Dave Campbell\u2019s 2026 bi-district pairings"
+      }
+    },
+    {
+      "manifestId": "de-leon-vs-alvord-2026-bi-district",
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region II",
+        "slot": 8,
+        "teams": [
+          "De Leon",
+          "Alvord"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "De Leon",
+          "officialName": "De Leon",
+          "qualifiedIdentity": {
+            "division": "2A Division I",
+            "region": "Region II",
+            "uilDistrict": 5
+          },
+          "schoolId": "de-leon",
+          "schoolSlug": "de-leon",
+          "catalogDistrictId": "2a-d1-district-5",
+          "catalogState": "released-record",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+        },
+        {
+          "bracketName": "Alvord",
+          "officialName": "Alvord",
+          "qualifiedIdentity": {
+            "division": "2A Division I",
+            "region": "Region II",
+            "uilDistrict": 6
+          },
+          "schoolId": "alvord",
+          "schoolSlug": "alvord",
+          "catalogDistrictId": "2a-d1-district-6",
+          "catalogState": "released-record",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+        }
+      ],
+      "operation": "reconcile-existing-only",
+      "existingGameId": "de-leon-vs-alvord-2026-bi-district",
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "partial-evidence-held",
+      "coreScheduleEvidenceComplete": false,
+      "schedule": {
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "venue": "Tiger Stadium, Jacksboro, TX",
+        "city": "Jacksboro",
+        "neutralSite": null,
+        "designatedSides": null
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "venue": "Tiger Stadium, Jacksboro, TX",
+        "city": "Jacksboro"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "2A Division I",
+          "region": "Region II",
+          "slot": 8,
+          "teams": [
+            "De Leon",
+            "Alvord"
+          ],
+          "status": "scheduled",
+          "gameId": "de-leon-vs-alvord-2026-bi-district",
+          "missing": [],
+          "kickoff": "2026-11-13T19:00:00-06:00",
+          "venue": "Tiger Stadium, Jacksboro, TX",
+          "city": "Jacksboro",
+          "timeZone": "America/Chicago",
+          "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+          "neutralSite": null,
+          "verificationStatus": "corroborated",
+          "missingInformation": [
+            "explicit neutral-site designation"
+          ],
+          "conflicts": [],
+          "sourceLabel": "Big Country UIL schedule \u2014 Yahoo Sports",
+          "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+          "sourcePublishedDate": null,
+          "sources": [
+            {
+              "name": "Big Country UIL schedule \u2014 Yahoo Sports",
+              "url": "https://sports.yahoo.com/articles/texas-high-school-football-big-215409604.html",
+              "publishedDate": null
+            },
+            {
+              "name": "High School Football America",
+              "url": "https://highschoolfootballamerica.com/2026-texas-high-school-football-uil-opening-round-playoff-pairings/",
+              "publishedDate": null
+            }
+          ],
+          "researchedAt": "2026-11-11T00:33:52.145251+00:00",
+          "readyForPublication": false
+        },
+        "existingSideReview": null,
+        "newEvidence": null
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "complete source-backed date/time/timezone/venue evidence required",
+        "explicit designated home/visitor assignment required",
+        "formal neutral-site status unconfirmed; existing safeguard retained",
+        "existing game requires reconciliation; insertion forbidden"
+      ],
+      "writePayload": null,
+      "currentProductionRecord": {
+        "id": "de-leon-vs-alvord-2026-bi-district",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division I",
+          "region": "II"
+        },
+        "homeSchoolSlug": "de-leon",
+        "awaySchoolSlug": "alvord",
+        "homeTeam": "De Leon",
+        "awayTeam": "Alvord",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "venue": "Tiger Stadium, Jacksboro, TX",
+        "isNeutralSite": true,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "De Leon team schedule and AP/Dave Campbell\u2019s 2026 bi-district pairings",
+        "mediaLinks": [
+          {
+            "label": "KWBY Bearcat Radio",
+            "url": "http://kwbyradio.com/de-leon-bearcats/",
+            "type": "radio"
+          },
+          {
+            "label": "De Leon on Hudl Fan",
+            "url": "https://fan.hudl.com/usa/tx/de-leon/organization/7677/de-leon-high-school/schedule",
+            "type": "stream"
+          }
+        ]
+      }
+    },
+    {
+      "manifestId": "stephenville-vs-navasota-2026-bi-district",
+      "bracket": {
+        "division": "4A Division I",
+        "region": "Region III",
+        "slot": 7,
+        "teams": [
+          "Stephenville",
+          "Navasota"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "Stephenville",
+          "officialName": "Stephenville",
+          "qualifiedIdentity": {
+            "division": "4A Division I",
+            "region": "Region III",
+            "uilDistrict": 12
+          },
+          "schoolId": "stephenville",
+          "schoolSlug": "stephenville",
+          "catalogDistrictId": "4a-d1-district-12",
+          "catalogState": "released-record",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf"
+        },
+        {
+          "bracketName": "Navasota",
+          "officialName": "Navasota",
+          "qualifiedIdentity": {
+            "division": "4A Division I",
+            "region": "Region III",
+            "uilDistrict": 11
+          },
+          "schoolId": "navasota",
+          "schoolSlug": "navasota",
+          "catalogDistrictId": "4a-d1-district-11",
+          "catalogState": "released-record",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4ad1fb.pdf"
+        }
+      ],
+      "operation": "reconcile-existing-only",
+      "existingGameId": "stephenville-vs-navasota-2026-bi-district",
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "partial-evidence-held",
+      "coreScheduleEvidenceComplete": false,
+      "schedule": {
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "venue": "Wildcat Stadium",
+        "city": "Temple",
+        "neutralSite": null,
+        "designatedSides": null
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "venue": "Wildcat Stadium",
+        "city": "Temple"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "4A Division I",
+          "region": "Region III",
+          "slot": 7,
+          "teams": [
+            "Stephenville",
+            "Navasota"
+          ],
+          "date": "2026-11-13",
+          "localTime": "19:00",
+          "kickoff": null,
+          "proposedKickoff": "2026-11-13T19:00:00-06:00",
+          "timeZone": null,
+          "timeZoneBasis": "geographic inference only; explicit source timezone not confirmed",
+          "venue": "Wildcat Stadium",
+          "city": "Temple",
+          "neutralSite": null,
+          "neutralSiteBasis": "not explicitly verified",
+          "sourceLabel": "High School Football America",
+          "sourceUrl": "https://highschoolfootballamerica.com/2026-texas-high-school-football-uil-opening-round-playoff-pairings/",
+          "sourcePublicationDate": null,
+          "sourceUpdatedDate": null,
+          "retrievedDate": "2026-11-10",
+          "verificationStatus": "partial",
+          "missingInformation": [
+            "explicit timezone confirmation"
+          ],
+          "conflicts": [],
+          "notes": []
+        },
+        "existingSideReview": null,
+        "newEvidence": null
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "complete source-backed date/time/timezone/venue evidence required",
+        "explicit designated home/visitor assignment required",
+        "formal neutral-site status unconfirmed; existing safeguard retained",
+        "existing game requires reconciliation; insertion forbidden"
+      ],
+      "writePayload": null,
+      "currentProductionRecord": {
+        "id": "stephenville-vs-navasota-2026-bi-district",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "4A Division I",
+          "region": "III"
+        },
+        "homeSchoolSlug": "stephenville",
+        "awaySchoolSlug": "navasota",
+        "homeTeam": "Stephenville",
+        "awayTeam": "Navasota",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "venue": "Wildcat Stadium, Temple",
+        "isNeutralSite": true,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "UIL 4A Division I bracket and KBTX 2026 Brazos Valley playoff schedule"
+      }
+    }
+  ]
+}
