@@ -1,0 +1,2083 @@
+{
+  "sourceMainHead": "ea1b4a57da0dc07e1b5418772ca2f3a2842ebe0f",
+  "purpose": "Immutable offline research baseline; not runtime data",
+  "schools": [
+    {
+      "id": "de-leon",
+      "slug": "de-leon",
+      "name": "De Leon",
+      "fullName": "De Leon Bearcats",
+      "mascot": "Bearcats",
+      "abbreviation": "DHS",
+      "badgeLabel": "DHS",
+      "badgeSubtext": "Bearcats",
+      "classification": {
+        "conference": "2A",
+        "division": "D1"
+      },
+      "districtId": "2a-d1-district-5",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Bearcat Stadium",
+      "stadiumImageUrl": "/stadiums/de-leon.jpg",
+      "headCoach": "Brennan Whitaker",
+      "athleticDirector": "Brennan Whitaker",
+      "officialWebsite": "https://www.deleonisd.net/",
+      "stadiumCapacity": 1700,
+      "stateTitles": 1,
+      "lastPlayoffAppearance": 2025,
+      "description": "The De Leon Bearcats are a UIL 2A Division I football program located in Comanche County, Texas. Known for strong community support and a proud football tradition, the Bearcats compete in Region II and play their home games at Bearcat Stadium.",
+      "facebookUrl": "https://www.facebook.com/DeLeonAthletics/",
+      "xUrl": "https://x.com/DeLeonFootball",
+      "colors": {
+        "primary": "#6a1120",
+        "secondary": "#FFFFFF",
+        "accent": "#000000"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "pilot"
+    },
+    {
+      "id": "abilene-texas-leadership",
+      "slug": "abilene-texas-leadership",
+      "aliases": [
+        "abilene-tlca",
+        "tlca-abilene"
+      ],
+      "name": "Abilene Texas Leadership",
+      "fullName": "Abilene Texas Leadership Eagles",
+      "mascot": "Eagles",
+      "abbreviation": "TLCA",
+      "badgeLabel": "TLCA",
+      "badgeSubtext": "Eagles",
+      "classification": {
+        "conference": "2A",
+        "division": "D1"
+      },
+      "districtId": "2a-d1-district-5",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Curly Hayes Football Field",
+      "stadiumAddress": "840 Barrow St, Abilene, TX 79605",
+      "headCoach": "Webb Murphy",
+      "colors": {
+        "primary": "#6698C9",
+        "secondary": "#FFFFFF",
+        "accent": "#000000"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "anson",
+      "slug": "anson",
+      "name": "Anson",
+      "fullName": "Anson Tigers",
+      "mascot": "Tigers",
+      "abbreviation": "AHS",
+      "classification": {
+        "conference": "2A",
+        "division": "D1"
+      },
+      "districtId": "2a-d1-district-5",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Tiger Stadium",
+      "stadiumAddress": "703 Avenue N, Anson, TX 79501",
+      "headCoach": "Kyle Wheeler",
+      "colors": {
+        "primary": "#E2231A",
+        "secondary": "#FFFFFF",
+        "accent": "#000000"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist",
+      "badgeLabel": "AHS",
+      "badgeSubtext": "Tigers"
+    },
+    {
+      "id": "cisco",
+      "slug": "cisco",
+      "name": "Cisco",
+      "fullName": "Cisco Loboes",
+      "mascot": "Loboes",
+      "abbreviation": "CHS",
+      "badgeLabel": "CHS",
+      "badgeSubtext": "Loboes",
+      "classification": {
+        "conference": "2A",
+        "division": "D1"
+      },
+      "districtId": "2a-d1-district-5",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Chesley Field",
+      "headCoach": "Kevin Stennett",
+      "athleticDirector": "Kevin Stennett",
+      "officialWebsite": "https://www.ciscoisd.net/",
+      "stadiumCapacity": 3000,
+      "stateTitles": 1,
+      "lastPlayoffAppearance": 2025,
+      "description": "The Cisco Loboes are one of the most tradition-rich football programs in Texas high school football. Competing in UIL 2A Division I Region II, Cisco is known for consistent playoff success, passionate community support, and a championship-winning tradition built over generations.",
+      "facebookUrl": "https://www.facebook.com/profile.php?id=100041376206567",
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffd60d",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "pilot"
+    },
+    {
+      "id": "hawley",
+      "slug": "hawley",
+      "name": "Hawley",
+      "fullName": "Hawley Bearcats",
+      "mascot": "Bearcats",
+      "abbreviation": "HHS",
+      "badgeLabel": "HHS",
+      "badgeSubtext": "Bearcats",
+      "classification": {
+        "conference": "2A",
+        "division": "D1"
+      },
+      "districtId": "2a-d1-district-5",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Forrest Field",
+      "stadiumAddress": "800 1st St, Hawley, TX 79525",
+      "headCoach": "Mitch Ables",
+      "colors": {
+        "primary": "#40020c",
+        "secondary": "#FFFFFF",
+        "accent": "#000000"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "hico",
+      "slug": "hico",
+      "name": "Hico",
+      "fullName": "Hico Tigers",
+      "mascot": "Tigers",
+      "abbreviation": "HHS",
+      "badgeLabel": "HHS",
+      "badgeSubtext": "Tigers",
+      "classification": {
+        "conference": "2A",
+        "division": "D1"
+      },
+      "districtId": "2a-d1-district-5",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Tiger Stadium",
+      "headCoach": "Britt Hart",
+      "athleticDirector": "Britt Hart",
+      "officialWebsite": "https://www.hico-isd.net/",
+      "stadiumCapacity": 2500,
+      "stateTitles": 0,
+      "lastPlayoffAppearance": 2025,
+      "description": "The Hico Tigers compete in UIL 2A Division I Region II and are a perennial contender in one of Texas' toughest small-school football districts. Backed by a passionate community and strong football tradition, the Tigers regularly battle district rivals for playoff positioning and postseason success.",
+      "facebookUrl": "https://www.facebook.com/HicoHighSchool",
+      "colors": {
+        "primary": "#C1121F",
+        "secondary": "#FFFFFF",
+        "accent": "#000000"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "pilot"
+    },
+    {
+      "id": "bangs",
+      "slug": "bangs",
+      "name": "Bangs",
+      "fullName": "Bangs Dragons",
+      "mascot": "Dragons",
+      "abbreviation": "BHS",
+      "classification": {
+        "conference": "2A",
+        "division": "D1"
+      },
+      "districtId": "2a-d1-district-7",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Dragon Memorial Stadium",
+      "colors": {
+        "primary": "#22922d",
+        "secondary": "#FFFFFF",
+        "accent": "#000000"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "brady",
+      "slug": "brady",
+      "name": "Brady",
+      "fullName": "Brady Bulldogs",
+      "mascot": "Bulldogs",
+      "abbreviation": "BHS",
+      "classification": {
+        "conference": "2A",
+        "division": "D1"
+      },
+      "districtId": "2a-d1-district-7",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Bulldog Stadium",
+      "colors": {
+        "primary": "#B3A264",
+        "secondary": "#000000",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "coleman",
+      "slug": "coleman",
+      "name": "Coleman",
+      "fullName": "Coleman Bluecats",
+      "mascot": "Bluecats",
+      "abbreviation": "CHS",
+      "classification": {
+        "conference": "2A",
+        "division": "D1"
+      },
+      "districtId": "2a-d1-district-7",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Hufford Field",
+      "colors": {
+        "primary": "#00238C",
+        "secondary": "#B20000",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "johnson-city-lbj",
+      "slug": "johnson-city-lbj",
+      "name": "Johnson City LBJ",
+      "fullName": "Johnson City LBJ Eagles",
+      "mascot": "Eagles",
+      "abbreviation": "LBJ",
+      "classification": {
+        "conference": "2A",
+        "division": "D1"
+      },
+      "districtId": "2a-d1-district-7",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Eagle Field",
+      "colors": {
+        "primary": "#4A1211",
+        "secondary": "#DED3C2",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "mason",
+      "slug": "mason",
+      "name": "Mason",
+      "fullName": "Mason Punchers",
+      "mascot": "Punchers",
+      "abbreviation": "MHS",
+      "classification": {
+        "conference": "2A",
+        "division": "D1"
+      },
+      "districtId": "2a-d1-district-7",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Puncherdome",
+      "colors": {
+        "primary": "#320065",
+        "secondary": "#FFFFFF",
+        "accent": "#000000"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "san-saba",
+      "slug": "san-saba",
+      "name": "San Saba",
+      "fullName": "San Saba Armadillos",
+      "mascot": "Armadillos",
+      "abbreviation": "SSHS",
+      "classification": {
+        "conference": "2A",
+        "division": "D1"
+      },
+      "districtId": "2a-d1-district-7",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Rogan Field",
+      "colors": {
+        "primary": "#320065",
+        "secondary": "#B3A264",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "comanche",
+      "slug": "comanche",
+      "name": "Comanche",
+      "fullName": "Comanche Indians",
+      "mascot": "Indians",
+      "abbreviation": "CHS",
+      "badgeLabel": "CHS",
+      "badgeSubtext": "Indians",
+      "classification": {
+        "conference": "3A",
+        "division": "D2"
+      },
+      "districtId": "3a-d2-district-5",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Indian Stadium",
+      "headCoach": "Jake Escobar",
+      "athleticDirector": "Jake Escobar",
+      "officialWebsite": "https://www.comancheisd.net/",
+      "stadiumCapacity": 3000,
+      "stateTitles": 0,
+      "lastPlayoffAppearance": 2024,
+      "description": "The Comanche Indians compete in UIL 3A Division II Region II and have long been one of the most recognized football programs in Central Texas. Playing at Indian Stadium, Comanche is known for strong community support, a proud athletic tradition, and annual district battles against some of the area's top programs.",
+      "facebookUrl": "https://www.facebook.com/comancheisdtx",
+      "instagramUrl": "https://www.instagram.com/comancheisd/",
+      "xUrl": "https://x.com/Comanche_ISD",
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#8f7d43",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "pilot"
+    },
+    {
+      "id": "goldthwaite",
+      "slug": "goldthwaite",
+      "name": "Goldthwaite",
+      "fullName": "Goldthwaite Eagles",
+      "mascot": "Eagles",
+      "abbreviation": "GHS",
+      "badgeLabel": "GHS",
+      "badgeSubtext": "Eagles",
+      "classification": {
+        "conference": "2A",
+        "division": "D2"
+      },
+      "districtId": "2a-d2-district-7",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Gary Proffitt Stadium",
+      "headCoach": "Andy Howard",
+      "athleticDirector": "Andy Howard",
+      "officialWebsite": "https://www.goldisd.net/en-US",
+      "stadiumCapacity": 1800,
+      "stateTitles": 4,
+      "lastPlayoffAppearance": 2025,
+      "description": "The Goldthwaite Eagles are one of the premier small-school football programs in Texas, boasting multiple state championships and a tradition of postseason success. Competing in UIL 2A Division II Region II, the Eagles are known for disciplined football, strong community support, and a history of contending deep into the playoffs.",
+      "facebookUrl": "https://www.facebook.com/p/Goldthwaite-Eagle-Football-100057261977925/",
+      "colors": {
+        "primary": "#FFBA00",
+        "secondary": "#000000",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "pilot"
+    },
+    {
+      "id": "albany",
+      "slug": "albany",
+      "name": "Albany",
+      "fullName": "Albany Lions",
+      "mascot": "Lions",
+      "abbreviation": "AHS",
+      "badgeLabel": "AHS",
+      "badgeSubtext": "Lions",
+      "classification": {
+        "conference": "2A",
+        "division": "D2"
+      },
+      "districtId": "2a-d2-district-7",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Robert Nail Memorial Stadium",
+      "headCoach": "Denney Faith",
+      "athleticDirector": "Ryder Peacock",
+      "officialWebsite": "https://www.albanyisd.net/",
+      "stadiumCapacity": 2900,
+      "stateTitles": 4,
+      "lastPlayoffAppearance": 2025,
+      "description": "The Albany Lions are one of Texas high school football's most respected programs, combining a rich championship tradition with consistent playoff success. Competing in UIL 2A Division II Region II, Albany is known statewide for disciplined football, passionate community support, and a culture of excellence that has produced multiple state titles.",
+      "facebookUrl": "https://www.facebook.com/albanyabc/",
+      "instagramUrl": "https://www.instagram.com/albanylions/",
+      "xUrl": "https://x.com/AHSLionSports",
+      "colors": {
+        "primary": "#E2231A",
+        "secondary": "#FFFFFF",
+        "accent": "#000000"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "pilot"
+    },
+    {
+      "id": "cross-plains",
+      "slug": "cross-plains",
+      "name": "Cross Plains",
+      "fullName": "Cross Plains Buffaloes",
+      "mascot": "Buffaloes",
+      "abbreviation": "CPHS",
+      "classification": {
+        "conference": "2A",
+        "division": "D2"
+      },
+      "districtId": "2a-d2-district-7",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Buffalo Stadium",
+      "stadiumAddress": "700 N Main St, Cross Plains, TX 76443",
+      "headCoach": "Jared Sanderson",
+      "colors": {
+        "primary": "#522E8E",
+        "secondary": "#FFFFFF",
+        "accent": "#000000"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist",
+      "badgeLabel": "CPHS",
+      "badgeSubtext": "Buffaloes"
+    },
+    {
+      "id": "hamlin",
+      "slug": "hamlin",
+      "name": "Hamlin",
+      "fullName": "Hamlin Pied Pipers",
+      "mascot": "Pied Pipers",
+      "abbreviation": "HHS",
+      "classification": {
+        "conference": "2A",
+        "division": "D2"
+      },
+      "districtId": "2a-d2-district-7",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Piper Stadium",
+      "stadiumAddress": "450 SW Ave F, Hamlin, TX 79520",
+      "headCoach": "Jason Botos",
+      "colors": {
+        "primary": "#006a2c",
+        "secondary": "#FFFFFF",
+        "accent": "#000000"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist",
+      "badgeLabel": "HHS",
+      "badgeSubtext": "Pied Pipers"
+    },
+    {
+      "id": "miles",
+      "slug": "miles",
+      "name": "Miles",
+      "fullName": "Miles Bulldogs",
+      "mascot": "Bulldogs",
+      "abbreviation": "MHS",
+      "classification": {
+        "conference": "2A",
+        "division": "D2"
+      },
+      "districtId": "2a-d2-district-7",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Gary Krejci Memorial Stadium",
+      "stadiumAddress": "1001 Robinson St, Miles, TX 76861",
+      "headCoach": "Jayson Wilhelm",
+      "colors": {
+        "primary": "#e80027",
+        "secondary": "#FFFFFF",
+        "accent": "#000000"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist",
+      "badgeLabel": "MHS",
+      "badgeSubtext": "Bulldogs"
+    },
+    {
+      "id": "stamford",
+      "slug": "stamford",
+      "name": "Stamford",
+      "fullName": "Stamford Bulldogs",
+      "mascot": "Bulldogs",
+      "abbreviation": "SHS",
+      "badgeLabel": "SHS",
+      "badgeSubtext": "Bulldogs",
+      "classification": {
+        "conference": "2A",
+        "division": "D2"
+      },
+      "districtId": "2a-d2-district-7",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Bill Anderson Stadium",
+      "headCoach": "Wayne Hutchinson",
+      "athleticDirector": "Wayne Hutchinson",
+      "officialWebsite": "https://www.stamfordisd.net/",
+      "stadiumCapacity": 4700,
+      "stateTitles": 5,
+      "lastPlayoffAppearance": 2025,
+      "description": "The Stamford Bulldogs are one of the most storied football programs in Texas high school history. Competing in UIL 2A Division II Region II, Stamford has built a legacy of state championships, playoff success, and passionate community support that has made Bulldog football a cornerstone of the town's identity for generations.",
+      "facebookUrl": "https://www.facebook.com/p/Stamford-Athletic-Booster-Club-100057301966675/",
+      "xUrl": "https://x.com/SHStx",
+      "colors": {
+        "primary": "#042889",
+        "secondary": "#FFFFFF",
+        "accent": "#000000"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "pilot"
+    },
+    {
+      "id": "winters",
+      "slug": "winters",
+      "name": "Winters",
+      "fullName": "Winters Blizzards",
+      "mascot": "Blizzards",
+      "abbreviation": "WHS",
+      "classification": {
+        "conference": "2A",
+        "division": "D2"
+      },
+      "districtId": "2a-d2-district-7",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Blizzard Stadium",
+      "stadiumAddress": "603 N Heights St, Winters, TX 79567",
+      "headCoach": "Ryan Pannell",
+      "colors": {
+        "primary": "#0028B6",
+        "secondary": "#FFFFFF",
+        "accent": "#000000"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist",
+      "badgeLabel": "WHS",
+      "badgeSubtext": "Blizzards"
+    },
+    {
+      "id": "stephenville",
+      "slug": "stephenville",
+      "name": "Stephenville",
+      "fullName": "Stephenville Yellow Jackets",
+      "mascot": "Yellow Jackets",
+      "abbreviation": "SHS",
+      "badgeLabel": "SHS",
+      "badgeSubtext": "Yellow Jackets",
+      "classification": {
+        "conference": "4A",
+        "division": "D1"
+      },
+      "districtId": "4a-d1-district-12",
+      "uilRegion": 3,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Art Briles Stadium and Mike Copeland Field",
+      "headCoach": "Sterling Doty",
+      "athleticDirector": "Sterling Doty",
+      "officialWebsite": "https://www.sville.us/",
+      "stadiumCapacity": 7500,
+      "stateTitles": 7,
+      "lastPlayoffAppearance": 2025,
+      "description": "The Stephenville Yellow Jackets are one of the premier football programs in Texas high school history. Competing in UIL 4A Division I Region III, Stephenville has captured multiple state championships and produced generations of standout athletes, making Yellow Jacket football one of the most recognized brands in the state.",
+      "facebookUrl": "https://www.facebook.com/p/Stephenville-HS-Yellowjacket-Honeybee-Athletics-100057783694608/",
+      "instagramUrl": "https://www.instagram.com/stephenvilleisd/?hl=en",
+      "xUrl": "https://x.com/SvilleYJFB",
+      "colors": {
+        "primary": "#001F4D",
+        "secondary": "#D4AF37",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "pilot"
+    },
+    {
+      "id": "brownwood",
+      "slug": "brownwood",
+      "name": "Brownwood",
+      "fullName": "Brownwood Lions",
+      "mascot": "Lions",
+      "abbreviation": "BHS",
+      "classification": {
+        "conference": "4A",
+        "division": "D2"
+      },
+      "districtId": "4a-d2-district-13",
+      "uilRegion": 4,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Gordon Wood Stadium",
+      "colors": {
+        "primary": "#5B0B1E",
+        "secondary": "#FFFFFF",
+        "accent": "#ffffff"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "brock",
+      "slug": "brock",
+      "name": "Brock",
+      "fullName": "Brock Eagles",
+      "mascot": "Eagles",
+      "abbreviation": "BHS",
+      "classification": {
+        "conference": "4A",
+        "division": "D2"
+      },
+      "districtId": "4a-d2-district-4",
+      "uilRegion": 1,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Eagle Stadium",
+      "colors": {
+        "primary": "#003366",
+        "secondary": "#FFFFFF",
+        "accent": "#ba9e12"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "clyde",
+      "slug": "clyde",
+      "name": "Clyde",
+      "fullName": "Clyde Bulldogs",
+      "mascot": "Bulldogs",
+      "abbreviation": "CHS",
+      "classification": {
+        "conference": "3A",
+        "division": "D1"
+      },
+      "districtId": "3a-d1-district-2",
+      "uilRegion": 1,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Clyde Bulldog Stadium",
+      "colors": {
+        "primary": "#CEB767",
+        "secondary": "#000000",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "early",
+      "slug": "early",
+      "name": "Early",
+      "fullName": "Early Longhorns",
+      "mascot": "Longhorns",
+      "abbreviation": "EHS",
+      "classification": {
+        "conference": "3A",
+        "division": "D1"
+      },
+      "districtId": "3a-d1-district-3",
+      "uilRegion": 1,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Longhorn Stadium",
+      "colors": {
+        "primary": "#29173d",
+        "secondary": "#c4b706",
+        "accent": "#ffffff"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "breckenridge",
+      "slug": "breckenridge",
+      "name": "Breckenridge",
+      "fullName": "Breckenridge Buckaroos",
+      "mascot": "Buckaroos",
+      "abbreviation": "BHS",
+      "classification": {
+        "conference": "3A",
+        "division": "D2"
+      },
+      "districtId": "3a-d2-district-4",
+      "uilRegion": 1,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Buckaroo Stadium",
+      "colors": {
+        "primary": "#008442",
+        "secondary": "#FFFFFF",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "midlothian-heritage",
+      "slug": "midlothian-heritage",
+      "name": "Midlothian Heritage",
+      "fullName": "Midlothian Heritage Jaguars",
+      "mascot": "Jaguars",
+      "abbreviation": "MHHS",
+      "classification": {
+        "conference": "5A",
+        "division": "D2"
+      },
+      "districtId": "opponent",
+      "uilRegion": 2,
+      "coverageMarket": "Opponent",
+      "stadium": "Midlothian ISD Multipurpose Stadium",
+      "colors": {
+        "primary": "#ED1F24",
+        "secondary": "#2F5AA9",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "abilene-wylie",
+      "slug": "abilene-wylie",
+      "name": "Abilene Wylie",
+      "fullName": "Abilene Wylie Bulldogs",
+      "mascot": "Bulldogs",
+      "abbreviation": "WHS",
+      "classification": {
+        "conference": "5A",
+        "division": "D2"
+      },
+      "districtId": "opponent",
+      "uilRegion": 1,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Hugh Sandifer Stadium",
+      "colors": {
+        "primary": "#2E236E",
+        "secondary": "#FFB802",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "lubbock-cooper",
+      "slug": "lubbock-cooper",
+      "name": "Lubbock Cooper",
+      "fullName": "Lubbock Cooper Fighting Pirates",
+      "mascot": "Pirates",
+      "abbreviation": "LCHS",
+      "classification": {
+        "conference": "5A",
+        "division": "D2"
+      },
+      "districtId": "opponent",
+      "uilRegion": 1,
+      "coverageMarket": "Opponent",
+      "stadium": "Pirate Stadium at First United Park",
+      "colors": {
+        "primary": "#C00000",
+        "secondary": "#000000",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "canyon-west-plains",
+      "slug": "canyon-west-plains",
+      "name": "Canyon West Plains",
+      "fullName": "Canyon West Plains Wolves",
+      "mascot": "Wolves",
+      "abbreviation": "WPHS",
+      "classification": {
+        "conference": "4A",
+        "division": "D1"
+      },
+      "districtId": "opponent",
+      "uilRegion": 1,
+      "coverageMarket": "Opponent",
+      "stadium": "Happy State Bank Stadium",
+      "colors": {
+        "primary": "#709CDC",
+        "secondary": "#151C2D",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "junction",
+      "slug": "junction",
+      "name": "Junction",
+      "fullName": "Junction Eagles",
+      "mascot": "Eagles",
+      "abbreviation": "JHS",
+      "classification": {
+        "conference": "2A",
+        "division": "D2"
+      },
+      "districtId": "opponent",
+      "uilRegion": 4,
+      "coverageMarket": "Opponent",
+      "stadium": "Eagle Field",
+      "colors": {
+        "primary": "#8a7724",
+        "secondary": "#000000",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "granger",
+      "slug": "granger",
+      "name": "Granger",
+      "fullName": "Granger Lions",
+      "mascot": "Lions",
+      "abbreviation": "GHS",
+      "classification": {
+        "conference": "2A",
+        "division": "D1"
+      },
+      "districtId": "opponent",
+      "uilRegion": 4,
+      "coverageMarket": "Opponent",
+      "stadium": "The Lion's Den",
+      "colors": {
+        "primary": "#251434",
+        "secondary": "#d0b100",
+        "accent": "#ffffff"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "haskell",
+      "slug": "haskell",
+      "name": "Haskell",
+      "fullName": "Haskell Indians",
+      "mascot": "Indians",
+      "abbreviation": "HHS",
+      "classification": {
+        "conference": "2A",
+        "division": "D2"
+      },
+      "districtId": "opponent",
+      "uilRegion": 2,
+      "coverageMarket": "Opponent",
+      "stadium": "Indian Field",
+      "colors": {
+        "primary": "#C6B47E",
+        "secondary": "#000000",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "merkel",
+      "slug": "merkel",
+      "name": "Merkel",
+      "fullName": "Merkel Badgers",
+      "mascot": "Badgers",
+      "abbreviation": "MHS",
+      "classification": {
+        "conference": "3A",
+        "division": "D2"
+      },
+      "districtId": "3a-d2-district-4",
+      "uilRegion": 1,
+      "coverageMarket": "Opponent",
+      "stadium": "Merkel ISD Football Field",
+      "colors": {
+        "primary": "#26024b",
+        "secondary": "#bba723",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "holland",
+      "slug": "holland",
+      "name": "Holland",
+      "fullName": "Holland Hornets",
+      "mascot": "Hornets",
+      "abbreviation": "HHS",
+      "classification": {
+        "conference": "2A",
+        "division": "D2"
+      },
+      "districtId": "opponent",
+      "uilRegion": 4,
+      "coverageMarket": "Opponent",
+      "stadium": "Mike Rosa Athletic Complex",
+      "colors": {
+        "primary": "#41086a",
+        "secondary": "#968f25",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "moody",
+      "slug": "moody",
+      "name": "Moody",
+      "fullName": "Moody Bearcats",
+      "mascot": "Bearcats",
+      "abbreviation": "MHS",
+      "classification": {
+        "conference": "2A",
+        "division": "D1"
+      },
+      "districtId": "opponent",
+      "uilRegion": 4,
+      "coverageMarket": "Opponent",
+      "stadium": "Bearcat Stadium",
+      "colors": {
+        "primary": "#234729",
+        "secondary": "#ba9a17",
+        "accent": "#000000"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "meridian",
+      "slug": "meridian",
+      "name": "Meridian",
+      "fullName": "Meridian Yellow Jackets",
+      "mascot": "Yellow Jackets",
+      "abbreviation": "MHS",
+      "classification": {
+        "conference": "2A",
+        "division": "D2"
+      },
+      "districtId": "2a-d2-district-8",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Yellow Jacket Stadium",
+      "stadiumAddress": "605 F St, Meridian, TX 76665",
+      "headCoach": "Jim Kerbow",
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#a78e00",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "florence",
+      "slug": "florence",
+      "name": "Florence",
+      "fullName": "Florence Buffaloes",
+      "mascot": "Buffaloes",
+      "abbreviation": "FHS",
+      "classification": {
+        "conference": "3A",
+        "division": "D2"
+      },
+      "districtId": "opponent",
+      "uilRegion": 4,
+      "coverageMarket": "Opponent",
+      "stadium": "Stampede Stadium",
+      "colors": {
+        "primary": "#2a2d72",
+        "secondary": "#FFFFFF",
+        "accent": "#ffffff"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "christoval",
+      "slug": "christoval",
+      "name": "Christoval",
+      "fullName": "Christoval Cougars",
+      "mascot": "Cougars",
+      "abbreviation": "CHS",
+      "classification": {
+        "conference": "2A",
+        "division": "D1"
+      },
+      "districtId": "opponent",
+      "uilRegion": 1,
+      "coverageMarket": "Opponent",
+      "stadium": "Jack Pardee Memorial Stadium",
+      "colors": {
+        "primary": "#c02121",
+        "secondary": "#FFFFFF",
+        "accent": "#000000"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "colorado-city",
+      "slug": "colorado-city",
+      "name": "Colorado City",
+      "fullName": "Colorado City Wolves",
+      "mascot": "Wolves",
+      "abbreviation": "CCHS",
+      "classification": {
+        "conference": "2A",
+        "division": "D1"
+      },
+      "districtId": "opponent",
+      "uilRegion": 1,
+      "coverageMarket": "Opponent",
+      "stadium": "Wolf Stadium",
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ae0c0c",
+        "accent": "#ffffff"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "henrietta",
+      "slug": "henrietta",
+      "name": "Henrietta",
+      "fullName": "Henrietta Bearcats",
+      "mascot": "Bearcats",
+      "abbreviation": "HHS",
+      "classification": {
+        "conference": "3A",
+        "division": "D2"
+      },
+      "districtId": "3a-d2-district-4",
+      "uilRegion": 1,
+      "coverageMarket": "Opponent",
+      "stadium": "Bearcat Stadium",
+      "colors": {
+        "primary": "#817c33",
+        "secondary": "#000000",
+        "accent": "#ffffff"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "jacksboro",
+      "slug": "jacksboro",
+      "name": "Jacksboro",
+      "fullName": "Jacksboro Tigers",
+      "mascot": "Tigers",
+      "abbreviation": "JHS",
+      "classification": {
+        "conference": "3A",
+        "division": "D2"
+      },
+      "districtId": "3a-d2-district-4",
+      "uilRegion": 1,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Tiger Stadium",
+      "stadiumAddress": "1400 N Main St, Jacksboro, TX 76458",
+      "headCoach": "Casey Hubble",
+      "colors": {
+        "primary": "#502984",
+        "secondary": "#FFFFFF",
+        "accent": "#9FA1A0"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "olney",
+      "slug": "olney",
+      "name": "Olney",
+      "fullName": "Olney Cubs",
+      "mascot": "Cubs",
+      "abbreviation": "OHS",
+      "classification": {
+        "conference": "2A",
+        "division": "D1"
+      },
+      "districtId": "opponent",
+      "uilRegion": 2,
+      "coverageMarket": "Opponent",
+      "stadium": "Cub Stadium",
+      "colors": {
+        "primary": "#AD051E",
+        "secondary": "#FFFFFF",
+        "accent": "#000000"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "peaster",
+      "slug": "peaster",
+      "name": "Peaster",
+      "fullName": "Peaster Greyhounds",
+      "mascot": "Greyhounds",
+      "abbreviation": "PHS",
+      "classification": {
+        "conference": "3A",
+        "division": "D1"
+      },
+      "districtId": "opponent",
+      "uilRegion": 1,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Greyhound Stadium",
+      "colors": {
+        "primary": "#0057B8",
+        "secondary": "#FFFFFF",
+        "accent": "#9FA1A0"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "post",
+      "slug": "post",
+      "name": "Post",
+      "fullName": "Post Antelopes",
+      "mascot": "Antelopes",
+      "abbreviation": "PHS",
+      "classification": {
+        "conference": "2A",
+        "division": "D1"
+      },
+      "districtId": "opponent",
+      "uilRegion": 1,
+      "coverageMarket": "Opponent",
+      "stadium": "Jimmie Redman Memorial Stadium",
+      "colors": {
+        "primary": "#B5A269",
+        "secondary": "#000000",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "roscoe",
+      "slug": "roscoe",
+      "name": "Roscoe",
+      "fullName": "Roscoe Plowboys",
+      "mascot": "Plowboys",
+      "abbreviation": "RHS",
+      "classification": {
+        "conference": "2A",
+        "division": "D2"
+      },
+      "districtId": "opponent",
+      "uilRegion": 1,
+      "coverageMarket": "Opponent",
+      "stadium": "Plowboy Field",
+      "colors": {
+        "primary": "#5B2C83",
+        "secondary": "#FFFFFF",
+        "accent": "#ffffff"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "seymour",
+      "slug": "seymour",
+      "name": "Seymour",
+      "fullName": "Seymour Panthers",
+      "mascot": "Panthers",
+      "abbreviation": "SHS",
+      "classification": {
+        "conference": "2A",
+        "division": "D2"
+      },
+      "districtId": "opponent",
+      "uilRegion": 2,
+      "coverageMarket": "Opponent",
+      "stadium": "Fair Park Stadium",
+      "colors": {
+        "primary": "#360305",
+        "secondary": "#FFFFFF",
+        "accent": "#363636"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "burnet",
+      "slug": "burnet",
+      "name": "Burnet",
+      "fullName": "Burnet Bulldogs",
+      "mascot": "Bulldogs",
+      "abbreviation": "BHS",
+      "badgeLabel": "BHS",
+      "badgeSubtext": "Bulldogs",
+      "classification": {
+        "conference": "4A",
+        "division": "D1"
+      },
+      "districtId": "4a-d1-district-12",
+      "uilRegion": 3,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Bulldog Field",
+      "colors": {
+        "primary": "#036330",
+        "secondary": "#000000",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "china-spring",
+      "slug": "china-spring",
+      "name": "China Spring",
+      "fullName": "China Spring Cougars",
+      "mascot": "Cougars",
+      "abbreviation": "CSHS",
+      "badgeLabel": "CSHS",
+      "badgeSubtext": "Cougars",
+      "classification": {
+        "conference": "4A",
+        "division": "D1"
+      },
+      "districtId": "4a-d1-district-12",
+      "uilRegion": 3,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Cougar Stadium",
+      "colors": {
+        "primary": "#478BCA",
+        "secondary": "#121B4E",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "jarrell",
+      "slug": "jarrell",
+      "name": "Jarrell",
+      "fullName": "Jarrell Cougars",
+      "mascot": "Cougars",
+      "abbreviation": "JHS",
+      "badgeLabel": "JHS",
+      "badgeSubtext": "Cougars",
+      "classification": {
+        "conference": "4A",
+        "division": "D1"
+      },
+      "districtId": "4a-d1-district-12",
+      "uilRegion": 3,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Cougar Field",
+      "colors": {
+        "primary": "#001F4D",
+        "secondary": "#FFFFFF",
+        "accent": "#000000"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "lampasas",
+      "slug": "lampasas",
+      "name": "Lampasas",
+      "fullName": "Lampasas Badgers",
+      "mascot": "Badgers",
+      "abbreviation": "LHS",
+      "badgeLabel": "LHS",
+      "badgeSubtext": "Badgers",
+      "classification": {
+        "conference": "4A",
+        "division": "D1"
+      },
+      "districtId": "4a-d1-district-12",
+      "uilRegion": 3,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Badger Field",
+      "colors": {
+        "primary": "#00009C",
+        "secondary": "#FFFFFF",
+        "accent": "#000000"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "marble-falls",
+      "slug": "marble-falls",
+      "name": "Marble Falls",
+      "fullName": "Marble Falls Mustangs",
+      "mascot": "Mustangs",
+      "abbreviation": "MFHS",
+      "badgeLabel": "MFHS",
+      "badgeSubtext": "Mustangs",
+      "classification": {
+        "conference": "4A",
+        "division": "D1"
+      },
+      "districtId": "4a-d1-district-12",
+      "uilRegion": 3,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Mustang Stadium",
+      "colors": {
+        "primary": "#4E2A84",
+        "secondary": "#CBB778",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "clifton",
+      "slug": "clifton",
+      "name": "Clifton",
+      "fullName": "Clifton Cubs",
+      "mascot": "Cubs",
+      "abbreviation": "CHS",
+      "badgeLabel": "CHS",
+      "badgeSubtext": "Cubs",
+      "classification": {
+        "conference": "3A",
+        "division": "D2"
+      },
+      "districtId": "3a-d2-district-5",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Cub Stadium",
+      "stadiumAddress": "1101 N Ave Q, Clifton, TX 76634",
+      "headCoach": "Brent Finney",
+      "colors": {
+        "primary": "#00943A",
+        "secondary": "#000000",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "dublin",
+      "slug": "dublin",
+      "name": "Dublin",
+      "fullName": "Dublin Lions",
+      "mascot": "Lions",
+      "abbreviation": "DHS",
+      "badgeLabel": "DHS",
+      "badgeSubtext": "Lions",
+      "classification": {
+        "conference": "3A",
+        "division": "D2"
+      },
+      "districtId": "3a-d2-district-5",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Bob and Norma Cervetto Stadium",
+      "stadiumAddress": "2233 Hwy 6, Dublin, TX 76446",
+      "headCoach": "Greg Hardcastle",
+      "colors": {
+        "primary": "#28ac33",
+        "secondary": "#defb00",
+        "accent": "#000000"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "eastland",
+      "slug": "eastland",
+      "name": "Eastland",
+      "fullName": "Eastland Mavericks",
+      "mascot": "Mavericks",
+      "abbreviation": "EHS",
+      "badgeLabel": "EHS",
+      "badgeSubtext": "Mavericks",
+      "classification": {
+        "conference": "3A",
+        "division": "D2"
+      },
+      "districtId": "3a-d2-district-5",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Maverick Stadium",
+      "stadiumAddress": "903 E Main St, Eastland, TX 76448",
+      "headCoach": "Matt Landers",
+      "colors": {
+        "primary": "#D00A10",
+        "secondary": "#000000",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "hamilton",
+      "slug": "hamilton",
+      "name": "Hamilton",
+      "fullName": "Hamilton Bulldogs",
+      "mascot": "Bulldogs",
+      "abbreviation": "HHS",
+      "badgeLabel": "HHS",
+      "badgeSubtext": "Bulldogs",
+      "classification": {
+        "conference": "3A",
+        "division": "D2"
+      },
+      "districtId": "3a-d2-district-5",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Kooken Field",
+      "officialWebsite": "https://www.hamiltonisd.org/",
+      "stadiumAddress": "917 S Railroad St, Hamilton, TX 76531",
+      "headCoach": "Ryan Marwitz",
+      "colors": {
+        "primary": "#CE2123",
+        "secondary": "#000000",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "pilot"
+    },
+    {
+      "id": "millsap",
+      "slug": "millsap",
+      "name": "Millsap",
+      "fullName": "Millsap Bulldogs",
+      "mascot": "Bulldogs",
+      "abbreviation": "MHS",
+      "badgeLabel": "MHS",
+      "badgeSubtext": "Bulldogs",
+      "classification": {
+        "conference": "3A",
+        "division": "D2"
+      },
+      "districtId": "3a-d2-district-5",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Bulldog Stadium",
+      "stadiumAddress": "600 Bulldog Blvd, Millsap, TX 76066",
+      "headCoach": "Jacob Johnson",
+      "colors": {
+        "primary": "#660000",
+        "secondary": "#000000",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "rio-vista",
+      "slug": "rio-vista",
+      "name": "Rio Vista",
+      "fullName": "Rio Vista Eagles",
+      "mascot": "Eagles",
+      "abbreviation": "RVHS",
+      "badgeLabel": "RVHS",
+      "badgeSubtext": "Eagles",
+      "classification": {
+        "conference": "3A",
+        "division": "D2"
+      },
+      "districtId": "3a-d2-district-5",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Eagle Field",
+      "stadiumAddress": "315 S Cleburne Whitney Rd, Rio Vista, TX 76093",
+      "headCoach": "Matthew Woodard",
+      "colors": {
+        "primary": "#058538",
+        "secondary": "#FFFFFF",
+        "accent": "#000000"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "tolar",
+      "slug": "tolar",
+      "name": "Tolar",
+      "fullName": "Tolar Rattlers",
+      "mascot": "Rattlers",
+      "abbreviation": "THS",
+      "badgeLabel": "THS",
+      "badgeSubtext": "Rattlers",
+      "classification": {
+        "conference": "3A",
+        "division": "D2"
+      },
+      "districtId": "3a-d2-district-5",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Tolar Rattlers Stadium",
+      "stadiumAddress": "600 W 7th St, Tolar, TX 76476",
+      "headCoach": "Blake Mouser",
+      "colors": {
+        "primary": "#6408a6",
+        "secondary": "#FFFFFF",
+        "accent": "#000000"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "crawford",
+      "slug": "crawford",
+      "name": "Crawford",
+      "fullName": "Crawford Pirates",
+      "mascot": "Pirates",
+      "abbreviation": "CHS",
+      "badgeLabel": "CHS",
+      "badgeSubtext": "Pirates",
+      "classification": {
+        "conference": "2A",
+        "division": "D2"
+      },
+      "districtId": "2a-d2-district-8",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Pirate Stadium",
+      "stadiumAddress": "523 E 4th St, Crawford, TX 76638",
+      "headCoach": "Greg Jacobs",
+      "colors": {
+        "primary": "#B47609",
+        "secondary": "#000000",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "frost",
+      "slug": "frost",
+      "name": "Frost",
+      "fullName": "Frost Polar Bears",
+      "mascot": "Polar Bears",
+      "abbreviation": "FHS",
+      "badgeLabel": "FHS",
+      "badgeSubtext": "Polar Bears",
+      "classification": {
+        "conference": "2A",
+        "division": "D2"
+      },
+      "districtId": "2a-d2-district-8",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "colors": {
+        "primary": "#1D4ED8",
+        "secondary": "#FFFFFF",
+        "accent": "#0F172A"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "hubbard",
+      "slug": "hubbard",
+      "name": "Hubbard",
+      "fullName": "Hubbard Jaguars",
+      "mascot": "Jaguars",
+      "abbreviation": "HHS",
+      "badgeLabel": "HHS",
+      "badgeSubtext": "Jaguars",
+      "classification": {
+        "conference": "2A",
+        "division": "D2"
+      },
+      "districtId": "2a-d2-district-8",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Jaguar Field",
+      "stadiumAddress": "1100 W 4th St, Hubbard, TX 76648",
+      "headCoach": "Ryan Faulknor",
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#D4AF37",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "mart",
+      "slug": "mart",
+      "name": "Mart",
+      "fullName": "Mart Panthers",
+      "mascot": "Panthers",
+      "abbreviation": "MHS",
+      "badgeLabel": "MHS",
+      "badgeSubtext": "Panthers",
+      "classification": {
+        "conference": "2A",
+        "division": "D2"
+      },
+      "districtId": "2a-d2-district-8",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Panther Stadium",
+      "stadiumAddress": "1400 E Kensington St, Mart, TX 76664",
+      "headCoach": "Kyle Stone",
+      "colors": {
+        "primary": "#4B2683",
+        "secondary": "#C5A253",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "wortham",
+      "slug": "wortham",
+      "name": "Wortham",
+      "fullName": "Wortham Bulldogs",
+      "mascot": "Bulldogs",
+      "abbreviation": "WHS",
+      "badgeLabel": "WHS",
+      "badgeSubtext": "Bulldogs",
+      "classification": {
+        "conference": "2A",
+        "division": "D2"
+      },
+      "districtId": "2a-d2-district-8",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "Bulldog Stadium",
+      "stadiumAddress": "411 Longbotham St, Wortham, TX 76693",
+      "headCoach": "Bryce Perkins",
+      "colors": {
+        "primary": "#1D4ED8",
+        "secondary": "#FFFFFF",
+        "accent": "#000000"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "holliday",
+      "slug": "holliday",
+      "name": "Holliday",
+      "fullName": "Holliday Eagles",
+      "mascot": "Eagles",
+      "abbreviation": "HHS",
+      "badgeLabel": "HHS",
+      "badgeSubtext": "Eagles",
+      "classification": {
+        "conference": "3A",
+        "division": "D2"
+      },
+      "districtId": "3a-d2-district-4",
+      "uilRegion": 1,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "colors": {
+        "primary": "#C8102E",
+        "secondary": "#FFFFFF",
+        "accent": "#000000"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "city-view",
+      "slug": "city-view",
+      "name": "City View",
+      "fullName": "City View Mustangs",
+      "mascot": "Mustangs",
+      "abbreviation": "CVHS",
+      "badgeLabel": "CVHS",
+      "badgeSubtext": "Mustangs",
+      "classification": {
+        "conference": "3A",
+        "division": "D2"
+      },
+      "districtId": "3a-d2-district-4",
+      "uilRegion": 1,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "colors": {
+        "primary": "#1D4ED8",
+        "secondary": "#FFFFFF",
+        "accent": "#000000"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "watchlist"
+    },
+    {
+      "id": "valley-mills",
+      "slug": "valley-mills",
+      "name": "Valley Mills",
+      "fullName": "Valley Mills Eagles",
+      "mascot": "Eagles",
+      "abbreviation": "VMHS",
+      "badgeLabel": "VMHS",
+      "badgeSubtext": "Eagles",
+      "classification": {
+        "conference": "2A",
+        "division": "D1"
+      },
+      "districtId": "opponent",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "colors": {
+        "primary": "#4CBB17",
+        "secondary": "#D4AF37",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "blooming-grove",
+      "slug": "blooming-grove",
+      "name": "Blooming Grove",
+      "fullName": "Blooming Grove Lions",
+      "mascot": "Lions",
+      "abbreviation": "BGHS",
+      "badgeLabel": "BGHS",
+      "badgeSubtext": "Lions",
+      "classification": {
+        "conference": "3A",
+        "division": "D2"
+      },
+      "districtId": "opponent",
+      "uilRegion": 3,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "colors": {
+        "primary": "#005DA3",
+        "secondary": "#FFFFFF",
+        "accent": "#000000"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "itasca",
+      "slug": "itasca",
+      "name": "Itasca",
+      "fullName": "Itasca Wampus Cats",
+      "mascot": "Wampus Cats",
+      "abbreviation": "IHS",
+      "badgeLabel": "IHS",
+      "badgeSubtext": "Wampus Cats",
+      "classification": {
+        "conference": "2A",
+        "division": "D1"
+      },
+      "districtId": "opponent",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "colors": {
+        "primary": "#FFD700",
+        "secondary": "#000000",
+        "accent": "#FFFFFF"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "santo",
+      "slug": "santo",
+      "name": "Santo",
+      "fullName": "Santo Wildcats",
+      "mascot": "Wildcats",
+      "abbreviation": "SHS",
+      "badgeLabel": "SHS",
+      "badgeSubtext": "Wildcats",
+      "classification": {
+        "conference": "2A",
+        "division": "D2"
+      },
+      "districtId": "2a-d2-district-8",
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "stadium": "W.A. Lewis Field / Wildcat Stadium",
+      "headCoach": "Devon Mann",
+      "athleticDirector": "Devon Mann",
+      "officialWebsite": "https://www.santoisd.net",
+      "stadiumCapacity": 500,
+      "description": "The Santo Wildcats compete in UIL 2A Division II District 8. Led by head coach and athletic director Devon Mann, Santo plays its home games at W.A. Lewis Field / Wildcat Stadium in Santo, Texas.",
+      "colors": {
+        "primary": "#4CBB17",
+        "secondary": "#FFFFFF",
+        "accent": "#0A642A"
+      },
+      "sports": [
+        "football"
+      ],
+      "status": "pilot"
+    }
+  ],
+  "districts": [
+    {
+      "id": "2a-d1-district-5",
+      "slug": "2a-d1-district-5",
+      "name": "2A Division I District 5",
+      "classification": {
+        "conference": "2A",
+        "division": "D1"
+      },
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "status": "pilot"
+    },
+    {
+      "id": "4a-d1-district-12",
+      "slug": "4a-d1-district-12",
+      "name": "4A Division I District 12",
+      "classification": {
+        "conference": "4A",
+        "division": "D1"
+      },
+      "uilRegion": 3,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "status": "pilot"
+    },
+    {
+      "id": "3a-d2-district-5",
+      "slug": "3a-d2-district-5",
+      "name": "3A Division II District 5",
+      "classification": {
+        "conference": "3A",
+        "division": "D2"
+      },
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "status": "pilot"
+    },
+    {
+      "id": "3a-d2-district-4",
+      "slug": "3a-d2-district-4",
+      "name": "3A Division II District 4",
+      "classification": {
+        "conference": "3A",
+        "division": "D2"
+      },
+      "uilRegion": 1,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "status": "watchlist"
+    },
+    {
+      "id": "2a-d1-district-7",
+      "slug": "2a-d1-district-7",
+      "name": "2A Division I District 7",
+      "classification": {
+        "conference": "2A",
+        "division": "D1"
+      },
+      "uilRegion": 2,
+      "coverageMarket": "Extended Watchlist",
+      "status": "watchlist"
+    },
+    {
+      "id": "2a-d2-district-7",
+      "slug": "2a-d2-district-7",
+      "name": "2A Division II District 7",
+      "classification": {
+        "conference": "2A",
+        "division": "D2"
+      },
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "status": "pilot"
+    },
+    {
+      "id": "2a-d2-district-8",
+      "slug": "2a-d2-district-8",
+      "name": "2A Division II District 8",
+      "classification": {
+        "conference": "2A",
+        "division": "D2"
+      },
+      "uilRegion": 2,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "status": "pilot"
+    },
+    {
+      "id": "4a-d2-district-13",
+      "slug": "4a-d2-district-13",
+      "name": "4A Division II District 13",
+      "classification": {
+        "conference": "4A",
+        "division": "D2"
+      },
+      "uilRegion": 4,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "status": "watchlist"
+    },
+    {
+      "id": "4a-d2-district-4",
+      "slug": "4a-d2-district-4",
+      "name": "4A Division II District 4",
+      "classification": {
+        "conference": "4A",
+        "division": "D2"
+      },
+      "uilRegion": 1,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "status": "watchlist"
+    },
+    {
+      "id": "3a-d1-district-2",
+      "slug": "3a-d1-district-2",
+      "name": "3A Division I District 2",
+      "classification": {
+        "conference": "3A",
+        "division": "D1"
+      },
+      "uilRegion": 1,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "status": "watchlist"
+    },
+    {
+      "id": "3a-d1-district-3",
+      "slug": "3a-d1-district-3",
+      "name": "3A Division I District 3",
+      "classification": {
+        "conference": "3A",
+        "division": "D1"
+      },
+      "uilRegion": 1,
+      "coverageMarket": "VarsityVue Coverage Area",
+      "status": "watchlist"
+    }
+  ]
+}

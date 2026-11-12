@@ -1,0 +1,3073 @@
+{
+  "executionEnabled": false,
+  "approval": null,
+  "count": 16,
+  "records": [
+    {
+      "manifestId": "2026-bi-district-3a-d2-i-1",
+      "bracket": {
+        "division": "3A Division II",
+        "region": "Region I",
+        "slot": 1,
+        "teams": [
+          "Canadian",
+          "Muleshoe"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "Canadian",
+          "officialName": "Canadian",
+          "qualifiedIdentity": {
+            "division": "3A Division II",
+            "region": "Region I",
+            "uilDistrict": 1
+          },
+          "schoolId": "canadian",
+          "schoolSlug": "canadian",
+          "catalogDistrictId": "3a-d2-district-1",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf"
+        },
+        {
+          "bracketName": "Muleshoe",
+          "officialName": "Muleshoe",
+          "qualifiedIdentity": {
+            "division": "3A Division II",
+            "region": "Region I",
+            "uilDistrict": 2
+          },
+          "schoolId": "muleshoe",
+          "schoolSlug": "muleshoe",
+          "catalogDistrictId": "3a-d2-district-2",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf"
+        }
+      ],
+      "operation": "proposed-new-record",
+      "existingGameId": null,
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "core-and-both-sides-explicit-held",
+      "coreScheduleEvidenceComplete": true,
+      "schedule": {
+        "kickoff": "2026-11-12T16:00:00-06:00",
+        "venue": "Happy State Bank Stadium",
+        "city": "Canyon",
+        "neutralSite": null,
+        "designatedSides": {
+          "status": "explicit-home-confirmed",
+          "homeTeam": "Canadian",
+          "awayTeam": "Muleshoe",
+          "sourceUrl": "https://www.muleshoeisd.net/live-feed/",
+          "basis": "Primary school explicitly names home team; visitor is explicit for Sweetwater/Canadian, otherwise complementary other participant.",
+          "homeExplicit": true,
+          "awayExplicit": true
+        }
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-12T16:00:00-06:00",
+        "venue": "Happy State Bank Stadium",
+        "city": "Canyon"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "3A Division II",
+          "region": "Region I",
+          "slot": 1,
+          "teams": [
+            "Canadian",
+            "Muleshoe"
+          ],
+          "date": "2026-11-12",
+          "localTime": "16:00",
+          "kickoff": null,
+          "proposedKickoff": "2026-11-12T16:00:00-06:00",
+          "timeZone": null,
+          "timeZoneBasis": "geographic inference only; not explicitly stated in selected source",
+          "venue": "Happy State Bank Stadium",
+          "city": "Canyon",
+          "neutralSite": null,
+          "neutralSiteBasis": "not explicitly verified",
+          "sourceLabel": "NBC DFW / Associated Press / Dave Campbell schedules",
+          "sourceUrl": "https://www.nbcdfw.com/news/sports/hs-sports/2026-class-3a-texas-high-school-football-bi-district-playoff-schedule/4103105/",
+          "sourcePublicationDate": null,
+          "sourceUpdatedDate": null,
+          "retrievedDate": "2026-11-10",
+          "verificationStatus": "partial",
+          "missingInformation": [
+            "explicit timezone confirmation"
+          ],
+          "conflicts": [],
+          "notes": []
+        },
+        "existingSideReview": null,
+        "newEvidence": {
+          "bracket": {
+            "division": "3A Division II",
+            "region": "Region I",
+            "slot": 1,
+            "teams": [
+              "Canadian",
+              "Muleshoe"
+            ]
+          },
+          "qualifiedIdentities": [
+            {
+              "bracketName": "Canadian",
+              "officialName": "Canadian",
+              "division": "3A Division II",
+              "region": "Region I",
+              "district": 1,
+              "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf"
+            },
+            {
+              "bracketName": "Muleshoe",
+              "officialName": "Muleshoe",
+              "division": "3A Division II",
+              "region": "Region I",
+              "district": 2,
+              "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf"
+            }
+          ],
+          "previousVerificationStatus": "partial",
+          "selectedSchedule": {
+            "kickoff": "2026-11-12T16:00:00-06:00",
+            "venue": "Happy State Bank Stadium",
+            "city": "Canyon"
+          },
+          "selectedScheduleEvidence": {
+            "sourceLabel": "Dave Campbell's Texas Football / Matt Stepp",
+            "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+            "sourcePublishedDate": "2026-11-08",
+            "retrievedDate": "2026-11-11",
+            "retrievalStatus": "opened-page-relevant-section-reviewed",
+            "fields": [
+              "opponents",
+              "date",
+              "localTime",
+              "timezone",
+              "venue",
+              "city"
+            ],
+            "summary": "Selected published schedule identifies this matchup/date/time/venue/city; source header explicitly states all times CST. This is selected publisher evidence, not blanket primary confirmation."
+          },
+          "primaryCorroboration": [
+            {
+              "sourceLabel": "Muleshoe ISD official playoff announcement",
+              "sourceUrl": "https://www.muleshoeisd.net/live-feed/",
+              "sourcePublishedDate": null,
+              "retrievedDate": "2026-11-11",
+              "retrievalStatus": "opened-page-relevant-section-reviewed",
+              "fields": [
+                "opponents",
+                "date",
+                "localTime",
+                "venue",
+                "city",
+                "designatedHome",
+                "designatedVisitor"
+              ],
+              "summary": "Current Game Day playoff post confirms Nov12 2026 4pm Happy State Bank Stadium,Canyon; Canadian home and Muleshoe visiting.",
+              "limitations": [
+                "No explicit timezone/formal neutral declaration. Initial opened cache was earlier; fresh relevant playoff section was then reviewed. School-linked Canyon event748 did not load via direct fetch."
+              ]
+            }
+          ],
+          "designatedSides": {
+            "status": "explicit-home-confirmed",
+            "homeTeam": "Canadian",
+            "awayTeam": "Muleshoe",
+            "sourceUrl": "https://www.muleshoeisd.net/live-feed/",
+            "basis": "Primary school explicitly names home team; visitor is explicit for Sweetwater/Canadian, otherwise complementary other participant.",
+            "homeExplicit": true,
+            "awayExplicit": true
+          },
+          "neutralSite": null,
+          "neutralSiteBasis": "No formal primary neutral-site designation adopted",
+          "readyForPublication": false,
+          "coreScheduleEvidenceComplete": true,
+          "operation": "proposed-new-record",
+          "sideAssignment": {
+            "status": "explicit-home-confirmed",
+            "homeTeam": "Canadian",
+            "awayTeam": "Muleshoe",
+            "sourceUrl": "https://www.muleshoeisd.net/live-feed/",
+            "basis": "Primary school explicitly names home team; visitor is explicit for Sweetwater/Canadian, otherwise complementary other participant.",
+            "homeExplicit": true,
+            "awayExplicit": true
+          },
+          "publicationBlockers": [
+            "formal neutral-site designation unconfirmed",
+            "exact publication approval absent"
+          ],
+          "proposedCandidatePatch": {
+            "verificationStatus": "source-verified",
+            "kickoff": "2026-11-12T16:00:00-06:00",
+            "timeZone": "America/Chicago",
+            "timeZoneBasis": "Selected source explicitly supplies CST/UTC-06; primary corroboration limitations retained",
+            "readyForPublication": false
+          },
+          "remainingGaps": [
+            "formal neutral-site designation unconfirmed",
+            "exact publication approval absent"
+          ]
+        }
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "catalog integration release required",
+        "formal neutral-site designation unconfirmed",
+        "exact publication approval absent",
+        "formal neutral-site status unconfirmed; existing safeguard retained"
+      ],
+      "writePayload": null
+    },
+    {
+      "manifestId": "2026-bi-district-4a-d2-i-7",
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region I",
+        "slot": 7,
+        "teams": [
+          "Brock",
+          "Perryton"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "Brock",
+          "officialName": "Brock",
+          "qualifiedIdentity": {
+            "division": "4A Division II",
+            "region": "Region I",
+            "uilDistrict": 4
+          },
+          "schoolId": "brock",
+          "schoolSlug": "brock",
+          "catalogDistrictId": "4a-d2-district-4",
+          "catalogState": "existing-record",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf"
+        },
+        {
+          "bracketName": "Perryton",
+          "officialName": "Perryton",
+          "qualifiedIdentity": {
+            "division": "4A Division II",
+            "region": "Region I",
+            "uilDistrict": 3
+          },
+          "schoolId": "perryton",
+          "schoolSlug": "perryton",
+          "catalogDistrictId": "4a-d2-district-3",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf"
+        }
+      ],
+      "operation": "proposed-new-record",
+      "existingGameId": null,
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "core-and-both-sides-explicit-held",
+      "coreScheduleEvidenceComplete": true,
+      "schedule": {
+        "kickoff": "2026-11-12T17:00:00-06:00",
+        "venue": "Lowrey Field",
+        "city": "Lubbock",
+        "neutralSite": null,
+        "designatedSides": {
+          "homeTeam": "Brock",
+          "awayTeam": "Perryton",
+          "sourceUrl": "https://events.hometownticketing.com/boxoffice/lubbockisd/L2VtYmVkL2V2ZW50LzE0NjM%3D",
+          "reviewStatus": "explicit-primary-designation-confirmed"
+        }
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-12T17:00:00-06:00",
+        "venue": "Lowrey Field",
+        "city": "Lubbock"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "4A Division II",
+          "region": "Region I",
+          "slot": 7,
+          "teams": [
+            "Brock",
+            "Perryton"
+          ],
+          "date": "2026-11-12",
+          "localTime": "17:00",
+          "kickoff": "2026-11-12T17:00:00-06:00",
+          "proposedKickoff": "2026-11-12T17:00:00-06:00",
+          "timeZone": "America/Chicago",
+          "timeZoneBasis": "source explicitly states all times CST",
+          "venue": "Lowrey Field",
+          "city": "Lubbock",
+          "neutralSite": null,
+          "neutralSiteBasis": "not explicitly verified",
+          "sourceLabel": "Dave Campbell's Texas Football / Matt Stepp",
+          "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+          "sourcePublicationDate": "2026-11-08",
+          "sourceUpdatedDate": null,
+          "retrievedDate": "2026-11-10",
+          "verificationStatus": "source-verified",
+          "missingInformation": [],
+          "conflicts": [],
+          "notes": [],
+          "homeAwayEvidence": {
+            "homeTeam": "Brock",
+            "awayTeam": "Perryton",
+            "sourceUrl": "https://events.hometownticketing.com/boxoffice/lubbockisd/L2VtYmVkL2V2ZW50LzE0NjM%3D",
+            "reviewStatus": "explicit-primary-designation-confirmed"
+          },
+          "followUpEvidence": [
+            {
+              "reviewedDate": "2026-11-11",
+              "sourceLabel": "Lubbock ISD host ticket event 1463",
+              "sourceUrl": "https://events.hometownticketing.com/boxoffice/lubbockisd/L2VtYmVkL2V2ZW50LzE0NjM%3D",
+              "retrievalStatus": "live-browser-page-reviewed",
+              "summary": "Event description explicitly maps Perryton Visitor and Brock Home at PlainsCapital Park/Lowrey Field. Conflicting incidental conference/division text is not adopted; UIL identity/classification is retained."
+            }
+          ]
+        },
+        "existingSideReview": {
+          "bracket": {
+            "division": "4A Division II",
+            "region": "Region I",
+            "slot": 7,
+            "teams": [
+              "Brock",
+              "Perryton"
+            ]
+          },
+          "kickoff": "2026-11-12T17:00:00-06:00",
+          "venue": "Lowrey Field",
+          "city": "Lubbock",
+          "designatedSides": {
+            "homeTeam": "Brock",
+            "awayTeam": "Perryton",
+            "sourceUrl": "https://events.hometownticketing.com/boxoffice/lubbockisd/L2VtYmVkL2V2ZW50LzE0NjM%3D",
+            "reviewStatus": "explicit-primary-designation-confirmed"
+          },
+          "primaryLocationCorroborated": true,
+          "locationEvidence": {
+            "sourceUrl": "https://events.hometownticketing.com/boxoffice/lubbockisd/L2VtYmVkL2V2ZW50LzE0NjM%3D",
+            "sourceLabel": "Primary designated-side evidence",
+            "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+          },
+          "siteAssessment": {
+            "kind": "third-party-location",
+            "isInference": true,
+            "neutralSiteConfirmed": null,
+            "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+          },
+          "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer. Lubbock host explicitly maps Brock HOME, despite publisher listings putting Perryton home. Host conference/division typos are not adopted.",
+          "publicationBlockers": [
+            "explicit neutral-site designation remains unverified",
+            "catalog integration/release review remains required",
+            "final publication approval remains required"
+          ],
+          "readyForPublication": false
+        },
+        "newEvidence": null
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "catalog integration release required",
+        "formal neutral-site status unconfirmed; existing safeguard retained"
+      ],
+      "writePayload": null
+    },
+    {
+      "manifestId": "2026-bi-district-2a-d2-i-3",
+      "bracket": {
+        "division": "2A Division II",
+        "region": "Region I",
+        "slot": 3,
+        "teams": [
+          "Ropes",
+          "Vega"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "Ropes",
+          "officialName": "Ropes",
+          "qualifiedIdentity": {
+            "division": "2A Division II",
+            "region": "Region I",
+            "uilDistrict": 2
+          },
+          "schoolId": "ropes",
+          "schoolSlug": "ropes",
+          "catalogDistrictId": "2a-d2-district-2",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/FB2AD2_Rvsd10-19.pdf"
+        },
+        {
+          "bracketName": "Vega",
+          "officialName": "Vega",
+          "qualifiedIdentity": {
+            "division": "2A Division II",
+            "region": "Region I",
+            "uilDistrict": 1
+          },
+          "schoolId": "vega",
+          "schoolSlug": "vega",
+          "catalogDistrictId": "2a-d2-district-1",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/FB2AD2_Rvsd10-19.pdf"
+        }
+      ],
+      "operation": "proposed-new-record",
+      "existingGameId": null,
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "core-and-both-sides-explicit-held",
+      "coreScheduleEvidenceComplete": true,
+      "schedule": {
+        "kickoff": "2026-11-12T18:00:00-06:00",
+        "venue": "Bobcat Stadium, Dimmitt, TX",
+        "city": "Dimmitt",
+        "neutralSite": null,
+        "designatedSides": {
+          "homeTeam": "Vega",
+          "awayTeam": "Ropes",
+          "sourceUrl": "https://www.vegalonghorn.com/live-feed/?page_no=1",
+          "retrievalMethod": "live-browser-page-reviewed",
+          "homeExplicit": true,
+          "awayExplicit": true,
+          "basis": "Both home and visitors explicitly named."
+        }
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-12T18:00:00-06:00",
+        "venue": "Bobcat Stadium, Dimmitt, TX",
+        "city": "Dimmitt"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "2A Division II",
+          "region": "Region I",
+          "slot": 3,
+          "teams": [
+            "Ropes",
+            "Vega"
+          ],
+          "status": "missing-record",
+          "missing": [
+            "published game record"
+          ],
+          "kickoff": "2026-11-12T18:00:00-06:00",
+          "venue": "Bobcat Stadium, Dimmitt, TX",
+          "city": "Dimmitt",
+          "timeZone": "America/Chicago",
+          "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+          "neutralSite": null,
+          "verificationStatus": "single-source",
+          "missingInformation": [
+            "explicit neutral-site designation"
+          ],
+          "conflicts": [],
+          "sourceLabel": "TXHSFB.net \u2014 2A DII capsules",
+          "sourceUrl": "https://txhsfb.net/?p=29385",
+          "sourcePublishedDate": "2026-11-09",
+          "sources": [
+            {
+              "name": "TXHSFB.net \u2014 2A DII capsules",
+              "url": "https://txhsfb.net/?p=29385",
+              "publishedDate": "2026-11-09"
+            }
+          ],
+          "researchedAt": "2026-11-11T00:33:52.145288+00:00",
+          "readyForPublication": false
+        },
+        "existingSideReview": null,
+        "newEvidence": {
+          "bracket": {
+            "division": "2A Division II",
+            "region": "Region I",
+            "slot": 3,
+            "teams": [
+              "Ropes",
+              "Vega"
+            ]
+          },
+          "qualifiedIdentities": [
+            {
+              "officialName": "Ropes",
+              "division": "2A Division II",
+              "region": "Region I",
+              "district": 2,
+              "alignmentSourceUrl": "https://www.uiltexas.org/files/alignments/FB2AD2_Rvsd10-19.pdf"
+            },
+            {
+              "officialName": "Vega",
+              "division": "2A Division II",
+              "region": "Region I",
+              "district": 1,
+              "alignmentSourceUrl": "https://www.uiltexas.org/files/alignments/FB2AD2_Rvsd10-19.pdf"
+            }
+          ],
+          "baselineSelected": {
+            "kickoff": "2026-11-12T18:00:00-06:00",
+            "venue": "Bobcat Stadium, Dimmitt, TX",
+            "city": "Dimmitt",
+            "sourceLabel": "TXHSFB.net \u2014 2A DII capsules",
+            "sourceUrl": "https://txhsfb.net/?p=29385",
+            "verificationStatus": "single-source"
+          },
+          "selectedSchedule": {
+            "kickoff": "2026-11-12T18:00:00-06:00",
+            "venue": "Bobcat Stadium, Dimmitt, TX",
+            "city": "Dimmitt"
+          },
+          "sourceComplete": true,
+          "primaryLocationCorroborated": true,
+          "primaryLocationScope": "campus-only-from-primary-index",
+          "designatedSides": {
+            "homeTeam": "Vega",
+            "awayTeam": "Ropes",
+            "sourceUrl": "https://www.vegalonghorn.com/live-feed/?page_no=1",
+            "retrievalMethod": "live-browser-page-reviewed",
+            "homeExplicit": true,
+            "awayExplicit": true,
+            "basis": "Both home and visitors explicitly named."
+          },
+          "neutralSite": null,
+          "sourceEvidence": [
+            {
+              "sourceLabel": "Dave Campbell's / Matt Stepp",
+              "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+              "retrievedDate": "2026-11-11",
+              "sourcePublishedDate": "2026-11-08",
+              "retrievalMethod": "web-page-reviewed",
+              "fields": {
+                "pairing": [
+                  "Ropes",
+                  "Vega"
+                ],
+                "kickoff": "2026-11-12T18:00:00-06:00",
+                "venue": "Bobcat Stadium, Dimmitt, TX",
+                "city": "Dimmitt",
+                "timezone": "CST explicitly declared for all listings"
+              },
+              "limitations": [
+                "Credible selected-source reporting, not primary school/host confirmation. Existing selected venue spelling retained; publisher list sometimes uses abbreviated names."
+              ]
+            },
+            {
+              "sourceLabel": "Vega ISD official live feed",
+              "sourceUrl": "https://www.vegalonghorn.com/live-feed/?page_no=1",
+              "retrievedDate": "2026-11-11",
+              "sourcePublishedDate": null,
+              "retrievalMethod": "search-index-excerpt",
+              "fields": {
+                "pairing": [
+                  "Ropes",
+                  "Vega"
+                ],
+                "date": "2026-11-12",
+                "localTime": "18:00",
+                "venue": "Dimmit High School",
+                "home": "Vega",
+                "visitor": "Ropes"
+              },
+              "limitations": [
+                "Official text misspells Dimmitt as Dimmit; campus-only and no timezone. Direct generic live-feed web open was older; source freshness scope is search-index excerpt."
+              ]
+            },
+            {
+              "sourceLabel": "Current school announcement directly inspected in live browser",
+              "sourceUrl": "https://www.vegalonghorn.com/live-feed/?page_no=1",
+              "retrievedDate": "2026-11-11",
+              "retrievalMethod": "live-browser-page-reviewed",
+              "postOrArticleId": "13752004",
+              "fields": [
+                "designated-side",
+                "opponents",
+                "date",
+                "localTime",
+                "location"
+              ],
+              "limitations": [
+                "Timezone and exact stadium name remain selected-source evidence where the school provides only local time/campus. No formal neutral designation observed."
+              ],
+              "summary": "Both home and visitors explicitly named."
+            }
+          ],
+          "conflicts": [],
+          "remainingGaps": [
+            "formal neutral-site designation remains unconfirmed",
+            "catalog integration/release approval",
+            "exact publication approval"
+          ],
+          "readyForPublication": false,
+          "coreScheduleEvidenceComplete": true
+        }
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "catalog integration release required",
+        "formal neutral-site designation remains unconfirmed",
+        "catalog integration/release approval",
+        "exact publication approval",
+        "formal neutral-site status unconfirmed; existing safeguard retained"
+      ],
+      "writePayload": null
+    },
+    {
+      "manifestId": "2026-bi-district-2a-d1-i-5",
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region I",
+        "slot": 5,
+        "teams": [
+          "Post",
+          "Ozona"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "Post",
+          "officialName": "Post",
+          "qualifiedIdentity": {
+            "division": "2A Division I",
+            "region": "Region I",
+            "uilDistrict": 3
+          },
+          "schoolId": "post",
+          "schoolSlug": "post",
+          "catalogDistrictId": "opponent",
+          "catalogState": "existing-record",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+        },
+        {
+          "bracketName": "Ozona",
+          "officialName": "Ozona",
+          "qualifiedIdentity": {
+            "division": "2A Division I",
+            "region": "Region I",
+            "uilDistrict": 4
+          },
+          "schoolId": "ozona",
+          "schoolSlug": "ozona",
+          "catalogDistrictId": "2a-d1-district-4",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+        }
+      ],
+      "operation": "proposed-new-record",
+      "existingGameId": null,
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "core-and-both-sides-explicit-held",
+      "coreScheduleEvidenceComplete": true,
+      "schedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Ratliff Stadium, Odessa, TX",
+        "city": "Odessa",
+        "neutralSite": null,
+        "designatedSides": {
+          "homeTeam": "Post",
+          "awayTeam": "Ozona",
+          "sourceUrl": "https://events.hometownticketing.com/boxoffice/ecisd/L2VtYmVkL2V2ZW50LzExMDc=",
+          "retrievalMethod": "live-browser-page-reviewed-by-parent",
+          "homeExplicit": true,
+          "awayExplicit": true
+        }
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Ratliff Stadium, Odessa, TX",
+        "city": "Odessa"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "2A Division I",
+          "region": "Region I",
+          "slot": 5,
+          "teams": [
+            "Post",
+            "Ozona"
+          ],
+          "status": "missing-record",
+          "missing": [
+            "published game record"
+          ],
+          "kickoff": "2026-11-12T19:00:00-06:00",
+          "venue": "Ratliff Stadium, Odessa, TX",
+          "city": "Odessa",
+          "timeZone": "America/Chicago",
+          "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+          "neutralSite": null,
+          "verificationStatus": "single-source",
+          "missingInformation": [
+            "explicit neutral-site designation"
+          ],
+          "conflicts": [],
+          "sourceLabel": "Press Pass Sports",
+          "sourceUrl": "https://www.presspass.news/2026/11/08/uil-region-i-high-school-football-bi-district-playoff-pairings-4/",
+          "sourcePublishedDate": "2026-11-09",
+          "sources": [
+            {
+              "name": "Press Pass Sports",
+              "url": "https://www.presspass.news/2026/11/08/uil-region-i-high-school-football-bi-district-playoff-pairings-4/",
+              "publishedDate": "2026-11-09"
+            }
+          ],
+          "researchedAt": "2026-11-11T00:33:52.145228+00:00",
+          "readyForPublication": false
+        },
+        "existingSideReview": null,
+        "newEvidence": {
+          "bracket": {
+            "division": "2A Division I",
+            "region": "Region I",
+            "slot": 5,
+            "teams": [
+              "Post",
+              "Ozona"
+            ]
+          },
+          "qualifiedIdentities": [
+            {
+              "officialName": "Post",
+              "division": "2A Division I",
+              "region": "Region I",
+              "district": 3,
+              "alignmentSourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+            },
+            {
+              "officialName": "Ozona",
+              "division": "2A Division I",
+              "region": "Region I",
+              "district": 4,
+              "alignmentSourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+            }
+          ],
+          "baselineSelected": {
+            "kickoff": "2026-11-12T19:00:00-06:00",
+            "venue": "Ratliff Stadium, Odessa, TX",
+            "city": "Odessa",
+            "sourceLabel": "Press Pass Sports",
+            "sourceUrl": "https://www.presspass.news/2026/11/08/uil-region-i-high-school-football-bi-district-playoff-pairings-4/",
+            "verificationStatus": "single-source"
+          },
+          "selectedSchedule": {
+            "kickoff": "2026-11-12T19:00:00-06:00",
+            "venue": "Ratliff Stadium, Odessa, TX",
+            "city": "Odessa"
+          },
+          "sourceComplete": true,
+          "primaryLocationCorroborated": true,
+          "primaryLocationScope": "exact-stadium-and-city",
+          "designatedSides": {
+            "homeTeam": "Post",
+            "awayTeam": "Ozona",
+            "sourceUrl": "https://events.hometownticketing.com/boxoffice/ecisd/L2VtYmVkL2V2ZW50LzExMDc=",
+            "retrievalMethod": "live-browser-page-reviewed-by-parent",
+            "homeExplicit": true,
+            "awayExplicit": true
+          },
+          "neutralSite": null,
+          "sourceEvidence": [
+            {
+              "sourceLabel": "Dave Campbell's / Matt Stepp",
+              "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+              "retrievedDate": "2026-11-11",
+              "sourcePublishedDate": "2026-11-08",
+              "retrievalMethod": "web-page-reviewed",
+              "fields": {
+                "pairing": [
+                  "Post",
+                  "Ozona"
+                ],
+                "kickoff": "2026-11-12T19:00:00-06:00",
+                "venue": "Ratliff Stadium, Odessa, TX",
+                "city": "Odessa",
+                "timezone": "CST explicitly declared for all listings"
+              },
+              "limitations": [
+                "Credible selected-source reporting, not primary school/host confirmation. Existing selected venue spelling retained; publisher list sometimes uses abbreviated names."
+              ]
+            },
+            {
+              "sourceLabel": "ECISD Athletics host box office event 1107",
+              "sourceUrl": "https://events.hometownticketing.com/boxoffice/ecisd/L2VtYmVkL2V2ZW50LzExMDc=",
+              "retrievedDate": "2026-11-11",
+              "sourcePublishedDate": null,
+              "retrievalMethod": "live-browser-page-reviewed-by-parent",
+              "fields": {
+                "pairing": [
+                  "Post",
+                  "Ozona"
+                ],
+                "kickoff": "2026-11-12T19:00:00-06:00",
+                "venue": "Ratliff Stadium",
+                "city": "Odessa",
+                "address": "1862 E Yukon Rd, Odessa, TX 79765",
+                "home": "Post",
+                "visitor": "Ozona"
+              },
+              "limitations": [
+                "Parent inspected full event description; no formal neutral-site statement observed."
+              ]
+            }
+          ],
+          "conflicts": [],
+          "remainingGaps": [
+            "formal neutral-site designation remains unconfirmed",
+            "catalog integration/release approval",
+            "exact publication approval"
+          ],
+          "readyForPublication": false,
+          "coreScheduleEvidenceComplete": true
+        }
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "catalog integration release required",
+        "formal neutral-site designation remains unconfirmed",
+        "catalog integration/release approval",
+        "exact publication approval",
+        "formal neutral-site status unconfirmed; existing safeguard retained"
+      ],
+      "writePayload": null
+    },
+    {
+      "manifestId": "2026-bi-district-2a-d1-iv-1",
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region IV",
+        "slot": 1,
+        "teams": [
+          "Thorndale",
+          "Groveton"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "Thorndale",
+          "officialName": "Thorndale",
+          "qualifiedIdentity": {
+            "division": "2A Division I",
+            "region": "Region IV",
+            "uilDistrict": 13
+          },
+          "schoolId": "thorndale",
+          "schoolSlug": "thorndale",
+          "catalogDistrictId": "2a-d1-district-13",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+        },
+        {
+          "bracketName": "Groveton",
+          "officialName": "Groveton",
+          "qualifiedIdentity": {
+            "division": "2A Division I",
+            "region": "Region IV",
+            "uilDistrict": 14
+          },
+          "schoolId": "groveton",
+          "schoolSlug": "groveton",
+          "catalogDistrictId": "2a-d1-district-14",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+        }
+      ],
+      "operation": "proposed-new-record",
+      "existingGameId": null,
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "core-and-both-sides-explicit-held",
+      "coreScheduleEvidenceComplete": true,
+      "schedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Green Stadium, Bryan, TX",
+        "city": "Bryan",
+        "neutralSite": null,
+        "designatedSides": {
+          "homeTeam": "Thorndale",
+          "awayTeam": "Groveton",
+          "sourceUrl": "https://events.hometownticketing.com/boxoffice/bryanisd/L2VtYmVkL2V2ZW50LzE2ODk=",
+          "retrievalMethod": "live-browser-page-reviewed-by-parent",
+          "homeExplicit": true,
+          "awayExplicit": true
+        }
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Green Stadium, Bryan, TX",
+        "city": "Bryan"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "2A Division I",
+          "region": "Region IV",
+          "slot": 1,
+          "teams": [
+            "Thorndale",
+            "Groveton"
+          ],
+          "status": "missing-record",
+          "missing": [
+            "published game record"
+          ],
+          "kickoff": "2026-11-12T19:00:00-06:00",
+          "venue": "Green Stadium, Bryan, TX",
+          "city": "Bryan",
+          "timeZone": "America/Chicago",
+          "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+          "neutralSite": null,
+          "verificationStatus": "single-source",
+          "missingInformation": [
+            "explicit neutral-site designation"
+          ],
+          "conflicts": [],
+          "sourceLabel": "TXHSFB.net \u2014 2A DI capsules",
+          "sourceUrl": "https://txhsfb.net/?p=29384",
+          "sourcePublishedDate": "2026-11-09",
+          "sources": [
+            {
+              "name": "TXHSFB.net \u2014 2A DI capsules",
+              "url": "https://txhsfb.net/?p=29384",
+              "publishedDate": "2026-11-09"
+            }
+          ],
+          "researchedAt": "2026-11-11T00:33:52.145267+00:00",
+          "readyForPublication": false
+        },
+        "existingSideReview": null,
+        "newEvidence": {
+          "bracket": {
+            "division": "2A Division I",
+            "region": "Region IV",
+            "slot": 1,
+            "teams": [
+              "Thorndale",
+              "Groveton"
+            ]
+          },
+          "qualifiedIdentities": [
+            {
+              "officialName": "Thorndale",
+              "division": "2A Division I",
+              "region": "Region IV",
+              "district": 13,
+              "alignmentSourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+            },
+            {
+              "officialName": "Groveton",
+              "division": "2A Division I",
+              "region": "Region IV",
+              "district": 14,
+              "alignmentSourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+            }
+          ],
+          "baselineSelected": {
+            "kickoff": "2026-11-12T19:00:00-06:00",
+            "venue": "Green Stadium, Bryan, TX",
+            "city": "Bryan",
+            "sourceLabel": "TXHSFB.net \u2014 2A DI capsules",
+            "sourceUrl": "https://txhsfb.net/?p=29384",
+            "verificationStatus": "single-source"
+          },
+          "selectedSchedule": {
+            "kickoff": "2026-11-12T19:00:00-06:00",
+            "venue": "Green Stadium, Bryan, TX",
+            "city": "Bryan"
+          },
+          "sourceComplete": true,
+          "primaryLocationCorroborated": true,
+          "primaryLocationScope": "exact-stadium-and-city",
+          "designatedSides": {
+            "homeTeam": "Thorndale",
+            "awayTeam": "Groveton",
+            "sourceUrl": "https://events.hometownticketing.com/boxoffice/bryanisd/L2VtYmVkL2V2ZW50LzE2ODk=",
+            "retrievalMethod": "live-browser-page-reviewed-by-parent",
+            "homeExplicit": true,
+            "awayExplicit": true
+          },
+          "neutralSite": null,
+          "sourceEvidence": [
+            {
+              "sourceLabel": "Dave Campbell's / Matt Stepp",
+              "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+              "retrievedDate": "2026-11-11",
+              "sourcePublishedDate": "2026-11-08",
+              "retrievalMethod": "web-page-reviewed",
+              "fields": {
+                "pairing": [
+                  "Thorndale",
+                  "Groveton"
+                ],
+                "kickoff": "2026-11-12T19:00:00-06:00",
+                "venue": "Green Stadium, Bryan, TX",
+                "city": "Bryan",
+                "timezone": "CST explicitly declared for all listings"
+              },
+              "limitations": [
+                "Credible selected-source reporting, not primary school/host confirmation. Existing selected venue spelling retained; publisher list sometimes uses abbreviated names."
+              ]
+            },
+            {
+              "sourceLabel": "Bryan ISD host box office event 1689",
+              "sourceUrl": "https://events.hometownticketing.com/boxoffice/bryanisd/L2VtYmVkL2V2ZW50LzE2ODk=",
+              "retrievedDate": "2026-11-11",
+              "sourcePublishedDate": null,
+              "retrievalMethod": "live-browser-page-reviewed-by-parent",
+              "fields": {
+                "pairing": [
+                  "Thorndale",
+                  "Groveton"
+                ],
+                "kickoff": "2026-11-12T19:00:00-06:00",
+                "venue": "Merrill Green Stadium",
+                "city": "Bryan",
+                "address": "3450 Campus Dr, Bryan, TX 77802",
+                "home": "Thorndale",
+                "visitor": "Groveton"
+              },
+              "limitations": [
+                "Parent inspected full event description; no formal neutral-site statement observed."
+              ]
+            }
+          ],
+          "conflicts": [],
+          "remainingGaps": [
+            "formal neutral-site designation remains unconfirmed",
+            "catalog integration/release approval",
+            "exact publication approval"
+          ],
+          "readyForPublication": false,
+          "coreScheduleEvidenceComplete": true
+        }
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "catalog integration release required",
+        "formal neutral-site designation remains unconfirmed",
+        "catalog integration/release approval",
+        "exact publication approval",
+        "formal neutral-site status unconfirmed; existing safeguard retained"
+      ],
+      "writePayload": null
+    },
+    {
+      "manifestId": "2026-bi-district-2a-d1-iv-6",
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region IV",
+        "slot": 6,
+        "teams": [
+          "Lovelady",
+          "Granger"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "Lovelady",
+          "officialName": "Lovelady",
+          "qualifiedIdentity": {
+            "division": "2A Division I",
+            "region": "Region IV",
+            "uilDistrict": 14
+          },
+          "schoolId": "lovelady",
+          "schoolSlug": "lovelady",
+          "catalogDistrictId": "2a-d1-district-14",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+        },
+        {
+          "bracketName": "Granger",
+          "officialName": "Granger",
+          "qualifiedIdentity": {
+            "division": "2A Division I",
+            "region": "Region IV",
+            "uilDistrict": 13
+          },
+          "schoolId": "granger",
+          "schoolSlug": "granger",
+          "catalogDistrictId": "opponent",
+          "catalogState": "existing-record",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+        }
+      ],
+      "operation": "proposed-new-record",
+      "existingGameId": null,
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "core-and-both-sides-explicit-held",
+      "coreScheduleEvidenceComplete": true,
+      "schedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Cougar Stadium, College Station, TX",
+        "city": "College Station",
+        "neutralSite": null,
+        "designatedSides": {
+          "homeTeam": "Granger",
+          "awayTeam": "Lovelady",
+          "sourceUrl": "https://www.grangerisd.net/live-feed",
+          "retrievalMethod": "live-browser-page-reviewed",
+          "homeExplicit": true,
+          "awayExplicit": true,
+          "basis": "Both home and visitor explicitly named."
+        }
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Cougar Stadium, College Station, TX",
+        "city": "College Station"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "2A Division I",
+          "region": "Region IV",
+          "slot": 6,
+          "teams": [
+            "Lovelady",
+            "Granger"
+          ],
+          "status": "missing-record",
+          "missing": [
+            "published game record"
+          ],
+          "kickoff": "2026-11-12T19:00:00-06:00",
+          "venue": "Cougar Stadium, College Station, TX",
+          "city": "College Station",
+          "timeZone": "America/Chicago",
+          "timezoneBasis": "Inferred from venue city; Central Standard Time in November",
+          "neutralSite": null,
+          "verificationStatus": "single-source",
+          "missingInformation": [
+            "explicit neutral-site designation"
+          ],
+          "conflicts": [],
+          "sourceLabel": "TXHSFB.net \u2014 2A DI capsules",
+          "sourceUrl": "https://txhsfb.net/?p=29384",
+          "sourcePublishedDate": "2026-11-09",
+          "sources": [
+            {
+              "name": "TXHSFB.net \u2014 2A DI capsules",
+              "url": "https://txhsfb.net/?p=29384",
+              "publishedDate": "2026-11-09"
+            }
+          ],
+          "researchedAt": "2026-11-11T00:33:52.145277+00:00",
+          "readyForPublication": false
+        },
+        "existingSideReview": null,
+        "newEvidence": {
+          "bracket": {
+            "division": "2A Division I",
+            "region": "Region IV",
+            "slot": 6,
+            "teams": [
+              "Lovelady",
+              "Granger"
+            ]
+          },
+          "qualifiedIdentities": [
+            {
+              "officialName": "Lovelady",
+              "division": "2A Division I",
+              "region": "Region IV",
+              "district": 14,
+              "alignmentSourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+            },
+            {
+              "officialName": "Granger",
+              "division": "2A Division I",
+              "region": "Region IV",
+              "district": 13,
+              "alignmentSourceUrl": "https://www.uiltexas.org/files/alignments/2ad1fb.pdf"
+            }
+          ],
+          "baselineSelected": {
+            "kickoff": "2026-11-12T19:00:00-06:00",
+            "venue": "Cougar Stadium, College Station, TX",
+            "city": "College Station",
+            "sourceLabel": "TXHSFB.net \u2014 2A DI capsules",
+            "sourceUrl": "https://txhsfb.net/?p=29384",
+            "verificationStatus": "single-source"
+          },
+          "selectedSchedule": {
+            "kickoff": "2026-11-12T19:00:00-06:00",
+            "venue": "Cougar Stadium, College Station, TX",
+            "city": "College Station"
+          },
+          "sourceComplete": true,
+          "primaryLocationCorroborated": true,
+          "primaryLocationScope": "campus-only-from-primary-index",
+          "designatedSides": {
+            "homeTeam": "Granger",
+            "awayTeam": "Lovelady",
+            "sourceUrl": "https://www.grangerisd.net/live-feed",
+            "retrievalMethod": "live-browser-page-reviewed",
+            "homeExplicit": true,
+            "awayExplicit": true,
+            "basis": "Both home and visitor explicitly named."
+          },
+          "neutralSite": null,
+          "sourceEvidence": [
+            {
+              "sourceLabel": "Dave Campbell's / Matt Stepp",
+              "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+              "retrievedDate": "2026-11-11",
+              "sourcePublishedDate": "2026-11-08",
+              "retrievalMethod": "web-page-reviewed",
+              "fields": {
+                "pairing": [
+                  "Lovelady",
+                  "Granger"
+                ],
+                "kickoff": "2026-11-12T19:00:00-06:00",
+                "venue": "Cougar Stadium, College Station, TX",
+                "city": "College Station",
+                "timezone": "CST explicitly declared for all listings"
+              },
+              "limitations": [
+                "Credible selected-source reporting, not primary school/host confirmation. Existing selected venue spelling retained; publisher list sometimes uses abbreviated names."
+              ]
+            },
+            {
+              "sourceLabel": "Granger ISD official live feed",
+              "sourceUrl": "https://www.grangerisd.net/live-feed",
+              "retrievedDate": "2026-11-11",
+              "sourcePublishedDate": null,
+              "retrievalMethod": "search-index-excerpt",
+              "fields": {
+                "pairing": [
+                  "Lovelady",
+                  "Granger"
+                ],
+                "date": "2026-11-12",
+                "localTime": "19:00",
+                "venue": "College Station High School",
+                "home": "Granger",
+                "visitor": "Lovelady"
+              },
+              "limitations": [
+                "Current November announcement indexed; direct web open returned October snapshot. Campus-only, not exact stadium name or timezone."
+              ]
+            },
+            {
+              "sourceLabel": "Current school announcement directly inspected in live browser",
+              "sourceUrl": "https://www.grangerisd.net/live-feed",
+              "retrievedDate": "2026-11-11",
+              "retrievalMethod": "live-browser-page-reviewed",
+              "postOrArticleId": "13753294",
+              "fields": [
+                "designated-side",
+                "opponents",
+                "date",
+                "localTime",
+                "location"
+              ],
+              "limitations": [
+                "Timezone and exact stadium name remain selected-source evidence where the school provides only local time/campus. No formal neutral designation observed."
+              ],
+              "summary": "Both home and visitor explicitly named."
+            }
+          ],
+          "conflicts": [],
+          "remainingGaps": [
+            "formal neutral-site designation remains unconfirmed",
+            "catalog integration/release approval",
+            "exact publication approval"
+          ],
+          "readyForPublication": false,
+          "coreScheduleEvidenceComplete": true
+        }
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "catalog integration release required",
+        "formal neutral-site designation remains unconfirmed",
+        "catalog integration/release approval",
+        "exact publication approval",
+        "formal neutral-site status unconfirmed; existing safeguard retained"
+      ],
+      "writePayload": null
+    },
+    {
+      "manifestId": "2026-bi-district-3a-d1-i-6",
+      "bracket": {
+        "division": "3A Division I",
+        "region": "Region I",
+        "slot": 6,
+        "teams": [
+          "Sweetwater",
+          "Dalhart"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "Sweetwater",
+          "officialName": "Sweetwater",
+          "qualifiedIdentity": {
+            "division": "3A Division I",
+            "region": "Region I",
+            "uilDistrict": 2
+          },
+          "schoolId": "sweetwater",
+          "schoolSlug": "sweetwater",
+          "catalogDistrictId": "3a-d1-district-2",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+        },
+        {
+          "bracketName": "Dalhart",
+          "officialName": "Dalhart",
+          "qualifiedIdentity": {
+            "division": "3A Division I",
+            "region": "Region I",
+            "uilDistrict": 1
+          },
+          "schoolId": "dalhart",
+          "schoolSlug": "dalhart",
+          "catalogDistrictId": "3a-d1-district-1",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+        }
+      ],
+      "operation": "proposed-new-record",
+      "existingGameId": null,
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "core-and-both-sides-explicit-held",
+      "coreScheduleEvidenceComplete": true,
+      "schedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Peoples Bank Stadium",
+        "city": "Wolfforth",
+        "neutralSite": null,
+        "designatedSides": {
+          "status": "explicit-home-confirmed",
+          "homeTeam": "Sweetwater",
+          "awayTeam": "Dalhart",
+          "sourceUrl": "https://www.dalhartisd.com/article/3241734",
+          "basis": "Primary school explicitly names home team; visitor is explicit for Sweetwater/Canadian, otherwise complementary other participant.",
+          "homeExplicit": true,
+          "awayExplicit": true
+        }
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Peoples Bank Stadium",
+        "city": "Wolfforth"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "3A Division I",
+          "region": "Region I",
+          "slot": 6,
+          "teams": [
+            "Sweetwater",
+            "Dalhart"
+          ],
+          "date": "2026-11-12",
+          "localTime": "19:00",
+          "kickoff": null,
+          "proposedKickoff": "2026-11-12T19:00:00-06:00",
+          "timeZone": null,
+          "timeZoneBasis": "geographic inference only; not explicitly stated in selected source",
+          "venue": "Peoples Bank Stadium",
+          "city": "Wolfforth",
+          "neutralSite": null,
+          "neutralSiteBasis": "not explicitly verified",
+          "sourceLabel": "txhsfb.net 3A DI capsules",
+          "sourceUrl": "https://txhsfb.net/?p=29377",
+          "sourcePublicationDate": null,
+          "sourceUpdatedDate": null,
+          "retrievedDate": "2026-11-10",
+          "verificationStatus": "partial",
+          "missingInformation": [
+            "explicit timezone confirmation"
+          ],
+          "conflicts": [],
+          "notes": []
+        },
+        "existingSideReview": null,
+        "newEvidence": {
+          "bracket": {
+            "division": "3A Division I",
+            "region": "Region I",
+            "slot": 6,
+            "teams": [
+              "Sweetwater",
+              "Dalhart"
+            ]
+          },
+          "qualifiedIdentities": [
+            {
+              "bracketName": "Sweetwater",
+              "officialName": "Sweetwater",
+              "division": "3A Division I",
+              "region": "Region I",
+              "district": 2,
+              "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+            },
+            {
+              "bracketName": "Dalhart",
+              "officialName": "Dalhart",
+              "division": "3A Division I",
+              "region": "Region I",
+              "district": 1,
+              "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+            }
+          ],
+          "previousVerificationStatus": "partial",
+          "selectedSchedule": {
+            "kickoff": "2026-11-12T19:00:00-06:00",
+            "venue": "Peoples Bank Stadium",
+            "city": "Wolfforth"
+          },
+          "selectedScheduleEvidence": {
+            "sourceLabel": "Dave Campbell's Texas Football / Matt Stepp",
+            "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+            "sourcePublishedDate": "2026-11-08",
+            "retrievedDate": "2026-11-11",
+            "retrievalStatus": "opened-page-relevant-section-reviewed",
+            "fields": [
+              "opponents",
+              "date",
+              "localTime",
+              "timezone",
+              "venue",
+              "city"
+            ],
+            "summary": "Selected published schedule identifies this matchup/date/time/venue/city; source header explicitly states all times CST. This is selected publisher evidence, not blanket primary confirmation."
+          },
+          "primaryCorroboration": [
+            {
+              "sourceLabel": "Dalhart ISD early-release/playoff article",
+              "sourceUrl": "https://www.dalhartisd.com/article/3241734",
+              "sourcePublishedDate": "2026-11-09",
+              "retrievedDate": "2026-11-11",
+              "retrievalStatus": "opened-page-relevant-section-reviewed",
+              "fields": [
+                "opponents",
+                "date",
+                "localTime",
+                "venue",
+                "city",
+                "designatedHome",
+                "designatedVisitor"
+              ],
+              "summary": "Nov12 2026 7pm Peoples Bank Stadium,101 Donald Preston Dr,Wolfforth. Home Side Sweetwater; Visitor Side Dalhart.",
+              "limitations": [
+                "Timezone and formal neutral designation not supplied in inspected article."
+              ]
+            }
+          ],
+          "designatedSides": {
+            "status": "explicit-home-confirmed",
+            "homeTeam": "Sweetwater",
+            "awayTeam": "Dalhart",
+            "sourceUrl": "https://www.dalhartisd.com/article/3241734",
+            "basis": "Primary school explicitly names home team; visitor is explicit for Sweetwater/Canadian, otherwise complementary other participant.",
+            "homeExplicit": true,
+            "awayExplicit": true
+          },
+          "neutralSite": null,
+          "neutralSiteBasis": "No formal primary neutral-site designation adopted",
+          "readyForPublication": false,
+          "coreScheduleEvidenceComplete": true,
+          "operation": "proposed-new-record",
+          "sideAssignment": {
+            "status": "explicit-home-confirmed",
+            "homeTeam": "Sweetwater",
+            "awayTeam": "Dalhart",
+            "sourceUrl": "https://www.dalhartisd.com/article/3241734",
+            "basis": "Primary school explicitly names home team; visitor is explicit for Sweetwater/Canadian, otherwise complementary other participant.",
+            "homeExplicit": true,
+            "awayExplicit": true
+          },
+          "publicationBlockers": [
+            "formal neutral-site designation unconfirmed",
+            "exact publication approval absent"
+          ],
+          "proposedCandidatePatch": {
+            "verificationStatus": "source-verified",
+            "kickoff": "2026-11-12T19:00:00-06:00",
+            "timeZone": "America/Chicago",
+            "timeZoneBasis": "Selected source explicitly supplies CST/UTC-06; primary corroboration limitations retained",
+            "readyForPublication": false
+          },
+          "remainingGaps": [
+            "formal neutral-site designation unconfirmed",
+            "exact publication approval absent"
+          ]
+        }
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "catalog integration release required",
+        "formal neutral-site designation unconfirmed",
+        "exact publication approval absent",
+        "formal neutral-site status unconfirmed; existing safeguard retained"
+      ],
+      "writePayload": null
+    },
+    {
+      "manifestId": "2026-bi-district-4a-d2-ii-2",
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region II",
+        "slot": 2,
+        "teams": [
+          "Carthage",
+          "Ford"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "Carthage",
+          "officialName": "Carthage",
+          "qualifiedIdentity": {
+            "division": "4A Division II",
+            "region": "Region II",
+            "uilDistrict": 8
+          },
+          "schoolId": "carthage",
+          "schoolSlug": "carthage",
+          "catalogDistrictId": "4a-d2-district-8",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf"
+        },
+        {
+          "bracketName": "Ford",
+          "officialName": "Quinlan Ford",
+          "qualifiedIdentity": {
+            "division": "4A Division II",
+            "region": "Region II",
+            "uilDistrict": 7
+          },
+          "schoolId": "quinlan-ford",
+          "schoolSlug": "quinlan-ford",
+          "catalogDistrictId": "4a-d2-district-7",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf"
+        }
+      ],
+      "operation": "proposed-new-record",
+      "existingGameId": null,
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "core-and-both-sides-explicit-held",
+      "coreScheduleEvidenceComplete": true,
+      "schedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Eagle Stadium",
+        "city": "Lindale",
+        "neutralSite": null,
+        "designatedSides": {
+          "homeTeam": "Carthage",
+          "awayTeam": "Ford",
+          "sourceUrl": "https://www.carthageisd.org/live-feed",
+          "reviewStatus": "explicit-primary-designation-confirmed"
+        }
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Eagle Stadium",
+        "city": "Lindale"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "4A Division II",
+          "region": "Region II",
+          "slot": 2,
+          "teams": [
+            "Carthage",
+            "Ford"
+          ],
+          "date": "2026-11-12",
+          "localTime": "19:00",
+          "kickoff": "2026-11-12T19:00:00-06:00",
+          "proposedKickoff": "2026-11-12T19:00:00-06:00",
+          "timeZone": "America/Chicago",
+          "timeZoneBasis": "source explicitly states all times CST",
+          "venue": "Eagle Stadium",
+          "city": "Lindale",
+          "neutralSite": null,
+          "neutralSiteBasis": "not explicitly verified",
+          "sourceLabel": "Dave Campbell's Texas Football / Matt Stepp",
+          "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+          "sourcePublicationDate": "2026-11-08",
+          "sourceUpdatedDate": null,
+          "retrievedDate": "2026-11-10",
+          "verificationStatus": "source-verified",
+          "missingInformation": [],
+          "conflicts": [],
+          "notes": [],
+          "homeAwayEvidence": {
+            "homeTeam": "Carthage",
+            "awayTeam": "Ford",
+            "sourceUrl": "https://www.carthageisd.org/live-feed",
+            "reviewStatus": "explicit-primary-designation-confirmed"
+          },
+          "followUpEvidence": [
+            {
+              "reviewedDate": "2026-11-11",
+              "sourceLabel": "Carthage ISD official playoff announcement",
+              "sourceUrl": "https://www.carthageisd.org/live-feed",
+              "retrievalStatus": "page-reviewed",
+              "summary": "School explicitly designates Carthage home against Quinlan Ford, Nov. 12 at 7 p.m. at Lindale Eagles Stadium; subsequent ticket guidance tells Carthage supporters to select HOME."
+            }
+          ]
+        },
+        "existingSideReview": {
+          "bracket": {
+            "division": "4A Division II",
+            "region": "Region II",
+            "slot": 2,
+            "teams": [
+              "Carthage",
+              "Ford"
+            ]
+          },
+          "kickoff": "2026-11-12T19:00:00-06:00",
+          "venue": "Eagle Stadium",
+          "city": "Lindale",
+          "designatedSides": {
+            "homeTeam": "Carthage",
+            "awayTeam": "Ford",
+            "sourceUrl": "https://www.carthageisd.org/live-feed",
+            "reviewStatus": "explicit-primary-designation-confirmed"
+          },
+          "primaryLocationCorroborated": true,
+          "locationEvidence": {
+            "sourceUrl": "https://www.carthageisd.org/live-feed",
+            "sourceLabel": "Primary designated-side evidence",
+            "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+          },
+          "siteAssessment": {
+            "kind": "third-party-location",
+            "isInference": true,
+            "neutralSiteConfirmed": null,
+            "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+          },
+          "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer.",
+          "publicationBlockers": [
+            "explicit neutral-site designation remains unverified",
+            "catalog integration/release review remains required",
+            "final publication approval remains required"
+          ],
+          "readyForPublication": false
+        },
+        "newEvidence": null
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "catalog integration release required",
+        "formal neutral-site status unconfirmed; existing safeguard retained"
+      ],
+      "writePayload": null
+    },
+    {
+      "manifestId": "2026-bi-district-4a-d2-ii-3",
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region II",
+        "slot": 3,
+        "teams": [
+          "Van Alstyne",
+          "Venus"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "Van Alstyne",
+          "officialName": "Van Alstyne",
+          "qualifiedIdentity": {
+            "division": "4A Division II",
+            "region": "Region II",
+            "uilDistrict": 6
+          },
+          "schoolId": "van-alstyne",
+          "schoolSlug": "van-alstyne",
+          "catalogDistrictId": "4a-d2-district-6",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf"
+        },
+        {
+          "bracketName": "Venus",
+          "officialName": "Venus",
+          "qualifiedIdentity": {
+            "division": "4A Division II",
+            "region": "Region II",
+            "uilDistrict": 5
+          },
+          "schoolId": "venus",
+          "schoolSlug": "venus",
+          "catalogDistrictId": "4a-d2-district-5",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf"
+        }
+      ],
+      "operation": "proposed-new-record",
+      "existingGameId": null,
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "core-and-both-sides-explicit-held",
+      "coreScheduleEvidenceComplete": true,
+      "schedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Kimbrough Stadium",
+        "city": "Murphy",
+        "neutralSite": null,
+        "designatedSides": {
+          "homeTeam": "Van Alstyne",
+          "awayTeam": "Venus",
+          "sourceUrl": "https://events.hometownticketing.com/event/8cf8f5d5-5df8-4eee-a314-0f9d625c4025",
+          "reviewStatus": "explicit-primary-designation-confirmed"
+        }
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Kimbrough Stadium",
+        "city": "Murphy"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "4A Division II",
+          "region": "Region II",
+          "slot": 3,
+          "teams": [
+            "Van Alstyne",
+            "Venus"
+          ],
+          "date": "2026-11-12",
+          "localTime": "19:00",
+          "kickoff": "2026-11-12T19:00:00-06:00",
+          "proposedKickoff": "2026-11-12T19:00:00-06:00",
+          "timeZone": "America/Chicago",
+          "timeZoneBasis": "source explicitly states all times CST",
+          "venue": "Kimbrough Stadium",
+          "city": "Murphy",
+          "neutralSite": null,
+          "neutralSiteBasis": "not explicitly verified",
+          "sourceLabel": "Dave Campbell's Texas Football / Matt Stepp",
+          "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+          "sourcePublicationDate": "2026-11-08",
+          "sourceUpdatedDate": null,
+          "retrievedDate": "2026-11-10",
+          "verificationStatus": "source-verified",
+          "missingInformation": [],
+          "conflicts": [],
+          "notes": [],
+          "homeAwayEvidence": {
+            "homeTeam": "Van Alstyne",
+            "awayTeam": "Venus",
+            "sourceUrl": "https://events.hometownticketing.com/event/8cf8f5d5-5df8-4eee-a314-0f9d625c4025",
+            "reviewStatus": "explicit-primary-designation-confirmed"
+          },
+          "followUpEvidence": [
+            {
+              "reviewedDate": "2026-11-11",
+              "sourceLabel": "Plano ISD host ticket event 8774",
+              "sourceUrl": "https://events.hometownticketing.com/event/8cf8f5d5-5df8-4eee-a314-0f9d625c4025",
+              "retrievalStatus": "live-browser-page-reviewed",
+              "summary": "Exact event title explicitly maps Van Alstyne HOME and Venus Visitor; Nov. 12 at 7 p.m. CST, Tom Kimbrough Stadium, 700 N. Murphy Road, Murphy."
+            }
+          ]
+        },
+        "existingSideReview": {
+          "bracket": {
+            "division": "4A Division II",
+            "region": "Region II",
+            "slot": 3,
+            "teams": [
+              "Van Alstyne",
+              "Venus"
+            ]
+          },
+          "kickoff": "2026-11-12T19:00:00-06:00",
+          "venue": "Kimbrough Stadium",
+          "city": "Murphy",
+          "designatedSides": {
+            "homeTeam": "Van Alstyne",
+            "awayTeam": "Venus",
+            "sourceUrl": "https://events.hometownticketing.com/event/8cf8f5d5-5df8-4eee-a314-0f9d625c4025",
+            "reviewStatus": "explicit-primary-designation-confirmed"
+          },
+          "primaryLocationCorroborated": true,
+          "locationEvidence": {
+            "sourceUrl": "https://events.hometownticketing.com/event/8cf8f5d5-5df8-4eee-a314-0f9d625c4025",
+            "sourceLabel": "Primary designated-side evidence",
+            "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+          },
+          "siteAssessment": {
+            "kind": "third-party-location",
+            "isInference": true,
+            "neutralSiteConfirmed": null,
+            "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+          },
+          "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer.",
+          "publicationBlockers": [
+            "explicit neutral-site designation remains unverified",
+            "catalog integration/release review remains required",
+            "final publication approval remains required"
+          ],
+          "readyForPublication": false
+        },
+        "newEvidence": null
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "catalog integration release required",
+        "formal neutral-site status unconfirmed; existing safeguard retained"
+      ],
+      "writePayload": null
+    },
+    {
+      "manifestId": "2026-bi-district-4a-d2-ii-8",
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region II",
+        "slot": 8,
+        "teams": [
+          "Hillsboro",
+          "Sanger"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "Hillsboro",
+          "officialName": "Hillsboro",
+          "qualifiedIdentity": {
+            "division": "4A Division II",
+            "region": "Region II",
+            "uilDistrict": 5
+          },
+          "schoolId": "hillsboro",
+          "schoolSlug": "hillsboro",
+          "catalogDistrictId": "4a-d2-district-5",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf"
+        },
+        {
+          "bracketName": "Sanger",
+          "officialName": "Sanger",
+          "qualifiedIdentity": {
+            "division": "4A Division II",
+            "region": "Region II",
+            "uilDistrict": 6
+          },
+          "schoolId": "sanger",
+          "schoolSlug": "sanger",
+          "catalogDistrictId": "4a-d2-district-6",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf"
+        }
+      ],
+      "operation": "proposed-new-record",
+      "existingGameId": null,
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "core-and-both-sides-explicit-held",
+      "coreScheduleEvidenceComplete": true,
+      "schedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Buchanan Stadium",
+        "city": "Aledo",
+        "neutralSite": null,
+        "designatedSides": {
+          "homeTeam": "Hillsboro",
+          "awayTeam": "Sanger",
+          "sourceUrl": "https://events.hometownticketing.com/event/6aa3f60b-8ceb-4419-bd2b-9aa0aaf8feab",
+          "reviewStatus": "explicit-primary-designation-confirmed"
+        }
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Buchanan Stadium",
+        "city": "Aledo"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "4A Division II",
+          "region": "Region II",
+          "slot": 8,
+          "teams": [
+            "Hillsboro",
+            "Sanger"
+          ],
+          "date": "2026-11-12",
+          "localTime": "19:00",
+          "kickoff": "2026-11-12T19:00:00-06:00",
+          "proposedKickoff": "2026-11-12T19:00:00-06:00",
+          "timeZone": "America/Chicago",
+          "timeZoneBasis": "source explicitly states all times CST",
+          "venue": "Buchanan Stadium",
+          "city": "Aledo",
+          "neutralSite": null,
+          "neutralSiteBasis": "not explicitly verified",
+          "sourceLabel": "Dave Campbell's Texas Football / Matt Stepp",
+          "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+          "sourcePublicationDate": "2026-11-08",
+          "sourceUpdatedDate": null,
+          "retrievedDate": "2026-11-10",
+          "verificationStatus": "source-verified",
+          "missingInformation": [],
+          "conflicts": [],
+          "notes": [],
+          "homeAwayEvidence": {
+            "homeTeam": "Hillsboro",
+            "awayTeam": "Sanger",
+            "sourceUrl": "https://events.hometownticketing.com/event/6aa3f60b-8ceb-4419-bd2b-9aa0aaf8feab",
+            "reviewStatus": "explicit-primary-designation-confirmed"
+          },
+          "followUpEvidence": [
+            {
+              "reviewedDate": "2026-11-11",
+              "sourceLabel": "Aledo ISD host ticket event 738",
+              "sourceUrl": "https://events.hometownticketing.com/event/6aa3f60b-8ceb-4419-bd2b-9aa0aaf8feab",
+              "retrievalStatus": "live-browser-page-reviewed",
+              "summary": "Exact host ticket title specifies Hillsboro Home Side against Sanger. Event description confirms Nov. 12 at 7 p.m. CST, Aledo ISD Tim Buchanan Stadium, 1000 Bailey Ranch Rd. Title Hillsoboro typo is not a new school identity."
+            }
+          ]
+        },
+        "existingSideReview": {
+          "bracket": {
+            "division": "4A Division II",
+            "region": "Region II",
+            "slot": 8,
+            "teams": [
+              "Hillsboro",
+              "Sanger"
+            ]
+          },
+          "kickoff": "2026-11-12T19:00:00-06:00",
+          "venue": "Buchanan Stadium",
+          "city": "Aledo",
+          "designatedSides": {
+            "homeTeam": "Hillsboro",
+            "awayTeam": "Sanger",
+            "sourceUrl": "https://events.hometownticketing.com/event/6aa3f60b-8ceb-4419-bd2b-9aa0aaf8feab",
+            "reviewStatus": "explicit-primary-designation-confirmed"
+          },
+          "primaryLocationCorroborated": true,
+          "locationEvidence": {
+            "sourceUrl": "https://events.hometownticketing.com/event/6aa3f60b-8ceb-4419-bd2b-9aa0aaf8feab",
+            "sourceLabel": "Primary designated-side evidence",
+            "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+          },
+          "siteAssessment": {
+            "kind": "third-party-location",
+            "isInference": true,
+            "neutralSiteConfirmed": null,
+            "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+          },
+          "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer. Host description supplies full Tim Buchanan Stadium name; title Hillsoboro typo is not a distinct identity.",
+          "publicationBlockers": [
+            "explicit neutral-site designation remains unverified",
+            "catalog integration/release review remains required",
+            "final publication approval remains required"
+          ],
+          "readyForPublication": false
+        },
+        "newEvidence": null
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "catalog integration release required",
+        "formal neutral-site status unconfirmed; existing safeguard retained"
+      ],
+      "writePayload": null
+    },
+    {
+      "manifestId": "2026-bi-district-3a-d1-iv-6",
+      "bracket": {
+        "division": "3A Division I",
+        "region": "Region IV",
+        "slot": 6,
+        "teams": [
+          "Jourdanton",
+          "Hallettsville"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "Jourdanton",
+          "officialName": "Jourdanton",
+          "qualifiedIdentity": {
+            "division": "3A Division I",
+            "region": "Region IV",
+            "uilDistrict": 14
+          },
+          "schoolId": "jourdanton",
+          "schoolSlug": "jourdanton",
+          "catalogDistrictId": "3a-d1-district-14",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+        },
+        {
+          "bracketName": "Hallettsville",
+          "officialName": "Hallettsville",
+          "qualifiedIdentity": {
+            "division": "3A Division I",
+            "region": "Region IV",
+            "uilDistrict": 13
+          },
+          "schoolId": "hallettsville",
+          "schoolSlug": "hallettsville",
+          "catalogDistrictId": "3a-d1-district-13",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+        }
+      ],
+      "operation": "proposed-new-record",
+      "existingGameId": null,
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "core-and-both-sides-explicit-held",
+      "coreScheduleEvidenceComplete": true,
+      "schedule": {
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "venue": "Dragon Stadium",
+        "city": "New Braunfels",
+        "neutralSite": null,
+        "designatedSides": {
+          "homeTeam": "Jourdanton",
+          "awayTeam": "Hallettsville",
+          "sourceUrl": "https://brushfire.com/new-braunfels-isd/lchs-vfb/644420/tickets",
+          "reviewStatus": "explicit-primary-designation-confirmed"
+        }
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "venue": "Dragon Stadium",
+        "city": "New Braunfels"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "3A Division I",
+          "region": "Region IV",
+          "slot": 6,
+          "teams": [
+            "Jourdanton",
+            "Hallettsville"
+          ],
+          "date": "2026-11-13",
+          "localTime": "19:00",
+          "kickoff": "2026-11-13T19:00:00-06:00",
+          "proposedKickoff": "2026-11-13T19:00:00-06:00",
+          "timeZone": "America/Chicago",
+          "timeZoneBasis": "Host ticket event explicitly states CST; November CST is UTC-06:00",
+          "venue": "Dragon Stadium",
+          "city": "New Braunfels",
+          "neutralSite": null,
+          "neutralSiteBasis": "not explicitly verified",
+          "sourceLabel": "NBISD official athletics linked Brushfire event",
+          "sourceUrl": "https://brushfire.com/new-braunfels-isd/lchs-vfb/644420",
+          "sourcePublicationDate": null,
+          "sourceUpdatedDate": null,
+          "retrievedDate": "2026-11-11",
+          "verificationStatus": "source-verified",
+          "missingInformation": [],
+          "conflicts": [
+            {
+              "field": "date",
+              "value": "2026-11-12",
+              "sourceUrl": "https://sports.yahoo.com/articles/texas-high-school-football-playoff-200604439.html",
+              "note": "Broad SI syndicated bracket conflicts with school/AP/capsule Friday listing; source confirmation required before publication.",
+              "resolved": true,
+              "resolution": "NBISD Athletics Brushfire event 644420 explicitly lists Jourdanton vs Hallettsville Varsity Football Playoff on Friday Nov. 13, 2026, 7 to 11 p.m. CST, Dragon Stadium, 4150 Klein Meadows, New Braunfels TX 78130. Doors open at 6 p.m. NBISD official 2026 Dragon Gameday Info links the ticket provider. The details tab has no side designation; a later ticket-types review confirms Jourdanton HOME and Hallettsville VISITOR. Formal neutrality remains unverified.",
+              "resolutionSourceUrl": "https://brushfire.com/new-braunfels-isd/lchs-vfb/644420"
+            }
+          ],
+          "notes": [],
+          "followUpEvidence": [
+            {
+              "reviewedDate": "2026-11-11",
+              "sourceLabel": "NBISD official athletics linked Brushfire event",
+              "sourceUrl": "https://brushfire.com/new-braunfels-isd/lchs-vfb/644420",
+              "retrievalStatus": "live-browser-page-reviewed",
+              "summary": "NBISD Athletics Brushfire event 644420 explicitly lists Jourdanton vs Hallettsville Varsity Football Playoff on Friday Nov. 13, 2026, 7 to 11 p.m. CST, Dragon Stadium, 4150 Klein Meadows, New Braunfels TX 78130. Doors open at 6 p.m. NBISD official 2026 Dragon Gameday Info links the ticket provider. No designated home/visitor or explicit neutral-site statement appears on the initially reviewed details tab; the later ticket-types review separately confirms sides."
+            },
+            {
+              "reviewedDate": "2026-11-11",
+              "sourceLabel": "NBISD Brushfire event 644420 ticket types",
+              "sourceUrl": "https://brushfire.com/new-braunfels-isd/lchs-vfb/644420/tickets",
+              "retrievalStatus": "live-browser-page-reviewed",
+              "summary": "Public ticket products explicitly label Jourdanton HOME and Hallettsville VISITOR. All quantities remained zero; no tickets selected or purchased. Event details tab supplies Friday November 13 at 7 p.m. CST at Dragon Stadium. No formal neutrality statement."
+            }
+          ],
+          "readyForPublication": false,
+          "previousSelectedSource": {
+            "sourceLabel": "txhsfb.net 3A DI capsules",
+            "sourceUrl": "https://txhsfb.net/?p=29377",
+            "sourcePublicationDate": null,
+            "retrievedDate": "2026-11-10",
+            "date": "2026-11-13",
+            "localTime": "19:00",
+            "venue": "Dragon Stadium",
+            "city": "New Braunfels"
+          },
+          "homeAwayEvidence": {
+            "homeTeam": "Jourdanton",
+            "awayTeam": "Hallettsville",
+            "sourceUrl": "https://brushfire.com/new-braunfels-isd/lchs-vfb/644420/tickets",
+            "reviewStatus": "explicit-primary-designation-confirmed"
+          }
+        },
+        "existingSideReview": {
+          "bracket": {
+            "division": "3A Division I",
+            "region": "Region IV",
+            "slot": 6,
+            "teams": [
+              "Jourdanton",
+              "Hallettsville"
+            ]
+          },
+          "kickoff": "2026-11-13T19:00:00-06:00",
+          "venue": "Dragon Stadium",
+          "city": "New Braunfels",
+          "designatedSides": {
+            "homeTeam": "Jourdanton",
+            "awayTeam": "Hallettsville",
+            "sourceUrl": "https://brushfire.com/new-braunfels-isd/lchs-vfb/644420/tickets",
+            "reviewStatus": "explicit-primary-designation-confirmed"
+          },
+          "primaryLocationCorroborated": true,
+          "locationEvidence": {
+            "sourceUrl": "https://brushfire.com/new-braunfels-isd/lchs-vfb/644420",
+            "sourceLabel": "NBISD official athletics linked Brushfire event",
+            "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+          },
+          "siteAssessment": {
+            "kind": "third-party-location",
+            "isInference": true,
+            "neutralSiteConfirmed": null,
+            "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+          },
+          "reviewNote": "NBISD host ticket products explicitly assign Jourdanton HOME and Hallettsville VISITOR. Earlier details-tab-only side observation is superseded by this ticket-types review. No neutrality designation.",
+          "publicationBlockers": [
+            "explicit neutral-site designation remains unverified",
+            "catalog integration/release review remains required",
+            "final publication approval remains required"
+          ],
+          "readyForPublication": false
+        },
+        "newEvidence": null
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "catalog integration release required",
+        "formal neutral-site status unconfirmed; existing safeguard retained"
+      ],
+      "writePayload": null
+    },
+    {
+      "manifestId": "2026-bi-district-4a-d2-i-2",
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region I",
+        "slot": 2,
+        "teams": [
+          "Graham",
+          "Estacado"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "Graham",
+          "officialName": "Graham",
+          "qualifiedIdentity": {
+            "division": "4A Division II",
+            "region": "Region I",
+            "uilDistrict": 4
+          },
+          "schoolId": "graham",
+          "schoolSlug": "graham",
+          "catalogDistrictId": "4a-d2-district-4",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf"
+        },
+        {
+          "bracketName": "Estacado",
+          "officialName": "Lubbock Estacado",
+          "qualifiedIdentity": {
+            "division": "4A Division II",
+            "region": "Region I",
+            "uilDistrict": 3
+          },
+          "schoolId": "lubbock-estacado",
+          "schoolSlug": "lubbock-estacado",
+          "catalogDistrictId": "4a-d2-district-3",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf"
+        }
+      ],
+      "operation": "proposed-new-record",
+      "existingGameId": null,
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "core-and-both-sides-explicit-held",
+      "coreScheduleEvidenceComplete": true,
+      "schedule": {
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "venue": "Mustang Bowl",
+        "city": "Sweetwater",
+        "neutralSite": null,
+        "designatedSides": {
+          "homeTeam": "Graham",
+          "awayTeam": "Estacado",
+          "sourceUrl": "https://ghs.grahamisd.com/index.php?articleID=96264215&pageID=smartSiteFeed&psqFeed=true",
+          "reviewStatus": "explicit-primary-designation-confirmed"
+        }
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "venue": "Mustang Bowl",
+        "city": "Sweetwater"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "4A Division II",
+          "region": "Region I",
+          "slot": 2,
+          "teams": [
+            "Graham",
+            "Estacado"
+          ],
+          "date": "2026-11-13",
+          "localTime": "19:00",
+          "kickoff": "2026-11-13T19:00:00-06:00",
+          "proposedKickoff": "2026-11-13T19:00:00-06:00",
+          "timeZone": "America/Chicago",
+          "timeZoneBasis": "source explicitly states all times CST",
+          "venue": "Mustang Bowl",
+          "city": "Sweetwater",
+          "neutralSite": null,
+          "neutralSiteBasis": "not explicitly verified",
+          "sourceLabel": "Dave Campbell's Texas Football / Matt Stepp",
+          "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+          "sourcePublicationDate": "2026-11-08",
+          "sourceUpdatedDate": null,
+          "retrievedDate": "2026-11-10",
+          "verificationStatus": "source-verified",
+          "missingInformation": [],
+          "conflicts": [],
+          "notes": [],
+          "homeAwayEvidence": {
+            "homeTeam": "Graham",
+            "awayTeam": "Estacado",
+            "sourceUrl": "https://ghs.grahamisd.com/index.php?articleID=96264215&pageID=smartSiteFeed&psqFeed=true",
+            "reviewStatus": "explicit-primary-designation-confirmed"
+          },
+          "followUpEvidence": [
+            {
+              "reviewedDate": "2026-11-11",
+              "sourceLabel": "Graham High School official announcement",
+              "sourceUrl": "https://ghs.grahamisd.com/index.php?articleID=96264215&pageID=smartSiteFeed&psqFeed=true",
+              "retrievalStatus": "page-reviewed",
+              "summary": "Nov. 9 school announcement explicitly designates Graham the home team for Estacado at Mustang Bowl in Sweetwater."
+            }
+          ]
+        },
+        "existingSideReview": {
+          "bracket": {
+            "division": "4A Division II",
+            "region": "Region I",
+            "slot": 2,
+            "teams": [
+              "Graham",
+              "Estacado"
+            ]
+          },
+          "kickoff": "2026-11-13T19:00:00-06:00",
+          "venue": "Mustang Bowl",
+          "city": "Sweetwater",
+          "designatedSides": {
+            "homeTeam": "Graham",
+            "awayTeam": "Estacado",
+            "sourceUrl": "https://ghs.grahamisd.com/index.php?articleID=96264215&pageID=smartSiteFeed&psqFeed=true",
+            "reviewStatus": "explicit-primary-designation-confirmed"
+          },
+          "primaryLocationCorroborated": true,
+          "locationEvidence": {
+            "sourceUrl": "https://ghs.grahamisd.com/index.php?articleID=96264215&pageID=smartSiteFeed&psqFeed=true",
+            "sourceLabel": "Primary designated-side evidence",
+            "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+          },
+          "siteAssessment": {
+            "kind": "third-party-location",
+            "isInference": true,
+            "neutralSiteConfirmed": null,
+            "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+          },
+          "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer.",
+          "publicationBlockers": [
+            "explicit neutral-site designation remains unverified",
+            "catalog integration/release review remains required",
+            "final publication approval remains required"
+          ],
+          "readyForPublication": false
+        },
+        "newEvidence": null
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "catalog integration release required",
+        "formal neutral-site status unconfirmed; existing safeguard retained"
+      ],
+      "writePayload": null
+    },
+    {
+      "manifestId": "2026-bi-district-4a-d2-i-4",
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region I",
+        "slot": 4,
+        "teams": [
+          "Levelland",
+          "Mineral Wells"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "Levelland",
+          "officialName": "Levelland",
+          "qualifiedIdentity": {
+            "division": "4A Division II",
+            "region": "Region I",
+            "uilDistrict": 3
+          },
+          "schoolId": "levelland",
+          "schoolSlug": "levelland",
+          "catalogDistrictId": "4a-d2-district-3",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf"
+        },
+        {
+          "bracketName": "Mineral Wells",
+          "officialName": "Mineral Wells",
+          "qualifiedIdentity": {
+            "division": "4A Division II",
+            "region": "Region I",
+            "uilDistrict": 4
+          },
+          "schoolId": "mineral-wells",
+          "schoolSlug": "mineral-wells",
+          "catalogDistrictId": "4a-d2-district-4",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf"
+        }
+      ],
+      "operation": "proposed-new-record",
+      "existingGameId": null,
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "core-and-both-sides-explicit-held",
+      "coreScheduleEvidenceComplete": true,
+      "schedule": {
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "venue": "Shotwell Stadium",
+        "city": "Abilene",
+        "neutralSite": null,
+        "designatedSides": {
+          "homeTeam": "Mineral Wells",
+          "awayTeam": "Levelland",
+          "sourceUrl": "https://www.mwisd.net/index.php?articleID=96157097&pageID=smartSiteFeed&psqFeed=true",
+          "reviewStatus": "explicit-primary-designation-confirmed"
+        }
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "venue": "Shotwell Stadium",
+        "city": "Abilene"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "4A Division II",
+          "region": "Region I",
+          "slot": 4,
+          "teams": [
+            "Levelland",
+            "Mineral Wells"
+          ],
+          "date": "2026-11-13",
+          "localTime": "19:00",
+          "kickoff": "2026-11-13T19:00:00-06:00",
+          "proposedKickoff": "2026-11-13T19:00:00-06:00",
+          "timeZone": "America/Chicago",
+          "timeZoneBasis": "source explicitly states all times CST",
+          "venue": "Shotwell Stadium",
+          "city": "Abilene",
+          "neutralSite": null,
+          "neutralSiteBasis": "not explicitly verified",
+          "sourceLabel": "Dave Campbell's Texas Football / Matt Stepp",
+          "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+          "sourcePublicationDate": "2026-11-08",
+          "sourceUpdatedDate": null,
+          "retrievedDate": "2026-11-10",
+          "verificationStatus": "source-verified",
+          "missingInformation": [],
+          "conflicts": [],
+          "notes": [],
+          "homeAwayEvidence": {
+            "homeTeam": "Mineral Wells",
+            "awayTeam": "Levelland",
+            "sourceUrl": "https://www.mwisd.net/index.php?articleID=96157097&pageID=smartSiteFeed&psqFeed=true",
+            "reviewStatus": "explicit-primary-designation-confirmed"
+          },
+          "followUpEvidence": [
+            {
+              "reviewedDate": "2026-11-11",
+              "sourceLabel": "Mineral Wells ISD official announcement",
+              "sourceUrl": "https://www.mwisd.net/index.php?articleID=96157097&pageID=smartSiteFeed&psqFeed=true",
+              "retrievalStatus": "page-reviewed",
+              "summary": "Nov. 9 school announcement explicitly designates Mineral Wells the HOME team against Levelland at Shotwell Stadium in Abilene."
+            }
+          ]
+        },
+        "existingSideReview": {
+          "bracket": {
+            "division": "4A Division II",
+            "region": "Region I",
+            "slot": 4,
+            "teams": [
+              "Levelland",
+              "Mineral Wells"
+            ]
+          },
+          "kickoff": "2026-11-13T19:00:00-06:00",
+          "venue": "Shotwell Stadium",
+          "city": "Abilene",
+          "designatedSides": {
+            "homeTeam": "Mineral Wells",
+            "awayTeam": "Levelland",
+            "sourceUrl": "https://www.mwisd.net/index.php?articleID=96157097&pageID=smartSiteFeed&psqFeed=true",
+            "reviewStatus": "explicit-primary-designation-confirmed"
+          },
+          "primaryLocationCorroborated": true,
+          "locationEvidence": {
+            "sourceUrl": "https://www.mwisd.net/index.php?articleID=96157097&pageID=smartSiteFeed&psqFeed=true",
+            "sourceLabel": "Primary designated-side evidence",
+            "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+          },
+          "siteAssessment": {
+            "kind": "third-party-location",
+            "isInference": true,
+            "neutralSiteConfirmed": null,
+            "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+          },
+          "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer.",
+          "publicationBlockers": [
+            "explicit neutral-site designation remains unverified",
+            "catalog integration/release review remains required",
+            "final publication approval remains required"
+          ],
+          "readyForPublication": false
+        },
+        "newEvidence": null
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "catalog integration release required",
+        "formal neutral-site status unconfirmed; existing safeguard retained"
+      ],
+      "writePayload": null
+    },
+    {
+      "manifestId": "2026-bi-district-4a-d2-ii-6",
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region II",
+        "slot": 6,
+        "teams": [
+          "Krum",
+          "Kemp"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "Krum",
+          "officialName": "Krum",
+          "qualifiedIdentity": {
+            "division": "4A Division II",
+            "region": "Region II",
+            "uilDistrict": 6
+          },
+          "schoolId": "krum",
+          "schoolSlug": "krum",
+          "catalogDistrictId": "4a-d2-district-6",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf"
+        },
+        {
+          "bracketName": "Kemp",
+          "officialName": "Kemp",
+          "qualifiedIdentity": {
+            "division": "4A Division II",
+            "region": "Region II",
+            "uilDistrict": 5
+          },
+          "schoolId": "kemp",
+          "schoolSlug": "kemp",
+          "catalogDistrictId": "4a-d2-district-5",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf"
+        }
+      ],
+      "operation": "proposed-new-record",
+      "existingGameId": null,
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "core-and-both-sides-explicit-held",
+      "coreScheduleEvidenceComplete": true,
+      "schedule": {
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "venue": "Royse City ISD Stadium",
+        "city": "Royse City",
+        "neutralSite": null,
+        "designatedSides": {
+          "homeTeam": "Krum",
+          "awayTeam": "Kemp",
+          "sourceUrl": "https://events.hometownticketing.com/event/8c4fa4da-9d86-4111-8a05-d956f356e137",
+          "reviewStatus": "explicit-primary-designation-confirmed"
+        }
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "venue": "Royse City ISD Stadium",
+        "city": "Royse City"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "4A Division II",
+          "region": "Region II",
+          "slot": 6,
+          "teams": [
+            "Krum",
+            "Kemp"
+          ],
+          "date": "2026-11-13",
+          "localTime": "19:00",
+          "kickoff": "2026-11-13T19:00:00-06:00",
+          "proposedKickoff": "2026-11-13T19:00:00-06:00",
+          "timeZone": "America/Chicago",
+          "timeZoneBasis": "source explicitly states all times CST",
+          "venue": "Royse City ISD Stadium",
+          "city": "Royse City",
+          "neutralSite": null,
+          "neutralSiteBasis": "not explicitly verified",
+          "sourceLabel": "Dave Campbell's Texas Football / Matt Stepp",
+          "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+          "sourcePublicationDate": "2026-11-08",
+          "sourceUpdatedDate": null,
+          "retrievedDate": "2026-11-10",
+          "verificationStatus": "source-verified",
+          "missingInformation": [],
+          "conflicts": [],
+          "notes": [],
+          "homeAwayEvidence": {
+            "homeTeam": "Krum",
+            "awayTeam": "Kemp",
+            "sourceUrl": "https://events.hometownticketing.com/event/8c4fa4da-9d86-4111-8a05-d956f356e137",
+            "reviewStatus": "explicit-primary-designation-confirmed"
+          },
+          "followUpEvidence": [
+            {
+              "reviewedDate": "2026-11-11",
+              "sourceLabel": "Royse City ISD host ticket event 1186",
+              "sourceUrl": "https://events.hometownticketing.com/event/8c4fa4da-9d86-4111-8a05-d956f356e137",
+              "retrievalStatus": "live-browser-page-reviewed",
+              "summary": "Event description and ticket products explicitly map Krum HOME and Kemp VISITOR; Nov. 13 at 7 p.m. CST, Royse City ISD Stadium, 650 FM 2642. Stale image alternative text says 5A/regional; the current title and UIL 4A DII bi-district identity govern. The Krum school calendar (A) is a travel label, not a designated-side instruction."
+            }
+          ]
+        },
+        "existingSideReview": {
+          "bracket": {
+            "division": "4A Division II",
+            "region": "Region II",
+            "slot": 6,
+            "teams": [
+              "Krum",
+              "Kemp"
+            ]
+          },
+          "kickoff": "2026-11-13T19:00:00-06:00",
+          "venue": "Royse City ISD Stadium",
+          "city": "Royse City",
+          "designatedSides": {
+            "homeTeam": "Krum",
+            "awayTeam": "Kemp",
+            "sourceUrl": "https://events.hometownticketing.com/event/8c4fa4da-9d86-4111-8a05-d956f356e137",
+            "reviewStatus": "explicit-primary-designation-confirmed"
+          },
+          "primaryLocationCorroborated": true,
+          "locationEvidence": {
+            "sourceUrl": "https://events.hometownticketing.com/event/8c4fa4da-9d86-4111-8a05-d956f356e137",
+            "sourceLabel": "Primary designated-side evidence",
+            "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+          },
+          "siteAssessment": {
+            "kind": "third-party-location",
+            "isInference": true,
+            "neutralSiteConfirmed": null,
+            "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+          },
+          "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer. Krum calendar (A) is travel evidence; host explicitly maps Krum HOME and Kemp VISITOR.",
+          "publicationBlockers": [
+            "explicit neutral-site designation remains unverified",
+            "catalog integration/release review remains required",
+            "final publication approval remains required"
+          ],
+          "readyForPublication": false
+        },
+        "newEvidence": null
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "catalog integration release required",
+        "formal neutral-site status unconfirmed; existing safeguard retained"
+      ],
+      "writePayload": null
+    },
+    {
+      "manifestId": "2026-bi-district-4a-d2-ii-7",
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region II",
+        "slot": 7,
+        "teams": [
+          "Gilmer",
+          "North Lamar"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "Gilmer",
+          "officialName": "Gilmer",
+          "qualifiedIdentity": {
+            "division": "4A Division II",
+            "region": "Region II",
+            "uilDistrict": 8
+          },
+          "schoolId": "gilmer",
+          "schoolSlug": "gilmer",
+          "catalogDistrictId": "4a-d2-district-8",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf"
+        },
+        {
+          "bracketName": "North Lamar",
+          "officialName": "Paris North Lamar",
+          "qualifiedIdentity": {
+            "division": "4A Division II",
+            "region": "Region II",
+            "uilDistrict": 7
+          },
+          "schoolId": "paris-north-lamar",
+          "schoolSlug": "paris-north-lamar",
+          "catalogDistrictId": "4a-d2-district-7",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/4AD2FB_Rvsd2-27.pdf"
+        }
+      ],
+      "operation": "proposed-new-record",
+      "existingGameId": null,
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "core-and-both-sides-explicit-held",
+      "coreScheduleEvidenceComplete": true,
+      "schedule": {
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "venue": "Hanby Stadium",
+        "city": "Mesquite",
+        "neutralSite": null,
+        "designatedSides": {
+          "homeTeam": "Gilmer",
+          "awayTeam": "North Lamar",
+          "sourceUrl": "https://events.hometownticketing.com/event/570abce6-ca07-4caa-ba0b-91686861104d",
+          "reviewStatus": "explicit-primary-designation-confirmed"
+        }
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "venue": "Hanby Stadium",
+        "city": "Mesquite"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "4A Division II",
+          "region": "Region II",
+          "slot": 7,
+          "teams": [
+            "Gilmer",
+            "North Lamar"
+          ],
+          "date": "2026-11-13",
+          "localTime": "19:00",
+          "kickoff": "2026-11-13T19:00:00-06:00",
+          "proposedKickoff": "2026-11-13T19:00:00-06:00",
+          "timeZone": "America/Chicago",
+          "timeZoneBasis": "source explicitly states all times CST",
+          "venue": "Hanby Stadium",
+          "city": "Mesquite",
+          "neutralSite": null,
+          "neutralSiteBasis": "not explicitly verified",
+          "sourceLabel": "Dave Campbell's Texas Football / Matt Stepp",
+          "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+          "sourcePublicationDate": "2026-11-08",
+          "sourceUpdatedDate": null,
+          "retrievedDate": "2026-11-10",
+          "verificationStatus": "source-verified",
+          "missingInformation": [],
+          "conflicts": [],
+          "notes": [],
+          "homeAwayEvidence": {
+            "homeTeam": "Gilmer",
+            "awayTeam": "North Lamar",
+            "sourceUrl": "https://events.hometownticketing.com/event/570abce6-ca07-4caa-ba0b-91686861104d",
+            "reviewStatus": "explicit-primary-designation-confirmed"
+          },
+          "followUpEvidence": [
+            {
+              "reviewedDate": "2026-11-11",
+              "sourceLabel": "Mesquite ISD host ticket event 5923",
+              "sourceUrl": "https://events.hometownticketing.com/event/570abce6-ca07-4caa-ba0b-91686861104d",
+              "retrievalStatus": "live-browser-page-reviewed",
+              "summary": "Host event title and description explicitly map Gilmer Home Team and Paris North Lamar Visitor; Nov. 13 at 7 p.m. CST at Hanby Stadium, 410 East Davis, Mesquite. Title misspells Gimer; description spells Gilmer correctly and matchup identity is qualified by UIL."
+            }
+          ]
+        },
+        "existingSideReview": {
+          "bracket": {
+            "division": "4A Division II",
+            "region": "Region II",
+            "slot": 7,
+            "teams": [
+              "Gilmer",
+              "North Lamar"
+            ]
+          },
+          "kickoff": "2026-11-13T19:00:00-06:00",
+          "venue": "Hanby Stadium",
+          "city": "Mesquite",
+          "designatedSides": {
+            "homeTeam": "Gilmer",
+            "awayTeam": "North Lamar",
+            "sourceUrl": "https://events.hometownticketing.com/event/570abce6-ca07-4caa-ba0b-91686861104d",
+            "reviewStatus": "explicit-primary-designation-confirmed"
+          },
+          "primaryLocationCorroborated": true,
+          "locationEvidence": {
+            "sourceUrl": "https://events.hometownticketing.com/event/570abce6-ca07-4caa-ba0b-91686861104d",
+            "sourceLabel": "Primary designated-side evidence",
+            "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+          },
+          "siteAssessment": {
+            "kind": "third-party-location",
+            "isInference": true,
+            "neutralSiteConfirmed": null,
+            "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+          },
+          "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer. Host description spells Gilmer correctly; title Gimer typo is not a distinct identity.",
+          "publicationBlockers": [
+            "explicit neutral-site designation remains unverified",
+            "catalog integration/release review remains required",
+            "final publication approval remains required"
+          ],
+          "readyForPublication": false
+        },
+        "newEvidence": null
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "catalog integration release required",
+        "formal neutral-site status unconfirmed; existing safeguard retained"
+      ],
+      "writePayload": null
+    },
+    {
+      "manifestId": "2026-bi-district-3a-d2-ii-5",
+      "bracket": {
+        "division": "3A Division II",
+        "region": "Region II",
+        "slot": 5,
+        "teams": [
+          "Bells",
+          "Lone Oak"
+        ]
+      },
+      "qualifiedSchools": [
+        {
+          "bracketName": "Bells",
+          "officialName": "Bells",
+          "qualifiedIdentity": {
+            "division": "3A Division II",
+            "region": "Region II",
+            "uilDistrict": 7
+          },
+          "schoolId": "bells",
+          "schoolSlug": "bells",
+          "catalogDistrictId": "3a-d2-district-7",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf"
+        },
+        {
+          "bracketName": "Lone Oak",
+          "officialName": "Lone Oak",
+          "qualifiedIdentity": {
+            "division": "3A Division II",
+            "region": "Region II",
+            "uilDistrict": 8
+          },
+          "schoolId": "lone-oak",
+          "schoolSlug": "lone-oak",
+          "catalogDistrictId": "3a-d2-district-8",
+          "catalogState": "proposed-complete-held-for-release",
+          "identitySourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf"
+        }
+      ],
+      "operation": "proposed-new-record",
+      "existingGameId": null,
+      "insertAllowed": false,
+      "executionEnabled": false,
+      "readyForPublication": false,
+      "tier": "core-and-both-sides-explicit-held",
+      "coreScheduleEvidenceComplete": true,
+      "schedule": {
+        "kickoff": "2026-11-13T19:30:00-06:00",
+        "venue": "Tom Kimbrough Stadium",
+        "city": "Murphy",
+        "neutralSite": null,
+        "designatedSides": {
+          "homeTeam": "Lone Oak",
+          "awayTeam": "Bells",
+          "sourceUrl": "https://events.hometownticketing.com/boxoffice/planoisd/L2VtYmVkL2V2ZW50Lzg3NzU=",
+          "reviewStatus": "school-linked-ticket-designation-confirmed"
+        }
+      },
+      "reportedNeutralSiteClaim": {
+        "value": null,
+        "scope": "Preserved legacy reported claim, not adopted primary formal confirmation"
+      },
+      "originalSelectedSchedule": {
+        "kickoff": "2026-11-13T19:30:00-06:00",
+        "venue": "Tom Kimbrough Stadium",
+        "city": "Murphy"
+      },
+      "supplementalScheduleDifferences": {},
+      "sourceEvidence": {
+        "original": {
+          "division": "3A Division II",
+          "region": "Region II",
+          "slot": 5,
+          "teams": [
+            "Bells",
+            "Lone Oak"
+          ],
+          "date": "2026-11-13",
+          "localTime": "19:30",
+          "kickoff": "2026-11-13T19:30:00-06:00",
+          "proposedKickoff": "2026-11-13T19:30:00-06:00",
+          "timeZone": "America/Chicago",
+          "timeZoneBasis": "Host ticket event explicitly states CST; November CST is UTC-06:00",
+          "venue": "Tom Kimbrough Stadium",
+          "city": "Murphy",
+          "neutralSite": null,
+          "neutralSiteBasis": "not explicitly verified",
+          "sourceLabel": "Plano ISD host box office and Lone Oak official athletics",
+          "sourceUrl": "https://events.hometownticketing.com/boxoffice/planoisd/L2VtYmVkL2V2ZW50Lzg3NzU=",
+          "sourcePublicationDate": null,
+          "sourceUpdatedDate": null,
+          "retrievedDate": "2026-11-11",
+          "verificationStatus": "source-verified",
+          "missingInformation": [],
+          "conflicts": [
+            {
+              "field": "city",
+              "value": "Plano",
+              "sourceUrl": "https://txhsfb.net/?p=29290",
+              "note": "AP lists Murphy; schedule lists Plano. Verify stadium identity/city.",
+              "resolved": true,
+              "resolution": "Plano ISD host box office event 8775 confirms Friday Nov. 13, 2026 at 7:30 p.m. CST at Tom Kimbrough Stadium, 700 N. Murphy Road, Murphy TX 75094. The title explicitly designates Lone Oak HOME and Bells Visitor. Lone Oak official athletics links the exact event. The school announcement is now directly visible and agrees with the host. Neither labels the game neutral.",
+              "resolutionSourceUrl": "https://events.hometownticketing.com/boxoffice/planoisd/L2VtYmVkL2V2ZW50Lzg3NzU="
+            }
+          ],
+          "notes": [],
+          "followUpEvidence": [
+            {
+              "reviewedDate": "2026-11-10",
+              "sourceLabel": "Lone Oak official athletics indexed announcement",
+              "sourceUrl": "https://www.loneoakbuffaloes.com/sport/football/boys/",
+              "retrievalStatus": "search-index-only; opened-page-stale",
+              "summary": "Indexed Nov. 9 announcement supports Nov. 13 19:30, Tom Kimbrough Stadium, 700 N. Murphy Road, Murphy. Opened page returned older content without this announcement; direct current-page confirmation remains required."
+            },
+            {
+              "reviewedDate": "2026-11-11",
+              "sourceLabel": "Plano ISD host box office and Lone Oak official athletics",
+              "sourceUrl": "https://events.hometownticketing.com/boxoffice/planoisd/L2VtYmVkL2V2ZW50Lzg3NzU=",
+              "retrievalStatus": "live-browser-page-reviewed",
+              "summary": "Plano ISD host box office event 8775 confirms Friday Nov. 13, 2026 at 7:30 p.m. CST at Tom Kimbrough Stadium, 700 N. Murphy Road, Murphy TX 75094. The title explicitly designates Lone Oak HOME and Bells Visitor. Lone Oak official athletics links the exact event. The school announcement is now directly visible and agrees with the host. Neither labels the game neutral."
+            }
+          ],
+          "homeAwayEvidence": {
+            "homeTeam": "Lone Oak",
+            "awayTeam": "Bells",
+            "sourceUrl": "https://events.hometownticketing.com/boxoffice/planoisd/L2VtYmVkL2V2ZW50Lzg3NzU=",
+            "reviewStatus": "school-linked-ticket-designation-confirmed"
+          },
+          "readyForPublication": false,
+          "previousSelectedSource": {
+            "sourceLabel": "Associated Press / Winnipeg Free Press",
+            "sourceUrl": "https://www.winnipegfreepress.com/uncategorized/2026/11/08/texas-high-school-football-playoff-pairings-12",
+            "sourcePublicationDate": null,
+            "retrievedDate": "2026-11-10",
+            "date": "2026-11-13",
+            "localTime": "19:30",
+            "venue": "Kimbrough Stadium",
+            "city": "Murphy"
+          }
+        },
+        "existingSideReview": {
+          "bracket": {
+            "division": "3A Division II",
+            "region": "Region II",
+            "slot": 5,
+            "teams": [
+              "Bells",
+              "Lone Oak"
+            ]
+          },
+          "kickoff": "2026-11-13T19:30:00-06:00",
+          "venue": "Tom Kimbrough Stadium",
+          "city": "Murphy",
+          "designatedSides": {
+            "homeTeam": "Lone Oak",
+            "awayTeam": "Bells",
+            "sourceUrl": "https://events.hometownticketing.com/boxoffice/planoisd/L2VtYmVkL2V2ZW50Lzg3NzU=",
+            "reviewStatus": "school-linked-ticket-designation-confirmed"
+          },
+          "primaryLocationCorroborated": true,
+          "locationEvidence": {
+            "sourceUrl": "https://events.hometownticketing.com/boxoffice/planoisd/L2VtYmVkL2V2ZW50Lzg3NzU=",
+            "sourceLabel": "Primary designated-side evidence",
+            "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+          },
+          "siteAssessment": {
+            "kind": "third-party-location",
+            "isInference": true,
+            "neutralSiteConfirmed": null,
+            "scope": "Location-based review assessment only. This does not assert an explicit neutral-site designation or authorize publication."
+          },
+          "reviewNote": "No home/away designation inferred from bracket order, VS/AT wording, travel labels, venue city or ticket issuer.",
+          "publicationBlockers": [
+            "explicit neutral-site designation remains unverified",
+            "catalog integration/release review remains required",
+            "final publication approval remains required"
+          ],
+          "readyForPublication": false
+        },
+        "newEvidence": null
+      },
+      "publicationBlockers": [
+        "exact publication approval not granted",
+        "catalog integration release required",
+        "formal neutral-site status unconfirmed; existing safeguard retained"
+      ],
+      "writePayload": null
+    }
+  ]
+}

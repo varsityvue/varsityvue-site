@@ -1,0 +1,2491 @@
+[
+  {
+    "division": "2A Division I",
+    "region": "Region I",
+    "slot": 1,
+    "teams": [
+      "Panhandle",
+      "Floydada"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region I",
+    "slot": 2,
+    "teams": [
+      "Forsan",
+      "Abernathy"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region I",
+    "slot": 3,
+    "teams": [
+      "Tulia",
+      "Sanford-Fritch"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region I",
+    "slot": 4,
+    "teams": [
+      "New Home",
+      "Ballinger"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region I",
+    "slot": 5,
+    "teams": [
+      "Post",
+      "Ozona"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region I",
+    "slot": 6,
+    "teams": [
+      "Olton",
+      "Highland Park"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region I",
+    "slot": 7,
+    "teams": [
+      "Sonora",
+      "New Deal"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region I",
+    "slot": 8,
+    "teams": [
+      "Spearman",
+      "Farwell"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region II",
+    "slot": 1,
+    "teams": [
+      "Cisco",
+      "Nocona"
+    ],
+    "status": "scheduled",
+    "gameId": "cisco-vs-nocona-2026-bi-district",
+    "missing": []
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region II",
+    "slot": 2,
+    "teams": [
+      "Bosqueville",
+      "Johnson City"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region II",
+    "slot": 3,
+    "teams": [
+      "Muenster",
+      "Hawley"
+    ],
+    "status": "scheduled",
+    "gameId": "muenster-vs-hawley-2026-bi-district",
+    "missing": []
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region II",
+    "slot": 4,
+    "teams": [
+      "San Saba",
+      "Valley Mills"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region II",
+    "slot": 5,
+    "teams": [
+      "Mason",
+      "Itasca"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region II",
+    "slot": 6,
+    "teams": [
+      "Tioga",
+      "Anson"
+    ],
+    "status": "scheduled",
+    "gameId": "tioga-vs-anson-2026-bi-district",
+    "missing": []
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region II",
+    "slot": 7,
+    "teams": [
+      "Axtell",
+      "Bangs"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region II",
+    "slot": 8,
+    "teams": [
+      "De Leon",
+      "Alvord"
+    ],
+    "status": "scheduled",
+    "gameId": "de-leon-vs-alvord-2026-bi-district",
+    "missing": []
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region III",
+    "slot": 1,
+    "teams": [
+      "Cooper",
+      "Como-Pickton"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region III",
+    "slot": 2,
+    "teams": [
+      "Shelbyville",
+      "Waskom"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region III",
+    "slot": 3,
+    "teams": [
+      "Carlisle",
+      "Honey Grove"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region III",
+    "slot": 4,
+    "teams": [
+      "Beckville",
+      "Garrison"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region III",
+    "slot": 5,
+    "teams": [
+      "Pewitt",
+      "Joaquin"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region III",
+    "slot": 6,
+    "teams": [
+      "Frankston",
+      "Whitewright"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region III",
+    "slot": 7,
+    "teams": [
+      "San Augustine",
+      "Union Grove"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region III",
+    "slot": 8,
+    "teams": [
+      "Tom Bean",
+      "Hawkins"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region IV",
+    "slot": 1,
+    "teams": [
+      "Thorndale",
+      "Groveton"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region IV",
+    "slot": 2,
+    "teams": [
+      "Refugio",
+      "Weimar"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region IV",
+    "slot": 3,
+    "teams": [
+      "Leon",
+      "Bruceville-Eddy"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region IV",
+    "slot": 4,
+    "teams": [
+      "Ganado",
+      "Taft"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region IV",
+    "slot": 5,
+    "teams": [
+      "Shiner",
+      "Freer"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region IV",
+    "slot": 6,
+    "teams": [
+      "Lovelady",
+      "Granger"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region IV",
+    "slot": 7,
+    "teams": [
+      "Dilley",
+      "Flatonia"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division I",
+    "region": "Region IV",
+    "slot": 8,
+    "teams": [
+      "Rosebud-Lott",
+      "Corrigan-Camden"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region I",
+    "slot": 1,
+    "teams": [
+      "Gruver",
+      "Plains"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region I",
+    "slot": 2,
+    "teams": [
+      "McCamey",
+      "Tahoka"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region I",
+    "slot": 3,
+    "teams": [
+      "Ropes",
+      "Vega"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region I",
+    "slot": 4,
+    "teams": [
+      "Lockney",
+      "Iraan"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region I",
+    "slot": 5,
+    "teams": [
+      "Roscoe",
+      "Eldorado"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region I",
+    "slot": 6,
+    "teams": [
+      "Sudan",
+      "West Texas"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region I",
+    "slot": 7,
+    "teams": [
+      "Wink",
+      "Ralls"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region I",
+    "slot": 8,
+    "teams": [
+      "Stratford",
+      "Seagraves"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region II",
+    "slot": 1,
+    "teams": [
+      "Wellington",
+      "Munday"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region II",
+    "slot": 2,
+    "teams": [
+      "Crawford",
+      "Albany"
+    ],
+    "status": "scheduled",
+    "gameId": "albany-vs-crawford-2026-bi-district",
+    "missing": []
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region II",
+    "slot": 3,
+    "teams": [
+      "Windthorst",
+      "Quanah"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region II",
+    "slot": 4,
+    "teams": [
+      "Stamford",
+      "Mart"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region II",
+    "slot": 5,
+    "teams": [
+      "Goldthwaite",
+      "Hubbard"
+    ],
+    "status": "scheduled",
+    "gameId": "goldthwaite-vs-hubbard-2026-bi-district",
+    "missing": []
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region II",
+    "slot": 6,
+    "teams": [
+      "Haskell",
+      "Clarendon"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region II",
+    "slot": 7,
+    "teams": [
+      "Santo",
+      "Miles"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region II",
+    "slot": 8,
+    "teams": [
+      "Wheeler",
+      "Seymour"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region III",
+    "slot": 1,
+    "teams": [
+      "Collinsville",
+      "Maud"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region III",
+    "slot": 2,
+    "teams": [
+      "Colmesneil",
+      "Cushing"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region III",
+    "slot": 3,
+    "teams": [
+      "Clarksville",
+      "Boles"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region III",
+    "slot": 4,
+    "teams": [
+      "Grapeland",
+      "West Hardin"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region III",
+    "slot": 5,
+    "teams": [
+      "Overton",
+      "Evadale"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region III",
+    "slot": 6,
+    "teams": [
+      "Detroit",
+      "Era"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region III",
+    "slot": 7,
+    "teams": [
+      "West Sabine",
+      "Tenaha"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region III",
+    "slot": 8,
+    "teams": [
+      "Lindsay",
+      "Bowie"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region IV",
+    "slot": 1,
+    "teams": [
+      "Bremond",
+      "D'Hanis"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region IV",
+    "slot": 2,
+    "teams": [
+      "Ben Bolt",
+      "Three Rivers"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region IV",
+    "slot": 3,
+    "teams": [
+      "Junction",
+      "Bartlett"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region IV",
+    "slot": 4,
+    "teams": [
+      "Yorktown",
+      "Santa Maria"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region IV",
+    "slot": 5,
+    "teams": [
+      "Falls City",
+      "Agua Dulce"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region IV",
+    "slot": 6,
+    "teams": [
+      "Harper",
+      "Burton"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region IV",
+    "slot": 7,
+    "teams": [
+      "La Villa",
+      "Pettus"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "2A Division II",
+    "region": "Region IV",
+    "slot": 8,
+    "teams": [
+      "Chilton",
+      "Brackett"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region I",
+    "slot": 1,
+    "teams": [
+      "Shallowater",
+      "Compass Academy"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region I",
+    "slot": 2,
+    "teams": [
+      "Peaster",
+      "Early"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region I",
+    "slot": 3,
+    "teams": [
+      "Clyde",
+      "Denver City"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region I",
+    "slot": 4,
+    "teams": [
+      "Ingram Moore",
+      "Vernon"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region I",
+    "slot": 5,
+    "teams": [
+      "Wall",
+      "Bowie"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region I",
+    "slot": 6,
+    "teams": [
+      "Sweetwater",
+      "Dalhart"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region I",
+    "slot": 7,
+    "teams": [
+      "Paradise",
+      "Llano"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region I",
+    "slot": 8,
+    "teams": [
+      "Bushland",
+      "Jim Ned"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region II",
+    "slot": 1,
+    "teams": [
+      "Gunter",
+      "Groesbeck"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region II",
+    "slot": 2,
+    "teams": [
+      "Liberty-Eylau",
+      "Commerce"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region II",
+    "slot": 3,
+    "teams": [
+      "Whitney",
+      "Life Oak Cliff"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region II",
+    "slot": 4,
+    "teams": [
+      "Winnsboro",
+      "Tatum"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region II",
+    "slot": 5,
+    "teams": [
+      "Malakoff",
+      "Gladewater"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region II",
+    "slot": 6,
+    "teams": [
+      "Mexia",
+      "Pilot Point"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region II",
+    "slot": 7,
+    "teams": [
+      "Atlanta",
+      "Mount Vernon"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region II",
+    "slot": 8,
+    "teams": [
+      "Whitesboro",
+      "Grandview"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region III",
+    "slot": 1,
+    "teams": [
+      "Diboll",
+      "Buna"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region III",
+    "slot": 2,
+    "teams": [
+      "Lorena",
+      "Sweeny"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region III",
+    "slot": 3,
+    "teams": [
+      "Orangefield",
+      "Trinity"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region III",
+    "slot": 4,
+    "teams": [
+      "Edna",
+      "C.H. Yoe"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region III",
+    "slot": 5,
+    "teams": [
+      "Columbus",
+      "Little River Academy"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region III",
+    "slot": 6,
+    "teams": [
+      "Anahuac",
+      "Westwood"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region III",
+    "slot": 7,
+    "teams": [
+      "Franklin",
+      "Hempstead"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region III",
+    "slot": 8,
+    "teams": [
+      "Fairfield",
+      "East Chambers"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region IV",
+    "slot": 1,
+    "teams": [
+      "Yoakum",
+      "Carrizo Springs"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region IV",
+    "slot": 2,
+    "teams": [
+      "Rio Hondo",
+      "Goliad"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region IV",
+    "slot": 3,
+    "teams": [
+      "Devine",
+      "Randolph"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region IV",
+    "slot": 4,
+    "teams": [
+      "Orange Grove",
+      "Raymondville"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region IV",
+    "slot": 5,
+    "teams": [
+      "Sinton",
+      "Lyford"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region IV",
+    "slot": 6,
+    "teams": [
+      "Jourdanton",
+      "Hallettsville"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region IV",
+    "slot": 7,
+    "teams": [
+      "San Diego",
+      "Mathis"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division I",
+    "region": "Region IV",
+    "slot": 8,
+    "teams": [
+      "Marion",
+      "Hondo"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region I",
+    "slot": 1,
+    "teams": [
+      "Canadian",
+      "Muleshoe"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region I",
+    "slot": 2,
+    "teams": [
+      "Merkel",
+      "Crane"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region I",
+    "slot": 3,
+    "teams": [
+      "Idalou",
+      "Dimmitt"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region I",
+    "slot": 4,
+    "teams": [
+      "Coahoma",
+      "Holliday"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region I",
+    "slot": 5,
+    "teams": [
+      "Stanton",
+      "Henrietta"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region I",
+    "slot": 6,
+    "teams": [
+      "Slaton",
+      "Friona"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region I",
+    "slot": 7,
+    "teams": [
+      "Jacksboro",
+      "Grape Creek"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region I",
+    "slot": 8,
+    "teams": [
+      "Childress",
+      "Littlefield"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region II",
+    "slot": 1,
+    "teams": [
+      "Millsap",
+      "Trinity Leadership"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region II",
+    "slot": 2,
+    "teams": [
+      "Edgewood",
+      "Valley View"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region II",
+    "slot": 3,
+    "teams": [
+      "Maypearl",
+      "Clifton"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region II",
+    "slot": 4,
+    "teams": [
+      "Howe",
+      "Quitman"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region II",
+    "slot": 5,
+    "teams": [
+      "Bells",
+      "Lone Oak"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region II",
+    "slot": 6,
+    "teams": [
+      "Madison",
+      "Hamilton"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region II",
+    "slot": 7,
+    "teams": [
+      "Grand Saline",
+      "Leonard"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region II",
+    "slot": 8,
+    "teams": [
+      "Tolar",
+      "Scurry-Rosser"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region III",
+    "slot": 1,
+    "teams": [
+      "Hooks",
+      "Arp"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region III",
+    "slot": 2,
+    "teams": [
+      "New Waverly",
+      "Buffalo"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region III",
+    "slot": 3,
+    "teams": [
+      "Jefferson",
+      "Redwater"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region III",
+    "slot": 4,
+    "teams": [
+      "Teague",
+      "Hardin"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region III",
+    "slot": 5,
+    "teams": [
+      "Mildred",
+      "Woodville"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region III",
+    "slot": 6,
+    "teams": [
+      "West Rusk",
+      "New Boston"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region III",
+    "slot": 7,
+    "teams": [
+      "Newton",
+      "Elkhart"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region III",
+    "slot": 8,
+    "teams": [
+      "De Kalb",
+      "Troup"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region IV",
+    "slot": 1,
+    "teams": [
+      "Thrall",
+      "Brazos"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region IV",
+    "slot": 2,
+    "teams": [
+      "Hebbronville",
+      "Blanco"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region IV",
+    "slot": 3,
+    "teams": [
+      "East Bernard",
+      "Anderson-Shiro"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region IV",
+    "slot": 4,
+    "teams": [
+      "Stockdale",
+      "Cotulla"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region IV",
+    "slot": 5,
+    "teams": [
+      "Poth",
+      "Santa Rosa"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region IV",
+    "slot": 6,
+    "teams": [
+      "Rice Consolidated",
+      "Rogers"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region IV",
+    "slot": 7,
+    "teams": [
+      "George West",
+      "Nixon-Smiley"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "3A Division II",
+    "region": "Region IV",
+    "slot": 8,
+    "teams": [
+      "Lexington",
+      "Boling"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region I",
+    "slot": 1,
+    "teams": [
+      "Andress",
+      "Dumas"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region I",
+    "slot": 2,
+    "teams": [
+      "Decatur",
+      "Lake View"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region I",
+    "slot": 3,
+    "teams": [
+      "Randall",
+      "Austin"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region I",
+    "slot": 4,
+    "teams": [
+      "Plainview",
+      "Lake Dallas"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region I",
+    "slot": 5,
+    "teams": [
+      "Midland Greenwood",
+      "Springtown"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region I",
+    "slot": 6,
+    "teams": [
+      "West Plains",
+      "Ysleta"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region I",
+    "slot": 7,
+    "teams": [
+      "Aubrey",
+      "Andrews"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region I",
+    "slot": 8,
+    "teams": [
+      "Riverside",
+      "Canyon"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region II",
+    "slot": 1,
+    "teams": [
+      "Kennedale",
+      "Carter"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region II",
+    "slot": 2,
+    "teams": [
+      "Pine Tree",
+      "Caddo Mills"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region II",
+    "slot": 3,
+    "teams": [
+      "Lincoln",
+      "Southwest"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region II",
+    "slot": 4,
+    "teams": [
+      "Paris",
+      "Kilgore"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region II",
+    "slot": 5,
+    "teams": [
+      "Sulphur Springs",
+      "Henderson"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region II",
+    "slot": 6,
+    "teams": [
+      "Kimball",
+      "Benbrook"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region II",
+    "slot": 7,
+    "teams": [
+      "Lindale",
+      "Kaufman"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region II",
+    "slot": 8,
+    "teams": [
+      "Eastern Hills",
+      "Wilmer-Hutchins"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region III",
+    "slot": 1,
+    "teams": [
+      "Little Cypress-Mauriceville",
+      "Austin"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region III",
+    "slot": 2,
+    "teams": [
+      "Jarrell",
+      "El Campo"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region III",
+    "slot": 3,
+    "teams": [
+      "Stafford",
+      "Bridge City"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region III",
+    "slot": 4,
+    "teams": [
+      "Sealy",
+      "China Spring"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region III",
+    "slot": 5,
+    "teams": [
+      "Bay City",
+      "Lampasas"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region III",
+    "slot": 6,
+    "teams": [
+      "Fort Bend Willowridge",
+      "Hargrave"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region III",
+    "slot": 7,
+    "teams": [
+      "Stephenville",
+      "Navasota"
+    ],
+    "status": "scheduled",
+    "gameId": "stephenville-vs-navasota-2026-bi-district",
+    "missing": []
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region III",
+    "slot": 8,
+    "teams": [
+      "Vidor",
+      "Sterling"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region IV",
+    "slot": 1,
+    "teams": [
+      "Canyon Lake",
+      "Pleasanton"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region IV",
+    "slot": 2,
+    "teams": [
+      "Edcouch-Elsa",
+      "Calhoun"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region IV",
+    "slot": 3,
+    "teams": [
+      "Somerset",
+      "Davenport"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region IV",
+    "slot": 4,
+    "teams": [
+      "Zapata",
+      "Miller"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region IV",
+    "slot": 5,
+    "teams": [
+      "Calallen",
+      "Hidalgo Early College"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region IV",
+    "slot": 6,
+    "teams": [
+      "Floresville",
+      "Fredericksburg"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region IV",
+    "slot": 7,
+    "teams": [
+      "Alice",
+      "Tuloso-Midway"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division I",
+    "region": "Region IV",
+    "slot": 8,
+    "teams": [
+      "Tivy",
+      "La Vernia"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region I",
+    "slot": 1,
+    "teams": [
+      "Irvin",
+      "Pecos"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region I",
+    "slot": 2,
+    "teams": [
+      "Graham",
+      "Estacado"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region I",
+    "slot": 3,
+    "teams": [
+      "Seminole",
+      "Bowie"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region I",
+    "slot": 4,
+    "teams": [
+      "Levelland",
+      "Mineral Wells"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region I",
+    "slot": 5,
+    "teams": [
+      "Liberty",
+      "Burkburnett"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region I",
+    "slot": 6,
+    "teams": [
+      "Monahans",
+      "Clint"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region I",
+    "slot": 7,
+    "teams": [
+      "Brock",
+      "Perryton"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region I",
+    "slot": 8,
+    "teams": [
+      "Mountain View",
+      "Big Spring"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region II",
+    "slot": 1,
+    "teams": [
+      "Glen Rose",
+      "Ponder"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region II",
+    "slot": 2,
+    "teams": [
+      "Carthage",
+      "Ford"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region II",
+    "slot": 3,
+    "teams": [
+      "Van Alstyne",
+      "Venus"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region II",
+    "slot": 4,
+    "teams": [
+      "Farmersville",
+      "Pleasant Grove"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region II",
+    "slot": 5,
+    "teams": [
+      "Sunnyvale",
+      "Pittsburg"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region II",
+    "slot": 6,
+    "teams": [
+      "Krum",
+      "Kemp"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region II",
+    "slot": 7,
+    "teams": [
+      "Gilmer",
+      "North Lamar"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region II",
+    "slot": 8,
+    "teams": [
+      "Hillsboro",
+      "Sanger"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region III",
+    "slot": 1,
+    "teams": [
+      "Canton",
+      "Shepherd"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region III",
+    "slot": 2,
+    "teams": [
+      "La Marque",
+      "North Forest"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region III",
+    "slot": 3,
+    "teams": [
+      "West Orange-Stark",
+      "Van"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region III",
+    "slot": 4,
+    "teams": [
+      "Wheatley",
+      "Hitchcock"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region III",
+    "slot": 5,
+    "teams": [
+      "Yates",
+      "La Grange"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region III",
+    "slot": 6,
+    "teams": [
+      "Silsbee",
+      "Madisonville"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region III",
+    "slot": 7,
+    "teams": [
+      "Bellville",
+      "Worthing"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region III",
+    "slot": 8,
+    "teams": [
+      "Athens",
+      "Hamshire-Fannett"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region IV",
+    "slot": 1,
+    "teams": [
+      "La Vega",
+      "Manor New Tech"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region IV",
+    "slot": 2,
+    "teams": [
+      "London",
+      "Navarro"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region IV",
+    "slot": 3,
+    "teams": [
+      "Wimberley",
+      "Salado"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region IV",
+    "slot": 4,
+    "teams": [
+      "Bandera",
+      "King"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region IV",
+    "slot": 5,
+    "teams": [
+      "Cuero",
+      "Ingleside"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region IV",
+    "slot": 6,
+    "teams": [
+      "Lago Vista",
+      "Brownwood"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region IV",
+    "slot": 7,
+    "teams": [
+      "Rockport-Fulton",
+      "Gonzales"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  },
+  {
+    "division": "4A Division II",
+    "region": "Region IV",
+    "slot": 8,
+    "teams": [
+      "Robinson",
+      "Giddings"
+    ],
+    "status": "missing-record",
+    "missing": [
+      "published game record"
+    ]
+  }
+]

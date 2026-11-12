@@ -1,0 +1,70 @@
+{
+  "reviewedDate": "2026-11-10",
+  "mode": "field-level-corroboration-only",
+  "rows": [
+    {
+      "officialName": "Panhandle",
+      "sourceUrl": "https://www.uiltexas.org/basketball/state-team-mp/panhandle-2025-2026-boys-basketball",
+      "sourceKind": "UIL team information",
+      "sourceSeason": "2025-2026",
+      "mascot": "Panthers",
+      "colorNames": [
+        "Purple",
+        "Gold"
+      ],
+      "scope": "Mascot and named palette corroborated; exact hex values and primary/secondary ordering are not specified.",
+      "reviewIssues": []
+    },
+    {
+      "officialName": "Muenster",
+      "sourceUrl": "https://www.uiltexas.org/football/state-team-mp/muenster-2025-2026-football",
+      "sourceKind": "UIL team information",
+      "sourceSeason": "2025-2026",
+      "mascot": "Hornets",
+      "colorNames": [
+        "Red",
+        "Black",
+        "White"
+      ],
+      "scope": "Prior-season mascot and named palette only; do not reuse its old classification.",
+      "reviewIssues": [
+        "UIL named palette includes black; publisher profile provides only red and white hex values. Review the palette before integration."
+      ]
+    },
+    {
+      "officialName": "Nocona",
+      "sourceUrl": "https://www.noconaisd.net/68788_1",
+      "sourceKind": "official district homepage",
+      "sourceSeason": null,
+      "mascot": "Indians",
+      "colorNames": null,
+      "scope": "Homepage corroborates mascot only. Colors and existing logo assets are not verified by this check.",
+      "reviewIssues": []
+    },
+    {
+      "officialName": "Bosqueville",
+      "sourceUrl": "https://www.bosquevilleisd.org/live-feed/",
+      "sourceKind": "official district communications",
+      "sourceSeason": "2026-2027",
+      "mascot": "Bulldogs",
+      "colorNames": null,
+      "scope": "Official Bulldog communications corroborate mascot; no exact brand hex values inferred from graphics or emojis.",
+      "reviewIssues": []
+    },
+    {
+      "officialName": "H Sterling",
+      "sourceUrl": "https://www.uiltexas.org/basketball/state-team/houston-sterling-2014-2015-boys-basketball",
+      "sourceKind": "historical UIL team information",
+      "sourceSeason": "2014-2015",
+      "mascot": "Raiders",
+      "colorNames": [
+        "Navy Blue",
+        "Royal Blue"
+      ],
+      "scope": "Historical evidence corroborates mascot but does not provide current exact hex values. Current publisher names Columbia Blue and Navy Blue and omits the second hex value. Current school identity checked at https://sterling.houstonisd.org/our-school .",
+      "reviewIssues": [
+        "Exact secondary color value remains missing. Historical Royal Blue versus current publisher Columbia Blue also requires palette review; no replacement hex value was invented."
+      ]
+    }
+  ]
+}

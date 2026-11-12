@@ -1,0 +1,1308 @@
+{
+  "reviewedDate": "2026-11-11",
+  "baseResearchHead": "5da0176f88ff06dfba9001b28b61d5dbb3191f17",
+  "productionWrites": false,
+  "runtimeCatalogChanges": false,
+  "scope": "Twelve previously non-source-verified Class3A games; field-level evidence only",
+  "candidates": [
+    {
+      "bracket": {
+        "division": "3A Division I",
+        "region": "Region I",
+        "slot": 1,
+        "teams": [
+          "Shallowater",
+          "Compass Academy"
+        ]
+      },
+      "qualifiedIdentities": [
+        {
+          "bracketName": "Shallowater",
+          "officialName": "Shallowater",
+          "division": "3A Division I",
+          "region": "Region I",
+          "district": 1,
+          "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+        },
+        {
+          "bracketName": "Compass Academy",
+          "officialName": "Odessa Compass Academy",
+          "division": "3A Division I",
+          "region": "Region I",
+          "district": 2,
+          "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+        }
+      ],
+      "previousVerificationStatus": "partial",
+      "selectedSchedule": {
+        "date": "2026-11-12",
+        "localTime": "18:00",
+        "kickoff": "2026-11-12T18:00:00-06:00",
+        "venue": "Teaff Tiger Stadium",
+        "city": "Snyder",
+        "timeZone": "America/Chicago",
+        "utcOffset": "-06:00"
+      },
+      "selectedScheduleEvidence": {
+        "sourceLabel": "Dave Campbell's Texas Football / Matt Stepp",
+        "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+        "sourcePublishedDate": "2026-11-08",
+        "retrievedDate": "2026-11-11",
+        "retrievalStatus": "opened-page-relevant-section-reviewed",
+        "fields": [
+          "opponents",
+          "date",
+          "localTime",
+          "timezone",
+          "venue",
+          "city"
+        ],
+        "summary": "Selected published schedule identifies this matchup/date/time/venue/city; source header explicitly states all times CST. This is selected publisher evidence, not blanket primary confirmation."
+      },
+      "primaryCorroboration": [
+        {
+          "sourceLabel": "Official Shallowater Athletics broadcast schedule",
+          "sourceUrl": "https://www.shallowaterathletics.com/broadcasts",
+          "sourcePublishedDate": null,
+          "retrievedDate": "2026-11-11",
+          "retrievalStatus": "opened-page-relevant-section-reviewed",
+          "fields": [
+            "opponents",
+            "date",
+            "localTime"
+          ],
+          "summary": "Varsity football Nov12 2026 at6pm against Compass Academy (Bi-District Playoffs).",
+          "limitations": [
+            "No venue or timezone in inspected broadcast entry; generic AT does not settle designated sides."
+          ]
+        }
+      ],
+      "designatedSides": {
+        "home": null,
+        "visitor": null,
+        "basis": "not confirmed"
+      },
+      "neutralSite": null,
+      "neutralSiteBasis": "No formal primary neutral-site designation adopted",
+      "readyForPublication": false,
+      "coreScheduleEvidenceComplete": true,
+      "operation": "proposed-new-record",
+      "sideAssignment": {
+        "status": "unresolved",
+        "homeTeam": null,
+        "awayTeam": null,
+        "sourceUrl": null,
+        "basis": "No explicit primary designated-side assignment adopted; bracket order and generic VS/AT labels excluded."
+      },
+      "publicationBlockers": [
+        "formal neutral-site designation unconfirmed",
+        "designated home/visitor assignment unconfirmed",
+        "exact publication approval absent"
+      ],
+      "proposedCandidatePatch": {
+        "verificationStatus": "source-verified",
+        "kickoff": "2026-11-12T18:00:00-06:00",
+        "timeZone": "America/Chicago",
+        "timeZoneBasis": "Selected source explicitly supplies CST/UTC-06; primary corroboration limitations retained",
+        "readyForPublication": false
+      }
+    },
+    {
+      "bracket": {
+        "division": "3A Division I",
+        "region": "Region I",
+        "slot": 2,
+        "teams": [
+          "Peaster",
+          "Early"
+        ]
+      },
+      "qualifiedIdentities": [
+        {
+          "bracketName": "Peaster",
+          "officialName": "Peaster",
+          "division": "3A Division I",
+          "region": "Region I",
+          "district": 4,
+          "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+        },
+        {
+          "bracketName": "Early",
+          "officialName": "Early",
+          "division": "3A Division I",
+          "region": "Region I",
+          "district": 3,
+          "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+        }
+      ],
+      "previousVerificationStatus": "partial",
+      "selectedSchedule": {
+        "date": "2026-11-13",
+        "localTime": "19:00",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "venue": "Art Briles Stadium",
+        "city": "Stephenville",
+        "timeZone": "America/Chicago",
+        "utcOffset": "-06:00"
+      },
+      "selectedScheduleEvidence": {
+        "sourceLabel": "Dave Campbell's Texas Football / Matt Stepp",
+        "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+        "sourcePublishedDate": "2026-11-08",
+        "retrievedDate": "2026-11-11",
+        "retrievalStatus": "opened-page-relevant-section-reviewed",
+        "fields": [
+          "opponents",
+          "date",
+          "localTime",
+          "timezone",
+          "venue",
+          "city"
+        ],
+        "summary": "Selected published schedule identifies this matchup/date/time/venue/city; source header explicitly states all times CST. This is selected publisher evidence, not blanket primary confirmation."
+      },
+      "primaryCorroboration": [
+        {
+          "sourceLabel": "Peaster ISD consolidated calendar",
+          "sourceUrl": "https://www.peaster.net/calendar/consolidated-calendar",
+          "sourcePublishedDate": null,
+          "retrievedDate": "2026-11-11",
+          "retrievalStatus": "opened-page-relevant-section-reviewed",
+          "fields": [
+            "opponents",
+            "date",
+            "localTime",
+            "campusLocation"
+          ],
+          "summary": "Nov13 2026 7–10pm Peaster Greyhounds vs Early Longhorns Bi-District Playoff; location Stephenville High School,2650 W Overhill Dr,Stephenville.",
+          "limitations": [
+            "Campus-only location corroboration: inspected calendar does not name Art Briles Stadium or timezone; VS does not establish designated sides."
+          ]
+        }
+      ],
+      "designatedSides": {
+        "home": null,
+        "visitor": null,
+        "basis": "not confirmed"
+      },
+      "neutralSite": null,
+      "neutralSiteBasis": "No formal primary neutral-site designation adopted",
+      "readyForPublication": false,
+      "coreScheduleEvidenceComplete": true,
+      "operation": "proposed-new-record",
+      "sideAssignment": {
+        "status": "unresolved",
+        "homeTeam": null,
+        "awayTeam": null,
+        "sourceUrl": null,
+        "basis": "No explicit primary designated-side assignment adopted; bracket order and generic VS/AT labels excluded."
+      },
+      "publicationBlockers": [
+        "formal neutral-site designation unconfirmed",
+        "designated home/visitor assignment unconfirmed",
+        "exact publication approval absent"
+      ],
+      "proposedCandidatePatch": {
+        "verificationStatus": "source-verified",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "timeZone": "America/Chicago",
+        "timeZoneBasis": "Selected source explicitly supplies CST/UTC-06; primary corroboration limitations retained",
+        "readyForPublication": false
+      }
+    },
+    {
+      "bracket": {
+        "division": "3A Division I",
+        "region": "Region I",
+        "slot": 4,
+        "teams": [
+          "Ingram Moore",
+          "Vernon"
+        ]
+      },
+      "qualifiedIdentities": [
+        {
+          "bracketName": "Ingram Moore",
+          "officialName": "Ingram Moore",
+          "division": "3A Division I",
+          "region": "Region I",
+          "district": 3,
+          "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+        },
+        {
+          "bracketName": "Vernon",
+          "officialName": "Vernon",
+          "division": "3A Division I",
+          "region": "Region I",
+          "district": 4,
+          "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+        }
+      ],
+      "previousVerificationStatus": "partial",
+      "selectedSchedule": {
+        "date": "2026-11-13",
+        "localTime": "19:00",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "venue": "Gordon Wood Stadium",
+        "city": "Brownwood",
+        "timeZone": "America/Chicago",
+        "utcOffset": "-06:00"
+      },
+      "selectedScheduleEvidence": {
+        "sourceLabel": "Dave Campbell's Texas Football / Matt Stepp",
+        "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+        "sourcePublishedDate": "2026-11-08",
+        "retrievedDate": "2026-11-11",
+        "retrievalStatus": "opened-page-relevant-section-reviewed",
+        "fields": [
+          "opponents",
+          "date",
+          "localTime",
+          "timezone",
+          "venue",
+          "city"
+        ],
+        "summary": "Selected published schedule identifies this matchup/date/time/venue/city; source header explicitly states all times CST. This is selected publisher evidence, not blanket primary confirmation."
+      },
+      "primaryCorroboration": [
+        {
+          "sourceLabel": "Vernon ISD official high-school live feed",
+          "sourceUrl": "https://www.vernonisd.org/o/vhs/live-feed",
+          "sourcePublishedDate": null,
+          "retrievedDate": "2026-11-11",
+          "retrievalStatus": "opened-page-relevant-section-reviewed",
+          "fields": [
+            "opponents",
+            "date",
+            "localTime",
+            "venue",
+            "city",
+            "designatedHome"
+          ],
+          "summary": "School posts confirm Friday Nov13 at7pm Gordon Wood Stadium,Brownwood; Vernon serves as home team.",
+          "limitations": [
+            "No explicit timezone or formal neutral designation in inspected posts."
+          ]
+        }
+      ],
+      "designatedSides": {
+        "home": "Vernon",
+        "visitor": "Ingram Moore",
+        "basis": "Primary school explicitly names home team; visitor is explicit for Sweetwater/Canadian, otherwise complementary other participant."
+      },
+      "neutralSite": null,
+      "neutralSiteBasis": "No formal primary neutral-site designation adopted",
+      "readyForPublication": false,
+      "coreScheduleEvidenceComplete": true,
+      "operation": "proposed-new-record",
+      "sideAssignment": {
+        "status": "explicit-home-confirmed",
+        "homeTeam": "Vernon",
+        "awayTeam": "Ingram Moore",
+        "sourceUrl": "https://www.vernonisd.org/o/vhs/live-feed",
+        "basis": "Primary school explicitly names home team; visitor is explicit for Sweetwater/Canadian, otherwise complementary other participant.",
+        "homeExplicit": true,
+        "awayExplicit": false
+      },
+      "publicationBlockers": [
+        "formal neutral-site designation unconfirmed",
+        "exact publication approval absent"
+      ],
+      "proposedCandidatePatch": {
+        "verificationStatus": "source-verified",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "timeZone": "America/Chicago",
+        "timeZoneBasis": "Selected source explicitly supplies CST/UTC-06; primary corroboration limitations retained",
+        "readyForPublication": false
+      }
+    },
+    {
+      "bracket": {
+        "division": "3A Division I",
+        "region": "Region I",
+        "slot": 6,
+        "teams": [
+          "Sweetwater",
+          "Dalhart"
+        ]
+      },
+      "qualifiedIdentities": [
+        {
+          "bracketName": "Sweetwater",
+          "officialName": "Sweetwater",
+          "division": "3A Division I",
+          "region": "Region I",
+          "district": 2,
+          "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+        },
+        {
+          "bracketName": "Dalhart",
+          "officialName": "Dalhart",
+          "division": "3A Division I",
+          "region": "Region I",
+          "district": 1,
+          "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+        }
+      ],
+      "previousVerificationStatus": "partial",
+      "selectedSchedule": {
+        "date": "2026-11-12",
+        "localTime": "19:00",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Peoples Bank Stadium",
+        "city": "Wolfforth",
+        "timeZone": "America/Chicago",
+        "utcOffset": "-06:00"
+      },
+      "selectedScheduleEvidence": {
+        "sourceLabel": "Dave Campbell's Texas Football / Matt Stepp",
+        "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+        "sourcePublishedDate": "2026-11-08",
+        "retrievedDate": "2026-11-11",
+        "retrievalStatus": "opened-page-relevant-section-reviewed",
+        "fields": [
+          "opponents",
+          "date",
+          "localTime",
+          "timezone",
+          "venue",
+          "city"
+        ],
+        "summary": "Selected published schedule identifies this matchup/date/time/venue/city; source header explicitly states all times CST. This is selected publisher evidence, not blanket primary confirmation."
+      },
+      "primaryCorroboration": [
+        {
+          "sourceLabel": "Dalhart ISD early-release/playoff article",
+          "sourceUrl": "https://www.dalhartisd.com/article/3241734",
+          "sourcePublishedDate": "2026-11-09",
+          "retrievedDate": "2026-11-11",
+          "retrievalStatus": "opened-page-relevant-section-reviewed",
+          "fields": [
+            "opponents",
+            "date",
+            "localTime",
+            "venue",
+            "city",
+            "designatedHome",
+            "designatedVisitor"
+          ],
+          "summary": "Nov12 2026 7pm Peoples Bank Stadium,101 Donald Preston Dr,Wolfforth. Home Side Sweetwater; Visitor Side Dalhart.",
+          "limitations": [
+            "Timezone and formal neutral designation not supplied in inspected article."
+          ]
+        }
+      ],
+      "designatedSides": {
+        "home": "Sweetwater",
+        "visitor": "Dalhart",
+        "basis": "Primary school explicitly names home team; visitor is explicit for Sweetwater/Canadian, otherwise complementary other participant."
+      },
+      "neutralSite": null,
+      "neutralSiteBasis": "No formal primary neutral-site designation adopted",
+      "readyForPublication": false,
+      "coreScheduleEvidenceComplete": true,
+      "operation": "proposed-new-record",
+      "sideAssignment": {
+        "status": "explicit-home-confirmed",
+        "homeTeam": "Sweetwater",
+        "awayTeam": "Dalhart",
+        "sourceUrl": "https://www.dalhartisd.com/article/3241734",
+        "basis": "Primary school explicitly names home team; visitor is explicit for Sweetwater/Canadian, otherwise complementary other participant.",
+        "homeExplicit": true,
+        "awayExplicit": true
+      },
+      "publicationBlockers": [
+        "formal neutral-site designation unconfirmed",
+        "exact publication approval absent"
+      ],
+      "proposedCandidatePatch": {
+        "verificationStatus": "source-verified",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "timeZone": "America/Chicago",
+        "timeZoneBasis": "Selected source explicitly supplies CST/UTC-06; primary corroboration limitations retained",
+        "readyForPublication": false
+      }
+    },
+    {
+      "bracket": {
+        "division": "3A Division I",
+        "region": "Region I",
+        "slot": 7,
+        "teams": [
+          "Paradise",
+          "Llano"
+        ]
+      },
+      "qualifiedIdentities": [
+        {
+          "bracketName": "Paradise",
+          "officialName": "Paradise",
+          "division": "3A Division I",
+          "region": "Region I",
+          "district": 4,
+          "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+        },
+        {
+          "bracketName": "Llano",
+          "officialName": "Llano",
+          "division": "3A Division I",
+          "region": "Region I",
+          "district": 3,
+          "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+        }
+      ],
+      "previousVerificationStatus": "partial",
+      "selectedSchedule": {
+        "date": "2026-11-13",
+        "localTime": "19:00",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "venue": "Cervetto Stadium",
+        "city": "Dublin",
+        "timeZone": "America/Chicago",
+        "utcOffset": "-06:00"
+      },
+      "selectedScheduleEvidence": {
+        "sourceLabel": "Dave Campbell's Texas Football / Matt Stepp",
+        "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+        "sourcePublishedDate": "2026-11-08",
+        "retrievedDate": "2026-11-11",
+        "retrievalStatus": "opened-page-relevant-section-reviewed",
+        "fields": [
+          "opponents",
+          "date",
+          "localTime",
+          "timezone",
+          "venue",
+          "city"
+        ],
+        "summary": "Selected published schedule identifies this matchup/date/time/venue/city; source header explicitly states all times CST. This is selected publisher evidence, not blanket primary confirmation."
+      },
+      "primaryCorroboration": [
+        {
+          "sourceLabel": "Paradise ISD homepage football announcement",
+          "sourceUrl": "https://www.pisd.net/",
+          "sourcePublishedDate": null,
+          "retrievedDate": "2026-11-11",
+          "retrievalStatus": "opened-page-relevant-section-reviewed",
+          "fields": [
+            "opponents",
+            "city",
+            "weekday"
+          ],
+          "summary": "Current Friday Playoff Football announcement says Paradise plays Llano in Dublin this Friday and links Dublin ISD host tickets.",
+          "limitations": [
+            "Inspected announcement does not specify kickoff/timezone or exact stadium. Friday→Nov13 comes from selected schedule, not this standalone relative-day statement. Generic ticket title does not establish designated sides."
+          ]
+        },
+        {
+          "sourceLabel": "School-linked Dublin ISD host ticket link",
+          "sourceUrl": "https://events.hometownticketing.com/boxoffice/dublinisd/L2VtYmVkL2V2ZW50LzQ2MD9zaW5nbGU9MA==",
+          "sourcePublishedDate": null,
+          "retrievedDate": "2026-11-11",
+          "retrievalStatus": "opened-page-relevant-section-reviewed",
+          "fields": [
+            "opponents"
+          ],
+          "summary": "Opened school-linked event returns title Llano HS vs PARADISE HS (Boys Football).",
+          "limitations": [
+            "Returned text was minimal; no time, timezone, stadium or sides adopted from it."
+          ]
+        }
+      ],
+      "designatedSides": {
+        "home": null,
+        "visitor": null,
+        "basis": "not confirmed"
+      },
+      "neutralSite": null,
+      "neutralSiteBasis": "No formal primary neutral-site designation adopted",
+      "readyForPublication": false,
+      "coreScheduleEvidenceComplete": true,
+      "operation": "proposed-new-record",
+      "sideAssignment": {
+        "status": "unresolved",
+        "homeTeam": null,
+        "awayTeam": null,
+        "sourceUrl": null,
+        "basis": "No explicit primary designated-side assignment adopted; bracket order and generic VS/AT labels excluded."
+      },
+      "publicationBlockers": [
+        "formal neutral-site designation unconfirmed",
+        "designated home/visitor assignment unconfirmed",
+        "exact publication approval absent"
+      ],
+      "proposedCandidatePatch": {
+        "verificationStatus": "source-verified",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "timeZone": "America/Chicago",
+        "timeZoneBasis": "Selected source explicitly supplies CST/UTC-06; primary corroboration limitations retained",
+        "readyForPublication": false
+      }
+    },
+    {
+      "bracket": {
+        "division": "3A Division I",
+        "region": "Region II",
+        "slot": 1,
+        "teams": [
+          "Gunter",
+          "Groesbeck"
+        ]
+      },
+      "qualifiedIdentities": [
+        {
+          "bracketName": "Gunter",
+          "officialName": "Gunter",
+          "division": "3A Division I",
+          "region": "Region II",
+          "district": 5,
+          "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+        },
+        {
+          "bracketName": "Groesbeck",
+          "officialName": "Groesbeck",
+          "division": "3A Division I",
+          "region": "Region II",
+          "district": 6,
+          "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+        }
+      ],
+      "previousVerificationStatus": "partial",
+      "selectedSchedule": {
+        "date": "2026-11-12",
+        "localTime": "19:00",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Memorial Stadium",
+        "city": "Mesquite",
+        "timeZone": "America/Chicago",
+        "utcOffset": "-06:00"
+      },
+      "selectedScheduleEvidence": {
+        "sourceLabel": "Dave Campbell's Texas Football / Matt Stepp",
+        "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+        "sourcePublishedDate": "2026-11-08",
+        "retrievedDate": "2026-11-11",
+        "retrievalStatus": "opened-page-relevant-section-reviewed",
+        "fields": [
+          "opponents",
+          "date",
+          "localTime",
+          "timezone",
+          "venue",
+          "city"
+        ],
+        "summary": "Selected published schedule identifies this matchup/date/time/venue/city; source header explicitly states all times CST. This is selected publisher evidence, not blanket primary confirmation."
+      },
+      "primaryCorroboration": [
+        {
+          "sourceLabel": "Gunter ISD dated official playoff announcement",
+          "sourceUrl": "https://www.gunterisd.org/o/gms/live_feeds/13759644/",
+          "sourcePublishedDate": "2026-11-09",
+          "retrievedDate": "2026-11-11",
+          "retrievalStatus": "opened-page-relevant-section-reviewed",
+          "fields": [
+            "opponents",
+            "date",
+            "localTime",
+            "venue",
+            "city",
+            "designatedHome"
+          ],
+          "summary": "Nov12 2026 7pm Mesquite Memorial Stadium; event text identifies Groesbeck Goats(Home).",
+          "limitations": [
+            "No explicit timezone/formal neutral designation; Groesbeck home is explicit, Gunter visitor follows complementary assignment of two named teams."
+          ]
+        }
+      ],
+      "designatedSides": {
+        "home": "Groesbeck",
+        "visitor": "Gunter",
+        "basis": "Primary school explicitly names home team; visitor is explicit for Sweetwater/Canadian, otherwise complementary other participant."
+      },
+      "neutralSite": null,
+      "neutralSiteBasis": "No formal primary neutral-site designation adopted",
+      "readyForPublication": false,
+      "coreScheduleEvidenceComplete": true,
+      "operation": "proposed-new-record",
+      "sideAssignment": {
+        "status": "explicit-home-confirmed",
+        "homeTeam": "Groesbeck",
+        "awayTeam": "Gunter",
+        "sourceUrl": "https://www.gunterisd.org/o/gms/live_feeds/13759644/",
+        "basis": "Primary school explicitly names home team; visitor is explicit for Sweetwater/Canadian, otherwise complementary other participant.",
+        "homeExplicit": true,
+        "awayExplicit": false
+      },
+      "publicationBlockers": [
+        "formal neutral-site designation unconfirmed",
+        "exact publication approval absent"
+      ],
+      "proposedCandidatePatch": {
+        "verificationStatus": "source-verified",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "timeZone": "America/Chicago",
+        "timeZoneBasis": "Selected source explicitly supplies CST/UTC-06; primary corroboration limitations retained",
+        "readyForPublication": false
+      }
+    },
+    {
+      "bracket": {
+        "division": "3A Division I",
+        "region": "Region II",
+        "slot": 2,
+        "teams": [
+          "Liberty-Eylau",
+          "Commerce"
+        ]
+      },
+      "qualifiedIdentities": [
+        {
+          "bracketName": "Liberty-Eylau",
+          "officialName": "Tex. Liberty-Eylau",
+          "division": "3A Division I",
+          "region": "Region II",
+          "district": 8,
+          "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+        },
+        {
+          "bracketName": "Commerce",
+          "officialName": "Commerce",
+          "division": "3A Division I",
+          "region": "Region II",
+          "district": 7,
+          "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+        }
+      ],
+      "previousVerificationStatus": "partial",
+      "selectedSchedule": {
+        "date": "2026-11-12",
+        "localTime": "19:00",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Sam Parker Field",
+        "city": "Mount Pleasant",
+        "timeZone": "America/Chicago",
+        "utcOffset": "-06:00"
+      },
+      "selectedScheduleEvidence": {
+        "sourceLabel": "Mount Pleasant ISD host box office, corroborated by DCTF for venue city",
+        "sourceUrl": "https://events.hometownticketing.com/boxoffice/mpisd/entity/schools/3",
+        "retrievedDate": "2026-11-11",
+        "sourcePublishedDate": null,
+        "retrievalStatus": "opened-current-event-section-reviewed",
+        "fields": [
+          "opponents",
+          "date",
+          "localTime",
+          "timezone",
+          "venue",
+          "city"
+        ],
+        "summary": "Host current event Nov12 7pm CST at Sam Parker Field; DCTF same-matchup schedule explicitly locates field in Mount Pleasant.",
+        "additionalSourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations"
+      },
+      "primaryCorroboration": [
+        {
+          "sourceLabel": "Mount Pleasant ISD host box office",
+          "sourceUrl": "https://events.hometownticketing.com/boxoffice/mpisd/entity/schools/3",
+          "sourcePublishedDate": null,
+          "retrievedDate": "2026-11-11",
+          "retrievalStatus": "opened-page-relevant-section-reviewed",
+          "fields": [
+            "opponents",
+            "date",
+            "localTime",
+            "timezone",
+            "venue"
+          ],
+          "summary": "Current host event list names Football Playoffs: Liberty-Eylau vs Commerce,Thu Nov12 7pm CST,Sam Parker Field.",
+          "limitations": [
+            "No explicit team-side or formal neutral statement; selected publisher additionally establishes Mount Pleasant city. Initial opened cache was Oct16; fresh find/relevant current event list was separately reviewed."
+          ]
+        }
+      ],
+      "designatedSides": {
+        "home": null,
+        "visitor": null,
+        "basis": "not confirmed"
+      },
+      "neutralSite": null,
+      "neutralSiteBasis": "No formal primary neutral-site designation adopted",
+      "readyForPublication": false,
+      "coreScheduleEvidenceComplete": true,
+      "operation": "proposed-new-record",
+      "sideAssignment": {
+        "status": "unresolved",
+        "homeTeam": null,
+        "awayTeam": null,
+        "sourceUrl": null,
+        "basis": "No explicit primary designated-side assignment adopted; bracket order and generic VS/AT labels excluded."
+      },
+      "publicationBlockers": [
+        "formal neutral-site designation unconfirmed",
+        "designated home/visitor assignment unconfirmed",
+        "exact publication approval absent"
+      ],
+      "proposedCandidatePatch": {
+        "verificationStatus": "source-verified",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "timeZone": "America/Chicago",
+        "timeZoneBasis": "Selected source explicitly supplies CST/UTC-06; primary corroboration limitations retained",
+        "readyForPublication": false
+      }
+    },
+    {
+      "bracket": {
+        "division": "3A Division I",
+        "region": "Region II",
+        "slot": 8,
+        "teams": [
+          "Whitesboro",
+          "Grandview"
+        ]
+      },
+      "qualifiedIdentities": [
+        {
+          "bracketName": "Whitesboro",
+          "officialName": "Whitesboro",
+          "division": "3A Division I",
+          "region": "Region II",
+          "district": 5,
+          "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+        },
+        {
+          "bracketName": "Grandview",
+          "officialName": "Grandview",
+          "division": "3A Division I",
+          "region": "Region II",
+          "district": 6,
+          "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD1FB_Rvsd11-4.pdf"
+        }
+      ],
+      "previousVerificationStatus": "partial",
+      "selectedSchedule": {
+        "date": "2026-11-12",
+        "localTime": "19:00",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Gopher-Warrior Bowl",
+        "city": "Grand Prairie",
+        "timeZone": "America/Chicago",
+        "utcOffset": "-06:00"
+      },
+      "selectedScheduleEvidence": {
+        "sourceLabel": "Dave Campbell's Texas Football / Matt Stepp",
+        "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+        "sourcePublishedDate": "2026-11-08",
+        "retrievedDate": "2026-11-11",
+        "retrievalStatus": "opened-page-relevant-section-reviewed",
+        "fields": [
+          "opponents",
+          "date",
+          "localTime",
+          "timezone",
+          "venue",
+          "city"
+        ],
+        "summary": "Selected published schedule identifies this matchup/date/time/venue/city; source header explicitly states all times CST. This is selected publisher evidence, not blanket primary confirmation."
+      },
+      "primaryCorroboration": [
+        {
+          "sourceLabel": "Whitesboro High School upcoming events",
+          "sourceUrl": "https://hs.whitesboroisd.org/",
+          "sourcePublishedDate": null,
+          "retrievedDate": "2026-11-11",
+          "retrievalStatus": "opened-page-relevant-section-reviewed",
+          "fields": [
+            "opponents",
+            "date",
+            "localTime",
+            "venue",
+            "city"
+          ],
+          "summary": "Nov12 Varsity Football Bi-District Playoff Game vs Grandview,7–10pm,Grand Prairie ISD Gopher-Warrior Bowl,250 E Tarrant Rd,Grand Prairie.",
+          "limitations": [
+            "Upcoming homepage confirms same event; dedicated event URL did not load through search open. No explicit timezone or designated sides adopted."
+          ]
+        }
+      ],
+      "designatedSides": {
+        "home": null,
+        "visitor": null,
+        "basis": "not confirmed"
+      },
+      "neutralSite": null,
+      "neutralSiteBasis": "No formal primary neutral-site designation adopted",
+      "readyForPublication": false,
+      "coreScheduleEvidenceComplete": true,
+      "operation": "proposed-new-record",
+      "sideAssignment": {
+        "status": "unresolved",
+        "homeTeam": null,
+        "awayTeam": null,
+        "sourceUrl": null,
+        "basis": "No explicit primary designated-side assignment adopted; bracket order and generic VS/AT labels excluded."
+      },
+      "publicationBlockers": [
+        "formal neutral-site designation unconfirmed",
+        "designated home/visitor assignment unconfirmed",
+        "exact publication approval absent"
+      ],
+      "proposedCandidatePatch": {
+        "verificationStatus": "source-verified",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "timeZone": "America/Chicago",
+        "timeZoneBasis": "Selected source explicitly supplies CST/UTC-06; primary corroboration limitations retained",
+        "readyForPublication": false
+      }
+    },
+    {
+      "bracket": {
+        "division": "3A Division II",
+        "region": "Region I",
+        "slot": 1,
+        "teams": [
+          "Canadian",
+          "Muleshoe"
+        ]
+      },
+      "qualifiedIdentities": [
+        {
+          "bracketName": "Canadian",
+          "officialName": "Canadian",
+          "division": "3A Division II",
+          "region": "Region I",
+          "district": 1,
+          "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf"
+        },
+        {
+          "bracketName": "Muleshoe",
+          "officialName": "Muleshoe",
+          "division": "3A Division II",
+          "region": "Region I",
+          "district": 2,
+          "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf"
+        }
+      ],
+      "previousVerificationStatus": "partial",
+      "selectedSchedule": {
+        "date": "2026-11-12",
+        "localTime": "16:00",
+        "kickoff": "2026-11-12T16:00:00-06:00",
+        "venue": "Happy State Bank Stadium",
+        "city": "Canyon",
+        "timeZone": "America/Chicago",
+        "utcOffset": "-06:00"
+      },
+      "selectedScheduleEvidence": {
+        "sourceLabel": "Dave Campbell's Texas Football / Matt Stepp",
+        "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+        "sourcePublishedDate": "2026-11-08",
+        "retrievedDate": "2026-11-11",
+        "retrievalStatus": "opened-page-relevant-section-reviewed",
+        "fields": [
+          "opponents",
+          "date",
+          "localTime",
+          "timezone",
+          "venue",
+          "city"
+        ],
+        "summary": "Selected published schedule identifies this matchup/date/time/venue/city; source header explicitly states all times CST. This is selected publisher evidence, not blanket primary confirmation."
+      },
+      "primaryCorroboration": [
+        {
+          "sourceLabel": "Muleshoe ISD official playoff announcement",
+          "sourceUrl": "https://www.muleshoeisd.net/live-feed/",
+          "sourcePublishedDate": null,
+          "retrievedDate": "2026-11-11",
+          "retrievalStatus": "opened-page-relevant-section-reviewed",
+          "fields": [
+            "opponents",
+            "date",
+            "localTime",
+            "venue",
+            "city",
+            "designatedHome",
+            "designatedVisitor"
+          ],
+          "summary": "Current Game Day playoff post confirms Nov12 2026 4pm Happy State Bank Stadium,Canyon; Canadian home and Muleshoe visiting.",
+          "limitations": [
+            "No explicit timezone/formal neutral declaration. Initial opened cache was earlier; fresh relevant playoff section was then reviewed. School-linked Canyon event748 did not load via direct fetch."
+          ]
+        }
+      ],
+      "designatedSides": {
+        "home": "Canadian",
+        "visitor": "Muleshoe",
+        "basis": "Primary school explicitly names home team; visitor is explicit for Sweetwater/Canadian, otherwise complementary other participant."
+      },
+      "neutralSite": null,
+      "neutralSiteBasis": "No formal primary neutral-site designation adopted",
+      "readyForPublication": false,
+      "coreScheduleEvidenceComplete": true,
+      "operation": "proposed-new-record",
+      "sideAssignment": {
+        "status": "explicit-home-confirmed",
+        "homeTeam": "Canadian",
+        "awayTeam": "Muleshoe",
+        "sourceUrl": "https://www.muleshoeisd.net/live-feed/",
+        "basis": "Primary school explicitly names home team; visitor is explicit for Sweetwater/Canadian, otherwise complementary other participant.",
+        "homeExplicit": true,
+        "awayExplicit": true
+      },
+      "publicationBlockers": [
+        "formal neutral-site designation unconfirmed",
+        "exact publication approval absent"
+      ],
+      "proposedCandidatePatch": {
+        "verificationStatus": "source-verified",
+        "kickoff": "2026-11-12T16:00:00-06:00",
+        "timeZone": "America/Chicago",
+        "timeZoneBasis": "Selected source explicitly supplies CST/UTC-06; primary corroboration limitations retained",
+        "readyForPublication": false
+      }
+    },
+    {
+      "bracket": {
+        "division": "3A Division II",
+        "region": "Region I",
+        "slot": 2,
+        "teams": [
+          "Merkel",
+          "Crane"
+        ]
+      },
+      "qualifiedIdentities": [
+        {
+          "bracketName": "Merkel",
+          "officialName": "Merkel",
+          "division": "3A Division II",
+          "region": "Region I",
+          "district": 4,
+          "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf"
+        },
+        {
+          "bracketName": "Crane",
+          "officialName": "Crane",
+          "division": "3A Division II",
+          "region": "Region I",
+          "district": 3,
+          "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf"
+        }
+      ],
+      "previousVerificationStatus": "partial",
+      "selectedSchedule": {
+        "date": "2026-11-12",
+        "localTime": "19:00",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "San Angelo Stadium",
+        "city": "San Angelo",
+        "timeZone": "America/Chicago",
+        "utcOffset": "-06:00"
+      },
+      "selectedScheduleEvidence": {
+        "sourceLabel": "Dave Campbell's Texas Football / Matt Stepp",
+        "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+        "sourcePublishedDate": "2026-11-08",
+        "retrievedDate": "2026-11-11",
+        "retrievalStatus": "opened-page-relevant-section-reviewed",
+        "fields": [
+          "opponents",
+          "date",
+          "localTime",
+          "timezone",
+          "venue",
+          "city"
+        ],
+        "summary": "Selected published schedule identifies this matchup/date/time/venue/city; source header explicitly states all times CST. This is selected publisher evidence, not blanket primary confirmation."
+      },
+      "primaryCorroboration": [
+        {
+          "sourceLabel": "Crane ISD official live-feed playoff announcement",
+          "sourceUrl": "https://www.craneisd.com/live-feed/",
+          "sourcePublishedDate": null,
+          "retrievedDate": "2026-11-11",
+          "retrievalStatus": "opened-page-relevant-section-reviewed",
+          "fields": [
+            "opponents",
+            "weekday",
+            "city"
+          ],
+          "summary": "Current school post says football playoffs against Merkel in San Angelo this Thursday; attached school-issued graphic supplies precise event fields.",
+          "limitations": [
+            "Text alone lacks exact date/time/stadium/sides."
+          ]
+        },
+        {
+          "sourceLabel": "Crane ISD school-issued playoff graphic",
+          "sourceUrl": "https://core-docs.s3.amazonaws.com/crane_independent_school_district_ar/live_feed_image/image/31918322/large_photo_1794068946612.jpg",
+          "sourcePublishedDate": null,
+          "retrievedDate": "2026-11-11",
+          "retrievalStatus": "downloaded-and-visually-reviewed-image",
+          "fields": [
+            "opponents",
+            "date",
+            "localTime",
+            "venue",
+            "designatedHome"
+          ],
+          "summary": "Visually inspected graphic says Crane vs Merkel,San Angelo Stadium,Nov12,7pm,CRANE WILL BE THE HOME TEAM.",
+          "limitations": [
+            "Year established by2026 post context and image EXIF2026-11-07; no explicit timezone or formal neutral designation."
+          ],
+          "sha256": "54402f91fbf3e256cb404f980d86a6291bc31b61bf4069dfcb971afbce72eca4"
+        }
+      ],
+      "designatedSides": {
+        "home": "Crane",
+        "visitor": "Merkel",
+        "basis": "Primary school explicitly names home team; visitor is explicit for Sweetwater/Canadian, otherwise complementary other participant."
+      },
+      "neutralSite": null,
+      "neutralSiteBasis": "No formal primary neutral-site designation adopted",
+      "readyForPublication": false,
+      "coreScheduleEvidenceComplete": true,
+      "operation": "proposed-new-record",
+      "sideAssignment": {
+        "status": "explicit-home-confirmed",
+        "homeTeam": "Crane",
+        "awayTeam": "Merkel",
+        "sourceUrl": "https://core-docs.s3.amazonaws.com/crane_independent_school_district_ar/live_feed_image/image/31918322/large_photo_1794068946612.jpg",
+        "basis": "Primary school explicitly names home team; visitor is explicit for Sweetwater/Canadian, otherwise complementary other participant.",
+        "homeExplicit": true,
+        "awayExplicit": false
+      },
+      "publicationBlockers": [
+        "formal neutral-site designation unconfirmed",
+        "exact publication approval absent"
+      ],
+      "proposedCandidatePatch": {
+        "verificationStatus": "source-verified",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "timeZone": "America/Chicago",
+        "timeZoneBasis": "Selected source explicitly supplies CST/UTC-06; primary corroboration limitations retained",
+        "readyForPublication": false
+      }
+    },
+    {
+      "bracket": {
+        "division": "3A Division II",
+        "region": "Region I",
+        "slot": 6,
+        "teams": [
+          "Slaton",
+          "Friona"
+        ]
+      },
+      "qualifiedIdentities": [
+        {
+          "bracketName": "Slaton",
+          "officialName": "Slaton",
+          "division": "3A Division II",
+          "region": "Region I",
+          "district": 2,
+          "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf"
+        },
+        {
+          "bracketName": "Friona",
+          "officialName": "Friona",
+          "division": "3A Division II",
+          "region": "Region I",
+          "district": 1,
+          "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf"
+        }
+      ],
+      "previousVerificationStatus": "partial",
+      "selectedSchedule": {
+        "date": "2026-11-13",
+        "localTime": "19:00",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "venue": "Sherwood Memorial Stadium",
+        "city": "Plainview",
+        "timeZone": "America/Chicago",
+        "utcOffset": "-06:00"
+      },
+      "selectedScheduleEvidence": {
+        "sourceLabel": "Plainview ISD Vanco host event70417",
+        "sourceUrl": "https://www.vancoevents.com/us/events/landing/70417",
+        "sourcePublishedDate": null,
+        "retrievedDate": "2026-11-11",
+        "retrievalStatus": "direct-public-html-and-jsonld-reviewed",
+        "fields": [
+          "opponents",
+          "date",
+          "localTime",
+          "timezone",
+          "venue",
+          "city"
+        ],
+        "summary": "Host landing page confirms Friona vs Slaton football playoff,Nov13 2026 7pm UTC-06,Greg Sherwood Memorial Stadium,2300 Yonkers,Plainview. JSON-LD startDate2026-11-13T19:00:00-06:00.",
+        "limitations": [
+          "Generic VS title does not establish sides; formal neutral designation not stated. Existing selected venue short name retained; full host name recorded as alias."
+        ],
+        "sha256": "1f25cdb6d55796d704ad048b9d6a10cbeb1ec0459e9648e21966e301dd874386"
+      },
+      "primaryCorroboration": [
+        {
+          "sourceLabel": "Plainview ISD Vanco host event70417",
+          "sourceUrl": "https://www.vancoevents.com/us/events/landing/70417",
+          "sourcePublishedDate": null,
+          "retrievedDate": "2026-11-11",
+          "retrievalStatus": "direct-public-html-and-jsonld-reviewed",
+          "fields": [
+            "opponents",
+            "date",
+            "localTime",
+            "timezone",
+            "venue",
+            "city"
+          ],
+          "summary": "Host landing page confirms Friona vs Slaton football playoff,Nov13 2026 7pm UTC-06,Greg Sherwood Memorial Stadium,2300 Yonkers,Plainview. JSON-LD startDate2026-11-13T19:00:00-06:00.",
+          "limitations": [
+            "Generic VS title does not establish sides; formal neutral designation not stated. Existing selected venue short name retained; full host name recorded as alias."
+          ],
+          "sha256": "1f25cdb6d55796d704ad048b9d6a10cbeb1ec0459e9648e21966e301dd874386"
+        }
+      ],
+      "designatedSides": {
+        "home": null,
+        "visitor": null,
+        "basis": "not confirmed"
+      },
+      "neutralSite": null,
+      "neutralSiteBasis": "No formal primary neutral-site designation adopted",
+      "readyForPublication": false,
+      "coreScheduleEvidenceComplete": true,
+      "operation": "proposed-new-record",
+      "sideAssignment": {
+        "status": "unresolved",
+        "homeTeam": null,
+        "awayTeam": null,
+        "sourceUrl": null,
+        "basis": "No explicit primary designated-side assignment adopted; bracket order and generic VS/AT labels excluded."
+      },
+      "publicationBlockers": [
+        "formal neutral-site designation unconfirmed",
+        "designated home/visitor assignment unconfirmed",
+        "exact publication approval absent"
+      ],
+      "reportedVenueName": "Greg Sherwood Memorial Stadium",
+      "proposedCandidatePatch": {
+        "verificationStatus": "source-verified",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "timeZone": "America/Chicago",
+        "timeZoneBasis": "Selected source explicitly supplies CST/UTC-06; primary corroboration limitations retained",
+        "readyForPublication": false
+      }
+    },
+    {
+      "bracket": {
+        "division": "3A Division II",
+        "region": "Region I",
+        "slot": 7,
+        "teams": [
+          "Jacksboro",
+          "Grape Creek"
+        ]
+      },
+      "qualifiedIdentities": [
+        {
+          "bracketName": "Jacksboro",
+          "officialName": "Jacksboro",
+          "division": "3A Division II",
+          "region": "Region I",
+          "district": 4,
+          "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf"
+        },
+        {
+          "bracketName": "Grape Creek",
+          "officialName": "San Angelo Grape Creek",
+          "division": "3A Division II",
+          "region": "Region I",
+          "district": 3,
+          "sourceUrl": "https://www.uiltexas.org/files/alignments/3AD2FB_Rvsd3-31.pdf"
+        }
+      ],
+      "previousVerificationStatus": "partial",
+      "selectedSchedule": {
+        "date": "2026-11-12",
+        "localTime": "19:00",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "venue": "Gordon Wood Stadium",
+        "city": "Brownwood",
+        "timeZone": "America/Chicago",
+        "utcOffset": "-06:00"
+      },
+      "selectedScheduleEvidence": {
+        "sourceLabel": "Dave Campbell's Texas Football / Matt Stepp",
+        "sourceUrl": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+        "sourcePublishedDate": "2026-11-08",
+        "retrievedDate": "2026-11-11",
+        "retrievalStatus": "opened-page-relevant-section-reviewed",
+        "fields": [
+          "opponents",
+          "date",
+          "localTime",
+          "timezone",
+          "venue",
+          "city"
+        ],
+        "summary": "Selected published schedule identifies this matchup/date/time/venue/city; source header explicitly states all times CST. This is selected publisher evidence, not blanket primary confirmation."
+      },
+      "primaryCorroboration": [
+        {
+          "sourceLabel": "Jacksboro ISD high-school official live feed",
+          "sourceUrl": "https://www.jacksboroisd.net/o/jhs/live-feed",
+          "sourcePublishedDate": null,
+          "retrievedDate": "2026-11-11",
+          "retrievalStatus": "opened-page-relevant-section-reviewed",
+          "fields": [
+            "opponents",
+            "date",
+            "localTime",
+            "venue",
+            "city"
+          ],
+          "summary": "School early-release post explicitly says Thursday Nov12 Jacksboro vs Grape Creek bi-district in Brownwood at7pm. Companion Thursday-playoff venue notice identifies Gordon Wood Stadium.",
+          "limitations": [
+            "No explicit timezone/designated sides/formal neutral declaration."
+          ]
+        }
+      ],
+      "designatedSides": {
+        "home": null,
+        "visitor": null,
+        "basis": "not confirmed"
+      },
+      "neutralSite": null,
+      "neutralSiteBasis": "No formal primary neutral-site designation adopted",
+      "readyForPublication": false,
+      "coreScheduleEvidenceComplete": true,
+      "operation": "proposed-new-record",
+      "sideAssignment": {
+        "status": "unresolved",
+        "homeTeam": null,
+        "awayTeam": null,
+        "sourceUrl": null,
+        "basis": "No explicit primary designated-side assignment adopted; bracket order and generic VS/AT labels excluded."
+      },
+      "publicationBlockers": [
+        "formal neutral-site designation unconfirmed",
+        "designated home/visitor assignment unconfirmed",
+        "exact publication approval absent"
+      ],
+      "proposedCandidatePatch": {
+        "verificationStatus": "source-verified",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "timeZone": "America/Chicago",
+        "timeZoneBasis": "Selected source explicitly supplies CST/UTC-06; primary corroboration limitations retained",
+        "readyForPublication": false
+      }
+    }
+  ],
+  "summary": {
+    "newCoreScheduleEvidenceComplete": 12,
+    "newExplicitHomeAssignments": 5,
+    "formalNeutralDesignationsConfirmed": 0,
+    "publicationReady": 0
+  }
+}

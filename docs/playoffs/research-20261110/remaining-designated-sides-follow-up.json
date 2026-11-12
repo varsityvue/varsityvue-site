@@ -1,0 +1,357 @@
+{
+  "reviewedDate": "2026-11-11",
+  "researchBaseHead": "0e7272f95822860433559c5c0d4f9ba52f5479d1",
+  "mode": "offline-designated-side-follow-up",
+  "productionWrites": false,
+  "runtimeChanges": false,
+  "summary": {
+    "previouslyUnresolvedReviewed": 12,
+    "newExplicitAssignments": 1,
+    "explicitAssignmentsIn21GameBatch": 10,
+    "unresolvedAssignmentsIn21GameBatch": 11,
+    "neutralSiteChanges": 0,
+    "scheduleChanges": 0,
+    "newResolvedKickoffDiscrepancies": 1,
+    "readyForPublication": 0
+  },
+  "rules": [
+    "Generic VS/AT, travel AWAY, stadium ownership, generic home-game ticket portals and bracket order do not establish designated sides.",
+    "Search not finding an assignment does not prove none exists; unresolved means not confirmed by this pass.",
+    "Previously reviewed primary evidence is referenced at researchBaseHead, not falsely represented as newly retrieved.",
+    "No ticket quantities changed and no school contacted."
+  ],
+  "rows": [
+    {
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region III",
+        "slot": 2,
+        "teams": [
+          "Shelbyville",
+          "Waskom"
+        ]
+      },
+      "reviewMethod": "Focused current public search; direct live host inspection where noted. Previously reviewed primary event evidence retained from researchBaseHead.",
+      "priorPrimaryEvidence": {
+        "sourceUrl": "https://events.hometownticketing.com/boxoffice/carthageisd/L2VtYmVkL2V2ZW50LzU3",
+        "sourceLabel": "Carthage ISD host box office event 57",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "additionalSources": [
+        {
+          "sourceUrl": "https://mail.scttx.com/sports",
+          "retrieval": "current-web-search-extract"
+        }
+      ],
+      "finding": "Focused search returned the prior Shelby County announcement and Carthage ticket link; no explicit team-to-side mapping in those retrieved text extracts. Prior gate-opening discrepancy remains separate.",
+      "designatedSides": null,
+      "result": "unresolved",
+      "neutralSiteConfirmed": null,
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region I",
+        "slot": 1,
+        "teams": [
+          "Irvin",
+          "Pecos"
+        ]
+      },
+      "reviewMethod": "Focused current public search; direct live host inspection where noted. Previously reviewed primary event evidence retained from researchBaseHead.",
+      "priorPrimaryEvidence": {
+        "sourceUrl": "https://events.hometownticketing.com/event/bf46dbdf-28be-4b6b-8ea4-20958e723187",
+        "sourceLabel": "El Paso ISD host event 3435",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "additionalSources": [],
+      "finding": "School-focused search returned no explicit Irvin/Pecos side instruction. Retained primary EPISD host location/time evidence and secondary AT labels do not establish designated sides.",
+      "designatedSides": null,
+      "result": "unresolved",
+      "neutralSiteConfirmed": null,
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region I",
+        "slot": 3,
+        "teams": [
+          "Seminole",
+          "Bowie"
+        ]
+      },
+      "reviewMethod": "Focused current public search; direct live host inspection where noted. Previously reviewed primary event evidence retained from researchBaseHead.",
+      "priorPrimaryEvidence": {
+        "sourceUrl": "https://www.seminoleisd.net/apps/events/2026/11/12/61012380/?id=8",
+        "sourceLabel": "Seminole ISD calendar",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "additionalSources": [
+        {
+          "sourceUrl": "https://www.seminoleathletics.org/sport/football/boys/?tab=schedule",
+          "retrieval": "current-web-page-extract"
+        },
+        {
+          "sourceUrl": "https://www.aol.com/articles/20-el-paso-teams-compete-222256000.html",
+          "retrieval": "current-web-search-extract"
+        }
+      ],
+      "finding": "Current primary Seminole athletics schedule lists VS El Paso Bowie at Wigwam Stadium, 7 p.m.; VS is not an explicit designated-side statement. Newly encountered syndicated 6 p.m. CT report is retained as a resolved kickoff discrepancy against primary 7 p.m. evidence.",
+      "designatedSides": null,
+      "result": "unresolved",
+      "neutralSiteConfirmed": null,
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region I",
+        "slot": 5,
+        "teams": [
+          "Liberty",
+          "Burkburnett"
+        ]
+      },
+      "reviewMethod": "Focused current public search; direct live host inspection where noted. Previously reviewed primary event evidence retained from researchBaseHead.",
+      "priorPrimaryEvidence": {
+        "sourceUrl": "https://www.burkburnettisd.org/o/athletics/live-feed/",
+        "sourceLabel": "Burkburnett ISD Athletics school-issued weekly schedule graphic, live-feed post 13770056",
+        "retrieval": "live-browser-image-reviewed"
+      },
+      "additionalSources": [],
+      "finding": "Focused ACU/ticket/home-side queries returned secondary neutral labels without explicit school/host HOME/VISITOR instructions. Prior Burkburnett ACU campus graphic remains location-only evidence.",
+      "designatedSides": null,
+      "result": "unresolved",
+      "neutralSiteConfirmed": null,
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region I",
+        "slot": 6,
+        "teams": [
+          "Monahans",
+          "Clint"
+        ]
+      },
+      "reviewMethod": "Focused current public search; direct live host inspection where noted. Previously reviewed primary event evidence retained from researchBaseHead.",
+      "priorPrimaryEvidence": {
+        "sourceUrl": "https://events.hometownticketing.com/event/e85aee9b-cb3d-4d40-8bf3-f2a99311f10a",
+        "sourceLabel": "Monahans ISD host event 488",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "additionalSources": [],
+      "finding": "Focused home/ticket and district searches returned selected schedule and publisher home labels. No explicit primary team-to-side instruction retrieved; prior host general-admission event remains location/time evidence.",
+      "designatedSides": null,
+      "result": "unresolved",
+      "neutralSiteConfirmed": null,
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region I",
+        "slot": 8,
+        "teams": [
+          "Mountain View",
+          "Big Spring"
+        ]
+      },
+      "reviewMethod": "Focused current public search; direct live host inspection where noted. Previously reviewed primary event evidence retained from researchBaseHead.",
+      "priorPrimaryEvidence": {
+        "sourceUrl": "https://events.hometownticketing.com/event/6ded696b-eb92-4801-b128-7e924cea9cd1",
+        "sourceLabel": "Clint ISD host event 512",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "additionalSources": [],
+      "finding": "School-focused searches returned no explicit team-to-side statement. Publisher AT labels and prior Clint ISD campus/time evidence do not settle designated sides.",
+      "designatedSides": null,
+      "result": "unresolved",
+      "neutralSiteConfirmed": null,
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region II",
+        "slot": 1,
+        "teams": [
+          "Glen Rose",
+          "Ponder"
+        ]
+      },
+      "reviewMethod": "Focused current public search; direct live host inspection where noted. Previously reviewed primary event evidence retained from researchBaseHead.",
+      "priorPrimaryEvidence": {
+        "sourceUrl": "https://www.grisdtigers.com/sport/football/boys",
+        "sourceLabel": "Glen Rose school athletics schedule",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "additionalSources": [
+        {
+          "sourceUrl": "https://gofan.co/event/7049853?utm_campaign=team-schedule&utm_content=pre&utm_medium=referral&utm_source=maxpreps",
+          "retrieval": "live-browser-page-reviewed"
+        },
+        {
+          "sourceUrl": "https://events.hometownticketing.com/boxoffice/crowleyisd/L2VtYmVkL2FsbA%3D%3D",
+          "retrieval": "live-browser-playoff-category-reviewed-no-listed-events"
+        },
+        {
+          "sourceUrl": "https://www.grisdtigers.com/sport/football/boys",
+          "retrieval": "current-web-page-extract"
+        }
+      ],
+      "finding": "Live Crowley host GoFan event 7049853 has general admission only; no sides. School AWAY travel label and publisher Glen Rose-home label conflict in semantics and cannot settle assignment. Crowley legacy HomeTown playoff category was empty. Host Region 1 title is excluded from identity evidence.",
+      "designatedSides": null,
+      "result": "unresolved",
+      "neutralSiteConfirmed": null,
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region II",
+        "slot": 4,
+        "teams": [
+          "Farmersville",
+          "Pleasant Grove"
+        ]
+      },
+      "reviewMethod": "Focused current public search; direct live host inspection where noted. Previously reviewed primary event evidence retained from researchBaseHead.",
+      "priorPrimaryEvidence": {
+        "sourceUrl": "https://events.hometownticketing.com/event/ed2af7b3-1dbe-4f19-998f-67f8a16ca4e4",
+        "sourceLabel": "Farmersville ISD host event 218",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "additionalSources": [
+        {
+          "sourceUrl": "https://highschool.farmersvilleisd.net/apps/news/article/1646558",
+          "retrieval": "current-web-search-extract"
+        },
+        {
+          "sourceUrl": "https://www.pgisd.net/",
+          "retrieval": "current-web-search-extract"
+        }
+      ],
+      "finding": "Current school home-ticket landing is generic, not matchup-specific. Pleasant Grove district homepage corroborates November 12 in Farmersville, but no designated HOME/VISITOR instruction. Publisher home/away labels remain secondary.",
+      "designatedSides": null,
+      "result": "unresolved",
+      "neutralSiteConfirmed": null,
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region II",
+        "slot": 5,
+        "teams": [
+          "Sunnyvale",
+          "Pittsburg"
+        ]
+      },
+      "reviewMethod": "Focused current public search; direct live host inspection where noted. Previously reviewed primary event evidence retained from researchBaseHead.",
+      "priorPrimaryEvidence": {
+        "sourceUrl": "https://www.vancoevents.com/us/events/landing/70376",
+        "sourceLabel": "Chapel Hill ISD Vanco host event 70376",
+        "retrieval": "live-browser-page-reviewed"
+      },
+      "additionalSources": [
+        {
+          "sourceUrl": "https://www.sunnyvaleisd.com/live-feed/?page_no=11",
+          "retrieval": "current-web-search-extract-unrelated-basketball-excluded"
+        }
+      ],
+      "finding": "Focused school search returned an unrelated February basketball playoff against Pittsburg at Grand Saline; excluded by sport/date/venue. Prior Chapel Hill host football products name teams without HOME/VISITOR labels.",
+      "designatedSides": null,
+      "result": "unresolved",
+      "neutralSiteConfirmed": null,
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "3A Division I",
+        "region": "Region IV",
+        "slot": 3,
+        "teams": [
+          "Devine",
+          "Randolph"
+        ]
+      },
+      "reviewMethod": "Focused current public search; direct live host inspection where noted. Previously reviewed primary event evidence retained from researchBaseHead.",
+      "priorPrimaryEvidence": {
+        "sourceUrl": "https://events.hometownticketing.com/event/9b9b09ae-00ef-4cd0-918d-2e670aa1183b",
+        "sourceLabel": "Devine ISD school box office event 175",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "additionalSources": [],
+      "finding": "Focused school/ticket/visitor search did not retrieve a matchup-specific designated-side statement. Prior Devine host generic home/visitor sections without team names do not establish a mapping.",
+      "designatedSides": null,
+      "result": "unresolved",
+      "neutralSiteConfirmed": null,
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "3A Division I",
+        "region": "Region IV",
+        "slot": 6,
+        "teams": [
+          "Jourdanton",
+          "Hallettsville"
+        ]
+      },
+      "reviewMethod": "Focused current public search; direct live host inspection where noted. Previously reviewed primary event evidence retained from researchBaseHead.",
+      "priorPrimaryEvidence": {
+        "sourceUrl": "https://brushfire.com/new-braunfels-isd/lchs-vfb/644420",
+        "sourceLabel": "NBISD official athletics linked Brushfire event",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "additionalSources": [
+        {
+          "sourceUrl": "https://brushfire.com/new-braunfels-isd/lchs-vfb/644420/tickets",
+          "retrieval": "live-browser-page-reviewed"
+        }
+      ],
+      "finding": "Live NBISD Brushfire ticket types explicitly identify Jourdanton HOME and Hallettsville VISITOR; accepted. Details tab confirms the selected date/time and venue. No ticket quantities changed.",
+      "designatedSides": {
+        "homeTeam": "Jourdanton",
+        "awayTeam": "Hallettsville",
+        "sourceUrl": "https://brushfire.com/new-braunfels-isd/lchs-vfb/644420/tickets",
+        "reviewStatus": "explicit-primary-designation-confirmed"
+      },
+      "result": "explicit-primary-confirmation",
+      "neutralSiteConfirmed": null,
+      "readyForPublication": false
+    },
+    {
+      "bracket": {
+        "division": "3A Division II",
+        "region": "Region II",
+        "slot": 1,
+        "teams": [
+          "Millsap",
+          "Trinity Leadership"
+        ]
+      },
+      "reviewMethod": "Focused current public search; direct live host inspection where noted. Previously reviewed primary event evidence retained from researchBaseHead.",
+      "priorPrimaryEvidence": {
+        "sourceUrl": "https://events.hometownticketing.com/boxoffice/eaglemountain/L2VtYmVkL2V2ZW50LzMyNjc%3D",
+        "sourceLabel": "Eagle Mountain-Saginaw ISD host box office",
+        "retrieval": "page-reviewed or live-browser-page-reviewed; see candidate followUpEvidence"
+      },
+      "additionalSources": [
+        {
+          "sourceUrl": "https://events.hometownticketing.com/boxoffice/eaglemountain/L2VtYmVkL2V2ZW50LzMyNjc%3D",
+          "retrieval": "live-browser-page-reviewed"
+        }
+      ],
+      "finding": "Live Eagle Mountain-Saginaw ISD host event 3267 has only General Admission, without side labels. Focused school/home-side searches retrieved no explicit mapping. Publisher neutral label does not supply designated sides.",
+      "designatedSides": null,
+      "result": "unresolved",
+      "neutralSiteConfirmed": null,
+      "readyForPublication": false
+    }
+  ]
+}
