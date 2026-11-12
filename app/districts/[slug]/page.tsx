@@ -10,6 +10,7 @@ import { getDistrictBySlug } from "@/lib/districts";
 import { getDynamicGames } from "@/lib/dynamic-games";
 import { getSchoolBySlug, getSchoolsByDistrictId } from "@/lib/schools";
 import { getStandingsForDistrictIdFromGames } from "@/lib/standings";
+import { getDistrictCoveragePresentation } from "@/lib/district-coverage-presentation";
 
 type DistrictPageProps = {
   params: Promise<{ slug: string }>;
@@ -172,6 +173,7 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
       typeof game.awayScore === "number"
   ).length;
   const districtPlayStarted = districtResults > 0;
+  const coveragePresentation = getDistrictCoveragePresentation(district.status, districtPlayStarted);
 
   const classification = formatClassification(district.classification);
   const region = formatRegion(district.uilRegion);
@@ -240,10 +242,10 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
           </div>
 
           <section className="mt-3 grid grid-cols-2 gap-2 sm:mt-6 sm:gap-4 lg:grid-cols-4">
-            <DistrictStat label="Teams" value={trackedDistrictTeams.toString()} />
-            <DistrictStat label="District Games" value={allDistrictGames.length.toString()} />
-            <DistrictStat label="District Finals" value={districtResults.toString()} />
-            <DistrictStat label="District Play" value={districtPlayStarted ? "Underway" : "Not Started"} compact />
+            <DistrictStat label={coveragePresentation.teamLabel} value={trackedDistrictTeams.toString()} />
+            <DistrictStat label={coveragePresentation.gamesLabel} value={allDistrictGames.length.toString()} />
+            <DistrictStat label={coveragePresentation.finalsLabel} value={districtResults.toString()} />
+            <DistrictStat label={coveragePresentation.statusLabel} value={coveragePresentation.statusValue} compact />
           </section>
         </div>
       </section>
@@ -251,12 +253,13 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
       <section className="px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
         <div className="mx-auto grid max-w-[1440px] gap-4 sm:gap-6 lg:grid-cols-[1.4fr_0.8fr]">
           <div className="space-y-4 sm:space-y-6">
+            {coveragePresentation.notice && <p role="status" className="px-1 text-xs leading-5 text-white/60 sm:text-sm sm:leading-6">{coveragePresentation.notice}</p>}
             {!districtPlayStarted ? (
               <p className="px-1 text-xs leading-5 text-white/40 sm:text-sm sm:leading-6">
                 District standings will begin once verified district results are on file. Overall records are shown for context in the meantime.
               </p>
             ) : null}
-            <StandingsTable standings={districtStandings} theme={districtTheme} />
+            <StandingsTable standings={districtStandings} theme={districtTheme} coverageIncomplete={district.status === "planned"} />
 
             <DistrictCoverage districtId={district.id} />
 

@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { requireActiveMember } from "@/lib/member-access";
 import { canViewPlayoffPublishing } from "@/lib/playoff-publishing-access";
 import { getDynamicGamesSnapshot } from "@/lib/dynamic-games";
+import { resolveBracketSchool } from "@/lib/playoff-school-catalog";
 import { getBiDistrictReadiness } from "@/lib/bidistrict-readiness";
 
 export const dynamic = "force-dynamic";
@@ -84,7 +85,10 @@ export default async function BiDistrictReadinessPage({ searchParams }: { search
                 <h2 className="font-semibold">{entry.division} · {entry.region} · Game {entry.slot}</h2>
                 <span className="text-white/60">{entry.status.replaceAll("-", " ")}</span>
               </div>
-              <p className="mt-3 font-semibold">{entry.teams[0]} vs {entry.teams[1]}</p>
+              <p className="mt-3 font-semibold">{entry.teams.map((team, index) => {
+                const school = resolveBracketSchool(team, entry.division, entry.region);
+                return <span key={team}>{index > 0 && " vs "}{school ? <Link href={`/schools/${school.slug}`} className="underline underline-offset-4">{team}</Link> : <span>{team} <span className="text-xs font-normal text-amber-200">(school details pending)</span></span>}</span>;
+              })}</p>
               {entry.gameId && <p className="mt-2 break-all text-xs text-white/60">Game: {entry.gameId}</p>}
               {entry.missing.length > 0 && <p className="mt-2 text-sm text-amber-200">Needs: {entry.missing.join(", ")}</p>}
             </article>

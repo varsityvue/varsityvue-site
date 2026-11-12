@@ -1,3 +1,4 @@
+import { verifiedWinner } from "./playoff-bracket-advancement";
 import type { Game } from "@/types/platform";
 
 export type SchoolScoringAverages = {
@@ -9,6 +10,7 @@ export type SchoolScoringAverages = {
 };
 
 function isScoredPlayedFinal(game: Game) {
+  if (game.gameType === "playoff" && !verifiedWinner(game)) return false;
   if (game.status !== "final" || game.gameType === "bye" || game.gameType === "scrimmage") return false;
   if (game.resultType === "forfeit" || game.resultType === "tie" || game.resultType === "no_contest") return false;
   if (typeof game.homeScore !== "number" || typeof game.awayScore !== "number") return false;

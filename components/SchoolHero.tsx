@@ -4,6 +4,7 @@ import { getDistrictById } from "@/lib/districts";
 import { filterUpcomingGamesForSchool } from "@/lib/games";
 import { getSchoolBySlug } from "@/lib/schools";
 import { formatScoringAverage, getSchoolScoringAverages } from "@/lib/school-scoring-averages";
+import { formatOverallRecord } from "@/lib/school-record-presentation";
 import { getStandingForSchoolFromGames } from "@/lib/standings";
 import SchoolBadge from "./SchoolBadge";
 import ProgramLogo from "./ProgramLogo";
@@ -34,7 +35,7 @@ function getGameMapUrl(game: { venue?: string; venueAddress?: string; homeTeam?:
 export default function SchoolHero({ school, games, isAuthenticated, isFollowing, finishFollowing = false, followMessage = "", followUnavailable = false, enhanced = false }: { school: School; games: Game[]; isAuthenticated: boolean; isFollowing: boolean; finishFollowing?: boolean; followMessage?: string; followUnavailable?: boolean; enhanced?: boolean }) {
   const upcomingGames = filterUpcomingGamesForSchool(games, school.slug);
   const nextGame = upcomingGames[0];
-  const standing = getStandingForSchoolFromGames(school.slug, games); const seasonRecord = `${standing?.overallWins ?? 0}-${standing?.overallLosses ?? 0}`;
+  const standing = getStandingForSchoolFromGames(school.slug, games); const seasonRecord = formatOverallRecord(standing);
   const district = getDistrictById(school.districtId); const districtName = district?.name ?? school.districtId;
   const scoringAverages = getSchoolScoringAverages(school.slug, games);
   const scoredGamesLabel = scoringAverages.scoredGames === 0 ? "No scored finals" : `${scoringAverages.scoredGames} scored ${scoringAverages.scoredGames === 1 ? "game" : "games"}`;
@@ -59,7 +60,7 @@ export default function SchoolHero({ school, games, isAuthenticated, isFollowing
               <div className="hidden sm:block"><ProgramLogo school={school} size="md" /></div>
             </div>
             <div className="min-w-0">
-              <h1 className={`[overflow-wrap:anywhere] font-black uppercase leading-[0.92] tracking-tight text-white ${longSchoolName ? `${enhanced ? "text-[1.75rem]" : "text-[2.15rem]"} sm:text-5xl lg:text-6xl xl:text-7xl` : "text-[2.35rem] sm:text-7xl xl:text-8xl"}`}>{school.name}</h1>
+              <h1 className={`[overflow-wrap:anywhere] font-black uppercase leading-[0.92] tracking-tight text-white ${school.status === "planned" ? `${longSchoolName ? "text-[2.15rem] sm:text-5xl" : "text-[2.35rem] sm:text-6xl"} lg:text-5xl xl:text-6xl 2xl:text-7xl` : longSchoolName ? `${enhanced ? "text-[1.75rem]" : "text-[2.15rem]"} sm:text-5xl lg:text-6xl xl:text-7xl` : "text-[2.35rem] sm:text-7xl xl:text-8xl"}`}>{school.name}</h1>
               {enhanced && <p className="mt-2 break-words text-lg font-black uppercase tracking-[0.12em] text-white/85 sm:text-2xl">{school.mascot}</p>}
               <p className={`mt-1 ${enhanced ? "break-words" : "truncate"} text-[9px] font-black uppercase tracking-[0.14em] text-white/55 sm:mt-2 sm:text-xs sm:tracking-[0.24em]`}>{school.fullName}</p>
             </div>

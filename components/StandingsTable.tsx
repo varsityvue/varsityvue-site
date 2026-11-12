@@ -1,3 +1,4 @@
+import { hasKnownStandingRecord, formatDistrictRecord } from "@/lib/school-record-presentation";
 import { sortStandingsForDisplay } from "@/lib/standings-display";
 import Link from "next/link";
 import type { SchoolTheme } from "../types/school-theme";
@@ -21,6 +22,7 @@ type StandingsTableProps = {
   theme: SchoolTheme;
   currentSchoolSlug?: string;
   districtHref?: string;
+  coverageIncomplete?: boolean;
 };
 
 // Verified mascot labels for schedule-only District 8 teams that do not yet
@@ -63,8 +65,10 @@ function displayStandings(standings: Standing[], districtStarted: boolean, seaso
   });
 }
 
-function getStandingPosition(standings: Standing[], index: number) {
-  const team = standings[index];
+function getStandingPosition(allStandings: Standing[], index: number) {
+  const team = allStandings[index];
+  if (!hasKnownStandingRecord(team)) return "—";
+  const standings = allStandings.filter(hasKnownStandingRecord);
   const isSameRecord = (candidate: Standing) =>
     candidate.districtWins === team.districtWins && candidate.districtLosses === team.districtLosses;
   const firstIndex = standings.findIndex(isSameRecord);
@@ -72,7 +76,7 @@ function getStandingPosition(standings: Standing[], index: number) {
   return tiedTeams > 1 ? `T-${firstIndex + 1}` : `#${firstIndex + 1}`;
 }
 
-export default function StandingsTable({ standings, theme, currentSchoolSlug, districtHref }: StandingsTableProps) {
+export default function StandingsTable({ standings, theme, currentSchoolSlug, districtHref, coverageIncomplete = false }: StandingsTableProps) {
   const districtStarted = hasDistrictResults(standings);
   const seasonStarted = hasOverallResults(standings);
   const displayed = displayStandings(standings, districtStarted, seasonStarted);
@@ -88,7 +92,7 @@ export default function StandingsTable({ standings, theme, currentSchoolSlug, di
         <div className="rounded-2xl border bg-black/35 p-5 sm:rounded-3xl sm:p-6" style={{ borderColor: `${theme.secondary}33` }}><p className="text-base font-black text-white sm:text-lg">No standings available yet.</p><p className="mt-2 text-sm leading-6 text-white/50">District standings will appear here once verified results are on file.</p></div>
       ) : (
         <>
-          {!districtStarted && <div className="mb-3 flex items-center gap-2.5 rounded-xl border bg-black/30 px-3 py-2.5 sm:mb-4 sm:block sm:rounded-2xl sm:p-4" style={{ borderColor: `${theme.secondary}33` }}><span className="h-2 w-2 shrink-0 rounded-full bg-white/35 sm:hidden" /><div className="min-w-0"><p className="text-xs font-black text-white/80 sm:text-sm sm:text-white">Pre-district standings</p><p className="mt-0.5 text-[10px] leading-4 text-white/40 sm:mt-1 sm:text-sm sm:leading-6">{seasonStarted ? "Ordered by verified overall record where available until district play begins." : "Teams are listed alphabetically until district play begins."}<span className="hidden sm:inline">{seasonStarted ? " Unknown overall records remain unranked rather than being shown as 0-0." : " Rankings will appear once verified district results are available."}</span></p></div></div>}
+          {!districtStarted && <div className="mb-3 flex items-center gap-2.5 rounded-xl border bg-black/30 px-3 py-2.5 sm:mb-4 sm:block sm:rounded-2xl sm:p-4" style={{ borderColor: `${theme.secondary}33` }}><span className="h-2 w-2 shrink-0 rounded-full bg-white/35 sm:hidden" /><div className="min-w-0"><p className="text-xs font-black text-white/80 sm:text-sm sm:text-white">{coverageIncomplete ? "District results pending" : "Pre-district standings"}</p><p className="mt-0.5 text-[10px] leading-4 text-white/40 sm:mt-1 sm:text-sm sm:leading-6">{coverageIncomplete ? "Verified district results are not available for these listed schools. School lists and season records may be incomplete." : seasonStarted ? "Ordered by verified overall record where available until district play begins." : "Teams are listed alphabetically until district play begins."}<span className="hidden sm:inline">{coverageIncomplete ? " Unknown records remain unranked." : seasonStarted ? " Unknown overall records remain unranked rather than being shown as 0-0." : " Rankings will appear once verified district results are available."}</span></p></div></div>}
 
           <div className="overflow-hidden rounded-2xl border bg-black/35 md:hidden" style={{ borderColor: `${theme.secondary}33` }}>
             <div className="grid grid-cols-[minmax(0,1fr)_48px_48px] items-center gap-2 px-3 py-2.5 text-[8px] font-black uppercase tracking-[0.12em] text-white/35" style={{ borderBottom: `2px solid ${theme.primary}` }}><span>Team</span><span className="text-center">Dist</span><span className="text-right">Ovr</span></div>
@@ -103,7 +107,7 @@ export default function StandingsTable({ standings, theme, currentSchoolSlug, di
                     <div className="flex min-w-0 items-start gap-1.5">{districtStarted && <span className="mt-0.5 w-7 shrink-0 text-[9px] font-black text-white/30">{getStandingPosition(displayed, index)}</span>}<p className="min-w-0 break-words text-[13px] font-black leading-[1.15] text-white">{displayName}</p></div>
                     {mascot && <p className={`mt-1 min-w-0 truncate text-[8px] font-bold uppercase tracking-[0.1em] text-white/25 ${districtStarted ? "pl-[34px]" : ""}`}>{mascot}</p>}
                   </div>
-                  <span className="text-center text-[13px] font-black tabular-nums text-white/70">{districtStarted ? `${team.districtWins}-${team.districtLosses}` : "—"}</span>
+                  <span className="text-center text-[13px] font-black tabular-nums text-white/70">{districtStarted ? formatDistrictRecord(team) : "—"}</span>
                   <span className="text-right text-[13px] font-black tabular-nums text-white/55">{team.overallRecordKnown ? `${team.overallWins}-${team.overallLosses}` : "—"}</span>
                 </div>;
                 return school ? <Link key={team.schoolSlug} href={`/schools/${team.schoolSlug}`} aria-label={`${displayName}${isCurrent ? ", current team" : ""}`} className="block transition hover:bg-white/[0.05]">{teamRow}</Link> : <div key={team.schoolSlug}>{teamRow}</div>;
@@ -124,7 +128,7 @@ export default function StandingsTable({ standings, theme, currentSchoolSlug, di
                 return <tr key={team.schoolSlug} className="border-t border-white/10 transition hover:bg-white/[0.06]" style={isCurrent ? { background: `${theme.primary}14`, boxShadow: `inset 4px 0 0 ${theme.primary}` } : undefined}>
                   {districtStarted && <td className="px-5 py-4 font-black tabular-nums text-white"><span>{getStandingPosition(displayed, index)}</span></td>}
                   <td className="px-5 py-4">{school ? <Link href={`/schools/${team.schoolSlug}`} className="block text-white transition hover:text-white/70">{teamContent}</Link> : teamContent}</td>
-                  <td className="px-5 py-4 font-black tabular-nums text-white">{districtStarted ? `${team.districtWins}-${team.districtLosses}` : "—"}</td><td className="px-5 py-4 font-black tabular-nums text-white/70">{team.overallRecordKnown ? `${team.overallWins}-${team.overallLosses}` : "—"}</td><td className="px-5 py-4 font-black tabular-nums text-white/70">{team.pointsFor || team.pointsAgainst ? team.pointsFor : "—"}</td><td className="px-5 py-4 font-black tabular-nums text-white/70">{team.pointsFor || team.pointsAgainst ? team.pointsAgainst : "—"}</td><td className="px-5 py-4 font-black tabular-nums text-white">{team.pointsFor || team.pointsAgainst ? `${differential > 0 ? "+" : ""}${differential}` : "—"}</td>
+                  <td className="px-5 py-4 font-black tabular-nums text-white">{districtStarted ? formatDistrictRecord(team) : "—"}</td><td className="px-5 py-4 font-black tabular-nums text-white/70">{team.overallRecordKnown ? `${team.overallWins}-${team.overallLosses}` : "—"}</td><td className="px-5 py-4 font-black tabular-nums text-white/70">{team.pointsFor || team.pointsAgainst ? team.pointsFor : "—"}</td><td className="px-5 py-4 font-black tabular-nums text-white/70">{team.pointsFor || team.pointsAgainst ? team.pointsAgainst : "—"}</td><td className="px-5 py-4 font-black tabular-nums text-white">{team.pointsFor || team.pointsAgainst ? `${differential > 0 ? "+" : ""}${differential}` : "—"}</td>
                 </tr>;
               })}</tbody>
             </table>

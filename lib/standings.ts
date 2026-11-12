@@ -1,4 +1,5 @@
 import { sortStandingsForDisplay } from "./standings-display";
+import { verifiedWinner } from "./playoff-bracket-advancement";
 import { getGames } from "@/lib/games";
 import { getSchoolBySlug, getSchoolsByDistrictId } from "@/lib/schools";
 import type { Game } from "@/types/platform";
@@ -62,6 +63,9 @@ function emptyStanding(schoolSlug: string, team: string): Standing {
 }
 
 function isCountableFinal(game: StandingGame) {
+  // Pending or invalid playoff outcomes must not alter records while public
+  // game presentation and the bracket still await a verified winner.
+  if (game.gameType === "playoff" && !verifiedWinner(game)) return false;
   const scoredFinal = typeof game.homeScore === "number" && typeof game.awayScore === "number" && game.homeScore !== game.awayScore;
   const forfeitFinal = game.resultType === "forfeit" &&
     Boolean(game.officialWinnerSchoolSlug) &&
