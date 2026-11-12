@@ -800,13 +800,14 @@ try {
     assert.equal(await catalogPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `playoff path overflow at ${width}`);
     await catalogPage.screenshot({path:`${evidence}/playoff-path-${width}.png`});
     await teamPath.getByRole('link', {name:'View Game Center', exact:true}).click();
-    await catalogPage.getByRole('heading', {name:'Wheeler', exact:true}).first().waitFor();
+    await catalogPage.getByRole('heading', {level:1, name:/Seymour.*Wheeler/}).waitFor();
     assert.equal(await catalogPage.getByText('Neutral site', {exact:true}).count(), 0);
     assert.equal(await catalogPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `playoff Game Center overflow at ${width}`);
     await catalogPage.screenshot({path:`${evidence}/playoff-game-center-${width}.png`});
     await catalogPage.goto(origin + '/games/cisco-vs-nocona-2026-bi-district');
-    const noconaLink = catalogPage.getByRole('link').filter({has:catalogPage.getByRole('heading',{name:'Nocona',exact:true})});
-    for (const link of await noconaLink.all()) assert.doesNotMatch(await link.innerText(), /0-0/);
+    const noconaLinks = await catalogPage.locator('main a[href="/schools/nocona"]:visible').all();
+    assert.ok(noconaLinks.length > 0);
+    for (const link of noconaLinks) assert.doesNotMatch(await link.innerText(), /0-0/);
     await catalogPage.screenshot({path:`${evidence}/playoff-nocona-record-${width}.png`});
   }
   pass('Playoff live candidate: all 384 qualified choices, Wheeler schedule and Game Center, unknown neutrality/record presentation, no overflow at 390/1280; screenshots');
