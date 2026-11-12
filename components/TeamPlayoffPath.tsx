@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import type { Game } from "@/types/platform";
 import { formatPlayoffKickoff } from "@/lib/playoffs";
 import { regionalPlayoffRoundLabels } from "@/lib/playoff-round-labels";
@@ -15,8 +15,12 @@ const schoolOptions = statewideDivisions.flatMap(division => division.regions.fl
     label: `${resolveBracketSchool(name, division.id, regionLabels[regionIndex])?.name ?? name} · ${division.label} · ${regionLabels[regionIndex]}`
   }))))).sort((a,b) => a.label.localeCompare(b.label));
 const labels = regionalPlayoffRoundLabels;
+const subscribeHydration = () => () => {};
+const clientReady = () => true;
+const serverReady = () => false;
 
 export default function TeamPlayoffPath({ games, selectedSchool, onSelectSchool }: { games: Game[]; selectedSchool?: string; onSelectSchool?: (school: string) => void }) {
+  const hydrated = useSyncExternalStore(subscribeHydration, clientReady, serverReady);
   const [localSchool, setLocalSchool] = useState<string>("De Leon");
   const selection = selectedSchool ?? localSchool;
   const setSchool = onSelectSchool ?? setLocalSchool;
@@ -31,7 +35,7 @@ export default function TeamPlayoffPath({ games, selectedSchool, onSelectSchool 
       <h2 id="team-path-heading" className="mt-1 text-2xl font-black uppercase italic sm:text-3xl">Your team’s playoff path</h2>
       <p className="mt-2 text-sm text-white/70">Choose a school to see its bracket position, verified results and possible next opponents.</p>
       <label htmlFor="playoff-team-select" className="mt-5 block text-xs font-bold uppercase tracking-wider text-white/80">Choose your school</label>
-      <select id="playoff-team-select" value={`${division.id}|${regionIndex}|${school}`} onChange={(event) => setSchool(event.target.value)} className="mt-2 min-h-11 w-full max-w-sm rounded-xl border border-white/25 bg-[#292027] px-3 text-base font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+      <select disabled={!hydrated} aria-busy={!hydrated} id="playoff-team-select" value={`${division.id}|${regionIndex}|${school}`} onChange={(event) => setSchool(event.target.value)} className="mt-2 min-h-11 w-full max-w-sm rounded-xl border border-white/25 bg-[#292027] px-3 text-base font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
         {schoolOptions.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}
       </select>
       <p className="mt-3 text-xs font-semibold text-white/55">{division.label} · {regionLabels[regionIndex]} · Confirmed opponents only after verified results</p>

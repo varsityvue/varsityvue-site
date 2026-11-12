@@ -795,6 +795,7 @@ try {
     assert.match(await teamPath.innerText(), /Seymour/);
     assert.match(await teamPath.innerText(), /7:00 PM CST/);
     assert.match(await teamPath.innerText(), /Vernon/);
+    await teamPath.locator('a[href="/games/2026-bi-district-2a-d2-ii-8"]').waitFor({state:'visible'});
     assert.equal(await teamPath.getByRole('link', {name:'View Game Center', exact:true}).getAttribute('href'), '/games/2026-bi-district-2a-d2-ii-8');
     await teamPath.scrollIntoViewIfNeeded();
     assert.equal(await catalogPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `playoff path overflow at ${width}`);
