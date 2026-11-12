@@ -1,0 +1,3007 @@
+{
+  "approval": null,
+  "executionEnabled": false,
+  "productionWrites": false,
+  "requiresExactOwnerPublicationApproval": true,
+  "neutralityPolicy": "true confirmed neutral; false confirmed non-neutral; null unknown; no neutrality publication hold",
+  "internalResearchPresumption": "Playoffs presumptively neutral; not adopted as public fact",
+  "records": [
+    {
+      "bracket": {
+        "division": "3A Division II",
+        "region": "Region I",
+        "slot": 1,
+        "teams": [
+          "Canadian",
+          "Muleshoe"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-3a-d2-i-1",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "3A Division II",
+          "region": "I"
+        },
+        "homeSchoolSlug": "canadian",
+        "awaySchoolSlug": "muleshoe",
+        "homeTeam": "Canadian",
+        "awayTeam": "Muleshoe",
+        "kickoff": "2026-11-12T16:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": true,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Happy State Bank Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "fully-supported",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-3a-d2-i-1",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region I",
+        "slot": 7,
+        "teams": [
+          "Brock",
+          "Perryton"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-4a-d2-i-7",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "4A Division II",
+          "region": "I"
+        },
+        "homeSchoolSlug": "brock",
+        "awaySchoolSlug": "perryton",
+        "homeTeam": "Brock",
+        "awayTeam": "Perryton",
+        "kickoff": "2026-11-12T17:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": true,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Lowrey Field"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "fully-supported",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-4a-d2-i-7",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "2A Division II",
+        "region": "Region I",
+        "slot": 3,
+        "teams": [
+          "Ropes",
+          "Vega"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-2a-d2-i-3",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division II",
+          "region": "I"
+        },
+        "homeSchoolSlug": "vega",
+        "awaySchoolSlug": "ropes",
+        "homeTeam": "Vega",
+        "awayTeam": "Ropes",
+        "kickoff": "2026-11-12T18:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": true,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Bobcat Stadium, Dimmitt, TX"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "fully-supported",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-2a-d2-i-3",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "3A Division I",
+        "region": "Region I",
+        "slot": 1,
+        "teams": [
+          "Shallowater",
+          "Compass Academy"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-3a-d1-i-1",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "3A Division I",
+          "region": "I"
+        },
+        "homeSchoolSlug": "shallowater",
+        "awaySchoolSlug": "odessa-compass-academy",
+        "homeTeam": "Shallowater",
+        "awayTeam": "Compass Academy",
+        "kickoff": "2026-11-12T18:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Teaff Tiger Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-3a-d1-i-1",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "4A Division I",
+        "region": "Region I",
+        "slot": 6,
+        "teams": [
+          "West Plains",
+          "Ysleta"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-4a-d1-i-6",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "4A Division I",
+          "region": "I"
+        },
+        "homeSchoolSlug": "canyon-west-plains",
+        "awaySchoolSlug": "el-paso-ysleta",
+        "homeTeam": "West Plains",
+        "awayTeam": "Ysleta",
+        "kickoff": "2026-11-12T18:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Astound Broadband Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-4a-d1-i-6",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "4A Division I",
+        "region": "Region I",
+        "slot": 8,
+        "teams": [
+          "Riverside",
+          "Canyon"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-4a-d1-i-8",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "4A Division I",
+          "region": "I"
+        },
+        "homeSchoolSlug": "el-paso-riverside",
+        "awaySchoolSlug": "canyon",
+        "homeTeam": "Riverside",
+        "awayTeam": "Canyon",
+        "kickoff": "2026-11-12T18:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Mustang Bowl"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-4a-d1-i-8",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region I",
+        "slot": 5,
+        "teams": [
+          "Post",
+          "Ozona"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-2a-d1-i-5",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division I",
+          "region": "I"
+        },
+        "homeSchoolSlug": "post",
+        "awaySchoolSlug": "ozona",
+        "homeTeam": "Post",
+        "awayTeam": "Ozona",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": true,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Ratliff Stadium, Odessa, TX"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "fully-supported",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-2a-d1-i-5",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region I",
+        "slot": 6,
+        "teams": [
+          "Olton",
+          "Highland Park"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-2a-d1-i-6",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division I",
+          "region": "I"
+        },
+        "homeSchoolSlug": "olton",
+        "awaySchoolSlug": "amarillo-highland-park",
+        "homeTeam": "Olton",
+        "awayTeam": "Highland Park",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Whiteface Stadium, Hereford, TX"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-2a-d1-i-6",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region II",
+        "slot": 5,
+        "teams": [
+          "Mason",
+          "Itasca"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-2a-d1-ii-5",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division I",
+          "region": "II"
+        },
+        "homeSchoolSlug": "mason",
+        "awaySchoolSlug": "itasca",
+        "homeTeam": "Mason",
+        "awayTeam": "Itasca",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Killeen, TX \u00b7 Stadium details pending"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-2a-d1-ii-5",
+      "additionalSource": {
+        "url": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+        "retrievedDate": "2026-11-12",
+        "publishedDate": "2026-11-08",
+        "supports": "Region II kickoff and city; all listed times CST"
+      },
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles",
+        "exactStadium"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region II",
+        "slot": 7,
+        "teams": [
+          "Axtell",
+          "Bangs"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-2a-d1-ii-7",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division I",
+          "region": "II"
+        },
+        "homeSchoolSlug": "axtell",
+        "awaySchoolSlug": "bangs",
+        "homeTeam": "Axtell",
+        "awayTeam": "Bangs",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Cub Stadium, Clifton, TX"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-2a-d1-ii-7",
+      "additionalSource": {
+        "url": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+        "retrievedDate": "2026-11-12",
+        "publishedDate": "2026-11-08",
+        "supports": "Region II kickoff and city; all listed times CST"
+      },
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region III",
+        "slot": 1,
+        "teams": [
+          "Cooper",
+          "Como-Pickton"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-2a-d1-iii-1",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division I",
+          "region": "III"
+        },
+        "homeSchoolSlug": "cooper",
+        "awaySchoolSlug": "como-pickton",
+        "homeTeam": "Cooper",
+        "awayTeam": "Como-Pickton",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Prim Stadium, Sulphur Springs, TX"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-2a-d1-iii-1",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region III",
+        "slot": 3,
+        "teams": [
+          "Carlisle",
+          "Honey Grove"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-2a-d1-iii-3",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division I",
+          "region": "III"
+        },
+        "homeSchoolSlug": "price-carlisle",
+        "awaySchoolSlug": "honey-grove",
+        "homeTeam": "Carlisle",
+        "awayTeam": "Honey Grove",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Grand Saline, TX \u00b7 Stadium details pending"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-2a-d1-iii-3",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles",
+        "exactStadium"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region III",
+        "slot": 7,
+        "teams": [
+          "San Augustine",
+          "Union Grove"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-2a-d1-iii-7",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division I",
+          "region": "III"
+        },
+        "homeSchoolSlug": "san-augustine",
+        "awaySchoolSlug": "gladewater-union-grove",
+        "homeTeam": "San Augustine",
+        "awayTeam": "Union Grove",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Lion Stadium, Henderson, TX"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-2a-d1-iii-7",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region IV",
+        "slot": 1,
+        "teams": [
+          "Thorndale",
+          "Groveton"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-2a-d1-iv-1",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division I",
+          "region": "IV"
+        },
+        "homeSchoolSlug": "thorndale",
+        "awaySchoolSlug": "groveton",
+        "homeTeam": "Thorndale",
+        "awayTeam": "Groveton",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": true,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Green Stadium, Bryan, TX"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "fully-supported",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-2a-d1-iv-1",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region IV",
+        "slot": 3,
+        "teams": [
+          "Leon",
+          "Bruceville-Eddy"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-2a-d1-iv-3",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division I",
+          "region": "IV"
+        },
+        "homeSchoolSlug": "jewett-leon",
+        "awaySchoolSlug": "bruceville-eddy",
+        "homeTeam": "Leon",
+        "awayTeam": "Bruceville-Eddy",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Rocket Field, Robinson, TX"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-2a-d1-iv-3",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region IV",
+        "slot": 4,
+        "teams": [
+          "Ganado",
+          "Taft"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-2a-d1-iv-4",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division I",
+          "region": "IV"
+        },
+        "homeSchoolSlug": "ganado",
+        "awaySchoolSlug": "taft",
+        "homeTeam": "Ganado",
+        "awayTeam": "Taft",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Greyhound Stadium, Taft, TX"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-2a-d1-iv-4",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region IV",
+        "slot": 6,
+        "teams": [
+          "Lovelady",
+          "Granger"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-2a-d1-iv-6",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division I",
+          "region": "IV"
+        },
+        "homeSchoolSlug": "granger",
+        "awaySchoolSlug": "lovelady",
+        "homeTeam": "Granger",
+        "awayTeam": "Lovelady",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": true,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Cougar Stadium, College Station, TX"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "fully-supported",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-2a-d1-iv-6",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region IV",
+        "slot": 8,
+        "teams": [
+          "Rosebud-Lott",
+          "Corrigan-Camden"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-2a-d1-iv-8",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division I",
+          "region": "IV"
+        },
+        "homeSchoolSlug": "rosebud-lott",
+        "awaySchoolSlug": "corrigan-camden",
+        "homeTeam": "Rosebud-Lott",
+        "awayTeam": "Corrigan-Camden",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Tigerland Stadium, College Station, TX"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-2a-d1-iv-8",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "2A Division II",
+        "region": "Region I",
+        "slot": 7,
+        "teams": [
+          "Wink",
+          "Ralls"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-2a-d2-i-7",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division II",
+          "region": "I"
+        },
+        "homeSchoolSlug": "wink",
+        "awaySchoolSlug": "ralls",
+        "homeTeam": "Wink",
+        "awayTeam": "Ralls",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Tornado Stadium, Lamesa, TX"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-2a-d2-i-7",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "2A Division II",
+        "region": "Region II",
+        "slot": 1,
+        "teams": [
+          "Wellington",
+          "Munday"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-2a-d2-ii-1",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division II",
+          "region": "II"
+        },
+        "homeSchoolSlug": "wellington",
+        "awaySchoolSlug": "munday",
+        "homeTeam": "Wellington",
+        "awayTeam": "Munday",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Fair Park Stadium, Childress, TX"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-2a-d2-ii-1",
+      "additionalSource": {
+        "url": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+        "retrievedDate": "2026-11-12",
+        "publishedDate": "2026-11-08",
+        "supports": "Region II kickoff and city; all listed times CST"
+      },
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "2A Division II",
+        "region": "Region II",
+        "slot": 3,
+        "teams": [
+          "Windthorst",
+          "Quanah"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-2a-d2-ii-3",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division II",
+          "region": "II"
+        },
+        "homeSchoolSlug": "windthorst",
+        "awaySchoolSlug": "quanah",
+        "homeTeam": "Windthorst",
+        "awayTeam": "Quanah",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Hawk Stadium, Iowa Park, TX"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-2a-d2-ii-3",
+      "additionalSource": {
+        "url": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+        "retrievedDate": "2026-11-12",
+        "publishedDate": "2026-11-08",
+        "supports": "Region II kickoff and city; all listed times CST"
+      },
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "2A Division II",
+        "region": "Region II",
+        "slot": 4,
+        "teams": [
+          "Stamford",
+          "Mart"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-2a-d2-ii-4",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division II",
+          "region": "II"
+        },
+        "homeSchoolSlug": "stamford",
+        "awaySchoolSlug": "mart",
+        "homeTeam": "Stamford",
+        "awayTeam": "Mart",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Porcupine Stadium, Springtown, TX"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-2a-d2-ii-4",
+      "additionalSource": {
+        "url": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+        "retrievedDate": "2026-11-12",
+        "publishedDate": "2026-11-08",
+        "supports": "Region II kickoff and city; all listed times CST"
+      },
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "2A Division II",
+        "region": "Region II",
+        "slot": 7,
+        "teams": [
+          "Santo",
+          "Miles"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-2a-d2-ii-7",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division II",
+          "region": "II"
+        },
+        "homeSchoolSlug": "santo",
+        "awaySchoolSlug": "miles",
+        "homeTeam": "Santo",
+        "awayTeam": "Miles",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Bob and Norma Cervetto Stadium, Dublin, TX"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-2a-d2-ii-7",
+      "additionalSource": {
+        "url": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+        "retrievedDate": "2026-11-12",
+        "publishedDate": "2026-11-08",
+        "supports": "Region II kickoff and city; all listed times CST"
+      },
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "2A Division II",
+        "region": "Region II",
+        "slot": 8,
+        "teams": [
+          "Wheeler",
+          "Seymour"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-2a-d2-ii-8",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division II",
+          "region": "II"
+        },
+        "homeSchoolSlug": "wheeler",
+        "awaySchoolSlug": "seymour",
+        "homeTeam": "Wheeler",
+        "awayTeam": "Seymour",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Lion Stadium, Vernon, TX"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-2a-d2-ii-8",
+      "additionalSource": {
+        "url": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+        "retrievedDate": "2026-11-12",
+        "publishedDate": "2026-11-08",
+        "supports": "Region II kickoff and city; all listed times CST"
+      },
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "3A Division I",
+        "region": "Region I",
+        "slot": 6,
+        "teams": [
+          "Sweetwater",
+          "Dalhart"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-3a-d1-i-6",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "3A Division I",
+          "region": "I"
+        },
+        "homeSchoolSlug": "sweetwater",
+        "awaySchoolSlug": "dalhart",
+        "homeTeam": "Sweetwater",
+        "awayTeam": "Dalhart",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": true,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Peoples Bank Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "fully-supported",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-3a-d1-i-6",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "3A Division I",
+        "region": "Region II",
+        "slot": 1,
+        "teams": [
+          "Gunter",
+          "Groesbeck"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-3a-d1-ii-1",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "3A Division I",
+          "region": "II"
+        },
+        "homeSchoolSlug": "gunter",
+        "awaySchoolSlug": "groesbeck",
+        "homeTeam": "Gunter",
+        "awayTeam": "Groesbeck",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Memorial Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-3a-d1-ii-1",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "3A Division I",
+        "region": "Region II",
+        "slot": 2,
+        "teams": [
+          "Liberty-Eylau",
+          "Commerce"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-3a-d1-ii-2",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "3A Division I",
+          "region": "II"
+        },
+        "homeSchoolSlug": "texarkana-liberty-eylau",
+        "awaySchoolSlug": "commerce",
+        "homeTeam": "Liberty-Eylau",
+        "awayTeam": "Commerce",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Sam Parker Field"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-3a-d1-ii-2",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "3A Division I",
+        "region": "Region II",
+        "slot": 8,
+        "teams": [
+          "Whitesboro",
+          "Grandview"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-3a-d1-ii-8",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "3A Division I",
+          "region": "II"
+        },
+        "homeSchoolSlug": "whitesboro",
+        "awaySchoolSlug": "grandview",
+        "homeTeam": "Whitesboro",
+        "awayTeam": "Grandview",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Gopher-Warrior Bowl"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-3a-d1-ii-8",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "3A Division II",
+        "region": "Region I",
+        "slot": 2,
+        "teams": [
+          "Merkel",
+          "Crane"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-3a-d2-i-2",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "3A Division II",
+          "region": "I"
+        },
+        "homeSchoolSlug": "merkel",
+        "awaySchoolSlug": "crane",
+        "homeTeam": "Merkel",
+        "awayTeam": "Crane",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "San Angelo Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-3a-d2-i-2",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "3A Division II",
+        "region": "Region I",
+        "slot": 7,
+        "teams": [
+          "Jacksboro",
+          "Grape Creek"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-3a-d2-i-7",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "3A Division II",
+          "region": "I"
+        },
+        "homeSchoolSlug": "jacksboro",
+        "awaySchoolSlug": "san-angelo-grape-creek",
+        "homeTeam": "Jacksboro",
+        "awayTeam": "Grape Creek",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Gordon Wood Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-3a-d2-i-7",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "3A Division II",
+        "region": "Region IV",
+        "slot": 1,
+        "teams": [
+          "Thrall",
+          "Brazos"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-3a-d2-iv-1",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "3A Division II",
+          "region": "IV"
+        },
+        "homeSchoolSlug": "thrall",
+        "awaySchoolSlug": "wallis-brazos",
+        "homeTeam": "Thrall",
+        "awayTeam": "Brazos",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Tiger Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-3a-d2-iv-1",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region I",
+        "slot": 3,
+        "teams": [
+          "Seminole",
+          "Bowie"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-4a-d2-i-3",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "4A Division II",
+          "region": "I"
+        },
+        "homeSchoolSlug": "seminole",
+        "awaySchoolSlug": "el-paso-bowie",
+        "homeTeam": "Seminole",
+        "awayTeam": "Bowie",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Wigwam Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-4a-d2-i-3",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region I",
+        "slot": 6,
+        "teams": [
+          "Monahans",
+          "Clint"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-4a-d2-i-6",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "4A Division II",
+          "region": "I"
+        },
+        "homeSchoolSlug": "monahans",
+        "awaySchoolSlug": "clint",
+        "homeTeam": "Monahans",
+        "awayTeam": "Clint",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Estes Memorial Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-4a-d2-i-6",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region II",
+        "slot": 1,
+        "teams": [
+          "Glen Rose",
+          "Ponder"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-4a-d2-ii-1",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "4A Division II",
+          "region": "II"
+        },
+        "homeSchoolSlug": "glen-rose",
+        "awaySchoolSlug": "ponder",
+        "homeTeam": "Glen Rose",
+        "awayTeam": "Ponder",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Crowley ISD Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-4a-d2-ii-1",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region II",
+        "slot": 2,
+        "teams": [
+          "Carthage",
+          "Ford"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-4a-d2-ii-2",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "4A Division II",
+          "region": "II"
+        },
+        "homeSchoolSlug": "carthage",
+        "awaySchoolSlug": "quinlan-ford",
+        "homeTeam": "Carthage",
+        "awayTeam": "Ford",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": true,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Eagle Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "fully-supported",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-4a-d2-ii-2",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region II",
+        "slot": 3,
+        "teams": [
+          "Van Alstyne",
+          "Venus"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-4a-d2-ii-3",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "4A Division II",
+          "region": "II"
+        },
+        "homeSchoolSlug": "van-alstyne",
+        "awaySchoolSlug": "venus",
+        "homeTeam": "Van Alstyne",
+        "awayTeam": "Venus",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": true,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Kimbrough Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "fully-supported",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-4a-d2-ii-3",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region II",
+        "slot": 4,
+        "teams": [
+          "Farmersville",
+          "Pleasant Grove"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-4a-d2-ii-4",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "4A Division II",
+          "region": "II"
+        },
+        "homeSchoolSlug": "farmersville",
+        "awaySchoolSlug": "texarkana-pleasant-grove",
+        "homeTeam": "Farmersville",
+        "awayTeam": "Pleasant Grove",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Farmer Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-4a-d2-ii-4",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region II",
+        "slot": 8,
+        "teams": [
+          "Hillsboro",
+          "Sanger"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-4a-d2-ii-8",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "4A Division II",
+          "region": "II"
+        },
+        "homeSchoolSlug": "hillsboro",
+        "awaySchoolSlug": "sanger",
+        "homeTeam": "Hillsboro",
+        "awayTeam": "Sanger",
+        "kickoff": "2026-11-12T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": true,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Buchanan Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "fully-supported",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-4a-d2-ii-8",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "3A Division II",
+        "region": "Region II",
+        "slot": 1,
+        "teams": [
+          "Millsap",
+          "Trinity Leadership"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-3a-d2-ii-1",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "3A Division II",
+          "region": "II"
+        },
+        "homeSchoolSlug": "millsap",
+        "awaySchoolSlug": "trinity-leadership-cedar-hill",
+        "homeTeam": "Millsap",
+        "awayTeam": "Trinity Leadership",
+        "kickoff": "2026-11-12T19:30:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Knight Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-3a-d2-ii-1",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region I",
+        "slot": 5,
+        "teams": [
+          "Liberty",
+          "Burkburnett"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-4a-d2-i-5",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "4A Division II",
+          "region": "I"
+        },
+        "homeSchoolSlug": "lubbock-cooper-liberty",
+        "awaySchoolSlug": "burkburnett",
+        "homeTeam": "Liberty",
+        "awayTeam": "Burkburnett",
+        "kickoff": "2026-11-13T18:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Wildcat Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-4a-d2-i-5",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region II",
+        "slot": 2,
+        "teams": [
+          "Bosqueville",
+          "Johnson City"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-2a-d1-ii-2",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division I",
+          "region": "II"
+        },
+        "homeSchoolSlug": "bosqueville",
+        "awaySchoolSlug": "johnson-city-lbj",
+        "homeTeam": "Bosqueville",
+        "awayTeam": "Johnson City",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Lion Stadium, Granger, TX"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-2a-d1-ii-2",
+      "additionalSource": {
+        "url": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+        "retrievedDate": "2026-11-12",
+        "publishedDate": "2026-11-08",
+        "supports": "Region II kickoff and city; all listed times CST"
+      },
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region II",
+        "slot": 4,
+        "teams": [
+          "San Saba",
+          "Valley Mills"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-2a-d1-ii-4",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division I",
+          "region": "II"
+        },
+        "homeSchoolSlug": "san-saba",
+        "awaySchoolSlug": "valley-mills",
+        "homeTeam": "San Saba",
+        "awayTeam": "Valley Mills",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Killeen, TX \u00b7 Stadium details pending"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-2a-d1-ii-4",
+      "additionalSource": {
+        "url": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+        "retrievedDate": "2026-11-12",
+        "publishedDate": "2026-11-08",
+        "supports": "Region II kickoff and city; all listed times CST"
+      },
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles",
+        "exactStadium"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "2A Division II",
+        "region": "Region II",
+        "slot": 6,
+        "teams": [
+          "Haskell",
+          "Clarendon"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-2a-d2-ii-6",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division II",
+          "region": "II"
+        },
+        "homeSchoolSlug": "haskell",
+        "awaySchoolSlug": "clarendon",
+        "homeTeam": "Haskell",
+        "awayTeam": "Clarendon",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Fair Park Stadium, Childress, TX"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-2a-d2-ii-6",
+      "additionalSource": {
+        "url": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+        "retrievedDate": "2026-11-12",
+        "publishedDate": "2026-11-08",
+        "supports": "Region II kickoff and city; all listed times CST"
+      },
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "3A Division I",
+        "region": "Region I",
+        "slot": 2,
+        "teams": [
+          "Peaster",
+          "Early"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-3a-d1-i-2",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "3A Division I",
+          "region": "I"
+        },
+        "homeSchoolSlug": "peaster",
+        "awaySchoolSlug": "early",
+        "homeTeam": "Peaster",
+        "awayTeam": "Early",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Art Briles Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-3a-d1-i-2",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "3A Division I",
+        "region": "Region I",
+        "slot": 4,
+        "teams": [
+          "Ingram Moore",
+          "Vernon"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-3a-d1-i-4",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "3A Division I",
+          "region": "I"
+        },
+        "homeSchoolSlug": "ingram-moore",
+        "awaySchoolSlug": "vernon",
+        "homeTeam": "Ingram Moore",
+        "awayTeam": "Vernon",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Gordon Wood Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-3a-d1-i-4",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "3A Division I",
+        "region": "Region I",
+        "slot": 7,
+        "teams": [
+          "Paradise",
+          "Llano"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-3a-d1-i-7",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "3A Division I",
+          "region": "I"
+        },
+        "homeSchoolSlug": "paradise",
+        "awaySchoolSlug": "llano",
+        "homeTeam": "Paradise",
+        "awayTeam": "Llano",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Cervetto Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-3a-d1-i-7",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "3A Division I",
+        "region": "Region IV",
+        "slot": 3,
+        "teams": [
+          "Devine",
+          "Randolph"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-3a-d1-iv-3",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "3A Division I",
+          "region": "IV"
+        },
+        "homeSchoolSlug": "devine",
+        "awaySchoolSlug": "universal-city-randolph",
+        "homeTeam": "Devine",
+        "awayTeam": "Randolph",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Warhorse Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-3a-d1-iv-3",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "3A Division I",
+        "region": "Region IV",
+        "slot": 6,
+        "teams": [
+          "Jourdanton",
+          "Hallettsville"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-3a-d1-iv-6",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "3A Division I",
+          "region": "IV"
+        },
+        "homeSchoolSlug": "jourdanton",
+        "awaySchoolSlug": "hallettsville",
+        "homeTeam": "Jourdanton",
+        "awayTeam": "Hallettsville",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": true,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Dragon Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "fully-supported",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-3a-d1-iv-6",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "3A Division II",
+        "region": "Region I",
+        "slot": 6,
+        "teams": [
+          "Slaton",
+          "Friona"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-3a-d2-i-6",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "3A Division II",
+          "region": "I"
+        },
+        "homeSchoolSlug": "slaton",
+        "awaySchoolSlug": "friona",
+        "homeTeam": "Slaton",
+        "awayTeam": "Friona",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Sherwood Memorial Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-3a-d2-i-6",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "4A Division I",
+        "region": "Region III",
+        "slot": 2,
+        "teams": [
+          "Jarrell",
+          "El Campo"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-4a-d1-iii-2",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "4A Division I",
+          "region": "III"
+        },
+        "homeSchoolSlug": "jarrell",
+        "awaySchoolSlug": "el-campo",
+        "homeTeam": "Jarrell",
+        "awayTeam": "El Campo",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Toyota Rattler Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-4a-d1-iii-2",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "4A Division I",
+        "region": "Region III",
+        "slot": 4,
+        "teams": [
+          "Sealy",
+          "China Spring"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-4a-d1-iii-4",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "4A Division I",
+          "region": "III"
+        },
+        "homeSchoolSlug": "sealy",
+        "awaySchoolSlug": "china-spring",
+        "homeTeam": "Sealy",
+        "awayTeam": "China Spring",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Matador Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-4a-d1-iii-4",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "4A Division I",
+        "region": "Region III",
+        "slot": 5,
+        "teams": [
+          "Bay City",
+          "Lampasas"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-4a-d1-iii-5",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "4A Division I",
+          "region": "III"
+        },
+        "homeSchoolSlug": "bay-city",
+        "awaySchoolSlug": "lampasas",
+        "homeTeam": "Bay City",
+        "awayTeam": "Lampasas",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Tiger Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-4a-d1-iii-5",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region I",
+        "slot": 2,
+        "teams": [
+          "Graham",
+          "Estacado"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-4a-d2-i-2",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "4A Division II",
+          "region": "I"
+        },
+        "homeSchoolSlug": "graham",
+        "awaySchoolSlug": "lubbock-estacado",
+        "homeTeam": "Graham",
+        "awayTeam": "Estacado",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": true,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Mustang Bowl"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "fully-supported",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-4a-d2-i-2",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region I",
+        "slot": 4,
+        "teams": [
+          "Levelland",
+          "Mineral Wells"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-4a-d2-i-4",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "4A Division II",
+          "region": "I"
+        },
+        "homeSchoolSlug": "mineral-wells",
+        "awaySchoolSlug": "levelland",
+        "homeTeam": "Mineral Wells",
+        "awayTeam": "Levelland",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": true,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Shotwell Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "fully-supported",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-4a-d2-i-4",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region II",
+        "slot": 5,
+        "teams": [
+          "Sunnyvale",
+          "Pittsburg"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-4a-d2-ii-5",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "4A Division II",
+          "region": "II"
+        },
+        "homeSchoolSlug": "sunnyvale",
+        "awaySchoolSlug": "pittsburg",
+        "homeTeam": "Sunnyvale",
+        "awayTeam": "Pittsburg",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Bulldog Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-4a-d2-ii-5",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region II",
+        "slot": 6,
+        "teams": [
+          "Krum",
+          "Kemp"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-4a-d2-ii-6",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "4A Division II",
+          "region": "II"
+        },
+        "homeSchoolSlug": "krum",
+        "awaySchoolSlug": "kemp",
+        "homeTeam": "Krum",
+        "awayTeam": "Kemp",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": true,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Royse City ISD Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "fully-supported",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-4a-d2-ii-6",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region II",
+        "slot": 7,
+        "teams": [
+          "Gilmer",
+          "North Lamar"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-4a-d2-ii-7",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "4A Division II",
+          "region": "II"
+        },
+        "homeSchoolSlug": "gilmer",
+        "awaySchoolSlug": "paris-north-lamar",
+        "homeTeam": "Gilmer",
+        "awayTeam": "North Lamar",
+        "kickoff": "2026-11-13T19:00:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": true,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Hanby Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "fully-supported",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-4a-d2-ii-7",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "2A Division I",
+        "region": "Region III",
+        "slot": 2,
+        "teams": [
+          "Shelbyville",
+          "Waskom"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-2a-d1-iii-2",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "2A Division I",
+          "region": "III"
+        },
+        "homeSchoolSlug": "shelbyville",
+        "awaySchoolSlug": "waskom",
+        "homeTeam": "Shelbyville",
+        "awayTeam": "Waskom",
+        "kickoff": "2026-11-13T19:30:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Bulldog Stadium, Carthage, TX"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-2a-d1-iii-2",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "3A Division II",
+        "region": "Region II",
+        "slot": 5,
+        "teams": [
+          "Bells",
+          "Lone Oak"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-3a-d2-ii-5",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "3A Division II",
+          "region": "II"
+        },
+        "homeSchoolSlug": "lone-oak",
+        "awaySchoolSlug": "bells",
+        "homeTeam": "Lone Oak",
+        "awayTeam": "Bells",
+        "kickoff": "2026-11-13T19:30:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": true,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Tom Kimbrough Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "fully-supported",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-3a-d2-ii-5",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region I",
+        "slot": 1,
+        "teams": [
+          "Irvin",
+          "Pecos"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-4a-d2-i-1",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "4A Division II",
+          "region": "I"
+        },
+        "homeSchoolSlug": "el-paso-irvin",
+        "awaySchoolSlug": "pecos",
+        "homeTeam": "Irvin",
+        "awayTeam": "Pecos",
+        "kickoff": "2026-11-13T19:30:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Irvin Memorial Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-4a-d2-i-1",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    },
+    {
+      "bracket": {
+        "division": "4A Division II",
+        "region": "Region I",
+        "slot": 8,
+        "teams": [
+          "Mountain View",
+          "Big Spring"
+        ]
+      },
+      "game": {
+        "id": "2026-bi-district-4a-d2-i-8",
+        "season": 2026,
+        "week": 12,
+        "gameType": "playoff",
+        "playoff": {
+          "round": "Bi-District",
+          "division": "4A Division II",
+          "region": "I"
+        },
+        "homeSchoolSlug": "clint-mountain-view",
+        "awaySchoolSlug": "big-spring",
+        "homeTeam": "Mountain View",
+        "awayTeam": "Big Spring",
+        "kickoff": "2026-11-13T19:30:00-06:00",
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false,
+        "status": "upcoming",
+        "districtGame": false,
+        "coverageStatus": "none",
+        "sourceStatus": "verified",
+        "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed",
+        "venue": "Lobo Stadium"
+      },
+      "existingGameId": null,
+      "operation": "insert-new-only",
+      "reviewCategory": "nonessential-fields-unknown",
+      "timezone": "America/Chicago",
+      "utcOffset": "-06:00",
+      "sourceEvidenceReference": "docs/playoffs/completion-20261111/publication-disabled/all-candidates.json#2026-bi-district-4a-d2-i-8",
+      "additionalSource": null,
+      "unknownFields": [
+        "formalNeutrality",
+        "designatedRoles"
+      ],
+      "conflictDisposition": "Original contrary reports preserved in source evidence. Primary resolutions retained; venue alias conflicts suppress exact stadium. Axtell weekday/date typo resolved by three agreeing current reports; no conflicting value silently overwritten."
+    }
+  ],
+  "materialConflictHeld": [
+    {
+      "manifestId": "2026-bi-district-4a-d1-i-3",
+      "reason": "Conflicting November 12/13 date; primary resolution still required."
+    }
+  ],
+  "existingSiteReconciliations": [
+    {
+      "gameId": "cisco-vs-nocona-2026-bi-district",
+      "before": {
+        "isNeutralSite": true,
+        "designatedSidesConfirmed": null
+      },
+      "after": {
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false
+      },
+      "preservedFields": "All other fields including IDs, opponents, kickoff, venue, scores and results"
+    },
+    {
+      "gameId": "muenster-vs-hawley-2026-bi-district",
+      "before": {
+        "isNeutralSite": true,
+        "designatedSidesConfirmed": null
+      },
+      "after": {
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false
+      },
+      "preservedFields": "All other fields including IDs, opponents, kickoff, venue, scores and results"
+    },
+    {
+      "gameId": "albany-vs-crawford-2026-bi-district",
+      "before": {
+        "isNeutralSite": true,
+        "designatedSidesConfirmed": null
+      },
+      "after": {
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false
+      },
+      "preservedFields": "All other fields including IDs, opponents, kickoff, venue, scores and results"
+    },
+    {
+      "gameId": "goldthwaite-vs-hubbard-2026-bi-district",
+      "before": {
+        "isNeutralSite": true,
+        "designatedSidesConfirmed": null
+      },
+      "after": {
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false
+      },
+      "preservedFields": "All other fields including IDs, opponents, kickoff, venue, scores and results"
+    },
+    {
+      "gameId": "tioga-vs-anson-2026-bi-district",
+      "before": {
+        "isNeutralSite": true,
+        "designatedSidesConfirmed": null
+      },
+      "after": {
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false
+      },
+      "preservedFields": "All other fields including IDs, opponents, kickoff, venue, scores and results"
+    },
+    {
+      "gameId": "de-leon-vs-alvord-2026-bi-district",
+      "before": {
+        "isNeutralSite": true,
+        "designatedSidesConfirmed": null
+      },
+      "after": {
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false
+      },
+      "preservedFields": "All other fields including IDs, opponents, kickoff, venue, scores and results"
+    },
+    {
+      "gameId": "stephenville-vs-navasota-2026-bi-district",
+      "before": {
+        "isNeutralSite": true,
+        "designatedSidesConfirmed": null
+      },
+      "after": {
+        "isNeutralSite": null,
+        "designatedSidesConfirmed": false
+      },
+      "preservedFields": "All other fields including IDs, opponents, kickoff, venue, scores and results"
+    }
+  ],
+  "runtimeFileSha256": "724ee6bad9714126c6f62973b9175f06a59ef08646a4f375fa64137074c3049c"
+}

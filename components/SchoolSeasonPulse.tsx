@@ -1,3 +1,4 @@
+import { gameSiteLabel } from "@/lib/game-site-presentation";
 import ScoreAttribution from "@/components/ScoreAttribution";
 import Link from "next/link";
 
@@ -65,7 +66,7 @@ function getOpponent(game: Game, schoolSlug: string) {
   return {
     slug: isHome ? game.awaySchoolSlug : game.homeSchoolSlug,
     name: isHome ? game.awayTeam ?? "Opponent" : game.homeTeam ?? "Opponent",
-    location: game.isNeutralSite ? "Neutral" : isHome ? "Home" : "Away",
+    location: gameSiteLabel(game, isHome),
   };
 }
 

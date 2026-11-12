@@ -1,3 +1,4 @@
+import { gameOpponentPrefix } from "@/lib/game-site-presentation";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getDynamicGameById } from "@/lib/dynamic-games";
@@ -45,8 +46,8 @@ export async function generateMetadata({ params }: Omit<GameLayoutProps, "childr
 
   const awayTeam = game.awayTeam ?? "Away Team";
   const homeTeam = game.homeTeam ?? "Home Team";
-  const title = `${awayTeam} ${game.isNeutralSite ? "vs." : "at"} ${homeTeam} | VarsityVue`;
-  const description = `Follow ${awayTeam} ${game.isNeutralSite ? "vs." : "at"} ${homeTeam} with scores, matchup details, schedules, and verified football coverage on VarsityVue.`;
+  const title = `${awayTeam} ${gameOpponentPrefix(game)} ${homeTeam} | VarsityVue`;
+  const description = `Follow ${awayTeam} ${gameOpponentPrefix(game)} ${homeTeam} with scores, matchup details, schedules, and verified football coverage on VarsityVue.`;
   const url = `/games/${game.id}`;
 
   return {
@@ -68,7 +69,7 @@ export async function generateMetadata({ params }: Omit<GameLayoutProps, "childr
           url: "/games/opengraph-image",
           width: 1200,
           height: 630,
-          alt: `${awayTeam} ${game.isNeutralSite ? "vs." : "at"} ${homeTeam} on VarsityVue`,
+          alt: `${awayTeam} ${gameOpponentPrefix(game)} ${homeTeam} on VarsityVue`,
         },
       ],
     },

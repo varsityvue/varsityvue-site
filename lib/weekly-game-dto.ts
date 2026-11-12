@@ -49,6 +49,7 @@ export function weeklyGameDto(g: Game, games: Game[]): WeeklyGame {
     venue: g.venue,
     venueAddress: g.venueAddress,
     isNeutralSite: g.isNeutralSite,
+    designatedSidesConfirmed: g.designatedSidesConfirmed,
     districtGame: g.districtGame,
     specialEvent: g.specialEvent,
     featured: g.featured,

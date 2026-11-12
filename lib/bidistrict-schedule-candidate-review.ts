@@ -6,7 +6,8 @@ export type BiDistrictScheduleCandidate = {
   slot: number;
   teams: readonly [string, string];
   kickoff: string;
-  venue: string;
+  venue?: string | null;
+  isNeutralSite?: boolean | null;
   sourceLabel: string;
   sourceUrl: string;
 };
@@ -54,7 +55,8 @@ export function reviewBiDistrictScheduleCandidates(
       calendar.getUTCDate() === Number(timestamp[3]) &&
       Number(timestamp[4]) < 24 && Number(timestamp[5]) < 60 && Number(timestamp[6] ?? 0) < 60);
     if (!validCalendar || !Number.isFinite(kickoff)) issues.push("kickoff requires a valid timezone-aware timestamp");
-    if (!candidate.venue.trim() || /^(?:tbd|unknown|venue tbd)$/i.test(candidate.venue.trim())) issues.push("confirmed venue required");
+    // Unknown venue and neutrality are displayable unknowns, not factual conflicts.
+    if (candidate.isNeutralSite != null && typeof candidate.isNeutralSite !== "boolean") issues.push("invalid neutrality value");
     if (!candidate.sourceLabel.trim()) issues.push("source attribution required");
     try {
       const url = new URL(candidate.sourceUrl);

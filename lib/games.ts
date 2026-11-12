@@ -1,3 +1,4 @@
+import { playoffScheduleAdditions, playoffSiteReconciliations } from "@/data/playoff-schedule-additions-20261112";
 import { games as scheduledGames } from "@/data/games";
 import { applyVerifiedGames } from "@/data/verified-games";
 import { week2GameAdditions } from "@/data/week2-game-additions";
@@ -49,6 +50,7 @@ const baseGames = [
   ...week2GameAdditions,
   ...santoGames,
   ...jacksboroGames,
+  ...playoffScheduleAdditions,
 ];
 
 const gamesById = new Map(
@@ -89,6 +91,12 @@ for (const reconciledGame of [
   );
 }
 
+// Explicit proposed metadata-only reconciliation; never replaces scores or schedule facts.
+for (const site of playoffSiteReconciliations) {
+  const existing = gamesById.get(site.id);
+  if (!existing) throw new Error(`Missing existing playoff game: ${site.id}`);
+  gamesById.set(site.id, { ...existing, ...site });
+}
 const rawGames = Array.from(gamesById.values()).map(applyEditorialGameFlags);
 
 const CENTRAL_TIME_ZONE = "America/Chicago";

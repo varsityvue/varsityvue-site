@@ -55,7 +55,7 @@ function BracketSelection({ games, selectedSchool }: { games: Game[]; selectedSc
                   {regional.roundTeams[roundIndex].map(([a,b],i) => {
                     const game = regional.roundGames[roundIndex][i];
                     const winner = verifiedWinner(game);
-                    return <div key={i} className={`rounded-lg border p-3 text-sm ${selectedSchool && (a === selectedSchool || b === selectedSchool) ? "border-[#b83a50] bg-[#8B1020]/25" : "border-white/10 bg-black/30"}`}>
+                    return <div key={i} className={`rounded-lg border p-3 text-sm ${selectedSchool && (a === location?.schoolName || b === location?.schoolName) ? "border-[#b83a50] bg-[#8B1020]/25" : "border-white/10 bg-black/30"}`}>
                       {[a, b].map((name, teamIndex) => {
                         const school = name ? resolveBracketSchool(name, division.id, regionLabels[regionIndex]) : undefined;
                         return <p key={teamIndex} className={`${teamIndex ? "mt-1 " : ""}${winner === name ? "font-black text-white" : "text-white/80"}`}>
