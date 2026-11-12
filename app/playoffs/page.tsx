@@ -85,12 +85,13 @@ export default async function PlayoffsPage() {
           <h1 className="mt-5 max-w-4xl text-5xl font-black uppercase italic leading-[0.92] tracking-[-0.055em] sm:text-7xl lg:text-8xl">Playoff <span className="text-[var(--vv-accent)]">Central</span></h1>
           <p className="mt-5 max-w-xl text-sm leading-6 text-white/75 sm:text-lg sm:leading-7">The regular season is over. Every game matters now. Follow the matchups, kickoff times and verified results on the road to state.</p>
           <div className="mt-6 flex flex-wrap justify-center gap-2">
-            <a href="#schedule" className="inline-flex min-h-11 items-center rounded-xl bg-[var(--vv-primary)] px-5 text-xs font-black uppercase tracking-wider text-white hover:bg-[var(--vv-primary-hover)]">Explore matchups →</a>
+            <a href="#team-path" className="inline-flex min-h-11 items-center rounded-xl bg-[var(--vv-primary)] px-5 text-xs font-black uppercase tracking-wider text-white hover:bg-[var(--vv-primary-hover)]">Explore matchups →</a>
             <a href="#results" className="inline-flex min-h-11 items-center rounded-xl border border-white/25 bg-white/[0.06] px-5 text-xs font-black uppercase tracking-wider">Final scores</a>
             <Link href="/games?intent=scores" className="inline-flex min-h-11 items-center rounded-xl border border-white/25 bg-white/[0.06] px-5 text-xs font-black uppercase tracking-wider">Full scoreboard</Link>
           </div>
         </header>
         {scoreLoadStatus === "failed" && <p role="status" className="mt-4 text-sm text-[#ffffff]">Score updates are temporarily unavailable. The published schedule is shown below.</p>}
+        <PlayoffBracketExperience games={games} />
         {sections.map(({ title, id, kinds }) => {
           const entries = schedule.filter(({ presentation }) => kinds.includes(presentation.kind));
           if (id === "updates" && !entries.length) return null;
@@ -103,7 +104,6 @@ export default async function PlayoffsPage() {
             </section>
           );
         })}
-        <PlayoffBracketExperience games={games} />
         <section className="mt-9 rounded-2xl border border-white/15 p-5" aria-labelledby="follow-schools">
           <h2 id="follow-schools" className="text-xl font-black">Follow your schools</h2>
           <p className="mt-2 text-sm text-white/75">Open a school hub to follow the team and find its schedule, results and coverage.</p>

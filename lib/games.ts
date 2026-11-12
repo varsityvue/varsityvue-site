@@ -1,3 +1,4 @@
+import { playoffScheduleAdditions } from "@/data/playoff-schedule-additions-20261112";
 import { games as scheduledGames } from "@/data/games";
 import { applyVerifiedGames } from "@/data/verified-games";
 import { week2GameAdditions } from "@/data/week2-game-additions";
@@ -49,6 +50,7 @@ const baseGames = [
   ...week2GameAdditions,
   ...santoGames,
   ...jacksboroGames,
+  ...playoffScheduleAdditions,
 ];
 
 const gamesById = new Map(

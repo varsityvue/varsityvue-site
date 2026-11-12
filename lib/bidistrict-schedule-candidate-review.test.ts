@@ -29,7 +29,7 @@ test("rejects mismatched teams, incomplete details, and duplicate slot submissio
     assert.ok(result.issues.includes("teams do not match bracket"));
     assert.ok(result.issues.includes("duplicate candidate for bracket slot"));
     assert.ok(result.issues.includes("kickoff requires a valid timezone-aware timestamp"));
-    assert.ok(result.issues.includes("confirmed venue required"));
+
     assert.ok(result.issues.includes("source attribution required"));
     assert.ok(result.issues.includes("HTTPS source URL required"));
   }
@@ -62,5 +62,12 @@ test("every existing record requires reconciliation, including incomplete schedu
 test("division and region mismatches cannot use another bracket's matchup", () => {
   for (const candidate of [{ ...valid, division: "3A Division I" }, { ...valid, region: "Region I" }]) {
     assert.equal(reviewBiDistrictScheduleCandidates([candidate], bracket)[0].readyForHumanReview, false);
+  }
+});
+
+ test("unknown secondary fields do not block a source-backed matching kickoff", () => {
+  for (const isNeutralSite of [true, false, null]) {
+    const [review] = reviewBiDistrictScheduleCandidates([{...valid, venue:null, isNeutralSite}], bracket);
+    assert.equal(review.readyForHumanReview,true);
   }
 });

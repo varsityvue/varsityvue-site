@@ -1,3 +1,4 @@
+import { playoffScheduleAdditions } from "../data/playoff-schedule-additions-20261112";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import test from "node:test";
@@ -20,7 +21,8 @@ test("catalog integration preserves every existing school and all game schedules
   const existing = getSchools().filter((school) => !additionIds.has(school.id));
   assert.equal(existing.length, 70);
   assert.equal(hash(existing), "a87103e8435e3b9f2daadbb84ca7ccb3176bcdb19d1e8bf32e2487d8be40ee56");
-  const games = getGames().map(({id,season,gameType,homeSchoolSlug,awaySchoolSlug,homeTeam,awayTeam,kickoff,venue,homeScore,awayScore,publicScoreVerified,officialWinnerSchoolSlug,resultType,playoff}) => ({id,season,gameType,homeSchoolSlug,awaySchoolSlug,homeTeam,awayTeam,kickoff,venue,homeScore,awayScore,publicScoreVerified,officialWinnerSchoolSlug,resultType,playoff}));
+  const newIds = new Set(playoffScheduleAdditions.map(g => g.id));
+  const games = getGames().filter(g => !newIds.has(g.id)).map(({id,season,gameType,homeSchoolSlug,awaySchoolSlug,homeTeam,awayTeam,kickoff,venue,homeScore,awayScore,publicScoreVerified,officialWinnerSchoolSlug,resultType,playoff}) => ({id,season,gameType,homeSchoolSlug,awaySchoolSlug,homeTeam,awayTeam,kickoff,venue,homeScore,awayScore,publicScoreVerified,officialWinnerSchoolSlug,resultType,playoff}));
   assert.equal(games.length, 296);
   assert.equal(hash(games), "4d814ac7cf5c8f32271f0615e02a4e97959bca917ffebf0546f1dab4fb3b2dee");
   assert.deepEqual(getFeaturedSchools().map((school) => school.slug), existing.filter((school) => school.status === "pilot").map((school) => school.slug));

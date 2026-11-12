@@ -1,3 +1,4 @@
+import { gameSiteLabel } from "@/lib/game-site-presentation";
 import Link from "next/link";
 import { isTeamHubV2Pilot } from "@/lib/team-hub-pilot";
 import { getDynamicGamesForSchool } from "@/lib/dynamic-games";
@@ -97,7 +98,7 @@ function getOpponent(game: SchoolGame, schoolSlug: string) {
 
     return {
         name: isHome ? game.awayTeam ?? "Opponent TBD" : game.homeTeam ?? "Opponent TBD",
-        location: game.isNeutralSite ? "Neutral" : isHome ? "Home" : "Away",
+        location: gameSiteLabel(game, isHome),
     };
 }
 

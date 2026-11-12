@@ -169,7 +169,9 @@ export type Game = {
   venue?: string;
   venueAddress?: string;
   location?: string;
-  isNeutralSite?: boolean;
+  isNeutralSite?: boolean | null;
+  /** False means storage order is display-only, not confirmed home/away roles. */
+  designatedSidesConfirmed?: boolean;
 
   districtGame: boolean;
   specialEvent?: string;

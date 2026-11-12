@@ -64,6 +64,6 @@ test("the assembled game catalog contains only unique real games", () => {
   const games = getGames();
   assert.equal(games.filter((game) => game.gameType !== "playoff").length, 289);
   assert.equal(new Set(games.map((game) => game.id)).size, games.length);
-  assert.equal(games.filter((game) => game.homeSchoolSlug === "jacksboro" || game.awaySchoolSlug === "jacksboro").length, 10);
+  assert.equal(games.filter((game) => game.homeSchoolSlug === "jacksboro" || game.awaySchoolSlug === "jacksboro").length, 11);
   assert.equal(games.some((game) => game.id === "jacksboro-bye-2026-week-6"), false);
 });

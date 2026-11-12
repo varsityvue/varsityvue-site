@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { getBiDistrictReadiness } from "../lib/bidistrict-readiness";
 import { reviewBiDistrictScheduleCandidates } from "../lib/bidistrict-schedule-candidate-review";
-import { getGames } from "../lib/games";
+import { getResearchBaselinePlayoffGames as getGames } from "./playoff-research-catalog-baseline";
 import { getResearchBaselineSchools as getSchools } from "./playoff-research-catalog-baseline";
 
 // Offline research only. No Supabase client, network request, or game-writing API.

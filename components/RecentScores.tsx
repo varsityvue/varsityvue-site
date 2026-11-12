@@ -1,3 +1,4 @@
+import { gameSiteLabel, gameOpponentPrefix } from "@/lib/game-site-presentation";
 import Link from "next/link";
 
 import { getGamePresentation } from "@/lib/game-presentation";
@@ -68,8 +69,8 @@ function getOpponent(game: Game, schoolSlug: string) {
   const isHomeTeam = game.homeSchoolSlug === schoolSlug;
   return {
     name: isHomeTeam ? game.awayTeam ?? "Opponent" : game.homeTeam ?? "Opponent",
-    location: game.isNeutralSite ? "Neutral" : isHomeTeam ? "Home" : "Away",
-    prefix: game.isNeutralSite ? "vs" : isHomeTeam ? "vs" : "at",
+    location: gameSiteLabel(game, isHomeTeam),
+    prefix: gameOpponentPrefix(game, isHomeTeam),
   };
 }
 
