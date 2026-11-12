@@ -784,6 +784,32 @@ try {
     assert.equal(await catalogPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `planned district overflow at ${width}`);
     await catalogPage.screenshot({ path: `${evidence}/playoff-catalog-district-${width}.png`, fullPage: true });
   }
+  // Exact candidate playoff UX in the existing read-only fixture, without deployment bypass.
+  for (const width of [390, 1280]) {
+    await catalogPage.setViewportSize({ width, height: 900 });
+    await catalogPage.goto(origin + '/playoffs', { waitUntil: 'domcontentloaded' });
+    const schoolSelect = catalogPage.getByLabel('Choose your school', { exact: true });
+    assert.equal(await schoolSelect.locator('option').count(), 384);
+    await schoolSelect.selectOption('2A-D2|1|Wheeler');
+    const teamPath = catalogPage.locator('#team-path');
+    assert.match(await teamPath.innerText(), /Seymour/);
+    assert.match(await teamPath.innerText(), /7:00 PM CST/);
+    assert.match(await teamPath.innerText(), /Vernon/);
+    assert.equal(await teamPath.getByRole('link', {name:'View Game Center', exact:true}).getAttribute('href'), '/games/2026-bi-district-2a-d2-ii-8');
+    await teamPath.scrollIntoViewIfNeeded();
+    assert.equal(await catalogPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `playoff path overflow at ${width}`);
+    await catalogPage.screenshot({path:`${evidence}/playoff-path-${width}.png`});
+    await teamPath.getByRole('link', {name:'View Game Center', exact:true}).click();
+    await catalogPage.getByRole('heading', {name:'Wheeler', exact:true}).first().waitFor();
+    assert.equal(await catalogPage.getByText('Neutral site', {exact:true}).count(), 0);
+    assert.equal(await catalogPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `playoff Game Center overflow at ${width}`);
+    await catalogPage.screenshot({path:`${evidence}/playoff-game-center-${width}.png`});
+    await catalogPage.goto(origin + '/games/cisco-vs-nocona-2026-bi-district');
+    const noconaLink = catalogPage.getByRole('link').filter({has:catalogPage.getByRole('heading',{name:'Nocona',exact:true})});
+    for (const link of await noconaLink.all()) assert.doesNotMatch(await link.innerText(), /0-0/);
+    await catalogPage.screenshot({path:`${evidence}/playoff-nocona-record-${width}.png`});
+  }
+  pass('Playoff live candidate: all 384 qualified choices, Wheeler schedule and Game Center, unknown neutrality/record presentation, no overflow at 390/1280; screenshots');
   await catalogContext.close();
   pass('Playoff catalog: planned hub unknown record and empty schedule; partial district membership/results notice; no horizontal overflow at 390/1280; read-only fixture screenshots');
   {
