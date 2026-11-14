@@ -1,3 +1,4 @@
+import { completePostseasonStanding } from "@/lib/playoff-record-presentation";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -49,7 +50,7 @@ export default async function SchoolPage({ params, searchParams }: { params: Pro
     .filter((game) => game.id !== focusedGame?.id && game.status === "final" && (game.homeSchoolSlug === slug || game.awaySchoolSlug === slug))
     .sort((a, b) => (b.kickoff ?? "").localeCompare(a.kickoff ?? ""))
     .slice(0, 3);
-  const standings = getStandingsForDistrictIdFromGames(school.districtId, dynamicGames);
+  const standings = getStandingsForDistrictIdFromGames(school.districtId, dynamicGames).map(row => completePostseasonStanding(row, dynamicGames, row.schoolSlug)!);
   const broadcastLinks = getSchoolBroadcastLinks(school.slug);
   const hasOfficialLinks = Boolean(school.officialWebsite || school.facebookUrl || school.instagramUrl || school.xUrl);
   const officialProfiles = [school.officialWebsite, school.facebookUrl, school.instagramUrl, school.xUrl].filter((url): url is string => Boolean(url));
