@@ -2,6 +2,7 @@
 
 import { useSyncExternalStore, useState } from "react";
 import type { Game } from "@/types/platform";
+import ConnectedPlayoffBracket from "@/components/ConnectedPlayoffBracket";
 import TeamPlayoffPath from "@/components/TeamPlayoffPath";
 import StatewideBracketExplorer from "@/components/StatewideBracketExplorer";
 
@@ -21,6 +22,7 @@ export default function PlayoffBracketExperience({ games }: { games: Game[] }) {
   };
   return (
     <>
+      <ConnectedPlayoffBracket key={selectedSchool} games={games} selectedSchool={selectedSchool} />
       <TeamPlayoffPath games={games} selectedSchool={selectedSchool} onSelectSchool={selectSchool} />
       <StatewideBracketExplorer games={games} selectedSchool={selectedSchool} />
     </>

@@ -11,13 +11,15 @@ import { verifiedWinner } from "@/lib/playoff-bracket-advancement";
 import { playoffRoundLabels } from "@/lib/playoff-round-labels";
 import { template2AD12026 } from "@/data/playoff-template-2ad1-2026";
 import { seedLabel } from "@/lib/playoff-qualification";
+import { getStandingForSchoolFromGames } from "@/lib/standings";
+import { formatOverallRecord } from "@/lib/school-record-presentation";
 import type { Game } from "@/types/platform";
 
 type View = {scale:number;x:number;y:number};
 export default function ConnectedPlayoffBracket({games,selectedSchool}:{games:Game[];selectedSchool?:string}) {
  const location=selectedSchool?findSchoolBracketLocation(selectedSchool):null;
  const [divisionId,setDivisionId]=useState(location?.division.id ?? "2A-D1");
- const [region,setRegion]=useState<number|null>(null);
+ const [region,setRegion]=useState<number|null>(location?.regionIndex??null);
  const [view,setView]=useState<View>({scale:.1,x:20,y:20});
  const viewport=useRef<HTMLDivElement>(null);
  const pointers=useRef(new Map<number,{x:number;y:number}>());
@@ -61,16 +63,16 @@ export default function ConnectedPlayoffBracket({games,selectedSchool}:{games:Ga
     else setView(v=>({...v,x:v.x+next.x-previous.x,y:v.y+next.y-previous.y}));pointers.current.set(e.pointerId,next);}}
    onPointerUp={e=>pointers.current.delete(e.pointerId)} onPointerCancel={e=>pointers.current.delete(e.pointerId)} onLostPointerCapture={e=>pointers.current.delete(e.pointerId)}>
    <div style={{width:layout.width,height:layout.height,transform:`translate(${view.x}px,${view.y}px) scale(${view.scale})`,transformOrigin:"0 0"}} className="absolute left-0 top-0">
-    <svg width={layout.width} height={layout.height} className="pointer-events-none absolute inset-0" aria-hidden="true">{layout.nodes.flatMap(n=>n.sources.map(id=>{const source=layout.nodes.find(s=>s.id===id)!;const x=source.x+CARD_WIDTH,y=source.y+CARD_HEIGHT/2,end=n.y+CARD_HEIGHT/2;return <path key={id} d={`M${x} ${y} H${x+29} V${end} H${n.x}`} fill="none" stroke={route.has(id)&&route.has(n.id)?"#f4be59":"#51525d"} strokeWidth={route.has(id)&&route.has(n.id)?4:2}/>;}))}</svg>
+    <svg width={layout.width} height={layout.height} className="pointer-events-none absolute inset-0" aria-hidden="true">{layout.nodes.flatMap(n=>n.sources.map(id=>{const source=layout.nodes.find(s=>s.id===id)!;const reverse=source.x>n.x;const x=source.x+(reverse?0:CARD_WIDTH),y=source.y+CARD_HEIGHT/2,end=n.y+CARD_HEIGHT/2,target=n.x+(reverse?CARD_WIDTH:0),bend=x+(reverse?-29:29);return <path key={id} d={`M${x} ${y} H${bend} V${end} H${target}`} fill="none" stroke={route.has(id)&&route.has(n.id)?"#f4be59":"#51525d"} strokeWidth={route.has(id)&&route.has(n.id)?4:2}/>;}))}</svg>
     {layout.nodes.map(n=>{const winner=verifiedWinner(n.game);return <article key={n.id} style={{left:n.x,top:n.y,width:CARD_WIDTH,height:CARD_HEIGHT}} className={`absolute overflow-hidden rounded-lg border-2 bg-[#202127] ${route.has(n.id)?"border-[#f4be59]":"border-[#42434d]"}`}>
      <div className="flex justify-between px-2 py-1 text-[10px] font-bold uppercase text-white/65"><span>{n.region>=0?regionLabels[n.region]:"State"} · {playoffRoundLabels[n.round]}</span>{route.has(n.id)&&<span>{n.teams.includes(location?.schoolName??"")?"Your team":"Possible path"}</span>}</div>
-     {n.teams.map((name,i)=>{const school=name?(n.region>=0?resolveBracketSchool(name,divisionId,regionLabels[n.region]):regionLabels.map(r=>resolveBracketSchool(name,divisionId,r)).find(Boolean)):undefined;const logo=school?schoolLogoBySlug[school.slug]:undefined;const score=n.game?.publicScoreVerified?(name===n.game.homeTeam?n.game.homeScore??n.game.score?.home:n.game.awayScore??n.game.score?.away):undefined;return <div key={i} className="flex h-9 items-center gap-2 border-l-[5px] px-2 text-sm font-bold text-white" style={{borderLeftColor:school?.colors.primary??"#646575",background:"#202127"}}>
+     {n.teams.map((name,i)=>{const school=name?(n.region>=0?resolveBracketSchool(name,divisionId,regionLabels[n.region]):regionLabels.map(r=>resolveBracketSchool(name,divisionId,r)).find(Boolean)):undefined;const logo=school?schoolLogoBySlug[school.slug]:undefined;const record=school?formatOverallRecord(getStandingForSchoolFromGames(school.slug,games)):"—";const score=n.game?.publicScoreVerified?(name===n.game.homeTeam?n.game.homeScore??n.game.score?.home:n.game.awayScore??n.game.score?.away):undefined;return <div key={i} className="flex h-9 items-center gap-2 border-l-[5px] px-2 text-sm font-bold text-white" style={{borderLeftColor:school?.colors.primary??"#646575",background:"#202127"}}>
       {logo?<Image unoptimized src={logo.path} width={26} height={26} alt="" className="h-7 w-7 rounded bg-white/90 object-contain p-0.5"/>:<span className="h-7 w-7 rounded bg-white/10"/>}
-      {divisionId==="2A-D1" && name && <span className="text-[10px] text-white/60">{(()=>{const first=layout.nodes.find(node=>node.round===0&&node.teams.includes(name));const slot=first?template2AD12026.slots.find(slot=>slot.region===first.region&&slot.firstRoundGame===first.index&&slot.side===first.teams.indexOf(name)):undefined;return slot?seedLabel(slot):"";})()}</span>}<span className="min-w-0 flex-1 truncate">{school?<a href={`/schools/${school.slug}`} className="hover:underline">{name}</a>:name??"Winner pending"}</span><span>{score??""}{winner===name?" ✓":""}</span>
+      {divisionId==="2A-D1" && name && <span className="text-[10px] text-white/60">{(()=>{const first=layout.nodes.find(node=>node.round===0&&node.teams.includes(name));const slot=first?template2AD12026.slots.find(slot=>slot.region===first.region&&slot.firstRoundGame===first.index&&slot.side===first.teams.indexOf(name)):undefined;return slot?seedLabel(slot):"";})()}</span>}<span className="min-w-0 flex-1 truncate">{school?<a href={`/schools/${school.slug}`} className="hover:underline">{name}</a>:name??"Winner pending"}</span>{name&&<span className="text-[10px] font-normal text-white/60">{record}</span>}<span>{score??""}{winner===name?" ✓":""}</span>
      </div>;})}
      <div className="px-2 py-1 text-[10px] text-white/65">{n.game?<a href={`/games/${n.game.id}`} className="underline">Game Center · {winner?"Verified final":"View matchup"}</a>:n.round===0?"Schedule details pending":"Awaiting verified advancement"}</div>
     </article>;})}
    </div>
-  </div><p className="mt-2 text-xs text-white/55">Gold = selected school’s route · Check = verified winner · Missing records and official seeds remain undisplayed until verified.</p>
+  </div><p className="mt-2 text-xs text-white/55">Gold = selected school’s route · Check = verified winner · Records follow the school hub; — means unknown. Official seeds are shown for reviewed divisions.</p>
  </section>;
 }

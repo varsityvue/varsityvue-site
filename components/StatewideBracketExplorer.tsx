@@ -1,6 +1,5 @@
 "use client";
 
-import ConnectedPlayoffBracket from "@/components/ConnectedPlayoffBracket";
 import { useState } from "react";
 import { regionLabels, statewideDivisions, validateRegionalField } from "@/data/statewide-playoff-brackets";
 import { findSchoolBracketLocation } from "@/lib/playoff-school-location";
@@ -11,7 +10,7 @@ import type { Game } from "@/types/platform";
 import { regionalPlayoffRoundLabels, playoffRoundLabels } from "@/lib/playoff-round-labels";
 
 export default function StatewideBracketExplorer({ games, selectedSchool }: { games: Game[]; selectedSchool?: string }) {
-  return <><ConnectedPlayoffBracket key={selectedSchool ?? "browse"} games={games} selectedSchool={selectedSchool} /><BracketSelection key={selectedSchool ?? "browse"} games={games} selectedSchool={selectedSchool} /></>;
+  return <BracketSelection key={selectedSchool ?? "browse"} games={games} selectedSchool={selectedSchool} />;
 }
 
 function BracketSelection({ games, selectedSchool }: { games: Game[]; selectedSchool?: string }) {

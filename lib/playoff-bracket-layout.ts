@@ -16,7 +16,7 @@ export function buildBracketLayout(divisionId: string, games: Game[]) {
   division.regions.forEach((field, region) => {
     const rounds = buildRegionalRounds(field, games, 2026, divisionId, ["I", "II", "III", "IV"][region]);
     rounds.roundTeams.forEach((pairs, round) => pairs.forEach((teams, index) => {
-      nodes.push({ id: `${region}-${round}-${index}`, round, region, index, teams, game: rounds.roundGames[round][index], x: round * COLUMN, y: region * ROW * 8 + ((index + .5) * 2 ** round) * ROW, sources: round ? [0,1].map(i => `${region}-${round-1}-${index*2+i}`) : [] });
+      nodes.push({ id: `${region}-${round}-${index}`, round, region, index, teams, game: rounds.roundGames[round][index], x: (region < 2 ? round : 10-round) * COLUMN, y: (region % 2) * ROW * 8 + ((index + .5) * 2 ** round) * ROW, sources: round ? [0,1].map(i => `${region}-${round-1}-${index*2+i}`) : [] });
     }));
   });
   const path = getStateChampionshipPath(divisionId, games)!;
@@ -27,10 +27,10 @@ export function buildBracketLayout(divisionId: string, games: Game[]) {
   };
   stateSemifinalRegionPairs.forEach((regions, index) => {
     const sources = regions.map(r => `${r}-3-0`);
-    nodes.push({id:`semi-${index}`,round:4,region:-1,index,x:4*COLUMN,y:sources.reduce((sum,id)=>sum+nodes.find(n=>n.id===id)!.y,0)/2,teams:path.semifinals[index],game:findGame(path.semifinals[index],"State Semifinal"),sources});
+    nodes.push({id:`semi-${index}`,round:4,region:-1,index,x:(index===0?4:6)*COLUMN,y:sources.reduce((sum,id)=>sum+nodes.find(n=>n.id===id)!.y,0)/2,teams:path.semifinals[index],game:findGame(path.semifinals[index],"State Semifinal"),sources});
   });
-  nodes.push({id:"final",round:5,region:-1,index:0,x:5*COLUMN,y:ROW*16,teams:path.final,game:findGame(path.final,"State Championship"),sources:["semi-0","semi-1"]});
-  return { nodes, width: 5*COLUMN+CARD_WIDTH, height: ROW*32+CARD_HEIGHT };
+  nodes.push({id:"final",round:5,region:-1,index:0,x:5*COLUMN,y:ROW*8,teams:path.final,game:findGame(path.final,"State Championship"),sources:["semi-0","semi-1"]});
+  return { nodes, width: 10*COLUMN+CARD_WIDTH, height: ROW*16+CARD_HEIGHT };
 }
 export function fitBracket(bounds: {x:number;y:number;width:number;height:number}, viewport: {width:number;height:number}, padding=24) {
   const scale = Math.min((Math.max(1,viewport.width-padding*2))/bounds.width,(Math.max(1,viewport.height-padding*2))/bounds.height,1);
