@@ -74,7 +74,7 @@ export default function ConnectedPlayoffBracket({games,selectedSchool,onSelectSc
     const candidates=opposite?potentialParticipants(layout.nodes,opposite):n.teams.filter(name=>name&&name!==location.schoolName);
     return <li key={n.id}><p className="font-bold">{playoffRoundLabels[n.round]}</p><p className="mt-1 text-xs text-white/65">{confirmed?`Confirmed opponent: ${confirmed}`:`Possible opponents: ${candidates.join(" · ")||"Pending"}`}</p></li>;
   })}</ol><p className="mt-3 text-xs text-white/60">Possible opponents are bracket candidates, not predictions.</p></details>}
-  <div ref={viewport} tabIndex={0} aria-label="Bracket canvas. Use zoom and fit buttons or drag to navigate." className="relative h-[65svh] min-h-[360px] max-h-[800px] overflow-hidden rounded-xl border border-white/15 bg-[#08090c] touch-none"
+  <div ref={viewport} tabIndex={0} aria-label="Bracket canvas. Use zoom and fit buttons or drag to navigate." className="relative h-[65svh] min-h-[360px] max-h-[800px] overflow-hidden rounded-xl border border-white/15 bg-[#08090c] touch-none select-none"
    onKeyDown={e=>{if(["ArrowLeft","ArrowRight","ArrowUp","ArrowDown"].includes(e.key)){e.preventDefault();setView(v=>({...v,x:v.x+(e.key==="ArrowLeft"?60:e.key==="ArrowRight"?-60:0),y:v.y+(e.key==="ArrowUp"?60:e.key==="ArrowDown"?-60:0)}));}}}
    onClickCapture={e=>{if(gestureMoved.current){e.preventDefault();e.stopPropagation();gestureMoved.current=false;}}}
    onPointerDown={e=>{if(!pointers.current.size)gestureMoved.current=false;const isLink=(e.target as HTMLElement).closest("a,button");if(isLink&&e.pointerType!=="touch")return;if(!isLink)e.currentTarget.setPointerCapture(e.pointerId);pointers.current.set(e.pointerId,{x:e.clientX,y:e.clientY});}}

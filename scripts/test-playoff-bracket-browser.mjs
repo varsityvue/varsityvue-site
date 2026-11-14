@@ -56,6 +56,7 @@ try{
   const beforeDrag=await canvas.locator(':scope > div').getAttribute('style');
   await page.mouse.move(box.x+box.width-20,box.y+12);await page.mouse.down();await page.mouse.move(box.x+box.width-65,box.y+42,{steps:5});await page.mouse.up();
   assert.notEqual(await canvas.locator(':scope > div').getAttribute('style'),beforeDrag);
+  assert.equal(await canvas.evaluate(el=>getComputedStyle(el).userSelect),'none','panning never selects card text');
   if(options.hasTouch){
    await page.getByRole('button',{name:'Find De Leon',exact:true}).click();await canvas.scrollIntoViewIfNeeded();box=await canvas.boundingBox();
    const cx=box.x+box.width/2,cy=box.y+box.height/2;const initial=await scale(canvas);const cdp=await context.newCDPSession(page);
