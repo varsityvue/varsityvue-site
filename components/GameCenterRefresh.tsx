@@ -2,7 +2,7 @@
 
 import { useEffect, useEffectEvent, useRef, useState, useTransition, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
-import { shouldPollGameCenter } from "@/lib/game-center-refresh";
+import { shouldPollGameCenter, shouldAdoptGameCenterSnapshot } from "@/lib/game-center-refresh";
 import type { WeeklyGame } from "@/lib/unified-games";
 
 type Props = { game: WeeklyGame; scoreLoadStatus: string; children: ReactNode };
@@ -23,7 +23,7 @@ export default function GameCenterRefresh({ game, scoreLoadStatus, children }: P
   // repository-only fallbacks. The page keys this boundary by canonical ID.
   if (seenChildren !== children) {
     setSeenChildren(children);
-    if (scoreLoadStatus !== "failed") setAvailable({ children, game });
+    if (shouldAdoptGameCenterSnapshot(available.game, game, scoreLoadStatus)) setAvailable({ children, game });
   }
 
   async function refresh() {
