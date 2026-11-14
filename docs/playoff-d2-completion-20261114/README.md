@@ -33,7 +33,7 @@ Executed scripts/sql/register-playoff-d2-20261114.sql against the existing priva
 
 ## Validation
 
-Application suite: 631 tests passed. TypeScript, full lint (zero errors, thirteen pre-existing warnings) and production build passed. Browser workflow extends desktop/iPhone/Android coverage to DII seed labels, all four regions, fit, Stamford path, canonical finals and Area pages. CI and exact-head preview must finish before release recommendation.
+Application suite: 631 tests passed. TypeScript, full lint (zero errors, thirteen pre-existing warnings) and production build passed. Browser workflow extends desktop/iPhone/Android coverage to DII seed labels, all four regions, fit, Stamford path, canonical finals and Area pages. Initial exact-head bracket CI passed desktop/iPhone/Android emulation, native touch pinch and DII checks. Actual Vercel preview passed all 47 Game Centers, 128 first-round school hub/schedule score-and-link checks, and 30 Area school schedule checks (preview-acceptance.json). Initial Goldthwaite/Burton navigation errors recovered on one direct retry; a Three Rivers streamed card was confirmed after waiting for its visible link. The broader unified browser test had assumed Wheeler had only one Game Center link; it now targets Bi-District explicitly and separately verifies the new Area link and Holliday venue. Final-head CI must complete before release recommendation.
 
 A wider scripts test run found an unrelated pre-existing failure in scripts/logo-optical-consistency.test.ts, which expects obsolete 76px directory frames. Reproduced on unchanged production main in a detached worktree: three passed, one failed. No logo implementation changed by this PR. This is not part of the required application CI suite.
 
