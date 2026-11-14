@@ -2,6 +2,26 @@
 import type { Game } from "@/types/platform";
 export const playoffScheduleAdditions: Game[] = [
   {
+    "id": "2026-bi-district-3a-d2-ii-6",
+    "season": 2026,
+    "week": 12,
+    "gameType": "playoff",
+    "playoff": { "round": "Bi-District", "division": "3A Division II", "region": "II" },
+    "homeSchoolSlug": "hamilton",
+    "awaySchoolSlug": "dallas-madison",
+    "homeTeam": "Hamilton",
+    "awayTeam": "Madison",
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "isNeutralSite": null,
+    "designatedSidesConfirmed": true,
+    "status": "upcoming",
+    "districtGame": false,
+    "coverageStatus": "none",
+    "sourceStatus": "verified",
+    "sourceLabel": "Hamilton ISD official playoff announcement (home tickets); UIL 2026 bi-district broadcast schedule; MaxPreps kickoff",
+    "venue": "Charles Head Stadium, Alvarado, TX"
+  },
+  {
     "id": "2026-bi-district-3a-d2-i-1",
     "season": 2026,
     "week": 12,
