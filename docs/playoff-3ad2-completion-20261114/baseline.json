@@ -1,0 +1,290 @@
+[
+  {
+    "region": 0,
+    "index": 0,
+    "teams": [
+      "Canadian",
+      "Muleshoe"
+    ],
+    "existingId": "2026-bi-district-3a-d2-i-1"
+  },
+  {
+    "region": 0,
+    "index": 1,
+    "teams": [
+      "Merkel",
+      "Crane"
+    ],
+    "existingId": "2026-bi-district-3a-d2-i-2"
+  },
+  {
+    "region": 0,
+    "index": 2,
+    "teams": [
+      "Idalou",
+      "Dimmitt"
+    ],
+    "existingId": null
+  },
+  {
+    "region": 0,
+    "index": 3,
+    "teams": [
+      "Coahoma",
+      "Holliday"
+    ],
+    "existingId": null
+  },
+  {
+    "region": 0,
+    "index": 4,
+    "teams": [
+      "Stanton",
+      "Henrietta"
+    ],
+    "existingId": null
+  },
+  {
+    "region": 0,
+    "index": 5,
+    "teams": [
+      "Slaton",
+      "Friona"
+    ],
+    "existingId": "2026-bi-district-3a-d2-i-6"
+  },
+  {
+    "region": 0,
+    "index": 6,
+    "teams": [
+      "Jacksboro",
+      "Grape Creek"
+    ],
+    "existingId": "2026-bi-district-3a-d2-i-7"
+  },
+  {
+    "region": 0,
+    "index": 7,
+    "teams": [
+      "Childress",
+      "Littlefield"
+    ],
+    "existingId": null
+  },
+  {
+    "region": 1,
+    "index": 0,
+    "teams": [
+      "Millsap",
+      "Trinity Leadership"
+    ],
+    "existingId": "2026-bi-district-3a-d2-ii-1"
+  },
+  {
+    "region": 1,
+    "index": 1,
+    "teams": [
+      "Edgewood",
+      "Valley View"
+    ],
+    "existingId": null
+  },
+  {
+    "region": 1,
+    "index": 2,
+    "teams": [
+      "Maypearl",
+      "Clifton"
+    ],
+    "existingId": null
+  },
+  {
+    "region": 1,
+    "index": 3,
+    "teams": [
+      "Howe",
+      "Quitman"
+    ],
+    "existingId": null
+  },
+  {
+    "region": 1,
+    "index": 4,
+    "teams": [
+      "Bells",
+      "Lone Oak"
+    ],
+    "existingId": "2026-bi-district-3a-d2-ii-5"
+  },
+  {
+    "region": 1,
+    "index": 5,
+    "teams": [
+      "Madison",
+      "Hamilton"
+    ],
+    "existingId": "2026-bi-district-3a-d2-ii-6"
+  },
+  {
+    "region": 1,
+    "index": 6,
+    "teams": [
+      "Grand Saline",
+      "Leonard"
+    ],
+    "existingId": "2026-bi-district-3a-d2-ii-7"
+  },
+  {
+    "region": 1,
+    "index": 7,
+    "teams": [
+      "Tolar",
+      "Scurry-Rosser"
+    ],
+    "existingId": "2026-bi-district-3a-d2-ii-8"
+  },
+  {
+    "region": 2,
+    "index": 0,
+    "teams": [
+      "Hooks",
+      "Arp"
+    ],
+    "existingId": null
+  },
+  {
+    "region": 2,
+    "index": 1,
+    "teams": [
+      "New Waverly",
+      "Buffalo"
+    ],
+    "existingId": null
+  },
+  {
+    "region": 2,
+    "index": 2,
+    "teams": [
+      "Jefferson",
+      "Redwater"
+    ],
+    "existingId": null
+  },
+  {
+    "region": 2,
+    "index": 3,
+    "teams": [
+      "Teague",
+      "Hardin"
+    ],
+    "existingId": null
+  },
+  {
+    "region": 2,
+    "index": 4,
+    "teams": [
+      "Mildred",
+      "Woodville"
+    ],
+    "existingId": null
+  },
+  {
+    "region": 2,
+    "index": 5,
+    "teams": [
+      "West Rusk",
+      "New Boston"
+    ],
+    "existingId": null
+  },
+  {
+    "region": 2,
+    "index": 6,
+    "teams": [
+      "Newton",
+      "Elkhart"
+    ],
+    "existingId": null
+  },
+  {
+    "region": 2,
+    "index": 7,
+    "teams": [
+      "De Kalb",
+      "Troup"
+    ],
+    "existingId": null
+  },
+  {
+    "region": 3,
+    "index": 0,
+    "teams": [
+      "Thrall",
+      "Brazos"
+    ],
+    "existingId": "2026-bi-district-3a-d2-iv-1"
+  },
+  {
+    "region": 3,
+    "index": 1,
+    "teams": [
+      "Hebbronville",
+      "Blanco"
+    ],
+    "existingId": null
+  },
+  {
+    "region": 3,
+    "index": 2,
+    "teams": [
+      "East Bernard",
+      "Anderson-Shiro"
+    ],
+    "existingId": null
+  },
+  {
+    "region": 3,
+    "index": 3,
+    "teams": [
+      "Stockdale",
+      "Cotulla"
+    ],
+    "existingId": null
+  },
+  {
+    "region": 3,
+    "index": 4,
+    "teams": [
+      "Poth",
+      "Santa Rosa"
+    ],
+    "existingId": null
+  },
+  {
+    "region": 3,
+    "index": 5,
+    "teams": [
+      "Rice Consolidated",
+      "Rogers"
+    ],
+    "existingId": null
+  },
+  {
+    "region": 3,
+    "index": 6,
+    "teams": [
+      "George West",
+      "Nixon-Smiley"
+    ],
+    "existingId": null
+  },
+  {
+    "region": 3,
+    "index": 7,
+    "teams": [
+      "Lexington",
+      "Boling"
+    ],
+    "existingId": null
+  }
+]
