@@ -33,7 +33,7 @@ export default async function BracketTemplatesPage(){
    </article>;
   })}</div>
   <h2 className="text-2xl font-bold">2A Division I · reviewed official seed structure</h2>
-  <p>Source: <a className="underline" href={template2AD12026.evidence!.source}>UIL linked bracket</a>. No imported scores or automatic publication.</p>
+  <p>Source: <a className="underline" href={template2AD12026.evidence!.source}>UIL linked bracket</a>. Reviewed seed mappings only; no automatic publication.</p>
   <div className="grid gap-2 sm:grid-cols-4">{[0,1,2,3].map(region=><article key={region} className="rounded-xl border border-white/20 p-3"><h3>{regionLabels[region]}</h3>{Array.from({length:8},(_,game)=><p key={game}>{game+1}: {template2AD12026.slots.filter(s=>s.region===region&&s.firstRoundGame===game).map(seedLabel).join(" vs ")}</p>)}</article>)}</div>
   <p>2027 foundation: sequential projected → confirmed → published transitions require reviewed evidence and resolved tiebreakers. Persistent template editing, season membership import, district procedure review and publication actions remain under development.</p>
  </main>;

@@ -23,5 +23,5 @@ jobs:
       - run: npm ci
       - run: npx tsc --noEmit
       - run: npx eslint components/ConnectedPlayoffBracket.tsx components/PlayoffBracketExperience.tsx lib/playoff-bracket-layout.ts lib/playoff-qualification.ts app/admin/playoff-publishing/bracket-templates/page.tsx
-      - run: node --import tsx --test lib/playoff-launch-completion.test.ts lib/playoffs.test.ts lib/playoff-bracket-layout.test.ts lib/playoff-qualification.test.ts lib/connected-playoff-bracket.test.tsx lib/playoff-components-readiness.test.tsx lib/playoff-bracket-advancement.test.ts lib/playoff-bracket-published-integrity.test.ts
+      - run: node --import tsx --test lib/playoff-bracket-gestures.test.ts lib/playoff-record-presentation.test.ts lib/playoff-launch-completion.test.ts lib/playoffs.test.ts lib/playoff-bracket-layout.test.ts lib/playoff-qualification.test.ts lib/connected-playoff-bracket.test.tsx lib/playoff-components-readiness.test.tsx lib/playoff-bracket-advancement.test.ts lib/playoff-bracket-published-integrity.test.ts
       - run: npm run build

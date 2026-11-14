@@ -16,7 +16,7 @@ import { completePostseasonStanding } from "@/lib/playoff-record-presentation";
 import { formatOverallRecord } from "@/lib/school-record-presentation";
 import type { Game } from "@/types/platform";
 
-type View = {scale:number;x:number;y:number};
+import { pinchBracket, zoomBracketAt, type BracketView as View } from "@/lib/playoff-bracket-gestures";
 export default function ConnectedPlayoffBracket({games,selectedSchool,onSelectSchool}:{games:Game[];selectedSchool?:string;onSelectSchool?:(school:string)=>void}) {
  const [schoolSearch,setSchoolSearch]=useState("");
  const schoolOptions=useMemo(()=>statewideDivisions.flatMap(d=>d.regions.flatMap((field,r)=>field.flatMap(pair=>pair.map(name=>({value:`${d.id}|${r}|${name}`,label:`${name} · ${d.label} · ${regionLabels[r]}`}))))).sort((a,b)=>a.label.localeCompare(b.label)),[]);
@@ -26,6 +26,7 @@ export default function ConnectedPlayoffBracket({games,selectedSchool,onSelectSc
  const [region,setRegion]=useState<number|null>(location?.regionIndex??null);
  const [view,setView]=useState<View>({scale:.1,x:20,y:20});
  const viewport=useRef<HTMLDivElement>(null);
+ const gestureMoved=useRef(false);
  const pointers=useRef(new Map<number,{x:number;y:number}>());
  const layout=useMemo(()=>buildBracketLayout(divisionId,games),[divisionId,games]);
  const route=schoolRoute(layout.nodes,location?.division.id===divisionId?location.schoolName:"");
@@ -45,8 +46,7 @@ export default function ConnectedPlayoffBracket({games,selectedSchool,onSelectSc
  useEffect(()=>{const el=viewport.current;if(!el)return; const observer=new ResizeObserver(()=>{if(el.clientWidth<600 && location?.division.id===divisionId && region===location.regionIndex)focusSchool();else fit(region);});observer.observe(el);return()=>observer.disconnect();},[fit,region,focusSchool,location?.division.id,location?.regionIndex,divisionId]); // Recalculate against the actual viewport.
  const zoom=(factor:number,cx?:number,cy?:number)=>setView(v=>{
   const el=viewport.current;const x=cx??(el?.clientWidth??600)/2,y=cy??(el?.clientHeight??600)/2;
-  const scale=Math.max(.025,Math.min(2.5,v.scale*factor));const ratio=scale/v.scale;
-  return {scale,x:x-(x-v.x)*ratio,y:y-(y-v.y)*ratio};
+  return zoomBracketAt(v,factor,{x,y});
  });
  useEffect(()=>{
   const el=viewport.current;if(!el)return;
@@ -75,10 +75,11 @@ export default function ConnectedPlayoffBracket({games,selectedSchool,onSelectSc
   })}</ol><p className="mt-3 text-xs text-white/60">Possible opponents are bracket candidates, not predictions.</p></details>}
   <div ref={viewport} tabIndex={0} aria-label="Bracket canvas. Use zoom and fit buttons or drag to navigate." className="relative h-[65svh] min-h-[360px] max-h-[800px] overflow-hidden rounded-xl border border-white/15 bg-[#08090c] touch-none"
    onKeyDown={e=>{if(["ArrowLeft","ArrowRight","ArrowUp","ArrowDown"].includes(e.key)){e.preventDefault();setView(v=>({...v,x:v.x+(e.key==="ArrowLeft"?60:e.key==="ArrowRight"?-60:0),y:v.y+(e.key==="ArrowUp"?60:e.key==="ArrowDown"?-60:0)}));}}}
-   onPointerDown={e=>{if((e.target as HTMLElement).closest("a,button"))return;e.currentTarget.setPointerCapture(e.pointerId);pointers.current.set(e.pointerId,{x:e.clientX,y:e.clientY});}}
+   onClickCapture={e=>{if(gestureMoved.current){e.preventDefault();e.stopPropagation();gestureMoved.current=false;}}}
+   onPointerDown={e=>{if(!pointers.current.size)gestureMoved.current=false;const isLink=(e.target as HTMLElement).closest("a,button");if(isLink&&e.pointerType!=="touch")return;if(!isLink)e.currentTarget.setPointerCapture(e.pointerId);pointers.current.set(e.pointerId,{x:e.clientX,y:e.clientY});}}
    onPointerMove={e=>{const previous=pointers.current.get(e.pointerId);if(!previous)return;const next={x:e.clientX,y:e.clientY};const other=[...pointers.current.entries()].find(([id])=>id!==e.pointerId)?.[1];
-    if(other){const old=Math.hypot(previous.x-other.x,previous.y-other.y),distance=Math.hypot(next.x-other.x,next.y-other.y);const rect=e.currentTarget.getBoundingClientRect();if(old>0)zoom(distance/old,(next.x+other.x)/2-rect.left,(next.y+other.y)/2-rect.top);}
-    else setView(v=>({...v,x:v.x+next.x-previous.x,y:v.y+next.y-previous.y}));pointers.current.set(e.pointerId,next);}}
+    if(other){gestureMoved.current=true;const rect=e.currentTarget.getBoundingClientRect();const local=(p:{x:number;y:number})=>({x:p.x-rect.left,y:p.y-rect.top});setView(v=>pinchBracket(v,local(previous),local(other),local(next),local(other)));}
+    else {if(Math.hypot(next.x-previous.x,next.y-previous.y)>3)gestureMoved.current=true;setView(v=>({...v,x:v.x+next.x-previous.x,y:v.y+next.y-previous.y}));}pointers.current.set(e.pointerId,next);}}
    onPointerUp={e=>pointers.current.delete(e.pointerId)} onPointerCancel={e=>pointers.current.delete(e.pointerId)} onLostPointerCapture={e=>pointers.current.delete(e.pointerId)}>
    <div style={{width:layout.width,height:layout.height,transform:`translate(${view.x}px,${view.y}px) scale(${view.scale})`,transformOrigin:"0 0"}} className="absolute left-0 top-0">
     <svg width={layout.width} height={layout.height} className="pointer-events-none absolute inset-0" aria-hidden="true">{layout.nodes.filter(n=>region===null||n.region===region).flatMap(n=>n.sources.map(id=>{const source=layout.nodes.find(s=>s.id===id)!;const reverse=source.x>n.x;const x=source.x+(reverse?0:CARD_WIDTH),y=source.y+CARD_HEIGHT/2,end=n.y+CARD_HEIGHT/2,target=n.x+(reverse?CARD_WIDTH:0),bend=x+(reverse?-29:29);return <path key={id} d={`M${x} ${y} H${bend} V${end} H${target}`} fill="none" stroke={route.has(id)&&route.has(n.id)?"#f4be59":"#51525d"} strokeWidth={route.has(id)&&route.has(n.id)?4:2}/>;}))}</svg>
