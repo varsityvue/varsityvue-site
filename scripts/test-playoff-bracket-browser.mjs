@@ -16,7 +16,7 @@ const fixture=createServer((req,res)=>{
 await new Promise(resolve=>fixture.listen(54329,'127.0.0.1',resolve));
 const app=spawn(process.execPath,['node_modules/next/dist/bin/next','start','--hostname','127.0.0.1','--port','3107'],{env:{...process.env,NEXT_TELEMETRY_DISABLED:'1',NEXT_PUBLIC_SUPABASE_URL:'http://127.0.0.1:54329',NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:'isolated-public'},stdio:['ignore','pipe','pipe']});
 let serverLog='';for(const stream of [app.stdout,app.stderr])stream.on('data',data=>{serverLog+=data.toString();});
-let browser;const results=[];const origin='http://127.0.0.1:3107';
+let browser,activePage;const results=[];const origin='http://127.0.0.1:3107';
 const canvasLabel='Bracket canvas. Use zoom and fit buttons or drag to navigate.';
 const selection='2A-D1|1|De Leon';
 const scale=async canvas=>canvas.locator(':scope > div').evaluate(el=>new DOMMatrix(getComputedStyle(el).transform).a);
@@ -36,7 +36,7 @@ try{
   await context.route('**/*',route=>{
    const url=new URL(route.request().url());return ['127.0.0.1','localhost'].includes(url.hostname)?route.continue():route.abort();
   });
-  const page=await context.newPage();
+  const page=await context.newPage();activePage=page;
   await page.goto(origin+'/playoffs?school='+encodeURIComponent(selection));
   const search=page.getByRole('searchbox',{name:'Search bracket schools',exact:true});
   await search.waitFor();await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).waitFor();
@@ -54,7 +54,7 @@ try{
   await page.getByRole('button',{name:'Fit selected region',exact:true}).click();assert.equal(await bracket.locator('article').count(),15);await checkContained(page,canvas);
   await canvas.scrollIntoViewIfNeeded();let box=await canvas.boundingBox();assert.ok(box);
   const beforeDrag=await canvas.locator(':scope > div').getAttribute('style');
-  await page.mouse.move(box.x+box.width-20,box.y+box.height-20);await page.mouse.down();await page.mouse.move(box.x+box.width-65,box.y+box.height-45,{steps:5});await page.mouse.up();
+  await page.mouse.move(box.x+box.width-20,box.y+12);await page.mouse.down();await page.mouse.move(box.x+box.width-65,box.y+42,{steps:5});await page.mouse.up();
   assert.notEqual(await canvas.locator(':scope > div').getAttribute('style'),beforeDrag);
   if(options.hasTouch){
    await page.getByRole('button',{name:'Find De Leon',exact:true}).click();await canvas.scrollIntoViewIfNeeded();box=await canvas.boundingBox();
@@ -88,5 +88,5 @@ try{
  assert.ok(calls.every(c=>c.method==='GET'||c.method==='HEAD'||c.method==='OPTIONS'||(c.method==='POST'&&c.path?.includes('/rpc/public_score_states'))),'only read requests reach fixture');
  writeFileSync(`${output}/results.json`,JSON.stringify({results,fixtureOnly:true},null,2));
  console.log(JSON.stringify(results,null,2));
-}catch(error){writeFileSync(`${output}/failure.txt`,String(error.stack??error));throw error;}
+}catch(error){await activePage?.screenshot({path:`${output}/failure.png`}).catch(()=>{});writeFileSync(`${output}/failure.txt`,String(error.stack??error));throw error;}
 finally{writeFileSync(`${output}/server.log`,serverLog);await browser?.close();app.kill('SIGTERM');await new Promise(resolve=>fixture.close(resolve));}
