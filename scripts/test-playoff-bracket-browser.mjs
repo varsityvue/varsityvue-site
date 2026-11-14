@@ -132,11 +132,16 @@ try{
    ['2026-bi-district-3a-d1-iii-1',['FINAL · VERIFIED','42','7']],
    ['2026-area-3a-d1-i-3',['Wall','Sweetwater','6:00 PM','Colorado City']],
    ['2026-area-3a-d1-iii-2',['Orangefield','7:30 PM','Houston']],
-   ['2026-area-3a-d1-iii-1',['Diboll','Lorena','TBA','Madisonville']]
+   ['2026-area-3a-d1-iii-1',['Diboll','Lorena','TBD','Madisonville']]
   ]){
    await page.goto(origin+'/games/'+id);const text=await page.locator('main').innerText();
    for(const word of words)assert.ok(text.includes(word),`${id} contains ${word}`);
   }
+  await page.goto(origin+'/schools/clyde');
+  await page.locator('a[href="/games/2026-bi-district-3a-d1-i-3"]').first().waitFor();
+  assert.ok((await page.locator('main').innerText()).includes('56-23'),'undated verified playoff final appears in hub latest scores');
+  await page.goto(origin+'/schools/clyde/schedule');
+  await page.locator('a[href="/games/2026-bi-district-3a-d1-i-3"]').first().waitFor();
   await page.goto(origin+'/admin/playoff-publishing/bracket-templates');await page.getByRole('heading',{name:'Welcome back.',exact:true}).waitFor();
   assert.equal(await page.getByRole('heading',{name:'Bracket template review',exact:true}).count(),0);
   results.push({device:name,viewport:options.viewport,pass:true,pinch:options.hasTouch?'emulated native touch passed':'not applicable'});await context.close();

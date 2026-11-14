@@ -39,3 +39,7 @@ See `source-conflicts.json`. Bushland 50–35 and Diboll 42–7 follow the UIL-l
 636/636 lib/data regression tests pass; TypeScript passes. Full lint/build and actual preview/device acceptance results recorded in PR and final handoff when complete. Browser CI adds all four 3A regional fits, 32 verified cards, reviewed seeds, school path screenshots, conflict finals, 6 p.m./7:30 p.m./TBD schedules. Existing DI/DII, isolated feed-failure and authoritative-correction regression tests retained.
 
 Do not merge/deploy without owner approval. PR #144 excluded. No new 2027 feature work.
+
+## Preview defect corrected
+
+Initial preview exposed Clyde's undated verified first-round final sorting behind September games in hub Latest scores. Shared recent-result chronology now uses known season/week before kickoff, so the final appears without an invented date. School hub and recent-form consumers share this ordering. Regression unit and device-browser tests cover Clyde's exact case. First browser CI also corrected a test expectation from TBA to the existing TBD display wording; no presentation change was needed.

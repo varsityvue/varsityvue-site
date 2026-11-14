@@ -8,6 +8,7 @@ import { resolveBracketSchool } from "./playoff-school-catalog";
 import { template3AD12026 } from "../data/playoff-template-3ad1-2026";
 import { validateTemplate, seedLabel } from "./playoff-qualification";
 import { playoff3AD1FirstRound, playoff3AD1Area } from "../data/playoff-3ad1-completion-20261114";
+import { compareGameChronology, orderPlayedFinals } from "./recent-results";
 const games = getGames();
 const { nodes } = buildBracketLayout("3A-D1", games);
 
@@ -62,4 +63,12 @@ test("canonical expansion does not duplicate games or regress either completed 2
   assert.equal(layout.nodes.filter(n=>n.round===0&&verifiedWinner(n.game)).length,finals);
   assert.equal(layout.nodes.filter(n=>n.round===1&&n.game).length,areas);
  }
+});
+
+test("unknown playoff kickoff cannot hide Clyde’s newest verified result behind September",()=>{
+ const clyde=getGamesForSchool("clyde").filter(g=>g.status==="final");
+ const recent=[...clyde].sort((a,b)=>compareGameChronology(b,a));
+ assert.equal(recent[0].id,"2026-bi-district-3a-d1-i-3");
+ assert.equal(recent[0].kickoff,undefined);
+ assert.equal(orderPlayedFinals(clyde).at(-1)?.id,recent[0].id);
 });
