@@ -9,7 +9,7 @@ export function applyGameState(game: Game, state?: PublicScoreState): Game {
   const exceptional = state.result_type === "forfeit" || state.result_type === "no_contest";
   // An incomplete score payload cannot replace or splice into a reviewed final.
   // Complete verified corrections and explicit status/outcome changes retain priority.
-  if (game.status === "final" && game.publicScoreVerified && ["live", "final"].includes(state.status) && !completeScore && !exceptional) return game;
+  if (game.status === "final" && game.publicScoreVerified && (["scheduled", "upcoming"].includes(state.status) || (["live", "final"].includes(state.status) && !completeScore)) && !exceptional) return game;
 
   const hasScore =
     typeof state.home_score === "number" &&

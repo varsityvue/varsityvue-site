@@ -13,7 +13,7 @@ test('all 32 reviewed first-round finals survive absent production score state',
  assert.ok(nodes.every(n=>applyGameState(n.game!).publicScoreVerified));
 });
 test('missing, unverified and incomplete score states cannot erase or splice a reviewed final',()=>{
- for(const value of [undefined,state({verified:false,home_score:0,away_score:0,status:'live'}),state({home_score:41,away_score:null}),state({home_score:null,away_score:null,status:'live'}),state({game_id:'wrong'})])assert.deepEqual(applyGameState(game,value),game);
+ for(const value of [undefined,state({verified:false,home_score:0,away_score:0,status:'live'}),state({home_score:41,away_score:null}),state({home_score:null,away_score:null,status:'live'}),state({game_id:'wrong'}),state({status:'scheduled',home_score:null,away_score:null}),state({status:'upcoming',home_score:0,away_score:0})])assert.deepEqual(applyGameState(game,value),game);
  assert.equal(game.homeScore,40);assert.equal(game.awayScore,24);
 });
 test('complete authoritative corrections and explicit outcomes preserve precedence',()=>{

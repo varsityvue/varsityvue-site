@@ -16,7 +16,7 @@ The audit found a real record inconsistency: Panhandle's hub withheld its incomp
 
 - Nineteen reviewed first-round finals become runtime catalog fallbacks; the existing thirteen new finals were already runtime data.
 - Missing/unverified score state preserves reviewed results.
-- Incomplete score payloads cannot splice into a reviewed final.
+- Incomplete score payloads and stale pregame metadata cannot replace or splice into a reviewed final.
 - Complete verified corrections and explicit cancelled/postponed/exceptional outcomes retain precedence.
 - A failed client refresh may adopt a reviewed fallback when its previous render was unverified, but cannot replace a previously verified live/final result with an older repository fallback.
 - No production database writes, score changes, permission changes, schema changes or RLS changes.

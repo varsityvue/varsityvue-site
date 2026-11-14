@@ -96,7 +96,11 @@ try{
  const fallbackText=await fallbackPage.locator('main').innerText();
  assert.ok(fallbackText.includes('FINAL · VERIFIED')&&fallbackText.includes('40')&&fallbackText.includes('24'),'reviewed final renders on initial feed failure');
  await fallbackPage.screenshot({path:`${output}/repository-final-feed-failed.png`});
- fixtureFailure=false;const deLeon=states.find(row=>row.game_id==='de-leon-vs-alvord-2026-bi-district');deLeon.home_score=42;
+ fixtureFailure=false;const deLeon=states.find(row=>row.game_id==='de-leon-vs-alvord-2026-bi-district');
+ deLeon.status='scheduled';deLeon.home_score=null;deLeon.away_score=null;
+ await fallbackPage.reload();await fallbackPage.getByRole('heading',{name:'Alvord vs. De Leon',exact:true}).waitFor();
+ assert.ok((await fallbackPage.locator('main').innerText()).includes('FINAL · VERIFIED'),'verified pregame metadata cannot regress a reviewed final');
+ deLeon.status='final';deLeon.home_score=42;deLeon.away_score=24;
  await fallbackPage.reload();await fallbackPage.getByRole('heading',{name:'Alvord vs. De Leon',exact:true}).waitFor();
  assert.ok((await fallbackPage.locator('main').innerText()).includes('42'),'isolated authoritative correction overrides repository fallback');
  deLeon.home_score=40;await fallbackContext.close();
