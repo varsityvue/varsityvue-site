@@ -82,6 +82,11 @@ try{
    assert.ok(expected.length>0);await canvas.scrollIntoViewIfNeeded();
    await page.screenshot({path:`${output}/${name}-di-region-${Number(region)+1}-logos.png`});
   }
+  for(const [label,heading] of [['axtell','Axtell vs. De Leon'],['leon','Leon vs. Ganado']]){
+   const card=page.locator('article').filter({has:page.getByRole('heading',{name:heading,exact:true})});
+   await card.scrollIntoViewIfNeeded();await card.locator('img').evaluateAll(images=>Promise.all(images.map(img=>img.decode())));
+   await page.screenshot({path:`${output}/${name}-area-${label}-logos.png`});
+  }
   for(const division of ['2A-D1','2A-D2','3A-D1','3A-D2','4A-D1','4A-D2']){
    await page.getByRole('combobox',{name:'Bracket division',exact:true}).selectOption(division);await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();assert.equal(await bracket.locator('article').count(),63);
   }
@@ -92,8 +97,12 @@ try{
   assert.equal(await page.getByRole('combobox',{name:'Choose bracket school',exact:true}).inputValue(),'2A-D1|0|Panhandle');await page.goForward();
   assert.equal(await page.getByRole('combobox',{name:'Choose bracket school',exact:true}).inputValue(),selection);
   await page.getByRole('link',{name:'Game Center for Panhandle vs. Floydada',exact:true}).click();await page.getByRole('heading',{name:'Floydada vs. Panhandle',exact:true}).waitFor();
+  await page.locator('img[src="/logos/schools/panhandle.png"]:visible').first().evaluate(img=>img.decode());
+  await page.screenshot({path:`${output}/${name}-game-center-logos.png`});
   assert.ok((await page.locator('main').innerText()).includes('62'));assert.ok((await page.locator('main').innerText()).includes('FINAL · VERIFIED'));
   await page.getByRole('link',{name:'View Panhandle Hub →',exact:true}).click();await page.getByRole('heading',{name:'Panhandle',exact:true}).waitFor();
+  await page.locator('img[src="/logos/schools/panhandle.png"]:visible').first().evaluate(img=>img.decode());
+  await page.screenshot({path:`${output}/${name}-hub-logo.png`});
   const record=page.getByText('2026 Record',{exact:true}).locator('..');assert.equal(await record.locator('p').first().innerText(),'—');
   await page.locator('a[href="/schools/panhandle/schedule"]').first().click();await page.locator('a[href="/games/2026-bi-district-2a-d1-i-1"]').first().waitFor();
   assert.equal(await page.getByText('Record',{exact:true}).locator('..').locator('p').last().innerText(),'—','schedule and hub withhold the same incomplete record');
