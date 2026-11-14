@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import UnifiedGamesPage from "@/components/UnifiedGamesPage";
+// Ensure Game Center reads the current published game catalog on every request.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Texas High School Football Games, Scores & Schedules",
   description:

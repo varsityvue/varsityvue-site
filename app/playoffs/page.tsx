@@ -7,6 +7,10 @@ import { formatPlayoffKickoff, getPlayoffSchedule } from "@/lib/playoffs";
 import { getSchoolBySlug } from "@/lib/schools";
 import PlayoffBracketExperience from "@/components/PlayoffBracketExperience";
 
+// Keep playoff listings current when new verified games are released.
+// A cached route snapshot can omit newly published matchups.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "2026 Playoff Central | VarsityVue",
   description: "Find Texas high school football playoff schedules, venues and verified scores for VarsityVue schools.",
