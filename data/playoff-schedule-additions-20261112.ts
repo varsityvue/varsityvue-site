@@ -2,6 +2,26 @@
 import type { Game } from "@/types/platform";
 export const playoffScheduleAdditions: Game[] = [
   {
+    "id": "2026-bi-district-3a-d2-ii-8",
+    "season": 2026,
+    "week": 12,
+    "gameType": "playoff",
+    "playoff": { "round": "Bi-District", "division": "3A Division II", "region": "II" },
+    "homeSchoolSlug": "tolar",
+    "awaySchoolSlug": "scurry-rosser",
+    "homeTeam": "Tolar",
+    "awayTeam": "Scurry-Rosser",
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "isNeutralSite": null,
+    "designatedSidesConfirmed": false,
+    "status": "upcoming",
+    "districtGame": false,
+    "coverageStatus": "none",
+    "sourceStatus": "verified",
+    "sourceLabel": "Tolar ISD calendar and Scurry-Rosser ISD live feed; 7 PM CST kickoff confirmed; designated sides not confirmed",
+    "venue": "Burleson ISD Stadium, Burleson, TX"
+  },
+  {
     "id": "2026-bi-district-3a-d2-ii-6",
     "season": 2026,
     "week": 12,
