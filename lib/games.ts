@@ -1,3 +1,4 @@
+import { playoffReviewedFirstRoundFinals } from "@/data/playoff-reviewed-finals-20261114";
 import { playoffReviewedResults } from "@/data/playoff-launch-games-20261114";
 import { playoffScheduleAdditions, playoffSiteReconciliations } from "@/data/playoff-schedule-additions-20261112";
 import { games as scheduledGames } from "@/data/games";
@@ -104,6 +105,12 @@ for (const result of playoffReviewedResults) {
   if (!existing || existing.homeTeam !== result.homeTeam || existing.awayTeam !== result.awayTeam) throw new Error(`Playoff result identity mismatch: ${result.id}`);
   if (existing.publicScoreVerified) throw new Error(`Refusing to replace a verified repository result: ${result.id}`);
   gamesById.set(result.id, { ...existing, ...result });
+}
+for (const result of playoffReviewedFirstRoundFinals) {
+  const existing = gamesById.get(result.game_id);
+  if (!existing || existing.homeSchoolSlug !== result.home_school_slug || existing.awaySchoolSlug !== result.away_school_slug) throw new Error(`Reviewed final identity mismatch: ${result.game_id}`);
+  if (existing.publicScoreVerified) throw new Error(`Refusing to replace a verified repository final: ${result.game_id}`);
+  gamesById.set(result.game_id, { ...existing, status: "final", homeScore: result.home_score, awayScore: result.away_score, publicScoreVerified: true, sourceStatus: "verified", sourceLabel: `${existing.sourceLabel ?? ""}; final reviewed against UIL-linked 2026 2A DI bracket and verified VarsityVue score feed on November 14, 2026` });
 }
 const rawGames = Array.from(gamesById.values()).map(applyEditorialGameFlags);
 

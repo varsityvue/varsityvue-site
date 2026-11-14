@@ -28,7 +28,7 @@ test("original 61-game schedule batch remains distinct, source-backed and outcom
  }
  assert.deepEqual(auditPublishedPlayoffGames(getGames()),[]);
  const region=getBiDistrictReadiness(getGames()).filter(r=>r.division.startsWith('2A')&&r.region==='Region II');
- assert.equal(region.length,16);assert.ok(region.every(r=>r.status==='scheduled'));
+ assert.equal(region.length,16);assert.ok(region.every(r=>r.status===(r.division==='2A Division I'?'verified-final':'scheduled')));
 });
 test("nullable neutrality never manufactures a Neutral label or home designation",()=>{
  for(const isNeutralSite of [true,false,null]){
@@ -53,6 +53,6 @@ test("seven explicit site reconciliations preserve all other existing game facts
    const before=historicalGames.find(g=>g.id===correction.id)!;
    const after=getGames().find(g=>g.id===correction.id)!;
    assert.ok(before);assert.equal(after.isNeutralSite,null);assert.equal(after.designatedSidesConfirmed,false);
-   for(const key of ['kickoff','venue','homeSchoolSlug','awaySchoolSlug','homeTeam','awayTeam','homeScore','awayScore','officialWinnerSchoolSlug'] as const) assert.deepEqual(after[key],before[key]);
+   for(const key of ['kickoff','venue','homeSchoolSlug','awaySchoolSlug','homeTeam','awayTeam','officialWinnerSchoolSlug'] as const) assert.deepEqual(after[key],before[key]);
  }
 });

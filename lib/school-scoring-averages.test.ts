@@ -68,8 +68,8 @@ test("excludes scoreless forfeits, missing scores, pending games, and exceptiona
   assert.equal(formatScoringAverage(averages.pointsPerGame), "—");
 });
 
-test("Cisco's four current finals reconcile to 27.8 PPG and 16.5 Allowed/G", () => {
-  const averages = getSchoolScoringAverages("cisco", getGames());
+test("Cisco's four historical regular-season finals reconcile to 27.8 PPG and 16.5 Allowed/G", () => {
+  const averages = getSchoolScoringAverages("cisco", getGames().filter(g=>g.gameType!=="playoff"));
   assert.equal(averages.scoredGames, 4);
   assert.equal(averages.pointsFor, 111);
   assert.equal(averages.pointsAllowed, 66);
