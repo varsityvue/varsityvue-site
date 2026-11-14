@@ -1,0 +1,55 @@
+[
+  {
+    "game": "Roscoe\u2013Eldorado",
+    "selected": "52\u201314",
+    "uil": "45\u201314",
+    "dctf": "52\u201314",
+    "reason": "Both team schedules and local KSAN reporting corroborate 52\u201314; bracket cell differs.",
+    "sources": [
+      "https://www.maxpreps.com/tx/roscoe/roscoe-plowboys/football/schedule/",
+      "https://www.maxpreps.com/tx/eldorado/eldorado-eagles/football/schedule/",
+      "https://sanangelolive.com/scores"
+    ]
+  },
+  {
+    "game": "Crawford\u2013Albany",
+    "selected": "27\u201321",
+    "uil": "27\u201321",
+    "dctf": "27\u201320",
+    "reason": "Preserve verified production; UIL bracket, Albany schedule and team recaps agree.",
+    "sources": [
+      "https://www.maxpreps.com/tx/albany/albany-lions/football/schedule/"
+    ]
+  },
+  {
+    "game": "Haskell\u2013Clarendon",
+    "selected": "62\u201312",
+    "uil": "62\u201318",
+    "dctf": "62\u201312",
+    "reason": "Preserve verified production; Haskell team schedule and local reporting corroborate.",
+    "sources": [
+      "https://www.maxpreps.com/tx/haskell/haskell-indians/football/schedule/"
+    ]
+  },
+  {
+    "game": "Grapeland\u2013West Hardin",
+    "selected": "42\u201320",
+    "uil": "42\u201320",
+    "dctf": "48\u201320",
+    "reason": "UIL bracket, direct game page, West Hardin team schedule and both recaps agree.",
+    "sources": [
+      "https://www.maxpreps.com/tx/saratoga/west-hardin-oilers/football/schedule/"
+    ]
+  },
+  {
+    "game": "West Sabine\u2013Tenaha",
+    "selected": "38\u201321",
+    "uil": "22\u201321",
+    "dctf": "38\u201321",
+    "reason": "Local Shelby County Today final report and DCTF agree; bracket cell differs. Direct school announcement unavailable.",
+    "sources": [
+      "https://mail.scttx.com/sports",
+      "https://scttx.com/category/school-news"
+    ]
+  }
+]
