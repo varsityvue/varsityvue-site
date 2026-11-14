@@ -24,3 +24,19 @@ test('future opponent candidates respect the source subtree',()=>{
  assert.deepEqual(potentialParticipants(nodes,'1-0-6'),['Axtell','Bangs']);
  assert.equal(potentialParticipants(nodes,'final').length,64);
 });
+test('verified results reach state across normalized division labels',()=>{
+ const games: import('../types/platform').Game[]=[];
+ const rounds=['Bi-District','Area','Regional Semifinal','Regional Final','State Semifinal','State Championship'] as const;
+ for(let round=0;round<6;round++) {
+  const {nodes}=buildBracketLayout('2A-D1',games);
+  for(const node of nodes.filter(n=>n.round===round)) {
+   assert.ok(node.teams.every(Boolean));
+   games.push({id:node.id,season:2026,gameType:'playoff',districtGame:false,status:'final',publicScoreVerified:true,homeTeam:node.teams[0]!,awayTeam:node.teams[1]!,homeScore:21,awayScore:7,playoff:{round:rounds[round],division:'2A Division I',...(node.region>=0?{region:['I','II','III','IV'][node.region]}:{})}});
+  }
+ }
+ const final=buildBracketLayout('2A-D1',games).nodes.find(n=>n.id==='final')!;
+ assert.ok(final.game);assert.equal(final.teams[0],'Panhandle');assert.equal(final.teams[1],'Cooper');
+ const semifinal=games.find(g=>g.id==='semi-0')!;semifinal.publicScoreVerified=false;
+ const blocked=buildBracketLayout('2A-D1',games).nodes.find(n=>n.id==='final')!;
+ assert.equal(blocked.teams[0],null);assert.equal(blocked.game,undefined);
+});
