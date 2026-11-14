@@ -85,6 +85,7 @@ try{
   for(const [label,heading] of [['axtell','Axtell vs. De Leon'],['leon','Leon vs. Ganado']]){
    const card=page.locator('article').filter({has:page.getByRole('heading',{name:heading,exact:true})});
    await card.scrollIntoViewIfNeeded();await card.locator('img').evaluateAll(images=>Promise.all(images.map(img=>img.decode())));
+   if(label==='leon') assert.ok((await card.getByRole('img',{name:'Leon logo',exact:true}).evaluate(img=>getComputedStyle(img).filter)).includes('drop-shadow'),'dark owner artwork retains its shared contrast filter on Playoff Central cards');
    await page.screenshot({path:`${output}/${name}-area-${label}-logos.png`});
   }
   for(const division of ['2A-D1','2A-D2','3A-D1','3A-D2','4A-D1','4A-D2']){
