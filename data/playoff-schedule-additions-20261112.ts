@@ -2,6 +2,26 @@
 import type { Game } from "@/types/platform";
 export const playoffScheduleAdditions: Game[] = [
   {
+    "id": "2026-bi-district-3a-d2-ii-3",
+    "season": 2026,
+    "week": 12,
+    "gameType": "playoff",
+    "playoff": { "round": "Bi-District", "division": "3A Division II", "region": "II" },
+    "homeSchoolSlug": "maypearl",
+    "awaySchoolSlug": "clifton",
+    "homeTeam": "Maypearl",
+    "awayTeam": "Clifton",
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "isNeutralSite": null,
+    "designatedSidesConfirmed": true,
+    "status": "upcoming",
+    "districtGame": false,
+    "coverageStatus": "none",
+    "sourceStatus": "verified",
+    "sourceLabel": "Clifton ISD athletics: Clifton designated visitor, 7 PM at Godley; UIL 3A bi-district broadcast schedule",
+    "venue": "Wildcat Stadium, Godley, TX"
+  },
+  {
     "id": "2026-bi-district-3a-d2-ii-8",
     "season": 2026,
     "week": 12,
