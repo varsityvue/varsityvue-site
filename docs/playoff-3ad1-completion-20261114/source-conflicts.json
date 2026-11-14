@@ -1,0 +1,41 @@
+[
+  {
+    "game": "Bushland\u2013Jim Ned",
+    "selected": "50\u201335",
+    "uil": "50\u201335",
+    "dctf": "41\u201314",
+    "basis": "UIL-linked bracket, direct game page and both team schedules agree.",
+    "sources": [
+      "https://www.maxpreps.com/tx/bushland/bushland-falcons/football/schedule/",
+      "https://www.maxpreps.com/tx/tuscola/jim-ned-indians/football/schedule/"
+    ]
+  },
+  {
+    "game": "Diboll\u2013Buna",
+    "selected": "42\u20137",
+    "uil": "42\u20137",
+    "dctf": "42\u20136",
+    "basis": "UIL-linked bracket, direct game page and Buna team schedule agree.",
+    "sources": [
+      "https://www.maxpreps.com/tx/buna/buna-cougars/football/schedule/"
+    ]
+  },
+  {
+    "game": "Diboll\u2013Lorena Area kickoff",
+    "selected": "November 20, time TBD",
+    "uil": "7 p.m.",
+    "dctf": "7:30 p.m.",
+    "basis": "Both support November 20; exact time deliberately withheld. DCTF reports Mustang Stadium, Madisonville.",
+    "sources": [
+      "https://www.uiltexas.org/football/playoff-brackets/3AD1",
+      "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations"
+    ]
+  },
+  {
+    "game": "Franklin\u2013East Chambers venue",
+    "selected": "Magnolia West, TX",
+    "uil": "Magnolia West",
+    "dctf": "Magnolia Mustang Stadium",
+    "basis": "Campus wording follows the UIL-linked bracket; source spelling retained as an exception."
+  }
+]

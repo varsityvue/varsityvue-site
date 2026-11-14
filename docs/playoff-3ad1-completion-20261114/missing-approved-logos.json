@@ -1,0 +1,368 @@
+[
+  {
+    "region": 1,
+    "name": "Shallowater",
+    "slug": "shallowater",
+    "active": true
+  },
+  {
+    "region": 1,
+    "name": "Compass Academy",
+    "slug": "odessa-compass-academy",
+    "active": false
+  },
+  {
+    "region": 1,
+    "name": "Denver City",
+    "slug": "denver-city",
+    "active": false
+  },
+  {
+    "region": 1,
+    "name": "Ingram Moore",
+    "slug": "ingram-moore",
+    "active": false
+  },
+  {
+    "region": 1,
+    "name": "Vernon",
+    "slug": "vernon",
+    "active": true
+  },
+  {
+    "region": 1,
+    "name": "Wall",
+    "slug": "wall",
+    "active": true
+  },
+  {
+    "region": 1,
+    "name": "Bowie",
+    "slug": "bowie",
+    "active": false
+  },
+  {
+    "region": 1,
+    "name": "Sweetwater",
+    "slug": "sweetwater",
+    "active": true
+  },
+  {
+    "region": 1,
+    "name": "Dalhart",
+    "slug": "dalhart",
+    "active": false
+  },
+  {
+    "region": 1,
+    "name": "Paradise",
+    "slug": "paradise",
+    "active": true
+  },
+  {
+    "region": 1,
+    "name": "Llano",
+    "slug": "llano",
+    "active": false
+  },
+  {
+    "region": 1,
+    "name": "Bushland",
+    "slug": "bushland",
+    "active": true
+  },
+  {
+    "region": 1,
+    "name": "Jim Ned",
+    "slug": "tuscola-jim-ned",
+    "active": false
+  },
+  {
+    "region": 2,
+    "name": "Gunter",
+    "slug": "gunter",
+    "active": true
+  },
+  {
+    "region": 2,
+    "name": "Groesbeck",
+    "slug": "groesbeck",
+    "active": false
+  },
+  {
+    "region": 2,
+    "name": "Liberty-Eylau",
+    "slug": "texarkana-liberty-eylau",
+    "active": true
+  },
+  {
+    "region": 2,
+    "name": "Commerce",
+    "slug": "commerce",
+    "active": false
+  },
+  {
+    "region": 2,
+    "name": "Whitney",
+    "slug": "whitney",
+    "active": true
+  },
+  {
+    "region": 2,
+    "name": "Life Oak Cliff",
+    "slug": "dallas-life-oak-cliff",
+    "active": false
+  },
+  {
+    "region": 2,
+    "name": "Winnsboro",
+    "slug": "winnsboro",
+    "active": false
+  },
+  {
+    "region": 2,
+    "name": "Tatum",
+    "slug": "tatum",
+    "active": true
+  },
+  {
+    "region": 2,
+    "name": "Malakoff",
+    "slug": "malakoff",
+    "active": true
+  },
+  {
+    "region": 2,
+    "name": "Gladewater",
+    "slug": "gladewater",
+    "active": false
+  },
+  {
+    "region": 2,
+    "name": "Mexia",
+    "slug": "mexia",
+    "active": false
+  },
+  {
+    "region": 2,
+    "name": "Pilot Point",
+    "slug": "pilot-point",
+    "active": true
+  },
+  {
+    "region": 2,
+    "name": "Atlanta",
+    "slug": "atlanta",
+    "active": true
+  },
+  {
+    "region": 2,
+    "name": "Mount Vernon",
+    "slug": "mount-vernon",
+    "active": false
+  },
+  {
+    "region": 2,
+    "name": "Whitesboro",
+    "slug": "whitesboro",
+    "active": true
+  },
+  {
+    "region": 2,
+    "name": "Grandview",
+    "slug": "grandview",
+    "active": false
+  },
+  {
+    "region": 3,
+    "name": "Diboll",
+    "slug": "diboll",
+    "active": true
+  },
+  {
+    "region": 3,
+    "name": "Buna",
+    "slug": "buna",
+    "active": false
+  },
+  {
+    "region": 3,
+    "name": "Lorena",
+    "slug": "lorena",
+    "active": true
+  },
+  {
+    "region": 3,
+    "name": "Sweeny",
+    "slug": "sweeny",
+    "active": false
+  },
+  {
+    "region": 3,
+    "name": "Orangefield",
+    "slug": "orangefield",
+    "active": true
+  },
+  {
+    "region": 3,
+    "name": "Trinity",
+    "slug": "trinity",
+    "active": false
+  },
+  {
+    "region": 3,
+    "name": "Edna",
+    "slug": "edna",
+    "active": false
+  },
+  {
+    "region": 3,
+    "name": "C.H. Yoe",
+    "slug": "cameron-yoe",
+    "active": true
+  },
+  {
+    "region": 3,
+    "name": "Columbus",
+    "slug": "columbus",
+    "active": true
+  },
+  {
+    "region": 3,
+    "name": "Little River Academy",
+    "slug": "little-river-academy",
+    "active": false
+  },
+  {
+    "region": 3,
+    "name": "Anahuac",
+    "slug": "anahuac",
+    "active": false
+  },
+  {
+    "region": 3,
+    "name": "Westwood",
+    "slug": "palestine-westwood",
+    "active": true
+  },
+  {
+    "region": 3,
+    "name": "Franklin",
+    "slug": "franklin",
+    "active": true
+  },
+  {
+    "region": 3,
+    "name": "Hempstead",
+    "slug": "hempstead",
+    "active": false
+  },
+  {
+    "region": 3,
+    "name": "Fairfield",
+    "slug": "fairfield",
+    "active": false
+  },
+  {
+    "region": 3,
+    "name": "East Chambers",
+    "slug": "east-chambers",
+    "active": true
+  },
+  {
+    "region": 4,
+    "name": "Yoakum",
+    "slug": "yoakum",
+    "active": true
+  },
+  {
+    "region": 4,
+    "name": "Carrizo Springs",
+    "slug": "carrizo-springs",
+    "active": false
+  },
+  {
+    "region": 4,
+    "name": "Rio Hondo",
+    "slug": "rio-hondo",
+    "active": false
+  },
+  {
+    "region": 4,
+    "name": "Goliad",
+    "slug": "goliad",
+    "active": true
+  },
+  {
+    "region": 4,
+    "name": "Devine",
+    "slug": "devine",
+    "active": true
+  },
+  {
+    "region": 4,
+    "name": "Randolph",
+    "slug": "universal-city-randolph",
+    "active": false
+  },
+  {
+    "region": 4,
+    "name": "Orange Grove",
+    "slug": "orange-grove",
+    "active": true
+  },
+  {
+    "region": 4,
+    "name": "Raymondville",
+    "slug": "raymondville",
+    "active": false
+  },
+  {
+    "region": 4,
+    "name": "Sinton",
+    "slug": "sinton",
+    "active": true
+  },
+  {
+    "region": 4,
+    "name": "Lyford",
+    "slug": "lyford",
+    "active": false
+  },
+  {
+    "region": 4,
+    "name": "Jourdanton",
+    "slug": "jourdanton",
+    "active": false
+  },
+  {
+    "region": 4,
+    "name": "Hallettsville",
+    "slug": "hallettsville",
+    "active": true
+  },
+  {
+    "region": 4,
+    "name": "San Diego",
+    "slug": "san-diego",
+    "active": true
+  },
+  {
+    "region": 4,
+    "name": "Mathis",
+    "slug": "mathis",
+    "active": false
+  },
+  {
+    "region": 4,
+    "name": "Marion",
+    "slug": "marion",
+    "active": true
+  },
+  {
+    "region": 4,
+    "name": "Hondo",
+    "slug": "hondo",
+    "active": false
+  }
+]

@@ -110,6 +110,33 @@ try{
   const d2final=await page.locator('main').innerText();assert.ok(d2final.includes('FINAL · VERIFIED')&&d2final.includes('69')&&d2final.includes('14'));
   await page.goto(origin+'/games/2026-area-2a-d2-ii-2');
   const d2area=await page.locator('main').innerText();assert.ok(d2area.includes('Stamford')&&d2area.includes('Windthorst')&&d2area.includes('7:00 PM')&&d2area.includes('Breckenridge'));
+  await page.goto(origin+'/playoffs?school='+encodeURIComponent('3A-D1|0|Clyde'));
+  await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
+  await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();
+  assert.equal(await bracket.locator('article').count(),63);
+  assert.equal(await bracket.locator('article').filter({hasText:'Verified final'}).count(),32);
+  assert.ok((await bracket.innerText()).includes('W2'),'reviewed 3A seed labels render');
+  await checkContained(page,canvas);
+  for(const region of ['0','1','2','3']){
+   await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);
+   await page.getByRole('button',{name:'Fit selected region',exact:true}).click();
+   assert.equal(await bracket.locator('article').count(),15);await checkContained(page,canvas);
+  }
+  await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();await canvas.scrollIntoViewIfNeeded();
+  await page.screenshot({path:`${output}/${name}-3ad1-statewide.png`});
+  await page.getByRole('button',{name:'Find Clyde',exact:true}).click();await canvas.scrollIntoViewIfNeeded();
+  await page.screenshot({path:`${output}/${name}-3ad1-clyde-path.png`});
+  for(const [id,words] of [
+   ['2026-bi-district-3a-d1-i-3',['FINAL · VERIFIED','56','23','Clyde','Denver City']],
+   ['2026-bi-district-3a-d1-i-8',['FINAL · VERIFIED','50','35']],
+   ['2026-bi-district-3a-d1-iii-1',['FINAL · VERIFIED','42','7']],
+   ['2026-area-3a-d1-i-3',['Wall','Sweetwater','6:00 PM','Colorado City']],
+   ['2026-area-3a-d1-iii-2',['Orangefield','7:30 PM','Houston']],
+   ['2026-area-3a-d1-iii-1',['Diboll','Lorena','TBA','Madisonville']]
+  ]){
+   await page.goto(origin+'/games/'+id);const text=await page.locator('main').innerText();
+   for(const word of words)assert.ok(text.includes(word),`${id} contains ${word}`);
+  }
   await page.goto(origin+'/admin/playoff-publishing/bracket-templates');await page.getByRole('heading',{name:'Welcome back.',exact:true}).waitFor();
   assert.equal(await page.getByRole('heading',{name:'Bracket template review',exact:true}).count(),0);
   results.push({device:name,viewport:options.viewport,pass:true,pinch:options.hasTouch?'emulated native touch passed':'not applicable'});await context.close();
