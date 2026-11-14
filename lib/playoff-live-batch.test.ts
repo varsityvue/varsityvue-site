@@ -28,7 +28,7 @@ test("original 61-game schedule batch remains distinct, source-backed and outcom
  }
  assert.deepEqual(auditPublishedPlayoffGames(getGames()),[]);
  const region=getBiDistrictReadiness(getGames()).filter(r=>r.division.startsWith('2A')&&r.region==='Region II');
- assert.equal(region.length,16);assert.ok(region.every(r=>r.status===(r.division==='2A Division I'?'verified-final':'scheduled')));
+ assert.equal(region.length,16);assert.ok(region.every(r=>r.status==='verified-final'));
 });
 test("nullable neutrality never manufactures a Neutral label or home designation",()=>{
  for(const isNeutralSite of [true,false,null]){

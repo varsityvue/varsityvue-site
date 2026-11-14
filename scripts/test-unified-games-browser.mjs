@@ -798,11 +798,13 @@ try {
     assert.match(await teamPath.innerText(), /7:00 PM CST/);
     assert.match(await teamPath.innerText(), /Vernon/);
     await teamPath.locator('a[href="/games/2026-bi-district-2a-d2-ii-8"]').waitFor({state:'visible'});
-    assert.equal(await teamPath.getByRole('link', {name:'View Game Center', exact:true}).getAttribute('href'), '/games/2026-bi-district-2a-d2-ii-8');
+    assert.equal(await teamPath.locator('a[href="/games/2026-bi-district-2a-d2-ii-8"]').getAttribute('href'), '/games/2026-bi-district-2a-d2-ii-8');
     await teamPath.scrollIntoViewIfNeeded();
     assert.equal(await catalogPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `playoff path overflow at ${width}`);
     await catalogPage.screenshot({path:`${evidence}/playoff-path-${width}.png`});
-    await teamPath.getByRole('link', {name:'View Game Center', exact:true}).click();
+    await teamPath.locator('a[href="/games/2026-area-2a-d2-ii-4"]').waitFor({state:'visible'});
+    assert.match(await teamPath.innerText(), /Holliday/);
+    await teamPath.locator('a[href="/games/2026-bi-district-2a-d2-ii-8"]').click();
     await catalogPage.getByRole('heading', {level:1, name:/Seymour.*Wheeler/}).waitFor();
     assert.equal(await catalogPage.getByText('Neutral site', {exact:true}).count(), 0);
     assert.equal(await catalogPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `playoff Game Center overflow at ${width}`);

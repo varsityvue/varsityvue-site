@@ -2,7 +2,7 @@
 
 Source: VarsityVue_2A_D1_logos(3).zip, 48 PNGs. Beckville is absent.
 
-All 48 are new registry entries on production main e69226b6014f9b86a78060db6b8567263b21c804. No existing artwork is replaced. PR #149's Division II branch has no school-logo registry diff; this branch does not include that work.
+All 48 are new registry entries on production main e69226b6014f9b86a78060db6b8567263b21c804. No existing artwork is replaced. PR #149 subsequently released as main a3b3fec4fe3e50c8f0e898409b63a77ead86385d. This branch reconciles that new main, preserves its Division II/browser checks, and introduces no changes to its game data. The PR diff remains limited to logo integration and its verification.
 
 `inventory.json` records every filename, exact catalog ID/slug, source SHA256, alpha crop bounds, transparent padding, output dimensions and asset SHA256. This is provenance documentation, not a runtime registry. The sole runtime registry remains data/school-logos.ts.
 

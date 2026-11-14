@@ -97,6 +97,31 @@ try{
   const record=page.getByText('2026 Record',{exact:true}).locator('..');assert.equal(await record.locator('p').first().innerText(),'—');
   await page.locator('a[href="/schools/panhandle/schedule"]').first().click();await page.locator('a[href="/games/2026-bi-district-2a-d1-i-1"]').first().waitFor();
   assert.equal(await page.getByText('Record',{exact:true}).locator('..').locator('p').last().innerText(),'—','schedule and hub withhold the same incomplete record');
+  await page.goto(origin+'/playoffs?school='+encodeURIComponent('2A-D2|1|Stamford'));
+  await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
+  const d2=page.getByRole('region',{name:'Interactive Road to State bracket',exact:true});
+  const d2canvas=page.getByLabel(canvasLabel,{exact:true});
+  assert.equal(await page.getByRole('combobox',{name:'Bracket division',exact:true}).inputValue(),'2A-D2');
+  assert.ok((await d2.innerText()).includes('W6'),'official DII seed labels render');
+  assert.ok((await d2.innerText()).includes('Stamford'));
+  await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();await checkContained(page,d2canvas);
+  assert.equal(await d2.locator('article').count(),63);
+  assert.equal(await d2.locator('article').filter({hasText:'Verified final'}).count(),31);
+  for(const region of ['0','1','2','3']){
+   await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);
+   await page.getByRole('button',{name:'Fit selected region',exact:true}).click();await checkContained(page,d2canvas);
+   assert.equal(await d2.locator('article').count(),15);
+  }
+  assert.ok((await d2.innerText()).includes('Winner pending'),'last Area opponent stays pending');
+  await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption('all');
+  await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();await d2canvas.scrollIntoViewIfNeeded();
+  await page.screenshot({path:`${output}/${name}-d2-statewide.png`});
+  await page.getByRole('button',{name:'Find Stamford',exact:true}).click();await d2canvas.scrollIntoViewIfNeeded();
+  await page.screenshot({path:`${output}/${name}-d2-stamford-path.png`});
+  await page.goto(origin+'/games/2026-bi-district-2a-d2-i-1');
+  const d2final=await page.locator('main').innerText();assert.ok(d2final.includes('FINAL · VERIFIED')&&d2final.includes('69')&&d2final.includes('14'));
+  await page.goto(origin+'/games/2026-area-2a-d2-ii-2');
+  const d2area=await page.locator('main').innerText();assert.ok(d2area.includes('Stamford')&&d2area.includes('Windthorst')&&d2area.includes('7:00 PM')&&d2area.includes('Breckenridge'));
   await page.goto(origin+'/admin/playoff-publishing/bracket-templates');await page.getByRole('heading',{name:'Welcome back.',exact:true}).waitFor();
   assert.equal(await page.getByRole('heading',{name:'Bracket template review',exact:true}).count(),0);
   results.push({device:name,viewport:options.viewport,pass:true,pinch:options.hasTouch?'emulated native touch passed':'not applicable'});await context.close();

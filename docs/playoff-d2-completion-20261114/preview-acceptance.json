@@ -1,0 +1,1552 @@
+{
+  "head": "84e3037688b361e0fca452f62a20bda8baf70092",
+  "gameCenters": [
+    {
+      "id": "2026-bi-district-2a-d2-i-1",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/plains",
+        "/schools/gruver"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-2",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/tahoka",
+        "/schools/mccamey"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-3",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/ropes",
+        "/schools/vega"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-4",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/iraan",
+        "/schools/lockney"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-5",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/eldorado",
+        "/schools/roscoe"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-6",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/stinnett-west-texas",
+        "/schools/sudan"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-7",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/ralls",
+        "/schools/wink"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-8",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/seagraves",
+        "/schools/stratford"
+      ]
+    },
+    {
+      "id": "2026-area-2a-d2-i-1",
+      "round": 1,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/mccamey",
+        "/schools/gruver"
+      ]
+    },
+    {
+      "id": "2026-area-2a-d2-i-2",
+      "round": 1,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/iraan",
+        "/schools/ropes"
+      ]
+    },
+    {
+      "id": "2026-area-2a-d2-i-3",
+      "round": 1,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/sudan",
+        "/schools/roscoe"
+      ]
+    },
+    {
+      "id": "2026-area-2a-d2-i-4",
+      "round": 1,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/stratford",
+        "/schools/wink"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-1",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/munday",
+        "/schools/wellington"
+      ]
+    },
+    {
+      "id": "albany-vs-crawford-2026-bi-district",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/crawford",
+        "/schools/albany"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-3",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/quanah",
+        "/schools/windthorst"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-4",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/mart",
+        "/schools/stamford"
+      ]
+    },
+    {
+      "id": "goldthwaite-vs-hubbard-2026-bi-district",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/hubbard",
+        "/schools/goldthwaite"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-6",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/clarendon",
+        "/schools/haskell"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-7",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/miles",
+        "/schools/santo"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-8",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/seymour",
+        "/schools/wheeler"
+      ]
+    },
+    {
+      "id": "2026-area-2a-d2-ii-1",
+      "round": 1,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/crawford",
+        "/schools/wellington"
+      ]
+    },
+    {
+      "id": "2026-area-2a-d2-ii-2",
+      "round": 1,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/stamford",
+        "/schools/windthorst"
+      ]
+    },
+    {
+      "id": "2026-area-2a-d2-ii-3",
+      "round": 1,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/haskell",
+        "/schools/goldthwaite"
+      ]
+    },
+    {
+      "id": "2026-area-2a-d2-ii-4",
+      "round": 1,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/wheeler",
+        "/schools/santo"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-1",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/maud",
+        "/schools/collinsville"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-2",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/cushing",
+        "/schools/colmesneil"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-3",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/quinlan-boles",
+        "/schools/clarksville"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-4",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/saratoga-west-hardin",
+        "/schools/grapeland"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-5",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/evadale",
+        "/schools/overton"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-6",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/era",
+        "/schools/detroit"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-7",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/tenaha",
+        "/schools/west-sabine"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-8",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/simms-bowie",
+        "/schools/lindsay"
+      ]
+    },
+    {
+      "id": "2026-area-2a-d2-iii-1",
+      "round": 1,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/colmesneil",
+        "/schools/collinsville"
+      ]
+    },
+    {
+      "id": "2026-area-2a-d2-iii-2",
+      "round": 1,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/grapeland",
+        "/schools/clarksville"
+      ]
+    },
+    {
+      "id": "2026-area-2a-d2-iii-3",
+      "round": 1,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/era",
+        "/schools/overton"
+      ]
+    },
+    {
+      "id": "2026-area-2a-d2-iii-4",
+      "round": 1,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/lindsay",
+        "/schools/west-sabine"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-1",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/dhanis",
+        "/schools/bremond"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-2",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/three-rivers",
+        "/schools/ben-bolt-palito-blanco"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-3",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/bartlett",
+        "/schools/junction"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-4",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/santa-maria",
+        "/schools/yorktown"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-5",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/agua-dulce",
+        "/schools/falls-city"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-6",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/burton",
+        "/schools/harper"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-7",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/pettus",
+        "/schools/la-villa"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-8",
+      "round": 0,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/brackettville-brackett",
+        "/schools/chilton"
+      ]
+    },
+    {
+      "id": "2026-area-2a-d2-iv-1",
+      "round": 1,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/three-rivers",
+        "/schools/bremond"
+      ]
+    },
+    {
+      "id": "2026-area-2a-d2-iv-2",
+      "round": 1,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/yorktown",
+        "/schools/junction"
+      ]
+    },
+    {
+      "id": "2026-area-2a-d2-iv-3",
+      "round": 1,
+      "teams": true,
+      "final": true,
+      "scores": true,
+      "kickoff": true,
+      "schools": [
+        "/schools/harper",
+        "/schools/falls-city"
+      ]
+    }
+  ],
+  "schools": [
+    {
+      "id": "2026-bi-district-2a-d2-i-1",
+      "path": "/schools/plains",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-1",
+      "path": "/schools/plains/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-1",
+      "path": "/schools/gruver",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-1",
+      "path": "/schools/gruver/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-2",
+      "path": "/schools/tahoka",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-2",
+      "path": "/schools/tahoka/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-2",
+      "path": "/schools/mccamey",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-2",
+      "path": "/schools/mccamey/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-3",
+      "path": "/schools/ropes",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-3",
+      "path": "/schools/ropes/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-3",
+      "path": "/schools/vega",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-3",
+      "path": "/schools/vega/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-4",
+      "path": "/schools/iraan",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-4",
+      "path": "/schools/iraan/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-4",
+      "path": "/schools/lockney",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-4",
+      "path": "/schools/lockney/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-5",
+      "path": "/schools/eldorado",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-5",
+      "path": "/schools/eldorado/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-5",
+      "path": "/schools/roscoe",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-5",
+      "path": "/schools/roscoe/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-6",
+      "path": "/schools/stinnett-west-texas",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-6",
+      "path": "/schools/stinnett-west-texas/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-6",
+      "path": "/schools/sudan",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-6",
+      "path": "/schools/sudan/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-7",
+      "path": "/schools/ralls",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-7",
+      "path": "/schools/ralls/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-7",
+      "path": "/schools/wink",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-7",
+      "path": "/schools/wink/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-8",
+      "path": "/schools/seagraves",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-8",
+      "path": "/schools/seagraves/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-8",
+      "path": "/schools/stratford",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-i-8",
+      "path": "/schools/stratford/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-1",
+      "path": "/schools/munday",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-1",
+      "path": "/schools/munday/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-1",
+      "path": "/schools/wellington",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-1",
+      "path": "/schools/wellington/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "albany-vs-crawford-2026-bi-district",
+      "path": "/schools/crawford",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "albany-vs-crawford-2026-bi-district",
+      "path": "/schools/crawford/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "albany-vs-crawford-2026-bi-district",
+      "path": "/schools/albany",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "albany-vs-crawford-2026-bi-district",
+      "path": "/schools/albany/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-3",
+      "path": "/schools/quanah",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-3",
+      "path": "/schools/quanah/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-3",
+      "path": "/schools/windthorst",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-3",
+      "path": "/schools/windthorst/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-4",
+      "path": "/schools/mart",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-4",
+      "path": "/schools/mart/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-4",
+      "path": "/schools/stamford",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-4",
+      "path": "/schools/stamford/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "goldthwaite-vs-hubbard-2026-bi-district",
+      "path": "/schools/hubbard",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "goldthwaite-vs-hubbard-2026-bi-district",
+      "path": "/schools/hubbard/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "goldthwaite-vs-hubbard-2026-bi-district",
+      "path": "/schools/goldthwaite",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "goldthwaite-vs-hubbard-2026-bi-district",
+      "path": "/schools/goldthwaite/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-6",
+      "path": "/schools/clarendon",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-6",
+      "path": "/schools/clarendon/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-6",
+      "path": "/schools/haskell",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-6",
+      "path": "/schools/haskell/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-7",
+      "path": "/schools/miles",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-7",
+      "path": "/schools/miles/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-7",
+      "path": "/schools/santo",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-7",
+      "path": "/schools/santo/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-8",
+      "path": "/schools/seymour",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-8",
+      "path": "/schools/seymour/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-8",
+      "path": "/schools/wheeler",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-ii-8",
+      "path": "/schools/wheeler/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-1",
+      "path": "/schools/maud",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-1",
+      "path": "/schools/maud/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-1",
+      "path": "/schools/collinsville",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-1",
+      "path": "/schools/collinsville/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-2",
+      "path": "/schools/cushing",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-2",
+      "path": "/schools/cushing/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-2",
+      "path": "/schools/colmesneil",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-2",
+      "path": "/schools/colmesneil/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-3",
+      "path": "/schools/quinlan-boles",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-3",
+      "path": "/schools/quinlan-boles/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-3",
+      "path": "/schools/clarksville",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-3",
+      "path": "/schools/clarksville/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-4",
+      "path": "/schools/saratoga-west-hardin",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-4",
+      "path": "/schools/saratoga-west-hardin/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-4",
+      "path": "/schools/grapeland",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-4",
+      "path": "/schools/grapeland/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-5",
+      "path": "/schools/evadale",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-5",
+      "path": "/schools/evadale/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-5",
+      "path": "/schools/overton",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-5",
+      "path": "/schools/overton/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-6",
+      "path": "/schools/era",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-6",
+      "path": "/schools/era/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-6",
+      "path": "/schools/detroit",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-6",
+      "path": "/schools/detroit/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-7",
+      "path": "/schools/tenaha",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-7",
+      "path": "/schools/tenaha/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-7",
+      "path": "/schools/west-sabine",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-7",
+      "path": "/schools/west-sabine/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-8",
+      "path": "/schools/simms-bowie",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-8",
+      "path": "/schools/simms-bowie/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-8",
+      "path": "/schools/lindsay",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iii-8",
+      "path": "/schools/lindsay/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-1",
+      "path": "/schools/dhanis",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-1",
+      "path": "/schools/dhanis/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-1",
+      "path": "/schools/bremond",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-1",
+      "path": "/schools/bremond/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-2",
+      "path": "/schools/three-rivers",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-2",
+      "path": "/schools/three-rivers/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-2",
+      "path": "/schools/ben-bolt-palito-blanco",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-2",
+      "path": "/schools/ben-bolt-palito-blanco/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-3",
+      "path": "/schools/bartlett",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-3",
+      "path": "/schools/bartlett/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-3",
+      "path": "/schools/junction",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-3",
+      "path": "/schools/junction/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-4",
+      "path": "/schools/santa-maria",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-4",
+      "path": "/schools/santa-maria/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-4",
+      "path": "/schools/yorktown",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-4",
+      "path": "/schools/yorktown/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-5",
+      "path": "/schools/agua-dulce",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-5",
+      "path": "/schools/agua-dulce/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-5",
+      "path": "/schools/falls-city",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-5",
+      "path": "/schools/falls-city/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-6",
+      "path": "/schools/burton",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-6",
+      "path": "/schools/burton/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-6",
+      "path": "/schools/harper",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-6",
+      "path": "/schools/harper/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-7",
+      "path": "/schools/pettus",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-7",
+      "path": "/schools/pettus/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-7",
+      "path": "/schools/la-villa",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-7",
+      "path": "/schools/la-villa/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-8",
+      "path": "/schools/brackettville-brackett",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-8",
+      "path": "/schools/brackettville-brackett/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-8",
+      "path": "/schools/chilton",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d2-iv-8",
+      "path": "/schools/chilton/schedule",
+      "linked": true,
+      "scores": true
+    }
+  ],
+  "areas": [
+    {
+      "id": "2026-area-2a-d2-i-1",
+      "path": "/schools/mccamey/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-i-1",
+      "path": "/schools/gruver/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-i-2",
+      "path": "/schools/iraan/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-i-2",
+      "path": "/schools/ropes/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-i-3",
+      "path": "/schools/sudan/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-i-3",
+      "path": "/schools/roscoe/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-i-4",
+      "path": "/schools/stratford/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-i-4",
+      "path": "/schools/wink/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-ii-1",
+      "path": "/schools/crawford/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-ii-1",
+      "path": "/schools/wellington/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-ii-2",
+      "path": "/schools/stamford/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-ii-2",
+      "path": "/schools/windthorst/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-ii-3",
+      "path": "/schools/haskell/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-ii-3",
+      "path": "/schools/goldthwaite/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-ii-4",
+      "path": "/schools/wheeler/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-ii-4",
+      "path": "/schools/santo/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-iii-1",
+      "path": "/schools/colmesneil/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-iii-1",
+      "path": "/schools/collinsville/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-iii-2",
+      "path": "/schools/grapeland/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-iii-2",
+      "path": "/schools/clarksville/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-iii-3",
+      "path": "/schools/era/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-iii-3",
+      "path": "/schools/overton/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-iii-4",
+      "path": "/schools/lindsay/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-iii-4",
+      "path": "/schools/west-sabine/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-iv-1",
+      "path": "/schools/three-rivers/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-iv-1",
+      "path": "/schools/bremond/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-iv-2",
+      "path": "/schools/yorktown/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-iv-2",
+      "path": "/schools/junction/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-iv-3",
+      "path": "/schools/harper/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    },
+    {
+      "id": "2026-area-2a-d2-iv-3",
+      "path": "/schools/falls-city/schedule",
+      "linked": true,
+      "time": true,
+      "upcoming": true
+    }
+  ],
+  "navigation": "Goldthwaite and Burton initial navigation errors recovered on one direct retry; Three Rivers streamed card confirmed after visible-link wait."
+}

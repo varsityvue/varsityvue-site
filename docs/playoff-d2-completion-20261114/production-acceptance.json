@@ -1,0 +1,887 @@
+{
+  "production": "e69226b6014f9b86a78060db6b8567263b21c804",
+  "gameCenters": [
+    {
+      "id": "de-leon-vs-alvord-2026-bi-district",
+      "surface": "game-center",
+      "final": true,
+      "scores": true,
+      "schools": [
+        "/schools/alvord",
+        "/schools/de-leon"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-1",
+      "surface": "game-center",
+      "final": true,
+      "scores": true,
+      "schools": [
+        "/schools/floydada",
+        "/schools/panhandle"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-2",
+      "surface": "game-center",
+      "final": true,
+      "scores": true,
+      "schools": [
+        "/schools/abernathy",
+        "/schools/forsan"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-3",
+      "surface": "game-center",
+      "final": true,
+      "scores": true,
+      "schools": [
+        "/schools/sanford-fritch",
+        "/schools/tulia"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-4",
+      "surface": "game-center",
+      "final": true,
+      "scores": true,
+      "schools": [
+        "/schools/ballinger",
+        "/schools/new-home"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-7",
+      "surface": "game-center",
+      "final": true,
+      "scores": true,
+      "schools": [
+        "/schools/new-deal",
+        "/schools/sonora"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-8",
+      "surface": "game-center",
+      "final": true,
+      "scores": true,
+      "schools": [
+        "/schools/farwell",
+        "/schools/spearman"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-4",
+      "surface": "game-center",
+      "final": true,
+      "scores": true,
+      "schools": [
+        "/schools/garrison",
+        "/schools/beckville"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-5",
+      "surface": "game-center",
+      "final": true,
+      "scores": true,
+      "schools": [
+        "/schools/joaquin",
+        "/schools/omaha-pewitt"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-6",
+      "surface": "game-center",
+      "final": true,
+      "scores": true,
+      "schools": [
+        "/schools/whitewright",
+        "/schools/frankston"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-8",
+      "surface": "game-center",
+      "final": true,
+      "scores": true,
+      "schools": [
+        "/schools/hawkins",
+        "/schools/tom-bean"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-2",
+      "surface": "game-center",
+      "final": true,
+      "scores": true,
+      "schools": [
+        "/schools/weimar",
+        "/schools/refugio"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-5",
+      "surface": "game-center",
+      "final": true,
+      "scores": true,
+      "schools": [
+        "/schools/freer",
+        "/schools/shiner"
+      ]
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-7",
+      "surface": "game-center",
+      "final": true,
+      "scores": true,
+      "schools": [
+        "/schools/flatonia",
+        "/schools/dilley"
+      ]
+    },
+    {
+      "id": "2026-bi-district-3a-d2-ii-8",
+      "surface": "game-center",
+      "final": true,
+      "scores": true,
+      "schools": [
+        "/schools/scurry-rosser",
+        "/schools/tolar"
+      ]
+    },
+    {
+      "id": "2026-bi-district-3a-d2-ii-7",
+      "surface": "game-center",
+      "final": true,
+      "scores": true,
+      "schools": [
+        "/schools/leonard",
+        "/schools/grand-saline"
+      ]
+    },
+    {
+      "id": "2026-bi-district-4a-d2-iv-6",
+      "surface": "game-center",
+      "final": true,
+      "scores": true,
+      "schools": [
+        "/schools/brownwood",
+        "/schools/lago-vista"
+      ]
+    },
+    {
+      "id": "2026-bi-district-4a-d2-iv-5",
+      "surface": "game-center",
+      "final": true,
+      "scores": true,
+      "schools": [
+        "/schools/ingleside",
+        "/schools/cuero"
+      ]
+    }
+  ],
+  "schools": [
+    {
+      "id": "de-leon-vs-alvord-2026-bi-district",
+      "path": "/schools/alvord",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "de-leon-vs-alvord-2026-bi-district",
+      "path": "/schools/alvord/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "de-leon-vs-alvord-2026-bi-district",
+      "path": "/schools/de-leon",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "de-leon-vs-alvord-2026-bi-district",
+      "path": "/schools/de-leon/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-1",
+      "path": "/schools/floydada",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-1",
+      "path": "/schools/floydada/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-1",
+      "path": "/schools/panhandle",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-1",
+      "path": "/schools/panhandle/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-2",
+      "path": "/schools/abernathy",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-2",
+      "path": "/schools/abernathy/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-2",
+      "path": "/schools/forsan",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-2",
+      "path": "/schools/forsan/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-3",
+      "path": "/schools/sanford-fritch",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-3",
+      "path": "/schools/sanford-fritch/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-3",
+      "path": "/schools/tulia",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-3",
+      "path": "/schools/tulia/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-4",
+      "path": "/schools/ballinger",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-4",
+      "path": "/schools/ballinger/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-4",
+      "path": "/schools/new-home",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-4",
+      "path": "/schools/new-home/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-7",
+      "path": "/schools/new-deal",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-7",
+      "path": "/schools/new-deal/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-7",
+      "path": "/schools/sonora",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-7",
+      "path": "/schools/sonora/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-8",
+      "path": "/schools/farwell",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-8",
+      "path": "/schools/farwell/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-8",
+      "path": "/schools/spearman",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-8",
+      "path": "/schools/spearman/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-4",
+      "path": "/schools/garrison",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-4",
+      "path": "/schools/garrison/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-4",
+      "path": "/schools/beckville",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-4",
+      "path": "/schools/beckville/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-5",
+      "path": "/schools/joaquin",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-5",
+      "path": "/schools/joaquin/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-5",
+      "path": "/schools/omaha-pewitt",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-5",
+      "path": "/schools/omaha-pewitt/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-6",
+      "path": "/schools/whitewright",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-6",
+      "path": "/schools/whitewright/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-6",
+      "path": "/schools/frankston",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-6",
+      "path": "/schools/frankston/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-8",
+      "path": "/schools/hawkins",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-8",
+      "path": "/schools/hawkins/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-8",
+      "path": "/schools/tom-bean",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-8",
+      "path": "/schools/tom-bean/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-2",
+      "path": "/schools/weimar",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-2",
+      "path": "/schools/weimar/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-2",
+      "path": "/schools/refugio",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-2",
+      "path": "/schools/refugio/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-5",
+      "path": "/schools/freer",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-5",
+      "path": "/schools/freer/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-5",
+      "path": "/schools/shiner",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-5",
+      "path": "/schools/shiner/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-7",
+      "path": "/schools/flatonia",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-7",
+      "path": "/schools/flatonia/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-7",
+      "path": "/schools/dilley",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-7",
+      "path": "/schools/dilley/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-ii-8",
+      "path": "/schools/scurry-rosser",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-ii-8",
+      "path": "/schools/scurry-rosser/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-ii-8",
+      "path": "/schools/tolar",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-ii-8",
+      "path": "/schools/tolar/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-ii-7",
+      "path": "/schools/grand-saline",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-ii-7",
+      "path": "/schools/grand-saline/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-4a-d2-iv-6",
+      "path": "/schools/brownwood",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-4a-d2-iv-6",
+      "path": "/schools/brownwood/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-4a-d2-iv-6",
+      "path": "/schools/lago-vista",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-4a-d2-iv-6",
+      "path": "/schools/lago-vista/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-4a-d2-iv-5",
+      "path": "/schools/ingleside",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-4a-d2-iv-5",
+      "path": "/schools/ingleside/schedule",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-4a-d2-iv-5",
+      "path": "/schools/cuero",
+      "linked": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-4a-d2-iv-5",
+      "path": "/schools/cuero/schedule",
+      "linked": true,
+      "scores": true
+    }
+  ],
+  "areas": [
+    {
+      "id": "2026-area-2a-d1-ii-1",
+      "text": "← BACK TO GAMES\nGAME CENTER\nUPCOMING\nAREA\n\nMATCHUP\n\nLBJ\nEAGLES\nJohnson City\n\nEAGLES\n\n2A Division I · 2A Division I District 7 · —\n\nUPCOMING\n\nFRIDAY, NOVEMBER 20, 2026\n\nMATCHUP\n\nCisco\n\nLOBOES\n\n2A Division I · 2A Division I District 5 · 8-3\n\nFOLLOW THESE PROGRAMS\n\nFollow a team to see its games and coverage first. Email alerts are a separate choice in Account.\n\nJohnson City LBJ\n\nFOLLOW TEAM\n\nCisco\n\nFOLLOW TEAM\n\nDATE\n\nFriday, November 20, 2026\n\nKICKOFF\n\n7:00 PM\n\nVENUE\n\nBulldog Stadium, McGregor, TX →\n\nCOVERAGE\n\nGame Center\n\nPREGAME MATCHUP CENTER\n\nJohnson City vs. Cisco\n\nVarsityVue is tracking this area matchup. Confirmed game details appear here first, with additional coverage added as verified information becomes available.\n\nGAME INFORMATION\n\nKICKOFF\n\nFriday, November 20, 2026 · 7:00 PM\n\nVENUE\n\nBulldog Stadium, McGregor, TX\n\nPlayoff Central →\n\nGAME TYPE\n\nArea\n\nView Johnson City LBJ Hub →\nView Cisco Hub →\nVarsityVue Coverage →"
+    },
+    {
+      "id": "2026-area-2a-d1-ii-2",
+      "text": "← BACK TO GAMES\nGAME CENTER\nUPCOMING\nAREA\n\nMATCHUP\n\nSan Saba\n\nARMADILLOS\n\n2A Division I · 2A Division I District 7 · —\n\nUPCOMING\n\nFRIDAY, NOVEMBER 20, 2026\n\nMATCHUP\n\nMuenster\n\nHORNETS\n\n2A Division I · 2A Division I District 6 · —\n\nFOLLOW THESE PROGRAMS\n\nFollow a team to see its games and coverage first. Email alerts are a separate choice in Account.\n\nSan Saba\n\nFOLLOW TEAM\n\nMuenster\n\nFOLLOW TEAM\n\nDATE\n\nFriday, November 20, 2026\n\nKICKOFF\n\n7:00 PM\n\nVENUE\n\nPirate Stadium, Granbury, TX →\n\nCOVERAGE\n\nGame Center\n\nPREGAME MATCHUP CENTER\n\nSan Saba vs. Muenster\n\nVarsityVue is tracking this area matchup. Confirmed game details appear here first, with additional coverage added as verified information becomes available.\n\nGAME INFORMATION\n\nKICKOFF\n\nFriday, November 20, 2026 · 7:00 PM\n\nVENUE\n\nPirate Stadium, Granbury, TX\n\nPlayoff Central →\n\nGAME TYPE\n\nArea\n\nView San Saba Hub →\nView Muenster Hub →\nVarsityVue Coverage →"
+    },
+    {
+      "id": "2026-area-2a-d1-ii-3",
+      "text": "← BACK TO GAMES\nGAME CENTER\nUPCOMING\nAREA\n\nMATCHUP\n\nTioga\n\nBULLDOGS\n\n2A Division I · 2A Division I District 6 · —\n\nUPCOMING\n\nFRIDAY, NOVEMBER 20, 2026\n\nMATCHUP\n\nMason\n\nPUNCHERS\n\n2A Division I · 2A Division I District 7 · —\n\nFOLLOW THESE PROGRAMS\n\nFollow a team to see its games and coverage first. Email alerts are a separate choice in Account.\n\nTioga\n\nFOLLOW TEAM\n\nMason\n\nFOLLOW TEAM\n\nDATE\n\nFriday, November 20, 2026\n\nKICKOFF\n\n7:00 PM\n\nVENUE\n\nRam Stadium, Mineral Wells, TX →\n\nCOVERAGE\n\nGame Center\n\nPREGAME MATCHUP CENTER\n\nTioga vs. Mason\n\nVarsityVue is tracking this area matchup. Confirmed game details appear here first, with additional coverage added as verified information becomes available.\n\nGAME INFORMATION\n\nKICKOFF\n\nFriday, November 20, 2026 · 7:00 PM\n\nVENUE\n\nRam Stadium, Mineral Wells, TX\n\nPlayoff Central →\n\nGAME TYPE\n\nArea\n\nView Tioga Hub →\nView Mason Hub →\nVarsityVue Coverage →"
+    },
+    {
+      "id": "2026-area-3a-d2-ii-4",
+      "text": "← BACK TO GAMES\nGAME CENTER\nUPCOMING\nAREA\n\nMATCHUP\n\nTolar\n\nRATTLERS\n\n3A Division II · 3A Division II District 5 · 7-4\n\nUPCOMING\n\nFRIDAY, NOVEMBER 20, 2026\n\nMATCHUP\n\nGSHS\nINDIANS\nGrand Saline\n\nINDIANS\n\n3A Division II · 3A Division II District 8 · —\n\nFOLLOW THESE PROGRAMS\n\nFollow a team to see its games and coverage first. Email alerts are a separate choice in Account.\n\nTolar\n\nFOLLOW TEAM\n\nGrand Saline\n\nFOLLOW TEAM\n\nDATE\n\nFriday, November 20, 2026\n\nKICKOFF\n\n7:30 PM\n\nVENUE\n\nMidlothian ISD Stadium, Midlothian, TX →\n\nCOVERAGE\n\nGame Center\n\nPREGAME MATCHUP CENTER\n\nTolar vs. Grand Saline\n\nVarsityVue is tracking this area matchup. Confirmed game details appear here first, with additional coverage added as verified information becomes available.\n\nGAME INFORMATION\n\nKICKOFF\n\nFriday, November 20, 2026 · 7:30 PM\n\nVENUE\n\nMidlothian ISD Stadium, Midlothian, TX\n\nPlayoff Central →\n\nGAME TYPE\n\nArea\n\nView Tolar Hub →\nView Grand Saline Hub →\nVarsityVue Coverage →"
+    }
+  ],
+  "bracket": [
+    {
+      "links": [
+        "/schools/panhandle",
+        "/schools/floydada",
+        "/games/2026-bi-district-2a-d1-i-1"
+      ],
+      "text": "REGION I · BI-DISTRICT\nPA\nW1\nPanhandle\n—\n62 ✓\nFL\nF2\nFloydada\n—\n0\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/forsan",
+        "/schools/abernathy",
+        "/games/2026-bi-district-2a-d1-i-2"
+      ],
+      "text": "REGION I · BI-DISTRICT\nFO\nR4\nForsan\n—\n35 ✓\nAB\nT3\nAbernathy\n—\n28\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/tulia",
+        "/schools/sanford-fritch",
+        "/games/2026-bi-district-2a-d1-i-3"
+      ],
+      "text": "REGION I · BI-DISTRICT\nTU\nW2\nTulia\n—\n58 ✓\nSA\nF1\nSanford-Fritch\n—\n36\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/new-home",
+        "/schools/ballinger",
+        "/games/2026-bi-district-2a-d1-i-4"
+      ],
+      "text": "REGION I · BI-DISTRICT\nNE\nR3\nNew Home\n—\n20\nBA\nT4\nBallinger\n—\n30 ✓\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/post",
+        "/schools/ozona",
+        "/games/2026-bi-district-2a-d1-i-5"
+      ],
+      "text": "REGION I · BI-DISTRICT\nW3\nPost\n—\n21\nOZ\nF4\nOzona\n—\n32 ✓\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/olton",
+        "/schools/amarillo-highland-park",
+        "/games/2026-bi-district-2a-d1-i-6"
+      ],
+      "text": "REGION I · BI-DISTRICT\nOL\nR2\nOlton\n—\n28 ✓\nHI\nT1\nHighland Park\n—\n20\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/sonora",
+        "/schools/new-deal",
+        "/games/2026-bi-district-2a-d1-i-7"
+      ],
+      "text": "REGION I · BI-DISTRICT\nSO\nW4\nSonora\n—\n6\nNE\nF3\nNew Deal\n—\n38 ✓\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/spearman",
+        "/schools/farwell",
+        "/games/2026-bi-district-2a-d1-i-8"
+      ],
+      "text": "REGION I · BI-DISTRICT\nSP\nR1\nSpearman\n—\n64 ✓\nFA\nT2\nFarwell\n—\n33\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/cisco",
+        "/schools/nocona",
+        "/games/cisco-vs-nocona-2026-bi-district"
+      ],
+      "text": "REGION II · BI-DISTRICT\nW5\nCisco\n8-3\n76 ✓\nF6\nNocona\n—\n6\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/bosqueville",
+        "/schools/johnson-city-lbj",
+        "/games/2026-bi-district-2a-d1-ii-2"
+      ],
+      "text": "REGION II · BI-DISTRICT\nBO\nR8\nBosqueville\n—\n21\nJO\nT7\nJohnson City\n—\n49 ✓\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/muenster",
+        "/schools/hawley",
+        "/games/muenster-vs-hawley-2026-bi-district"
+      ],
+      "text": "REGION II · BI-DISTRICT\nW6\nMuenster\n—\n48 ✓\nF5\nHawley\n5-6\n40\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/san-saba",
+        "/schools/valley-mills",
+        "/games/2026-bi-district-2a-d1-ii-4"
+      ],
+      "text": "REGION II · BI-DISTRICT\nR7\nSan Saba\n—\n25 ✓\nT8\nValley Mills\n—\n7\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/mason",
+        "/schools/itasca",
+        "/games/2026-bi-district-2a-d1-ii-5"
+      ],
+      "text": "REGION II · BI-DISTRICT\nW7\nMason\n—\n62 ✓\nF8\nItasca\n—\n7\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/tioga",
+        "/schools/anson",
+        "/games/tioga-vs-anson-2026-bi-district"
+      ],
+      "text": "REGION II · BI-DISTRICT\nR6\nTioga\n—\n68 ✓\nT5\nAnson\n6-5\n18\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/axtell",
+        "/schools/bangs",
+        "/games/2026-bi-district-2a-d1-ii-7"
+      ],
+      "text": "REGION II · BI-DISTRICT\nAX\nW8\nAxtell\n—\n48 ✓\nF7\nBangs\n—\n8\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/de-leon",
+        "/schools/alvord",
+        "/games/de-leon-vs-alvord-2026-bi-district"
+      ],
+      "text": "REGION II · BI-DISTRICT\nYOUR TEAM\nR5\nDe Leon\n9-2\n40 ✓\nT6\nAlvord\n—\n24\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/cooper",
+        "/schools/como-pickton",
+        "/games/2026-bi-district-2a-d1-iii-1"
+      ],
+      "text": "REGION III · BI-DISTRICT\nCO\nW9\nCooper\n—\n28 ✓\nCO\nF10\nComo-Pickton\n—\n21\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/shelbyville",
+        "/schools/waskom",
+        "/games/2026-bi-district-2a-d1-iii-2"
+      ],
+      "text": "REGION III · BI-DISTRICT\nSH\nR12\nShelbyville\n—\n61 ✓\nWA\nT11\nWaskom\n—\n13\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/price-carlisle",
+        "/schools/honey-grove",
+        "/games/2026-bi-district-2a-d1-iii-3"
+      ],
+      "text": "REGION III · BI-DISTRICT\nCA\nW10\nCarlisle\n—\n35 ✓\nHO\nF9\nHoney Grove\n—\n19\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/beckville",
+        "/schools/garrison",
+        "/games/2026-bi-district-2a-d1-iii-4"
+      ],
+      "text": "REGION III · BI-DISTRICT\nBE\nR11\nBeckville\n—\n32 ✓\nGA\nT12\nGarrison\n—\n7\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/omaha-pewitt",
+        "/schools/joaquin",
+        "/games/2026-bi-district-2a-d1-iii-5"
+      ],
+      "text": "REGION III · BI-DISTRICT\nPE\nW11\nPewitt\n—\n14\nJO\nF12\nJoaquin\n—\n30 ✓\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/frankston",
+        "/schools/whitewright",
+        "/games/2026-bi-district-2a-d1-iii-6"
+      ],
+      "text": "REGION III · BI-DISTRICT\nFR\nR10\nFrankston\n—\n67 ✓\nWH\nT9\nWhitewright\n—\n46\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/san-augustine",
+        "/schools/gladewater-union-grove",
+        "/games/2026-bi-district-2a-d1-iii-7"
+      ],
+      "text": "REGION III · BI-DISTRICT\nSA\nW12\nSan Augustine\n—\n33 ✓\nUN\nF11\nUnion Grove\n—\n7\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/tom-bean",
+        "/schools/hawkins",
+        "/games/2026-bi-district-2a-d1-iii-8"
+      ],
+      "text": "REGION III · BI-DISTRICT\nTO\nR9\nTom Bean\n—\n38 ✓\nHA\nT10\nHawkins\n—\n21\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/thorndale",
+        "/schools/groveton",
+        "/games/2026-bi-district-2a-d1-iv-1"
+      ],
+      "text": "REGION IV · BI-DISTRICT\nTH\nW13\nThorndale\n—\n42 ✓\nGR\nF14\nGroveton\n—\n15\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/refugio",
+        "/schools/weimar",
+        "/games/2026-bi-district-2a-d1-iv-2"
+      ],
+      "text": "REGION IV · BI-DISTRICT\nRE\nR16\nRefugio\n—\n16\nWE\nT15\nWeimar\n—\n22 ✓\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/jewett-leon",
+        "/schools/bruceville-eddy",
+        "/games/2026-bi-district-2a-d1-iv-3"
+      ],
+      "text": "REGION IV · BI-DISTRICT\nLE\nW14\nLeon\n—\n41 ✓\nBR\nF13\nBruceville-Eddy\n—\n13\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/ganado",
+        "/schools/taft",
+        "/games/2026-bi-district-2a-d1-iv-4"
+      ],
+      "text": "REGION IV · BI-DISTRICT\nGA\nR15\nGanado\n—\n63 ✓\nTA\nT16\nTaft\n—\n7\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/shiner",
+        "/schools/freer",
+        "/games/2026-bi-district-2a-d1-iv-5"
+      ],
+      "text": "REGION IV · BI-DISTRICT\nSH\nW15\nShiner\n—\n70 ✓\nFR\nF16\nFreer\n—\n7\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/lovelady",
+        "/schools/granger",
+        "/games/2026-bi-district-2a-d1-iv-6"
+      ],
+      "text": "REGION IV · BI-DISTRICT\nLO\nR14\nLovelady\n—\n50 ✓\nT13\nGranger\n—\n20\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/dilley",
+        "/schools/flatonia",
+        "/games/2026-bi-district-2a-d1-iv-7"
+      ],
+      "text": "REGION IV · BI-DISTRICT\nDI\nW16\nDilley\n—\n20\nFL\nF15\nFlatonia\n—\n35 ✓\nGame Center · Verified final"
+    },
+    {
+      "links": [
+        "/schools/rosebud-lott",
+        "/schools/corrigan-camden",
+        "/games/2026-bi-district-2a-d1-iv-8"
+      ],
+      "text": "REGION IV · BI-DISTRICT\nRO\nR13\nRosebud-Lott\n—\n49 ✓\nCO\nT14\nCorrigan-Camden\n—\n7\nGame Center · Verified final"
+    }
+  ],
+  "limitations": [
+    "Leonard hub navigation failed; hub/schedule not counted as passed",
+    "Fallback/correction precedence tested in isolated fixtures, not production mutations"
+  ]
+}

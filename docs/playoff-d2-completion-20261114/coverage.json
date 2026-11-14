@@ -1,0 +1,791 @@
+[
+  {
+    "round": 0,
+    "region": 1,
+    "slot": 1,
+    "teams": [
+      "Gruver",
+      "Plains"
+    ],
+    "id": "2026-bi-district-2a-d2-i-1",
+    "status": "final",
+    "homeScore": 69,
+    "awayScore": 14,
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "seeds": [
+      "W1",
+      "F2"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 1,
+    "slot": 2,
+    "teams": [
+      "McCamey",
+      "Tahoka"
+    ],
+    "id": "2026-bi-district-2a-d2-i-2",
+    "status": "final",
+    "homeScore": 35,
+    "awayScore": 14,
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "seeds": [
+      "R4",
+      "T3"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 1,
+    "slot": 3,
+    "teams": [
+      "Ropes",
+      "Vega"
+    ],
+    "id": "2026-bi-district-2a-d2-i-3",
+    "status": "final",
+    "homeScore": 14,
+    "awayScore": 64,
+    "kickoff": "2026-11-12T18:00:00-06:00",
+    "venue": "Bobcat Stadium, Dimmitt, TX",
+    "seeds": [
+      "W2",
+      "F1"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 1,
+    "slot": 4,
+    "teams": [
+      "Lockney",
+      "Iraan"
+    ],
+    "id": "2026-bi-district-2a-d2-i-4",
+    "status": "final",
+    "homeScore": 14,
+    "awayScore": 62,
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "seeds": [
+      "R3",
+      "T4"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 1,
+    "slot": 5,
+    "teams": [
+      "Roscoe",
+      "Eldorado"
+    ],
+    "id": "2026-bi-district-2a-d2-i-5",
+    "status": "final",
+    "homeScore": 52,
+    "awayScore": 14,
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "seeds": [
+      "W3",
+      "F4"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 1,
+    "slot": 6,
+    "teams": [
+      "Sudan",
+      "West Texas"
+    ],
+    "id": "2026-bi-district-2a-d2-i-6",
+    "status": "final",
+    "homeScore": 27,
+    "awayScore": 26,
+    "kickoff": "2026-11-12T19:30:00-06:00",
+    "seeds": [
+      "R2",
+      "T1"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 1,
+    "slot": 7,
+    "teams": [
+      "Wink",
+      "Ralls"
+    ],
+    "id": "2026-bi-district-2a-d2-i-7",
+    "status": "final",
+    "homeScore": 76,
+    "awayScore": 14,
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Tornado Stadium, Lamesa, TX",
+    "seeds": [
+      "W4",
+      "F3"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 1,
+    "slot": 8,
+    "teams": [
+      "Stratford",
+      "Seagraves"
+    ],
+    "id": "2026-bi-district-2a-d2-i-8",
+    "status": "final",
+    "homeScore": 37,
+    "awayScore": 0,
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "seeds": [
+      "R1",
+      "T2"
+    ]
+  },
+  {
+    "round": 1,
+    "region": 1,
+    "slot": 1,
+    "teams": [
+      "Gruver",
+      "McCamey"
+    ],
+    "id": "2026-area-2a-d2-i-1",
+    "status": "upcoming",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Antelope Stadium, Abernathy, TX"
+  },
+  {
+    "round": 1,
+    "region": 1,
+    "slot": 2,
+    "teams": [
+      "Ropes",
+      "Iraan"
+    ],
+    "id": "2026-area-2a-d2-i-2",
+    "status": "upcoming",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Mustang Bowl, Andrews, TX"
+  },
+  {
+    "round": 1,
+    "region": 1,
+    "slot": 3,
+    "teams": [
+      "Roscoe",
+      "Sudan"
+    ],
+    "id": "2026-area-2a-d2-i-3",
+    "status": "upcoming",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Tornado Stadium, Lamesa, TX"
+  },
+  {
+    "round": 1,
+    "region": 1,
+    "slot": 4,
+    "teams": [
+      "Wink",
+      "Stratford"
+    ],
+    "id": "2026-area-2a-d2-i-4",
+    "status": "upcoming",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Benny Douglas Stadium, Muleshoe, TX"
+  },
+  {
+    "round": 0,
+    "region": 2,
+    "slot": 1,
+    "teams": [
+      "Wellington",
+      "Munday"
+    ],
+    "id": "2026-bi-district-2a-d2-ii-1",
+    "status": "final",
+    "homeScore": 47,
+    "awayScore": 20,
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Fair Park Stadium, Childress, TX",
+    "seeds": [
+      "W5",
+      "F6"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 2,
+    "slot": 2,
+    "teams": [
+      "Crawford",
+      "Albany"
+    ],
+    "id": "albany-vs-crawford-2026-bi-district",
+    "status": "final",
+    "homeScore": 21,
+    "awayScore": 27,
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Kangaroo Stadium, Weatherford",
+    "seeds": [
+      "R8",
+      "T7"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 2,
+    "slot": 3,
+    "teams": [
+      "Windthorst",
+      "Quanah"
+    ],
+    "id": "2026-bi-district-2a-d2-ii-3",
+    "status": "final",
+    "homeScore": 61,
+    "awayScore": 20,
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Hawk Stadium, Iowa Park, TX",
+    "seeds": [
+      "W6",
+      "F5"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 2,
+    "slot": 4,
+    "teams": [
+      "Stamford",
+      "Mart"
+    ],
+    "id": "2026-bi-district-2a-d2-ii-4",
+    "status": "final",
+    "homeScore": 54,
+    "awayScore": 13,
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Porcupine Stadium, Springtown, TX",
+    "seeds": [
+      "R7",
+      "T8"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 2,
+    "slot": 5,
+    "teams": [
+      "Goldthwaite",
+      "Hubbard"
+    ],
+    "id": "goldthwaite-vs-hubbard-2026-bi-district",
+    "status": "final",
+    "homeScore": 56,
+    "awayScore": 0,
+    "kickoff": "2026-11-12T19:30:00-06:00",
+    "venue": "Crusader Stadium, Belton",
+    "seeds": [
+      "W7",
+      "F8"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 2,
+    "slot": 6,
+    "teams": [
+      "Haskell",
+      "Clarendon"
+    ],
+    "id": "2026-bi-district-2a-d2-ii-6",
+    "status": "final",
+    "homeScore": 62,
+    "awayScore": 12,
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "venue": "Fair Park Stadium, Childress, TX",
+    "seeds": [
+      "R6",
+      "T5"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 2,
+    "slot": 7,
+    "teams": [
+      "Santo",
+      "Miles"
+    ],
+    "id": "2026-bi-district-2a-d2-ii-7",
+    "status": "final",
+    "homeScore": 21,
+    "awayScore": 9,
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Bob and Norma Cervetto Stadium, Dublin, TX",
+    "seeds": [
+      "W8",
+      "F7"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 2,
+    "slot": 8,
+    "teams": [
+      "Wheeler",
+      "Seymour"
+    ],
+    "id": "2026-bi-district-2a-d2-ii-8",
+    "status": "final",
+    "homeScore": 48,
+    "awayScore": 14,
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "venue": "Lion Stadium, Vernon, TX",
+    "seeds": [
+      "R5",
+      "T6"
+    ]
+  },
+  {
+    "round": 1,
+    "region": 2,
+    "slot": 1,
+    "teams": [
+      "Wellington",
+      "Crawford"
+    ],
+    "id": "2026-area-2a-d2-ii-1",
+    "status": "upcoming",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Newton Field, Graham, TX"
+  },
+  {
+    "round": 1,
+    "region": 2,
+    "slot": 2,
+    "teams": [
+      "Windthorst",
+      "Stamford"
+    ],
+    "id": "2026-area-2a-d2-ii-2",
+    "status": "upcoming",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Buckaroo Stadium, Breckenridge, TX"
+  },
+  {
+    "round": 1,
+    "region": 2,
+    "slot": 3,
+    "teams": [
+      "Goldthwaite",
+      "Haskell"
+    ],
+    "id": "2026-area-2a-d2-ii-3",
+    "status": "upcoming",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "San Angelo Stadium, San Angelo, TX"
+  },
+  {
+    "round": 1,
+    "region": 2,
+    "slot": 4,
+    "teams": [
+      "Santo",
+      "Wheeler"
+    ],
+    "id": "2026-area-2a-d2-ii-4",
+    "status": "upcoming",
+    "kickoff": "2026-11-19T19:00:00-06:00",
+    "venue": "Eagle Stadium, Holliday, TX"
+  },
+  {
+    "round": 0,
+    "region": 3,
+    "slot": 1,
+    "teams": [
+      "Collinsville",
+      "Maud"
+    ],
+    "id": "2026-bi-district-2a-d2-iii-1",
+    "status": "final",
+    "homeScore": 49,
+    "awayScore": 6,
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "seeds": [
+      "W9",
+      "F10"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 3,
+    "slot": 2,
+    "teams": [
+      "Colmesneil",
+      "Cushing"
+    ],
+    "id": "2026-bi-district-2a-d2-iii-2",
+    "status": "final",
+    "homeScore": 30,
+    "awayScore": 26,
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "seeds": [
+      "R12",
+      "T11"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 3,
+    "slot": 3,
+    "teams": [
+      "Clarksville",
+      "Boles"
+    ],
+    "id": "2026-bi-district-2a-d2-iii-3",
+    "status": "final",
+    "homeScore": 24,
+    "awayScore": 14,
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "seeds": [
+      "W10",
+      "F9"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 3,
+    "slot": 4,
+    "teams": [
+      "Grapeland",
+      "West Hardin"
+    ],
+    "id": "2026-bi-district-2a-d2-iii-4",
+    "status": "final",
+    "homeScore": 42,
+    "awayScore": 20,
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "seeds": [
+      "R11",
+      "T12"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 3,
+    "slot": 5,
+    "teams": [
+      "Overton",
+      "Evadale"
+    ],
+    "id": "2026-bi-district-2a-d2-iii-5",
+    "status": "final",
+    "homeScore": 75,
+    "awayScore": 14,
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "seeds": [
+      "W11",
+      "F12"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 3,
+    "slot": 6,
+    "teams": [
+      "Detroit",
+      "Era"
+    ],
+    "id": "2026-bi-district-2a-d2-iii-6",
+    "status": "final",
+    "homeScore": 6,
+    "awayScore": 57,
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "seeds": [
+      "R10",
+      "T9"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 3,
+    "slot": 7,
+    "teams": [
+      "West Sabine",
+      "Tenaha"
+    ],
+    "id": "2026-bi-district-2a-d2-iii-7",
+    "status": "final",
+    "homeScore": 38,
+    "awayScore": 21,
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "seeds": [
+      "W12",
+      "F11"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 3,
+    "slot": 8,
+    "teams": [
+      "Lindsay",
+      "Bowie"
+    ],
+    "id": "2026-bi-district-2a-d2-iii-8",
+    "status": "final",
+    "homeScore": 42,
+    "awayScore": 8,
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "seeds": [
+      "R9",
+      "T10"
+    ]
+  },
+  {
+    "round": 1,
+    "region": 3,
+    "slot": 1,
+    "teams": [
+      "Collinsville",
+      "Colmesneil"
+    ],
+    "id": "2026-area-2a-d2-iii-1",
+    "status": "upcoming",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Blackcat Field, Mexia, TX"
+  },
+  {
+    "round": 1,
+    "region": 3,
+    "slot": 2,
+    "teams": [
+      "Clarksville",
+      "Grapeland"
+    ],
+    "id": "2026-area-2a-d2-iii-2",
+    "status": "upcoming",
+    "kickoff": "2026-11-19T19:00:00-06:00",
+    "venue": "Eagle Stadium, Lindale, TX"
+  },
+  {
+    "round": 1,
+    "region": 3,
+    "slot": 3,
+    "teams": [
+      "Overton",
+      "Era"
+    ],
+    "id": "2026-area-2a-d2-iii-3",
+    "status": "upcoming",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Tiger Stadium, Commerce, TX"
+  },
+  {
+    "round": 1,
+    "region": 3,
+    "slot": 4,
+    "teams": [
+      "West Sabine",
+      "Lindsay"
+    ],
+    "id": "2026-area-2a-d2-iii-4",
+    "status": "upcoming",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Red Raider Stadium, Winnsboro, TX"
+  },
+  {
+    "round": 0,
+    "region": 4,
+    "slot": 1,
+    "teams": [
+      "Bremond",
+      "D'Hanis"
+    ],
+    "id": "2026-bi-district-2a-d2-iv-1",
+    "status": "final",
+    "homeScore": 61,
+    "awayScore": 14,
+    "kickoff": "2026-11-12T19:30:00-06:00",
+    "seeds": [
+      "W13",
+      "F14"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 4,
+    "slot": 2,
+    "teams": [
+      "Ben Bolt",
+      "Three Rivers"
+    ],
+    "id": "2026-bi-district-2a-d2-iv-2",
+    "status": "final",
+    "homeScore": 44,
+    "awayScore": 50,
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "seeds": [
+      "R16",
+      "T15"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 4,
+    "slot": 3,
+    "teams": [
+      "Junction",
+      "Bartlett"
+    ],
+    "id": "2026-bi-district-2a-d2-iv-3",
+    "status": "final",
+    "homeScore": 49,
+    "awayScore": 21,
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "seeds": [
+      "W14",
+      "F13"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 4,
+    "slot": 4,
+    "teams": [
+      "Yorktown",
+      "Santa Maria"
+    ],
+    "id": "2026-bi-district-2a-d2-iv-4",
+    "status": "final",
+    "homeScore": 35,
+    "awayScore": 0,
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "seeds": [
+      "R15",
+      "T16"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 4,
+    "slot": 5,
+    "teams": [
+      "Falls City",
+      "Agua Dulce"
+    ],
+    "id": "2026-bi-district-2a-d2-iv-5",
+    "status": "final",
+    "homeScore": 55,
+    "awayScore": 8,
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "seeds": [
+      "W15",
+      "F16"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 4,
+    "slot": 6,
+    "teams": [
+      "Harper",
+      "Burton"
+    ],
+    "id": "2026-bi-district-2a-d2-iv-6",
+    "status": "final",
+    "homeScore": 27,
+    "awayScore": 7,
+    "kickoff": "2026-11-12T19:00:00-06:00",
+    "seeds": [
+      "R14",
+      "T13"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 4,
+    "slot": 7,
+    "teams": [
+      "La Villa",
+      "Pettus"
+    ],
+    "id": "2026-bi-district-2a-d2-iv-7",
+    "status": "final",
+    "homeScore": 67,
+    "awayScore": 0,
+    "kickoff": "2026-11-13T19:00:00-06:00",
+    "seeds": [
+      "W16",
+      "F15"
+    ]
+  },
+  {
+    "round": 0,
+    "region": 4,
+    "slot": 8,
+    "teams": [
+      "Chilton",
+      "Brackett"
+    ],
+    "id": "2026-bi-district-2a-d2-iv-8",
+    "status": "upcoming",
+    "kickoff": "2026-11-14T17:00:00-06:00",
+    "venue": "Floresville, TX",
+    "seeds": [
+      "R13",
+      "T14"
+    ]
+  },
+  {
+    "round": 1,
+    "region": 4,
+    "slot": 1,
+    "teams": [
+      "Bremond",
+      "Three Rivers"
+    ],
+    "id": "2026-area-2a-d2-iv-1",
+    "status": "upcoming",
+    "kickoff": "2026-11-19T19:00:00-06:00",
+    "venue": "Tiger Stadium, Smithville, TX"
+  },
+  {
+    "round": 1,
+    "region": 4,
+    "slot": 2,
+    "teams": [
+      "Junction",
+      "Yorktown"
+    ],
+    "id": "2026-area-2a-d2-iv-2",
+    "status": "upcoming",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Barry Field, Hondo, TX"
+  },
+  {
+    "round": 1,
+    "region": 4,
+    "slot": 3,
+    "teams": [
+      "Falls City",
+      "Harper"
+    ],
+    "id": "2026-area-2a-d2-iv-3",
+    "status": "upcoming",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Creek View Cougar Stadium, San Antonio, TX"
+  },
+  {
+    "round": 1,
+    "region": 4,
+    "slot": 4,
+    "teams": [
+      "La Villa",
+      null
+    ]
+  }
+]
