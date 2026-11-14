@@ -1,0 +1,1202 @@
+[
+  {
+    "id": "abernathy",
+    "slug": "abernathy",
+    "name": "Abernathy",
+    "mascot": "Antelopes",
+    "sourceFile": "Abernathy-Antelopes1-large.png",
+    "sourceSHA256": "d1ad8ef5985a50f9554d9ae42f92a3534ec71df293ec5c69d96b16b23fb02438",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      255,
+      20,
+      945,
+      780
+    ],
+    "padding": 30,
+    "assetSize": [
+      750,
+      820
+    ],
+    "assetSHA256": "3e1f08e81f9561e744f9519f5df159a00be6a6ade4c5e10bf07bf103ea8f791c",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "amarillo-highland-park",
+    "slug": "amarillo-highland-park",
+    "name": "Amarillo Highland Park",
+    "mascot": "Hornets",
+    "sourceFile": "Amarillo-Highland-Park-Hornets-large-1.png",
+    "sourceSHA256": "cef6db43e51ab61a16a2b3869766378403403ee818ed7aadb9f2b9b1ecdfcbe9",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      334,
+      20,
+      864,
+      780
+    ],
+    "padding": 30,
+    "assetSize": [
+      590,
+      820
+    ],
+    "assetSHA256": "73936d28222370cc898e0c8646f0555b1a9aa5cf8259b9b26a3bfacdd86cbd38",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "axtell",
+    "slug": "axtell",
+    "name": "Axtell",
+    "mascot": "Longhorns",
+    "sourceFile": "Axtell-Longhorns-large.png",
+    "sourceSHA256": "f187c9653c24893dfd82938a18b1e9330ff65b66609f068a7073bf6e7438d29e",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      111,
+      22,
+      1088,
+      778
+    ],
+    "padding": 39,
+    "assetSize": [
+      1055,
+      834
+    ],
+    "assetSHA256": "6a80777631e46c5f993d2f8c76caf168566c10fd6b21895c49cfb9f67f578761",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "ballinger",
+    "slug": "ballinger",
+    "name": "Ballinger",
+    "mascot": "Bearcats",
+    "sourceFile": "Ballinger-Bearcats-large.png",
+    "sourceSHA256": "aca8efda80100185c300962985191b7b70099b778a5befe347cc5c3f36b42d56",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      77,
+      122,
+      1123,
+      677
+    ],
+    "padding": 42,
+    "assetSize": [
+      1130,
+      639
+    ],
+    "assetSHA256": "4336e6d713833c83bd9107a0b313304c26f7511f04013a43664a058b25db8175",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "bosqueville",
+    "slug": "bosqueville",
+    "name": "Bosqueville",
+    "mascot": "Bulldogs",
+    "sourceFile": "Bosqueville-Bulldogs1-large.png",
+    "sourceSHA256": "0d5863c701e7d595ea64e32144552c54e167c736fcf39dd782e88e687f649abe",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      75,
+      160,
+      1125,
+      639
+    ],
+    "padding": 42,
+    "assetSize": [
+      1134,
+      563
+    ],
+    "assetSHA256": "06990f6a44ba473099797ab5aa17a983a1e1e5538de9613cdd026507c07c8d04",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "bruceville-eddy",
+    "slug": "bruceville-eddy",
+    "name": "Bruceville-Eddy",
+    "mascot": "Eagles",
+    "sourceFile": "Bruceville-Eddy-Eagles-large.png",
+    "sourceSHA256": "4b4237c864360d8f7fc40709e1da34c23efd88f0d74217baabbed3de916cecdc",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      75,
+      173,
+      1125,
+      628
+    ],
+    "padding": 42,
+    "assetSize": [
+      1134,
+      539
+    ],
+    "assetSHA256": "24d19f64efba0cedf5d897a92b79dba4531f3203fc81137f4e81270c9584d8d4",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "como-pickton",
+    "slug": "como-pickton",
+    "name": "Como-Pickton",
+    "mascot": "Eagles",
+    "sourceFile": "Como-Pickton-Eagles1-large.png",
+    "sourceSHA256": "b2258d10e60b9a6096dab2088dec0707b79ec9f37d00b61ffa02be4679c2822e",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      75,
+      105,
+      1125,
+      694
+    ],
+    "padding": 42,
+    "assetSize": [
+      1134,
+      673
+    ],
+    "assetSHA256": "398b93d94686527679c4d740b4495fb6d7339ab8af79f73b60745018f3f4e355",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "cooper",
+    "slug": "cooper",
+    "name": "Cooper",
+    "mascot": "Bulldogs",
+    "sourceFile": "Cooper-Bulldogs1-large.png",
+    "sourceSHA256": "9419e54735b270699bafd201205049c8b12e8ba9f1a02f9e3291151f4eaf23ae",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      75,
+      51,
+      1125,
+      748
+    ],
+    "padding": 42,
+    "assetSize": [
+      1134,
+      781
+    ],
+    "assetSHA256": "252f09b97203abfcbcf9c05871dec021dbde6b11510a0c4f52c2a6ced8a74702",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "corrigan-camden",
+    "slug": "corrigan-camden",
+    "name": "Corrigan-Camden",
+    "mascot": "Bulldogs",
+    "sourceFile": "Corrigan-Camden-Bulldogs1-large.png",
+    "sourceSHA256": "63e2e12453881cf4b17b015ab3b02d496dfbfc987143171b8e9c3d1b219be5cb",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      323,
+      21,
+      877,
+      779
+    ],
+    "padding": 30,
+    "assetSize": [
+      614,
+      818
+    ],
+    "assetSHA256": "bd15548cfb0313af36c63e1c76315861c5942037ddbdb247301cbbc25142130c",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "dilley",
+    "slug": "dilley",
+    "name": "Dilley",
+    "mascot": "Wolves",
+    "sourceFile": "Dilley-Wolves-large.png",
+    "sourceSHA256": "a5373ae389ea28c0b4d1563b93224c0622d52c9afc5308a48dc87cc4f6365804",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      220,
+      20,
+      980,
+      780
+    ],
+    "padding": 30,
+    "assetSize": [
+      820,
+      820
+    ],
+    "assetSHA256": "f043d53e8ba723bf718169789674d85d0822a7700fd9b79660f60653068a8128",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "farwell",
+    "slug": "farwell",
+    "name": "Farwell",
+    "mascot": "Steers",
+    "sourceFile": "Farwell-Steers-large.png",
+    "sourceSHA256": "a9a4c8686a84301d2e32554a1e1b4bcfbb26289dcdce1b1c3412dbb8dc982788",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      76,
+      132,
+      1124,
+      668
+    ],
+    "padding": 42,
+    "assetSize": [
+      1132,
+      620
+    ],
+    "assetSHA256": "b030e249fc32e556d052b9502363df4ea6ccc98339774a127fa0f62fef8d0de7",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "flatonia",
+    "slug": "flatonia",
+    "name": "Flatonia",
+    "mascot": "Bulldogs And Lady Dogs",
+    "sourceFile": "Flatonia-Bulldogs-large.png",
+    "sourceSHA256": "d59f792065cab9562267a2fcd322763bc2b578533a6c1747f3505c3362a4dedd",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      158,
+      20,
+      1040,
+      780
+    ],
+    "padding": 35,
+    "assetSize": [
+      952,
+      830
+    ],
+    "assetSHA256": "67d0bc90650ea7cbac33e7d4c9acbfd17a8513594895cc1a36b286cebda60fb1",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "floydada",
+    "slug": "floydada",
+    "name": "Floydada",
+    "mascot": "Whirlwinds",
+    "sourceFile": "Floydada-Whirlwinds.png",
+    "sourceSHA256": "de6ab6860caf1b8768f5d06d7585cfa206c746715c13393c56c137d1d7e574b5",
+    "sourceSize": [
+      300,
+      200
+    ],
+    "crop": [
+      73,
+      5,
+      227,
+      195
+    ],
+    "padding": 8,
+    "assetSize": [
+      170,
+      206
+    ],
+    "assetSHA256": "df5bd31d7a81d9be6a873622e3b943449562c5b62e7f1836eea82ce3099f77d4",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "forsan",
+    "slug": "forsan",
+    "name": "Forsan",
+    "mascot": "Buffaloes",
+    "sourceFile": "Forsan-Buffaloes-large.png",
+    "sourceSHA256": "50e7d5dc50ceb30517a7195e62115f9d19fdf4fdb3d6e742ad65387b34804f49",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      202,
+      20,
+      999,
+      781
+    ],
+    "padding": 32,
+    "assetSize": [
+      861,
+      825
+    ],
+    "assetSHA256": "91be60b5c7d3ff74fe28cb00791ae3ba9f0016340edd5e4a4682a64e2918e35c",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "frankston",
+    "slug": "frankston",
+    "name": "Frankston",
+    "mascot": "Indians",
+    "sourceFile": "Frankston-Indians-large.png",
+    "sourceSHA256": "2b328b871b0a8bf2a5cbcd874228692f860719add3aa70fd4d8d8e38540d105e",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      76,
+      66,
+      1124,
+      734
+    ],
+    "padding": 42,
+    "assetSize": [
+      1132,
+      752
+    ],
+    "assetSHA256": "355864003fd305326dbb2b4f497d349e607e7c24674871f216941a6f3cc97d9b",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "freer",
+    "slug": "freer",
+    "name": "Freer",
+    "mascot": "Buckaroos",
+    "sourceFile": "Freer-Buckaroos-large.png",
+    "sourceSHA256": "938246048a17984953d9451d1d09841fe54b5dcbbd8a020a324cf03080446add",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      269,
+      20,
+      931,
+      780
+    ],
+    "padding": 30,
+    "assetSize": [
+      722,
+      820
+    ],
+    "assetSHA256": "231666538171d64f77ab16d1811d6211b571589385bc44576a3b97addf0df8b1",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "ganado",
+    "slug": "ganado",
+    "name": "Ganado",
+    "mascot": "Indians",
+    "sourceFile": "Ganado-Indians-large.png",
+    "sourceSHA256": "0849d0811d11cd10c7d0a5a93245f8d6f7fc28c41585f09a264064e64c666826",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      77,
+      23,
+      1123,
+      777
+    ],
+    "padding": 42,
+    "assetSize": [
+      1130,
+      838
+    ],
+    "assetSHA256": "a1be86974756f9588b5a55eb71b91daa8e23f8135d0efdfd3f3de0290e738f7b",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "garrison",
+    "slug": "garrison",
+    "name": "Garrison",
+    "mascot": "Bulldogs",
+    "sourceFile": "Garrison-Bulldogs1-large.png",
+    "sourceSHA256": "f952f7983da19539574e0b39ef4f40a6171c2f2df11339cfefee27c90d9e6433",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      75,
+      77,
+      1123,
+      722
+    ],
+    "padding": 42,
+    "assetSize": [
+      1132,
+      729
+    ],
+    "assetSHA256": "da81fcf41a50141b191e2d97e923e7a3ec878dbc94db27fab04b33b5e6561f55",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "gladewater-union-grove",
+    "slug": "gladewater-union-grove",
+    "name": "Gladewater Union Grove",
+    "mascot": "Lions",
+    "sourceFile": "Gladewater-Union-Grove-Lions.png",
+    "sourceSHA256": "92509f3408bd81f5818fa873c6dd56abe12c3585227fc08cbb458c8da7b70ef4",
+    "sourceSize": [
+      300,
+      200
+    ],
+    "crop": [
+      47,
+      5,
+      253,
+      195
+    ],
+    "padding": 8,
+    "assetSize": [
+      222,
+      206
+    ],
+    "assetSHA256": "e26fcd975760a2c28dc7cc412d6175b7acbf886d5ba5207720ec4fa444258594",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "groveton",
+    "slug": "groveton",
+    "name": "Groveton",
+    "mascot": "Indians",
+    "sourceFile": "Groveton-Indians.png",
+    "sourceSHA256": "fe6e127f88c083da4b4cb8b895131ef8a1de18d3d9aae84f12febc0d6fcf347e",
+    "sourceSize": [
+      300,
+      200
+    ],
+    "crop": [
+      18,
+      37,
+      282,
+      163
+    ],
+    "padding": 11,
+    "assetSize": [
+      286,
+      148
+    ],
+    "assetSHA256": "6a8851d72c72704a554e740fd63699311853589d6b6557b7cb36b162b2ff4e13",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "hawkins",
+    "slug": "hawkins",
+    "name": "Hawkins",
+    "mascot": "Hawks",
+    "sourceFile": "Hawkins-Hawks.png",
+    "sourceSHA256": "2bb0a284597a2a7c7d39c6b1f03c9f5e1a2e7a36dd07ccb5dcddb785a6be6ae1",
+    "sourceSize": [
+      300,
+      200
+    ],
+    "crop": [
+      56,
+      5,
+      244,
+      195
+    ],
+    "padding": 8,
+    "assetSize": [
+      204,
+      206
+    ],
+    "assetSHA256": "5ab3f8917e29d231aade90f532f1547c7d9ee0008e24343edc7ccbf00e5098c1",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "honey-grove",
+    "slug": "honey-grove",
+    "name": "Honey Grove",
+    "mascot": "Warriors",
+    "sourceFile": "Honey-Grove-Warriors-large.png",
+    "sourceSHA256": "cde526705602fc6d6aa414bf3126588ebed9834eac70a75937a3b8fce48a3805",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      292,
+      20,
+      908,
+      780
+    ],
+    "padding": 30,
+    "assetSize": [
+      676,
+      820
+    ],
+    "assetSHA256": "81721bbb8b1329c786be125dcd6273dd244d561a25f54d685a98939dc4bd2cfe",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "jewett-leon",
+    "slug": "jewett-leon",
+    "name": "Jewett Leon",
+    "mascot": "Cougars",
+    "sourceFile": "Jewett-Leon-Cougars-large.png",
+    "sourceSHA256": "06cca869133d21cb23713efdc13e1a39bb713911432f25f46f20536718a86fa2",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      76,
+      88,
+      1124,
+      712
+    ],
+    "padding": 42,
+    "assetSize": [
+      1132,
+      708
+    ],
+    "assetSHA256": "673211f42417c3a2a7824ab484a1cbe6545bd0acd82eced1afaeafc4ff067772",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "joaquin",
+    "slug": "joaquin",
+    "name": "Joaquin",
+    "mascot": "Rams",
+    "sourceFile": "Joaquin-Rams-large.png",
+    "sourceSHA256": "17e63d4fe0900fa71c4b108ea0c2fe0e89e8e66d760f452410ea739a2656b89e",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      230,
+      20,
+      970,
+      780
+    ],
+    "padding": 30,
+    "assetSize": [
+      800,
+      820
+    ],
+    "assetSHA256": "138407e3f7444291005c6e8bc3d4f642a9e27f19a026e893bd58885bb2a44573",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "johnson-city-lbj",
+    "slug": "johnson-city-lbj",
+    "name": "Johnson City LBJ",
+    "mascot": "Eagles",
+    "sourceFile": "Johnson-City-LBJ-Eagles-large.png",
+    "sourceSHA256": "9f3f1d142c6cfe5d063d922943d81e0b2fddd840e18197c703b8069833a30861",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      198,
+      20,
+      1002,
+      780
+    ],
+    "padding": 32,
+    "assetSize": [
+      868,
+      824
+    ],
+    "assetSHA256": "18885f231400ec678b130d59a1f238c509b507c990442c6bee874db30053fb78",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "lovelady",
+    "slug": "lovelady",
+    "name": "Lovelady",
+    "mascot": "Lions",
+    "sourceFile": "Lovelady-Lions-large.png",
+    "sourceSHA256": "4d72280909fd437034c4efa0294c73113104cceb705b712a2dda5af4ded7e81b",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      102,
+      20,
+      1098,
+      780
+    ],
+    "padding": 40,
+    "assetSize": [
+      1076,
+      840
+    ],
+    "assetSHA256": "114c0ff921fc69f9392e615b7814a3c7681f65836639f7589b601f0eaa44b5a5",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "new-deal",
+    "slug": "new-deal",
+    "name": "New Deal",
+    "mascot": "Lions",
+    "sourceFile": "New-Deal-Lions-large.png",
+    "sourceSHA256": "6a3d50088c67951c3f8a1a35bbeef732a2667d5bc6082dd2fe8756c2c6322d77",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      74,
+      98,
+      1124,
+      702
+    ],
+    "padding": 42,
+    "assetSize": [
+      1134,
+      688
+    ],
+    "assetSHA256": "3b1ee69751a90e80c7a28ede9ce81e825d78f2556388a9eca65827b5a7a06856",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "new-home",
+    "slug": "new-home",
+    "name": "New Home",
+    "mascot": "Leopards",
+    "sourceFile": "New-Home-Leopards1-large.png",
+    "sourceSHA256": "ee3a0658c7912de78e391933df5c97aa93f31f9a306ac51059d79c0c59ae3fe9",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      142,
+      20,
+      1058,
+      780
+    ],
+    "padding": 37,
+    "assetSize": [
+      990,
+      834
+    ],
+    "assetSHA256": "fd03f18a3c0dbcf3d69e4e660bc6408e80ac9c377addc84590c53760cc248b53",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "olton",
+    "slug": "olton",
+    "name": "Olton",
+    "mascot": "Mustangs",
+    "sourceFile": "Olton-Mustangs.png",
+    "sourceSHA256": "c7da1a2608a2eeb2c7d4f9803165d18d491a641cdb5c4ea859f0bb9139d305f1",
+    "sourceSize": [
+      300,
+      200
+    ],
+    "crop": [
+      49,
+      5,
+      251,
+      195
+    ],
+    "padding": 8,
+    "assetSize": [
+      218,
+      206
+    ],
+    "assetSHA256": "55bd57e6f4a41a9ae4165dbb01b3e8316c83901f43013963f3fd9b54d1af2a53",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "omaha-pewitt",
+    "slug": "omaha-pewitt",
+    "name": "Omaha Pewitt",
+    "mascot": "Brahmas",
+    "sourceFile": "Omaha-Pewitt-Brahmas-large.png",
+    "sourceSHA256": "e94cdb7cbe002a64e7cf7d1b50b5afb2e9a3e3ce3ac0567d95b8e730109a8d05",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      173,
+      21,
+      1026,
+      779
+    ],
+    "padding": 34,
+    "assetSize": [
+      921,
+      826
+    ],
+    "assetSHA256": "d8672c9b2df0a1a024c2c300e93efd17e7d032dc82a6262a2a6d25dbcb060746",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "ozona",
+    "slug": "ozona",
+    "name": "Ozona",
+    "mascot": "Lions",
+    "sourceFile": "Ozona-Lions1-large.png",
+    "sourceSHA256": "4344b4401d520b154cef7d6c1ae8baec6e0e29a139ac8659d23a89cc2a5be3b1",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      96,
+      20,
+      1103,
+      780
+    ],
+    "padding": 40,
+    "assetSize": [
+      1087,
+      840
+    ],
+    "assetSHA256": "b076b0647eee917013c029ba9883f98eea301267f279d83cd0df8a1111701c8d",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "panhandle",
+    "slug": "panhandle",
+    "name": "Panhandle",
+    "mascot": "Panthers",
+    "sourceFile": "Panhandle-Panthers-large.png",
+    "sourceSHA256": "1af25faec267faf24d81216e1d284372280cea196c1fcdbe7d3da1efb7904bc8",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      281,
+      20,
+      919,
+      789
+    ],
+    "padding": 31,
+    "assetSize": [
+      700,
+      831
+    ],
+    "assetSHA256": "b7cb7122890273c19f3bbdd2932f0c2317c9efa118472c34abc3c2d5c4cc74ca",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "price-carlisle",
+    "slug": "price-carlisle",
+    "name": "Price Carlisle",
+    "mascot": "Indians",
+    "sourceFile": "Price-Carlisle-Indians_new-large.png",
+    "sourceSHA256": "1d92f48266cc9b4698bcebc13b050da6af1b26a6811dbc5ddfc2a8ebfb393af7",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      153,
+      21,
+      1047,
+      778
+    ],
+    "padding": 36,
+    "assetSize": [
+      966,
+      829
+    ],
+    "assetSHA256": "3b71047d91aae868861f3d728e880e9ea6c4322edc9e86df07bd80b2a22dd2a8",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "refugio",
+    "slug": "refugio",
+    "name": "Refugio",
+    "mascot": "Bobcats",
+    "sourceFile": "Refugio-Bobcats-large.png",
+    "sourceSHA256": "742787fda347e629f9eda1b04ab2c9a3fa02e2af5ea4515dba0fb5187f241a9b",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      165,
+      20,
+      1034,
+      780
+    ],
+    "padding": 35,
+    "assetSize": [
+      939,
+      830
+    ],
+    "assetSHA256": "fb963b4644cd1df5301acbf0250148c868290e51462a688d07d78658e628459a",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "rosebud-lott",
+    "slug": "rosebud-lott",
+    "name": "Rosebud-Lott",
+    "mascot": "Cougars",
+    "sourceFile": "Rosebud-Lott-Cougars-large.png",
+    "sourceSHA256": "a93c8b4fb566b97e73402f5705cde5f9cc0fb51e497720a12ba912e093daa20b",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      191,
+      20,
+      1009,
+      780
+    ],
+    "padding": 33,
+    "assetSize": [
+      884,
+      826
+    ],
+    "assetSHA256": "32b86d1c730d629239e79870151cfd5fe76ceec66a755cb8591fe041f35009ff",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "san-augustine",
+    "slug": "san-augustine",
+    "name": "San Augustine",
+    "mascot": "Wolves",
+    "sourceFile": "San-Augustine-Wolves-large.png",
+    "sourceSHA256": "44f91db684e768b5f5bc4219ee9e54042cd7796ba42f22187afa0b901d4b06eb",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      75,
+      86,
+      1123,
+      712
+    ],
+    "padding": 42,
+    "assetSize": [
+      1132,
+      710
+    ],
+    "assetSHA256": "b387ff538f092797f004b299e0b66cfc3407653d91692ab69ae0e1ee7ff02306",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "sanford-fritch",
+    "slug": "sanford-fritch",
+    "name": "Sanford-Fritch",
+    "mascot": "Eagles",
+    "sourceFile": "Sanford-Fritch-Eagles-large.png",
+    "sourceSHA256": "6d7b90ddc839f98e2c4b5c66fb585e1d0d8f29117e6555fd776b135f3e1873fb",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      76,
+      171,
+      1124,
+      627
+    ],
+    "padding": 42,
+    "assetSize": [
+      1132,
+      540
+    ],
+    "assetSHA256": "34723e1c26d300f02a86d25fc8c73cca7f83ed6dc73103f8971d57b0bd77d529",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "shelbyville",
+    "slug": "shelbyville",
+    "name": "Shelbyville",
+    "mascot": "Dragons",
+    "sourceFile": "Shelbyville-Dragons-large.png",
+    "sourceSHA256": "abef46cd89757b269f6da801dcaa6f2cfa1595d4d729533cfed4d1561835f369",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      197,
+      20,
+      1003,
+      780
+    ],
+    "padding": 32,
+    "assetSize": [
+      870,
+      824
+    ],
+    "assetSHA256": "563ba2336db9771136fd41071beb6634cc8919fe268020470a547d588d3d5583",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "shiner",
+    "slug": "shiner",
+    "name": "Shiner",
+    "mascot": "Comanches",
+    "sourceFile": "Shiner-Comanches-large.png",
+    "sourceSHA256": "8c31e7114550e8955be8351119d1c6f29495f408ae3b9b7f3fad9337988f7f8c",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      76,
+      86,
+      1124,
+      713
+    ],
+    "padding": 42,
+    "assetSize": [
+      1132,
+      711
+    ],
+    "assetSHA256": "ab647a5726f6c9516e7751fe63c263edfe2ab9f3b0d581041d55e2cb61e97411",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "sonora",
+    "slug": "sonora",
+    "name": "Sonora",
+    "mascot": "Broncos",
+    "sourceFile": "Sonora-Broncos-large.png",
+    "sourceSHA256": "5f158c28505043b48dcc07a9e29935e5cb75c3862271831ff114893c7022eda3",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      353,
+      20,
+      846,
+      780
+    ],
+    "padding": 30,
+    "assetSize": [
+      553,
+      820
+    ],
+    "assetSHA256": "e05dc83237ed2cd2e109b8c10d200e16f57387be0f7ce65c39c286b60666008b",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "spearman",
+    "slug": "spearman",
+    "name": "Spearman",
+    "mascot": "Lynx",
+    "sourceFile": "Spearman-Lynx-large.png",
+    "sourceSHA256": "fc5bd9f38711cee6890a4e425fbae7633efee1c5aa2769c73a9ae194365a0c81",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      75,
+      118,
+      1125,
+      681
+    ],
+    "padding": 42,
+    "assetSize": [
+      1134,
+      647
+    ],
+    "assetSHA256": "9ce3ba20e0b773b87887a22386120b3ed99816790a9e374c66bb604bb493ea92",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "taft",
+    "slug": "taft",
+    "name": "Taft",
+    "mascot": "Greyhounds",
+    "sourceFile": "Taft-Greyhounds-1.png",
+    "sourceSHA256": "ec5d33b4e40d119e7b234dbf6ccd756d39d30768a32758b2082713b885b2e48f",
+    "sourceSize": [
+      300,
+      200
+    ],
+    "crop": [
+      36,
+      5,
+      264,
+      195
+    ],
+    "padding": 9,
+    "assetSize": [
+      246,
+      208
+    ],
+    "assetSHA256": "57832e86403552eb9a8f64934745e98e33c533cec5669997ce7407713323d45b",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "thorndale",
+    "slug": "thorndale",
+    "name": "Thorndale",
+    "mascot": "Bulldogs",
+    "sourceFile": "Thorndale-Bulldogs-large.png",
+    "sourceSHA256": "8cbf9ca5b130cb7ddbe9c70da134d9d976e81ee18d4ad6819baeedf1e054519c",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      277,
+      20,
+      922,
+      780
+    ],
+    "padding": 30,
+    "assetSize": [
+      705,
+      820
+    ],
+    "assetSHA256": "b5e8414ff1376ab3a71a4290ea69ed80f4ff54e9ae0f0819ed6c90e016d431dd",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "tom-bean",
+    "slug": "tom-bean",
+    "name": "Tom Bean",
+    "mascot": "Tomcats",
+    "sourceFile": "Tom-Bean-Tomcats-large.png",
+    "sourceSHA256": "1ff9fe09fb011d7dace917dccdd19cbeb23c1334c24fd6c2a09e8d8063f94896",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      150,
+      20,
+      1050,
+      779
+    ],
+    "padding": 36,
+    "assetSize": [
+      972,
+      831
+    ],
+    "assetSHA256": "97172bb8ddefc5616e8e1a25cbe84f46731af557e6862770f0b32a0b34597eae",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "tulia",
+    "slug": "tulia",
+    "name": "Tulia",
+    "mascot": "Hornets",
+    "sourceFile": "Tulia-Hornets.png",
+    "sourceSHA256": "c152455c41fec3a59cafb0c42482792f3e93bed9ab212a6c5f48f9f4d5d83a1a",
+    "sourceSize": [
+      300,
+      200
+    ],
+    "crop": [
+      61,
+      5,
+      239,
+      195
+    ],
+    "padding": 8,
+    "assetSize": [
+      194,
+      206
+    ],
+    "assetSHA256": "2ea2876c81c2b5105d93cc354dc1acea420c3c8895fdc1e3210b945b27685b23",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "waskom",
+    "slug": "waskom",
+    "name": "Waskom",
+    "mascot": "Wildcats",
+    "sourceFile": "Waskom-Wildcats-large.png",
+    "sourceSHA256": "1768801ee3f1e9a6984801512c66dae259655ee6956542b0b8062a1240f77921",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      198,
+      20,
+      1002,
+      780
+    ],
+    "padding": 32,
+    "assetSize": [
+      868,
+      824
+    ],
+    "assetSHA256": "7bebf97dfe79b03e29a43695abd588909211b215a7c00bc8054a79619c2276a0",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "weimar",
+    "slug": "weimar",
+    "name": "Weimar",
+    "mascot": "Wildcats",
+    "sourceFile": "Weimar-Wildcats-large.png",
+    "sourceSHA256": "688ee5b9f3626eadf0a0fd5a0cdabf7c6a921c9dcdf197feeb33093a9a0c78ec",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      172,
+      20,
+      1027,
+      780
+    ],
+    "padding": 34,
+    "assetSize": [
+      923,
+      828
+    ],
+    "assetSHA256": "8bb910ac24342095c620cc4ac8ff6ee909c58f899a20a0270692fd5bdcd46fc7",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  },
+  {
+    "id": "whitewright",
+    "slug": "whitewright",
+    "name": "Whitewright",
+    "mascot": "Tigers",
+    "sourceFile": "Whitewright-Tigers1-large.png",
+    "sourceSHA256": "9f3ad6539235aa06f338a2cb190c6e5fe53d0bc9dbc1e09d2a116cc3f3ac4bfe",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "crop": [
+      77,
+      74,
+      1123,
+      725
+    ],
+    "padding": 42,
+    "assetSize": [
+      1130,
+      735
+    ],
+    "assetSHA256": "6bce16b2fa93b41143b752fa048d25bd37ab5c619751c5f8d30e4b27950d261f",
+    "processing": "Lossless alpha-bounds crop; 4% transparent padding; no resizing, recoloring, or background removal."
+  }
+]
