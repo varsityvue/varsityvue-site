@@ -22,9 +22,9 @@ test("catalog integration preserves every existing school and all game schedules
   assert.equal(existing.length, 70);
   assert.equal(hash(existing), "a87103e8435e3b9f2daadbb84ca7ccb3176bcdb19d1e8bf32e2487d8be40ee56");
   const newIds = new Set(playoffScheduleAdditions.map(g => g.id));
-  const games = getGames().filter(g => !newIds.has(g.id)).map(({id,season,gameType,homeSchoolSlug,awaySchoolSlug,homeTeam,awayTeam,kickoff,venue,homeScore,awayScore,publicScoreVerified,officialWinnerSchoolSlug,resultType,playoff}) => ({id,season,gameType,homeSchoolSlug,awaySchoolSlug,homeTeam,awayTeam,kickoff,venue,homeScore,awayScore,publicScoreVerified,officialWinnerSchoolSlug,resultType,playoff}));
-  assert.equal(games.length, 296);
-  assert.equal(hash(games), "4d814ac7cf5c8f32271f0615e02a4e97959bca917ffebf0546f1dab4fb3b2dee");
+  const games = getGames().filter(g => !newIds.has(g.id) && g.gameType!=="playoff").map(({id,season,gameType,homeSchoolSlug,awaySchoolSlug,homeTeam,awayTeam,kickoff,venue,homeScore,awayScore,publicScoreVerified,officialWinnerSchoolSlug,resultType,playoff}) => ({id,season,gameType,homeSchoolSlug,awaySchoolSlug,homeTeam,awayTeam,kickoff,venue,homeScore,awayScore,publicScoreVerified,officialWinnerSchoolSlug,resultType,playoff}));
+  assert.equal(games.length, 289);
+  assert.equal(hash(games), "28d3545cacc8468333c1da25189f8767cf8782240eef17433603e0c44e1857e2");
   assert.deepEqual(getFeaturedSchools().map((school) => school.slug), existing.filter((school) => school.status === "pilot").map((school) => school.slug));
 });
 

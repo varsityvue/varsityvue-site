@@ -259,7 +259,9 @@ export const playoffLaunchGames: Game[] = [
     "districtGame": false,
     "coverageStatus": "none",
     "sourceStatus": "verified",
-    "sourceLabel": "UIL-linked 2026 2A DI bracket; participants reconciled against verified bi-district finals; date, time and venue pending — https://www.uiltexas.org/football/playoff-brackets/2AD1"
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Bulldog Stadium, McGregor, TX",
+    "sourceLabel": "UIL-linked bracket qualifiers; Area schedule reviewed November 14, 2026 against Dave Campbell’s statewide pairings — https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations"
   },
   {
     "id": "2026-area-2a-d1-ii-2",
@@ -281,7 +283,9 @@ export const playoffLaunchGames: Game[] = [
     "districtGame": false,
     "coverageStatus": "none",
     "sourceStatus": "verified",
-    "sourceLabel": "UIL-linked 2026 2A DI bracket; participants reconciled against verified bi-district finals; date, time and venue pending — https://www.uiltexas.org/football/playoff-brackets/2AD1"
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Pirate Stadium, Granbury, TX",
+    "sourceLabel": "UIL-linked bracket qualifiers; Area schedule reviewed November 14, 2026 against Dave Campbell’s statewide pairings — https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations"
   },
   {
     "id": "2026-area-2a-d1-ii-3",
@@ -303,7 +307,9 @@ export const playoffLaunchGames: Game[] = [
     "districtGame": false,
     "coverageStatus": "none",
     "sourceStatus": "verified",
-    "sourceLabel": "UIL-linked 2026 2A DI bracket; participants reconciled against verified bi-district finals; date, time and venue pending — https://www.uiltexas.org/football/playoff-brackets/2AD1"
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Ram Stadium, Mineral Wells, TX",
+    "sourceLabel": "UIL-linked bracket qualifiers; Area schedule reviewed November 14, 2026 against Dave Campbell’s statewide pairings — https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations"
   },
   {
     "id": "2026-area-2a-d1-ii-4",
@@ -726,7 +732,9 @@ export const playoffLaunchGames: Game[] = [
     "districtGame": false,
     "coverageStatus": "none",
     "sourceStatus": "verified",
-    "sourceLabel": "UIL-linked bracket G40; both first-round finals verified. Schedule details pending — https://www.uiltexas.org/football/playoff-brackets/3AD2"
+    "kickoff": "2026-11-20T19:30:00-06:00",
+    "venue": "Midlothian ISD Stadium, Midlothian, TX",
+    "sourceLabel": "UIL-linked bracket qualifiers; Area schedule reviewed November 14, 2026 against Dave Campbell’s statewide pairings — https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations"
   },
   {
     "id": "2026-bi-district-4a-d2-iv-6",

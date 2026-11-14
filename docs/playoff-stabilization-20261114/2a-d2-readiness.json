@@ -1,0 +1,614 @@
+{
+  "asOf": "2026-11-14",
+  "publication": "research only; not imported into runtime catalog",
+  "sources": [
+    "https://www.uiltexas.org/football/playoff-brackets/2AD2",
+    "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations"
+  ],
+  "summary": {
+    "firstRoundFields": 32,
+    "participants": 64,
+    "canonicalGames": 10,
+    "missingCanonicalGames": 22,
+    "liveVerifiedFinals": 10,
+    "pendingFirstRound": "Chilton–Brackett",
+    "missingLogos": 52
+  },
+  "conflicts": [
+    {
+      "pair": "Roscoe–Eldorado",
+      "uil": "45–14",
+      "dctf": "52–14"
+    },
+    {
+      "pair": "Crawford–Albany",
+      "uilAndProduction": "27–21",
+      "dctf": "27–20"
+    },
+    {
+      "pair": "Haskell–Clarendon",
+      "uil": "62–18",
+      "productionAndDctf": "62–12"
+    },
+    {
+      "pair": "Grapeland–West Hardin",
+      "uil": "42–20",
+      "dctf": "48–20"
+    },
+    {
+      "pair": "West Sabine–Tenaha",
+      "uil": "22–21",
+      "dctf": "38–21"
+    }
+  ],
+  "fields": [
+    {
+      "region": 1,
+      "firstRound": [
+        {
+          "slot": 1,
+          "teams": [
+            "Gruver",
+            "Plains"
+          ],
+          "uilReportedScores": [
+            69,
+            14
+          ],
+          "existingGameId": null,
+          "publiclyImported": false
+        },
+        {
+          "slot": 2,
+          "teams": [
+            "McCamey",
+            "Tahoka"
+          ],
+          "uilReportedScores": [
+            35,
+            14
+          ],
+          "existingGameId": null,
+          "publiclyImported": false
+        },
+        {
+          "slot": 3,
+          "teams": [
+            "Ropes",
+            "Vega"
+          ],
+          "uilReportedScores": [
+            64,
+            14
+          ],
+          "existingGameId": "2026-bi-district-2a-d2-i-3",
+          "publiclyImported": false
+        },
+        {
+          "slot": 4,
+          "teams": [
+            "Lockney",
+            "Iraan"
+          ],
+          "uilReportedScores": [
+            14,
+            62
+          ],
+          "existingGameId": null,
+          "publiclyImported": false
+        },
+        {
+          "slot": 5,
+          "teams": [
+            "Roscoe",
+            "Eldorado"
+          ],
+          "uilReportedScores": [
+            45,
+            14
+          ],
+          "existingGameId": null,
+          "publiclyImported": false
+        },
+        {
+          "slot": 6,
+          "teams": [
+            "Sudan",
+            "West Texas"
+          ],
+          "uilReportedScores": [
+            27,
+            26
+          ],
+          "existingGameId": null,
+          "publiclyImported": false
+        },
+        {
+          "slot": 7,
+          "teams": [
+            "Wink",
+            "Ralls"
+          ],
+          "uilReportedScores": [
+            76,
+            14
+          ],
+          "existingGameId": "2026-bi-district-2a-d2-i-7",
+          "publiclyImported": false
+        },
+        {
+          "slot": 8,
+          "teams": [
+            "Stratford",
+            "Seagraves"
+          ],
+          "uilReportedScores": [
+            37,
+            0
+          ],
+          "existingGameId": null,
+          "publiclyImported": false
+        }
+      ],
+      "area": [
+        [
+          "Gruver",
+          "McCamey"
+        ],
+        [
+          "Ropes",
+          "Iraan"
+        ],
+        [
+          "Roscoe",
+          "Sudan"
+        ],
+        [
+          "Wink",
+          "Stratford"
+        ]
+      ],
+      "missingLogos": [
+        "Gruver",
+        "Plains",
+        "McCamey",
+        "Tahoka",
+        "Ropes",
+        "Vega",
+        "Lockney",
+        "Iraan",
+        "Eldorado",
+        "Sudan",
+        "West Texas",
+        "Wink",
+        "Ralls",
+        "Stratford",
+        "Seagraves"
+      ]
+    },
+    {
+      "region": 2,
+      "firstRound": [
+        {
+          "slot": 1,
+          "teams": [
+            "Wellington",
+            "Munday"
+          ],
+          "uilReportedScores": [
+            47,
+            20
+          ],
+          "existingGameId": "2026-bi-district-2a-d2-ii-1",
+          "publiclyImported": false
+        },
+        {
+          "slot": 2,
+          "teams": [
+            "Crawford",
+            "Albany"
+          ],
+          "uilReportedScores": [
+            27,
+            21
+          ],
+          "existingGameId": "albany-vs-crawford-2026-bi-district",
+          "publiclyImported": false
+        },
+        {
+          "slot": 3,
+          "teams": [
+            "Windthorst",
+            "Quanah"
+          ],
+          "uilReportedScores": [
+            61,
+            20
+          ],
+          "existingGameId": "2026-bi-district-2a-d2-ii-3",
+          "publiclyImported": false
+        },
+        {
+          "slot": 4,
+          "teams": [
+            "Stamford",
+            "Mart"
+          ],
+          "uilReportedScores": [
+            54,
+            13
+          ],
+          "existingGameId": "2026-bi-district-2a-d2-ii-4",
+          "publiclyImported": false
+        },
+        {
+          "slot": 5,
+          "teams": [
+            "Goldthwaite",
+            "Hubbard"
+          ],
+          "uilReportedScores": [
+            56,
+            0
+          ],
+          "existingGameId": "goldthwaite-vs-hubbard-2026-bi-district",
+          "publiclyImported": false
+        },
+        {
+          "slot": 6,
+          "teams": [
+            "Haskell",
+            "Clarendon"
+          ],
+          "uilReportedScores": [
+            62,
+            18
+          ],
+          "existingGameId": "2026-bi-district-2a-d2-ii-6",
+          "publiclyImported": false
+        },
+        {
+          "slot": 7,
+          "teams": [
+            "Santo",
+            "Miles"
+          ],
+          "uilReportedScores": [
+            21,
+            9
+          ],
+          "existingGameId": "2026-bi-district-2a-d2-ii-7",
+          "publiclyImported": false
+        },
+        {
+          "slot": 8,
+          "teams": [
+            "Wheeler",
+            "Seymour"
+          ],
+          "uilReportedScores": [
+            48,
+            14
+          ],
+          "existingGameId": "2026-bi-district-2a-d2-ii-8",
+          "publiclyImported": false
+        }
+      ],
+      "area": [
+        [
+          "Wellington",
+          "Crawford"
+        ],
+        [
+          "Windthorst",
+          "Stamford"
+        ],
+        [
+          "Goldthwaite",
+          "Haskell"
+        ],
+        [
+          "Santo",
+          "Wheeler"
+        ]
+      ],
+      "missingLogos": [
+        "Wellington",
+        "Munday",
+        "Windthorst",
+        "Quanah",
+        "Clarendon",
+        "Wheeler"
+      ]
+    },
+    {
+      "region": 3,
+      "firstRound": [
+        {
+          "slot": 1,
+          "teams": [
+            "Collinsville",
+            "Maud"
+          ],
+          "uilReportedScores": [
+            49,
+            6
+          ],
+          "existingGameId": null,
+          "publiclyImported": false
+        },
+        {
+          "slot": 2,
+          "teams": [
+            "Colmesneil",
+            "Cushing"
+          ],
+          "uilReportedScores": [
+            30,
+            26
+          ],
+          "existingGameId": null,
+          "publiclyImported": false
+        },
+        {
+          "slot": 3,
+          "teams": [
+            "Clarksville",
+            "Boles"
+          ],
+          "uilReportedScores": [
+            24,
+            14
+          ],
+          "existingGameId": null,
+          "publiclyImported": false
+        },
+        {
+          "slot": 4,
+          "teams": [
+            "Grapeland",
+            "West Hardin"
+          ],
+          "uilReportedScores": [
+            42,
+            20
+          ],
+          "existingGameId": null,
+          "publiclyImported": false
+        },
+        {
+          "slot": 5,
+          "teams": [
+            "Overton",
+            "Evadale"
+          ],
+          "uilReportedScores": [
+            75,
+            14
+          ],
+          "existingGameId": null,
+          "publiclyImported": false
+        },
+        {
+          "slot": 6,
+          "teams": [
+            "Detroit",
+            "Era"
+          ],
+          "uilReportedScores": [
+            6,
+            57
+          ],
+          "existingGameId": null,
+          "publiclyImported": false
+        },
+        {
+          "slot": 7,
+          "teams": [
+            "West Sabine",
+            "Tenaha"
+          ],
+          "uilReportedScores": [
+            22,
+            21
+          ],
+          "existingGameId": null,
+          "publiclyImported": false
+        },
+        {
+          "slot": 8,
+          "teams": [
+            "Lindsay",
+            "Bowie"
+          ],
+          "uilReportedScores": [
+            42,
+            8
+          ],
+          "existingGameId": null,
+          "publiclyImported": false
+        }
+      ],
+      "area": [
+        [
+          "Collinsville",
+          "Colmesneil"
+        ],
+        [
+          "Clarksville",
+          "Grapeland"
+        ],
+        [
+          "Overton",
+          "Era"
+        ],
+        [
+          "West Sabine",
+          "Lindsay"
+        ]
+      ],
+      "missingLogos": [
+        "Collinsville",
+        "Maud",
+        "Colmesneil",
+        "Cushing",
+        "Clarksville",
+        "Boles",
+        "Grapeland",
+        "West Hardin",
+        "Overton",
+        "Evadale",
+        "Detroit",
+        "Era",
+        "West Sabine",
+        "Tenaha",
+        "Lindsay",
+        "Bowie"
+      ]
+    },
+    {
+      "region": 4,
+      "firstRound": [
+        {
+          "slot": 1,
+          "teams": [
+            "Bremond",
+            "D'Hanis"
+          ],
+          "uilReportedScores": [
+            61,
+            14
+          ],
+          "existingGameId": null,
+          "publiclyImported": false
+        },
+        {
+          "slot": 2,
+          "teams": [
+            "Ben Bolt",
+            "Three Rivers"
+          ],
+          "uilReportedScores": [
+            44,
+            50
+          ],
+          "existingGameId": null,
+          "publiclyImported": false
+        },
+        {
+          "slot": 3,
+          "teams": [
+            "Junction",
+            "Bartlett"
+          ],
+          "uilReportedScores": [
+            49,
+            21
+          ],
+          "existingGameId": null,
+          "publiclyImported": false
+        },
+        {
+          "slot": 4,
+          "teams": [
+            "Yorktown",
+            "Santa Maria"
+          ],
+          "uilReportedScores": [
+            35,
+            0
+          ],
+          "existingGameId": null,
+          "publiclyImported": false
+        },
+        {
+          "slot": 5,
+          "teams": [
+            "Falls City",
+            "Agua Dulce"
+          ],
+          "uilReportedScores": [
+            55,
+            8
+          ],
+          "existingGameId": null,
+          "publiclyImported": false
+        },
+        {
+          "slot": 6,
+          "teams": [
+            "Harper",
+            "Burton"
+          ],
+          "uilReportedScores": [
+            27,
+            7
+          ],
+          "existingGameId": null,
+          "publiclyImported": false
+        },
+        {
+          "slot": 7,
+          "teams": [
+            "La Villa",
+            "Pettus"
+          ],
+          "uilReportedScores": [
+            67,
+            0
+          ],
+          "existingGameId": null,
+          "publiclyImported": false
+        },
+        {
+          "slot": 8,
+          "teams": [
+            "Chilton",
+            "Brackett"
+          ],
+          "uilReportedScores": [
+            null,
+            null
+          ],
+          "existingGameId": null,
+          "publiclyImported": false
+        }
+      ],
+      "area": [
+        [
+          "Bremond",
+          "Three Rivers"
+        ],
+        [
+          "Junction",
+          "Yorktown"
+        ],
+        [
+          "Falls City",
+          "Harper"
+        ],
+        [
+          "La Villa",
+          null
+        ]
+      ],
+      "missingLogos": [
+        "Bremond",
+        "D'Hanis",
+        "Ben Bolt",
+        "Three Rivers",
+        "Bartlett",
+        "Yorktown",
+        "Santa Maria",
+        "Falls City",
+        "Agua Dulce",
+        "Harper",
+        "Burton",
+        "La Villa",
+        "Pettus",
+        "Chilton",
+        "Brackett"
+      ]
+    }
+  ]
+}

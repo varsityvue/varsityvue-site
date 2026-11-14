@@ -1,3 +1,4 @@
+import { completePostseasonStanding } from "@/lib/playoff-record-presentation";
 import { gameSiteLabel, gameOpponentPrefix } from "@/lib/game-site-presentation";
 import type { CSSProperties } from "react";
 import type { Metadata } from "next";
@@ -29,8 +30,8 @@ function getGameStatusLabel(game: ScheduleGame, todayKey: string | null) { if (g
 function getReportScoreLabel(game: ScheduleGame, todayKey: string | null) { if (game.week === undefined || game.week < 3 || game.week > 6 || game.gameType === "bye" || game.gameType === "scrimmage" || game.status === "final" || game.status === "cancelled" || game.status === "postponed") return null; if (game.status === "live") return "Report Live Score"; const gameDateKey = getGameDateKey(game.kickoff); if (game.status === "scheduled" || (todayKey && gameDateKey && gameDateKey < todayKey)) return "Report Final Score"; return null; }
 function getMapUrl(game: Pick<ScheduleGame, "venue" | "venueAddress">) { const query = game.venueAddress ?? game.venue; return query ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}` : null; }
 function getResult(game: ScheduleGame, schoolSlug: string) { if (game.gameType === "bye" || game.gameType === "scrimmage" || game.status !== "final") return null; if (game.resultType === "forfeit") return game.officialWinnerSchoolSlug === schoolSlug ? "W" : "L"; if (game.homeScore === undefined || game.awayScore === undefined) return null; const isHome = game.homeSchoolSlug === schoolSlug; const schoolScore = isHome ? game.homeScore : game.awayScore; const opponentScore = isHome ? game.awayScore : game.homeScore; if (schoolScore === opponentScore) return "T"; return schoolScore > opponentScore ? "W" : "L"; }
-function getRecord(slug: string, games: Game[]) { const standing = getStandingForSchoolFromGames(slug, games); return formatOverallRecord(standing); }
-function getDistrictRecord(slug: string, games: Game[]) { const standing = getStandingForSchoolFromGames(slug, games); return formatDistrictRecord(standing); }
+function getRecord(slug: string, games: Game[]) { const standing = completePostseasonStanding(getStandingForSchoolFromGames(slug, games), games, slug); return formatOverallRecord(standing); }
+function getDistrictRecord(slug: string, games: Game[]) { const standing = completePostseasonStanding(getStandingForSchoolFromGames(slug, games), games, slug); return formatDistrictRecord(standing); }
 function getCurrentStreak(slug: string, games: Game[]) {
   const finals = games
     .filter((game) => (game.homeSchoolSlug === slug || game.awaySchoolSlug === slug) && game.status === "final" && game.gameType !== "bye" && game.gameType !== "scrimmage" && (game.resultType === "forfeit" || (typeof game.homeScore === "number" && typeof game.awayScore === "number")))

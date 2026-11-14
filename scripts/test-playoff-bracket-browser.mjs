@@ -7,10 +7,12 @@ import {chromium,devices} from 'playwright';
 // Entirely isolated acceptance: no production database or account writes.
 const output='playoff-bracket-browser-evidence';mkdirSync(output,{recursive:true});
 const baseline=JSON.parse(readFileSync('tests/fixtures/2adi-published-finals-20261114.json','utf8'));
+let fixtureFailure=false;
 const calls=[];const states=baseline.map(row=>({...row,period:null,clock:null,kickoff_override:null,result_type:null,official_winner_school_slug:null,attribution_type:'verified'}));
 const fixture=createServer((req,res)=>{
  calls.push({method:req.method,path:req.url});
  res.setHeader('content-type','application/json');res.setHeader('access-control-allow-origin','*');
+ if(fixtureFailure){res.statusCode=503;res.end(JSON.stringify({error:'isolated outage'}));return;}
  res.end(JSON.stringify(req.url?.includes('/rpc/public_score_states')?states:[]));
 });
 await new Promise(resolve=>fixture.listen(54329,'127.0.0.1',resolve));
@@ -82,10 +84,26 @@ try{
   await page.getByRole('link',{name:'View Panhandle Hub →',exact:true}).click();await page.getByRole('heading',{name:'Panhandle',exact:true}).waitFor();
   const record=page.getByText('2026 Record',{exact:true}).locator('..');assert.equal(await record.locator('p').first().innerText(),'—');
   await page.locator('a[href="/schools/panhandle/schedule"]').first().click();await page.locator('a[href="/games/2026-bi-district-2a-d1-i-1"]').first().waitFor();
+  assert.equal(await page.getByText('Record',{exact:true}).locator('..').locator('p').last().innerText(),'—','schedule and hub withhold the same incomplete record');
   await page.goto(origin+'/admin/playoff-publishing/bracket-templates');await page.getByRole('heading',{name:'Welcome back.',exact:true}).waitFor();
   assert.equal(await page.getByRole('heading',{name:'Bracket template review',exact:true}).count(),0);
   results.push({device:name,viewport:options.viewport,pass:true,pinch:options.hasTouch?'emulated native touch passed':'not applicable'});await context.close();
  }
+ const fallbackContext=await browser.newContext();const fallbackPage=await fallbackContext.newPage();
+ fixtureFailure=true;
+ await fallbackPage.goto(origin+'/games/de-leon-vs-alvord-2026-bi-district');
+ await fallbackPage.getByRole('heading',{name:'Alvord vs. De Leon',exact:true}).waitFor();
+ const fallbackText=await fallbackPage.locator('main').innerText();
+ assert.ok(fallbackText.includes('FINAL · VERIFIED')&&fallbackText.includes('40')&&fallbackText.includes('24'),'reviewed final renders on initial feed failure');
+ await fallbackPage.screenshot({path:`${output}/repository-final-feed-failed.png`});
+ fixtureFailure=false;const deLeon=states.find(row=>row.game_id==='de-leon-vs-alvord-2026-bi-district');
+ deLeon.status='scheduled';deLeon.home_score=null;deLeon.away_score=null;
+ await fallbackPage.reload();await fallbackPage.getByRole('heading',{name:'Alvord vs. De Leon',exact:true}).waitFor();
+ assert.ok((await fallbackPage.locator('main').innerText()).includes('FINAL · VERIFIED'),'verified pregame metadata cannot regress a reviewed final');
+ deLeon.status='final';deLeon.home_score=42;deLeon.away_score=24;
+ await fallbackPage.reload();await fallbackPage.getByRole('heading',{name:'Alvord vs. De Leon',exact:true}).waitFor();
+ assert.ok((await fallbackPage.locator('main').innerText()).includes('42'),'isolated authoritative correction overrides repository fallback');
+ deLeon.home_score=40;await fallbackContext.close();
  assert.ok(calls.every(c=>c.method==='GET'||c.method==='HEAD'||c.method==='OPTIONS'||(c.method==='POST'&&c.path?.includes('/rpc/public_score_states'))),'only read requests reach fixture');
  writeFileSync(`${output}/results.json`,JSON.stringify({results,fixtureOnly:true},null,2));
  console.log(JSON.stringify(results,null,2));

@@ -1,0 +1,62 @@
+[
+  {
+    "division": "2A-D1",
+    "statewide": 63,
+    "regional": [
+      15,
+      15,
+      15,
+      15
+    ]
+  },
+  {
+    "division": "2A-D2",
+    "statewide": 63,
+    "regional": [
+      15,
+      15,
+      15,
+      15
+    ]
+  },
+  {
+    "division": "3A-D1",
+    "statewide": 63,
+    "regional": [
+      15,
+      15,
+      15,
+      15
+    ]
+  },
+  {
+    "division": "3A-D2",
+    "statewide": 63,
+    "regional": [
+      15,
+      15,
+      15,
+      15
+    ]
+  },
+  {
+    "division": "4A-D1",
+    "statewide": 63,
+    "regional": [
+      15,
+      15,
+      15,
+      15
+    ]
+  },
+  {
+    "division": "4A-D2",
+    "statewide": 63,
+    "regional": [
+      15,
+      15,
+      15,
+      15
+    ]
+  }
+]

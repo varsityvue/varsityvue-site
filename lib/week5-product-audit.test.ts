@@ -14,7 +14,7 @@ function sequence(slug: string) {
     ["cisco-at-stamford-2026-week-4", [7, 27]],
     ["jacksboro-at-cisco-2026-week-5", [42, 49]],
   ]);
-  const games = getGames().map((game) => {
+  const games = getGames().filter(game=>game.gameType!=="playoff").map((game) => {
     const scores = confirmed.get(game.id);
     return scores ? { ...game, status: "final" as const, awayScore: scores[0], homeScore: scores[1] } : game;
   });

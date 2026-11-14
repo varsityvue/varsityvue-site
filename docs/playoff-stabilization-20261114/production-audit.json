@@ -1,0 +1,731 @@
+{
+  "audit": [
+    {
+      "id": "2026-bi-district-2a-d1-i-1",
+      "surface": "game-center",
+      "final": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-2",
+      "surface": "game-center",
+      "final": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-3",
+      "surface": "game-center",
+      "final": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-4",
+      "surface": "game-center",
+      "final": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-7",
+      "surface": "game-center",
+      "final": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-8",
+      "surface": "game-center",
+      "final": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-4",
+      "surface": "game-center",
+      "final": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-5",
+      "surface": "game-center",
+      "final": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-6",
+      "surface": "game-center",
+      "final": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-8",
+      "surface": "game-center",
+      "final": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-2",
+      "surface": "game-center",
+      "final": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-5",
+      "surface": "game-center",
+      "final": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-7",
+      "surface": "game-center",
+      "final": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-ii-8",
+      "surface": "game-center",
+      "final": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-ii-7",
+      "surface": "game-center",
+      "final": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-4a-d2-iv-6",
+      "surface": "game-center",
+      "final": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-4a-d2-iv-5",
+      "surface": "game-center",
+      "final": true,
+      "scores": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-1",
+      "surface": "hub",
+      "school": "panhandle",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-1",
+      "surface": "schedule",
+      "school": "panhandle",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-1",
+      "surface": "hub",
+      "school": "floydada",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-1",
+      "surface": "schedule",
+      "school": "floydada",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-2",
+      "surface": "hub",
+      "school": "forsan",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-2",
+      "surface": "schedule",
+      "school": "forsan",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-2",
+      "surface": "hub",
+      "school": "abernathy",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-2",
+      "surface": "schedule",
+      "school": "abernathy",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-3",
+      "surface": "hub",
+      "school": "tulia",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-3",
+      "surface": "schedule",
+      "school": "tulia",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-3",
+      "surface": "hub",
+      "school": "sanford-fritch",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-3",
+      "surface": "schedule",
+      "school": "sanford-fritch",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-4",
+      "surface": "hub",
+      "school": "new-home",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-4",
+      "surface": "schedule",
+      "school": "new-home",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-4",
+      "surface": "hub",
+      "school": "ballinger",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-4",
+      "surface": "schedule",
+      "school": "ballinger",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-7",
+      "surface": "hub",
+      "school": "sonora",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-7",
+      "surface": "schedule",
+      "school": "sonora",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-7",
+      "surface": "hub",
+      "school": "new-deal",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-7",
+      "surface": "schedule",
+      "school": "new-deal",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-8",
+      "surface": "hub",
+      "school": "spearman",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-8",
+      "surface": "schedule",
+      "school": "spearman",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-8",
+      "surface": "hub",
+      "school": "farwell",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-8",
+      "surface": "schedule",
+      "school": "farwell",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-4",
+      "surface": "hub",
+      "school": "beckville",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-4",
+      "surface": "schedule",
+      "school": "beckville",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-4",
+      "surface": "hub",
+      "school": "garrison",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-4",
+      "surface": "schedule",
+      "school": "garrison",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-5",
+      "surface": "hub",
+      "school": "omaha-pewitt",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-5",
+      "surface": "schedule",
+      "school": "omaha-pewitt",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-5",
+      "surface": "hub",
+      "school": "joaquin",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-5",
+      "surface": "schedule",
+      "school": "joaquin",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-6",
+      "surface": "hub",
+      "school": "frankston",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-6",
+      "surface": "schedule",
+      "school": "frankston",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-6",
+      "surface": "hub",
+      "school": "whitewright",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-6",
+      "surface": "schedule",
+      "school": "whitewright",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-8",
+      "surface": "hub",
+      "school": "tom-bean",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-8",
+      "surface": "schedule",
+      "school": "tom-bean",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-8",
+      "surface": "hub",
+      "school": "hawkins",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-8",
+      "surface": "schedule",
+      "school": "hawkins",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-2",
+      "surface": "hub",
+      "school": "refugio",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-2",
+      "surface": "schedule",
+      "school": "refugio",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-2",
+      "surface": "hub",
+      "school": "weimar",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-2",
+      "surface": "schedule",
+      "school": "weimar",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-5",
+      "surface": "hub",
+      "school": "shiner",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-5",
+      "surface": "schedule",
+      "school": "shiner",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-5",
+      "surface": "hub",
+      "school": "freer",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-5",
+      "surface": "schedule",
+      "school": "freer",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-7",
+      "surface": "hub",
+      "school": "dilley",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-7",
+      "surface": "schedule",
+      "school": "dilley",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-7",
+      "surface": "hub",
+      "school": "flatonia",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-7",
+      "surface": "schedule",
+      "school": "flatonia",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-ii-8",
+      "surface": "hub",
+      "school": "tolar",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-ii-8",
+      "surface": "schedule",
+      "school": "tolar",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-ii-8",
+      "surface": "hub",
+      "school": "scurry-rosser",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-ii-8",
+      "surface": "schedule",
+      "school": "scurry-rosser",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-ii-7",
+      "surface": "hub",
+      "school": "grand-saline",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-ii-7",
+      "surface": "schedule",
+      "school": "grand-saline",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-ii-7",
+      "surface": "hub",
+      "school": "leonard",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-ii-7",
+      "surface": "schedule",
+      "school": "leonard",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-4a-d2-iv-6",
+      "surface": "hub",
+      "school": "lago-vista",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-4a-d2-iv-6",
+      "surface": "schedule",
+      "school": "lago-vista",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-4a-d2-iv-6",
+      "surface": "hub",
+      "school": "brownwood",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-4a-d2-iv-6",
+      "surface": "schedule",
+      "school": "brownwood",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-4a-d2-iv-5",
+      "surface": "hub",
+      "school": "cuero",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-4a-d2-iv-5",
+      "surface": "schedule",
+      "school": "cuero",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-4a-d2-iv-5",
+      "surface": "hub",
+      "school": "ingleside",
+      "link": true,
+      "score": true
+    },
+    {
+      "id": "2026-bi-district-4a-d2-iv-5",
+      "surface": "schedule",
+      "school": "ingleside",
+      "link": true,
+      "score": true
+    }
+  ],
+  "areaAudit": [
+    {
+      "href": "/games/2026-area-2a-d1-i-1",
+      "heading": "Forsan vs. Panhandle",
+      "final": false
+    },
+    {
+      "href": "/games/2026-area-2a-d1-i-2",
+      "heading": "Ballinger vs. Tulia",
+      "final": false
+    },
+    {
+      "href": "/games/2026-area-2a-d1-i-3",
+      "heading": "Olton vs. Ozona",
+      "final": false
+    },
+    {
+      "href": "/games/2026-area-2a-d1-i-4",
+      "heading": "Spearman vs. New Deal",
+      "final": false
+    },
+    {
+      "href": "/games/2026-area-2a-d1-ii-1",
+      "heading": "Johnson City vs. Cisco",
+      "final": false
+    },
+    {
+      "href": "/games/2026-area-2a-d1-ii-2",
+      "heading": "San Saba vs. Muenster",
+      "final": false
+    },
+    {
+      "href": "/games/2026-area-2a-d1-ii-3",
+      "heading": "Tioga vs. Mason",
+      "final": false
+    },
+    {
+      "href": "/games/2026-area-2a-d1-ii-4",
+      "heading": "De Leon vs. Axtell",
+      "final": false
+    },
+    {
+      "href": "/games/2026-area-2a-d1-iii-1",
+      "heading": "Shelbyville vs. Cooper",
+      "final": false
+    },
+    {
+      "href": "/games/2026-area-2a-d1-iii-2",
+      "heading": "Beckville vs. Carlisle",
+      "final": false
+    },
+    {
+      "href": "/games/2026-area-2a-d1-iii-3",
+      "heading": "Frankston vs. Joaquin",
+      "final": false
+    },
+    {
+      "href": "/games/2026-area-2a-d1-iii-4",
+      "heading": "Tom Bean vs. San Augustine",
+      "final": false
+    },
+    {
+      "href": "/games/2026-area-2a-d1-iv-1",
+      "heading": "Weimar vs. Thorndale",
+      "final": false
+    },
+    {
+      "href": "/games/2026-area-2a-d1-iv-2",
+      "heading": "Ganado vs. Leon",
+      "final": false
+    },
+    {
+      "href": "/games/2026-area-2a-d1-iv-3",
+      "heading": "Lovelady vs. Shiner",
+      "final": false
+    },
+    {
+      "href": "/games/2026-area-2a-d1-iv-4",
+      "heading": "Rosebud-Lott vs. Flatonia",
+      "final": false
+    }
+  ],
+  "resultsChecks": [
+    {
+      "id": "2026-bi-district-2a-d1-i-1",
+      "bracket": true,
+      "resultLink": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-2",
+      "bracket": true,
+      "resultLink": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-3",
+      "bracket": true,
+      "resultLink": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-4",
+      "bracket": true,
+      "resultLink": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-7",
+      "bracket": true,
+      "resultLink": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-i-8",
+      "bracket": true,
+      "resultLink": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-4",
+      "bracket": true,
+      "resultLink": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-5",
+      "bracket": true,
+      "resultLink": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-6",
+      "bracket": true,
+      "resultLink": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iii-8",
+      "bracket": true,
+      "resultLink": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-2",
+      "bracket": true,
+      "resultLink": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-5",
+      "bracket": true,
+      "resultLink": true
+    },
+    {
+      "id": "2026-bi-district-2a-d1-iv-7",
+      "bracket": true,
+      "resultLink": true
+    }
+  ]
+}

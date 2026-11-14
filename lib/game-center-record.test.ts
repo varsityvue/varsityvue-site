@@ -1,3 +1,4 @@
+import { completePostseasonStanding } from "./playoff-record-presentation";
 import assert from "node:assert/strict";
 import test from "node:test";
 import { readFileSync } from "node:fs";
@@ -10,6 +11,6 @@ test("Game Center uses known-record formatting for both teams on both layouts", 
   assert.equal((page.match(/record=\{formatOverallRecord\((away|home)Standing\)\}/g) ?? []).length, 4);
   assert.doesNotMatch(page, /Standing\.overallWins/);
   const nocona = getStandingForSchoolFromGames("nocona", getGames());
-  assert.equal(formatOverallRecord(nocona), "—");
+  assert.equal(formatOverallRecord(completePostseasonStanding(nocona, getGames(), "nocona")), "—");
   assert.equal(formatOverallRecord({overallRecordKnown:true, overallWins:0, overallLosses:0}), "0-0");
 });

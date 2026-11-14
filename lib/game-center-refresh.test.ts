@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { shouldPollGameCenter } from "./game-center-refresh";
+import { shouldPollGameCenter, shouldAdoptGameCenterSnapshot } from "./game-center-refresh";
 const kickoff="2026-10-09T19:00:00-05:00";
 const at=(time:string)=>Date.parse(`2026-10-09T${time}-05:00`);
 test("scheduled pages start checking near kickoff, without calling timing LIVE",()=>{
@@ -13,4 +13,12 @@ test("LIVE keeps refreshing; final, exceptional and unknown kickoffs do not auto
  assert.equal(shouldPollGameCenter({status:"live",kickoff},Date.parse(kickoff)+24*3600000),true);
  for(const status of ["final","cancelled","postponed"] as const)assert.equal(shouldPollGameCenter({status,kickoff},at("19:30:00")),false);
  for(const value of [undefined,"2026-10-09","invalidTdate"])assert.equal(shouldPollGameCenter({status:"scheduled",kickoff:value},at("19:30:00")),false);
+});
+
+test("failed refresh can promote an unverified render but cannot erase an authoritative result",()=>{
+ const next={status:"final" as const,publicScoreVerified:true};
+ assert.equal(shouldAdoptGameCenterSnapshot({status:"scheduled"},next,"failed"),true);
+ for(const status of ["final","live"] as const)assert.equal(shouldAdoptGameCenterSnapshot({status,publicScoreVerified:true},next,"failed"),false);
+ assert.equal(shouldAdoptGameCenterSnapshot({status:"cancelled"},next,"failed"),false);
+ assert.equal(shouldAdoptGameCenterSnapshot({status:"final",publicScoreVerified:true},next,"primary"),true);
 });
