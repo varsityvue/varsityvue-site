@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict';
+import {getSchoolLogoImageStyle} from '../data/school-logos.ts';
+import {getGames} from '../lib/games.ts';
 import {createServer} from 'node:http';
 import {spawn} from 'node:child_process';
 import {readFileSync,mkdirSync,writeFileSync} from 'node:fs';
@@ -6,6 +8,7 @@ import {chromium,devices} from 'playwright';
 
 // Entirely isolated acceptance: no production database or account writes.
 const output='playoff-bracket-browser-evidence';mkdirSync(output,{recursive:true});
+const ownerLogos=JSON.parse(readFileSync('docs/2a-d1-owner-logos-20261114/inventory.json','utf8'));
 const baseline=JSON.parse(readFileSync('tests/fixtures/2adi-published-finals-20261114.json','utf8'));
 let fixtureFailure=false;
 const calls=[];const states=baseline.map(row=>({...row,period:null,clock:null,kickoff_override:null,result_type:null,official_winner_school_slug:null,attribution_type:'verified'}));
@@ -50,6 +53,7 @@ try{
   await page.waitForFunction(()=>document.querySelector('[aria-label="Bracket region"]').value==='all');
   assert.equal(await bracket.locator('article').count(),63);assert.equal(await bracket.locator('svg path').count(),62);
   await checkContained(page,canvas);
+  for(const row of ownerLogos) assert.ok(await bracket.locator(`img[src="/logos/schools/${row.slug}.png"]`).count()>0, `${row.slug} statewide identity`);
   const fitted=await scale(canvas);await page.getByRole('button',{name:'Zoom in',exact:true}).click();assert.ok(await scale(canvas)>fitted);
   await page.getByRole('button',{name:'Reset view',exact:true}).click();assert.ok(Math.abs(await scale(canvas)-fitted)<.001);
   await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption('1');
@@ -70,6 +74,20 @@ try{
   }
   await page.getByRole('button',{name:'Find De Leon',exact:true}).click();await canvas.scrollIntoViewIfNeeded();await page.screenshot({path:`${output}/${name}-school-path.png`});
   await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();await canvas.scrollIntoViewIfNeeded();await page.screenshot({path:`${output}/${name}-statewide.png`});
+  for(const region of ['0','1','2','3']){
+   await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);
+   await page.getByRole('button',{name:'Fit selected region',exact:true}).click();
+   const expected=await bracket.locator('img[src^="/logos/schools/"]').evaluateAll(images=>images.map(img=>({src:img.getAttribute('src'),loaded:img.complete&&img.naturalWidth>0})));
+   await page.waitForFunction(()=>[...document.querySelectorAll('[aria-label="Interactive Road to State bracket"] img')].every(img=>img.complete&&img.naturalWidth>0));
+   assert.ok(expected.length>0);await canvas.scrollIntoViewIfNeeded();
+   await page.screenshot({path:`${output}/${name}-di-region-${Number(region)+1}-logos.png`});
+  }
+  for(const [label,heading] of [['axtell','Axtell vs. De Leon'],['leon','Leon vs. Ganado']]){
+   const card=page.locator('article').filter({has:page.getByRole('heading',{name:heading,exact:true})});
+   await card.scrollIntoViewIfNeeded();await card.locator('img').evaluateAll(images=>Promise.all(images.map(img=>img.decode())));
+   if(label==='leon') assert.ok((await card.getByRole('img',{name:'Leon logo',exact:true}).evaluate(img=>getComputedStyle(img).filter)).includes('drop-shadow'),'dark owner artwork retains its shared contrast filter on Playoff Central cards');
+   await page.screenshot({path:`${output}/${name}-area-${label}-logos.png`});
+  }
   for(const division of ['2A-D1','2A-D2','3A-D1','3A-D2','4A-D1','4A-D2']){
    await page.getByRole('combobox',{name:'Bracket division',exact:true}).selectOption(division);await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();assert.equal(await bracket.locator('article').count(),63);
   }
@@ -80,8 +98,12 @@ try{
   assert.equal(await page.getByRole('combobox',{name:'Choose bracket school',exact:true}).inputValue(),'2A-D1|0|Panhandle');await page.goForward();
   assert.equal(await page.getByRole('combobox',{name:'Choose bracket school',exact:true}).inputValue(),selection);
   await page.getByRole('link',{name:'Game Center for Panhandle vs. Floydada',exact:true}).click();await page.getByRole('heading',{name:'Floydada vs. Panhandle',exact:true}).waitFor();
+  await page.locator('img[src="/logos/schools/panhandle.png"]:visible').first().evaluate(img=>img.decode());
+  await page.screenshot({path:`${output}/${name}-game-center-logos.png`});
   assert.ok((await page.locator('main').innerText()).includes('62'));assert.ok((await page.locator('main').innerText()).includes('FINAL · VERIFIED'));
   await page.getByRole('link',{name:'View Panhandle Hub →',exact:true}).click();await page.getByRole('heading',{name:'Panhandle',exact:true}).waitFor();
+  await page.locator('img[src="/logos/schools/panhandle.png"]:visible').first().evaluate(img=>img.decode());
+  await page.screenshot({path:`${output}/${name}-hub-logo.png`});
   const record=page.getByText('2026 Record',{exact:true}).locator('..');assert.equal(await record.locator('p').first().innerText(),'—');
   await page.locator('a[href="/schools/panhandle/schedule"]').first().click();await page.locator('a[href="/games/2026-bi-district-2a-d1-i-1"]').first().waitFor();
   assert.equal(await page.getByText('Record',{exact:true}).locator('..').locator('p').last().innerText(),'—','schedule and hub withhold the same incomplete record');
@@ -146,6 +168,34 @@ try{
   assert.equal(await page.getByRole('heading',{name:'Bracket template review',exact:true}).count(),0);
   results.push({device:name,viewport:options.viewport,pass:true,pinch:options.hasTouch?'emulated native touch passed':'not applicable'});await context.close();
  }
+ // Every supplied identity is checked in real school routes, not a synthetic component.
+ const logoContext=await browser.newContext({viewport:{width:1280,height:900}});
+ const logoPage=await logoContext.newPage();activePage=logoPage;
+ const checkLogo=async(slug)=>{
+  const img=logoPage.locator(`img[src="/logos/schools/${slug}.png"]:visible`).first();
+  await img.waitFor();await img.scrollIntoViewIfNeeded();
+  await img.evaluate(el=>el.decode());assert.ok(await img.evaluate(el=>el.naturalWidth>0),slug);
+ };
+ for(const row of ownerLogos){
+  for(const suffix of ['', '/schedule']){
+   await logoPage.goto(`${origin}/schools/${row.slug}${suffix}`);
+   if(!suffix) await checkLogo(row.slug);
+   else { await logoPage.locator('main h1').waitFor();assert.ok((await logoPage.locator('main').innerText()).includes(row.name)); }
+   results.push({school:row.slug,surface:suffix?'schedule (text-only design)':'hub',pass:true});
+  }
+ }
+ const logoGames=getGames().filter(game=>game.playoff?.division==='2A Division I'&&['Bi-District','Area'].includes(game.playoff.round));
+ assert.equal(logoGames.length,48);
+ for(const row of logoGames){
+  await logoPage.goto(`${origin}/games/${row.id}`);
+  for(const slug of [row.homeSchoolSlug,row.awaySchoolSlug].filter(slug=>ownerLogos.some(logo=>logo.slug===slug))) await checkLogo(slug);
+  results.push({game:row.id,surface:'game-center',pass:true});
+ }
+ // Side-by-side alpha/contrast inspection at actual small bracket size and larger hub size.
+ await logoPage.setContent(`<html><body style="margin:0;display:grid;grid-template-columns:repeat(6,1fr);font:12px Arial">${ownerLogos.map(row=>`<div style="padding:8px;border:1px solid #999"><p>${row.name}</p>${['#fff','#202127'].map(bg=>`<div style="background:${bg};padding:8px;display:flex;gap:14px;align-items:center"><img width="26" height="26" style="object-fit:contain;filter:${getSchoolLogoImageStyle(row.slug).filter??'none'}" src="${origin}/logos/schools/${row.slug}.png"><img width="64" height="64" style="object-fit:contain;filter:${getSchoolLogoImageStyle(row.slug).filter??'none'}" src="${origin}/logos/schools/${row.slug}.png"></div>`).join('')}</div>`).join('')}</body></html>`);
+ await logoPage.locator('img').evaluateAll(images=>Promise.all(images.map(img=>img.decode())));
+ await logoPage.screenshot({path:`${output}/owner-logos-light-dark.png`,fullPage:true});
+ await logoContext.close();
  const fallbackContext=await browser.newContext();const fallbackPage=await fallbackContext.newPage();
  fixtureFailure=true;
  await fallbackPage.goto(origin+'/games/de-leon-vs-alvord-2026-bi-district');
