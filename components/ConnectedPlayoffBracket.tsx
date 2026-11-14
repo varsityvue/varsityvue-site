@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
-import { buildBracketLayout, CARD_HEIGHT, CARD_WIDTH, fitBracket, schoolRoute } from "@/lib/playoff-bracket-layout";
+import { buildBracketLayout, CARD_HEIGHT, CARD_WIDTH, fitBracket, schoolRoute, potentialParticipants } from "@/lib/playoff-bracket-layout";
 import { statewideDivisions, regionLabels } from "@/data/statewide-playoff-brackets";
 import { resolveBracketSchool } from "@/lib/playoff-school-catalog";
 import { schoolLogoBySlug } from "@/data/school-logos";
@@ -17,6 +17,7 @@ import type { Game } from "@/types/platform";
 
 type View = {scale:number;x:number;y:number};
 export default function ConnectedPlayoffBracket({games,selectedSchool}:{games:Game[];selectedSchool?:string}) {
+ const hydrated=useSyncExternalStore(()=>()=>{},()=>true,()=>false);
  const location=selectedSchool?findSchoolBracketLocation(selectedSchool):null;
  const [divisionId,setDivisionId]=useState(location?.division.id ?? "2A-D1");
  const [region,setRegion]=useState<number|null>(location?.regionIndex??null);
@@ -47,14 +48,20 @@ export default function ConnectedPlayoffBracket({games,selectedSchool}:{games:Ga
   <p className="text-xs font-bold uppercase tracking-widest text-white/60">VarsityVue · Road to State</p>
   <h2 className="mt-2 text-3xl font-black uppercase italic">The whole road. Your team.</h2>
   <p className="mt-2 text-sm text-white/70">Drag to explore. Pinch or scroll to zoom. Highlighted later rounds show a possible path; teams advance only after verified results.</p>
-  <div className="my-4 flex flex-wrap gap-2">
+  <fieldset disabled={!hydrated} aria-busy={!hydrated} className="my-4 flex flex-wrap gap-2">
    <select aria-label="Bracket division" className={button+" bg-[#242428]"} value={divisionId} onChange={e=>{setDivisionId(e.target.value as typeof divisionId);setRegion(null);}}>{statewideDivisions.map(d=><option key={d.id} value={d.id}>{d.label}</option>)}</select>
    <select aria-label="Bracket region" className={button+" bg-[#242428]"} value={region??"all"} onChange={e=>setRegion(e.target.value==="all"?null:Number(e.target.value))}><option value="all">Entire statewide bracket</option>{regionLabels.map((r,i)=><option key={r} value={i}>{r}</option>)}</select>
    <button className={button} onClick={()=>{setRegion(null);fit(null);}}>Fit Entire Bracket</button>
    <button className={button} onClick={()=>fit(region)}>Reset view</button>
    <button className={button} aria-label="Zoom in" onClick={()=>zoom(1.3)}>+</button><button className={button} aria-label="Zoom out" onClick={()=>zoom(1/1.3)}>−</button>
    {location && <button className={button} onClick={()=>{setDivisionId(location.division.id);setRegion(location.regionIndex);if(divisionId===location.division.id)fit(location.regionIndex);}}>Find {location.schoolName}</button>}
-  </div>
+  </fieldset>
+  {location?.division.id===divisionId && <details className="mb-4 rounded-xl border border-[#f4be59]/40 p-3"><summary className="cursor-pointer text-sm font-bold">{location.schoolName}: confirmed and possible opponents</summary><ol className="mt-3 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-3">{layout.nodes.filter(n=>route.has(n.id)).map(n=>{
+    const confirmed=n.teams.includes(location.schoolName)?n.teams.find(name=>name&&name!==location.schoolName):null;
+    const opposite=n.sources.find(id=>!route.has(id));
+    const candidates=opposite?potentialParticipants(layout.nodes,opposite):n.teams.filter(name=>name&&name!==location.schoolName);
+    return <li key={n.id}><p className="font-bold">{playoffRoundLabels[n.round]}</p><p className="mt-1 text-xs text-white/65">{confirmed?`Confirmed opponent: ${confirmed}`:`Possible opponents: ${candidates.join(" · ")||"Pending"}`}</p></li>;
+  })}</ol><p className="mt-3 text-xs text-white/60">Possible opponents are bracket candidates, not predictions.</p></details>}
   <div ref={viewport} tabIndex={0} aria-label="Bracket canvas. Use zoom and fit buttons or drag to navigate." className="relative h-[65svh] min-h-[420px] max-h-[800px] overflow-hidden rounded-xl border border-white/15 bg-[#08090c] touch-none"
    onKeyDown={e=>{if(["ArrowLeft","ArrowRight","ArrowUp","ArrowDown"].includes(e.key)){e.preventDefault();setView(v=>({...v,x:v.x+(e.key==="ArrowLeft"?60:e.key==="ArrowRight"?-60:0),y:v.y+(e.key==="ArrowUp"?60:e.key==="ArrowDown"?-60:0)}));}}}
    onPointerDown={e=>{if((e.target as HTMLElement).closest("a,button"))return;e.currentTarget.setPointerCapture(e.pointerId);pointers.current.set(e.pointerId,{x:e.clientX,y:e.clientY});}}

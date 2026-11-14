@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {buildBracketLayout,fitBracket,schoolRoute} from './playoff-bracket-layout';
+import {buildBracketLayout,fitBracket,schoolRoute,potentialParticipants} from './playoff-bracket-layout';
 import {statewideDivisions} from '../data/statewide-playoff-brackets';
 for(const division of statewideDivisions) test(`${division.id}: complete connected tournament`,()=>{
  const {nodes}=buildBracketLayout(division.id,[]);
@@ -17,4 +17,10 @@ test('fit contains all bounds on mobile and desktop',()=>{
  assert.ok((b.x+b.width)*t.scale+t.x<=viewport.width);
  assert.ok((b.y+b.height)*t.scale+t.y<=viewport.height);
  }
+});
+
+test('future opponent candidates respect the source subtree',()=>{
+ const {nodes}=buildBracketLayout('2A-D1',[]);
+ assert.deepEqual(potentialParticipants(nodes,'1-0-6'),['Axtell','Bangs']);
+ assert.equal(potentialParticipants(nodes,'final').length,64);
 });

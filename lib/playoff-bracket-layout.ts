@@ -50,3 +50,10 @@ export function schoolRoute(nodes: BracketNode[], name: string) {
   }
   return route;
 }
+
+/** Candidate set follows source edges; a verified winner removes eliminated teams. */
+export function potentialParticipants(nodes: BracketNode[], nodeId: string): string[] {
+ const node=nodes.find(n=>n.id===nodeId);if(!node)return [];
+ const winner=verifiedWinner(node.game);if(winner)return [winner];
+ return node.sources.length?[...new Set(node.sources.flatMap(id=>potentialParticipants(nodes,id)))]:node.teams.filter((name):name is string=>Boolean(name));
+}
