@@ -1,3 +1,4 @@
+import { completePostseasonStanding } from "@/lib/playoff-record-presentation";
 import "server-only";
 import type { Game, School } from "@/types/platform";
 import type { WeeklyGame } from "./unified-games";
@@ -31,8 +32,8 @@ export function weeklyGameDto(g: Game, games: Game[]): WeeklyGame {
     schoolFootballVenues,
     gameVenueOverrides,
   );
-  const h = home ? getStandingForSchoolFromGames(home.slug, games) : undefined,
-    a = away ? getStandingForSchoolFromGames(away.slug, games) : undefined;
+  const h = home ? completePostseasonStanding(getStandingForSchoolFromGames(home.slug, games), games, home.slug) : undefined,
+    a = away ? completePostseasonStanding(getStandingForSchoolFromGames(away.slug, games), games, away.slug) : undefined;
   const availability = getGameStatAvailability(g.id);
   const preview = getGamePreview(g.id);
   return {

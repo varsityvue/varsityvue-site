@@ -1,0 +1,173 @@
+[
+  {
+    "game_id": "2026-bi-district-2a-d1-i-5",
+    "away_school_slug": "ozona",
+    "home_school_slug": "post",
+    "status": "final",
+    "home_score": 21,
+    "away_score": 32,
+    "verified": true
+  },
+  {
+    "game_id": "2026-bi-district-2a-d1-i-6",
+    "away_school_slug": "amarillo-highland-park",
+    "home_school_slug": "olton",
+    "status": "final",
+    "home_score": 28,
+    "away_score": 20,
+    "verified": true
+  },
+  {
+    "game_id": "2026-bi-district-2a-d1-ii-2",
+    "away_school_slug": "johnson-city-lbj",
+    "home_school_slug": "bosqueville",
+    "status": "final",
+    "home_score": 21,
+    "away_score": 49,
+    "verified": true
+  },
+  {
+    "game_id": "2026-bi-district-2a-d1-ii-4",
+    "away_school_slug": "valley-mills",
+    "home_school_slug": "san-saba",
+    "status": "final",
+    "home_score": 25,
+    "away_score": 7,
+    "verified": true
+  },
+  {
+    "game_id": "2026-bi-district-2a-d1-ii-5",
+    "away_school_slug": "itasca",
+    "home_school_slug": "mason",
+    "status": "final",
+    "home_score": 62,
+    "away_score": 7,
+    "verified": true
+  },
+  {
+    "game_id": "2026-bi-district-2a-d1-ii-7",
+    "away_school_slug": "bangs",
+    "home_school_slug": "axtell",
+    "status": "final",
+    "home_score": 48,
+    "away_score": 8,
+    "verified": true
+  },
+  {
+    "game_id": "2026-bi-district-2a-d1-iii-1",
+    "away_school_slug": "como-pickton",
+    "home_school_slug": "cooper",
+    "status": "final",
+    "home_score": 28,
+    "away_score": 21,
+    "verified": true
+  },
+  {
+    "game_id": "2026-bi-district-2a-d1-iii-2",
+    "away_school_slug": "waskom",
+    "home_school_slug": "shelbyville",
+    "status": "final",
+    "home_score": 61,
+    "away_score": 13,
+    "verified": true
+  },
+  {
+    "game_id": "2026-bi-district-2a-d1-iii-3",
+    "away_school_slug": "honey-grove",
+    "home_school_slug": "price-carlisle",
+    "status": "final",
+    "home_score": 35,
+    "away_score": 19,
+    "verified": true
+  },
+  {
+    "game_id": "2026-bi-district-2a-d1-iii-7",
+    "away_school_slug": "gladewater-union-grove",
+    "home_school_slug": "san-augustine",
+    "status": "final",
+    "home_score": 33,
+    "away_score": 7,
+    "verified": true
+  },
+  {
+    "game_id": "2026-bi-district-2a-d1-iv-1",
+    "away_school_slug": "groveton",
+    "home_school_slug": "thorndale",
+    "status": "final",
+    "home_score": 42,
+    "away_score": 15,
+    "verified": true
+  },
+  {
+    "game_id": "2026-bi-district-2a-d1-iv-3",
+    "away_school_slug": "bruceville-eddy",
+    "home_school_slug": "jewett-leon",
+    "status": "final",
+    "home_score": 41,
+    "away_score": 13,
+    "verified": true
+  },
+  {
+    "game_id": "2026-bi-district-2a-d1-iv-4",
+    "away_school_slug": "taft",
+    "home_school_slug": "ganado",
+    "status": "final",
+    "home_score": 63,
+    "away_score": 7,
+    "verified": true
+  },
+  {
+    "game_id": "2026-bi-district-2a-d1-iv-6",
+    "away_school_slug": "lovelady",
+    "home_school_slug": "granger",
+    "status": "final",
+    "home_score": 20,
+    "away_score": 50,
+    "verified": true
+  },
+  {
+    "game_id": "2026-bi-district-2a-d1-iv-8",
+    "away_school_slug": "corrigan-camden",
+    "home_school_slug": "rosebud-lott",
+    "status": "final",
+    "home_score": 49,
+    "away_score": 7,
+    "verified": true
+  },
+  {
+    "game_id": "cisco-vs-nocona-2026-bi-district",
+    "away_school_slug": "nocona",
+    "home_school_slug": "cisco",
+    "status": "final",
+    "home_score": 76,
+    "away_score": 6,
+    "verified": true
+  },
+  {
+    "game_id": "de-leon-vs-alvord-2026-bi-district",
+    "away_school_slug": "alvord",
+    "home_school_slug": "de-leon",
+    "status": "final",
+    "home_score": 40,
+    "away_score": 24,
+    "verified": true
+  },
+  {
+    "game_id": "muenster-vs-hawley-2026-bi-district",
+    "away_school_slug": "hawley",
+    "home_school_slug": "muenster",
+    "status": "final",
+    "home_score": 48,
+    "away_score": 40,
+    "verified": true
+  },
+  {
+    "game_id": "tioga-vs-anson-2026-bi-district",
+    "away_school_slug": "anson",
+    "home_school_slug": "tioga",
+    "status": "final",
+    "home_score": 68,
+    "away_score": 18,
+    "verified": true
+  }
+]

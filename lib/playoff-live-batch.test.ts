@@ -1,3 +1,4 @@
+import { playoffLaunchGames } from "../data/playoff-launch-games-20261114";
 import assert from "node:assert/strict";
 import test from "node:test";
 import { playoffScheduleAdditions, playoffSiteReconciliations } from "../data/playoff-schedule-additions-20261112";
@@ -13,10 +14,12 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { createElement } from "react";
 import TeamPlayoffPath from "../components/TeamPlayoffPath";
 
-test("61 exact proposed games are distinct, correctly paired, source-backed and outcome-free",()=>{
- assert.equal(playoffScheduleAdditions.length,61);
+test("original 61-game schedule batch remains distinct, source-backed and outcome-free",()=>{
+ const laterIds=new Set([...playoffLaunchGames.map(g=>g.id), "2026-bi-district-3a-d2-ii-6", "2026-bi-district-3a-d2-ii-8"]);
+ const originalBatch=playoffScheduleAdditions.filter(g=>!laterIds.has(g.id));
+ assert.equal(originalBatch.length,61);
  const ids=new Set(historicalGames.map(g=>g.id));
- for(const g of playoffScheduleAdditions){
+ for(const g of originalBatch){
   assert.ok(!ids.has(g.id));ids.add(g.id);
   assert.equal(g.isNeutralSite,null);assert.equal(g.status,'upcoming');
   assert.equal(g.homeScore,undefined);assert.equal(g.awayScore,undefined);assert.equal(verifiedWinner(g),null);

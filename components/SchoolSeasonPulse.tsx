@@ -1,3 +1,4 @@
+import { completePostseasonStanding } from "@/lib/playoff-record-presentation";
 import { gameSiteLabel } from "@/lib/game-site-presentation";
 import ScoreAttribution from "@/components/ScoreAttribution";
 import Link from "next/link";
@@ -85,7 +86,7 @@ export default async function SchoolSeasonPulse({
     .filter((game) => game.status === "upcoming" && game.gameType !== "bye")
     .sort((a, b) => getGameTimestamp(a) - getGameTimestamp(b))[0];
   const featuredGame = liveGame ?? kickoffWindowGame ?? nextUpcomingGame;
-  const verifiedStanding = getStandingForSchoolFromGames(schoolSlug, games);
+  const verifiedStanding = completePostseasonStanding(getStandingForSchoolFromGames(schoolSlug, games), games, schoolSlug);
 
   const summary = finals.reduce<{
     pointsFor: number;

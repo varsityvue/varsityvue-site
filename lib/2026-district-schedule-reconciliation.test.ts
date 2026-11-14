@@ -4,7 +4,7 @@ import test from "node:test";
 import { getAllGameStats } from "@/lib/game-stats";
 import { getGames } from "@/lib/games";
 import { getSchoolsByDistrictId } from "@/lib/schools";
-import { getStandingsForDistrictId } from "@/lib/standings";
+import { getStandingsForDistrictIdFromGames } from "@/lib/standings";
 
 const games = getGames();
 
@@ -111,7 +111,7 @@ test("Cross Plains at Baird is a scoreless official-winner forfeit", () => {
 
 test("overall and district records derive from the reconciled games", () => {
   for (const district of districts) {
-    const standings = getStandingsForDistrictId(district.id);
+    const standings = getStandingsForDistrictIdFromGames(district.id, games.filter(game => game.gameType !== "playoff"));
     assert.deepEqual(standings.map((standing) => standing.schoolSlug).sort(), [...district.schools].sort(), district.id);
     for (const [slug, expected] of Object.entries(district.records)) {
       const standing = standings.find((candidate) => candidate.schoolSlug === slug);
@@ -119,7 +119,7 @@ test("overall and district records derive from the reconciled games", () => {
       if (district.id !== "3a-d2-district-5") assert.equal(`${standing?.districtWins}-${standing?.districtLosses}`, "0-0", slug);
     }
   }
-  const district5 = new Map(getStandingsForDistrictId("3a-d2-district-5").map((standing) => [standing.schoolSlug, standing]));
+  const district5 = new Map(getStandingsForDistrictIdFromGames("3a-d2-district-5", games.filter(game => game.gameType !== "playoff")).map((standing) => [standing.schoolSlug, standing]));
   for (const slug of ["comanche", "eastland", "millsap", "rio-vista"]) assert.equal(`${district5.get(slug)?.districtWins}-${district5.get(slug)?.districtLosses}`, "1-0", slug);
   for (const slug of ["clifton", "dublin", "hamilton", "tolar"]) assert.equal(`${district5.get(slug)?.districtWins}-${district5.get(slug)?.districtLosses}`, "0-1", slug);
 });

@@ -1,3 +1,4 @@
+import { completePostseasonStanding } from "@/lib/playoff-record-presentation";
 import { gameSiteLabel, gameOpponentPrefix } from "@/lib/game-site-presentation";
 import { formatOverallRecord } from "@/lib/school-record-presentation";
 import { safeGamesReturn } from "@/lib/unified-games";
@@ -64,7 +65,7 @@ export default async function GamePage({ params, searchParams }: GamePageProps) 
   const game = dynamicGames.find((candidate) => candidate.id === gameId); if (!game) notFound();
   const relatedArticle = getPublishedGamePreview(game.id);
   const stats = getGameStats(game.id); const preview = getGamePreview(game.id); const statAvailability = game.status === "final" ? getGameStatAvailability(game.id) : undefined; const missingStatsState = !stats && statAvailability && statAvailability.status !== "verified" ? statAvailability : undefined; const homeTeamName = game.homeTeam ?? "Home Team"; const awayTeamName = game.awayTeam ?? "Away Team"; const kickoffValue = game.kickoff ?? ""; const hasReliableKickoff = Boolean(parseKickoff(kickoffValue)); const hasVenue = Boolean(game.venue?.trim()); const venueName = hasVenue ? game.venue!.trim() : "Venue TBD";
-  const homeSchool = getSchoolBySlug(game.homeSchoolSlug ?? ""); const awaySchool = getSchoolBySlug(game.awaySchoolSlug ?? ""); const homeDistrict = homeSchool ? getDistrictById(homeSchool.districtId) : undefined; const awayDistrict = awaySchool ? getDistrictById(awaySchool.districtId) : undefined; const homeStanding = homeSchool ? getStandingForSchoolFromGames(homeSchool.slug, dynamicGames) : undefined; const awayStanding = awaySchool ? getStandingForSchoolFromGames(awaySchool.slug, dynamicGames) : undefined;
+  const homeSchool = getSchoolBySlug(game.homeSchoolSlug ?? ""); const awaySchool = getSchoolBySlug(game.awaySchoolSlug ?? ""); const homeDistrict = homeSchool ? getDistrictById(homeSchool.districtId) : undefined; const awayDistrict = awaySchool ? getDistrictById(awaySchool.districtId) : undefined; const homeStanding = homeSchool ? completePostseasonStanding(getStandingForSchoolFromGames(homeSchool.slug, dynamicGames), dynamicGames, homeSchool.slug) : undefined; const awayStanding = awaySchool ? completePostseasonStanding(getStandingForSchoolFromGames(awaySchool.slug, dynamicGames), dynamicGames, awaySchool.slug) : undefined;
   const followSchools = Array.from(new Map(
     [awaySchool, homeSchool]
       .filter((school): school is NonNullable<typeof school> => Boolean(school))
