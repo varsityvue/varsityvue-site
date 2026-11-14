@@ -1,0 +1,27 @@
+name: Interactive playoff bracket
+on:
+  pull_request:
+    paths:
+      - 'components/*Playoff*'
+      - 'components/StatewideBracketExplorer.tsx'
+      - 'lib/playoff-*'
+      - 'lib/connected-playoff-bracket*'
+      - 'data/playoff-template-*'
+      - 'app/admin/playoff-publishing/**'
+      - '.github/workflows/interactive-playoff-bracket.yml'
+permissions:
+  contents: read
+jobs:
+  bracket:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx tsc --noEmit
+      - run: npx eslint components/ConnectedPlayoffBracket.tsx components/PlayoffBracketExperience.tsx lib/playoff-bracket-layout.ts lib/playoff-qualification.ts app/admin/playoff-publishing/bracket-templates/page.tsx
+      - run: node --import tsx --test lib/playoff-bracket-layout.test.ts lib/playoff-qualification.test.ts lib/connected-playoff-bracket.test.tsx lib/playoff-components-readiness.test.tsx lib/playoff-bracket-advancement.test.ts lib/playoff-bracket-published-integrity.test.ts
+      - run: npm run build
