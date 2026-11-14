@@ -331,7 +331,9 @@ export const playoffLaunchGames: Game[] = [
     "districtGame": false,
     "coverageStatus": "none",
     "sourceStatus": "verified",
-    "sourceLabel": "UIL-linked 2026 2A DI bracket; participants reconciled against verified bi-district finals; date, time and venue pending — https://www.uiltexas.org/football/playoff-brackets/2AD1"
+    "kickoff": "2026-11-19T19:00:00-06:00",
+    "venue": "Bob and Norma Cervetto Stadium, Dublin, TX",
+    "sourceLabel": "UIL-linked bracket confirms participants; DCTF Area schedule reviewed November 14: Thursday November 19, 7 p.m., Cervetto Stadium, Dublin — https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations"
   },
   {
     "id": "2026-bi-district-2a-d1-iii-4",

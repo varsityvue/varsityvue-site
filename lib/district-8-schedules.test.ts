@@ -165,12 +165,12 @@ test("district byes are absences, not game rows", () => {
 
 test("records and District 8 standings derive from canonical games", () => {
   const expectedRecords = new Map([
-    ["crawford", [2, 2]],
+    ["crawford", [3, 2]],
     ["frost", [3, 1]],
-    ["hubbard", [2, 2]],
-    ["mart", [1, 3]],
+    ["hubbard", [2, 3]],
+    ["mart", [1, 4]],
     ["meridian", [1, 3]],
-    ["santo", [3, 1]],
+    ["santo", [4, 1]],
     ["wortham", [2, 2]],
   ]);
   const standings = getStandingsForDistrictId(districtId);

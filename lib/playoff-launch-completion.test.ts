@@ -22,7 +22,7 @@ test('all 16 Area Game Centers match verified source winners without invented re
  assert.equal(area.length,16);assert.ok(area.every(n=>n.game && n.teams.every(Boolean)));
  assert.ok(area.every(n=>!verifiedWinner(n.game)));
  const deLeon=area.find(n=>n.teams.includes('De Leon'))!;
- assert.deepEqual(deLeon.teams,['Axtell','De Leon']);assert.equal(deLeon.game?.kickoff,undefined);assert.equal(deLeon.game?.venue,undefined);
+ assert.deepEqual(deLeon.teams,['Axtell','De Leon']);assert.equal(deLeon.game?.kickoff,"2026-11-19T19:00:00-06:00");assert.match(deLeon.game?.venue??"",/Dublin/);
 });
 test('every new game is shared by Game Center, Playoff Central and both school schedules',()=>{
  const schedule=getPlayoffSchedule(getGames()).map(r=>r.game.id);
