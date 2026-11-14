@@ -1,6 +1,8 @@
+import { playoffLaunchGames } from "@/data/playoff-launch-games-20261114";
 // Branch-only proposed publication. Requires owner approval of this exact file before merge.
 import type { Game } from "@/types/platform";
 export const playoffScheduleAdditions: Game[] = [
+  ...playoffLaunchGames,
   {
     "id": "2026-bi-district-3a-d2-ii-8",
     "season": 2026,

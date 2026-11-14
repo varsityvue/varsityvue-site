@@ -1,3 +1,4 @@
+import { playoffReviewedResults } from "@/data/playoff-launch-games-20261114";
 import { playoffScheduleAdditions, playoffSiteReconciliations } from "@/data/playoff-schedule-additions-20261112";
 import { games as scheduledGames } from "@/data/games";
 import { applyVerifiedGames } from "@/data/verified-games";
@@ -96,6 +97,13 @@ for (const site of playoffSiteReconciliations) {
   const existing = gamesById.get(site.id);
   if (!existing) throw new Error(`Missing existing playoff game: ${site.id}`);
   gamesById.set(site.id, { ...existing, ...site });
+}
+// Reviewed new finals only; dynamic verified score state retains priority at read time.
+for (const result of playoffReviewedResults) {
+  const existing = gamesById.get(result.id);
+  if (!existing || existing.homeTeam !== result.homeTeam || existing.awayTeam !== result.awayTeam) throw new Error(`Playoff result identity mismatch: ${result.id}`);
+  if (existing.publicScoreVerified) throw new Error(`Refusing to replace a verified repository result: ${result.id}`);
+  gamesById.set(result.id, { ...existing, ...result });
 }
 const rawGames = Array.from(gamesById.values()).map(applyEditorialGameFlags);
 

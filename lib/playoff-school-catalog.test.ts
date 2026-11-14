@@ -84,7 +84,8 @@ test("catalog expansion does not turn untracked planned schools into directory c
   const directory = getTrackedDirectorySchools(catalog, getGames());
   const slugs = new Set(directory.map((school) => school.slug));
   for (const school of getFeaturedSchools()) assert.equal(slugs.has(school.slug), true);
-  assert.equal(slugs.has("panhandle"), false, "a metadata record alone is not coverage");
+  assert.equal(getTrackedDirectorySchools(catalog, []).some(s => s.slug === "panhandle"), false, "a metadata record alone is not coverage");
+  assert.equal(slugs.has("panhandle"), true, "the reconciled first-round game establishes coverage");
   assert.equal(slugs.has("nocona"), true, "the existing Cisco–Nocona game establishes coverage");
   assert.ok(directory.length < catalog.length);
 });

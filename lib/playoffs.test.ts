@@ -9,9 +9,9 @@ const playoffs = getPlayoffSchedule(games, beforeKickoff);
 const stephenville = playoffs.find(({ game }) => game.homeSchoolSlug === "stephenville")!.game;
 
 test("postseason catalog has unique games with nullable neutrality shared by the school schedule", () => {
-  assert.equal(playoffs.length, 68);
+  assert.equal(playoffs.length, 104);
   assert.equal(new Set(playoffs.map(({ game }) => [game.homeSchoolSlug, game.awaySchoolSlug].sort().join("|"))).size, playoffs.length);
-  assert.ok(playoffs.every(({ game }) => (game.isNeutralSite === true || game.isNeutralSite === null) && !game.districtGame && game.playoff?.round === "Bi-District"));
+  assert.ok(playoffs.every(({ game }) => (game.isNeutralSite === true || game.isNeutralSite === null) && !game.districtGame && ["Bi-District", "Area"].includes(game.playoff?.round ?? "")));
   assert.equal(stephenville.venue, "Wildcat Stadium, Temple");
   assert.ok(getGamesForSchool("stephenville", beforeKickoff).some(({ id }) => id === stephenville.id));
   assert.equal(playoffs[0].game.kickoff?.slice(0, 10), "2026-11-12");
