@@ -1,0 +1,4256 @@
+[
+  {
+    "id": "0-0-0",
+    "round": 0,
+    "region": 0,
+    "index": 0,
+    "teams": [
+      "Shallowater",
+      "Compass Academy"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-i-1",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "I"
+      },
+      "homeSchoolSlug": "shallowater",
+      "awaySchoolSlug": "odessa-compass-academy",
+      "homeTeam": "Shallowater",
+      "awayTeam": "Compass Academy",
+      "kickoff": "2026-11-12T18:00:00-06:00",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed; UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "venue": "Teaff Tiger Stadium",
+      "homeScore": 51,
+      "awayScore": 7,
+      "publicScoreVerified": true
+    },
+    "x": 0,
+    "y": 78,
+    "sources": [],
+    "schools": [
+      {
+        "id": "shallowater",
+        "slug": "shallowater",
+        "name": "Shallowater",
+        "fullName": "Shallowater Mustangs",
+        "mascot": "Mustangs",
+        "abbreviation": "SHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-1",
+        "uilRegion": 1,
+        "colors": {
+          "primary": "#222222",
+          "secondary": "#CC0022",
+          "accent": "#CC0022"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "W1"
+      },
+      {
+        "id": "odessa-compass-academy",
+        "slug": "odessa-compass-academy",
+        "name": "Odessa Compass Academy",
+        "fullName": "Odessa Compass Academy Cougars",
+        "mascot": "Cougars",
+        "abbreviation": "CA",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-2",
+        "uilRegion": 1,
+        "colors": {
+          "primary": "#022C66",
+          "secondary": "#00824B",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "F2"
+      }
+    ]
+  },
+  {
+    "id": "0-0-1",
+    "round": 0,
+    "region": 0,
+    "index": 1,
+    "teams": [
+      "Peaster",
+      "Early"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-i-2",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "I"
+      },
+      "homeSchoolSlug": "peaster",
+      "awaySchoolSlug": "early",
+      "homeTeam": "Peaster",
+      "awayTeam": "Early",
+      "kickoff": "2026-11-13T19:00:00-06:00",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed; UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "venue": "Art Briles Stadium",
+      "homeScore": 55,
+      "awayScore": 14,
+      "publicScoreVerified": true
+    },
+    "x": 0,
+    "y": 234,
+    "sources": [],
+    "schools": [
+      {
+        "id": "peaster",
+        "slug": "peaster",
+        "name": "Peaster",
+        "fullName": "Peaster Greyhounds",
+        "mascot": "Greyhounds",
+        "abbreviation": "PHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "opponent",
+        "uilRegion": 1,
+        "coverageMarket": "VarsityVue Coverage Area",
+        "stadium": "Greyhound Stadium",
+        "colors": {
+          "primary": "#0057B8",
+          "secondary": "#FFFFFF",
+          "accent": "#9FA1A0"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "watchlist",
+        "seed": "R4"
+      },
+      {
+        "id": "early",
+        "slug": "early",
+        "name": "Early",
+        "fullName": "Early Longhorns",
+        "mascot": "Longhorns",
+        "abbreviation": "EHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-3",
+        "uilRegion": 1,
+        "coverageMarket": "VarsityVue Coverage Area",
+        "stadium": "Longhorn Stadium",
+        "colors": {
+          "primary": "#29173d",
+          "secondary": "#c4b706",
+          "accent": "#ffffff"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "watchlist",
+        "seed": "T3"
+      }
+    ]
+  },
+  {
+    "id": "0-0-2",
+    "round": 0,
+    "region": 0,
+    "index": 2,
+    "teams": [
+      "Clyde",
+      "Denver City"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-i-3",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "I"
+      },
+      "homeTeam": "Clyde",
+      "awayTeam": "Denver City",
+      "homeSchoolSlug": "clyde",
+      "awaySchoolSlug": "denver-city",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "homeScore": 56,
+      "awayScore": 23,
+      "publicScoreVerified": true
+    },
+    "x": 0,
+    "y": 390,
+    "sources": [],
+    "schools": [
+      {
+        "id": "clyde",
+        "slug": "clyde",
+        "name": "Clyde",
+        "fullName": "Clyde Bulldogs",
+        "mascot": "Bulldogs",
+        "abbreviation": "CHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-2",
+        "uilRegion": 1,
+        "coverageMarket": "VarsityVue Coverage Area",
+        "stadium": "Clyde Bulldog Stadium",
+        "colors": {
+          "primary": "#CEB767",
+          "secondary": "#000000",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "watchlist",
+        "seed": "W2"
+      },
+      {
+        "id": "denver-city",
+        "slug": "denver-city",
+        "name": "Denver City",
+        "fullName": "Denver City Mustangs",
+        "mascot": "Mustangs",
+        "abbreviation": "DCHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-1",
+        "uilRegion": 1,
+        "colors": {
+          "primary": "#CC0022",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "F1"
+      }
+    ]
+  },
+  {
+    "id": "0-0-3",
+    "round": 0,
+    "region": 0,
+    "index": 3,
+    "teams": [
+      "Ingram Moore",
+      "Vernon"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-i-4",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "I"
+      },
+      "homeSchoolSlug": "ingram-moore",
+      "awaySchoolSlug": "vernon",
+      "homeTeam": "Ingram Moore",
+      "awayTeam": "Vernon",
+      "kickoff": "2026-11-13T19:00:00-06:00",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed; UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "venue": "Gordon Wood Stadium",
+      "homeScore": 16,
+      "awayScore": 37,
+      "publicScoreVerified": true
+    },
+    "x": 0,
+    "y": 546,
+    "sources": [],
+    "schools": [
+      {
+        "id": "ingram-moore",
+        "slug": "ingram-moore",
+        "name": "Ingram Moore",
+        "fullName": "Ingram Moore Warriors",
+        "mascot": "Warriors",
+        "abbreviation": "IMHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-3",
+        "uilRegion": 1,
+        "colors": {
+          "primary": "#CC0022",
+          "secondary": "#222222",
+          "accent": "#222222"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "R3"
+      },
+      {
+        "id": "vernon",
+        "slug": "vernon",
+        "name": "Vernon",
+        "fullName": "Vernon Lions",
+        "mascot": "Lions",
+        "abbreviation": "VHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-4",
+        "uilRegion": 1,
+        "colors": {
+          "primary": "#8F0018",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "T4"
+      }
+    ]
+  },
+  {
+    "id": "0-0-4",
+    "round": 0,
+    "region": 0,
+    "index": 4,
+    "teams": [
+      "Wall",
+      "Bowie"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-i-5",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "I"
+      },
+      "homeTeam": "Wall",
+      "awayTeam": "Bowie",
+      "homeSchoolSlug": "wall",
+      "awaySchoolSlug": "bowie",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "homeScore": 24,
+      "awayScore": 7,
+      "publicScoreVerified": true
+    },
+    "x": 0,
+    "y": 702,
+    "sources": [],
+    "schools": [
+      {
+        "id": "wall",
+        "slug": "wall",
+        "name": "Wall",
+        "fullName": "Wall Hawks",
+        "mascot": "Hawks",
+        "abbreviation": "WHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-3",
+        "uilRegion": 1,
+        "colors": {
+          "primary": "#00824B",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "W3"
+      },
+      {
+        "id": "bowie",
+        "slug": "bowie",
+        "name": "Bowie",
+        "fullName": "Bowie Jackrabbits",
+        "mascot": "Jackrabbits",
+        "abbreviation": "BHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-4",
+        "uilRegion": 1,
+        "colors": {
+          "primary": "#8F0018",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "F4"
+      }
+    ]
+  },
+  {
+    "id": "0-0-5",
+    "round": 0,
+    "region": 0,
+    "index": 5,
+    "teams": [
+      "Sweetwater",
+      "Dalhart"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-i-6",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "I"
+      },
+      "homeSchoolSlug": "sweetwater",
+      "awaySchoolSlug": "dalhart",
+      "homeTeam": "Sweetwater",
+      "awayTeam": "Dalhart",
+      "kickoff": "2026-11-12T19:00:00-06:00",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": true,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed; UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "venue": "Peoples Bank Stadium",
+      "homeScore": 22,
+      "awayScore": 16,
+      "publicScoreVerified": true
+    },
+    "x": 0,
+    "y": 858,
+    "sources": [],
+    "schools": [
+      {
+        "id": "sweetwater",
+        "slug": "sweetwater",
+        "name": "Sweetwater",
+        "fullName": "Sweetwater Mustangs",
+        "mascot": "Mustangs",
+        "abbreviation": "SHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-2",
+        "uilRegion": 1,
+        "colors": {
+          "primary": "#CC0022",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "R2"
+      },
+      {
+        "id": "dalhart",
+        "slug": "dalhart",
+        "name": "Dalhart",
+        "fullName": "Dalhart Golden Wolves",
+        "mascot": "Golden Wolves",
+        "abbreviation": "DHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-1",
+        "uilRegion": 1,
+        "colors": {
+          "primary": "#754ACC",
+          "secondary": "#C8880A",
+          "accent": "#C8880A"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "T1"
+      }
+    ]
+  },
+  {
+    "id": "0-0-6",
+    "round": 0,
+    "region": 0,
+    "index": 6,
+    "teams": [
+      "Paradise",
+      "Llano"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-i-7",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "I"
+      },
+      "homeSchoolSlug": "paradise",
+      "awaySchoolSlug": "llano",
+      "homeTeam": "Paradise",
+      "awayTeam": "Llano",
+      "kickoff": "2026-11-13T19:00:00-06:00",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed; UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "venue": "Cervetto Stadium",
+      "homeScore": 52,
+      "awayScore": 15,
+      "publicScoreVerified": true
+    },
+    "x": 0,
+    "y": 1014,
+    "sources": [],
+    "schools": [
+      {
+        "id": "paradise",
+        "slug": "paradise",
+        "name": "Paradise",
+        "fullName": "Paradise Panthers",
+        "mascot": "Panthers",
+        "abbreviation": "PHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-4",
+        "uilRegion": 1,
+        "colors": {
+          "primary": "#00824B",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "W4"
+      },
+      {
+        "id": "llano",
+        "slug": "llano",
+        "name": "Llano",
+        "fullName": "Llano Yellowjackets",
+        "mascot": "Yellowjackets",
+        "abbreviation": "LHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-3",
+        "uilRegion": 1,
+        "colors": {
+          "primary": "#CC4E10",
+          "secondary": "#222222",
+          "accent": "#222222"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "F3"
+      }
+    ]
+  },
+  {
+    "id": "0-0-7",
+    "round": 0,
+    "region": 0,
+    "index": 7,
+    "teams": [
+      "Bushland",
+      "Jim Ned"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-i-8",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "I"
+      },
+      "homeTeam": "Bushland",
+      "awayTeam": "Jim Ned",
+      "homeSchoolSlug": "bushland",
+      "awaySchoolSlug": "tuscola-jim-ned",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "UIL-linked bracket and both Bushland/Jim Ned team schedules confirm 50–35; DCTF lists 41–14. Reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.maxpreps.com/tx/bushland/bushland-falcons/football/schedule/; https://www.maxpreps.com/tx/tuscola/jim-ned-indians/football/schedule/",
+      "homeScore": 50,
+      "awayScore": 35,
+      "publicScoreVerified": true
+    },
+    "x": 0,
+    "y": 1170,
+    "sources": [],
+    "schools": [
+      {
+        "id": "bushland",
+        "slug": "bushland",
+        "name": "Bushland",
+        "fullName": "Bushland Falcons",
+        "mascot": "Falcons",
+        "abbreviation": "BHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-1",
+        "uilRegion": 1,
+        "colors": {
+          "primary": "#222222",
+          "secondary": "#C8880A",
+          "accent": "#C8880A"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "R1"
+      },
+      {
+        "id": "tuscola-jim-ned",
+        "slug": "tuscola-jim-ned",
+        "name": "Tuscola Jim Ned",
+        "fullName": "Tuscola Jim Ned Indians",
+        "mascot": "Indians",
+        "abbreviation": "JNHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-2",
+        "uilRegion": 1,
+        "colors": {
+          "primary": "#CC0022",
+          "secondary": "#FFFFFF",
+          "accent": "#034CB2"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "T2"
+      }
+    ]
+  },
+  {
+    "id": "0-1-0",
+    "round": 1,
+    "region": 0,
+    "index": 0,
+    "teams": [
+      "Shallowater",
+      "Peaster"
+    ],
+    "game": {
+      "id": "2026-area-3a-d1-i-1",
+      "season": 2026,
+      "week": 13,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Area",
+        "division": "3A Division I",
+        "region": "I"
+      },
+      "homeTeam": "Shallowater",
+      "awayTeam": "Peaster",
+      "homeSchoolSlug": "shallowater",
+      "awaySchoolSlug": "peaster",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "upcoming",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "Participants established by reviewed first-round finals; DCTF Area schedule reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "kickoff": "2026-11-20T19:00:00-06:00",
+      "venue": "Lion Stadium, Vernon, TX"
+    },
+    "x": 310,
+    "y": 156,
+    "sources": [
+      "0-0-0",
+      "0-0-1"
+    ],
+    "schools": [
+      {
+        "id": "shallowater",
+        "slug": "shallowater",
+        "name": "Shallowater",
+        "fullName": "Shallowater Mustangs",
+        "mascot": "Mustangs",
+        "abbreviation": "SHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-1",
+        "uilRegion": 1,
+        "colors": {
+          "primary": "#222222",
+          "secondary": "#CC0022",
+          "accent": "#CC0022"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "peaster",
+        "slug": "peaster",
+        "name": "Peaster",
+        "fullName": "Peaster Greyhounds",
+        "mascot": "Greyhounds",
+        "abbreviation": "PHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "opponent",
+        "uilRegion": 1,
+        "coverageMarket": "VarsityVue Coverage Area",
+        "stadium": "Greyhound Stadium",
+        "colors": {
+          "primary": "#0057B8",
+          "secondary": "#FFFFFF",
+          "accent": "#9FA1A0"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "watchlist"
+      }
+    ]
+  },
+  {
+    "id": "0-1-1",
+    "round": 1,
+    "region": 0,
+    "index": 1,
+    "teams": [
+      "Clyde",
+      "Vernon"
+    ],
+    "game": {
+      "id": "2026-area-3a-d1-i-2",
+      "season": 2026,
+      "week": 13,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Area",
+        "division": "3A Division I",
+        "region": "I"
+      },
+      "homeTeam": "Clyde",
+      "awayTeam": "Vernon",
+      "homeSchoolSlug": "clyde",
+      "awaySchoolSlug": "vernon",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "upcoming",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "Participants established by reviewed first-round finals; DCTF Area schedule reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "kickoff": "2026-11-20T19:00:00-06:00",
+      "venue": "Porcupine Stadium, Springtown, TX"
+    },
+    "x": 310,
+    "y": 468,
+    "sources": [
+      "0-0-2",
+      "0-0-3"
+    ],
+    "schools": [
+      {
+        "id": "clyde",
+        "slug": "clyde",
+        "name": "Clyde",
+        "fullName": "Clyde Bulldogs",
+        "mascot": "Bulldogs",
+        "abbreviation": "CHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-2",
+        "uilRegion": 1,
+        "coverageMarket": "VarsityVue Coverage Area",
+        "stadium": "Clyde Bulldog Stadium",
+        "colors": {
+          "primary": "#CEB767",
+          "secondary": "#000000",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "watchlist"
+      },
+      {
+        "id": "vernon",
+        "slug": "vernon",
+        "name": "Vernon",
+        "fullName": "Vernon Lions",
+        "mascot": "Lions",
+        "abbreviation": "VHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-4",
+        "uilRegion": 1,
+        "colors": {
+          "primary": "#8F0018",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      }
+    ]
+  },
+  {
+    "id": "0-1-2",
+    "round": 1,
+    "region": 0,
+    "index": 2,
+    "teams": [
+      "Wall",
+      "Sweetwater"
+    ],
+    "game": {
+      "id": "2026-area-3a-d1-i-3",
+      "season": 2026,
+      "week": 13,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Area",
+        "division": "3A Division I",
+        "region": "I"
+      },
+      "homeTeam": "Wall",
+      "awayTeam": "Sweetwater",
+      "homeSchoolSlug": "wall",
+      "awaySchoolSlug": "sweetwater",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "upcoming",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "Participants established by reviewed first-round finals; DCTF Area schedule reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "kickoff": "2026-11-19T18:00:00-06:00",
+      "venue": "Wolf Stadium, Colorado City, TX"
+    },
+    "x": 310,
+    "y": 780,
+    "sources": [
+      "0-0-4",
+      "0-0-5"
+    ],
+    "schools": [
+      {
+        "id": "wall",
+        "slug": "wall",
+        "name": "Wall",
+        "fullName": "Wall Hawks",
+        "mascot": "Hawks",
+        "abbreviation": "WHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-3",
+        "uilRegion": 1,
+        "colors": {
+          "primary": "#00824B",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "sweetwater",
+        "slug": "sweetwater",
+        "name": "Sweetwater",
+        "fullName": "Sweetwater Mustangs",
+        "mascot": "Mustangs",
+        "abbreviation": "SHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-2",
+        "uilRegion": 1,
+        "colors": {
+          "primary": "#CC0022",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      }
+    ]
+  },
+  {
+    "id": "0-1-3",
+    "round": 1,
+    "region": 0,
+    "index": 3,
+    "teams": [
+      "Paradise",
+      "Bushland"
+    ],
+    "game": {
+      "id": "2026-area-3a-d1-i-4",
+      "season": 2026,
+      "week": 13,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Area",
+        "division": "3A Division I",
+        "region": "I"
+      },
+      "homeTeam": "Paradise",
+      "awayTeam": "Bushland",
+      "homeSchoolSlug": "paradise",
+      "awaySchoolSlug": "bushland",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "upcoming",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "Participants established by reviewed first-round finals; DCTF Area schedule reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "kickoff": "2026-11-19T19:00:00-06:00",
+      "venue": "Fair Park Stadium, Childress, TX"
+    },
+    "x": 310,
+    "y": 1092,
+    "sources": [
+      "0-0-6",
+      "0-0-7"
+    ],
+    "schools": [
+      {
+        "id": "paradise",
+        "slug": "paradise",
+        "name": "Paradise",
+        "fullName": "Paradise Panthers",
+        "mascot": "Panthers",
+        "abbreviation": "PHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-4",
+        "uilRegion": 1,
+        "colors": {
+          "primary": "#00824B",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "bushland",
+        "slug": "bushland",
+        "name": "Bushland",
+        "fullName": "Bushland Falcons",
+        "mascot": "Falcons",
+        "abbreviation": "BHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-1",
+        "uilRegion": 1,
+        "colors": {
+          "primary": "#222222",
+          "secondary": "#C8880A",
+          "accent": "#C8880A"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      }
+    ]
+  },
+  {
+    "id": "1-0-0",
+    "round": 0,
+    "region": 1,
+    "index": 0,
+    "teams": [
+      "Gunter",
+      "Groesbeck"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-ii-1",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "II"
+      },
+      "homeSchoolSlug": "gunter",
+      "awaySchoolSlug": "groesbeck",
+      "homeTeam": "Gunter",
+      "awayTeam": "Groesbeck",
+      "kickoff": "2026-11-12T19:00:00-06:00",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed; UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "venue": "Memorial Stadium",
+      "homeScore": 64,
+      "awayScore": 13,
+      "publicScoreVerified": true
+    },
+    "x": 0,
+    "y": 1326,
+    "sources": [],
+    "schools": [
+      {
+        "id": "gunter",
+        "slug": "gunter",
+        "name": "Gunter",
+        "fullName": "Gunter Tigers",
+        "mascot": "Tigers",
+        "abbreviation": "GHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-5",
+        "uilRegion": 2,
+        "colors": {
+          "primary": "#022C66",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "W5"
+      },
+      {
+        "id": "groesbeck",
+        "slug": "groesbeck",
+        "name": "Groesbeck",
+        "fullName": "Groesbeck Goats",
+        "mascot": "Goats",
+        "abbreviation": "GHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-6",
+        "uilRegion": 2,
+        "colors": {
+          "primary": "#CC0022",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "F6"
+      }
+    ]
+  },
+  {
+    "id": "1-0-1",
+    "round": 0,
+    "region": 1,
+    "index": 1,
+    "teams": [
+      "Liberty-Eylau",
+      "Commerce"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-ii-2",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "II"
+      },
+      "homeSchoolSlug": "texarkana-liberty-eylau",
+      "awaySchoolSlug": "commerce",
+      "homeTeam": "Liberty-Eylau",
+      "awayTeam": "Commerce",
+      "kickoff": "2026-11-12T19:00:00-06:00",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed; UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "venue": "Sam Parker Field",
+      "homeScore": 35,
+      "awayScore": 28,
+      "publicScoreVerified": true
+    },
+    "x": 0,
+    "y": 1482,
+    "sources": [],
+    "schools": [
+      {
+        "id": "texarkana-liberty-eylau",
+        "slug": "texarkana-liberty-eylau",
+        "name": "Texarkana Liberty-Eylau",
+        "fullName": "Texarkana Liberty-Eylau Leopards",
+        "mascot": "Leopards",
+        "abbreviation": "LEHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-8",
+        "uilRegion": 2,
+        "colors": {
+          "primary": "#CC0022",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "R8"
+      },
+      {
+        "id": "commerce",
+        "slug": "commerce",
+        "name": "Commerce",
+        "fullName": "Commerce Tigers",
+        "mascot": "Tigers",
+        "abbreviation": "CHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-7",
+        "uilRegion": 2,
+        "colors": {
+          "primary": "#222222",
+          "secondary": "#CC4E10",
+          "accent": "#CC4E10"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "T7"
+      }
+    ]
+  },
+  {
+    "id": "1-0-2",
+    "round": 0,
+    "region": 1,
+    "index": 2,
+    "teams": [
+      "Whitney",
+      "Life Oak Cliff"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-ii-3",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "II"
+      },
+      "homeTeam": "Whitney",
+      "awayTeam": "Life Oak Cliff",
+      "homeSchoolSlug": "whitney",
+      "awaySchoolSlug": "dallas-life-oak-cliff",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "homeScore": 70,
+      "awayScore": 27,
+      "publicScoreVerified": true
+    },
+    "x": 0,
+    "y": 1638,
+    "sources": [],
+    "schools": [
+      {
+        "id": "whitney",
+        "slug": "whitney",
+        "name": "Whitney",
+        "fullName": "Whitney Wildcats",
+        "mascot": "Wildcats",
+        "abbreviation": "WHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-6",
+        "uilRegion": 2,
+        "colors": {
+          "primary": "#022C66",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "W6"
+      },
+      {
+        "id": "dallas-life-oak-cliff",
+        "slug": "dallas-life-oak-cliff",
+        "name": "Dallas Life Oak Cliff",
+        "fullName": "Dallas Life Oak Cliff Lions",
+        "mascot": "Lions",
+        "abbreviation": "LOCHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-5",
+        "uilRegion": 2,
+        "colors": {
+          "primary": "#022C66",
+          "secondary": "#C8880A",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "F5"
+      }
+    ]
+  },
+  {
+    "id": "1-0-3",
+    "round": 0,
+    "region": 1,
+    "index": 3,
+    "teams": [
+      "Winnsboro",
+      "Tatum"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-ii-4",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "II"
+      },
+      "homeTeam": "Winnsboro",
+      "awayTeam": "Tatum",
+      "homeSchoolSlug": "winnsboro",
+      "awaySchoolSlug": "tatum",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "homeScore": 39,
+      "awayScore": 41,
+      "publicScoreVerified": true
+    },
+    "x": 0,
+    "y": 1794,
+    "sources": [],
+    "schools": [
+      {
+        "id": "winnsboro",
+        "slug": "winnsboro",
+        "name": "Winnsboro",
+        "fullName": "Winnsboro Red Raiders",
+        "mascot": "Red Raiders",
+        "abbreviation": "WHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-7",
+        "uilRegion": 2,
+        "colors": {
+          "primary": "#CC0022",
+          "secondary": "#222222",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "R7"
+      },
+      {
+        "id": "tatum",
+        "slug": "tatum",
+        "name": "Tatum",
+        "fullName": "Tatum Eagles",
+        "mascot": "Eagles",
+        "abbreviation": "THS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-8",
+        "uilRegion": 2,
+        "colors": {
+          "primary": "#00824B",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "T8"
+      }
+    ]
+  },
+  {
+    "id": "1-0-4",
+    "round": 0,
+    "region": 1,
+    "index": 4,
+    "teams": [
+      "Malakoff",
+      "Gladewater"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-ii-5",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "II"
+      },
+      "homeTeam": "Malakoff",
+      "awayTeam": "Gladewater",
+      "homeSchoolSlug": "malakoff",
+      "awaySchoolSlug": "gladewater",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "homeScore": 55,
+      "awayScore": 14,
+      "publicScoreVerified": true
+    },
+    "x": 0,
+    "y": 1950,
+    "sources": [],
+    "schools": [
+      {
+        "id": "malakoff",
+        "slug": "malakoff",
+        "name": "Malakoff",
+        "fullName": "Malakoff Tigers",
+        "mascot": "Tigers",
+        "abbreviation": "MHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-7",
+        "uilRegion": 2,
+        "colors": {
+          "primary": "#222222",
+          "secondary": "#C8880A",
+          "accent": "#C8880A"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "W7"
+      },
+      {
+        "id": "gladewater",
+        "slug": "gladewater",
+        "name": "Gladewater",
+        "fullName": "Gladewater Bears",
+        "mascot": "Bears",
+        "abbreviation": "GHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-8",
+        "uilRegion": 2,
+        "colors": {
+          "primary": "#CC4E10",
+          "secondary": "#222222",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "F8"
+      }
+    ]
+  },
+  {
+    "id": "1-0-5",
+    "round": 0,
+    "region": 1,
+    "index": 5,
+    "teams": [
+      "Mexia",
+      "Pilot Point"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-ii-6",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "II"
+      },
+      "homeTeam": "Mexia",
+      "awayTeam": "Pilot Point",
+      "homeSchoolSlug": "mexia",
+      "awaySchoolSlug": "pilot-point",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "homeScore": 25,
+      "awayScore": 43,
+      "publicScoreVerified": true
+    },
+    "x": 0,
+    "y": 2106,
+    "sources": [],
+    "schools": [
+      {
+        "id": "mexia",
+        "slug": "mexia",
+        "name": "Mexia",
+        "fullName": "Mexia Black Cats",
+        "mascot": "Black Cats",
+        "abbreviation": "MHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-6",
+        "uilRegion": 2,
+        "colors": {
+          "primary": "#52000E",
+          "secondary": "#222222",
+          "accent": "#222222"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "R6"
+      },
+      {
+        "id": "pilot-point",
+        "slug": "pilot-point",
+        "name": "Pilot Point",
+        "fullName": "Pilot Point Bearcats",
+        "mascot": "Bearcats",
+        "abbreviation": "PPHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-5",
+        "uilRegion": 2,
+        "colors": {
+          "primary": "#CC4E10",
+          "secondary": "#222222",
+          "accent": "#222222"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "T5"
+      }
+    ]
+  },
+  {
+    "id": "1-0-6",
+    "round": 0,
+    "region": 1,
+    "index": 6,
+    "teams": [
+      "Atlanta",
+      "Mount Vernon"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-ii-7",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "II"
+      },
+      "homeTeam": "Atlanta",
+      "awayTeam": "Mount Vernon",
+      "homeSchoolSlug": "atlanta",
+      "awaySchoolSlug": "mount-vernon",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "homeScore": 35,
+      "awayScore": 6,
+      "publicScoreVerified": true
+    },
+    "x": 0,
+    "y": 2262,
+    "sources": [],
+    "schools": [
+      {
+        "id": "atlanta",
+        "slug": "atlanta",
+        "name": "Atlanta",
+        "fullName": "Atlanta Rabbits",
+        "mascot": "Rabbits",
+        "abbreviation": "AHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-8",
+        "uilRegion": 2,
+        "colors": {
+          "primary": "#8F0018",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "W8"
+      },
+      {
+        "id": "mount-vernon",
+        "slug": "mount-vernon",
+        "name": "Mount Vernon",
+        "fullName": "Mount Vernon Tigers",
+        "mascot": "Tigers",
+        "abbreviation": "MVHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-7",
+        "uilRegion": 2,
+        "colors": {
+          "primary": "#754ACC",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "F7"
+      }
+    ]
+  },
+  {
+    "id": "1-0-7",
+    "round": 0,
+    "region": 1,
+    "index": 7,
+    "teams": [
+      "Whitesboro",
+      "Grandview"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-ii-8",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "II"
+      },
+      "homeSchoolSlug": "whitesboro",
+      "awaySchoolSlug": "grandview",
+      "homeTeam": "Whitesboro",
+      "awayTeam": "Grandview",
+      "kickoff": "2026-11-12T19:00:00-06:00",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed; UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "venue": "Gopher-Warrior Bowl",
+      "homeScore": 44,
+      "awayScore": 27,
+      "publicScoreVerified": true
+    },
+    "x": 0,
+    "y": 2418,
+    "sources": [],
+    "schools": [
+      {
+        "id": "whitesboro",
+        "slug": "whitesboro",
+        "name": "Whitesboro",
+        "fullName": "Whitesboro Whitesboro",
+        "mascot": "Whitesboro",
+        "abbreviation": "WHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-5",
+        "uilRegion": 2,
+        "colors": {
+          "primary": "#8F0018",
+          "secondary": "#C8880A",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "R5"
+      },
+      {
+        "id": "grandview",
+        "slug": "grandview",
+        "name": "Grandview",
+        "fullName": "Grandview Zebras",
+        "mascot": "Zebras",
+        "abbreviation": "GHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-6",
+        "uilRegion": 2,
+        "colors": {
+          "primary": "#222222",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "T6"
+      }
+    ]
+  },
+  {
+    "id": "1-1-0",
+    "round": 1,
+    "region": 1,
+    "index": 0,
+    "teams": [
+      "Gunter",
+      "Liberty-Eylau"
+    ],
+    "game": {
+      "id": "2026-area-3a-d1-ii-1",
+      "season": 2026,
+      "week": 13,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Area",
+        "division": "3A Division I",
+        "region": "II"
+      },
+      "homeTeam": "Gunter",
+      "awayTeam": "Liberty-Eylau",
+      "homeSchoolSlug": "gunter",
+      "awaySchoolSlug": "texarkana-liberty-eylau",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "upcoming",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "Participants established by reviewed first-round finals; DCTF Area schedule reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "kickoff": "2026-11-19T19:00:00-06:00",
+      "venue": "Prim Stadium, Sulphur Springs, TX"
+    },
+    "x": 310,
+    "y": 1404,
+    "sources": [
+      "1-0-0",
+      "1-0-1"
+    ],
+    "schools": [
+      {
+        "id": "gunter",
+        "slug": "gunter",
+        "name": "Gunter",
+        "fullName": "Gunter Tigers",
+        "mascot": "Tigers",
+        "abbreviation": "GHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-5",
+        "uilRegion": 2,
+        "colors": {
+          "primary": "#022C66",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "texarkana-liberty-eylau",
+        "slug": "texarkana-liberty-eylau",
+        "name": "Texarkana Liberty-Eylau",
+        "fullName": "Texarkana Liberty-Eylau Leopards",
+        "mascot": "Leopards",
+        "abbreviation": "LEHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-8",
+        "uilRegion": 2,
+        "colors": {
+          "primary": "#CC0022",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      }
+    ]
+  },
+  {
+    "id": "1-1-1",
+    "round": 1,
+    "region": 1,
+    "index": 1,
+    "teams": [
+      "Whitney",
+      "Tatum"
+    ],
+    "game": {
+      "id": "2026-area-3a-d1-ii-2",
+      "season": 2026,
+      "week": 13,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Area",
+        "division": "3A Division I",
+        "region": "II"
+      },
+      "homeTeam": "Whitney",
+      "awayTeam": "Tatum",
+      "homeSchoolSlug": "whitney",
+      "awaySchoolSlug": "tatum",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "upcoming",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "Participants established by reviewed first-round finals; DCTF Area schedule reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "kickoff": "2026-11-19T19:00:00-06:00",
+      "venue": "Better Life Stadium, Forney, TX"
+    },
+    "x": 310,
+    "y": 1716,
+    "sources": [
+      "1-0-2",
+      "1-0-3"
+    ],
+    "schools": [
+      {
+        "id": "whitney",
+        "slug": "whitney",
+        "name": "Whitney",
+        "fullName": "Whitney Wildcats",
+        "mascot": "Wildcats",
+        "abbreviation": "WHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-6",
+        "uilRegion": 2,
+        "colors": {
+          "primary": "#022C66",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "tatum",
+        "slug": "tatum",
+        "name": "Tatum",
+        "fullName": "Tatum Eagles",
+        "mascot": "Eagles",
+        "abbreviation": "THS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-8",
+        "uilRegion": 2,
+        "colors": {
+          "primary": "#00824B",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      }
+    ]
+  },
+  {
+    "id": "1-1-2",
+    "round": 1,
+    "region": 1,
+    "index": 2,
+    "teams": [
+      "Malakoff",
+      "Pilot Point"
+    ],
+    "game": {
+      "id": "2026-area-3a-d1-ii-3",
+      "season": 2026,
+      "week": 13,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Area",
+        "division": "3A Division I",
+        "region": "II"
+      },
+      "homeTeam": "Malakoff",
+      "awayTeam": "Pilot Point",
+      "homeSchoolSlug": "malakoff",
+      "awaySchoolSlug": "pilot-point",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "upcoming",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "Participants established by reviewed first-round finals; DCTF Area schedule reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "kickoff": "2026-11-19T19:00:00-06:00",
+      "venue": "Hanby Stadium, Mesquite, TX"
+    },
+    "x": 310,
+    "y": 2028,
+    "sources": [
+      "1-0-4",
+      "1-0-5"
+    ],
+    "schools": [
+      {
+        "id": "malakoff",
+        "slug": "malakoff",
+        "name": "Malakoff",
+        "fullName": "Malakoff Tigers",
+        "mascot": "Tigers",
+        "abbreviation": "MHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-7",
+        "uilRegion": 2,
+        "colors": {
+          "primary": "#222222",
+          "secondary": "#C8880A",
+          "accent": "#C8880A"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "pilot-point",
+        "slug": "pilot-point",
+        "name": "Pilot Point",
+        "fullName": "Pilot Point Bearcats",
+        "mascot": "Bearcats",
+        "abbreviation": "PPHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-5",
+        "uilRegion": 2,
+        "colors": {
+          "primary": "#CC4E10",
+          "secondary": "#222222",
+          "accent": "#222222"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      }
+    ]
+  },
+  {
+    "id": "1-1-3",
+    "round": 1,
+    "region": 1,
+    "index": 3,
+    "teams": [
+      "Atlanta",
+      "Whitesboro"
+    ],
+    "game": {
+      "id": "2026-area-3a-d1-ii-4",
+      "season": 2026,
+      "week": 13,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Area",
+        "division": "3A Division I",
+        "region": "II"
+      },
+      "homeTeam": "Atlanta",
+      "awayTeam": "Whitesboro",
+      "homeSchoolSlug": "atlanta",
+      "awaySchoolSlug": "whitesboro",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "upcoming",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "Participants established by reviewed first-round finals; DCTF Area schedule reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "kickoff": "2026-11-20T19:00:00-06:00",
+      "venue": "Prim Stadium, Sulphur Springs, TX"
+    },
+    "x": 310,
+    "y": 2340,
+    "sources": [
+      "1-0-6",
+      "1-0-7"
+    ],
+    "schools": [
+      {
+        "id": "atlanta",
+        "slug": "atlanta",
+        "name": "Atlanta",
+        "fullName": "Atlanta Rabbits",
+        "mascot": "Rabbits",
+        "abbreviation": "AHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-8",
+        "uilRegion": 2,
+        "colors": {
+          "primary": "#8F0018",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "whitesboro",
+        "slug": "whitesboro",
+        "name": "Whitesboro",
+        "fullName": "Whitesboro Whitesboro",
+        "mascot": "Whitesboro",
+        "abbreviation": "WHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-5",
+        "uilRegion": 2,
+        "colors": {
+          "primary": "#8F0018",
+          "secondary": "#C8880A",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      }
+    ]
+  },
+  {
+    "id": "2-0-0",
+    "round": 0,
+    "region": 2,
+    "index": 0,
+    "teams": [
+      "Diboll",
+      "Buna"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-iii-1",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "III"
+      },
+      "homeTeam": "Diboll",
+      "awayTeam": "Buna",
+      "homeSchoolSlug": "diboll",
+      "awaySchoolSlug": "buna",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "UIL-linked bracket, direct game page and Buna team schedule confirm 42–7; DCTF lists 42–6. Reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.maxpreps.com/tx/buna/buna-cougars/football/schedule/",
+      "homeScore": 42,
+      "awayScore": 7,
+      "publicScoreVerified": true
+    },
+    "x": 3100,
+    "y": 78,
+    "sources": [],
+    "schools": [
+      {
+        "id": "diboll",
+        "slug": "diboll",
+        "name": "Diboll",
+        "fullName": "Diboll Lumberjacks",
+        "mascot": "Lumberjacks",
+        "abbreviation": "DHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-9",
+        "uilRegion": 3,
+        "colors": {
+          "primary": "#CC0022",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "W9"
+      },
+      {
+        "id": "buna",
+        "slug": "buna",
+        "name": "Buna",
+        "fullName": "Buna Cougars",
+        "mascot": "Cougars",
+        "abbreviation": "BHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-10",
+        "uilRegion": 3,
+        "colors": {
+          "primary": "#034CB2",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "F10"
+      }
+    ]
+  },
+  {
+    "id": "2-0-1",
+    "round": 0,
+    "region": 2,
+    "index": 1,
+    "teams": [
+      "Lorena",
+      "Sweeny"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-iii-2",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "III"
+      },
+      "homeTeam": "Lorena",
+      "awayTeam": "Sweeny",
+      "homeSchoolSlug": "lorena",
+      "awaySchoolSlug": "sweeny",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "homeScore": 52,
+      "awayScore": 10,
+      "publicScoreVerified": true
+    },
+    "x": 3100,
+    "y": 234,
+    "sources": [],
+    "schools": [
+      {
+        "id": "lorena",
+        "slug": "lorena",
+        "name": "Lorena",
+        "fullName": "Lorena Leopards",
+        "mascot": "Leopards",
+        "abbreviation": "LHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-12",
+        "uilRegion": 3,
+        "colors": {
+          "primary": "#CC0022",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "R12"
+      },
+      {
+        "id": "sweeny",
+        "slug": "sweeny",
+        "name": "Sweeny",
+        "fullName": "Sweeny Bulldogs",
+        "mascot": "Bulldogs",
+        "abbreviation": "SHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-11",
+        "uilRegion": 3,
+        "colors": {
+          "primary": "#046DFF",
+          "secondary": "#022C66",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "T11"
+      }
+    ]
+  },
+  {
+    "id": "2-0-2",
+    "round": 0,
+    "region": 2,
+    "index": 2,
+    "teams": [
+      "Orangefield",
+      "Trinity"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-iii-3",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "III"
+      },
+      "homeTeam": "Orangefield",
+      "awayTeam": "Trinity",
+      "homeSchoolSlug": "orangefield",
+      "awaySchoolSlug": "trinity",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "homeScore": 61,
+      "awayScore": 28,
+      "publicScoreVerified": true
+    },
+    "x": 3100,
+    "y": 390,
+    "sources": [],
+    "schools": [
+      {
+        "id": "orangefield",
+        "slug": "orangefield",
+        "name": "Orangefield",
+        "fullName": "Orangefield Bobcats",
+        "mascot": "Bobcats",
+        "abbreviation": "OHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-10",
+        "uilRegion": 3,
+        "colors": {
+          "primary": "#CC4E10",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "W10"
+      },
+      {
+        "id": "trinity",
+        "slug": "trinity",
+        "name": "Trinity",
+        "fullName": "Trinity Tigers",
+        "mascot": "Tigers",
+        "abbreviation": "THS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-9",
+        "uilRegion": 3,
+        "colors": {
+          "primary": "#CC4E10",
+          "secondary": "#FFFFFF",
+          "accent": "#222222"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "F9"
+      }
+    ]
+  },
+  {
+    "id": "2-0-3",
+    "round": 0,
+    "region": 2,
+    "index": 3,
+    "teams": [
+      "Edna",
+      "C.H. Yoe"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-iii-4",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "III"
+      },
+      "homeTeam": "Edna",
+      "awayTeam": "C.H. Yoe",
+      "homeSchoolSlug": "edna",
+      "awaySchoolSlug": "cameron-yoe",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "homeScore": 28,
+      "awayScore": 35,
+      "publicScoreVerified": true
+    },
+    "x": 3100,
+    "y": 546,
+    "sources": [],
+    "schools": [
+      {
+        "id": "edna",
+        "slug": "edna",
+        "name": "Edna",
+        "fullName": "Edna Cowboys",
+        "mascot": "Cowboys",
+        "abbreviation": "EHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-11",
+        "uilRegion": 3,
+        "colors": {
+          "primary": "#034CB2",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "R11"
+      },
+      {
+        "id": "cameron-yoe",
+        "slug": "cameron-yoe",
+        "name": "Cameron Yoe",
+        "fullName": "Cameron Yoe Yoemen",
+        "mascot": "Yoemen",
+        "abbreviation": "CHYHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-12",
+        "uilRegion": 3,
+        "colors": {
+          "primary": "#8F0018",
+          "secondary": "#454444",
+          "accent": "#454444"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "T12"
+      }
+    ]
+  },
+  {
+    "id": "2-0-4",
+    "round": 0,
+    "region": 2,
+    "index": 4,
+    "teams": [
+      "Columbus",
+      "Little River Academy"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-iii-5",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "III"
+      },
+      "homeTeam": "Columbus",
+      "awayTeam": "Little River Academy",
+      "homeSchoolSlug": "columbus",
+      "awaySchoolSlug": "little-river-academy",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "homeScore": 69,
+      "awayScore": 17,
+      "publicScoreVerified": true
+    },
+    "x": 3100,
+    "y": 702,
+    "sources": [],
+    "schools": [
+      {
+        "id": "columbus",
+        "slug": "columbus",
+        "name": "Columbus",
+        "fullName": "Columbus Cardinals",
+        "mascot": "Cardinals",
+        "abbreviation": "CHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-11",
+        "uilRegion": 3,
+        "colors": {
+          "primary": "#CC0022",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "W11"
+      },
+      {
+        "id": "little-river-academy",
+        "slug": "little-river-academy",
+        "name": "Little River Academy",
+        "fullName": "Little River Academy Bumblebees",
+        "mascot": "Bumblebees",
+        "abbreviation": "LRA",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-12",
+        "uilRegion": 3,
+        "colors": {
+          "primary": "#005B34",
+          "secondary": "#FFC005",
+          "accent": "#FFC005"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "F12"
+      }
+    ]
+  },
+  {
+    "id": "2-0-5",
+    "round": 0,
+    "region": 2,
+    "index": 5,
+    "teams": [
+      "Anahuac",
+      "Westwood"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-iii-6",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "III"
+      },
+      "homeTeam": "Anahuac",
+      "awayTeam": "Westwood",
+      "homeSchoolSlug": "anahuac",
+      "awaySchoolSlug": "palestine-westwood",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "homeScore": 27,
+      "awayScore": 41,
+      "publicScoreVerified": true
+    },
+    "x": 3100,
+    "y": 858,
+    "sources": [],
+    "schools": [
+      {
+        "id": "anahuac",
+        "slug": "anahuac",
+        "name": "Anahuac",
+        "fullName": "Anahuac Panthers",
+        "mascot": "Panthers",
+        "abbreviation": "AHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-10",
+        "uilRegion": 3,
+        "colors": {
+          "primary": "#222222",
+          "secondary": "#C8880A",
+          "accent": "#C8880A"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "R10"
+      },
+      {
+        "id": "palestine-westwood",
+        "slug": "palestine-westwood",
+        "name": "Palestine Westwood",
+        "fullName": "Palestine Westwood Panthers",
+        "mascot": "Panthers",
+        "abbreviation": "WHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-9",
+        "uilRegion": 3,
+        "colors": {
+          "primary": "#CC4E10",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "T9"
+      }
+    ]
+  },
+  {
+    "id": "2-0-6",
+    "round": 0,
+    "region": 2,
+    "index": 6,
+    "teams": [
+      "Franklin",
+      "Hempstead"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-iii-7",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "III"
+      },
+      "homeTeam": "Franklin",
+      "awayTeam": "Hempstead",
+      "homeSchoolSlug": "franklin",
+      "awaySchoolSlug": "hempstead",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "homeScore": 73,
+      "awayScore": 0,
+      "publicScoreVerified": true
+    },
+    "x": 3100,
+    "y": 1014,
+    "sources": [],
+    "schools": [
+      {
+        "id": "franklin",
+        "slug": "franklin",
+        "name": "Franklin",
+        "fullName": "Franklin Lions",
+        "mascot": "Lions",
+        "abbreviation": "FHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-12",
+        "uilRegion": 3,
+        "colors": {
+          "primary": "#00824B",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "W12"
+      },
+      {
+        "id": "hempstead",
+        "slug": "hempstead",
+        "name": "Hempstead",
+        "fullName": "Hempstead Bobcats",
+        "mascot": "Bobcats",
+        "abbreviation": "HHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-11",
+        "uilRegion": 3,
+        "colors": {
+          "primary": "#00824B",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "F11"
+      }
+    ]
+  },
+  {
+    "id": "2-0-7",
+    "round": 0,
+    "region": 2,
+    "index": 7,
+    "teams": [
+      "Fairfield",
+      "East Chambers"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-iii-8",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "III"
+      },
+      "homeTeam": "Fairfield",
+      "awayTeam": "East Chambers",
+      "homeSchoolSlug": "fairfield",
+      "awaySchoolSlug": "east-chambers",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "homeScore": 39,
+      "awayScore": 64,
+      "publicScoreVerified": true
+    },
+    "x": 3100,
+    "y": 1170,
+    "sources": [],
+    "schools": [
+      {
+        "id": "fairfield",
+        "slug": "fairfield",
+        "name": "Fairfield",
+        "fullName": "Fairfield Eagles",
+        "mascot": "Eagles",
+        "abbreviation": "FHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-9",
+        "uilRegion": 3,
+        "colors": {
+          "primary": "#8F0018",
+          "secondary": "#C8880A",
+          "accent": "#C8880A"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "R9"
+      },
+      {
+        "id": "east-chambers",
+        "slug": "east-chambers",
+        "name": "East Chambers",
+        "fullName": "East Chambers Buccaneers",
+        "mascot": "Buccaneers",
+        "abbreviation": "ECHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-10",
+        "uilRegion": 3,
+        "colors": {
+          "primary": "#00824B",
+          "secondary": "#C8880A",
+          "accent": "#C8880A"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "T10"
+      }
+    ]
+  },
+  {
+    "id": "2-1-0",
+    "round": 1,
+    "region": 2,
+    "index": 0,
+    "teams": [
+      "Diboll",
+      "Lorena"
+    ],
+    "game": {
+      "id": "2026-area-3a-d1-iii-1",
+      "season": 2026,
+      "week": 13,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Area",
+        "division": "3A Division I",
+        "region": "III"
+      },
+      "homeTeam": "Diboll",
+      "awayTeam": "Lorena",
+      "homeSchoolSlug": "diboll",
+      "awaySchoolSlug": "lorena",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "upcoming",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "Participants established by reviewed first-round finals; DCTF Area schedule reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations; November 20 confirmed; UIL-linked bracket/direct matchup lists 7 p.m., DCTF lists 7:30 p.m. Kickoff time withheld pending resolution.",
+      "kickoff": "2026-11-20",
+      "venue": "Mustang Stadium, Madisonville, TX"
+    },
+    "x": 2790,
+    "y": 156,
+    "sources": [
+      "2-0-0",
+      "2-0-1"
+    ],
+    "schools": [
+      {
+        "id": "diboll",
+        "slug": "diboll",
+        "name": "Diboll",
+        "fullName": "Diboll Lumberjacks",
+        "mascot": "Lumberjacks",
+        "abbreviation": "DHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-9",
+        "uilRegion": 3,
+        "colors": {
+          "primary": "#CC0022",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "lorena",
+        "slug": "lorena",
+        "name": "Lorena",
+        "fullName": "Lorena Leopards",
+        "mascot": "Leopards",
+        "abbreviation": "LHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-12",
+        "uilRegion": 3,
+        "colors": {
+          "primary": "#CC0022",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      }
+    ]
+  },
+  {
+    "id": "2-1-1",
+    "round": 1,
+    "region": 2,
+    "index": 1,
+    "teams": [
+      "Orangefield",
+      "C.H. Yoe"
+    ],
+    "game": {
+      "id": "2026-area-3a-d1-iii-2",
+      "season": 2026,
+      "week": 13,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Area",
+        "division": "3A Division I",
+        "region": "III"
+      },
+      "homeTeam": "Orangefield",
+      "awayTeam": "C.H. Yoe",
+      "homeSchoolSlug": "orangefield",
+      "awaySchoolSlug": "cameron-yoe",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "upcoming",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "Participants established by reviewed first-round finals; DCTF Area schedule reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "kickoff": "2026-11-20T19:30:00-06:00",
+      "venue": "Delmar Stadium, Houston, TX"
+    },
+    "x": 2790,
+    "y": 468,
+    "sources": [
+      "2-0-2",
+      "2-0-3"
+    ],
+    "schools": [
+      {
+        "id": "orangefield",
+        "slug": "orangefield",
+        "name": "Orangefield",
+        "fullName": "Orangefield Bobcats",
+        "mascot": "Bobcats",
+        "abbreviation": "OHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-10",
+        "uilRegion": 3,
+        "colors": {
+          "primary": "#CC4E10",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "cameron-yoe",
+        "slug": "cameron-yoe",
+        "name": "Cameron Yoe",
+        "fullName": "Cameron Yoe Yoemen",
+        "mascot": "Yoemen",
+        "abbreviation": "CHYHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-12",
+        "uilRegion": 3,
+        "colors": {
+          "primary": "#8F0018",
+          "secondary": "#454444",
+          "accent": "#454444"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      }
+    ]
+  },
+  {
+    "id": "2-1-2",
+    "round": 1,
+    "region": 2,
+    "index": 2,
+    "teams": [
+      "Columbus",
+      "Westwood"
+    ],
+    "game": {
+      "id": "2026-area-3a-d1-iii-3",
+      "season": 2026,
+      "week": 13,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Area",
+        "division": "3A Division I",
+        "region": "III"
+      },
+      "homeTeam": "Columbus",
+      "awayTeam": "Westwood",
+      "homeSchoolSlug": "columbus",
+      "awaySchoolSlug": "palestine-westwood",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "upcoming",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "Participants established by reviewed first-round finals; DCTF Area schedule reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "kickoff": "2026-11-19T19:00:00-06:00",
+      "venue": "Merrill Green Stadium, Bryan, TX"
+    },
+    "x": 2790,
+    "y": 780,
+    "sources": [
+      "2-0-4",
+      "2-0-5"
+    ],
+    "schools": [
+      {
+        "id": "columbus",
+        "slug": "columbus",
+        "name": "Columbus",
+        "fullName": "Columbus Cardinals",
+        "mascot": "Cardinals",
+        "abbreviation": "CHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-11",
+        "uilRegion": 3,
+        "colors": {
+          "primary": "#CC0022",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "palestine-westwood",
+        "slug": "palestine-westwood",
+        "name": "Palestine Westwood",
+        "fullName": "Palestine Westwood Panthers",
+        "mascot": "Panthers",
+        "abbreviation": "WHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-9",
+        "uilRegion": 3,
+        "colors": {
+          "primary": "#CC4E10",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      }
+    ]
+  },
+  {
+    "id": "2-1-3",
+    "round": 1,
+    "region": 2,
+    "index": 3,
+    "teams": [
+      "Franklin",
+      "East Chambers"
+    ],
+    "game": {
+      "id": "2026-area-3a-d1-iii-4",
+      "season": 2026,
+      "week": 13,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Area",
+        "division": "3A Division I",
+        "region": "III"
+      },
+      "homeTeam": "Franklin",
+      "awayTeam": "East Chambers",
+      "homeSchoolSlug": "franklin",
+      "awaySchoolSlug": "east-chambers",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "upcoming",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "Participants established by reviewed first-round finals; DCTF Area schedule reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "kickoff": "2026-11-20T19:00:00-06:00",
+      "venue": "Mustang Stadium, Magnolia West, TX"
+    },
+    "x": 2790,
+    "y": 1092,
+    "sources": [
+      "2-0-6",
+      "2-0-7"
+    ],
+    "schools": [
+      {
+        "id": "franklin",
+        "slug": "franklin",
+        "name": "Franklin",
+        "fullName": "Franklin Lions",
+        "mascot": "Lions",
+        "abbreviation": "FHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-12",
+        "uilRegion": 3,
+        "colors": {
+          "primary": "#00824B",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "east-chambers",
+        "slug": "east-chambers",
+        "name": "East Chambers",
+        "fullName": "East Chambers Buccaneers",
+        "mascot": "Buccaneers",
+        "abbreviation": "ECHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-10",
+        "uilRegion": 3,
+        "colors": {
+          "primary": "#00824B",
+          "secondary": "#C8880A",
+          "accent": "#C8880A"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      }
+    ]
+  },
+  {
+    "id": "3-0-0",
+    "round": 0,
+    "region": 3,
+    "index": 0,
+    "teams": [
+      "Yoakum",
+      "Carrizo Springs"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-iv-1",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "IV"
+      },
+      "homeTeam": "Yoakum",
+      "awayTeam": "Carrizo Springs",
+      "homeSchoolSlug": "yoakum",
+      "awaySchoolSlug": "carrizo-springs",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "homeScore": 62,
+      "awayScore": 14,
+      "publicScoreVerified": true
+    },
+    "x": 3100,
+    "y": 1326,
+    "sources": [],
+    "schools": [
+      {
+        "id": "yoakum",
+        "slug": "yoakum",
+        "name": "Yoakum",
+        "fullName": "Yoakum Bulldogs",
+        "mascot": "Bulldogs",
+        "abbreviation": "YHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-13",
+        "uilRegion": 4,
+        "colors": {
+          "primary": "#034CB2",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "W13"
+      },
+      {
+        "id": "carrizo-springs",
+        "slug": "carrizo-springs",
+        "name": "Carrizo Springs",
+        "fullName": "Carrizo Springs Wildcats",
+        "mascot": "Wildcats",
+        "abbreviation": "CSHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-14",
+        "uilRegion": 4,
+        "colors": {
+          "primary": "#754ACC",
+          "secondary": "#C8880A",
+          "accent": "#C8880A"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "F14"
+      }
+    ]
+  },
+  {
+    "id": "3-0-1",
+    "round": 0,
+    "region": 3,
+    "index": 1,
+    "teams": [
+      "Rio Hondo",
+      "Goliad"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-iv-2",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "IV"
+      },
+      "homeTeam": "Rio Hondo",
+      "awayTeam": "Goliad",
+      "homeSchoolSlug": "rio-hondo",
+      "awaySchoolSlug": "goliad",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "homeScore": 28,
+      "awayScore": 42,
+      "publicScoreVerified": true
+    },
+    "x": 3100,
+    "y": 1482,
+    "sources": [],
+    "schools": [
+      {
+        "id": "rio-hondo",
+        "slug": "rio-hondo",
+        "name": "Rio Hondo",
+        "fullName": "Rio Hondo Bobcats",
+        "mascot": "Bobcats",
+        "abbreviation": "RHHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-16",
+        "uilRegion": 4,
+        "colors": {
+          "primary": "#222222",
+          "secondary": "#C8880A",
+          "accent": "#C8880A"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "R16"
+      },
+      {
+        "id": "goliad",
+        "slug": "goliad",
+        "name": "Goliad",
+        "fullName": "Goliad Tigers",
+        "mascot": "Tigers",
+        "abbreviation": "GHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-15",
+        "uilRegion": 4,
+        "colors": {
+          "primary": "#022C66",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "T15"
+      }
+    ]
+  },
+  {
+    "id": "3-0-2",
+    "round": 0,
+    "region": 3,
+    "index": 2,
+    "teams": [
+      "Devine",
+      "Randolph"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-iv-3",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "IV"
+      },
+      "homeSchoolSlug": "devine",
+      "awaySchoolSlug": "universal-city-randolph",
+      "homeTeam": "Devine",
+      "awayTeam": "Randolph",
+      "kickoff": "2026-11-13T19:00:00-06:00",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed; UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "venue": "Warhorse Stadium",
+      "homeScore": 69,
+      "awayScore": 21,
+      "publicScoreVerified": true
+    },
+    "x": 3100,
+    "y": 1638,
+    "sources": [],
+    "schools": [
+      {
+        "id": "devine",
+        "slug": "devine",
+        "name": "Devine",
+        "fullName": "Devine Warhorses / Arabians",
+        "mascot": "Warhorses / Arabians",
+        "abbreviation": "DHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-14",
+        "uilRegion": 4,
+        "colors": {
+          "primary": "#8F0018",
+          "secondary": "#C8880A",
+          "accent": "#C8880A"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "W14"
+      },
+      {
+        "id": "universal-city-randolph",
+        "slug": "universal-city-randolph",
+        "name": "Universal City Randolph",
+        "fullName": "Universal City Randolph Ro-Hawks",
+        "mascot": "Ro-Hawks",
+        "abbreviation": "RHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-13",
+        "uilRegion": 4,
+        "colors": {
+          "primary": "#034CB2",
+          "secondary": "#454444",
+          "accent": "#454444"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "F13"
+      }
+    ]
+  },
+  {
+    "id": "3-0-3",
+    "round": 0,
+    "region": 3,
+    "index": 3,
+    "teams": [
+      "Orange Grove",
+      "Raymondville"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-iv-4",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "IV"
+      },
+      "homeTeam": "Orange Grove",
+      "awayTeam": "Raymondville",
+      "homeSchoolSlug": "orange-grove",
+      "awaySchoolSlug": "raymondville",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "homeScore": 35,
+      "awayScore": 28,
+      "publicScoreVerified": true
+    },
+    "x": 3100,
+    "y": 1794,
+    "sources": [],
+    "schools": [
+      {
+        "id": "orange-grove",
+        "slug": "orange-grove",
+        "name": "Orange Grove",
+        "fullName": "Orange Grove Bulldogs",
+        "mascot": "Bulldogs",
+        "abbreviation": "OGHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-15",
+        "uilRegion": 4,
+        "colors": {
+          "primary": "#CC4E10",
+          "secondary": "#222222",
+          "accent": "#222222"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "R15"
+      },
+      {
+        "id": "raymondville",
+        "slug": "raymondville",
+        "name": "Raymondville",
+        "fullName": "Raymondville Bearkats",
+        "mascot": "Bearkats",
+        "abbreviation": "RHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-16",
+        "uilRegion": 4,
+        "colors": {
+          "primary": "#034CB2",
+          "secondary": "#C8880A",
+          "accent": "#C8880A"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "T16"
+      }
+    ]
+  },
+  {
+    "id": "3-0-4",
+    "round": 0,
+    "region": 3,
+    "index": 4,
+    "teams": [
+      "Sinton",
+      "Lyford"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-iv-5",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "IV"
+      },
+      "homeTeam": "Sinton",
+      "awayTeam": "Lyford",
+      "homeSchoolSlug": "sinton",
+      "awaySchoolSlug": "lyford",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "homeScore": 28,
+      "awayScore": 7,
+      "publicScoreVerified": true
+    },
+    "x": 3100,
+    "y": 1950,
+    "sources": [],
+    "schools": [
+      {
+        "id": "sinton",
+        "slug": "sinton",
+        "name": "Sinton",
+        "fullName": "Sinton Pirates",
+        "mascot": "Pirates",
+        "abbreviation": "SHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-15",
+        "uilRegion": 4,
+        "colors": {
+          "primary": "#8F0018",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "W15"
+      },
+      {
+        "id": "lyford",
+        "slug": "lyford",
+        "name": "Lyford",
+        "fullName": "Lyford Bulldogs",
+        "mascot": "Bulldogs",
+        "abbreviation": "LHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-16",
+        "uilRegion": 4,
+        "colors": {
+          "primary": "#00824B",
+          "secondary": "#C8880A",
+          "accent": "#C8880A"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "F16"
+      }
+    ]
+  },
+  {
+    "id": "3-0-5",
+    "round": 0,
+    "region": 3,
+    "index": 5,
+    "teams": [
+      "Jourdanton",
+      "Hallettsville"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-iv-6",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "IV"
+      },
+      "homeSchoolSlug": "jourdanton",
+      "awaySchoolSlug": "hallettsville",
+      "homeTeam": "Jourdanton",
+      "awayTeam": "Hallettsville",
+      "kickoff": "2026-11-13T19:00:00-06:00",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": true,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "2026 playoff schedule: source-backed kickoff; home/away and neutrality shown only when confirmed; UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "venue": "Dragon Stadium",
+      "homeScore": 26,
+      "awayScore": 35,
+      "publicScoreVerified": true
+    },
+    "x": 3100,
+    "y": 2106,
+    "sources": [],
+    "schools": [
+      {
+        "id": "jourdanton",
+        "slug": "jourdanton",
+        "name": "Jourdanton",
+        "fullName": "Jourdanton Indians",
+        "mascot": "Indians",
+        "abbreviation": "JHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-14",
+        "uilRegion": 4,
+        "colors": {
+          "primary": "#CC0022",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "R14"
+      },
+      {
+        "id": "hallettsville",
+        "slug": "hallettsville",
+        "name": "Hallettsville",
+        "fullName": "Hallettsville Brahmas",
+        "mascot": "Brahmas",
+        "abbreviation": "HHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-13",
+        "uilRegion": 4,
+        "colors": {
+          "primary": "#8F0018",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "T13"
+      }
+    ]
+  },
+  {
+    "id": "3-0-6",
+    "round": 0,
+    "region": 3,
+    "index": 6,
+    "teams": [
+      "San Diego",
+      "Mathis"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-iv-7",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "IV"
+      },
+      "homeTeam": "San Diego",
+      "awayTeam": "Mathis",
+      "homeSchoolSlug": "san-diego",
+      "awaySchoolSlug": "mathis",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "homeScore": 38,
+      "awayScore": 22,
+      "publicScoreVerified": true
+    },
+    "x": 3100,
+    "y": 2262,
+    "sources": [],
+    "schools": [
+      {
+        "id": "san-diego",
+        "slug": "san-diego",
+        "name": "San Diego",
+        "fullName": "San Diego Vaqueros",
+        "mascot": "Vaqueros",
+        "abbreviation": "SDHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-16",
+        "uilRegion": 4,
+        "colors": {
+          "primary": "#034CB2",
+          "secondary": "#C8880A",
+          "accent": "#C8880A"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "W16"
+      },
+      {
+        "id": "mathis",
+        "slug": "mathis",
+        "name": "Mathis",
+        "fullName": "Mathis Pirates",
+        "mascot": "Pirates",
+        "abbreviation": "MHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-15",
+        "uilRegion": 4,
+        "colors": {
+          "primary": "#8F0018",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "F15"
+      }
+    ]
+  },
+  {
+    "id": "3-0-7",
+    "round": 0,
+    "region": 3,
+    "index": 7,
+    "teams": [
+      "Marion",
+      "Hondo"
+    ],
+    "game": {
+      "id": "2026-bi-district-3a-d1-iv-8",
+      "season": 2026,
+      "week": 12,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Bi-District",
+        "division": "3A Division I",
+        "region": "IV"
+      },
+      "homeTeam": "Marion",
+      "awayTeam": "Hondo",
+      "homeSchoolSlug": "marion",
+      "awaySchoolSlug": "hondo",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "final",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "UIL-linked 2026 3A DI bracket and DCTF results reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "homeScore": 30,
+      "awayScore": 8,
+      "publicScoreVerified": true
+    },
+    "x": 3100,
+    "y": 2418,
+    "sources": [],
+    "schools": [
+      {
+        "id": "marion",
+        "slug": "marion",
+        "name": "Marion",
+        "fullName": "Marion Bulldogs",
+        "mascot": "Bulldogs",
+        "abbreviation": "MHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-13",
+        "uilRegion": 4,
+        "colors": {
+          "primary": "#00341E",
+          "secondary": "#FFFFFF",
+          "accent": "#222222"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "R13"
+      },
+      {
+        "id": "hondo",
+        "slug": "hondo",
+        "name": "Hondo",
+        "fullName": "Hondo Owls",
+        "mascot": "Owls",
+        "abbreviation": "HHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-14",
+        "uilRegion": 4,
+        "colors": {
+          "primary": "#022C66",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned",
+        "seed": "T14"
+      }
+    ]
+  },
+  {
+    "id": "3-1-0",
+    "round": 1,
+    "region": 3,
+    "index": 0,
+    "teams": [
+      "Yoakum",
+      "Goliad"
+    ],
+    "game": {
+      "id": "2026-area-3a-d1-iv-1",
+      "season": 2026,
+      "week": 13,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Area",
+        "division": "3A Division I",
+        "region": "IV"
+      },
+      "homeTeam": "Yoakum",
+      "awayTeam": "Goliad",
+      "homeSchoolSlug": "yoakum",
+      "awaySchoolSlug": "goliad",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "upcoming",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "Participants established by reviewed first-round finals; DCTF Area schedule reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "kickoff": "2026-11-20T19:00:00-06:00",
+      "venue": "Memorial Stadium, Victoria, TX"
+    },
+    "x": 2790,
+    "y": 1404,
+    "sources": [
+      "3-0-0",
+      "3-0-1"
+    ],
+    "schools": [
+      {
+        "id": "yoakum",
+        "slug": "yoakum",
+        "name": "Yoakum",
+        "fullName": "Yoakum Bulldogs",
+        "mascot": "Bulldogs",
+        "abbreviation": "YHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-13",
+        "uilRegion": 4,
+        "colors": {
+          "primary": "#034CB2",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "goliad",
+        "slug": "goliad",
+        "name": "Goliad",
+        "fullName": "Goliad Tigers",
+        "mascot": "Tigers",
+        "abbreviation": "GHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-15",
+        "uilRegion": 4,
+        "colors": {
+          "primary": "#022C66",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      }
+    ]
+  },
+  {
+    "id": "3-1-1",
+    "round": 1,
+    "region": 3,
+    "index": 1,
+    "teams": [
+      "Devine",
+      "Orange Grove"
+    ],
+    "game": {
+      "id": "2026-area-3a-d1-iv-2",
+      "season": 2026,
+      "week": 13,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Area",
+        "division": "3A Division I",
+        "region": "IV"
+      },
+      "homeTeam": "Devine",
+      "awayTeam": "Orange Grove",
+      "homeSchoolSlug": "devine",
+      "awaySchoolSlug": "orange-grove",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "upcoming",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "Participants established by reviewed first-round finals; DCTF Area schedule reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "kickoff": "2026-11-20T19:30:00-06:00",
+      "venue": "Johnson Field, Karnes City, TX"
+    },
+    "x": 2790,
+    "y": 1716,
+    "sources": [
+      "3-0-2",
+      "3-0-3"
+    ],
+    "schools": [
+      {
+        "id": "devine",
+        "slug": "devine",
+        "name": "Devine",
+        "fullName": "Devine Warhorses / Arabians",
+        "mascot": "Warhorses / Arabians",
+        "abbreviation": "DHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-14",
+        "uilRegion": 4,
+        "colors": {
+          "primary": "#8F0018",
+          "secondary": "#C8880A",
+          "accent": "#C8880A"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "orange-grove",
+        "slug": "orange-grove",
+        "name": "Orange Grove",
+        "fullName": "Orange Grove Bulldogs",
+        "mascot": "Bulldogs",
+        "abbreviation": "OGHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-15",
+        "uilRegion": 4,
+        "colors": {
+          "primary": "#CC4E10",
+          "secondary": "#222222",
+          "accent": "#222222"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      }
+    ]
+  },
+  {
+    "id": "3-1-2",
+    "round": 1,
+    "region": 3,
+    "index": 2,
+    "teams": [
+      "Sinton",
+      "Hallettsville"
+    ],
+    "game": {
+      "id": "2026-area-3a-d1-iv-3",
+      "season": 2026,
+      "week": 13,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Area",
+        "division": "3A Division I",
+        "region": "IV"
+      },
+      "homeTeam": "Sinton",
+      "awayTeam": "Hallettsville",
+      "homeSchoolSlug": "sinton",
+      "awaySchoolSlug": "hallettsville",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "upcoming",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "Participants established by reviewed first-round finals; DCTF Area schedule reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "kickoff": "2026-11-20T19:00:00-06:00",
+      "venue": "Sandcrab Stadium, Port Lavaca, TX"
+    },
+    "x": 2790,
+    "y": 2028,
+    "sources": [
+      "3-0-4",
+      "3-0-5"
+    ],
+    "schools": [
+      {
+        "id": "sinton",
+        "slug": "sinton",
+        "name": "Sinton",
+        "fullName": "Sinton Pirates",
+        "mascot": "Pirates",
+        "abbreviation": "SHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-15",
+        "uilRegion": 4,
+        "colors": {
+          "primary": "#8F0018",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "hallettsville",
+        "slug": "hallettsville",
+        "name": "Hallettsville",
+        "fullName": "Hallettsville Brahmas",
+        "mascot": "Brahmas",
+        "abbreviation": "HHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-13",
+        "uilRegion": 4,
+        "colors": {
+          "primary": "#8F0018",
+          "secondary": "#FFFFFF",
+          "accent": "#FFFFFF"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      }
+    ]
+  },
+  {
+    "id": "3-1-3",
+    "round": 1,
+    "region": 3,
+    "index": 3,
+    "teams": [
+      "San Diego",
+      "Marion"
+    ],
+    "game": {
+      "id": "2026-area-3a-d1-iv-4",
+      "season": 2026,
+      "week": 13,
+      "gameType": "playoff",
+      "playoff": {
+        "round": "Area",
+        "division": "3A Division I",
+        "region": "IV"
+      },
+      "homeTeam": "San Diego",
+      "awayTeam": "Marion",
+      "homeSchoolSlug": "san-diego",
+      "awaySchoolSlug": "marion",
+      "isNeutralSite": null,
+      "designatedSidesConfirmed": false,
+      "status": "upcoming",
+      "districtGame": false,
+      "coverageStatus": "none",
+      "sourceStatus": "verified",
+      "sourceLabel": "Participants established by reviewed first-round finals; DCTF Area schedule reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "kickoff": "2026-11-20T19:00:00-06:00",
+      "venue": "Indian Stadium, Jourdanton, TX"
+    },
+    "x": 2790,
+    "y": 2340,
+    "sources": [
+      "3-0-6",
+      "3-0-7"
+    ],
+    "schools": [
+      {
+        "id": "san-diego",
+        "slug": "san-diego",
+        "name": "San Diego",
+        "fullName": "San Diego Vaqueros",
+        "mascot": "Vaqueros",
+        "abbreviation": "SDHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-16",
+        "uilRegion": 4,
+        "colors": {
+          "primary": "#034CB2",
+          "secondary": "#C8880A",
+          "accent": "#C8880A"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "marion",
+        "slug": "marion",
+        "name": "Marion",
+        "fullName": "Marion Bulldogs",
+        "mascot": "Bulldogs",
+        "abbreviation": "MHS",
+        "classification": {
+          "conference": "3A",
+          "division": "D1"
+        },
+        "districtId": "3a-d1-district-13",
+        "uilRegion": 4,
+        "colors": {
+          "primary": "#00341E",
+          "secondary": "#FFFFFF",
+          "accent": "#222222"
+        },
+        "sports": [
+          "football"
+        ],
+        "status": "planned"
+      }
+    ]
+  }
+]

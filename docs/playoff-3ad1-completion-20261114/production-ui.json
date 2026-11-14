@@ -1,0 +1,30 @@
+{
+  "regionalChecks": [
+    {
+      "cards": 15,
+      "contained": true,
+      "seedLabels": true,
+      "width": 545
+    },
+    {
+      "cards": 15,
+      "contained": true,
+      "seedLabels": true,
+      "width": 545
+    },
+    {
+      "cards": 15,
+      "contained": true,
+      "seedLabels": true,
+      "width": 545
+    },
+    {
+      "cards": 15,
+      "contained": true,
+      "seedLabels": true,
+      "width": 545
+    }
+  ],
+  "desktopPanChanged": true,
+  "mobileMethod": "545 CSS pixel browser zoom; not physical device or touch emulation"
+}
