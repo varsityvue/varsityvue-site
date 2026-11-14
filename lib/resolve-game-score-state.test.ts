@@ -20,5 +20,6 @@ test('complete authoritative corrections and explicit outcomes preserve preceden
  const corrected=applyGameState(game,state({home_score:42,away_score:24,attribution_type:'correction'}));
  assert.equal(corrected.homeScore,42);assert.equal(corrected.scoreAttribution?.type,'correction');
  assert.equal(applyGameState(game,state({status:'cancelled',home_score:null,away_score:null})).status,'cancelled');
- assert.equal(applyGameState(game,state({home_score:null,away_score:null,result_type:'no_contest'})).resultType,'no_contest');
+ const outcome=applyGameState(game,state({home_score:null,away_score:null,result_type:'no_contest'}));
+ assert.equal(outcome.resultType,'no_contest');assert.equal(outcome.homeScore,undefined);assert.equal(outcome.awayScore,undefined);assert.equal(outcome.score,undefined);
 });

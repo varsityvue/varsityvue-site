@@ -23,12 +23,12 @@ export function applyGameState(game: Game, state?: PublicScoreState): Game {
     kickoff: state.kickoff_override ?? game.kickoff,
     date: state.kickoff_override ? state.kickoff_override.slice(0, 10) : game.date,
     sourceStatus: state.verified ? "verified" : game.sourceStatus,
-    homeScore: state.home_score ?? game.homeScore,
-    awayScore: state.away_score ?? game.awayScore,
+    homeScore: exceptional ? undefined : state.home_score ?? game.homeScore,
+    awayScore: exceptional ? undefined : state.away_score ?? game.awayScore,
     resultType: state.result_type ?? game.resultType,
     officialWinnerSchoolSlug:
       state.official_winner_school_slug ?? game.officialWinnerSchoolSlug,
-    score: hasScore
+    score: exceptional ? undefined : hasScore
       ? {
           home: state.home_score as number,
           away: state.away_score as number,
