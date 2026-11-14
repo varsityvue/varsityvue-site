@@ -1,5 +1,6 @@
 import { playoffReviewedFirstRoundFinals } from "@/data/playoff-reviewed-finals-20261114";
 import { playoffD2FirstRound, playoffD2Area } from "@/data/playoff-d2-completion-20261114";
+import { playoff3AD1FirstRound, playoff3AD1Area } from "@/data/playoff-3ad1-completion-20261114";
 import { playoffReviewedResults } from "@/data/playoff-launch-games-20261114";
 import { playoffScheduleAdditions, playoffSiteReconciliations } from "@/data/playoff-schedule-additions-20261112";
 import { games as scheduledGames } from "@/data/games";
@@ -113,10 +114,10 @@ for (const result of playoffReviewedFirstRoundFinals) {
   if (existing.publicScoreVerified) throw new Error(`Refusing to replace a verified repository final: ${result.game_id}`);
   gamesById.set(result.game_id, { ...existing, status: "final", homeScore: result.home_score, awayScore: result.away_score, publicScoreVerified: true, sourceStatus: "verified", sourceLabel: `${existing.sourceLabel ?? ""}; final reviewed against UIL-linked 2026 2A DI bracket and verified VarsityVue score feed on November 14, 2026` });
 }
-for (const candidate of [...playoffD2FirstRound, ...playoffD2Area]) {
+for (const candidate of [...playoffD2FirstRound, ...playoffD2Area, ...playoff3AD1FirstRound, ...playoff3AD1Area]) {
   const existing = gamesById.get(candidate.id);
-  if (existing && (existing.homeSchoolSlug !== candidate.homeSchoolSlug || existing.awaySchoolSlug !== candidate.awaySchoolSlug)) throw new Error(`DII canonical identity mismatch: ${candidate.id}`);
-  if (existing?.publicScoreVerified && (existing.homeScore !== candidate.homeScore || existing.awayScore !== candidate.awayScore)) throw new Error(`Refusing to replace a verified DII repository result: ${candidate.id}`);
+  if (existing && (existing.homeSchoolSlug !== candidate.homeSchoolSlug || existing.awaySchoolSlug !== candidate.awaySchoolSlug)) throw new Error(`Playoff canonical identity mismatch: ${candidate.id}`);
+  if (existing?.publicScoreVerified && (existing.homeScore !== candidate.homeScore || existing.awayScore !== candidate.awayScore)) throw new Error(`Refusing to replace a verified playoff repository result: ${candidate.id}`);
   gamesById.set(candidate.id, existing ? {
     ...existing,
     status: candidate.status,

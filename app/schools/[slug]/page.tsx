@@ -1,3 +1,4 @@
+import { compareGameChronology } from "@/lib/recent-results";
 import { completePostseasonStanding } from "@/lib/playoff-record-presentation";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -48,7 +49,7 @@ export default async function SchoolPage({ params, searchParams }: { params: Pro
   const focusedGame = teamHubV2Pilot ? gameFocus.featured : undefined;
   const recentScores = dynamicGames
     .filter((game) => game.id !== focusedGame?.id && game.status === "final" && (game.homeSchoolSlug === slug || game.awaySchoolSlug === slug))
-    .sort((a, b) => (b.kickoff ?? "").localeCompare(a.kickoff ?? ""))
+    .sort((a, b) => compareGameChronology(b, a))
     .slice(0, 3);
   const standings = getStandingsForDistrictIdFromGames(school.districtId, dynamicGames).map(row => completePostseasonStanding(row, dynamicGames, row.schoolSlug)!);
   const broadcastLinks = getSchoolBroadcastLinks(school.slug);

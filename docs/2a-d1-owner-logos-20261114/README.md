@@ -36,3 +36,7 @@ School schedules have no logo image slot in their existing design; this change p
 When the owner supplies verified Beckville artwork, add public/logos/schools/beckville.png, add a single `beckville` entry to schoolLogoBySlug, and run `node --import tsx scripts/normalize-pickem-logos.ts beckville`. Update the explicit missing-logo regression in lib/school-owner-logos.test.tsx and rerun verification. Do not invent artwork.
 
 No game catalogs, scores, schedules, bracket participants, advancement logic, database/schema, permissions or production settings are changed. No merge or production deployment is authorized.
+
+## PR #150 reconciliation with released 3A DI
+
+Reconciled main ed5b23849072a12e9eccabbfe03abee85de67db9 (released PR #151). The sole textual conflict was the interactive bracket workflow test list. Both the owner-logo suite and 3A DI completion suite are retained. The browser script merged automatically; all owner-logo checks and DI/DII/3A DI interaction checks remain. All 48 main assets and 48 Pick ’Em derivatives are byte-identical to approved head 3e8bcf8e688d02710d337b46674361161862d840. Main’s data/lib/types and connected renderer are byte-identical except the intended shared logo registry additions. No scores, game identities, schedules, seed mappings, advancement rules or production settings changed. This reconciliation creates a new approval SHA; no merge/deployment is authorized.
