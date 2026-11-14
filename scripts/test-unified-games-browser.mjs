@@ -772,7 +772,7 @@ try {
       assert.equal(await heading.evaluate(element => element.getBoundingClientRect().height <= Number.parseFloat(getComputedStyle(element).lineHeight) * 1.25), true, 'single-word planned school title fits one desktop line');
     }
     assert.match(await catalogPage.locator('main').innerText(), /Forsan/);
-    await catalogPage.locator('a[href="/games/2026-area-2a-d1-i-1"]').first().waitFor();
+    await catalogPage.locator('a[href="/games/2026-area-2a-d1-i-1"]').filter({visible:true}).first().waitFor();
     assert.match(await catalogPage.locator('main').innerText(), /Date TBD/);
     assert.doesNotMatch(await catalogPage.locator('main').innerText(), /Pre-district standings|until district play begins/i);
     assert.equal(await catalogPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `catalog hub overflow at ${width}`);
