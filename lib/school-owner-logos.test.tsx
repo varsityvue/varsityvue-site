@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 import { renderToStaticMarkup } from "react-dom/server";
 import sharp from "sharp";
-import { schoolLogoBySlug, getSchoolLogoPath, getPickemLogoPath } from "../data/school-logos";
+import { schoolLogoBySlug, getSchoolLogoPath, getPickemLogoPath, getSchoolLogoImageStyle } from "../data/school-logos";
 import { getSchoolBySlug } from "./schools";
 import ProgramLogo from "../components/ProgramLogo";
 import SchoolBadge from "../components/SchoolBadge";
@@ -44,5 +44,11 @@ test("all previously approved asset files stay byte-identical; Beckville keeps i
   assert.ok(!renderToStaticMarkup(<ProgramLogo school={school} />).includes("/logos/schools/beckville"));
   for (const alias of ["carlisle", "leon", "pewitt", "union-grove", "highland-park", "johnson-city"]) {
     assert.equal(schoolLogoBySlug[alias], undefined, `no duplicate ${alias} registry identity`);
+  }
+});
+
+test("dark owner artwork uses the existing alpha-only contrast filter", () => {
+  for (const slug of ["jewett-leon", "farwell", "spearman", "waskom", "flatonia", "ganado"]) {
+    assert.match(getSchoolLogoImageStyle(slug).filter ?? "", /drop-shadow/);
   }
 });

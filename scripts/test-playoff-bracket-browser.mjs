@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict';
+import {getSchoolLogoImageStyle} from '../data/school-logos.ts';
+import {getGames} from '../lib/games.ts';
 import {createServer} from 'node:http';
 import {spawn} from 'node:child_process';
 import {readFileSync,mkdirSync,writeFileSync} from 'node:fs';
@@ -51,6 +53,7 @@ try{
   await page.waitForFunction(()=>document.querySelector('[aria-label="Bracket region"]').value==='all');
   assert.equal(await bracket.locator('article').count(),63);assert.equal(await bracket.locator('svg path').count(),62);
   await checkContained(page,canvas);
+  for(const row of ownerLogos) assert.ok(await bracket.locator(`img[src="/logos/schools/${row.slug}.png"]`).count()>0, `${row.slug} statewide identity`);
   const fitted=await scale(canvas);await page.getByRole('button',{name:'Zoom in',exact:true}).click();assert.ok(await scale(canvas)>fitted);
   await page.getByRole('button',{name:'Reset view',exact:true}).click();assert.ok(Math.abs(await scale(canvas)-fitted)<.001);
   await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption('1');
@@ -114,14 +117,15 @@ try{
    results.push({school:row.slug,surface:suffix?'schedule (text-only design)':'hub',pass:true});
   }
  }
- const logoGames=baseline.filter(row=>ownerLogos.some(logo=>[row.home_school_slug,row.away_school_slug].includes(logo.slug)));
+ const logoGames=getGames().filter(game=>game.playoff?.division==='2A Division I'&&['Bi-District','Area'].includes(game.playoff.round));
+ assert.equal(logoGames.length,48);
  for(const row of logoGames){
-  await logoPage.goto(`${origin}/games/${row.game_id}`);
-  for(const slug of [row.home_school_slug,row.away_school_slug].filter(slug=>ownerLogos.some(logo=>logo.slug===slug))) await checkLogo(slug);
-  results.push({game:row.game_id,surface:'game-center',pass:true});
+  await logoPage.goto(`${origin}/games/${row.id}`);
+  for(const slug of [row.homeSchoolSlug,row.awaySchoolSlug].filter(slug=>ownerLogos.some(logo=>logo.slug===slug))) await checkLogo(slug);
+  results.push({game:row.id,surface:'game-center',pass:true});
  }
  // Side-by-side alpha/contrast inspection at actual small bracket size and larger hub size.
- await logoPage.setContent(`<html><body style="margin:0;display:grid;grid-template-columns:repeat(6,1fr);font:12px Arial">${ownerLogos.map(row=>`<div style="padding:8px;border:1px solid #999"><p>${row.name}</p>${['#fff','#202127'].map(bg=>`<div style="background:${bg};padding:8px;display:flex;gap:14px;align-items:center"><img width="26" height="26" style="object-fit:contain" src="${origin}/logos/schools/${row.slug}.png"><img width="64" height="64" style="object-fit:contain" src="${origin}/logos/schools/${row.slug}.png"></div>`).join('')}</div>`).join('')}</body></html>`);
+ await logoPage.setContent(`<html><body style="margin:0;display:grid;grid-template-columns:repeat(6,1fr);font:12px Arial">${ownerLogos.map(row=>`<div style="padding:8px;border:1px solid #999"><p>${row.name}</p>${['#fff','#202127'].map(bg=>`<div style="background:${bg};padding:8px;display:flex;gap:14px;align-items:center"><img width="26" height="26" style="object-fit:contain;filter:${getSchoolLogoImageStyle(row.slug).filter??'none'}" src="${origin}/logos/schools/${row.slug}.png"><img width="64" height="64" style="object-fit:contain;filter:${getSchoolLogoImageStyle(row.slug).filter??'none'}" src="${origin}/logos/schools/${row.slug}.png"></div>`).join('')}</div>`).join('')}</body></html>`);
  await logoPage.locator('img').evaluateAll(images=>Promise.all(images.map(img=>img.decode())));
  await logoPage.screenshot({path:`${output}/owner-logos-light-dark.png`,fullPage:true});
  await logoContext.close();
