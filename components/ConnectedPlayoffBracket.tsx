@@ -26,6 +26,7 @@ export default function ConnectedPlayoffBracket({games,selectedSchool,onSelectSc
  const [region,setRegion]=useState<number|null>(location?.regionIndex??null);
  const [view,setView]=useState<View>({scale:.1,x:20,y:20});
  const viewport=useRef<HTMLDivElement>(null);
+ const viewIntent=useRef<"auto"|"fit"|"school">("auto");
  const gestureMoved=useRef(false);
  const pointers=useRef(new Map<number,{x:number;y:number}>());
  const layout=useMemo(()=>buildBracketLayout(divisionId,games),[divisionId,games]);
@@ -43,7 +44,7 @@ export default function ConnectedPlayoffBracket({games,selectedSchool,onSelectSc
   const x=Math.min(...nodes.map(n=>n.x)),y=Math.min(...nodes.map(n=>n.y));
   setView(fitBracket({x,y,width:Math.max(...nodes.map(n=>n.x+CARD_WIDTH))-x,height:Math.max(...nodes.map(n=>n.y+CARD_HEIGHT))-y},{width:el.clientWidth,height:el.clientHeight}));
  },[layout]);
- useEffect(()=>{const el=viewport.current;if(!el)return; const observer=new ResizeObserver(()=>{if(el.clientWidth<600 && location?.division.id===divisionId && region===location.regionIndex)focusSchool();else fit(region);});observer.observe(el);return()=>observer.disconnect();},[fit,region,focusSchool,location?.division.id,location?.regionIndex,divisionId]); // Recalculate against the actual viewport.
+ useEffect(()=>{const el=viewport.current;if(!el)return; const observer=new ResizeObserver(()=>{if((viewIntent.current==="school" || (viewIntent.current==="auto" && el.clientWidth<600)) && location?.division.id===divisionId && region===location.regionIndex)focusSchool();else fit(region);});observer.observe(el);return()=>observer.disconnect();},[fit,region,focusSchool,location?.division.id,location?.regionIndex,divisionId]); // Recalculate against the actual viewport.
  const zoom=(factor:number,cx?:number,cy?:number)=>setView(v=>{
   const el=viewport.current;const x=cx??(el?.clientWidth??600)/2,y=cy??(el?.clientHeight??600)/2;
   return zoomBracketAt(v,factor,{x,y});
@@ -60,12 +61,12 @@ export default function ConnectedPlayoffBracket({games,selectedSchool,onSelectSc
   <p className="mt-2 text-sm text-white/70">Drag to explore. Pinch or scroll to zoom. Highlighted later rounds show a possible path; teams advance only after verified results.</p>
   {onSelectSchool && <fieldset disabled={!hydrated} className="mt-4 grid gap-2 sm:grid-cols-2"><label className="text-xs font-bold text-white/70">Search schools<input type="search" aria-label="Search bracket schools" value={schoolSearch} onChange={e=>setSchoolSearch(e.target.value)} placeholder="School name" className="mt-1 min-h-11 w-full rounded-lg border border-white/25 bg-[#242428] px-3 text-base text-white" /></label><label className="text-xs font-bold text-white/70">Locate a school<select aria-label="Choose bracket school" value={location?`${location.division.id}|${location.regionIndex}|${location.schoolName}`:""} onChange={e=>onSelectSchool(e.target.value)} className="mt-1 min-h-11 w-full rounded-lg border border-white/25 bg-[#242428] px-3 text-base text-white">{schoolOptions.filter(o=>o.label.toLowerCase().includes(schoolSearch.toLowerCase())||o.value===`${location?.division.id}|${location?.regionIndex}|${location?.schoolName}`).map(o=><option key={o.value} value={o.value}>{o.label}</option>)}</select></label></fieldset>}
   <fieldset disabled={!hydrated} aria-busy={!hydrated} className="my-4 flex flex-wrap gap-2">
-   <select aria-label="Bracket division" className={button+" bg-[#242428]"} value={divisionId} onChange={e=>{setDivisionId(e.target.value as typeof divisionId);setRegion(null);}}>{statewideDivisions.map(d=><option key={d.id} value={d.id}>{d.label}</option>)}</select>
-   <select aria-label="Bracket region" className={button+" bg-[#242428]"} value={region??"all"} onChange={e=>setRegion(e.target.value==="all"?null:Number(e.target.value))}><option value="all">Entire statewide bracket</option>{regionLabels.map((r,i)=><option key={r} value={i}>{r}</option>)}</select>
-   <button className={button} onClick={()=>{setRegion(null);fit(null);}}>Fit Entire Bracket</button>
-   <button className={button} onClick={()=>fit(region)}>{region===null?"Reset view":"Fit selected region"}</button>
+   <select aria-label="Bracket division" className={button+" bg-[#242428]"} value={divisionId} onChange={e=>{viewIntent.current="fit";setDivisionId(e.target.value as typeof divisionId);setRegion(null);}}>{statewideDivisions.map(d=><option key={d.id} value={d.id}>{d.label}</option>)}</select>
+   <select aria-label="Bracket region" className={button+" bg-[#242428]"} value={region??"all"} onChange={e=>{viewIntent.current="fit";setRegion(e.target.value==="all"?null:Number(e.target.value));}}><option value="all">Entire statewide bracket</option>{regionLabels.map((r,i)=><option key={r} value={i}>{r}</option>)}</select>
+   <button className={button} onClick={()=>{viewIntent.current="fit";setRegion(null);fit(null);}}>Fit Entire Bracket</button>
+   <button className={button} onClick={()=>{viewIntent.current="fit";fit(region);}}>{region===null?"Reset view":"Fit selected region"}</button>
    <button className={button} aria-label="Zoom in" onClick={()=>zoom(1.3)}>+</button><button className={button} aria-label="Zoom out" onClick={()=>zoom(1/1.3)}>−</button>
-   {location && <button className={button} onClick={()=>{setDivisionId(location.division.id);setRegion(location.regionIndex);if(divisionId===location.division.id)focusSchool();}}>Find {location.schoolName}</button>}
+   {location && <button className={button} onClick={()=>{viewIntent.current="school";setDivisionId(location.division.id);setRegion(location.regionIndex);if(divisionId===location.division.id)focusSchool();}}>Find {location.schoolName}</button>}
   </fieldset>
   {location?.division.id===divisionId && <details className="mb-4 rounded-xl border border-[#f4be59]/40 p-3"><summary className="cursor-pointer text-sm font-bold">{location.schoolName}: confirmed and possible opponents</summary><ol className="mt-3 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-3">{layout.nodes.filter(n=>route.has(n.id)).map(n=>{
     const confirmed=n.teams.includes(location.schoolName)?n.teams.find(name=>name&&name!==location.schoolName):null;

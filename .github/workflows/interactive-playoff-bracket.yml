@@ -9,6 +9,7 @@ on:
       - 'data/playoff-template-*'
       - 'app/admin/playoff-publishing/**'
       - '.github/workflows/interactive-playoff-bracket.yml'
+      - 'scripts/test-playoff-bracket-browser.mjs'
 permissions:
   contents: read
 jobs:
@@ -25,3 +26,15 @@ jobs:
       - run: npx eslint components/ConnectedPlayoffBracket.tsx components/PlayoffBracketExperience.tsx lib/playoff-bracket-layout.ts lib/playoff-qualification.ts app/admin/playoff-publishing/bracket-templates/page.tsx
       - run: node --import tsx --test lib/playoff-bracket-gestures.test.ts lib/playoff-record-presentation.test.ts lib/playoff-launch-completion.test.ts lib/playoffs.test.ts lib/playoff-bracket-layout.test.ts lib/playoff-qualification.test.ts lib/connected-playoff-bracket.test.tsx lib/playoff-components-readiness.test.tsx lib/playoff-bracket-advancement.test.ts lib/playoff-bracket-published-integrity.test.ts
       - run: npm run build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: http://127.0.0.1:54329
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: isolated-public
+      - run: npm install --no-save --package-lock=false playwright@1.63.0
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/test-playoff-bracket-browser.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playoff-bracket-browser-evidence
+          path: playoff-bracket-browser-evidence
+          if-no-files-found: error
