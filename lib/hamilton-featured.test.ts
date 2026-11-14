@@ -39,7 +39,8 @@ test("Hamilton preserves shared artwork and normalizes only its Pick Em derivati
 });
 test("Hamilton schedule, standings and home venue reuse existing canonical data", () => {
   const games = getGames().filter(g => g.homeSchoolSlug === "hamilton" || g.awaySchoolSlug === "hamilton");
-  assert.equal(games.length, 10);
+  assert.equal(games.filter(g => g.gameType !== "playoff").length, 10);
+  assert.ok(games.some(g => g.id === "2026-bi-district-3a-d2-ii-6"), "Hamilton playoff game should remain visible");
   assert.equal(games.find(g => g.week === 7)?.id, "dublin-at-hamilton-2026-week-7");
   assert.equal(games.find(g => g.week === 8)?.id, "clifton-at-hamilton-2026-week-8");
   assert.ok(getStandingsForDistrictId("3a-d2-district-5").some(s => s.schoolSlug === "hamilton"));
