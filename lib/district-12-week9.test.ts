@@ -10,7 +10,8 @@ const captured = new Map([
   ["lampasas-at-stephenville-2026-week-7", [35,14]],
   ["china-spring-at-stephenville-2026-week-8", [55,21]],
 ]);
-const games = getGames().map(g => { const s=captured.get(g.id);return s?{...g,status:"final" as const,homeScore:s[0],awayScore:s[1],score:{home:s[0],away:s[1],period:"Final"}}:g; });
+// This October snapshot excludes later postseason results.
+const games = getGames().filter(g => g.gameType !== "playoff").map(g => { const s=captured.get(g.id);return s?{...g,status:"final" as const,homeScore:s[0],awayScore:s[1],score:{home:s[0],away:s[1],period:"Final"}}:g; });
 test("six complete ten-game schedules, seven finals and three future district games per team",()=>{
   for(const slug of slugs){
     const rows=games.filter(g=>g.season===2026&&g.gameType!=="playoff"&&g.gameType!=="bye"&&g.gameType!=="scrimmage"&&(g.homeSchoolSlug===slug||g.awaySchoolSlug===slug));

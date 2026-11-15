@@ -306,7 +306,7 @@ export const playoffSchoolIdentities: readonly PlayoffSchoolIdentity[] = [
   {"division": "4A Division I", "region": "Region III", "bracketName": "Stephenville", "schoolSlug": "stephenville"},
   {"division": "4A Division I", "region": "Region III", "bracketName": "Navasota", "schoolSlug": "navasota"},
   {"division": "4A Division I", "region": "Region III", "bracketName": "Vidor", "schoolSlug": "vidor"},
-  {"division": "4A Division I", "region": "Region III", "bracketName": "Sterling", "schoolSlug": null},
+  {"division": "4A Division I", "region": "Region III", "bracketName": "Sterling", "schoolSlug": "houston-sterling"},
   {"division": "4A Division I", "region": "Region IV", "bracketName": "Canyon Lake", "schoolSlug": "comal-canyon-lake"},
   {"division": "4A Division I", "region": "Region IV", "bracketName": "Pleasanton", "schoolSlug": "pleasanton"},
   {"division": "4A Division I", "region": "Region IV", "bracketName": "Edcouch-Elsa", "schoolSlug": "edcouch-elsa"},

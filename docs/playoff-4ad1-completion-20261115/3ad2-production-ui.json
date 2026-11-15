@@ -1,0 +1,634 @@
+{
+  "schoolChecks": [
+    {
+      "slug": "canadian",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "muleshoe",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "merkel",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "crane",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "idalou",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "dimmitt",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "coahoma",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "holliday",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "stanton",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "henrietta",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "slaton",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "friona",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "jacksboro",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "san-angelo-grape-creek",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "childress",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "littlefield",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "millsap",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "trinity-leadership-cedar-hill",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "edgewood",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "valley-view",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "maypearl",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "clifton",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "howe",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "quitman",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "lone-oak",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "bells",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "hamilton",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "dallas-madison",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "grand-saline",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "leonard",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "tolar",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "scurry-rosser",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "hooks",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "arp",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "new-waverly",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "buffalo",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "jefferson",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "redwater",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "teague",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "hardin",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "mildred",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "woodville",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "new-london-west-rusk",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "new-boston",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "newton",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "elkhart",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "de-kalb",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "troup",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "thrall",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "wallis-brazos",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "hebbronville",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "blanco",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "east-bernard",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "anderson-shiro",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "stockdale",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "cotulla",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "poth",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "santa-rosa",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "altair-rice",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "rogers",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "george-west",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "nixon-smiley",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "lexington",
+      "hasGame": true,
+      "missing": false
+    },
+    {
+      "slug": "boling",
+      "hasGame": true,
+      "missing": false
+    }
+  ],
+  "scheduleChecks": [
+    {
+      "slug": "canadian",
+      "hasReviewedGame": true
+    },
+    {
+      "slug": "muleshoe",
+      "hasReviewedGame": true
+    },
+    {
+      "slug": "millsap",
+      "hasReviewedGame": true
+    },
+    {
+      "slug": "hooks",
+      "hasReviewedGame": true
+    },
+    {
+      "slug": "arp",
+      "hasReviewedGame": true
+    },
+    {
+      "slug": "thrall",
+      "hasReviewedGame": true
+    },
+    {
+      "slug": "wallis-brazos",
+      "hasReviewedGame": true
+    }
+  ],
+  "regionalChecks": [
+    {
+      "region": "0",
+      "cards": 15,
+      "text": [
+        "Region I · Bi-DistrictCAW1Canadian—63 ✓MUF2Muleshoe—7Game Center · Verified final",
+        "Region I · Bi-DistrictR4Merkel8-360 ✓CRT3Crane—28Game Center · Verified final",
+        "Region I · Bi-DistrictIDW2Idalou—60 ✓DIF1Dimmitt—6Game Center · Verified final",
+        "Region I · Bi-DistrictCOR3Coahoma—36T4Holliday4-755 ✓Game Center · Verified final",
+        "Region I · Bi-DistrictSTW3Stanton—7F4Henrietta6-551 ✓Game Center · Verified final",
+        "Region I · Bi-DistrictSLR2Slaton—49 ✓FRT1Friona—41Game Center · Verified final",
+        "Region I · Bi-DistrictYour teamW4Jacksboro10-155 ✓GRF3Grape Creek—13Game Center · Verified final",
+        "Region I · Bi-DistrictCHR1Childress—28 ✓LIT2Littlefield—0Game Center · Verified final",
+        "Region I · AreaCAW1Canadian—R4Merkel8-3Game Center · View matchup",
+        "Region I · AreaIDW2Idalou—T4Holliday4-7Game Center · View matchup",
+        "Region I · AreaF4Henrietta6-5SLR2Slaton—Game Center · View matchup",
+        "Region I · AreaYour teamW4Jacksboro10-1CHR1Childress—Game Center · View matchup",
+        "Region I · Regionals?Winner pending?Winner pendingAwaiting verified advancement",
+        "Region I · RegionalsPossible path?Winner pending?Winner pendingAwaiting verified advancement",
+        "Region I · QuarterfinalsPossible path?Winner pending?Winner pendingAwaiting verified advancement"
+      ]
+    },
+    {
+      "region": "1",
+      "cards": 15,
+      "text": [
+        "Region II · Bi-DistrictW5Millsap9-276 ✓TRF6Trinity Leadership—12Game Center · Verified final",
+        "Region II · Bi-DistrictEDR8Edgewood—31 ✓VAT7Valley View—0Game Center · Verified final",
+        "Region II · Bi-DistrictMAW6Maypearl—28 ✓F5Clifton7-416Game Center · Verified final",
+        "Region II · Bi-DistrictHOR7Howe—29 ✓QUT8Quitman—27Game Center · Verified final",
+        "Region II · Bi-DistrictBEW7Bells—56 ✓LOF8Lone Oak—21Game Center · Verified final",
+        "Region II · Bi-DistrictMAR6Madison—44 ✓T5Hamilton6-534Game Center · Verified final",
+        "Region II · Bi-DistrictGRW8Grand Saline—49 ✓LEF7Leonard—0Game Center · Verified final",
+        "Region II · Bi-DistrictR5Tolar7-440 ✓SCT6Scurry-Rosser—7Game Center · Verified final",
+        "Region II · AreaW5Millsap9-2EDR8Edgewood—Game Center · View matchup",
+        "Region II · AreaMAW6Maypearl—HOR7Howe—Game Center · View matchup",
+        "Region II · AreaBEW7Bells—MAR6Madison—Game Center · View matchup",
+        "Region II · AreaGRW8Grand Saline—R5Tolar7-4Game Center · View matchup",
+        "Region II · Regionals?Winner pending?Winner pendingAwaiting verified advancement",
+        "Region II · Regionals?Winner pending?Winner pendingAwaiting verified advancement",
+        "Region II · Quarterfinals?Winner pending?Winner pendingAwaiting verified advancement"
+      ]
+    },
+    {
+      "region": "2",
+      "cards": 15,
+      "text": [
+        "Region III · Bi-DistrictHOW9Hooks—22ARF10Arp—58 ✓Game Center · Verified final",
+        "Region III · Bi-DistrictNER12New Waverly—23BUT11Buffalo—26 ✓Game Center · Verified final",
+        "Region III · Bi-DistrictJEW10Jefferson—79 ✓REF9Redwater—20Game Center · Verified final",
+        "Region III · Bi-DistrictTER11Teague—22HAT12Hardin—49 ✓Game Center · Verified final",
+        "Region III · Bi-DistrictMIW11Mildred—21 ✓WOF12Woodville—18Game Center · Verified final",
+        "Region III · Bi-DistrictWER10West Rusk—50 ✓NET9New Boston—7Game Center · Verified final",
+        "Region III · Bi-DistrictNEW12Newton—70 ✓ELF11Elkhart—0Game Center · Verified final",
+        "Region III · Bi-DistrictDER9De Kalb—34TRT10Troup—58 ✓Game Center · Verified final",
+        "Region III · AreaARF10Arp—BUT11Buffalo—Game Center · View matchup",
+        "Region III · AreaJEW10Jefferson—HAT12Hardin—Game Center · View matchup",
+        "Region III · AreaMIW11Mildred—WER10West Rusk—Game Center · View matchup",
+        "Region III · AreaNEW12Newton—TRT10Troup—Game Center · View matchup",
+        "Region III · Regionals?Winner pending?Winner pendingAwaiting verified advancement",
+        "Region III · Regionals?Winner pending?Winner pendingAwaiting verified advancement",
+        "Region III · Quarterfinals?Winner pending?Winner pendingAwaiting verified advancement"
+      ]
+    },
+    {
+      "region": "3",
+      "cards": 15,
+      "text": [
+        "Region IV · Bi-DistrictTHW13Thrall—28 ✓BRF14Brazos—25Game Center · Verified final",
+        "Region IV · Bi-DistrictHER16Hebbronville—6BLT15Blanco—37 ✓Game Center · Verified final",
+        "Region IV · Bi-DistrictEAW14East Bernard—54 ✓ANF13Anderson-Shiro—15Game Center · Verified final",
+        "Region IV · Bi-DistrictSTR15Stockdale—42 ✓COT16Cotulla—18Game Center · Verified final",
+        "Region IV · Bi-DistrictPOW15Poth—62 ✓SAF16Santa Rosa—7Game Center · Verified final",
+        "Region IV · Bi-DistrictRIR14Rice Consolidated—33 ✓ROT13Rogers—17Game Center · Verified final",
+        "Region IV · Bi-DistrictGEW16George West—66 ✓NIF15Nixon-Smiley—9Game Center · Verified final",
+        "Region IV · Bi-DistrictLER13Lexington—33BOT14Boling—61 ✓Game Center · Verified final",
+        "Region IV · AreaTHW13Thrall—BLT15Blanco—Game Center · View matchup",
+        "Region IV · AreaEAW14East Bernard—STR15Stockdale—Game Center · View matchup",
+        "Region IV · AreaPOW15Poth—RIR14Rice Consolidated—Game Center · View matchup",
+        "Region IV · AreaGEW16George West—BOT14Boling—Game Center · View matchup",
+        "Region IV · Regionals?Winner pending?Winner pendingAwaiting verified advancement",
+        "Region IV · Regionals?Winner pending?Winner pendingAwaiting verified advancement",
+        "Region IV · Quarterfinals?Winner pending?Winner pendingAwaiting verified advancement"
+      ]
+    }
+  ],
+  "prodBracketChecks": [
+    {
+      "id": "2026-bi-district-3a-d2-i-1",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-i-2",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-i-3",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-i-4",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-i-5",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-i-6",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-i-7",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-i-8",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-ii-1",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-ii-2",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-ii-3",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-ii-4",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-ii-5",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-ii-6",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-ii-7",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-ii-8",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-iii-1",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-iii-2",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-iii-3",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-iii-4",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-iii-5",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-iii-6",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-iii-7",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-iii-8",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-iv-1",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-iv-2",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-iv-3",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-iv-4",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-iv-5",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-iv-6",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-iv-7",
+      "found": true
+    },
+    {
+      "id": "2026-bi-district-3a-d2-iv-8",
+      "found": true
+    },
+    {
+      "id": "2026-area-3a-d2-i-1",
+      "found": true
+    },
+    {
+      "id": "2026-area-3a-d2-i-2",
+      "found": true
+    },
+    {
+      "id": "2026-area-3a-d2-i-3",
+      "found": true
+    },
+    {
+      "id": "2026-area-3a-d2-i-4",
+      "found": true
+    },
+    {
+      "id": "2026-area-3a-d2-ii-1",
+      "found": true
+    },
+    {
+      "id": "2026-area-3a-d2-ii-2",
+      "found": true
+    },
+    {
+      "id": "2026-area-3a-d2-ii-3",
+      "found": true
+    },
+    {
+      "id": "2026-area-3a-d2-ii-4",
+      "found": true
+    },
+    {
+      "id": "2026-area-3a-d2-iii-1",
+      "found": true
+    },
+    {
+      "id": "2026-area-3a-d2-iii-2",
+      "found": true
+    },
+    {
+      "id": "2026-area-3a-d2-iii-3",
+      "found": true
+    },
+    {
+      "id": "2026-area-3a-d2-iii-4",
+      "found": true
+    },
+    {
+      "id": "2026-area-3a-d2-iv-1",
+      "found": true
+    },
+    {
+      "id": "2026-area-3a-d2-iv-2",
+      "found": true
+    },
+    {
+      "id": "2026-area-3a-d2-iv-3",
+      "found": true
+    },
+    {
+      "id": "2026-area-3a-d2-iv-4",
+      "found": true
+    }
+  ]
+}

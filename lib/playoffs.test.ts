@@ -9,7 +9,7 @@ const playoffs = getPlayoffSchedule(games, beforeKickoff);
 const stephenville = playoffs.find(({ game }) => game.homeSchoolSlug === "stephenville")!.game;
 
 test("postseason catalog has unique games with nullable neutrality shared by the school schedule", () => {
-  assert.equal(playoffs.length, 216);
+  assert.equal(playoffs.length, 258);
   assert.equal(new Set(playoffs.map(({ game }) => [game.homeSchoolSlug, game.awaySchoolSlug].sort().join("|"))).size, playoffs.length);
   assert.ok(playoffs.every(({ game }) => (game.isNeutralSite === true || game.isNeutralSite === null) && !game.districtGame && ["Bi-District", "Area"].includes(game.playoff?.round ?? "")));
   assert.equal(stephenville.venue, "Wildcat Stadium, Temple");
@@ -18,7 +18,7 @@ test("postseason catalog has unique games with nullable neutrality shared by the
 });
 
 test("playoff presentation separates verified scores from scheduled and unresolved games", () => {
-  const [pending] = getPlayoffSchedule([stephenville], new Date("2026-11-14T07:00:00Z"));
+  const [pending] = getPlayoffSchedule([{ ...stephenville, status: "scheduled", publicScoreVerified: false, homeScore: undefined, awayScore: undefined }], new Date("2026-11-14T07:00:00Z"));
   assert.equal(pending.presentation.kind, "awaiting_verification");
   assert.equal(pending.presentation.showScore, false);
   const [final] = getPlayoffSchedule([{ ...stephenville, status: "final", publicScoreVerified: true, homeScore: 0, awayScore: 7 }]);

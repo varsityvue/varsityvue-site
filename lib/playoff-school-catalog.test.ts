@@ -29,8 +29,8 @@ test("catalog integration preserves every existing school and all game schedules
 });
 
 test("planned schools have unique complete identities and valid district references", () => {
-  assert.equal(playoffSchoolAdditions.length, 341);
-  assert.equal(getSchools().length, 411);
+  assert.equal(playoffSchoolAdditions.length, 342);
+  assert.equal(getSchools().length, 412);
   assert.equal(playoffDistrictAdditions.length, 85);
   assert.equal(districts.length, 96);
   for (const school of playoffSchoolAdditions) {
@@ -44,19 +44,18 @@ test("planned schools have unique complete identities and valid district referen
     assert.ok(school.mascot.trim() && school.abbreviation.trim());
     for (const value of Object.values(school.colors)) assert.match(value, /^#[0-9A-F]{6}$/);
   }
-  assert.equal(getSchoolBySlug("houston-sterling"), undefined);
+  assert.equal(getSchoolBySlug("houston-sterling")?.mascot, "Raiders");
 });
 
-test("qualified bracket resolution covers 383 identities while holding Sterling out", () => {
+test("qualified bracket resolution covers all 384 identities", () => {
   const slots = getBiDistrictReadiness([]);
   let matched = 0;
   for (const slot of slots) for (const name of slot.teams) {
     const school = resolveBracketSchool(name, slot.division, slot.region);
-    if (name === "Sterling" && slot.division === "4A Division I" && slot.region === "Region III") assert.equal(school, undefined);
-    else { assert.ok(school, `${slot.division}|${slot.region}|${name}`); matched += 1; }
+    assert.ok(school, `${slot.division}|${slot.region}|${name}`); matched += 1;
   }
-  assert.equal(matched, 383);
-  assert.equal(new Set(playoffSchoolIdentities.filter((item) => item.schoolSlug).map((item) => item.schoolSlug)).size, 383);
+  assert.equal(matched, 384);
+  assert.equal(new Set(playoffSchoolIdentities.filter((item) => item.schoolSlug).map((item) => item.schoolSlug)).size, 384);
 });
 
 test("Austin, Bowie, Liberty and existing-name variants cannot cross identity boundaries", () => {

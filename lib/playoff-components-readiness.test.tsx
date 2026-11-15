@@ -22,7 +22,7 @@ test("a verified elimination leaves all later school path rounds unreached", () 
 });
 
 
-test("regional brackets link exact qualified school identities and hold Sterling", () => {
+test("regional brackets link exact qualified school identities including Houston Sterling", () => {
   const cases = [
     { selected: "Andress", slug: "el-paso-austin", absent: "houston-austin", name: "Austin" },
     { selected: "Stephenville", slug: "houston-austin", absent: "el-paso-austin", name: "Austin" },
@@ -38,8 +38,7 @@ test("regional brackets link exact qualified school identities and hold Sterling
     assert.equal((html.match(/Schedule details pending verification\./g) ?? []).length, 8);
   }
   const held = renderToStaticMarkup(<StatewideBracketExplorer games={[]} selectedSchool="Stephenville" />);
-  assert.match(held, />Sterling<\/p>/);
-  assert.doesNotMatch(held, /href="\/schools\/houston-sterling"/);
+  assert.match(held, /href="\/schools\/houston-sterling"/);
 });
 
 test("a published game keeps its Game Center link while unpublished pairings stay pending", () => {
