@@ -164,6 +164,23 @@ try{
   assert.ok((await page.locator('main').innerText()).includes('56-23'),'undated verified playoff final appears in hub latest scores');
   await page.goto(origin+'/schools/clyde/schedule');
   await page.locator('a[href="/games/2026-bi-district-3a-d1-i-3"]').first().waitFor();
+  await page.goto(origin+'/playoffs?school='+encodeURIComponent('3A-D2|0|Jacksboro'));
+  await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
+  await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();
+  assert.equal(await bracket.locator('article').count(),63);
+  assert.equal(await bracket.locator('article').filter({hasText:'Verified final'}).count(),32);
+  await checkContained(page,canvas);
+  for(const region of ['0','1','2','3']){
+   await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);
+   await page.getByRole('button',{name:'Fit selected region',exact:true}).click();
+   assert.equal(await bracket.locator('article').count(),15);await checkContained(page,canvas);
+  }
+  await page.getByRole('button',{name:'Find Jacksboro',exact:true}).click();await canvas.scrollIntoViewIfNeeded();
+  await page.screenshot({path:`${output}/${name}-3ad2-jacksboro.png`});
+  await page.goto(origin+'/games/2026-bi-district-3a-d2-ii-3');
+  assert.ok((await page.locator('main').innerText()).includes('FINAL · VERIFIED'));
+  await page.goto(origin+'/games/2026-area-3a-d2-i-2');
+  assert.ok((await page.locator('main').innerText()).includes('6:00 PM'));
   await page.goto(origin+'/admin/playoff-publishing/bracket-templates');await page.getByRole('heading',{name:'Welcome back.',exact:true}).waitFor();
   assert.equal(await page.getByRole('heading',{name:'Bracket template review',exact:true}).count(),0);
   results.push({device:name,viewport:options.viewport,pass:true,pinch:options.hasTouch?'emulated native touch passed':'not applicable'});await context.close();

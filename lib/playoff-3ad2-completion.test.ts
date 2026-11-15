@@ -1,0 +1,60 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { getGames, getGamesForSchool } from "./games";
+import { buildBracketLayout, schoolRoute } from "./playoff-bracket-layout";
+import { verifiedWinner } from "./playoff-bracket-advancement";
+
+import { resolveBracketSchool } from "./playoff-school-catalog";
+import { template3AD22026 } from "../data/playoff-template-3ad2-2026";
+import { validateTemplate, seedLabel } from "./playoff-qualification";
+import { playoff3AD2FirstRound, playoff3AD2Area } from "../data/playoff-3ad2-completion-20261114";
+
+const games = getGames();
+const { nodes } = buildBracketLayout("3A-D2", games);
+
+test("3A DII publishes all 32 unique first-round finals through the canonical school catalog", () => {
+ const first = nodes.filter(n => n.round === 0);
+ assert.equal(first.length,32);
+ assert.equal(new Set(first.map(n=>n.game?.id)).size,32);
+ assert.equal(first.filter(n=>verifiedWinner(n.game)).length,32);
+ for(const node of first) for(const name of node.teams){
+  const school=resolveBracketSchool(name!,"3A-D2",["I","II","III","IV"][node.region]);
+  assert.ok(school,`${name} resolves in its region`);
+  assert.ok(getGamesForSchool(school.slug).some(g=>g.id===node.game!.id));
+ }
+});
+test("all sixteen Area opponents follow verified UIL topology and have no speculative scores",()=>{
+ const area=nodes.filter(n=>n.round===1);
+ assert.equal(area.filter(n=>n.game).length,16);
+ for(const node of area){
+  assert.deepEqual(node.teams,node.sources.map(id=>verifiedWinner(nodes.find(n=>n.id===id)?.game)));
+  assert.equal(verifiedWinner(node.game),null);
+ }
+ assert.equal(schoolRoute(nodes,"Jacksboro").size,6);
+ assert.equal(schoolRoute(nodes,"Grape Creek").size,1);
+ assert.equal(nodes.filter(n=>n.round>1).flatMap(n=>n.teams).filter(Boolean).length,0);
+ assert.ok(playoff3AD2Area.every(g=>!g.publicScoreVerified&&g.homeScore===undefined&&g.awayScore===undefined));
+});
+test("reviewed 3A DII seeds cover every district finishing position exactly once",()=>{
+ assert.deepEqual(validateTemplate(template3AD22026),[]);
+ assert.equal(template3AD22026.slots.length,64);
+ for(let region=0;region<4;region++){
+  const seeds=template3AD22026.slots.filter(s=>s.region===region).map(seedLabel);
+  assert.equal(new Set(seeds).size,16);
+  assert.ok(seeds.includes(`W${region*4+1}`));
+ }
+});
+test("canonical expansion does not duplicate games or regress either completed 2A division",()=>{
+ for(const division of ["3A Division I","3A Division II"]){
+  const all=games.filter(g=>g.playoff?.division===division);
+  const keys=all.map(g=>`${g.season}|${g.playoff?.round}|${[g.homeSchoolSlug,g.awaySchoolSlug].sort().join("|")}`);
+  assert.equal(new Set(keys).size,keys.length,`${division} has no duplicate matchups`);
+ }
+ assert.equal(playoff3AD2FirstRound.length,32);assert.equal(playoff3AD2Area.length,16);
+ for(const [division,finals,areas] of [["2A-D1",32,16],["2A-D2",31,15]] as const){
+  const layout=buildBracketLayout(division,games);
+  assert.equal(layout.nodes.filter(n=>n.round===0&&verifiedWinner(n.game)).length,finals);
+  assert.equal(layout.nodes.filter(n=>n.round===1&&n.game).length,areas);
+ }
+});
+

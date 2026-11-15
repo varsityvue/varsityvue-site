@@ -37,16 +37,16 @@ test("Jacksboro uses the Texas UIL District 4-3A Division II identity", () => {
   assert.equal(getSchoolBySlug("santo")?.districtId, "2a-d2-district-8");
 });
 
-test("Jacksboro schedule derives a 4-0 record and seven upcoming games including playoffs", () => {
-  const games = getGamesForSchool("jacksboro", asOf);
+test("Jacksboro regular-season schedule derives a 4-0 record and six upcoming games", () => {
+  const games = getGamesForSchool("jacksboro", asOf).filter(g => g.gameType !== "playoff");
   const standing = getStandingForSchoolFromGames("jacksboro", games);
-  const upcoming = getUpcomingGamesForSchool("jacksboro", asOf);
+  const upcoming = getUpcomingGamesForSchool("jacksboro", asOf).filter(g => g.gameType !== "playoff");
 
-  assert.equal(games.length, 11);
+  assert.equal(games.length, 10);
   assert.equal(new Set(games.map((game) => game.id)).size, games.length);
   assert.equal(standing?.overallWins, 4);
   assert.equal(standing?.overallLosses, 0);
-  assert.equal(upcoming.length, 7);
+  assert.equal(upcoming.length, 6);
   assert.equal(upcoming[0]?.id, "jacksboro-at-cisco-2026-week-5");
   assert.equal(upcoming.some((game) => game.gameType === "bye"), false);
   assert.equal(games.some((game) => game.id === "jacksboro-bye-2026-week-6"), false);
@@ -54,8 +54,8 @@ test("Jacksboro schedule derives a 4-0 record and seven upcoming games including
   assert.equal(games.filter((game) => game.id === "jacksboro-at-cisco-2026-week-5").length, 1);
 });
 
-test("the upcoming count drops to six after Cisco becomes final", () => {
-  const gamesAfterCisco = getGamesForSchool("jacksboro", asOf).map((game) =>
+test("the upcoming count drops to five after Cisco becomes final", () => {
+  const gamesAfterCisco = getGamesForSchool("jacksboro", asOf).filter(g => g.gameType !== "playoff").map((game) =>
     game.id === "jacksboro-at-cisco-2026-week-5"
       ? { ...game, status: "final" as const, homeScore: 0, awayScore: 0 }
       : game,
@@ -63,12 +63,12 @@ test("the upcoming count drops to six after Cisco becomes final", () => {
 
   assert.equal(
     filterUpcomingGamesForSchool(gamesAfterCisco, "jacksboro", new Date("2026-09-26T12:00:00-05:00")).length,
-    6,
+    5,
   );
 });
 
 test("Jacksboro District Race is scoped and excludes Santo", () => {
-  const games = getGamesForSchool("jacksboro", asOf);
+  const games = getGamesForSchool("jacksboro", asOf).filter(g => g.gameType !== "playoff");
   const standings = getStandingsForDistrictIdFromGames(districtId, games);
 
   assert.deepEqual(
@@ -79,6 +79,6 @@ test("Jacksboro District Race is scoped and excludes Santo", () => {
 });
 
 test("the opponent sentinel cannot produce pooled standings", () => {
-  const games = getGamesForSchool("jacksboro", asOf);
+  const games = getGamesForSchool("jacksboro", asOf).filter(g => g.gameType !== "playoff");
   assert.deepEqual(getStandingsForDistrictIdFromGames("opponent", games), []);
 });
