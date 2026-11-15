@@ -116,18 +116,27 @@ try{
   assert.ok((await d2.innerText()).includes('Stamford'));
   await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();await checkContained(page,d2canvas);
   assert.equal(await d2.locator('article').count(),63);
-  assert.equal(await d2.locator('article').filter({hasText:'Verified final'}).count(),31);
+  assert.equal(await d2.locator('article').filter({hasText:'Verified final'}).count(),32);
   for(const region of ['0','1','2','3']){
    await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);
    await page.getByRole('button',{name:'Fit selected region',exact:true}).click();await checkContained(page,d2canvas);
    assert.equal(await d2.locator('article').count(),15);
   }
-  assert.ok((await d2.innerText()).includes('Winner pending'),'last Area opponent stays pending');
+  assert.ok((await d2.innerText()).includes('Winner pending'),'later rounds stay pending');
+  assert.ok((await d2.innerText()).includes('La Villa') && (await d2.innerText()).includes('Chilton'),'Region IV Area participants are complete');
   await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption('all');
   await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();await d2canvas.scrollIntoViewIfNeeded();
   await page.screenshot({path:`${output}/${name}-d2-statewide.png`});
   await page.getByRole('button',{name:'Find Stamford',exact:true}).click();await d2canvas.scrollIntoViewIfNeeded();
   await page.screenshot({path:`${output}/${name}-d2-stamford-path.png`});
+  await page.goto(origin+'/games/2026-bi-district-2a-d2-iv-8');
+  const chiltonFinal=await page.locator('main').innerText();
+  assert.ok(chiltonFinal.includes('42') && chiltonFinal.includes('31') && chiltonFinal.includes('FINAL') && chiltonFinal.includes('Owner-confirmed final'));
+  await page.screenshot({path:`${output}/${name}-chilton-owner-confirmed-final.png`});
+  await page.goto(origin+'/games/2026-area-2a-d2-iv-4');
+  const chiltonArea=await page.locator('main').innerText();
+  assert.ok(chiltonArea.includes('Chilton') && chiltonArea.includes('La Villa') && chiltonArea.includes('Date TBD') && chiltonArea.includes('Time TBD') && chiltonArea.includes('Venue TBD'));
+  await page.screenshot({path:`${output}/${name}-chilton-la-villa-area.png`});
   await page.goto(origin+'/games/2026-bi-district-2a-d2-i-1');
   const d2final=await page.locator('main').innerText();assert.ok(d2final.includes('FINAL · VERIFIED')&&d2final.includes('69')&&d2final.includes('14'));
   await page.goto(origin+'/games/2026-area-2a-d2-ii-2');
