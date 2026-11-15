@@ -5,9 +5,6 @@ export type SchoolLogo = {
   pickemFilter?: string;
   optical?: { scale?: number; directoryScale?: number; directoryWidth?: number };
   glow?: "subtle" | "legacy" | "reduced";
-};
-
-export const schoolLogoBySlug: Record<string, SchoolLogo> = {
   // Owner-supplied 3A DI collection; approved overlaps retained.
   "anahuac": { path: "/logos/schools/anahuac.png" },
   "atlanta": { path: "/logos/schools/atlanta.png" },
@@ -68,6 +65,9 @@ export const schoolLogoBySlug: Record<string, SchoolLogo> = {
   "east-chambers": { path: "/logos/schools/east-chambers.png" },
   "winnsboro": { path: "/logos/schools/winnsboro.png" },
   "yoakum": { path: "/logos/schools/yoakum.png" },
+};
+
+export const schoolLogoBySlug: Record<string, SchoolLogo> = {
   // Owner-supplied 2A DI collection; canonical catalog slugs retained.
   "abernathy": { path: "/logos/schools/abernathy.png" },
   "amarillo-highland-park": { path: "/logos/schools/amarillo-highland-park.png" },
