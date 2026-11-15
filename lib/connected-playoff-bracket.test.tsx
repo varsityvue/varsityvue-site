@@ -9,3 +9,10 @@ test("unknown participants never receive a winner check",()=>{
  assert.match(html,/W5/);assert.match(html,/R5/);
  assert.match(html,/Fit Entire Bracket/);
 });
+
+test("Houston Austin renders its own F10 seed instead of El Paso Austin's F1",()=>{
+ const html=renderToStaticMarkup(<ConnectedPlayoffBracket games={[]} selectedSchool="4A-D1|2|Austin"/>);
+ assert.match(html,/href="\/schools\/houston-austin"/);
+ assert.match(html,/>F10<\/span>/);
+ assert.doesNotMatch(html,/href="\/schools\/el-paso-austin"/);
+});

@@ -27,3 +27,7 @@ The existing guarded catalog publication loop and renderer are reused. Canonical
 Do not merge or deploy without owner approval. Preview and exact-head CI/browser evidence are recorded in the pull request after verification.
 
 Identity registration completed: 42 new records; read-back 48 expected, 48 registered, 48 exact matches. Score table after registration remained 180 rows with the same fingerprint. Full local lib/data suite passed 648 tests; TypeScript passed; lint zero errors and 13 existing warnings.
+
+Preview acceptance exposed a same-name identity defect: Houston Austin inherited El Paso Austin’s F1 seed and route origin. The shared participant lookup now follows bracket source edges and the selected region. Regression coverage checks F10, the correct campus link, elimination route, and isolated hypothetical advancement. No bracket topology or official positions changed.
+
+CI fixture maintenance: the District 12 browser continues checking all seven independent historical regular-season results, with overall totals now explicitly including the newly reviewed postseason finals. District records and tied positions are unchanged. The Houston Sterling navigation test selects the visible responsive link rather than a hidden duplicate hero link.

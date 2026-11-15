@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { getGames, getGamesForSchool } from "./games";
-import { buildBracketLayout, schoolRoute } from "./playoff-bracket-layout";
+import { buildBracketLayout, schoolRoute, bracketParticipantOrigin } from "./playoff-bracket-layout";
 import { verifiedWinner } from "./playoff-bracket-advancement";
 import { resolveBracketSchool } from "./playoff-school-catalog";
 import { template4AD12026 } from "../data/playoff-template-4ad1-2026";
@@ -43,4 +43,19 @@ test("existing canonical IDs and all completed divisions remain available withou
  }
  assert.equal(playoff4AD1FirstRound.length,32);assert.equal(playoff4AD1Area.length,16);
  assert.equal(playoff4AD1FirstRound.find(g=>g.id==="2026-bi-district-4a-d1-iii-2")?.awayScore,31);
+});
+
+test("same-name Austin campuses keep their own seed origin and selected route",()=>{
+ assert.deepEqual([...schoolRoute(nodes,"Austin",0)],["0-0-2"]);
+ assert.deepEqual([...schoolRoute(nodes,"Austin",2)],["2-0-0"]);
+ const origin=bracketParticipantOrigin(nodes,"2-0-0",1)!;
+ assert.equal(origin.node.region,2);assert.equal(origin.side,1);
+ const slot=template4AD12026.slots.find(s=>s.region===origin.node.region&&s.firstRoundGame===origin.node.index&&s.side===origin.side)!;
+ assert.equal(seedLabel(slot),"F10");
+ // Isolated hypothetical advancement verifies later-round source-edge identity.
+ const fixture=buildBracketLayout("4A-D1",[]).nodes;
+ const first=fixture.find(n=>n.id==="2-0-0")!;
+ first.game={id:"fixture-austin",season:2026,gameType:"playoff",districtGame:false,homeTeam:"Little Cypress-Mauriceville",awayTeam:"Austin",homeScore:0,awayScore:1,status:"final",publicScoreVerified:true};
+ fixture.find(n=>n.id==="2-1-0")!.teams[0]="Austin";
+ assert.equal(bracketParticipantOrigin(fixture,"2-1-0",0)?.node.region,2);
 });

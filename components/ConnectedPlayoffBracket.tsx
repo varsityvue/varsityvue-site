@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
-import { buildBracketLayout, CARD_HEIGHT, CARD_WIDTH, fitBracket, schoolRoute, potentialParticipants } from "@/lib/playoff-bracket-layout";
+import { buildBracketLayout, CARD_HEIGHT, CARD_WIDTH, fitBracket, schoolRoute, potentialParticipants, bracketParticipantOrigin } from "@/lib/playoff-bracket-layout";
 import { statewideDivisions, regionLabels } from "@/data/statewide-playoff-brackets";
 import { resolveBracketSchool } from "@/lib/playoff-school-catalog";
 import { schoolLogoBySlug } from "@/data/school-logos";
@@ -31,10 +31,11 @@ export default function ConnectedPlayoffBracket({games,selectedSchool,onSelectSc
  const gestureMoved=useRef(false);
  const pointers=useRef(new Map<number,{x:number;y:number}>());
  const layout=useMemo(()=>buildBracketLayout(divisionId,games),[divisionId,games]);
- const route=schoolRoute(layout.nodes,location?.division.id===divisionId?location.schoolName:"");
+ const route=schoolRoute(layout.nodes,location?.division.id===divisionId?location.schoolName:"",location?.regionIndex);
  const focusSchool=useCallback(()=>{
   const el=viewport.current;if(!el||!location)return;
-  const candidates=layout.nodes.filter(n=>n.teams.includes(location.schoolName));
+  const selectedRoute=schoolRoute(layout.nodes,location.schoolName,location.regionIndex);
+  const candidates=layout.nodes.filter(n=>selectedRoute.has(n.id)&&n.teams.includes(location.schoolName));
   const node=candidates[candidates.length-1];if(!node)return;
   const scale=Math.min(1,(el.clientWidth-32)/CARD_WIDTH);
   setView({scale,x:(el.clientWidth-CARD_WIDTH*scale)/2-node.x*scale,y:(el.clientHeight-CARD_HEIGHT*scale)/2-node.y*scale});
@@ -87,9 +88,9 @@ export default function ConnectedPlayoffBracket({games,selectedSchool,onSelectSc
     <svg width={layout.width} height={layout.height} className="pointer-events-none absolute inset-0" aria-hidden="true">{layout.nodes.filter(n=>region===null||n.region===region).flatMap(n=>n.sources.map(id=>{const source=layout.nodes.find(s=>s.id===id)!;const reverse=source.x>n.x;const x=source.x+(reverse?0:CARD_WIDTH),y=source.y+CARD_HEIGHT/2,end=n.y+CARD_HEIGHT/2,target=n.x+(reverse?CARD_WIDTH:0),bend=x+(reverse?-29:29);return <path key={id} d={`M${x} ${y} H${bend} V${end} H${target}`} fill="none" stroke={route.has(id)&&route.has(n.id)?"#f4be59":"#51525d"} strokeWidth={route.has(id)&&route.has(n.id)?4:2}/>;}))}</svg>
     {layout.nodes.filter(n=>region===null||n.region===region).map(n=>{const winner=verifiedWinner(n.game);return <article key={n.id} style={{left:n.x,top:n.y,width:CARD_WIDTH,height:CARD_HEIGHT}} className={`absolute overflow-hidden rounded-lg border-2 bg-[#202127] ${route.has(n.id)?"border-[#f4be59]":"border-[#42434d]"}`}>
      <div className="flex justify-between px-2 py-1 text-[10px] font-bold uppercase text-white/65"><span>{n.region>=0?regionLabels[n.region]:"State"} · {playoffRoundLabels[n.round]}</span>{route.has(n.id)&&<span>{n.teams.includes(location?.schoolName??"")?"Your team":"Possible path"}</span>}</div>
-     {n.teams.map((name,i)=>{const school=name?(n.region>=0?resolveBracketSchool(name,divisionId,regionLabels[n.region]):regionLabels.map(r=>resolveBracketSchool(name,divisionId,r)).find(Boolean)):undefined;const logo=school?schoolLogoBySlug[school.slug]:undefined;const standing=school?completePostseasonStanding(getStandingForSchoolFromGames(school.slug,games),games,school.slug):undefined;const record=formatOverallRecord(standing);const score=n.game?.publicScoreVerified?(name===n.game.homeTeam?n.game.homeScore??n.game.score?.home:n.game.awayScore??n.game.score?.away):undefined;return <div key={i} className="flex h-9 items-center gap-2 border-l-[5px] px-2 text-sm font-bold text-white" style={{borderLeftColor:school?.colors.primary??"#646575",background:school?`linear-gradient(90deg, ${school.colors.primary}33, #202127 85%)`:"#202127"}}>
+     {n.teams.map((name,i)=>{const origin=bracketParticipantOrigin(layout.nodes,n.id,i);const school=name&&origin?resolveBracketSchool(name,divisionId,regionLabels[origin.node.region]):undefined;const logo=school?schoolLogoBySlug[school.slug]:undefined;const standing=school?completePostseasonStanding(getStandingForSchoolFromGames(school.slug,games),games,school.slug):undefined;const record=formatOverallRecord(standing);const score=n.game?.publicScoreVerified?(name===n.game.homeTeam?n.game.homeScore??n.game.score?.home:n.game.awayScore??n.game.score?.away):undefined;return <div key={i} className="flex h-9 items-center gap-2 border-l-[5px] px-2 text-sm font-bold text-white" style={{borderLeftColor:school?.colors.primary??"#646575",background:school?`linear-gradient(90deg, ${school.colors.primary}33, #202127 85%)`:"#202127"}}>
       {logo?<Image unoptimized src={logo.path} width={26} height={26} alt="" className="h-7 w-7 rounded bg-white/90 object-contain p-0.5"/>:<span className="flex h-7 w-7 shrink-0 items-center justify-center rounded bg-white/10 text-xs text-white/70">{name?.slice(0,2).toUpperCase()??"?"}</span>}
-      {seedTemplate && name && <span className="text-[10px] text-white/60">{(()=>{const first=layout.nodes.find(node=>node.round===0&&node.teams.includes(name));const slot=first?seedTemplate.slots.find(slot=>slot.region===first.region&&slot.firstRoundGame===first.index&&slot.side===first.teams.indexOf(name)):undefined;return slot?seedLabel(slot):"";})()}</span>}<span className="min-w-0 flex-1 truncate">{school?<a href={`/schools/${school.slug}`} className="hover:underline">{name}</a>:name??"Winner pending"}</span>{name&&<span className="text-[10px] font-normal text-white/60">{record}</span>}<span>{score??""}{winner && winner===name?" ✓":""}</span>
+      {seedTemplate && name && <span className="text-[10px] text-white/60">{(()=>{const slot=origin?seedTemplate.slots.find(slot=>slot.region===origin.node.region&&slot.firstRoundGame===origin.node.index&&slot.side===origin.side):undefined;return slot?seedLabel(slot):"";})()}</span>}<span className="min-w-0 flex-1 truncate">{school?<a href={`/schools/${school.slug}`} className="hover:underline">{name}</a>:name??"Winner pending"}</span>{name&&<span className="text-[10px] font-normal text-white/60">{record}</span>}<span>{score??""}{winner && winner===name?" ✓":""}</span>
      </div>;})}
      <div className="px-2 py-1 text-[10px] text-white/65">{n.game?<a href={`/games/${n.game.id}`} className="underline">Game Center · {winner?"Verified final":"View matchup"}</a>:n.round===0?"Schedule details pending":"Awaiting verified advancement"}</div>
     </article>;})}

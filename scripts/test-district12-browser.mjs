@@ -6,7 +6,9 @@ import {createRequire} from 'node:module';
 const require=createRequire(import.meta.url);
 const {chromium}=require(process.env.DISTRICT12_PLAYWRIGHT_MODULE || 'playwright');
 const evidence=process.env.DISTRICT12_EVIDENCE || 'district12-browser-evidence';fs.mkdirSync(evidence,{recursive:true});
-const expected={burnet:[1,6,1,1,150,270],jarrell:[7,0,2,0,298,111],stephenville:[7,0,2,0,287,127],'china-spring':[1,6,0,2,217,254],lampasas:[2,5,0,2,176,215],'marble-falls':[3,4,1,1,184,194]};
+// Seven frozen regular-season results below plus the explicitly reviewed 2026 playoff finals.
+// Overall totals include postseason; district totals and tied positions remain unchanged.
+const expected={burnet:[1,6,1,1,150,270],jarrell:[7,1,2,0,311,142],stephenville:[8,0,2,0,338,141],'china-spring':[2,6,0,2,238,261],lampasas:[2,6,0,2,204,262],'marble-falls':[3,4,1,1,184,194]};
 const position={stephenville:'T-1',jarrell:'T-1','marble-falls':'T-3',burnet:'T-3',lampasas:'T-5','china-spring':'T-5'};
 // Independent six-team results; scores are team-centric and immutable fixture evidence.
 const history={

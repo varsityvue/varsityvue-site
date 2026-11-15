@@ -36,8 +36,8 @@ export function fitBracket(bounds: {x:number;y:number;width:number;height:number
   const scale = Math.min((Math.max(1,viewport.width-padding*2))/bounds.width,(Math.max(1,viewport.height-padding*2))/bounds.height,1);
   return {scale,x:(viewport.width-bounds.width*scale)/2-bounds.x*scale,y:(viewport.height-bounds.height*scale)/2-bounds.y*scale};
 }
-export function schoolRoute(nodes: BracketNode[], name: string) {
-  const first = nodes.find(n=>n.round===0 && n.teams.includes(name));
+export function schoolRoute(nodes: BracketNode[], name: string, region?: number) {
+  const first = nodes.find(n=>n.round===0 && (region===undefined || n.region===region) && n.teams.includes(name));
   const route = new Set<string>();
   if (!first) return route;
   let node: BracketNode | undefined = first;
@@ -56,4 +56,16 @@ export function potentialParticipants(nodes: BracketNode[], nodeId: string): str
  const node=nodes.find(n=>n.id===nodeId);if(!node)return [];
  const winner=verifiedWinner(node.game);if(winner)return [winner];
  return node.sources.length?[...new Set(node.sources.flatMap(id=>potentialParticipants(nodes,id)))]:node.teams.filter((name):name is string=>Boolean(name));
+}
+
+/** Resolve a displayed participant through its source edge, never another region's namesake. */
+export function bracketParticipantOrigin(nodes: BracketNode[], nodeId: string, side: number): { node: BracketNode; side: number } | undefined {
+ const node=nodes.find(n=>n.id===nodeId),name=node?.teams[side];
+ if(!node||!name)return undefined;
+ const visit=(current:BracketNode): { node: BracketNode; side: number } | undefined=>{
+  if(current.round===0){const index=current.teams.indexOf(name);return index<0?undefined:{node:current,side:index};}
+  const sources=current.sources.filter(id=>potentialParticipants(nodes,id).includes(name));
+  return sources.length===1?visit(nodes.find(n=>n.id===sources[0])!):undefined;
+ };
+ return node.round===0?{node,side}:node.sources[side]?visit(nodes.find(n=>n.id===node.sources[side])!):undefined;
 }
