@@ -889,6 +889,16 @@ try {
   });
   for (const route of ["/games", "/scoreboard"]) {
     await allGamesRefinements(page, route);
+    // The history regression deliberately restores entries with pending router work.
+    // Start the independent failure scenario in a fresh document, keeping the same
+    // authenticated context and error assertions, so late history navigation cannot
+    // abort its initial full-page navigation.
+    await page.close();
+    page = await c.newPage();
+    page.on("pageerror", (e) => {
+      errors.push(e.message);
+      console.error("BROWSER RUNTIME ERROR", e.message);
+    });
     await followingFailure(page, route);
     await orderedRefreshes(page, route);
   }
