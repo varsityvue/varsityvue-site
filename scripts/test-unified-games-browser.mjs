@@ -773,7 +773,9 @@ try {
     }
     assert.match(await catalogPage.locator('main').innerText(), /Forsan/);
     await catalogPage.locator('a[href="/games/2026-area-2a-d1-i-1"]').filter({visible:true}).first().waitFor();
-    assert.match(await catalogPage.locator('main').innerText(), /Date TBD/);
+    assert.match(await catalogPage.locator('main').innerText(), /Fri, Nov 20/);
+    assert.match(await catalogPage.locator('main').innerText(), /7:00 PM/);
+    assert.match(await catalogPage.locator('main').innerText(), /Peoples Bank Stadium, Wolfforth/);
     assert.doesNotMatch(await catalogPage.locator('main').innerText(), /Pre-district standings|until district play begins/i);
     assert.equal(await catalogPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `catalog hub overflow at ${width}`);
     await catalogPage.screenshot({ path: `${evidence}/playoff-catalog-hub-${width}.png`, fullPage: true });

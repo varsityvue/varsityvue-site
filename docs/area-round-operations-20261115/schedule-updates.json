@@ -1,0 +1,72 @@
+[
+  {
+    "id": "2026-area-2a-d1-i-1",
+    "homeTeam": "Panhandle",
+    "awayTeam": "Forsan",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Peoples Bank Stadium, Wolfforth, TX"
+  },
+  {
+    "id": "2026-area-2a-d1-i-3",
+    "homeTeam": "Ozona",
+    "awayTeam": "Olton",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Grant Teaff Tiger Stadium, Snyder, TX"
+  },
+  {
+    "id": "2026-area-2a-d1-i-4",
+    "homeTeam": "New Deal",
+    "awayTeam": "Spearman",
+    "kickoff": "2026-11-19T16:00:00-06:00",
+    "venue": "Happy State Bank Stadium, Canyon, TX"
+  },
+  {
+    "id": "2026-area-2a-d1-iii-1",
+    "homeTeam": "Cooper",
+    "awayTeam": "Shelbyville",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "TMF Rose Stadium, Tyler, TX"
+  },
+  {
+    "id": "2026-area-2a-d1-iii-3",
+    "homeTeam": "Joaquin",
+    "awayTeam": "Frankston",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Lion Stadium, Henderson, TX"
+  },
+  {
+    "id": "2026-area-2a-d1-iii-4",
+    "homeTeam": "San Augustine",
+    "awayTeam": "Tom Bean",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Bruce Field, Athens, TX"
+  },
+  {
+    "id": "2026-area-2a-d1-iv-1",
+    "homeTeam": "Thorndale",
+    "awayTeam": "Weimar",
+    "kickoff": "2026-11-19T19:00:00-06:00",
+    "venue": "Matador Stadium, Seguin, TX"
+  },
+  {
+    "id": "2026-area-2a-d1-iv-2",
+    "homeTeam": "Leon",
+    "awayTeam": "Ganado",
+    "kickoff": "2026-11-19T19:00:00-06:00",
+    "venue": "Tomball ISD Stadium, Tomball, TX"
+  },
+  {
+    "id": "2026-area-2a-d1-iv-3",
+    "homeTeam": "Shiner",
+    "awayTeam": "Lovelady",
+    "kickoff": "2026-11-19T19:00:00-06:00",
+    "venue": "Daikin Stadium, Waller, TX"
+  },
+  {
+    "id": "2026-area-2a-d1-iv-4",
+    "homeTeam": "Flatonia",
+    "awayTeam": "Rosebud-Lott",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Manor ISD Athletic Complex, Manor, TX"
+  }
+]

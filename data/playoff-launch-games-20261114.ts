@@ -171,7 +171,9 @@ export const playoffLaunchGames: Game[] = [
     "districtGame": false,
     "coverageStatus": "none",
     "sourceStatus": "verified",
-    "sourceLabel": "UIL-linked 2026 2A DI bracket; participants reconciled against verified bi-district finals; date, time and venue pending — https://www.uiltexas.org/football/playoff-brackets/2AD1"
+    "sourceLabel": "UIL-linked 2026 2A DI participants and verified first-round winners; Area kickoff and venue reported by DCTF, reviewed November 14, 2026 Central — https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations. Designated sides and neutrality remain unconfirmed.",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Peoples Bank Stadium, Wolfforth, TX"
   },
   {
     "id": "2026-area-2a-d1-i-2",
@@ -215,7 +217,9 @@ export const playoffLaunchGames: Game[] = [
     "districtGame": false,
     "coverageStatus": "none",
     "sourceStatus": "verified",
-    "sourceLabel": "UIL-linked 2026 2A DI bracket; participants reconciled against verified bi-district finals; date, time and venue pending — https://www.uiltexas.org/football/playoff-brackets/2AD1"
+    "sourceLabel": "UIL-linked 2026 2A DI participants and verified first-round winners; Area kickoff and venue reported by DCTF, reviewed November 14, 2026 Central — https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations. Designated sides and neutrality remain unconfirmed.",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Grant Teaff Tiger Stadium, Snyder, TX"
   },
   {
     "id": "2026-area-2a-d1-i-4",
@@ -237,7 +241,9 @@ export const playoffLaunchGames: Game[] = [
     "districtGame": false,
     "coverageStatus": "none",
     "sourceStatus": "verified",
-    "sourceLabel": "UIL-linked 2026 2A DI bracket; participants reconciled against verified bi-district finals; date, time and venue pending — https://www.uiltexas.org/football/playoff-brackets/2AD1"
+    "sourceLabel": "UIL-linked 2026 2A DI participants and verified first-round winners; Area kickoff and venue reported by DCTF, reviewed November 14, 2026 Central — https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations. Designated sides and neutrality remain unconfirmed.",
+    "kickoff": "2026-11-19T16:00:00-06:00",
+    "venue": "Happy State Bank Stadium, Canyon, TX"
   },
   {
     "id": "2026-area-2a-d1-ii-1",
@@ -455,7 +461,9 @@ export const playoffLaunchGames: Game[] = [
     "districtGame": false,
     "coverageStatus": "none",
     "sourceStatus": "verified",
-    "sourceLabel": "UIL-linked 2026 2A DI bracket; participants reconciled against verified bi-district finals; date, time and venue pending — https://www.uiltexas.org/football/playoff-brackets/2AD1"
+    "sourceLabel": "UIL-linked 2026 2A DI participants and verified first-round winners; Area kickoff and venue reported by DCTF, reviewed November 14, 2026 Central — https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations. Designated sides and neutrality remain unconfirmed.",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "TMF Rose Stadium, Tyler, TX"
   },
   {
     "id": "2026-area-2a-d1-iii-2",
@@ -501,7 +509,9 @@ export const playoffLaunchGames: Game[] = [
     "districtGame": false,
     "coverageStatus": "none",
     "sourceStatus": "verified",
-    "sourceLabel": "UIL-linked 2026 2A DI bracket; participants reconciled against verified bi-district finals; date, time and venue pending — https://www.uiltexas.org/football/playoff-brackets/2AD1"
+    "sourceLabel": "UIL-linked 2026 2A DI participants and verified first-round winners; Area kickoff and venue reported by DCTF, reviewed November 14, 2026 Central — https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations. Designated sides and neutrality remain unconfirmed.",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Lion Stadium, Henderson, TX"
   },
   {
     "id": "2026-area-2a-d1-iii-4",
@@ -523,7 +533,9 @@ export const playoffLaunchGames: Game[] = [
     "districtGame": false,
     "coverageStatus": "none",
     "sourceStatus": "verified",
-    "sourceLabel": "UIL-linked 2026 2A DI bracket; participants reconciled against verified bi-district finals; date, time and venue pending — https://www.uiltexas.org/football/playoff-brackets/2AD1"
+    "sourceLabel": "UIL-linked 2026 2A DI participants and verified first-round winners; Area kickoff and venue reported by DCTF, reviewed November 14, 2026 Central — https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations. Designated sides and neutrality remain unconfirmed.",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Bruce Field, Athens, TX"
   },
   {
     "id": "2026-bi-district-2a-d1-iv-2",
@@ -620,7 +632,9 @@ export const playoffLaunchGames: Game[] = [
     "districtGame": false,
     "coverageStatus": "none",
     "sourceStatus": "verified",
-    "sourceLabel": "UIL-linked 2026 2A DI bracket; participants reconciled against verified bi-district finals; date, time and venue pending — https://www.uiltexas.org/football/playoff-brackets/2AD1"
+    "sourceLabel": "UIL-linked 2026 2A DI participants and verified first-round winners; Area kickoff and venue reported by DCTF, reviewed November 14, 2026 Central — https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations. Designated sides and neutrality remain unconfirmed.",
+    "kickoff": "2026-11-19T19:00:00-06:00",
+    "venue": "Matador Stadium, Seguin, TX"
   },
   {
     "id": "2026-area-2a-d1-iv-2",
@@ -642,7 +656,9 @@ export const playoffLaunchGames: Game[] = [
     "districtGame": false,
     "coverageStatus": "none",
     "sourceStatus": "verified",
-    "sourceLabel": "UIL-linked 2026 2A DI bracket; participants reconciled against verified bi-district finals; date, time and venue pending — https://www.uiltexas.org/football/playoff-brackets/2AD1"
+    "sourceLabel": "UIL-linked 2026 2A DI participants and verified first-round winners; Area kickoff and venue reported by DCTF, reviewed November 14, 2026 Central — https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations. Designated sides and neutrality remain unconfirmed.",
+    "kickoff": "2026-11-19T19:00:00-06:00",
+    "venue": "Tomball ISD Stadium, Tomball, TX"
   },
   {
     "id": "2026-area-2a-d1-iv-3",
@@ -664,7 +680,9 @@ export const playoffLaunchGames: Game[] = [
     "districtGame": false,
     "coverageStatus": "none",
     "sourceStatus": "verified",
-    "sourceLabel": "UIL-linked 2026 2A DI bracket; participants reconciled against verified bi-district finals; date, time and venue pending — https://www.uiltexas.org/football/playoff-brackets/2AD1"
+    "sourceLabel": "UIL-linked 2026 2A DI participants and verified first-round winners; Area kickoff and venue reported by DCTF, reviewed November 14, 2026 Central — https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations. Designated sides and neutrality remain unconfirmed. Venue spelling corroborated by Waller ISD: https://www.wallerisd.net/departments/school-safety (DCTF spells it Daiken).",
+    "kickoff": "2026-11-19T19:00:00-06:00",
+    "venue": "Daikin Stadium, Waller, TX"
   },
   {
     "id": "2026-area-2a-d1-iv-4",
@@ -686,7 +704,9 @@ export const playoffLaunchGames: Game[] = [
     "districtGame": false,
     "coverageStatus": "none",
     "sourceStatus": "verified",
-    "sourceLabel": "UIL-linked 2026 2A DI bracket; participants reconciled against verified bi-district finals; date, time and venue pending — https://www.uiltexas.org/football/playoff-brackets/2AD1"
+    "sourceLabel": "UIL-linked 2026 2A DI participants and verified first-round winners; Area kickoff and venue reported by DCTF, reviewed November 14, 2026 Central — https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations. Designated sides and neutrality remain unconfirmed.",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Manor ISD Athletic Complex, Manor, TX"
   },
   {
     "id": "2026-bi-district-3a-d2-ii-7",
