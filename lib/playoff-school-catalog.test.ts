@@ -86,7 +86,10 @@ test("catalog expansion does not turn untracked planned schools into directory c
   assert.equal(getTrackedDirectorySchools(catalog, []).some(s => s.slug === "panhandle"), false, "a metadata record alone is not coverage");
   assert.equal(slugs.has("panhandle"), true, "the reconciled first-round game establishes coverage");
   assert.equal(slugs.has("nocona"), true, "the existing Cisco–Nocona game establishes coverage");
-  assert.ok(directory.length < catalog.length);
+  // The sixth completed division gives every current catalog school coverage.
+  // Keep the metadata-only exclusion check independent of that growing catalog.
+  const untracked = { ...catalog[0], id: "fixture-untracked", slug: "fixture-untracked", status: "planned" as const };
+  assert.equal(getTrackedDirectorySchools([...catalog, untracked], getGames()).some(s => s.slug === untracked.slug), false);
 });
 
 

@@ -210,6 +210,26 @@ try{
   assert.ok((await selectedAustin.innerText()).includes('F10'));
   assert.equal(await selectedAustin.locator('a[href="/schools/houston-austin"]').count(),1);
   await page.screenshot({path:`${output}/${name}-4ad1-houston-austin.png`});
+  await page.goto(origin+'/playoffs?school='+encodeURIComponent('4A-D2|1|Glen Rose'));
+  await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
+  await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();
+  assert.equal(await bracket.locator('article').count(),63);
+  assert.equal(await bracket.locator('article').filter({hasText:'Verified final'}).count(),32);
+  await checkContained(page,canvas);
+  for(const region of ['0','1','2','3']){
+   await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);
+   await page.getByRole('button',{name:'Fit selected region',exact:true}).click();
+   assert.equal(await bracket.locator('article').count(),15);await checkContained(page,canvas);
+  }
+  await page.getByRole('button',{name:'Find Glen Rose',exact:true}).click();await canvas.scrollIntoViewIfNeeded();
+  await page.screenshot({path:`${output}/${name}-4ad2-glen-rose.png`});
+  await page.goto(origin+'/games/2026-bi-district-4a-d2-iii-1');
+  assert.ok((await page.locator('main').innerText()).includes('FINAL · VERIFIED'));
+  await page.goto(origin+'/games/2026-area-4a-d2-ii-1');
+  const glenArea=await page.locator('main').innerText();
+  for(const word of ['Glen Rose','Carthage','7:00 PM','Forney'])assert.ok(glenArea.includes(word),word);
+  await page.goto(origin+'/schools/glen-rose');
+  assert.ok(await page.locator('a[href="/games/2026-area-4a-d2-ii-1"]').count()>0);
   await page.goto(origin+'/schools/millsap');
   assert.ok(await page.locator('a[href="/games/2026-area-3a-d2-ii-1"]').count()>0,'published scheduled Area game is the school hero next matchup');
   if(name==='desktop')await page.locator('a[href="/games/2026-area-3a-d2-ii-1"]:visible').first().waitFor();
