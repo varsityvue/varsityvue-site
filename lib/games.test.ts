@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { getGames } from "@/lib/games";
+import { getGames, filterUpcomingGamesForSchool } from "@/lib/games";
 import { getGameOfTheWeek } from "@/lib/scoreboard";
 import { gamePreviews, getGamePreview } from "@/data/game-previews";
 
@@ -54,4 +54,17 @@ test("every designated Game of the Week has a short, written pregame matchup sum
   if (homepageGame?.specialEvent?.toLowerCase() === "game of the week") {
     assert.ok(getGamePreview(homepageGame.id));
   }
+});
+
+test("published scheduled Area games remain discoverable as upcoming on both school hubs",()=>{
+ const now=new Date("2026-11-15T12:00:00Z");
+ const areas=getGames().filter(g=>g.playoff?.round==="Area"&&g.kickoff&&new Date(g.kickoff)>now);
+ assert.ok(areas.some(g=>g.id==="2026-area-3a-d2-ii-1"));
+ for(const game of areas)for(const slug of [game.homeSchoolSlug!,game.awaySchoolSlug!]){
+  assert.ok(filterUpcomingGamesForSchool(getGames(),slug,now).some(g=>g.id===game.id),`${slug}|${game.id}`);
+ }
+ const future=areas.find(g=>g.id==="2026-area-3a-d2-ii-1")!;
+ for(const status of ["final","cancelled","postponed"] as const)assert.equal(filterUpcomingGamesForSchool([{...future,status}],future.homeSchoolSlug!,now).length,0);
+ assert.equal(filterUpcomingGamesForSchool([{...future,kickoff:"2026-11-14T19:00:00-06:00"}],future.homeSchoolSlug!,now).length,0);
+ assert.equal(filterUpcomingGamesForSchool([{...future,gameType:"bye"}],future.homeSchoolSlug!,now).length,0);
 });
