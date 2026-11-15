@@ -74,7 +74,7 @@ test("existing canonical sides, schedules and verified repository results stay u
 test("all completed divisions retain coverage with no duplicate canonical playoff pairs", () => {
  for (const division of ["2A-D1", "2A-D2", "3A-D1", "3A-D2", "4A-D1", "4A-D2"]) {
   const layout = buildBracketLayout(division, games);
-  assert.equal(layout.nodes.filter(n => n.round === 0 && verifiedWinner(n.game)).length, division === "2A-D2" ? 31 : 32);
+  assert.equal(layout.nodes.filter(n => n.round === 0 && verifiedWinner(n.game)).length, 32);
   const matches = layout.nodes.flatMap(n => n.game ? [n.game] : []);
   const keys = matches.map(g => `${g.season}|${g.playoff?.round}|${[g.homeSchoolSlug,g.awaySchoolSlug].sort().join("|")}`);
   assert.equal(new Set(keys).size, keys.length, division);

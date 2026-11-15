@@ -1,0 +1,58 @@
+[
+  {
+    "path": "/games/2026-bi-district-2a-d2-iv-8",
+    "scroll": 337,
+    "width": 340,
+    "final": true,
+    "area": false
+  },
+  {
+    "path": "/games/2026-area-2a-d2-iv-4",
+    "scroll": 337,
+    "width": 340,
+    "final": false,
+    "area": false
+  },
+  {
+    "path": "/schools/chilton",
+    "scroll": 337,
+    "width": 340,
+    "final": true,
+    "area": true
+  },
+  {
+    "path": "/schools/chilton/schedule",
+    "scroll": 337,
+    "width": 340,
+    "final": true,
+    "area": true
+  },
+  {
+    "path": "/schools/brackettville-brackett",
+    "scroll": 337,
+    "width": 340,
+    "final": true,
+    "area": false
+  },
+  {
+    "path": "/schools/brackettville-brackett/schedule",
+    "scroll": 337,
+    "width": 340,
+    "final": true,
+    "area": false
+  },
+  {
+    "path": "/schools/la-villa",
+    "scroll": 337,
+    "width": 340,
+    "final": true,
+    "area": true
+  },
+  {
+    "path": "/schools/la-villa/schedule",
+    "scroll": 337,
+    "width": 340,
+    "final": true,
+    "area": true
+  }
+]

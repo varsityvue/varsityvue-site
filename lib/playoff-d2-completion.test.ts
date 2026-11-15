@@ -12,16 +12,12 @@ import { playoffD2FirstRound, playoffD2Area } from "../data/playoff-d2-completio
 const games = getGames();
 const { nodes } = buildBracketLayout("2A-D2", games);
 
-test("DII has 32 unique first-round Game Centers, 31 verified finals and an honest pending game", () => {
+test("DII has 32 unique first-round Game Centers, 32 confirmed finals", () => {
   const first = nodes.filter(n => n.round === 0);
   assert.equal(first.length, 32);
   assert.equal(new Set(first.map(n => n.game?.id)).size, 32);
   assert.ok(first.every(n => n.game));
-  assert.equal(first.filter(n => verifiedWinner(n.game)).length, 31);
-  const pending = first.filter(n => !verifiedWinner(n.game));
-  assert.deepEqual(pending.map(n => n.teams), [["Chilton", "Brackett"]]);
-  assert.equal(pending[0].game?.homeScore, undefined);
-  assert.equal(pending[0].game?.awayScore, undefined);
+  assert.equal(first.filter(n => verifiedWinner(n.game)).length, 32);
   for (const node of first) {
     for (const name of node.teams) {
       const school = resolveBracketSchool(name!, "2A-D2", ["I", "II", "III", "IV"][node.region]);
@@ -31,11 +27,11 @@ test("DII has 32 unique first-round Game Centers, 31 verified finals and an hone
   }
 });
 
-test("DII Area participants follow verified topology, with the sixteenth opponent pending", () => {
+test("DII Area participants follow verified topology, including owner-confirmed Chilton", () => {
   const area = nodes.filter(n => n.round === 1);
   assert.equal(area.length, 16);
-  assert.equal(area.filter(n => n.game).length, 15);
-  assert.deepEqual(area.find(n => n.region === 3 && n.index === 3)?.teams, ["La Villa", null]);
+  assert.equal(area.filter(n => n.game).length, 16);
+  assert.deepEqual(area.find(n => n.region === 3 && n.index === 3)?.teams, ["La Villa", "Chilton"]);
   for (const node of area) {
     assert.deepEqual(node.teams, node.sources.map(id => verifiedWinner(nodes.find(n => n.id === id)?.game)));
     assert.equal(verifiedWinner(node.game), null);
@@ -76,6 +72,6 @@ test("DII adds no duplicate same-round games and no future scores", () => {
   const keys = all.map(g => `${g.season}|${g.playoff?.round}|${[g.homeSchoolSlug, g.awaySchoolSlug].sort().join("|")}`);
   assert.equal(new Set(keys).size, keys.length);
   assert.equal(playoffD2FirstRound.length, 32);
-  assert.equal(playoffD2Area.length, 15);
+  assert.equal(playoffD2Area.length, 16);
   assert.ok(playoffD2Area.every(g => !g.publicScoreVerified && g.homeScore === undefined && g.awayScore === undefined));
 });
