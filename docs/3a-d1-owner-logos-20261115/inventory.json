@@ -1,0 +1,1909 @@
+[
+  {
+    "file": "Anahuac-Panthers-large.png",
+    "slug": "anahuac",
+    "id": "anahuac",
+    "name": "Anahuac",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "52d6d195d10d74ab9414692ac8cbb087f8724cd0c98bb63ed4f81d11f9cf607f",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      122,
+      21,
+      1078,
+      779
+    ],
+    "padding": 39,
+    "visibleRGBA_SHA256": "7f11f6dbc677d5fa8e71fe5e911b76704120adda02c7c9208facdec9c743d486",
+    "disposition": "integrated",
+    "assetSHA256": "dd62bfb376993de03c2509ba2d456f6653b288aa03542f60a30141a75f27790d",
+    "assetSize": [
+      1034,
+      836
+    ]
+  },
+  {
+    "file": "Atlanta-Rabbits1-large.png",
+    "slug": "atlanta",
+    "id": "atlanta",
+    "name": "Atlanta",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "f3ea128f3f06abea29ba208e8927fefd3cc8ef6cecfe92a3d677f3749e8a7122",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      258,
+      20,
+      942,
+      780
+    ],
+    "padding": 31,
+    "visibleRGBA_SHA256": "2dbfcff4d6b7a0cb97099ee1fa8c5115dc793b4675e743a2d8c940abd659c8f1",
+    "disposition": "integrated",
+    "assetSHA256": "d8a6edf2b11cb8806aac8dc561267ccc060b6af748426f76722573c9bed3e575",
+    "assetSize": [
+      746,
+      822
+    ]
+  },
+  {
+    "file": "Bowie-Jackrabbits-large.png",
+    "slug": "bowie",
+    "id": "bowie",
+    "name": "Bowie",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "45b721d30a5df90c4bcb966f905d90df4a17f5817d0cb0388c567074b9b039dd",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      76,
+      24,
+      1124,
+      776
+    ],
+    "padding": 42,
+    "visibleRGBA_SHA256": "8dcb96451748a8d49355257668591a70fe5ee2056a7560df9c75c197f1fd295c",
+    "disposition": "integrated",
+    "assetSHA256": "4451de103a74187d8fa8ed15cc13a560af82121e3eb2893ab71e560dc3b07ac8",
+    "assetSize": [
+      1132,
+      836
+    ]
+  },
+  {
+    "file": "Buna-Cougars.png",
+    "slug": "buna",
+    "id": "buna",
+    "name": "Buna",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "c03e4cf01f7b40f85b257018ef86e78b8e0977ee23d8d2f2283ed515dab27349",
+    "sourceSize": [
+      300,
+      200
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      26,
+      5,
+      274,
+      194
+    ],
+    "padding": 10,
+    "visibleRGBA_SHA256": "f638c0805d9db66ae80f7e2334fc09c1e49fe2f07a604e0e99db96e518e011bd",
+    "disposition": "integrated",
+    "assetSHA256": "89a47ee88e295b18e76fc351d04f0951bc410fad63ed75e662eac33e7459d861",
+    "assetSize": [
+      268,
+      209
+    ]
+  },
+  {
+    "file": "Bushland-Falcons-large.png",
+    "slug": "bushland",
+    "id": "bushland",
+    "name": "Bushland",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "d6af8187cc05f0b7b1d796fba413eedaeb4dafd7f6b6ac647c356700c9cbcacf",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      75,
+      262,
+      1123,
+      537
+    ],
+    "padding": 42,
+    "visibleRGBA_SHA256": "05b67116bb5594c67e24c8ed1e16c6ec85ceaa12e3f4fe1dcf67faceb5f5f763",
+    "disposition": "integrated",
+    "assetSHA256": "16011d88b8246483da0c7382f22e4f619293a3724d6f397eeecee5e89a139900",
+    "assetSize": [
+      1132,
+      359
+    ]
+  },
+  {
+    "file": "Cameron-Yoe-Yoemen-large.png",
+    "slug": "cameron-yoe",
+    "id": "cameron-yoe",
+    "name": "Cameron Yoe",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "77f57e3daa275ccf65362493d3cbe8e5bd8a55c298d54c9b73c09a630c7617e4",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      77,
+      76,
+      1123,
+      723
+    ],
+    "padding": 42,
+    "visibleRGBA_SHA256": "7d6804ca641c29886ccec5858db84fa12333366f233d311fba5759c8010333c1",
+    "disposition": "integrated",
+    "assetSHA256": "831967500db00bcfbaff0959398297d8a3006689ca606baabf728770ec084ae7",
+    "assetSize": [
+      1130,
+      731
+    ]
+  },
+  {
+    "file": "Clyde-Bulldogs-large.png",
+    "slug": "clyde",
+    "id": "clyde",
+    "name": "Clyde",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": true,
+    "sourceSHA256": "0103748f29dbef722afeb89d745b69003e3f4f06f7d21879249c016ca7279fa4",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      77,
+      54,
+      1123,
+      746
+    ],
+    "padding": 42,
+    "visibleRGBA_SHA256": "f4b4bb7c975f8b0cb29be45422eb3c40ee7101b545dde9da8d537112cd8f6556",
+    "disposition": "approved existing artwork retained"
+  },
+  {
+    "file": "Columbus-Cardinals1-large-1.png",
+    "slug": "columbus",
+    "id": "columbus",
+    "name": "Columbus",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "eb32684a3c9df7bb93c476680fc4c2e13c454a9781b0cbc78165704a7cee8022",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      315,
+      20,
+      884,
+      780
+    ],
+    "padding": 31,
+    "visibleRGBA_SHA256": "f3931ffb85a516cb1f6d7dc4106552fda8e2cf35bb18da4cecf352803507c08f",
+    "disposition": "integrated",
+    "assetSHA256": "82b358be41a9f5e969f376a46c34f3a4c5655b992834acfde21fe9bde7aceb2d",
+    "assetSize": [
+      631,
+      822
+    ]
+  },
+  {
+    "file": "Commerce-Tigers1-large.png",
+    "slug": "commerce",
+    "id": "commerce",
+    "name": "Commerce",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "29420e8c2215585980fc2b8549f034ab9d0c9ab68369da1922ad13790d5a1656",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      238,
+      20,
+      966,
+      780
+    ],
+    "padding": 31,
+    "visibleRGBA_SHA256": "1496b37066f0993d17bbfd732baed01a06f917bdf56a9da6a5c6dc41508077a6",
+    "disposition": "integrated",
+    "assetSHA256": "74d4c72eeaabce177a36c8616d32e243e98bd5105905a53357d995a0c7f47976",
+    "assetSize": [
+      790,
+      822
+    ]
+  },
+  {
+    "file": "Dalhart-Wolves-large.png",
+    "slug": "dalhart",
+    "id": "dalhart",
+    "name": "Dalhart",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "b20ed7c54db5c37fc48a79714a27ba0ddd26370f4b2a3a26b8bd404c9aadd8b7",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      75,
+      59,
+      1123,
+      740
+    ],
+    "padding": 42,
+    "visibleRGBA_SHA256": "03ab325942b55e75c825f504281cffbc5bc0fb591faa6d368e207bcaffadf2d8",
+    "disposition": "integrated",
+    "assetSHA256": "b47cecf6cc22da1fa8766390a90eb58642a8f4850214d3cb99f1a6d85ac1e962",
+    "assetSize": [
+      1132,
+      765
+    ]
+  },
+  {
+    "file": "Dallas-Life-Oak-Cliff-Lions-large.png",
+    "slug": "dallas-life-oak-cliff",
+    "id": "dallas-life-oak-cliff",
+    "name": "Dallas Life Oak Cliff",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "45b71a8c939838b9deca99397f70ee121e233665375e7e3bae71b11cd0428f7a",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      108,
+      20,
+      1092,
+      780
+    ],
+    "padding": 40,
+    "visibleRGBA_SHA256": "10a8d49d10557afbd54beb63c05fc9dd117c4cc4643fb4d091440806f617546b",
+    "disposition": "integrated",
+    "assetSHA256": "d6f1aa2df3b770710ad044f648c2bd63fdabfec1d7e9423e05edfc6a301406d2",
+    "assetSize": [
+      1064,
+      840
+    ]
+  },
+  {
+    "file": "Denver-City-Mustangs.png",
+    "slug": "denver-city",
+    "id": "denver-city",
+    "name": "Denver City",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "de9cd676308045cb806e854a1c16eec3d2953adbaf3830aabedbe2bb3a016322",
+    "sourceSize": [
+      300,
+      200
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      18,
+      27,
+      282,
+      173
+    ],
+    "padding": 11,
+    "visibleRGBA_SHA256": "4c2ae139d982c990658b0be8ffc9ed5b85b9b54af4996b03e17cd350456807d9",
+    "disposition": "integrated",
+    "assetSHA256": "f56dd892af399eb257c7fec7dd39f65ff3f652a94d0f453e549dd75d210bfee0",
+    "assetSize": [
+      286,
+      168
+    ]
+  },
+  {
+    "file": "Devine-Warhorses-large.png",
+    "slug": "devine",
+    "id": "devine",
+    "name": "Devine",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "240a1833db545493a2bcceb39f0495681034c5ec58e234566735fa33b8438a2a",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      268,
+      20,
+      931,
+      780
+    ],
+    "padding": 31,
+    "visibleRGBA_SHA256": "2c5f872b51015c6122820005af6797f6fd2784dfc986e8725496b8146f811caf",
+    "disposition": "integrated",
+    "assetSHA256": "49231d04dc4dbf89cab981618451453f806a1c0e38369a41ad4d86dcf862a0cb",
+    "assetSize": [
+      725,
+      822
+    ]
+  },
+  {
+    "file": "Diboll-Lumberjacks2-large.png",
+    "slug": "diboll",
+    "id": "diboll",
+    "name": "Diboll",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "175e7e8f94d39a7d82aaa3bb5ab462e4e99af168e74614a6cbac3afe1aa0d57a",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      74,
+      38,
+      1124,
+      763
+    ],
+    "padding": 42,
+    "visibleRGBA_SHA256": "1ced8ee1ed72856fb1d38739890ca54bfad76dadb9e909a2d7cabc55b3c3f737",
+    "disposition": "integrated",
+    "assetSHA256": "0461b43144ea1da0c5a212aa47faa19294cec1a78d650c7cc1f328bcc1accaba",
+    "assetSize": [
+      1134,
+      809
+    ]
+  },
+  {
+    "file": "Early-Longhorns1-large.png",
+    "slug": "early",
+    "id": "early",
+    "name": "Early",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": true,
+    "sourceSHA256": "bd27820abc573be8f8774e41c3b67d21ca7adeed1461b96d7e48a33ad7a91fdf",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      115,
+      20,
+      1084,
+      780
+    ],
+    "padding": 39,
+    "visibleRGBA_SHA256": "f538bf2265e681160aa2a531604b1769e907d14b3c16e766a796b809b394d9a0",
+    "disposition": "approved existing artwork retained"
+  },
+  {
+    "file": "Edna-Cowboys-large.png",
+    "slug": "edna",
+    "id": "edna",
+    "name": "Edna",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "a42dc7910e1f908838187124788224e22b5058ed9a6a0111e7a9fa986c74769c",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      328,
+      20,
+      874,
+      780
+    ],
+    "padding": 31,
+    "visibleRGBA_SHA256": "6000493ec7b90e59723b9fd162366ab2718aa96500facbc0fd7850eb6d8c1486",
+    "disposition": "integrated",
+    "assetSHA256": "bbd6cb5d005688aa654c4df34c508bba4a891864df5c3fd80effca50d70029cb",
+    "assetSize": [
+      608,
+      822
+    ]
+  },
+  {
+    "file": "Fairfield-Eagles-large.png",
+    "slug": "fairfield",
+    "id": "fairfield",
+    "name": "Fairfield",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "ed6f1d17ccfa9591cd8f00f0286c8824eab7638b79b4f0bc9979f4332809f910",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      75,
+      152,
+      1124,
+      647
+    ],
+    "padding": 42,
+    "visibleRGBA_SHA256": "3d2737ec0575c464269138f51c254d2a335065b5c87ea3d69a5bd4fefe3d0ee5",
+    "disposition": "integrated",
+    "assetSHA256": "497f7a9b9f868224712b7d2092782ae1f765c31550c884efb242d88c16b4e2fe",
+    "assetSize": [
+      1133,
+      579
+    ]
+  },
+  {
+    "file": "Franklin-Lions1-large-1.png",
+    "slug": "franklin",
+    "id": "franklin",
+    "name": "Franklin",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "1261379700ac5fa294625222457dfb0d7e78c3289524d65243b938a9d47c86aa",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      226,
+      20,
+      973,
+      780
+    ],
+    "padding": 31,
+    "visibleRGBA_SHA256": "0d19302523bfbfbc1e5ffdb140df7c1ddce949e27b69279ce74f5f1624ee71aa",
+    "disposition": "integrated",
+    "assetSHA256": "7a655cc06a1cec1d2219683ad99bd99972a3a1382e8fea93567643da60b92ffe",
+    "assetSize": [
+      809,
+      822
+    ]
+  },
+  {
+    "file": "Gladewater-Bears-large.png",
+    "slug": "gladewater",
+    "id": "gladewater",
+    "name": "Gladewater",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "e198bfd0e3a5a0607a68dc8e791cd461f588aaec141f17a1ccad89e54f8fe943",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      75,
+      53,
+      1123,
+      745
+    ],
+    "padding": 42,
+    "visibleRGBA_SHA256": "d2d26390c5d9bbcbfface843a43dcb61b3449c94bf2fb1904cf7bfdfd412438d",
+    "disposition": "integrated",
+    "assetSHA256": "b56b24cd7f31b72b7d43dd61a6bd3140174b88c2df3a5e18f0e397be3610c4bc",
+    "assetSize": [
+      1132,
+      776
+    ]
+  },
+  {
+    "file": "Goliad-Tigers-large.png",
+    "slug": "goliad",
+    "id": "goliad",
+    "name": "Goliad",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "0246d6ed9b51ba6eaf1d9311cd36d5328185895d5bce19ad1a476aa5d2a19edc",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      77,
+      74,
+      1123,
+      726
+    ],
+    "padding": 42,
+    "visibleRGBA_SHA256": "233790bde729d9c030b36a44b8fb893ddccdda324d60431b28e36baf8c2649d6",
+    "disposition": "integrated",
+    "assetSHA256": "abacc1cec0f5469349a5651060c7d888bd4ab8b1638d3a4ef51f348780033660",
+    "assetSize": [
+      1130,
+      736
+    ]
+  },
+  {
+    "file": "Grandview-Zebras1-large-1.png",
+    "slug": "grandview",
+    "id": "grandview",
+    "name": "Grandview",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "27067472864bd7f5fdbd9e82a5a8b46b6a5c9c99921ef8655cad498be61b400d",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      76,
+      169,
+      1124,
+      631
+    ],
+    "padding": 42,
+    "visibleRGBA_SHA256": "8748c9dd6d656c406f8827dfe85202951f61b897d680790bff70e09f8e5fb225",
+    "disposition": "integrated",
+    "assetSHA256": "53b8d87ff9c4a5b5ab7bb3da0df5ee8af17b3226f689b446a41a35a4858fdb0f",
+    "assetSize": [
+      1132,
+      546
+    ]
+  },
+  {
+    "file": "Groesbeck-Goats-large.png",
+    "slug": "groesbeck",
+    "id": "groesbeck",
+    "name": "Groesbeck",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "794d07f01304317f6737c9a4a1570c7b02f7810b1231ce7be4a2fa116d66e3b9",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      75,
+      79,
+      1125,
+      719
+    ],
+    "padding": 42,
+    "visibleRGBA_SHA256": "d8610d9f6cffc37e62376c4470dc8f865681a2f85a1e6d2e49797a3b7e626b97",
+    "disposition": "integrated",
+    "assetSHA256": "dc94586e6a8b47531c028607db92dfb53da16c27a2ba0a920042d13f2149582d",
+    "assetSize": [
+      1134,
+      724
+    ]
+  },
+  {
+    "file": "Gunter-Tigers-large.png",
+    "slug": "gunter",
+    "id": "gunter",
+    "name": "Gunter",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "c080b60f2151a26548a2511a685aefefb7a08f9dfbc80a7a2d38221c05bacd9b",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      192,
+      20,
+      1008,
+      780
+    ],
+    "padding": 33,
+    "visibleRGBA_SHA256": "14f76210f19adbfbc489befe438f0e9b2d15399f6fc1d0024cae6b0874092906",
+    "disposition": "integrated",
+    "assetSHA256": "b1d5317ba84c265bc50e19a14ce6b708d7626c02be407a4bea27686aa83534a8",
+    "assetSize": [
+      882,
+      826
+    ]
+  },
+  {
+    "file": "Hallettsville-Brahmas-large.png",
+    "slug": "hallettsville",
+    "id": "hallettsville",
+    "name": "Hallettsville",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "5b573e4a6bd7964031968adf2662235c62fa231963f299eec5f3d59c48d16cbf",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      216,
+      21,
+      985,
+      779
+    ],
+    "padding": 31,
+    "visibleRGBA_SHA256": "3094f89db6ffda93bb33cf111e8fccce95d40dcc005ecc6b3d1b0ffd54597a3b",
+    "disposition": "integrated",
+    "assetSHA256": "b8a61caebca88d696690ac6bb87e0832b3012bad88f73b31102c5c343fe64624",
+    "assetSize": [
+      831,
+      820
+    ]
+  },
+  {
+    "file": "Hempstead-Bobcats-large-1.png",
+    "slug": "hempstead",
+    "id": "hempstead",
+    "name": "Hempstead",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "1c3e3776f9e97719f3293076e4dce74f8fd3da5d6622e4feaa778aaf15b730ba",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      265,
+      20,
+      935,
+      781
+    ],
+    "padding": 31,
+    "visibleRGBA_SHA256": "a8527266ae9a360e4e8ac2e110f0c425f24bd0d7c9d73646eb265724a0643bb1",
+    "disposition": "integrated",
+    "assetSHA256": "957f65621bfce22610501e79ccb2bb77a22c85479729463ab0641109731c465b",
+    "assetSize": [
+      732,
+      823
+    ]
+  },
+  {
+    "file": "Hondo-Owls-large.png",
+    "slug": "hondo",
+    "id": "hondo",
+    "name": "Hondo",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "f1de1baef1c1d368eae627f0bc40a041d33ba6736ce187ef6cfacfdb8fa571b6",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      136,
+      20,
+      1064,
+      780
+    ],
+    "padding": 38,
+    "visibleRGBA_SHA256": "84608115a7407f7282f5f9f6ef88bd48c0423f4f99bf16ff5433eb15708fc72b",
+    "disposition": "integrated",
+    "assetSHA256": "ff173273fe827d5e4ed37b2c8fcffe6443774d2990b9cf6e5f8e741beffeabb8",
+    "assetSize": [
+      1004,
+      836
+    ]
+  },
+  {
+    "file": "Ingram-Moore-Warriors.png",
+    "slug": "ingram-moore",
+    "id": "ingram-moore",
+    "name": "Ingram Moore",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "867dc124896a4a69dff27865a26f0c643c7e3c9912bc84274193a5fd991d45cd",
+    "sourceSize": [
+      300,
+      200
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      18,
+      31,
+      282,
+      169
+    ],
+    "padding": 11,
+    "visibleRGBA_SHA256": "0147afbac918322bf68f0c80b320f56f66c92c34265a40ae0fb68f474e2e3aea",
+    "disposition": "integrated",
+    "assetSHA256": "f95ee51c479abad85ca63c8c856305ab0d497c5d4b305a1ec8f89e3ac13123a2",
+    "assetSize": [
+      286,
+      160
+    ]
+  },
+  {
+    "file": "Jourdanton-Indians-large.png",
+    "slug": "jourdanton",
+    "id": "jourdanton",
+    "name": "Jourdanton",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "5700286cbdb85fd2f6c830ef83c386ea06536539e8a55db99e670e6a455889f5",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      174,
+      20,
+      1027,
+      780
+    ],
+    "padding": 35,
+    "visibleRGBA_SHA256": "24057554ba5653f54fd43e550a5d6a141e2d9de83ce35ae8fc645483f270f75e",
+    "disposition": "integrated",
+    "assetSHA256": "f75523a90dd8900b78f516f9fd0550820910ef5af59a840d20a73d343db0b311",
+    "assetSize": [
+      923,
+      830
+    ]
+  },
+  {
+    "file": "Little-River-Academy-Bumblebees-large.png",
+    "slug": "little-river-academy",
+    "id": "little-river-academy",
+    "name": "Little River Academy",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "78b27c28f6b7601f37b54b54bccd73151086f9e86659dab427457ff2cbbd2b78",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      236,
+      20,
+      964,
+      780
+    ],
+    "padding": 31,
+    "visibleRGBA_SHA256": "e987afc48b7e8e419e86272e9df6db4473082dcb4ab711c491d2f41bdf1e68bf",
+    "disposition": "integrated",
+    "assetSHA256": "32bd8679008bb0acd7608e2c459511a0609a9457cca5747a5eb75f924bec32c3",
+    "assetSize": [
+      790,
+      822
+    ]
+  },
+  {
+    "file": "Llano-Yellowjackets-large.png",
+    "slug": "llano",
+    "id": "llano",
+    "name": "Llano",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "7237ff42e6c80066713c8d9bdca2839d8f197cf0f507153d4a64250fd5e35be6",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      199,
+      20,
+      1001,
+      780
+    ],
+    "padding": 33,
+    "visibleRGBA_SHA256": "523a2da4141c5930db8c1ecf36f9256bf4c3ef94fafd20e8fe43c3ae425daf6c",
+    "disposition": "integrated",
+    "assetSHA256": "7a333dd026a8dfb5d66eef734f03c06395d2a9f960668f5f644b0e29eae2e8aa",
+    "assetSize": [
+      868,
+      826
+    ]
+  },
+  {
+    "file": "Lorena-Leopards-large.png",
+    "slug": "lorena",
+    "id": "lorena",
+    "name": "Lorena",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "7da05f0525f9318acc384d5f1932b9da88d42f0e8cacbb1a7ebf22caf178b12b",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      76,
+      28,
+      1124,
+      772
+    ],
+    "padding": 42,
+    "visibleRGBA_SHA256": "00ba1335b87656eb722d5e40f0f101587dceda0b8f7e5b535059ae98cf2717d8",
+    "disposition": "integrated",
+    "assetSHA256": "80a2083448b6def8965180cb234af148179cda9467c2336e8fa4dfe597f40a19",
+    "assetSize": [
+      1132,
+      828
+    ]
+  },
+  {
+    "file": "Lyford-Bulldogs.png",
+    "slug": "lyford",
+    "id": "lyford",
+    "name": "Lyford",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "ed13072e2a2c63c3ea758e4bf5aa66e9f0dbbf15d8117f608bd6f23b8ab63d65",
+    "sourceSize": [
+      300,
+      200
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      22,
+      5,
+      278,
+      195
+    ],
+    "padding": 11,
+    "visibleRGBA_SHA256": "8acb67da8415653e6bd1c2100a72f8e87829e7ac36200cad467cd2f3f8fdb38a",
+    "disposition": "integrated",
+    "assetSHA256": "b2e7d0ee48c2ac6c7c5ac26b85a43915cb08c1f85be7adad3b50bcbb5788b0fd",
+    "assetSize": [
+      278,
+      212
+    ]
+  },
+  {
+    "file": "Malakoff-Tigers-large.png",
+    "slug": "malakoff",
+    "id": "malakoff",
+    "name": "Malakoff",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "ecd957ea4c0a0317a5e9f9f3c1d344423658fd6c7fb4f672acd056f20ffcbab7",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      135,
+      20,
+      1066,
+      780
+    ],
+    "padding": 38,
+    "visibleRGBA_SHA256": "e4a7b11c38daa63852132bc30a93f726a54ebdfa00af9596167159fe825a6b00",
+    "disposition": "integrated",
+    "assetSHA256": "acaeb3e32374e8bb9902df523341651a767969da7e00b4efd373e99200784e32",
+    "assetSize": [
+      1007,
+      836
+    ]
+  },
+  {
+    "file": "Marion-Bulldogs-large.png",
+    "slug": "marion",
+    "id": "marion",
+    "name": "Marion",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "6fb8f7407e1a23b342f3bc3b5332999da6f9cc0895cbe58eeb584f7c81ddf604",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      75,
+      88,
+      1123,
+      712
+    ],
+    "padding": 42,
+    "visibleRGBA_SHA256": "9ddf94aafc437f7d266bd9140a226e16895cb9424cefedf7882bf062ecf15c98",
+    "disposition": "integrated",
+    "assetSHA256": "29dd5f2687cbf5d64d94c2ac1b9139da6eba2361f04351cf32d875d3e887f595",
+    "assetSize": [
+      1132,
+      708
+    ]
+  },
+  {
+    "file": "Mathis-Pirates-1.png",
+    "slug": "mathis",
+    "id": "mathis",
+    "name": "Mathis",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "038a767d34419191f8837b8811ef9aeeebbf536ec73823e24c3f777f8e35b6eb",
+    "sourceSize": [
+      300,
+      200
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      58,
+      5,
+      242,
+      195
+    ],
+    "padding": 8,
+    "visibleRGBA_SHA256": "0ce7ff1e0751f7c1ad2d953a2cb480019114610634b56aa175b393c1948aedbe",
+    "disposition": "integrated",
+    "assetSHA256": "caa36b69ef7f87501d5f91308f8ff3f05d3eb3ca2df03fb2458cf9d5d4a86c50",
+    "assetSize": [
+      200,
+      206
+    ]
+  },
+  {
+    "file": "Mount-Vernon-Tigers-large.png",
+    "slug": "mount-vernon",
+    "id": "mount-vernon",
+    "name": "Mount Vernon",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "fff53cf9377771c5ee231072e8244f57b29d0d50f37c51e8dd1e77e9b36b5508",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      138,
+      20,
+      1062,
+      780
+    ],
+    "padding": 37,
+    "visibleRGBA_SHA256": "551b7abddace55c2f77b14e9f392612ef804323d7e3b89647c8a4bf8af49a49f",
+    "disposition": "integrated",
+    "assetSHA256": "646c9e9ff1d727048b427f556331a6073c233308e75e80952ad94f15bf13140c",
+    "assetSize": [
+      998,
+      834
+    ]
+  },
+  {
+    "file": "Odessa-Compass-Cougars1-large.png",
+    "slug": "odessa-compass-academy",
+    "id": "odessa-compass-academy",
+    "name": "Odessa Compass Academy",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "ce7ce3508979a41b1687a7e6f03616fc11e1d55470b6b4838066c2024169580b",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      199,
+      20,
+      1001,
+      781
+    ],
+    "padding": 33,
+    "visibleRGBA_SHA256": "6b24650442d70e248888153b69f004ec6004847f7edebb0caa6fc2ba177498b4",
+    "disposition": "integrated",
+    "assetSHA256": "d63bdeefeb4f660571c9aaff00a0bf912e311c2710c5c8aeb21fbc6362b5ff13",
+    "assetSize": [
+      868,
+      827
+    ]
+  },
+  {
+    "file": "Orange-Grove-Bulldogs.png",
+    "slug": "orange-grove",
+    "id": "orange-grove",
+    "name": "Orange Grove",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "cf41d1811636a0e5c9b098739293d86b2b57d2c7c49e3a71c17647c94f145bf2",
+    "sourceSize": [
+      300,
+      200
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      38,
+      5,
+      262,
+      195
+    ],
+    "padding": 9,
+    "visibleRGBA_SHA256": "eb76fca0076ef68187e358e2f0be3265f171b46150663193860b515139ebd871",
+    "disposition": "integrated",
+    "assetSHA256": "83890b9851530fe0cccd9c72118894930c167ddaabf372b8910eae9c044417ce",
+    "assetSize": [
+      242,
+      208
+    ]
+  },
+  {
+    "file": "Orangefield-Bobcats-large.png",
+    "slug": "orangefield",
+    "id": "orangefield",
+    "name": "Orangefield",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "f2d75ee72dbc997e5ab100eafb93d2db101fb5ceb2c12db9c096fe9f2e157f41",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      181,
+      20,
+      1018,
+      780
+    ],
+    "padding": 34,
+    "visibleRGBA_SHA256": "8d6cb8982880dca8afaa8347db08733332298e77318953865646eb32ff8fbae4",
+    "disposition": "integrated",
+    "assetSHA256": "df048a24a47046c1fda65f6eacce9afe0bf739fda6048014db7a6a707aaf3ded",
+    "assetSize": [
+      905,
+      828
+    ]
+  },
+  {
+    "file": "Palestine-Westwood-Panthers-large.png",
+    "slug": "palestine-westwood",
+    "id": "palestine-westwood",
+    "name": "Palestine Westwood",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "166bf034d58b65adee3cd2da99d12a1a87423ac0451c43523d117bd8940b9878",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      75,
+      23,
+      1125,
+      777
+    ],
+    "padding": 42,
+    "visibleRGBA_SHA256": "fec52a84cd89d267c019904acbfe59e27b0535466c0e5259605dd51f9541eba2",
+    "disposition": "integrated",
+    "assetSHA256": "6c45e896f72c11f8fcaf11b3af378fe5b18688a55b01421096833f41ceabd607",
+    "assetSize": [
+      1134,
+      838
+    ]
+  },
+  {
+    "file": "Paradise-Panthers.png",
+    "slug": "paradise",
+    "id": "paradise",
+    "name": "Paradise",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "995ce03012ee84d734c7d1b175593c91204848947b21dd2c6111f38f68a4614d",
+    "sourceSize": [
+      300,
+      200
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      18,
+      14,
+      282,
+      186
+    ],
+    "padding": 11,
+    "visibleRGBA_SHA256": "00fe3e66d5d3a6272aae202ae15b5a3a0c86ecfe8939c17de61cc97fd9e02a62",
+    "disposition": "integrated",
+    "assetSHA256": "f893a51dfc648150e12bba6b35d2131f96409b04065d9186444ab54b8277035d",
+    "assetSize": [
+      286,
+      194
+    ]
+  },
+  {
+    "file": "Peaster-Greyhounds-large.png",
+    "slug": "peaster",
+    "id": "peaster",
+    "name": "Peaster",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": true,
+    "sourceSHA256": "39fcea754112b84856c4db232aa6f79a75d78a417835eb036d989170e6bccb95",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      138,
+      20,
+      1062,
+      780
+    ],
+    "padding": 37,
+    "visibleRGBA_SHA256": "c7e87a3145459d1a40ce2f3028478c85dbd8bbe507ad28ac8127542eba6ae82b",
+    "disposition": "approved existing artwork retained"
+  },
+  {
+    "file": "Pilot-Point-Bearcats-large.png",
+    "slug": "pilot-point",
+    "id": "pilot-point",
+    "name": "Pilot Point",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "695e1d9a414a1a20f2402919cb0177c68dd63f8f312ffeeac32a73edf17b6f5a",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      249,
+      20,
+      950,
+      780
+    ],
+    "padding": 31,
+    "visibleRGBA_SHA256": "941de6d6371348827ee56c29120dee6dff31b3c3bf59b971f0f21e8126ede96b",
+    "disposition": "integrated",
+    "assetSHA256": "d550a7d847c230039364f636a5fcfa7379a5e87c9ed56327eecfc6a7c0fabad8",
+    "assetSize": [
+      763,
+      822
+    ]
+  },
+  {
+    "file": "Raymondville-Bearkats-large.png",
+    "slug": "raymondville",
+    "id": "raymondville",
+    "name": "Raymondville",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "9388a9576e6451f4800a270e6bf0898b2e0189288fd5d408e28f46a13d17a034",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      121,
+      20,
+      1080,
+      780
+    ],
+    "padding": 39,
+    "visibleRGBA_SHA256": "93517919d84826eaeba6985c3cc96dbaf6b68a78125c8c47e49663ae8b1b4cd5",
+    "disposition": "integrated",
+    "assetSHA256": "a29a858fac8304a8c8f906bf0ae0d7ca0074412dde008251d97dd75881875588",
+    "assetSize": [
+      1037,
+      838
+    ]
+  },
+  {
+    "file": "Rio-Hondo-Bobcats-large.png",
+    "slug": "rio-hondo",
+    "id": "rio-hondo",
+    "name": "Rio Hondo",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "b9e4a2f46be736f1d47683dde5409f7c9196bfcfd720e89304a19edf35700010",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      121,
+      20,
+      1079,
+      780
+    ],
+    "padding": 39,
+    "visibleRGBA_SHA256": "3467558916cbad2439a1c73f01d88babc9e640ba7bb5b918bbb2e4e65acf95ab",
+    "disposition": "integrated",
+    "assetSHA256": "64ddb64b6c1226da634382be8b232525075a8a336b4fa43cb5207124436105b9",
+    "assetSize": [
+      1036,
+      838
+    ]
+  },
+  {
+    "file": "San-Diego-Vaqueros-large.png",
+    "slug": "san-diego",
+    "id": "san-diego",
+    "name": "San Diego",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "aa5ac76960b0552923d44658fdc9443fe2d14b91b9ab32b4fa8a5b4dd66b6849",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      373,
+      20,
+      825,
+      780
+    ],
+    "padding": 31,
+    "visibleRGBA_SHA256": "75f199cd410ee533a1bd4ad6253426adbb46ab49c095b2a8f4cfd6d79625cf4b",
+    "disposition": "integrated",
+    "assetSHA256": "69c45ec3bc1eea77000d639a827bd93c3a7348648134adf08d5f86406bec8d7d",
+    "assetSize": [
+      514,
+      822
+    ]
+  },
+  {
+    "file": "Shallowater-Mustangs-large.png",
+    "slug": "shallowater",
+    "id": "shallowater",
+    "name": "Shallowater",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "40d533e2c4fe9768370ea72d04866e290229815e505c6cae4cc2daea35dbaab5",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      75,
+      134,
+      1123,
+      664
+    ],
+    "padding": 42,
+    "visibleRGBA_SHA256": "914800b4e1a35b1f710f20080ec1f0e57f514cbc293ade58754bc03d52af09e0",
+    "disposition": "integrated",
+    "assetSHA256": "c0382b790f59467a0b7b34a21cdf897b5c16061a3bb988361cefb17ff31782d3",
+    "assetSize": [
+      1132,
+      614
+    ]
+  },
+  {
+    "file": "Sinton-Pirates-large.png",
+    "slug": "sinton",
+    "id": "sinton",
+    "name": "Sinton",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "525f0bc66c88db46f8f985e4ca852fae388a4a11a7140044ed8434f317dad4ac",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      220,
+      20,
+      980,
+      780
+    ],
+    "padding": 31,
+    "visibleRGBA_SHA256": "e95121bbc6be2308d3c50315ef6e89e8cb00ed52dec56bb5ea9d63931d026a40",
+    "disposition": "integrated",
+    "assetSHA256": "1754b5d86f48127ae064c93d5e49e801ffc19170783acd0426c1cb9bb8d7b55b",
+    "assetSize": [
+      822,
+      822
+    ]
+  },
+  {
+    "file": "Sweeny-Bulldogs-large.png",
+    "slug": "sweeny",
+    "id": "sweeny",
+    "name": "Sweeny",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "d321cf05e4bdf87f60577e42fbd0acd127353073a95b8e2821b0067fad48e527",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      201,
+      20,
+      997,
+      780
+    ],
+    "padding": 32,
+    "visibleRGBA_SHA256": "8d718c9fdd6f36f0b0dd0ce2d8c1b92af1f6b940c2c05bae61519d910312567b",
+    "disposition": "integrated",
+    "assetSHA256": "1c9d91d055f40c1d80e8f2f4452611ea9d7bed5266adf5d958d3eb8dd637cca3",
+    "assetSize": [
+      860,
+      824
+    ]
+  },
+  {
+    "file": "Sweetwater-Mustangs-large.png",
+    "slug": "sweetwater",
+    "id": "sweetwater",
+    "name": "Sweetwater",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "8f1e2eeb12f3a306dc1dd745a95f9f1308e8e62b92e960321356a61236c6305d",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      323,
+      21,
+      878,
+      779
+    ],
+    "padding": 31,
+    "visibleRGBA_SHA256": "7443299eb30c4ffb26f923cee386c1c74f5b933ad08974c15e7df56d82773a41",
+    "disposition": "integrated",
+    "assetSHA256": "da26c506561e59d76df0f0400733c73dc5bdde67a12a48d98f72283568ea623a",
+    "assetSize": [
+      617,
+      820
+    ]
+  },
+  {
+    "file": "Tatum-Eagles.png",
+    "slug": "tatum",
+    "id": "tatum",
+    "name": "Tatum",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "4b67958d7157540317c98cfe6bd8d64d748e230d37c83eeb7f72edb243c182d3",
+    "sourceSize": [
+      300,
+      200
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      19,
+      10,
+      281,
+      190
+    ],
+    "padding": 11,
+    "visibleRGBA_SHA256": "d9814aaca1069b03c643dba34a782e877371f9bcd8473763dd064f2f8ff2e043",
+    "disposition": "integrated",
+    "assetSHA256": "a7897f05a71eab9f4212cd3c6cc3445dd9662db633acd65169684456b45a39ee",
+    "assetSize": [
+      284,
+      202
+    ]
+  },
+  {
+    "file": "Texarkana-Liberty-Eylau-Leopards1-large.png",
+    "slug": "texarkana-liberty-eylau",
+    "id": "texarkana-liberty-eylau",
+    "name": "Texarkana Liberty-Eylau",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "671211beab6718a5789bfb8feadaa215262a457e989c4cc6e66eb52ad4c7bf55",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      197,
+      20,
+      1003,
+      780
+    ],
+    "padding": 33,
+    "visibleRGBA_SHA256": "5694789fad52ef20472f8b92171b21991a88be2e751e9d08e48311f035128b1a",
+    "disposition": "integrated",
+    "assetSHA256": "b5d11376ea391da34168412a0dca8ec0cf7d391f7d610a4b206eec225b5637cc",
+    "assetSize": [
+      872,
+      826
+    ]
+  },
+  {
+    "file": "Trinity-Tigers1-large.png",
+    "slug": "trinity",
+    "id": "trinity",
+    "name": "Trinity",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "03a034df549e012b1c01817373b789046bb4d83f7ce370f84341eade73df027a",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      159,
+      20,
+      1040,
+      780
+    ],
+    "padding": 36,
+    "visibleRGBA_SHA256": "43aec93a4cfc3e491c1f761e41675a46efa4d65c136dec9545af1475abdf61de",
+    "disposition": "integrated",
+    "assetSHA256": "11d0b085ab656e2d2b64f9a9baee6e2b0c681ec9adedb3b80db298da3d1ff227",
+    "assetSize": [
+      953,
+      832
+    ]
+  },
+  {
+    "file": "Tuscola-Jim-Ned-Indians-large.png",
+    "slug": "tuscola-jim-ned",
+    "id": "tuscola-jim-ned",
+    "name": "Tuscola Jim Ned",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "98de49764ae9fc1b2d6e634f75aa950b5db80099caf3ea504a30afa895e420e1",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      202,
+      20,
+      998,
+      780
+    ],
+    "padding": 32,
+    "visibleRGBA_SHA256": "bb3e11a631442defc738724474fc2363cef7b9df8c88cee1c872bbca778d6be4",
+    "disposition": "integrated",
+    "assetSHA256": "22849fd0b7a54edf6ed3c5e0a3ad1907c5d9afb3f9fbcd3d795fa410504bf505",
+    "assetSize": [
+      860,
+      824
+    ]
+  },
+  {
+    "file": "Universal-City-Randolph-Ro-Hawks-large.png",
+    "slug": "universal-city-randolph",
+    "id": "universal-city-randolph",
+    "name": "Universal City Randolph",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "a365b744b90e84d70dc8f9865328265307a88ce35f97ae51671fd2b303adebbd",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      214,
+      20,
+      985,
+      780
+    ],
+    "padding": 31,
+    "visibleRGBA_SHA256": "dd466f80b4fcbf46ce62281c741e42c025250df0ad94cdc97fe75b6c99402ff1",
+    "disposition": "integrated",
+    "assetSHA256": "225d015d594df62cf5a60d12b11434620f6f5178d838b50e4ab3edea1c4a9373",
+    "assetSize": [
+      833,
+      822
+    ]
+  },
+  {
+    "file": "Vernon-Lions1-large.png",
+    "slug": "vernon",
+    "id": "vernon",
+    "name": "Vernon",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "5a976334c8d50b3c1d9e13875c4f1e3711ebb5cac11fb218af2e090d7c733f5d",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      93,
+      20,
+      1106,
+      780
+    ],
+    "padding": 41,
+    "visibleRGBA_SHA256": "e095f03a05f9d0bc99b4244c8dfb89c96be910726b6fa02c8698a61847fea9a4",
+    "disposition": "integrated",
+    "assetSHA256": "1fe6f3d825b2a22c848703a89f297dd1da5305a75f5d5d3fa5c291b5f1dfec6a",
+    "assetSize": [
+      1095,
+      842
+    ]
+  },
+  {
+    "file": "Wall-Hawks-large.png",
+    "slug": "wall",
+    "id": "wall",
+    "name": "Wall",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "686ac7601fc71ee26b14198912002d89cab4f0e9e4ced04f5e476b7640e66abc",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      80,
+      122,
+      1113,
+      709
+    ],
+    "padding": 42,
+    "visibleRGBA_SHA256": "b32e9f60d05ff0f2369018171dff0d77f7dd9517441062f3e7a9f99fa0c8ba49",
+    "disposition": "integrated",
+    "assetSHA256": "10b9bb25067c06cc0dd0e38ae2b7901b2bd8d361f4bc89591d8017ce99714fc9",
+    "assetSize": [
+      1117,
+      671
+    ]
+  },
+  {
+    "file": "Whitesboro-Bearcats1-large.png",
+    "slug": "whitesboro",
+    "id": "whitesboro",
+    "name": "Whitesboro",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "96368ffc80de30e9042031f48c37e23e9b223f9c7adaf1312e371748d8d3c458",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      216,
+      21,
+      983,
+      779
+    ],
+    "padding": 31,
+    "visibleRGBA_SHA256": "80b05cc9aea7b8a9d015d8dd404a424df9f21e0b771715315c97065e4834b3b6",
+    "disposition": "integrated",
+    "assetSHA256": "92eced368f61d4ae910c8687960963598c08f24e61d1c2adba952a06666468d4",
+    "assetSize": [
+      829,
+      820
+    ]
+  },
+  {
+    "file": "Whitney-Wildcats.png",
+    "slug": "whitney",
+    "id": "whitney",
+    "name": "Whitney",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "27df614acd7880f294937b06f11fac199bcea7cc3e82190eca4091e735cc5600",
+    "sourceSize": [
+      300,
+      200
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      37,
+      5,
+      263,
+      195
+    ],
+    "padding": 10,
+    "visibleRGBA_SHA256": "604521d46929918bf9cfeb274078cb08f732e999771328be832d5334558d482d",
+    "disposition": "integrated",
+    "assetSHA256": "12151fa9681e6b39ce96b648e85ffc8da3414dec2c2ff506bf57530ff4364841",
+    "assetSize": [
+      246,
+      210
+    ]
+  },
+  {
+    "file": "Winnie-East-Chambers-Buccaneers-large-1.png",
+    "slug": "east-chambers",
+    "id": "east-chambers",
+    "name": "East Chambers",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "02020d3e9f748de613b1900b2b6a539ef5a2af8e0b0758b77a5c7e88785d2cb8",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      259,
+      20,
+      942,
+      780
+    ],
+    "padding": 31,
+    "visibleRGBA_SHA256": "9dfccb1e31f04ff0a21cdf8497b6d8caf845fefd96e18b55572f117bff38ec61",
+    "disposition": "integrated",
+    "assetSHA256": "319fd1bbf8acd600dcc55dd720be0125a90c8033c33fec1e01351b03a2651719",
+    "assetSize": [
+      745,
+      822
+    ]
+  },
+  {
+    "file": "Winnsboro-Red-Raiders-large.png",
+    "slug": "winnsboro",
+    "id": "winnsboro",
+    "name": "Winnsboro",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "412673e92491fb9a460a693e9923b4a30f3b47eef6289cfeff5f136870f8c30b",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      204,
+      20,
+      995,
+      780
+    ],
+    "padding": 32,
+    "visibleRGBA_SHA256": "797e01ec25de2de8ac968033e59990c27a1ce1ce4ccdc78cceb1d6fe8780a5f4",
+    "disposition": "integrated",
+    "assetSHA256": "ee56a1c604e70a19314e78ca291517dc529f93dad67008885c9fd8fd10a7b8ce",
+    "assetSize": [
+      855,
+      824
+    ]
+  },
+  {
+    "file": "Yoakum-Bulldogs-large.png",
+    "slug": "yoakum",
+    "id": "yoakum",
+    "name": "Yoakum",
+    "classification": {
+      "conference": "3A",
+      "division": "D1"
+    },
+    "existing": false,
+    "sourceSHA256": "a23a1a52f6df46ae363eb8491abbab2d663ca8791761804a49b3b19f10142538",
+    "sourceSize": [
+      1200,
+      800
+    ],
+    "sourceHasAlpha": true,
+    "alphaBounds": [
+      156,
+      21,
+      1044,
+      779
+    ],
+    "padding": 36,
+    "visibleRGBA_SHA256": "660caf2dc851798699e1443d1de7320a0d43ec1dd7e108ab9ebc9b0acbbfbc19",
+    "disposition": "integrated",
+    "assetSHA256": "cd61557ba10b9abc51ba276dd197a6f08820964041800d5d9e7eec41c8e74c4c",
+    "assetSize": [
+      960,
+      830
+    ]
+  }
+]
