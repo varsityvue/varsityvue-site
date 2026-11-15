@@ -2,8 +2,33 @@ import type { School } from "@/types/platform";
 
 // Draft integration from PR #133 at 474faae96343b804f111eb74200c71341465a8c4.
 // UIL alignment plus publisher-listed branding; release review remains required.
-// Houston Sterling is withheld: missing secondary color value.
+// Houston Sterling uses neutral presentation colors pending approved branding; no logo added.
 export const playoffSchoolAdditions: School[] = [
+  // Identity: official campus and UIL field. Colors below are neutral UI fallbacks.
+{
+  "id": "houston-sterling",
+  "slug": "houston-sterling",
+  "name": "Houston Sterling",
+  "fullName": "Houston Sterling Raiders",
+  "mascot": "Raiders",
+  "abbreviation": "SHS",
+  "classification": {
+    "conference": "4A",
+    "division": "D1"
+  },
+  "districtId": "4a-d1-district-10",
+  "uilRegion": 3,
+  "officialWebsite": "https://sterling.houstonisd.org/",
+  "colors": {
+    "primary": "#334155",
+    "secondary": "#E2E8F0",
+    "accent": "#FFFFFF"
+  },
+  "sports": [
+    "football"
+  ],
+  "status": "planned"
+},
   {
     "id": "panhandle",
     "slug": "panhandle",

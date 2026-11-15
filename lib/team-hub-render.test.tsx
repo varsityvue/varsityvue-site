@@ -50,3 +50,13 @@ test("recent school results hide unverified playoff finals", () => {
   const verified = renderToStaticMarkup(<RecentScores scores={[{ ...game, publicScoreVerified: true }]} theme={school.colors} schoolSlug={school.slug} />);
   assert.match(verified, /49-7/);
 });
+
+test("unconfirmed playoff sides never become home/away claims on school hubs",()=>{
+ const playoff={...final,gameType:"playoff" as const,publicScoreVerified:true,isNeutralSite:null,designatedSidesConfirmed:false};
+ const html=renderToStaticMarkup(<SchoolGameNight school={school} focus={{featured:playoff,next:{...playoff,id:"next-area",status:"scheduled"}}}/>);
+ const text=html.replace(/<[^>]*>/g,"");
+ assert.ok(text.includes("Hico vs. De Leon"));assert.ok(!text.includes("Hico at De Leon"));
+ assert.match(html,/Final score, teams in matchup order/);
+ assert.doesNotMatch(html,/>Home<|>Away</);
+ assert.equal((html.match(/>Matchup<\/span>/g)??[]).length,2);
+});

@@ -181,6 +181,35 @@ try{
   assert.ok((await page.locator('main').innerText()).includes('FINAL · VERIFIED'));
   await page.goto(origin+'/games/2026-area-3a-d2-i-2');
   assert.ok((await page.locator('main').innerText()).includes('6:00 PM'));
+  await page.goto(origin+'/playoffs?school='+encodeURIComponent('4A-D1|2|Stephenville'));
+  await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
+  await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();
+  assert.equal(await bracket.locator('article').count(),63);
+  assert.equal(await bracket.locator('article').filter({hasText:'Verified final'}).count(),32);
+  await checkContained(page,canvas);
+  for(const region of ['0','1','2','3']){
+   await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);
+   await page.getByRole('button',{name:'Fit selected region',exact:true}).click();
+   assert.equal(await bracket.locator('article').count(),15);await checkContained(page,canvas);
+  }
+  await page.getByRole('button',{name:'Find Stephenville',exact:true}).click();await canvas.scrollIntoViewIfNeeded();
+  await page.screenshot({path:`${output}/${name}-4ad1-stephenville.png`});
+  await page.goto(origin+'/games/2026-bi-district-4a-d1-iii-8');
+  assert.ok((await page.locator('main').innerText()).includes('FINAL · VERIFIED'));
+  await page.locator('a[href="/schools/houston-sterling"]:visible').first().click();
+  await page.locator('a[href="/games/2026-bi-district-4a-d1-iii-8"]').first().waitFor();
+  await page.goto(origin+'/games/2026-area-4a-d1-iii-4');
+  const stephArea=await page.locator('main').innerText();
+  for(const word of ['Stephenville','Vidor','7:00 PM','Bryan'])assert.ok(stephArea.includes(word),word);
+  await page.goto(origin+'/schools/stephenville');
+  assert.ok((await page.locator('main').innerText()).includes('Vidor vs. Stephenville'),'unconfirmed Area sides remain a matchup, not a home game');
+  await page.goto(origin+'/playoffs?school='+encodeURIComponent('4A-D1|2|Austin'));
+  await page.getByRole('button',{name:'Find Austin',exact:true}).click();
+  const selectedAustin=bracket.locator('article').filter({hasText:'Your team'});
+  assert.equal(await selectedAustin.count(),1);
+  assert.ok((await selectedAustin.innerText()).includes('F10'));
+  assert.equal(await selectedAustin.locator('a[href="/schools/houston-austin"]').count(),1);
+  await page.screenshot({path:`${output}/${name}-4ad1-houston-austin.png`});
   await page.goto(origin+'/schools/millsap');
   assert.ok(await page.locator('a[href="/games/2026-area-3a-d2-ii-1"]').count()>0,'published scheduled Area game is the school hero next matchup');
   if(name==='desktop')await page.locator('a[href="/games/2026-area-3a-d2-ii-1"]:visible').first().waitFor();

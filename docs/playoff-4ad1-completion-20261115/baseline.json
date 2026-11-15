@@ -1,0 +1,290 @@
+[
+  {
+    "region": 0,
+    "index": 0,
+    "teams": [
+      "Andress",
+      "Dumas"
+    ],
+    "existingGameId": null
+  },
+  {
+    "region": 0,
+    "index": 1,
+    "teams": [
+      "Decatur",
+      "Lake View"
+    ],
+    "existingGameId": null
+  },
+  {
+    "region": 0,
+    "index": 2,
+    "teams": [
+      "Randall",
+      "Austin"
+    ],
+    "existingGameId": null
+  },
+  {
+    "region": 0,
+    "index": 3,
+    "teams": [
+      "Plainview",
+      "Lake Dallas"
+    ],
+    "existingGameId": null
+  },
+  {
+    "region": 0,
+    "index": 4,
+    "teams": [
+      "Midland Greenwood",
+      "Springtown"
+    ],
+    "existingGameId": null
+  },
+  {
+    "region": 0,
+    "index": 5,
+    "teams": [
+      "West Plains",
+      "Ysleta"
+    ],
+    "existingGameId": "2026-bi-district-4a-d1-i-6"
+  },
+  {
+    "region": 0,
+    "index": 6,
+    "teams": [
+      "Aubrey",
+      "Andrews"
+    ],
+    "existingGameId": null
+  },
+  {
+    "region": 0,
+    "index": 7,
+    "teams": [
+      "Riverside",
+      "Canyon"
+    ],
+    "existingGameId": "2026-bi-district-4a-d1-i-8"
+  },
+  {
+    "region": 1,
+    "index": 0,
+    "teams": [
+      "Kennedale",
+      "Carter"
+    ],
+    "existingGameId": null
+  },
+  {
+    "region": 1,
+    "index": 1,
+    "teams": [
+      "Pine Tree",
+      "Caddo Mills"
+    ],
+    "existingGameId": null
+  },
+  {
+    "region": 1,
+    "index": 2,
+    "teams": [
+      "Lincoln",
+      "Southwest"
+    ],
+    "existingGameId": null
+  },
+  {
+    "region": 1,
+    "index": 3,
+    "teams": [
+      "Paris",
+      "Kilgore"
+    ],
+    "existingGameId": null
+  },
+  {
+    "region": 1,
+    "index": 4,
+    "teams": [
+      "Sulphur Springs",
+      "Henderson"
+    ],
+    "existingGameId": null
+  },
+  {
+    "region": 1,
+    "index": 5,
+    "teams": [
+      "Kimball",
+      "Benbrook"
+    ],
+    "existingGameId": null
+  },
+  {
+    "region": 1,
+    "index": 6,
+    "teams": [
+      "Lindale",
+      "Kaufman"
+    ],
+    "existingGameId": null
+  },
+  {
+    "region": 1,
+    "index": 7,
+    "teams": [
+      "Eastern Hills",
+      "Wilmer-Hutchins"
+    ],
+    "existingGameId": null
+  },
+  {
+    "region": 2,
+    "index": 0,
+    "teams": [
+      "Little Cypress-Mauriceville",
+      "Austin"
+    ],
+    "existingGameId": null
+  },
+  {
+    "region": 2,
+    "index": 1,
+    "teams": [
+      "Jarrell",
+      "El Campo"
+    ],
+    "existingGameId": "2026-bi-district-4a-d1-iii-2"
+  },
+  {
+    "region": 2,
+    "index": 2,
+    "teams": [
+      "Stafford",
+      "Bridge City"
+    ],
+    "existingGameId": null
+  },
+  {
+    "region": 2,
+    "index": 3,
+    "teams": [
+      "Sealy",
+      "China Spring"
+    ],
+    "existingGameId": "2026-bi-district-4a-d1-iii-4"
+  },
+  {
+    "region": 2,
+    "index": 4,
+    "teams": [
+      "Bay City",
+      "Lampasas"
+    ],
+    "existingGameId": "2026-bi-district-4a-d1-iii-5"
+  },
+  {
+    "region": 2,
+    "index": 5,
+    "teams": [
+      "Fort Bend Willowridge",
+      "Hargrave"
+    ],
+    "existingGameId": null
+  },
+  {
+    "region": 2,
+    "index": 6,
+    "teams": [
+      "Stephenville",
+      "Navasota"
+    ],
+    "existingGameId": "stephenville-vs-navasota-2026-bi-district"
+  },
+  {
+    "region": 2,
+    "index": 7,
+    "teams": [
+      "Vidor",
+      "Sterling"
+    ],
+    "existingGameId": null
+  },
+  {
+    "region": 3,
+    "index": 0,
+    "teams": [
+      "Canyon Lake",
+      "Pleasanton"
+    ],
+    "existingGameId": null
+  },
+  {
+    "region": 3,
+    "index": 1,
+    "teams": [
+      "Edcouch-Elsa",
+      "Calhoun"
+    ],
+    "existingGameId": null
+  },
+  {
+    "region": 3,
+    "index": 2,
+    "teams": [
+      "Somerset",
+      "Davenport"
+    ],
+    "existingGameId": null
+  },
+  {
+    "region": 3,
+    "index": 3,
+    "teams": [
+      "Zapata",
+      "Miller"
+    ],
+    "existingGameId": null
+  },
+  {
+    "region": 3,
+    "index": 4,
+    "teams": [
+      "Calallen",
+      "Hidalgo Early College"
+    ],
+    "existingGameId": null
+  },
+  {
+    "region": 3,
+    "index": 5,
+    "teams": [
+      "Floresville",
+      "Fredericksburg"
+    ],
+    "existingGameId": null
+  },
+  {
+    "region": 3,
+    "index": 6,
+    "teams": [
+      "Alice",
+      "Tuloso-Midway"
+    ],
+    "existingGameId": null
+  },
+  {
+    "region": 3,
+    "index": 7,
+    "teams": [
+      "Tivy",
+      "La Vernia"
+    ],
+    "existingGameId": null
+  }
+]

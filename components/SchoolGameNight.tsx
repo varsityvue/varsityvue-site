@@ -1,3 +1,4 @@
+import { gameOpponentPrefix, gameSiteLabel } from "@/lib/game-site-presentation";
 import Link from "next/link";
 import type { Game, School } from "@/types/platform";
 import { getGamePresentation } from "@/lib/game-presentation";
@@ -28,11 +29,11 @@ export default function SchoolGameNight({ school, focus, games = [] }: { school:
         <p className="text-xs font-black uppercase tracking-[0.18em] text-white/70">{presentation?.kind === "verified_live" ? "Live now" : presentation?.kind === "kickoff_window" ? "Game night" : featured?.status === "final" ? "Latest result" : "Next game"}</p>
         {featured ? <>
           <p className="mt-2 text-xs font-bold text-white/70">{enhancedFinal && featured.publicScoreVerified === false ? "Result awaiting verification" : presentation?.label} · {gameDate(featured)}</p>
-          <h2 className="mt-3 break-words text-xl font-black leading-tight sm:text-2xl">{featured.awayTeam} at {featured.homeTeam}</h2>
-          {enhancedFinal && presentation?.kind === "verified_final" && showScore ? <dl aria-label="Final score, away team first" className="mt-3 overflow-hidden rounded-xl border border-white/15 bg-black/25">
-            {([{ team: featured.awayTeam, location: "Away", score: featured.awayScore ?? featured.score?.away, opponent: featured.homeScore ?? featured.score?.home }, { team: featured.homeTeam, location: "Home", score: featured.homeScore ?? featured.score?.home, opponent: featured.awayScore ?? featured.score?.away }]).map(row => {
+          <h2 className="mt-3 break-words text-xl font-black leading-tight sm:text-2xl">{featured.awayTeam} {gameOpponentPrefix(featured)} {featured.homeTeam}</h2>
+          {enhancedFinal && presentation?.kind === "verified_final" && showScore ? <dl aria-label={featured.isNeutralSite === true || featured.isNeutralSite === null || featured.designatedSidesConfirmed === false ? "Final score, teams in matchup order" : "Final score, away team first"} className="mt-3 overflow-hidden rounded-xl border border-white/15 bg-black/25">
+            {([{ team: featured.awayTeam, side: "away", location: gameSiteLabel(featured, false), score: featured.awayScore ?? featured.score?.away, opponent: featured.homeScore ?? featured.score?.home }, { team: featured.homeTeam, side: "home", location: gameSiteLabel(featured, true), score: featured.homeScore ?? featured.score?.home, opponent: featured.awayScore ?? featured.score?.away }]).map(row => {
               const winner = row.score! > row.opponent!;
-              return <div key={row.location} className={`flex min-w-0 items-center justify-between gap-4 border-b border-white/10 px-4 py-3 last:border-b-0 ${winner ? "bg-white/[0.08]" : ""}`}>
+              return <div key={row.side} className={`flex min-w-0 items-center justify-between gap-4 border-b border-white/10 px-4 py-3 last:border-b-0 ${winner ? "bg-white/[0.08]" : ""}`}>
                 <dt className="min-w-0"><span className="block text-[10px] font-bold uppercase tracking-widest text-white/70">{row.location}</span><span className="mt-1 block break-words text-lg font-black [overflow-wrap:anywhere]">{row.team}</span>{winner && <span className="text-xs font-bold text-emerald-200">Winner</span>}</dt>
                 <dd className="shrink-0 text-4xl font-black tabular-nums"><span className="sr-only">{row.team}: </span>{row.score}<span className="sr-only"> points</span></dd>
               </div>;
@@ -47,7 +48,7 @@ export default function SchoolGameNight({ school, focus, games = [] }: { school:
 
       </div>
       <div className="min-w-0 border-t border-white/10 pt-4 md:border-l md:border-t-0 md:pl-6 md:pt-0">
-        {next && next.id !== featured?.id ? <><p className="text-xs font-black uppercase tracking-[0.18em] text-white/70">Up next</p><Link href={`/games/${next.id}`} className="mt-3 block rounded-xl border border-white/10 p-4 hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-white"><p className="break-words font-bold">{next.awayTeam} at {next.homeTeam}</p><p className="mt-2 text-sm text-white/70">{gameDate(next)}</p><p className="mt-2 text-sm text-white/70">{next.venue ?? "Venue TBD"}</p><span className="mt-3 block text-sm font-bold">View matchup →</span></Link></> : <><p className="text-xs font-black uppercase tracking-[0.18em] text-white/70">Your team, all season</p><p className="mt-3 text-sm leading-6 text-white/70">Results, upcoming matchups and the stories behind {school.mascot} football.</p></>}
+        {next && next.id !== featured?.id ? <><p className="text-xs font-black uppercase tracking-[0.18em] text-white/70">Up next</p><Link href={`/games/${next.id}`} className="mt-3 block rounded-xl border border-white/10 p-4 hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-white"><p className="break-words font-bold">{next.awayTeam} {gameOpponentPrefix(next)} {next.homeTeam}</p><p className="mt-2 text-sm text-white/70">{gameDate(next)}</p><p className="mt-2 text-sm text-white/70">{next.venue ?? "Venue TBD"}</p><span className="mt-3 block text-sm font-bold">View matchup →</span></Link></> : <><p className="text-xs font-black uppercase tracking-[0.18em] text-white/70">Your team, all season</p><p className="mt-3 text-sm leading-6 text-white/70">Results, upcoming matchups and the stories behind {school.mascot} football.</p></>}
         <Link href={`/schools/${school.slug}/schedule`} className="mt-3 inline-flex min-h-11 items-center text-sm font-bold underline underline-offset-4">Full schedule →</Link>
       </div>
     </div>
