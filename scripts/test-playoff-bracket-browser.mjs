@@ -201,6 +201,8 @@ try{
   await page.goto(origin+'/games/2026-area-4a-d1-iii-4');
   const stephArea=await page.locator('main').innerText();
   for(const word of ['Stephenville','Vidor','7:00 PM','Bryan'])assert.ok(stephArea.includes(word),word);
+  await page.goto(origin+'/schools/stephenville');
+  assert.ok((await page.locator('main').innerText()).includes('Vidor vs. Stephenville'),'unconfirmed Area sides remain a matchup, not a home game');
   await page.goto(origin+'/playoffs?school='+encodeURIComponent('4A-D1|2|Austin'));
   await page.getByRole('button',{name:'Find Austin',exact:true}).click();
   const selectedAustin=bracket.locator('article').filter({hasText:'Your team'});

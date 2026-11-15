@@ -35,3 +35,5 @@ CI fixture maintenance: the District 12 browser continues checking all seven ind
 ## Production correction dependency
 
 PR #154 (fix/scheduled-area-next-matchup-20261115) independently fixes the production upcoming-game filter excluding status scheduled. Millsap’s production schedule contains its Area game while its hub Next Matchup says none. The correction accepts both supported pregame statuses while preserving date, school and bye checks. PR #153 includes this correction as a dependency and must be released after #154. No production code was changed during acceptance.
+
+Actual preview also exposed pilot school-hub labels asserting at/Home/Away for unconfirmed playoff sides. SchoolGameNight now reuses the existing gameOpponentPrefix/gameSiteLabel helpers; scores, storage order and verified designation metadata are unchanged. SSR and mounted browser regressions cover the unconfirmed-side case.
