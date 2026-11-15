@@ -246,6 +246,29 @@ try{
   await img.waitFor();await img.scrollIntoViewIfNeeded();
   await img.evaluate(el=>el.decode());assert.ok(await img.evaluate(el=>el.naturalWidth>0),slug);
  };
+ const supplied3adi=JSON.parse(readFileSync('docs/3a-d1-owner-logos-20261115/inventory.json','utf8'));
+ for(const [device,options] of [['desktop',{viewport:{width:1280,height:900}}],['iphone',devices['iPhone 13']],['android',devices['Pixel 7']]]){
+  const ctx=await browser.newContext(options);const p=await ctx.newPage();activePage=p;
+  await p.goto(origin+'/playoffs');await p.getByRole('combobox',{name:'Bracket division',exact:true}).selectOption('3A-D1');
+  await p.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();
+  const b=p.getByRole('region',{name:'Interactive Road to State bracket',exact:true});
+  assert.equal(await b.locator('article').count(),63);
+  for(const row of supplied3adi){const img=b.locator(`img[src="/logos/schools/${row.slug}.png"]`).first();assert.ok(await img.count(),row.slug);await img.evaluate(el=>el.decode());}
+  assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  await p.screenshot({path:`${output}/${device}-3a-d1-statewide.png`});
+  for(const region of ['0','1','2','3']){
+   await p.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);await p.getByRole('button',{name:'Fit selected region',exact:true}).click();assert.equal(await b.locator('article').count(),15);
+   for(const img of await b.locator('img').all())await img.evaluate(el=>el.decode());
+   await p.screenshot({path:`${output}/${device}-3a-d1-region-${region}.png`});
+  }
+  await ctx.close();results.push({device,classification:'3A Division I',surface:'owner statewide and four regions',pass:true});
+ }
+ for(const row of supplied3adi){await logoPage.goto(`${origin}/schools/${row.slug}`);await checkLogo(row.slug);results.push({school:row.slug,surface:'3a-d1 hub',pass:true});}
+ const supplied3adiGames=getGames().filter(g=>g.playoff?.division==='3A Division I'&&['Bi-District','Area'].includes(g.playoff.round));
+ for(const game of supplied3adiGames){await logoPage.goto(`${origin}/games/${game.id}`);for(const slug of [game.homeSchoolSlug,game.awaySchoolSlug].filter(slug=>supplied3adi.some(r=>r.slug===slug)))await checkLogo(slug);results.push({game:game.id,surface:'3a-d1 Game Center',pass:true});}
+ await logoPage.setContent(`<body style="display:grid;grid-template-columns:repeat(6,1fr)">${supplied3adi.map(row=>`<div>${row.name}${['white','#202127'].map(bg=>`<div style="background:${bg};padding:12px"><img src="${origin}/logos/schools/${row.slug}.png" style="width:64px;height:64px;object-fit:contain;filter:${getSchoolLogoImageStyle(row.slug).filter??'none'}"></div>`).join('')}</div>`).join('')}</body>`);
+ await logoPage.locator('img').evaluateAll(images=>Promise.all(images.map(img=>img.decode())));await logoPage.screenshot({path:`${output}/3a-d1-light-dark.png`,fullPage:true});
+
  for(const row of ownerLogos){
   for(const suffix of ['', '/schedule']){
    await logoPage.goto(`${origin}/schools/${row.slug}${suffix}`);
@@ -265,6 +288,30 @@ try{
  await logoPage.setContent(`<html><body style="margin:0;display:grid;grid-template-columns:repeat(6,1fr);font:12px Arial">${ownerLogos.map(row=>`<div style="padding:8px;border:1px solid #999"><p>${row.name}</p>${['#fff','#202127'].map(bg=>`<div style="background:${bg};padding:8px;display:flex;gap:14px;align-items:center"><img width="26" height="26" style="object-fit:contain;filter:${getSchoolLogoImageStyle(row.slug).filter??'none'}" src="${origin}/logos/schools/${row.slug}.png"><img width="64" height="64" style="object-fit:contain;filter:${getSchoolLogoImageStyle(row.slug).filter??'none'}" src="${origin}/logos/schools/${row.slug}.png"></div>`).join('')}</div>`).join('')}</body></html>`);
  await logoPage.locator('img').evaluateAll(images=>Promise.all(images.map(img=>img.decode())));
  await logoPage.screenshot({path:`${output}/owner-logos-light-dark.png`,fullPage:true});
+
+ const supplied=JSON.parse(readFileSync('docs/2a-d2-owner-logos-20261115/inventory.json','utf8'));
+ for(const [device,options] of [['desktop',{viewport:{width:1280,height:900}}],['iphone',devices['iPhone 13']],['android',devices['Pixel 7']]]){
+  const ctx=await browser.newContext(options);const p=await ctx.newPage();activePage=p;
+  await p.goto(origin+'/playoffs');await p.getByRole('combobox',{name:'Bracket division',exact:true}).selectOption('2A-D2');
+  await p.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();
+  const b=p.getByRole('region',{name:'Interactive Road to State bracket',exact:true});
+  assert.equal(await b.locator('article').count(),63);
+  for(const row of supplied){const img=b.locator(`img[src="/logos/schools/${row.slug}.png"]`).first();assert.ok(await img.count(),row.slug);await img.evaluate(el=>el.decode());}
+  assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  await p.screenshot({path:`${output}/${device}-2a-d2-statewide.png`});
+  for(const region of ['0','1','2','3']){
+   await p.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);await p.getByRole('button',{name:'Fit selected region',exact:true}).click();assert.equal(await b.locator('article').count(),15);
+   for(const img of await b.locator('img').all())await img.evaluate(el=>el.decode());
+   await p.screenshot({path:`${output}/${device}-2a-d2-region-${region}.png`});
+  }
+  await ctx.close();results.push({device,classification:'2A Division II',surface:'owner statewide and four regions',pass:true});
+ }
+ for(const row of supplied){await logoPage.goto(`${origin}/schools/${row.slug}`);await checkLogo(row.slug);results.push({school:row.slug,surface:'2a-d2 hub',pass:true});}
+ const suppliedGames=getGames().filter(g=>g.playoff?.division==='2A Division II'&&['Bi-District','Area'].includes(g.playoff.round));
+ for(const game of suppliedGames){await logoPage.goto(`${origin}/games/${game.id}`);for(const slug of [game.homeSchoolSlug,game.awaySchoolSlug].filter(slug=>supplied.some(r=>r.slug===slug)))await checkLogo(slug);results.push({game:game.id,surface:'2a-d2 Game Center',pass:true});}
+ await logoPage.setContent(`<body style="display:grid;grid-template-columns:repeat(6,1fr)">${supplied.map(row=>`<div>${row.name}${['white','#202127'].map(bg=>`<div style="background:${bg};padding:12px"><img src="${origin}/logos/schools/${row.slug}.png" style="width:64px;height:64px;object-fit:contain;filter:${getSchoolLogoImageStyle(row.slug).filter??'none'}"></div>`).join('')}</div>`).join('')}</body>`);
+ await logoPage.locator('img').evaluateAll(images=>Promise.all(images.map(img=>img.decode())));await logoPage.screenshot({path:`${output}/2a-d2-light-dark.png`,fullPage:true});
+
  await logoContext.close();
  const fallbackContext=await browser.newContext();const fallbackPage=await fallbackContext.newPage();
  fixtureFailure=true;
