@@ -45,9 +45,11 @@ test("reviewed 3A DII seeds cover every district finishing position exactly once
  }
 });
 test("canonical expansion does not duplicate games or regress either completed 2A division",()=>{
- const all=games.filter(g=>g.playoff?.division==="3A Division I");
- const keys=all.map(g=>`${g.season}|${g.playoff?.round}|${[g.homeSchoolSlug,g.awaySchoolSlug].sort().join("|")}`);
- assert.equal(new Set(keys).size,keys.length);
+ for(const division of ["3A Division I","3A Division II"]){
+  const all=games.filter(g=>g.playoff?.division===division);
+  const keys=all.map(g=>`${g.season}|${g.playoff?.round}|${[g.homeSchoolSlug,g.awaySchoolSlug].sort().join("|")}`);
+  assert.equal(new Set(keys).size,keys.length,`${division} has no duplicate matchups`);
+ }
  assert.equal(playoff3AD2FirstRound.length,32);assert.equal(playoff3AD2Area.length,16);
  for(const [division,finals,areas] of [["2A-D1",32,16],["2A-D2",31,15]] as const){
   const layout=buildBracketLayout(division,games);
