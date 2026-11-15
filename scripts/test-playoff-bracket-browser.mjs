@@ -208,6 +208,10 @@ try{
   assert.ok((await selectedAustin.innerText()).includes('F10'));
   assert.equal(await selectedAustin.locator('a[href="/schools/houston-austin"]').count(),1);
   await page.screenshot({path:`${output}/${name}-4ad1-houston-austin.png`});
+  await page.goto(origin+'/schools/millsap');
+  assert.ok(await page.locator('a[href="/games/2026-area-3a-d2-ii-1"]').count()>0,'published scheduled Area game is the school hero next matchup');
+  if(name==='desktop')await page.locator('a[href="/games/2026-area-3a-d2-ii-1"]:visible').first().waitFor();
+  await page.screenshot({path:`${output}/${name}-millsap-area-next.png`});
   await page.goto(origin+'/admin/playoff-publishing/bracket-templates');await page.getByRole('heading',{name:'Welcome back.',exact:true}).waitFor();
   assert.equal(await page.getByRole('heading',{name:'Bracket template review',exact:true}).count(),0);
   results.push({device:name,viewport:options.viewport,pass:true,pinch:options.hasTouch?'emulated native touch passed':'not applicable'});await context.close();

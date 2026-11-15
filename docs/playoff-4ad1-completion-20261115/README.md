@@ -18,7 +18,7 @@ All sixteen Area participants follow verified source edges. Area dates resolved 
 
 ## Production acceptance of released 3A DII
 
-Actual production browser reviewed all 32 verified finals by each team's score paragraph, all sixteen Area participants, all 64 school hubs, seven representative schedules, all four regional views, all 48 bracket Game Center links, Jacksboro confirmed/potential route, zoom, pan, fit, reset and existing 2A DI/DII and 3A DI selection. Public observations are in 3ad2-production-games.json and 3ad2-production-ui.json. One initial Newton read occurred before the hero settled; settled render correctly displayed 70–0. No reproducible production defect established; no corrective production change made. Physical mobile testing was not performed.
+Actual production browser reviewed all 32 verified finals by each team's score paragraph, all sixteen Area participants, all 64 school hubs, seven representative schedules, all four regional views, all 48 bracket Game Center links, Jacksboro confirmed/potential route, zoom, pan, fit, reset and existing 2A DI/DII and 3A DI selection. Public observations are in 3ad2-production-games.json and 3ad2-production-ui.json. One initial Newton read occurred before the hero settled; settled render correctly displayed 70–0. No reproducible score defect established; no production change made. Later hub acceptance reproduced the separate scheduled-Area Next Matchup defect described below. Physical mobile testing was not performed.
 
 ## Safety and release
 
@@ -31,3 +31,7 @@ Identity registration completed: 42 new records; read-back 48 expected, 48 regis
 Preview acceptance exposed a same-name identity defect: Houston Austin inherited El Paso Austin’s F1 seed and route origin. The shared participant lookup now follows bracket source edges and the selected region. Regression coverage checks F10, the correct campus link, elimination route, and isolated hypothetical advancement. No bracket topology or official positions changed.
 
 CI fixture maintenance: the District 12 browser continues checking all seven independent historical regular-season results, with overall totals now explicitly including the newly reviewed postseason finals. District records and tied positions are unchanged. The Houston Sterling navigation test selects the visible responsive link rather than a hidden duplicate hero link.
+
+## Production correction dependency
+
+PR #154 (fix/scheduled-area-next-matchup-20261115) independently fixes the production upcoming-game filter excluding status scheduled. Millsap’s production schedule contains its Area game while its hub Next Matchup says none. The correction accepts both supported pregame statuses while preserving date, school and bye checks. PR #153 includes this correction as a dependency and must be released after #154. No production code was changed during acceptance.

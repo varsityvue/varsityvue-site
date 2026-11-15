@@ -311,7 +311,7 @@ export function filterUpcomingGamesForSchool(games: Game[], slug: string, now = 
   return games
     .filter((game) => game.homeSchoolSlug === slug || game.awaySchoolSlug === slug)
     .filter((game) => {
-      if (game.status !== "upcoming" || game.gameType === "bye") return false;
+      if (!["upcoming", "scheduled"].includes(game.status) || game.gameType === "bye") return false;
 
       if (game.kickoff && !game.kickoff.includes("T")) {
         return !todayKey || game.kickoff >= todayKey;
