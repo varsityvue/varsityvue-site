@@ -1,0 +1,48 @@
+[
+  {
+    "game_id": "2026-bi-district-4a-d2-i-1",
+    "retained": "Pecos 52\u2013Irvin 14",
+    "other": "DCTF 52\u20137",
+    "decision": "Current UIL-linked field plus both team schedules and Chronicle corroborate 52\u201314; no prior verified production score.",
+    "sources": [
+      "https://www.uiltexas.org/football/playoff-brackets/4AD2",
+      "https://www.maxpreps.com/tx/pecos/pecos-eagles/football/schedule/",
+      "https://www.maxpreps.com/tx/el-paso/irvin-rockets/football/schedule/",
+      "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations"
+    ]
+  },
+  {
+    "game_id": "2026-bi-district-4a-d2-i-4",
+    "retained": "Mineral Wells 71\u2013Levelland 49",
+    "other": "UIL/team schedules 71\u201352; Chronicle 71\u201350",
+    "decision": "Preserve verified production final; eyewitness Big Country Preps and Shotwell statistician support 71\u201349. No production score write.",
+    "sources": [
+      "https://bigcountrypreps.com/2026/11/14/game-story-mineral-wells-vs-levelland/",
+      "https://www.uiltexas.org/football/playoff-brackets/4AD2",
+      "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations"
+    ]
+  },
+  {
+    "game_id": "2026-bi-district-4a-d2-i-5",
+    "retained": "Liberty 42\u2013Burkburnett 0",
+    "other": "UIL/team schedules 42\u20137",
+    "decision": "Unresolved: retain authoritative verified production final, corroborated by DCTF/Chronicle. Winner agrees. No correction authorized.",
+    "sources": [
+      "https://www.uiltexas.org/football/playoff-brackets/4AD2",
+      "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "https://www.maxpreps.com/tx/burkburnett/burkburnett-bulldogs/football/"
+    ]
+  },
+  {
+    "game_id": "2026-bi-district-4a-d2-i-7",
+    "retained": "Brock 63\u2013Perryton 0",
+    "other": "UIL/DCTF 77\u20137",
+    "decision": "Unresolved: retain authoritative verified production final, corroborated by KFDA NewsChannel 10 and AP Thursday scoreboard (63\u20130). UIL/team schedules report 77\u20137. Winner agrees. No correction authorized.",
+    "sources": [
+      "https://www.uiltexas.org/football/playoff-brackets/4AD2",
+      "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+      "https://www.newschannel10.com/2026/11/13/texas-panhandle-high-school-football-thursday-bi-district-round-scores/",
+      "https://www.myplainview.com/sports/article/thursday-s-scores-22528332.php"
+    ]
+  }
+]

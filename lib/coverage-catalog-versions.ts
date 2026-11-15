@@ -1,3 +1,3 @@
 // Content fingerprints; tests require refreshing these when catalog source files change.
 export const LOCATION_CATALOG_VERSION = "locations-a4eb15b96537";
-export const SCHEDULE_CATALOG_VERSION = "schedule-b9a2e17cd453";
+export const SCHEDULE_CATALOG_VERSION = "schedule-ee0b517a3b07";
