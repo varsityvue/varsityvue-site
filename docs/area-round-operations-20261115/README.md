@@ -34,3 +34,11 @@ Local PostgreSQL WASM tests exercise actual publication SQL for stale-write reje
 ## Release rules
 
 No production application release without owner approval of the exact candidate SHA. Do not merge PR144 or modify logo work, scoring permissions or production scores.
+
+## CI coverage correction
+
+The dedicated bracket workflow previously watched bracket templates but not canonical playoff game data. Its path filter now includes all `data/playoff-*` files and the statewide field file. Schedule/result data changes therefore receive the existing desktop/iPhone/Android bracket and touch-emulation acceptance checks without a renderer change.
+
+Operational limitation: Playoff Central reads current verified scores on each request; an already-open bracket requires a reload. Game Centers independently poll near kickoff and during LIVE play. No new polling system is introduced here.
+
+Diboll–Lorena remains date-only because the previously reviewed UIL-linked 7 p.m. conflicts with DCTF's 7:30 p.m.; its existing November 20 date and Madisonville venue remain unchanged.
