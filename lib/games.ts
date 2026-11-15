@@ -127,6 +127,7 @@ for (const candidate of [...playoffD2FirstRound, ...playoffD2Area, ...playoff3AD
     homeScore: candidate.homeScore,
     awayScore: candidate.awayScore,
     publicScoreVerified: candidate.publicScoreVerified,
+    scoreAttribution: candidate.scoreAttribution ?? existing.scoreAttribution,
     sourceStatus: candidate.sourceStatus,
     sourceLabel: `${existing.sourceLabel ?? ""}; ${candidate.sourceLabel}`,
   } : candidate);

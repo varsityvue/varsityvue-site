@@ -1,7 +1,7 @@
 import type { Game } from "@/types/platform";
 
 export type ScoreAttribution = {
-  type: "publisher" | "correction" | "outcome" | "verified";
+  type: "publisher" | "correction" | "outcome" | "verified" | "owner-confirmed";
   username?: string;
 };
 
@@ -59,6 +59,7 @@ export function scoreAttributionText(game: Pick<Game, "status" | "scoreAttributi
     const username = safeScoreUsername(attribution.username);
     return username ? `Updated by @${username}` : "Updated by VarsityVue contributor";
   }
+  if (detail && game.status === "final" && attribution.type === "owner-confirmed") return "Owner-confirmed final";
   if (attribution.type === "correction") return "Corrected by VarsityVue";
   if (detail && game.status === "final" && attribution.type === "outcome") return "Outcome confirmed by VarsityVue";
   if (detail && game.status === "final" && attribution.type === "verified") return "Verified by VarsityVue";

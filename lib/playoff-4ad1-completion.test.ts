@@ -37,7 +37,7 @@ test("existing canonical IDs and all completed divisions remain available withou
  assert.equal(nodes.find(n=>n.region===2&&n.round===0&&n.index===6)?.game?.id,"stephenville-vs-navasota-2026-bi-district");
  for(const division of ["2A-D1","2A-D2","3A-D1","3A-D2","4A-D1"]){
   const layout=buildBracketLayout(division,games);const first=layout.nodes.filter(n=>n.round===0);
-  assert.equal(first.filter(n=>verifiedWinner(n.game)).length,division==="2A-D2"?31:32);
+  assert.equal(first.filter(n=>verifiedWinner(n.game)).length,32);
   const matches=layout.nodes.flatMap(n=>n.game?[n.game]:[]);const keys=matches.map(g=>`${g.season}|${g.playoff?.round}|${[g.homeSchoolSlug,g.awaySchoolSlug].sort().join("|")}`);
   assert.equal(new Set(keys).size,keys.length,division);
  }

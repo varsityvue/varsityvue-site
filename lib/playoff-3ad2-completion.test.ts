@@ -51,7 +51,7 @@ test("canonical expansion does not duplicate games or regress either completed 2
   assert.equal(new Set(keys).size,keys.length,`${division} has no duplicate matchups`);
  }
  assert.equal(playoff3AD2FirstRound.length,32);assert.equal(playoff3AD2Area.length,16);
- for(const [division,finals,areas] of [["2A-D1",32,16],["2A-D2",31,15]] as const){
+ for(const [division,finals,areas] of [["2A-D1",32,16],["2A-D2",32,16]] as const){
   const layout=buildBracketLayout(division,games);
   assert.equal(layout.nodes.filter(n=>n.round===0&&verifiedWinner(n.game)).length,finals);
   assert.equal(layout.nodes.filter(n=>n.round===1&&n.game).length,areas);

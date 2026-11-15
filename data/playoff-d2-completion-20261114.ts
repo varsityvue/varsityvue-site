@@ -814,17 +814,21 @@ export const playoffD2FirstRound: Game[] = [
     "awaySchoolSlug": "brackettville-brackett",
     "isNeutralSite": null,
     "designatedSidesConfirmed": false,
-    "status": "upcoming",
+    "status": "final",
     "districtGame": false,
     "coverageStatus": "none",
     "sourceStatus": "verified",
-    "sourceLabel": "UIL-linked bracket and DCTF: November 14, 5 p.m. at Floresville; result remains pending \u2014 https://www.uiltexas.org/football/playoff-brackets/2AD2; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+    "sourceLabel": "UIL-linked bracket and DCTF: November 14, 5 p.m. at Floresville; final owner-confirmed: Chilton 42, Brackett 31 (November 14, 2026); result attribution is owner-confirmed, not UIL-verified \u2014 https://www.uiltexas.org/football/playoff-brackets/2AD2; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
     "kickoff": "2026-11-14T17:00:00-06:00",
-    "venue": "Floresville, TX"
+    "venue": "Floresville, TX",
+    "homeScore": 42,
+    "awayScore": 31,
+    "publicScoreVerified": true,
+    "scoreAttribution": { "type": "owner-confirmed" }
   }
 ];
 
-// The sixteenth Area slot stays pending until Chilton–Brackett has a verified winner.
+// Area participants follow reviewed finals, including the owner-confirmed Chilton result.
 export const playoffD2Area: Game[] = [
   {
     "id": "2026-area-2a-d2-i-1",
@@ -1185,5 +1189,23 @@ export const playoffD2Area: Game[] = [
     "sourceLabel": "Participants reconciled against reviewed first-round finals; DCTF Area schedule reviewed November 14, 2026 \u2014 https://www.uiltexas.org/football/playoff-brackets/2AD2; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
     "kickoff": "2026-11-20T19:00:00-06:00",
     "venue": "Creek View Cougar Stadium, San Antonio, TX"
+  },
+  {
+    "id": "2026-area-2a-d2-iv-4",
+    "season": 2026,
+    "week": 13,
+    "gameType": "playoff",
+    "playoff": { "round": "Area", "division": "2A Division II", "region": "IV" },
+    "homeTeam": "La Villa",
+    "awayTeam": "Chilton",
+    "homeSchoolSlug": "la-villa",
+    "awaySchoolSlug": "chilton",
+    "isNeutralSite": null,
+    "designatedSidesConfirmed": false,
+    "status": "upcoming",
+    "districtGame": false,
+    "coverageStatus": "none",
+    "sourceStatus": "verified",
+    "sourceLabel": "Participants from canonical Region IV first-round slots 7 and 8: La Villa reviewed final; Chilton 42–31 owner-confirmed November 14, 2026. Area kickoff, venue and designated sides TBA."
   }
 ];
