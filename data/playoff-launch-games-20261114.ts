@@ -195,9 +195,9 @@ export const playoffLaunchGames: Game[] = [
     "districtGame": false,
     "coverageStatus": "none",
     "sourceStatus": "verified",
-    "sourceLabel": "Area schedule reviewed November 15, 2026: San Angelo LIVE (Paul Harris) and Amarillo Globe-News/Yahoo list Friday November 20, 7 p.m., Midland Greenwood. Exact stadium name and designated sides remain unconfirmed. https://sanangelolive.com/news/sports/2026-11-14/west-texas-high-school-football-playoff-schedule-and-scores; https://sports.yahoo.com/articles/texas-panhandle-high-school-football-221017917.html",
+    "sourceLabel": "Venue clarified November 15, 2026: Press Pass Sports names King Memorial Stadium for Tulia-Ballinger; Pigskin Prep independently lists Midland King. TexasBob identifies J. M. King Memorial Stadium as the Greenwood ISD stadium. Existing November 20, 7 PM CST kickoff retained. Designated sides remain unconfirmed. https://www.presspass.news/2026/11/14/uil-region-i-texas-high-school-football-area-round-playoff-pairings/; https://www.pigskinprep.com/showfreeschedules.asp?distID=99&yr=2026; https://texasbob.com/stadium/stadium.php?id=529",
     "kickoff": "2026-11-20T19:00:00-06:00",
-    "venue": "Midland Greenwood, TX"
+    "venue": "J. M. King Memorial Stadium, Midland, TX"
   },
   {
     "id": "2026-area-2a-d1-i-3",
@@ -487,9 +487,9 @@ export const playoffLaunchGames: Game[] = [
     "districtGame": false,
     "coverageStatus": "none",
     "sourceStatus": "verified",
-    "sourceLabel": "UIL-linked bracket Area game G42: November 19, 7 PM, Pine Tree Pirate Stadium — https://www.uiltexas.org/football/playoff-brackets/2AD1",
+    "sourceLabel": "UIL-linked Area matchup and November 19, 7 PM CST kickoff retained. KLTV identifies Pirate Stadium in Longview for Carlisle-Beckville; Pine Tree ISD independently identifies Pirate Stadium in Longview. City clarified November 15, 2026; designated sides remain unconfirmed. https://www.uiltexas.org/football/playoff-brackets/2AD1; https://www.kltv.com/2026/11/14/football-area-round-schedule/; https://www.ptisd.org/live-feed/?page_no=1%2F1000",
     "kickoff": "2026-11-19T19:00:00-06:00",
-    "venue": "Pine Tree Pirate Stadium"
+    "venue": "Pine Tree Pirate Stadium, Longview, TX"
   },
   {
     "id": "2026-area-2a-d1-iii-3",

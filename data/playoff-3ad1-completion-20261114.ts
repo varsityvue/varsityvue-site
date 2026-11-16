@@ -1089,9 +1089,9 @@ export const playoff3AD1Area: Game[] = [
     "districtGame": false,
     "coverageStatus": "none",
     "sourceStatus": "verified",
-    "sourceLabel": "Participants established by reviewed first-round finals; DCTF Area schedule reviewed November 14, 2026 \u2014 https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+    "sourceLabel": "Venue city clarified November 15, 2026: KBTX names Mustang Stadium at Magnolia West High School for Franklin-East Chambers; the Area pairings report identifies Magnolia. Existing November 20, 7 PM CST kickoff retained; Magnolia West is the campus, not the city. Designated sides remain unconfirmed. https://www.kbtx.com/2026/11/08/2026-brazos-valley-high-school-football-playoff-pairings-results/; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
     "kickoff": "2026-11-20T19:00:00-06:00",
-    "venue": "Mustang Stadium, Magnolia West, TX"
+    "venue": "Mustang Stadium (Magnolia West HS), Magnolia, TX"
   },
   {
     "id": "2026-area-3a-d1-iv-1",

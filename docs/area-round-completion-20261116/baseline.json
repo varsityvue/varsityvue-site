@@ -1,0 +1,9 @@
+{
+  "commit": "fa64a0dee8c71606a615b14c329288522f573f53",
+  "firstRoundHash": "a149e716dfa981a0b4673173ab4ca78f5aa0e1cab342dd21b4de7889b826c3e9",
+  "unchangedPlayoffHash": "556900ff17c67de9962a9537c970492716a798f33d6c41a5fe47cd18b223e352",
+  "counts": {
+    "firstRound": 192,
+    "area": 96
+  }
+}

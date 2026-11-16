@@ -1,0 +1,74 @@
+[
+  {
+    "id": "2026-area-2a-d1-i-2",
+    "season": 2026,
+    "week": 13,
+    "gameType": "playoff",
+    "playoff": {
+      "round": "Area",
+      "division": "2A Division I",
+      "region": "I"
+    },
+    "homeSchoolSlug": "tulia",
+    "awaySchoolSlug": "ballinger",
+    "homeTeam": "Tulia",
+    "awayTeam": "Ballinger",
+    "isNeutralSite": null,
+    "designatedSidesConfirmed": false,
+    "status": "upcoming",
+    "districtGame": false,
+    "coverageStatus": "none",
+    "sourceStatus": "verified",
+    "sourceLabel": "Area schedule reviewed November 15, 2026: San Angelo LIVE (Paul Harris) and Amarillo Globe-News/Yahoo list Friday November 20, 7 p.m., Midland Greenwood. Exact stadium name and designated sides remain unconfirmed. https://sanangelolive.com/news/sports/2026-11-14/west-texas-high-school-football-playoff-schedule-and-scores; https://sports.yahoo.com/articles/texas-panhandle-high-school-football-221017917.html",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Midland Greenwood, TX"
+  },
+  {
+    "id": "2026-area-2a-d1-iii-2",
+    "season": 2026,
+    "week": 13,
+    "gameType": "playoff",
+    "playoff": {
+      "round": "Area",
+      "division": "2A Division I",
+      "region": "III"
+    },
+    "homeSchoolSlug": "price-carlisle",
+    "awaySchoolSlug": "beckville",
+    "homeTeam": "Carlisle",
+    "awayTeam": "Beckville",
+    "isNeutralSite": null,
+    "designatedSidesConfirmed": false,
+    "status": "upcoming",
+    "districtGame": false,
+    "coverageStatus": "none",
+    "sourceStatus": "verified",
+    "sourceLabel": "UIL-linked bracket Area game G42: November 19, 7 PM, Pine Tree Pirate Stadium — https://www.uiltexas.org/football/playoff-brackets/2AD1",
+    "kickoff": "2026-11-19T19:00:00-06:00",
+    "venue": "Pine Tree Pirate Stadium"
+  },
+  {
+    "id": "2026-area-3a-d1-iii-4",
+    "season": 2026,
+    "week": 13,
+    "gameType": "playoff",
+    "playoff": {
+      "round": "Area",
+      "division": "3A Division I",
+      "region": "III"
+    },
+    "homeTeam": "Franklin",
+    "awayTeam": "East Chambers",
+    "homeSchoolSlug": "franklin",
+    "awaySchoolSlug": "east-chambers",
+    "isNeutralSite": null,
+    "designatedSidesConfirmed": false,
+    "status": "upcoming",
+    "districtGame": false,
+    "coverageStatus": "none",
+    "sourceStatus": "verified",
+    "sourceLabel": "Participants established by reviewed first-round finals; DCTF Area schedule reviewed November 14, 2026 — https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Mustang Stadium, Magnolia West, TX"
+  }
+]

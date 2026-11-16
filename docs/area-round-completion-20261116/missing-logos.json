@@ -1,0 +1,1636 @@
+{
+  "scope": "All 384 first-round schools; Area participants prioritized. Missing means no usable wired repository asset, not absence of an official logo elsewhere.",
+  "areaMissing": 88,
+  "eliminatedMissing": 93,
+  "teams": [
+    {
+      "name": "Beckville",
+      "slug": "beckville",
+      "division": "2A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Stratford",
+      "slug": "stratford",
+      "division": "2A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "West Sabine",
+      "slug": "west-sabine",
+      "division": "2A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Carrizo Springs",
+      "slug": "carrizo-springs",
+      "division": "3A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Mexia",
+      "slug": "mexia",
+      "division": "3A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Altair Rice",
+      "slug": "altair-rice",
+      "division": "3A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Anderson-Shiro",
+      "slug": "anderson-shiro",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Arp",
+      "slug": "arp",
+      "division": "3A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Bells",
+      "slug": "bells",
+      "division": "3A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Blanco",
+      "slug": "blanco",
+      "division": "3A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Boling",
+      "slug": "boling",
+      "division": "3A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Buffalo",
+      "slug": "buffalo",
+      "division": "3A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Canadian",
+      "slug": "canadian",
+      "division": "3A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Childress",
+      "slug": "childress",
+      "division": "3A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Coahoma",
+      "slug": "coahoma",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Cotulla",
+      "slug": "cotulla",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Crane",
+      "slug": "crane",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Dallas Madison",
+      "slug": "dallas-madison",
+      "division": "3A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "De Kalb",
+      "slug": "de-kalb",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Dimmitt",
+      "slug": "dimmitt",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "East Bernard",
+      "slug": "east-bernard",
+      "division": "3A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Edgewood",
+      "slug": "edgewood",
+      "division": "3A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Elkhart",
+      "slug": "elkhart",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Friona",
+      "slug": "friona",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "George West",
+      "slug": "george-west",
+      "division": "3A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Grand Saline",
+      "slug": "grand-saline",
+      "division": "3A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Hardin",
+      "slug": "hardin",
+      "division": "3A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Hebbronville",
+      "slug": "hebbronville",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Hooks",
+      "slug": "hooks",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Howe",
+      "slug": "howe",
+      "division": "3A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Idalou",
+      "slug": "idalou",
+      "division": "3A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Jefferson",
+      "slug": "jefferson",
+      "division": "3A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Leonard",
+      "slug": "leonard",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Lexington",
+      "slug": "lexington",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Littlefield",
+      "slug": "littlefield",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Lone Oak",
+      "slug": "lone-oak",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Maypearl",
+      "slug": "maypearl",
+      "division": "3A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Mildred",
+      "slug": "mildred",
+      "division": "3A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Muleshoe",
+      "slug": "muleshoe",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "New Boston",
+      "slug": "new-boston",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "New London West Rusk",
+      "slug": "new-london-west-rusk",
+      "division": "3A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "New Waverly",
+      "slug": "new-waverly",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Newton",
+      "slug": "newton",
+      "division": "3A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Nixon Smiley",
+      "slug": "nixon-smiley",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Poth",
+      "slug": "poth",
+      "division": "3A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Quitman",
+      "slug": "quitman",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Redwater",
+      "slug": "redwater",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Rogers",
+      "slug": "rogers",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "San Angelo Grape Creek",
+      "slug": "san-angelo-grape-creek",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Santa Rosa",
+      "slug": "santa-rosa",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Scurry-Rosser",
+      "slug": "scurry-rosser",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Slaton",
+      "slug": "slaton",
+      "division": "3A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Stanton",
+      "slug": "stanton",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Stockdale",
+      "slug": "stockdale",
+      "division": "3A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Teague",
+      "slug": "teague",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Thrall",
+      "slug": "thrall",
+      "division": "3A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Trinity Leadership Cedar Hill",
+      "slug": "trinity-leadership-cedar-hill",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Troup",
+      "slug": "troup",
+      "division": "3A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Valley View",
+      "slug": "valley-view",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Wallis Brazos",
+      "slug": "wallis-brazos",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Woodville",
+      "slug": "woodville",
+      "division": "3A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Alice",
+      "slug": "alice",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Andrews",
+      "slug": "andrews",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Aubrey",
+      "slug": "aubrey",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Bay City",
+      "slug": "bay-city",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Bridge City",
+      "slug": "bridge-city",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Caddo Mills",
+      "slug": "caddo-mills",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Canyon",
+      "slug": "canyon",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Canyon Randall",
+      "slug": "canyon-randall",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Comal Canyon Lake",
+      "slug": "comal-canyon-lake",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Comal Davenport",
+      "slug": "comal-davenport",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Corpus Christi Calallen",
+      "slug": "corpus-christi-calallen",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Corpus Christi Miller",
+      "slug": "corpus-christi-miller",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Corpus Christi Tuloso-Midway",
+      "slug": "corpus-christi-tuloso-midway",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Dallas Carter",
+      "slug": "dallas-carter",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Dallas Hutchins",
+      "slug": "dallas-hutchins",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Dallas Kimball",
+      "slug": "dallas-kimball",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Dallas Lincoln",
+      "slug": "dallas-lincoln",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Decatur",
+      "slug": "decatur",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Dumas",
+      "slug": "dumas",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Edcouch-Elsa",
+      "slug": "edcouch-elsa",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "El Campo",
+      "slug": "el-campo",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "El Paso Andress",
+      "slug": "el-paso-andress",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "El Paso Austin",
+      "slug": "el-paso-austin",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "El Paso Riverside",
+      "slug": "el-paso-riverside",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "El Paso Ysleta",
+      "slug": "el-paso-ysleta",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Floresville",
+      "slug": "floresville",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Fort Bend Willowridge",
+      "slug": "fort-bend-willowridge",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Fort Worth Benbrook",
+      "slug": "fort-worth-benbrook",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Fort Worth Eastern Hills",
+      "slug": "fort-worth-eastern-hills",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Fort Worth Southwest",
+      "slug": "fort-worth-southwest",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Fredericksburg",
+      "slug": "fredericksburg",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Henderson",
+      "slug": "henderson",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Hidalgo Early College",
+      "slug": "hidalgo-early-college",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Houston Austin",
+      "slug": "houston-austin",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Houston Sterling",
+      "slug": "houston-sterling",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Huffman Hargrave",
+      "slug": "huffman-hargrave",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Kaufman",
+      "slug": "kaufman",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Kennedale",
+      "slug": "kennedale",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Kerrville Tivy",
+      "slug": "kerrville-tivy",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Kilgore",
+      "slug": "kilgore",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "La Vernia",
+      "slug": "la-vernia",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Lake Dallas",
+      "slug": "lake-dallas",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Lindale",
+      "slug": "lindale",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Longview Pine Tree",
+      "slug": "longview-pine-tree",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Midland Greenwood",
+      "slug": "midland-greenwood",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Orange Little Cypress-Mauriceville",
+      "slug": "orange-little-cypress-mauriceville",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Paris",
+      "slug": "paris",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Plainview",
+      "slug": "plainview",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Pleasanton",
+      "slug": "pleasanton",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Port Lavaca Calhoun",
+      "slug": "port-lavaca-calhoun",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "San Angelo Lake View",
+      "slug": "san-angelo-lake-view",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Sealy",
+      "slug": "sealy",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Somerset",
+      "slug": "somerset",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Springtown",
+      "slug": "springtown",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Stafford",
+      "slug": "stafford",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Sulphur Springs",
+      "slug": "sulphur-springs",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Vidor",
+      "slug": "vidor",
+      "division": "4A Division I",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Zapata",
+      "slug": "zapata",
+      "division": "4A Division I",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Athens",
+      "slug": "athens",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Bandera",
+      "slug": "bandera",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Bellville",
+      "slug": "bellville",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Big Spring",
+      "slug": "big-spring",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Burkburnett",
+      "slug": "burkburnett",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Canton",
+      "slug": "canton",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Carthage",
+      "slug": "carthage",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Clint",
+      "slug": "clint",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Clint Mountain View",
+      "slug": "clint-mountain-view",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Corpus Christi London",
+      "slug": "corpus-christi-london",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Cuero",
+      "slug": "cuero",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "El Paso Bowie",
+      "slug": "el-paso-bowie",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "El Paso Irvin",
+      "slug": "el-paso-irvin",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Farmersville",
+      "slug": "farmersville",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Geronimo Navarro",
+      "slug": "geronimo-navarro",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Giddings",
+      "slug": "giddings",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Gilmer",
+      "slug": "gilmer",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Glen Rose",
+      "slug": "glen-rose",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Gonzales",
+      "slug": "gonzales",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Graham",
+      "slug": "graham",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Hamshire-Fannett",
+      "slug": "hamshire-fannett",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Hillsboro",
+      "slug": "hillsboro",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Hitchcock",
+      "slug": "hitchcock",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Houston North Forest",
+      "slug": "houston-north-forest",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Houston Wheatley",
+      "slug": "houston-wheatley",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Houston Worthing",
+      "slug": "houston-worthing",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Houston Yates",
+      "slug": "houston-yates",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Ingleside",
+      "slug": "ingleside",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Kemp",
+      "slug": "kemp",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Kingsville King",
+      "slug": "kingsville-king",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Krum",
+      "slug": "krum",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "La Grange",
+      "slug": "la-grange",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "La Marque",
+      "slug": "la-marque",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Lago Vista",
+      "slug": "lago-vista",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Levelland",
+      "slug": "levelland",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Lubbock Cooper Liberty",
+      "slug": "lubbock-cooper-liberty",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Lubbock Estacado",
+      "slug": "lubbock-estacado",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Madisonville",
+      "slug": "madisonville",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Manor New Tech",
+      "slug": "manor-new-tech",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Mineral Wells",
+      "slug": "mineral-wells",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Monahans",
+      "slug": "monahans",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Paris North Lamar",
+      "slug": "paris-north-lamar",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Pecos",
+      "slug": "pecos",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Perryton",
+      "slug": "perryton",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Pittsburg",
+      "slug": "pittsburg",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Ponder",
+      "slug": "ponder",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Quinlan Ford",
+      "slug": "quinlan-ford",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Robinson",
+      "slug": "robinson",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Rockport-Fulton",
+      "slug": "rockport-fulton",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Salado",
+      "slug": "salado",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Sanger",
+      "slug": "sanger",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Seminole",
+      "slug": "seminole",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Shepherd",
+      "slug": "shepherd",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Silsbee",
+      "slug": "silsbee",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Sunnyvale",
+      "slug": "sunnyvale",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Texarkana Pleasant Grove",
+      "slug": "texarkana-pleasant-grove",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Van",
+      "slug": "van",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Van Alstyne",
+      "slug": "van-alstyne",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Venus",
+      "slug": "venus",
+      "division": "4A Division II",
+      "area": false,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Waco La Vega",
+      "slug": "waco-la-vega",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "West Orange-Stark",
+      "slug": "west-orange-stark",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    },
+    {
+      "name": "Wimberley",
+      "slug": "wimberley",
+      "division": "4A Division II",
+      "area": true,
+      "wiredPath": null,
+      "assetExists": false,
+      "slugAssetExists": false
+    }
+  ]
+}

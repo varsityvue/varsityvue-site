@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getAreaRoundReadiness } from "./area-round-readiness";
+import { getAreaRoundReadiness, getAreaScheduleMissingDetails } from "./area-round-readiness";
 import type { Game } from "@/types/platform";
 
 const final = (a: string, b: string, home: number, away: number): Game => ({
@@ -61,4 +61,23 @@ test("duplicate area game records are flagged instead of silently accepted", () 
   ];
   const entry = getAreaRoundReadiness(games).find((item) => item.region === "2A Division I · Region II" && item.slot === 1)!;
   assert.equal(entry.status, "duplicate-schedule");
+});
+
+
+test("readiness rejects ambiguous kickoff instants and impossible dates", () => {
+  const game = {...final("Cisco", "Nocona", 24, 7), venue: "Bulldog Stadium, McGregor, TX", sourceLabel: "School announcement"};
+  for (const kickoff of ["2026-11-20", "2026-11-20T19:00:00", "2026-02-30T19:00:00-06:00", "2026-11-20T24:00:00-06:00", "invalid"]) {
+    assert.deepEqual(getAreaScheduleMissingDetails({...game, kickoff}), ["confirmed kickoff"], kickoff);
+  }
+  for (const kickoff of ["2026-11-20T19:00:00-06:00", "2026-11-21T01:00:00Z"]) {
+    assert.deepEqual(getAreaScheduleMissingDetails({...game, kickoff}), [], kickoff);
+  }
+});
+
+test("readiness never treats placeholder venues or whitespace sources as confirmed", () => {
+  const game = {...final("Cisco", "Nocona", 24, 7), kickoff: "2026-11-20T19:00:00-06:00", sourceLabel: "School announcement"};
+  for (const venue of [" ", "Venue TBA", "TBD, Texas", "Site pending", "To be announced"]) {
+    assert.deepEqual(getAreaScheduleMissingDetails({...game, venue}), ["confirmed venue"], venue);
+  }
+  assert.deepEqual(getAreaScheduleMissingDetails({...game, venue: "Bulldog Stadium, McGregor, TX", sourceLabel: " "}), ["source attribution"]);
 });
