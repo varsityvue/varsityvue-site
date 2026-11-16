@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireActiveMember } from "@/lib/member-access";
 import { getDynamicGamesSnapshot } from "@/lib/dynamic-games";
+import { getRegionalRoundReadiness } from "@/lib/regional-round-readiness";
 import { getAreaRoundReadiness } from "@/lib/area-round-readiness";
 import { canViewPlayoffPublishing } from "@/lib/playoff-publishing-access";
 import { getBracketSchoolSlots, bracketSlotMatchesSchool } from "@/lib/playoff-publishing-school-search";
@@ -28,6 +29,7 @@ export default async function PlayoffPublishingPage({
   const { region, status, school } = await searchParams;
   const snapshot = await getDynamicGamesSnapshot();
   const queue = getAreaRoundReadiness(snapshot.games);
+  const regionalQueue = getRegionalRoundReadiness(snapshot.games);
   const regions = [...new Set(queue.map((item) => item.region))];
   const bracketSchoolSlots = getBracketSchoolSlots();
   const filtered = queue.filter((item) =>
@@ -62,6 +64,18 @@ export default async function PlayoffPublishingPage({
             </p>
           )}
         </header>
+        <section aria-label="Regional readiness" className="space-y-3">
+          <h2 className="text-xl font-bold">Regional semifinal readiness · 48 slots</h2>
+          <p className="text-sm text-white/70">Verified Area finals populate participants automatically. Game Centers require a reviewed canonical schedule and registered score identity; this audit does not publish games.</p>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {regionalQueue.map(item => <div key={`${item.division}-${item.region}-${item.slot}`} className="rounded-xl border border-white/15 p-3 text-sm">
+              <p className="font-semibold">{item.division} · Region {item.region} · {item.slot}</p>
+              <p>{item.teams[0] ?? "TBD"} vs {item.teams[1] ?? "TBD"}</p>
+              <p className="text-white/70">{item.status.replaceAll("-", " ")}</p>
+              {item.gameId && <Link className="underline" href={`/games/${item.gameId}`}>Game Center</Link>}
+            </div>)}
+          </div>
+        </section>
         <section aria-label="Readiness totals" className="grid grid-cols-2 gap-3 md:grid-cols-5">
           {statuses.map((key) => (
             <Link key={key} href={href(region ?? "", key)}

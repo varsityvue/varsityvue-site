@@ -9,6 +9,13 @@ on:
       - 'components/*Playoff*'
       - 'components/StatewideBracketExplorer.tsx'
       - 'lib/playoff-*'
+      - 'lib/regional-round-*'
+      - 'lib/score-input*'
+      - 'lib/area-score-identity*'
+      - 'lib/resolve-game-score-state*'
+      - 'app/internal/scoring/**'
+      - 'app/internal/score-review/**'
+      - 'app/report-score/actions.ts'
       - 'lib/connected-playoff-bracket*'
       - 'data/playoff-*'
       - 'data/statewide-playoff-brackets.ts'
@@ -35,6 +42,8 @@ jobs:
         env:
           NEXT_PUBLIC_SUPABASE_URL: http://127.0.0.1:54329
           NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: isolated-public
+          NODE_OPTIONS: --import=${{ github.workspace }}/scripts/week8-p0-build-network-guard.mjs
+          P1_LOGO_FIXTURE: ${{ github.workspace }}/public/logos/varsityvue-logo.png
       - run: npm install --no-save --package-lock=false playwright@1.63.0
       - run: npx playwright install --with-deps chromium
       - run: node --import tsx scripts/test-playoff-bracket-browser.mjs

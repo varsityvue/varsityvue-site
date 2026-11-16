@@ -7,6 +7,8 @@ export function applyGameState(game: Game, state?: PublicScoreState): Game {
   if (!state?.verified || state.game_id !== game.id) return game;
   const completeScore = typeof state.home_score === "number" && typeof state.away_score === "number";
   const exceptional = state.result_type === "forfeit" || state.result_type === "no_contest";
+  // A final must carry both scores from the same verified payload.
+  if (state.status === "final" && !completeScore && !exceptional) return game;
   // An incomplete score payload cannot replace or splice into a reviewed final.
   // Complete verified corrections and explicit status/outcome changes retain priority.
   if (game.status === "final" && game.publicScoreVerified && (["scheduled", "upcoming"].includes(state.status) || (["live", "final"].includes(state.status) && !completeScore)) && !exceptional) return game;

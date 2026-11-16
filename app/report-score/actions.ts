@@ -12,6 +12,7 @@ import { redirect } from "next/navigation";
 import { hasCompleteScoreboardTeamIdentity } from "@/data/scoreboard-team-identities";
 import { getDynamicGameById } from "@/lib/dynamic-games";
 import { requireActiveMember } from "@/lib/member-access";
+import { parseScoreInput } from "@/lib/score-input";
 import { getSchoolBySlug } from "@/lib/schools";
 import { normalizeLivePeriod, livePeriodClock } from "@/lib/live-period";
 
@@ -20,8 +21,7 @@ function text(formData: FormData, key: string) {
 }
 
 function score(formData: FormData, key: string) {
-  const value = Number(text(formData, key));
-  return Number.isInteger(value) && value >= 0 && value <= 150 ? value : null;
+  return parseScoreInput(formData.get(key));
 }
 
 function schoolHasCompleteIdentity(slug?: string) {

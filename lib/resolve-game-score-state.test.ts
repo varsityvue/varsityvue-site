@@ -23,3 +23,9 @@ test('complete authoritative corrections and explicit outcomes preserve preceden
  const outcome=applyGameState(game,state({home_score:null,away_score:null,result_type:'no_contest'}));
  assert.equal(outcome.resultType,'no_contest');assert.equal(outcome.homeScore,undefined);assert.equal(outcome.awayScore,undefined);assert.equal(outcome.score,undefined);
 });
+
+test('an incomplete final cannot splice a previous live score into an advancing winner',()=>{
+ const live={...game,status:'live' as const,publicScoreVerified:true,homeScore:14,awayScore:7};
+ assert.deepEqual(applyGameState(live,state({home_score:21,away_score:null})),live);
+ assert.deepEqual(applyGameState(live,state({home_score:null,away_score:21})),live);
+});
