@@ -1206,6 +1206,8 @@ export const playoffD2Area: Game[] = [
     "districtGame": false,
     "coverageStatus": "none",
     "sourceStatus": "verified",
-    "sourceLabel": "Participants from canonical Region IV first-round slots 7 and 8: La Villa reviewed final; Chilton 42–31 owner-confirmed November 14, 2026. Area kickoff, venue and designated sides TBA."
+    "sourceLabel": "Participants from canonical Region IV first-round slots 7 and 8: La Villa reviewed final; Chilton 42–31 owner-confirmed November 14, 2026. Area schedule: Friday November 20, 2026, 7:00 PM CST, Bulldog Stadium, Somerset, TX; corroborating published reports from Dave Campbell’s Texas Football and South Texas Gridiron Grooves (owner-provided screenshot), reviewed November 16, 2026. Published-report confirmation, not official school confirmation; designated sides and neutrality remain unconfirmed. https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Bulldog Stadium, Somerset, TX"
   }
 ];

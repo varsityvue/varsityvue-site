@@ -20,6 +20,6 @@ test("two sourced Area schedule updates preserve identities, results and school 
  assert.equal(diboll.venue, "Mustang Stadium, Madisonville, TX");
  assert.match(diboll.sourceLabel!, /lorenaisd.net/);
  const queue = getAreaRoundReadiness(games);
- assert.equal(queue.filter(g => g.status === "scheduled").length, 95);
- assert.deepEqual(queue.filter(g => g.status !== "scheduled").map(g=>g.gameId), ["2026-area-2a-d2-iv-4"]);
+ assert.equal(queue.filter(g => g.status === "scheduled").length, 96);
+ assert.deepEqual(queue.filter(g => g.status !== "scheduled").map(g=>g.gameId), []);
 });
