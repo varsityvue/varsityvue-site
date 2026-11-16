@@ -2,6 +2,10 @@
 
 Updated November 16, 2026, America/Chicago. **One operator: the owner. No staffing recruitment or contributor availability is assumed.** This replaces the prior multi-operator proposal. The owner does not continuously monitor 96 games. Every 2A final takes priority; all 3A/4A work is verified final-only, with an explicit next-session backlog.
 
+## Schedule release candidate — PR #163
+
+The packet’s schedule-derived queues now include La Villa–Chilton on **Friday November 20, 7 PM CST, Bulldog Stadium, Somerset, TX**. Dave Campbell’s Texas Football and the owner-provided South Texas Gridiron Grooves screenshot corroborate the published schedule; this is not official school confirmation. These packet fields describe candidate `528d090594312dc6f35fc59e0e630c8d00918118`, **not a completed production release**. Production remains at the baseline below until owner approval and verified deployment. See `schedule-release-candidate.json`. Friday now has 67 games, including 23 in 2A; no Area schedule remains unknown in the candidate.
+
 ## Current baseline
 
 Main `a85ad9a118a8659463e74b16b95062c9bb5aacee`, PR #162 merged. Production deployment `dpl_5JxVuvFYHnGAPT4rpvZEXV18URzq` remains READY on both domains. The live recheck matches 192 first-round verified finals and all 96 unscored Area games; all 96 scoring identities remain registered. No production data, permissions, contributor assignments, logos or application code changed.
@@ -11,7 +15,7 @@ Six active school assignments exist, but only Cisco, De Leon and Goldthwaite cov
 ## Use only this working order
 
 1. [Solo queue: all 96 exact games](solo-queue.md), with [working CSV](solo-queue.csv). It groups exact kickoff windows, priority and Regional companion dependencies. Each row links directly to the existing preselected game editor; no repeated school search is needed.
-2. [32-game 2A plan](priority-2a.md). P1: the three assignment-linked games, when a final is actually available. P2: the other 28 scheduled 2A finals. P0: La Villa–Chilton schedule research, then insert its final into the relevant block after confirmation. This totals all 32 2A games without guessing a schedule.
+2. [32-game 2A plan](priority-2a.md). P1: the three assignment-linked games, when a final is actually available. P2: the other 29 scheduled 2A finals, including La Villa–Chilton. Its verified published schedule is now included; there is no remaining P0 schedule-research task. This totals all 32 2A games without guessing a schedule.
 3. [64-game final-only batches](final-only-batches.md), with [batch CSV](final-only-batches.csv). Each batch holds at most four games and can be deferred intact. Thursday’s 17 non-2A games are reviewed Friday morning; Friday’s 44 are reviewed in Saturday/Sunday blocks; Saturday’s three join Sunday cleanup. A late or disputed result moves forward, never becomes a guessed final.
 4. [Bounded owner work blocks](kickoff-windows.md), [publication checklist](score-verification.md), and [existing tools / candidate-queue decision](tools-assessment.md).
 5. [48 Regional dependency slots](regional-advancement.md), with [CSV](regional-advancement.csv). No confirmed Regional participants exist yet. One review per newly completed pair, rather than revisiting all 48 after every score.
@@ -29,11 +33,13 @@ Aim for about 60 active minutes Thursday night and 90 Friday night, centered on 
 
 ## Source and publication boundaries
 
-[Sources](sources.md) lists authoritative school leads and reviewed scoreboard endpoints with access/independence caveats. A source URL is a lookup candidate, not proof that a future final will be available. Axtell–De Leon has a known external date discrepancy; retain the canonical Thursday November 19 date absent reliable new confirmation. La Villa–Chilton stays TBD. The existing Missing Score folder already provides candidate evidence and explicit review; a duplicate queue is not justified. Automatic discovery depends on existing configuration and has a four-hour-after-kickoff eligibility threshold; it is not a substitute for the earlier 2A blocks. This run does not invoke its cron, enable a provider, or publish any score.
+[Sources](sources.md) lists authoritative school leads and reviewed scoreboard endpoints with access/independence caveats. A source URL is a lookup candidate, not proof that a future final will be available. De Leon–Axtell is owner-confirmed for Thursday November 19, 7 PM CST in Dublin; preserve it and do not reopen it as an unresolved scheduling task. La Villa–Chilton is Friday November 20, 7 PM CST in Somerset in the pending release candidate. The existing Missing Score folder already provides candidate evidence and explicit review; a duplicate queue is not justified. Automatic discovery depends on existing configuration and has a four-hour-after-kickoff eligibility threshold; it is not a substitute for the earlier 2A blocks. This run does not invoke its cron, enable a provider, or publish any score.
 
 ## Snapshot maintenance
 
 The repository is the canonical schedule source and production is the score source. This is a dated operating snapshot, not a competing live feed. Use one CSV working copy for evidence/status and the next unfinished row. Current authentication is required by the existing internal tools; this run does not claim an authenticated production review. If the owner cannot authenticate, retain private evidence and defer publication; do not change permissions.
+
+The generator refuses the older unscheduled catalog. Regenerate only in a worktree containing the reviewed schedule candidate/released canonical data; retain the packet’s solo-owner source files and output directory. Do not edit canonical app data on this docs branch just to regenerate.
 
 Regenerate schedule-derived matrix, queue, batch, window, Regional and summary documents from the checked-out repository with:
 

@@ -2,8 +2,8 @@
 
 - Exactly one operator is available: the owner. No additional staff or contributor availability is required or assumed by this packet. Other eligible account counts are authorization facts only, not staffing capacity.
 - Three of 96 games have a participant-school assignment; 93 do not. All 96 remain on the owner queue. None has a confirmed contributor attendance/update commitment.
-- One schedule is unknown: La Villa–Chilton (`2026-area-2a-d2-iv-4`). Preserve kickoff/venue/city TBD and insert its review block only after reliable confirmation. Its scoring identity is already repaired; do not repeat that work.
-- Axtell–De Leon has a known external date discrepancy; retain the reviewed canonical Thursday November 19 kickoff until reliable new corroboration supports a change. This is a bounded pregame check, not an invitation to relaunch all schedule research.
+- The last schedule is now established in PR #163: La Villa–Chilton (`2026-area-2a-d2-iv-4`), Friday November 20, 7 PM CST, Bulldog Stadium, Somerset, TX. The packet is staged pending release; do not describe production as updated until acceptance. Its scoring identity is already registered; do not repeat that work.
+- De Leon–Axtell is owner-confirmed Thursday November 19, 7 PM CST, Bob and Norma Cervetto Stadium, Dublin, TX. External conflicting listings do not reopen this as an unresolved task. Preserve the canonical record.
 - All 64 3A/4A games are deliberately final-only and may be published the next morning or later. They are not promised LIVE coverage. Their 17 bounded batches cover every game exactly once.
 - All Area final scores remain unverified/unpublished at this audit; lookup pages are not future result guarantees. Unknown/report-origin/access issues may require deferral.
 - The existing candidate-evidence folder has a four-hour-after-kickoff eligibility threshold and conditional discovery configuration. Do not wait awake for it or invoke its combined email cron manually.

@@ -24,7 +24,7 @@ Scan the same division source once for several games. Do not open 96 school page
 
 ## Solo stop / resume rules
 
-- P0 schedule research: La Villa–Chilton stays outside a fictional kickoff window. Retain TBD until reliably confirmed.
+- La Villa–Chilton is scheduled in PR #163 for Friday November 20, 7 PM CST, Bulldog Stadium, Somerset, TX. It is included in the Friday P2 final queue; verify the app release before treating the published Game Center as updated. No P0 schedule-research task remains in the candidate.
 - P1/P2: all available 2A finals before discretionary P3 work. Not-yet-played 2A games do not block review of an earlier 3A/4A final. Within the current block, first check available finals for De Leon, Cisco and Goldthwaite; then favor a Regional companion if the other source final is already verified; otherwise follow the window list.
 - P3: all 64 3A/4A games are final-only batches, generally the next morning. If a batch is not complete at the time cap, retain the next unfinished row; it need not be checked every 15 minutes.
 - Backlog: stop at the owner block limit. Write one carry-forward line with Game ID, reason, evidence already found and next block. No staffing request, late-night monitoring promise or assumed contributor handoff.
@@ -34,4 +34,4 @@ Scan the same division source once for several games. Do not open 96 school page
 
 ## Automation boundary
 
-The existing missing-score worker is eligible only four hours after a known kickoff and within its historical window. It depends on current provider/worker configuration and can miss or misclassify sources. La Villa–Chilton cannot enter a kickoff-based discovery window while kickoff is TBD. Evidence remains a candidate until explicitly reviewed. Do not invoke `/api/cron/product-emails` as a manual score helper: it also queues/drains emails and writes operational state. Do not run or enable ingestion, paid providers or automatic publication during this read-only preparation.
+The existing missing-score worker is eligible only four hours after a known kickoff and within its historical window. It depends on current provider/worker configuration and can miss or misclassify sources. After the candidate is released, La Villa–Chilton’s known 7 PM Friday kickoff makes it eligible no earlier than 11 PM Friday; discovery remains conditional. Evidence remains a candidate until explicitly reviewed. Do not invoke `/api/cron/product-emails` as a manual score helper: it also queues/drains emails and writes operational state. Do not run or enable ingestion, paid providers or automatic publication during this read-only preparation.

@@ -1,0 +1,17 @@
+{
+  "mainBaseline": "a85ad9a118a8659463e74b16b95062c9bb5aacee",
+  "productionDeploymentBaseline": "dpl_5JxVuvFYHnGAPT4rpvZEXV18URzq",
+  "pullRequest": 163,
+  "candidateHead": "528d090594312dc6f35fc59e0e630c8d00918118",
+  "candidateBranch": "feat/la-villa-chilton-schedule-20261116",
+  "productionReleasePending": true,
+  "gameId": "2026-area-2a-d2-iv-4",
+  "kickoff": "2026-11-20T19:00:00-06:00",
+  "venue": "Bulldog Stadium, Somerset, TX",
+  "sourceCategory": "Corroborating published reports, not official school confirmation",
+  "sources": [
+    "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+    "South Texas Gridiron Grooves, owner-provided screenshot"
+  ],
+  "deLeonSchedule": "Owner-confirmed Thursday November 19, 2026, 7 PM CST, Bob and Norma Cervetto Stadium, Dublin, TX; unchanged"
+}

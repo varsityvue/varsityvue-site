@@ -12,7 +12,7 @@ One owner only. Three games have participant-school assignments, but no contribu
 
 ## All 32 exact tasks
 
-P0 is the single unscheduled game; P1 is the three assignment-linked games; P2 is the remaining 28 scheduled 2A games. Within the relevant time block, take an available supported P1 final first, then a P2 companion that closes an already half-verified Regional pair, then the remaining window list. A dependency is not a future opponent. Skip an unsupported candidate after three research minutes and retain the next review block.
+All 32 games are scheduled in the PR #163 candidate: P1 is the three assignment-linked games; P2 is the other 29, including La Villa–Chilton. Friday now has 23 priority 2A games. Within a timebox, review available supported P1 finals first, then companion results closing a Regional dependency, then the remaining window queue. No winner is assumed.
 
 | Priority / kickoff window | Matchup and exact ID | Regional destination / other required Area game | Editor |
 |---|---|---|---|
@@ -47,7 +47,7 @@ P0 is the single unscheduled game; P1 is the three assignment-linked games; P2 i
 | P2 other 2A final · 2026-11-20 7:00 PM CST | Lindsay vs West Sabine · 2026-area-2a-d2-iii-4 | 2A-D2-III-R2 / 2026-area-2a-d2-iii-3 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d2-iii-4) |
 | P2 other 2A final · 2026-11-20 7:00 PM CST | Yorktown vs Junction · 2026-area-2a-d2-iv-2 | 2A-D2-IV-R1 / 2026-area-2a-d2-iv-1 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d2-iv-2) |
 | P2 other 2A final · 2026-11-20 7:00 PM CST | Harper vs Falls City · 2026-area-2a-d2-iv-3 | 2A-D2-IV-R2 / 2026-area-2a-d2-iv-4 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d2-iv-3) |
-| P0 schedule research · TBD — immediate schedule research | Chilton vs La Villa · 2026-area-2a-d2-iv-4 | 2A-D2-IV-R2 / 2026-area-2a-d2-iv-3 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d2-iv-4) |
+| P2 other 2A final · 2026-11-20 7:00 PM CST | Chilton vs La Villa · 2026-area-2a-d2-iv-4 | 2A-D2-IV-R2 / 2026-area-2a-d2-iv-3 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d2-iv-4) |
 
 ## Three useful dependency shortcuts
 

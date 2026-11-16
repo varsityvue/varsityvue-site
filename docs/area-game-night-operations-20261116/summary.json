@@ -6,14 +6,11 @@
   "confirmedContributorAvailability": 0,
   "regionalSlots": 48,
   "confirmedRegionalPairs": 0,
-  "unresolvedScheduleGames": [
-    "2026-area-2a-d2-iv-4"
-  ],
+  "unresolvedScheduleGames": [],
   "byDay": {
     "2026-11-19": 26,
-    "2026-11-20": 66,
-    "2026-11-21": 3,
-    "TBD": 1
+    "2026-11-20": 67,
+    "2026-11-21": 3
   },
   "byDivision": {
     "2A Division I": 16,
