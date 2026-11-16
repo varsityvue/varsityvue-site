@@ -1017,8 +1017,8 @@ export const playoff3AD1Area: Game[] = [
     "districtGame": false,
     "coverageStatus": "none",
     "sourceStatus": "verified",
-    "sourceLabel": "Participants established by reviewed first-round finals; DCTF Area schedule reviewed November 14, 2026 \u2014 https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations; November 20 confirmed; UIL-linked bracket/direct matchup lists 7 p.m., DCTF lists 7:30 p.m. Kickoff time withheld pending resolution.",
-    "kickoff": "2026-11-20",
+    "sourceLabel": "Area kickoff resolved November 15, 2026: Lorena ISD official event lists November 20 at 7:30 p.m. at Madisonville High School; KLTV independently lists Mustang Stadium, Madisonville, 7:30 p.m. Official school announcement takes precedence over the conflicting 7 p.m. direct matchup listing. https://www.lorenaisd.net/apps/events/2026/11/20/61936422/?id=0; https://www.kltv.com/2026/11/14/football-area-round-schedule/",
+    "kickoff": "2026-11-20T19:30:00-06:00",
     "venue": "Mustang Stadium, Madisonville, TX"
   },
   {

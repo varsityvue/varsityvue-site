@@ -42,7 +42,7 @@ test("reviewed score conflicts are explicit and authoritative corrections retain
   const corrected=applyGameState(game,{game_id:id,status:"final",verified:true,home_score:home+1,away_score:away,period:null,clock:null,kickoff_override:null,result_type:"played",official_winner_school_slug:null});
   assert.equal(corrected.homeScore,home+1);
  }
- assert.equal(playoff3AD1Area.find(g=>g.homeTeam==="Diboll")?.kickoff,"2026-11-20");
+ assert.equal(playoff3AD1Area.find(g=>g.homeTeam==="Diboll")?.kickoff,"2026-11-20T19:30:00-06:00");
 });
 test("reviewed 3A DI seeds cover every district finishing position exactly once",()=>{
  assert.deepEqual(validateTemplate(template3AD12026),[]);
