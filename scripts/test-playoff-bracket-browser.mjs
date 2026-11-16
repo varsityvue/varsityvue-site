@@ -163,7 +163,7 @@ try{
    ['2026-bi-district-3a-d1-iii-1',['FINAL · VERIFIED','42','7']],
    ['2026-area-3a-d1-i-3',['Wall','Sweetwater','6:00 PM','Colorado City']],
    ['2026-area-3a-d1-iii-2',['Orangefield','7:30 PM','Houston']],
-   ['2026-area-3a-d1-iii-1',['Diboll','Lorena','TBD','Madisonville']]
+   ['2026-area-3a-d1-iii-1',['Diboll','Lorena','7:30 PM','Madisonville']]
   ]){
    await page.goto(origin+'/games/'+id);const text=await page.locator('main').innerText();
    for(const word of words)assert.ok(text.includes(word),`${id} contains ${word}`);
