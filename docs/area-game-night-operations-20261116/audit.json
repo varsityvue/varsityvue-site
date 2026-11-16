@@ -1,7 +1,11 @@
 {
   "main": "a85ad9a118a8659463e74b16b95062c9bb5aacee",
   "deployment": "dpl_5JxVuvFYHnGAPT4rpvZEXV18URzq",
-  "identities": {"expected":96,"registered":96,"exact_matches":96},
+  "identities": {
+    "expected": 96,
+    "registered": 96,
+    "exact_matches": 96
+  },
   "assignments": [
     {
       "school_slug": "albany",
@@ -40,14 +44,23 @@
       "currently_authority_eligible": 1
     }
   ],
-  "authorizedPublishers": {
-    "eligible_admin_moderator_accounts": 6,
-    "admins": 1,
-    "moderators": 5
-  },
   "areaPublication": {
     "area_score_states": 0,
     "scored_states": 0,
     "area_reports": 0
+  },
+  "ownerConstraint": {
+    "availableOperators": 1,
+    "operator": "Owner",
+    "contributorAvailabilityConfirmed": false,
+    "otherAccountsAreStaffingCommitments": false
+  },
+  "candidateQueueAudit": {
+    "areaCandidates": 0,
+    "areaEvidenceRows": 0,
+    "existingCandidateReviewUi": true,
+    "discoveryEligibilityHoursAfterKnownKickoff": 4,
+    "providerConfigurationVerified": false,
+    "cronInvoked": false
   }
 }

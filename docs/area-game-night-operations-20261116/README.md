@@ -1,40 +1,44 @@
-# Area game-night operations packet
+# Solo owner: Area game-night packet
 
-Prepared November 16, 2026, in America/Chicago. **Planning ready; operational staffing is not yet confirmed.** This is a documentation snapshot on a nonproduction branch, not a public service promise or a second canonical schedule. No contributor was contacted, assigned a shift, or granted permissions.
+Updated November 16, 2026, America/Chicago. **One operator: the owner. No staffing recruitment or contributor availability is assumed.** This replaces the prior multi-operator proposal. The owner does not continuously monitor 96 games. Every 2A final takes priority; all 3A/4A work is verified final-only, with an explicit next-session backlog.
 
-## Current verified baseline
+## Current baseline
 
-- Repository main: `a85ad9a118a8659463e74b16b95062c9bb5aacee` (PR #162 merged); tree `c3de0e06cf2477c5c91d33f4f2b0fc46ee6a8e64`.
-- Production: `dpl_5JxVuvFYHnGAPT4rpvZEXV18URzq`, READY, serving both production domains. See [live recheck](live-recheck.json) for observation time and actual response identity.
-- 192 first-round verified finals, 96 unscored Area games, all 96 scoring identities exactly match. No Area score states or submissions. Prior 680-route acceptance is complete; this run rechecked both domains and all 288 playoff records in the public snapshot without repeating the whole route sweep.
-- Six eligible active school assignments: Albany, Cisco, De Leon, Goldthwaite, Hamilton, Hico. Only Cisco, De Leon and Goldthwaite participate in Area games. Six active admin/moderator accounts exist. No identities, contact information or account IDs are included in this packet.
-- Three of 96 games have one participant-school scorekeeper assignment; 93 have none, and none have two. **Zero games have contributor availability confirmed by this audit.** The other three school assignments are eliminated-school coverage, not Area coverage.
-- 48 Regional slots supported; zero confirmed Regional pairs and zero canonical Regional games. Do not repeat the completed La Villa–Chilton scoring identity repair.
+Main `a85ad9a118a8659463e74b16b95062c9bb5aacee`, PR #162 merged. Production deployment `dpl_5JxVuvFYHnGAPT4rpvZEXV18URzq` remains READY on both domains. The live recheck matches 192 first-round verified finals and all 96 unscored Area games; all 96 scoring identities remain registered. No production data, permissions, contributor assignments, logos or application code changed.
 
-## Open these in order
+Six active school assignments exist, but only Cisco, De Leon and Goldthwaite cover Area participants. They are potential inputs, not operator capacity or promised live updates. The owner remains responsible for every reviewed result, even if a school assignment exists. The number of other authorized accounts does not change this solo plan.
 
-1. [Kickoff windows and staffing](kickoff-windows.md): exact window counts, proposed shifts, monitoring cadence, backlog and handoff thresholds.
-2. [Priority 2A plan](priority-2a.md): all 32 2A games and the three existing school assignments.
-3. [Complete 96-game matrix](coverage-matrix.md), with [full CSV and working evidence columns](coverage-matrix.csv). Every row has an exact Game ID, school slugs, CST kickoff/venue/city, source lookups, actual assignment status, proposed primary/backup, publication status and Regional destination. Sort/filter the CSV by window, priority or monitoring lane. A/B/C/D/E are role labels, not assigned people.
-4. [Verification and publication checklist](score-verification.md): explicit final evidence, trusted scoring limits, stale-write handling and read-back acceptance.
-5. [All 48 Regional dependencies](regional-advancement.md), with [CSV ledger](regional-advancement.csv): both Area inputs and the schedule/identity gates for each destination.
-6. [Actual gaps and source caveats](coverage-gaps.md) and [source registry](sources.md).
-7. [Verification evidence](validation.md), [aggregate audit](audit.json), and [summary counts](summary.json).
+## Use only this working order
 
-## Operating decision
+1. [Solo queue: all 96 exact games](solo-queue.md), with [working CSV](solo-queue.csv). It groups exact kickoff windows, priority and Regional companion dependencies. Each row links directly to the existing preselected game editor; no repeated school search is needed.
+2. [32-game 2A plan](priority-2a.md). P1: the three assignment-linked games, when a final is actually available. P2: the other 28 scheduled 2A finals. P0: La Villa–Chilton schedule research, then insert its final into the relevant block after confirmation. This totals all 32 2A games without guessing a schedule.
+3. [64-game final-only batches](final-only-batches.md), with [batch CSV](final-only-batches.csv). Each batch holds at most four games and can be deferred intact. Thursday’s 17 non-2A games are reviewed Friday morning; Friday’s 44 are reviewed in Saturday/Sunday blocks; Saturday’s three join Sunday cleanup. A late or disputed result moves forward, never becomes a guessed final.
+4. [Bounded owner work blocks](kickoff-windows.md), [publication checklist](score-verification.md), and [existing tools / candidate-queue decision](tools-assessment.md).
+5. [48 Regional dependency slots](regional-advancement.md), with [CSV](regional-advancement.csv). No confirmed Regional participants exist yet. One review per newly completed pair, rather than revisiting all 48 after every score.
+6. [Full reference matrix](coverage-matrix.csv), [gaps](coverage-gaps.md), [source registry and caveats](sources.md), [validation](validation.md) and [live observation](live-recheck.json).
 
-Recommended staffing is four operators Thursday, five during Friday’s peak, and two for Saturday’s staggered games. These are proposed shifts, not new assignments. Use existing authorized accounts; adding 96 scorekeepers is unnecessary. E owns final publication and conflict escalation; A/B actively monitor 2A, while C/D emphasize verified finals for 3A/4A. Existing assigned scorekeepers may supply trusted LIVE updates **only after a moderator has opened a verified numeric LIVE state**. They cannot independently open or finalize games through that pathway. Finals require the existing moderation/publishing workflow.
+## Minimal owner actions per result
 
-The essential owner task is to confirm available existing operators and relief coverage for these shifts. The packet does not authorize outreach or permission changes. If availability is insufficient, use the explicitly slower final-only fallback; never turn unverified scores into a coverage claim.
+Scan one division source page once for several games. If a final is already backed by a suitable official source or independent matching reports, open that row’s editor and publish it once through the existing authorized flow; record one evidence note. Do not copy the same candidate into both Missing Scores and the direct editor. If evidence is absent/conflicting, mark the next owner block and move on after a three-minute research limit. No manual LIVE updates are required for any game. Optional spot checks of the three assignment-linked games must fit inside the timebox, not create an all-night obligation.
 
-## Keeping the packet current
+One official final can be reviewed by the same owner; no second operator sign-off is required by this plan. Two independently sourced reports are the alternative when official evidence is unavailable. The owner performs a deliberate score-slot/read-back check before and after submission. Unknown and disputed results stay unverified.
 
-The canonical repository remains the schedule source; production remains the score source. Recheck production and assignments before every shift. Update the audit observation and real availability only after verified evidence; keep identifying staff details in a private working copy. For game-night evidence use the blank evidence/reviewer/publication columns in a working copy of the CSV. These fields are deliberately blank, not fabricated commitments.
+## Realistic commitment
 
-To regenerate schedule-derived documents from a checked-out repository (requires installed dependencies):
+Aim for about 60 active minutes Thursday night and 90 Friday night, centered on 2A finals. Remaining work moves to short morning sessions. At an estimated 2–4 active minutes per straightforward final, all 32 2A finals need roughly 64–128 minutes; all 64 other finals need another 128–256 minutes. With preflight and carry-forward logs, complete verified coverage is roughly **4–7.5 hours distributed across several days**, not a guaranteed Friday-night finish. Hard limits take precedence: publish fewer verified results rather than lowering the evidence standard. No staffing commitments are requested.
+
+## Source and publication boundaries
+
+[Sources](sources.md) lists authoritative school leads and reviewed scoreboard endpoints with access/independence caveats. A source URL is a lookup candidate, not proof that a future final will be available. Axtell–De Leon has a known external date discrepancy; retain the canonical Thursday November 19 date absent reliable new confirmation. La Villa–Chilton stays TBD. The existing Missing Score folder already provides candidate evidence and explicit review; a duplicate queue is not justified. Automatic discovery depends on existing configuration and has a four-hour-after-kickoff eligibility threshold; it is not a substitute for the earlier 2A blocks. This run does not invoke its cron, enable a provider, or publish any score.
+
+## Snapshot maintenance
+
+The repository is the canonical schedule source and production is the score source. This is a dated operating snapshot, not a competing live feed. Use one CSV working copy for evidence/status and the next unfinished row. Current authentication is required by the existing internal tools; this run does not claim an authenticated production review. If the owner cannot authenticate, retain private evidence and defer publication; do not change permissions.
+
+Regenerate schedule-derived matrix, queue, batch, window, Regional and summary documents from the checked-out repository with:
 
 ```bash
 node --import tsx docs/area-game-night-operations-20261116/generate-packet.ts
 ```
 
-The generator only reads repository games and the saved aggregate audit and writes this documentation folder. It never queries or writes production. It regenerates the matrix, kickoff windows, Regional dependency documents and summary only; reconcile the priority plan, gaps, source caveats and current audit manually before a new shift. Its outputs are a dated snapshot, not permission to apply stale assignments to future games. Follow the separate Regional publication checklist after winners are verified. No production code, logos, permissions or database data changed; no merge or deployment is requested.
+The generator is documentation-only, uses saved read-only assignment audit data, and never queries or writes production. Reconcile the hand-written source caveats, priority explanation and observation evidence if the baseline changes. No new PR, production release or deployment is required for this packet. Actual production score writes or Regional schedule/identity releases require explicit authorization in a subsequent operational session.

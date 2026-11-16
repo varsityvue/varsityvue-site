@@ -1,52 +1,58 @@
-# Priority 2A coverage plan
+# Solo 2A priority plan — all 32 games
 
-32 games: 16 Division I and 16 Division II. Three have participant-school assignments; 29 have none. No contributor availability is confirmed, including those three. A and B are proposed central lanes, not people. E is the proposed authorized publisher/backup.
+One owner only. Three games have participant-school assignments, but no contributor availability is assumed. A school assignment is a possible evidence input, not a backup operator. All available 2A finals precede discretionary non-2A work; not-yet-played 2A games do not block review of an earlier 3A/4A final. No routine LIVE-update obligation.
 
-## Existing assigned-school coverage
+## First available assignment-linked finals
 
-| Game | Kickoff CST | Actual assigned school | Availability |
+| Exact game | Kickoff CST | Existing school assignment | Direct editor |
 |---|---|---|---|
-| De Leon vs Axtell · 2026-area-2a-d1-ii-4 | 2026-11-19 7:00 PM CST | De Leon (1 eligible school assignment; availability UNCONFIRMED) | Unconfirmed |
-| Johnson City vs Cisco · 2026-area-2a-d1-ii-1 | 2026-11-20 7:00 PM CST | Cisco (1 eligible school assignment; availability UNCONFIRMED) | Unconfirmed |
-| Haskell vs Goldthwaite · 2026-area-2a-d2-ii-3 | 2026-11-20 7:00 PM CST | Goldthwaite (1 eligible school assignment; availability UNCONFIRMED) | Unconfirmed |
+| 2026-area-2a-d1-ii-4 · De Leon vs Axtell | 2026-11-19 7:00 PM CST | De Leon (1 eligible school assignment; availability UNCONFIRMED) | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d1-ii-4) |
+| 2026-area-2a-d1-ii-1 · Johnson City vs Cisco | 2026-11-20 7:00 PM CST | Cisco (1 eligible school assignment; availability UNCONFIRMED) | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d1-ii-1) |
+| 2026-area-2a-d2-ii-3 · Haskell vs Goldthwaite | 2026-11-20 7:00 PM CST | Goldthwaite (1 eligible school assignment; availability UNCONFIRMED) | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d2-ii-3) |
 
-## All 32 games — active monitoring queue
+## All 32 exact tasks
 
-P0: establish La Villa–Chilton schedule. P1: maintain all remaining 2A games, checking the three assigned-school games first but not dropping central fallback. Quarter/15-minute scans cover multiple games per operator. At 2A final completion, cleared lanes assist 3A/4A finals; missing/conflicting 2A results stay with E and the primary lane.
+P0 is the single unscheduled game; P1 is the three assignment-linked games; P2 is the remaining 28 scheduled 2A games. Within the relevant time block, take an available supported P1 final first, then a P2 companion that closes an already half-verified Regional pair, then the remaining window list. A dependency is not a future opponent. Skip an unsupported candidate after three research minutes and retain the next review block.
 
-| Game ID / matchup | Kickoff CST | Proposed lane / backup | Actual school coverage | Regional destination |
-|---|---|---|---|---|
-| 2026-area-2a-d1-i-4 · Spearman vs New Deal | 2026-11-19 4:00 PM CST | A · 2A DI / E | None | 2A-D1-I-R2 |
-| 2026-area-2a-d1-ii-4 · De Leon vs Axtell | 2026-11-19 7:00 PM CST | A · 2A DI / E | De Leon (1 eligible school assignment; availability UNCONFIRMED) | 2A-D1-II-R2 |
-| 2026-area-2a-d1-iii-2 · Beckville vs Carlisle | 2026-11-19 7:00 PM CST | A · 2A DI / E | None | 2A-D1-III-R1 |
-| 2026-area-2a-d1-iv-1 · Weimar vs Thorndale | 2026-11-19 7:00 PM CST | A · 2A DI / E | None | 2A-D1-IV-R1 |
-| 2026-area-2a-d1-iv-2 · Ganado vs Leon | 2026-11-19 7:00 PM CST | A · 2A DI / E | None | 2A-D1-IV-R1 |
-| 2026-area-2a-d1-iv-3 · Lovelady vs Shiner | 2026-11-19 7:00 PM CST | A · 2A DI / E | None | 2A-D1-IV-R2 |
-| 2026-area-2a-d2-ii-4 · Wheeler vs Santo | 2026-11-19 7:00 PM CST | B · 2A DII / E | None | 2A-D2-II-R2 |
-| 2026-area-2a-d2-iii-2 · Grapeland vs Clarksville | 2026-11-19 7:00 PM CST | B · 2A DII / E | None | 2A-D2-III-R1 |
-| 2026-area-2a-d2-iv-1 · Three Rivers vs Bremond | 2026-11-19 7:00 PM CST | B · 2A DII / E | None | 2A-D2-IV-R1 |
-| 2026-area-2a-d1-i-1 · Forsan vs Panhandle | 2026-11-20 7:00 PM CST | A · 2A DI / E | None | 2A-D1-I-R1 |
-| 2026-area-2a-d1-i-2 · Ballinger vs Tulia | 2026-11-20 7:00 PM CST | A · 2A DI / E | None | 2A-D1-I-R1 |
-| 2026-area-2a-d1-i-3 · Olton vs Ozona | 2026-11-20 7:00 PM CST | A · 2A DI / E | None | 2A-D1-I-R2 |
-| 2026-area-2a-d1-ii-1 · Johnson City vs Cisco | 2026-11-20 7:00 PM CST | A · 2A DI / E | Cisco (1 eligible school assignment; availability UNCONFIRMED) | 2A-D1-II-R1 |
-| 2026-area-2a-d1-ii-2 · San Saba vs Muenster | 2026-11-20 7:00 PM CST | A · 2A DI / E | None | 2A-D1-II-R1 |
-| 2026-area-2a-d1-ii-3 · Tioga vs Mason | 2026-11-20 7:00 PM CST | A · 2A DI / E | None | 2A-D1-II-R2 |
-| 2026-area-2a-d1-iii-1 · Shelbyville vs Cooper | 2026-11-20 7:00 PM CST | A · 2A DI / E | None | 2A-D1-III-R1 |
-| 2026-area-2a-d1-iii-3 · Frankston vs Joaquin | 2026-11-20 7:00 PM CST | A · 2A DI / E | None | 2A-D1-III-R2 |
-| 2026-area-2a-d1-iii-4 · Tom Bean vs San Augustine | 2026-11-20 7:00 PM CST | A · 2A DI / E | None | 2A-D1-III-R2 |
-| 2026-area-2a-d1-iv-4 · Rosebud-Lott vs Flatonia | 2026-11-20 7:00 PM CST | A · 2A DI / E | None | 2A-D1-IV-R2 |
-| 2026-area-2a-d2-i-1 · McCamey vs Gruver | 2026-11-20 7:00 PM CST | B · 2A DII / E | None | 2A-D2-I-R1 |
-| 2026-area-2a-d2-i-2 · Iraan vs Ropes | 2026-11-20 7:00 PM CST | B · 2A DII / E | None | 2A-D2-I-R1 |
-| 2026-area-2a-d2-i-3 · Sudan vs Roscoe | 2026-11-20 7:00 PM CST | B · 2A DII / E | None | 2A-D2-I-R2 |
-| 2026-area-2a-d2-i-4 · Stratford vs Wink | 2026-11-20 7:00 PM CST | B · 2A DII / E | None | 2A-D2-I-R2 |
-| 2026-area-2a-d2-ii-1 · Crawford vs Wellington | 2026-11-20 7:00 PM CST | B · 2A DII / E | None | 2A-D2-II-R1 |
-| 2026-area-2a-d2-ii-2 · Stamford vs Windthorst | 2026-11-20 7:00 PM CST | B · 2A DII / E | None | 2A-D2-II-R1 |
-| 2026-area-2a-d2-ii-3 · Haskell vs Goldthwaite | 2026-11-20 7:00 PM CST | B · 2A DII / E | Goldthwaite (1 eligible school assignment; availability UNCONFIRMED) | 2A-D2-II-R2 |
-| 2026-area-2a-d2-iii-1 · Colmesneil vs Collinsville | 2026-11-20 7:00 PM CST | B · 2A DII / E | None | 2A-D2-III-R1 |
-| 2026-area-2a-d2-iii-3 · Era vs Overton | 2026-11-20 7:00 PM CST | B · 2A DII / E | None | 2A-D2-III-R2 |
-| 2026-area-2a-d2-iii-4 · Lindsay vs West Sabine | 2026-11-20 7:00 PM CST | B · 2A DII / E | None | 2A-D2-III-R2 |
-| 2026-area-2a-d2-iv-2 · Yorktown vs Junction | 2026-11-20 7:00 PM CST | B · 2A DII / E | None | 2A-D2-IV-R1 |
-| 2026-area-2a-d2-iv-3 · Harper vs Falls City | 2026-11-20 7:00 PM CST | B · 2A DII / E | None | 2A-D2-IV-R2 |
-| 2026-area-2a-d2-iv-4 · Chilton vs La Villa | TBD TBD | B · 2A DII / E | None | 2A-D2-IV-R2 |
+| Priority / kickoff window | Matchup and exact ID | Regional destination / other required Area game | Editor |
+|---|---|---|---|
+| P2 other 2A final · 2026-11-19 4:00 PM CST | Spearman vs New Deal · 2026-area-2a-d1-i-4 | 2A-D1-I-R2 / 2026-area-2a-d1-i-3 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d1-i-4) |
+| P1 assignment-linked 2A final · 2026-11-19 7:00 PM CST | De Leon vs Axtell · 2026-area-2a-d1-ii-4 | 2A-D1-II-R2 / 2026-area-2a-d1-ii-3 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d1-ii-4) |
+| P2 other 2A final · 2026-11-19 7:00 PM CST | Beckville vs Carlisle · 2026-area-2a-d1-iii-2 | 2A-D1-III-R1 / 2026-area-2a-d1-iii-1 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d1-iii-2) |
+| P2 other 2A final · 2026-11-19 7:00 PM CST | Weimar vs Thorndale · 2026-area-2a-d1-iv-1 | 2A-D1-IV-R1 / 2026-area-2a-d1-iv-2 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d1-iv-1) |
+| P2 other 2A final · 2026-11-19 7:00 PM CST | Ganado vs Leon · 2026-area-2a-d1-iv-2 | 2A-D1-IV-R1 / 2026-area-2a-d1-iv-1 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d1-iv-2) |
+| P2 other 2A final · 2026-11-19 7:00 PM CST | Lovelady vs Shiner · 2026-area-2a-d1-iv-3 | 2A-D1-IV-R2 / 2026-area-2a-d1-iv-4 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d1-iv-3) |
+| P2 other 2A final · 2026-11-19 7:00 PM CST | Wheeler vs Santo · 2026-area-2a-d2-ii-4 | 2A-D2-II-R2 / 2026-area-2a-d2-ii-3 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d2-ii-4) |
+| P2 other 2A final · 2026-11-19 7:00 PM CST | Grapeland vs Clarksville · 2026-area-2a-d2-iii-2 | 2A-D2-III-R1 / 2026-area-2a-d2-iii-1 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d2-iii-2) |
+| P2 other 2A final · 2026-11-19 7:00 PM CST | Three Rivers vs Bremond · 2026-area-2a-d2-iv-1 | 2A-D2-IV-R1 / 2026-area-2a-d2-iv-2 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d2-iv-1) |
+| P1 assignment-linked 2A final · 2026-11-20 7:00 PM CST | Johnson City vs Cisco · 2026-area-2a-d1-ii-1 | 2A-D1-II-R1 / 2026-area-2a-d1-ii-2 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d1-ii-1) |
+| P1 assignment-linked 2A final · 2026-11-20 7:00 PM CST | Haskell vs Goldthwaite · 2026-area-2a-d2-ii-3 | 2A-D2-II-R2 / 2026-area-2a-d2-ii-4 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d2-ii-3) |
+| P2 other 2A final · 2026-11-20 7:00 PM CST | Forsan vs Panhandle · 2026-area-2a-d1-i-1 | 2A-D1-I-R1 / 2026-area-2a-d1-i-2 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d1-i-1) |
+| P2 other 2A final · 2026-11-20 7:00 PM CST | Ballinger vs Tulia · 2026-area-2a-d1-i-2 | 2A-D1-I-R1 / 2026-area-2a-d1-i-1 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d1-i-2) |
+| P2 other 2A final · 2026-11-20 7:00 PM CST | Olton vs Ozona · 2026-area-2a-d1-i-3 | 2A-D1-I-R2 / 2026-area-2a-d1-i-4 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d1-i-3) |
+| P2 other 2A final · 2026-11-20 7:00 PM CST | San Saba vs Muenster · 2026-area-2a-d1-ii-2 | 2A-D1-II-R1 / 2026-area-2a-d1-ii-1 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d1-ii-2) |
+| P2 other 2A final · 2026-11-20 7:00 PM CST | Tioga vs Mason · 2026-area-2a-d1-ii-3 | 2A-D1-II-R2 / 2026-area-2a-d1-ii-4 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d1-ii-3) |
+| P2 other 2A final · 2026-11-20 7:00 PM CST | Shelbyville vs Cooper · 2026-area-2a-d1-iii-1 | 2A-D1-III-R1 / 2026-area-2a-d1-iii-2 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d1-iii-1) |
+| P2 other 2A final · 2026-11-20 7:00 PM CST | Frankston vs Joaquin · 2026-area-2a-d1-iii-3 | 2A-D1-III-R2 / 2026-area-2a-d1-iii-4 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d1-iii-3) |
+| P2 other 2A final · 2026-11-20 7:00 PM CST | Tom Bean vs San Augustine · 2026-area-2a-d1-iii-4 | 2A-D1-III-R2 / 2026-area-2a-d1-iii-3 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d1-iii-4) |
+| P2 other 2A final · 2026-11-20 7:00 PM CST | Rosebud-Lott vs Flatonia · 2026-area-2a-d1-iv-4 | 2A-D1-IV-R2 / 2026-area-2a-d1-iv-3 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d1-iv-4) |
+| P2 other 2A final · 2026-11-20 7:00 PM CST | McCamey vs Gruver · 2026-area-2a-d2-i-1 | 2A-D2-I-R1 / 2026-area-2a-d2-i-2 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d2-i-1) |
+| P2 other 2A final · 2026-11-20 7:00 PM CST | Iraan vs Ropes · 2026-area-2a-d2-i-2 | 2A-D2-I-R1 / 2026-area-2a-d2-i-1 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d2-i-2) |
+| P2 other 2A final · 2026-11-20 7:00 PM CST | Sudan vs Roscoe · 2026-area-2a-d2-i-3 | 2A-D2-I-R2 / 2026-area-2a-d2-i-4 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d2-i-3) |
+| P2 other 2A final · 2026-11-20 7:00 PM CST | Stratford vs Wink · 2026-area-2a-d2-i-4 | 2A-D2-I-R2 / 2026-area-2a-d2-i-3 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d2-i-4) |
+| P2 other 2A final · 2026-11-20 7:00 PM CST | Crawford vs Wellington · 2026-area-2a-d2-ii-1 | 2A-D2-II-R1 / 2026-area-2a-d2-ii-2 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d2-ii-1) |
+| P2 other 2A final · 2026-11-20 7:00 PM CST | Stamford vs Windthorst · 2026-area-2a-d2-ii-2 | 2A-D2-II-R1 / 2026-area-2a-d2-ii-1 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d2-ii-2) |
+| P2 other 2A final · 2026-11-20 7:00 PM CST | Colmesneil vs Collinsville · 2026-area-2a-d2-iii-1 | 2A-D2-III-R1 / 2026-area-2a-d2-iii-2 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d2-iii-1) |
+| P2 other 2A final · 2026-11-20 7:00 PM CST | Era vs Overton · 2026-area-2a-d2-iii-3 | 2A-D2-III-R2 / 2026-area-2a-d2-iii-4 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d2-iii-3) |
+| P2 other 2A final · 2026-11-20 7:00 PM CST | Lindsay vs West Sabine · 2026-area-2a-d2-iii-4 | 2A-D2-III-R2 / 2026-area-2a-d2-iii-3 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d2-iii-4) |
+| P2 other 2A final · 2026-11-20 7:00 PM CST | Yorktown vs Junction · 2026-area-2a-d2-iv-2 | 2A-D2-IV-R1 / 2026-area-2a-d2-iv-1 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d2-iv-2) |
+| P2 other 2A final · 2026-11-20 7:00 PM CST | Harper vs Falls City · 2026-area-2a-d2-iv-3 | 2A-D2-IV-R2 / 2026-area-2a-d2-iv-4 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d2-iv-3) |
+| P0 schedule research · TBD — immediate schedule research | Chilton vs La Villa · 2026-area-2a-d2-iv-4 | 2A-D2-IV-R2 / 2026-area-2a-d2-iv-3 | [Edit](https://varsityvue.com/internal/scoring?week=13&game=2026-area-2a-d2-iv-4) |
 
-Assigned LIVE contributors cannot start or finalize an unstarted game. Before relying on a school scorer, the duty lead must verify actual availability and the existing authorized workflow. No assignment or public-facing coverage claim is changed by this packet.
+## Three useful dependency shortcuts
+
+- De Leon–Axtell feeds the same Regional slot as Mason–Tioga. Publish a supported De Leon–Axtell final without waiting for Friday’s companion; keep the destination pending until both verified finals exist.
+- Cisco–Johnson City LBJ pairs with Muenster–San Saba; when both Friday finals are available, review them together and check that Regional destination once.
+- Goldthwaite–Haskell pairs with Santo–Wheeler; a supported Thursday Santo–Wheeler final can leave only the Friday Goldthwaite result to complete that dependency. This is a dependency, not a prediction of either winner.
+
+See `kickoff-windows.md` for bounded owner blocks. No staffing commitment or contributor outreach is required by this plan.

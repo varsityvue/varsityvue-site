@@ -1,6 +1,6 @@
-# Kickoff windows and proposed shifts
+# Kickoff windows and owner work blocks
 
-All times CST. This is a monitoring plan, not confirmation of a person’s availability. K = actual kickoff; K+ times are reminders, never evidence that a game ended. Weather delays and overtime override reminders.
+All times CST. Only the owner is available. These are bounded review blocks, not promises of live coverage. K = actual kickoff; K+ times are reminders, never evidence that a game ended. Weather delays and overtime override reminders.
 
 | Date / kickoff | Games | 2A DI | 2A DII | 3A | 4A | Without school assignment | Proposed opening / first final-first scan |
 |---|---:|---:|---:|---:|---:|---:|---|
@@ -14,19 +14,25 @@ All times CST. This is a monitoring plan, not confirmation of a person’s avail
 | 2026-11-21 7:00 PM CST | 1 | 0 | 0 | 1 | 0 | 1 | K−30 6:30 PM CST / K+2h15 9:15 PM CST |
 | TBD — immediate schedule research | 1 | 0 | 1 | 0 | 0 | 1 | K−30 Unscheduled research queue / K+2h15 Unscheduled research queue |
 
-## Staffing recommendation
+## One-owner work blocks
 
-- Thursday November 19: four operators, 3:15 PM–11:30 PM (or until unresolved handoff). E duty lead/publisher; A 2A DI; B 2A DII; C/D combined 3A/4A final-first desk. If B’s early queue is empty, B assists C/D. There are 26 scheduled games.
-- Friday November 20: five operators, 6:15 PM–12:30 AM Saturday, with an explicit unresolved handoff if games run late. A 2A DI; B 2A DII; C 3A; D 4A; E duty lead/final publisher. Six eligible admin/moderator accounts exist; no availability is confirmed. Designate a relief person from the remaining existing accounts only if available—do not grant permissions. There are 66 scheduled games, 22 in 2A.
-- Saturday November 21: two operators, 1:15 PM through the last verified final/handoff: one monitor and one authorized reviewer/publisher. Three confirmed kickoffs are 2 PM, 3 PM and 7 PM. Add La Villa–Chilton only after a reliable schedule is established.
-- Fewer than three operators at a main evening window: use final-only fallback, cover all 2A final verification first, then 3A/4A; publish only what can be verified. Announce an internal backlog and hand off missing games for next-morning review. Do not promise live updates for all 96 games.
+No continuous monitoring. Keep only the scoring board and two source tabs open; use the exact edit link in the solo queue. The three assignment-linked 2A games get the first available final check, not an assumed live contributor feed. Once a candidate is trustworthy, verify and publish it once through existing tools. The next unresolved 2A game comes before any 3A/4A result.
 
-## Load and cadence
+| Day | Owner blocks (CST) | Scope / stop rule |
+|---|---|---|
+| Thursday Nov 19 | 3:45–3:50 PM preflight; 6:30–6:40 PM early-final check; 9:30–10:00 PM 2A block; 10:15–10:30 PM closeout | Nine 2A games, including De Leon–Axtell. Around 60 active minutes maximum; defer any unverified final. No 17-game non-2A sweep that night. |
+| Friday Nov 20 morning | 9:00–9:45 AM, then stop | Five small batches cover the 17 Thursday 3A/4A games; first settle Thursday unresolved 2A. At 45 minutes, carry remaining non-2A to the next owner session. |
+| Friday Nov 20 evening | 6:45–6:55 PM preflight; 9:15–9:25 PM candidate triage; 9:30–10:00 PM batch; 10:15–10:45 PM batch; 11:00–11:10 PM carry-forward log | Twenty-two 2A games. Around 90 active minutes maximum; Cisco and Goldthwaite first, then available companion results that complete a Regional pair, then remaining 2A. No 44-game non-2A sweep that night. |
+| Saturday Nov 21 | 9:00–10:30 AM backlog session, optionally one 30-minute later session | Friday 3A/4A finals in batches of at most four; unresolved 2A always interrupts. Stop at the time budget and carry forward the exact row, not an imagined verified result. |
+| Sunday Nov 22 | 9:00–10:00 AM cleanup target, optional later block only if owner has time | Remaining Friday backlog and the three Saturday games. Keep unresolved disputes open; completion may require later review. |
+| La Villa–Chilton TBD | Brief pregame research before the relevant day; insert only after reliable confirmation | Priority 2A final review; do not invent a kickoff window or assume Saturday. |
 
-The Friday burst is 56 games at 7 PM plus 10 at 7:30 PM; simultaneous endings are the bottleneck. A and B scan their 2A lists every 15 minutes / quarter, with featured assigned-school games checked first. C and D do a pregame identity/source check, then start final-first scans at K+2h15 and repeat every 15 minutes until verified or escalated. Serious conflicts and verified finals interrupt the routine cadence.
+These blocks are proposed owner timeboxes, not scheduled reminders or confirmed final times. A game may end before or after a block. Source outages, overtime and disputes require later review rather than extra automatic monitoring. The owner may skip an optional spot check without weakening final verification.
 
-Budget approximately 2–4 operator-minutes to establish a final and 1–2 publisher-minutes to enter/recheck it (planning estimates, not measurements). Friday’s 66 finals imply 66–132 publisher-minutes; a single publisher will queue results. If the verified-final queue exceeds ten games or the oldest waits 20 minutes, E temporarily delegates a nonoverlapping division to an already authorized operator and records ownership. Never have two people publishing the same game concurrently. When their 2A finals clear, A/B help clear C/D verification queues. Targets are operating goals, not guarantees; unresolved/conflicting games stay unverified.
+## Honest time budget
 
-## Daily handoff
+Allow 2–4 active minutes per straightforward verified final, including evidence and publication/read-back: 32 2A games need about 64–128 minutes; the remaining 64 need 128–256 minutes. Add roughly 40–60 minutes for preflight, triage and carry-forward logs. All 96 safely verified is therefore about 4–7.5 hours across several days, not one hour on Friday. These are planning estimates, not measured product performance, and disputes add time. The bounded blocks are a target workload; they cannot guarantee all 96 completed by Sunday. If the owner has less time, publish fewer verified finals and keep the backlog visible.
 
-Before shifts: allocate role names to real available operators in a private working copy; confirm source access and relief coverage. No names have been assigned by this packet. At handoff record every unresolved game ID, last known state, evidence links/timestamps, conflict, next check time and a receiving operator’s acknowledgement. At the next morning review (9 AM CST proposed), reconcile every open game and all newly eligible Regional slots.
+## Minimal repetition
+
+Scan a division bracket/scoreboard once per block; keep a local shortlist of candidate finals. Open only the matching existing game editor, with no duplicate data entry into Score Scout and the editor. After both results of a Regional dependency are verified, perform one bracket/readiness check for that pair. Use a single working CSV to retain evidence and the next row; do not maintain separate task lists for each source. Never visit every school hub after every routine score; do a focused read-back of that game and its two schedule links, then one end-of-block Playoff Central check.

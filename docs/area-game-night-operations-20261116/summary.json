@@ -2,7 +2,8 @@
   "areaGames": 96,
   "assignedGames": 3,
   "withoutSchoolAssignment": 93,
-  "confirmedOperatorAvailability": 0,
+  "confirmedOperatorAvailability": 1,
+  "confirmedContributorAvailability": 0,
   "regionalSlots": 48,
   "confirmedRegionalPairs": 0,
   "unresolvedScheduleGames": [

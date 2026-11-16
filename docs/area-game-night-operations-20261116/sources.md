@@ -21,3 +21,7 @@ Reviewed November 16, 2026. These are source lookup endpoints for future game-ni
 - [La Villa MaxPreps schedule](https://www.maxpreps.com/tx/la-villa/la-villa-cardinals/football/schedule/) still shows Date TBA for Chilton. The schools’ public pages and reviewed reporting did not produce corroborated Area kickoff/venue during this audit. Preserve TBD; do not infer a neutral site from a home-label or use a regular-season venue.
 
 Schedule attribution in each matrix row is copied from the already reviewed canonical record, including source URLs and caveats. This run did not independently re-research all 95 established kickoff/venue pairs or silently resolve every discrepancy in third-party reporting.
+
+## Solo-owner update
+
+The owner is the only reviewer; no second-person sign-off or contributor availability is presumed. One authoritative official final may be reviewed by the owner, or use two genuinely independent matching final reports where official evidence is unavailable. A second site using the same feed is not independent. The MaxPreps La Villa–Chilton game page still says the date has not been set: https://www.maxpreps.com/tx/football/game/chilton-vs-la-villa/11-19-2026/?c=7d1cf01a-39c7-4d51-8e21-d1bd1a3485e8 . Its URL date and placeholder title are not schedule confirmation. Keep canonical TBD. Do not open school links repeatedly for every queue scan; use them only when a candidate needs authoritative verification.

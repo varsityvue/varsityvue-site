@@ -1,39 +1,45 @@
-# Verification evidence
+# Solo packet verification
 
-Base main: `a85ad9a118a8659463e74b16b95062c9bb5aacee` (PR #162 merged). Documentation-only packet; runtime behavior and canonical schedules/results were not changed.
+Updated November 16, 2026. Production main remains `a85ad9a118a8659463e74b16b95062c9bb5aacee`, PR #162 merged; deployment `dpl_5JxVuvFYHnGAPT4rpvZEXV18URzq` remains READY on both domains. The packet’s sole operator is the owner, explicitly confirmed by the current instruction. No staffing commitments, contributor availability or new permissions are assumed.
 
-## Read-only production checks
+## Read-only production recheck
 
-See `live-recheck.json` for the exact observation timestamp. Both production domains returned HTTP 200 with deployment `dpl_5JxVuvFYHnGAPT4rpvZEXV18URzq` in their response content. Vercel independently reported READY, target production, the same main SHA and both assigned domains. GitHub main and the tested base tree matched.
+`live-recheck.json` records current observation time, both domains returning the expected deployment marker, and the primary public-score feed matching all 288 canonical playoff records on participant identities, both score slots and verification flags. All 192 first-round finals and all 96 unscored Area matchups remain intact. No unexpected playoff games were present. The prior full 680-route acceptance is not unnecessarily repeated for a documentation change.
 
-The primary public score snapshot matched all 288 canonical playoff records on participant school identities, both score slots and verification flags: 192 verified first-round finals, 96 unscored Area games, no unexpected playoff games. No full 680-route acceptance rerun was needed; that acceptance was already complete and this preparation did not change runtime code.
+Supabase read-only queries reconfirmed 96 expected identities, 96 registered and 96 exact school-slot matches. No Area score states, submissions, missing-score candidates or evidence rows were present. Six active assignment/role/account-eligible school assignments remain; only Cisco, De Leon and Goldthwaite participate in Area games. The previous La Villa–Chilton repair is complete and was not repeated. No production mutation or cron was invoked.
 
-Read-only Supabase aggregates established all 96 canonical Area identities matched exactly; no Area score states or score submissions existed. Active school assignments were checked together with current account status and scorekeeper role, not just an active assignment flag. Six eligible assignments cover three Area games. Six active authorized admin/moderator accounts exist, but the audit did not establish any operator’s availability. No personal account IDs or contact data were saved.
+## Existing tools inspected
 
-## Isolated operational tests
+The operational scoring board already has preselected-game links and Pending Reports/Awaiting Result filters; Score Review already groups pending reports; Missing Scores already displays candidate evidence, provenance, conflicts and explicit review controls. Reviewed the worker’s four-hour/48-hour eligibility bounds, optional provider configuration and combined email-cron side effects. A second candidate page would duplicate review and would not create reliable source coverage. No app change, draft PR or preview is justified by this audit. See `tools-assessment.md` for precise limits.
 
-46 existing tests passed:
+## Isolated tests
+
+54 existing scoring/advancement/Score Scout tests passed:
 
 ```bash
-node --import tsx --test lib/score-input.test.ts lib/assigned-scorekeeper.test.ts lib/assigned-scorekeeper-games.test.ts lib/scoring-operations.test.ts lib/resolve-game-score-state.test.ts lib/regional-round-readiness.test.ts lib/area-round-completion.test.ts lib/score-conflict.test.ts lib/playoff-bracket-advancement.test.ts
+node --import tsx --test lib/score-input.test.ts lib/assigned-scorekeeper.test.ts lib/assigned-scorekeeper-games.test.ts lib/scoring-operations.test.ts lib/resolve-game-score-state.test.ts lib/regional-round-readiness.test.ts lib/area-round-completion.test.ts lib/score-conflict.test.ts lib/playoff-bracket-advancement.test.ts lib/score-scout-review.test.tsx
 ```
 
-Four additional operational fixture tests passed:
+Four existing isolated action/loader simulations passed:
 
 ```bash
 node --experimental-test-module-mocks --import tsx --test docs/area-game-night-operations-20261116/isolated-operations.test.mts
 ```
 
-The fixture runs the actual operational scoring action with mocked authentication, database transport and Next cache/navigation boundaries. Network fetch is denied. It verifies blank/partial final rejection and final confirmation before any RPC; explicit final-score forwarding once without retry; invalidation of Playoff Central, Game Center and both school schedules; the actual public-score loader and school schedule selector reading the synthetic published final; all 96 synthetic Area finals producing 48 confirmed readiness pairs without invented Regional Game Centers; a winner-reversing correction recalculating the pair and both school schedule views; stale-conflict handling with no retry/invalidation; and denial of the moderator action to a scorekeeper-only role.
+These run the real operational scoring action with mocked authentication, database transport and Next cache/navigation. Network is prohibited. They check blank/partial final rejection, explicit final confirmation, score forwarding exactly once without retry, invalidation of the Game Center/Playoff Central/both school schedules, real public-loader/school-selector read-back, 96 synthetic Area finals creating 48 correct readiness pairs without fabricated Regional Game Centers, winner reversal propagation, stale conflicts and role denial. Score Scout tests additionally cover evidence snapshots, explicit final approval, deferred/rejected evidence and state/mapping conflict guards. Synthetic scores were never sent to production.
 
-These are synthetic fixtures, not production results. The database transport is mocked; this run does not claim a new full SQL authority/concurrency or authenticated live-browser test. The released PR #162 already passed its isolated database/concurrency/authenticated-browser CI workflows (43813631907, 43813631868, 43813631904). No test score was sent to production.
+The database transport is mocked here; no new full SQL-authority/concurrency or authenticated production-browser test is claimed. PR #162 already passed its isolated database/concurrency/browser release CI. The previous live admin readiness page redirected to login; use the owner’s normal authorized session on game night without changing access.
 
 ## Packet consistency
 
-Validated 96 unique coverage rows, 16 per division, and 48 unique Regional rows, eight per division. Every Area game occurs exactly once among the 48 two-game dependency pairs; every matrix destination has exactly two Area sources. Verified three assigned-school games, one unresolved schedule, explicit proposed primary/backup labels, populated lookup sources and no fabricated Regional winners. The 95 scheduled rows all retain a venue/city and an explicit CST-offset kickoff from the canonical catalog.
+```bash
+python docs/area-game-night-operations-20261116/verify-packet.py
+```
 
-TypeScript and targeted ESLint for the documentation generator/fixture passed. `git diff --check` passed. A new application build or preview is not warranted for this packet: no production application, dependency, database schema, permission, or logo file changed. A nonproduction documentation branch is prepared without a PR, merge or production deployment.
+Passed: 96 unique owner tasks; P0=one unresolved schedule, P1=three assignment-linked 2A games, P2=28 other scheduled 2A games and P3=64 final-only 3A/4A games. All 64 non-2A games appear exactly once in 17 batches of at most four. Every exact editor link selects the proper Game ID and week. Each of the 48 Regional slots has two distinct Area inputs; every Area game appears once in the dependency ledger; no hypothetical winner is populated. All matrix primary/deferred-review responsibilities identify the owner.
 
-## Limits
+TypeScript, targeted ESLint for the generator/fixture and whitespace checks passed. No production application, dependency, schema, permission or logo file changed; a fresh application build and preview deployment are unnecessary. The updated documentation remains on the existing nonproduction packet branch without a PR or merge.
 
-Source endpoints were reviewed as future lookup candidates; their future final score coverage and independence cannot be verified before the games occur. Catalog school links are explicitly leads rather than independently authenticated endpoints. Staffing and school contributor availability remain unconfirmed. La Villa–Chilton kickoff and venue remain TBD. The authenticated admin readiness page was unavailable in the prior live session; this packet does not claim a new authenticated production UI verification.
+## Limits and practical budget
+
+Source endpoints are lookup candidates; future final availability and independent reporting origin are not guaranteed. Official school URLs/social links copied from the existing catalog remain leads requiring ownership/date verification. La Villa–Chilton scheduling is still TBD. The owner’s 60-minute Thursday and 90-minute Friday evening budgets deliberately move lower-priority finals to morning blocks. Planning estimates total about 4–7.5 hours across several days to verify all 96 if evidence is straightforward; the packet does not promise every game complete by Sunday. Unknown/conflicting results stay unverified.
