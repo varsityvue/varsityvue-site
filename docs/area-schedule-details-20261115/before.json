@@ -1,0 +1,48 @@
+[
+  {
+    "id": "2026-area-2a-d1-i-2",
+    "season": 2026,
+    "week": 13,
+    "gameType": "playoff",
+    "playoff": {
+      "round": "Area",
+      "division": "2A Division I",
+      "region": "I"
+    },
+    "homeSchoolSlug": "tulia",
+    "awaySchoolSlug": "ballinger",
+    "homeTeam": "Tulia",
+    "awayTeam": "Ballinger",
+    "isNeutralSite": null,
+    "designatedSidesConfirmed": false,
+    "status": "upcoming",
+    "districtGame": false,
+    "coverageStatus": "none",
+    "sourceStatus": "verified",
+    "sourceLabel": "UIL-linked 2026 2A DI bracket; participants reconciled against verified bi-district finals; date, time and venue pending \u2014 https://www.uiltexas.org/football/playoff-brackets/2AD1"
+  },
+  {
+    "id": "2026-area-3a-d1-iii-1",
+    "season": 2026,
+    "week": 13,
+    "gameType": "playoff",
+    "playoff": {
+      "round": "Area",
+      "division": "3A Division I",
+      "region": "III"
+    },
+    "homeTeam": "Diboll",
+    "awayTeam": "Lorena",
+    "homeSchoolSlug": "diboll",
+    "awaySchoolSlug": "lorena",
+    "isNeutralSite": null,
+    "designatedSidesConfirmed": false,
+    "status": "upcoming",
+    "districtGame": false,
+    "coverageStatus": "none",
+    "sourceStatus": "verified",
+    "sourceLabel": "Participants established by reviewed first-round finals; DCTF Area schedule reviewed November 14, 2026 \u2014 https://www.uiltexas.org/football/playoff-brackets/3AD1; https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations; November 20 confirmed; UIL-linked bracket/direct matchup lists 7 p.m., DCTF lists 7:30 p.m. Kickoff time withheld pending resolution.",
+    "kickoff": "2026-11-20",
+    "venue": "Mustang Stadium, Madisonville, TX"
+  }
+]

@@ -195,7 +195,9 @@ export const playoffLaunchGames: Game[] = [
     "districtGame": false,
     "coverageStatus": "none",
     "sourceStatus": "verified",
-    "sourceLabel": "UIL-linked 2026 2A DI bracket; participants reconciled against verified bi-district finals; date, time and venue pending — https://www.uiltexas.org/football/playoff-brackets/2AD1"
+    "sourceLabel": "Area schedule reviewed November 15, 2026: San Angelo LIVE (Paul Harris) and Amarillo Globe-News/Yahoo list Friday November 20, 7 p.m., Midland Greenwood. Exact stadium name and designated sides remain unconfirmed. https://sanangelolive.com/news/sports/2026-11-14/west-texas-high-school-football-playoff-schedule-and-scores; https://sports.yahoo.com/articles/texas-panhandle-high-school-football-221017917.html",
+    "kickoff": "2026-11-20T19:00:00-06:00",
+    "venue": "Midland Greenwood, TX"
   },
   {
     "id": "2026-area-2a-d1-i-3",
