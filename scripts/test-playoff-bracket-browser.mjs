@@ -135,7 +135,7 @@ try{
   await page.screenshot({path:`${output}/${name}-chilton-owner-confirmed-final.png`});
   await page.goto(origin+'/games/2026-area-2a-d2-iv-4');
   const chiltonArea=await page.locator('main').innerText();
-  assert.ok(chiltonArea.includes('Chilton') && chiltonArea.includes('La Villa') && chiltonArea.includes('Nov 20') && chiltonArea.includes('7:00 PM') && chiltonArea.includes('Bulldog Stadium, Somerset, TX'));
+  assert.ok(chiltonArea.includes('Chilton') && chiltonArea.includes('La Villa') && chiltonArea.includes('November 20, 2026') && chiltonArea.includes('7:00 PM') && chiltonArea.includes('Bulldog Stadium, Somerset, TX'));
   await page.screenshot({path:`${output}/${name}-chilton-la-villa-area.png`});
   await page.goto(origin+'/games/2026-bi-district-2a-d2-i-1');
   const d2final=await page.locator('main').innerText();assert.ok(d2final.includes('FINAL · VERIFIED')&&d2final.includes('69')&&d2final.includes('14'));
