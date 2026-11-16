@@ -183,6 +183,10 @@ export async function approveScoreSubmission(formData: FormData) {
     redirect(`/internal/score-review?message=${encodeURIComponent("Report changed during review — refresh the queue and check the current canonical score.")}`);
   }
 
+  revalidatePath("/playoffs");
+  revalidatePath("/admin/playoff-publishing");
+  revalidatePath("/schools/[slug]", "layout");
+  revalidatePath("/internal/scoring");
   revalidatePath("/internal/score-review");
   revalidatePath("/scores");
   revalidatePath("/scoreboard");
@@ -214,6 +218,10 @@ export async function rejectScoreSubmission(formData: FormData) {
     redirect(`/internal/score-review?message=${encodeURIComponent("Report changed during review — refresh the queue.")}`);
   }
 
+  revalidatePath("/playoffs");
+  revalidatePath("/admin/playoff-publishing");
+  revalidatePath("/schools/[slug]", "layout");
+  revalidatePath("/internal/scoring");
   revalidatePath("/internal/score-review");
   redirect("/internal/score-review?reviewed=rejected");
 }
@@ -272,6 +280,10 @@ export async function updateGameAvailability(formData: FormData) {
       .eq("status", "pending");
   }
 
+  revalidatePath("/playoffs");
+  revalidatePath("/admin/playoff-publishing");
+  revalidatePath("/schools/[slug]", "layout");
+  revalidatePath("/internal/scoring");
   revalidatePath("/internal/score-review");
   revalidatePath("/games");
   revalidatePath("/scoreboard");
@@ -315,6 +327,10 @@ export async function rescheduleGame(formData: FormData) {
     redirect(`/internal/score-review?message=${encodeURIComponent(scheduleErrorMessage(error.code, error.message))}`);
   }
 
+  revalidatePath("/playoffs");
+  revalidatePath("/admin/playoff-publishing");
+  revalidatePath("/schools/[slug]", "layout");
+  revalidatePath("/internal/scoring");
   revalidatePath("/internal/score-review");
   revalidatePath("/games");
   revalidatePath("/scoreboard");
@@ -364,6 +380,10 @@ export async function setCanonicalGameOutcome(formData: FormData) {
     redirect(`/internal/score-review?message=${encodeURIComponent(outcomeErrorMessage(error.code, error.message))}`);
   }
 
+  revalidatePath("/playoffs");
+  revalidatePath("/admin/playoff-publishing");
+  revalidatePath("/schools/[slug]", "layout");
+  revalidatePath("/internal/scoring");
   revalidatePath("/internal/score-review");
   revalidatePath("/pickem");
   revalidatePath("/games");
@@ -433,6 +453,10 @@ export async function originateScorelessOutcome(formData: FormData) {
   }
 
   revalidatePath("/");
+  revalidatePath("/playoffs");
+  revalidatePath("/admin/playoff-publishing");
+  revalidatePath("/schools/[slug]", "layout");
+  revalidatePath("/internal/scoring");
   revalidatePath("/internal/score-review");
   revalidatePath("/pickem");
   revalidatePath("/games");

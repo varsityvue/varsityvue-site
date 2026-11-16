@@ -1,5 +1,6 @@
 "use server";
 
+import { parseScoreInput } from "@/lib/score-input";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { isScoreConflict } from "@/lib/score-conflict";
@@ -18,8 +19,8 @@ export async function submitOperationalScore(form: FormData) {
   const game = getGameById(gameId);
   const week = Number(value(form, "week"));
   const base = `/internal/scoring?week=${Number.isSafeInteger(week) ? week : ""}&game=${encodeURIComponent(gameId)}`;
-  const away = Number(value(form, "away_score"));
-  const home = Number(value(form, "home_score"));
+  const away = parseScoreInput(form.get("away_score"));
+  const home = parseScoreInput(form.get("home_score"));
   const intent = value(form, "intent");
   const periodRaw = value(form, "period");
   const period = periodRaw ? normalizeLivePeriod(periodRaw) : null;
@@ -30,7 +31,7 @@ export async function submitOperationalScore(form: FormData) {
   const absent = value(form, "expected_absent") === "true";
   if (!game || game.gameType === "bye" || game.gameType === "scrimmage" || !game.awaySchoolSlug || !game.homeSchoolSlug ||
       !["live", "final"].includes(intent) ||
-      !Number.isSafeInteger(away) || !Number.isSafeInteger(home) || away < 0 || home < 0 || away > 150 || home > 150 ||
+      away === null || home === null ||
       (periodRaw && !period) || sourceNote.length > 1000 || (absent && (expected || revision !== null)) ||
       (!absent && (!expected || revision === null || !Number.isSafeInteger(revision) || revision < 0))) {
     redirect(`${base}&error=1`);
@@ -51,7 +52,7 @@ export async function submitOperationalScore(form: FormData) {
     p_expected_state_absent: absent,
   }).retry(false);
   if (error) redirect(`${base}&${isScoreConflict(error) ? "stale" : "error"}=1`);
-  for (const path of ["/", "/scores", "/scoreboard", "/games", `/games/${gameId}`, "/internal/scoring", "/internal/score-review", "/pickem", `/schools/${game.awaySchoolSlug}`, `/schools/${game.homeSchoolSlug}`]) {
+  for (const path of ["/playoffs", `/schools/${game.awaySchoolSlug}/schedule`, `/schools/${game.homeSchoolSlug}/schedule`, "/", "/scores", "/scoreboard", "/games", `/games/${gameId}`, "/internal/scoring", "/internal/score-review", "/pickem", `/schools/${game.awaySchoolSlug}`, `/schools/${game.homeSchoolSlug}`]) {
     revalidatePath(path);
   }
   redirect(`${base}&saved=1`);
