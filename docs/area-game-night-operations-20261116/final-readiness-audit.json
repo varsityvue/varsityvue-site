@@ -1,0 +1,549 @@
+{
+  "checkedAt": "2026-11-16T23:45:26.434707+00:00",
+  "main": "bdded546ab4df72b9c8e9a0a274ba0ed386922b9",
+  "deployment": "dpl_6vadKD3dCZhAxRRybkiyYzznV23M",
+  "checks": {
+    "area": 96,
+    "canonicalScoringIdentityMatches": 96,
+    "regionalSlots": 48,
+    "regionalAwaitingBothFinals": 48,
+    "errors": []
+  },
+  "identities": [
+    {
+      "game_id": "2026-area-2a-d1-i-1",
+      "away_school_slug": "forsan",
+      "home_school_slug": "panhandle"
+    },
+    {
+      "game_id": "2026-area-2a-d1-i-2",
+      "away_school_slug": "ballinger",
+      "home_school_slug": "tulia"
+    },
+    {
+      "game_id": "2026-area-2a-d1-i-3",
+      "away_school_slug": "olton",
+      "home_school_slug": "ozona"
+    },
+    {
+      "game_id": "2026-area-2a-d1-i-4",
+      "away_school_slug": "spearman",
+      "home_school_slug": "new-deal"
+    },
+    {
+      "game_id": "2026-area-2a-d1-ii-1",
+      "away_school_slug": "johnson-city-lbj",
+      "home_school_slug": "cisco"
+    },
+    {
+      "game_id": "2026-area-2a-d1-ii-2",
+      "away_school_slug": "san-saba",
+      "home_school_slug": "muenster"
+    },
+    {
+      "game_id": "2026-area-2a-d1-ii-3",
+      "away_school_slug": "tioga",
+      "home_school_slug": "mason"
+    },
+    {
+      "game_id": "2026-area-2a-d1-ii-4",
+      "away_school_slug": "de-leon",
+      "home_school_slug": "axtell"
+    },
+    {
+      "game_id": "2026-area-2a-d1-iii-1",
+      "away_school_slug": "shelbyville",
+      "home_school_slug": "cooper"
+    },
+    {
+      "game_id": "2026-area-2a-d1-iii-2",
+      "away_school_slug": "beckville",
+      "home_school_slug": "price-carlisle"
+    },
+    {
+      "game_id": "2026-area-2a-d1-iii-3",
+      "away_school_slug": "frankston",
+      "home_school_slug": "joaquin"
+    },
+    {
+      "game_id": "2026-area-2a-d1-iii-4",
+      "away_school_slug": "tom-bean",
+      "home_school_slug": "san-augustine"
+    },
+    {
+      "game_id": "2026-area-2a-d1-iv-1",
+      "away_school_slug": "weimar",
+      "home_school_slug": "thorndale"
+    },
+    {
+      "game_id": "2026-area-2a-d1-iv-2",
+      "away_school_slug": "ganado",
+      "home_school_slug": "jewett-leon"
+    },
+    {
+      "game_id": "2026-area-2a-d1-iv-3",
+      "away_school_slug": "lovelady",
+      "home_school_slug": "shiner"
+    },
+    {
+      "game_id": "2026-area-2a-d1-iv-4",
+      "away_school_slug": "rosebud-lott",
+      "home_school_slug": "flatonia"
+    },
+    {
+      "game_id": "2026-area-2a-d2-i-1",
+      "away_school_slug": "mccamey",
+      "home_school_slug": "gruver"
+    },
+    {
+      "game_id": "2026-area-2a-d2-i-2",
+      "away_school_slug": "iraan",
+      "home_school_slug": "ropes"
+    },
+    {
+      "game_id": "2026-area-2a-d2-i-3",
+      "away_school_slug": "sudan",
+      "home_school_slug": "roscoe"
+    },
+    {
+      "game_id": "2026-area-2a-d2-i-4",
+      "away_school_slug": "stratford",
+      "home_school_slug": "wink"
+    },
+    {
+      "game_id": "2026-area-2a-d2-ii-1",
+      "away_school_slug": "crawford",
+      "home_school_slug": "wellington"
+    },
+    {
+      "game_id": "2026-area-2a-d2-ii-2",
+      "away_school_slug": "stamford",
+      "home_school_slug": "windthorst"
+    },
+    {
+      "game_id": "2026-area-2a-d2-ii-3",
+      "away_school_slug": "haskell",
+      "home_school_slug": "goldthwaite"
+    },
+    {
+      "game_id": "2026-area-2a-d2-ii-4",
+      "away_school_slug": "wheeler",
+      "home_school_slug": "santo"
+    },
+    {
+      "game_id": "2026-area-2a-d2-iii-1",
+      "away_school_slug": "colmesneil",
+      "home_school_slug": "collinsville"
+    },
+    {
+      "game_id": "2026-area-2a-d2-iii-2",
+      "away_school_slug": "grapeland",
+      "home_school_slug": "clarksville"
+    },
+    {
+      "game_id": "2026-area-2a-d2-iii-3",
+      "away_school_slug": "era",
+      "home_school_slug": "overton"
+    },
+    {
+      "game_id": "2026-area-2a-d2-iii-4",
+      "away_school_slug": "lindsay",
+      "home_school_slug": "west-sabine"
+    },
+    {
+      "game_id": "2026-area-2a-d2-iv-1",
+      "away_school_slug": "three-rivers",
+      "home_school_slug": "bremond"
+    },
+    {
+      "game_id": "2026-area-2a-d2-iv-2",
+      "away_school_slug": "yorktown",
+      "home_school_slug": "junction"
+    },
+    {
+      "game_id": "2026-area-2a-d2-iv-3",
+      "away_school_slug": "harper",
+      "home_school_slug": "falls-city"
+    },
+    {
+      "game_id": "2026-area-2a-d2-iv-4",
+      "away_school_slug": "chilton",
+      "home_school_slug": "la-villa"
+    },
+    {
+      "game_id": "2026-area-3a-d1-i-1",
+      "away_school_slug": "peaster",
+      "home_school_slug": "shallowater"
+    },
+    {
+      "game_id": "2026-area-3a-d1-i-2",
+      "away_school_slug": "vernon",
+      "home_school_slug": "clyde"
+    },
+    {
+      "game_id": "2026-area-3a-d1-i-3",
+      "away_school_slug": "sweetwater",
+      "home_school_slug": "wall"
+    },
+    {
+      "game_id": "2026-area-3a-d1-i-4",
+      "away_school_slug": "bushland",
+      "home_school_slug": "paradise"
+    },
+    {
+      "game_id": "2026-area-3a-d1-ii-1",
+      "away_school_slug": "texarkana-liberty-eylau",
+      "home_school_slug": "gunter"
+    },
+    {
+      "game_id": "2026-area-3a-d1-ii-2",
+      "away_school_slug": "tatum",
+      "home_school_slug": "whitney"
+    },
+    {
+      "game_id": "2026-area-3a-d1-ii-3",
+      "away_school_slug": "pilot-point",
+      "home_school_slug": "malakoff"
+    },
+    {
+      "game_id": "2026-area-3a-d1-ii-4",
+      "away_school_slug": "whitesboro",
+      "home_school_slug": "atlanta"
+    },
+    {
+      "game_id": "2026-area-3a-d1-iii-1",
+      "away_school_slug": "lorena",
+      "home_school_slug": "diboll"
+    },
+    {
+      "game_id": "2026-area-3a-d1-iii-2",
+      "away_school_slug": "cameron-yoe",
+      "home_school_slug": "orangefield"
+    },
+    {
+      "game_id": "2026-area-3a-d1-iii-3",
+      "away_school_slug": "palestine-westwood",
+      "home_school_slug": "columbus"
+    },
+    {
+      "game_id": "2026-area-3a-d1-iii-4",
+      "away_school_slug": "east-chambers",
+      "home_school_slug": "franklin"
+    },
+    {
+      "game_id": "2026-area-3a-d1-iv-1",
+      "away_school_slug": "goliad",
+      "home_school_slug": "yoakum"
+    },
+    {
+      "game_id": "2026-area-3a-d1-iv-2",
+      "away_school_slug": "orange-grove",
+      "home_school_slug": "devine"
+    },
+    {
+      "game_id": "2026-area-3a-d1-iv-3",
+      "away_school_slug": "hallettsville",
+      "home_school_slug": "sinton"
+    },
+    {
+      "game_id": "2026-area-3a-d1-iv-4",
+      "away_school_slug": "marion",
+      "home_school_slug": "san-diego"
+    },
+    {
+      "game_id": "2026-area-3a-d2-i-1",
+      "away_school_slug": "merkel",
+      "home_school_slug": "canadian"
+    },
+    {
+      "game_id": "2026-area-3a-d2-i-2",
+      "away_school_slug": "holliday",
+      "home_school_slug": "idalou"
+    },
+    {
+      "game_id": "2026-area-3a-d2-i-3",
+      "away_school_slug": "slaton",
+      "home_school_slug": "henrietta"
+    },
+    {
+      "game_id": "2026-area-3a-d2-i-4",
+      "away_school_slug": "childress",
+      "home_school_slug": "jacksboro"
+    },
+    {
+      "game_id": "2026-area-3a-d2-ii-1",
+      "away_school_slug": "edgewood",
+      "home_school_slug": "millsap"
+    },
+    {
+      "game_id": "2026-area-3a-d2-ii-2",
+      "away_school_slug": "howe",
+      "home_school_slug": "maypearl"
+    },
+    {
+      "game_id": "2026-area-3a-d2-ii-3",
+      "away_school_slug": "dallas-madison",
+      "home_school_slug": "bells"
+    },
+    {
+      "game_id": "2026-area-3a-d2-ii-4",
+      "away_school_slug": "tolar",
+      "home_school_slug": "grand-saline"
+    },
+    {
+      "game_id": "2026-area-3a-d2-iii-1",
+      "away_school_slug": "buffalo",
+      "home_school_slug": "arp"
+    },
+    {
+      "game_id": "2026-area-3a-d2-iii-2",
+      "away_school_slug": "hardin",
+      "home_school_slug": "jefferson"
+    },
+    {
+      "game_id": "2026-area-3a-d2-iii-3",
+      "away_school_slug": "new-london-west-rusk",
+      "home_school_slug": "mildred"
+    },
+    {
+      "game_id": "2026-area-3a-d2-iii-4",
+      "away_school_slug": "troup",
+      "home_school_slug": "newton"
+    },
+    {
+      "game_id": "2026-area-3a-d2-iv-1",
+      "away_school_slug": "blanco",
+      "home_school_slug": "thrall"
+    },
+    {
+      "game_id": "2026-area-3a-d2-iv-2",
+      "away_school_slug": "stockdale",
+      "home_school_slug": "east-bernard"
+    },
+    {
+      "game_id": "2026-area-3a-d2-iv-3",
+      "away_school_slug": "altair-rice",
+      "home_school_slug": "poth"
+    },
+    {
+      "game_id": "2026-area-3a-d2-iv-4",
+      "away_school_slug": "boling",
+      "home_school_slug": "george-west"
+    },
+    {
+      "game_id": "2026-area-4a-d1-i-1",
+      "away_school_slug": "decatur",
+      "home_school_slug": "el-paso-andress"
+    },
+    {
+      "game_id": "2026-area-4a-d1-i-2",
+      "away_school_slug": "lake-dallas",
+      "home_school_slug": "canyon-randall"
+    },
+    {
+      "game_id": "2026-area-4a-d1-i-3",
+      "away_school_slug": "canyon-west-plains",
+      "home_school_slug": "springtown"
+    },
+    {
+      "game_id": "2026-area-4a-d1-i-4",
+      "away_school_slug": "canyon",
+      "home_school_slug": "aubrey"
+    },
+    {
+      "game_id": "2026-area-4a-d1-ii-1",
+      "away_school_slug": "longview-pine-tree",
+      "home_school_slug": "kennedale"
+    },
+    {
+      "game_id": "2026-area-4a-d1-ii-2",
+      "away_school_slug": "paris",
+      "home_school_slug": "dallas-lincoln"
+    },
+    {
+      "game_id": "2026-area-4a-d1-ii-3",
+      "away_school_slug": "dallas-kimball",
+      "home_school_slug": "henderson"
+    },
+    {
+      "game_id": "2026-area-4a-d1-ii-4",
+      "away_school_slug": "dallas-hutchins",
+      "home_school_slug": "lindale"
+    },
+    {
+      "game_id": "2026-area-4a-d1-iii-1",
+      "away_school_slug": "el-campo",
+      "home_school_slug": "orange-little-cypress-mauriceville"
+    },
+    {
+      "game_id": "2026-area-4a-d1-iii-2",
+      "away_school_slug": "china-spring",
+      "home_school_slug": "stafford"
+    },
+    {
+      "game_id": "2026-area-4a-d1-iii-3",
+      "away_school_slug": "huffman-hargrave",
+      "home_school_slug": "bay-city"
+    },
+    {
+      "game_id": "2026-area-4a-d1-iii-4",
+      "away_school_slug": "vidor",
+      "home_school_slug": "stephenville"
+    },
+    {
+      "game_id": "2026-area-4a-d1-iv-1",
+      "away_school_slug": "port-lavaca-calhoun",
+      "home_school_slug": "comal-canyon-lake"
+    },
+    {
+      "game_id": "2026-area-4a-d1-iv-2",
+      "away_school_slug": "corpus-christi-miller",
+      "home_school_slug": "comal-davenport"
+    },
+    {
+      "game_id": "2026-area-4a-d1-iv-3",
+      "away_school_slug": "floresville",
+      "home_school_slug": "corpus-christi-calallen"
+    },
+    {
+      "game_id": "2026-area-4a-d1-iv-4",
+      "away_school_slug": "la-vernia",
+      "home_school_slug": "corpus-christi-tuloso-midway"
+    },
+    {
+      "game_id": "2026-area-4a-d2-i-1",
+      "away_school_slug": "graham",
+      "home_school_slug": "pecos"
+    },
+    {
+      "game_id": "2026-area-4a-d2-i-2",
+      "away_school_slug": "mineral-wells",
+      "home_school_slug": "seminole"
+    },
+    {
+      "game_id": "2026-area-4a-d2-i-3",
+      "away_school_slug": "monahans",
+      "home_school_slug": "lubbock-cooper-liberty"
+    },
+    {
+      "game_id": "2026-area-4a-d2-i-4",
+      "away_school_slug": "big-spring",
+      "home_school_slug": "brock"
+    },
+    {
+      "game_id": "2026-area-4a-d2-ii-1",
+      "away_school_slug": "carthage",
+      "home_school_slug": "glen-rose"
+    },
+    {
+      "game_id": "2026-area-4a-d2-ii-2",
+      "away_school_slug": "texarkana-pleasant-grove",
+      "home_school_slug": "van-alstyne"
+    },
+    {
+      "game_id": "2026-area-4a-d2-ii-3",
+      "away_school_slug": "krum",
+      "home_school_slug": "sunnyvale"
+    },
+    {
+      "game_id": "2026-area-4a-d2-ii-4",
+      "away_school_slug": "sanger",
+      "home_school_slug": "gilmer"
+    },
+    {
+      "game_id": "2026-area-4a-d2-iii-1",
+      "away_school_slug": "la-marque",
+      "home_school_slug": "canton"
+    },
+    {
+      "game_id": "2026-area-4a-d2-iii-2",
+      "away_school_slug": "hitchcock",
+      "home_school_slug": "west-orange-stark"
+    },
+    {
+      "game_id": "2026-area-4a-d2-iii-3",
+      "away_school_slug": "madisonville",
+      "home_school_slug": "houston-yates"
+    },
+    {
+      "game_id": "2026-area-4a-d2-iii-4",
+      "away_school_slug": "hamshire-fannett",
+      "home_school_slug": "bellville"
+    },
+    {
+      "game_id": "2026-area-4a-d2-iv-1",
+      "away_school_slug": "geronimo-navarro",
+      "home_school_slug": "waco-la-vega"
+    },
+    {
+      "game_id": "2026-area-4a-d2-iv-2",
+      "away_school_slug": "kingsville-king",
+      "home_school_slug": "wimberley"
+    },
+    {
+      "game_id": "2026-area-4a-d2-iv-3",
+      "away_school_slug": "brownwood",
+      "home_school_slug": "cuero"
+    },
+    {
+      "game_id": "2026-area-4a-d2-iv-4",
+      "away_school_slug": "robinson",
+      "home_school_slug": "rockport-fulton"
+    }
+  ],
+  "states": [],
+  "assignments": [
+    {
+      "school_slug": "albany",
+      "active_scorekeepers": 1
+    },
+    {
+      "school_slug": "cisco",
+      "active_scorekeepers": 1
+    },
+    {
+      "school_slug": "de-leon",
+      "active_scorekeepers": 1
+    },
+    {
+      "school_slug": "goldthwaite",
+      "active_scorekeepers": 1
+    },
+    {
+      "school_slug": "hamilton",
+      "active_scorekeepers": 1
+    },
+    {
+      "school_slug": "hico",
+      "active_scorekeepers": 1
+    }
+  ],
+  "submissions": [],
+  "candidates": 0,
+  "evidenceRows": 0,
+  "repositoryTests": 57,
+  "isolatedFixtureTests": 4,
+  "authenticatedProductionEditorVerified": false,
+  "mutationsPerformed": false,
+  "firstRoundFinals": 192,
+  "liveSnapshotMismatches": 0,
+  "packetCanonicalScheduleMismatches": 0,
+  "exactEditorLinks": 96,
+  "regionalDependencyPairMismatches": 0,
+  "primaryResultSourceEndpoints": {
+    "2A-D1": "Public MaxPreps bracket accessible; future final accuracy/availability unverified",
+    "2A-D2": "Public MaxPreps bracket accessible; future final accuracy/availability unverified"
+  },
+  "secondaryResultSource": "DCTF landing page accessible; no game rows in retrieved text; app/session/subscription access not verified",
+  "knownSourceConflicts": [
+    "MaxPreps De Leon date is Friday; preserve owner-confirmed Thursday and DCTF corroboration",
+    "MaxPreps prematurely places Axtell in Regional; not an approved winner",
+    "MaxPreps La Villa\u2013Chilton Area slot has no kickoff; preserve released Friday Somerset schedule"
+  ],
+  "sourceIndependence": "UIL links MaxPreps; not a second independent report",
+  "currentSchoolAssignmentCoverage": {
+    "gamesWithAssignment": 3,
+    "gamesWithoutAssignment": 93,
+    "contributorAvailabilityConfirmed": false
+  }
+}

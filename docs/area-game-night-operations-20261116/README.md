@@ -1,14 +1,19 @@
 # Solo owner: Area game-night packet
 
+## Start here — final game-night readiness
+
+[GAME-NIGHT.md](GAME-NIGHT.md) contains the exact Thursday/Friday scoring order, direct links, 60/90-minute evening caps and short morning batch rules. PR #163 is merged and production-accepted at `bdded546ab4df72b9c8e9a0a274ba0ed386922b9`, deployment `dpl_6vadKD3dCZhAxRRybkiyYzznV23M` READY. The current [read-only audit](final-readiness-audit.json) verifies the existing 96 schedules/identities and 48 dependencies. Retain the original audit/live-recheck files below as dated historical evidence.
+
+
 Updated November 16, 2026, America/Chicago. **One operator: the owner. No staffing recruitment or contributor availability is assumed.** This replaces the prior multi-operator proposal. The owner does not continuously monitor 96 games. Every 2A final takes priority; all 3A/4A work is verified final-only, with an explicit next-session backlog.
 
-## Schedule release candidate — PR #163
+## Released schedule — PR #163
 
-The packet’s schedule-derived queues now include La Villa–Chilton on **Friday November 20, 7 PM CST, Bulldog Stadium, Somerset, TX**. Dave Campbell’s Texas Football and the owner-provided South Texas Gridiron Grooves screenshot corroborate the published schedule; this is not official school confirmation. These packet fields describe candidate `528d090594312dc6f35fc59e0e630c8d00918118`, **not a completed production release**. Production remains at the baseline below until owner approval and verified deployment. See `schedule-release-candidate.json`. Friday now has 67 games, including 23 in 2A; no Area schedule remains unknown in the candidate.
+The packet’s schedule-derived queues now include La Villa–Chilton on **Friday November 20, 7 PM CST, Bulldog Stadium, Somerset, TX**. Dave Campbell’s Texas Football and the owner-provided South Texas Gridiron Grooves screenshot corroborate the published schedule; this is not official school confirmation. These packet fields describe approved head `528d090594312dc6f35fc59e0e630c8d00918118`, now merged and production-accepted at the release above. The older production baseline below is historical. See `schedule-release-candidate.json`. Friday now has 67 games, including 23 in 2A; no Area schedule remains unknown in production.
 
 ## Current baseline
 
-Main `a85ad9a118a8659463e74b16b95062c9bb5aacee`, PR #162 merged. Production deployment `dpl_5JxVuvFYHnGAPT4rpvZEXV18URzq` remains READY on both domains. The live recheck matches 192 first-round verified finals and all 96 unscored Area games; all 96 scoring identities remain registered. No production data, permissions, contributor assignments, logos or application code changed.
+Main `bdded546ab4df72b9c8e9a0a274ba0ed386922b9`, PR #163 merged. Production deployment `dpl_6vadKD3dCZhAxRRybkiyYzznV23M` is READY on both domains. Original audit/live-recheck files retain the previous baseline as historical evidence; final-readiness-audit.json is the current observation. The live recheck matches 192 first-round verified finals and all 96 unscored Area games; all 96 scoring identities remain registered. No production data, permissions, contributor assignments, logos or application code changed.
 
 Six active school assignments exist, but only Cisco, De Leon and Goldthwaite cover Area participants. They are potential inputs, not operator capacity or promised live updates. The owner remains responsible for every reviewed result, even if a school assignment exists. The number of other authorized accounts does not change this solo plan.
 

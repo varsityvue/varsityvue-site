@@ -20,11 +20,11 @@ No continuous monitoring. Keep only the scoring board and two source tabs open; 
 | Day | Owner blocks (CST) | Scope / stop rule |
 |---|---|---|
 | Thursday Nov 19 | 3:45–3:50 PM preflight; 6:30–6:40 PM early-final check; 9:30–10:00 PM 2A block; 10:15–10:30 PM closeout | Nine 2A games, including De Leon–Axtell. Around 60 active minutes maximum; defer any unverified final. No 17-game non-2A sweep that night. |
-| Friday Nov 20 morning | 9:00–9:45 AM, then stop | Five small batches cover the 17 Thursday 3A/4A games; first settle Thursday unresolved 2A. At 45 minutes, carry remaining non-2A to the next owner session. |
+| Friday Nov 20 morning | One 15–20-minute morning session, then stop | Five small batches cover the 17 Thursday 3A/4A games; first settle Thursday unresolved 2A. At 20 minutes, carry remaining non-2A to the next owner session. |
 | Friday Nov 20 evening | 6:45–6:55 PM preflight; 9:15–9:25 PM candidate triage; 9:30–10:00 PM batch; 10:15–10:45 PM batch; 11:00–11:10 PM carry-forward log | Twenty-three 2A games. Around 90 active minutes maximum; Cisco and Goldthwaite first, then available companion results that complete a Regional pair, then remaining 2A. No 44-game non-2A sweep that night. |
-| Saturday Nov 21 | 9:00–10:30 AM backlog session, optionally one 30-minute later session | Friday 3A/4A finals in batches of at most four; unresolved 2A always interrupts. Stop at the time budget and carry forward the exact row, not an imagined verified result. |
-| Sunday Nov 22 | 9:00–10:00 AM cleanup target, optional later block only if owner has time | Remaining Friday backlog and the three Saturday games. Keep unresolved disputes open; completion may require later review. |
-| La Villa–Chilton | Friday November 20, 7 PM CST, Bulldog Stadium, Somerset | Included in Friday’s 23-game 2A queue; published-report confirmation, pending app release. |
+| Saturday Nov 21 | One 15–20-minute morning backlog session; resume in another short session only if available | Friday 3A/4A finals in batches of at most four; unresolved 2A always interrupts. Stop at the time budget and carry forward the exact row, not an imagined verified result. |
+| Sunday Nov 22 | One 15–20-minute morning cleanup session; resume later only if available | Remaining Friday backlog and the three Saturday games. Keep unresolved disputes open; completion may require later review. |
+| La Villa–Chilton | Friday November 20, 7 PM CST, Bulldog Stadium, Somerset | Included in Friday’s 23-game 2A queue; published-report confirmation, live in PR #163. |
 
 These blocks are proposed owner timeboxes, not scheduled reminders or confirmed final times. A game may end before or after a block. Source outages, overtime and disputes require later review rather than extra automatic monitoring. The owner may skip an optional spot check without weakening final verification.
 

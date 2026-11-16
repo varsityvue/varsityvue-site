@@ -1,6 +1,6 @@
 # Solo review queue — all 96 games
 
-Owner only. Every row is a review task, not a verified candidate score. Use [CSV](solo-queue.csv) to retain evidence and carry-forward status. All 96 Area kickoffs are established in this staged schedule snapshot. P1/P2 cover all 32 2A games; P3’s 64 games are assigned to the separate final-only batches. Priorities apply within the owner’s available review block, never before evidence exists. The companion column is a dependency, not a predicted opponent.
+Owner only. Every row is a review task, not a verified candidate score. Use [CSV](solo-queue.csv) to retain evidence and carry-forward status. All 96 Area kickoffs are established in the production-accepted schedule snapshot. P1/P2 cover all 32 2A games; P3’s 64 games are assigned to the separate final-only batches. Priorities apply within the owner’s available review block, never before evidence exists. The companion column is a dependency, not a predicted opponent.
 
 
 ## 2026-11-19 4:00 PM CST

@@ -12,7 +12,7 @@ One owner only. Three games have participant-school assignments, but no contribu
 
 ## All 32 exact tasks
 
-All 32 games are scheduled in the PR #163 candidate: P1 is the three assignment-linked games; P2 is the other 29, including La Villa–Chilton. Friday now has 23 priority 2A games. Within a timebox, review available supported P1 finals first, then companion results closing a Regional dependency, then the remaining window queue. No winner is assumed.
+All 32 games are scheduled in the live PR #163 release: P1 is the three assignment-linked games; P2 is the other 29, including La Villa–Chilton. Friday now has 23 priority 2A games. Within a timebox, review available supported P1 finals first, then companion results closing a Regional dependency, then the remaining window queue. No winner is assumed.
 
 | Priority / kickoff window | Matchup and exact ID | Regional destination / other required Area game | Editor |
 |---|---|---|---|
