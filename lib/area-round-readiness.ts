@@ -12,6 +12,19 @@ export type AreaRoundReadiness = {
   missing: string[];
 };
 
+/** A scheduled label requires an explicit instant, never a server-local time. */
+export function getAreaScheduleMissingDetails(game: Game): string[] {
+  const missing: string[] = [];
+  const match = game.kickoff?.match(/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2})?)(Z|[+-]\d{2}:\d{2})$/);
+  const wallTime = match ? Date.parse(`${match[1]}Z`) : NaN;
+  const validDate = Number.isFinite(wallTime) &&
+    new Date(wallTime).toISOString().slice(0, 16) === match?.[1].slice(0, 16);
+  if (!match || !validDate || !Number.isFinite(Date.parse(game.kickoff!))) missing.push("confirmed kickoff");
+  if (!game.venue?.trim() || /\b(?:tbd|tba|unknown|pending)\b|to be (?:announced|confirmed|determined)/i.test(game.venue)) missing.push("confirmed venue");
+  if (!game.sourceLabel?.trim() || game.sourceStatus === "mock") missing.push("source attribution");
+  return missing;
+}
+
 /** Read-only publishing queue. Never guesses winners, kickoff times, or venues. */
 export function getAreaRoundReadiness(games: Game[]): AreaRoundReadiness[] {
   return statewideDivisions.flatMap((division) => division.regions.flatMap((field, regionIndex) => {
@@ -42,10 +55,7 @@ export function getAreaRoundReadiness(games: Game[]): AreaRoundReadiness[] {
         region: regionTitle, slot: index + 1, teams,
         status: "needs-schedule" as const, missing: ["published game record", "confirmed kickoff", "confirmed venue"],
       };
-      const missing: string[] = [];
-      if (!game.kickoff || !game.kickoff.includes("T") || !Number.isFinite(Date.parse(game.kickoff))) missing.push("confirmed kickoff");
-      if (!game.venue || game.venue === "Venue TBD") missing.push("confirmed venue");
-      if (!game.sourceLabel || game.sourceStatus === "mock") missing.push("source attribution");
+      const missing = getAreaScheduleMissingDetails(game);
       return {
         region: regionTitle, slot: index + 1, teams,
         status: (missing.length ? "needs-details" : "scheduled") as "needs-details" | "scheduled", gameId: game.id, missing,
