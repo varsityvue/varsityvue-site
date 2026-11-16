@@ -1,0 +1,21 @@
+{
+  "observedAt": "2026-11-16T13:43:24.412833+00:00",
+  "domains": [
+    {
+      "domain": "varsityvue.com",
+      "http": 200,
+      "deploymentMatches": true
+    },
+    {
+      "domain": "www.varsityvue.com",
+      "http": 200,
+      "deploymentMatches": true
+    }
+  ],
+  "scoreFeed": "primary",
+  "comparedPlayoffRecords": 288,
+  "differences": [],
+  "areaUnscored": 96,
+  "verifiedFinals": 192,
+  "unexpectedPlayoffGames": []
+}

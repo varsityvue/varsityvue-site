@@ -1,0 +1,53 @@
+{
+  "main": "a85ad9a118a8659463e74b16b95062c9bb5aacee",
+  "deployment": "dpl_5JxVuvFYHnGAPT4rpvZEXV18URzq",
+  "identities": {"expected":96,"registered":96,"exact_matches":96},
+  "assignments": [
+    {
+      "school_slug": "albany",
+      "active_assignments": 1,
+      "distinct_contributors": 1,
+      "currently_authority_eligible": 1
+    },
+    {
+      "school_slug": "cisco",
+      "active_assignments": 1,
+      "distinct_contributors": 1,
+      "currently_authority_eligible": 1
+    },
+    {
+      "school_slug": "de-leon",
+      "active_assignments": 1,
+      "distinct_contributors": 1,
+      "currently_authority_eligible": 1
+    },
+    {
+      "school_slug": "goldthwaite",
+      "active_assignments": 1,
+      "distinct_contributors": 1,
+      "currently_authority_eligible": 1
+    },
+    {
+      "school_slug": "hamilton",
+      "active_assignments": 1,
+      "distinct_contributors": 1,
+      "currently_authority_eligible": 1
+    },
+    {
+      "school_slug": "hico",
+      "active_assignments": 1,
+      "distinct_contributors": 1,
+      "currently_authority_eligible": 1
+    }
+  ],
+  "authorizedPublishers": {
+    "eligible_admin_moderator_accounts": 6,
+    "admins": 1,
+    "moderators": 5
+  },
+  "areaPublication": {
+    "area_score_states": 0,
+    "scored_states": 0,
+    "area_reports": 0
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "areaGames": 96,
+  "assignedGames": 3,
+  "withoutSchoolAssignment": 93,
+  "confirmedOperatorAvailability": 0,
+  "regionalSlots": 48,
+  "confirmedRegionalPairs": 0,
+  "unresolvedScheduleGames": [
+    "2026-area-2a-d2-iv-4"
+  ],
+  "byDay": {
+    "2026-11-19": 26,
+    "2026-11-20": 66,
+    "2026-11-21": 3,
+    "TBD": 1
+  },
+  "byDivision": {
+    "2A Division I": 16,
+    "2A Division II": 16,
+    "3A Division I": 16,
+    "3A Division II": 16,
+    "4A Division I": 16,
+    "4A Division II": 16
+  }
+}
