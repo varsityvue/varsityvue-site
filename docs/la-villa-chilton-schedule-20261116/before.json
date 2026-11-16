@@ -1,0 +1,22 @@
+{
+  "id": "2026-area-2a-d2-iv-4",
+  "season": 2026,
+  "week": 13,
+  "gameType": "playoff",
+  "playoff": {
+    "round": "Area",
+    "division": "2A Division II",
+    "region": "IV"
+  },
+  "homeTeam": "La Villa",
+  "awayTeam": "Chilton",
+  "homeSchoolSlug": "la-villa",
+  "awaySchoolSlug": "chilton",
+  "isNeutralSite": null,
+  "designatedSidesConfirmed": false,
+  "status": "upcoming",
+  "districtGame": false,
+  "coverageStatus": "none",
+  "sourceStatus": "verified",
+  "sourceLabel": "Participants from canonical Region IV first-round slots 7 and 8: La Villa reviewed final; Chilton 42–31 owner-confirmed November 14, 2026. Area kickoff, venue and designated sides TBA."
+}

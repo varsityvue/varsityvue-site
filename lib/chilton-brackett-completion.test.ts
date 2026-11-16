@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
+import finalScheduleBefore from "../docs/la-villa-chilton-schedule-20261116/before.json";
 import completionBefore from "../docs/area-round-completion-20261116/before.json";
 import scheduleBefore from "../docs/area-schedule-details-20261115/before.json";
 import baseline from "../docs/chilton-brackett-completion-20261115/baseline.json";
@@ -31,7 +32,7 @@ test("existing Area slot and school schedules follow the Chilton source edge wit
  assert.equal(node.game?.id, area.id);
  assert.deepEqual(node.teams, ["La Villa", "Chilton"]);
  assert.deepEqual(node.sources.map(id => nodes.find(n => n.id === id)?.game?.id), ["2026-bi-district-2a-d2-iv-7", final.id]);
- assert.equal(area.kickoff, undefined); assert.equal(area.venue, undefined);
+ assert.equal(area.kickoff, "2026-11-20T19:00:00-06:00"); assert.equal(area.venue, "Bulldog Stadium, Somerset, TX");
  assert.equal(area.isNeutralSite, null); assert.equal(area.designatedSidesConfirmed, false);
  assert.equal(area.homeScore, undefined); assert.equal(area.awayScore, undefined);
  for (const slug of ["chilton", "la-villa"]) assert.ok(getGamesForSchool(slug).some(g => g.id === area.id));
@@ -60,7 +61,7 @@ test("every unrelated canonical playoff record remains byte-equivalent", () => {
   const game = games.find(g=>g.id===id); assert.ok(game,id);
   // Later schedule-only changes are checked by area-schedule-details.test.ts.
   // Keep the original PR #159 baseline intact for all historical records.
-  const before = [...scheduleBefore, ...completionBefore].find(g => g.id === id);
+  const before = [...scheduleBefore, ...completionBefore, finalScheduleBefore].find(g => g.id === id);
   const historical = before ?? game;
   assert.equal(createHash("sha256").update(JSON.stringify(historical)).digest("hex"),hash,id);
  }
