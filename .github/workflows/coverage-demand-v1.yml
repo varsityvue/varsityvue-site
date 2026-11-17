@@ -64,7 +64,7 @@ jobs:
           version: 2.119.0
       - run: supabase init
         if: steps.scope.outputs.integration == 'true'
-      - run: supabase start -x studio,imgproxy,realtime,edge-runtime,logflare,vector,supavisor,inbucket
+      - run: supabase start -x studio,imgproxy,realtime,edge-runtime,logflare,vector,supavisor,mailpit
         if: steps.scope.outputs.integration == 'true'
       - run: supabase db reset --local --no-seed
         if: steps.scope.outputs.integration == 'true'
