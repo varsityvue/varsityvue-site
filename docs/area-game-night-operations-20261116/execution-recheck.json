@@ -1,0 +1,49 @@
+{
+  "checkedAt": "2026-11-17T00:13:14.169055+00:00",
+  "main": "bdded546ab4df72b9c8e9a0a274ba0ed386922b9",
+  "deployment": "dpl_6vadKD3dCZhAxRRybkiyYzznV23M",
+  "packetPreviousHead": "2df3896b746c99c9980daa4dbeff57ddd88a91c6",
+  "firstRoundVerifiedFinals": 192,
+  "areaMatchups": 96,
+  "canonicalScoringIdentityMatches": 96,
+  "areaStateRows": 0,
+  "areaSubmissions": 0,
+  "missingScoreCandidates": 0,
+  "canonicalLiveMismatches": 0,
+  "regionalDependencyPairs": 48,
+  "regionalAwaitingBothFinals": 48,
+  "dayCounts": {
+    "Thursday": {
+      "total": 26,
+      "twoA": 9
+    },
+    "Friday": {
+      "total": 67,
+      "twoA": 23
+    },
+    "Saturday": {
+      "total": 3,
+      "twoA": 0
+    }
+  },
+  "authenticatedProductionSessionVerified": false,
+  "correctionDefect": "Blank correction fields become zero on current production; null correction form scores default to zero.",
+  "draftPullRequest": 164,
+  "candidateHead": "9765c188e7c87073609dca821804ea1071faa7b3",
+  "candidateDeployment": "dpl_5VjV5DctLKdMcbnM1cFYGAoeZgQi",
+  "tests": {
+    "repository": 674,
+    "isolatedCorrection": 6,
+    "release": 163,
+    "typeScript": "pass",
+    "lint": "pass",
+    "isolatedProductionBuild": "pass"
+  },
+  "productionMutationsPerformed": false,
+  "status": "PARTIALLY READY \u2014 correction fix awaits owner-approved release",
+  "candidateDeploymentState": "READY",
+  "candidatePreview": "https://varsityvue-site-64ppcukcm-blaine-garcias-projects.vercel.app",
+  "previewPublicRouteChecks": 7,
+  "previewInternalRoutesReachedLogin": 3,
+  "previewCanonicalRecordMismatches": 0
+}

@@ -1,5 +1,14 @@
 # Game night: open this first
 
+## Execution recheck: correction gate
+
+Current production and packet counts are **26 Thursday / 67 Friday / 3 Saturday**, with **9 Thursday / 23 Friday priority 2A games**. The 66/22 Friday counts in the continuation request omitted one game; the existing packet already contains all 96 and was preserved.
+
+A network-prohibited real-action fixture found that the current production correction action converts a blank score into zero; the correction form also defaults unknown scores to zero. [Draft PR #164](https://github.com/varsityvue/varsityvue-site/pull/164), head `9765c188e7c87073609dca821804ea1071faa7b3`, fixes this and refreshes playoff/readiness/school schedule views after correction. **It is not merged or deployed.** Production remains at PR #163. Until an approved release, never accept a default or blank correction score: explicitly enter and recheck both real scores. Existing FINAL correction requires administrator access. Ordinary first-final entry retains PR #162's strict validation.
+
+674 repository tests, six new isolated correction tests, 163 release tests, TypeScript, targeted lint and the guarded isolated build passed. Production scoring/moderation/correction routes reached login; an authenticated owner session was unavailable. See [execution audit](execution-recheck.json); The exact-head preview is READY at deployment `dpl_5VjV5DctLKdMcbnM1cFYGAoeZgQi`; seven public route checks and the full 288-playoff-record snapshot passed. Three protected routes reached the expected login boundary. CI evidence is maintained on PR #164. No production write, identity repair, permission change, outreach, merge or deployment occurred.
+
+
 Verified November 16, 2026, after PR #163 production acceptance. One owner; no continuous LIVE coverage. Main `bdded546ab4df72b9c8e9a0a274ba0ed386922b9`; production `dpl_6vadKD3dCZhAxRRybkiyYzznV23M` READY. All times CST.
 
 ## One loop; four tabs maximum
