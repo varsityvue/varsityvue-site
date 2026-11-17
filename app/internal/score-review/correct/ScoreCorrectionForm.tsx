@@ -10,8 +10,8 @@ type Props = { gameId: string; awayName: string; homeName: string; state: {
 
 export default function ScoreCorrectionForm({ gameId, awayName, homeName, state, isAdmin }: Props) {
   const [status, setStatus] = useState(state.status === "scheduled" ? "upcoming" : state.status);
-  const [away, setAway] = useState(String(state.away_score ?? 0));
-  const [home, setHome] = useState(String(state.home_score ?? 0));
+  const [away, setAway] = useState(String(state.away_score ?? ""));
+  const [home, setHome] = useState(String(state.home_score ?? ""));
   const [period, setPeriod] = useState(state.period ?? "");
   const [clock, setClock] = useState(state.clock ?? "");
   const [review, setReview] = useState(false);
