@@ -1,0 +1,31 @@
+{
+  "id": "2026-area-2a-d1-ii-4",
+  "season": 2026,
+  "week": 13,
+  "gameType": "playoff",
+  "playoff": {
+    "round": "Area",
+    "division": "2A Division I",
+    "region": "II"
+  },
+  "homeSchoolSlug": "axtell",
+  "awaySchoolSlug": "de-leon",
+  "homeTeam": "Axtell",
+  "awayTeam": "De Leon",
+  "isNeutralSite": null,
+  "designatedSidesConfirmed": false,
+  "status": "upcoming",
+  "districtGame": false,
+  "coverageStatus": "none",
+  "sourceStatus": "verified",
+  "kickoff": "2026-11-19T19:00:00-06:00",
+  "venue": "Bob and Norma Cervetto Stadium, Dublin, TX",
+  "sourceLabel": "UIL-linked bracket confirms participants; DCTF Area schedule reviewed November 14: Thursday November 19, 7 p.m., Cervetto Stadium, Dublin — https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
+  "mediaLinks": [
+    {
+      "label": "KWBY Bearcat Radio",
+      "url": "http://kwbyradio.com/de-leon-bearcats/",
+      "type": "radio"
+    }
+  ]
+}

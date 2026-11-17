@@ -1,12 +1,15 @@
+import type { Game } from "../types/platform";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
+import orientationBefore from "../docs/de-leon-axtell-orientation-20261117/before.json";
 import before from "../docs/la-villa-chilton-schedule-20261116/before.json";
 import baseline from "../docs/la-villa-chilton-schedule-20261116/baseline.json";
 import { getGames, getGamesForSchool } from "./games";
 import { getAreaRoundReadiness } from "./area-round-readiness";
 import { buildBracketLayout } from "./playoff-bracket-layout";
 const games = getGames();
+const historicalGames = games.map(g => g.id === orientationBefore.id ? orientationBefore as Game : g);
 const game = games.find(g => g.id === before.id)!;
 const hash = (value: unknown) => createHash("sha256").update(JSON.stringify(value)).digest("hex");
 const unchanged = (value: object) => Object.fromEntries(Object.entries(value).filter(([key]) => !["kickoff", "venue", "sourceLabel"].includes(key)));
@@ -29,10 +32,10 @@ test("all other records, 192 verified finals and 96 Area identities are unchange
   const first = games.filter(g => g.playoff?.round === "Bi-District");
   assert.equal(first.length, 192);
   assert.equal(hash(first), baseline.firstRoundHash);
-  assert.equal(hash(games.filter(g => g.id !== game.id)), baseline.unrelatedGamesHash);
+  assert.equal(hash(historicalGames.filter(g => g.id !== game.id)), baseline.unrelatedGamesHash);
   const area = games.filter(g => g.playoff?.round === "Area");
   assert.equal(area.length, 96);
-  assert.equal(hash(area.map(({id,season,week,gameType,playoff,homeSchoolSlug,awaySchoolSlug,isNeutralSite,designatedSidesConfirmed,status,homeScore,awayScore,publicScoreVerified})=>({id,season,week,gameType,playoff,homeSchoolSlug,awaySchoolSlug,isNeutralSite,designatedSidesConfirmed,status,homeScore,awayScore,publicScoreVerified}))),baseline.areaIdentityHash);
+  assert.equal(hash(historicalGames.filter(g => g.playoff?.round === "Area").map(({id,season,week,gameType,playoff,homeSchoolSlug,awaySchoolSlug,isNeutralSite,designatedSidesConfirmed,status,homeScore,awayScore,publicScoreVerified})=>({id,season,week,gameType,playoff,homeSchoolSlug,awaySchoolSlug,isNeutralSite,designatedSidesConfirmed,status,homeScore,awayScore,publicScoreVerified}))),baseline.areaIdentityHash);
   assert.ok(area.every(g => g.homeScore === undefined && g.awayScore === undefined && !g.publicScoreVerified));
   assert.ok(getAreaRoundReadiness(games).every(row => row.status === "scheduled"));
 });
