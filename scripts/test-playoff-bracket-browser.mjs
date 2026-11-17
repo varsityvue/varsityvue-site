@@ -89,8 +89,10 @@ try{
    await page.screenshot({path:`${output}/${name}-area-${label}-logos.png`});
   }
   const deLeonReturn=page.url();await page.goto(origin+'/games/2026-area-2a-d1-ii-4');
-  assert.ok((await page.getByText('Designated home',{exact:true}).locator('..').innerText()).includes('De Leon'));
-  assert.ok((await page.getByText('Designated away',{exact:true}).locator('..').innerText()).includes('Axtell'));
+  for(const [label,team] of [['Designated home','De Leon'],['Designated away','Axtell']]){
+   const designations=page.getByText(label,{exact:true});assert.ok(await designations.count()>0);
+   for(const designation of await designations.all()) assert.ok((await designation.evaluate(el=>el.closest('a')?.textContent??'')).includes(team),label+' belongs to '+team);
+  }
   const deLeonCenter=await page.locator('main').innerText();assert.ok(deLeonCenter.includes('November 19, 2026')&&deLeonCenter.includes('7:00 PM')&&deLeonCenter.includes('Cervetto Stadium, Dublin'));
   await page.screenshot({path:`${output}/${name}-de-leon-designated-home.png`});
   await page.goto(deLeonReturn);await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
