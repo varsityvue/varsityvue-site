@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
+import orientationBefore from "../docs/de-leon-axtell-orientation-20261117/before.json";
 import scheduleBefore from "../docs/la-villa-chilton-schedule-20261116/before.json";
 import baseline from "../docs/area-round-completion-20261116/baseline.json";
 import before from "../docs/area-round-completion-20261116/before.json";
@@ -18,7 +19,7 @@ test("Area completion preserves every first-round final and every unrelated play
   assert.equal(first.length, 192);
   assert.ok(first.every(g => verifiedWinner(g)));
   assert.equal(hash(first), baseline.firstRoundHash);
-  assert.equal(hash(games.map(g => g.id === scheduleBefore.id ? scheduleBefore : g).filter(g => !changed.has(g.id))), baseline.unchangedPlayoffHash);
+  assert.equal(hash(games.map(g => g.id === scheduleBefore.id ? scheduleBefore : g.id === orientationBefore.id ? orientationBefore : g).filter(g => !changed.has(g.id))), baseline.unchangedPlayoffHash);
   assert.equal(new Set(games.map(g => g.id)).size, 288);
   for (const old of before) {
     const current = games.find(g => g.id === old.id)!;
@@ -34,7 +35,7 @@ test("all 96 Area matchups remain unscored and connected to both school schedule
     assert.equal(game.homeScore, undefined, game.id);
     assert.equal(game.awayScore, undefined, game.id);
     assert.notEqual(game.publicScoreVerified, true, game.id);
-    assert.equal(game.designatedSidesConfirmed, false, game.id);
+    assert.equal(game.designatedSidesConfirmed, game.id === orientationBefore.id, game.id);
     for (const slug of [game.homeSchoolSlug, game.awaySchoolSlug]) {
       assert.ok(slug, game.id);
       assert.equal(getGamesForSchool(slug!).filter(g => g.id === game.id).length, 1, game.id);

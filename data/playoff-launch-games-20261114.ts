@@ -329,19 +329,19 @@ export const playoffLaunchGames: Game[] = [
       "division": "2A Division I",
       "region": "II"
     },
-    "homeSchoolSlug": "axtell",
-    "awaySchoolSlug": "de-leon",
-    "homeTeam": "Axtell",
-    "awayTeam": "De Leon",
+    "homeSchoolSlug": "de-leon",
+    "awaySchoolSlug": "axtell",
+    "homeTeam": "De Leon",
+    "awayTeam": "Axtell",
     "isNeutralSite": null,
-    "designatedSidesConfirmed": false,
+    "designatedSidesConfirmed": true,
     "status": "upcoming",
     "districtGame": false,
     "coverageStatus": "none",
     "sourceStatus": "verified",
     "kickoff": "2026-11-19T19:00:00-06:00",
     "venue": "Bob and Norma Cervetto Stadium, Dublin, TX",
-    "sourceLabel": "UIL-linked bracket confirms participants; DCTF Area schedule reviewed November 14: Thursday November 19, 7 p.m., Cervetto Stadium, Dublin — https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations"
+    "sourceLabel": "UIL-linked bracket confirms participants; DCTF Area schedule reviewed November 14: Thursday November 19, 7 p.m., Cervetto Stadium, Dublin — https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations; Home De Leon / away Axtell designation explicitly owner-confirmed November 16, 2026; not claimed as official school confirmation."
   },
   {
     "id": "2026-bi-district-2a-d1-iii-4",

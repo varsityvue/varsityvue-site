@@ -82,12 +82,18 @@ try{
    assert.ok(expected.length>0);await canvas.scrollIntoViewIfNeeded();
    await page.screenshot({path:`${output}/${name}-di-region-${Number(region)+1}-logos.png`});
   }
-  for(const [label,heading] of [['axtell','Axtell vs. De Leon'],['leon','Leon vs. Ganado']]){
+  for(const [label,heading] of [['axtell','De Leon vs. Axtell'],['leon','Leon vs. Ganado']]){
    const card=page.locator('article').filter({has:page.getByRole('heading',{name:heading,exact:true})});
    await card.scrollIntoViewIfNeeded();await card.locator('img').evaluateAll(images=>Promise.all(images.map(img=>img.decode())));
    if(label==='leon') assert.ok((await card.getByRole('img',{name:'Leon logo',exact:true}).evaluate(img=>getComputedStyle(img).filter)).includes('drop-shadow'),'dark owner artwork retains its shared contrast filter on Playoff Central cards');
    await page.screenshot({path:`${output}/${name}-area-${label}-logos.png`});
   }
+  const deLeonReturn=page.url();await page.goto(origin+'/games/2026-area-2a-d1-ii-4');
+  assert.ok((await page.getByText('Designated home',{exact:true}).locator('..').innerText()).includes('De Leon'));
+  assert.ok((await page.getByText('Designated away',{exact:true}).locator('..').innerText()).includes('Axtell'));
+  const deLeonCenter=await page.locator('main').innerText();assert.ok(deLeonCenter.includes('November 19, 2026')&&deLeonCenter.includes('7:00 PM')&&deLeonCenter.includes('Cervetto Stadium, Dublin'));
+  await page.screenshot({path:`${output}/${name}-de-leon-designated-home.png`});
+  await page.goto(deLeonReturn);await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
   for(const division of ['2A-D1','2A-D2','3A-D1','3A-D2','4A-D1','4A-D2']){
    await page.getByRole('combobox',{name:'Bracket division',exact:true}).selectOption(division);await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();assert.equal(await bracket.locator('article').count(),63);
   }
