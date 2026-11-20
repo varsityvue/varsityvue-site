@@ -35,7 +35,7 @@ export default async function PlayoffsPage() {
       <div className="mx-auto max-w-6xl">
         <header className="rounded-2xl border border-[var(--vv-accent)]/40 bg-[#101013] px-4 py-6 sm:px-8 sm:py-10">
           <h1 className="text-4xl font-black uppercase italic leading-none tracking-tight sm:text-6xl">
-            Playoff <span className="text-white">Central</span>
+            Playoff <span className="text-[var(--vv-accent)]">Central</span>
           </h1>
           <p className="mt-3 text-sm text-white/80 sm:text-lg">Find your team. Follow the bracket. See who’s advancing.</p>
         </header>
