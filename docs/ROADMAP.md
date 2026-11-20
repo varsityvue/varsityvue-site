@@ -30,6 +30,12 @@ Priorities: audience and registration growth; consistent editorial and engagemen
 - Follow adoption, content publishing, staffing confirmation, score verification and sponsor evidence are ACTIVE OPERATIONS. Address actual new incidents; do not restart scoring, authentication recovery, mobile or hub projects without evidence.
 - Week 9 had six first-time entrants and 51/80 direct prior-week returns (63.8%). Acquisition is the principal concern; this does not establish a retention collapse.
 
+### Playoff Central — November 20
+
+- **Game night:** Verify Area scores and advancement, test the Playoff Central update on mobile, and promote the public page after release acceptance.
+- **After game night:** Review school-search and bracket navigation friction on mobile. Check the Facebook share card in the Sharing Debugger and evaluate a dedicated playoff image if needed.
+- **Offseason:** Measure mobile repeat visits and registration conversion in the seven-school pilot. Use school coverage and engagement data to set expansion priorities and build 2027 sponsorship packages.
+
 ## BLOCKED / DEFERRED
 
 PR #98 Team Feed targeting is built but BLOCKED: no diagnostics, merge or migration without demonstrated placement need and separate approval. PR #58 trusted runtime remains draft and DEFERRED. Grafana/Cloudflare monitoring is not verified operational; do not provision, upgrade, activate or rebuild. Persistent manual ingestion production installation is not authorized. Coverage-demand infrastructure is DEFERRED. Code and migrations alone do not create priority.

@@ -57,10 +57,12 @@ export default function ConnectedPlayoffBracket({games,selectedSchool,onSelectSc
   el.addEventListener("wheel",wheel,{passive:false});return()=>el.removeEventListener("wheel",wheel);
  },[]);
  const button="min-h-11 rounded-lg border border-white/25 bg-white/5 px-3 text-sm font-bold hover:bg-white/15 focus-visible:outline-2";
- return <section className="mt-8 rounded-2xl border border-white/20 bg-[#111114] p-4 sm:p-6" aria-label="Interactive Road to State bracket">
-  <p className="text-xs font-bold uppercase tracking-widest text-white/60">VarsityVue · Road to State</p>
-  <h2 className="mt-2 text-3xl font-black uppercase italic">The whole road. Your team.</h2>
-  <p className="mt-2 text-sm text-white/70">Drag to explore. Pinch or scroll to zoom. Highlighted later rounds show a possible path; teams advance only after verified results.</p>
+ return <section className="mt-4 rounded-2xl border border-white/20 bg-[#111114] p-4 sm:p-6" aria-label="Interactive Road to State bracket">
+  <h2 className="text-xl font-black uppercase italic sm:text-2xl">Statewide playoff brackets</h2>
+  <details className="mt-2 text-sm text-white/75">
+    <summary className="cursor-pointer font-semibold">How to explore the bracket</summary>
+    <p className="mt-2">Drag to explore. Pinch or scroll to zoom. Highlighting shows the selected school’s path. Teams advance after verified results.</p>
+  </details>
   {onSelectSchool && <fieldset disabled={!hydrated} className="mt-4 grid gap-2 sm:grid-cols-2"><label className="text-xs font-bold text-white/70">Search schools<input type="search" aria-label="Search bracket schools" value={schoolSearch} onChange={e=>setSchoolSearch(e.target.value)} placeholder="School name" className="mt-1 min-h-11 w-full rounded-lg border border-white/25 bg-[#242428] px-3 text-base text-white" /></label><label className="text-xs font-bold text-white/70">Locate a school<select aria-label="Choose bracket school" value={location?`${location.division.id}|${location.regionIndex}|${location.schoolName}`:""} onChange={e=>onSelectSchool(e.target.value)} className="mt-1 min-h-11 w-full rounded-lg border border-white/25 bg-[#242428] px-3 text-base text-white">{schoolOptions.filter(o=>o.label.toLowerCase().includes(schoolSearch.toLowerCase())||o.value===`${location?.division.id}|${location?.regionIndex}|${location?.schoolName}`).map(o=><option key={o.value} value={o.value}>{o.label}</option>)}</select></label></fieldset>}
   <fieldset disabled={!hydrated} aria-busy={!hydrated} className="my-4 flex flex-wrap gap-2">
    <select aria-label="Bracket division" className={button+" bg-[#242428]"} value={divisionId} onChange={e=>{viewIntent.current="fit";setDivisionId(e.target.value as typeof divisionId);setRegion(null);}}>{statewideDivisions.map(d=><option key={d.id} value={d.id}>{d.label}</option>)}</select>
