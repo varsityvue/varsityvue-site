@@ -33,9 +33,9 @@ export default async function PlayoffsPage() {
   return (
     <main className="min-h-screen bg-[#08090b] px-4 py-5 text-white sm:px-6 sm:py-9 lg:px-8">
       <div className="mx-auto max-w-6xl">
-        <header className="rounded-2xl border border-[var(--vv-accent)]/40 bg-[linear-gradient(135deg,#3b101d,#16090e_58%,#08090b)] px-4 py-6 sm:px-8 sm:py-10">
+        <header className="rounded-2xl border border-[var(--vv-accent)]/40 bg-[#101013] px-4 py-6 sm:px-8 sm:py-10">
           <h1 className="text-4xl font-black uppercase italic leading-none tracking-tight sm:text-6xl">
-            Playoff <span className="text-[#ef9daa]">Central</span>
+            Playoff <span className="text-[var(--vv-accent)]">Central</span>
           </h1>
           <p className="mt-3 text-sm text-white/80 sm:text-lg">Find your team. Follow the bracket. See who’s advancing.</p>
         </header>
