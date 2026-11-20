@@ -290,8 +290,8 @@ assertNoDuplicateGameIds();
 assertGameScoreConsistency();
 assertDistrictGameSchoolReferences();
 
-export function getGames() {
-  return getNormalizedGames();
+export function getGames(now = new Date()) {
+  return getNormalizedGames(now);
 }
 
 export function getGameById(id: string) {
