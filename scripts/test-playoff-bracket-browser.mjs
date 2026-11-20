@@ -35,6 +35,14 @@ try{
   try{if((await fetch(origin+'/playoffs')).ok)break;}catch{}
   if(i===99)throw new Error('Application did not start');await new Promise(r=>setTimeout(r,200));
  }
+ const sharingHtml=await (await fetch(origin+'/playoffs',{headers:{'User-Agent':'facebookexternalhit/1.1'}})).text();
+ for (const tag of [
+  '<title>2026 Texas High School Football Playoff Central | VarsityVue</title>',
+  '<link rel="canonical" href="https://varsityvue.com/playoffs"',
+  '<meta property="og:title" content="2026 Texas High School Football Playoff Central | VarsityVue"',
+  '<meta property="og:url" content="https://varsityvue.com/playoffs"',
+  '<meta property="og:image" content="https://varsityvue.com/opengraph-image"',
+ ]) assert.ok(sharingHtml.includes(tag),tag);
  browser=await chromium.launch({args:['--no-sandbox']});
  for(const [name,options] of [['iphone',devices['iPhone 13']],['android',devices['Pixel 7']],['desktop',{viewport:{width:1280,height:900}}]]){
   const context=await browser.newContext({...options});
@@ -111,6 +119,7 @@ try{
   assert.equal(await page.locator('#games-scores ul li').count(),12);
   await page.getByRole('button',{name:'Show more games'}).click();
   assert.equal(await page.locator('#games-scores ul li').count(),24);
+  await page.evaluate(()=>window.scrollTo(0,0));
   await page.screenshot({path:`${output}/${name}-games-scores.png`});
   await gameStatus.selectOption('all');
   await gamesDivision.selectOption('2A Division I');
@@ -138,7 +147,9 @@ try{
   await page.getByRole('combobox',{name:'Choose bracket school',exact:true}).selectOption(selection);await page.goBack();
   assert.equal(await page.getByRole('combobox',{name:'Choose bracket school',exact:true}).inputValue(),'2A-D1|0|Panhandle');await page.goForward();
   assert.equal(await page.getByRole('combobox',{name:'Choose bracket school',exact:true}).inputValue(),selection);
-  await page.getByRole('link',{name:'Game Center for Panhandle vs. Floydada',exact:true}).click();await page.getByRole('heading',{name:'Floydada vs. Panhandle',exact:true}).waitFor();
+  await page.getByRole('combobox',{name:'Choose bracket school',exact:true}).selectOption('2A-D1|0|Panhandle');
+  await myTeam.click();
+  await page.locator('#team-path a[href="/games/2026-bi-district-2a-d1-i-1"]').click();await page.getByRole('heading',{name:'Floydada vs. Panhandle',exact:true}).waitFor();
   await page.locator('img[src="/logos/schools/panhandle.png"]:visible').first().evaluate(img=>img.decode());
   await page.screenshot({path:`${output}/${name}-game-center-logos.png`});
   assert.ok((await page.locator('main').innerText()).includes('62'));assert.ok((await page.locator('main').innerText()).includes('FINAL · VERIFIED'));

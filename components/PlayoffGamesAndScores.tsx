@@ -36,7 +36,13 @@ export default function PlayoffGamesAndScores({ schedule, now }: { schedule: Sch
     if (status === "scheduled") return entry.presentation.kind === "scheduled";
     return true;
   });
-  if (status === "finals") filtered.reverse();
+  if (status === "finals") {
+    filtered.sort((a, b) => {
+      const aKickoff = Date.parse(a.game.kickoff ?? "") || 0;
+      const bKickoff = Date.parse(b.game.kickoff ?? "") || 0;
+      return bKickoff - aKickoff;
+    });
+  }
   const visible = filtered.slice(0, limit);
 
   return <div className="mt-4">
