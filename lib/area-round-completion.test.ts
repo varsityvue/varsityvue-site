@@ -9,7 +9,8 @@ import { getGames, getGamesForSchool } from "./games";
 import { getAreaRoundReadiness } from "./area-round-readiness";
 import { buildBracketLayout } from "./playoff-bracket-layout";
 import { verifiedWinner } from "./playoff-bracket-advancement";
-const games = getGames().filter(g => g.gameType === "playoff");
+// Evaluate the full preservation snapshot at its original release date.
+const games = getGames(new Date("2026-11-15T23:33:55-06:00")).filter(g => g.gameType === "playoff");
 const hash = (value: unknown) => createHash("sha256").update(JSON.stringify(value)).digest("hex");
 const changed = new Set(before.map(g => g.id));
 const withoutVenue = (game: Record<string, unknown>) => Object.fromEntries(Object.entries(game).filter(([key]) => !["venue", "sourceLabel"].includes(key)));

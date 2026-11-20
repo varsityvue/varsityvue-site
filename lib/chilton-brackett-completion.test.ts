@@ -11,7 +11,8 @@ import { buildBracketLayout, schoolRoute } from "./playoff-bracket-layout";
 import { verifiedWinner } from "./playoff-bracket-advancement";
 import { applyGameState } from "./resolve-game-score-state";
 import { scoreAttributionText } from "./public-score-state";
-const games = getGames();
+// Evaluate the full preservation snapshot at its original release date.
+const games = getGames(new Date("2026-11-15T02:48:38-06:00"));
 const final = games.find(g => g.id === "2026-bi-district-2a-d2-iv-8")!;
 const area = games.find(g => g.id === "2026-area-2a-d2-iv-4")!;
 test("owner-confirmed final has explicit attribution and respects verified corrections", () => {

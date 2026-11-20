@@ -43,6 +43,26 @@ try{
   });
   const page=await context.newPage();activePage=page;
   await page.goto(origin+'/playoffs?school='+encodeURIComponent(selection));
+  const myTeam = page.getByRole('link', {name:'My Team',exact:true});
+  const brackets = page.getByRole('link', {name:'Brackets',exact:true});
+  const gamesAndScores = page.getByRole('link', {name:'Games & Scores',exact:true});
+  const teamSearch = page.getByRole('searchbox', {name:'Search schools',exact:true});
+  await teamSearch.waitFor();
+  assert.equal(await myTeam.getAttribute('aria-current'),'location');
+  assert.equal(await page.getByLabel(canvasLabel,{exact:true}).count(),0);
+  assert.ok(await teamSearch.evaluate(el=>el.getBoundingClientRect().bottom <= innerHeight),'school search appears in the first viewport');
+  await page.screenshot({path:`${output}/${name}-my-team.png`});
+  await teamSearch.fill('Stephenville');
+  await teamSearch.press('Enter');
+  await page.waitForURL(/school=4A-D1%7C2%7CStephenville/);
+  await page.locator('#team-path').getByText('Latest verified result',{exact:false}).waitFor();
+  const teamGame = page.locator('#team-path').getByRole('link',{name:'View Game Center',exact:true}).first();
+  await teamGame.click();
+  await page.waitForURL(/\/games\//);
+  await page.goBack();
+  await page.locator('#playoff-team-select').selectOption(selection);
+  await brackets.focus();
+  await brackets.press('Enter');
   const search=page.getByRole('searchbox',{name:'Search bracket schools',exact:true});
   await search.waitFor();await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).waitFor();
   await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
@@ -82,13 +102,26 @@ try{
    assert.ok(expected.length>0);await canvas.scrollIntoViewIfNeeded();
    await page.screenshot({path:`${output}/${name}-di-region-${Number(region)+1}-logos.png`});
   }
-  for(const [label,heading] of [['axtell','De Leon vs. Axtell'],['leon','Leon vs. Ganado']]){
-   const card=page.locator('article').filter({has:page.getByRole('heading',{name:heading,exact:true})});
-   await card.scrollIntoViewIfNeeded();await card.locator('img').evaluateAll(images=>Promise.all(images.map(img=>img.decode())));
-   if(label==='leon') assert.ok((await card.getByRole('img',{name:'Leon logo',exact:true}).evaluate(img=>getComputedStyle(img).filter)).includes('drop-shadow'),'dark owner artwork retains its shared contrast filter on Playoff Central cards');
-   await page.screenshot({path:`${output}/${name}-area-${label}-logos.png`});
-  }
-  const deLeonReturn=page.url();await page.goto(origin+'/games/2026-area-2a-d1-ii-4');
+  const deLeonReturn=page.url();
+  await gamesAndScores.click();
+  const gameStatus=page.getByRole('combobox',{name:'Game status'});
+  const gamesDivision=page.getByRole('combobox',{name:'Division',exact:true});
+  await gameStatus.selectOption('finals');
+  await gamesDivision.selectOption('2A Division I');
+  assert.equal(await page.locator('#games-scores ul li').count(),12);
+  await page.getByRole('button',{name:'Show more games'}).click();
+  assert.equal(await page.locator('#games-scores ul li').count(),24);
+  await page.screenshot({path:`${output}/${name}-games-scores.png`});
+  await gameStatus.selectOption('all');
+  await gamesDivision.selectOption('2A Division I');
+  // Find the owner-supplied logo in the compact Games & Scores rows.
+  const leon=page.locator('#games-scores li').filter({has:page.getByRole('img',{name:'Leon logo',exact:true})}).filter({hasText:'Ganado'});
+  for(let i=0;i<4 && !(await leon.count());i++) await page.getByRole('button',{name:'Show more games'}).click();
+  const leonLogo=leon.getByRole('img',{name:'Leon logo',exact:true});
+  await leonLogo.scrollIntoViewIfNeeded();
+  await leonLogo.evaluate(img=>img.decode());
+  assert.ok((await leonLogo.evaluate(img=>getComputedStyle(img).filter)).includes('drop-shadow'),'dark owner artwork retains its contrast filter on Playoff Central rows');
+  await page.goto(origin+'/games/2026-area-2a-d1-ii-4');
   for(const [label,team] of [['Designated home','De Leon'],['Designated away','Axtell']]){
    const designations=page.getByText(label,{exact:true});assert.ok(await designations.count()>0);
    for(const designation of await designations.all()) assert.ok((await designation.evaluate(el=>el.closest('a')?.textContent??'')).includes(team),label+' belongs to '+team);
@@ -115,7 +148,7 @@ try{
   const record=page.getByText('2026 Record',{exact:true}).locator('..');assert.equal(await record.locator('p').first().innerText(),'—');
   await page.locator('a[href="/schools/panhandle/schedule"]').first().click();await page.locator('a[href="/games/2026-bi-district-2a-d1-i-1"]').first().waitFor();
   assert.equal(await page.getByText('Record',{exact:true}).locator('..').locator('p').last().innerText(),'—','schedule and hub withhold the same incomplete record');
-  await page.goto(origin+'/playoffs?school='+encodeURIComponent('2A-D2|1|Stamford'));
+  await page.goto(origin+'/playoffs?school='+encodeURIComponent('2A-D2|1|Stamford')+'#brackets');
   await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
   const d2=page.getByRole('region',{name:'Interactive Road to State bracket',exact:true});
   const d2canvas=page.getByLabel(canvasLabel,{exact:true});
@@ -149,7 +182,7 @@ try{
   const d2final=await page.locator('main').innerText();assert.ok(d2final.includes('FINAL · VERIFIED')&&d2final.includes('69')&&d2final.includes('14'));
   await page.goto(origin+'/games/2026-area-2a-d2-ii-2');
   const d2area=await page.locator('main').innerText();assert.ok(d2area.includes('Stamford')&&d2area.includes('Windthorst')&&d2area.includes('7:00 PM')&&d2area.includes('Breckenridge'));
-  await page.goto(origin+'/playoffs?school='+encodeURIComponent('3A-D1|0|Clyde'));
+  await page.goto(origin+'/playoffs?school='+encodeURIComponent('3A-D1|0|Clyde')+'#brackets');
   await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
   await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();
   assert.equal(await bracket.locator('article').count(),63);
@@ -181,7 +214,7 @@ try{
   assert.ok((await page.locator('main').innerText()).includes('56-23'),'undated verified playoff final appears in hub latest scores');
   await page.goto(origin+'/schools/clyde/schedule');
   await page.locator('a[href="/games/2026-bi-district-3a-d1-i-3"]').first().waitFor();
-  await page.goto(origin+'/playoffs?school='+encodeURIComponent('3A-D2|0|Jacksboro'));
+  await page.goto(origin+'/playoffs?school='+encodeURIComponent('3A-D2|0|Jacksboro')+'#brackets');
   await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
   await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();
   assert.equal(await bracket.locator('article').count(),63);
@@ -198,7 +231,7 @@ try{
   assert.ok((await page.locator('main').innerText()).includes('FINAL · VERIFIED'));
   await page.goto(origin+'/games/2026-area-3a-d2-i-2');
   assert.ok((await page.locator('main').innerText()).includes('6:00 PM'));
-  await page.goto(origin+'/playoffs?school='+encodeURIComponent('4A-D1|2|Stephenville'));
+  await page.goto(origin+'/playoffs?school='+encodeURIComponent('4A-D1|2|Stephenville')+'#brackets');
   await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
   await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();
   assert.equal(await bracket.locator('article').count(),63);
@@ -220,14 +253,14 @@ try{
   for(const word of ['Stephenville','Vidor','7:00 PM','Bryan'])assert.ok(stephArea.includes(word),word);
   await page.goto(origin+'/schools/stephenville');
   assert.ok((await page.locator('main').innerText()).includes('Vidor vs. Stephenville'),'unconfirmed Area sides remain a matchup, not a home game');
-  await page.goto(origin+'/playoffs?school='+encodeURIComponent('4A-D1|2|Austin'));
+  await page.goto(origin+'/playoffs?school='+encodeURIComponent('4A-D1|2|Austin')+'#brackets');
   await page.getByRole('button',{name:'Find Austin',exact:true}).click();
   const selectedAustin=bracket.locator('article').filter({hasText:'Your team'});
   assert.equal(await selectedAustin.count(),1);
   assert.ok((await selectedAustin.innerText()).includes('F10'));
   assert.equal(await selectedAustin.locator('a[href="/schools/houston-austin"]').count(),1);
   await page.screenshot({path:`${output}/${name}-4ad1-houston-austin.png`});
-  await page.goto(origin+'/playoffs?school='+encodeURIComponent('4A-D2|1|Glen Rose'));
+  await page.goto(origin+'/playoffs?school='+encodeURIComponent('4A-D2|1|Glen Rose')+'#brackets');
   await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
   await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();
   assert.equal(await bracket.locator('article').count(),63);
@@ -266,7 +299,7 @@ try{
  const supplied3adi=JSON.parse(readFileSync('docs/3a-d1-owner-logos-20261115/inventory.json','utf8'));
  for(const [device,options] of [['desktop',{viewport:{width:1280,height:900}}],['iphone',devices['iPhone 13']],['android',devices['Pixel 7']]]){
   const ctx=await browser.newContext(options);const p=await ctx.newPage();activePage=p;
-  await p.goto(origin+'/playoffs');await p.getByRole('combobox',{name:'Bracket division',exact:true}).selectOption('3A-D1');
+  await p.goto(origin+'/playoffs#brackets');await p.getByRole('combobox',{name:'Bracket division',exact:true}).selectOption('3A-D1');
   await p.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();
   const b=p.getByRole('region',{name:'Interactive Road to State bracket',exact:true});
   assert.equal(await b.locator('article').count(),63);
@@ -309,7 +342,7 @@ try{
  const supplied=JSON.parse(readFileSync('docs/2a-d2-owner-logos-20261115/inventory.json','utf8'));
  for(const [device,options] of [['desktop',{viewport:{width:1280,height:900}}],['iphone',devices['iPhone 13']],['android',devices['Pixel 7']]]){
   const ctx=await browser.newContext(options);const p=await ctx.newPage();activePage=p;
-  await p.goto(origin+'/playoffs');await p.getByRole('combobox',{name:'Bracket division',exact:true}).selectOption('2A-D2');
+  await p.goto(origin+'/playoffs#brackets');await p.getByRole('combobox',{name:'Bracket division',exact:true}).selectOption('2A-D2');
   await p.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();
   const b=p.getByRole('region',{name:'Interactive Road to State bracket',exact:true});
   assert.equal(await b.locator('article').count(),63);
