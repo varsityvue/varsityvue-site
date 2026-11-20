@@ -11,7 +11,9 @@ import {verifiedWinner} from './playoff-bracket-advancement';
 import {applyGameState} from './resolve-game-score-state';
 import {getRegionalRoundReadiness} from './regional-round-readiness';
 import {gameSiteLabel} from './game-site-presentation';
-const games=getGames(),game=games.find(g=>g.id===before.id)!;
+// Use the release-time clock for the historical preservation baseline.
+const baselineTime = new Date("2026-11-16T21:35:23-06:00");
+const games=getGames(baselineTime),game=games.find(g=>g.id===before.id)!;
 const hash=(x:unknown)=>createHash('sha256').update(JSON.stringify(x)).digest('hex');
 const sql=readFileSync(new URL('../docs/release-sql/2026-de-leon-axtell-home-away.sql',import.meta.url),'utf8');
 test('owner-confirmed De Leon home / Axtell away changes only orientation and provenance',()=>{
