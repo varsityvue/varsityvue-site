@@ -19,7 +19,10 @@ const fixture=createServer((req,res)=>{
  res.end(JSON.stringify(req.url?.includes('/rpc/public_score_states')?states:[]));
 });
 await new Promise(resolve=>fixture.listen(54329,'127.0.0.1',resolve));
-const app=spawn(process.execPath,['node_modules/next/dist/bin/next','start','--hostname','127.0.0.1','--port','3107'],{env:{...process.env,NEXT_TELEMETRY_DISABLED:'1',NEXT_PUBLIC_SUPABASE_URL:'http://127.0.0.1:54329',NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:'isolated-public'},stdio:['ignore','pipe','pipe']});
+// Both Area fixtures must be upcoming for the existing school-hub assertions.
+const fixtureClock = "import { mock } from 'node:test'; mock.timers.enable({ apis: ['Date'], now: Date.parse('2026-11-19T18:00:00Z') });";
+const clockImport = `--import=data:text/javascript,${encodeURIComponent(fixtureClock)}`;
+const app=spawn(process.execPath,['node_modules/next/dist/bin/next','start','--hostname','127.0.0.1','--port','3107'],{env:{...process.env,NODE_OPTIONS:[process.env.NODE_OPTIONS,clockImport].filter(Boolean).join(' '),NEXT_TELEMETRY_DISABLED:'1',NEXT_PUBLIC_SUPABASE_URL:'http://127.0.0.1:54329',NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:'isolated-public'},stdio:['ignore','pipe','pipe']});
 let serverLog='';for(const stream of [app.stdout,app.stderr])stream.on('data',data=>{serverLog+=data.toString();});
 let browser,activePage;const results=[];const origin='http://127.0.0.1:3107';
 const canvasLabel='Bracket canvas. Use zoom and fit buttons or drag to navigate.';
@@ -114,6 +117,7 @@ try{
   await gamesAndScores.click();
   const gameStatus=page.getByRole('combobox',{name:'Game status'});
   const gamesDivision=page.getByRole('combobox',{name:'Division',exact:true});
+  assert.equal(await gameStatus.inputValue(),'today');
   await gameStatus.selectOption('finals');
   await gamesDivision.selectOption('2A Division I');
   assert.equal(await page.locator('#games-scores ul li').count(),12);
