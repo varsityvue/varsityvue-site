@@ -8,8 +8,9 @@ import baseline from "../docs/la-villa-chilton-schedule-20261116/baseline.json";
 import { getGames, getGamesForSchool } from "./games";
 import { getAreaRoundReadiness } from "./area-round-readiness";
 import { buildBracketLayout } from "./playoff-bracket-layout";
-// Evaluate the full preservation snapshot at its original release date.
-const games = getGames(new Date("2026-11-16T08:30:43-06:00"));
+// Use the release-time clock for the historical preservation baseline.
+const baselineTime = new Date("2026-11-16T08:30:43-06:00");
+const games = getGames(baselineTime);
 const historicalGames = games.map(g => g.id === orientationBefore.id ? orientationBefore as Game : g);
 const game = games.find(g => g.id === before.id)!;
 const hash = (value: unknown) => createHash("sha256").update(JSON.stringify(value)).digest("hex");
