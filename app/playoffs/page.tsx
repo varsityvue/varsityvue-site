@@ -40,7 +40,7 @@ export default async function PlayoffsPage() {
           <p className="mt-3 text-sm text-white/80 sm:text-lg">Find your team. Follow the bracket. See who’s advancing.</p>
         </header>
         {scoreLoadStatus === "failed" && <p role="status" className="mt-4 text-sm text-white">Score updates are temporarily unavailable. The published schedule remains available.</p>}
-        <PlayoffBracketExperience games={games} gamesAndScores={<PlayoffGamesAndScores schedule={schedule} now={now.toISOString()} />} />
+        <PlayoffBracketExperience games={games} asOf={now.toISOString()} gamesAndScores={<PlayoffGamesAndScores schedule={schedule} now={now.toISOString()} />} />
       </div>
     </main>
   );

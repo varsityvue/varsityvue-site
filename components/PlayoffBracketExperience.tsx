@@ -39,7 +39,7 @@ function readView() {
   }
 }
 
-export default function PlayoffBracketExperience({ games, gamesAndScores }: { games: Game[]; gamesAndScores?: ReactNode }) {
+export default function PlayoffBracketExperience({ games, asOf, gamesAndScores }: { games: Game[]; asOf?: string; gamesAndScores?: ReactNode }) {
   const view = useSyncExternalStore(subscribeSelection, readView, () => "team-path");
   const selectedSchool = useSyncExternalStore(subscribeSelection, readSchool, () => "De Leon");
   const selectSchool = (school: string) => {
@@ -65,7 +65,7 @@ export default function PlayoffBracketExperience({ games, gamesAndScores }: { ga
         className={`flex min-h-11 items-center justify-center rounded-lg px-1 text-center text-xs font-bold focus-visible:outline-2 focus-visible:outline-white sm:text-sm ${view === id ? "bg-[var(--vv-primary)] text-white" : "text-white/80 hover:bg-white/10"}`}
       >{label}</a>)}
     </nav>
-    {view === "team-path" && <TeamPlayoffPath games={games} selectedSchool={selectedSchool} onSelectSchool={selectSchool} />}
+    {view === "team-path" && <TeamPlayoffPath games={games} asOf={asOf} selectedSchool={selectedSchool} onSelectSchool={selectSchool} />}
     {view === "brackets" && <div id="brackets">
       <ConnectedPlayoffBracket key={selectedSchool} games={games} selectedSchool={selectedSchool} onSelectSchool={selectSchool} />
       <details className="mt-4 rounded-xl border border-white/20 p-3">

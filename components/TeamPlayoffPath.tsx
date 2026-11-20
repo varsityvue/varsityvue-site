@@ -20,7 +20,7 @@ const subscribeHydration = () => () => {};
 const clientReady = () => true;
 const serverReady = () => false;
 
-export default function TeamPlayoffPath({ games, selectedSchool, onSelectSchool }: { games: Game[]; selectedSchool?: string; onSelectSchool?: (school: string) => void }) {
+export default function TeamPlayoffPath({ games, asOf, selectedSchool, onSelectSchool }: { games: Game[]; asOf?: string; selectedSchool?: string; onSelectSchool?: (school: string) => void }) {
   const hydrated = useSyncExternalStore(subscribeHydration, clientReady, serverReady);
   const [localSchool, setLocalSchool] = useState<string>("De Leon");
   const [query, setQuery] = useState("");
@@ -32,13 +32,16 @@ export default function TeamPlayoffPath({ games, selectedSchool, onSelectSchool 
   const { division, regionIndex, field, firstIndex, schoolName: school } = location;
   const { roundTeams, roundGames } = buildRegionalRounds(field, games, 2026, division.id, ["I", "II", "III", "IV"][regionIndex]);
 
+  const now = asOf ? new Date(asOf) : undefined;
   const path = labels.map((label, round) => {
     const slot = Math.floor(firstIndex / (2 ** round));
     const pair = roundTeams[round][slot];
-    return { label, round, game: roundGames[round][slot], pair, involved: pair.includes(school) };
+    const game = roundGames[round][slot];
+    return { label, round, game, pair, involved: pair.includes(school), presentation: game && getGamePresentation(game, now) };
   });
   const latestFinal = [...path].reverse().find(({ game, involved }) => involved && game?.status === "final" && game.publicScoreVerified);
-  const nextMatchup = path.find(({ game, involved, pair }) => involved && pair.every(Boolean) && game && ["scheduled", "upcoming", "live"].includes(game.status));
+  const nextMatchup = path.find(({ involved, pair, presentation }) => involved && pair.every(Boolean) &&
+    presentation && ["scheduled", "kickoff_window", "verified_live"].includes(presentation.kind));
   const visiblePath = [...new Set([latestFinal, nextMatchup, ...path])].filter((item) => item !== undefined);
 
   return (
@@ -64,8 +67,7 @@ export default function TeamPlayoffPath({ games, selectedSchool, onSelectSchool 
       </select>
       <p className="mt-3 text-xs font-semibold text-white/55">{division.label} · {regionLabels[regionIndex]}</p>
       <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {visiblePath.map(({ label, round, pair, game, involved }) => {
-          const presentation = game && getGamePresentation(game);
+        {visiblePath.map(({ label, round, pair, game, involved, presentation }) => {
           const winner = verifiedWinner(game);
           const opponent = involved ? pair.find((name) => name !== school) : null;
           const previousEliminated = roundGames.slice(0, round).some((games, priorRound) => {
@@ -73,12 +75,15 @@ export default function TeamPlayoffPath({ games, selectedSchool, onSelectSchool 
             const priorWinner = verifiedWinner(games[priorSlot]);
             return roundTeams[priorRound][priorSlot].includes(school) && Boolean(priorWinner && priorWinner !== school);
           });
-          const status = previousEliminated || !involved ? "Not reached" : winner === school ? "Advanced" : winner ? "Eliminated" : game?.status === "live" && game.publicScoreVerified ? "In progress" : game?.status === "final" ? "Awaiting verification" : game ? "Scheduled" : round === 0 ? "Matchup pending" : "To be determined";
+          const status = previousEliminated || !involved ? "Not reached"
+            : winner === school ? "Advanced"
+            : winner ? "Eliminated"
+            : presentation?.label ?? (round === 0 ? "Matchup pending" : "To be determined");
           return (
             <div key={label} className="rounded-xl border border-white/15 bg-black/30 p-3">
               <p className="text-[11px] font-black uppercase tracking-wide text-white/55">{round === latestFinal?.round ? "Latest verified result · " : round === nextMatchup?.round ? "Confirmed matchup · " : ""}{label}</p>
               <p className="mt-3 min-h-10 text-sm font-bold text-white">{previousEliminated || !involved ? "—" : opponent ?? "Opponent TBD"}</p>
-              <p className="mt-1 text-xs text-white/70">{status}{presentation?.authoritativeLive || (game?.status === "final" && game.publicScoreVerified) ? ` · ${presentation?.label}` : ""}</p>
+              <p className="mt-1 text-xs text-white/70">{status}{winner ? ` · ${presentation?.label}` : ""}</p>
               {involved && presentation?.showScore && game && <p className="mt-2 text-xs font-semibold tabular-nums text-white">{game.awayTeam} {game.awayScore ?? game.score?.away} · {game.homeTeam} {game.homeScore ?? game.score?.home}</p>}
               {involved && game && <><p className="mt-2 text-xs font-semibold text-white/80">{formatPlayoffKickoff(game.kickoff)}</p><p className="mt-1 text-xs text-white/60">{game.venue ?? "Venue details pending"}</p></>}
               {round === 1 && !previousEliminated && !involved && <p className="mt-2 text-xs leading-5 text-white/60">Potential opponent: winner of {field[firstIndex ^ 1].join(" vs. ")}. Pending verified results.</p>}

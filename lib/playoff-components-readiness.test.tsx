@@ -3,6 +3,7 @@ import test from "node:test";
 import { renderToStaticMarkup } from "react-dom/server";
 import StatewideBracketExplorer from "../components/StatewideBracketExplorer";
 import TeamPlayoffPath from "../components/TeamPlayoffPath";
+import { getGames } from "./games";
 import type { Game } from "../types/platform";
 
 test("initial school selection renders the correct division and region without an effect", () => {
@@ -48,4 +49,16 @@ test("a published game keeps its Game Center link while unpublished pairings sta
   const html = renderToStaticMarkup(<StatewideBracketExplorer games={[game]} selectedSchool="De Leon" />);
   assert.match(html, /href="\/games\/published-matchup"/);
   assert.equal((html.match(/Schedule details pending verification\./g) ?? []).length, 7);
+});
+
+test("an elapsed Area matchup stays linked but is no longer promoted as the next confirmed game", () => {
+  const beforeKickoff = "2026-11-19T18:00:00Z";
+  const afterKickoffWindow = "2026-11-20T18:00:00Z";
+  const games = getGames(new Date(beforeKickoff));
+  const before = renderToStaticMarkup(<TeamPlayoffPath games={games} asOf={beforeKickoff} selectedSchool="De Leon" />);
+  const after = renderToStaticMarkup(<TeamPlayoffPath games={games} asOf={afterKickoffWindow} selectedSchool="De Leon" />);
+  assert.match(before, /Confirmed matchup · Area/);
+  assert.match(after, /Result awaiting verification/);
+  assert.match(after, /href="\/games\/2026-area-2a-d1-ii-4"/);
+  assert.doesNotMatch(after, /Confirmed matchup · Area/);
 });
