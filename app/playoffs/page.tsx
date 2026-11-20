@@ -12,9 +12,24 @@ import PlayoffBracketExperience from "@/components/PlayoffBracketExperience";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "2026 Playoff Central | VarsityVue",
-  description: "Find Texas high school football playoff schedules, venues and verified scores for VarsityVue schools.",
+  title: "2026 Texas High School Football Playoff Central | VarsityVue",
+  description:
+    "Explore 2026 Texas high school football playoff brackets, Area-round matchups, kickoff times and verified finals across Classes 2A–4A.",
   alternates: { canonical: "/playoffs" },
+  openGraph: {
+    title: "2026 Texas High School Football Playoff Central | VarsityVue",
+    description:
+      "Find your team, explore the road to state, check playoff kickoff times and follow verified final scores across Classes 2A–4A.",
+    url: "https://varsityvue.com/playoffs",
+    type: "website",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "VarsityVue — Texas high school football playoffs" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "2026 Texas High School Football Playoff Central | VarsityVue",
+    description: "Find your team, explore playoff brackets and follow verified results on VarsityVue.",
+    images: ["/opengraph-image"],
+  },
 };
 
 const sections = [
