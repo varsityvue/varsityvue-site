@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 
 const title = "2026 Texas High School Football Playoff Central";
 const description = "Find your team, explore Texas high school football playoff brackets for Classes 2A–4A, and follow kickoff times and verified scores.";
-const image = { url: "/opengraph-image", width: 1200, height: 630, alt: "VarsityVue Texas high school football coverage" };
+const image = { url: "/playoff-central-2026.png", width: 1200, height: 630, alt: "VarsityVue Playoff Central 2026 — The Road to State" };
 
 export const metadata: Metadata = {
   title,
