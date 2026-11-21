@@ -792,7 +792,7 @@ try {
   for (const width of [390, 1280]) {
     await catalogPage.setViewportSize({ width, height: 900 });
     await catalogPage.goto(origin + '/playoffs', { waitUntil: 'domcontentloaded' });
-    const schoolSelect = catalogPage.getByLabel('Choose your school', { exact: true });
+    const schoolSelect = catalogPage.getByLabel('Browse all playoff schools', { exact: true });
     assert.equal(await schoolSelect.locator('option').count(), 384);
     await schoolSelect.selectOption('2A-D2|1|Wheeler');
     const teamPath = catalogPage.locator('#team-path');
