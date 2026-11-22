@@ -146,7 +146,7 @@ try{
   await page.screenshot({path:`${output}/${name}-de-leon-designated-home.png`});
   await page.goto(deLeonReturn);await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
   for(const division of ['2A-D1','2A-D2','3A-D1','3A-D2','4A-D1','4A-D2']){
-   await page.getByRole('combobox',{name:'Bracket division',exact:true}).selectOption(division);await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();assert.equal(await bracket.locator('article').count(),63);
+   await page.getByRole('combobox',{name:'Bracket division',exact:true}).selectOption(division);if(!(await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).isVisible()))await page.getByText('View options',{exact:true}).click();await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();assert.equal(await bracket.locator('article').count(),63);
   }
   await search.fill('Panhandle');await page.getByRole('button',{name:/Panhandle · 2A Division I/}).first().click();
   await page.waitForURL(/school=2A-D1%7C0%7CPanhandle/);await page.reload();await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
