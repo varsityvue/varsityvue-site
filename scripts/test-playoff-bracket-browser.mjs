@@ -29,6 +29,7 @@ const canvasLabel='Bracket canvas. Use zoom and fit buttons or drag to navigate.
 const selection='2A-D1|1|De Leon';
 const scale=async canvas=>canvas.locator(':scope > div').evaluate(el=>new DOMMatrix(getComputedStyle(el).transform).a);
 const fitEntireBracket=async page=>{const button=page.getByRole('button',{name:'Fit Entire Bracket',exact:true});if(!(await button.isVisible()))await page.getByText('View options',{exact:true}).click();await button.click();};
+const findBracketSchool=async(page,name)=>{const button=page.getByRole('button',{name:`Find ${name}`,exact:true});if(!(await button.isVisible()))await page.getByText('View options',{exact:true}).click();await button.click();};
 const checkContained=async(page,canvas)=>{
  const checks=await canvas.evaluate(el=>{
   const viewport=el.getBoundingClientRect();return [...el.querySelectorAll('article')].map(node=>{const b=node.getBoundingClientRect();return b.left>=viewport.left-1&&b.right<=viewport.right+1&&b.top>=viewport.top-1&&b.bottom<=viewport.bottom+1;});
@@ -99,7 +100,7 @@ try{
   assert.notEqual(await canvas.locator(':scope > div').getAttribute('style'),beforeDrag);
   assert.equal(await canvas.evaluate(el=>getComputedStyle(el).userSelect),'none','panning never selects card text');
   if(options.hasTouch){
-   await page.getByRole('button',{name:'Find De Leon',exact:true}).click();await canvas.scrollIntoViewIfNeeded();box=await canvas.boundingBox();
+   await findBracketSchool(page,'De Leon');await canvas.scrollIntoViewIfNeeded();box=await canvas.boundingBox();
    const cx=box.x+box.width/2,cy=box.y+box.height/2;const initial=await scale(canvas);const cdp=await context.newCDPSession(page);
    await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:cx-25,y:cy,id:1},{x:cx+25,y:cy,id:2}]});
    await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:cx-45,y:cy+8,id:1},{x:cx+45,y:cy+8,id:2}]});
@@ -107,7 +108,7 @@ try{
    assert.ok(await scale(canvas)>initial,'emulated two-finger pinch increases scale');await cdp.detach();
    assert.ok(page.url().includes('/playoffs'),'pinch does not activate a team link');
   }
-  await page.getByRole('button',{name:'Find De Leon',exact:true}).click();await canvas.scrollIntoViewIfNeeded();await page.screenshot({path:`${output}/${name}-school-path.png`});
+  await findBracketSchool(page,'De Leon');await canvas.scrollIntoViewIfNeeded();await page.screenshot({path:`${output}/${name}-school-path.png`});
   await fitEntireBracket(page);await canvas.scrollIntoViewIfNeeded();await page.screenshot({path:`${output}/${name}-statewide.png`});
   for(const region of ['0','1','2','3']){
    await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);
@@ -261,7 +262,7 @@ try{
    await page.getByRole('button',{name:'Reset View',exact:true}).click();
    assert.equal(await bracket.locator('article').count(),15);await checkContained(page,canvas);
   }
-  await page.getByRole('button',{name:'Find Stephenville',exact:true}).click();await canvas.scrollIntoViewIfNeeded();
+  await findBracketSchool(page,'Stephenville');await canvas.scrollIntoViewIfNeeded();
   await page.screenshot({path:`${output}/${name}-4ad1-stephenville.png`});
   await page.goto(origin+'/games/2026-bi-district-4a-d1-iii-8');
   assert.ok((await page.locator('main').innerText()).includes('FINAL · VERIFIED'));
@@ -273,7 +274,7 @@ try{
   await page.goto(origin+'/schools/stephenville');
   assert.ok((await page.locator('main').innerText()).includes('Vidor vs. Stephenville'),'unconfirmed Area sides remain a matchup, not a home game');
   await page.goto(origin+'/playoffs?school='+encodeURIComponent('4A-D1|2|Austin')+'#brackets');
-  await page.getByRole('button',{name:'Find Austin',exact:true}).click();
+  await findBracketSchool(page,'Austin');
   const selectedAustin=bracket.locator('article').filter({hasText:'Your team'});
   assert.equal(await selectedAustin.count(),1);
   assert.ok((await selectedAustin.innerText()).includes('F10'));
