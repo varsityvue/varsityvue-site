@@ -44,7 +44,7 @@ try{
   '<link rel="canonical" href="https://varsityvue.com/playoffs"',
   '<meta property="og:title" content="2026 Texas High School Football Playoff Central | VarsityVue"',
   '<meta property="og:url" content="https://varsityvue.com/playoffs"',
-  '<meta property="og:image" content="https://varsityvue.com/opengraph-image"',
+  '<meta property="og:image" content="https://varsityvue.com/playoff-central-2026.png"',
  ]) assert.ok(sharingHtml.includes(tag),tag);
  browser=await chromium.launch({args:['--no-sandbox']});
  for(const [name,options] of [['iphone',devices['iPhone 13']],['android',devices['Pixel 7']],['desktop',{viewport:{width:1280,height:900}}]]){
@@ -75,10 +75,10 @@ try{
   await brackets.focus();
   await brackets.press('Enter');
   const search=page.getByRole('searchbox',{name:'Search bracket schools',exact:true});
-  await search.waitFor();await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).waitFor();
+  await search.waitFor();await page.getByText('View options',{exact:true}).click();await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).waitFor();
   await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
   const canvas=page.getByLabel(canvasLabel,{exact:true});const bracket=page.getByRole('region',{name:'Interactive Road to State bracket',exact:true});
-  assert.equal(await page.getByRole('combobox',{name:'Choose bracket school',exact:true}).inputValue(),selection);
+  assert.ok(await page.getByRole('searchbox',{name:'Search bracket schools',exact:true}).isVisible());
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'no horizontal page overflow');
   await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();
   await page.waitForFunction(()=>document.querySelector('[aria-label="Bracket region"]').value==='all');
@@ -88,7 +88,7 @@ try{
   const fitted=await scale(canvas);await page.getByRole('button',{name:'Zoom in',exact:true}).click();assert.ok(await scale(canvas)>fitted);
   await page.getByRole('button',{name:'Reset view',exact:true}).click();assert.ok(Math.abs(await scale(canvas)-fitted)<.001);
   await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption('1');
-  await page.getByRole('button',{name:'Fit selected region',exact:true}).click();assert.equal(await bracket.locator('article').count(),15);await checkContained(page,canvas);
+  await page.getByRole('button',{name:'Reset View',exact:true}).click();assert.equal(await bracket.locator('article').count(),15);await checkContained(page,canvas);
   await canvas.scrollIntoViewIfNeeded();let box=await canvas.boundingBox();assert.ok(box);
   const beforeDrag=await canvas.locator(':scope > div').getAttribute('style');
   await page.mouse.move(box.x+box.width-20,box.y+12);await page.mouse.down();await page.mouse.move(box.x+box.width-65,box.y+42,{steps:5});await page.mouse.up();
@@ -107,7 +107,7 @@ try{
   await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();await canvas.scrollIntoViewIfNeeded();await page.screenshot({path:`${output}/${name}-statewide.png`});
   for(const region of ['0','1','2','3']){
    await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);
-   await page.getByRole('button',{name:'Fit selected region',exact:true}).click();
+   await page.getByRole('button',{name:'Reset View',exact:true}).click();
    const expected=await bracket.locator('img[src^="/logos/schools/"]').evaluateAll(images=>images.map(img=>({src:img.getAttribute('src'),loaded:img.complete&&img.naturalWidth>0})));
    await page.waitForFunction(()=>[...document.querySelectorAll('[aria-label="Interactive Road to State bracket"] img')].every(img=>img.complete&&img.naturalWidth>0));
    assert.ok(expected.length>0);await canvas.scrollIntoViewIfNeeded();
@@ -145,13 +145,13 @@ try{
   for(const division of ['2A-D1','2A-D2','3A-D1','3A-D2','4A-D1','4A-D2']){
    await page.getByRole('combobox',{name:'Bracket division',exact:true}).selectOption(division);await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();assert.equal(await bracket.locator('article').count(),63);
   }
-  await search.fill('Panhandle');await page.getByRole('combobox',{name:'Choose bracket school',exact:true}).selectOption('2A-D1|0|Panhandle');
+  await search.fill('Panhandle');await page.getByRole('button',{name:/Panhandle · 2A Division I/}).first().click();
   await page.waitForURL(/school=2A-D1%7C0%7CPanhandle/);await page.reload();await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
-  assert.equal(await page.getByRole('combobox',{name:'Choose bracket school',exact:true}).inputValue(),'2A-D1|0|Panhandle');
-  await page.getByRole('combobox',{name:'Choose bracket school',exact:true}).selectOption(selection);await page.goBack();
-  assert.equal(await page.getByRole('combobox',{name:'Choose bracket school',exact:true}).inputValue(),'2A-D1|0|Panhandle');await page.goForward();
-  assert.equal(await page.getByRole('combobox',{name:'Choose bracket school',exact:true}).inputValue(),selection);
-  await page.getByRole('combobox',{name:'Choose bracket school',exact:true}).selectOption('2A-D1|0|Panhandle');
+  assert.equal(await page.getByRole('searchbox',{name:'Search bracket schools',exact:true}).inputValue(),'2A-D1|0|Panhandle');
+  await search.fill('De Leon');await page.getByRole('button',{name:/De Leon · 2A Division I/}).first().click();await page.goBack();
+  assert.equal(await page.getByRole('searchbox',{name:'Search bracket schools',exact:true}).inputValue(),'2A-D1|0|Panhandle');await page.goForward();
+  assert.equal(await page.getByRole('searchbox',{name:'Search bracket schools',exact:true}).inputValue(),selection);
+  await search.fill('Panhandle');await page.getByRole('button',{name:/Panhandle · 2A Division I/}).first().click();
   await myTeam.click();
   await page.locator('#team-path a[href="/games/2026-bi-district-2a-d1-i-1"]').click();await page.getByRole('heading',{name:'Floydada vs. Panhandle',exact:true}).waitFor();
   await page.locator('img[src="/logos/schools/panhandle.png"]:visible').first().evaluate(img=>img.decode());
@@ -175,7 +175,7 @@ try{
   assert.equal(await d2.locator('article').filter({hasText:'Verified final'}).count(),32);
   for(const region of ['0','1','2','3']){
    await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);
-   await page.getByRole('button',{name:'Fit selected region',exact:true}).click();await checkContained(page,d2canvas);
+   await page.getByRole('button',{name:'Reset View',exact:true}).click();await checkContained(page,d2canvas);
    assert.equal(await d2.locator('article').count(),15);
   }
   assert.ok((await d2.innerText()).includes('Winner pending'),'later rounds stay pending');
@@ -206,7 +206,7 @@ try{
   await checkContained(page,canvas);
   for(const region of ['0','1','2','3']){
    await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);
-   await page.getByRole('button',{name:'Fit selected region',exact:true}).click();
+   await page.getByRole('button',{name:'Reset View',exact:true}).click();
    assert.equal(await bracket.locator('article').count(),15);await checkContained(page,canvas);
   }
   await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();await canvas.scrollIntoViewIfNeeded();
@@ -237,7 +237,7 @@ try{
   await checkContained(page,canvas);
   for(const region of ['0','1','2','3']){
    await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);
-   await page.getByRole('button',{name:'Fit selected region',exact:true}).click();
+   await page.getByRole('button',{name:'Reset View',exact:true}).click();
    assert.equal(await bracket.locator('article').count(),15);await checkContained(page,canvas);
   }
   await page.getByRole('button',{name:'Find Jacksboro',exact:true}).click();await canvas.scrollIntoViewIfNeeded();
@@ -254,7 +254,7 @@ try{
   await checkContained(page,canvas);
   for(const region of ['0','1','2','3']){
    await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);
-   await page.getByRole('button',{name:'Fit selected region',exact:true}).click();
+   await page.getByRole('button',{name:'Reset View',exact:true}).click();
    assert.equal(await bracket.locator('article').count(),15);await checkContained(page,canvas);
   }
   await page.getByRole('button',{name:'Find Stephenville',exact:true}).click();await canvas.scrollIntoViewIfNeeded();
@@ -283,7 +283,7 @@ try{
   await checkContained(page,canvas);
   for(const region of ['0','1','2','3']){
    await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);
-   await page.getByRole('button',{name:'Fit selected region',exact:true}).click();
+   await page.getByRole('button',{name:'Reset View',exact:true}).click();
    assert.equal(await bracket.locator('article').count(),15);await checkContained(page,canvas);
   }
   await page.getByRole('button',{name:'Find Glen Rose',exact:true}).click();await canvas.scrollIntoViewIfNeeded();
