@@ -16,7 +16,7 @@ import { completePostseasonStanding } from "@/lib/playoff-record-presentation";
 import { formatOverallRecord } from "@/lib/school-record-presentation";
 import type { Game } from "@/types/platform";
 
-import { pinchBracket, zoomBracketAt, type BracketView as View } from "@/lib/playoff-bracket-gestures";
+import { pinchBracket, zoomBracketAt, constrainBracketView, type BracketView as View } from "@/lib/playoff-bracket-gestures";
 export default function ConnectedPlayoffBracket({games,selectedSchool,onSelectSchool}:{games:Game[];selectedSchool?:string;onSelectSchool?:(school:string)=>void}) {
  const [schoolSearch,setSchoolSearch]=useState("");
  const schoolOptions=useMemo(()=>statewideDivisions.flatMap(d=>d.regions.flatMap((field,r)=>field.flatMap(pair=>pair.map(name=>({value:`${d.id}|${r}|${name}`,label:`${name} · ${d.label} · ${regionLabels[r]}`}))))).sort((a,b)=>a.label.localeCompare(b.label)),[]);
@@ -32,24 +32,26 @@ export default function ConnectedPlayoffBracket({games,selectedSchool,onSelectSc
  const pointers=useRef(new Map<number,{x:number;y:number}>());
  const layout=useMemo(()=>buildBracketLayout(divisionId,games),[divisionId,games]);
  const route=schoolRoute(layout.nodes,location?.division.id===divisionId?location.schoolName:"",location?.regionIndex);
+ const visibleBounds=useMemo(()=>{const nodes=region===null?layout.nodes:layout.nodes.filter(n=>n.region===region);if(!nodes.length)return {x:0,y:0,width:layout.width,height:layout.height};const x=Math.min(...nodes.map(n=>n.x)),y=Math.min(...nodes.map(n=>n.y));return {x,y,width:Math.max(...nodes.map(n=>n.x+CARD_WIDTH))-x,height:Math.max(...nodes.map(n=>n.y+CARD_HEIGHT))-y};},[layout,region]);
+ const constrain=useCallback((candidate:View)=>{const el=viewport.current;return el?constrainBracketView(candidate,visibleBounds,{width:el.clientWidth,height:el.clientHeight}):candidate;},[visibleBounds]);
  const focusSchool=useCallback(()=>{
   const el=viewport.current;if(!el||!location)return;
   const selectedRoute=schoolRoute(layout.nodes,location.schoolName,location.regionIndex);
   const candidates=layout.nodes.filter(n=>selectedRoute.has(n.id)&&n.teams.includes(location.schoolName));
   const node=candidates[candidates.length-1];if(!node)return;
   const scale=Math.min(1,(el.clientWidth-32)/CARD_WIDTH);
-  setView({scale,x:(el.clientWidth-CARD_WIDTH*scale)/2-node.x*scale,y:(el.clientHeight-CARD_HEIGHT*scale)/2-node.y*scale});
- },[layout,location]);
+  setView(constrain({scale,x:(el.clientWidth-CARD_WIDTH*scale)/2-node.x*scale,y:(el.clientHeight-CARD_HEIGHT*scale)/2-node.y*scale}));
+ },[layout,location,constrain]);
  const fit=useCallback((selected:number|null)=>{
   const el=viewport.current;if(!el)return;
   const nodes=selected===null?layout.nodes:layout.nodes.filter(n=>n.region===selected);
   const x=Math.min(...nodes.map(n=>n.x)),y=Math.min(...nodes.map(n=>n.y));
-  setView(fitBracket({x,y,width:Math.max(...nodes.map(n=>n.x+CARD_WIDTH))-x,height:Math.max(...nodes.map(n=>n.y+CARD_HEIGHT))-y},{width:el.clientWidth,height:el.clientHeight}));
- },[layout]);
+  setView(constrain(fitBracket({x,y,width:Math.max(...nodes.map(n=>n.x+CARD_WIDTH))-x,height:Math.max(...nodes.map(n=>n.y+CARD_HEIGHT))-y},{width:el.clientWidth,height:el.clientHeight})));
+ },[layout,constrain]);
  useEffect(()=>{const el=viewport.current;if(!el)return; const observer=new ResizeObserver(()=>{if((viewIntent.current==="school" || (viewIntent.current==="auto" && el.clientWidth<600)) && location?.division.id===divisionId && region===location.regionIndex)focusSchool();else fit(region);});observer.observe(el);return()=>observer.disconnect();},[fit,region,focusSchool,location?.division.id,location?.regionIndex,divisionId]); // Recalculate against the actual viewport.
  const zoom=(factor:number,cx?:number,cy?:number)=>setView(v=>{
   const el=viewport.current;const x=cx??(el?.clientWidth??600)/2,y=cy??(el?.clientHeight??600)/2;
-  return zoomBracketAt(v,factor,{x,y});
+  return constrain(zoomBracketAt(v,factor,{x,y}));
  });
  useEffect(()=>{
   const el=viewport.current;if(!el)return;
@@ -63,14 +65,15 @@ export default function ConnectedPlayoffBracket({games,selectedSchool,onSelectSc
     <summary className="cursor-pointer font-semibold">How to explore the bracket</summary>
     <p className="mt-2">Drag to explore. Pinch or scroll to zoom. Highlighting shows the selected school’s path. Teams advance after verified results.</p>
   </details>
-  {onSelectSchool && <fieldset disabled={!hydrated} className="mt-4 grid gap-2 sm:grid-cols-2"><label className="text-xs font-bold text-white/70">Search schools<input type="search" aria-label="Search bracket schools" value={schoolSearch} onChange={e=>setSchoolSearch(e.target.value)} placeholder="School name" className="mt-1 min-h-11 w-full rounded-lg border border-white/25 bg-[#242428] px-3 text-base text-white" /></label><label className="text-xs font-bold text-white/70">Locate a school<select aria-label="Choose bracket school" value={location?`${location.division.id}|${location.regionIndex}|${location.schoolName}`:""} onChange={e=>onSelectSchool(e.target.value)} className="mt-1 min-h-11 w-full rounded-lg border border-white/25 bg-[#242428] px-3 text-base text-white">{schoolOptions.filter(o=>o.label.toLowerCase().includes(schoolSearch.toLowerCase())||o.value===`${location?.division.id}|${location?.regionIndex}|${location?.schoolName}`).map(o=><option key={o.value} value={o.value}>{o.label}</option>)}</select></label></fieldset>}
+  {onSelectSchool && <div className="relative mt-4"><label className="block text-xs font-bold text-white/70">Find a team in the bracket<input type="search" aria-label="Search bracket schools" value={schoolSearch} onChange={e=>setSchoolSearch(e.target.value)} placeholder="Search school name" className="mt-1 min-h-11 w-full rounded-lg border border-white/25 bg-[#242428] px-3 text-base text-white" /></label>{schoolSearch.trim() && <ul className="absolute z-20 mt-1 max-h-64 w-full overflow-y-auto rounded-lg border border-white/25 bg-[#242428] shadow-xl">{schoolOptions.filter(o=>o.label.toLowerCase().includes(schoolSearch.trim().toLowerCase())).slice(0,8).map(o=><li key={o.value}><button type="button" className="min-h-11 w-full px-3 py-2 text-left text-sm hover:bg-white/10" onClick={()=>{onSelectSchool(o.value);setSchoolSearch("");}}>{o.label}</button></li>)}</ul>}</div>}
+
   <fieldset disabled={!hydrated} aria-busy={!hydrated} className="my-4 flex flex-wrap gap-2">
    <select aria-label="Bracket division" className={button+" bg-[#242428]"} value={divisionId} onChange={e=>{viewIntent.current="fit";setDivisionId(e.target.value as typeof divisionId);setRegion(null);}}>{statewideDivisions.map(d=><option key={d.id} value={d.id}>{d.label}</option>)}</select>
    <select aria-label="Bracket region" className={button+" bg-[#242428]"} value={region??"all"} onChange={e=>{viewIntent.current="fit";setRegion(e.target.value==="all"?null:Number(e.target.value));}}><option value="all">Entire statewide bracket</option>{regionLabels.map((r,i)=><option key={r} value={i}>{r}</option>)}</select>
    <button className={button} onClick={()=>{viewIntent.current="fit";setRegion(null);fit(null);}}>Fit Entire Bracket</button>
    <button className={button} onClick={()=>{viewIntent.current="fit";fit(region);}}>{region===null?"Reset view":"Fit selected region"}</button>
-   <button className={button} aria-label="Zoom in" onClick={()=>zoom(1.3)}>+</button><button className={button} aria-label="Zoom out" onClick={()=>zoom(1/1.3)}>−</button>
-   {location && <button className={button} onClick={()=>{viewIntent.current="school";setDivisionId(location.division.id);setRegion(location.regionIndex);if(divisionId===location.division.id)focusSchool();}}>Find {location.schoolName}</button>}
+   <details className="w-full sm:w-auto"><summary className={button+" flex cursor-pointer items-center"}>View options</summary><div className="mt-2 flex flex-wrap gap-2"><button className={button} onClick={()=>{viewIntent.current="fit";setRegion(null);fit(null);}}>Fit Entire Bracket</button><button className={button} onClick={()=>{viewIntent.current="fit";fit(region);}}>Reset View</button><button className={button} aria-label="Zoom in" onClick={()=>zoom(1.3)}>+</button><button className={button} aria-label="Zoom out" onClick={()=>zoom(1/1.3)}>−</button>
+   {location && <button className={button} onClick={()=>{viewIntent.current="school";setDivisionId(location.division.id);setRegion(location.regionIndex);if(divisionId===location.division.id)focusSchool();}}>Find {location.schoolName}</button>}</div></details>
   </fieldset>
   {location?.division.id===divisionId && <details className="mb-4 rounded-xl border border-[#f4be59]/40 p-3"><summary className="cursor-pointer text-sm font-bold">{location.schoolName}: confirmed and possible opponents</summary><ol className="mt-3 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-3">{layout.nodes.filter(n=>route.has(n.id)).map(n=>{
     const confirmed=n.teams.includes(location.schoolName)?n.teams.find(name=>name&&name!==location.schoolName):null;
@@ -79,12 +82,12 @@ export default function ConnectedPlayoffBracket({games,selectedSchool,onSelectSc
     return <li key={n.id}><p className="font-bold">{playoffRoundLabels[n.round]}</p><p className="mt-1 text-xs text-white/65">{confirmed?`Confirmed opponent: ${confirmed}`:`Possible opponents: ${candidates.join(" · ")||"Pending"}`}</p></li>;
   })}</ol><p className="mt-3 text-xs text-white/60">Possible opponents are bracket candidates, not predictions.</p></details>}
   <div ref={viewport} tabIndex={0} aria-label="Bracket canvas. Use zoom and fit buttons or drag to navigate." className="relative h-[65svh] min-h-[360px] max-h-[800px] overflow-hidden rounded-xl border border-white/15 bg-[#08090c] touch-none select-none"
-   onKeyDown={e=>{if(["ArrowLeft","ArrowRight","ArrowUp","ArrowDown"].includes(e.key)){e.preventDefault();setView(v=>({...v,x:v.x+(e.key==="ArrowLeft"?60:e.key==="ArrowRight"?-60:0),y:v.y+(e.key==="ArrowUp"?60:e.key==="ArrowDown"?-60:0)}));}}}
+   onKeyDown={e=>{if(["ArrowLeft","ArrowRight","ArrowUp","ArrowDown"].includes(e.key)){e.preventDefault();setView(v=>constrain({...v,x:v.x+(e.key==="ArrowLeft"?60:e.key==="ArrowRight"?-60:0),y:v.y+(e.key==="ArrowUp"?60:e.key==="ArrowDown"?-60:0)}));}}}
    onClickCapture={e=>{if(gestureMoved.current){e.preventDefault();e.stopPropagation();gestureMoved.current=false;}}}
    onPointerDown={e=>{if(!pointers.current.size)gestureMoved.current=false;const isLink=(e.target as HTMLElement).closest("a,button");if(isLink&&e.pointerType!=="touch")return;if(!isLink)e.currentTarget.setPointerCapture(e.pointerId);pointers.current.set(e.pointerId,{x:e.clientX,y:e.clientY});}}
    onPointerMove={e=>{const previous=pointers.current.get(e.pointerId);if(!previous)return;const next={x:e.clientX,y:e.clientY};const other=[...pointers.current.entries()].find(([id])=>id!==e.pointerId)?.[1];
-    if(other){gestureMoved.current=true;const rect=e.currentTarget.getBoundingClientRect();const local=(p:{x:number;y:number})=>({x:p.x-rect.left,y:p.y-rect.top});setView(v=>pinchBracket(v,local(previous),local(other),local(next),local(other)));}
-    else {if(Math.hypot(next.x-previous.x,next.y-previous.y)>3)gestureMoved.current=true;setView(v=>({...v,x:v.x+next.x-previous.x,y:v.y+next.y-previous.y}));}pointers.current.set(e.pointerId,next);}}
+    if(other){gestureMoved.current=true;const rect=e.currentTarget.getBoundingClientRect();const local=(p:{x:number;y:number})=>({x:p.x-rect.left,y:p.y-rect.top});setView(v=>constrain(pinchBracket(v,local(previous),local(other),local(next),local(other))));}
+    else {if(Math.hypot(next.x-previous.x,next.y-previous.y)>3)gestureMoved.current=true;setView(v=>constrain({...v,x:v.x+next.x-previous.x,y:v.y+next.y-previous.y}));}pointers.current.set(e.pointerId,next);}}
    onPointerUp={e=>pointers.current.delete(e.pointerId)} onPointerCancel={e=>pointers.current.delete(e.pointerId)} onLostPointerCapture={e=>pointers.current.delete(e.pointerId)}>
    <div style={{width:layout.width,height:layout.height,transform:`translate(${view.x}px,${view.y}px) scale(${view.scale})`,transformOrigin:"0 0"}} className="absolute left-0 top-0">
     <svg width={layout.width} height={layout.height} className="pointer-events-none absolute inset-0" aria-hidden="true">{layout.nodes.filter(n=>region===null||n.region===region).flatMap(n=>n.sources.map(id=>{const source=layout.nodes.find(s=>s.id===id)!;const reverse=source.x>n.x;const x=source.x+(reverse?0:CARD_WIDTH),y=source.y+CARD_HEIGHT/2,end=n.y+CARD_HEIGHT/2,target=n.x+(reverse?CARD_WIDTH:0),bend=x+(reverse?-29:29);return <path key={id} d={`M${x} ${y} H${bend} V${end} H${target}`} fill="none" stroke={route.has(id)&&route.has(n.id)?"#f4be59":"#51525d"} strokeWidth={route.has(id)&&route.has(n.id)?4:2}/>;}))}</svg>
