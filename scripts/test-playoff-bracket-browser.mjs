@@ -28,6 +28,7 @@ let browser,activePage;const results=[];const origin='http://127.0.0.1:3107';
 const canvasLabel='Bracket canvas. Use zoom and fit buttons or drag to navigate.';
 const selection='2A-D1|1|De Leon';
 const scale=async canvas=>canvas.locator(':scope > div').evaluate(el=>new DOMMatrix(getComputedStyle(el).transform).a);
+const fitEntireBracket=async page=>{const button=page.getByRole('button',{name:'Fit Entire Bracket',exact:true});if(!(await button.isVisible()))await page.getByText('View options',{exact:true}).click();await button.click();};
 const checkContained=async(page,canvas)=>{
  const checks=await canvas.evaluate(el=>{
   const viewport=el.getBoundingClientRect();return [...el.querySelectorAll('article')].map(node=>{const b=node.getBoundingClientRect();return b.left>=viewport.left-1&&b.right<=viewport.right+1&&b.top>=viewport.top-1&&b.bottom<=viewport.bottom+1;});
@@ -80,7 +81,7 @@ try{
   const canvas=page.getByLabel(canvasLabel,{exact:true});const bracket=page.getByRole('region',{name:'Interactive Road to State bracket',exact:true});
   assert.ok(await page.getByRole('searchbox',{name:'Search bracket schools',exact:true}).isVisible());
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'no horizontal page overflow');
-  await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();
+  await fitEntireBracket(page);
   await page.waitForFunction(()=>document.querySelector('[aria-label="Bracket region"]').value==='all');
   assert.equal(await bracket.locator('article').count(),63);assert.equal(await bracket.locator('svg path').count(),62);
   await checkContained(page,canvas);
@@ -107,7 +108,7 @@ try{
    assert.ok(page.url().includes('/playoffs'),'pinch does not activate a team link');
   }
   await page.getByRole('button',{name:'Find De Leon',exact:true}).click();await canvas.scrollIntoViewIfNeeded();await page.screenshot({path:`${output}/${name}-school-path.png`});
-  await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();await canvas.scrollIntoViewIfNeeded();await page.screenshot({path:`${output}/${name}-statewide.png`});
+  await fitEntireBracket(page);await canvas.scrollIntoViewIfNeeded();await page.screenshot({path:`${output}/${name}-statewide.png`});
   for(const region of ['0','1','2','3']){
    await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);
    await page.getByRole('button',{name:'Reset View',exact:true}).click();
@@ -146,7 +147,7 @@ try{
   await page.screenshot({path:`${output}/${name}-de-leon-designated-home.png`});
   await page.goto(deLeonReturn);await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
   for(const division of ['2A-D1','2A-D2','3A-D1','3A-D2','4A-D1','4A-D2']){
-   await page.getByRole('combobox',{name:'Bracket division',exact:true}).selectOption(division);if(!(await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).isVisible()))await page.getByText('View options',{exact:true}).click();await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();assert.equal(await bracket.locator('article').count(),63);
+   await page.getByRole('combobox',{name:'Bracket division',exact:true}).selectOption(division);if(!(await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).isVisible()))await page.getByText('View options',{exact:true}).click();await fitEntireBracket(page);assert.equal(await bracket.locator('article').count(),63);
   }
   await search.fill('Panhandle');await page.getByRole('button',{name:/Panhandle · 2A Division I/}).first().click();
   await page.waitForURL(/school=2A-D1%7C0%7CPanhandle/);await page.reload();await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
@@ -173,7 +174,7 @@ try{
   assert.equal(await page.getByRole('combobox',{name:'Bracket division',exact:true}).inputValue(),'2A-D2');
   assert.ok((await d2.innerText()).includes('W6'),'official DII seed labels render');
   assert.ok((await d2.innerText()).includes('Stamford'));
-  await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();await checkContained(page,d2canvas);
+  await fitEntireBracket(page);await checkContained(page,d2canvas);
   assert.equal(await d2.locator('article').count(),63);
   assert.equal(await d2.locator('article').filter({hasText:'Verified final'}).count(),32);
   for(const region of ['0','1','2','3']){
@@ -184,7 +185,7 @@ try{
   assert.ok((await d2.innerText()).includes('Winner pending'),'later rounds stay pending');
   assert.ok((await d2.innerText()).includes('La Villa') && (await d2.innerText()).includes('Chilton'),'Region IV Area participants are complete');
   await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption('all');
-  await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();await d2canvas.scrollIntoViewIfNeeded();
+  await fitEntireBracket(page);await d2canvas.scrollIntoViewIfNeeded();
   await page.screenshot({path:`${output}/${name}-d2-statewide.png`});
   await page.getByRole('button',{name:'Find Stamford',exact:true}).click();await d2canvas.scrollIntoViewIfNeeded();
   await page.screenshot({path:`${output}/${name}-d2-stamford-path.png`});
@@ -202,7 +203,7 @@ try{
   const d2area=await page.locator('main').innerText();assert.ok(d2area.includes('Stamford')&&d2area.includes('Windthorst')&&d2area.includes('7:00 PM')&&d2area.includes('Breckenridge'));
   await page.goto(origin+'/playoffs?school='+encodeURIComponent('3A-D1|0|Clyde')+'#brackets');
   await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
-  await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();
+  await fitEntireBracket(page);
   assert.equal(await bracket.locator('article').count(),63);
   assert.equal(await bracket.locator('article').filter({hasText:'Verified final'}).count(),32);
   assert.ok((await bracket.innerText()).includes('W2'),'reviewed 3A seed labels render');
@@ -212,7 +213,7 @@ try{
    await page.getByRole('button',{name:'Reset View',exact:true}).click();
    assert.equal(await bracket.locator('article').count(),15);await checkContained(page,canvas);
   }
-  await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();await canvas.scrollIntoViewIfNeeded();
+  await fitEntireBracket(page);await canvas.scrollIntoViewIfNeeded();
   await page.screenshot({path:`${output}/${name}-3ad1-statewide.png`});
   await page.getByRole('button',{name:'Find Clyde',exact:true}).click();await canvas.scrollIntoViewIfNeeded();
   await page.screenshot({path:`${output}/${name}-3ad1-clyde-path.png`});
@@ -234,7 +235,7 @@ try{
   await page.locator('a[href="/games/2026-bi-district-3a-d1-i-3"]').first().waitFor();
   await page.goto(origin+'/playoffs?school='+encodeURIComponent('3A-D2|0|Jacksboro')+'#brackets');
   await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
-  await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();
+  await fitEntireBracket(page);
   assert.equal(await bracket.locator('article').count(),63);
   assert.equal(await bracket.locator('article').filter({hasText:'Verified final'}).count(),32);
   await checkContained(page,canvas);
@@ -251,7 +252,7 @@ try{
   assert.ok((await page.locator('main').innerText()).includes('6:00 PM'));
   await page.goto(origin+'/playoffs?school='+encodeURIComponent('4A-D1|2|Stephenville')+'#brackets');
   await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
-  await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();
+  await fitEntireBracket(page);
   assert.equal(await bracket.locator('article').count(),63);
   assert.equal(await bracket.locator('article').filter({hasText:'Verified final'}).count(),32);
   await checkContained(page,canvas);
@@ -280,7 +281,7 @@ try{
   await page.screenshot({path:`${output}/${name}-4ad1-houston-austin.png`});
   await page.goto(origin+'/playoffs?school='+encodeURIComponent('4A-D2|1|Glen Rose')+'#brackets');
   await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
-  await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();
+  await fitEntireBracket(page);
   assert.equal(await bracket.locator('article').count(),63);
   assert.equal(await bracket.locator('article').filter({hasText:'Verified final'}).count(),32);
   await checkContained(page,canvas);
