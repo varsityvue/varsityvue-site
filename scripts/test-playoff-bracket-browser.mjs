@@ -89,6 +89,9 @@ try{
   await page.getByRole('button',{name:'Reset View',exact:true}).click();assert.ok(Math.abs(await scale(canvas)-fitted)<.001);
   await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption('1');
   await page.getByRole('button',{name:'Reset View',exact:true}).click();assert.equal(await bracket.locator('article').count(),15);await checkContained(page,canvas);
+  // At fit scale the bracket may have no legal pan range; zoom in before testing drag.
+  await page.getByRole('button',{name:'Zoom in',exact:true}).click();
+  await page.getByRole('button',{name:'Zoom in',exact:true}).click();
   await canvas.scrollIntoViewIfNeeded();let box=await canvas.boundingBox();assert.ok(box);
   const beforeDrag=await canvas.locator(':scope > div').getAttribute('style');
   await page.mouse.move(box.x+box.width-20,box.y+12);await page.mouse.down();await page.mouse.move(box.x+box.width-65,box.y+42,{steps:5});await page.mouse.up();
