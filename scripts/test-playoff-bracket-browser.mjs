@@ -29,6 +29,7 @@ const canvasLabel='Bracket canvas. Use zoom and fit buttons or drag to navigate.
 const selection='2A-D1|1|De Leon';
 const scale=async canvas=>canvas.locator(':scope > div').evaluate(el=>new DOMMatrix(getComputedStyle(el).transform).a);
 const fitEntireBracket=async page=>{const button=page.getByRole('button',{name:'Fit Entire Bracket',exact:true});if(!(await button.isVisible()))await page.getByText('View options',{exact:true}).click();await button.click();};
+const resetBracketView=async page=>{const button=page.getByRole('button',{name:'Reset View',exact:true});if(!(await button.isVisible()))await page.getByText('View options',{exact:true}).click();await button.click();};
 const findBracketSchool=async(page,name)=>{const button=page.getByRole('button',{name:`Find ${name}`,exact:true});if(!(await button.isVisible()))await page.getByText('View options',{exact:true}).click();await button.click();};
 const checkContained=async(page,canvas)=>{
  const checks=await canvas.evaluate(el=>{
@@ -88,9 +89,9 @@ try{
   await checkContained(page,canvas);
   for(const row of ownerLogos) assert.ok(await bracket.locator(`img[src="/logos/schools/${row.slug}.png"]`).count()>0, `${row.slug} statewide identity`);
   const fitted=await scale(canvas);await page.getByRole('button',{name:'Zoom in',exact:true}).click();assert.ok(await scale(canvas)>fitted);
-  await page.getByRole('button',{name:'Reset View',exact:true}).click();assert.ok(Math.abs(await scale(canvas)-fitted)<.001);
+  await resetBracketView(page);assert.ok(Math.abs(await scale(canvas)-fitted)<.001);
   await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption('1');
-  await page.getByRole('button',{name:'Reset View',exact:true}).click();assert.equal(await bracket.locator('article').count(),15);await checkContained(page,canvas);
+  await resetBracketView(page);assert.equal(await bracket.locator('article').count(),15);await checkContained(page,canvas);
   // At fit scale the bracket may have no legal pan range; zoom in before testing drag.
   await page.getByRole('button',{name:'Zoom in',exact:true}).click();
   await page.getByRole('button',{name:'Zoom in',exact:true}).click();
@@ -112,7 +113,7 @@ try{
   await fitEntireBracket(page);await canvas.scrollIntoViewIfNeeded();await page.screenshot({path:`${output}/${name}-statewide.png`});
   for(const region of ['0','1','2','3']){
    await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);
-   await page.getByRole('button',{name:'Reset View',exact:true}).click();
+   await resetBracketView(page);
    const expected=await bracket.locator('img[src^="/logos/schools/"]').evaluateAll(images=>images.map(img=>({src:img.getAttribute('src'),loaded:img.complete&&img.naturalWidth>0})));
    await page.waitForFunction(()=>[...document.querySelectorAll('[aria-label="Interactive Road to State bracket"] img')].every(img=>img.complete&&img.naturalWidth>0));
    assert.ok(expected.length>0);await canvas.scrollIntoViewIfNeeded();
@@ -180,7 +181,7 @@ try{
   assert.equal(await d2.locator('article').filter({hasText:'Verified final'}).count(),32);
   for(const region of ['0','1','2','3']){
    await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);
-   await page.getByRole('button',{name:'Reset View',exact:true}).click();await checkContained(page,d2canvas);
+   await resetBracketView(page);await checkContained(page,d2canvas);
    assert.equal(await d2.locator('article').count(),15);
   }
   assert.ok((await d2.innerText()).includes('Winner pending'),'later rounds stay pending');
@@ -211,7 +212,7 @@ try{
   await checkContained(page,canvas);
   for(const region of ['0','1','2','3']){
    await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);
-   await page.getByRole('button',{name:'Reset View',exact:true}).click();
+   await resetBracketView(page);
    assert.equal(await bracket.locator('article').count(),15);await checkContained(page,canvas);
   }
   await fitEntireBracket(page);await canvas.scrollIntoViewIfNeeded();
@@ -242,7 +243,7 @@ try{
   await checkContained(page,canvas);
   for(const region of ['0','1','2','3']){
    await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);
-   await page.getByRole('button',{name:'Reset View',exact:true}).click();
+   await resetBracketView(page);
    assert.equal(await bracket.locator('article').count(),15);await checkContained(page,canvas);
   }
   await page.getByRole('button',{name:'Find Jacksboro',exact:true}).click();await canvas.scrollIntoViewIfNeeded();
@@ -259,7 +260,7 @@ try{
   await checkContained(page,canvas);
   for(const region of ['0','1','2','3']){
    await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);
-   await page.getByRole('button',{name:'Reset View',exact:true}).click();
+   await resetBracketView(page);
    assert.equal(await bracket.locator('article').count(),15);await checkContained(page,canvas);
   }
   await findBracketSchool(page,'Stephenville');await canvas.scrollIntoViewIfNeeded();
@@ -288,7 +289,7 @@ try{
   await checkContained(page,canvas);
   for(const region of ['0','1','2','3']){
    await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);
-   await page.getByRole('button',{name:'Reset View',exact:true}).click();
+   await resetBracketView(page);
    assert.equal(await bracket.locator('article').count(),15);await checkContained(page,canvas);
   }
   await page.getByRole('button',{name:'Find Glen Rose',exact:true}).click();await canvas.scrollIntoViewIfNeeded();
@@ -320,14 +321,14 @@ try{
  for(const [device,options] of [['desktop',{viewport:{width:1280,height:900}}],['iphone',devices['iPhone 13']],['android',devices['Pixel 7']]]){
   const ctx=await browser.newContext(options);const p=await ctx.newPage();activePage=p;
   await p.goto(origin+'/playoffs#brackets');await p.getByRole('combobox',{name:'Bracket division',exact:true}).selectOption('3A-D1');
-  await p.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();
+  await fitEntireBracket(p);
   const b=p.getByRole('region',{name:'Interactive Road to State bracket',exact:true});
   assert.equal(await b.locator('article').count(),63);
   for(const row of supplied3adi){const img=b.locator(`img[src="/logos/schools/${row.slug}.png"]`).first();assert.ok(await img.count(),row.slug);await img.evaluate(el=>el.decode());}
   assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   await p.screenshot({path:`${output}/${device}-3a-d1-statewide.png`});
   for(const region of ['0','1','2','3']){
-   await p.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);await p.getByRole('button',{name:'Fit selected region',exact:true}).click();assert.equal(await b.locator('article').count(),15);
+   await p.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);await resetBracketView(p);assert.equal(await b.locator('article').count(),15);
    for(const img of await b.locator('img').all())await img.evaluate(el=>el.decode());
    await p.screenshot({path:`${output}/${device}-3a-d1-region-${region}.png`});
   }
@@ -363,14 +364,14 @@ try{
  for(const [device,options] of [['desktop',{viewport:{width:1280,height:900}}],['iphone',devices['iPhone 13']],['android',devices['Pixel 7']]]){
   const ctx=await browser.newContext(options);const p=await ctx.newPage();activePage=p;
   await p.goto(origin+'/playoffs#brackets');await p.getByRole('combobox',{name:'Bracket division',exact:true}).selectOption('2A-D2');
-  await p.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();
+  await fitEntireBracket(p);
   const b=p.getByRole('region',{name:'Interactive Road to State bracket',exact:true});
   assert.equal(await b.locator('article').count(),63);
   for(const row of supplied){const img=b.locator(`img[src="/logos/schools/${row.slug}.png"]`).first();assert.ok(await img.count(),row.slug);await img.evaluate(el=>el.decode());}
   assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   await p.screenshot({path:`${output}/${device}-2a-d2-statewide.png`});
   for(const region of ['0','1','2','3']){
-   await p.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);await p.getByRole('button',{name:'Fit selected region',exact:true}).click();assert.equal(await b.locator('article').count(),15);
+   await p.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);await resetBracketView(p);assert.equal(await b.locator('article').count(),15);
    for(const img of await b.locator('img').all())await img.evaluate(el=>el.decode());
    await p.screenshot({path:`${output}/${device}-2a-d2-region-${region}.png`});
   }
