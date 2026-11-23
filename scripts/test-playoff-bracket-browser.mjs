@@ -28,6 +28,9 @@ let browser,activePage;const results=[];const origin='http://127.0.0.1:3107';
 const canvasLabel='Bracket canvas. Use zoom and fit buttons or drag to navigate.';
 const selection='2A-D1|1|De Leon';
 const scale=async canvas=>canvas.locator(':scope > div').evaluate(el=>new DOMMatrix(getComputedStyle(el).transform).a);
+const fitEntireBracket=async page=>{const button=page.getByRole('button',{name:'Fit Entire Bracket',exact:true});if(!(await button.isVisible()))await page.getByText('View options',{exact:true}).click();await button.click();};
+const resetBracketView=async page=>{const button=page.getByRole('button',{name:'Reset View',exact:true});if(!(await button.isVisible()))await page.getByText('View options',{exact:true}).click();await button.click();};
+const findBracketSchool=async(page,name)=>{const button=page.getByRole('button',{name:`Find ${name}`,exact:true});if(!(await button.isVisible()))await page.getByText('View options',{exact:true}).click();await button.click();};
 const checkContained=async(page,canvas)=>{
  const checks=await canvas.evaluate(el=>{
   const viewport=el.getBoundingClientRect();return [...el.querySelectorAll('article')].map(node=>{const b=node.getBoundingClientRect();return b.left>=viewport.left-1&&b.right<=viewport.right+1&&b.top>=viewport.top-1&&b.bottom<=viewport.bottom+1;});
@@ -44,7 +47,7 @@ try{
   '<link rel="canonical" href="https://varsityvue.com/playoffs"',
   '<meta property="og:title" content="2026 Texas High School Football Playoff Central | VarsityVue"',
   '<meta property="og:url" content="https://varsityvue.com/playoffs"',
-  '<meta property="og:image" content="https://varsityvue.com/opengraph-image"',
+  '<meta property="og:image" content="https://varsityvue.com/playoff-central-2026.png"',
  ]) assert.ok(sharingHtml.includes(tag),tag);
  browser=await chromium.launch({args:['--no-sandbox']});
  for(const [name,options] of [['iphone',devices['iPhone 13']],['android',devices['Pixel 7']],['desktop',{viewport:{width:1280,height:900}}]]){
@@ -75,27 +78,30 @@ try{
   await brackets.focus();
   await brackets.press('Enter');
   const search=page.getByRole('searchbox',{name:'Search bracket schools',exact:true});
-  await search.waitFor();await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).waitFor();
+  await search.waitFor();await page.getByText('View options',{exact:true}).click();await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).waitFor();
   await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
   const canvas=page.getByLabel(canvasLabel,{exact:true});const bracket=page.getByRole('region',{name:'Interactive Road to State bracket',exact:true});
-  assert.equal(await page.getByRole('combobox',{name:'Choose bracket school',exact:true}).inputValue(),selection);
+  assert.ok(await page.getByRole('searchbox',{name:'Search bracket schools',exact:true}).isVisible());
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'no horizontal page overflow');
-  await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();
+  await fitEntireBracket(page);
   await page.waitForFunction(()=>document.querySelector('[aria-label="Bracket region"]').value==='all');
   assert.equal(await bracket.locator('article').count(),63);assert.equal(await bracket.locator('svg path').count(),62);
   await checkContained(page,canvas);
   for(const row of ownerLogos) assert.ok(await bracket.locator(`img[src="/logos/schools/${row.slug}.png"]`).count()>0, `${row.slug} statewide identity`);
   const fitted=await scale(canvas);await page.getByRole('button',{name:'Zoom in',exact:true}).click();assert.ok(await scale(canvas)>fitted);
-  await page.getByRole('button',{name:'Reset view',exact:true}).click();assert.ok(Math.abs(await scale(canvas)-fitted)<.001);
+  await resetBracketView(page);assert.ok(Math.abs(await scale(canvas)-fitted)<.001);
   await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption('1');
-  await page.getByRole('button',{name:'Fit selected region',exact:true}).click();assert.equal(await bracket.locator('article').count(),15);await checkContained(page,canvas);
+  await resetBracketView(page);assert.equal(await bracket.locator('article').count(),15);await checkContained(page,canvas);
+  // At fit scale the bracket may have no legal pan range; zoom in before testing drag.
+  await page.getByRole('button',{name:'Zoom in',exact:true}).click();
+  await page.getByRole('button',{name:'Zoom in',exact:true}).click();
   await canvas.scrollIntoViewIfNeeded();let box=await canvas.boundingBox();assert.ok(box);
   const beforeDrag=await canvas.locator(':scope > div').getAttribute('style');
   await page.mouse.move(box.x+box.width-20,box.y+12);await page.mouse.down();await page.mouse.move(box.x+box.width-65,box.y+42,{steps:5});await page.mouse.up();
   assert.notEqual(await canvas.locator(':scope > div').getAttribute('style'),beforeDrag);
   assert.equal(await canvas.evaluate(el=>getComputedStyle(el).userSelect),'none','panning never selects card text');
   if(options.hasTouch){
-   await page.getByRole('button',{name:'Find De Leon',exact:true}).click();await canvas.scrollIntoViewIfNeeded();box=await canvas.boundingBox();
+   await findBracketSchool(page,'De Leon');await canvas.scrollIntoViewIfNeeded();box=await canvas.boundingBox();
    const cx=box.x+box.width/2,cy=box.y+box.height/2;const initial=await scale(canvas);const cdp=await context.newCDPSession(page);
    await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:cx-25,y:cy,id:1},{x:cx+25,y:cy,id:2}]});
    await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:cx-45,y:cy+8,id:1},{x:cx+45,y:cy+8,id:2}]});
@@ -103,11 +109,11 @@ try{
    assert.ok(await scale(canvas)>initial,'emulated two-finger pinch increases scale');await cdp.detach();
    assert.ok(page.url().includes('/playoffs'),'pinch does not activate a team link');
   }
-  await page.getByRole('button',{name:'Find De Leon',exact:true}).click();await canvas.scrollIntoViewIfNeeded();await page.screenshot({path:`${output}/${name}-school-path.png`});
-  await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();await canvas.scrollIntoViewIfNeeded();await page.screenshot({path:`${output}/${name}-statewide.png`});
+  await findBracketSchool(page,'De Leon');await canvas.scrollIntoViewIfNeeded();await page.screenshot({path:`${output}/${name}-school-path.png`});
+  await fitEntireBracket(page);await canvas.scrollIntoViewIfNeeded();await page.screenshot({path:`${output}/${name}-statewide.png`});
   for(const region of ['0','1','2','3']){
    await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);
-   await page.getByRole('button',{name:'Fit selected region',exact:true}).click();
+   await resetBracketView(page);
    const expected=await bracket.locator('img[src^="/logos/schools/"]').evaluateAll(images=>images.map(img=>({src:img.getAttribute('src'),loaded:img.complete&&img.naturalWidth>0})));
    await page.waitForFunction(()=>[...document.querySelectorAll('[aria-label="Interactive Road to State bracket"] img')].every(img=>img.complete&&img.naturalWidth>0));
    assert.ok(expected.length>0);await canvas.scrollIntoViewIfNeeded();
@@ -143,15 +149,15 @@ try{
   await page.screenshot({path:`${output}/${name}-de-leon-designated-home.png`});
   await page.goto(deLeonReturn);await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
   for(const division of ['2A-D1','2A-D2','3A-D1','3A-D2','4A-D1','4A-D2']){
-   await page.getByRole('combobox',{name:'Bracket division',exact:true}).selectOption(division);await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();assert.equal(await bracket.locator('article').count(),63);
+   await page.getByRole('combobox',{name:'Bracket division',exact:true}).selectOption(division);if(!(await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).isVisible()))await page.getByText('View options',{exact:true}).click();await fitEntireBracket(page);assert.equal(await bracket.locator('article').count(),63);
   }
-  await search.fill('Panhandle');await page.getByRole('combobox',{name:'Choose bracket school',exact:true}).selectOption('2A-D1|0|Panhandle');
+  await search.fill('Panhandle');await page.getByRole('button',{name:/Panhandle · 2A Division I/}).first().click();
   await page.waitForURL(/school=2A-D1%7C0%7CPanhandle/);await page.reload();await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
-  assert.equal(await page.getByRole('combobox',{name:'Choose bracket school',exact:true}).inputValue(),'2A-D1|0|Panhandle');
-  await page.getByRole('combobox',{name:'Choose bracket school',exact:true}).selectOption(selection);await page.goBack();
-  assert.equal(await page.getByRole('combobox',{name:'Choose bracket school',exact:true}).inputValue(),'2A-D1|0|Panhandle');await page.goForward();
-  assert.equal(await page.getByRole('combobox',{name:'Choose bracket school',exact:true}).inputValue(),selection);
-  await page.getByRole('combobox',{name:'Choose bracket school',exact:true}).selectOption('2A-D1|0|Panhandle');
+  assert.ok(await page.getByRole('searchbox',{name:'Search bracket schools',exact:true}).isVisible());
+  await search.fill('De Leon');await page.getByRole('button',{name:/De Leon · 2A Division I/}).first().click();await page.goBack();
+  assert.ok(await page.getByRole('searchbox',{name:'Search bracket schools',exact:true}).isVisible());await page.goForward();
+  assert.ok(await page.getByRole('searchbox',{name:'Search bracket schools',exact:true}).isVisible());
+  await search.fill('Panhandle');await page.getByRole('button',{name:/Panhandle · 2A Division I/}).first().click();
   await myTeam.click();
   await page.locator('#team-path a[href="/games/2026-bi-district-2a-d1-i-1"]').click();await page.getByRole('heading',{name:'Floydada vs. Panhandle',exact:true}).waitFor();
   await page.locator('img[src="/logos/schools/panhandle.png"]:visible').first().evaluate(img=>img.decode());
@@ -170,18 +176,18 @@ try{
   assert.equal(await page.getByRole('combobox',{name:'Bracket division',exact:true}).inputValue(),'2A-D2');
   assert.ok((await d2.innerText()).includes('W6'),'official DII seed labels render');
   assert.ok((await d2.innerText()).includes('Stamford'));
-  await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();await checkContained(page,d2canvas);
+  await fitEntireBracket(page);await checkContained(page,d2canvas);
   assert.equal(await d2.locator('article').count(),63);
   assert.equal(await d2.locator('article').filter({hasText:'Verified final'}).count(),32);
   for(const region of ['0','1','2','3']){
    await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);
-   await page.getByRole('button',{name:'Fit selected region',exact:true}).click();await checkContained(page,d2canvas);
+   await resetBracketView(page);await checkContained(page,d2canvas);
    assert.equal(await d2.locator('article').count(),15);
   }
   assert.ok((await d2.innerText()).includes('Winner pending'),'later rounds stay pending');
   assert.ok((await d2.innerText()).includes('La Villa') && (await d2.innerText()).includes('Chilton'),'Region IV Area participants are complete');
   await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption('all');
-  await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();await d2canvas.scrollIntoViewIfNeeded();
+  await fitEntireBracket(page);await d2canvas.scrollIntoViewIfNeeded();
   await page.screenshot({path:`${output}/${name}-d2-statewide.png`});
   await page.getByRole('button',{name:'Find Stamford',exact:true}).click();await d2canvas.scrollIntoViewIfNeeded();
   await page.screenshot({path:`${output}/${name}-d2-stamford-path.png`});
@@ -199,17 +205,17 @@ try{
   const d2area=await page.locator('main').innerText();assert.ok(d2area.includes('Stamford')&&d2area.includes('Windthorst')&&d2area.includes('7:00 PM')&&d2area.includes('Breckenridge'));
   await page.goto(origin+'/playoffs?school='+encodeURIComponent('3A-D1|0|Clyde')+'#brackets');
   await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
-  await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();
+  await fitEntireBracket(page);
   assert.equal(await bracket.locator('article').count(),63);
   assert.equal(await bracket.locator('article').filter({hasText:'Verified final'}).count(),32);
   assert.ok((await bracket.innerText()).includes('W2'),'reviewed 3A seed labels render');
   await checkContained(page,canvas);
   for(const region of ['0','1','2','3']){
    await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);
-   await page.getByRole('button',{name:'Fit selected region',exact:true}).click();
+   await resetBracketView(page);
    assert.equal(await bracket.locator('article').count(),15);await checkContained(page,canvas);
   }
-  await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();await canvas.scrollIntoViewIfNeeded();
+  await fitEntireBracket(page);await canvas.scrollIntoViewIfNeeded();
   await page.screenshot({path:`${output}/${name}-3ad1-statewide.png`});
   await page.getByRole('button',{name:'Find Clyde',exact:true}).click();await canvas.scrollIntoViewIfNeeded();
   await page.screenshot({path:`${output}/${name}-3ad1-clyde-path.png`});
@@ -231,13 +237,13 @@ try{
   await page.locator('a[href="/games/2026-bi-district-3a-d1-i-3"]').first().waitFor();
   await page.goto(origin+'/playoffs?school='+encodeURIComponent('3A-D2|0|Jacksboro')+'#brackets');
   await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
-  await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();
+  await fitEntireBracket(page);
   assert.equal(await bracket.locator('article').count(),63);
   assert.equal(await bracket.locator('article').filter({hasText:'Verified final'}).count(),32);
   await checkContained(page,canvas);
   for(const region of ['0','1','2','3']){
    await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);
-   await page.getByRole('button',{name:'Fit selected region',exact:true}).click();
+   await resetBracketView(page);
    assert.equal(await bracket.locator('article').count(),15);await checkContained(page,canvas);
   }
   await page.getByRole('button',{name:'Find Jacksboro',exact:true}).click();await canvas.scrollIntoViewIfNeeded();
@@ -248,16 +254,16 @@ try{
   assert.ok((await page.locator('main').innerText()).includes('6:00 PM'));
   await page.goto(origin+'/playoffs?school='+encodeURIComponent('4A-D1|2|Stephenville')+'#brackets');
   await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
-  await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();
+  await fitEntireBracket(page);
   assert.equal(await bracket.locator('article').count(),63);
   assert.equal(await bracket.locator('article').filter({hasText:'Verified final'}).count(),32);
   await checkContained(page,canvas);
   for(const region of ['0','1','2','3']){
    await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);
-   await page.getByRole('button',{name:'Fit selected region',exact:true}).click();
+   await resetBracketView(page);
    assert.equal(await bracket.locator('article').count(),15);await checkContained(page,canvas);
   }
-  await page.getByRole('button',{name:'Find Stephenville',exact:true}).click();await canvas.scrollIntoViewIfNeeded();
+  await findBracketSchool(page,'Stephenville');await canvas.scrollIntoViewIfNeeded();
   await page.screenshot({path:`${output}/${name}-4ad1-stephenville.png`});
   await page.goto(origin+'/games/2026-bi-district-4a-d1-iii-8');
   assert.ok((await page.locator('main').innerText()).includes('FINAL · VERIFIED'));
@@ -269,7 +275,7 @@ try{
   await page.goto(origin+'/schools/stephenville');
   assert.ok((await page.locator('main').innerText()).includes('Vidor vs. Stephenville'),'unconfirmed Area sides remain a matchup, not a home game');
   await page.goto(origin+'/playoffs?school='+encodeURIComponent('4A-D1|2|Austin')+'#brackets');
-  await page.getByRole('button',{name:'Find Austin',exact:true}).click();
+  await findBracketSchool(page,'Austin');
   const selectedAustin=bracket.locator('article').filter({hasText:'Your team'});
   assert.equal(await selectedAustin.count(),1);
   assert.ok((await selectedAustin.innerText()).includes('F10'));
@@ -277,13 +283,13 @@ try{
   await page.screenshot({path:`${output}/${name}-4ad1-houston-austin.png`});
   await page.goto(origin+'/playoffs?school='+encodeURIComponent('4A-D2|1|Glen Rose')+'#brackets');
   await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
-  await page.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();
+  await fitEntireBracket(page);
   assert.equal(await bracket.locator('article').count(),63);
   assert.equal(await bracket.locator('article').filter({hasText:'Verified final'}).count(),32);
   await checkContained(page,canvas);
   for(const region of ['0','1','2','3']){
    await page.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);
-   await page.getByRole('button',{name:'Fit selected region',exact:true}).click();
+   await resetBracketView(page);
    assert.equal(await bracket.locator('article').count(),15);await checkContained(page,canvas);
   }
   await page.getByRole('button',{name:'Find Glen Rose',exact:true}).click();await canvas.scrollIntoViewIfNeeded();
@@ -315,14 +321,14 @@ try{
  for(const [device,options] of [['desktop',{viewport:{width:1280,height:900}}],['iphone',devices['iPhone 13']],['android',devices['Pixel 7']]]){
   const ctx=await browser.newContext(options);const p=await ctx.newPage();activePage=p;
   await p.goto(origin+'/playoffs#brackets');await p.getByRole('combobox',{name:'Bracket division',exact:true}).selectOption('3A-D1');
-  await p.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();
+  await fitEntireBracket(p);
   const b=p.getByRole('region',{name:'Interactive Road to State bracket',exact:true});
   assert.equal(await b.locator('article').count(),63);
   for(const row of supplied3adi){const img=b.locator(`img[src="/logos/schools/${row.slug}.png"]`).first();assert.ok(await img.count(),row.slug);await img.evaluate(el=>el.decode());}
   assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   await p.screenshot({path:`${output}/${device}-3a-d1-statewide.png`});
   for(const region of ['0','1','2','3']){
-   await p.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);await p.getByRole('button',{name:'Fit selected region',exact:true}).click();assert.equal(await b.locator('article').count(),15);
+   await p.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);await resetBracketView(p);assert.equal(await b.locator('article').count(),15);
    for(const img of await b.locator('img').all())await img.evaluate(el=>el.decode());
    await p.screenshot({path:`${output}/${device}-3a-d1-region-${region}.png`});
   }
@@ -358,14 +364,14 @@ try{
  for(const [device,options] of [['desktop',{viewport:{width:1280,height:900}}],['iphone',devices['iPhone 13']],['android',devices['Pixel 7']]]){
   const ctx=await browser.newContext(options);const p=await ctx.newPage();activePage=p;
   await p.goto(origin+'/playoffs#brackets');await p.getByRole('combobox',{name:'Bracket division',exact:true}).selectOption('2A-D2');
-  await p.getByRole('button',{name:'Fit Entire Bracket',exact:true}).click();
+  await fitEntireBracket(p);
   const b=p.getByRole('region',{name:'Interactive Road to State bracket',exact:true});
   assert.equal(await b.locator('article').count(),63);
   for(const row of supplied){const img=b.locator(`img[src="/logos/schools/${row.slug}.png"]`).first();assert.ok(await img.count(),row.slug);await img.evaluate(el=>el.decode());}
   assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   await p.screenshot({path:`${output}/${device}-2a-d2-statewide.png`});
   for(const region of ['0','1','2','3']){
-   await p.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);await p.getByRole('button',{name:'Fit selected region',exact:true}).click();assert.equal(await b.locator('article').count(),15);
+   await p.getByRole('combobox',{name:'Bracket region',exact:true}).selectOption(region);await resetBracketView(p);assert.equal(await b.locator('article').count(),15);
    for(const img of await b.locator('img').all())await img.evaluate(el=>el.decode());
    await p.screenshot({path:`${output}/${device}-2a-d2-region-${region}.png`});
   }

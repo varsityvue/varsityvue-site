@@ -3,13 +3,15 @@ import assert from "node:assert/strict";
 import before from "../docs/area-schedule-details-20261115/before.json";
 import { getGames, getGamesForSchool } from "./games";
 import { getAreaRoundReadiness } from "./area-round-readiness";
-const games = getGames();
+// Freeze the historical Area schedule fixture before kickoff; current wall-clock time must not alter this snapshot.
+const fixtureNow = new Date("2026-11-18T12:00:00-06:00");
+const games = getGames(fixtureNow);
 const withoutSchedule = (game: Record<string, unknown>) => Object.fromEntries(Object.entries(game).filter(([key]) => !["kickoff", "venue", "sourceLabel"].includes(key)));
 test("two sourced Area schedule updates preserve identities, results and school schedules", () => {
  for (const old of before) {
   const game = games.find(g => g.id === old.id)!;
   assert.deepEqual(withoutSchedule({...game}), withoutSchedule({...old}));
-  for (const slug of [old.homeSchoolSlug, old.awaySchoolSlug]) assert.ok(getGamesForSchool(slug).some(g => g.id === old.id));
+  for (const slug of [old.homeSchoolSlug, old.awaySchoolSlug]) assert.ok(getGamesForSchool(slug, fixtureNow).some(g => g.id === old.id));
  }
  const tulia = games.find(g => g.id === "2026-area-2a-d1-i-2")!;
  assert.equal(tulia.kickoff, "2026-11-20T19:00:00-06:00");
