@@ -761,6 +761,8 @@ try {
   const catalogPage = await catalogContext.newPage();
   for (const width of [390, 1280]) {
     await catalogPage.setViewportSize({ width, height: 900 });
+    // This assertion exercises the Area-week hub. The next-game card advances with the clock.
+    writeFileSync(clockFile, "2026-11-19T18:00:00Z");
     await catalogPage.goto(origin + '/schools/panhandle', { waitUntil: 'domcontentloaded' });
     await catalogPage.getByRole('heading', { name: 'Panhandle', exact: true }).waitFor();
     const recordTile = catalogPage.getByText('2026 Record', { exact: true }).locator('..');
@@ -779,6 +781,12 @@ try {
     assert.doesNotMatch(await catalogPage.locator('main').innerText(), /Pre-district standings|until district play begins/i);
     assert.equal(await catalogPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `catalog hub overflow at ${width}`);
     await catalogPage.screenshot({ path: `${evidence}/playoff-catalog-hub-${width}.png`, fullPage: true });
+    writeFileSync(clockFile, "2026-11-23T18:00:00Z");
+    await catalogPage.reload({ waitUntil: 'domcontentloaded' });
+    await catalogPage.locator('a[href="/games/2026-regional-semifinal-2a-d1-i-1"]:visible').first().waitFor();
+    assert.match(await catalogPage.locator('main').innerText(), /Ballinger/);
+    assert.match(await catalogPage.locator('main').innerText(), /Lowrey Field, Lubbock/);
+    writeFileSync(clockFile, "");
     await catalogPage.goto(origin + '/districts/2a-d1-district-1', { waitUntil: 'domcontentloaded' });
     await catalogPage.getByText('This hub currently lists playoff schools added to VarsityVue. District membership and 2026 results may be incomplete.', { exact: true }).waitFor();
     const districtText = await catalogPage.locator('main').innerText();

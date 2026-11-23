@@ -56,7 +56,7 @@ export function clearInheritedSchoolBroadcasts(game: Game): Game {
 
 export function applySchoolBroadcasts(game: Game): Game {
   const canInheritSchoolBroadcasts =
-    game.status === "upcoming" || game.status === "live";
+    game.playoff?.round !== "Regional Semifinal" && (game.status === "upcoming" || game.status === "live");
 
   const inheritedLinks = canInheritSchoolBroadcasts
     ? schoolBroadcastRules

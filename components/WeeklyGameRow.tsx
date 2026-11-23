@@ -1,3 +1,4 @@
+import { gameOpponentPrefix } from "@/lib/game-site-presentation";
 import Link from "next/link";
 import ShareAction from "./ShareAction";
 import { gameShare } from "@/lib/game-share";
@@ -100,7 +101,7 @@ export default function WeeklyGameRow({
       <div className="weekly-row-controls">
       <ShareAction {...gameShare(g, now)} className="weekly-share" />
       <details className="weekly-actions">
-        <summary aria-label={`Actions for ${g.awayTeam} at ${g.homeTeam}`}>
+        <summary aria-label={`Actions for ${g.awayTeam} ${gameOpponentPrefix(g)} ${g.homeTeam}`}>
           •••
         </summary>
         <div className="weekly-action-menu">

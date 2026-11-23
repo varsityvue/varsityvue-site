@@ -1,3 +1,4 @@
+import { regionalSemifinalGames } from "@/data/playoff-regional-semifinals";
 import { playoff4AD2FirstRound, playoff4AD2Area } from "@/data/playoff-4ad2-completion-20261115";
 import { playoff4AD1FirstRound, playoff4AD1Area } from "@/data/playoff-4ad1-completion-20261115";
 import { playoff3AD2FirstRound, playoff3AD2Area } from "@/data/playoff-3ad2-completion-20261114";
@@ -131,6 +132,10 @@ for (const candidate of [...playoffD2FirstRound, ...playoffD2Area, ...playoff3AD
     sourceStatus: candidate.sourceStatus,
     sourceLabel: `${existing.sourceLabel ?? ""}; ${candidate.sourceLabel}`,
   } : candidate);
+}
+for (const game of regionalSemifinalGames) {
+  if (gamesById.has(game.id)) throw new Error("Duplicate Regional game ID: " + game.id);
+  gamesById.set(game.id, game);
 }
 const rawGames = Array.from(gamesById.values()).map(applyEditorialGameFlags);
 
