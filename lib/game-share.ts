@@ -1,10 +1,11 @@
+import { gameOpponentPrefix } from "@/lib/game-site-presentation";
 import type { WeeklyGame } from "./unified-games";
 import { getGamePresentation } from "./game-presentation";
 import { liveGameContext } from "./live-period";
 
 export function gameShare(game: WeeklyGame, now: Date) {
   const p = getGamePresentation(game, now);
-  const matchup = `${game.awayTeam ?? "Away Team"} at ${game.homeTeam ?? "Home Team"}`;
+  const matchup = `${game.awayTeam ?? "Away Team"} ${gameOpponentPrefix(game)} ${game.homeTeam ?? "Home Team"}`;
   const lines = [p.label];
   if (p.authoritativeScore) lines[0] = `${p.label} — ${game.awayTeam} ${game.awayScore ?? game.score?.away}, ${game.homeTeam} ${game.homeScore ?? game.score?.home}`;
   if (p.authoritativeLive && (game.score?.period || game.score?.clock)) lines.push(liveGameContext(game.score?.period, game.score?.clock));

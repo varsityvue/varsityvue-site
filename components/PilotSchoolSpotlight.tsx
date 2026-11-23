@@ -1,3 +1,4 @@
+import { gameOpponentPrefix } from "@/lib/game-site-presentation";
 import Link from "next/link";
 import { getFeaturedSchools } from "@/lib/schools";
 import { getDistrictById } from "@/lib/districts";
@@ -103,7 +104,7 @@ export default async function FeaturedSchoolSpotlight() {
                       </p>
 
                       <p className="mt-1.5 line-clamp-1 text-xs font-black text-white sm:mt-2 sm:text-sm">
-                        {nextGame.awayTeam} at {nextGame.homeTeam}
+                        {nextGame.awayTeam} {gameOpponentPrefix(nextGame)} {nextGame.homeTeam}
                       </p>
                     </div>
                   )}

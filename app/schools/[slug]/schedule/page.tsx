@@ -73,7 +73,7 @@ export default async function SchoolSchedulePage({ params }: { params: Promise<{
     for (const row of pendingRows ?? []) pendingGameIds.add(row.game_id);
   }
 
-  const scheduleSchema = { "@context": "https://schema.org", "@type": "SportsTeam", name: school.fullName, sport: "Football", url: `https://varsityvue.com/schools/${school.slug}/schedule`, event: games.filter((game) => game.gameType !== "bye").map((game) => ({ "@type": "SportsEvent", name: `${game.awayTeam} at ${game.homeTeam}`, startDate: game.kickoff, location: game.venue ? { "@type": "Place", name: game.venue, address: game.venueAddress } : undefined, url: `https://varsityvue.com/games/${game.id}` })) };
+  const scheduleSchema = { "@context": "https://schema.org", "@type": "SportsTeam", name: school.fullName, sport: "Football", url: `https://varsityvue.com/schools/${school.slug}/schedule`, event: games.filter((game) => game.gameType !== "bye").map((game) => ({ "@type": "SportsEvent", name: `${game.awayTeam} ${gameOpponentPrefix(game)} ${game.homeTeam}`, startDate: game.kickoff, location: game.venue ? { "@type": "Place", name: game.venue, address: game.venueAddress } : undefined, url: `https://varsityvue.com/games/${game.id}` })) };
 
   return <main className="min-h-screen bg-[var(--vv-bg)] text-white" style={{ "--vv-primary": school.colors.primary, "--vv-accent": school.colors.secondary, "--vv-accent-soft": school.colors.secondary, "--vv-bg": "#050505" } as CSSProperties}>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(scheduleSchema) }} />

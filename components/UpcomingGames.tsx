@@ -1,3 +1,4 @@
+import { gameOpponentPrefix } from "@/lib/game-site-presentation";
 import Link from "next/link";
 import type { Game } from "@/types/platform";
 import type { SchoolTheme } from "../types/school-theme";
@@ -188,7 +189,7 @@ function FeaturedGameCard({ game, theme }: { game: Game; theme: SchoolTheme }) {
           <div>
             <h3 className="text-3xl font-black leading-tight text-white sm:text-4xl">
               {getTeamName(game.awayTeam, "Away Team")}
-              <span className="block text-white/35">at</span>
+              <span className="block text-white/35">{gameOpponentPrefix(game)}</span>
               {getTeamName(game.homeTeam, "Home Team")}
             </h3>
           </div>
@@ -252,7 +253,7 @@ function CompactGameCard({ game, theme }: { game: Game; theme: SchoolTheme }) {
 
         <div>
           <h3 className="text-lg font-black leading-tight text-white">
-            {getTeamName(game.awayTeam, "Away Team")} at{" "}
+            {getTeamName(game.awayTeam, "Away Team")} {gameOpponentPrefix(game)}{" "}
             {getTeamName(game.homeTeam, "Home Team")}
           </h3>
 

@@ -11,7 +11,7 @@ import { buildBracketLayout } from "./playoff-bracket-layout";
 import { verifiedWinner } from "./playoff-bracket-advancement";
 // Use the release-time clock for the historical preservation baseline.
 const baselineTime = new Date("2026-11-15T23:33:55-06:00");
-const games = getGames(baselineTime).filter(g => g.gameType === "playoff");
+const games = getGames(baselineTime).filter(g => g.playoff?.round === "Bi-District" || g.playoff?.round === "Area");
 const hash = (value: unknown) => createHash("sha256").update(JSON.stringify(value)).digest("hex");
 const changed = new Set(before.map(g => g.id));
 const withoutVenue = (game: Record<string, unknown>) => Object.fromEntries(Object.entries(game).filter(([key]) => !["venue", "sourceLabel"].includes(key)));

@@ -1,3 +1,4 @@
+import { gameOpponentPrefix } from "@/lib/game-site-presentation";
 import Link from "next/link";
 import ShareAction from "./ShareAction";
 import { getSchoolById, getSchoolBySlug } from "@/lib/schools";
@@ -27,7 +28,7 @@ export default function TeamFeedCard({ post, enhanced = false, schoolSlug }: { p
     <img src={url} alt={media.alt_text} width={media.width} height={media.height} className={enhanced ? "h-auto w-full bg-black object-contain" : "h-auto w-full bg-black object-contain"} loading="lazy" />
     <div className={enhanced ? "space-y-4 px-4 py-5 sm:px-6" : "space-y-2 px-4 py-3"}>
       {post.caption && <p className="whitespace-pre-wrap break-words text-sm leading-6 [overflow-wrap:anywhere]">{post.caption}</p>}
-      {game && <Link className={enhanced ? "inline-flex min-h-11 items-center rounded-xl border border-white/20 bg-white/5 px-4 py-3 text-sm font-bold [overflow-wrap:anywhere] hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white" : "text-sm font-semibold text-white/85 underline decoration-white/40 underline-offset-2 hover:text-white"} href={`/games/${game.id}`}>{game.awayTeam} at {game.homeTeam} · Game Center →</Link>}
+      {game && <Link className={enhanced ? "inline-flex min-h-11 items-center rounded-xl border border-white/20 bg-white/5 px-4 py-3 text-sm font-bold [overflow-wrap:anywhere] hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white" : "text-sm font-semibold text-white/85 underline decoration-white/40 underline-offset-2 hover:text-white"} href={`/games/${game.id}`}>{game.awayTeam} {gameOpponentPrefix(game)} {game.homeTeam} · Game Center →</Link>}
       {enhanced && schoolSlug ? <div className="border-t border-white/10 pt-3"><ShareAction title={`${feedSchool?.name ?? "Football"} Team Feed | VarsityVue`} text={`See football graphics, photos and updates on the ${feedSchool?.name ?? "team"} feed.`} url={`https://varsityvue.com/schools/${encodeURIComponent(schoolSlug)}/feed`} label="Share team feed" compact /></div> : null}
       {!enhanced && <time className="block text-xs text-white/50" dateTime={post.published_at}>{new Intl.DateTimeFormat("en-US", { dateStyle: "medium", timeStyle: "short", timeZone: "America/Chicago" }).format(new Date(post.published_at))} CT</time>}
     </div>

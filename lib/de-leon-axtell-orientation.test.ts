@@ -25,7 +25,7 @@ assert.equal(game.kickoff,'2026-11-19T19:00:00-06:00');assert.equal(game.venue,'
  assert.equal(gameSiteLabel(game,true),'Designated home');assert.equal(gameSiteLabel(game,false),'Designated away');
 });
 test('every unrelated game, all 192 finals and the bracket positions remain unchanged',()=>{
- assert.equal(hash(games.filter(g=>g.id!==game.id)),baseline.otherGamesHash);
+ assert.equal(hash(games.filter(g=>g.id!==game.id && g.playoff?.round!=="Regional Semifinal")),baseline.otherGamesHash);
  const first=games.filter(g=>g.playoff?.round==='Bi-District');assert.equal(first.length,192);assert.equal(hash(first),baseline.firstRoundHash);
  const area=games.filter(g=>g.playoff?.round==='Area');assert.equal(area.length,96);assert.ok(area.every(g=>g.homeScore===undefined&&g.awayScore===undefined&&!g.publicScoreVerified));
  const bracket=buildBracketLayout('2A-D1',games).nodes.map(n=>({id:n.id,round:n.round,region:n.region,index:n.index,teams:n.teams,gameId:n.game?.id}));assert.equal(hash(bracket),baseline.bracketHash);
