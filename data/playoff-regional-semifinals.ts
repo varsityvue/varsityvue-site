@@ -31,7 +31,10 @@ export const regionalSemifinalGames: Game[] = schedule.map(row => {
     // The catalog supports a civil date without an instant. Its formatters show Time TBD.
     kickoff: row.kickoff ?? row.date,
     venue: [row.venue, row.city, row.state].join(", "),
-    mediaLinks: row.broadcastLinks.map(link => ({ type: "stream", label: link.provider, url: link.url })),
+    mediaLinks: [
+      ...row.broadcastLinks.map(link => ({ type: "stream" as const, label: link.provider, url: link.url })),
+      ...(row.ticketUrl ? [{ type: "tickets" as const, label: "Tickets", url: row.ticketUrl }] : []),
+    ],
     districtGame: false,
     status: "upcoming",
     sourceStatus: "verified",

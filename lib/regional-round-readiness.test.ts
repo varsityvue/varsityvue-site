@@ -61,7 +61,7 @@ test("all 48 published schedules reconcile to both Area winner slots and both sc
     assert.equal(game.isNeutralSite, row.neutralSite);
     assert.equal(game.kickoff, row.kickoff ?? row.date);
     assert.equal(game.venue, [row.venue, row.city, row.state].join(", "));
-    assert.deepEqual(game.mediaLinks?.map(link => link.url), row.broadcastLinks.map(link => link.url));
+    assert.deepEqual(game.mediaLinks?.map(link => link.url), [...row.broadcastLinks.map(link => link.url), ...(row.ticketUrl ? [row.ticketUrl] : [])]);
     assert.equal(gameOpponentPrefix(game), "vs.");
     assert.equal(game.awaySchoolSlug, row.awaySchoolSlug ?? row.bracketOrderSchoolSlugs[0]);
     assert.equal(game.homeSchoolSlug, row.homeSchoolSlug ?? row.bracketOrderSchoolSlugs[1]);
@@ -90,10 +90,10 @@ test("all 48 published schedules reconcile to both Area winner slots and both sc
   assert.equal(regionals.filter(g => g.designatedSidesConfirmed).length, 12);
   assert.equal(regionals.filter(g => g.isNeutralSite === true).length, 45);
   assert.equal(regionals.filter(g => g.isNeutralSite === null).length, 3);
-  assert.equal(regionals.flatMap(g => g.mediaLinks ?? []).length, 6);
-  assert.equal(regionals.filter(g => g.kickoff?.endsWith("-06:00")).length, 47);
+  assert.equal(regionals.flatMap(g => g.mediaLinks ?? []).filter(link => link.type === "stream").length, 10);
+  assert.equal(regionals.filter(g => g.kickoff?.endsWith("-06:00")).length, 48);
   const shiner = regionals.find(g => [g.homeSchoolSlug, g.awaySchoolSlug].includes("shiner"))!;
-  assert.equal(formatPlayoffKickoff(shiner.kickoff), "Fri, Nov 27 · Time TBD");
+  assert.equal(formatPlayoffKickoff(shiner.kickoff), "Fri, Nov 27 · 3:00 PM CST");
 });
 
 test("canonical registration checks both source winners, rejects collisions and is idempotent", async () => {
