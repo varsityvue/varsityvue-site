@@ -119,7 +119,12 @@
     "city": "Brownwood",
     "state": "TX",
     "neutralSite": null,
-    "broadcastLinks": [],
+    "broadcastLinks": [
+      {
+        "provider": "Dave Campbell\u2019s Texas Football (Free)",
+        "url": "https://youtube.com/live/f9M9YY71etc"
+      }
+    ],
     "verificationStatus": "PARTIAL",
     "primarySource": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
     "secondarySource": "https://www.maxpreps.com/tx/football/game/de-leon-vs-mason/11-27-2026/?c=72392dd3-1c9a-4a8d-b9c5-a8e1624fdc59",
@@ -234,17 +239,23 @@
     "awaySchoolSlug": null,
     "homeAwayConfirmed": false,
     "date": "2026-11-27",
-    "kickoff": null,
+    "kickoff": "2026-11-27T15:00:00-06:00",
     "timeZone": "America/Chicago",
     "venue": "House Park",
     "city": "Austin",
     "state": "TX",
     "neutralSite": true,
-    "broadcastLinks": [],
+    "broadcastLinks": [
+      {
+        "provider": "NFHS Network (Subscription)",
+        "url": "https://www.nfhsnetwork.com/events/uil/gam8647a2e3e5"
+      }
+    ],
     "verificationStatus": "PARTIAL",
-    "primarySource": "https://www.davecampbells.com/articles/2026/11/07/txhsfb-playoffs-game-times-and-locations",
-    "secondarySource": "https://shinercomanchesports.com/",
-    "notes": "KICKOFF CONFLICT: DCTF/TXHSFB/KWTX 3 PM vs Shiner Comanche Sports 7 PM; hold time and sides"
+    "primarySource": "https://events.hometownticketing.com/boxoffice/austinisd",
+    "secondarySource": "https://www.nfhsnetwork.com/events/uil/gam8647a2e3e5",
+    "notes": "Austin ISD and NFHS Network confirm 3 p.m. Central. Official sides unconfirmed.",
+    "ticketUrl": "https://events.hometownticketing.com/boxoffice/austinisd/L2VtYmVkL2V2ZW50LzI2NDk%3D"
   },
   {
     "gameId": "2026-regional-semifinal-2a-d2-i-1",
@@ -946,7 +957,12 @@
     "city": "San Marcos",
     "state": "TX",
     "neutralSite": true,
-    "broadcastLinks": [],
+    "broadcastLinks": [
+      {
+        "provider": "VYPE",
+        "url": "https://www.vype.com/6pm-nfhs-3ad2-football-reg-sf-poth-vs-boling"
+      }
+    ],
     "verificationStatus": "CONFIRMED",
     "primarySource": "https://www.bolingisd.net/apps/news/article/2258842?categoryId=11405",
     "secondarySource": "https://txhsfb.net/?p=30121",
@@ -1125,11 +1141,17 @@
     "city": "Hutto",
     "state": "TX",
     "neutralSite": true,
-    "broadcastLinks": [],
+    "broadcastLinks": [
+      {
+        "provider": "NFHS Network (Subscription)",
+        "url": "https://www.nfhsnetwork.com/events/uil/gamcdc0d48c7a"
+      }
+    ],
     "verificationStatus": "CONFIRMED",
     "primarySource": "https://events.hometownticketing.com/boxoffice/hutto",
     "secondarySource": "https://www.houstonchronicle.com/sports/high-school/football/article/uil-texas-high-school-football-playoffs-schedule-22543031.php",
-    "notes": "Hutto ticket office confirms sides; neutral game"
+    "notes": "Hutto ticket office confirms sides; neutral game",
+    "ticketUrl": "https://events.hometownticketing.com/boxoffice/hutto/L2VtYmVkL2V2ZW50LzYzNA%3D%3D"
   },
   {
     "gameId": "2026-regional-semifinal-4a-d1-iv-1",
