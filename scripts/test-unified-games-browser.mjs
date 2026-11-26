@@ -766,9 +766,7 @@ try {
     await catalogPage.goto(origin + '/schools/panhandle', { waitUntil: 'domcontentloaded' });
     await catalogPage.getByRole('heading', { name: 'Panhandle', exact: true }).waitFor();
     const recordTile = catalogPage.getByText('2026 Record', { exact: true }).locator('..');
-    assert.equal(await recordTile.locator('p').first().innerText(), '—', 'untracked school record stays unknown');
     const overview = catalogPage.getByText('Season Overview', { exact: true }).locator('..');
-    assert.equal(await overview.locator('p').last().innerText(), '—', 'season overview record stays unknown');
     if (width === 1280) {
       const heading = catalogPage.getByRole('heading', { name: 'Panhandle', exact: true });
       assert.equal(await heading.evaluate(element => element.getBoundingClientRect().height <= Number.parseFloat(getComputedStyle(element).lineHeight) * 1.25), true, 'single-word planned school title fits one desktop line');
@@ -786,6 +784,11 @@ try {
     await catalogPage.locator('a[href="/games/2026-regional-semifinal-2a-d1-i-1"]:visible').first().waitFor();
     assert.match(await catalogPage.locator('main').innerText(), /Ballinger/);
     assert.match(await catalogPage.locator('main').innerText(), /Lowrey Field, Lubbock/);
+    assert.equal(await recordTile.locator('p').first().innerText(), '8-4', 'Panhandle hub shows its verified record through Area');
+    assert.equal(await overview.locator('p').last().innerText(), '8-4', 'Panhandle season overview matches its record tile');
+    await catalogPage.goto(origin + '/schools/nocona', { waitUntil: 'domcontentloaded' });
+    assert.equal(await recordTile.locator('p').first().innerText(), '—', 'Nocona has no verified overall record');
+    assert.equal(await overview.locator('p').last().innerText(), '—', 'Nocona season overview withholds its incomplete record');
     writeFileSync(clockFile, "");
     await catalogPage.goto(origin + '/districts/2a-d1-district-1', { waitUntil: 'domcontentloaded' });
     await catalogPage.getByText('This hub currently lists playoff schools added to VarsityVue. District membership and 2026 results may be incomplete.', { exact: true }).waitFor();
