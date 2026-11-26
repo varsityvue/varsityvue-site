@@ -90,7 +90,12 @@ test("all 48 published schedules reconcile to both Area winner slots and both sc
   assert.equal(regionals.filter(g => g.designatedSidesConfirmed).length, 12);
   assert.equal(regionals.filter(g => g.isNeutralSite === true).length, 45);
   assert.equal(regionals.filter(g => g.isNeutralSite === null).length, 3);
-  assert.equal(regionals.flatMap(g => g.mediaLinks ?? []).filter(link => link.type === "stream").length, 10);
+  assert.equal(regionals.flatMap(g => g.mediaLinks ?? []).filter(link => link.type === "stream").length, 11);
+  const goldthwaite = byId.get("2026-regional-semifinal-2a-d2-ii-2");
+  assert.deepEqual(goldthwaite?.mediaLinks, [
+    { type: "radio", label: "KOXE Goldthwaite audio", url: "https://radio.securenetsystems.net/v5/KOXESPORTS" },
+    { type: "stream", label: "KOXE Goldthwaite video", url: "https://www.koxe.com/live-streaming-video-goldthwaite/" },
+  ]);
   assert.equal(regionals.filter(g => g.kickoff?.endsWith("-06:00")).length, 48);
   const shiner = regionals.find(g => [g.homeSchoolSlug, g.awaySchoolSlug].includes("shiner"))!;
   assert.equal(formatPlayoffKickoff(shiner.kickoff), "Fri, Nov 27 · 3:00 PM CST");

@@ -377,11 +377,22 @@
     "city": "Dublin",
     "state": "TX",
     "neutralSite": true,
-    "broadcastLinks": [],
+    "broadcastLinks": [
+      {
+        "type": "radio",
+        "provider": "KOXE Goldthwaite audio",
+        "url": "https://radio.securenetsystems.net/v5/KOXESPORTS"
+      },
+      {
+        "type": "stream",
+        "provider": "KOXE Goldthwaite video",
+        "url": "https://www.koxe.com/live-streaming-video-goldthwaite/"
+      }
+    ],
     "verificationStatus": "PARTIAL",
     "primarySource": "https://www.santoisd.net/view-all-events/~occur-id/8480169_2026-12-21T00%3A00%3A00Z_2026-12-22T00%3A00%3A00Z",
     "secondarySource": "https://www.maxpreps.com/tx/football/game/goldthwaite-vs-santo/11-27-2026/?c=40855de7-de8f-4008-a90a-fbb678a4a1fc",
-    "notes": "KWTX incorrectly prints Nov 20; Nov 27 corroborated by Santo calendar, UIL-linked game and Brownwood News; no game-specific KOXE link"
+    "notes": "KWTX incorrectly prints Nov 20; Nov 27 corroborated by Santo calendar, UIL-linked game and Brownwood News. KOXE's Santo homepage promotion links to its Goldthwaite broadcast page. Audio uses the Goldthwaite Sports station player."
   },
   {
     "gameId": "2026-regional-semifinal-2a-d2-iii-1",

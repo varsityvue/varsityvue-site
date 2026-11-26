@@ -1,4 +1,4 @@
-import type { Game } from "@/types/platform";
+import type { Game, MediaLink } from "@/types/platform";
 import { playoffSchoolIdentities } from "./playoff-school-slugs";
 import schedule from "./playoff-regional-semifinals-2026.json";
 
@@ -32,7 +32,11 @@ export const regionalSemifinalGames: Game[] = schedule.map(row => {
     kickoff: row.kickoff ?? row.date,
     venue: [row.venue, row.city, row.state].join(", "),
     mediaLinks: [
-      ...row.broadcastLinks.map(link => ({ type: "stream" as const, label: link.provider, url: link.url })),
+      ...row.broadcastLinks.map((link): MediaLink => ({
+        type: "type" in link && link.type === "radio" ? "radio" : "stream",
+        label: link.provider,
+        url: link.url,
+      })),
       ...(row.ticketUrl ? [{ type: "tickets" as const, label: "Tickets", url: row.ticketUrl }] : []),
     ],
     districtGame: false,
