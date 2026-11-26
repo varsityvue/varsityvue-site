@@ -166,9 +166,13 @@ try{
   await page.getByRole('link',{name:'View Panhandle Hub →',exact:true}).click();await page.getByRole('heading',{name:'Panhandle',exact:true}).waitFor();
   await page.locator('img[src="/logos/schools/panhandle.png"]:visible').first().evaluate(img=>img.decode());
   await page.screenshot({path:`${output}/${name}-hub-logo.png`});
-  const record=page.getByText('2026 Record',{exact:true}).locator('..');assert.equal(await record.locator('p').first().innerText(),'—');
+  const record = page.getByText('2026 Record', { exact: true }).locator('..').locator('p').first();
+  assert.equal(await record.innerText(), '8-4', 'Panhandle hub shows its verified record through Area');
   await page.locator('a[href="/schools/panhandle/schedule"]').first().click();await page.locator('a[href="/games/2026-bi-district-2a-d1-i-1"]').first().waitFor();
-  assert.equal(await page.getByText('Record',{exact:true}).locator('..').locator('p').last().innerText(),'—','schedule and hub withhold the same incomplete record');
+  const scheduleRecord = page.getByText('Record', { exact: true }).locator('..').locator('p').last();
+  assert.equal(await scheduleRecord.innerText(), '8-4', 'Panhandle schedule matches its hub');
+  await page.goto(origin + '/schools/nocona/schedule');
+  assert.equal(await scheduleRecord.innerText(), '—', 'Nocona schedule withholds its incomplete record');
   await page.goto(origin+'/playoffs?school='+encodeURIComponent('2A-D2|1|Stamford')+'#brackets');
   await page.waitForFunction(()=>!document.querySelector('fieldset[disabled]'));
   const d2=page.getByRole('region',{name:'Interactive Road to State bracket',exact:true});
