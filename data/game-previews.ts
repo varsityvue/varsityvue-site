@@ -1,4 +1,6 @@
 import { getPublishedGamePreview } from "@/lib/articles";
+import { getGamePresentation } from "@/lib/game-presentation";
+import type { Game } from "@/types/platform";
 
 export type GamePreview = {
   gameId: string;
@@ -6,12 +8,24 @@ export type GamePreview = {
   title: string;
   excerpt: string;
   paragraphs: string[];
+  pregameOnly?: boolean;
   quickFacts?: { label: string; value: string }[];
   coverageHref?: string;
   coverageLabel?: string;
 };
 
 export const gamePreviews: GamePreview[] = [
+  {
+    gameId: "2026-regional-semifinal-2a-d1-ii-2",
+    pregameOnly: true,
+    eyebrow: "Pregame Matchup Center",
+    title: "Can De Leon’s ground game keep unbeaten Mason off the field?",
+    excerpt: "De Leon ran for 310 yards in its 28–16 Area win over Axtell. Lane Couch carried 29 times for 146 yards, while Bryce Burkeen gained 88 yards and scored twice on just five carries. Watch how Mason’s defense handles those two threats when De Leon has the ball.",
+    paragraphs: [
+      "Mason enters 12–0 and averages 52.6 points per game. The Punchers showed they can win a low-scoring game, too, beating Tioga 17–12 last week. The winner in Brownwood advances to the Class 2A Division I regional final.",
+      "Follow the score live here on VarsityVue. Tap Watch Live · Free on YouTube above to open Dave Campbell’s channel for the broadcast.",
+    ],
+  },
   {
     gameId: "de-leon-at-cisco-2026-week-11",
     eyebrow: "Week 11 Game of the Week",
@@ -86,4 +100,10 @@ export function getGamePreview(gameId: string) {
     coverageHref: `/coverage/${article.slug}`,
     coverageLabel: "Read Game Preview →",
   };
+}
+
+export function getVisibleGamePreview(game: Game, now?: Date) {
+  const preview = getGamePreview(game.id);
+  if (preview?.pregameOnly && getGamePresentation(game, now).kind !== "scheduled") return undefined;
+  return preview;
 }
