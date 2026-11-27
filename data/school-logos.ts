@@ -8,6 +8,13 @@ export type SchoolLogo = {
 };
 
 export const schoolLogoBySlug: Record<string, SchoolLogo> = {
+  // Owner-provided playoff artwork (binary PNG assets must be added before merging).
+  "vidor": { path: "/logos/schools/vidor.png" },
+  "idalou": { path: "/logos/schools/idalou.png" },
+  "springtown": { path: "/logos/schools/springtown.png" },
+  "canyon": { path: "/logos/schools/canyon.png" },
+  "aubrey": { path: "/logos/schools/aubrey.png" },
+  "houston-sterling": { path: "/logos/schools/houston-sterling.png" },
   // Owner-supplied 2A_D2 collection.
   "bartlett": { path: "/logos/schools/bartlett.png" },
   "ben-bolt-palito-blanco": { path: "/logos/schools/ben-bolt-palito-blanco.png" },
