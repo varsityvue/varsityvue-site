@@ -16,6 +16,17 @@ export type GamePreview = {
 
 export const gamePreviews: GamePreview[] = [
   {
+    gameId: "2026-regional-semifinal-2a-d2-ii-2",
+    pregameOnly: true,
+    eyebrow: "Pregame Matchup Center",
+    title: "Can Santo take away Goldthwaite’s big plays?",
+    excerpt: "Landry Sanderson ran for 338 yards and six touchdowns in Goldthwaite’s 70–38 win over Haskell. Three of his touchdown runs went at least 50 yards. If Santo brings a safety up to help tackle him, watch Aidyn Lee outside. He caught touchdown passes of 80 and 47 yards from Hayes Greenway last week.",
+    paragraphs: [
+      "Santo has allowed just 16 points in two playoff games. The Wildcats also showed how quickly they can score in their 54–7 win over Wheeler. Wyatt Reed caught two touchdown passes before halftime, and Connor Tibbetts returned a punt 85 yards for another score.",
+      "Goldthwaite (12–0) and Santo (11–1) kick off at 7 p.m. in Dublin for a spot in the Class 2A Division II regional final. Follow the score here on VarsityVue. Tap Listen Live · KOXE for the radio call or Video · KOXE broadcast page for the station’s latest video information.",
+    ],
+  },
+  {
     gameId: "2026-regional-semifinal-2a-d1-ii-2",
     pregameOnly: true,
     eyebrow: "Pregame Matchup Center",
