@@ -7,7 +7,7 @@ import HomeEditorialSpotlight from "@/components/HomeEditorialSpotlight";
 import { getSchools, getSchoolBySlug } from "@/lib/schools";
 import { getScoreboardGames, type DynamicScoreState } from "@/lib/scoreboard";
 import { getDynamicGames } from "@/lib/dynamic-games";
-import { getGamePreview } from "@/data/game-previews";
+import { getVisibleGamePreview } from "@/data/game-previews";
 import { getPublishedGamePreview } from "@/lib/articles";
 import { getStandingForSchoolFromGames } from "@/lib/standings";
 import DistrictSpotlight from "@/components/DistrictSpotlight";
@@ -159,7 +159,7 @@ export default async function Home() {
     ? { away: 6, home: 10 }
     : undefined;
   const featureHref = activeFeature === playoffFeature ? "/playoffs" : featuredArticle ? `/coverage/${featuredArticle.slug}` : feature ? featureDestination(feature) : null;
-  const featuredPreview = featuredGame ? getGamePreview(featuredGame.id) : undefined;
+  const featuredPreview = featuredGame ? getVisibleGamePreview(featuredGame) : undefined;
 
   const featuredHomeSchool = featuredGame?.homeSchoolSlug
     ? getSchoolBySlug(featuredGame.homeSchoolSlug)

@@ -7,7 +7,7 @@ import { resolveGameLocation } from "./game-location";
 import { venues } from "@/data/venues";
 import { schoolFootballVenues } from "@/data/school-football-venues";
 import { gameVenueOverrides } from "@/data/game-venue-overrides";
-import { getGamePreview } from "@/data/game-previews";
+import { getVisibleGamePreview } from "@/data/game-previews";
 import {
   getGameStatAvailability,
   getStatAvailabilityLabel,
@@ -35,7 +35,7 @@ export function weeklyGameDto(g: Game, games: Game[]): WeeklyGame {
   const h = home ? completePostseasonStanding(getStandingForSchoolFromGames(home.slug, games), games, home.slug) : undefined,
     a = away ? completePostseasonStanding(getStandingForSchoolFromGames(away.slug, games), games, away.slug) : undefined;
   const availability = getGameStatAvailability(g.id);
-  const preview = getGamePreview(g.id);
+  const preview = getVisibleGamePreview(g);
   return {
     id: g.id,
     season: g.season,
