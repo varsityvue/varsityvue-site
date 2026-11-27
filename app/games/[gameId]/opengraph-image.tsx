@@ -26,6 +26,10 @@ export default async function GameOpenGraphImage({ params }: { params: Promise<{
     const card = await readFile(path.join(process.cwd(), "public/images/de-leon-mason-regional-2026.png"));
     return new Response(new Uint8Array(card), { headers: { "Content-Type": contentType } });
   }
+  if (gameId === "2026-regional-semifinal-2a-d2-ii-2") {
+    const card = await readFile(path.join(process.cwd(), "public/images/goldthwaite-santo-regional-2026.png"));
+    return new Response(new Uint8Array(card), { headers: { "Content-Type": contentType } });
+  }
   const game = await getDynamicGameById(gameId);
   const away = game?.awayTeam ?? "Away";
   const home = game?.homeTeam ?? "Home";
