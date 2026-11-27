@@ -44,7 +44,7 @@ export default async function GameOpenGraphImage({ params }: { params: Promise<{
       <div style={{ position:"relative", width:"100%", height:"100%", padding:"40px 74px 38px", display:"flex", flexDirection:"column" }}>
         <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between" }}>
           <div style={{ display:"flex", flexDirection:"column" }}>
-            <div style={{ display:"flex", fontSize:"29px", fontWeight:900, letterSpacing:"-1px" }}>VARSITY<span style={{color:"#B31B34"}}>VUE</span></div>
+            <div style={{ display:"flex", fontSize:"29px", fontWeight:900, letterSpacing:"-1px" }}>VARSITY<span style={{color:"#8B1020"}}>VUE</span></div>
             <div style={{ display:"flex", marginTop:"5px", fontSize:"10px", fontWeight:800, letterSpacing:"4px", color:"rgba(255,255,255,.36)" }}>TEXAS HIGH SCHOOL FOOTBALL</div>
           </div>
           <div style={{ display:"flex", alignItems:"center", gap:"11px", padding:"10px 17px", border:"1px solid rgba(255,255,255,.16)", borderRadius:"999px", background:"rgba(0,0,0,.34)", fontSize:"13px", fontWeight:900, letterSpacing:"2.6px" }}>
