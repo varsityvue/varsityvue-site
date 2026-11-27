@@ -1,3 +1,5 @@
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 import { ImageResponse } from "next/og";
 
 import { getDynamicGameById } from "@/lib/dynamic-games";
@@ -20,6 +22,10 @@ function formatKickoff(kickoff?: string) {
 
 export default async function GameOpenGraphImage({ params }: { params: Promise<{ gameId: string }> }) {
   const { gameId } = await params;
+  if (gameId === "2026-regional-semifinal-2a-d1-ii-2") {
+    const card = await readFile(path.join(process.cwd(), "public/images/de-leon-mason-regional-2026.png"));
+    return new Response(new Uint8Array(card), { headers: { "Content-Type": contentType } });
+  }
   const game = await getDynamicGameById(gameId);
   const away = game?.awayTeam ?? "Away";
   const home = game?.homeTeam ?? "Home";
