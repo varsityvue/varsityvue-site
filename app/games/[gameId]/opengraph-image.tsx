@@ -1,3 +1,5 @@
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 import { ImageResponse } from "next/og";
 
 import { getDynamicGameById } from "@/lib/dynamic-games";
@@ -20,6 +22,10 @@ function formatKickoff(kickoff?: string) {
 
 export default async function GameOpenGraphImage({ params }: { params: Promise<{ gameId: string }> }) {
   const { gameId } = await params;
+  if (gameId === "2026-regional-semifinal-2a-d1-ii-2") {
+    const card = await readFile(path.join(process.cwd(), "public/images/de-leon-mason-regional-2026.png"));
+    return new Response(new Uint8Array(card), { headers: { "Content-Type": contentType } });
+  }
   const game = await getDynamicGameById(gameId);
   const away = game?.awayTeam ?? "Away";
   const home = game?.homeTeam ?? "Home";
@@ -38,7 +44,7 @@ export default async function GameOpenGraphImage({ params }: { params: Promise<{
       <div style={{ position:"relative", width:"100%", height:"100%", padding:"40px 74px 38px", display:"flex", flexDirection:"column" }}>
         <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between" }}>
           <div style={{ display:"flex", flexDirection:"column" }}>
-            <div style={{ display:"flex", fontSize:"29px", fontWeight:900, letterSpacing:"-1px" }}>VARSITY<span style={{color:"#B31B34"}}>VUE</span></div>
+            <div style={{ display:"flex", fontSize:"29px", fontWeight:900, letterSpacing:"-1px" }}>VARSITY<span style={{color:"#8B1020"}}>VUE</span></div>
             <div style={{ display:"flex", marginTop:"5px", fontSize:"10px", fontWeight:800, letterSpacing:"4px", color:"rgba(255,255,255,.36)" }}>TEXAS HIGH SCHOOL FOOTBALL</div>
           </div>
           <div style={{ display:"flex", alignItems:"center", gap:"11px", padding:"10px 17px", border:"1px solid rgba(255,255,255,.16)", borderRadius:"999px", background:"rgba(0,0,0,.34)", fontSize:"13px", fontWeight:900, letterSpacing:"2.6px" }}>
