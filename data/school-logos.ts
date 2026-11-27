@@ -8,6 +8,7 @@ export type SchoolLogo = {
 };
 
 export const schoolLogoBySlug: Record<string, SchoolLogo> = {
+  "bay-city": { path: "/logos/schools/bay-city.png" },
   // Owner-supplied 2A_D2 collection.
   "bartlett": { path: "/logos/schools/bartlett.png" },
   "ben-bolt-palito-blanco": { path: "/logos/schools/ben-bolt-palito-blanco.png" },

@@ -87,8 +87,13 @@
     "neutralSite": true,
     "broadcastLinks": [
       {
-        "provider": "NFHS Network",
+        "provider": "NFHS Network (Subscription)",
         "url": "https://www.nfhsnetwork.com/events/cisco-high-school-cisco-tx/gamb347b169bf"
+      },
+      {
+        "type": "radio",
+        "provider": "FTLG Radio",
+        "url": "https://network1sports.com/player.php?name=katxnet"
       }
     ],
     "verificationStatus": "CONFIRMED",
@@ -1156,6 +1161,11 @@
       {
         "provider": "NFHS Network (Subscription)",
         "url": "https://www.nfhsnetwork.com/events/uil/gamcdc0d48c7a"
+      },
+      {
+        "type": "radio",
+        "provider": "KSTV 93.1 FM",
+        "url": "https://us7.maindigitalstream.com/5550/"
       }
     ],
     "verificationStatus": "CONFIRMED",
