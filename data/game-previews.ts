@@ -16,6 +16,28 @@ export type GamePreview = {
 
 export const gamePreviews: GamePreview[] = [
   {
+    gameId: "2026-regional-semifinal-2a-d1-ii-1",
+    pregameOnly: true,
+    eyebrow: "Pregame Matchup Center",
+    title: "Can Cisco make Muenster work for its passing yards?",
+    excerpt: "Muenster quarterback Asher Hillis needed just eight completions to throw for 218 yards and three touchdowns in a 55–3 win over San Saba. Watch Cisco’s safeties on early downs. If they can keep the receivers in front of them, the Hornets will have to put together longer drives.",
+    paragraphs: [
+      "Cisco knows how to finish a close game. The Loboes scored 15 fourth-quarter points to beat Johnson City 35–34 last week. Colby McIlroy threw for 132 yards and two touchdowns. A win over Muenster in Springtown would put Cisco in the Class 2A Division I regional final.",
+      "Kickoff is 7 p.m. CST. Follow the score here on VarsityVue. For Caleb Galvan’s play-by-play, tap Listen Live · FTLG Radio. Coverage starts at 6:30 p.m. CST. For video, tap Watch Live · NFHS Network (Subscription).",
+    ],
+  },
+  {
+    gameId: "2026-regional-semifinal-4a-d1-iii-2",
+    pregameOnly: true,
+    eyebrow: "Pregame Matchup Center",
+    title: "Can Bay City’s ground game keep Trot Jordan on the sideline?",
+    excerpt: "Stephenville quarterback Trot Jordan threw for 214 yards and two touchdowns on just six completions in a 38–21 win over Vidor. Bay City’s best chance to limit those big plays may come when its own offense has the ball.",
+    paragraphs: [
+      "Aiden Williams ran for 212 yards and two touchdowns in Bay City’s 70–28 win over Huffman Hargrave. Watch what he gains on first down. Short-yardage situations give the Blackcats a chance to keep drives going and make the unbeaten Yellow Jackets wait for their next possession.",
+      "Stephenville (12–0) and Bay City (11–1) kick off at 2 p.m. CST in Hutto for a spot in the Class 4A Division I regional final. Follow the score here on VarsityVue. Tap Listen Live · KSTV 93.1 FM for radio or Watch Live · NFHS Network (Subscription) for video.",
+    ],
+  },
+  {
     gameId: "2026-regional-semifinal-2a-d2-ii-2",
     pregameOnly: true,
     eyebrow: "Pregame Matchup Center",
